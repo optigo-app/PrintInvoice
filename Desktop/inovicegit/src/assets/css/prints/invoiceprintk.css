@@ -60,7 +60,9 @@
     word-break: break-word !important;
     font-size: 12px;
 }
-
+.fs_invk{
+    font-size: 14px;
+}
 @media print{
     .d_none_invk{
         display: none !important;
@@ -73,5 +75,9 @@
         word-wrap: break-word !important;
         word-break: break-word !important;
         font-size: 10px;
+    }
+
+    @page {
+        margin: 35mm 8mm 1mm 20mm;
     }
 }

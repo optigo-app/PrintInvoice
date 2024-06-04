@@ -85,7 +85,7 @@ const InvoicePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div className='w-100 text-end pe-3'>{result?.header?.PrintHeadLabel === '' ? 'TAX INVOICE' : result?.header?.PrintHeadLabel }</div>
         <div className='d-flex justify-content-between align-items-center w-100 border border-black'>
             <div className='w-50 '>
-                <div className='fw-bold px-1'>{result?.header?.CompanyFullName}</div>
+                <div className='fw-bold px-1 fs_invk'>{result?.header?.CompanyFullName}</div>
                 <div className='px-1'>{result?.header?.CompanyAddress}</div>
                 <div className='px-1'>{result?.header?.CompanyAddress2}</div>
                 <div className='px-1'>{result?.header?.CompanyCity}-{result?.header?.CompanyPinCode}, {result?.header?.CompanyState}  ({result?.header?.CompanyCountry})</div>
@@ -129,7 +129,7 @@ const InvoicePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div className='d-flex justify-content-between align-items-center w-100  border border-black border-top-0'>
             <div className='w-50 border-black border-end '>
                 <div style={{color:'grey'}} className='px-1'>Details of Buyer</div>
-                <div className='fw-bold px-1'>{result?.header?.customerfirmname}</div>
+                <div className='fw-bold px-1 fs_invk'>{result?.header?.customerfirmname}</div>
                 <div className='text-break px-1'>{result?.header?.customerstreet}</div>
                 <div className='px-1'>{result?.header?.customercity}, {result?.header?.customerstate}{result?.header?.customerpincode}</div>
                 <div className='px-1'>GSTIN - {result?.header?.Cust_VAT_GST_No}, N : {result?.header?.CustPanno}</div>
@@ -148,7 +148,7 @@ const InvoicePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div>Account No : {result?.header?.accountnumber}</div>
                     </div>
                     <div className='d-flex justify-content-between align-items-center px-1'>
-                        <div>{result?.header?.rtgs_neft_ifsc}</div>
+                        <div>IFSC : {result?.header?.rtgs_neft_ifsc}</div>
                     </div>
                     
                 </div>
@@ -158,14 +158,14 @@ const InvoicePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div className='w-100'>
             <div className='thead_invk d-flex fw-bold brall_invk border-bottom-0 w-100 mt-1'>
                 <div className='col1_invk brright_invk p-1'>Sr#</div>
-                <div className='col2_invk brright_invk p-1'>Product Description</div>
+                <div className='col2_invk brright_invk p-1 text-break'>Product Description</div>
                 <div className='col3_invk brright_invk p-1'>KT</div>
-                <div className='col4_invk brright_invk p-1 text-end'>QTY</div>
-                <div className='col5_invk brright_invk p-1 text-end'>Gross Wt(gm)</div>
-                <div className='col8_invk brright_invk p-1 text-end'>Net Wt(gm)</div>
-                <div className='col6_invk brright_invk p-1 text-end'>Dia Wt(ctw)</div>
-                <div className='col7_invk brright_invk p-1 text-end'>Stone Wt(ctw)</div>
-                <div className='col9_invk p-1 text-end'>Product Value</div>
+                <div className='col4_invk brright_invk p-1 text-end text-break'>QTY</div>
+                <div className='col5_invk brright_invk p-1 text-end text-break'>Gross Wt(gm)</div>
+                <div className='col8_invk brright_invk p-1 text-end text-break'>Net Wt(gm)</div>
+                <div className='col6_invk brright_invk p-1 text-end text-break'>Dia Wt(ctw)</div>
+                <div className='col7_invk brright_invk p-1 text-end text-break'>Stone Wt(ctw)</div>
+                <div className='col9_invk p-1 text-end text-break'>Product Value</div>
             </div>
             {
                 result?.resultArray?.map((e, i) => {
@@ -200,11 +200,11 @@ const InvoicePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
         </div>
         <div className='d-flex brleft_invk brright_invk brbottom_invk border-black'>
-            <div style={{width:'87%'}} className='text-end p-1 brright_invk'>Taxable Value of Goods & Services</div>
+            <div style={{width:'87%'}} className='text-end p-1 brright_invk text-break'>Taxable Value of Goods & Services</div>
             <div style={{width:'13%'}} className='text-end p-1'>{formatAmount((result?.mainTotal?.total_amount/ result?.header?.CurrencyExchRate))}</div>
         </div>
         <div className='d-flex brleft_invk brright_invk brbottom_invk border-black'>
-            <div style={{width:'87%'}} className='text-end p-1 brright_invk'>Rate of Applicable Tax (%)</div>
+            <div style={{width:'87%'}} className='text-end p-1 brright_invk text-break'>Rate of Applicable Tax (%)</div>
             <div style={{width:'13%'}} className='text-end p-1'>Amount</div>
         </div>
         <div className='brleft_invk brright_invk brbottom_invk border-black'>
@@ -237,12 +237,12 @@ const InvoicePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div className='d-flex align-items-end justify-content-between pb-5'>
             <div className=' text-break' style={{width:'40%'}}>NOTIFICATION : E WAY BILL EXEMPTION UNDER NOTIFICATION NO 27/107 - CENTRAL TAX DATED 31/08/2017 FOR GOODS MENTIONED IN ANNEXURE UNDER SERIAL NO. 150 % 151 UNDER  RULE NO. 138(14) FOR GOODS SPECIFIED UNDER CHAPTER 71.</div>
             <div className=' text-break border-top border-black' style={{width:'40%'}}>
-                <div className='fw-bold w-100 text-center pt-1'>For {result?.header?.CompanyFullName}</div>
+                <div className='fw-bold w-100 text-center pt-1 text-break'>For {result?.header?.CompanyFullName}</div>
             </div>
         </div>
         <div className='pt-5 d-flex align-items-end justify-content-between'>
-            <div style={{width:'40%'}} className='text-center'>Signature For Purchase</div>
-            <div style={{width:'40%'}} className='text-center'>Director/Auth Sign</div>
+            <div style={{width:'40%'}} className='text-cente text-breakr'>Signature For Purchase</div>
+            <div style={{width:'40%'}} className='text-center text-break'>Director/Auth Sign</div>
         </div>
     </div>
     </>
