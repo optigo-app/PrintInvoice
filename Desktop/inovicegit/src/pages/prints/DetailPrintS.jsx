@@ -1039,8 +1039,8 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className="d-grid h-100">
                               <div className="d-flex brtdp7" >
                                 <div className="w_subcoldp7 dp7cen1 brdp7" style={{ width: "25%" }} > &nbsp; </div>
-                                <div className="w_subcoldp7 dp7cen2 brdp7" style={{ width: "10%" }} > {(e?.totals?.diamonds?.Pcs + e?.totals?.colorstone?.Pcs + e?.totals?.misc?.Pcs) } </div>
-                                <div className="w_subcoldp7 dp7cen2 brdp7"> {((e?.totals?.diamonds?.Wt + e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt)?.toFixed(3)) } </div>
+                                <div className="w_subcoldp7 dp7cen2 brdp7 fw-bold" style={{ width: "10%" }} > {(e?.totals?.diamonds?.Pcs + e?.totals?.colorstone?.Pcs + e?.totals?.misc?.Pcs) } </div>
+                                <div className="w_subcoldp7 dp7cen2 brdp7 fw-bold"> {((e?.totals?.diamonds?.Wt + e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt)?.toFixed(3)) } </div>
                                 <div className="w_subcoldp7 dp7cen2 brdp7"> </div>
                                 <div className="w_subcoldp7 dp7cen2 fw-bold" style={{ width: "25%" }}> {formatAmount(e?.totals?.total_diamond_colorstone_misc_amount)} </div>
                               </div>
@@ -1051,10 +1051,10 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               (e?.OtherCharges + e?.TotalDiamondHandling) /
                                 result?.header?.CurrencyExchRate
                             )} */}
-                            {e?.fineWtss?.toFixed(3)}
+                            {/* {e?.fineWtss?.toFixed(3)} */}
                           </div>
                           <div className="rcol13dp7 dp7cen2 border-end-0">
-                                {formatAmount(e?.TotalAmount)}
+                                {/* {formatAmount(e?.TotalAmount)} */}
                           </div>
                         </div>
                       
@@ -1065,7 +1065,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
 
                 {/* table all row total */}
-                <div className="totaldp7 w-100 brtdp7 border-top-0 border-start border-end fsgdp7">
+                <div className="totaldp7 w-100 brtdp7 border-top border-bottom border-start border-end fsgdp7 mt-1">
                   <div className="totcol1dp7"></div>
                   <div className="totcol2dp7 dp7cen2">
                     {result?.mainTotal?.grosswt !== 0 &&
@@ -1073,7 +1073,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div className="totcol3dp7 dp7cen2">
                     {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}
-                    {/* {result?.mainTotal?.netwtWithLossWt !== 0 && result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
+                    
                   </div>
                   <div className="totcol4dp7" style={{width:"35.3%"}}></div>
                   <div className="totcol5dp7 dp7cen2" style={{width:'9.7%'}}>
@@ -1093,13 +1093,13 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
 
                 {/* table total */}
-                <div className="w-100 brtdp7 dp7cen2 bradp7 fsgdp7">
+                {/* <div className="w-100 brtdp7 dp7cen2 bradp7 fsgdp7">
                   {result?.mainTotal?.total_amount !== 0 &&
                     formatAmount(
                       result?.mainTotal?.total_amount /
                         result?.header?.CurrencyExchRate
                     )}
-                </div>
+                </div> */}
 
                 {/* Courier info and Charges */}
                 <div className="w-100 d-flex border border-top-0 fsgdp7">
