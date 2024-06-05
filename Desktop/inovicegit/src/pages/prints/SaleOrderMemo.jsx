@@ -509,9 +509,9 @@ const SaleOrderMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     />
                   </td>
                   <td className={`${style?.itemCode} p-1  border-end border-start border-bottom`}>
-                    <p>
-
+                    <p className="d-flex justify-content-between align-items-center px-1 w-100 flex-wrap text-break">
                       <span className="fw-bold">{e?.designno}</span>
+                      <span className="fw-bold">{e?.SrJobno}</span>
                     </p>
                   </td>
                   <td className={`${style?.description} p-1 border-end border-start border-bottom `}>

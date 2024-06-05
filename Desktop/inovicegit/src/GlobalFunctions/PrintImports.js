@@ -67,7 +67,7 @@ export const printConditions = [
   {printName: 'misc detail print', etpType: 'print', componentName: 'MiscDetailPrint'},
   // {printName: 'print (l)', etpType: 'print', componentName: 'QuotePrintLP', evName: 'quote'},
   // {printName: 'print (p)', etpType: 'print', componentName: 'QuotePrintLP', evName: 'quote'},
-  {printName: 'print 1', etpType: 'print', componentName: 'Print1'},
+  {printName: 'print 1', etpType: 'print', componentName: 'Print1SME'},
   {printName: 'packing list', etpType: 'print', componentName: 'PackingList'},
   {printName: 'packing list 1', etpType: 'print', componentName: 'PackingList1'},
   {printName: 'packing list 2', etpType: 'print', componentName: 'PackingList2'},
@@ -143,7 +143,7 @@ export const QuotationPrints = [
 ]
 
 export const MemoPrints = [
-  {printName: 'print 1', etpType: 'print', componentName: 'Print1'},
+  {printName: 'print 1', etpType: 'print', componentName: 'Print1SME'},
   {printName: 'sale order', etpType: 'print', componentName: 'SaleOrderMemo'},
   {printName: 'tax invoice', etpType: 'print', componentName: 'TaxInvoice'},
   {printName: 'jewellery item wise', etpType: 'print', componentName: 'HallmarkItemWisePrint'},
@@ -160,7 +160,7 @@ export const ShipmentArray = [
 ]
 
 export const EstimatePrints = [
-  {printName: 'print 1', etpType: 'print', componentName: 'Print1'},
+  {printName: 'print 1', etpType: 'print', componentName: 'Print1SME'},
   {printName: 'tax invoice', etpType: 'print', componentName: 'TaxInvoice'},
   {printName: 'export print', etpType: 'print', componentName: 'ExportPrint'},
   {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
@@ -174,6 +174,7 @@ export const excelConditions = [
   { printName: "detail print 11", etpType: "excel", componentName: "DetailPrint11Excel"},
   { printName: "image zip file", etpType: "excel", componentName: "ImageExportExcel"},
   // { printName: "packing list c", etpType: "excel", componentName: "PackingListCExcel"},
+  { printName: "packing list km", etpType: "excel", componentName: "PackingListJsonToExcel"},
   { printName: "sale format b", etpType: "excel", componentName: "ExcelToJsonDownload"},
   { printName: "sale format s", etpType: "excel", componentName: "ExcelToJsonDownloads"},
   { printName: "sale format a", etpType: "excel", componentName: "ExcelToJsonDownloadA"},

@@ -1103,7 +1103,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
                 {/* Courier info and Charges */}
                 <div className="w-100 d-flex border border-top-0 fsgdp7">
-                  <div style={{ width: "69.9%" }}></div>
+                  <div style={{ width: "69.9%" }}></div>        
                   <div style={{ width: "30.1%" }} className="d-flex">
                     <div
                       style={{ width: "63%" }}
