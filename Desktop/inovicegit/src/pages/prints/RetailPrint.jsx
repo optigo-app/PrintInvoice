@@ -646,7 +646,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div dangerouslySetInnerHTML={{ __html: jsonData1?.Declaration }} className='pt-2'></div>
                 </div>
                 <div className='note border-start border-end border-bottom p-1 no_break'>
-                    <p><span className="fw-bold">REMARKS : </span>{jsonData1?.PrintRemark}</p>
+                    <p><span className="fw-bold">REMARKS : </span><span dangerouslySetInnerHTML={{__html:jsonData1?.PrintRemark}}></span></p>
                 </div>
                 {/* bank detail */}
                 <div className="word_break_normal_retail_print d-flex border-start border-end border-bottom no_break ft_12_retailPrint">

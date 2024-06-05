@@ -131,7 +131,7 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 {/* <img src={headerData?.PrintLogo} alt="" className='logoimg mb-1' /> */}
                 <p className={`fw-bold pb-1 ${style?.font_12}`}>{headerData?.CompanyAddress} {headerData?.CompanyAddress2} {headerData?.CompanyCity}-{headerData?.CompanyPinCode}</p>
                 <p className={`fw-bold pb-1 ${style?.font_18}`}>{headerData?.PrintHeadLabel}</p>
-                <p className={`fw-bold ${style?.font_11}`}> ({headerData?.PrintRemark})</p>
+                <p className={`fw-bold ${style?.font_11}`} dangerouslySetInnerHTML={{__html:headerData?.PrintRemark}}></p>
             </div>
             {/* customer details */}
             <div className={`d-flex justify-content-between no_break `}>

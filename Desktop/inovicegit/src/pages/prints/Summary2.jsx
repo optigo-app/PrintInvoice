@@ -447,7 +447,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   <div className="p-1 fsh2_s2 danger_s2" dangerouslySetInnerHTML={{ __html: result?.header?.Declaration }}></div>
                 </div>
                 {/* remarks */}
-                <div className="py-1 pbias2 fsh2_s2"><b className="fsgs2 fsh2_s2">REMARKS:</b> {result?.header?.PrintRemark}</div>
+                <div className="py-1 pbias2 fsh2_s2"><b className="fsgs2 fsh2_s2">REMARKS:</b> <span dangerouslySetInnerHTML={{__html:result?.header?.PrintRemark}}></span></div>
                 {/* footer */}
                 <div className="fw-bold py-1 pbias2 fsh2_s2">TERMS INCLUDED : </div>
                 <div className="d-flex border mt-1 fw-bold pbias2 fsh2_s2" style={{ height: "5rem" }}>

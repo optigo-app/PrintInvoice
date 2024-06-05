@@ -506,7 +506,7 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
               {/* tax total */}
               <div className='w-100 d-flex pt-2 fsrti pbiarti'>
                 <div className='w-25'></div>
-                <div className='w-25'> <span className='fw-bold'>{result?.header?.PrintRemark === '' ? '' : 'NOTE :'}</span> {result?.header?.PrintRemark}</div>
+                <div className='w-25'> <span className='fw-bold'>{result?.header?.PrintRemark === '' ? '' : 'NOTE :'}</span> <span dangerouslySetInnerHTML={{__html:result?.header?.PrintRemark}}></span></div>
                 <div className='w-50 d-flex justify-content-end'>
                   <div className='grandtotalrti'>
                     { result?.mainTotal?.total_discount_amount === 0 ? '' : <div className='d-flex'><div className='w-50 ps-2'>Discount</div><div className='w-50 end_rti pe-1'>{formatAmount(result?.mainTotal?.total_discount_amount)}</div></div>}

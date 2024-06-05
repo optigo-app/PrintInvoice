@@ -1347,8 +1347,7 @@ const PackingList7Group = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                       <div className="h_bd10 centerdp10_pcl7 bg_dp10_pcl7 fw-bold ball_dp10_pcl7">
                         Remark
                       </div>
-                       <div className="ball_dp10_pcl7 border-top-0 p-1">
-                        {result?.header?.PrintRemark}
+                       <div className="ball_dp10_pcl7 border-top-0 p-1" dangerouslySetInnerHTML={{__html:result?.header?.PrintRemark}}>
                       </div>
                     </div>
                      } 

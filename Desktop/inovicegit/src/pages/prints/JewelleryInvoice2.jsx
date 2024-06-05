@@ -774,7 +774,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                 </div>
               </div>
                <div className="fw-bold p-1 fs_ji2 lh_ji2 border border-top-0"><div className="fw-bold">Declaration :</div><div className="fs_jivp2_dec" dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></div></div>
-               <div className="fs_ji2 lh_ji2 p-1 border border-top-0"><b>REMARKS : &nbsp;&nbsp;</b>{result?.header?.PrintRemark}</div>
+               <div className="fs_ji2 lh_ji2 p-1 border border-top-0"><b>REMARKS : &nbsp;&nbsp;</b><span dangerouslySetInnerHTML={{__html:result?.header?.PrintRemark}}></span></div>
                <div className='d-flex border border-top-0 fs_ji2 lh_ji2'>
                 <div className='w33_ji2 border-end p-1'>
                   <div className='fw-bold'>Bank Detail</div>

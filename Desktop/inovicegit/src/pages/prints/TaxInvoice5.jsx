@@ -409,7 +409,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       {/* remarks */}
       <div className="border-start border-end border-bottom p-2 no_break">
         <p className="fw-bold">REMARKS : </p>
-        <p> {headerData?.PrintRemark}</p>
+        <p dangerouslySetInnerHTML={{__html:headerData?.PrintRemark}}></p>
       </div>
       {/* declaration */}
       <div

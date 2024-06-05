@@ -2038,7 +2038,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div className="diaDetailpcl3 brbpcl3all fsdpcl3">REMARK</div>
                         <div className="amountSummarySectionpcl3DIAM">
                           <div className="fapcl3D" style={{ width: "168px" }}>
-                            <div className="fsdpcl3 p-1">{headerData?.PrintRemark}</div>
+                            <div className="fsdpcl3 p-1" dangerouslySetInnerHTML={{__html:headerData?.PrintRemark}}></div>
                           </div>
                         </div>
                       </div>

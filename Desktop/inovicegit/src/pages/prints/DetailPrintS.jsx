@@ -389,6 +389,39 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       // datas?.resultArray?.forEach((e) => {
       //       console.log(e?.g_array);
       // })
+      let secArr = [];
+      datas?.resultArray?.forEach((e) => {
+        let b = cloneDeep(e);
+        let tot_obj  = {
+          Pcs :0,
+          Wt:0,
+          Amount:0
+        }
+
+        b?.metal?.forEach((a) => {
+          if(a?.IsPrimaryMetal === 1) {
+            tot_obj.Pcs += a?.Pcs;
+            tot_obj.Wt += a?.Wt;
+          }
+        })
+        b?.diamonds?.forEach((a) => {
+            tot_obj.Pcs += a?.Pcs;
+            tot_obj.Wt += a?.Wt;
+        })
+        b?.colorstone?.forEach((a) => {
+            tot_obj.Pcs += a?.Pcs;
+            tot_obj.Wt += a?.Wt;
+        })
+        b?.misc?.forEach((a) => {
+            tot_obj.Pcs += a?.Pcs;
+            tot_obj.Wt += a?.Wt;
+        })
+        b.tot_obj = tot_obj;
+        secArr.push(b);
+      })
+
+      datas.resultArray = secArr;
+
     } catch (error) {
       console.log(error);
     }
@@ -600,13 +633,13 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 {/* table sub header */}
                 <div className="d-flex subhead hcompdp7 fsgdp7">
                   <div className="subheaddiv1 w-50">
-                    <div className="fsgdp7 lhdp7">
+                    <div className="fsgdp7 lhdp7_S">
                       {result?.header?.lblBillTo}
                     </div>
-                    <div className="_fsgdp7_ lhdp7">
+                    <div className="_fsgdp7_ lhdp7_S">
                       <b>{result?.header?.customerfirmname}</b>
                     </div>
-                    <div className="fsgdp7 lhdp7">
+                    {/* <div className="fsgdp7 lhdp7_S">
                       {result?.header?.customerAddress1}
                     </div>
                     <div className="fsgdp7 lhdp7">
@@ -615,17 +648,17 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="fsgdp7 lhdp7">
                       {result?.header?.customercity1}{" "}
                       {result?.header?.customerpincode}
-                    </div>
-                    <div className="fsgdp7 lhdp7">
+                    </div> */}
+                    {/* <div className="fsgdp7 lhdp7">
                       {result?.header?.customeremail1}
-                    </div>
-                    <div className="fsgdp7 lhdp7">
+                    </div> */}
+                    {/* <div className="fsgdp7 lhdp7">
                       {result?.header?.vat_cst_pan}
-                    </div>
-                    <div className="fsgdp7 lhdp7">
+                    </div> */}
+                    {/* <div className="fsgdp7 lhdp7">
                       {result?.header?.Cust_CST_STATE} -{" "}
                       {result?.header?.Cust_CST_STATE_No}
-                    </div>
+                    </div> */}
                   </div>
                   {/* <div className="subheaddiv2">
                     <div className="fsgdp7 lhdp7">Ship To,</div>
@@ -641,32 +674,32 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     })}
                   </div> */}
                   <div className="subheaddiv3 fsgdp7 w-50">
-                    <div className="fsgdp7 lhdp7 d-flex justify-content-between">
+                    <div className="fsgdp7 lhdp7_S d-flex justify-content-between">
                       <span className="w-50 fw-bold">INVOICE NO</span>
                       <span className="w-50 d-flex justify-content-start">
                         {result?.header?.InvoiceNo}
                       </span>
                     </div>
-                    <div className="fsgdp7 lhdp7 d-flex justify-content-between">
+                    <div className="fsgdp7 lhdp7_S d-flex justify-content-between">
                       <span className="w-50 fw-bold">DATE</span>
                       <span className="w-50 d-flex justify-content-start">
                         {result?.header?.EntryDate}
                       </span>
                     </div>
-                    <div className="fsgdp7 lhdp7 d-flex justify-content-between">
+                    { result?.header?.HSN_No === '' ? '' : <div className="fsgdp7 lhdp7_S d-flex justify-content-between">
                       <span className="w-50 fw-bold">
                         {result?.header?.HSN_No_Label}
                       </span>
                       <span className="w-50 d-flex justify-content-start">
                         {result?.header?.HSN_No}
                       </span>
-                    </div>
-                    <div className="fsgdp7 lhdp7 d-flex justify-content-between">
+                    </div>}
+                    { result?.header?.Delivery_Mode === '' ? '' : <div className="fsgdp7 lhdp7_S d-flex justify-content-between">
                       <span className="w-50 fw-bold">Delivery Mode</span>
                       <span className="w-50 d-flex justify-content-start">
                         {result?.header?.Delivery_Mode}
                       </span>
-                    </div>
+                    </div>}
                     {/* <div className="fsgdp7 lhdp7 d-flex justify-content-between">
                       <span className="w-50 fw-bold">Sales Person</span>
                       <span className="w-50 d-flex justify-content-start">
@@ -674,14 +707,14 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </span>
                     </div> */}
                     <div>
-                      <div className="d-flex">
+                      {/* <div className="d-flex">
                         <div className="fw-bold w-50">Due Date :</div>
                         <div className="w-50">{result?.header?.DueDate}</div>
                       </div>
                       <div className="d-flex">
                         <div className="fw-bold w-50">Terms :</div>
                         <div className="w-50">{result?.header?.DueDays}</div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -690,13 +723,13 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className="tabledp7 fsgdp7">
                   <div className="theaddp7 hcompdp7 bordersdp7">
                     <div className="col1dp7 dp7cen">SR#</div>
-                    <div className="col2dp7 dp7cen">DESIGN DESCRIPTION</div>
+                    <div className="col2dp7 dp7cen text-break">DESIGN DESCRIPTION</div>
                     <div className="col3dp7 dp7cen">KT/COL</div>
                     <div className="col4dp7 dp7cen">GROSS</div>
                     <div className="col5dp7 dp7cen">NET</div>
                     <div className="col6dp7 dp7cen">TUNCH</div>
                     <div className="col7dp7 d-flex flex-column h-100">
-                      <div className="dp7cen brbdp7 h-50">
+                      <div className="dp7cen brbdp7 h-50 text-break">
                         STONE DESCRIPTION
                       </div>
                       <div className="d-flex subcoldp7 h-50">
@@ -730,15 +763,13 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="tbodydp7">
                     {result?.resultArray?.map((e, i) => {
                       return (
-                        <div
-                          className="d-flex brbdp7 hcompdp7 bordersdp7"
-                          key={i}
-                        >
+                        <React.Fragment key={i}>
+                        <div className="d-flex brbdp7 hcompdp7 bordersdp7" >
                           <div className="rcol1dp7 dp7cen1">{i + 1}</div>
                           <div className="rcol2dp7 d-flex flex-column  justify-content-center  align-items-start p-1">
-                            <div className="d-flex justify-content-between align-items-start w-100">
-                              <div>{e?.designno}</div>
-                              <div>{e?.SrJobno}</div>
+                            <div className="d-flex justify-content-between align-items-start w-100 text-break flex-wrap">
+                              <div className="text-break fsgdp7_S">{e?.designno}</div>
+                              <div className="text-break fsgdp7_S">{e?.SrJobno}</div>
                             </div>
                             {imgFlag ? (
                               <div className="w-100 d-flex justify-content-center align-items-start">
@@ -758,7 +789,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                           </div>
                           <div
-                            className="rcol3dp7 dp7cen1"
+                            className="rcol3dp7 dp7cen1 text-break flex-wrap"
                             style={{ wordBreak: "break-word" }}
                           >
                             {e?.MetalPurity}/{e?.MetalColor}
@@ -997,6 +1028,37 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 {formatAmount(e?.TotalAmount)}
                           </div>
                         </div>
+                        <div className="d-flex brbdp7 hcompdp7 bordersdp7" >
+                          <div className="rcol1dp7"></div>
+                          <div className="rcol2dp7"></div>
+                          <div className="rcol3dp7"></div>
+                          <div className="rcol4dp7 dp7cen2"> </div>
+                          <div className="rcol5dp7 dp7cen2"> {/* {((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal)?.toFixed(3)} */} </div>
+                          <div className="rcol6dp7 dp7cen2"> {/* {e?.Tunch?.toFixed(3)} */} </div>
+                          <div style={{ width: "" }} className=" col7dp7 ">
+                            <div className="d-grid h-100">
+                              <div className="d-flex brtdp7" >
+                                <div className="w_subcoldp7 dp7cen1 brdp7" style={{ width: "25%" }} > &nbsp; </div>
+                                <div className="w_subcoldp7 dp7cen2 brdp7" style={{ width: "10%" }} > {(e?.totals?.diamonds?.Pcs + e?.totals?.colorstone?.Pcs + e?.totals?.misc?.Pcs) } </div>
+                                <div className="w_subcoldp7 dp7cen2 brdp7"> {((e?.totals?.diamonds?.Wt + e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt)?.toFixed(3)) } </div>
+                                <div className="w_subcoldp7 dp7cen2 brdp7"> </div>
+                                <div className="w_subcoldp7 dp7cen2 fw-bold" style={{ width: "25%" }}> {formatAmount(e?.totals?.total_diamond_colorstone_misc_amount)} </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="rcol12dp7 dp7cen2 bldp7">
+                            {/* {formatAmount(
+                              (e?.OtherCharges + e?.TotalDiamondHandling) /
+                                result?.header?.CurrencyExchRate
+                            )} */}
+                            {e?.fineWtss?.toFixed(3)}
+                          </div>
+                          <div className="rcol13dp7 dp7cen2 border-end-0">
+                                {formatAmount(e?.TotalAmount)}
+                          </div>
+                        </div>
+                      
+                        </React.Fragment>
                       );
                     })}
                   </div>
@@ -1013,8 +1075,8 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}
                     {/* {result?.mainTotal?.netwtWithLossWt !== 0 && result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
                   </div>
-                  <div className="totcol4dp7"></div>
-                  <div className="totcol5dp7 dp7cen2">
+                  <div className="totcol4dp7" style={{width:"35.3%"}}></div>
+                  <div className="totcol5dp7 dp7cen2" style={{width:'9.7%'}}>
                     {result?.mainTotal?.total_diamond_colorstone_misc_amount !== 0 &&
                       formatAmount(
                         result?.mainTotal

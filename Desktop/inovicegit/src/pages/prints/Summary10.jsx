@@ -210,7 +210,7 @@ const Summary10 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               </div>
               {/* remarks */}
               <div className="fs_s10 lh_s10 p-1">
-                <span className="fw-bold">REMARKS IF ANY : </span> {result?.header?.PrintRemark}
+                <span className="fw-bold">REMARKS IF ANY : </span> <span dangerouslySetInnerHTML={{__html:result?.header?.PrintRemark}}></span> 
               </div>
               <div className="text-secondary fs_s10 lh_s10 pt-2 ">**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</div>
             </div> : <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto"> {msg} </p>

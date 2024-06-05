@@ -132,7 +132,7 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             onError={handleImageErrors} />)}
                                     <p className="fw-medium fw-bold">{headerData?.CompanyAddress} {headerData?.CompanyAddress2} {headerData?.CompanyCity}-{headerData?.CompanyPinCode}</p>
                                     <p className=" fw-bold" style={{ fontSize: "18px" }}>{headerData?.PrintHeadLabel}</p>
-                                    <p className="fw-medium fw-bold" style={{ fontSize: "11px" }}>({headerData?.PrintRemark})</p>
+                                    <p className="fw-medium fw-bold" style={{ fontSize: "11px" }} dangerouslySetInnerHTML={{__html:headerData?.PrintRemark}}></p>
                                 </div>
                                 <div className={`d-flex justify-content-between`} >
                                     <div className={`${style?.font_14}`}>

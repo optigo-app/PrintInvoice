@@ -245,7 +245,7 @@ const SolitaireTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 <div className="d-flex border-start border-end border-bottom no_break">
                     <div className={`${style?.REMARKS}  border-end p-1`}>
                         <p className="fw-bold text-decoration-underline">REMARKS</p>
-                        <p>{headerData?.PrintRemark} </p>
+                        <p dangerouslySetInnerHTML={{__html:headerData?.PrintRemark}}></p>
                     </div>
                     <div className={`${style?.WORDS} border-end p-1`}>
                         {

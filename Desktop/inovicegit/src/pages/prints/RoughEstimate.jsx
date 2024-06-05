@@ -633,8 +633,8 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                   </div>
                 </div>
-                <div className="fw-bold fs-5 px-2 py-1 text-black p-0">
-                  Remark : {result?.header?.PrintRemark}
+                <div className="fw-bold fs-5 px-2 py-1 text-black p-0" >
+                  Remark : <span dangerouslySetInnerHTML={{__html:result?.header?.PrintRemark}}></span> 
                 </div>
                 <div className="d-flex flex-column align-items-end fs-3">
                   <div className="wREord p-0">

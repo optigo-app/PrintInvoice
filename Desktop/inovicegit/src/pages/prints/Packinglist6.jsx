@@ -180,7 +180,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             onError={handleImageErrors} height={120} width={150} />)}
                     <p className={`fw-bold text-center pt-1 ${style?.font_12}`}>{headerData?.CompanyAddress} {headerData?.CompanyAddress2} {headerData?.CompanyCity}-{headerData?.CompanyPinCode}</p>
                     {headerData?.PrintHeadLabel !== "" && <p className={` ${style?.font_18} fw-bold`}>{headerData?.PrintHeadLabel}</p>}
-                    {headerData?.PrintRemark !== '' && <p className={`fw-bold text-center pt-2 ${style?.font_11}`}>({headerData?.PrintRemark})</p>}
+                    {headerData?.PrintRemark !== '' && <p className={`fw-bold text-center pt-2 ${style?.font_11}`} dangerouslySetInnerHTML={{__html:headerData?.PrintRemark}}></p>}
                     <div className={`d-flex justify-content-between`}>
                         <p className={` ${style?.font_14}`}><span className="fw-bold">Party :  </span>{headerData?.customerfirmname}</p>
                         <div className={` ${style?.font_12}`}>

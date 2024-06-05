@@ -326,7 +326,7 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </tr>
                     <tr className=''>
                         <td className='p-0 pt-1 border-0'>
-                            {headerData?.PrintRemark !== "" && <p className={`${style?.font_size_14}`}><span className="fw-bold">REMARKS IF ANY :</span> {headerData?.PrintRemark}</p>}
+                            {headerData?.PrintRemark !== "" && <p className={`${style?.font_size_14}`}><span className="fw-bold">REMARKS IF ANY :</span> <span dangerouslySetInnerHTML={{__html:headerData?.PrintRemark}}></span></p>}
                             <p className={`preText pt-1 border-0 ${style?.font_size_12}`} style={{ letterSpacing: "0px" }}><span className='pe-2'>** </span> THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</p>
                         </td>
                     </tr>

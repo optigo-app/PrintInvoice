@@ -366,8 +366,7 @@ const MiscDetailPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                                 <div className='d-flex w-100 br_bottom_mdp'><div className='ps-1 w-50 fw-bold'>RATE IN 24KT</div><div className='pe-1 w-50 end_mdp br_right_mdp'>{result?.header?.MetalRate24K}</div></div>
                                 </div>
                                 <div className='col1_r_mdp fs_11_mdp'>
-                                    <div className=' br_bottom_mdp  w-100 px-1'>
-                                    {result?.header?.PrintRemark}
+                                    <div className=' br_bottom_mdp  w-100 px-1' dangerouslySetInnerHTML={{__html:result?.header?.PrintRemark}}>
                                     </div>
                                 </div>
                                 <div style={{width:'12.5%'}} className=' br_right_mdp br_bottom_mdp br_left_mdp '>

@@ -626,7 +626,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             </div>
             {/* print remark */}
             <div className='no_break'>
-                <p><span className="fw-bold">REMARKS :</span> React print remark_Test</p>
+                <p><span className="fw-bold">REMARKS :</span> <span dangerouslySetInnerHTML={{__html:headerData?.PrintRemark}}></span></p>
             </div>
             {/* TERMS INCLUDED : */}
             <div className='pb-2 no_break'>

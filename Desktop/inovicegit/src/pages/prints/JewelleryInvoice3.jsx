@@ -281,7 +281,7 @@ const JewelleryInvoice3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                     </div>
                     <div className='mt-2 p-1 brall_ji3 fs_ji3 d-flex align-items-center pbia_ji3'>
                         <div className='fw-bold text-decoration-underline'>Remark :</div>
-                        <div className='px-2'>{result?.header?.PrintRemark}</div>
+                        <div className='px-2' dangerouslySetInnerHTML={{__html:result?.header?.PrintRemark}}></div>
                     </div>
                     <div className='d-flex mt-2 fs_ji3 justify-content-between align-items-center pbia_ji3'>
                         <div className='d-flex w-50'><div>Receiver's Signature : </div><div className='w-25 border-black border-bottom'></div></div>

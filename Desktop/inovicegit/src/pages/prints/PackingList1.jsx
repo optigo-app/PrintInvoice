@@ -447,7 +447,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <p className={`text-center pt-1 fw-bold ${style?.font_12}`}>    {json0Data?.CompanyAddress} {json0Data?.CompanyAddress2}{" "}
                         {json0Data?.CompanyCity} - {json0Data?.CompanyPinCode}</p>
                     {json0Data?.PrintHeadLabel !== "" && <p className={`fw-bold text-center pt-1 pb-2  `} style={{ fontSize: '18px' }}>{json0Data?.PrintHeadLabel}</p>}
-                    {json0Data?.PrintRemark !== "" && <p className={`fw-bold text-center ${style?.font_11}`}>({json0Data?.PrintRemark})</p>}
+                    {json0Data?.PrintRemark !== "" && <p className={`fw-bold text-center ${style?.font_11}`} dangerouslySetInnerHTML={{__html:json0Data?.PrintRemark}}></p>}
                 </div>
                 {/* Party */}
                 <div className={`pt-4 d-flex justify-content-between align-items-between`}>

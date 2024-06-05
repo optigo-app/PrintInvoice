@@ -168,7 +168,7 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                 </div>
                 <div className='brall_jts border-top-0 d-flex pbia_jts'>
                     <div className='w33_jts p-1 fs_jts brr_jts'>
-                        <div className='fw-bold text-decoration-underline'>REMARKS:</div><div>{result?.header?.PrintRemark}</div>
+                        <div className='fw-bold text-decoration-underline'>REMARKS:</div><div dangerouslySetInnerHTML={{__html:result?.header?.PrintRemark}}></div>
                     </div>
                     <div className='w33_jts p-1 fs_jts brr_jts'>
                         {

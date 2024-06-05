@@ -250,7 +250,7 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                             <p className='px-1 fw-bold'>{toWords?.convert(+fixedValues(+(data?.mainTotal?.total_amount / headerData?.CurrencyRate)?.toFixed(2) +
                             data?.allTaxes?.reduce((acc, cObj) => acc + +((+cObj?.amount)?.toFixed(2)), 0) +(headerData?.AddLess / headerData?.CurrencyExchRate), 2))} Only</p>
                         </div>
-                        <div><p className='px-1'>Old Gold Purchase Description : <span className="fw-bold">{headerData?.Remark}</span>	</p></div>
+                        <div><p className='px-1'>Old Gold Purchase Description : <span className="fw-bold" dangerouslySetInnerHTML={{__html:headerData?.PrintRemark}}></span>	</p></div>
                     </div>
                     <div className={`${style?.taxes} border-end`}>
                         {/* <p className="text-end px-1">Discount</p> */}

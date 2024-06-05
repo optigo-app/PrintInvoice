@@ -839,7 +839,7 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                 </div>
                 <div className="my-1 border">
-                    <div className="p-1"><span className="fs_rp_2 fw-bold  text-decoration-underline">Remark:</span>{" "} <span className='fs_rp_2'> {result?.header?.PrintRemark}</span></div>
+                    <div className="p-1"><span className="fs_rp_2 fw-bold  text-decoration-underline">Remark:</span>{" "} <span className='fs_rp_2' dangerouslySetInnerHTML={{__html:result?.header?.PrintRemark}}></span></div>
                 </div>
                 <div className="my-1 border p-1 d-flex">
                     <div className="col-4 border-end">

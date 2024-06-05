@@ -322,7 +322,7 @@ const JewelleryTaxInvoice1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                             }
                         </div>
                         {/* <div>Balance : {formatAmount(result?.header?.LedgerBal)}</div> */}
-                        <div className='fw-bold text-decoration-underline'>REMARKS:</div><div>{result?.header?.PrintRemark}</div>
+                        <div className='fw-bold text-decoration-underline'>REMARKS:</div><div dangerouslySetInnerHTML={{__html:result?.header?.PrintRemark}}></div>
                         </div>
                         <div className='w33_jts p-1 fs_jts border-end text-break'>
                         {

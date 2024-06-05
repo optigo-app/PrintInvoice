@@ -499,7 +499,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 {/* remarks */}
                 <div className="my-2 fsgs5 pbiag ">
-                  <b>REMARKS:</b> {result?.header?.PrintRemark}
+                  <b>REMARKS:</b> <span dangerouslySetInnerHTML={{__html:result?.header?.PrintRemark}}></span> 
                 </div>
                 {/* bank details | footer */}
                 <div className="d-flex border fsgs5 pbiag">

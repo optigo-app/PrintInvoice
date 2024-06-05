@@ -351,7 +351,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div>
                         {e?.colorstone?.map((ele, ind) => {
                           return <div className="d-flex w-100" key={ind}>
-                            <div style={{ width: "70px" }} className=""><p className={`${style?.pad_1} text-break`}>{ele?.ShapeName} {ele?.QualityName}</p></div>
+                            <div style={{ width: "70px" }} className=""><p className={`${style?.pad_1} text-break`}>{ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}</p></div>
                             <div style={{ width: "63px" }} className=""><p className={`${style?.pad_1} text-break`}>{ele?.SizeName}</p></div>
                             <div style={{ width: "24px" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(ele?.Pcs, 0)}</p></div>
                             <div style={{ width: "40px" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(ele?.Wt, 3)}</p></div>
