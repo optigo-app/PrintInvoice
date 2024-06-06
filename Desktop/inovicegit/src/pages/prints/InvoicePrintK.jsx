@@ -69,13 +69,35 @@ const InvoicePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
         }
       })
-      datas.resultArray = mergedArr;
+      
+      const sortedData = mergedArr?.sort(customSort);
+      
+      datas.resultArray = sortedData;
+      
       setResult(datas);
   }
 
 
 
   console.log(result);
+
+  const customSort = (a, b) => {
+    if (a?.ShapeName === "OTHER" && b?.ShapeName !== "OTHER") {
+      return 1; // "OTHER" comes after any other ShapeName
+    } else if (a?.ShapeName !== "OTHER" && b?.ShapeName === "OTHER") {
+      return -1; // Any other ShapeName comes before "OTHER"
+    } else {
+      // If ShapeNames are equal, compare by QualityName
+      if (a?.MetalPurity < b?.MetalPurity) {
+        return -1;
+      } else if (a?.MetalPurity > b?.MetalPurity) {
+        return 1;
+      } else {
+        // If QualityNames are equal, compare by Colorname
+        return a?.Colorname?.localeCompare(b?.Colorname);
+      }
+    }
+  };
 
   return (
     <>
@@ -115,7 +137,7 @@ const InvoicePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div>PAN No : {result?.header?.Com_pannumber}</div>
                     </div>
                     <div className='d-flex justify-content-between align-items-center px-1'>
-                        <div>State : {result?.header?.State}</div>
+                        <div>Company State : {result?.header?.CompanyState}</div>
                     </div>
                     <div className='d-flex justify-content-between align-items-center px-1'>
                         <div>{result?.header?.Company_CST_STATE} : {result?.header?.Company_CST_STATE_No}</div>
@@ -132,7 +154,7 @@ const InvoicePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className='fw-bold px-1 fs_invk'>{result?.header?.customerfirmname}</div>
                 <div className='text-break px-1'>{result?.header?.customerstreet}</div>
                 <div className='px-1'>{result?.header?.customercity}, {result?.header?.customerstate}{result?.header?.customerpincode}</div>
-                <div className='px-1'>GSTIN - {result?.header?.Cust_VAT_GST_No}, N : {result?.header?.CustPanno}</div>
+                <div className='px-1'>GSTIN - {result?.header?.Cust_VAT_GST_No}, PAN : {result?.header?.CustPanno}</div>
                 <div className='px-1'>State : {result?.header?.customerstate}, {result?.header?.Cust_CST_STATE}-{result?.header?.Cust_CST_STATE_No}</div>
             </div>
             <div className='w-50 d-flex justify-content-between align-items-center'>
