@@ -154,7 +154,8 @@ const InvoicePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className='fw-bold px-1 fs_invk'>{result?.header?.customerfirmname}</div>
                 <div className='text-break px-1'>{result?.header?.customerstreet}</div>
                 <div className='px-1'>{result?.header?.customercity}, {result?.header?.customerstate}{result?.header?.customerpincode}</div>
-                <div className='px-1'>GSTIN - {result?.header?.Cust_VAT_GST_No}, PAN : {result?.header?.CustPanno}</div>
+                {console.log(result)}
+                <div className='px-1'>{result?.header?.CustGstNo ? 'GSTIN' : 'VAT'} - { result?.header?.CustGstNo ? result?.header?.CustGstNo : result?.header?.Cust_VAT_GST_No}, PAN : {result?.header?.CustPanno}</div>
                 <div className='px-1'>State : {result?.header?.customerstate}, {result?.header?.Cust_CST_STATE}-{result?.header?.Cust_CST_STATE_No}</div>
             </div>
             <div className='w-50 d-flex justify-content-between align-items-center'>
