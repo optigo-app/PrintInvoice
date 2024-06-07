@@ -1305,7 +1305,7 @@ const PackingList7Group = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                               {e?.ShapeName} {e?.QualityName} {e?.Colorname}
                             </div>
                             <div className="w-50 end_dp10_pcl7">
-                              {e?.pcPcss} / {e?.wtWt?.toFixed(3)} cts
+                              {e?.pcPcss} / {e?.wtWts?.toFixed(3)} cts
                             </div>
                           </div>
                         );

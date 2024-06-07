@@ -546,7 +546,6 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
     return amountInWordsFormatted;
   }
-  console.log(result);
 
 
   // {e?.metal?.length > 0 &&
@@ -862,6 +861,52 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div style={{ width: "" }} className=" col7dp7 ">
                             <div className="d-grid h-100">
                               
+                              {e?.metal?.length > 0 &&
+                                e?.metal?.map((el, ind) => {
+                                  return (
+                                    <React.Fragment key={ind}>
+                                    {
+                                      el?.IsPrimaryMetal === 0 && <div className="d-flex brtdp7" key={ind}>
+                                      <div
+                                        className="w_subcoldp7 dp7cen1 brdp7"
+                                        style={{ width: "25%" }}
+                                      >
+                                        {el?.ShapeName}
+                                      </div>
+                                      <div
+                                        className="w_subcoldp7 dp7cen2 brdp7"
+                                        style={{ width: "10%" }}
+                                      >
+                                        {/* {el?.dcm_pcs} */}
+                                        {/* {el?.Pcs} */}
+                                      </div>
+                                      <div className="w_subcoldp7 dp7cen2 brdp7">
+                                        {el?.Wt?.toFixed(3)}
+                                        {/* {el?.ShapeName ===
+                                      "Certification_NM award"
+                                        ? e?.certificateWtDia?.toFixed(3)
+                                        : el?.dcm_wt?.toFixed(3)} */}
+                                      </div>
+                                      <div className="w_subcoldp7 dp7cen2 brdp7">
+                                        {formatAmount(el?.Rate)}
+                                        {/* {el?.ShapeName === "Certification_NM award" ? (formatAmount(((el?.dcm_amt)/(e?.certificateWtDia === 0 ? 1 : e?.certificateWtDia))))
+                                        : (formatAmount((el?.dcm_amt)/(el?.dcm_wt)))} */}
+                                      </div>
+                                      <div
+                                        className="w_subcoldp7 dp7cen2"
+                                        style={{ width: "25%" }}
+                                      >
+                                        {/* {el?.dcm_amt?.toFixed(2)} */}
+                                        {formatAmount(
+                                          el?.Amount /
+                                            result?.header?.CurrencyExchRate
+                                        )}
+                                      </div>
+                                    </div>
+                                    }
+                                    </React.Fragment>
+                                  );
+                                })}
                               {e?.diamonds?.length > 0 &&
                                 e?.diamonds?.map((el, ind) => {
                                   return (
@@ -1034,7 +1079,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             {e?.fineWtss?.toFixed(3)}
                           </div>
                           <div className="rcol13dp7 dp7cen2 border-end-0">
-                                {formatAmount(e?.TotalAmount)}
+                                {formatAmount((e?.TotalAmount / result?.header?.CurrencyExchRate))}
                           </div>
                         </div>
                         
@@ -1049,11 +1094,27 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className="d-grid h-100">
                               <div className="d-flex brtdp7" >
                                 <div className="w_subcoldp7 dp7cen1 brdp7" style={{ width: "25%" }} > &nbsp; </div>
-                                <div className="w_subcoldp7 dp7cen2 brdp7 fw-bold" style={{ width: "10%" }} > {(e?.totals?.diamonds?.Pcs + e?.totals?.colorstone?.Pcs + e?.totals?.misc?.onlyHSCODE3_pcs + e?.totals?.misc?.onlyIsHSCODE0_Pcs) === 0  ? '' : (e?.totals?.diamonds?.Pcs + e?.totals?.colorstone?.Pcs + e?.totals?.misc?.onlyHSCODE3_pcs + e?.totals?.misc?.onlyIsHSCODE0_Pcs) } </div>
-                                <div className="w_subcoldp7 dp7cen2 brdp7 fw-bold"> {( (e?.totals?.diamonds?.Wt + e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt) === 0 ? '' : ((e?.totals?.diamonds?.Wt + e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt))?.toFixed(3)) } </div>
+                                <div className="w_subcoldp7 dp7cen2 brdp7 fw-bold" style={{ width: "10%" }} >
+                                   {(e?.totals?.diamonds?.Pcs + e?.totals?.colorstone?.Pcs + e?.totals?.misc?.onlyHSCODE3_pcs
+                                     + e?.totals?.misc?.onlyIsHSCODE0_Pcs) === 0  ? '' : 
+                                     (e?.totals?.diamonds?.Pcs + e?.totals?.colorstone?.Pcs + e?.totals?.misc?.onlyHSCODE3_pcs
+                                     + e?.totals?.misc?.onlyIsHSCODE0_Pcs) } </div>
+
+                                <div className="w_subcoldp7 dp7cen2 brdp7 fw-bold"> 
+                                  {(( e?.totals?.metal?.WithOutPrimaryMetal + e?.totals?.diamonds?.Wt + 
+                                  e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt) === 0 ? '' : 
+                                  (( e?.totals?.metal?.WithOutPrimaryMetal + 
+                                  e?.totals?.diamonds?.Wt + e?.totals?.colorstone?.Wt
+                                  + (e?.totals?.misc?.onlyIsHSCODE0_Wt + e?.totals?.misc?.onlyIsHSCODE3_ServeWt)))?.toFixed(3)) } </div>
+
                                 <div className="w_subcoldp7 dp7cen2 brdp7"> </div>
-                                <div className="w_subcoldp7 dp7cen2 fw-bold" style={{ width: "25%" }}> { e?.totals?.total_diamond_colorstone_misc_amount === 0 ? '' :  formatAmount(e?.totals?.total_diamond_colorstone_misc_amount)} </div>
+
+                                <div className="w_subcoldp7 dp7cen2 fw-bold" style={{ width: "25%" }}>
+                                   { (e?.totals?.total_diamond_colorstone_misc_amount + e?.totals?.metal?.withoutPrimaryMetal_Amount) === 0 ? ''
+                                    :  formatAmount(((e?.totals?.total_diamond_colorstone_misc_amount / result?.header?.CurrencyExchRate) + 
+                                    (e?.totals?.metal?.withoutPrimaryMetal_Amount / result?.header?.CurrencyExchRate)))} </div>
                               </div>
+
                             </div>
                           </div>
                           <div className="rcol12dp7 dp7cen2 bldp7">
@@ -1085,13 +1146,21 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}
                     
                   </div>
-                  <div className="totcol4dp7" style={{width:"35.3%"}}></div>
+                  {/* <div className="totcol4dp7" style={{width:"35.3%"}}></div> */}
+                  <div style={{width:'17%'}} className=" border-end"></div>
+                  <div style={{width:'4%'}} className=" border-end text-end pe-1">{(result?.mainTotal?.diamonds?.Pcs + result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.onlyIsHSCODE0_Pcs + result?.mainTotal?.misc?.onlyHSCODE3_pcs)}</div>
+                  <div style={{width:'7.5%'}} className=" border-end text-end pe-1">
+                    {(result?.mainTotal?.diamonds?.Wt + 
+                      result?.mainTotal?.colorstone?.Wt + 
+                      result?.mainTotal?.misc?.onlyIsHSCODE0_Wt + 
+                      result?.mainTotal?.misc?.onlyIsHSCODE3_ServeWt + result?.mainTotal?.metal?.withOutPrimaryMetal)}</div>
+                  <div style={{width:'8%'}} className=" border-end"></div>
                   <div className="totcol5dp7 dp7cen2" style={{width:'9.7%'}}>
                     {result?.mainTotal?.total_diamond_colorstone_misc_amount !== 0 &&
                       formatAmount(
-                        result?.mainTotal
+                        ((result?.mainTotal
                           ?.total_diamond_colorstone_misc_amount /
-                          result?.header?.CurrencyExchRate
+                          result?.header?.CurrencyExchRate) + (result?.mainTotal?.metal?.withoutPrimaryMetal_Amount / result?.header?.CurrencyExchRate))
                       )}
                   </div>
                   <div className="totcol6dp7 dp7cen2">
