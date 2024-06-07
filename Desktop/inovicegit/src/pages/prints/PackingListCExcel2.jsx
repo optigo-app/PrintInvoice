@@ -636,24 +636,24 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                         { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.designno}&nbsp;</td>}
                                         <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}}>&nbsp;{e?.designImage}&nbsp;</td>
                                         { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.Categoryname}&nbsp;</td>}
-                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.grosswt?.toFixed(3)}&nbsp;</td>}
-                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.NetWt?.toFixed(3)}&nbsp;</td>}
-                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{(e?.values?.totals?.colorstone?.Wt)?.toFixed(3)}&nbsp;</td>}
-                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{formatAmount(e?.metal_rate)}&nbsp;</td>}
-                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{formatAmount(e?.values?.totals?.metal?.Amount)}&nbsp;</td>}
-                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.values?.totals?.diamonds?.Pcs}&nbsp;</td>}
-                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.values?.totals?.diamonds?.Wt?.toFixed(3)}&nbsp;</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >{+((e?.grosswt))}</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >{((e?.NetWt?.toFixed(3)))}</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >{(e?.values?.totals?.colorstone?.Wt)?.toFixed(3)}</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >{formatAmount(e?.metal_rate)}</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >{formatAmount(e?.values?.totals?.metal?.Amount)}</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >{+(e?.values?.totals?.diamonds?.Pcs)}</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >{e?.values?.totals?.diamonds?.Wt?.toFixed(3)}</td>}
 
                                         {/* <td width={140} align='left' style={{borderRight:'1px solid #989898'}} >&nbsp;{(e?.diaShp?.toLowerCase() === 'rnd' || e?.diaShp?.toLowerCase() === 'bug' || e?.diaShp?.toLowerCase() === 'prs' ) && e?.diaQly}</td> */}
-                                        <td width={140} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.diaQly2}</td>
+                                        <td width={140} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >{e?.diaQly2}</td>
 
                                         {/* <td width={140} align='center' style={{borderRight:'1px solid black'}} >&nbsp;{e?.diaShp?.toLowerCase() === 'rnd' ? e?.dia_pcs : ''}</td> */}
-                                        <td width={140} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_rnd_pcs}</td>
-                                        <td width={140} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_rnd_wt?.toFixed(3)}</td>
-                                        <td width={140} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_bug_pcs}</td>
-                                        <td width={140} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_bug_wt?.toFixed(3)}</td>
-                                        <td width={140} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_prs_pcs}</td>
-                                        <td width={140} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_prs_wt?.toFixed(3)}</td>
+                                        <td width={140} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >{e?.dia_rnd_pcs}</td>
+                                        <td width={140} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >{e?.dia_rnd_wt?.toFixed(3)}</td>
+                                        <td width={140} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >{e?.dia_bug_pcs}</td>
+                                        <td width={140} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >{e?.dia_bug_wt?.toFixed(3)}</td>
+                                        <td width={140} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >{e?.dia_prs_pcs}</td>
+                                        <td width={140} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >{e?.dia_prs_wt?.toFixed(3)}</td>
                                         {/* <td width={140} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.diaShp?.toLowerCase() === 'rnd' && e?.dia_wt}</td> */}
                                         {/* <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.diaShp?.toLowerCase() === 'bug' && e?.dia_pcs}</td>
                                         <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{( e?.dia_wt === '' ? '' : (e?.diaShp?.toLowerCase() === 'bug' && (+(e?.dia_wt?.toFixed(3)))))}</td>
@@ -666,7 +666,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                         { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;</td>}
                                         { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;</td>}
                                         { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;</td>}
-                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.diamond_Amt === '' ? '' : formatAmount(e?.diamond_Amt)}</td>}
+                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >{e?.diamond_Amt === '' ? '' : formatAmount(e?.diamond_Amt)}</td>}
 
                                         { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} colSpan={1} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.Size}</td>}
                                         
@@ -696,12 +696,12 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                                 {/* <td width={90} align='left' style={{borderLeft:'1px solid black', borderRight:'1px solid #989898'}}>&nbsp;{ val?.diaflag && `${(val?.diaShp?.toLowerCase() === 'rnd' || val?.diaShp?.toLowerCase() === 'bug' || val?.diaShp?.toLowerCase() === 'prs' ) && val?.diaQly}`}</td> */}
                                                 <td width={90} align='center' style={{borderLeft:'1px solid black', borderRight:'1px solid black'}}>&nbsp;{ val?.diaflag && `${val?.diaQly2}`}</td>
 
-                                                <td width={140} align='center' style={{borderRight:'1px solid black'}} >&nbsp;{val?.diaflag && val?.dia_rnd_pcs}</td>
-                                                <td width={140} align='center' style={{borderRight:'1px solid black'}} >&nbsp;{val?.diaflag && val?.dia_rnd_wt?.toFixed(3)}</td>
-                                                <td width={140} align='center' style={{borderRight:'1px solid black'}} >&nbsp;{val?.diaflag && val?.dia_bug_pcs}</td>
-                                                <td width={140} align='center' style={{borderRight:'1px solid black'}} >&nbsp;{val?.diaflag && val?.dia_bug_wt?.toFixed(3)}</td>
-                                                <td width={140} align='center' style={{borderRight:'1px solid black'}} >&nbsp;{val?.diaflag && val?.dia_prs_pcs}</td>
-                                                <td width={140} align='center' style={{borderRight:'1px solid black'}} >&nbsp;{val?.diaflag && val?.dia_prs_wt?.toFixed(3)}</td>
+                                                <td width={140} align='center' style={{borderRight:'1px solid black'}} >{val?.diaflag && val?.dia_rnd_pcs}</td>
+                                                <td width={140} align='center' style={{borderRight:'1px solid black'}} >{val?.diaflag && val?.dia_rnd_wt?.toFixed(3)}</td>
+                                                <td width={140} align='center' style={{borderRight:'1px solid black'}} >{val?.diaflag && val?.dia_bug_pcs}</td>
+                                                <td width={140} align='center' style={{borderRight:'1px solid black'}} >{val?.diaflag && val?.dia_bug_wt?.toFixed(3)}</td>
+                                                <td width={140} align='center' style={{borderRight:'1px solid black'}} >{val?.diaflag && val?.dia_prs_pcs}</td>
+                                                <td width={140} align='center' style={{borderRight:'1px solid black'}} >{val?.diaflag && val?.dia_prs_wt?.toFixed(3)}</td>
 
                                                 {/* <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{ val?.diaflag && `${val?.diaShp?.toLowerCase() === 'rnd' ? val?.dia_pcs : ''}`}</td>
                                                 <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{val?.diaflag && `${val?.diaShp?.toLowerCase() === 'rnd' ? val?.dia_wt : ''}`}</td>
