@@ -481,6 +481,14 @@ export function formatAmount(amount) {
 
   return formattedAmount;
 }
+export function formatWeight(wt) {
+  const formattedAmount = parseFloat(+wt).toLocaleString('en-IN', {
+    minimumFractionDigits: 3,
+    maximumFractionDigits: 3,
+  });
+
+  return formattedAmount;
+}
 
 export const shapeColorQuality = (jsonData) => {
   let diamondsWithOutRate = [];
