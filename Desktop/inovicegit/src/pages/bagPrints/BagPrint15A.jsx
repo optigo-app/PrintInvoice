@@ -57,6 +57,7 @@ const BagPrint15A = ({ queries, headers }) => {
                     let ArrofFiveSize = [];
                     // eslint-disable-next-line array-callback-return
                     a?.rd1?.map((e, i) => {
+                        
                         if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
                             length++;
                         }
@@ -66,8 +67,8 @@ const BagPrint15A = ({ queries, headers }) => {
                             dia.diaPcs = dia?.diaPcs + e?.ActualPcs;
                             dia.diaWt = dia?.diaWt + e?.ActualWeight;
                         } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
-                            clr.clrPcs = clr?.clrPcs + e?.ActualPcs;
-                            clr.clrWt = clr?.clrWt + e?.ActualWeight;
+                            clr.clrPcs +=   e?.ActualPcs;
+                            clr.clrWt +=   e?.ActualWeight;
                         } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
                             misc.miscWt = misc?.miscWt + e?.ActualWeight;
                         }
@@ -84,14 +85,14 @@ const BagPrint15A = ({ queries, headers }) => {
                     imagePath = atob(queryParams?.imagepath);
                     let img = imagePath + a?.rd?.ThumbImagePath;
                     for (let i = 0; i < ArrofSevenSize?.length; i += chunkSize) {
-                        const dia = ArrofSevenSize?.slice(i, i + chunkSize);
+                        const dia_S = ArrofSevenSize?.slice(i, i + chunkSize);
                         let len = 7 - (ArrofSevenSize?.slice(i, i + chunkSize))?.length;
-                        diamond?.push({ dia: dia, length: len });
+                        diamond?.push({ dia: dia_S, length: len });
                     }
                     for (let i = 0; i < ArrofFiveSize?.length; i += sizeofChunk) {
-                        const clr = ArrofFiveSize?.slice(i, i + sizeofChunk);
+                        const clr_S = ArrofFiveSize?.slice(i, i + sizeofChunk);
                         let len = 5 - (ArrofFiveSize?.slice(i, i + sizeofChunk))?.length;
-                        colorstone?.push({ clr: clr, length: len });
+                        colorstone?.push({ clr: clr_S, length: len });
                     }
                     let arr1 = [];
                     if (diamond?.length >= colorstone?.length) {
@@ -160,57 +161,57 @@ const BagPrint15A = ({ queries, headers }) => {
                                         return (
                                                 <div className="container15Aold" id="main_container" key={index}>
                                                     <div className="heading">
-                                                        <h1 style={{ display: "flex", fontSize: "15px" }}>bag : {e?.data?.rd?.CustomerCode} / {e?.data?.rd?.serialjobno}</h1>
+                                                        <h1 className="fw-bold" style={{ display: "flex", fontSize: "14px" }}>bag : {e?.data?.rd?.CustomerCode} / {e?.data?.rd?.serialjobno}</h1>
                                                         <div className=" barcode15">
                                                             {(e?.data?.rd1?.length !== 0 && e?.data?.rd1 !== undefined) && <>{e?.data?.rd?.serialjobno !== undefined && <BarcodeGenerator data={e?.data?.rd?.serialjobno} />}</>}
                                                         </div>
                                                     </div>
                                                     <div style={{ "display": "flex", "justifyContent": "space-between" }}>
-                                                        <div className="firstCell" > <b>DNS type</b></div>
-                                                        <div className="secondCell"> {e?.data?.rd?.category}</div>
-                                                        <div className="thirdCell"><b>Item count</b></div>
+                                                        <div className="firstCell p-0 d-flex justify-content-start align-items-center ps-1 " > DNS type</div>
+                                                        <div className="secondCell text-break"> {e?.data?.rd?.category}</div>
+                                                        <div className="thirdCell p-0 d-flex justify-content-start align-items-center ps-1 ">Item count</div>
                                                         <div className="fourthCell"> {e?.data?.rd?.IsSplits_Quotation_Quantity}</div>
                                                     </div>
                                                     <div style={{ "display": "flex", "justifyContent": "space-between" }}>
-                                                        <div className="firstCell" style={{ "borderTop": "0px" }}> <b>DNS Name</b></div>
+                                                        <div className="firstCell p-0 d-flex justify-content-start align-items-center ps-1  border-top-0" > DNS Name</div>
                                                         <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.Designcode}</div>
-                                                        <div className="thirdCell" style={{ "borderTop": "0px" }}> <b>Priority</b></div>
+                                                        <div className="thirdCell p-0 d-flex justify-content-start align-items-center ps-1 border-top-0" > Priority</div>
                                                         <div className="fourthCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.prioritycode}</div>
                                                     </div>
                                                     <div style={{ "display": "flex", "justifyContent": "space-between" }}>
-                                                        <div className="firstCell" style={{ "borderTop": "0px" }}> <b>DNS size</b></div>
+                                                        <div className="firstCell p-0 d-flex justify-content-start align-items-center ps-1 border-top-0"> DNS size</div>
                                                         <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.Size}</div>
-                                                        <div className="thirdCell" style={{ "width": "199.33px", "borderTop": "0px", "borderRight": "0px" }}> <b>Type: Diamond sieve size</b></div>
+                                                        <div className="thirdCell p-0 d-flex justify-content-start align-items-center ps-1 border-top-0 border-end-0" style={{ "width": "199.33px" }}> Type: Diamond sieve size</div>
                                                     </div>
                                                     <div style={{ display: "flex" }}>
                                                         <div>
                                                             <div style={{ "display": "flex", "justifyContent": "space-between" }}>
-                                                                <div className="firstCell" style={{ "borderTop": "0px" }} > <b>Raw Metal</b></div>
-                                                                <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.MetalType} {e?.data?.rd?.MetalColorCo}</div>
+                                                                <div className="firstCell p-0 d-flex justify-content-start align-items-center ps-1  border-top-0"> Raw Metal</div>
+                                                                <div className="secondCell border-top-0 text-break"> {e?.data?.rd?.MetalType + " " + e?.data?.rd?.MetalColorCo}</div>
                                                             </div>
                                                             <div style={{ "display": "flex", "justifyContent": "space-between" }}>
-                                                                <div className="firstCell" style={{ "borderTop": "0px" }}> <b>Metal wt</b></div>
+                                                                <div className="firstCell p-0 d-flex justify-content-start align-items-center ps-1 border-top-0" > Metal wt</div>
                                                                 <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.MetalWeight?.toFixed(3)}</div>
                                                             </div>
                                                             <div style={{ "display": "flex", "justifyContent": "space-between" }}>
-                                                                <div className="firstCell" style={{ "borderTop": "0px" }}> <b>Dia clarity</b></div>
+                                                                <div className="firstCell p-0 d-flex justify-content-start align-items-center ps-1  border-top-0"> Dia clarity</div>
                                                                 <div className="secondCell" style={{ borderTop: "0px", fontSize: e?.data?.rd?.diaclarity?.length > 16 ? "10px" : "12px" }}>{(e?.data?.rd?.diaclarity ?? 'NA')?.slice(0, 32)}</div>
                                                             </div>
                                                             <div style={{ "display": "flex", "justifyContent": "space-between" }}>
-                                                                <div className="firstCell" style={{ "borderTop": "0px" }}> <b>Dia no / wt</b></div>
+                                                                <div className="firstCell p-0 d-flex justify-content-start align-items-center ps-1  border-top-0" > Dia no / wt</div>
                                                                 <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.additional?.dia?.diaPcs}/{e?.additional?.dia?.diaWt.toFixed(3)}</div>
                                                             </div>
                                                             <div style={{ "display": "flex", "justifyContent": "space-between" }}>
-                                                                <div className="firstCell" style={{ "borderTop": "0px" }} > <b>CLS no / wt</b></div>
+                                                                <div className="firstCell p-0 d-flex justify-content-start align-items-center ps-1  border-top-0"  > CLS no / wt</div>
                                                                 <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.additional?.clr?.clrPcs}/{e?.additional?.clr?.clrWt.toFixed(3)}</div>
                                                             </div>
                                                             <div style={{ "display": "flex", "justifyContent": "space-between" }}>
-                                                                <div className="firstCell" style={{ "borderTop": "0px" }}> <b>Order date</b></div>
-                                                                <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.OrderDate}</div>
+                                                                <div className="firstCell p-0 d-flex justify-content-start align-items-center ps-1  border-top-0" > Order date</div>
+                                                                <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.orderDatef}</div>
                                                             </div>
                                                             <div style={{ "display": "flex", "justifyContent": "space-between" }}>
-                                                                <div className="firstCell" style={{ "borderTop": "0px" }}> <b>Due date</b></div>
-                                                                <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.promisedate}</div>
+                                                                <div className="firstCell p-0 d-flex justify-content-start align-items-center ps-1  border-top-0" > Due date</div>
+                                                                <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.promiseDatef}</div>
                                                             </div>
                                                         </div>
                                                         <div>
@@ -220,8 +221,8 @@ const BagPrint15A = ({ queries, headers }) => {
                                                                         return (
                                                                             <div style={{ display: "flex" }} key={is}>
                                                                                 <div className="subFirstCell">{s?.Sizename ?? ''}</div>
-                                                                                <div className="subSecondCell">{s?.ActualPcs ?? ''}</div>
-                                                                                <div className="subThirdCell">{s?.ActualWeight?.toFixed(3) ?? ''}</div>
+                                                                                <div className="subSecondCell  d-flex justify-content-start align-items-center ps-1">{s?.ActualPcs ?? ''}</div>
+                                                                                <div className="subThirdCell  d-flex justify-content-start align-items-center ps-1">{s?.ActualWeight?.toFixed(3) ?? ''}</div>
                                                                             </div>
                                                                         );
                                                                     })
@@ -257,8 +258,8 @@ const BagPrint15A = ({ queries, headers }) => {
                                                     <div className="aside">
                                                         <div className="imgSize15"><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img15" alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
                                                         <div>
-                                                            <div className="sub-aside"> <b>Total : {e?.additional?.dia?.diaPcs} pcs</b></div>
-                                                            <div className="sub-aside"> <b>Type : Colorstone sieve size</b></div>
+                                                            <div className="sub-aside"> Total : {e?.additional?.dia?.diaPcs} pcs</div>
+                                                            <div className="sub-aside"> Type : Colorstone sieve size </div>
                                                             <div>
                                                                 <div>
                                                                     {
@@ -266,8 +267,8 @@ const BagPrint15A = ({ queries, headers }) => {
                                                                             return (
                                                                                 <div style={{ display: "flex" }} key={i}>
                                                                                     <div className="subFirstCell">{s?.Sizename}</div>
-                                                                                    <div className="subSecondCell">{s?.ActualPcs}</div>
-                                                                                    <div className="subThirdCell">{s?.ActualWeight?.toFixed(3)}</div>
+                                                                                    <div className="subSecondCell  d-flex justify-content-start align-items-center ps-1">{s?.ActualPcs}</div>
+                                                                                    <div className="subThirdCell d-flex justify-content-start align-items-center ps-1">{s?.ActualWeight?.toFixed(3)}</div>
                                                                                 </div>
                                                                             );
                                                                         })
@@ -298,10 +299,10 @@ const BagPrint15A = ({ queries, headers }) => {
                                                                 </div>
                                                             </div>
                                                             <div className="sub-aside">
-                                                                <div > <b>Total : {e?.additional?.clr?.clrPcs} pcs</b></div>
+                                                                <div > Total : {e?.additional?.clr?.clrPcs} pcs</div>
                                                             </div>
-                                                            <div className="sub-aside" style={{ "borderBottom": "none" }}>
-                                                                <p style={{ fontSize: "10px", lineHeight: "9px" }}>Ins. {( " " + ((e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark)))?.slice(0, 89))}</p>
+                                                            <div className="sub-aside_15A text-break" style={{ "borderBottom": "none" }}>
+                                                                <p style={{ fontSize: "10px", lineHeight: "9px" }}>Ins. <span className="fw-bold text-break"> {( " " + ((e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark)))?.slice(0, 89))} </span></p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -309,57 +310,57 @@ const BagPrint15A = ({ queries, headers }) => {
                                         );
                                     }) : <div className="container15Aold" id="main_container">
                                         <div className="heading">
-                                            <h1 style={{ display: "flex", fontSize: "15px" }}>bag : {e?.data?.rd?.CustomerCode} / {e?.data?.rd?.serialjobno}</h1>
+                                            <h1 className="fw-bold" style={{ display: "flex", fontSize: "14px" }}>bag : {e?.data?.rd?.CustomerCode} / {e?.data?.rd?.serialjobno}</h1>
                                             <div className=" barcode15">
                                                 {(e?.data?.rd?.length !== 0 && e?.data?.rd !== undefined) && <>{e?.data?.rd?.serialjobno !== undefined && <BarcodeGenerator data={e?.data?.rd?.serialjobno} />}</>}
                                             </div>
                                         </div>
                                         <div style={{ "display": "flex", "justifyContent": "space-between" }}>
-                                            <div className="firstCell" ><b>DNS type</b></div>
+                                            <div className="firstCell p-0 d-flex justify-content-start align-items-center ps-1 " >DNS type</div>
                                             <div className="secondCell"> {e?.data?.rd?.category}</div>
-                                            <div className="thirdCell"><b>Item count</b></div>
+                                            <div className="thirdCell p-0 d-flex justify-content-start align-items-center ps-1 ">Item count</div>
                                             <div className="fourthCell"> {e?.data?.rd?.IsSplits_Quotation_Quantity}</div>
                                         </div>
                                         <div style={{ "display": "flex", "justifyContent": "space-between" }}>
-                                            <div className="firstCell" style={{ "borderTop": "0px" }}> <b>DNS Name</b></div>
-                                            <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.Designcode}</div>
-                                            <div className="thirdCell" style={{ "borderTop": "0px" }}> <b>Priority</b></div>
-                                            <div className="fourthCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.prioritycode}</div>
+                                            <div className="firstCell p-0 d-flex justify-content-start align-items-center ps-1 border-top-0" > DNS Name</div>
+                                            <div className="secondCell  border-top-0" > {e?.data?.rd?.Designcode}</div>
+                                            <div className="thirdCell p-0 d-flex justify-content-start align-items-center ps-1  border-top-0" > Priority</div>
+                                            <div className="fourthCell border-top-0" > {e?.data?.rd?.prioritycode}</div>
                                         </div>
                                         <div style={{ "display": "flex", "justifyContent": "space-between" }}>
-                                            <div className="firstCell" style={{ "borderTop": "0px" }}> <b>DNS size</b></div>
+                                            <div className="firstCell p-0 d-flex justify-content-start align-items-center ps-1 border-top-0" > DNS size</div>
                                             <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.Size}</div>
-                                            <div className="thirdCell" style={{ "width": "199.33px", "borderTop": "0px", "borderRight": "0px" }}> <b>Type: Diamond sieve size</b></div>
+                                            <div className="thirdCell p-0 d-flex justify-content-start align-items-center ps-1 border-top-0 border-right-0" style={{ "width": "199.33px" }}>Type: Diamond sieve size</div>
                                         </div>
                                         <div style={{ display: "flex" }}>
                                             <div>
                                                 <div style={{ "display": "flex", "justifyContent": "space-between" }}>
-                                                    <div className="firstCell" style={{ "borderTop": "0px" }} > <b>Raw Metal</b></div>
-                                                    <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.MetalType} {e?.data?.rd?.MetalColorCo}</div>
+                                                    <div className="firstCell p-0 d-flex justify-content-start align-items-center ps-1 border-top-0"  > Raw Metal</div>
+                                                    <div className="secondCell text-break border-top-0"> {e?.data?.rd?.MetalType}{e?.data?.rd?.MetalColorCo}</div>
                                                 </div>
                                                 <div style={{ "display": "flex", "justifyContent": "space-between" }}>
-                                                    <div className="firstCell" style={{ "borderTop": "0px" }}> <b>Metal wt</b></div>
+                                                    <div className="firstCell p-0 d-flex justify-content-start align-items-center ps-1 border-top-0"> Metal wt</div>
                                                     <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.MetalWeight?.toFixed(3)}</div>
                                                 </div>
                                                 <div style={{ "display": "flex", "justifyContent": "space-between" }}>
-                                                    <div className="firstCell" style={{ "borderTop": "0px" }}> <b>Dia clarity</b></div>
+                                                    <div className="firstCell p-0 d-flex justify-content-start align-items-center ps-1 border-top-0" > Dia clarity</div>
                                                     <div className="secondCell" style={{ "borderTop": "0px" }}>{e?.data?.rd?.diaclarity ?? 'NA'}</div>
                                                 </div>
                                                 <div style={{ "display": "flex", "justifyContent": "space-between" }}>
-                                                    <div className="firstCell" style={{ "borderTop": "0px" }}> <b>Dia no / wt</b></div>
+                                                    <div className="firstCell p-0 d-flex justify-content-start align-items-center ps-1  border-top-0" > Dia no / wt</div>
                                                     <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.additional?.dia?.diaPcs}/{e?.additional?.dia?.diaWt?.toFixed(3)}</div>
                                                 </div>
                                                 <div style={{ "display": "flex", "justifyContent": "space-between" }}>
-                                                    <div className="firstCell" style={{ "borderTop": "0px" }} > <b>CLS no / wt</b></div>
+                                                    <div className="firstCell p-0 d-flex justify-content-start align-items-center ps-1  border-top-0" > CLS no / wt</div>
                                                     <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.additional?.clr?.clrPcs}/{e?.additional?.clr?.clrWt?.toFixed(3)}</div>
                                                 </div>
                                                 <div style={{ "display": "flex", "justifyContent": "space-between" }}>
-                                                    <div className="firstCell" style={{ "borderTop": "0px" }}> <b>Order date</b></div>
-                                                    <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.OrderDate}</div>
+                                                    <div className="firstCell p-0 d-flex justify-content-start align-items-center ps-1 border-top-0" > Order date</div>
+                                                    <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.orderDatef}</div>
                                                 </div>
                                                 <div style={{ "display": "flex", "justifyContent": "space-between" }}>
-                                                    <div className="firstCell" style={{ "borderTop": "0px" }}> <b>Due date</b></div>
-                                                    <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.promisedate}</div>
+                                                    <div className="firstCell p-0 d-flex justify-content-start align-items-center ps-1  border-top-0" > Due date</div>
+                                                    <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.promiseDatef}</div>
                                                 </div>
                                             </div>
                                             <div>
@@ -381,8 +382,8 @@ const BagPrint15A = ({ queries, headers }) => {
                                         <div className="aside">
                                             <div className="imgSize15"><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img15" alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
                                             <div>
-                                                <div className="sub-aside"> <b>Total : {e?.additional?.dia?.diaPcs} Pcs</b></div>
-                                                <div className="sub-aside"> <b>Type: Colorstone sieve size</b></div>
+                                                <div className="sub-aside"> Total : {e?.additional?.dia?.diaPcs} Pcs</div>
+                                                <div className="sub-aside"> Type: Colorstone sieve size</div>
                                                 <div>
                                                     <div>
                                                         {
@@ -399,11 +400,11 @@ const BagPrint15A = ({ queries, headers }) => {
                                                     </div>
                                                 </div>
                                                 <div className="sub-aside">
-                                                    <div> <b>Total : 0 pcs</b></div>
+                                                    <div> Total : 0 pcs</div>
                                                 </div>
-                                                <div className="sub-aside" style={{ "borderBottom": "none", fontWeight: "bold" }}>
+                                                <div className="sub-aside_15A border-bottom-0">
                                                     <div><p style={{ fontSize: "10px", lineHeight: "9px", padding: "1px" }}>Ins.
-                                                                {(" " + checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark)))?.slice(0, 89)}
+                                                                <span className="text-break fw-bold">{(" " + checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark)))?.slice(0, 89)}</span>
                                                     </p></div>
                                                 </div>
                                             </div>

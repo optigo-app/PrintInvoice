@@ -116,7 +116,7 @@ const PackingListJsonToExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer
                 obj.row_no = 3
               }
             } else if (obj?.MasterManagement_DiamondStoneTypeid === 2) {
-              obj.item_name = "";
+              obj.item_name = el?.ShapeName;
               obj.item_group = "CONSUMABLE";
               if(el?.QualityName?.toLowerCase()?.includes('cer')){
                 obj.desc = `CONSUMABLE-Ceramic`
@@ -232,7 +232,7 @@ const PackingListJsonToExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer
          setTimeout(() => {
           const button = document?.getElementById('test-table-xls-button');
           button.click();
-        }, 500);
+        }, 0);
 
       }
       console.log(result)
