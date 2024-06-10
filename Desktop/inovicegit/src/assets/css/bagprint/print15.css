@@ -221,12 +221,12 @@
 
     #main_container:nth-child(6n+1), #main_container:nth-child(6n+2), #main_container:nth-child(6n+3){
       position: relative;
-      top: 30px;
+      top: 20px;
     }
 
     #main_container:nth-child(6n+4), #main_container:nth-child(6n+5), #main_container:nth-child(6n+6){
       position: relative;
-      top: 60px;
+      top: 45px;
     }
  
 

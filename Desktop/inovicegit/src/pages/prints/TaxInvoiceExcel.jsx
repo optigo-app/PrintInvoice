@@ -55,7 +55,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
           copydata?.BillPrint_Json1,
           copydata?.BillPrint_Json2
         );
-
+console.log(datas);
         let diaObj = {
             ShapeName: "OTHERS",
             wtWt: 0,
@@ -207,6 +207,32 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 }
             })
             el.colorstone = clr;
+
+            let miscAr = [];
+            el?.misc?.forEach((a) => {
+                let obj = cloneDeep(a);
+                let findrec = miscAr?.findIndex((ele) => ele?.ShapeName === obj?.ShapeName && ele?.QualityName === obj?.QualityName && ele?.Colorname === obj?.Colorname && ele?.isRateOnPcs === obj?.isRateOnPcs && ele?.SizeName === obj?.SizeName && ele?.Rate === obj?.Rate)
+                if(findrec === -1){
+                    miscAr.push(obj);
+                }else{
+                    miscAr[findrec].Wt += obj?.Wt;
+                    miscAr[findrec].Pcs += obj?.Pcs;
+                    miscAr[findrec].Rate = obj?.Rate;
+                    miscAr[findrec].Amount += obj?.Amount;
+                }
+            })
+            el.misc = miscAr;
+
+            let misc2arr = el?.misc?.filter((e) => e?.IsHSCOE === 0);
+
+            
+
+            el.misc = misc2arr;
+
+            let clr_misc_ar = [...el?.colorstone, ...el?.misc];
+
+            el.colorstone = clr_misc_ar;
+
         })
 
         let finalArr = [];
@@ -254,7 +280,9 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             
 
             
-            obj.cls_code = e?.colorstone[0] ? (e?.colorstone[0]?.ShapeName + " " + e?.colorstone[0]?.QualityName + " " + e?.colorstone[0]?.Colorname) : '';
+            obj.cls_code = e?.colorstone[0] ? (` ${e?.colorstone[0]?.MasterManagement_DiamondStoneTypeid === 3 ? 'M:' : ''} ${e?.colorstone[0]?.ShapeName}` + 
+              " " + e?.colorstone[0]?.QualityName + 
+              " " + e?.colorstone[0]?.Colorname) : '';
             obj.cls_size = e?.colorstone[0] ? (e?.colorstone[0]?.SizeName) : '';
             obj.cls_pcs = e?.colorstone[0] ? (e?.colorstone[0]?.Pcs) : '';
             obj.cls_wt = e?.colorstone[0] ? ((e?.colorstone[0]?.Wt)?.toFixed(3)) : '';
@@ -319,7 +347,8 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 obj.clsflag = false;
                 if(e?.colorstone[ind+1]){
                     obj.clsflag = true;
-                    obj.cls_code = e?.colorstone[ind + 1]?.ShapeName + " " + e?.colorstone[ind + 1]?.QualityName + " " + e?.colorstone[ind + 1]?.Colorname;
+                    obj.cls_code = `${e?.colorstone[ind+1]?.MasterManagement_DiamondStoneTypeid === 3 ? 'M:' : ''}  ${e?.colorstone[ind + 1]?.ShapeName}` + 
+                    " " + e?.colorstone[ind + 1]?.QualityName + " " + e?.colorstone[ind + 1]?.Colorname;
                     obj.cls_size = e?.colorstone[ind + 1]?.SizeName;
                     obj.cls_pcs = e?.colorstone[ind + 1]?.Pcs;
                     obj.cls_wt = ((e?.colorstone[ind + 1]?.Wt)?.toFixed(3));
@@ -725,10 +754,10 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                         <th align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{e?.met_amt === 0 ? '' : e?.met_amt}</th>
                                         <td align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}></td>
                                         <td align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <th align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{e?.values?.totals?.colorstone?.Pcs === 0 ? '' : e?.values?.totals?.colorstone?.Pcs}</th>
-                                        <th align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{e?.values?.totals?.colorstone?.Wt === 0 ? '' : e?.values?.totals?.colorstone?.Wt?.toFixed(3)}</th>
+                                        <th align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{(e?.values?.totals?.colorstone?.Pcs + e?.values?.totals?.misc?.onlyIsHSCODE0_Pcs) === 0 ? '' : (e?.values?.totals?.colorstone?.Pcs + e?.values?.totals?.misc?.onlyIsHSCODE0_Pcs)}</th>
+                                        <th align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{(e?.values?.totals?.colorstone?.Wt + e?.values?.totals?.misc?.onlyIsHSCODE0_Wt) === 0 ? '' : (e?.values?.totals?.colorstone?.Wt + e?.values?.totals?.misc?.onlyIsHSCODE0_Wt)?.toFixed(3)}</th>
                                         <td align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <th align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{ e?.values?.totals?.colorstone?.Amount === 0 ? '' : formatAmount((e?.values?.totals?.colorstone?.Amount))}</th>
+                                        <th align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{ e?.values?.totals?.colorstone?.Amount === 0 ? '' : formatAmount(((e?.values?.totals?.colorstone?.Amount + e?.values?.totals?.misc?.onlyIsHSCODE0_Amount)))}</th>
                                         <th align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{e?.oth_amt === 0 ? '' : formatAmount(e?.oth_amt)}</th>
                                         <td align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}></td>
                                         <th align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{ e?.labour_amt === 0 ? '' : formatAmount(e?.labour_amt)}</th>
@@ -768,10 +797,10 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                 <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>&nbsp;{ result?.mainTotal?.MetalAmount === 0 ? '' : formatAmount(result?.mainTotal?.MetalAmount)}</th>
                                 <td style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}}></td>
                                 <td style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}}></td>
-                                <th style={{backgroundColor:'#F5F5F5',borderTop:'1px solid #989898',  borderBottom:'1px solid #989898'}} align='right'>&nbsp;{result?.mainTotal?.colorstone?.Pcs === 0 ? '' : result?.mainTotal?.colorstone?.Pcs}</th>
-                                <th style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}} align='right'>&nbsp;{result?.mainTotal?.colorstone?.Wt === 0 ? '' : result?.mainTotal?.colorstone?.Wt?.toFixed(3)}</th>
+                                <th style={{backgroundColor:'#F5F5F5',borderTop:'1px solid #989898',  borderBottom:'1px solid #989898'}} align='right'>&nbsp;{(result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.onlyIsHSCODE0_Pcs) === 0 ? '' : ((result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.onlyIsHSCODE0_Pcs))}</th>
+                                <th style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}} align='right'>&nbsp;{(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.onlyIsHSCODE0_Wt) === 0 ? '' : (result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.onlyIsHSCODE0_Wt)?.toFixed(3)}</th>
                                 <td style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}}></td>
-                                <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>&nbsp;{ result?.mainTotal?.colorstone?.Amount === 0 ? '' :  formatAmount(result?.mainTotal?.colorstone?.Amount)}</th>
+                                <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>&nbsp;{ (result?.mainTotal?.colorstone?.Amount + result?.mainTotal?.misc?.onlyIsHSCODE0_Amount) === 0 ? '' :  formatAmount((result?.mainTotal?.colorstone?.Amount + result?.mainTotal?.misc?.onlyIsHSCODE0_Amount))}</th>
                                 <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>&nbsp;{ (result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling) === 0 ? '' :  formatAmount((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.totalMiscAmount))}</th>
                                 <td style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898', borderRight:'1px solid #989898'}}></td>
                                 <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>&nbsp;{ (result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount) === 0 ? '' : formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}</th>
