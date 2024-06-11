@@ -161,6 +161,7 @@ export const ShipmentArray = [
 
 export const EstimatePrints = [
   {printName: 'print 1', etpType: 'print', componentName: 'Print1SME'},
+  {printName: 'detail print 12', etpType: 'print', componentName: 'DetailPrint12'},
   {printName: 'tax invoice', etpType: 'print', componentName: 'TaxInvoice'},
   {printName: 'export print', etpType: 'print', componentName: 'ExportPrint'},
   {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
