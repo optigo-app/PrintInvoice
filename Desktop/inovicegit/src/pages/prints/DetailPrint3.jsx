@@ -45,7 +45,6 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
-      // console.log(datas);
       let mdtot = 0;
       datas?.resultArray?.forEach((e, i) => {
           mdtot += (((e?.totals?.diamonds?.Wt)/5) + e?.NetWt)

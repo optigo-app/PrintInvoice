@@ -229,7 +229,6 @@ export default function NotificationGrid() {
 
  
   const handleDeleteSeleted = () => {
-    // console.log('sleetd', newSelectionModel);
     const updatedRows = rows.filter((row) => !selectionModel.includes(row.id));
     
     const updatedRowsWithSrno = updatedRows.map((row, index) => ({

@@ -121,7 +121,6 @@ const InvoicePrint_10_11 = ({
       obj.primaryMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
       e?.finding?.forEach((ele, ind) => {
         if (ele?.ShapeName !== obj?.primaryMetal?.ShapeName && ele?.QualityName !== obj?.primaryMetal?.QualityName) {
-          // console.log(ele);
           let obb = cloneDeep(ele);
           if (obj?.primaryMetal) {
             obb.Rate = obj?.primaryMetal?.Rate;
@@ -159,7 +158,6 @@ const InvoicePrint_10_11 = ({
       let primaryMetalRAte = 0;
       let count = 0;
       let secondMetalWt = 0;
-      // console.log(findingsWt);
       let netWtFinal = e?.NetWt + e?.LossWt - findingsWt;
 
       diamondHandling += e?.TotalDiamondHandling;
@@ -1092,7 +1090,6 @@ const InvoicePrint_10_11 = ({
               <p className="fw-bold"> Total Amount </p>
               <p className="fw-bold">
                 {" "}
-                {console.log(mainDatas)}
                 {NumberWithCommas((mainDatas?.mainTotal?.total_amount / headerData?.CurrencyExchRate), 2)}
               </p>
               {/* <p className="fw-bold"> {NumberWithCommas(totalss?.total-totalss?.discount, 2)}</p> */}

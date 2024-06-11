@@ -121,7 +121,6 @@ const InvoicePrint8 = ({
       obj.primaryMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
       e?.finding?.forEach((ele, ind) => {
         if (ele?.ShapeName !== obj?.primaryMetal?.ShapeName && ele?.QualityName !== obj?.primaryMetal?.QualityName) {
-          // console.log(ele);
           let obb = cloneDeep(ele);
           if (obj?.primaryMetal) {
             obb.Rate = obj?.primaryMetal?.Rate;
@@ -159,7 +158,6 @@ const InvoicePrint8 = ({
       let primaryMetalRAte = 0;
       let count = 0;
       let secondMetalWt = 0;
-      // console.log(findingsWt);
       let netWtFinal = e?.NetWt + e?.LossWt - findingsWt;
  
       diamondHandling += e?.TotalDiamondHandling;

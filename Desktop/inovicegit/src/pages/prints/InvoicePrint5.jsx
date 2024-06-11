@@ -36,9 +36,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [footerComp, setFooterComp] = useState(null);
   // useEffect(() => {
   //   let print_name = atob(printName);
-  //   console.log(print_name);
   //   if (print_name === "invoice print 5") {
-  //     console.log("in invp5");
   //     setClassip({
   //       col1: "col1ip5",
   //       col2: "col2ip5",
@@ -54,7 +52,6 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   //     });
   //   }
   //   if (print_name === "invoice print 7") {
-  //     console.log("in invp7");
   //     setClassip({
   //       col1: "col1ip7",
   //       col2: "col2ip7",
@@ -152,7 +149,6 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
     //   datas?.json2?.forEach((el) => {
     //     if(e?.Srjobno === el?.Stockbarcode){
-    //       console.log(e, el);
     //       if( el?.MasterManagement_DiamondStoneTypeid === 1){
     //         let findRecord = diaArr?.findIndex((a) => a?.QualityName === el?.QualityName)
     //         if(findRecord === -1){

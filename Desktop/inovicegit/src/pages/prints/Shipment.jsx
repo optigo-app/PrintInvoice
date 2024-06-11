@@ -63,7 +63,6 @@ const Shipment = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           }
         })
       
-        console.log(pur_catwise);
 
         let cateWise = [];
         let cateWiseOther = [];
@@ -77,12 +76,10 @@ const Shipment = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             }
         })
         setArr1(cateWise);
-        console.log(cateWise, cateWiseOther);
 
       setResult(datas);
   }
 
-  console.log(result);
 
   return (
     <>

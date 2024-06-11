@@ -18,7 +18,6 @@ const ExportPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     setIsImageWorking(false);
   };
     const loadData = (data) => {
-        console.log(data);
         setInvoice(data?.BillPrint_Json[0]?.InvoiceNo);
         setCustomerCode(data?.BillPrint_Json[0]?.Customercode);
 
@@ -44,9 +43,7 @@ const ExportPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                console.log('called');
                 const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
-                console.log(data);
                 loadData(data?.Data);
                 setLoader(false);
             } catch (error) {

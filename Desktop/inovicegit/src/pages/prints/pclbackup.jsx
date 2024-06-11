@@ -57,8 +57,6 @@ const PackingList = ({ urls, token, invoiceNo, printName }) => {
                 setHeaderData(datas?.BillPrint_Json[0]);
                 setDynamicList1(datas?.BillPrint_Json1);
                 setDynamicList2(datas?.BillPrint_Json2);
-            } else {
-                // console.log(data?.data?.Status, data?.data?.Message);
             }
         } catch (error) {
             console.log(error);
@@ -116,9 +114,7 @@ const PackingList = ({ urls, token, invoiceNo, printName }) => {
         totalObj.totnetwt = totalObj.totnetwt + e?.NetWt;
         totalObj.totOthAmt = totalObj.totOthAmt + e?.OtherCharges + e?.MiscAmount;
     });
-    // console.log("headerData", dynamicList1);
 
-    // console.log("dynamicList2", totalObj.totOthAmt);
 
     return (
         <>

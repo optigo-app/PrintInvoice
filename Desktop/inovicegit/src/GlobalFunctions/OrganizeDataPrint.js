@@ -448,7 +448,6 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
             }
             // if(j1?.LossWt !== 0){
             //   if(j2?.MasterManagement_DiamondStoneTypeid === 5){
-            //     console.log("sdfjhb",j2?.FineWt);
             //     jobwise_totals.fineWtByMetalWtCalculation = (((j1?.NetWt * (j1?.Tunch + j1?.Wastage))/100) + ((j2?.FineWt)))
             //     // (((j2?.Wt * (j1?.Tunch + j1?.Wastage))/100) + ((j1?.NetWt * (j1?.Tunch + j1?.Wastage))/100))
             //   }

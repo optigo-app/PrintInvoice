@@ -43,7 +43,6 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
   const [taxes, setTaxes] = useState([]);
   const [bank, setBank] = useState([]);
   async function loadData(data) {
-    // console.log(data);
     try {
       setHeaderData(data?.BillPrint_Json[0]);
       let blankArr = [];

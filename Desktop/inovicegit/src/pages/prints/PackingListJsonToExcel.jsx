@@ -206,7 +206,6 @@ const PackingListJsonToExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer
               obj.item_name = (e?.material[ind]?.item_name);
               obj.PIECES = ( (e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 1 || e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 3) ? '' : e?.material[ind]?.Pcs);
               obj.WEIGHT = ( (e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 1 || e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 3) ? '' : e?.material[ind]?.Wt);
-              console.log(e?.material[ind])
               obj.RATE = ( e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 11 ? e?.MaKingCharge_Unit : e?.material[ind]?.Rate);
               obj.desc = (e?.material[ind]?.desc);
               obj.row_no = e?.material[ind]?.row_no;
@@ -235,7 +234,6 @@ const PackingListJsonToExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer
         }, 0);
 
       }
-      console.log(result)
 
 
   return (
@@ -386,7 +384,6 @@ export default PackingListJsonToExcel
 //     setIsImageWorking(false);
 //   };
 //     const loadData = (data) => {
-//         console.log(data);
 //         let json0Data = data?.BillPrint_Json[0];
 //         let json1Data = data?.BillPrint_Json1;
 //         let json2Data = data?.BillPrint_Json2;
@@ -429,23 +426,18 @@ export default PackingListJsonToExcel
 
 
             
-//             // console.log(diamonds);
 //             diamonds.forEach((elem, ind) => {
 //                 let findRecord = blankDiamonds.findIndex((elee, indd) => elee?.ShapeName === elem?.ShapeName &&
 //                     elee?.Colorname === elem?.Colorname && elee?.QualityName === elem?.QualityName && elee?.Rate === elem?.Rate);
 //                 if (findRecord === -1) {
 //                     blankDiamonds.push(elem);
-//                     // console.log(elem?.Pcs);
 //                 } else {
-//                     // console.log(elem?.GroupName, "sdfhdjf");
 //                     blankDiamonds[findRecord].SizeName += elem?.GroupName;
 //                     blankDiamonds[findRecord].Wt += elem?.Wt;
 //                     blankDiamonds[findRecord].Pcs += elem?.Pcs;
 //                     blankDiamonds[findRecord].Amount += elem?.Amount;
 //                 }
 //             });
-//             // console.log(diamonds);
-//             // console.log(blankDiamonds);
 //             colorStones.forEach((ele, ind) => {
 //                 let findIndex = blankColorStones.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName &&
 //                     elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname
@@ -513,7 +505,6 @@ export default PackingListJsonToExcel
 //                     if (goldValue === 0) {
 //                         goldValue = ""
 //                     }
-//                     // console.log(e?.LossAmt ,  metalrateCopy,  json0Data?.CurrencyExchRate);
           
 //                     let companyFullName = ind === 0 ? json0Data?.CompanyFullName : "";
 //                     let categoryname = ind === 0 ? e?.Categoryname : "";
@@ -568,7 +559,6 @@ export default PackingListJsonToExcel
 //             }
 //         });
 //         // ExportToExcel(blankArr, data?.BillPrint_Json[0]?.InvoiceNo);
-//         console.log(blankArr);
 //         // exportToExcel(blankArr, `Packing_List_KM_${data?.BillPrint_Json[0]?.InvoiceNo}_${Date.now()}`)
 //     }
 

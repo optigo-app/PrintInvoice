@@ -32,7 +32,6 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setIsImageWorking(false);
   };
   const loadData = (data) => {
-    // console.log(data);
     let head = HeaderComponent("1", data?.BillPrint_Json[0]);
     setHeader(head);
     setHeaderData(data?.BillPrint_Json[0]);

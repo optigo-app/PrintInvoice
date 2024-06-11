@@ -227,7 +227,6 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 if (e?.GroupJob !== "") {
                     let findRecord = groupInfo?.find((ele, ind) => ele?.GroupJob === e?.GroupJob);
                     if (findRecord !== undefined) {
-                        // console.log(findRecord);
                         e.designno = findRecord?.designno;
                         e.SrJobno = findRecord?.SrJobno;
                         e.DesignImage = findRecord?.DesignImage;

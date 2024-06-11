@@ -53,7 +53,6 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
       copydata?.BillPrint_Json1,
       copydata?.BillPrint_Json2
     );
-    // console.log(datas);
 
     let metwise = [];
 
@@ -184,11 +183,9 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
     });
     
     metwise?.forEach((e) => {
-      // console.log(e);
         let metwise2 = [];
 
         // e?.diamond_colorstone_misc?.forEach((a) => {
-        //   // console.log(a);
         //   let find_Record = metwise2?.findIndex((el) => el?.MasterManagement_DiamondStoneTypeid === 1 && el?.QualityName === a?.QualityName);
         //   if(find_Record === -1){
         //     let obj = {...a};
@@ -295,7 +292,6 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         // let m2 = [];
 
         // e?.misc?.forEach((a) => {
-        //   console.log(a);
         //     if(a?.isRateOnPcs === 1) {
         //       m1.push(a)
         //     }else{
@@ -355,7 +351,6 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         // }
         
         // e.misc = [...m1, ...m2];
-        // console.log(mobj1, mobj2);
 
         
       })
@@ -417,7 +412,6 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
       //   const qualityB = parseInt(b?.MetalPurity);
       //   return qualityA - qualityB;
       // });
-    //   console.log(metwise);
       let tot_obj = {
         pcs:0,
         wt:0,
@@ -444,7 +438,6 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
       //   el?.israteonpcsMISC0?.forEach((a) => {
       //     let b = Object.values(a)
       //     let c = b.every((e) => e === 0);
-      //     console.log(c);
 
       //     if(c){
       //       delete a;
@@ -767,7 +760,6 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                       )
                     })
                   }
-                  {/* {console.log(result)} */}
                   <div className="d-flex fs_ji2 lh_ji2"><div className="w-50 border-end endc_ji2 pe-2">{result?.header?.AddLess > 0 ? 'Add' : 'Less'}</div><div className="w-50 endc_ji2 pad_end_ji2">{result?.header?.AddLess}</div></div>
                   {/* <div className="d-flex fs_ji2 lh_ji2 border-top fw-bold"><div className="w-50 border-end p-1 endc_ji2 pad_end_ji2">Grand Total</div><div className="w-50 p-1 endc_ji2 pad_end_ji2">{formatAmount(result?.finalAmount)}</div></div> */}
                   <div className="d-flex fs_ji2 lh_ji2 border-top fw-bold"><div className="w-50 border-end p-1 endc_ji2 pad_end_ji2">Grand Total</div><div className="w-50 p-1 endc_ji2 pad_end_ji2">{formatAmount((result?.mainTotal?.total_amount + result?.allTaxesTotal + result?.header?.AddLess))}</div></div>

@@ -377,7 +377,6 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         
         let primaryWt = 0;
         let count = 0;
-        // console.log(findingsWt);
         let secondaryMetalAmount = 0;
         let secondaryWt = 0;
         e?.metal?.forEach((ele, ind) => {

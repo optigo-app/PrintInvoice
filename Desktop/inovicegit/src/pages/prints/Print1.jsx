@@ -171,7 +171,6 @@ const Print1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                 {res?.MetalType} {res?.MetalPurity} &nbsp;
                                                 {(res?.metal_color_code === '' || res?.metal_color_code === undefined) ? res?.MetalColor : res?.metal_color_code}</div>
                                                 {/* {res?.metal?.map((m, ind) => {
-                                                    console.log(m, res?.MetalType, res);
                                                     return (
                                                         <div key={ind} className='child1_w_qp1 text_start_qp1'>{res?.MetalType} {res?.MetalPurity} {m?.MetalColorCode}</div>
 

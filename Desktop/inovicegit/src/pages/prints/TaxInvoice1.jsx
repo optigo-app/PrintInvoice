@@ -456,7 +456,6 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       primaryWts += primaryWt
       lastArr?.push(obj);
     })
-    // console.log(semiFinalArr);
     lastArr.sort((a, b) => {
       const nameA = a.mainData.SrJobno.toUpperCase(); // Convert names to uppercase for case-insensitive comparison
       const nameB = b.mainData.SrJobno.toUpperCase();

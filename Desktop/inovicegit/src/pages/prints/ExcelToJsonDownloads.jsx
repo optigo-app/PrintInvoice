@@ -61,7 +61,6 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn, ApiVer }
                         goldAmount += ele?.Amount;
                     }
                     if(ele?.MasterManagement_DiamondStoneTypeid === 3 && ele?.IsHSCOE === 1){
-                        console.log(ele?.Amount);
                         miscHSCode1Amt += ele?.Amount;
                     }
                     if (ele?.MasterManagement_DiamondStoneTypeid === 2 || ele?.MasterManagement_DiamondStoneTypeid === 1 || (ele?.MasterManagement_DiamondStoneTypeid === 3 && ele?.IsHSCOE !== 1)) {
@@ -94,7 +93,6 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn, ApiVer }
                 }
                 obj.Pcs = 1;
                 blankedArr.push(obj);
-                // console.log(obj);
             } else {
                 if (blankedArr[findRecord]?.SrJobno !== obj?.GroupJob) {
                     blankedArr[findRecord].PO = obj?.PO;
@@ -127,7 +125,6 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn, ApiVer }
             }
         });
         let resultArr = [];
-        // console.log(blankedArr);
         blankedArr.forEach((e, i) => {
             let ktRate = [];
             e?.metals.forEach((ele, ind) => {
@@ -137,7 +134,6 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn, ApiVer }
                 }
             
         })
-        console.log(blankedArr);
                 let ktrates = ktRate.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
                     let totalObj = {
                         srNo: "",

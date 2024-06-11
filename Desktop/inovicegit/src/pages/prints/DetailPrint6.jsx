@@ -157,16 +157,13 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     //       e.misc  = [];
     //     }
     //   }else{
-    //     console.log(e?.misc, e?.SrJobno);
     //   }
     // })
 
     datas?.resultArray?.forEach((e) => {
       let arr = [];
-      // console.log("hello");
       e?.misc?.forEach((a) => {
         if(a?.IsHSCOE === 0 || a?.IsHSCOE === 3){
-          // console.log(a);
           arr?.push(a);
         }
         // if(a?.IsHSCOE === 0){
@@ -647,8 +644,6 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className='col16_dp6_tb end_dp6 pad_end_dp6 fw-bold' style={{width:'10%'}}>
                       <div dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}} className='pe-1'>
                         {/* </div> {formatAmount(((((result?.finalAmount))/(result?.header?.CurrencyExchRate) + result?.header?.FreightCharges + (result?.allTaxesTotal) )))}</div> */}
-                        {/* {console.log((result?.header?.AddLess/result?.header?.CurrencyExchRate))} */}
-                        {/* {console.log(((result?.mainTotal?.total_amount)/(result?.header?.CurrencyExchRate) + result?.header?.FreightCharges + result?.allTaxesTotal + (result?.header?.AddLess/result?.header?.CurrencyExchRate)))} */}
                         </div> {formatAmount(((result?.mainTotal?.total_amount/(result?.header?.CurrencyExchRate) + result?.header?.FreightCharges + (result?.allTaxesTotal) + ((result?.header?.AddLess)/(result?.header?.CurrencyExchRate)) ) ))}</div>
               </div>
               <div className='d-flex border border-top-0 pbia_dp6'>

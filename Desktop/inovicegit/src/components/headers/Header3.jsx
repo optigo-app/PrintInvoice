@@ -4,7 +4,6 @@ import QrCodeForPrint from "../QrCodeForPrint";
 import { handleGlobalImgError } from "../../GlobalFunctions";
 
 const Header3 = ({ data }) => {
-  // console.log(data);
   return (
     <div className={style.header3}>
 

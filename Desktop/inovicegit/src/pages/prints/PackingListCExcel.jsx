@@ -160,7 +160,6 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                     obj.showImage = true;
                     resultArr.push(obj);
                 } else {
-                    // console.log("Image does not exist:", e?.DesignImage);
                     resultArr.push(obj);
                 }
             } catch (error) {
@@ -453,7 +452,6 @@ export default PackingListCExcel
 //                     dia[findrec].Pcs += a?.Pcs;
 //                 }
 //             })
-//             console.log(dia);
 //         })
 
 
@@ -575,7 +573,6 @@ export default PackingListCExcel
 //                     obj.showImage = true;
 //                     resultArr.push(obj);
 //                 } else {
-//                     // console.log("Image does not exist:", e?.DesignImage);
 //                     resultArr.push(obj);
 //                 }
 //             } catch (error) {

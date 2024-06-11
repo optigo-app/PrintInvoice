@@ -54,7 +54,6 @@ const InvoicePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         let mergedArr = [];
       datas?.resultArray?.forEach((e) => {
         let b = cloneDeep(e);
-        console.log(b);
         let findrec = mergedArr?.findIndex((a) => a?.MetalPurity === b?.MetalPurity);
         if(findrec === -1){
             mergedArr.push(b);
@@ -79,7 +78,6 @@ const InvoicePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
 
 
-  console.log(result);
 
   const customSort = (a, b) => {
     if (a?.ShapeName === "OTHER" && b?.ShapeName !== "OTHER") {
@@ -154,7 +152,6 @@ const InvoicePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className='fw-bold px-1 fs_invk'>{result?.header?.customerfirmname}</div>
                 <div className='text-break px-1'>{result?.header?.customerstreet}</div>
                 <div className='px-1'>{result?.header?.customercity}, {result?.header?.customerstate}{result?.header?.customerpincode}</div>
-                {console.log(result)}
                 <div className='px-1'>{result?.header?.CustGstNo ? 'GSTIN' : 'VAT'} - { result?.header?.CustGstNo ? result?.header?.CustGstNo : result?.header?.Cust_VAT_GST_No}, PAN : {result?.header?.CustPanno}</div>
                 <div className='px-1'>State : {result?.header?.customerstate}, {result?.header?.Cust_CST_STATE}-{result?.header?.Cust_CST_STATE_No}</div>
             </div>

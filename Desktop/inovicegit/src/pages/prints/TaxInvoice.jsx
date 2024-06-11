@@ -46,7 +46,6 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   };
 
   const loadData = (data) => {
-    // console.log(data);
     setJson0Data(data?.BillPrint_Json[0]);
     let head = HeaderComponent("1", data?.BillPrint_Json[0]);
     setHeaderComp(head);
@@ -70,7 +69,6 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     });
     datas.resultArray = resultArray;
     setData(datas);
-    // console.log(datas);
     let diamondArr = [];
     data?.BillPrint_Json2?.forEach((ele, ind) => {
       if (ele?.MasterManagement_DiamondStoneTypeid === 1) {

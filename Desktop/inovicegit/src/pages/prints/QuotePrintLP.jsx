@@ -219,7 +219,6 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {result?.header?.Company_CST_STATE}-
                         {result?.header?.Company_CST_STATE_No} | PAN-
                         {result?.header?.Pannumber}
-                        {console.log(result)}
                       </div>
                     </div>
                     <div className="d-flex justify-content-end pe-2 pt-2">

@@ -55,7 +55,6 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
           copydata?.BillPrint_Json1,
           copydata?.BillPrint_Json2
         );
-console.log(datas);
         let diaObj = {
             ShapeName: "OTHERS",
             wtWt: 0,

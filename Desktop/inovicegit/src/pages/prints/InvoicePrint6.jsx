@@ -108,7 +108,6 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.primaryMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
             e?.finding?.forEach((ele, ind) => {
                 if (ele?.ShapeName !== obj?.primaryMetal?.ShapeName && ele?.QualityName !== obj?.primaryMetal?.QualityName) {
-                    // console.log(ele);
                     let obb = cloneDeep(ele);
                     if (obj?.primaryMetal) {
                         obb.Rate = obj?.primaryMetal?.Rate;
@@ -143,7 +142,6 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
             let primaryWt = 0;
             let count = 0;
-            // console.log(findingsWt);
 
             let secondaryWt = 0;
             diamondHandling += e?.TotalDiamondHandling;

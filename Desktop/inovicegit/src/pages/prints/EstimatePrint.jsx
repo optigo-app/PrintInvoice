@@ -926,7 +926,6 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   };
 
   const loadData = (data) => {
-    // console.log(data);
     setJson1Data(data?.BillPrint_Json[0]);
     caiculateMaterial(data);
   };

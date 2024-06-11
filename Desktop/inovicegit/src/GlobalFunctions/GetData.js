@@ -19,20 +19,17 @@ export const GetData = async (job) => {
         let datas = JSON?.parse(response?.data?.d);
 
         // let newArr = [];
-        // console.log(datas);
         // let jobss = [];
         // let jobs = job.jobno.split(",");
         // jobs.forEach(element => {
         //     jobss.push( element.replace(/'/g, ''));
         // });
-        // console.log(jobss);
         // datas?.rd?.forEach((ele, ind) => {
         //     let findObj = datas?.rd?.findIndex(ele=>ele?.rd?.serialjobno ==jobss[ind]);
         //     if(findObj !== 1){
         //         newArr.push(datas?.rd[findObj]);
         //     }
         // });
-        // console.log(newArr);
         
         const rd = (datas?.rd)?.sort((a, b) => {
             const numA = parseInt(a?.serialjobno?.split('/')[1], 10);

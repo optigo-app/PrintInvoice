@@ -80,7 +80,6 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         });
         datas.mainTotal.secondaryAmounts = secondaryAmounts;
         datas?.allTaxes?.forEach((e, i) => {
-            // console.log(+e?.amount);
             netInvoiceValue += +e?.amount
         });
 

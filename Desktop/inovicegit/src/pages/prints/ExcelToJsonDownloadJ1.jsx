@@ -53,7 +53,6 @@ const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn, ApiVer 
 
             otherCharges.forEach((ele, i) => {
                 // if ((ele.label).toLowerCase() === "hall mark") {
-                //     console.log(ele);
                 //     HALLMARKCHARGE = ele?.value;
                 // }  
                 // if ((ele.label).toLowerCase() === "certification charge") {

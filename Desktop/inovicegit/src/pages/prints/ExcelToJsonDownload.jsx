@@ -13,7 +13,6 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn, ApiVer })
     setIsImageWorking(false);
   };
     const loadData = (data) => {
-        // console.log(data);
         let json0Data = data?.BillPrint_Json[0];
         let json1Data = data?.BillPrint_Json1;
         let json2Data = data?.BillPrint_Json2;
@@ -51,23 +50,18 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn, ApiVer })
             let metals = materials.filter(ele => ele?.MasterManagement_DiamondStoneTypeid === 4);
             let blankDiamonds = [];
             let blankColorStones = [];
-            // console.log(diamonds);
             diamonds.forEach((elem, ind) => {
                 let findRecord = blankDiamonds.findIndex((elee, indd) => elee?.ShapeName === elem?.ShapeName &&
                     elee?.Colorname === elem?.Colorname && elee?.QualityName === elem?.QualityName && elee?.Rate === elem?.Rate);
                 if (findRecord === -1) {
                     blankDiamonds.push(elem);
-                    // console.log(elem?.Pcs);
                 } else {
-                    // console.log(elem?.GroupName, "sdfhdjf");
                     blankDiamonds[findRecord].SizeName += elem?.GroupName;
                     blankDiamonds[findRecord].Wt += elem?.Wt;
                     blankDiamonds[findRecord].Pcs += elem?.Pcs;
                     blankDiamonds[findRecord].Amount += elem?.Amount;
                 }
             });
-            // console.log(diamonds);
-            // console.log(blankDiamonds);
             colorStones.forEach((ele, ind) => {
                 let findIndex = blankColorStones.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName &&
                     elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname
@@ -135,7 +129,6 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     if (goldValue === 0) {
                         goldValue = ""
                     }
-                    // console.log(e?.LossAmt ,  metalrateCopy,  json0Data?.CurrencyExchRate);
                     let srJobno = ind === 0 ? e?.SrJobno : "";
                     let designno = ind === 0 ? e?.designno : "";
                     let companyFullName = ind === 0 ? json0Data?.CompanyFullName : "";

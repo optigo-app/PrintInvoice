@@ -68,9 +68,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           sizeWt += (+ele?.SizeName* ele?.Wt);
         }
       });
-      // console.log(findings);
       let fineWtss = (((e?.NetWt-findings?.Wt)*e?.Tunch)/100) + ((sizeWt)/100);
-      // console.log((((e?.NetWt-findings?.Wt)*e?.Tunch)/100), ((findings?.Wt*findings?.SizeName)/100));
       obj.fineWtss = fineWtss;
       return obj
       // totals.fineWts += fineWtss;
@@ -162,7 +160,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         othamttot += e?.OtherCharges + e?.TotalDiamondHandling;
       });
       //  let arr3 =  cateWise2?.sort((a,b) => a?.DesignNo - b?.DesignNo);
-      //  console.log(arr3);
       setOtherAmountTotal(othamttot);
       // setCategoryWise(cateWise2);
       // setResult(datas);
@@ -327,10 +324,8 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       datas?.resultArray?.forEach((e) => {
         let arr = [];
-        // console.log("hello");
         e?.misc?.forEach((a) => {
           if (a?.IsHSCOE === 0 || a?.IsHSCOE === 3) {
-            // console.log(a);
             arr?.push(a);
           }
           // if(a?.IsHSCOE === 0){
@@ -387,7 +382,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       //   obj.g_array = g_array;
       // })
       // datas?.resultArray?.forEach((e) => {
-      //       console.log(e?.g_array);
       // })
     } catch (error) {
       console.log(error);

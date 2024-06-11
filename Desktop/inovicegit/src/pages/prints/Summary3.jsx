@@ -62,7 +62,6 @@ const Summary3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     );
     
     // datas?.resultArray?.forEach((a) => {
-    //   console.log(a);
     //   let findrecord = puritywise?.findIndex((el) => el?.Tunch === a?.Tunch && el?.Categoryname === a?.Categoryname && el?.totals?.metal?.Rate === a?.totals?.metal?.Rate);
     //   if(findrecord === -1){
     //     let obj = {...a};
@@ -90,7 +89,6 @@ const Summary3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     //     puritywise[findrecord]._totalmiscwt += a?.totals?.misc?.Wt;
     //   }
     // })
-    // // console.log(puritywise);
     // datas.resultArray = puritywise;
     let p_wise2 = [];
     datas?.resultArray?.forEach((e) => {

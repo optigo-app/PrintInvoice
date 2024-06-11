@@ -46,7 +46,6 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     const [category, setCategory] = useState([]);
 
     const loadData = (data) => {
-        // console.log(data);
         setHeaderData(data?.BillPrint_Json[0]);
         let head = HeaderComponent(data?.BillPrint_Json[0]?.HeaderNo, data?.BillPrint_Json[0]);
         setHeaderComp(head);

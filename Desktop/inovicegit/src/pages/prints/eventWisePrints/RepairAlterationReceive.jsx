@@ -189,8 +189,8 @@ const RepairAlterationReceive = ({ data }) => {
   };
 
   useEffect(() => {
-    // console.log(data);
     loadData(data);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div

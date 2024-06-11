@@ -263,7 +263,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   //   //     let obj = {...e};
   //   //     let findRecord = semiFInalArr?.findIndex((ele) => obj?.GroupJob === ele?.GroupJob)
   //   //     if(findRecord === -1){
-  //   //     // console.log("mle 6", obj);
 
   //   //       semiFInalArr?.push(obj)
   //   //     }
@@ -279,7 +278,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   //   //         semiFInalArr[findRecord].JewelCodePrefix =  obj?.JewelCodePrefix;
   //   //       }
   //   //       let diamondsD = [obj?.diamonds, semiFInalArr[findRecord]?.diamonds]?.flat();
-  //   //       // console.log(diamondsD);
   //   //       let blankArrDiaD = [];
   //   //       diamondsD?.forEach((elem, i) => {
   //   //         let findIndexofDiamond = blankArrDiaD?.findIndex(el => el?.ShapeName === elem?.ShapeName &&

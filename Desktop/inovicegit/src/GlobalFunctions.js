@@ -66,7 +66,6 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn, ApiVer) =>
   };
   try {
     // const responses = await axios.post("http://zen/api/", bodies, {headers: headers});
-    // console.log(responses);
     const response = await axios.post(urls, body);
     return response?.data;
   } catch (error) {

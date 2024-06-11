@@ -299,7 +299,6 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
               dia_qul[findrec].Pcs += b?.Pcs;
             }
           })
-          // console.log(dia_qul);
         });
        setMainTotal(obj);
         

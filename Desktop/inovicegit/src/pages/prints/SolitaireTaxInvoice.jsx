@@ -56,7 +56,6 @@ const SolitaireTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
             let blankDiamonds = [];
             let otherMetalAmount = e?.metal?.reduce((acc, cObj) => cObj?.IsPrimaryMetal !== 1 ? acc + cObj?.Amount : acc, 0) + e?.finding?.reduce((acc, cObj) => acc + cObj?.SettingAmount, 0);
             // let findingAmount = e?.finding?.reduce((acc, cObj) => acc + cObj?.SettingAmount, 0);
-            // console.log(findingAmount);
             diamonds?.forEach((ele, ind) => {
                 let findDiamond = blankDiamonds?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname);
                 if (findDiamond === -1) {

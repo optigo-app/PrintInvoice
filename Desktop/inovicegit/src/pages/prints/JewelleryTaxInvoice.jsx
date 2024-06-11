@@ -250,7 +250,6 @@ import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 //           setMsg(data?.Message);
 //         }
 //       } catch (error) {
-//         console.log(error);
 //       }
 //     };
 //     sendData();
@@ -848,7 +847,6 @@ import JewelleryTaxInvoiceMemo from './JewelleryTaxInvoiceEventWise/JewelleryTax
 //     settotalAmount(totalAmounts);
 //     settax(taxValue);
 
-//     console.log(resultArr);
 //     resultArr?.sort((a, b) => {
 //       const designNoA = a.designno;
 //       const designNoB = b.designno;
@@ -870,7 +868,6 @@ import JewelleryTaxInvoiceMemo from './JewelleryTaxInvoiceEventWise/JewelleryTax
 //       return designNoA.localeCompare(designNoB);
 //     });
 //     setData(resultArr);
-//     console.log(data);
 //   };
 
 

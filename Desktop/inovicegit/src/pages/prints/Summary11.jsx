@@ -35,7 +35,6 @@ const Summary11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     setIsImageWorking(false);
   };
     const loadData = (data) => {
-        // console.log(data);
         let head = HeaderComponent(data?.BillPrint_Json[0]?.HeaderNo, data?.BillPrint_Json[0]);
         let footerComp = FooterComponent(data?.BillPrint_Json[0]?.HeaderNo, data?.BillPrint_Json[0]);
         setHeader(data?.BillPrint_Json[0]);

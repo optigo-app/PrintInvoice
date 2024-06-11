@@ -326,7 +326,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     let metalArr = [];
     // eslint-disable-next-line array-callback-return
     arr1?.map((e, i) => {
-      // console.log(e);
       let OtherAmountDetail = otherAmountDetail(e?.OtherAmtDetail);
       let diamonds = [];
       let colorstone = [];
@@ -556,7 +555,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     let semiFInalArr = [];
 
     resultArr?.forEach((e) => {
-      // console.log(e);
       if (e?.GroupJob === "") {
         semiFInalArr.push(e);
       } else {
@@ -769,7 +767,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
             let objMetals = [...semiFInalArr[findRecord]?.metals].flat();
             objMetals.forEach((elel, indd) => {
-              // console.log(elel);
               let objj = { ...elel };
               let newEle = true;
               mainMetals.forEach((elem, inddex) => {
@@ -790,7 +787,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             let blankMetals = [];
             let metalsd = [...e?.metal, semiFInalArr[findRecord].metal].flat();
             metalsd.forEach((ele, ind) => {
-              // console.log(ele);
               let findMetal = blankMetals.findIndex(
                 (elem, index) => elem?.ShapeName === ele?.ShapeName
               );

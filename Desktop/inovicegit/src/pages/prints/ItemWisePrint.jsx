@@ -66,15 +66,12 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       let sizeWt =0
       data?.BillPrint_Json2?.forEach((ele, ind) => {
         if (ele?.MasterManagement_DiamondStoneTypeid === 5 && ele?.StockBarcode === e?.SrJobno) {
-          // console.log(ele);
           findings.Wt += ele?.Wt 
           findings.SizeName += +ele?.SizeName;
           sizeWt += (+ele?.SizeName* ele?.Wt);
         }
       });
-      // console.log(findings);
       let fineWtss = (((e?.NetWt-findings?.Wt)*e?.Tunch)/100) + ((sizeWt)/100);
-      // console.log((((e?.NetWt-findings?.Wt)*e?.Tunch)/100), ((findings?.Wt*findings?.SizeName)/100));
 
       obj.fineWtss = fineWtss;
       totals.fineWts += fineWtss;
@@ -131,7 +128,6 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         }
         obj.count = count;
         obj.otherAmt = e?.TotalDiamondHandling + e?.OtherCharges + e?.MiscAmount;
-        // console.log(obj.otherAmt);
         let srJobArr = [];
         srJobArr.push(e?.SrJobno);
         obj.srJobArr = srJobArr;
@@ -251,7 +247,6 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     taxValue.length > 0 && taxValue.forEach((e, i) => {
       totals.totalAmt += +(e?.amount);
     });
-    // console.log(totals.totalAmt);
     totals.numberToWords = toWords.convert(totals.totalAmt);
     // tax end
     totals.totalAmt += totals.less;

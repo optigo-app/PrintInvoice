@@ -51,7 +51,6 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
 
   const loadData = (data) => {
     let goldRateFind = [];
-    // console.log(data);
     let golds = { ...gold };
     setJson0Data(data.BillPrint_Json[0]);
     let resultAr = [];

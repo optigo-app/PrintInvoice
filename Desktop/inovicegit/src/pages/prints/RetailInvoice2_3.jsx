@@ -183,7 +183,6 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
         }
         sendData();
         let print3 = atob(printName).toLowerCase() === "retail invoice 3";
-        // console.log(print3);
         let styless = { ...styles };
         styless.discription = print3 ? style?.discription_retailInvoice_2_3_3 : style?.discription_retailInvoice_2_3;
         styless.kt = print3 ? style?.kt_retailInvoice_2_3_3 : style?.kt_retailInvoice_2_3;

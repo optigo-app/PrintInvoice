@@ -274,7 +274,6 @@ const DetailPrint12Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
         <div className='w-75'>
         <div className="d-flex subheaddp12 hcompdp12 fsgdp12">
         <div className="subheaddiv1dp12">
-          {console.log(result)}
           <div className="_fsgdp12_ lhdp12"> <b>{result?.header?.CompanyFullName}</b> </div>
           <div className="fsgdp12 lhdp12"> {result?.header?.customerAddress1} </div>
           <div className="fsgdp12 lhdp12"> {result?.header?.customerAddress2} </div>

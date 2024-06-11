@@ -31,14 +31,11 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     setIsImageWorking(false);
   };
     const loadData = (data) => {
-        // console.log(data);
-        // setData(arr);
         let datas = OrganizeDataPrint(
             data?.BillPrint_Json[0],
             data?.BillPrint_Json1,
             data?.BillPrint_Json2
         );
-        // console.log(datas);
         let footers = FooterComponent("1", data?.BillPrint_Json[0]);
         setFooter(footers);
         setHeaderData(data?.BillPrint_Json[0]);

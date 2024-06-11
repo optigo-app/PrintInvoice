@@ -91,7 +91,6 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     setJson0(data?.BillPrint_Json[0]);
 
     let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
-    console.log(datas);
     setDatas(datas);
     let resultArr = [];
     let findings = [];

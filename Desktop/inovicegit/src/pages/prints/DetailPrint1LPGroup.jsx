@@ -108,7 +108,6 @@ const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, })
   };
 
   const loadData = (data) => {
-    // console.log(data);
     let label = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     setAddress(label);
     setJson0Data(data?.BillPrint_Json[0]);
@@ -121,7 +120,6 @@ const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, })
     );
     let finalArr = [];
     let totalMetalWt = 0;
-    // console.log(datas);
     let miscChargesTotals = 0;
     let metalWts = 0;
     datas?.resultArray?.map((e, i) => {
@@ -153,7 +151,6 @@ const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, })
       let miscCharges = data?.BillPrint_Json2?.filter((ele, ind) => {
         if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
           if (ele?.IsHSCOE !== 0 && ele?.StockBarcode === e?.SrJobno) {
-            // console.log(ele);
             // miscChargesTotal += ele?.Amount;
             miscChargesTotal += ele?.Amount;
             return ele;
@@ -177,9 +174,7 @@ const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, })
     settotalMetalWts(totalMetalWt);
     datas.resultArray = finalArr;
     datas.mainTotal.metalWts = metalWts;
-    // console.log(datas);
     setFinalD(datas);
-    // console.log(datas);
     let brok = brokarageDetail(data?.BillPrint_Json[0]?.Brokerage);
     setBrokarage(brok);
     let diamondDetail = [];
@@ -278,7 +273,6 @@ const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, })
               data?.Data?.BillPrint_Json1,
               data?.Data?.BillPrint_Json2
             );
-            // console.log(arr);
             setJson1Data(arr);
             setLoader(false);
           } else {
@@ -1375,7 +1369,6 @@ const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, })
                   taxes.map((e, i) => {
                     return <p key={i}>{NumberWithCommas(e?.amount, 2)}</p>;
                   })}
-                {/* {console.log(json0Data)} */}
                 {json0Data?.AddLess !== 0 && <p>{json0Data?.AddLess}</p>}
               </div>
             </div>

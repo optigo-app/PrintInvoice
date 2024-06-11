@@ -69,7 +69,6 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     //         resultArray.push(obj);
     //     });
     //     datas.resultArray = resultArray;
-    //     console.log(datas);
     //     setData(datas);
     //     let documentDetails = data?.BillPrint_Json[0]?.DocumentDetail.split("#@#");
     //     let documents = {
@@ -490,7 +489,6 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 }
                                                 {/* {
                                                     e?.metal?.map((el, ind) => {
-                                                        console.log(el);
                                                         return(
                                                             <tr className='border-bottom' key={ind}>
                                                         <td className={` border-end ${style?.material}`}>
