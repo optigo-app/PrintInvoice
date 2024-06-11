@@ -58,13 +58,6 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       data?.BillPrint_Json2
     );
 
-    const datas2 = OrganizeInvoicePrintData(
-      data?.BillPrint_Json[0],
-      data?.BillPrint_Json1,
-      data?.BillPrint_Json2
-    );
-    console.log(datas2);
-
     let diaObj = {
       ShapeName: "OTHERS",
       wtWt: 0,

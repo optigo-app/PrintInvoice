@@ -16,6 +16,7 @@ import Loader from "../../components/Loader";
 import style2 from "../../assets/css/headers/header1.module.css";
 import footerStyle from "../../assets/css/footers/footer2.module.css";
 import ImageComponent from "../../components/ImageComponent ";
+import { cloneDeep } from "lodash";
 
 const SaleOrderMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
@@ -345,6 +346,75 @@ const SaleOrderMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
     setTotal(totals);
     setData(resultArr);
+
+
+
+
+    let resultArr2 = cloneDeep(resultArr);
+
+    let finalArr = [];
+
+    resultArr2?.forEach((a) => {
+      if(a?.GroupJob === ''){
+        finalArr.push(a);
+    }else{
+      let b = cloneDeep(a);
+      let find_record = finalArr.findIndex((el) => el?.GroupJob === b?.GroupJob);
+      if(find_record === -1){
+        finalArr.push(b);
+      }else{
+        if(finalArr[find_record]?.GroupJob !== finalArr[find_record]?.SrJobno){
+            finalArr[find_record].designno = b?.designno;
+            finalArr[find_record].HUID = b?.HUID; 
+        }
+        finalArr[find_record].grosswt += b?.grosswt;
+        finalArr[find_record].NetWt += b?.NetWt;
+        finalArr[find_record].LossWt += b?.LossWt;
+        finalArr[find_record].TotalAmount += b?.TotalAmount;
+        finalArr[find_record].DiscountAmt += b?.DiscountAmt;
+        finalArr[find_record].UnitCost += b?.UnitCost;
+        finalArr[find_record].MakingAmount += b?.MakingAmount;
+        finalArr[find_record].OtherCharges += b?.OtherCharges;
+        finalArr[find_record].TotalDiamondHandling += b?.TotalDiamondHandling;
+        finalArr[find_record].Quantity += b?.Quantity;
+        finalArr[find_record].Wastage += b?.Wastage;
+        finalArr[find_record].diamondWt += b?.diamondWt;
+        // finalArr[find_record].totals.metal.IsPrimaryMetal += b?.totals?.metal?.IsPrimaryMetal;
+        // finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
+        // finalArr[find_record].diamonds_d = [...finalArr[find_record]?.diamonds ,...b?.diamonds]?.flat();
+        // finalArr[find_record].diamonds = [...finalArr[find_record]?.diamonds, ...b?.diamonds]?.flat();
+        // finalArr[find_record].colorstone_d = [...finalArr[find_record]?.colorstone ,...b?.colorstone]?.flat();
+        // finalArr[find_record].colorstone = [...finalArr[find_record]?.colorstone, ...b?.colorstone]?.flat();
+        // finalArr[find_record].metal_d = [...finalArr[find_record]?.metal ,...b?.metal]?.flat();
+        // finalArr[find_record].metal = [...finalArr[find_record]?.metal, ...b?.metal]?.flat();
+        // finalArr[find_record].misc = [...finalArr[find_record]?.misc ,...b?.misc]?.flat();
+        // finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
+        // finalArr[find_record].totals.diamonds.Pcs += b?.totals?.diamonds?.Pcs;
+        // finalArr[find_record].totals.diamonds.Amount += b?.totals?.diamonds?.Amount;
+        // finalArr[find_record].totals.colorstone.Wt += b?.totals?.colorstone?.Wt;
+        // finalArr[find_record].totals.colorstone.Pcs += b?.totals?.colorstone?.Pcs;
+        // finalArr[find_record].totals.colorstone.Amount += b?.totals?.colorstone?.Amount;
+        // finalArr[find_record].totals.misc.Wt += b?.totals?.misc?.Wt;
+        // finalArr[find_record].totals.misc.allservwt += b?.totals?.misc?.allservwt;
+        // finalArr[find_record].totals.misc.Pcs += b?.totals?.misc?.Pcs;
+        // finalArr[find_record].totals.misc.Amount += b?.totals?.misc?.Amount;
+        // finalArr[find_record].totals.metal.Amount += b?.totals?.metal?.Amount;
+        // finalArr[find_record].totals.metal.IsPrimaryMetal += b?.totals?.metal?.IsPrimaryMetal;
+        // finalArr[find_record].totals.metal.IsPrimaryMetal_Amount += b?.totals?.metal?.IsPrimaryMetal_Amount;
+        // finalArr[find_record].totals.misc.withouthscode1_2_pcs += b?.totals?.misc?.withouthscode1_2_pcs;
+        // finalArr[find_record].totals.misc.withouthscode1_2_wt += b?.totals?.misc?.withouthscode1_2_wt;
+        // finalArr[find_record].totals.misc.onlyHSCODE3_amt += b?.totals?.misc?.onlyHSCODE3_amt;
+        // finalArr[find_record].misc_d = [...finalArr[find_record]?.misc ,...b?.misc]?.flat();
+      }
+    }
+    })
+
+    resultArr2 = finalArr;
+
+
+
+    setData(resultArr2);
+
 
     summary2Arr.sort((a, b) => {
       return a.id - b.id;

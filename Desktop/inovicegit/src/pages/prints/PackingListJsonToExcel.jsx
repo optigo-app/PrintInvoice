@@ -52,7 +52,6 @@ const PackingListJsonToExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer
           data?.BillPrint_Json2
         );
 
-
         let finalArr = [];
 
         datas?.resultArray?.forEach((e) => {
