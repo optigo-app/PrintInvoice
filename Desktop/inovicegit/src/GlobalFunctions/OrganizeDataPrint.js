@@ -116,7 +116,6 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
     total_TotalDiaSetcost: 0,
     total_MakingAmount_Setting_Amount: 0,
     total_otherCharge_Diamond_Handling: 0,
-
   };
 
 

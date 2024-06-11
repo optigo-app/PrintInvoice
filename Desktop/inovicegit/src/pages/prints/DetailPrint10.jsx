@@ -11,6 +11,7 @@ import {
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import "../../assets/css/prints/detailprint10.css";
 import Loader from "../../components/Loader";
+import { OrganizeInvoicePrintData } from "../../GlobalFunctions/OrganizeInvoicePrintData";
 
 const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
@@ -56,6 +57,13 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
+
+    const datas2 = OrganizeInvoicePrintData(
+      data?.BillPrint_Json[0],
+      data?.BillPrint_Json1,
+      data?.BillPrint_Json2
+    );
+    console.log(datas2);
 
     let diaObj = {
       ShapeName: "OTHERS",

@@ -189,6 +189,7 @@ const PackingListJsonToExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer
           obj.desc ='';
 
 
+          // eslint-disable-next-line array-callback-return
           Array.from({length : len})?.map((el, ind) => {
             let obj = {};
             obj.srflag = false;
@@ -204,8 +205,8 @@ const PackingListJsonToExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer
               obj.matflag = true;
               obj.item_group = (e?.material[ind]?.item_group);
               obj.item_name = (e?.material[ind]?.item_name);
-              obj.PIECES = ( (e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 1 || e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 3) ? '' : e?.material[ind]?.Pcs);
-              obj.WEIGHT = ( (e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 1 || e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 3) ? '' : e?.material[ind]?.Wt);
+              obj.PIECES = ( (e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 6 || e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 3) ? '' : e?.material[ind]?.Pcs);
+              obj.WEIGHT = ( (e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 6 || e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 3) ? '' : e?.material[ind]?.Wt);
               obj.RATE = ( e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 11 ? e?.MaKingCharge_Unit : e?.material[ind]?.Rate);
               obj.desc = (e?.material[ind]?.desc);
               obj.row_no = e?.material[ind]?.row_no;
