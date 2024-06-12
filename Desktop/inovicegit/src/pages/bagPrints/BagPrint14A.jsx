@@ -37,6 +37,7 @@ function BagPrint14A({ queries, headers }) {
                   };
                   const allDatas = await GetData(objs);
                   let datas = organizeData(allDatas?.rd, allDatas?.rd1);
+                  console.log(datas);
                   // eslint-disable-next-line array-callback-return
                   datas?.map((a) => {
                     let length = 0;
@@ -127,23 +128,23 @@ function BagPrint14A({ queries, headers }) {
         fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    useEffect(() => {
-        if (data?.length !== 0) {
-            setTimeout(() => {
-                window.print();
-            }, 5000);
-        }
-}, [data?.length]);
+//     useEffect(() => {
+//         if (data?.length !== 0) {
+//             setTimeout(() => {
+//                 window.print();
+//             }, 5000);
+//         }
+// }, [data?.length]);
     return (
         <>
             {
-                data.length === 0 ? <Loader /> : <><div className="print_btn"><button className="btn_white blue print_btn" onClick={(e) => handlePrint(e)}>
+                data?.length === 0 ? <Loader /> : <><div className="print_btn"><button className="btn_white blue print_btn" onClick={(e) => handlePrint(e)}>
                     Print
                 </button></div>
                     <div className='bag14Aflex pad_60_allPrint '>
                         <div className='straight_print'>
                             {Array.from({ length: queries?.pageStart }, (_, index) => (
-                                index > 0 && <div key={index} className="container_1" style={{ border: "0px" }}></div>
+                                index > 0 && <div key={index} className="container_14" style={{ border: "0px" }}></div>
                             ))}
                             {
                                 data?.length > 0 && data?.map((e, i) => {
@@ -153,15 +154,15 @@ function BagPrint14A({ queries, headers }) {
                                                 e?.additional?.pages?.length > 0 ? 
                                                         e?.additional?.pages?.map((a, index) => {
                                                             return (
-                                                                    <div className='container_1' key={index}>
+                                                                    <div className='container_14' key={index}>
                                                                         <div className='firstpart'>
                                                                             <div className='firstpart_header'>
                                                                                 <div className='firstpart_one'>
-                                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>BAG NO</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.serialjobno}`}</div></div>
-                                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER NO</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.OrderNo}`}</div></div>
+                                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>BAG NO.</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.serialjobno}`}</div></div>
+                                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER NO.</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.OrderNo}`}</div></div>
                                                                                     <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>CUSTOMER</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.CustomerCode}`}</div></div>
                                                                                     <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER DATE</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.orderDatef ?? ''}`}</div></div>
-                                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER PCS</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.IsSplits_Quotation_Quantity}`}</div></div>
+                                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER PCs.</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.IsSplits_Quotation_Quantity}`}</div></div>
                                                                                     <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>PROMISE DATE</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.promiseDatef ?? ''}`}</div></div>
                                                                                     <div className='firstpart_one_1'><div className='firstpart_one_chunk _color' style={{ borderRight: "none" }}></div><div className='firstpart_one_chunk_val workbreak'></div></div>
                                                                                 </div>
@@ -182,12 +183,12 @@ function BagPrint14A({ queries, headers }) {
                                                                                         <div className='firstpart_one_chunk_val _color'>RM SIZE</div>
                                                                                     </div>
                                                                                     <div className='firstpart_one_2'>
-                                                                                        <div className='semi _color'>PCS</div>
-                                                                                        <div className='semi _color'>WT</div>
+                                                                                        <div className='semi _color text-start d-flex align-items-center justify-content-start ps-1'>PCS</div>
+                                                                                        <div className='semi _color text-start d-flex align-items-center justify-content-start ps-1'>WT</div>
                                                                                     </div>
                                                                                     <div className='firstpart_one_1'>
-                                                                                        <div className='semi _color'>PCS</div>
-                                                                                        <div className='semi _color'>WT</div>
+                                                                                        <div className='semi _color text-start d-flex align-items-center justify-content-start ps-1'>PCS</div>
+                                                                                        <div className='semi _color text-start d-flex align-items-center justify-content-start ps-1'>WT</div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -197,13 +198,13 @@ function BagPrint14A({ queries, headers }) {
                                                                                         a?.data?.map((ele, i) => {
                                                                                             return (           
                                                                                                     <div style={{ display: "flex" }} key={i}>
-                                                                                                        <div className='firstpart_one_1'>
-                                                                                                            {ele?.Shapename === "TOTAL" ? <div className='firstpart_one_chunk workbreak'><b>{ele?.Shapename}</b></div> : <div className='firstpart_one_chunk workbreak'>{ele?.ConcatedFullShapeQualityColorCode}</div>}
-                                                                                                            <div className='firstpart_one_chunk_val workbreak'>{ele?.Sizename}</div>
+                                                                                                        <div className='firstpart_one_1 text-break'>
+                                                                                                            {ele?.Shapename === "TOTAL" ? <div className='firstpart_one_chunk workbreak text-break'><b>{ele?.Shapename}</b></div> : <div className='firstpart_one_chunk workbreak text-break'>{ele?.ConcatedShapeQualityColorName}</div>}
+                                                                                                            <div className='firstpart_one_chunk_val workbreak text-break'>{ele?.Sizename}</div>
                                                                                                         </div>
                                                                                                         <div className='firstpart_one_2'>
-                                                                                                            <div className="semi workbreak" style={{ fontWeight: ele?.Shapename === 'TOTAL' ? 'bold' : 'normal' }}>{ele?.ActualPcs}</div>
-                                                                                                            <div className="semi workbreak" style={{ fontWeight: ele?.Shapename === 'TOTAL' ? 'bold' : 'normal' }}>{ele?.ActualWeight?.toFixed(3)}</div>
+                                                                                                            <div className="semi workbreak text-break" style={{ fontWeight: ele?.Shapename === 'TOTAL' ? 'bold' : 'normal' }}>{ele?.ActualPcs}</div>
+                                                                                                            <div className="semi workbreak text-break" style={{ fontWeight: ele?.Shapename === 'TOTAL' ? 'bold' : 'normal' }}>{ele?.ActualWeight?.toFixed(3)}</div>
                                                                                                         </div>
                                                                                                         <div className='firstpart_one_1'>
                                                                                                             <div className='semi workbreak'></div>
@@ -241,12 +242,12 @@ function BagPrint14A({ queries, headers }) {
                                                                                 <div>
                                                                                     <div style={{ display: "flex" }} key={i}>
                                                                                         <div className='firstpart_one_1'>
-                                                                                            <div className='firstpart_one_chunk _color'><b style={{ color: "black" }}>TOTAL</b></div>
+                                                                                            <div className='firstpart_one_chunk _color'><b className='fw-normal' style={{ color: "black" }}>TOTAL</b></div>
                                                                                             <div className='firstpart_one_chunk_val _color'></div>
                                                                                         </div>
                                                                                         <div className='firstpart_one_2'>
-                                                                                            <div className="semi _color"><b style={{ color: "black" }}>{e?.additional?.total?.ActualPcs}</b></div>
-                                                                                            <div className="semi _color"><b style={{ color: "black" }}>{e?.additional?.total?.ActualWeight?.toFixed(3)}</b></div>
+                                                                                            <div className="semi _color fw-normal"><b className='fw-normal' style={{ color: "black" }}>{e?.additional?.total?.ActualPcs}</b></div>
+                                                                                            <div className="semi _color fw-normal"><b className='fw-normal' style={{ color: "black" }}>{e?.additional?.total?.ActualWeight?.toFixed(3)}</b></div>
                                                                                         </div>
                                                                                         <div className='firstpart_one_1'>
                                                                                             <div className='semi _color'></div>
@@ -261,38 +262,38 @@ function BagPrint14A({ queries, headers }) {
                                                                                     <div className='firstpart_one_chunk_val workbreak _color'>DATE</div>
                                                                                 </div>
                                                                                 <div className='firstpart_one_2'>
-                                                                                    <div className='semi workbreak _color'>PCS</div>
-                                                                                    <div className='semi workbreak _color'>WT</div>
+                                                                                    <div className='semi workbreak _color d-flex align-items-center justify-content-start ps-1'>PCS</div>
+                                                                                    <div className='semi workbreak _color d-flex align-items-center justify-content-start ps-1'>WT</div>
                                                                                 </div>
                                                                                 <div className='firstpart_one_1'>
-                                                                                    <div className='semi workbreak _color'>WORKER</div>
-                                                                                    <div className='semi workbreak _color'>WORKER</div>
+                                                                                    <div className='semi workbreak _color d-flex align-items-center justify-content-start ps-1'>WORKER</div>
+                                                                                    <div className='semi workbreak _color d-flex align-items-center justify-content-start ps-1'>WORKER</div>
                                                                                 </div>
                                                                             </div>
-                                                                            <div className='footer_one'>
-                                                                                <div className='firstpart_one_1'>
-                                                                                    <div className='firstpart_one_chunk workbreak _color'>WT TOLERANCE</div>
-                                                                                    <div className='firstpart_one_chunk_val workbreak'></div>
+                                                                            <div className='footer_one h24_14 border-bottom-0'>
+                                                                                <div className='firstpart_one_1 h24_14 border-bottom-0'>
+                                                                                    <div className='firstpart_one_chunk workbreak _color h24_14 border-bottom-0'>WT TOLERANCE</div>
+                                                                                    <div className='firstpart_one_chunk_val workbreak h24_14 border-bottom-0'></div>
                                                                                 </div>
-                                                                                <div className='firstpart_one_2'>
-                                                                                    <div className='semi workbreak'></div>
-                                                                                    <div className='semi workbreak'></div>
+                                                                                <div className='firstpart_one_2 h24_14 border-bottom-0'>
+                                                                                    <div className='semi workbreak h24_14 border-bottom-0'></div>
+                                                                                    <div className='semi workbreak h24_14 border-bottom-0'></div>
                                                                                 </div>
-                                                                                <div className='firstpart_one_1'>
-                                                                                    <div className='semi workbreak'></div>
-                                                                                    <div className='semi workbreak'></div>
+                                                                                <div className='firstpart_one_1 h24_14 border-bottom-0'>
+                                                                                    <div className='semi workbreak h24_14 border-bottom-0'></div>
+                                                                                    <div className='semi workbreak h24_14 border-bottom-0'></div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                         <div className='secondpart'>
-                                                                            <div className='firstpart_one_1'><div className='firstpart_one_chunk_val _color '>DESIGN NO</div><div className='firstpart_one_chunk workbreak' style={{ borderRight: "none" }}>{`${e?.data?.rd?.Designcode}`}</div></div>
+                                                                            <div className='firstpart_one_1'><div className='firstpart_one_chunk_val _color '>DESIGN NO.</div><div className='firstpart_one_chunk workbreak text-break' style={{ borderRight: "none" }}>{`${e?.data?.rd?.Designcode}`}</div></div>
                                                                             <div className='imagediv'><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img15" alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
                                                                             <div className='barcodediv'><div className='barcode14'>
                                                                                 {(e?.data?.rd?.length !== 0 && e?.data?.rd !== undefined) && <>{e?.data?.rd?.serialjobno !== undefined && <BarcodeGenerator data={e?.data?.rd?.serialjobno} />}</>}
                                                                             </div></div>
-                                                                            <div className='firstpart_one_1'><div className='semi _color'>SPE REM.	:</div><div className='semi_border workbreak flexSPE'>{(e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}</div></div>
-                                                                            <div className='info workbreak flex_data' style={{ fontSize: "12px" }}>
-                                                                                <div>{e?.data?.rd?.productinfo}</div>
+                                                                            <div className='firstpart_one_1'><div className='semi _color d-flex align-items-center justify-content-start ps-1'>SPE REM.	:</div><div className='semi_border workbreak flexSPE text-break'>{(e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}</div></div>
+                                                                            <div className='info workbreak flex_data fw-bold text-break' style={{ fontSize: "10px" }}>
+                                                                                <div className='fw-bold'>{e?.data?.rd?.productinfo}</div>
                                                                             </div>
                                                                             <div className='secondpart_footer_2'>
                                                                                 <div className='fg_info_1 _color font_size'>FG DETAILS</div>
@@ -301,7 +302,7 @@ function BagPrint14A({ queries, headers }) {
                                                                             <div className='secondpart_footer_2'>
                                                                                 <div className='fg_info_1'><div className='last_1 _color font_size' style={{ borderRight: "1px solid grey" }}>QTY</div><div className='last_1 _color font_size'>WT</div></div>
                                                                                 <div className='fg_info_2'>
-                                                                                    <div className='last_2 _color font_size'>RM CODE </div>
+                                                                                    <div className='last_2 _color font_size d-flex align-items-center justify-content-start ps-1'>RM CODE </div>
                                                                                     <div className='last_2 _color font_size'> ISSUE </div>
                                                                                     <div className='last_2 _color font_size' style={{ borderRight: "none" }}> RETURN </div>
                                                                                 </div>
@@ -330,7 +331,7 @@ function BagPrint14A({ queries, headers }) {
                                                                                     <div className='last_2' style={{ borderRight: "none" }}> </div>
                                                                                 </div>
                                                                             </div>
-                                                                            <div className='secondpart_footer_2'>
+                                                                            <div className='secondpart_footer_2 border-bottom-0'>
                                                                                 <div className='fg_info_1'><div className='last_1' style={{ borderRight: "1px solid grey" }}></div><div className='last_1'></div></div>
                                                                                 <div className='fg_info_2'>
                                                                                     <div className='last_2' > </div>
@@ -343,15 +344,15 @@ function BagPrint14A({ queries, headers }) {
                                                             );
                                                         })
                                                       :
-                                                    <div className='container_1'>
+                                                    <div className='container_14'>
                                                         <div className='firstpart'>
                                                             <div className='firstpart_header'>
                                                                 <div className='firstpart_one'>
-                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>BAG NO</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.serialjobno ?? ''}`}</div></div>
-                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER NO</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.OrderNo ?? ''}`}</div></div>
+                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>BAG NO.</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.serialjobno ?? ''}`}</div></div>
+                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER NO.</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.OrderNo ?? ''}`}</div></div>
                                                                     <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>CUSTOMER</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.CustomerCode ?? ''}`}</div></div>
                                                                     <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER DATE</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.orderDatef ?? ''}`}</div></div>
-                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER PCS</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.IsSplits_Quotation_Quantity ?? ''}`}</div></div>
+                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER PCs.</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.IsSplits_Quotation_Quantity ?? ''}`}</div></div>
                                                                     <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>PROMISE DATE</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.promiseDatef ?? ''}`}</div></div>
                                                                     <div className='firstpart_one_1'><div className='firstpart_one_chunk _color' style={{ borderRight: "none" }}></div><div className='firstpart_one_chunk_val workbreak'></div></div>
                                                                 </div>
@@ -372,12 +373,12 @@ function BagPrint14A({ queries, headers }) {
                                                                         <div className='firstpart_one_chunk_val _color'>RM SIZE</div>
                                                                     </div>
                                                                     <div className='firstpart_one_2'>
-                                                                        <div className='semi _color'>PCS</div>
-                                                                        <div className='semi _color'>WT</div>
+                                                                        <div className='semi _color text-start d-flex align-items-center justify-content-start ps-1'>PCS</div>
+                                                                        <div className='semi _color text-start d-flex align-items-center justify-content-start ps-1'>WT</div>
                                                                     </div>
                                                                     <div className='firstpart_one_1'>
-                                                                        <div className='semi _color'>PCS</div>
-                                                                        <div className='semi _color'>WT</div>
+                                                                        <div className='semi _color text-start d-flex justify-content-start align-items-center ps-1'>PCS</div>
+                                                                        <div className='semi _color text-start d-flex justify-content-start align-items-center ps-1'>WT</div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -537,7 +538,7 @@ function BagPrint14A({ queries, headers }) {
                                                             </div>
                                                             <div className='footer_one'>
                                                                 <div className='firstpart_one_1'>
-                                                                    <div className='firstpart_one_chunk'><b>TOTAL</b></div>
+                                                                    <div className='firstpart_one_chunk'><b className='fw-normal'>TOTAL</b></div>
                                                                     <div className='firstpart_one_chunk_val'></div>
                                                                 </div>
                                                                 <div className='firstpart_one_2'>
@@ -555,12 +556,12 @@ function BagPrint14A({ queries, headers }) {
                                                                     <div className='firstpart_one_chunk_val _color'>DATE</div>
                                                                 </div>
                                                                 <div className='firstpart_one_2'>
-                                                                    <div className='semi _color'>PCS</div>
-                                                                    <div className='semi _color'>WT</div>
+                                                                    <div className='semi _color d-flex justify-content-start align-items-center ps-1 '>PCS</div>
+                                                                    <div className='semi _color d-flex justify-content-start align-items-center ps-1'>WT</div>
                                                                 </div>
                                                                 <div className='firstpart_one_1'>
-                                                                    <div className='semi _color'>WORKER</div>
-                                                                    <div className='semi _color'>WORKER</div>
+                                                                    <div className='semi _color d-flex justify-content-start align-items-center ps-1'>WORKER</div>
+                                                                    <div className='semi _color d-flex justify-content-start align-items-center ps-1'>WORKER</div>
                                                                 </div>
                                                             </div>
                                                             <div className='footer_one'>
@@ -579,56 +580,56 @@ function BagPrint14A({ queries, headers }) {
                                                             </div>
                                                         </div>
                                                         <div className='secondpart'>
-                                                            <div className='firstpart_one_1'><div className='firstpart_one_chunk_val _color'>DESIGN NO</div><div className='firstpart_one_chunk' style={{ borderRight: "none" }}>{`${e?.data?.rd?.Designcode ?? ''}`}</div></div>
+                                                            <div className='firstpart_one_1'><div className='firstpart_one_chunk_val _color'>DESIGN NO.</div><div className='firstpart_one_chunk' style={{ borderRight: "none" }}>{`${e?.data?.rd?.Designcode ?? ''}`}</div></div>
                                                             <div className='imagediv'><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img15" alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
                                                             <div className='barcodediv'><div className='barcode14'>
                                                                 {(e?.data?.rd?.length !== 0 && e?.data?.rd !== undefined) && <>{e?.data?.rd?.serialjobno !== undefined && <BarcodeGenerator data={e?.data?.rd?.serialjobno ?? ''} />}</>}
                                                             </div></div>
-                                                            <div className='firstpart_one_1'><div className='semi _color'>SPE REM.	:</div><div className='semi_border flexSPE workbreak'></div></div>
+                                                            <div className='firstpart_one_1'><div className='semi _color d-flex justify-content-start align-items-center ps-1'>SPE REM.	:</div><div className='semi_border flexSPE workbreak'></div></div>
                                                             <div className='info flex_data workbreak' style={{ fontSize: "12px" }}>
                                                             </div>
                                                             <div className='secondpart_footer_2'>
                                                                 <div className='fg_info_1 _color fs14A'>FG DETAILS</div>
-                                                                <div className='fg_info_2 _color fs14A'>RM TRANSACTION</div>
+                                                                <div className='fg_info_2 _color fs14A ps-1'>RM TRANSACTION</div>
                                                             </div>
                                                             <div className='secondpart_footer_2'>
                                                                 <div className='fg_info_1'><div className='last_1 _color fs14A' style={{ borderRight: "1px solid grey" }}>QTY</div><div className='last_1 _color fs14A'>WT</div></div>
                                                                 <div className='fg_info_2'>
-                                                                    <div className='last_2 _color fs14A' style={{ fontSize: "10.5px" }}>RM CODE </div>
-                                                                    <div className='last_2 _color fs14A'> ISSUE </div>
-                                                                    <div className='last_2 _color fs14A' style={{ borderRight: "none" }}> RETURN </div>
+                                                                    <div className='last_2 _color fs14A' style={{ fontSize: "10.5px", width:'33.33%' }}>RM CODE </div>
+                                                                    <div className='last_2 _color fs14A' style={{ width:'33.33%' }}> ISSUE </div>
+                                                                    <div className='last_2 _color fs14A' style={{ borderRight: "none", width:'33.33%'  }}> RETURN </div>
                                                                 </div>
                                                             </div>
                                                             <div className='secondpart_footer_2'>
                                                                 <div className='fg_info_1'><div className='last_1' style={{ borderRight: "1px solid grey" }}></div><div className='last_1'></div></div>
                                                                 <div className='fg_info_2'>
-                                                                    <div className='last_2' > </div>
-                                                                    <div className='last_2'>  </div>
-                                                                    <div className='last_2' style={{ borderRight: "none" }}> </div>
+                                                                    <div className='last_2' style={{width:'33.33%' }}> </div>
+                                                                    <div className='last_2' style={{width:'33.33%' }}>  </div>
+                                                                    <div className='last_2' style={{ borderRight: "none", width:'33.33%' }}> </div>
                                                                 </div>
                                                             </div>
                                                             <div className='secondpart_footer_2'>
                                                                 <div className='fg_info_1'><div className='last_1' style={{ borderRight: "1px solid grey" }}></div><div className='last_1'></div></div>
                                                                 <div className='fg_info_2'>
-                                                                    <div className='last_2' > </div>
-                                                                    <div className='last_2'>  </div>
-                                                                    <div className='last_2' style={{ borderRight: "none" }}> </div>
+                                                                    <div className='last_2' style={{width:'33.33%' }}> </div>
+                                                                    <div className='last_2' style={{width:'33.33%' }}>  </div>
+                                                                    <div className='last_2' style={{ borderRight: "none", width:'33.33%' }}> </div>
                                                                 </div>
                                                             </div>
                                                             <div className='secondpart_footer_2'>
                                                                 <div className='fg_info_1'><div className='last_1' style={{ borderRight: "1px solid grey" }}></div><div className='last_1'></div></div>
                                                                 <div className='fg_info_2'>
-                                                                    <div className='last_2' > </div>
-                                                                    <div className='last_2'>  </div>
-                                                                    <div className='last_2' style={{ borderRight: "none" }}> </div>
+                                                                    <div className='last_2' style={{width:'33.33%' }}> </div>
+                                                                    <div className='last_2' style={{width:'33.33%' }}>  </div>
+                                                                    <div className='last_2' style={{ borderRight: "none", width:'33.33%' }}> </div>
                                                                 </div>
                                                             </div>
-                                                            <div className='secondpart_footer_2'>
+                                                            <div className='secondpart_footer_2 border-bottom-0' style={{height:'23.5px !important'}}>
                                                                 <div className='fg_info_1'><div className='last_1' style={{ borderRight: "1px solid grey" }}></div><div className='last_1'></div></div>
                                                                 <div className='fg_info_2'>
-                                                                    <div className='last_2' > </div>
-                                                                    <div className='last_2'>  </div>
-                                                                    <div className='last_2' style={{ borderRight: "none" }}>  </div>
+                                                                    <div className='last_2' style={{width:'33.33%' }}> </div>
+                                                                    <div className='last_2' style={{width:'33.33%' }}>  </div>
+                                                                    <div className='last_2' style={{ borderRight: "none", width:'33.33%' }}>  </div>
                                                                 </div>
                                                             </div>
                                                         </div>

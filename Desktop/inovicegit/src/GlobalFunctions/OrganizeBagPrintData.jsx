@@ -2,6 +2,8 @@ import { formatDate } from "./DateFormat";
 
 export const organizeData = (rd, rd1) => {
     let newArr = [];
+    console.log(rd, rd1);
+
     rd?.forEach((e, i) => {
       let obj = {};
       obj.rd = { ...e };
