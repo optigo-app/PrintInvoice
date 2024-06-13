@@ -8,7 +8,9 @@ import ErrorPage from "./error/ErrorPage";
 import Loader from "../components/Loader";
 
 const AllDesign = () => {
+  
   const location = useLocation();
+
   // const queryParams = new URLSearchParams(location.search);
   const [loadedComponent, setLoadedComponent] = useState(null);
 

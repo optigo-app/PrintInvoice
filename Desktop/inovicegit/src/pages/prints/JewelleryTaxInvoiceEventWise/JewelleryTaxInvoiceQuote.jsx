@@ -4,6 +4,7 @@ import {
   NumberWithCommas,
   apiCall,
   formatAmount,
+  handleGlobalImgError,
   handleImageError,
   handlePrint,
   isObjectEmpty,
@@ -12,6 +13,7 @@ import {
 import Loader from "../../../components/Loader";
 import style from "../../../assets/css/prints/jewelleryTaxInvoice.module.css";
 import style2 from "../../../assets/css/headers/header1.module.css";
+import "../../../assets/css/prints/jewellerytaxinvoicequoteeheader.css";
 import { cloneDeep } from "lodash";
 import { OrganizeDataPrint } from "../../../GlobalFunctions/OrganizeDataPrint";
 
@@ -286,11 +288,7 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
                       <img src={json0Data?.PrintLogo} alt="" 
                       className='w-25 h-auto ms-auto d-block object-fit-contain' 
                       onError={handleImageErrors} height={120} width={150} />)}
-              {/* <img
-                src={json0Data?.PrintLogo}
-                alt=""
-                className={`${style?.image}`}
-              /> */}
+       
             </div>
           </div>
         ) : (
@@ -322,11 +320,7 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
               style={{ width: "30%" }}
               className="d-flex justify-content-end align-item-center h-100"
             >
-              {/* <img
-                src={json0Data?.PrintLogo}
-                alt=""
-                className={style2.headerImg}
-              /> */}
+        
                 {isImageWorking && (json0Data?.PrintLogo !== "" && 
                       <img src={json0Data?.PrintLogo} alt="" 
                       className='w-100 h-auto ms-auto d-block object-fit-contain'
@@ -335,6 +329,11 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
             </div>
           </div>
         )}
+
+        {/* e invoice header */}
+
+       
+
         {/* sub header */}
         <div className="mt-2 no_break">
           <div className="border d-flex justify-content-between">
@@ -407,8 +406,8 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
           </div>
         </div>
         {/* table data */}
-        {data.length > 0 &&
-          data.map((e, i) => {
+        {data?.length > 0 &&
+          data?.map((e, i) => {
             return (
               <div className="d-flex border-start border-end border-bottom no_break" key={i} >
                 <div className="col-1 p-1 border-end">
@@ -438,8 +437,8 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
                     )}
                   </p>
                   
-                  {e.materials.length > 0 &&
-                    e.materials.map((ele, ind) => {
+                  {e?.materials?.length > 0 &&
+                    e?.materials?.map((ele, ind) => {
                       return (
                         <p key={ind} className="text-break">
                           {/* {ele?.IsCenterStone === 1 ? ( */}

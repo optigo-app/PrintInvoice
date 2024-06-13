@@ -20,6 +20,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
   const [imgFlag, setImgFlag] = useState(true);
   const [priceFlag, setPriceFlag] = useState(true);
+  const [isImageWorking, setIsImageWorking] = useState(true);
 
   useEffect(() => {
     const sendData = async () => {
@@ -118,6 +119,8 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     else {
       setPriceFlag(true);
     }
+  };  const handleImageErrors = () => {
+    setIsImageWorking(false);
   };
 
   return (
@@ -141,7 +144,36 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
 
           {/* table sub header */}
-          <div className="d-flex justify-content-between align-items-start w-100 border_start_dp12 border_end_dp12 border_bottom_dp12">
+          <div className="w-100 d-flex border_start_dp12 border_end_dp12 border_bottom_dp12">
+            <div style={{width:'33.33%'}} className="border_end_dp12 p-1 fsgdp12">
+              <div className="fw-bold px-2 _fsgdp12_">{result?.header?.CompanyFullName}</div>  
+              <div className="d-flex justify-content-center">
+                {isImageWorking && (result?.header?.PrintLogo !== "" && 
+                      <img src={result?.header?.PrintLogo} alt="" 
+                      className='w-100 h-auto  d-block object-fit-contain headimgdp12'
+                      onError={handleImageErrors} height={120} width={150} style={{maxWidth: "116px"}} />)}
+              </div>
+            </div>
+            <div style={{width:'33.33%'}} className="border_end_dp12 p-1 fsgdp12">
+              <div>Bill To,</div>
+              <div className="fw-bold _fsgdp12_">{result?.header?.customerfirmname}</div>
+            </div>
+            <div style={{width:'33.33%'}} className="p-1 fsgdp12">
+                <div className="d-flex justify-content-center align-items-center">
+                  <div className="fw-bold w-50">SHEET NO</div>
+                  <div>{result?.header?.InvoiceNo}</div>
+                </div>
+                <div className="d-flex justify-content-center align-items-center">
+                  <div className="fw-bold w-50">DATE</div>
+                  <div>{result?.header?.EntryDate}</div>
+                </div>
+                <div className="d-flex justify-content-center align-items-center">
+                  <div className="fw-bold w-50">Sales Person</div>
+                  <div>{result?.header?.SalPerName}</div>
+                </div>
+            </div>
+          </div>
+          {/* <div className="d-flex justify-content-between align-items-start w-100 border_start_dp12 border_end_dp12 border_bottom_dp12">
             <div style={{ width: "40%" }} className="h_127_dp12" >
               <div className="d-flex w-100 h_127_dp12">
                 <div className="w-50 d-flex flex-column border_end_dp12 h_127_dp12">
@@ -195,7 +227,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className="w-50">{result?.header?.SalPerName}</div>
               </div>
             </div>
-          </div>
+          </div> */}
         
 
 
@@ -206,10 +238,10 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <div style={{ width: "36%" }} className="brdp12 d-flex">
                 <div className="       w-25 h-100">&nbsp;</div>
                 <div className="brdp12 w-25 h-100">&nbsp;</div>
-                <div className="brdp12 w-25 h-100 text-break text-center">
+                <div className="brdp12  h-100 text-break text-center" style={{width:'24.5%'}}>
                   METAL / MAKING RATE
                 </div>
-                <div className="       w-25 h-100 text-break text-center">
+                <div className="        h-100 text-break text-center" style={{width:'25.5%'}}>
                   METAL / MAKING AMOUNT
                 </div>
 
@@ -291,8 +323,8 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                           </div>
                           <div className="w-50 ps-1 d-flex">
-                            <div className="w-50 brdp12 ps-1"></div>
-                            <div className="w-50 end_dp12 pe-1"></div>
+                            <div className="brdp12 ps-1" style={{width:'48%'}}></div>
+                            <div className="end_dp12 pe-1" style={{width:'52%'}}></div>
                           </div>
 
                           
@@ -305,8 +337,8 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                           </div>
                           <div className="w-50 ps-1 d-flex">
-                            <div className="w-50 brdp12 ps-1"></div>
-                            <div className="w-50 end_dp12 pe-1"></div>
+                            <div className="brdp12 ps-1" style={{width:'48%'}}>a</div>
+                            <div className="end_dp12 pe-1" style={{width:'52%'}}>b</div>
                           </div>
                           
                         </div>
@@ -322,7 +354,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                           </div>
                           <div className="w-50 ps-1 d-flex">
-                            <div className="w-50 brdp12 pe-1 end_dp12">
+                            <div className=" brdp12 pe-1 end_dp12" style={{width:'48%'}}>
                               {e?.MetalAmount === 0
                                 ? ""
                                 : priceFlag &&
@@ -340,7 +372,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                           e?.totals?.metal?.WithOutPrimaryMetal)
                                   )}
                             </div>
-                            <div className="w-50 end_dp12 pe-1">
+                            <div className=" end_dp12 pe-1" style={{width:'52%'}}>
                               &nbsp;
                               {e?.MetalAmount === 0
                                 ? ""
@@ -362,14 +394,14 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                           </div>
                           <div className="w-50 ps-1 d-flex">
-                            <div className="w-50 brdp12 pe-1 end_dp12">
+                            <div className=" brdp12 pe-1 end_dp12" style={{width:'48%'}}>
                               &nbsp;
                               {e?.MaKingCharge_Unit === 0
                                 ? ""
                                 : priceFlag &&
                                   formatAmount(e?.MaKingCharge_Unit)}
                             </div>
-                            <div className="w-50 end_dp12 pe-1">
+                            <div className=" end_dp12 pe-1" style={{width:'52%'}}>
                               &nbsp;
                               {e?.MakingAmount === 0
                                 ? ""
@@ -655,7 +687,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
           </div>
 
-          <div className="totaldp12 w-100 brtdp12 border-top-0 border_start_dp12 border_end_dp12 fsgdp12">
+          {/* <div className="totaldp12 w-100 brtdp12 border-top-0 border_start_dp12 border_end_dp12 fsgdp12">
             <div className="totcol1dp12"></div>
             <div className="totcol2dp12 dp12cen2" style={{ width: "15%" }}>
 
@@ -702,11 +734,45 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     result?.header?.CurrencyExchRate
                 )}{" "}
             </div>
+          </div> */}
+
+          <div className="d-flex fw-bold totaldp12 w-100 brtdp12 border-top-0 border_start_dp12 border_end_dp12 fsgdp12">
+            <div style={{width:'15%'}} className="brdp12">&nbsp;a</div>
+            <div style={{width:'17.9%'}} className="brdp12">&nbsp;b</div>
+            <div style={{width:'8.85%'}} className="brdp12">&nbsp;c</div>
+            <div style={{width:'9.25%'}} className=" d-flex justify-content-end align-items-center pe-1 fsgdp12 brdp12">
+            {priceFlag &&
+                formatAmount(
+                  result?.mainTotal?.total_Making_Amount /
+                    result?.header?.CurrencyExchRate +
+                    result?.mainTotal?.metal?.Amount /
+                      result?.header?.CurrencyExchRate
+                )}{" "}
+            </div>
+            <div style={{width:'9.5%'}} className="brdp12">&nbsp;</div>
+            <div style={{width:'3.75%'}} className="brdp12">&nbsp;</div>
+            <div style={{width:'7.55%'}} className=" d-flex justify-content-end align-items-center pe-1 fsgdp12 brdp12"> 
+                {(
+                  result?.mainTotal?.diamonds?.Wt +
+                  result?.mainTotal?.colorstone?.Wt +
+                  result?.mainTotal?.misc?.Wt +
+                  result?.mainTotal?.metal?.withOutPrimaryMetal
+                )?.toFixed(3)}
+            </div>
+            <div style={{width:'7.65%'}} className=" d-flex justify-content-end align-items-center pe-1 fsgdp12 brdp12">&nbsp;</div>
+            <div style={{width:'9.55%'}} className=" d-flex justify-content-end align-items-center pe-1 fsgdp12 brdp12">
+            {result?.mainTotal?.total_diamond_colorstone_misc_amount !== 0 &&
+                priceFlag &&
+                formatAmount(
+                  result?.mainTotal?.total_diamond_colorstone_misc_amount /
+                    result?.header?.CurrencyExchRate
+                )}
+            </div>
+            <div style={{width:'11%'}} className=" d-flex justify-content-end align-items-center pe-1 fsgdp12 brdp12">{formatAmount((result?.mainTotal?.total_amount/ result?.header?.CurrencyExchRate))}</div>
           </div>
 
-
           { (
-            <div className="w-100 brtdp12 dp12cen2 bradp12 fsgdp12">
+            <div className="w-100 brtdp12 dp12cen2 bradp12 fsgdp12 brdp12">
               {result?.mainTotal?.total_amount !== 0 &&
                 formatAmount(
                   result?.mainTotal?.total_amount /

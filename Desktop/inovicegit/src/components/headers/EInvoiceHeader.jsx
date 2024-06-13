@@ -73,7 +73,7 @@ const EInvoiceHeader = ({ data }) => {
         </div>
       </div>
 
-  </div>
+    </div>
   )
 }
 
