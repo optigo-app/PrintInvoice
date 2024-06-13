@@ -176,55 +176,55 @@ const InvoicePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
         </div>
         <div className='w-100'>
-            <div className='thead_invk d-flex fw-bold brall_invk border-bottom-0 w-100 mt-1'>
-                <div className='col1_invk brright_invk p-1'>Sr#</div>
-                <div className='col2_invk brright_invk p-1 text-break'>Product Description</div>
-                <div className='col3_invk brright_invk p-1'>KT</div>
-                <div className='col4_invk brright_invk p-1 text-end text-break'>QTY</div>
-                <div className='col5_invk brright_invk p-1 text-end text-break'>Gross Wt(gm)</div>
-                <div className='col8_invk brright_invk p-1 text-end text-break'>Net Wt(gm)</div>
-                <div className='col6_invk brright_invk p-1 text-end text-break'>Dia Wt(ctw)</div>
-                <div className='col7_invk brright_invk p-1 text-end text-break'>Stone Wt(ctw)</div>
+            <div className='thead_invk d-flex fw-bold border border-black border-bottom w-100 mt-1'>
+                <div className='col1_invk border-black border-end p-1'>Sr#</div>
+                <div className='col2_invk border-black border-end p-1 text-break'>Product Description</div>
+                <div className='col3_invk border-black border-end p-1'>KT</div>
+                <div className='col4_invk border-black border-end p-1 text-end text-break'>QTY</div>
+                <div className='col5_invk border-black border-end p-1 text-end text-break'>Gross Wt(gm)</div>
+                <div className='col8_invk border-black border-end p-1 text-end text-break'>Net Wt(gm)</div>
+                <div className='col6_invk border-black border-end p-1 text-end text-break'>Dia Wt(ctw)</div>
+                <div className='col7_invk border-black border-end p-1 text-end text-break'>Stone Wt(ctw)</div>
                 <div className='col9_invk p-1 text-end text-break'>Product Value</div>
             </div>
             {
                 result?.resultArray?.map((e, i) => {
                     return <div className='tbody_invk' key={i}>
-                    <div className='d-flex brall_invk border-bottom-0'>
-                    <div className='col1_invk brright_invk p-1 text-center'>{i+1}</div>
-                    <div className='col2_invk brright_invk p-1 text-break'>Diamond Studded Gold Jewellery</div>
-                    <div className='col3_invk brright_invk p-1'>{e?.MetalPurity}</div>
-                    <div className='col4_invk brright_invk p-1 text-end'>{e?.Quantity}</div>
-                    <div className='col5_invk brright_invk p-1 text-end'>{e?.grosswt?.toFixed(3)}</div>
-                    <div className='col8_invk brright_invk p-1 text-end'>{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div>
-                    <div className='col6_invk brright_invk p-1 text-end'>{e?.totals?.diamonds?.Wt?.toFixed(3)}</div>
-                    <div className='col7_invk brright_invk p-1 text-end'>{e?.totals?.colorstone?.Wt?.toFixed(3)}</div>
+                    <div className='d-flex border-black border border-top-0'>
+                    <div className='col1_invk border-black border-end p-1 text-center'>{i+1}</div>
+                    <div className='col2_invk border-black border-end p-1 text-break'>Diamond Studded Gold Jewellery</div>
+                    <div className='col3_invk border-black border-end p-1'>{e?.MetalPurity}</div>
+                    <div className='col4_invk border-black border-end p-1 text-end'>{e?.Quantity}</div>
+                    <div className='col5_invk border-black border-end p-1 text-end'>{e?.grosswt?.toFixed(3)}</div>
+                    <div className='col8_invk border-black border-end p-1 text-end'>{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div>
+                    <div className='col6_invk border-black border-end p-1 text-end'>{e?.totals?.diamonds?.Wt?.toFixed(3)}</div>
+                    <div className='col7_invk border-black border-end p-1 text-end'>{e?.totals?.colorstone?.Wt?.toFixed(3)}</div>
                     <div className='col9_invk p-1 text-end'>{formatAmount(((e?.TotalAmount)/result?.header?.CurrencyExchRate))}</div>
                     </div>
                 </div>
                 })
             }
-            <div className='tbody_invk border-black border-bottom'>
-                <div className='d-flex brall_invk fw-bold'>
-                    <div className='col1_invk brright_invk p-1'></div>
-                    <div className='col2_invk brright_invk p-1'>TOTAL</div>
-                    <div className='col3_invk brright_invk p-1'></div>
-                    <div className='col4_invk brright_invk p-1 text-end'>{result?.mainTotal?.total_Quantity}</div>
-                    <div className='col5_invk brright_invk p-1 text-end'>{result?.mainTotal?.grosswt?.toFixed(3)}</div>
-                    <div className='col8_invk brright_invk p-1 text-end'>{(result?.mainTotal?.netwt + result?.mainTotal?.lossWt)?.toFixed(3)}</div>
-                    <div className='col6_invk brright_invk p-1 text-end'>{result?.mainTotal?.diamonds?.Wt?.toFixed(3)}</div>
-                    <div className='col7_invk brright_invk p-1 text-end'>{result?.mainTotal?.colorstone?.Wt?.toFixed(3)}</div>
+            <div className='tbody_invk border-black '>
+                <div className='d-flex border-black border border-top-0 fw-bold'>
+                    <div className='col1_invk border-black border-end p-1'></div>
+                    <div className='col2_invk border-black border-end p-1'>TOTAL</div>
+                    <div className='col3_invk border-black border-end p-1'></div>
+                    <div className='col4_invk border-black border-end p-1 text-end'>{result?.mainTotal?.total_Quantity}</div>
+                    <div className='col5_invk border-black border-end p-1 text-end'>{result?.mainTotal?.grosswt?.toFixed(3)}</div>
+                    <div className='col8_invk border-black border-end p-1 text-end'>{(result?.mainTotal?.netwt + result?.mainTotal?.lossWt)?.toFixed(3)}</div>
+                    <div className='col6_invk border-black border-end p-1 text-end'>{result?.mainTotal?.diamonds?.Wt?.toFixed(3)}</div>
+                    <div className='col7_invk border-black border-end p-1 text-end'>{result?.mainTotal?.colorstone?.Wt?.toFixed(3)}</div>
                     <div className='col9_invk p-1 text-end'>{formatAmount(((result?.mainTotal?.total_amount)/result?.header?.CurrencyExchRate))}</div>
                 </div>
             </div>
 
         </div>
-        <div className='d-flex brleft_invk brright_invk brbottom_invk border-black'>
-            <div style={{width:'87%'}} className='text-end p-1 brright_invk text-break'>Taxable Value of Goods & Services</div>
+        <div className='d-flex brleft_invk brright_invk brbottom_invk border-black border-top-0'>
+            <div style={{width:'87%'}} className='text-end p-1 border-black border-end text-break'>Taxable Value of Goods & Services</div>
             <div style={{width:'13%'}} className='text-end p-1'>{formatAmount((result?.mainTotal?.total_amount/ result?.header?.CurrencyExchRate))}</div>
         </div>
         <div className='d-flex brleft_invk brright_invk brbottom_invk border-black'>
-            <div style={{width:'87%'}} className='text-end p-1 brright_invk text-break'>Rate of Applicable Tax (%)</div>
+            <div style={{width:'87%'}} className='text-end p-1 border-black border-end text-break'>Rate of Applicable Tax (%)</div>
             <div style={{width:'13%'}} className='text-end p-1'>Amount</div>
         </div>
         <div className='brleft_invk brright_invk brbottom_invk border-black'>
@@ -232,18 +232,18 @@ const InvoicePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         {
             result?.allTaxes?.map((e, i) => {
                 return <div className='d-flex ' key={i}>
-                <div style={{width:'87%'}} className='text-end px-1 brright_invk'>{e?.name} @ {e?.per}</div>
+                <div style={{width:'87%'}} className='text-end px-1 border-black border-end'>{e?.name} @ {e?.per}</div>
                 <div style={{width:'13%'}} className='text-end px-1'>{formatAmount(((e?.amount)/result?.header?.CurrencyExchRate))}</div>
             </div>
             })
         }
-        <div className='d-flex brbottom_invk'>
-            <div style={{width:'87%'}} className='text-end px-1 brright_invk'>{result?.header?.AddLess > 0 ? 'Add' : 'Less'}</div>
+        <div className='d-flex border-black border-bottom'>
+            <div style={{width:'87%'}} className='text-end px-1 border-black border-end'>{result?.header?.AddLess > 0 ? 'Add' : 'Less'}</div>
             <div style={{width:'13%'}} className='text-end px-1'>{formatAmount((result?.header?.AddLess)/result?.header?.CurrencyExchRate)}</div>
         </div>
         <div className='d-flex align-items-center fw-bold'>
             <div style={{width:'70%'}} className='px-1 text-break'>    IN WORDS : {NumToWord((((result?.header?.AddLess + result?.mainTotal?.total_amount + result?.allTaxesTotal)/result?.header?.CurrencyExchRate)))?.toUpperCase()}</div>
-            <div style={{width:'17%'}} className='text-end p-1 brright_invk fw-bold'>Total Bill Amount (INR)</div>
+            <div style={{width:'17%'}} className='text-end p-1 border-black border-end fw-bold'>Total Bill Amount (INR)</div>
             <div style={{width:'13%'}} className='text-end p-1 fw-bold'>{formatAmount(((result?.header?.AddLess + result?.mainTotal?.total_amount + result?.allTaxesTotal)/result?.header?.CurrencyExchRate))}</div>
         </div>
         
