@@ -743,7 +743,7 @@ useEffect(() => {
                     
                     
                     <div>
-                      { result?.header?.IsEinvoice === 0 ? 
+                      { result?.header?.IsEinvoice  ? 
                       <div className="headline_invp4 text-uppercase d-flex justify-content-between align-items-center px-2">
                          <span>{result?.header?.E_InvoiceType}</span> 
                          <span>{result?.header?.E_HeadLabel}</span>
@@ -751,7 +751,7 @@ useEffect(() => {
                        <div className="headline_invp4 text-uppercase"> {result?.header?.PrintHeadLabel} </div> 
                        }
 
-                      { result?.header?.IsEinvoice === 0 ? <>
+                      { result?.header?.IsEinvoice ? <>
                         <div className='p-3'>  {isImageWorking && (result?.header?.PrintLogo !== "" && 
                           <img src={result?.header?.PrintLogo} alt="" 
                           className='w-100 h-auto  d-block object-fit-contain'
@@ -781,9 +781,8 @@ useEffect(() => {
                           <div>CIN - {result?.header?.CINNO}  MSME - {result?.header?.MSME} </div>
                         </div>
                         </div>
-                        <div>
-                          <div className="p-4 pb-2 max_qr_invp4">
-                            {console.log(result?.header)}
+                        <div className="d-flex flex-column justify-content-end align-items-center">
+                          <div className=" pb-2 max_qr_invp4 d-flex  justify-content-end align-items-center">
                             <div className="max_qr_invp4_2">
                                 {/* <QrCodeForPrint text="hellosdkjnksdfbnkjbsfkjbbdasfklnenfsdeflkhnresglkjgklkndfkgjngkjngklnasdfkjndfdglkndfgknkdfgjnkjadekjsdnkj" /> */}
                                 <img src={result?.header?.E_Qr} alt="" style={{objectFit:'contain'}} onError={handleGlobalImgError} />
@@ -792,22 +791,22 @@ useEffect(() => {
                           <div className="text-break fw-bold pb-2 invp4_fs">{result?.header?.InvoiceBillType}</div>
                         </div>
                       </div>
-                      <div className="invp4_fs border mb-2">
+                      <div className="invp4_fs border mb-1">
                         <div className="fw-bold p-1">1. e-Invoice Details</div>
-                        <div className="border-top invp4_fs d-flex align-items-center pb-4">
+                        <div className="border-top invp4_fs d-flex align-items-center pb-1">
                             <div className="w-50 p-1"><span className="fw-bold">IRN : </span>{result?.header?.E_IRN}</div>
                             <div className="w-25 p-1"><span className="fw-bold">Ack. No : </span>{result?.header?.E_AckNo}</div>
                             <div className="w-25 p-1"><span className="fw-bold">Ack. Date :</span>{result?.header?.E_AckDt}</div>
                         </div>
                       </div>
-                      <div className="invp4_fs border mb-2">
+                      <div className="invp4_fs border mb-1">
                         <div className="fw-bold p-1">2.Transaction Details</div>
                         <div className="border-top invp4_fs d-flex align-items-center">
                             <div className="w-25"><span className="fw-bold px-1">Category :</span>{result?.header?.E_Category}</div>
                             <div className="w-25"><span className="fw-bold px-1">Invoice No :</span>{result?.header?.InvoiceNo}</div>
                             <div className="w-25"><span className="fw-bold px-1">IGST on INTRA :</span>{result?.header?.E_INTRA}</div>
                         </div>
-                        <div className=" invp4_fs d-flex align-items-center pb-4">
+                        <div className=" invp4_fs d-flex align-items-center pb-1">
                             <div className="w-25"><span className="fw-bold px-1 invp4_fs">Invoice Type :</span>{result?.header?.E_InvoiceType}</div>
                             <div className="w-25"><span className="fw-bold px-1 invp4_fs">Invoice Date :</span>{result?.header?.EntryDate}</div>
                             <div className="w-25"><span className="fw-bold px-1 invp4_fs">	Description :</span>{result?.header?.E_BTY}</div>
