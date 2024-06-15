@@ -131,7 +131,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       totals.diaTotal.Amount += diaTotal.Amount;
       totals.diaTotal.Pcs += diaTotal.Pcs;
       totals.diaTotal.Wt += diaTotal.Wt;
-      totals.gold24kt += e?.convertednetwt;
+      // totals.gold24kt += e?.convertednetwt;
+      totals.gold24kt += e?.PureNetWt;
 
       totals.csTotal.Amount += csTotal.Amount;
       totals.csTotal.Pcs += csTotal.Pcs;

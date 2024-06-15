@@ -750,7 +750,9 @@ useEffect(() => {
                        </div> : 
                        <div className="headline_invp4 text-uppercase"> {result?.header?.PrintHeadLabel} </div> 
                        }
-
+                        {
+                            console.log(result?.header)
+                        }
                       { result?.header?.IsEinvoice ? <>
                         <div className='p-3'>  {isImageWorking && (result?.header?.PrintLogo !== "" && 
                           <img src={result?.header?.PrintLogo} alt="" 
