@@ -135,7 +135,7 @@ const Print1SME = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className='printbtn2_qp1 print_btn_qp1 br_btn2_smp' onClick={handlePrintwithprice}>Print With Price</div>
                     </div>
                     <div className='d_flex_qp1 pb-1 pt-1 ps-4'>
-                        <div>Quotation# :</div>
+                        <div>{(atob(evn))?.toUpperCase() === 'SALE' ? 'INVOICE NO' : (atob(evn))?.toUpperCase()}# :</div>
                         <div className='quoteno_qp1 font_bold_qp1'>{result?.header?.InvoiceNo?.toUpperCase()}</div>
                         <div>Customer :</div>
                         <div className='quoteno_qp1 font_bold_qp1'>{result?.header?.Customercode}</div>
@@ -177,32 +177,33 @@ const Print1SME = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                     )
                                                 })} */}
                                                 <div className='child2_w_qp1'>{(res?.NetWt + res?.LossWt)?.toFixed(2)}</div>
-                                                <div className={removeclass === false ? "print_btn_qp1" : ""}><div className='child3_w_qp1'>{formatAmount(res?.MetalAmount + res?.totals?.finding?.Amount)}</div></div>
+
+                                                <div className={removeclass === false ? "print_btn_qp1" : ""}><div className='child3_w_qp1'>{formatAmount(((res?.MetalAmount + res?.totals?.finding?.Amount) / result?.header?.CurrencyExchRate))}</div></div>
                                             </div>
                                             <div className={removeclass === false ? "j_qp1 d_flex_qp1 text_end_qp1" : 'd_flex_qp1 text_end_qp1'}>
                                                 <div className='child1_w_qp1 text_start_qp1'>Diamond</div>
                                                 <div className='child2_w_qp1'>{res.totals?.diamonds?.Wt?.toFixed(2)}</div>
-                                                <div className={removeclass === false ? "print_btn_qp1" : ""}><div className='child3_w_qp1'>{formatAmount(res?.totals?.diamonds?.Amount)}</div></div>
+                                                <div className={removeclass === false ? "print_btn_qp1" : ""}><div className='child3_w_qp1'>{formatAmount((res?.totals?.diamonds?.Amount / result?.header?.CurrencyExchRate))}</div></div>
                                             </div>
                                             <div className={removeclass === false ? "j_qp1 d_flex_qp1 text_end_qp1" : 'd_flex_qp1 text_end_qp1'}>
                                                 <div className='child1_w_qp1 text_start_qp1'>Color Stone</div>
                                                 <div className='child2_w_qp1'>{res.totals?.colorstone?.Wt?.toFixed(2)}</div>
-                                                <div className={removeclass === false ? "print_btn_qp1" : ""}><div className=' child3_w_qp1'>{formatAmount(res?.totals?.colorstone?.Amount)}</div></div>
+                                                <div className={removeclass === false ? "print_btn_qp1" : ""}><div className=' child3_w_qp1'>{formatAmount((res?.totals?.colorstone?.Amount / result?.header?.CurrencyExchRate))}</div></div>
                                             </div>
                                             <div className='d_flex_qp1 text_end_qp1'>
                                                 <div className='child1_w_qp1 text_start_qp1'>Labour</div>
                                                 <div className='child2_w_qp1'></div>
-                                                <div className='child3_w_qp1'><div className={removeclass === false ? "print_btn_qp1" : ""}>{formatAmount(res?.MakingAmount + res?.totals?.colorstone?.SettingAmount + res?.totals?.diamonds?.SettingAmount)}</div></div>
+                                                <div className='child3_w_qp1'><div className={removeclass === false ? "print_btn_qp1" : ""}>{formatAmount(((res?.MakingAmount + res?.totals?.colorstone?.SettingAmount + res?.totals?.diamonds?.SettingAmount) / result?.header?.CurrencyExchRate))}</div></div>
                                             </div>
                                             <div className='d_flex_qp1 text_end_qp1'>
                                                 <div className='child1_w_qp1 text_start_qp1'>Other</div>
                                                 <div className='child2_w_qp1'></div>
-                                                <div className='child3_w_qp1'><div className={removeclass === false ? "print_btn_qp1" : ""}>{formatAmount(res?.OtherCharges +  res?.TotalDiamondHandling + res?.MiscAmount)}</div></div>
+                                                <div className='child3_w_qp1'><div className={removeclass === false ? "print_btn_qp1" : ""}>{formatAmount(((res?.OtherCharges +  res?.TotalDiamondHandling + res?.MiscAmount) / result?.header?.CurrencyExchRate))}</div></div>
                                             </div>
                                             <div className='d_flex_qp1 text_end_qp1'>
                                                 <div className='child1_w_qp1 text_start_qp1'>Total</div>
                                                 <div className='child2_w_qp1'></div>
-                                                <div className='child3_w_qp1 font_bold_qp1'><div className={removeclass === false ? "print_btn_qp1" : ""}>{formatAmount(res?.TotalAmount)}</div></div>
+                                                <div className='child3_w_qp1 font_bold_qp1'><div className={removeclass === false ? "print_btn_qp1" : ""}>{formatAmount(res?.TotalAmount / result?.header?.CurrencyExchRate)}</div></div>
                                             </div>
                                         </div>
                                     </div>
@@ -258,12 +259,12 @@ const Print1SME = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                         <p>{result?.header?.AddLess >= 0 ? "Add" : "Less"}</p>
                                                     </div>
                                                     <div className='padding_right_qp1 text_end_qp1'>
-                                                        <p>{formatAmount(result?.mainTotal?.MetalAmount + result?.mainTotal?.finding?.Amount)}</p>
-                                                        <p>{formatAmount(result?.mainTotal?.diamonds?.Amount)}</p>
-                                                        <p>{formatAmount(result?.mainTotal?.colorstone?.Amount)}</p>
-                                                        <p>{formatAmount(result?.mainTotal?.total_labour?.labour_amount + result?.mainTotal?.colorstone?.SettingAmount + result?.mainTotal?.diamonds?.SettingAmount)}</p>
-                                                        <p>{formatAmount(result?.mainTotal?.total_other_charges + result?.mainTotal?.misc?.Amount + result?.mainTotal?.total_diamondHandling)}</p>
-                                                        <p>{formatAmount(result?.header?.AddLess)}</p>
+                                                        <p>{formatAmount(((result?.mainTotal?.MetalAmount + result?.mainTotal?.finding?.Amount)/result?.header?.CurrencyExchRate))}</p>
+                                                        <p>{formatAmount((result?.mainTotal?.diamonds?.Amount / result?.header?.CurrencyExchRate))}</p>
+                                                        <p>{formatAmount((result?.mainTotal?.colorstone?.Amount / result?.header?.CurrencyExchRate))}</p>
+                                                        <p>{formatAmount(((result?.mainTotal?.total_labour?.labour_amount + result?.mainTotal?.colorstone?.SettingAmount + result?.mainTotal?.diamonds?.SettingAmount)/result?.header?.CurrencyExchRate))}</p>
+                                                        <p>{formatAmount(((result?.mainTotal?.total_other_charges + result?.mainTotal?.misc?.Amount + result?.mainTotal?.total_diamondHandling)/result?.header?.CurrencyExchRate))}</p>
+                                                        <p>{formatAmount((result?.header?.AddLess / result?.header?.CurrencyExchRate))}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -272,7 +273,7 @@ const Print1SME = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                     <p>TOTAL</p>
                                                 </div>
                                                 <div className='padding_right_qp1 text_end_qp1'>
-                                                    <p>{formatAmount(result?.mainTotal?.total_amount)}</p>
+                                                    <p>{formatAmount((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate))}</p>
                                                 </div>
                                             </div>
                                         </div>
