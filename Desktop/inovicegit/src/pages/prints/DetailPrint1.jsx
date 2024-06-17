@@ -1363,7 +1363,9 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <p className="fw-bold px-1 pt-1">GOLD IN 24KT</p>
                       <p className="px-1 pt-1">
                         {" "}
-                        {(detailtPrintR || detailtPrintL || detailtPrintp) ? NumberWithCommas(summary?.gold24Kt, 3) : fixedValues(finalD?.mainTotal?.convertednetwt, 3)} gm
+                        {/* {(detailtPrintR || detailtPrintL || detailtPrintp) ?  */}
+                        {(detailtPrintR) ? 
+                        NumberWithCommas(summary?.gold24Kt, 3) : fixedValues(finalD?.mainTotal?.convertednetwt, 3)} gm
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">

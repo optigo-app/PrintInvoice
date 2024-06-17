@@ -389,7 +389,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                         <div className="d-flex brbdp12 w-100">
                           <div className="w-50 brdp12 ps-1 d-flex">
-                            <div className="w-50 brdp12 ps-1 text-break">MAKING RATE</div>
+                            <div className="w-50 brdp12 ps-1 text-break">MAKING CHARGE</div>
                             <div className="w-50 center_dp12 pe-1">
                               {" "}
                               {(e?.NetWt + e?.LossWt)?.toFixed(3)}{" "}

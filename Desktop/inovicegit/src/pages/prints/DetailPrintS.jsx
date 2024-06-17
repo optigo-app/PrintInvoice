@@ -228,7 +228,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         let findMiscs = miscs_filter.findIndex(
           (elem, index) =>
             elem?.ShapeName === b?.ShapeName 
-            // && elem?.Rate === b?.Rate
+            && elem?.Rate === b?.Rate
         );
         if (findMiscs === -1) {
           let objj = { ...ele };
@@ -491,24 +491,6 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   
       datas.resultArray = finalArr;
 
-
-      let prod_sum = [];
-
-      // datas?.resultArray?.forEach((e) => {
-      //   e?.diamonds?.forEach((el) => {
-      //     prod_sum.push(el);
-      //   })
-      //   e?.colorstone?.forEach((el) => {
-      //     prod_sum.push(el);
-      //   })
-      //   e?.misc?.forEach((el) => {
-      //     prod_sum.push(el);
-      //   })
-      // })
-
-
-      // console.log(prod_sum);
-
       let prod_sum_dia = [];
       let prod_sum_clr = [];
       let prod_sum_misc = [];
@@ -530,10 +512,68 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         let b = cloneDeep(a);
         let findrec = dia_arr?.push((al) => al?.ShapeName === b?.ShapeName)
         if(findrec === -1){
-          
+            dia_arr.push(b);
+        }else{
+          dia_arr[findrec].Wt += b?.Wt;
+          dia_arr[findrec].Pcs += b?.Pcs;
+          dia_arr[findrec].Amount += b?.Amount;
         }
-      })
+      });
+
+      let clr_arr = [];
+      prod_sum_clr?.forEach((a) => {
+        let b = cloneDeep(a);
+        let findrec = clr_arr?.push((al) => al?.ShapeName === b?.ShapeName && al?.isRateOnPcs === a?.isRateOnPcs)
+        if(findrec === -1){
+            clr_arr.push(b);
+        }else{
+          clr_arr[findrec].Wt += b?.Wt;
+          clr_arr[findrec].Pcs += b?.Pcs;
+          clr_arr[findrec].Amount += b?.Amount;
+        }
+      });
+
+      let misc_arr = [];
+      prod_sum_misc?.forEach((a) => {
+        let b = cloneDeep(a);
+        if(b?.MasterManagement_DiamondStoneTypeid === 3 && (b?.IsHSCOE === 0 || b?.IsHSCOE === 3)){
+          let findrec = misc_arr?.push((al) => al?.ShapeName === b?.ShapeName && al?.isRateOnPcs === a?.isRateOnPcs)
+          if(findrec === -1){
+            misc_arr.push(b);
+          }else{
+            misc_arr[findrec].Wt += b?.Wt;
+            misc_arr[findrec].Pcs += b?.Pcs;
+            misc_arr[findrec].Amount += b?.Amount;
+            if(b?.IsHSCOE === 3){
+              misc_arr[findrec].ServWt += b?.ServWt;
+            }
+          }
+        }
+      });
+
+      let final_all_arr = [...dia_arr, ...clr_arr, ...misc_arr];
+
+      console.log(final_all_arr);
       
+      // setMiscWise(final_all_arr);
+
+      let misc_main_total = {
+        Pcs:0,
+        Wt:0,
+        ServWt:0,
+        Amount:0,
+        Rate:0
+      }
+
+      final_all_arr?.forEach((a) => {
+        misc_main_total.Pcs += a?.Pcs;
+        misc_main_total.Wt += a?.Wt;
+        misc_main_total.ServWt += a?.ServWt;
+        misc_main_total.Rate = a?.Rate;
+        misc_main_total.Amount += a?.Amount;
+      })
+
+      // setMiscWise_total(misc_main_total)
 
 
     } catch (error) {
