@@ -227,7 +227,8 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         let b = cloneDeep(ele);
         let findMiscs = miscs_filter.findIndex(
           (elem, index) =>
-            elem?.ShapeName === b?.ShapeName && elem?.Rate === b?.Rate
+            elem?.ShapeName === b?.ShapeName 
+            // && elem?.Rate === b?.Rate
         );
         if (findMiscs === -1) {
           let objj = { ...ele };
@@ -425,6 +426,115 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       })
 
       datas.resultArray = secArr;
+
+
+      let finalArr = [];
+
+      datas.resultArray?.forEach((a) => {
+        if(a?.GroupJob === ''){
+          finalArr.push(a);
+      }else{
+        let b = cloneDeep(a);
+        let find_record = finalArr.findIndex((el) => el?.GroupJob === b?.GroupJob);
+        if(find_record === -1){
+          finalArr.push(b);
+        }else{
+          if(finalArr[find_record]?.GroupJob !== finalArr[find_record]?.SrJobno){
+              finalArr[find_record].designno = b?.designno;
+              finalArr[find_record].HUID = b?.HUID; 
+          }
+          finalArr[find_record].grosswt += b?.grosswt;
+          finalArr[find_record].NetWt += b?.NetWt;
+          finalArr[find_record].LossWt += b?.LossWt;
+          finalArr[find_record].TotalAmount += b?.TotalAmount;
+          finalArr[find_record].DiscountAmt += b?.DiscountAmt;
+          finalArr[find_record].UnitCost += b?.UnitCost;
+          finalArr[find_record].MakingAmount += b?.MakingAmount;
+          finalArr[find_record].OtherCharges += b?.OtherCharges;
+          finalArr[find_record].TotalDiamondHandling += b?.TotalDiamondHandling;
+          finalArr[find_record].Quantity += b?.Quantity;
+          finalArr[find_record].Wastage += b?.Wastage;
+
+          finalArr[find_record].totals.metal.IsPrimaryMetal += b?.totals?.metal?.IsPrimaryMetal;
+          // finalArr[find_record].diamonds_d = [...finalArr[find_record]?.diamonds ,...b?.diamonds]?.flat();
+          finalArr[find_record].diamonds = [...finalArr[find_record]?.diamonds, ...b?.diamonds]?.flat();
+          // finalArr[find_record].colorstone_d = [...finalArr[find_record]?.colorstone ,...b?.colorstone]?.flat();
+          finalArr[find_record].colorstone = [...finalArr[find_record]?.colorstone, ...b?.colorstone]?.flat();
+          // finalArr[find_record].metal_d = [...finalArr[find_record]?.metal ,...b?.metal]?.flat();
+          finalArr[find_record].metal = [...finalArr[find_record]?.metal, ...b?.metal]?.flat();
+          finalArr[find_record].misc = [...finalArr[find_record]?.misc ,...b?.misc]?.flat();
+
+          finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
+          finalArr[find_record].totals.diamonds.Pcs += b?.totals?.diamonds?.Pcs;
+          finalArr[find_record].totals.diamonds.Amount += b?.totals?.diamonds?.Amount;
+          finalArr[find_record].totals.colorstone.Wt += b?.totals?.colorstone?.Wt;
+          finalArr[find_record].totals.colorstone.Pcs += b?.totals?.colorstone?.Pcs;
+          finalArr[find_record].totals.colorstone.Amount += b?.totals?.colorstone?.Amount;
+          finalArr[find_record].totals.misc.Wt += b?.totals?.misc?.Wt;
+          finalArr[find_record].totals.misc.allservwt += b?.totals?.misc?.allservwt;
+          finalArr[find_record].totals.misc.Pcs += b?.totals?.misc?.Pcs;
+          finalArr[find_record].totals.misc.Amount += b?.totals?.misc?.Amount;
+          finalArr[find_record].totals.metal.Amount += b?.totals?.metal?.Amount;
+          finalArr[find_record].totals.metal.IsPrimaryMetal += b?.totals?.metal?.IsPrimaryMetal;
+          finalArr[find_record].totals.metal.IsPrimaryMetal_Amount += b?.totals?.metal?.IsPrimaryMetal_Amount;
+          finalArr[find_record].totals.misc.withouthscode1_2_pcs += b?.totals?.misc?.withouthscode1_2_pcs;
+          finalArr[find_record].totals.misc.withouthscode1_2_wt += b?.totals?.misc?.withouthscode1_2_wt;
+          finalArr[find_record].totals.misc.onlyHSCODE3_amt += b?.totals?.misc?.onlyHSCODE3_amt;
+          finalArr[find_record].totals.misc.onlyIsHSCODE0_Pcs += b?.totals?.misc?.onlyIsHSCODE0_Pcs;
+          finalArr[find_record].totals.misc.onlyHSCODE3_pcs += b?.totals?.misc?.onlyHSCODE3_pcs;
+          finalArr[find_record].totals.misc.onlyIsHSCODE0_Wt += b?.totals?.misc?.onlyIsHSCODE0_Wt;
+          finalArr[find_record].totals.misc.onlyIsHSCODE3_ServeWt += b?.totals?.misc?.onlyIsHSCODE3_ServeWt;
+          // finalArr[find_record].misc_d = [...finalArr[find_record]?.misc ,...b?.misc]?.flat();
+        }
+      }
+      })
+  
+      datas.resultArray = finalArr;
+
+
+      let prod_sum = [];
+
+      // datas?.resultArray?.forEach((e) => {
+      //   e?.diamonds?.forEach((el) => {
+      //     prod_sum.push(el);
+      //   })
+      //   e?.colorstone?.forEach((el) => {
+      //     prod_sum.push(el);
+      //   })
+      //   e?.misc?.forEach((el) => {
+      //     prod_sum.push(el);
+      //   })
+      // })
+
+
+      // console.log(prod_sum);
+
+      let prod_sum_dia = [];
+      let prod_sum_clr = [];
+      let prod_sum_misc = [];
+
+      datas?.json2?.forEach((e) => {
+        if(e?.MasterManagement_DiamondStoneTypeid === 1){
+          prod_sum_dia.push(e);
+        }
+        if(e?.MasterManagement_DiamondStoneTypeid === 2){
+          prod_sum_clr.push(e);
+        }
+        if(e?.MasterManagement_DiamondStoneTypeid === 3){
+          prod_sum_misc.push(e);
+        }
+      })
+
+      let dia_arr = [];
+      prod_sum_dia?.forEach((a) => {
+        let b = cloneDeep(a);
+        let findrec = dia_arr?.push((al) => al?.ShapeName === b?.ShapeName)
+        if(findrec === -1){
+          
+        }
+      })
+      
+
 
     } catch (error) {
       console.log(error);
@@ -1095,10 +1205,11 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               <div className="d-flex brtdp7" >
                                 <div className="w_subcoldp7 dp7cen1 brdp7" style={{ width: "25%" }} > &nbsp; </div>
                                 <div className="w_subcoldp7 dp7cen2 brdp7 fw-bold" style={{ width: "10%" }} >
-                                   {(e?.totals?.diamonds?.Pcs + e?.totals?.colorstone?.Pcs + e?.totals?.misc?.onlyHSCODE3_pcs
-                                     + e?.totals?.misc?.onlyIsHSCODE0_Pcs) === 0  ? '' : 
-                                     (e?.totals?.diamonds?.Pcs + e?.totals?.colorstone?.Pcs + e?.totals?.misc?.onlyHSCODE3_pcs
-                                     + e?.totals?.misc?.onlyIsHSCODE0_Pcs) } </div>
+                                   {(e?.totals?.diamonds?.Pcs + 
+                                     e?.totals?.colorstone?.Pcs + 
+                                     e?.totals?.misc?.onlyHSCODE3_pcs + 
+                                     e?.totals?.misc?.onlyIsHSCODE0_Pcs) === 0  ? '' :  (e?.totals?.diamonds?.Pcs + e?.totals?.colorstone?.Pcs + e?.totals?.misc?.onlyHSCODE3_pcs + e?.totals?.misc?.onlyIsHSCODE0_Pcs) } </div>
+                                     {console.log(e)}
 
                                 <div className="w_subcoldp7 dp7cen2 brdp7 fw-bold"> 
                                   {(( e?.totals?.metal?.WithOutPrimaryMetal + e?.totals?.diamonds?.Wt + 
@@ -1148,7 +1259,9 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   {/* <div className="totcol4dp7" style={{width:"35.3%"}}></div> */}
                   <div style={{width:'17%'}} className=" border-end"></div>
-                  <div style={{width:'4%'}} className=" border-end text-end pe-1">{(result?.mainTotal?.diamonds?.Pcs + result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.onlyIsHSCODE0_Pcs + result?.mainTotal?.misc?.onlyHSCODE3_pcs)}</div>
+                  <div style={{width:'4%'}} className=" border-end text-end pe-1">
+                    {(result?.mainTotal?.diamonds?.Pcs + result?.mainTotal?.colorstone?.Pcs + 
+                      result?.mainTotal?.misc?.onlyIsHSCODE0_Pcs + result?.mainTotal?.misc?.onlyHSCODE3_pcs)}</div>
                   <div style={{width:'7.5%'}} className=" border-end text-end pe-1">
                     {(result?.mainTotal?.diamonds?.Wt + 
                       result?.mainTotal?.colorstone?.Wt + 
@@ -1381,7 +1494,8 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.ShapeName}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_2 dp7cen2">
-                              {e?.Pcs}
+                              {/* {e?.Pcs} */}
+                              {e?.pcPcs}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_3 dp7cen2">
                               {e?.Rate?.toFixed(2)}

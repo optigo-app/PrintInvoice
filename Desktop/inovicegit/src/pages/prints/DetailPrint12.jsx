@@ -427,7 +427,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 ? ""
                                 : priceFlag &&
                                   formatAmount(
-                                    e?.MakingAmount + e?.MetalAmount
+                                    ((e?.MakingAmount + e?.MetalAmount) / result?.header?.CurrencyExchRate)
                                   )}
                             </div>
                           </div>
