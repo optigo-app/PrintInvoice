@@ -860,11 +860,11 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   className={`d-flex justify-content-between `}
                                   key={ind}
                                 >
-                                  <p className="col-3 paddingRightDetailPrint1">
+                                  <p className="col-3 paddingRightDetailPrint1 text-break">
                                     {ele?.ShapeName} {ele?.QualityName}{" "}
                                     {ele?.Colorname}
                                   </p>
-                                  <p className="col-2 text-center  paddingRightDetailPrint1">
+                                  <p className="col-2 text-center  paddingRightDetailPrint1 text-break">
                                     {ele?.SizeName}
                                   </p>
                                   <p className="col-1 text-end paddingRightDetailPrint1">
@@ -889,16 +889,16 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <p className="col-2 paddingRightDetailPrint1 "></p>
                             <p className="col-2 paddingRightDetailPrint1 "></p>
                             <p className="col-2 paddingRightDetailPrint1 text-end fw-bold d-flex align-items-center justify-content-end">
-                              {e?.diamondsTotal?.Pcs !== 0 &&
-                                NumberWithCommas(e?.totals?.diamonds?.Pcs, 0)}
+                              {/* {e?.diamondsTotal?.Pcs === 0 && NumberWithCommas(e?.totals?.diamonds?.Pcs, 0)} */}
+                              {e?.totals?.diamonds?.Pcs !== 0 && NumberWithCommas(e?.totals?.diamonds?.Pcs, 0)}
                             </p>
                             <p className="col-2 paddingRightDetailPrint1 text-end fw-bold d-flex align-items-center justify-content-end">
-                              {e?.diamondsTotal?.Wt !== 0 &&
+                              {e?.totals?.diamonds?.Wt !== 0 &&
                                 fixedValues(e?.totals?.diamonds?.Wt, 3)}
                             </p>
                             <p className="col-2 paddingRightDetailPrint1 text-end fw-bold d-flex align-items-center justify-content-end"></p>
                             <p className="col-2  text-end fw-bold d-flex align-items-center justify-content-end  paddingRightDetailPrint1l">
-                              {e?.diamondsTotal?.Amount !== 0 &&
+                              {e?.totals?.diamonds?.Amount !== 0 &&
                                 NumberWithCommas(e?.totals?.diamonds?.Amount, 2)}
                             </p>
                           </div>
@@ -910,10 +910,10 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             e?.metal.map((ele, ind) => {
                               return (
                                 <div className={`d-flex`} key={ind}>
-                                  <p className="col-3  paddingRightDetailPrint1">
+                                  <p className="col-3  paddingRightDetailPrint1 text-break">
                                     {ele?.ShapeName + " " + ele?.QualityName}
                                   </p>
-                                  <p className="col-2  text-end paddingRightDetailPrint1">
+                                  <p className="col-2  text-end paddingRightDetailPrint1 text-break">
                                     {ind === 0 ? NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3) : NumberWithCommas(ele?.Wt, 3)}
                                   </p>
                                   <p className="col-2  text-end paddingRightDetailPrint1">
@@ -960,11 +960,11 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             e?.colorstone.map((ele, ind) => {
                               return (
                                 <div className={`d-flex`} key={ind}>
-                                  <p className="col-3 paddingRightDetailPrint1">
+                                  <p className="col-3 paddingRightDetailPrint1 text-break">
                                     {ele?.ShapeName} {ele?.QualityName}{" "}
                                     {ele?.Colorname}
                                   </p>
-                                  <p className="col-2 text-center  paddingRightDetailPrint1">
+                                  <p className="col-2 text-center  paddingRightDetailPrint1 text-break">
                                     {ele?.SizeName}
                                   </p>
                                   <p className="col-1 text-end paddingRightDetailPrint1">
@@ -1215,8 +1215,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 {json0Data?.Privilege_discount !== 0 && (
                   <p className="">Privilege Card Discount</p>
                 )}
-                {taxes.length > 0 &&
-                  taxes.map((e, i) => {
+                {taxes?.length > 0 &&
+                  taxes?.map((e, i) => {
                     return (
                       <p key={i} className="">
                         {e?.name} @ {e?.per}
@@ -1470,7 +1470,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <p className="fw-bold text-center border-bottom  w-100 lightGrey">
                     Diamond Detail
                   </p>
-                  <div>
+                  <div className="d-flex flex-column justify-content-start h-100">
                     {diamondDetails?.map((e, i) => {
                       return e?.Wt !== undefined && <React.Fragment key={i}>
                         <div className={`d-flex justify-content-between px-1 pb-1  align-items-center ${i === 0 && "pt-1"}`}>
