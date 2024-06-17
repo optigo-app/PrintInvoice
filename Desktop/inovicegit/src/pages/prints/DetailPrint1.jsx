@@ -923,7 +923,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     {NumberWithCommas(ele?.Rate, 2)}
                                   </p>
                                   <p className={`col-3 text-end ${ind > 0 && "fw-bold"}`}>
-                                    {NumberWithCommas(ele?.Amount, 2)}
+                                    {(NumberWithCommas(ele?.Amount, 2))}
                                   </p>
                                 </div>
                               );
@@ -948,7 +948,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </p>
                             <p className="col-2 text-end paddingRightDetailPrint1"></p>
                             <p className="col-3 text-end fw-bold d-flex justify-content-end align-items-center  paddingRightDetailPrint1 ">
-                              {e?.totals?.metal.Amount !== 0 &&
+                              {
                                 NumberWithCommas(e?.metal[0].Amount, 2)}
                             </p>
                           </div>

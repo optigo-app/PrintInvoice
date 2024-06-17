@@ -553,7 +553,6 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       let final_all_arr = [...dia_arr, ...clr_arr, ...misc_arr];
 
-      console.log(final_all_arr);
       
       // setMiscWise(final_all_arr);
 
@@ -1249,7 +1248,6 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                      e?.totals?.colorstone?.Pcs + 
                                      e?.totals?.misc?.onlyHSCODE3_pcs + 
                                      e?.totals?.misc?.onlyIsHSCODE0_Pcs) === 0  ? '' :  (e?.totals?.diamonds?.Pcs + e?.totals?.colorstone?.Pcs + e?.totals?.misc?.onlyHSCODE3_pcs + e?.totals?.misc?.onlyIsHSCODE0_Pcs) } </div>
-                                     {console.log(e)}
 
                                 <div className="w_subcoldp7 dp7cen2 brdp7 fw-bold"> 
                                   {(( e?.totals?.metal?.WithOutPrimaryMetal + e?.totals?.diamonds?.Wt + 
