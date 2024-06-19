@@ -564,7 +564,6 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       });
 
       let final_all_arr = [...dia_arr, ...clr_arr, ...misc_arr];
-      console.log(final_all_arr);
       
       setMiscWise(final_all_arr);
 
@@ -592,7 +591,6 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         }
 
       })
-      console.log(misc_main_total);
       setMiscWise_total(misc_main_total)
 
 
@@ -1325,7 +1323,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {(result?.mainTotal?.diamonds?.Wt + 
                       result?.mainTotal?.colorstone?.Wt + 
                       result?.mainTotal?.misc?.onlyIsHSCODE0_Wt + 
-                      result?.mainTotal?.misc?.onlyIsHSCODE3_ServeWt + result?.mainTotal?.metal?.withOutPrimaryMetal)}</div>
+                      result?.mainTotal?.misc?.onlyIsHSCODE3_ServeWt + result?.mainTotal?.metal?.withOutPrimaryMetal)?.toFixed(3)}</div>
                   <div style={{width:'8%'}} className=" border-end"></div>
                   <div className="totcol5dp7 dp7cen2" style={{width:'9.7%'}}>
                     {result?.mainTotal?.total_diamond_colorstone_misc_amount !== 0 &&
@@ -1557,7 +1555,8 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {/* {e?.pcPcs} */}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_3 dp7cen2">
-                              {e?.Rate?.toFixed(2)}
+                              {/* {e?.Rate?.toFixed(2)} */}
+                              {formatAmount(((e?.Amount)/((e?.isRateOnPcs === 0 ? (e?.Wt === 0 ? 1 : e?.Wt) : (e?.Pcs === 0 ? 1 : e?.Pcs)))))}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_4 dp7cen2">
                               {e?.MasterManagement_DiamondStoneTypeid === 2

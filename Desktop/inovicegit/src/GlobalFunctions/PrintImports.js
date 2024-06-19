@@ -200,3 +200,6 @@ export const quoteArray = [
   {label:"alteration", evname: "quote"},
 ];
 
+export const MaterialSale = [
+  {printName: 'invoice print', etpType: 'print', componentName: 'InvoicePrintShwinit'}
+]
