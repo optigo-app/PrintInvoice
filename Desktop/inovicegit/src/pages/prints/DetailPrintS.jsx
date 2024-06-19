@@ -34,6 +34,8 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     dia_Wt_gm: 0,
     Wt_gm: 0,
     Amount: 0,
+    WtGm:0,
+    WtCtw:0
   });
   const [fineWtTotal, setFineWtTotal] = useState(0);
   const [isImageWorking, setIsImageWorking] = useState(true);
@@ -510,20 +512,24 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       let dia_arr = [];
       prod_sum_dia?.forEach((a) => {
         let b = cloneDeep(a);
-        let findrec = dia_arr?.push((al) => al?.ShapeName === b?.ShapeName)
+        let findrec = dia_arr?.findIndex((al) => al?.ShapeName === b?.ShapeName)
         if(findrec === -1){
-            dia_arr.push(b);
+          // let obj = {...b};
+          // obj.Wt2 = b?.Wt;
+          // obj.Amount2 = b?.Amount;
+          // obj.Pcs2 = b?.Pcs;
+          dia_arr.push(b);
         }else{
+          // console.log(b);
           dia_arr[findrec].Wt += b?.Wt;
           dia_arr[findrec].Pcs += b?.Pcs;
           dia_arr[findrec].Amount += b?.Amount;
         }
       });
-
       let clr_arr = [];
       prod_sum_clr?.forEach((a) => {
         let b = cloneDeep(a);
-        let findrec = clr_arr?.push((al) => al?.ShapeName === b?.ShapeName && al?.isRateOnPcs === a?.isRateOnPcs)
+        let findrec = clr_arr?.findIndex((al) => al?.ShapeName === b?.ShapeName && al?.isRateOnPcs === a?.isRateOnPcs)
         if(findrec === -1){
             clr_arr.push(b);
         }else{
@@ -537,8 +543,14 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       prod_sum_misc?.forEach((a) => {
         let b = cloneDeep(a);
         if(b?.MasterManagement_DiamondStoneTypeid === 3 && (b?.IsHSCOE === 0 || b?.IsHSCOE === 3)){
-          let findrec = misc_arr?.push((al) => al?.ShapeName === b?.ShapeName && al?.isRateOnPcs === a?.isRateOnPcs)
+          let findrec = misc_arr?.findIndex((al) => al?.ShapeName === b?.ShapeName && al?.isRateOnPcs === a?.isRateOnPcs)
           if(findrec === -1){
+            // let obj = {...b};
+            // obj.Wt2 = b?.Wt;
+            // obj.Pcs2 = b?.Pcs;
+            // obj.Amount2 = b?.Amount;
+            // obj.Rate2 = b?.Rate;
+            // obj.ServWt2 = b?.ServWt;
             misc_arr.push(b);
           }else{
             misc_arr[findrec].Wt += b?.Wt;
@@ -552,13 +564,15 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       });
 
       let final_all_arr = [...dia_arr, ...clr_arr, ...misc_arr];
-
+      console.log(final_all_arr);
       
-      // setMiscWise(final_all_arr);
+      setMiscWise(final_all_arr);
 
       let misc_main_total = {
         Pcs:0,
         Wt:0,
+        WtCtw:0,
+        WtGm:0,
         ServWt:0,
         Amount:0,
         Rate:0
@@ -570,9 +584,16 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         misc_main_total.ServWt += a?.ServWt;
         misc_main_total.Rate = a?.Rate;
         misc_main_total.Amount += a?.Amount;
-      })
 
-      // setMiscWise_total(misc_main_total)
+        if (a?.MasterManagement_DiamondStoneTypeid === 2) {
+          misc_main_total.WtCtw += a?.Wt;
+        } else {
+          misc_main_total.WtGm += a?.Wt;
+        }
+
+      })
+      console.log(misc_main_total);
+      setMiscWise_total(misc_main_total)
 
 
     } catch (error) {
@@ -1532,19 +1553,20 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.ShapeName}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_2 dp7cen2">
-                              {/* {e?.Pcs} */}
-                              {e?.pcPcs}
+                              {e?.Pcs}
+                              {/* {e?.pcPcs} */}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_3 dp7cen2">
                               {e?.Rate?.toFixed(2)}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_4 dp7cen2">
                               {e?.MasterManagement_DiamondStoneTypeid === 2
-                                ? `${e?.wtWeight?.toFixed(3)} Ctw`
-                                : `${e?.wtWeight?.toFixed(3)} gm`}
+                                ? `${e?.Wt?.toFixed(3)} Ctw`
+                                : `${e?.Wt?.toFixed(3)} gm`}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
-                              {formatAmount(e?.AmtAmount)}
+                              {/* {formatAmount(e?.AmtAmount)} */}
+                              {formatAmount(e?.Amount)}
                             </div>
                           </div>
                         );
@@ -1581,16 +1603,16 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className="summary_container_dp7_misc_head_col_3 dp7cen1"></div>
                       <div className="summary_container_dp7_misc_head_col_4 dp7cen2 d-flex flex-column">
-                        {miscWise_total?.wtWeight_Ctw === 0 ? ( "" ) : (
+                        {miscWise_total?.WtCtw === 0 ? ( "" ) : (
                           <div className="w-100 dp7cen2">
-                            {miscWise_total?.wtWeight_Ctw?.toFixed(3)} Ctw
+                            {miscWise_total?.WtCtw?.toFixed(3)} Ctw
                           </div>
                         )}
-                        {miscWise_total?.wtWeight_gm === 0 ? ( "" ) : (
-                          <div className="w-100 dp7cen2"> {" "} {miscWise_total?.wtWeight_gm?.toFixed(3)} Gm </div>
+                        {miscWise_total?.WtGm === 0 ? ( "" ) : (
+                          <div className="w-100 dp7cen2"> {" "} {miscWise_total?.WtGm?.toFixed(3)} Gm </div>
                         )}
                       </div>
-                      <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0"> {formatAmount( miscWise_total?.AmtAmount + otherAMountTotal / result?.header?.CurrencyExchRate )}
+                      <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0"> {formatAmount( miscWise_total?.Amount + otherAMountTotal / result?.header?.CurrencyExchRate )}
                       </div>
                     </div>
                   </div>

@@ -425,12 +425,13 @@ const InvoicePrintV = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
       let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
       data.BillPrint_Json[0].address = address;
- 
+      
       const datas = OrganizeDataPrint(
         data?.BillPrint_Json[0],
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
-      );
+        );
+      // datas.header.IsEinvoice = 0;
 
       const datas2 = OrganizeDataPrint(
         data?.BillPrint_Json[0],
@@ -722,8 +723,9 @@ useEffect(() => {
     let rounduplabour =  Math.round(lbr_rate_total)
     setTotalMakingChargeUnit(rounduplabour);
 
-  }
+    
 
+  }
 
   return (
     <React.Fragment>
@@ -750,9 +752,7 @@ useEffect(() => {
                        </div> : 
                        <div className="headline_invp4 text-uppercase"> {result?.header?.PrintHeadLabel} </div> 
                        }
-                        {
-                            console.log(result?.header)
-                        }
+                       
                       { result?.header?.IsEinvoice ? <>
                         <div className='p-3'>  {isImageWorking && (result?.header?.PrintLogo !== "" && 
                           <img src={result?.header?.PrintLogo} alt="" 
@@ -815,26 +815,36 @@ useEffect(() => {
                         </div>
                       </div>
                       </>
-                       : <div className="d-flex justify-content-between align-items-center">
-                        <div className="invp4_fs p-1">
-                          <div className="invp4_fs_2 fw-bold">{result?.header?.CompanyFullName}</div>
-                          <div>{result?.header?.CompanyAddress}</div>
-                          <div>{result?.header?.CompanyAddress2}</div>
-                          <div>{result?.header?.CompanyCity} - {result?.header?.CompanyPinCode}, {result?.header?.CompanyState}({result?.header?.CompanyCountry})</div>
-                          <div>T {result?.header?.CompanyTellNo}</div>
-                          <div>{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</div>
-                          <div>{result?.header?.Company_VAT_GST_No} | {result?.header?.Company_CST_STATE} - {result?.header?.Company_CST_STATE_No} | PAN - {result?.header?.Pannumber} </div>
-                          <div>CIN - {result?.header?.CINNO}  MSME - {result?.header?.MSME} </div>
-                        </div>
+                       : <>
+                       {/* <div>{result?.header?.Locker}</div> */}
+                       <div className='pe-4 pt-3'>  {isImageWorking && (result?.header?.PrintLogo !== "" && 
+                            <img src={result?.header?.PrintLogo} alt="" 
+                            className='w-100 h-auto my-0 mx-auto d-block object-fit-contain'
+                            style={{minHeight:'75px', minWidth:'115px', maxWidth:'117px', maxHeight:'75px'}}
+                            onError={handleImageErrors} height={120} width={150} />)}
+                          </div>
+                        <div className="d-flex justify-content-between align-items-center">
+                          <div className="invp4_fs p-1">
+                            <div className="invp4_fs_2 fw-bold">{result?.header?.CompanyFullName}</div>
+                            <div>{result?.header?.CompanyAddress}</div>
+                            <div>{result?.header?.CompanyAddress2}</div>
+                            <div>{result?.header?.CompanyCity} - {result?.header?.CompanyPinCode}, {result?.header?.CompanyState}({result?.header?.CompanyCountry})</div>
+                            <div>T {result?.header?.CompanyTellNo}</div>
+                            <div>{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</div>
+                            <div>{result?.header?.Company_VAT_GST_No} | {result?.header?.Company_CST_STATE} - {result?.header?.Company_CST_STATE_No} | PAN - {result?.header?.Pannumber} </div>
+                            <div>CIN - {result?.header?.CINNO}  MSME - {result?.header?.MSME} </div>
+                          </div>
+                          <div className="cust_title_invpV text-uppercase">{result?.header?.Locker}</div>
                         
-                        <div className='pe-4'>  {isImageWorking && (result?.header?.PrintLogo !== "" && 
-                          <img src={result?.header?.PrintLogo} alt="" 
-                          className='w-100 h-auto my-0 mx-auto d-block object-fit-contain'
-                          style={{minHeight:'75px', minWidth:'115px', maxWidth:'117px', maxHeight:'75px'}}
-                          onError={handleImageErrors} height={120} width={150} />)}
+                          {/* <div className='pe-4'>  {isImageWorking && (result?.header?.PrintLogo !== "" && 
+                            <img src={result?.header?.PrintLogo} alt="" 
+                            className='w-100 h-auto my-0 mx-auto d-block object-fit-contain'
+                            style={{minHeight:'75px', minWidth:'115px', maxWidth:'117px', maxHeight:'75px'}}
+                            onError={handleImageErrors} height={120} width={150} />)}
+                          </div> */}
                         </div>
-
-                      </div>}
+                        </>
+                        }
                     </div>
                     {/* <div>{header}</div> */}
                     <div className="subheadinvp4 d-flex justify-content-between p-1" style={{border:"1px solid #e8e8e8", borderBottom:"1px solid #e8e8e8"}}>
