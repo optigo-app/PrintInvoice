@@ -493,105 +493,96 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   
       datas.resultArray = finalArr;
 
-      let prod_sum_dia = [];
-      let prod_sum_clr = [];
-      let prod_sum_misc = [];
+      // let prod_sum_dia = [];
+      // let prod_sum_clr = [];
+      // let prod_sum_misc = [];
 
-      datas?.json2?.forEach((e) => {
-        if(e?.MasterManagement_DiamondStoneTypeid === 1){
-          prod_sum_dia.push(e);
-        }
-        if(e?.MasterManagement_DiamondStoneTypeid === 2){
-          prod_sum_clr.push(e);
-        }
-        if(e?.MasterManagement_DiamondStoneTypeid === 3){
-          prod_sum_misc.push(e);
-        }
-      })
+      // datas?.json2?.forEach((e) => {
+      //   if(e?.MasterManagement_DiamondStoneTypeid === 1){
+      //     prod_sum_dia.push(e);
+      //   }
+      //   if(e?.MasterManagement_DiamondStoneTypeid === 2){
+      //     prod_sum_clr.push(e);
+      //   }
+      //   if(e?.MasterManagement_DiamondStoneTypeid === 3){
+      //     prod_sum_misc.push(e);
+      //   }
+      // })
 
-      let dia_arr = [];
-      prod_sum_dia?.forEach((a) => {
-        let b = cloneDeep(a);
-        let findrec = dia_arr?.findIndex((al) => al?.ShapeName === b?.ShapeName)
-        if(findrec === -1){
-          // let obj = {...b};
-          // obj.Wt2 = b?.Wt;
-          // obj.Amount2 = b?.Amount;
-          // obj.Pcs2 = b?.Pcs;
-          dia_arr.push(b);
-        }else{
-          // console.log(b);
-          dia_arr[findrec].Wt += b?.Wt;
-          dia_arr[findrec].Pcs += b?.Pcs;
-          dia_arr[findrec].Amount += b?.Amount;
-        }
-      });
-      let clr_arr = [];
-      prod_sum_clr?.forEach((a) => {
-        let b = cloneDeep(a);
-        let findrec = clr_arr?.findIndex((al) => al?.ShapeName === b?.ShapeName && al?.isRateOnPcs === a?.isRateOnPcs)
-        if(findrec === -1){
-            clr_arr.push(b);
-        }else{
-          clr_arr[findrec].Wt += b?.Wt;
-          clr_arr[findrec].Pcs += b?.Pcs;
-          clr_arr[findrec].Amount += b?.Amount;
-        }
-      });
+      // let dia_arr = [];
+      // prod_sum_dia?.forEach((a) => {
+      //   let b = cloneDeep(a);
+      //   let findrec = dia_arr?.findIndex((al) => al?.ShapeName === b?.ShapeName)
+      //   if(findrec === -1){
+      //     dia_arr.push(b);
+      //   }else{
 
-      let misc_arr = [];
-      prod_sum_misc?.forEach((a) => {
-        let b = cloneDeep(a);
-        if(b?.MasterManagement_DiamondStoneTypeid === 3 && (b?.IsHSCOE === 0 || b?.IsHSCOE === 3)){
-          let findrec = misc_arr?.findIndex((al) => al?.ShapeName === b?.ShapeName && al?.isRateOnPcs === a?.isRateOnPcs)
-          if(findrec === -1){
-            // let obj = {...b};
-            // obj.Wt2 = b?.Wt;
-            // obj.Pcs2 = b?.Pcs;
-            // obj.Amount2 = b?.Amount;
-            // obj.Rate2 = b?.Rate;
-            // obj.ServWt2 = b?.ServWt;
-            misc_arr.push(b);
-          }else{
-            misc_arr[findrec].Wt += b?.Wt;
-            misc_arr[findrec].Pcs += b?.Pcs;
-            misc_arr[findrec].Amount += b?.Amount;
-            if(b?.IsHSCOE === 3){
-              misc_arr[findrec].ServWt += b?.ServWt;
-            }
-          }
-        }
-      });
+      //     dia_arr[findrec].Wt += b?.Wt;
+      //     dia_arr[findrec].Pcs += b?.Pcs;
+      //     dia_arr[findrec].Amount += b?.Amount;
+      //   }
+      // });
+      // let clr_arr = [];
+      // prod_sum_clr?.forEach((a) => {
+      //   let b = cloneDeep(a);
+      //   let findrec = clr_arr?.findIndex((al) => al?.ShapeName === b?.ShapeName && al?.isRateOnPcs === a?.isRateOnPcs)
+      //   if(findrec === -1){
+      //       clr_arr.push(b);
+      //   }else{
+      //     clr_arr[findrec].Wt += b?.Wt;
+      //     clr_arr[findrec].Pcs += b?.Pcs;
+      //     clr_arr[findrec].Amount += b?.Amount;
+      //   }
+      // });
 
-      let final_all_arr = [...dia_arr, ...clr_arr, ...misc_arr];
+      // let misc_arr = [];
+      // prod_sum_misc?.forEach((a) => {
+      //   let b = cloneDeep(a);
+      //   if(b?.MasterManagement_DiamondStoneTypeid === 3 && (b?.IsHSCOE === 0 || b?.IsHSCOE === 3)){
+      //     let findrec = misc_arr?.findIndex((al) => al?.ShapeName === b?.ShapeName && al?.isRateOnPcs === a?.isRateOnPcs)
+      //     if(findrec === -1){
+      //       misc_arr.push(b);
+      //     }else{
+      //       misc_arr[findrec].Wt += (b?.Wt);
+      //       misc_arr[findrec].Pcs += b?.Pcs;
+      //       misc_arr[findrec].Amount += b?.Amount;
+      //       if(b?.IsHSCOE === 3){
+      //         misc_arr[findrec].ServWt += b?.ServWt;
+      //       }
+      //     }
+      //   }
+      // });
+
+      // let final_all_arr = [...dia_arr, ...clr_arr, ...misc_arr];
       
-      setMiscWise(final_all_arr);
+      // setMiscWise(final_all_arr);
 
-      let misc_main_total = {
-        Pcs:0,
-        Wt:0,
-        WtCtw:0,
-        WtGm:0,
-        ServWt:0,
-        Amount:0,
-        Rate:0
-      }
+      // let misc_main_total = {
+      //   Pcs:0,
+      //   Wt:0,
+      //   WtCtw:0,
+      //   WtGm:0,
+      //   ServWt:0,
+      //   Amount:0,
+      //   Rate:0
+      // }
 
-      final_all_arr?.forEach((a) => {
-        misc_main_total.Pcs += a?.Pcs;
-        misc_main_total.Wt += a?.Wt;
-        misc_main_total.ServWt += a?.ServWt;
-        misc_main_total.Rate = a?.Rate;
-        misc_main_total.Amount += a?.Amount;
+      // final_all_arr?.forEach((a) => {
+      //   misc_main_total.Pcs += a?.Pcs;
+      //   misc_main_total.Wt += a?.Wt;
+      //   misc_main_total.ServWt += a?.ServWt;
+      //   misc_main_total.Rate = a?.Rate;
+      //   misc_main_total.Amount += a?.Amount;
 
-        if (a?.MasterManagement_DiamondStoneTypeid === 2) {
-          misc_main_total.WtCtw += a?.Wt;
-        } else {
-          misc_main_total.WtGm += a?.Wt;
-        }
+      //   if (a?.MasterManagement_DiamondStoneTypeid === 2) {
+      //     misc_main_total.WtCtw += a?.Wt;
+      //   } else {
+      //     misc_main_total.WtGm += a?.Wt;
+      //   }
 
-      })
-      setMiscWise_total(misc_main_total)
+      // })
+
+      // setMiscWise_total(misc_main_total)
 
 
     } catch (error) {
@@ -1556,7 +1547,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                             <div className="summary_container_dp7_misc_head_col_3 dp7cen2">
                               {/* {e?.Rate?.toFixed(2)} */}
-                              {formatAmount(((e?.Amount)/((e?.isRateOnPcs === 0 ? (e?.Wt === 0 ? 1 : e?.Wt) : (e?.Pcs === 0 ? 1 : e?.Pcs)))))}
+                              {formatAmount((((e?.Amount / result?.header?.CurrencyExchRate))/((e?.isRateOnPcs === 0 ? (e?.Wt === 0 ? 1 : e?.Wt) : (e?.Pcs === 0 ? 1 : e?.Pcs)))))}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_4 dp7cen2">
                               {e?.MasterManagement_DiamondStoneTypeid === 2
@@ -1565,7 +1556,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                             <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
                               {/* {formatAmount(e?.AmtAmount)} */}
-                              {formatAmount(e?.Amount)}
+                              {formatAmount((e?.Amount / result?.header?.CurrencyExchRate))}
                             </div>
                           </div>
                         );
@@ -1598,20 +1589,26 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         Total
                       </div>
                       <div className="summary_container_dp7_misc_head_col_2 dp7cen2">
-                        {miscWise_total?.Pcs}
+                        {/* {miscWise_total?.Pcs} */}
+                        {miscWise_total?.pcPcs}
                       </div>
                       <div className="summary_container_dp7_misc_head_col_3 dp7cen1"></div>
                       <div className="summary_container_dp7_misc_head_col_4 dp7cen2 d-flex flex-column">
-                        {miscWise_total?.WtCtw === 0 ? ( "" ) : (
+                        {/* {miscWise_total?.WtCtw === 0 ? ( "" ) : ( */}
+                        {miscWise_total?.wtWeight_Ctw === 0 ? ( "" ) : (
                           <div className="w-100 dp7cen2">
-                            {miscWise_total?.WtCtw?.toFixed(3)} Ctw
+                            {/* {miscWise_total?.WtCtw?.toFixed(3)} Ctw */}
+                            {miscWise_total?.wtWeight_Ctw?.toFixed(3)} Ctw
                           </div>
                         )}
-                        {miscWise_total?.WtGm === 0 ? ( "" ) : (
-                          <div className="w-100 dp7cen2"> {" "} {miscWise_total?.WtGm?.toFixed(3)} Gm </div>
+                        {/* {miscWise_total?.WtGm === 0 ? ( "" ) : ( */}
+                        {miscWise_total?.wtWeight_gm === 0 ? ( "" ) : (
+                          // <div className="w-100 dp7cen2"> {" "} {miscWise_total?.WtGm?.toFixed(3)} Gm </div>
+                          <div className="w-100 dp7cen2"> {" "} {miscWise_total?.wtWeight_gm?.toFixed(3)} Gm </div>
                         )}
                       </div>
-                      <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0"> {formatAmount( miscWise_total?.Amount + otherAMountTotal / result?.header?.CurrencyExchRate )}
+                      <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0"> {formatAmount( miscWise_total?.AmtAmount + otherAMountTotal / result?.header?.CurrencyExchRate )}
+                      {/* <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0"> {formatAmount( ((miscWise_total?.AmtAmount / result?.header?.CurrencyExchRate) + ( otherAMountTotal / result?.header?.CurrencyExchRate )) )} */}
                       </div>
                     </div>
                   </div>
