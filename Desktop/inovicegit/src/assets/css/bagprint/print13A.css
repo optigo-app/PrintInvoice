@@ -35,7 +35,9 @@
 
 .imgPart13A {
     width: 106px;
-    height: 365px;
+    /* height: 365px; */
+    
+    height: 358px;
     /* border-left: 1px solid #989898; */
 }
 
@@ -127,7 +129,7 @@
 }
 
 .info13Alast {
-    width: 35px;
+    width: 50px;
     height: 32px;
     display: flex;
     flex-direction: column;
@@ -168,7 +170,8 @@
     display: flex;
     flex-direction: column;
     width: 236px;
-    height: 363px;
+    /* height: 363px; */
+    height: 358px;
     border-right: 1px solid #989898;
     line-height: 6px;
     word-break: break-all;
@@ -413,7 +416,7 @@
 .header13AD {
     display: flex;
     justify-content: space-between;
-    width: 346px;
+    width: 345px;
     height: 120px;
     border-bottom: 1px solid #9898
 }
@@ -426,7 +429,7 @@
 .enteryBarcode13AD {
     display: flex;
     /* height: 243px; */
-    height: 238px;
+    height: 239px;
     position: relative;
 }
 
@@ -466,9 +469,9 @@
     display: flex;
     width: 100%;
     border-bottom: 1px solid #989898;
-    height: 28px;
+    height: 27px;
     padding-left: 2px;
-    padding-top: 1px;
+    /* padding-top: 1px; */
     word-break: break-all;
 }
 

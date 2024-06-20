@@ -132,13 +132,13 @@ const BagPrint13A = ({ queries, headers }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (data?.length !== 0) {
-      setTimeout(() => {
-        window.print();
-      }, 5000);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data?.length !== 0) {
+  //     setTimeout(() => {
+  //       window.print();
+  //     }, 5000);
+  //   }
+  // }, [data]);
   return (
     <>
       {data?.length === 0 ? (
@@ -168,6 +168,7 @@ const BagPrint13A = ({ queries, headers }) => {
             )}
             {data?.length > 0 &&
               data?.map((e, i) => {
+                
                 return (
                   <React.Fragment key={i}>
                     {e?.additional?.pages?.length > 0 ? (
@@ -178,7 +179,7 @@ const BagPrint13A = ({ queries, headers }) => {
                               <div className="flex13A">
                                 <div className="header13A">
                                   <div className="head13A">
-                                    <div className="head13Ajob">
+                                    <div className="head13Ajob ">
                                       <div className="lineH13A">
                                         {e?.data?.rd?.serialjobno}
                                       </div>
@@ -190,7 +191,7 @@ const BagPrint13A = ({ queries, headers }) => {
                                         {e?.data?.rd?.MetalColorCo}
                                       </div>
                                     </div>
-                                    <div className="head13Ainfo">
+                                    <div className="head13Ainfo ">
                                       <div className="info13Amid">
                                         <p className="f13A diffColor">CUST.</p>
                                         <p className="f13A">
@@ -210,7 +211,7 @@ const BagPrint13A = ({ queries, headers }) => {
                                           DEL. DT.
                                         </p>
                                         <p className="f13A">
-                                          {e?.data?.rd?.promiseDatef ?? ""}
+                                          {/* {e?.data?.rd?.promiseDatef ?? ""} */}
                                         </p>
                                       </div>
                                       <div className="info13Alast">
@@ -286,21 +287,15 @@ const BagPrint13A = ({ queries, headers }) => {
                                                 {a?.ActualPcs}
                                               </div>
                                               <div className="seaction13AheadWT">
-                                                {a?.ActualWeight?.toFixed(3)}
+                                                {a?.ActualWeight?.toFixed(2)}
                                               </div>
                                               <div className="seaction13AheadPcs"></div>
                                               <div className="seaction13AheadWT"></div>
                                             </div>
                                           </div>
                                         ) : (
-                                          <div
-                                            className="seaction13Amid"
-                                            key={i}
-                                          >
-                                            <div
-                                              className="seaction13Ahead"
-                                              style={{ fontWeight: "normal" }}
-                                            >
+                                          <div className="seaction13Amid" key={i} >
+                                            <div className="seaction13Ahead" style={{ fontWeight: "normal" }} >
                                               {a?.Shapename === "TOTAL" ? (
                                                 <div className="seaction13AheadCode">
                                                   {a?.Shapename}
@@ -319,7 +314,7 @@ const BagPrint13A = ({ queries, headers }) => {
                                                 {a?.ActualPcs}
                                               </div>
                                               <div className="seaction13AheadWT">
-                                                {a?.ActualWeight?.toFixed(3)}
+                                                { a?.MasterManagement_DiamondStoneTypeid === 3 ? a?.ActualWeight?.toFixed(3) : a?.ActualWeight?.toFixed(2)}
                                               </div>
                                               <div className="seaction13AheadPcs"></div>
                                               <div className="seaction13AheadWT"></div>
@@ -362,7 +357,7 @@ const BagPrint13A = ({ queries, headers }) => {
                                         lineHeight: "11px",
                                       }}
                                     >
-                                      CAST INS.
+                                      <span className="text-black">CAST INS.</span>
                                       {(" " + checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark)))?.slice(0, 230)}
                                     </span>
                                   </p>
@@ -415,7 +410,7 @@ const BagPrint13A = ({ queries, headers }) => {
                                           <p className="diaVal13A">
                                             {e?.additional?.clr?.ActualPcs}/
                                             {e?.additional?.clr?.ActualWeight.toFixed(
-                                              3
+                                              2
                                             )}
                                           </p>{" "}
                                         </div>
@@ -432,14 +427,15 @@ const BagPrint13A = ({ queries, headers }) => {
                                         <div className="diaflex13A">
                                           <p className="f13Aval">METAL</p>
                                           <p className="diaVal13A">
-                                            {e?.data?.rd?.netwt.toFixed(3)}
+                                            {/* {e?.data?.rd?.netwt.toFixed(2)} */}
+                                            {e?.data?.rd?.ActualGrossweight?.toFixed(3)}
                                           </p>{" "}
                                         </div>
                                       </div>
                                       <div
                                         style={{
                                           borderRight: "1px solid #989898",
-                                          height: "39px",
+                                          height: "41px",
                                         }}
                                       ></div>
                                     </div>
@@ -630,7 +626,7 @@ const BagPrint13A = ({ queries, headers }) => {
                                   <div
                                     style={{
                                       borderRight: "1px solid #989898",
-                                      height: "39px",
+                                      height: "41px",
                                     }}
                                   ></div>
                                 </div>
@@ -656,8 +652,8 @@ const BagPrint13A = ({ queries, headers }) => {
 
                     <div className="container13A">
                       <div className="header13AD">
-                        <div className="sectionHead13A">
-                          <div className="head13AjobD">
+                        <div className="sectionHead13A ">
+                          <div className="head13AjobD ">
                             <div>{e?.data?.rd?.serialjobno}</div>
                             <div>{e?.data?.rd?.Designcode}</div>
                             <div>
@@ -698,7 +694,7 @@ const BagPrint13A = ({ queries, headers }) => {
                               Q.C.
                             </div>
                           </div>
-                          <div className="mat13ADE">
+                          <div className="mat13ADE border-bottom border-black ">
                             <div className="border13A hw13A h-100">
                               <p className="f13ADuplicate">SALES REP.</p>{" "}
                               <p className="f13ADuplicate">
@@ -721,7 +717,7 @@ const BagPrint13A = ({ queries, headers }) => {
                               </p>
                             </div>
                           </div>
-                          <div className="mat13ADE">
+                          <div className="mat13ADE border-bottom border-black ">
                             <div className="border13A hw13A h-100">
                               <p
                                 className="f13ADuplicate"
@@ -761,7 +757,7 @@ const BagPrint13A = ({ queries, headers }) => {
                               </p>{" "}
                             </div>
                           </div>
-                          <div className="mat13AD">
+                          <div className="mat13AD border-bottom border-black">
                             <div
                               className="border13A d-flex align-items-center justify-content-center"
                               style={{
@@ -795,7 +791,7 @@ const BagPrint13A = ({ queries, headers }) => {
                             </div>
                           </div>
                           <div
-                            className="mat13AD"
+                            className="mat13AD border-bottom border-black"
                             style={{ borderBottom: "0px" }}
                           >
                             <div
@@ -848,7 +844,7 @@ const BagPrint13A = ({ queries, headers }) => {
                       <div className="enteryBarcode13AD">
                         <div className="enteryBarcode13ADyn">
                           <div
-                            className="entry13AHead"
+                            className="entry13AHead  "
                             style={{ fontWeight: "normal", width: "290px" }}
                           >
                             <div className="rmcode13a" style={{ width: "43px" }}>
@@ -972,22 +968,28 @@ const BagPrint13A = ({ queries, headers }) => {
                               </div>
                             }
                           </div>
-                          <div>
-                            <div className="ins13Afooter">
-                              <p style={{ fontSize: "13px" }}>SLS. INS.{}</p>
+                          <div className="" >
+                            <div className="ins13Afooter ">
+                              <div style={{ fontSize: "13px" }}>
+                                <div className=" h-100" style={{width:'50px', borderRight:'1px solid #989898'}}>SLS. INS.</div>
+                              </div>
                             </div>
                             <div className="ins13Afooter">
-                              <p style={{ fontSize: "13px" }}>PRD. INS.{}</p>
+                              <div style={{ fontSize: "13px" }}>
+                                <div className=" h-100" style={{width:'50px', borderRight:'1px solid #989898'}}>PRD. INS.</div>
+                              </div>
                             </div>
                             <div
                               className="ins13Afooter"
                               style={{ borderBottom: "0px" }}
                             >
-                              <p style={{ fontSize: "13px" }}>QC. INS.{}</p>
+                              <div style={{ fontSize: "13px" }}>
+                                <div className=" h-100" style={{width:'50px', borderRight:'1px solid #989898'}}>QC. INS.</div>
+                              </div>
                             </div>
                           </div>
                         </div>
-                        <div className="barcode13AD">
+                        <div className="barcode13AD ">
                           {e?.data?.rd?.length !== 0 &&
                             e?.data?.rd !== undefined && (
                               <>
