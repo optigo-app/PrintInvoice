@@ -19,7 +19,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding-left: 1px;
+    padding-left: 2px;
 }
 
 .fwboldpcl {
@@ -1087,7 +1087,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    min-height: 110px;
+    /* min-height: 110px; */
     width: 22%;
     border-right: 0.5px solid #989898;
 }
@@ -1174,17 +1174,24 @@
             display: none !important;
           }
           .fspcl {
-            font-size: 10px !important;
-            line-height: 11px;
+            font-size: 9px !important;
+            line-height: 10px;
         }
         .fspcl2{
-            font-size: 12px !important;
+            font-size: 10px !important;
         }
         .pclprint {
             max-width: 1200px;
             margin: 0 auto;
             width: 100%;
             padding: 15px;
+        }
+
+        #designimgpclid {
+            height: 70%;
+            width: 70%;
+            max-width: 80px;
+            object-fit: contain;
         }
         
 }

@@ -688,7 +688,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                           // eslint-disable-next-line array-callback-return
                                           e?.diamonds?.map((ele, i) => {
                                             return (
-                                              <div className=" fspcl end_pcl_new end_p_pcl_new" key={i} > {formatAmount(ele?.Rate)} </div>
+                                              <div className=" fspcl end_pcl_new end_p_pcl_new" key={i} > {(ele?.Rate?.toFixed(2))} </div>
                                             );
                                           })
                                         }
@@ -734,7 +734,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 // eslint-disable-next-line array-callback-return
                                                 e?.metal?.map((ele, i) => {
                                                   return (
-                                                    <div className="end_pcl_new end_p_pcl_new fspcl " key={i} > {" "} {formatAmount( ele?.Rate )}{" "} {/* {NumberWithCommas(e?.goldPrice, 2)} */}{" "} </div>
+                                                    <div className="end_pcl_new end_p_pcl_new fspcl " key={i} > {" "} {( ele?.Rate?.toFixed(2) )}{" "} {/* {NumberWithCommas(e?.goldPrice, 2)} */}{" "} </div>
                                                   );
                                                 })
                                               }
@@ -780,7 +780,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                               // eslint-disable-next-line array-callback-return
                                               e?.metal?.map((ele, i) => {
                                                 return (
-                                                  <div className="end_pcl_new end_p_pcl_new fspcl pt-1" key={i} > { ele?.IsPrimaryMetal ===1 && ( ele?.Rate !== 0 && formatAmount( (ele?.Rate)) )}{" "} </div> );
+                                                  <div className="end_pcl_new end_p_pcl_new fspcl pt-1" key={i} > { ele?.IsPrimaryMetal ===1 && ( ele?.Rate !== 0 && ( (ele?.Rate?.toFixed(2))) )}{" "} </div> );
                                               })
                                             }
                                           </div>
@@ -847,7 +847,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                               <div className="end_pcl_new end_p_pcl_new fspcl" key={i} >
                                                 {/* {ele?.Rate?.toFixed(2)} */}
                                                 {/* {formatAmount(ele?.Rate)} */}
-                                                {formatAmount(((ele?.Amount/(result?.header?.CurrencyExchRate)) / ele?.Wt))}
+                                                {(((ele?.Amount/(result?.header?.CurrencyExchRate)) / ele?.Wt))?.toFixed(2)}
                                               </div>
                                             );
                                           })
@@ -874,19 +874,27 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     {/* othercharge */}
                                     <div className="pcltbr1c6 fspcl">
                                       <div className="lopclcol fspcl pt-1 ">
-                                      <div>{ e?.MiscAmount === 0 ? '' : 'OTHER' }</div>
-                                      <div>{ e?.TotalDiamondHandling === 0 ? '' : 'HANDLING' }</div>
+                                      <div>{ e?.totals?.misc?.onlyIsHSCODE0_Amount === 0 ? '' : 'Other' }</div>
+                                      <div>{ e?.TotalDiamondHandling === 0 ? '' : 'Handling' }</div>
                                       <div>
                                       {
                                         e?.other_details?.map((e, i) => {
                                           return ( i < 3 && <div key={i} className="text-break">{e?.label}</div>)
                                         })
                                       }
+                                      {
+                                          e?.misc?.map((el, i) => {
+                                            // return  ((i < 3) ? <div key={i}>{e?.value}</div> : '') 
+                                            return (
+                                              (  (el?.IsHSCOE === 1 || el?.IsHSCOE === 2 || el?.IsHSCOE === 3) ? <div>{( el?.Amount === 0 ? '' :  ( el?.IsHSCOE === 3 ? (el?.ShapeName?.split("_")[1]) : el?.ShapeName))}</div> : '')
+                                            )
+                                          })
+                                        }
                                       </div>
                                         </div>
                                       <div className="lopclcol fspcl pt-1"  style={{ borderRight: "0px" }} >
                                         <div className=" d-flex flex-column justify-content-end align-items-end  fspcl">
-                                        <div>{ e?.MiscAmount === 0 ? '' : formatAmount((e?.MiscAmount / result?.header?.CurrencyExchRate)) }</div>
+                                        <div>{ e?.totals?.misc?.onlyIsHSCODE0_Amount === 0 ? '' : formatAmount((e?.totals?.misc?.onlyIsHSCODE0_Amount / result?.header?.CurrencyExchRate)) }</div>
                                         <div>{ e?.TotalDiamondHandling === 0 ? '' : formatAmount(e?.TotalDiamondHandling) }</div>
                                         <div>
                                         {
@@ -894,6 +902,15 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             return  ((i < 3) ? <div key={i}>{e?.value}</div> : '') 
                                           })
                                         }
+                                        {
+                                          e?.misc?.map((el, i) => {
+                                            // return  ((i < 3) ? <div key={i}>{e?.value}</div> : '') 
+                                            return (
+                                              (  (el?.IsHSCOE === 1 || el?.IsHSCOE === 2 || el?.IsHSCOE === 3) ? <div>{( el?.Amount === 0 ? '' : ( el?.Amount / result?.header?.CurrencyExchRate))}</div> : '')
+                                            )
+                                          })
+                                        }
+
                                         </div>
                                         </div>
                                         <div className=" fspcl d-flex flex-column justify-content-end align-items-end w-100">
