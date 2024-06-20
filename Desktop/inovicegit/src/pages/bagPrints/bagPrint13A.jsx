@@ -275,7 +275,7 @@ const BagPrint13A = ({ queries, headers }) => {
                                               style={{ fontWeight: "normal" }}
                                             >
                                               <div
-                                                className="seaction13AheadCode"
+                                                className="seaction13AheadCode truncated-text"
                                                 style={{ width: "134px" }}
                                               >
                                                 {
@@ -306,7 +306,7 @@ const BagPrint13A = ({ queries, headers }) => {
                                                   {a?.Shapename}
                                                 </div>
                                               ) : (
-                                                <div className="seaction13AheadCode">
+                                                <div className="seaction13AheadCode truncated-text">
                                                   {
                                                     a?.LimitedShapeQualityColorCode
                                                   }

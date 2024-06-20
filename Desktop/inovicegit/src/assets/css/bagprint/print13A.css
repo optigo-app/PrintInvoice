@@ -156,7 +156,8 @@
     display: flex;
     justify-content: space-between;
     width: 236px;
-    height: 14.9px;
+    /* height: 14.9px; */
+    height: 17px;
     font-weight: bold;
     border-bottom: 1px solid #989898;
     line-height: 6px;
@@ -184,6 +185,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    
 }
 
 .seaction13AheadSize {
@@ -230,7 +232,7 @@
     display: flex;
     align-items: flex-start;
     /* height: 47px; */
-    height: 42px;
+    height: 37px;
     padding-left: 2px;
     justify-content: flex-start;
     padding-top: 2px;
@@ -264,7 +266,7 @@
     border-bottom: 1px solid #989898;
     word-break: break-all;
     display: flex;
-    height: 217px;
+    height: 222px;
     border-bottom: 1px solid #989898;
     word-break: break-all;
     position: relative;
@@ -525,7 +527,14 @@
     justify-content: center;
     align-items: center;
 }
-
+.truncated-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: block;
+    padding-top: 4px;
+  }
 @media print {
     /* .print1A:nth-child(6n+1) {
       page-break-after: always;
