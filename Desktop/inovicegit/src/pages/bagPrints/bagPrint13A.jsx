@@ -667,52 +667,52 @@ const BagPrint13A = ({ queries, headers }) => {
                           </div>
                           <div className="mat13AD">
                             <div
-                              className="border13A"
+                              className="border13A d-flex align-items-center justify-content-center"
                               style={{
                                 color: "#c7c7c7",
-                                textAlign: "center",
-                                paddingTop: "2px",
+                                // textAlign: "center",
+                                // paddingTop: "2px",
                               }}
                             >
                               PRIORITY
                             </div>
                             <div
-                              className="border13A"
+                              className="border13A d-flex align-items-center justify-content-center"
                               style={{
                                 color: "#c7c7c7",
-                                textAlign: "center",
-                                paddingTop: "2px",
+                                // textAlign: "center",
+                                // paddingTop: "2px",
                               }}
                             >
                               LOC.
                             </div>
                             <div
-                              className="border13A"
+                              className="border13A d-flex align-items-center justify-content-center"
                               style={{
                                 borderRight: "0px",
                                 color: "#c7c7c7",
-                                textAlign: "center",
-                                paddingTop: "2px",
+                                // textAlign: "center",
+                                // paddingTop: "2px",
                               }}
                             >
                               Q.C.
                             </div>
                           </div>
                           <div className="mat13ADE">
-                            <div className="border13A hw13A">
+                            <div className="border13A hw13A h-100">
                               <p className="f13ADuplicate">SALES REP.</p>{" "}
                               <p className="f13ADuplicate">
                                 {e?.data?.rd?.SalesrepCode}
                               </p>
                             </div>
-                            <div className="border13A hw13A">
+                            <div className="border13A hw13A h-100">
                               <p className="f13ADuplicate">FROSTING</p>{" "}
                               <p className="f13ADuplicate">
                                 {e?.data?.rd?.MetalFrosting}
                               </p>
                             </div>
                             <div
-                              className="border13A hw13A"
+                              className="border13A hw13A h-100"
                               style={{ borderRight: "0px" }}
                             >
                               <p className="f13ADuplicate">ENAMELING</p>
@@ -722,7 +722,7 @@ const BagPrint13A = ({ queries, headers }) => {
                             </div>
                           </div>
                           <div className="mat13ADE">
-                            <div className="border13A hw13A">
+                            <div className="border13A hw13A h-100">
                               <p
                                 className="f13ADuplicate"
                                 style={{ fontSize: "8px", fontWeight: "bold" }}
@@ -731,18 +731,18 @@ const BagPrint13A = ({ queries, headers }) => {
                               </p>
                               <p
                                 className="f13ADuplicate"
-                                style={{ fontSize: "7px" }}
+                                style={{ fontSize: "7px", lineHeight:'7px' }}
                               >
                                 {e?.data?.rd?.MasterManagement_labname}
                               </p>
                               <p
                                 className="f13ADuplicate"
-                                style={{ fontSize: "7px" }}
+                                style={{ fontSize: "7px", lineHeight:'7px' }}
                               >
                                 PO {e?.data?.rd?.PO}
                               </p>
                             </div>
-                            <div className="border13A hw13A">
+                            <div className="border13A hw13A h-100">
                               <p className="f13ADuplicate">SNAP</p>
                               <p className="f13ADuplicate">
                                 {
@@ -752,7 +752,7 @@ const BagPrint13A = ({ queries, headers }) => {
                               </p>
                             </div>
                             <div
-                              className="border13A hw13A"
+                              className="border13A hw13A h-100"
                               style={{ borderRight: "0px" }}
                             >
                               <p className="f13ADuplicate">MAKETYPE</p>
@@ -763,32 +763,32 @@ const BagPrint13A = ({ queries, headers }) => {
                           </div>
                           <div className="mat13AD">
                             <div
-                              className="border13A"
+                              className="border13A d-flex align-items-center justify-content-center"
                               style={{
                                 color: "#c7c7c7",
-                                textAlign: "center",
-                                paddingTop: "2px",
+                                // textAlign: "center",
+                                // paddingTop: "2px",
                               }}
                             >
                               TR NO.
                             </div>
                             <div
-                              className="border13A"
+                              className="border13A d-flex align-items-center justify-content-center"
                               style={{
                                 color: "#c7c7c7",
-                                textAlign: "center",
-                                paddingTop: "2px",
+                                // textAlign: "center",
+                                // paddingTop: "2px",
                               }}
                             >
                               TR NO.
                             </div>
                             <div
-                              className="border13A"
+                              className="border13A d-flex align-items-center justify-content-center"
                               style={{
                                 borderRight: "0px",
                                 color: "#c7c7c7",
-                                textAlign: "center",
-                                paddingTop: "2px",
+                                // textAlign: "center",
+                                // paddingTop: "2px",
                               }}
                             >
                               TR NO.
@@ -799,32 +799,32 @@ const BagPrint13A = ({ queries, headers }) => {
                             style={{ borderBottom: "0px" }}
                           >
                             <div
-                              className="border13A"
+                              className="border13A d-flex align-items-center justify-content-center"
                               style={{
                                 color: "#c7c7c7",
-                                textAlign: "center",
-                                paddingTop: "2px",
+                                // textAlign: "center",
+                                // paddingTop: "2px",
                               }}
                             >
                               TR WT.
                             </div>
                             <div
-                              className="border13A"
+                              className="border13A d-flex align-items-center justify-content-center"
                               style={{
                                 color: "#c7c7c7",
-                                textAlign: "center",
-                                paddingTop: "2px",
+                                // textAlign: "center",
+                                // paddingTop: "2px",
                               }}
                             >
                               TR WT.
                             </div>
                             <div
-                              className="border13A"
+                              className="border13A d-flex align-items-center justify-content-center"
                               style={{
                                 borderRight: "0px",
                                 color: "#c7c7c7",
-                                textAlign: "center",
-                                paddingTop: "2px",
+                                // textAlign: "center",
+                                // paddingTop: "2px",
                               }}
                             >
                               TR WT.
@@ -946,19 +946,19 @@ const BagPrint13A = ({ queries, headers }) => {
                                   >
                                     <div
                                       className="rmcode3aDE"
-                                      style={{ width: "52px" }}
+                                      style={{ width: "52px", borderRight: "1px solid #989898" }}
                                     ></div>
                                     <div
                                       className="rmcode3aDE"
-                                      style={{ width: "51px" }}
+                                      style={{ width: "51px", borderRight: "1px solid #989898" }}
                                     ></div>
                                     <div
                                       className="rmcode3aDE"
-                                      style={{ width: "51px" }}
+                                      style={{ width: "51px", borderRight: "1px solid #989898" }}
                                     ></div>
                                     <div
                                       className="rmcode3aDE"
-                                      style={{ width: "37px" }}
+                                      style={{ width: "37px", borderRight: "1px solid #989898" }}
                                     ></div>
                                     <div
                                       className="rmcode3aDE"
