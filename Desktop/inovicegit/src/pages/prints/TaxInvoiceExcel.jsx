@@ -224,8 +224,6 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
 
             let misc2arr = el?.misc?.filter((e) => e?.IsHSCOE === 0);
 
-            
-
             el.misc = misc2arr;
 
             let clr_misc_ar = [...el?.colorstone, ...el?.misc];
@@ -235,15 +233,19 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         })
 
         let finalArr = [];
+
         datas?.resultArray?.forEach((e, i) => {
 
             let arr = [];
+
             let len = 7;
+
             if(e?.diamonds?.length > e?.colorstone?.length){
                 if(e?.diamonds?.length > 7){
                     len = e?.diamonds?.length;
                 }
-            }else if(e?.diamonds?.length < e?.colorstone?.length){
+            }
+            else if(e?.diamonds?.length < e?.colorstone?.length){
                     if(e?.colorstone?.length > 7){
                     len = e?.colorstone?.length;
                 }
@@ -297,6 +299,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             
          
             Array?.from({length : len})?.map((el, ind) => {
+
                 let obj = {};
           
                 obj.srflag = false
@@ -306,12 +309,14 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                     obj.imgflag = true;
                 }
                 obj.tunch = ((e?.Tunch)?.toFixed(3));
+
                 obj.tunchflag = false;
                 if(ind === 4){
                     obj.tunchflag = true;
                 }
 
                 obj.grosswt = ((e?.grosswt)?.toFixed(3));
+
                 obj.grosswetflag = false;
                 if(ind === 5){
                     obj.grosswetflag = true;
@@ -325,6 +330,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 obj.dia_rate = 0;
                 obj.dia_amt = 0;
                 obj.diaflag = false;
+
                 if(e?.diamonds[ind+1]){
                     obj.diaflag = true;
                     obj.dia_code = (e?.diamonds[ind + 1]?.ShapeName + " " + e?.diamonds[ind + 1]?.QualityName + " " + e?.diamonds[ind + 1]?.Colorname);
@@ -344,6 +350,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 obj.cls_rate = 0;
                 obj.cls_amt = 0;
                 obj.clsflag = false;
+
                 if(e?.colorstone[ind+1]){
                     obj.clsflag = true;
                     obj.cls_code = `${e?.colorstone[ind+1]?.MasterManagement_DiamondStoneTypeid === 3 ? 'M:' : ''}  ${e?.colorstone[ind + 1]?.ShapeName}` + 
@@ -385,7 +392,9 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 catewise[findrec].Quantity += obj?.Quantity;
             }
         })
+
         catewise.sort((a, b) => a.Categoryname.localeCompare(b.Categoryname));
+        
         setResult3(catewise)
 
 

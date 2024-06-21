@@ -140,13 +140,13 @@ const BagPrint11A = ({ queries, headers }) => {
     fetchData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  useEffect(() => {
-    if (data?.length !== 0) {
-      setTimeout(() => {
-        window.print();
-      }, 5000);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data?.length !== 0) {
+  //     setTimeout(() => {
+  //       window.print();
+  //     }, 5000);
+  //   }
+  // }, [data]);
   return (
     <>
       {data?.length === 0 ? (
@@ -180,7 +180,7 @@ const BagPrint11A = ({ queries, headers }) => {
                   <div className="container11A" key={i}>
                     <div className="header11A">
                       <div className="jobInfo11A">
-                        <div className="jobRow11A">
+                        <div className="jobRow11A br_right_11A">
                           <div>
                             <b>{e?.data?.rd?.serialjobno}</b>
                           </div>
@@ -189,7 +189,7 @@ const BagPrint11A = ({ queries, headers }) => {
                           </div>
                           <div>
                             <b style={{ paddingRight: "3px" }}>
-                              {e?.data?.rd?.MetalType}{" "}
+                              {e?.data?.rd?.MetalType}
                               {e?.data?.rd?.MetalColorCo}
                             </b>
                           </div>
@@ -234,7 +234,8 @@ const BagPrint11A = ({ queries, headers }) => {
                             <div className="flex11A">
                               <p className="p11A">NET WT</p>
                               <p className="p11A">
-                                {e?.data?.rd?.netwt?.toFixed(3)}
+                                {/* {e?.data?.rd?.netwt?.toFixed(3)} */}
+                                {e?.data?.rd?.ActualGrossweight?.toFixed(3)}
                               </p>
                             </div>
                           </div>
@@ -245,18 +246,13 @@ const BagPrint11A = ({ queries, headers }) => {
                           <div className="border11A c11A">TR NO.</div>
                         </div>
                         <div className="jobHead11A">
-                          <div className="border11A c11A">TR WT.</div>
-                          <div className="border11A c11A">TR WT.</div>
-                          <div className="border11A c11A">TR WT.</div>
+                          <div className="border11A c11A">TR WT</div>
+                          <div className="border11A c11A">TR WT</div>
+                          <div className="border11A c11A">TR WT</div>
                         </div>
                       </div>
                       <div className="img11A">
-                        <img
-                          src={
-                            e?.additional?.img !== ""
-                              ? e?.additional?.img
-                              : require("../../assets/img/default.jpg")
-                          }
+                        <img src={ e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg") }
                           id="img11A"
                           alt=""
                           onError={(e) => handleImageError(e)}
@@ -268,11 +264,8 @@ const BagPrint11A = ({ queries, headers }) => {
                       <div className="bar11A">
                         <div className="mainSet11A">
                           <div className="tablehead11A">
-                            <div
-                              className="tHead11A"
-                              style={{ borderBottom: "1px solid #989898" }}
-                            >
-                              <div className="sideHead11A" style={{ width:"45px"}}>DEPT</div>
+                            <div className="tHead11A" style={{ borderBottom: "1px solid #989898" }} >
+                              <div className="sideHead11A" style={{ width:"52px"}}>DEPT</div>
                               <div className="sideHead11B" style={{width:"50px"}}>ISSUE</div>
                               <div className="sideHead11B">RECEIVE</div>
                               <div className="sideHead11B">SCRAP</div>
@@ -280,7 +273,7 @@ const BagPrint11A = ({ queries, headers }) => {
                               <div className="sideHead11B">WORKER</div>
                             </div>
                             <div className="tHead11A ">
-                              <div className="sideHead11A" style={{width:"45px", justifyContent:"flex-start"}}>MLT.</div>
+                              <div className="sideHead11A" style={{width:"52px", justifyContent:"flex-start"}}>MLT.</div>
                               <div className="sideHead11B" style={{width:"50px"}}></div>
                               <div className="sideHead11B"></div>
                               <div className="sideHead11B"></div>
@@ -288,7 +281,8 @@ const BagPrint11A = ({ queries, headers }) => {
                               <div className="sideHead11B"></div>
                             </div>
                             <div className="tHead11A">
-                              <div className="sideHead11A" style={{width:"45px", justifyContent:"flex-start"}}>TP.</div>
+                              {/* <div className="sideHead11A" style={{width:"45px", justifyContent:"flex-start"}}>TP.</div> */}
+                              <div className="sideHead11A" style={{width:"52px", justifyContent:"flex-start"}}>TP.</div>
                               <div className="sideHead11B" style={{width:"50px"}}></div>
                               <div className="sideHead11B"></div>
                               <div className="sideHead11B"></div>
@@ -296,7 +290,7 @@ const BagPrint11A = ({ queries, headers }) => {
                               <div className="sideHead11B"></div>
                             </div>
                             <div className="tHead11A">
-                              <div className="sideHead11A" style={{width:"45px", justifyContent:"flex-start"}}>FLG.</div>
+                              <div className="sideHead11A" style={{width:"52px", justifyContent:"flex-start"}}>FLG.</div>
                               <div className="sideHead11B" style={{width:"50px"}}></div>
                               <div className="sideHead11B"></div>
                               <div className="sideHead11B"></div>
@@ -304,7 +298,7 @@ const BagPrint11A = ({ queries, headers }) => {
                               <div className="sideHead11B"></div>
                             </div>
                             <div className="tHead11A">
-                              <div className="sideHead11A" style={{width:"45px", justifyContent:"flex-start"}}>CNC.</div>
+                              <div className="sideHead11A" style={{width:"52px", justifyContent:"flex-start"}}>CNC.</div>
                               <div className="sideHead11B" style={{width:"50px"}}></div>
                               <div className="sideHead11B"></div>
                               <div className="sideHead11B"></div>
@@ -312,7 +306,7 @@ const BagPrint11A = ({ queries, headers }) => {
                               <div className="sideHead11B"></div>
                             </div>
                             <div className="tHead11A">
-                              <div className="sideHead11A" style={{width:"45px", justifyContent:"flex-start"}}>FIL.</div>
+                              <div className="sideHead11A" style={{width:"52px", justifyContent:"flex-start"}}>FIL.</div>
                               <div className="sideHead11B" style={{width:"50px"}}></div>
                               <div className="sideHead11B"></div>
                               <div className="sideHead11B"></div>
@@ -320,7 +314,7 @@ const BagPrint11A = ({ queries, headers }) => {
                               <div className="sideHead11B"></div>
                             </div>
                             <div className="tHead11A">
-                              <div className="sideHead11A" style={{width:"45px", justifyContent:"flex-start"}}>HM.</div>
+                              <div className="sideHead11A" style={{width:"52px", justifyContent:"flex-start"}}>HM.</div>
                               <div className="sideHead11B" style={{width:"50px"}}></div>
                               <div className="sideHead11B"></div>
                               <div className="sideHead11B"></div>
@@ -328,7 +322,7 @@ const BagPrint11A = ({ queries, headers }) => {
                               <div className="sideHead11B"></div>
                             </div>
                             <div className="tHead11A">
-                              <div className="sideHead11A" style={{width:"45px", justifyContent:"flex-start"}}>TNG.</div>
+                              <div className="sideHead11A" style={{width:"52px", justifyContent:"flex-start"}}>TNG.</div>
                               <div className="sideHead11B" style={{width:"50px"}}></div>
                               <div className="sideHead11B"></div>
                               <div className="sideHead11B"></div>
@@ -336,7 +330,7 @@ const BagPrint11A = ({ queries, headers }) => {
                               <div className="sideHead11B"></div>
                             </div>
                             <div className="tHead11A">
-                              <div className="sideHead11A " style={{width:"45px", justifyContent:"flex-start"}}>PLH.</div>
+                              <div className="sideHead11A " style={{width:"52px", justifyContent:"flex-start"}}>PLH.</div>
                               <div className="sideHead11B" style={{width:"50px"}}></div>
                               <div className="sideHead11B"></div>
                               <div className="sideHead11B"></div>
