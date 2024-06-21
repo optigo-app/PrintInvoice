@@ -415,7 +415,8 @@ const SaleOrderSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     
 
 
-  const sortedArr = resultArr?.sort((a, b) => a?.GroupJob - b?.GroupJob)
+  // const sortedArr = resultArr?.sort((a, b) => a?.GroupJob - b?.GroupJob)
+  const sortedArr = resultArr?.sort((a, b) => b?.GroupJob?.localeCompare(a?.GroupJob));
 
   
 

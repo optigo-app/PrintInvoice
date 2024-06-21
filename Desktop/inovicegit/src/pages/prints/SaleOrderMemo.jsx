@@ -412,7 +412,7 @@ const SaleOrderMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     // resultArr2 = finalArr;
 
 
-    const sortedArr = resultArr?.sort((a, b) => a?.GroupJob - b?.GroupJob)
+    const sortedArr = resultArr?.sort((a, b) => b?.GroupJob?.localeCompare(a?.GroupJob));
     setData(sortedArr);
 
 
