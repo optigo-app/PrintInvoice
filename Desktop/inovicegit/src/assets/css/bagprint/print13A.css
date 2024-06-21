@@ -12,6 +12,7 @@
 .container13A {
     /* width: 350px;
     height: 367px; */
+    box-sizing: border-box;
     width: 259pt;
     height: 272pt;
     border: 2px solid black;
@@ -547,20 +548,46 @@
     /* .container13A:nth-child(6n) {
         page-break-after: always !important;
     } */
-    .container13A:nth-child(6n+1) {
+    /* .container13A:nth-child(6n + 6) {
         page-break-before: always !important;
-    }
-    .container13A{
-        margin-bottom: 0px;
-        margin-top: 0px;
+    } */
+    /* .container13A{
+        margin-bottom: 0px !important;
+        margin-top: 0px !important;
+        margin-left: 20px;
     }
     .container13A:nth-child(6n+1), .container13A:nth-child(6n+2), .container13A:nth-child(6n+3){
         position: relative;
-        top: 20px;
+        top: 20px !important;
+        
+    }
+    .container13A:nth-child(6n+4), .container13A:nth-child(6n+5), .container13A:nth-child(6n+6){
+        position: relative;
+        top: 40px !important;
+        
+    } */
+    .container13A:nth-child(6n+6){
+        page-break-after: always;
       }
-  
+
+      .container13A:nth-child(6n+1), .container13A:nth-child(6n+2), .container13A:nth-child(6n+3){
+        position: relative;
+        top: 0px !important;
+      }
+
       .container13A:nth-child(6n+4), .container13A:nth-child(6n+5), .container13A:nth-child(6n+6){
         position: relative;
-        top: 40px;
+        top: 0px !important;
       }
+    
+    /* .container13A:nth-child(6n+1), .container13A:nth-child(6n+2), .container13A:nth-child(6n+3){
+        position: relative;
+        top: 20px !important;
+    }
+  
+    .container13A:nth-child(6n+4), .container13A:nth-child(6n+5), .container13A:nth-child(6n+6){
+        position: relative;
+        top: 40px !important;
+    } */
+
 }

@@ -505,7 +505,7 @@
       margin-top: 1rem;
     } */
 
-    .print10A:nth-child(6n+1) {
+    /* .print10A:nth-child(6n+1) {
         page-break-before: always !important;
     }
     .container10A{
@@ -519,5 +519,18 @@
       .print10A:nth-child(6n+4), .print10A:nth-child(6n+5), .print10A:nth-child(6n+6){
         position: relative;
         top: 38px;
+      } */
+      .print10A:nth-child(6n+6){
+        page-break-after: always;
+      }
+
+      .print10A:nth-child(6n+1), .print10A:nth-child(6n+2), .print10A:nth-child(6n+3){
+        position: relative;
+        top: 20px !important;
+      }
+
+      .print10A:nth-child(6n+4), .print10A:nth-child(6n+5), .print10A:nth-child(6n+6){
+        position: relative;
+        top: 20px !important;
       }
 }

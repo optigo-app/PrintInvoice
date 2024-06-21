@@ -258,7 +258,7 @@
 
         page-break-after: always !important; 
     } */
-    .container11A:nth-child(6n+1) {
+    /* .container11A:nth-child(6n+1) {
         page-break-before: always !important;
     }
     .container11A{
@@ -273,6 +273,20 @@
       .container11A:nth-child(6n+4), .container11A:nth-child(6n+5), .container11A:nth-child(6n+6){
         position: relative;
         top: 38px;
-      }
+    } */
+
+    .container11A:nth-child(6n+6){
+        page-break-after: always;
+    }
+
+    .container11A:nth-child(6n+1), .container11A:nth-child(6n+2), .container11A:nth-child(6n+3){
+        position: relative;
+        top: 0px !important;
+    }
+
+    .container11A:nth-child(6n+4), .container11A:nth-child(6n+5), .container11A:nth-child(6n+6){
+        position: relative;
+        top: 0px !important;
+    }
 
 }

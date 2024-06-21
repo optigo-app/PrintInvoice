@@ -10,15 +10,15 @@
     height: 31.2rem;
     width: 350px;
     /* margin-top: 1rem; */
-    margin-left: 0.6rem;
+    margin-left: 1rem;
 }
 .container6A {
     width: 350px;
     height: 463px;
     border: 2px solid black;
     border-radius: 12px;
-    margin-top: 1rem;
-    margin-left: 2rem;
+    /* margin-top: 1rem;
+    margin-left: 2rem; */
     /* margin-top: 5rem;
     margin-left: 2rem; */
     font-size: 12px;
@@ -227,15 +227,34 @@
     flex-wrap: wrap;
     margin-bottom: 2rem;
 }
+
 .code6A{
     display: flex;
     justify-content: center;
     align-items: center;
     height: 16px;
 }
+
 .qrcodebg6A > .qrcodegen{
     height: 80px !important;
     width: 112px !important;
+}
+@media print {
+    
+    .containerWD6A:nth-child(4n+4){
+        page-break-after: always ;
+    }
+    .containerWD6A:nth-child(4n+1), .containerWD6A:nth-child(4n+2){
+        position: relative;
+        top: 30px;
+
+        left: 20px;
+    }
+    .containerWD6A:nth-child(4n+3), .containerWD6A:nth-child(4n+4){
+        position: relative;
+        top: 60px;
+        left: 20px;
+    }
 }
 @media print {
 
@@ -251,7 +270,7 @@
     /* .container6A:nth-child(4n+1) {
         page-break-before: always;
     } */
-    .containerWD6A:nth-child(4n+4){
+    /* .containerWD6A:nth-child(4n+4){
         page-break-after: always !important;
     }
     .containerWD6A {
@@ -267,7 +286,34 @@
       .containerWD6A:nth-child(4n+4), .containerWD6A:nth-child(4n+3){
         position: relative;
         top: 80px;
-      }
+      } */
 
+      /* .containerWD6A:nth-child(4n+4) {
+        page-break-after: always !important;
+    } */
+
+    /* .containerWD6A {
+        margin-top: 0;
+        margin-left: 10px;
+    }
+
+    .containerWD6A:nth-child(4n+1),
+    .containerWD6A:nth-child(4n+2) {
+        position: relative;
+        top: 25px;
+    }
+
+    .containerWD6A:nth-child(4n+4),
+    .containerWD6A:nth-child(4n+3) {
+        position: relative;
+        top: 40px;
+    } */
+
+    /* .containerWD6A:nth-child(4n+1),
+    .containerWD6A:nth-child(4n+3) {
+        position: relative;
+        left: 10px;
+    } */
 
 }
+

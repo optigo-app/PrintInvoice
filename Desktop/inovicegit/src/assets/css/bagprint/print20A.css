@@ -319,7 +319,7 @@
 }
 @media print{
     .container7Acopy:nth-child(4n+4){
-        page-break-after: always !important;
+        page-break-after: always;
     }
     .container7Acopy {
         margin-top: 0;

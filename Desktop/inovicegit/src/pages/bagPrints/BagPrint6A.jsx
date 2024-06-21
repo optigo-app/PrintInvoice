@@ -205,357 +205,357 @@ const BagPrint6A = ({ queries, headers }) => {
                       e?.additional?.pages?.map((ele, i) => {
                         return (
                           <div className="containerWD6A" key={i}>
-                          <div className="container6A">
-                            <div className="jobInfo6A">
-                              <div className="jobInfo6Aheader">
-                                <div
-                                  className="jobName6AD h6A"
-                                  style={{ fontWeight: "bold" }}
-                                >
-                                  <div>{e?.data?.rd?.serialjobno}</div>
-                                  <div>{e?.data?.rd?.Designcode}</div>
-                                  <div className="text-danger">
-                                    {(e?.data?.rd?.MetalType == null ? 'NA' : e?.data?.rd?.MetalType) + " " + (e?.data?.rd?.MetalColorCo == null ? 'NA' : e?.data?.rd?.MetalColorCo)}
-                                  </div>
-                                </div>
-                                <div className="jobName6A">
-                                  <div className="job6Ahww text-secondary">
-                                    TR NO.
-                                  </div>
-                                  <div className="job6Ahww text-secondary">
-                                    TR NO.
-                                  </div>
-                                  <div className="job6Ahww text-secondary">
-                                    TR NO.
-                                  </div>
-                                  <div className="job6Ahww borderRight6A" style={{width:"50.5px"}}>
-                                    {e?.data?.rd?.OrderNo}
-                                  </div>
-                                </div>
-                                <div className="jobName6A">
-                                  <div className="job6Ahww" style={{fontSize:`${e?.data?.rd?.ProductType?.length > 18 ? '8.5px' : '9.5px'}`}}>
-                                    {e?.data?.rd?.ProductType}
-                                  </div>
-                                  <div className="job6Ahww">
-                                    {e?.data?.rd?.Size}
-                                  </div>
-                                  <div className="job6Ahww">
-                                    {e?.data?.rd?.CustomerCode}
-                                  </div>
-                                  <div className="job6Ahww borderRight6A" style={{width:"50.5px"}}>
-                                    {e?.data.rd?.PO}
-                                  </div>
-                                </div>
-                                <div className="jobName6A">
-                                  <div className="job6Ahww">CS WT/PC</div>
-                                  <div className="job6Ahww">DIA WT/PC</div>
-                                  <div className="job6Ahww">Nt Wt/Gr Wt</div>
-                                  <div className="job6Ahww borderRight6A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`, width:"50.5px"}} >
-                                    {e?.data?.rd?.prioritycode}
-                                  </div>
-                                </div>
-                                <div
-                                  className="jobName6A"
-                                  style={{ borderBottom: "0px" }}
-                                >
-                                  <div className="job6Ahww">
-                                    {e?.additional?.clr?.ActualWeight?.toFixed(
-                                      3
-                                    )}
-                                    /{e?.additional?.clr?.ActualPcs}
-                                  </div>
-                                  <div className="job6Ahww">
-                                    {e?.additional?.dia?.ActualWeight?.toFixed(
-                                      3
-                                    )}
-                                    /{e?.additional?.dia?.ActualPcs}
-                                  </div>
-                                  <div className="job6Ahww">
-                                    {e?.data?.rd?.MetalWeight?.toFixed(3)}/
-                                    {e?.data?.rd?.ActualGrossweight?.toFixed(3)}
-                                  </div>
-                                  <div className="job6Ahww borderRight6A" style={{width:"50.5px"}}>
-                                    {e?.data?.rd?.promiseDatef ?? ""}
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="imgSize6A">
-                                {" "}
-                                <img
-                                  src={
-                                    e?.additional?.img !== ""
-                                      ? e?.additional?.img
-                                      : require("../../assets/img/default.jpg")
-                                  }
-                                  id="img6A"
-                                  alt=""
-                                  
-                                  onError={(e) => handleImageError(e)}
-                                  loading="eager"
-                                />
-                              </div>
-                            </div>
-                            <div className="main6A">
-                              <div className="required6A">
-                                <div className="lbh6A d-flex justify-content-between align-items-center"><div style={{width:"282px", borderRight:"1px solid #989898"}} className="d-flex justify-content-center align-items-center">Required Material</div><div style={{width:"64px", lineHeight:"9px", fontSize:"11px"}} className="d-flex justify-content-center align-items-center">Issue Material</div></div>
-                                <div
-                                  className="main6Ahead"
-                                  style={{ height: "16px" }}
-                                >
-                                  <div className="right6Aa code6A" style={{width:"120px"}}>CODE</div>
-                                  <div className="right6Ab code6A" style={{width:"90px"}}>SIZE</div>
-                                  <div className="right6Ac code6A" style={{width:"31px"}}>PCS</div>
-                                  <div className="right6Ad code6A" style={{width:"40px"}}>WT</div>
-                                  <div className="right6Ac code6A" style={{width:"33px", borderLeft:"1px solid #989898"}}>PCS</div>
-                                  <div className="right6Ad code6A" style={{width:"32px"}}>WT</div>
-                                </div>
-                                {ele?.data?.map((a, i) => {
-                                  return (
-                                    <div className="main6Ahead" key={i}>
-                                      <div className="right6Aa" style={{width:"120px", fontSize: (a?.ConcatedFullShapeQualityColorCode?.length > 44 ? '9px' : '10px')  }}>
-                                        {a?.ConcatedFullShapeQualityColorCode == null ? 'NA' : a?.ConcatedFullShapeQualityColorCode}
-                                      </div>
-                                      <div className="right6Ab" style={{width:"90px"}}>
-                                        {a?.Sizename}
-                                      </div>
-                                      <div className="right6Ac" style={{width:"31px"}}>
-                                        {a?.ActualPcs}
-                                      </div>
-                                      <div className="right6Ad" style={{width:"40px"}}>
-                                        {a?.ActualWeight?.toFixed(3)}
-                                      </div>
-                                      <div className="right6Ac" style={{borderLeft:"1px solid #989898", width:"33px"}}>
-                                      {a?.IssuePcs === 0 ? '' : a?.IssuePcs}
-                                      {/* {a?.IssuePcs} */}
-                                      </div>
-                                      <div className="right6Ad" style={{width:"32px"}}>
-                                      {a?.IssueWeight === 0 ? '' : a?.IssueWeight?.toFixed(3)}
-                                      </div>
+                            <div className="container6A">
+                              <div className="jobInfo6A">
+                                <div className="jobInfo6Aheader">
+                                  <div
+                                    className="jobName6AD h6A"
+                                    style={{ fontWeight: "bold" }}
+                                  >
+                                    <div>{e?.data?.rd?.serialjobno}</div>
+                                    <div>{e?.data?.rd?.Designcode}</div>
+                                    <div className="text-danger">
+                                      {(e?.data?.rd?.MetalType == null ? 'NA' : e?.data?.rd?.MetalType) + " " + (e?.data?.rd?.MetalColorCo == null ? 'NA' : e?.data?.rd?.MetalColorCo)}
                                     </div>
-                                  );
-                                })}
-                                {Array.from(
-                                  { length: ele?.length },
-                                  (_, index) => (
-                                    <div className="main6Ahead" key={index}>
-                                      <div className="right6Aa" style={{width:"120px"}}></div>
-                                      <div className="right6Ab" style={{width:"90px"}}></div>
-                                      <div className="right6Ac" style={{width:"31px"}}></div>
-                                      <div className="right6Ad" style={{width:"40px"}}></div>
-                                      <div className="right6Ac" style={{width:"33px", borderLeft:"1px solid #989898"}}></div>
-                                      <div className="right6Ad" style={{width:"32px"}}></div>
+                                  </div>
+                                  <div className="jobName6A">
+                                    <div className="job6Ahww text-secondary">
+                                      TR NO.
                                     </div>
-                                  )
-                                )}
+                                    <div className="job6Ahww text-secondary">
+                                      TR NO.
+                                    </div>
+                                    <div className="job6Ahww text-secondary">
+                                      TR NO.
+                                    </div>
+                                    <div className="job6Ahww borderRight6A" style={{width:"50.5px"}}>
+                                      {e?.data?.rd?.OrderNo}
+                                    </div>
+                                  </div>
+                                  <div className="jobName6A">
+                                    <div className="job6Ahww" style={{fontSize:`${e?.data?.rd?.ProductType?.length > 18 ? '8.5px' : '9.5px'}`}}>
+                                      {e?.data?.rd?.ProductType}
+                                    </div>
+                                    <div className="job6Ahww">
+                                      {e?.data?.rd?.Size}
+                                    </div>
+                                    <div className="job6Ahww">
+                                      {e?.data?.rd?.CustomerCode}
+                                    </div>
+                                    <div className="job6Ahww borderRight6A" style={{width:"50.5px"}}>
+                                      {e?.data.rd?.PO}
+                                    </div>
+                                  </div>
+                                  <div className="jobName6A">
+                                    <div className="job6Ahww">CS WT/PC</div>
+                                    <div className="job6Ahww">DIA WT/PC</div>
+                                    <div className="job6Ahww">Nt Wt/Gr Wt</div>
+                                    <div className="job6Ahww borderRight6A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`, width:"50.5px"}} >
+                                      {e?.data?.rd?.prioritycode}
+                                    </div>
+                                  </div>
+                                  <div
+                                    className="jobName6A"
+                                    style={{ borderBottom: "0px" }}
+                                  >
+                                    <div className="job6Ahww">
+                                      {e?.additional?.clr?.ActualWeight?.toFixed(
+                                        3
+                                      )}
+                                      /{e?.additional?.clr?.ActualPcs}
+                                    </div>
+                                    <div className="job6Ahww">
+                                      {e?.additional?.dia?.ActualWeight?.toFixed(
+                                        3
+                                      )}
+                                      /{e?.additional?.dia?.ActualPcs}
+                                    </div>
+                                    <div className="job6Ahww">
+                                      {e?.data?.rd?.MetalWeight?.toFixed(3)}/
+                                      {e?.data?.rd?.ActualGrossweight?.toFixed(3)}
+                                    </div>
+                                    <div className="job6Ahww borderRight6A" style={{width:"50.5px"}}>
+                                      {e?.data?.rd?.promiseDatef ?? ""}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="imgSize6A">
+                                  {" "}
+                                  <img
+                                    src={
+                                      e?.additional?.img !== ""
+                                        ? e?.additional?.img
+                                        : require("../../assets/img/default.jpg")
+                                    }
+                                    id="img6A"
+                                    alt=""
+                                    
+                                    onError={(e) => handleImageError(e)}
+                                    loading="eager"
+                                  />
+                                </div>
                               </div>
-                              
-                            </div>
-                            <div className="job6Afooter">
-                              <div
-                                className="job6AfooterDesc"
-                                style={{ borderTop: "0px", height:"81px" }}
-                              >
-                                <div className="cust6A">
-                                  <p className="f6A">
-                                    CUST. INS.
-                                    <span className="f6A ">
-                                    {" " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}
-                                    </span>
-                                  </p>
+                              <div className="main6A">
+                                <div className="required6A">
+                                  <div className="lbh6A d-flex justify-content-between align-items-center"><div style={{width:"282px", borderRight:"1px solid #989898"}} className="d-flex justify-content-center align-items-center">Required Material</div><div style={{width:"64px", lineHeight:"9px", fontSize:"11px"}} className="d-flex justify-content-center align-items-center">Issue Material</div></div>
+                                  <div
+                                    className="main6Ahead"
+                                    style={{ height: "16px" }}
+                                  >
+                                    <div className="right6Aa code6A" style={{width:"120px"}}>CODE</div>
+                                    <div className="right6Ab code6A" style={{width:"90px"}}>SIZE</div>
+                                    <div className="right6Ac code6A" style={{width:"31px"}}>PCS</div>
+                                    <div className="right6Ad code6A" style={{width:"40px"}}>WT</div>
+                                    <div className="right6Ac code6A" style={{width:"33px", borderLeft:"1px solid #989898"}}>PCS</div>
+                                    <div className="right6Ad code6A" style={{width:"32px"}}>WT</div>
+                                  </div>
+                                  {ele?.data?.map((a, i) => {
+                                    return (
+                                      <div className="main6Ahead" key={i}>
+                                        <div className="right6Aa" style={{width:"120px", fontSize: (a?.ConcatedFullShapeQualityColorCode?.length > 44 ? '9px' : '10px')  }}>
+                                          {a?.ConcatedFullShapeQualityColorCode == null ? 'NA' : a?.ConcatedFullShapeQualityColorCode}
+                                        </div>
+                                        <div className="right6Ab" style={{width:"90px"}}>
+                                          {a?.Sizename}
+                                        </div>
+                                        <div className="right6Ac" style={{width:"31px"}}>
+                                          {a?.ActualPcs}
+                                        </div>
+                                        <div className="right6Ad" style={{width:"40px"}}>
+                                          {a?.ActualWeight?.toFixed(3)}
+                                        </div>
+                                        <div className="right6Ac" style={{borderLeft:"1px solid #989898", width:"33px"}}>
+                                        {a?.IssuePcs === 0 ? '' : a?.IssuePcs}
+                                        {/* {a?.IssuePcs} */}
+                                        </div>
+                                        <div className="right6Ad" style={{width:"32px"}}>
+                                        {a?.IssueWeight === 0 ? '' : a?.IssueWeight?.toFixed(3)}
+                                        </div>
+                                      </div>
+                                    );
+                                  })}
+                                  {Array.from(
+                                    { length: ele?.length },
+                                    (_, index) => (
+                                      <div className="main6Ahead" key={index}>
+                                        <div className="right6Aa" style={{width:"120px"}}></div>
+                                        <div className="right6Ab" style={{width:"90px"}}></div>
+                                        <div className="right6Ac" style={{width:"31px"}}></div>
+                                        <div className="right6Ad" style={{width:"40px"}}></div>
+                                        <div className="right6Ac" style={{width:"33px", borderLeft:"1px solid #989898"}}></div>
+                                        <div className="right6Ad" style={{width:"32px"}}></div>
+                                      </div>
+                                    )
+                                  )}
                                 </div>
-                                <div className="cust6A">
-                                  <p className="f6A">
-                                    PRD. INS.
-                                    <span className="f6A ">
-                                    {" " + checkInstruction(e?.data?.rd?.officeuse)}
-                                    </span>
-                                  </p>
-                                </div>
+                                
+                              </div>
+                              <div className="job6Afooter">
                                 <div
-                                  className="cust6A"
-                                  style={{ borderBottom: "0px" }}
+                                  className="job6AfooterDesc"
+                                  style={{ borderTop: "0px", height:"81px" }}
                                 >
-                                  <p className="f6A">
-                                    STM. INS.
-                                    <span className="f6A ">
-                                      {" " + checkInstruction(e?.data?.rd?.stamping)}
-                                    </span>
-                                  </p>
+                                  <div className="cust6A">
+                                    <p className="f6A">
+                                      CUST. INS.
+                                      <span className="f6A ">
+                                      {" " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}
+                                      </span>
+                                    </p>
+                                  </div>
+                                  <div className="cust6A">
+                                    <p className="f6A">
+                                      PRD. INS.
+                                      <span className="f6A ">
+                                      {" " + checkInstruction(e?.data?.rd?.officeuse)}
+                                      </span>
+                                    </p>
+                                  </div>
+                                  <div
+                                    className="cust6A"
+                                    style={{ borderBottom: "0px" }}
+                                  >
+                                    <p className="f6A">
+                                      STM. INS.
+                                      <span className="f6A ">
+                                        {" " + checkInstruction(e?.data?.rd?.stamping)}
+                                      </span>
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="qrcodebg6A">
+                                  <QRCodeGenerator
+                                    text={e?.data?.rd.serialjobno}
+                                  />
                                 </div>
                               </div>
-                              <div className="qrcodebg6A">
-                                <QRCodeGenerator
-                                  text={e?.data?.rd.serialjobno}
-                                />
-                              </div>
                             </div>
-                          </div>
-                          <div className="d-flex justify-content-start ps-5" style={{fontSize:"9px"}}>{e?.data?.rd?.showingDateTimeByJob + " " +e?.data?.rd?.Certifiacte}</div>
+                            <div className="d-flex justify-content-start ps-5" style={{fontSize:"9px"}}>{e?.data?.rd?.showingDateTimeByJob + " " +e?.data?.rd?.Certifiacte}</div>
                           </div>
                         );
                       })
                     ) : (
                       <div className="containerWD6A">
-                      <div className="container6A" key={inx}>
-                        <div className="jobInfo6A">
-                          <div className="jobInfo6Aheader">
-                            <div
-                              className="jobName6AD h6A"
-                              style={{ fontWeight: "bold" }}
-                            >
-                              <div>{e?.data?.rd?.serialjobno}</div>
-                              <div>{e?.data?.rd?.Designcode}</div>
-                              <div className="pe-1" style={{color:"red"}}>{(e?.data?.rd?.MetalType == null ? 'NA' : e?.data?.rd?.MetalType) + " " + (e?.data?.rd?.MetalColorCo == null ? 'NA' : e?.data?.rd?.MetalColorCo)}</div>
-                            </div>
-                            <div className="jobName6A">
-                              <div className="job6Ahww">TR NO.</div>
-                              <div className="job6Ahww">TR NO.</div>
-                              <div className="job6Ahww">TR NO.</div>
-                              <div className="job6Ahww borderRight6A" style={{width:"50.5px"}}>
-                                {e?.data?.rd?.OrderNo}
+                        <div className="container6A" key={inx}>
+                          <div className="jobInfo6A">
+                            <div className="jobInfo6Aheader">
+                              <div
+                                className="jobName6AD h6A"
+                                style={{ fontWeight: "bold" }}
+                              >
+                                <div>{e?.data?.rd?.serialjobno}</div>
+                                <div>{e?.data?.rd?.Designcode}</div>
+                                <div className="pe-1" style={{color:"red"}}>{(e?.data?.rd?.MetalType == null ? 'NA' : e?.data?.rd?.MetalType) + " " + (e?.data?.rd?.MetalColorCo == null ? 'NA' : e?.data?.rd?.MetalColorCo)}</div>
+                              </div>
+                              <div className="jobName6A">
+                                <div className="job6Ahww">TR NO.</div>
+                                <div className="job6Ahww">TR NO.</div>
+                                <div className="job6Ahww">TR NO.</div>
+                                <div className="job6Ahww borderRight6A" style={{width:"50.5px"}}>
+                                  {e?.data?.rd?.OrderNo}
+                                </div>
+                              </div>
+                              <div className="jobName6A">
+                                <div className="job6Ahww" style={{fontSize:`${e?.data?.rd?.ProductType?.length > 18 ? '8.5px' : '9.5px'}`}}>
+                                  {e?.data?.rd?.ProductType}
+                                </div>
+                                <div className="job6Ahww">
+                                  {e?.data?.rd?.Size}
+                                </div>
+                                <div className="job6Ahww">
+                                  {e?.data?.rd?.CustomerCode}
+                                </div>
+                                <div className="job6Ahww borderRight6A" style={{width:"50.5px"}}>
+                                  {e?.data.rd?.PO}
+                                </div>
+                              </div>
+                              <div className="jobName6A">
+                                <div className="job6Ahww">CS WT/PC</div>
+                                <div className="job6Ahww">DIA WT/PC</div>
+                                <div className="job6Ahww">Nt Wt/Gr Wt</div>
+                                <div className="job6Ahww borderRight6A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`, width:"50.5px"}}>
+                                  {e?.data?.rd?.prioritycode}
+                                </div>
+                              </div>
+                              <div
+                                className="jobName6A"
+                                style={{ borderBottom: "0px" }}
+                              >
+                                <div className="job6Ahww">
+                                  {e?.additional?.clr?.ActualWeight?.toFixed(3)}/
+                                  {e?.additional?.clr?.ActualPcs}
+                                </div>
+                                <div className="job6Ahww">
+                                  {e?.additional?.dia?.ActualWeight?.toFixed(3)}/
+                                  {e?.additional?.dia?.ActualPcs}
+                                </div>
+                                <div className="job6Ahww">
+                                  {e?.data?.rd?.ActualGrossweight?.toFixed(3)}/
+                                  {e?.data?.rd?.MetalWeight?.toFixed(3)}
+                                </div>
+                                <div className="job6Ahww borderRight6A" style={{width:"50.5px"}}>
+                                  {e?.data?.rd?.promiseDatef ?? ""}
+                                </div>
                               </div>
                             </div>
-                            <div className="jobName6A">
-                              <div className="job6Ahww" style={{fontSize:`${e?.data?.rd?.ProductType?.length > 18 ? '8.5px' : '9.5px'}`}}>
-                                {e?.data?.rd?.ProductType}
-                              </div>
-                              <div className="job6Ahww">
-                                {e?.data?.rd?.Size}
-                              </div>
-                              <div className="job6Ahww">
-                                {e?.data?.rd?.CustomerCode}
-                              </div>
-                              <div className="job6Ahww borderRight6A" style={{width:"50.5px"}}>
-                                {e?.data.rd?.PO}
-                              </div>
-                            </div>
-                            <div className="jobName6A">
-                              <div className="job6Ahww">CS WT/PC</div>
-                              <div className="job6Ahww">DIA WT/PC</div>
-                              <div className="job6Ahww">Nt Wt/Gr Wt</div>
-                              <div className="job6Ahww borderRight6A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`, width:"50.5px"}}>
-                                {e?.data?.rd?.prioritycode}
-                              </div>
-                            </div>
-                            <div
-                              className="jobName6A"
-                              style={{ borderBottom: "0px" }}
-                            >
-                              <div className="job6Ahww">
-                                {e?.additional?.clr?.ActualWeight?.toFixed(3)}/
-                                {e?.additional?.clr?.ActualPcs}
-                              </div>
-                              <div className="job6Ahww">
-                                {e?.additional?.dia?.ActualWeight?.toFixed(3)}/
-                                {e?.additional?.dia?.ActualPcs}
-                              </div>
-                              <div className="job6Ahww">
-                                {e?.data?.rd?.ActualGrossweight?.toFixed(3)}/
-                                {e?.data?.rd?.MetalWeight?.toFixed(3)}
-                              </div>
-                              <div className="job6Ahww borderRight6A" style={{width:"50.5px"}}>
-                                {e?.data?.rd?.promiseDatef ?? ""}
-                              </div>
+                            <div className="imgSize6A">
+                              {" "}
+                              <img
+                                src={
+                                  e?.additional?.img !== ""
+                                    ? e?.additional?.img
+                                    : require("../../assets/img/default.jpg")
+                                }
+                                id="img6A"
+                                alt=""
+                                onError={(e) => handleImageError(e)}
+                                loading="eager"
+                              />
                             </div>
                           </div>
-                          <div className="imgSize6A">
-                            {" "}
-                            <img
-                              src={
-                                e?.additional?.img !== ""
-                                  ? e?.additional?.img
-                                  : require("../../assets/img/default.jpg")
-                              }
-                              id="img6A"
-                              alt=""
-                              onError={(e) => handleImageError(e)}
-                              loading="eager"
-                            />
+                          <div className="main6A" style={{width:"345px"}}>
+                            <div className="required6A" style={{width:"275.57px"}}>
+                              <div className="lbh6A">Required Material</div>
+                              <div className="main6Ahead">
+                                <div className="right6Aa" style={{width:"120px"}}>CODE</div>
+                                <div className="right6Ab" style={{width:"90px"}}>SIZE</div>
+                                <div className="right6Ac" style={{width:"31px"}}>PCS</div>
+                                <div className="right6Ad" style={{width:"40px"}}>WT</div>
+                              </div>
+                              <div className="main6Ahead" style={{height:"18px"}}>
+                                  <div className="right6Aa" style={{width:"120px"}}>{(e?.data?.rd?.MetalType == null ? 'NA' : e?.data?.rd?.MetalType) + " " + (e?.data?.rd?.MetalColorCo == null ? 'NA' : e?.data?.rd?.MetalColorCo)}</div>
+                                  <div className="right6Ab" style={{width:"90px"}}></div>
+                                  <div className="right6Ac" style={{width:"31px"}}></div>
+                                  <div className="right6Ad" style={{width:"40px"}}></div>
+                                </div>
+                              {Array.from({ length: 11 }, (_, ind) => (
+                                <div className="main6Ahead" key={ind} style={{height:"20px"}}>
+                                  <div className="right6Aa"style={{width:"120px"}}></div>
+                                  <div className="right6Ab"style={{width:"90px"}}></div>
+                                  <div className="right6Ac"style={{width:"31px"}}></div>
+                                  <div className="right6Ad"style={{width:"40px"}}></div>
+                                </div>
+                              ))}
+                            </div>
+                            <div className="issue6A" style={{width:"70px"}}>
+                              <div className="lbh6A">
+                                <p style={{ borderRight: "0px" }}>
+                                  Issue Material
+                                </p>
+                                
+                              </div>
+                              <div className="aside6A" style={{width:"70px"}}>
+                                <div className="right6Ac w-50">PCS</div>
+                                <div className="right6Ad w-50">WT</div>
+                              </div>
+                              <div className="aside6A" style={{height:"18px"}}>
+                                  <div className="right6Ac w-50"></div>
+                                  <div className="right6Ad w-50"></div>
+                                </div>
+                              {Array.from({ length: 11 }, (_, i) => (
+                                <div className="aside6A" key={i} style={{height:"20px", width:"70px"}}>
+                                  <div className="right6Ac w-50"></div>
+                                  <div className="right6Ad w-50"></div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                          <div className="job6Afooter">
+                            <div
+                              className="job6AfooterDesc"
+                              style={{ borderTop: "0px", height:"81px" }}
+                            >
+                              <div className="cust6A">
+                                <p className="f6A " style={{fontSize:"11px"}}>
+                                  CUST. INS.<span className="f6A pt-1" style={{color:"red"}}>
+                                  {" " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}
+                                  </span>
+                                </p>
+                              </div>
+                              <div className="cust6A">
+                                <p className="f6A" style={{fontSize:"11px"}}>
+                                  PRD. INS.<span className="f6A pt-1" style={{color:"red"}}>
+                                  { " " + checkInstruction(e?.data?.rd?.officeuse)}
+                                  </span>
+                                </p>
+                              </div>
+                              <div
+                                className="cust6A"
+                                style={{ borderBottom: "0px" }}
+                              >
+                                <p className="f6A" style={{fontSize:"11px"}}>
+                                  STM. INS.<span className="f6A pt-1" style={{color:"red"}}>
+                                  {" " + checkInstruction(e?.data?.rd?.stamping)}
+                                  </span>
+                                </p>
+                              </div>
+                            </div>
+                            <div className="qrcodebg6A">
+                              <QRCodeGenerator text={e?.data?.rd?.serialjobno} />
+                            </div>
                           </div>
                         </div>
-                        <div className="main6A" style={{width:"345px"}}>
-                          <div className="required6A" style={{width:"275.57px"}}>
-                            <div className="lbh6A">Required Material</div>
-                            <div className="main6Ahead">
-                              <div className="right6Aa" style={{width:"120px"}}>CODE</div>
-                              <div className="right6Ab" style={{width:"90px"}}>SIZE</div>
-                              <div className="right6Ac" style={{width:"31px"}}>PCS</div>
-                              <div className="right6Ad" style={{width:"40px"}}>WT</div>
-                            </div>
-                            <div className="main6Ahead" style={{height:"18px"}}>
-                                <div className="right6Aa" style={{width:"120px"}}>{(e?.data?.rd?.MetalType == null ? 'NA' : e?.data?.rd?.MetalType) + " " + (e?.data?.rd?.MetalColorCo == null ? 'NA' : e?.data?.rd?.MetalColorCo)}</div>
-                                <div className="right6Ab" style={{width:"90px"}}></div>
-                                <div className="right6Ac" style={{width:"31px"}}></div>
-                                <div className="right6Ad" style={{width:"40px"}}></div>
-                              </div>
-                            {Array.from({ length: 11 }, (_, ind) => (
-                              <div className="main6Ahead" key={ind} style={{height:"20px"}}>
-                                <div className="right6Aa"style={{width:"120px"}}></div>
-                                <div className="right6Ab"style={{width:"90px"}}></div>
-                                <div className="right6Ac"style={{width:"31px"}}></div>
-                                <div className="right6Ad"style={{width:"40px"}}></div>
-                              </div>
-                            ))}
-                          </div>
-                          <div className="issue6A" style={{width:"70px"}}>
-                            <div className="lbh6A">
-                              <p style={{ borderRight: "0px" }}>
-                                Issue Material
-                              </p>
-                              
-                            </div>
-                            <div className="aside6A" style={{width:"70px"}}>
-                              <div className="right6Ac w-50">PCS</div>
-                              <div className="right6Ad w-50">WT</div>
-                            </div>
-                            <div className="aside6A" style={{height:"18px"}}>
-                                <div className="right6Ac w-50"></div>
-                                <div className="right6Ad w-50"></div>
-                              </div>
-                            {Array.from({ length: 11 }, (_, i) => (
-                              <div className="aside6A" key={i} style={{height:"20px", width:"70px"}}>
-                                <div className="right6Ac w-50"></div>
-                                <div className="right6Ad w-50"></div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="job6Afooter">
-                          <div
-                            className="job6AfooterDesc"
-                            style={{ borderTop: "0px", height:"81px" }}
-                          >
-                            <div className="cust6A">
-                              <p className="f6A " style={{fontSize:"11px"}}>
-                                CUST. INS.<span className="f6A pt-1" style={{color:"red"}}>
-                                {" " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}
-                                </span>
-                              </p>
-                            </div>
-                            <div className="cust6A">
-                              <p className="f6A" style={{fontSize:"11px"}}>
-                                PRD. INS.<span className="f6A pt-1" style={{color:"red"}}>
-                                { " " + checkInstruction(e?.data?.rd?.officeuse)}
-                                </span>
-                              </p>
-                            </div>
-                            <div
-                              className="cust6A"
-                              style={{ borderBottom: "0px" }}
-                            >
-                              <p className="f6A" style={{fontSize:"11px"}}>
-                                STM. INS.<span className="f6A pt-1" style={{color:"red"}}>
-                                {" " + checkInstruction(e?.data?.rd?.stamping)}
-                                </span>
-                              </p>
-                            </div>
-                          </div>
-                          <div className="qrcodebg6A">
-                            <QRCodeGenerator text={e?.data?.rd?.serialjobno} />
-                          </div>
-                        </div>
-                      </div>
-                      <div  className="d-flex justify-content-start ps-5" style={{fontSize:"9px"}}>{e?.data?.rd?.showingDateTimeByJob}</div>
+                        <div  className="d-flex justify-content-start ps-5" style={{fontSize:"9px"}}>{e?.data?.rd?.showingDateTimeByJob}</div>
                       </div>
                     )}
                     
