@@ -11,6 +11,7 @@ import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
 import { checkInstruction } from "../../GlobalFunctions";
 import { GetChunkData } from "../../GlobalFunctions/GetChunkData";
+import { handleImageError } from './../../GlobalFunctions/HandleImageError';
 const BagPrint7A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
@@ -1310,6 +1311,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                 }
                                 alt="materialimage"
                                 id="img7ABig"
+                                onError={(e) => handleImageError(e)}
                               />
                             </div>
                           </div>

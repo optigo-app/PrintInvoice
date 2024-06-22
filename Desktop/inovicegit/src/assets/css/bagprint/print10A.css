@@ -43,7 +43,7 @@
 .head10Ajob {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     width: 236px;
     height: 22px;
     border-bottom: 1px solid #989898;
@@ -56,7 +56,7 @@
     display: flex;
     width: 232px;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     border-bottom: 1px solid #989898;
     font-weight: bold;
     height: 23px;
@@ -121,7 +121,7 @@
 }
 
 .info10Alast {
-    width: 35px;
+    width: 42px;
     height: 32px;
     display: flex;
     flex-direction: column;
