@@ -416,11 +416,36 @@ const SaleOrderSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
 
   // const sortedArr = resultArr?.sort((a, b) => a?.GroupJob - b?.GroupJob)
-  const sortedArr = resultArr?.sort((a, b) => b?.GroupJob?.localeCompare(a?.GroupJob));
+  // const sortedArr = resultArr?.sort((a, b) => (`${b?.GroupJob}_${b?.SrJobno}`)?.localeCompare(`${a?.GroupJob}_${a?.SrJobno}`));
 
-  
+      // console.log(resultArr);
 
-  setData(sortedArr);
+      function sortJobs(arr) {
+        const primaryJobs = arr?.filter(job => job?.SrJobno === job?.GroupJob);
+        const otherJobs = arr?.filter(job => job?.SrJobno !== job?.GroupJob);
+      
+        primaryJobs?.sort((a, b) => a?.SrJobno?.localeCompare(b?.SrJobno));
+      
+        const sortedJobs = [];
+        primaryJobs?.forEach(primary => {
+          sortedJobs?.push(primary);
+          otherJobs?.forEach(job => {
+            if (job?.GroupJob === primary?.SrJobno) {
+              sortedJobs?.push(job);
+            }
+          });
+        });
+      
+        // Add remaining jobs that do not have a primary reference
+        const remainingJobs = otherJobs?.filter(job => !primaryJobs?.some(primary => job?.GroupJob === primary?.SrJobno));
+        sortedJobs?.push(...remainingJobs);
+      
+        return sortedJobs;
+      }
+      
+      const sortedArray = sortJobs(resultArr);
+
+  setData(sortedArray);
 
 
 
