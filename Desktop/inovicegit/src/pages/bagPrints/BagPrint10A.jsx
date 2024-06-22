@@ -274,54 +274,30 @@ const BagPrint10A = ({ queries, headers }) => {
                                       <div className="seaction10AheadWT"></div>
                                     </div>
                                     {ele?.data?.map((a, i) => {
+                                      console.log(a);
                                       return (
                                         <React.Fragment key={i}>
-                                          {a?.MasterManagement_DiamondStoneTypeid ===
-                                          5 ? (
-                                            <div
-                                              className="seaction10Amid"
-                                              key={i}
-                                            >
-                                              <div
-                                                className="seaction10Ahead"
-                                                style={{ fontWeight: "normal" }}
-                                              >
-                                                <div
-                                                  className="seaction10AheadCode"
-                                                  style={{ width: "134px" }}
-                                                >
-                                                  {
-                                                    a?.LimitedShapeQualityColorCode
-                                                  }{" "}
-                                                  {
-                                                    a?.QualityCode?.split(
-                                                      " "
-                                                    )?.[1]
-                                                  }{" "}
+                                          {a?.MasterManagement_DiamondStoneTypeid === 5 ? (
+                                            <div className="seaction10Amid" key={i} >
+                                              <div className="seaction10Ahead" style={{ fontWeight: "normal" }} >
+                                                <div className="seaction10AheadCode" style={{ width: "134px" }} >
+                                                  { a?.LimitedShapeQualityColorCode }
+                                                  { a?.QualityCode?.split( " " )?.[1] }
                                                   {a?.ColorName}
                                                 </div>
                                                 <div className="seaction10AheadPcs">
                                                   {a?.ActualPcs}
                                                 </div>
-                                                <div
-                                                  className="seaction10AheadWT"
-                                                  style={{ width: "40px" }}
-                                                >
-                                                  {a?.ActualWeight?.toFixed(3)}
+                                                <div className="seaction10AheadWT" style={{ width: "40px" }} >
+                                                  {a?.ActualWeight?.toFixed(2)}
                                                 </div>
                                                 <div className="seaction10AheadPcs"></div>
                                                 <div className="seaction10AheadWT"></div>
                                               </div>
                                             </div>
                                           ) : (
-                                            <div
-                                              className="seaction10Amid"
-                                              key={i}
-                                            >
-                                              <div
-                                                className="seaction10Ahead"
-                                                style={{ fontWeight: "normal" }}
-                                              >
+                                            <div className="seaction10Amid" key={i} >
+                                              <div className="seaction10Ahead" style={{ fontWeight: "normal" }} >
                                                 {a?.Shapename === "TOTAL" ? (
                                                   <div className="seaction10AheadCode">
                                                     {a?.Shapename}
@@ -339,10 +315,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                                 <div className="seaction10AheadPcs">
                                                   {a?.ActualPcs}
                                                 </div>
-                                                <div
-                                                  className="seaction10AheadWT"
-                                                  style={{ width: "40px" }}
-                                                >
+                                                <div className="seaction10AheadWT" style={{ width: "40px" }} >
                                                   { a?.MasterManagement_DiamondStoneTypeid === 3 ? a?.ActualWeight?.toFixed(3) : a?.ActualWeight?.toFixed(2)} 
                                                 </div>
                                                 <div className="seaction10AheadPcs"></div>
@@ -466,7 +439,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                         <div
                                           style={{
                                             borderRight: "1px solid #989898",
-                                            height: "51px",
+                                            height: "43px",
                                           }}
                                         ></div>
                                       </div>
@@ -558,10 +531,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                   <div className="seaction10AheadWT">WT</div>
                                 </div>
                                 <div className="seaction10Amid">
-                                    <div
-                                      className="seaction10Ahead"
-                                      style={{ fontWeight: "normal" }}
-                                    >
+                                    <div className="seaction10Ahead" style={{ fontWeight: "normal" }} >
                                       <div className="seaction10AheadCode">{e?.data?.rd?.MetalType + " " + e?.data?.rd?.MetalColorCo}</div>
                                       <div className="seaction10AheadSize"></div>
                                       <div className="seaction10AheadPcs"></div>
@@ -868,138 +838,50 @@ const BagPrint10A = ({ queries, headers }) => {
                         </div>
                         <div className="enteryBarcode10AD">
                           <div className="enteryBarcode10ADyn">
-                            <div
-                              className="entry10AHead"
-                              style={{ fontWeight: "normal", width: "290px" }}
-                            >
-                              <div
-                                className="rmcode10a"
-                                style={{ width: "48px" }}
-                              >
+                            <div className="entry10AHead" style={{ fontWeight: "normal", width: "290px" }} >
+                              <div className="rmcode10a" style={{ width: "47px" }} >
                                 DEPT{" "}
                               </div>
-                              <div
-                                className="rmcode10a"
-                                style={{ width: "52px" }}
-                              >
+                              <div className="rmcode10a" style={{ width: "47px" }} >
                                 ISSUE
                               </div>
-                              <div
-                                className="rmcode10a"
-                                style={{ width: "52px" }}
-                              >
+                              <div className="rmcode10a" style={{ width: "52px" }} >
                                 RECEIVE
                               </div>
-                              <div
-                                className="rmcode10a"
-                                style={{ width: "52px" }}
-                              >
+                              <div className="rmcode10a" style={{ width: "52px" }} >
                                 SCRAP
                               </div>
-                              <div
-                                className="rmcode10a"
-                                style={{ width: "37px" }}
-                              >
+                              <div className="rmcode10a" style={{ width: "37px" }} >
                                 PCS
                               </div>
-                              <div
-                                className="rmcode10a"
-                                style={{ borderRight: "0px", width: "56px" }}
-                              >
+                              <div className="rmcode10a" style={{ borderRight: "0px", width: "56px" }} >
                                 WORKER
                               </div>
                             </div>
                             <div className="entryheader10A">
-                              <div
-                                className="entry10AHeadD"
-                                style={{ fontWeight: "normal", height:'142px' }}
-                              >
-                                <div
-                                  className="rmcode10aD"
-                                  style={{
-                                    width: "52px",
-                                    display: "flex",
-                                    justifyContent: "flex-start",
-                                    paddingLeft: "7px",
-                                  }}
-                                >
+                              <div className="entry10AHeadD" style={{ fontWeight: "normal", height:'142px' }} >
+                                <div className="rmcode10aD" style={{ width: "52px", display: "flex", justifyContent: "flex-start", paddingLeft: "7px", }} >
                                   MLT.
                                 </div>
-                                <div
-                                  className="rmcode10aD"
-                                  style={{
-                                    width: "52px",
-                                    display: "flex",
-                                    justifyContent: "flex-start",
-                                    paddingLeft: "7px",
-                                  }}
-                                >
+                                <div className="rmcode10aD" style={{ width: "52px", display: "flex", justifyContent: "flex-start", paddingLeft: "7px", }} >
                                   TP.
                                 </div>
-                                <div
-                                  className="rmcode10aD"
-                                  style={{
-                                    width: "52px",
-                                    display: "flex",
-                                    justifyContent: "flex-start",
-                                    paddingLeft: "7px",
-                                  }}
-                                >
+                                <div className="rmcode10aD" style={{ width: "52px", display: "flex", justifyContent: "flex-start", paddingLeft: "7px", }} >
                                   FLG.
                                 </div>
-                                <div
-                                  className="rmcode10aD"
-                                  style={{
-                                    width: "52px",
-                                    display: "flex",
-                                    justifyContent: "flex-start",
-                                    paddingLeft: "7px",
-                                  }}
-                                >
-                                  CNC
+                                <div className="rmcode10aD" style={{ width: "52px", display: "flex", justifyContent: "flex-start", paddingLeft: "7px", }} >
+                                  CNC.
                                 </div>
-                                <div
-                                  className="rmcode10aD"
-                                  style={{
-                                    width: "52px",
-                                    display: "flex",
-                                    justifyContent: "flex-start",
-                                    paddingLeft: "7px",
-                                  }}
-                                >
+                                <div className="rmcode10aD" style={{ width: "52px", display: "flex", justifyContent: "flex-start", paddingLeft: "7px", }} >
                                   FIL.
                                 </div>
-                                <div
-                                  className="rmcode10aD"
-                                  style={{
-                                    width: "52px",
-                                    display: "flex",
-                                    justifyContent: "flex-start",
-                                    paddingLeft: "7px",
-                                  }}
-                                >
+                                <div className="rmcode10aD" style={{ width: "52px", display: "flex", justifyContent: "flex-start", paddingLeft: "7px", }} >
                                   HM.
                                 </div>
-                                <div
-                                  className="rmcode10aD"
-                                  style={{
-                                    width: "52px",
-                                    display: "flex",
-                                    justifyContent: "flex-start",
-                                    paddingLeft: "7px",
-                                  }}
-                                >
+                                <div className="rmcode10aD" style={{ width: "52px", display: "flex", justifyContent: "flex-start", paddingLeft: "7px", }} >
                                   TNG.
                                 </div>
-                                <div
-                                  className="rmcode10aD"
-                                  style={{
-                                    width: "52px",
-                                    display: "flex",
-                                    justifyContent: "flex-start",
-                                    paddingLeft: "7px",
-                                  }}
-                                >
+                                <div className="rmcode10aD" style={{ width: "52px", display: "flex", justifyContent: "flex-start", paddingLeft: "7px", }} >
                                   PLH.
                                 </div>
                                 {/* <div

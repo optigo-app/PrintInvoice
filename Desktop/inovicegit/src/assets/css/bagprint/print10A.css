@@ -149,7 +149,8 @@
     display: flex;
     justify-content: space-between;
     width: 236px;
-    height: 14.9px;
+    /* height: 14.9px; */
+    height: 17.9px;
     font-weight: bold;
     border-bottom: 1px solid #989898;
     line-height: 6px;
@@ -170,7 +171,7 @@
     /* padding-left: 2px; */
     /* padding-top: 2px; */
     border-right: 1px solid #989898;
-    line-height: 6px;
+    line-height: 8px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -248,7 +249,8 @@
 .barcodeInfo10A {
     position: relative;
     display: flex;
-    height: 217px;
+    /* height: 217px; */
+    height: 223px;
     border-bottom: 1px solid #989898;
 }
 

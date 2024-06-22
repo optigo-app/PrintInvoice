@@ -127,7 +127,7 @@ const PackingListJsonToExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer
               obj.item_name = el?.ShapeName;
               // obj.item_group = "CONSUMABLE";
               obj.desc = el?.QualityName;
-              if(el?.QualityName?.includes('cer') || el?.QualityName?.includes('s-onx')){
+              if(el?.QualityName?.toLowerCase()?.includes('cer') || el?.QualityName?.toLowerCase()?.includes('s-onx')){
                 obj.item_group = "CONSUMABLE";
               }else{
                 obj.item_group = "SEMI PRESIOUS STONE";
