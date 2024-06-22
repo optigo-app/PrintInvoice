@@ -222,4 +222,7 @@
         .cust_title_invpV{
             font-size: 40px;
         }
-}
+        .showValOnly{
+            border: 0px !important;
+        }
+    }

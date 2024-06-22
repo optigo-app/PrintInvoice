@@ -445,7 +445,7 @@ const SaleOrderSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       
       const sortedArray = sortJobs(resultArr);
 
-  setData(sortedArray);
+      setData(sortedArray);
 
 
 

@@ -246,9 +246,9 @@ const BagPrint11A = ({ queries, headers }) => {
                           <div className="border11A c11A">TR NO.</div>
                         </div>
                         <div className="jobHead11A">
-                          <div className="border11A c11A">TR WT</div>
-                          <div className="border11A c11A">TR WT</div>
-                          <div className="border11A c11A">TR WT</div>
+                          <div className="border11A c11A">TR WT.</div>
+                          <div className="border11A c11A">TR WT.</div>
+                          <div className="border11A c11A">TR WT.</div>
                         </div>
                       </div>
                       <div className="img11A">

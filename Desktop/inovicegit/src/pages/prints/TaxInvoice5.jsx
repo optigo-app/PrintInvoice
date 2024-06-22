@@ -382,6 +382,9 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </p>
                 );
               })}
+              {headerData?.ModeOfDel !== '' && (
+                <p className={`${style?.font_12}`}>{headerData?.ModeOfDel}</p>
+              )}
               {headerData?.AddLess !== 0 && (
                 <p className={`${style?.font_12}`}>{headerData?.AddLess > 0 ? "Add" : "Less"}</p>
               )}
@@ -390,6 +393,9 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               {data?.allTaxes.map((e, i) => {
                 return <p key={i} className={`${style?.font_12}`}>{NumberWithCommas(e?.amount, 2)}</p>;
               })}
+              {headerData?.FreightCharges !== 0 && (
+                <p className={`${style?.font_12}`}>{NumberWithCommas(headerData?.FreightCharges / headerData?.CurrencyExchRate, 2)}</p>
+              )}
               {headerData?.AddLess !== 0 && (
                 <p className={`${style?.font_12}`}>{NumberWithCommas(headerData?.AddLess / headerData?.CurrencyExchRate, 2)}</p>
               )}
@@ -400,7 +406,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <p className="fw-bold">GRAND TOTAL</p>
             </div>
             <div className={`${style?.grandTotalValue} p-1 text-end`}>
-              <p className="fw-bold">{NumberWithCommas((data?.mainTotal?.total_amount / headerData?.CurrencyExchRate) + data?.allTaxes?.reduce((acc, cObj) => acc + +cObj?.amount, 0) + (headerData?.AddLess/ headerData?.CurrencyExchRate), 2)}</p>
+              <p className="fw-bold">{NumberWithCommas((data?.mainTotal?.total_amount / headerData?.CurrencyExchRate) + (headerData?.FreightCharges / headerData?.CurrencyExchRate) + data?.allTaxes?.reduce((acc, cObj) => acc + +cObj?.amount, 0) + (headerData?.AddLess/ headerData?.CurrencyExchRate), 2)}</p>
             </div>
           </div>
         </div>

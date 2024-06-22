@@ -45,11 +45,11 @@
     /* height: 120px !important;
     width: 96px !important; */
     height: 104px;
-    width: 104px;
+    width: 103px;
 }
 
 .jobInfo11A {
-    border-right: 1px solid #989898;
+    /* border-right: 1px solid #989898; */
     width: 240px;
 }
 
@@ -58,9 +58,10 @@
     justify-content: space-between;
     height: 16px;
     border-bottom: 1px solid #989898;
-    align-items: center;
+    align-items: flex-start;
+    padding-left: 1px;
+    padding-right: 1px;
 }
-
 .jobHead11A {
     display: flex;
     justify-content: space-between;

@@ -350,14 +350,14 @@ const BagPrint13A = ({ queries, headers }) => {
                                   <p className="footer13AIns">
                                     {" "}
                                     <span
-                                      className="footer13AIns"
+                                      className="footer13AIns fw-bold"
                                       style={{
                                         color: "red",
                                         paddingLeft: "2px",
                                         lineHeight: "11px",
                                       }}
                                     >
-                                      <span className="text-black">CAST INS.</span>
+                                      <span className="text-black fw-normal">CAST INS.</span>
                                       {(" " + checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark)))?.slice(0, 230)}
                                     </span>
                                   </p>
@@ -538,14 +538,14 @@ const BagPrint13A = ({ queries, headers }) => {
                               <p className="footer13AIns">
                                 {" "}
                                 <span
-                                  className="footer13AIns"
+                                  className="footer13AIns fw-bold"
                                   style={{
                                     color: "red",
                                     paddingLeft: "2px",
                                     lineHeight: "11px",
                                   }}
                                 >
-                                  CUST INS.
+                                  <span className="text-center fw-normal">CUST INS.</span>
                                   {(" " + checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark)))?.slice(0, 230)}
                                 </span>
                               </p>
@@ -848,7 +848,7 @@ const BagPrint13A = ({ queries, headers }) => {
                             style={{ fontWeight: "normal", width: "290px" }}
                           >
                             <div className="rmcode13a" style={{ width: "43px" }}>
-                              DEPT{" "}
+                              DEPT.{" "}
                             </div>
                             <div className="rmcode13a" style={{ width: "52px" }}>
                               ISSUE
@@ -878,49 +878,49 @@ const BagPrint13A = ({ queries, headers }) => {
                                 className="rmcode13aD"
                                 style={{ width: "46px" }}
                               >
-                                GRD{" "}
+                                GRD.{" "}
                               </div>
                               <div
                                 className="rmcode13aD"
                                 style={{ width: "46px" }}
                               >
-                                FIL
+                                FIL.
                               </div>
                               <div
                                 className="rmcode13aD"
                                 style={{ width: "46px" }}
                               >
-                                PPL
+                                CNC.
                               </div>
                               <div
                                 className="rmcode13aD"
                                 style={{ width: "46px" }}
                               >
-                                SET.{" "}
+                                PPL.{" "}
                               </div>
                               <div
                                 className="rmcode13aD"
                                 style={{ width: "46px" }}
                               >
-                                ASM
+                                SET.
                               </div>
                               <div
                                 className="rmcode13aD"
                                 style={{ width: "46px" }}
                               >
-                                FPL
+                                ASM.
                               </div>
                               <div
                                 className="rmcode13aD"
                                 style={{ width: "46px" }}
                               >
-                                PLT
+                                FPL.
                               </div>
                               <div
                                 className="rmcode13aD"
                                 style={{ width: "46px" }}
                               >
-                                ENM
+                                PLT.
                               </div>
                               <div
                                 className="rmcode13aD"
@@ -929,7 +929,7 @@ const BagPrint13A = ({ queries, headers }) => {
                                   width: "46px",
                                 }}
                               >
-                                F.G.
+                                ENM.
                               </div>
                             </div>
                             {

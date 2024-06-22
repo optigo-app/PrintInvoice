@@ -471,7 +471,9 @@ const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       datas?.resultArray?.forEach((e) => {
         // let dia = [];
         e?.diamonds?.forEach((el) => {
-          let findRecord = diamonds?.findIndex((a) => a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname  && a?.ShapeName === el?.ShapeName && a?.Rate === el?.Rate)
+          // let findRecord = diamonds?.findIndex((a) => a?.QualityName === el?.QualityName &&
+          //  a?.Colorname === el?.Colorname  && a?.ShapeName === el?.ShapeName && a?.Rate === el?.Rate)
+          let findRecord = diamonds?.findIndex((a) =>  a?.Rate === el?.Rate)
           if(findRecord === -1){
             let obj = {...el};
             obj.wt = obj?.Wt;
@@ -837,10 +839,12 @@ useEffect(() => {
                             <div className="fw-bold w_30_invp4 d-flex justify-content-start">{result?.header?.HSN_No_Label}</div>
                             <div className="w-50 d-flex justify-content-end">{result?.header?.HSN_No}</div>
                           </div>
-                          <div className="d-flex justify-content-end pe-2 w-100">
+                          {
+                            result?.header?.DueDays === 0 ? '' : <div className="d-flex justify-content-end pe-2 w-100">
                             <div className="fw-bold w_30_invp4 d-flex justify-content-start">DUE DATE</div>
                             <div className="w-50 d-flex justify-content-end">{result?.header?.DueDate}</div>
                           </div>
+                          }
                          
                       </div>
                     </div>
@@ -945,13 +949,7 @@ useEffect(() => {
                       </div>
                     </div>
                   </div> */}
-                   <div className="invp4_fs"
-                      style={{
-                    fontSize:'12px',
-                    position:'relative'
-                      }}
-                  >
-                    
+                   <div className="invp4_fs" style={{ fontSize:'12px', position:'relative' }} >
                   {/* <div className="w-50 d-flex flex-column justify-content-between position-relative d-flex">
                     <div className="w-100 h-100 position-relative">
                       <div className="discHeadinvp3">DESCRIPTION</div>
@@ -970,19 +968,17 @@ useEffect(() => {
                  <div className="w-100 border-bottom" >
                  {/* <div className="d-flex justify-content-start align-items-center border-start border-end  position-absolute" style={{    top: "100px"}}> */}
                  <div className="d-flex justify-content-start align-items-center border-start border-end  position-absolute" style={{    top: "50%", marginLeft:'10%'}}>
-                  <input type="text"  style={{width:'170px',}} className="d-flex justify-content-center align-items-center  position-absolute" value={descText} onChange={(e) => setDescText(e.target.value)} />
+                  <input type="text"  style={{width:'170px',}} className="d-flex justify-content-center align-items-center  position-absolute showValOnly" value={descText} onChange={(e) => setDescText(e.target.value)} />
                   </div>
                   {
                     metal_s?.map((e, i) => {
                       return(
                         <div key={i} className="d-flex w-100   border-start border-end invp4_fs" >
                         <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
-                        <div style={{width:'30%'}} className="ps-2">
-                          {e?.primaryMetal?.ShapeName} {e?.primaryMetal?.QualityName}
-                        </div>
-                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{e?.netWtFinal?.toFixed(3)}</div>
-                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{formatAmount((((e?.metalAmountFinal)/((e?.netWtFinal === 0 ? 1 : e?.netWtFinal))) / result?.header?.CurrencyExchRate))}</div>
-                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{formatAmount((e?.metalAmountFinal / result?.header?.CurrencyExchRate))}</div>
+                        <div style={{width:'30%'}} className="ps-2"> {e?.primaryMetal?.ShapeName} {e?.primaryMetal?.QualityName} </div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{e?.netWtFinal?.toFixed(3)} gm</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{ e?.metalAmountFinal === 0 ? '' : formatAmount((((e?.metalAmountFinal)/((e?.netWtFinal === 0 ? 1 : e?.netWtFinal))) / result?.header?.CurrencyExchRate))}</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{ e?.metalAmountFinal === 0 ? '' : formatAmount((e?.metalAmountFinal / result?.header?.CurrencyExchRate))}</div>
                         </div>
                       )
                     })
@@ -993,9 +989,9 @@ useEffect(() => {
                         <div key={i} className="d-flex w-100   border-start border-end" >
                         <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
                         <div style={{width:'30%'}} className="ps-2">{e?.MasterManagement_DiamondStoneTypeName}</div>
-                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{e?.wt?.toFixed(3)}</div>
-                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{Math.round(((e?.amount / result?.header?.CurrencyExchRate))/((e?.wt === 0 ? 1 : e?.wt)))}</div>
-                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{formatAmount(e?.amount)}</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{e?.wt?.toFixed(3)} ctw</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{ e?.amount === 0 ? '' : Math.round(((e?.amount / result?.header?.CurrencyExchRate))/((e?.wt === 0 ? 1 : e?.wt)))}</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{ e?.amount === 0 ? '' : formatAmount(e?.amount)}</div>
                         </div>
                       )
                     })
@@ -1006,9 +1002,9 @@ useEffect(() => {
                         <div key={i} className="d-flex w-100   border-start border-end" >
                         <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
                         <div style={{width:'30%'}} className="ps-2">{e?.MasterManagement_DiamondStoneTypeName}</div>
-                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{e?.wt?.toFixed(3)}</div>
-                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{Math.round(((e?.amount / result?.header?.CurrencyExchRate))/((e?.wt === 0 ? 1 : e?.wt)))}</div>
-                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{formatAmount(e?.amount)}</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{e?.wt?.toFixed(3)} ctw</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{ e?.amount === 0 ? '' : Math.round(((e?.amount / result?.header?.CurrencyExchRate))/((e?.wt === 0 ? 1 : e?.wt)))}</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{ e?.amount === 0 ? '' : formatAmount(e?.amount)}</div>
                         </div>
                       )
                     })
@@ -1053,7 +1049,7 @@ useEffect(() => {
                         <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
                         <div style={{width:'30%'}} className="ps-2">LABOUR</div>
                         <div style={{width:'10%'}}></div>
-                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{total_makingcharge_unit}</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{total_makingcharge_unit === 0 ? '' : total_makingcharge_unit}</div>
                         {/* <div style={{width:'10%'}}>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.total_TotalDiaSetcost))}</div> */}
                         <div className="end_invp4_ pe-1" style={{width:'10%'}}>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.totalMiscAmount + result?.mainTotal?.total_diamondHandling))}</div>
                         </div>
@@ -1080,10 +1076,7 @@ useEffect(() => {
                         <div className="d-flex flex-column justify-content-between align-items-center ps-1">
                           {result?.allTaxes?.map((e, i) => {
                             return (
-                              <div
-                                className="d-flex justify-content-between align-items-center w-100"
-                                key={i}
-                              >
+                              <div className="d-flex justify-content-between align-items-center w-100" key={i} >
                                 <div className="w-50" style={{ borderRight: "1px solid #e8e8e8" }} >
                                   {e?.name} {e?.per}
                                 </div>
@@ -1096,10 +1089,7 @@ useEffect(() => {
                         </div>
                         {result?.header?.AddLess !== 0 && (
                           <div className="d-flex justify-content-between align-items-center ps-1">
-                            <div
-                              className="w-50"
-                              style={{ borderRight: "1px solid #e8e8e8" }}
-                            >
+                            <div className="w-50" style={{ borderRight: "1px solid #e8e8e8" }} >
                               {result?.header?.AddLess > 0 ? "Add" : "Less"}
                             </div>
                             <div className="w-50 d-flex justify-content-end align-items-center pe-1">
