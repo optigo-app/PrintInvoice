@@ -274,7 +274,6 @@ const BagPrint10A = ({ queries, headers }) => {
                                       <div className="seaction10AheadWT"></div>
                                     </div>
                                     {ele?.data?.map((a, i) => {
-                                      console.log(a);
                                       return (
                                         <React.Fragment key={i}>
                                           {a?.MasterManagement_DiamondStoneTypeid === 5 ? (
@@ -362,7 +361,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                           lineHeight: "9px",
                                         }}
                                       >
-                                         <span className="text-black">CUST INS.</span>
+                                         <span className="text-black">CAST INS.</span>
                                         <span style={{color:"red"}} className="fw-bold px-1">{" " + checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}</span>
                                       </span>
                                     </p>
@@ -567,7 +566,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                       lineHeight: "11px",
                                     }}
                                   >
-                                    <span className="text-black">CUST INS.</span>
+                                    <span className="text-black">CAST INS.</span>
                                     <span style={{color:"red"}} className="fw-bold">{" " + checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}</span>
                                   </span>
                                 </p>
@@ -684,31 +683,13 @@ const BagPrint10A = ({ queries, headers }) => {
                               </div>
                             </div>
                             <div className="mat10AD">
-                              <div
-                                className="border10A center_10a"
-                                style={{
-                                  color: "#c7c7c7",
-                                }}
-                              >
+                              <div className="border10A center_10a" style={{ color: "#c7c7c7", }} >
                                 PRIORITY
                               </div>
-                              <div
-                                className="border10A center_10a"
-                                style={{
-                                  color: "#c7c7c7",
-                                  
-                                }}
-                              >
+                              <div className="border10A center_10a" style={{ color: "#c7c7c7", }} >
                                 LOC.
                               </div>
-                              <div
-                                className="border10A center_10a"
-                                style={{
-                                  borderRight: "0px",
-                                  color: "#c7c7c7",
-                                  
-                                }}
-                              >
+                              <div className="border10A center_10a" style={{ borderRight: "0px", color: "#c7c7c7", }} >
                                 Q.C.
                               </div>
                             </div>
