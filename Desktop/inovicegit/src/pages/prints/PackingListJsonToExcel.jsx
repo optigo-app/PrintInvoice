@@ -98,32 +98,47 @@ const PackingListJsonToExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer
             let obj = {...el};
             if (obj?.MasterManagement_DiamondStoneTypeid === 4) {
               obj.item_name = 'AG';
-              obj.item_group = 'METAL';
-              obj.desc = `AG-${el?.ShapeName}-${el?.QualityName}-${el?.Colorname}`;
+              obj.item_group = el?.ShapeName;
+              obj.desc = `AG-${el?.QualityName}-${el?.Colorname?.charAt(0)}`;
               obj.row_no = 3
               
             } else if (obj?.MasterManagement_DiamondStoneTypeid === 1) {
+              let shp = '';
+              if(obj?.ShapeName?.toLowerCase() === 'rnd'){
+                shp = 'Round';
+              }else{
+                shp = obj?.ShapeName
+              }
               if (obj?.QualityName?.toLowerCase()?.startsWith("c-")) {
                 obj.item_name = 'LGD';
                 obj.item_group = "LAB GROWN DIAMOND";
-                obj.desc = `LGD-${el?.ShapeName}-${el?.QualityName}-${el?.Colorname}-${el?.SizeName} MM`
+                obj.desc = `LGD-${shp}-${el?.QualityName}-${el?.Colorname}-${el?.SizeName} MM`
                 obj.row_no = 3
               } else {
                 obj.item_name = 'ND';
                 obj.item_group = "NATURAL DIAMOND";
-                obj.desc = `ND-${el?.ShapeName}-${el?.QualityName}-${el?.Colorname}-${el?.SizeName} MM`
+                obj.desc = `ND-${shp}-${el?.QualityName}-${el?.Colorname}-${el?.SizeName} MM`
                 obj.row_no = 3
               }
             } else if (obj?.MasterManagement_DiamondStoneTypeid === 2) {
-              obj.item_name = el?.ShapeName;
-              obj.item_group = "CONSUMABLE";
-              if(el?.QualityName?.toLowerCase()?.includes('cer')){
-                obj.desc = `CONSUMABLE-Ceramic`
-              }else if(el?.QualityName?.toLowerCase()?.includes('s-onx')){
-                obj.desc = `CONSUMABLE-Black Beads`
-              }else{
-                obj.desc = `CONSUMABLE-Semi Precious `
+              if(obj?.QualityName?.toLowerCase() === 'cer'){
+                obj.Wt = (el?.Wt / 5);
               }
+              obj.item_name = el?.ShapeName;
+              // obj.item_group = "CONSUMABLE";
+              obj.desc = el?.QualityName;
+              if(el?.QualityName?.includes('cer') || el?.QualityName?.includes('s-onx')){
+                obj.item_group = "CONSUMABLE";
+              }else{
+                obj.item_group = "SEMI PRESIOUS STONE";
+              }
+              // if(el?.QualityName?.toLowerCase()?.includes('cer')){
+              //   obj.desc = `CONSUMABLE-Ceramic`
+              // }else if(el?.QualityName?.toLowerCase()?.includes('s-onx')){
+              //   obj.desc = `CONSUMABLE-Black Beads`
+              // }else{
+              //   obj.desc = `CONSUMABLE-Semi Precious `
+              // }
               obj.row_no = 3
             } else if (obj?.MasterManagement_DiamondStoneTypeid === 3) {
               obj.item_name = "";
@@ -182,9 +197,9 @@ const PackingListJsonToExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer
           obj.DOC_NO = '';
           obj.REF_TRANS_ITEM_ID = '';
           obj.REF_TRANS_ITEM_BOM_ID = '';
-          obj.PIECES = 2;
+          obj.PIECES = (e?.Categoryname?.toLowerCase() === "earring" ? 2 : 1);
           obj.WEIGHT = parseFloat(e?.grosswt)?.toFixed(3);
-          obj.RATE = 'Gross';
+          obj.RATE = '';
           obj.desc ='';
 
 
@@ -206,7 +221,7 @@ const PackingListJsonToExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer
               obj.item_name = (e?.material[ind]?.item_name);
               obj.PIECES = ( (e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 6 || e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 3) ? '' : e?.material[ind]?.Pcs);
               obj.WEIGHT = ( (e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 6 || e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 3) ? '' : e?.material[ind]?.Wt);
-              obj.RATE = ( e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 11 ? e?.MaKingCharge_Unit : e?.material[ind]?.Rate);
+              obj.RATE = ( e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 11 ? (e?.MaKingCharge_Unit) : e?.material[ind]?.Rate);
               obj.desc = (e?.material[ind]?.desc);
               obj.row_no = e?.material[ind]?.row_no;
             }

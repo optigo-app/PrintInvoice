@@ -60,6 +60,7 @@
     border-bottom: 1px solid #989898;
     font-weight: bold;
     height: 23px;
+    line-height: 12px;
 
 }
 
@@ -350,7 +351,7 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #989898;
-    height: 29px;
+    height: 30px;
 }
 
 .border10A {
@@ -369,8 +370,8 @@
     display: flex;
     width: 100%;
     border-bottom: 1px solid #989898;
-    /* height: 28px; */
-    height: 40px;
+    height: 27px;
+    /* height: 40px; */
     padding-left: 2px;
     padding-top: 1px;
 }
@@ -497,6 +498,11 @@
     width: 100%;
     height: 17.8px;
     line-height: 8px;
+}
+.center_10a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 @media print {

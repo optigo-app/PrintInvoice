@@ -132,13 +132,13 @@ const BagPrint10A = ({ queries, headers }) => {
     fetchData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  useEffect(() => {
-    if (data?.length !== 0) {
-      setTimeout(() => {
-        window.print();
-      }, 5000);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data?.length !== 0) {
+  //     setTimeout(() => {
+  //       window.print();
+  //     }, 5000);
+  //   }
+  // }, [data]);
   return (
     <>
       {data.length === 0 ? (
@@ -233,7 +233,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                     </div>
                                   </div>
                                   <div className="section10A">
-                                    <div className="seaction10AheadA">
+                                    <div className="seaction10AheadA  fw-normal">
                                       <div className="seaction10AheadCode">
                                         CODE
                                       </div>
@@ -288,7 +288,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                               >
                                                 <div
                                                   className="seaction10AheadCode"
-                                                  style={{ width: "138px" }}
+                                                  style={{ width: "134px" }}
                                                 >
                                                   {
                                                     a?.LimitedShapeQualityColorCode
@@ -390,7 +390,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                         }}
                                       >
                                          <span className="text-black">CUST INS.</span>
-                                        <span style={{color:"red"}}>{" " + checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}</span>
+                                        <span style={{color:"red"}} className="fw-bold px-1">{" " + checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}</span>
                                       </span>
                                     </p>
                                   </div>
@@ -545,7 +545,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                 </div>
                               </div>
                               <div className="section10A">
-                                <div className="seaction10AheadA">
+                                <div className="seaction10AheadA fw-normal">
                                   <div className="seaction10AheadCode">
                                     CODE
                                   </div>
@@ -598,7 +598,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                     }}
                                   >
                                     <span className="text-black">CUST INS.</span>
-                                    <span style={{color:"red"}}>{" " + checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}</span>
+                                    <span style={{color:"red"}} className="fw-bold">{" " + checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}</span>
                                   </span>
                                 </p>
                               </div>
@@ -715,70 +715,66 @@ const BagPrint10A = ({ queries, headers }) => {
                             </div>
                             <div className="mat10AD">
                               <div
-                                className="border10A"
+                                className="border10A center_10a"
                                 style={{
                                   color: "#c7c7c7",
-                                  textAlign: "center",
-                                  paddingTop: "2px",
                                 }}
                               >
                                 PRIORITY
                               </div>
                               <div
-                                className="border10A"
+                                className="border10A center_10a"
                                 style={{
                                   color: "#c7c7c7",
-                                  textAlign: "center",
-                                  paddingTop: "2px",
+                                  
                                 }}
                               >
                                 LOC.
                               </div>
                               <div
-                                className="border10A"
+                                className="border10A center_10a"
                                 style={{
                                   borderRight: "0px",
                                   color: "#c7c7c7",
-                                  textAlign: "center",
-                                  paddingTop: "2px",
+                                  
                                 }}
                               >
                                 Q.C.
                               </div>
                             </div>
                             <div className="mat10ADE">
-                              <div className="border10A hw10A">
-                                <p className="f10ADuplicate">SALES REP.</p>{" "}
+                              <div className="border10A h-100">
+                                <p className="f10ADuplicate  pt-0">SALES REP.</p>{" "}
                                 <p className="f10ADuplicate">
                                   {e?.data?.rd?.SalesrepCode}
                                 </p>
                               </div>
-                              <div className="border10A hw10A">
-                                <p className="f10ADuplicate">FROSTING</p>{" "}
+                              <div className="border10A h-100">
+                                <p className="f10ADuplicate  pt-0">FROSTING</p>{" "}
                                 <p className="f10ADuplicate">
                                   {e?.data?.rd?.MetalFrosting}
                                 </p>
                               </div>
                               <div
-                                className="border10A hw10A"
+                                className="border10A h-100"
                                 style={{ borderRight: "0px" }}
                               >
-                                <p className="f10ADuplicate">ENAMELING</p>
+                                <p className="f10ADuplicate pt-0">ENAMELING</p>
                                 <p className="f10ADuplicate">
                                   {e?.data?.rd?.Enamelling}
                                 </p>
                               </div>
                             </div>
                             <div className="mat10ADE">
-                              <div className="border10A hw10A">
-                                <p className="f10ADuplicate">LAB</p>{" "}
+                              <div className="border10A h-100">
+                                <p className="f10ADuplicate pt-0">LAB</p>{" "}
                                 <p className="f10ADuplicate">
                                   {e?.data?.rd?.MasterManagement_labname}
                                 </p>
                               </div>
-                              <div className="border10A hw10A">
-                                <p className="f10ADuplicate">SNAP</p>{" "}
-                                <p className="f10ADuplicate">
+                              <div className="border10A h-100">
+                                <p className="f10ADuplicate  pt-0">SNAP</p>{" "}
+                                <p className="f10ADuplicate  pt-0">
                                   {
                                     e?.data?.rd
                                       ?.MasterManagement_ProductImageType
@@ -786,11 +782,11 @@ const BagPrint10A = ({ queries, headers }) => {
                                 </p>
                               </div>
                               <div
-                                className="border10A hw10A"
+                                className="border10A h-100"
                                 style={{ borderRight: "0px" }}
                               >
-                                <p className="f10ADuplicate">MAKETYPE</p>
-                                <p className="f10ADuplicate">
+                                <p className="f10ADuplicate  pt-0">MAKETYPE</p>
+                                <p className="f10ADuplicate  pt-0">
                                   {
                                     e?.data?.rd
                                       ?.mastermanagement_maketypename
@@ -800,32 +796,26 @@ const BagPrint10A = ({ queries, headers }) => {
                             </div>
                             <div className="mat10AD">
                               <div
-                                className="border10A"
+                                className="border10A center_10a"
                                 style={{
                                   color: "#c7c7c7",
-                                  textAlign: "center",
-                                  paddingTop: "2px",
                                 }}
                               >
                                 TR NO.
                               </div>
                               <div
-                                className="border10A"
+                                className="border10A center_10a"
                                 style={{
                                   color: "#c7c7c7",
-                                  textAlign: "center",
-                                  paddingTop: "2px",
                                 }}
                               >
                                 TR NO.
                               </div>
                               <div
-                                className="border10A"
+                                className="border10A center_10a"
                                 style={{
                                   borderRight: "0px",
                                   color: "#c7c7c7",
-                                  textAlign: "center",
-                                  paddingTop: "2px",
                                 }}
                               >
                                 TR NO.
@@ -836,32 +826,26 @@ const BagPrint10A = ({ queries, headers }) => {
                               style={{ borderBottom: "0px" }}
                             >
                               <div
-                                className="border10A"
+                                className="border10A center_10a"
                                 style={{
                                   color: "#c7c7c7",
-                                  textAlign: "center",
-                                  paddingTop: "2px",
                                 }}
                               >
                                 TR WT.
                               </div>
                               <div
-                                className="border10A"
+                                className="border10A center_10a"
                                 style={{
                                   color: "#c7c7c7",
-                                  textAlign: "center",
-                                  paddingTop: "2px",
                                 }}
                               >
                                 TR WT.
                               </div>
                               <div
-                                className="border10A"
+                                className="border10A center_10a"
                                 style={{
                                   borderRight: "0px",
                                   color: "#c7c7c7",
-                                  textAlign: "center",
-                                  paddingTop: "2px",
                                 }}
                               >
                                 TR WT.
@@ -890,7 +874,7 @@ const BagPrint10A = ({ queries, headers }) => {
                             >
                               <div
                                 className="rmcode10a"
-                                style={{ width: "43px" }}
+                                style={{ width: "48px" }}
                               >
                                 DEPT{" "}
                               </div>
@@ -933,10 +917,10 @@ const BagPrint10A = ({ queries, headers }) => {
                                 <div
                                   className="rmcode10aD"
                                   style={{
-                                    width: "46px",
+                                    width: "52px",
                                     display: "flex",
                                     justifyContent: "flex-start",
-                                    paddingLeft: "3px",
+                                    paddingLeft: "7px",
                                   }}
                                 >
                                   MLT.
@@ -944,10 +928,10 @@ const BagPrint10A = ({ queries, headers }) => {
                                 <div
                                   className="rmcode10aD"
                                   style={{
-                                    width: "46px",
+                                    width: "52px",
                                     display: "flex",
                                     justifyContent: "flex-start",
-                                    paddingLeft: "3px",
+                                    paddingLeft: "7px",
                                   }}
                                 >
                                   TP.
@@ -955,10 +939,10 @@ const BagPrint10A = ({ queries, headers }) => {
                                 <div
                                   className="rmcode10aD"
                                   style={{
-                                    width: "46px",
+                                    width: "52px",
                                     display: "flex",
                                     justifyContent: "flex-start",
-                                    paddingLeft: "3px",
+                                    paddingLeft: "7px",
                                   }}
                                 >
                                   FLG.
@@ -966,10 +950,10 @@ const BagPrint10A = ({ queries, headers }) => {
                                 <div
                                   className="rmcode10aD"
                                   style={{
-                                    width: "46px",
+                                    width: "52px",
                                     display: "flex",
                                     justifyContent: "flex-start",
-                                    paddingLeft: "3px",
+                                    paddingLeft: "7px",
                                   }}
                                 >
                                   CNC
@@ -977,10 +961,10 @@ const BagPrint10A = ({ queries, headers }) => {
                                 <div
                                   className="rmcode10aD"
                                   style={{
-                                    width: "46px",
+                                    width: "52px",
                                     display: "flex",
                                     justifyContent: "flex-start",
-                                    paddingLeft: "3px",
+                                    paddingLeft: "7px",
                                   }}
                                 >
                                   FIL.
@@ -988,10 +972,10 @@ const BagPrint10A = ({ queries, headers }) => {
                                 <div
                                   className="rmcode10aD"
                                   style={{
-                                    width: "46px",
+                                    width: "52px",
                                     display: "flex",
                                     justifyContent: "flex-start",
-                                    paddingLeft: "3px",
+                                    paddingLeft: "7px",
                                   }}
                                 >
                                   HM.
@@ -999,10 +983,10 @@ const BagPrint10A = ({ queries, headers }) => {
                                 <div
                                   className="rmcode10aD"
                                   style={{
-                                    width: "46px",
+                                    width: "52px",
                                     display: "flex",
                                     justifyContent: "flex-start",
-                                    paddingLeft: "3px",
+                                    paddingLeft: "7px",
                                   }}
                                 >
                                   TNG.
@@ -1010,10 +994,10 @@ const BagPrint10A = ({ queries, headers }) => {
                                 <div
                                   className="rmcode10aD"
                                   style={{
-                                    width: "46px",
+                                    width: "52px",
                                     display: "flex",
                                     justifyContent: "flex-start",
-                                    paddingLeft: "3px",
+                                    paddingLeft: "7px",
                                   }}
                                 >
                                   PLH.
@@ -1022,7 +1006,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                   className="rmcode10aD"
                                   style={{
                                     borderBottom: "1px solid #989898",
-                                    width: "46px",
+                                    width: "52px",
                                     display: "flex",
                                     justifyContent: "flex-start",
                                     paddingLeft: "3px",
@@ -1068,18 +1052,15 @@ const BagPrint10A = ({ queries, headers }) => {
                               }
                             </div>
                             <div>
-                              <div className="ins10Afooter">
-                                <p style={{ fontSize: "12px" }}>SLS. INS.{}</p>
+                              <div className="ins10Afooter pt-0">
+                                <p style={{ fontSize: "12px",width:'46px', borderRight:'1px solid #989898' }}>SLS. INS.{}</p>
                               </div>
-                              <div className="ins10Afooter" style={{borderBottom:'0px'}}>
-                                <p style={{ fontSize: "12px" }}>PRD. INS.{}</p>
+                              <div className="ins10Afooter pt-0">
+                                <p style={{ fontSize: "12px", width:'46px' , borderRight:'1px solid #989898'}}>PRD. INS.{}</p>
                               </div>
-                              {/* <div
-                                className="ins10Afooter"
-                                style={{ borderBottom: "0px" }}
-                              >
-                                <p style={{ fontSize: "12px" }}>QC. INS.{}</p>
-                              </div> */}
+                              <div className="ins10Afooter pt-0" style={{ borderBottom: "0px" }} >
+                                <p style={{ fontSize: "12px", width:'46px' , borderRight:'1px solid #989898' }}>QC. INS.{}</p>
+                              </div>
                             </div>
                           </div>
                           <div className="barcode10AD">
