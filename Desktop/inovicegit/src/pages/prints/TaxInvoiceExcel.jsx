@@ -4,6 +4,8 @@ import Loader from '../../components/Loader';
 import  ReactHTMLTableToExcel  from 'react-html-table-to-excel';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import { cloneDeep } from 'lodash';
+import sanitizeHtml from 'sanitize-html';
+import { htmlToText } from 'html-to-text';
 
 const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [result, setResult] = useState(null);
@@ -536,6 +538,39 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         setRowWise(rowArr);
 
 
+        
+        // // Remove <blockquote> element
+        // let modifiedContent = datas?.header?.Declaration?.replace(/<blockquote[^>]*>[\s\S]*?<\/blockquote>/g, '');
+        
+        // // Wrap each item in <br> tags
+        // let modifiedContent1 = modifiedContent?.replace(/<u><i><b><\span><\font><\div>/g, '<br>');
+        // let modifiedContent2 = modifiedContent1?.replace(/<\/u><\/i><\/b><\/span><\/font><\/div>/g, '</br>');
+
+        // console.log(modifiedContent2);
+
+      //   const sanitizedHtml = sanitizeHtml(datas?.header?.Declaration, {
+      //     allowedTags: ['b', 'i', 'u', 'span', 'font'], // Allow only basic formatting tags
+      //     allowedAttributes: {
+      //       'span': ['style'],
+      //       'font': ['face']
+      //     },
+      //     textFilter: text => text.replace(/\n/g, ' ') // Replace newlines with spaces
+      //   });
+      
+      //   // Convert sanitized HTML to plain text or simplified HTML
+      //   const plainText = htmlToText(sanitizedHtml, {
+      //     wordwrap: false, // Disable word wrapping
+      //     singleNewLineParagraphs: true // Single new line between paragraphs
+      //   });
+
+      //   // datas.header.Declaration = plainText;
+
+      // const sentences = plainText.replace(/\['1.','2.','3.','4.','5.']/g, '<br />');
+
+      // Filter out empty strings and trim whitespace
+      // const filteredSentences = sentences.filter(sentence => sentence.trim() !== '');
+
+      // console.log(sentences);
 
 
         // for download excel direct
@@ -838,7 +873,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                             }
                         
                         <tr><td style={{borderTop:'1px solid #989898', borderLeft:'1px solid #989898', borderRight:'1px solid #989898'}}  colSpan={23}><b>NOTE:</b></td></tr>
-                        <tr><th style={{border:'1px solid #989898', borderTop:'0px'}} colSpan={23} align='left'><span dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></span></th></tr>
+                        <tr><td style={{border:'1px solid #989898', borderTop:'0px'}} colSpan={23} align='left' ><div className='w-100' dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></div></td></tr>
                         
                     
                     </tbody>
