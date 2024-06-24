@@ -41,6 +41,7 @@ export const CapitalizeWords = (text) => {
 
 //global function of api calling
 export const apiCall = async (token, invoiceNo, printName, urls, evn, ApiVer) => {
+
   const body = {
     token: token,
     invoiceno: invoiceNo,
