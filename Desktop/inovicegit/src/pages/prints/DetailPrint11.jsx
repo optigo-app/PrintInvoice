@@ -411,7 +411,6 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             </div>
             <div className="diamondStoneDetailPrint11 d-grid pad_bt_20semiTotalDetailPrint11 position-relative">
               {e?.materials?.length > 0 ? e?.materials.map((ele, ind) => {
-                console.log(ele)
                 return <div className='d-flex border-bottom' key={ind}>
                   <div className={`${styles} border-end d-flex align-items-center justify-content-center`}><p className=''>{ele?.ShapeName}</p></div>
                   <div className={`${styles} border-end d-flex align-items-center justify-content-center`}><p className=''>{diamondSize && (ele?.GroupName === "" ? ele?.SizeName : (ele?.MasterManagement_DiamondStoneTypeid !== 2 ? ele?.GroupName : ele?.SizeName))}</p></div>
