@@ -538,6 +538,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         setRowWise(rowArr);
 
 
+
         
         // // Remove <blockquote> element
         // let modifiedContent = datas?.header?.Declaration?.replace(/<blockquote[^>]*>[\s\S]*?<\/blockquote>/g, '');

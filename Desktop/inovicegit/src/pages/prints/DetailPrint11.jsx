@@ -83,12 +83,14 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             objects.Amount = ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate;
             objects.SettingAmount = ele?.SettingAmount / data?.BillPrint_Json[0]?.CurrencyExchRate;
             let findIndex = elementsArr.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName &&
-              elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname &&
+              elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname && ele?.Rate === elem?.Rate &&
               elem?.SizeName === ele?.SizeName && elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid);
             if (findIndex === -1) {
               elementsArr.push(objects);
             } else {
-              elementsArr[findIndex].Rate = ((elementsArr[findIndex].Amount / elementsArr[findIndex].Wt) + (ele.Amount / ele.Wt)) / 2
+              // elementsArr[findIndex].Rate = ((elementsArr[findIndex].Amount / elementsArr[findIndex].Wt) + (ele.Amount / ele.Wt)) / 2
+              elementsArr[findIndex].Rate = ele?.Rate
+              // elementsArr[findIndex].Rate = ((elementsArr[findIndex].Amount / elementsArr[findIndex].Wt))
               elementsArr[findIndex].Wt += ele?.Wt;
               elementsArr[findIndex].Amount += ele?.Amount;
               elementsArr[findIndex].SettingAmount += ele?.SettingAmount;
@@ -413,7 +415,9 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   <div className={`${styles} border-end d-flex align-items-center justify-content-center`}><p className=''>{diamondSize && (ele?.GroupName === "" ? ele?.SizeName : (ele?.MasterManagement_DiamondStoneTypeid !== 2 ? ele?.GroupName : ele?.SizeName))}</p></div>
                   <div className={`${styles} border-end d-flex align-items-center justify-content-center`}><p className=''>{NumberWithCommas(ele?.Pcs, 0)}</p></div>
                   <div className={`${styles} border-end d-flex align-items-center justify-content-center`}><p className=''>{fixedValues(ele?.Wt, 3)}</p></div>
-                  <div className={`${styles} border-end d-flex align-items-center justify-content-center flex-column`}><p className=''>{NumberWithCommas(ele?.Rate, 2)}</p></div>
+                  {/* <div className={`${styles} border-end d-flex align-items-center justify-content-center flex-column`}><p className=''>{NumberWithCommas(ele?.Rate, 2)}</p></div> */}
+                  {/* <div className={`${styles} border-end d-flex align-items-center justify-content-center flex-column`}><p className=''>{NumberWithCommas((ele?.Amount /ele?.Wt), 2)}</p></div> */}
+                  <div className={`${styles} border-end d-flex align-items-center justify-content-center flex-column`}><p className=''>{NumberWithCommas((ele?.Rate), 2)}</p></div>
                   <div className={`${styles} border-end d-flex align-items-center justify-content-center flex-column`}><p className='text-center'>{NumberWithCommas(ele?.Amount, 2)}</p></div>
                   {setting && <div className={`${styles} border-end d-flex align-items-center justify-content-center flex-column`}><p className='text-center'>{ele?.SettingName}</p></div>}
                   {setting && <div className={`${styles} border-end d-flex align-items-center justify-content-center flex-column`}><p className='text-center'>{NumberWithCommas(ele?.SettingRate, 2)}</p></div>}
