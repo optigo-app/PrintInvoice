@@ -192,6 +192,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       if (findRecord === -1) {
         newArr.push(obj);
       } else {
+
         if (newArr[findRecord]?.SrJobno !== newArr[findRecord]?.GroupJob) {
           newArr[findRecord].SrJobno = obj?.SrJobno;
           newArr[findRecord].designno = obj?.designno;
@@ -200,15 +201,18 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           newArr[findRecord].MetalPurity = obj?.MetalPurity;
           newArr[findRecord].MetalColor = obj?.MetalColor;
         }
+
         newArr[findRecord].grosswt += obj?.grosswt;
         newArr[findRecord].NetWt += obj?.NetWt;
         newArr[findRecord].metalNetWeightWithLossWt += obj?.metalNetWeightWithLossWt;
         newArr[findRecord].LossPer += obj?.LossPer;
         newArr[findRecord].PureNetWt += obj?.PureNetWt;
+
         if (newArr[findRecord].metalRateGold !== obj?.metalRateGold) {
           let amountValue = (newArr[findRecord].metalRateAmount + obj?.metalRateAmount) / data.BillPrint_Json[0]?.CurrencyExchRate;
           newArr[findRecord].metalRateGold = amountValue / newArr[findRecord].NetWt;
         }
+        
         // newArr[findRecord].metalRateGold = (newArr[findRecord].metalRateGold+obj?.metalRateGold)/(obj.NetWt*data.BillPrint_Json[0]?.CurrencyExchRate);
 
         // (obj.NetWt*data.BillPrint_Json[0]?.CurrencyExchRate)

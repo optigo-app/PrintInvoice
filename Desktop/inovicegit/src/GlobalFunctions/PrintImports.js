@@ -186,6 +186,7 @@ export const excelConditions = [
   { printName: "quote format", etpType: "excel", componentName: "QuoteFormateExcel"},
   { printName: "tax invoice", etpType: "excel", componentName: "TaxInvoiceExcel"},
   { printName: "packing list c", etpType: "excel", componentName: "PackingListCExcel2"},
+  { printName: "packing list 2", etpType: "excel", componentName: "ColorIndia"},
 ];
 
 

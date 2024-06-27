@@ -693,7 +693,8 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                                 {/* <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td> */}
                                                 {/* <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td> */}
                                                 {/* <td width={90} align='left' style={{borderLeft:'1px solid black', borderRight:'1px solid #989898'}}>&nbsp;{ val?.diaflag && `${(val?.diaShp?.toLowerCase() === 'rnd' || val?.diaShp?.toLowerCase() === 'bug' || val?.diaShp?.toLowerCase() === 'prs' ) && val?.diaQly}`}</td> */}
-                                                <td width={90} align='center' style={{borderLeft:'1px solid black', borderRight:'1px solid black'}}>&nbsp;{ val?.diaflag && `${val?.diaQly2}`}</td>
+                                                <td width={90} align='center' style={{borderLeft:'1px solid black', borderRight:'1px solid black'}}>
+                                                  &nbsp;{ val?.diaflag && `${val?.diaQly2}`}</td>
 
                                                 <td width={140} align='center' style={{borderRight:'1px solid black'}} >{val?.diaflag && val?.dia_rnd_pcs}</td>
                                                 <td width={140} align='center' style={{borderRight:'1px solid black'}} >{val?.diaflag && val?.dia_rnd_wt?.toFixed(3)}</td>
