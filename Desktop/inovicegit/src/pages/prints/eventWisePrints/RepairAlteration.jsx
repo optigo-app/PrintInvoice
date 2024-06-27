@@ -91,7 +91,9 @@ const RepairAlteration = ({ data }) => {
     <div className="mt-1 p-2 border-top d-flex">
       <div className="col-6">
         <p>To,</p>
-        <p className="fs-6 fw-bold">{headerData?.customerfirmname}</p>
+        {/* <p className="fs-6 fw-bold">{headerData?.customerfirmname}</p> */}
+        
+        <p className="fs-6 fw-bold">{headerData?.CustName}</p>
         <p>{headerData?.customerstreet}</p>
         <p>{headerData?.customerregion}</p>
         <p>

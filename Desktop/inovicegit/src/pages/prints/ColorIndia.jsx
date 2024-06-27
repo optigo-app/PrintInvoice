@@ -102,13 +102,13 @@ const ColorIndia = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
         datas?.resultArray?.forEach((e, i) => {
             let arr = [];
-            let len = 5;
+            let len = 7;
             if(e?.diamonds?.length > e?.colorstone?.length){
-                        if(e?.diamonds?.length > 5){
+                        if(e?.diamonds?.length > 7){
                             len = e?.diamonds?.length;
                         }
                     }else if(e?.diamonds?.length < e?.colorstone?.length){
-                            if(e?.colorstone?.length > 5){
+                            if(e?.colorstone?.length > 7){
                             len = e?.colorstone?.length;
                         }
                     }
@@ -118,7 +118,7 @@ const ColorIndia = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.srRowSpan = len;
             // obj.designImage = e?.DesignImage;
             obj.designno = e?.designno;
-            obj.MetalTypePurity = e?.MetalTypePurity;
+            obj.MetalPurity = e?.MetalPurity;
             obj.color = e?.MetalColor;
             obj.quantity = e?.Quantity;
             obj.grosswt = e?.grosswt;
@@ -411,17 +411,17 @@ console.log(result, result2);
                                         <td width={1}></td>
                                         {<td width={150} colSpan={1}  align='center' style={{borderRight:'0.5px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'0.5px solid black'}} >&nbsp;{e?.designImage}&nbsp;</td>}
                                         { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}} rowSpan={e?.srRowSpan + 1} align='center'>{e?.designno}</td> }
-                                        { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}} rowSpan={e?.srRowSpan + 1} align='center'>{e?.MetalTypePurity}</td>}
+                                        { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}} rowSpan={e?.srRowSpan + 1} align='center'>{e?.MetalPurity}</td>}
                                         { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}} rowSpan={e?.srRowSpan + 1} align='center'>{e?.color}</td>}
                                         { e?.srflag &&<td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}} rowSpan={e?.srRowSpan + 1} align='right'>{e?.quantity}</td> }
                                         { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}} rowSpan={e?.srRowSpan + 1} align='right'>{e?.grosswt}</td>}
                                         { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}} rowSpan={e?.srRowSpan + 1} align='right'>{e?.netwt}</td>}
-                                        { e?.srflag && <td style={{borderTop:'0.5px solid black'}} align='left'>{e?.dia_Code}</td>}
-                                        { e?.srflag && <td style={{borderTop:'0.5px solid black'}} align='right'>{e?.dia_Pcs}</td>}
-                                        { e?.srflag && <td style={{borderTop:'0.5px solid black', borderRight:'0.5px solid black'}} align='right'>{e?.dia_Cts}</td>}
-                                        { e?.srflag && <td style={{borderTop:'0.5px solid black'}} align='left'>{e?.cls_Code}</td>}
-                                        { e?.srflag && <td style={{borderTop:'0.5px solid black'}} align='right'>{e?.cls_Pcs}</td>}
-                                        { e?.srflag && <td style={{borderRight:'0.5px solid black', borderTop:'0.5px solid black'}} align='right'>{e?.cls_Cts}</td>}
+                                        { e?.srflag && <td style={{borderTop:'0.5px solid black'}} align='left' width={90}>{e?.dia_Code}</td>}
+                                        { e?.srflag && <td style={{borderTop:'0.5px solid black'}} align='right' width={50}>{e?.dia_Pcs}</td>}
+                                        { e?.srflag && <td style={{borderTop:'0.5px solid black', borderRight:'0.5px solid black'}} align='right' width={50}>{e?.dia_Cts}</td>}
+                                        { e?.srflag && <td style={{borderTop:'0.5px solid black'}} align='left' width={90}>{e?.cls_Code}</td>}
+                                        { e?.srflag && <td style={{borderTop:'0.5px solid black'}} align='right' width={50}>{e?.cls_Pcs}</td>}
+                                        { e?.srflag && <td style={{borderRight:'0.5px solid black', borderTop:'0.5px solid black'}} align='right' width={50}>{e?.cls_Cts}</td>}
                                         { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}} rowSpan={e?.srRowSpan + 1} align='right'>{e?.finalvalue}</td>}
                                     </tr>
                                     {
@@ -431,15 +431,15 @@ console.log(result, result2);
                                                 <td colSpan={1} style={{borderRight:'0.5px solid black', verticalAlign:'center'}} width={150} 
                                                 align='center'>
                                                     <span style={{textAlign:'center'}}>{el?.imgflag && <img src={el?.img} alt=""
-                                                      onError={eve => handleGlobalImgError(eve, result?.header?.DefImage)} width={150}  height={100}
+                                                      onError={eve => handleGlobalImgError(eve, result?.header?.DefImage)} width={140} height={140}
                                                     style={{ paddingLeft: "10px", objectFit: "contain", verticalAlign:'center' }} />}</span>
                                                 </td>
-                                                <td align='left'>{ el?.diaflag && el?.dia_Code}</td>
-                                                <td align='right'>{ el?.diaflag && el?.dia_Pcs}</td>
-                                                <td style={{borderRight:'0.5px solid black'}} align='right'>{ el?.diaflag && el?.dia_Cts}</td>
-                                                <td align='left'>{ el?.clsflag && el?.cls_Code}</td>
-                                                <td align='right'>{ el?.clsflag && el?.cls_Pcs}</td>
-                                                <td style={{borderRight:'0.5px solid black'}} align='right'>{ el?.clsflag && el?.cls_Cts}</td>
+                                                <td align='left' width={90}>{ el?.diaflag && el?.dia_Code}</td>
+                                                <td align='right' width={50}>{ el?.diaflag && el?.dia_Pcs}</td>
+                                                <td style={{borderRight:'0.5px solid black'}} align='right' width={50}>{ el?.diaflag && el?.dia_Cts}</td>
+                                                <td align='left' width={90}>{ el?.clsflag && el?.cls_Code}</td>
+                                                <td align='right' width={50}>{ el?.clsflag && el?.cls_Pcs}</td>
+                                                <td style={{borderRight:'0.5px solid black'}} align='right' width={50}>{ el?.clsflag && el?.cls_Cts}</td>
                                             </tr>
                                         })
                                     }
@@ -465,7 +465,7 @@ console.log(result, result2);
                         <tr>
                           <td colSpan={10} style={{borderRight:'0.5px solid black'}}></td>
                           <td align='center' colSpan={3} style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}}> TOTAL AMOUNT : -</td>
-                          <td align='right' colSpan={3} style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}}>&nbsp;<span dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}} ></span>&nbsp;{result?.mainTotal?.total_amount}</td>
+                          <td align='right' colSpan={3} style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}}>{result?.mainTotal?.total_amount}</td>
                         </tr>
                     </tbody>
                 </table> 

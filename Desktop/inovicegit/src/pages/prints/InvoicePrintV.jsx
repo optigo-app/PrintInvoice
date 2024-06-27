@@ -861,7 +861,7 @@ useEffect(() => {
                       </div>
                       <div className="w-25 invp4_fs">
                           <div className="d-flex justify-content-end pe-2 w-100">
-                            <div className="fw-bold w_30_invp4 d-flex justify-content-start">#INVOICE</div>
+                            <div className="fw-bold w_30_invp4 d-flex justify-content-start">INVOICE#</div>
                             <div className="w-50 d-flex justify-content-end">{result?.header?.InvoiceNo}</div>
                           </div>
                           <div className="d-flex justify-content-end pe-2 w-100">
@@ -952,14 +952,14 @@ useEffect(() => {
                         <div style={{width:'10%'}}></div>
                         <div className="end_invp4_ pe-1" style={{width:'10%'}}>{total_makingcharge_unit}</div>
                         {/* <div style={{width:'10%'}}>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.total_TotalDiaSetcost))}</div> */}
-                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.totalMiscAmount + result?.mainTotal?.total_diamondHandling))}</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.total_TotalDiaSetcost + (result?.mainTotal?.totalMiscAmount - result?.mainTotal?.misc?.isHSCODE123_amt) + result?.mainTotal?.total_diamondHandling))}</div>
                         </div>
                         <div className="d-flex w-100  fsinvp3 border-start border-end">
                         <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
                         <div style={{width:'30%'}} className="ps-2">OTHER</div>
                         <div style={{width:'10%'}}></div>
                         <div style={{width:'10%'}}></div>
-                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{formatAmount(result?.mainTotal?.total_other)}</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{formatAmount((result?.mainTotal?.total_other + result?.mainTotal?.misc?.isHSCODE123_amt))}</div>
                         </div>
                  </div>
                  <div className="d-flex w-100 fw-bold border-top-0 border invp4_fs_3">
@@ -981,7 +981,7 @@ useEffect(() => {
                                 className="d-flex justify-content-between align-items-center w-100"
                                 key={i}
                               >
-                                <div className="w-50" style={{ borderRight: "1px solid #e8e8e8" }} >
+                                <div className="w-50 d-flex justify-content-end align-items-center pe-1" style={{ borderRight: "1px solid #e8e8e8" }} >
                                   {e?.name} {e?.per}
                                 </div>
                                 <div className="w-50 d-flex justify-content-end align-items-center pe-1">
@@ -994,7 +994,7 @@ useEffect(() => {
                         {result?.header?.AddLess !== 0 && (
                           <div className="d-flex justify-content-between align-items-center ps-1">
                             <div
-                              className="w-50"
+                              className="w-50 d-flex justify-content-end align-items-center pe-1"
                               style={{ borderRight: "1px solid #e8e8e8" }}
                             >
                               {result?.header?.AddLess > 0 ? "Add" : "Less"}
@@ -1006,7 +1006,7 @@ useEffect(() => {
                         )}
                       </div>
                       <div className="d-flex justify-content-between align-items-center ps-1 fw-bold" style={{ borderTop: "1px solid #e8e8e8", borderLeft: "1px solid #e8e8e8", }} >
-                        <div className="w-50" style={{fontSize:"13px"}}>GRAND TOTAL</div>
+                        <div className="w-50 d-flex justify-content-end align-items-center pe-1" style={{fontSize:"13px"}}>GRAND TOTAL</div>
                         <div className="w-50 d-flex justify-content-end align-items-center pe-1" style={{fontSize:"13px"}}>
                           {/* {formatAmount(grandTotal)} */}
                           {formatAmount((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate) + result?.header?.AddLess))}
@@ -1020,11 +1020,11 @@ useEffect(() => {
                   </div>
                   <div className="noteinvp4">
                     <div className="fw-bold">NOTE:</div>
-                    <div className="text-break" dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark }}></div>
+                    <div className="text-break w-100" dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark }}></div>
                   </div>
                   <div className="declarationinvp4" style={{borderBottom:'1px solid #e8e8e8'}}>
                     <div className="fw-bold fs12invp4">DECLARATION :</div>
-                    <div style={{ fontWeight: "bold" }} className="text-break" dangerouslySetInnerHTML={{ __html: result?.header?.Declaration, }} ></div>
+                    <div style={{ fontWeight: "bold" }} className="text-break w-100" dangerouslySetInnerHTML={{ __html: result?.header?.Declaration }} ></div>
                   </div>
                   <div className="d-flex brright_invp4 brbottom_invp4 brleft_invp4 footer_invp4_box">
                     <div className="invp4_33 brright_invp4 invp4_fs p-1">
