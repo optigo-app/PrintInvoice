@@ -91,9 +91,9 @@ const RepairAlteration = ({ data }) => {
     <div className="mt-1 p-2 border-top d-flex">
       <div className="col-6">
         <p>To,</p>
-        {/* <p className="fs-6 fw-bold">{headerData?.customerfirmname}</p> */}
+        <p className="fs-6 fw-bold">{headerData?.customerfirmname}</p>
         
-        <p className="fs-6 fw-bold">{headerData?.CustName}</p>
+        {/* <p className="fs-6 fw-bold">{headerData?.CustName}</p> */}
         <p>{headerData?.customerstreet}</p>
         <p>{headerData?.customerregion}</p>
         <p>
@@ -101,6 +101,8 @@ const RepairAlteration = ({ data }) => {
         </p>
         <p>Tel: {headerData?.customermobileno}</p>
         <p>{headerData?.customeremail1}</p>
+        <p>{headerData?.aadharno === '' ? '' : `Aadhar : ${headerData?.aadharno} | `}{headerData?.CustPanno === '' ? '' : ` PAN - ${headerData?.CustPanno}`}</p>
+        {console.log(headerData)}
       </div>
       <div className="col-6 d-flex justify-content-end">
         {/* <div className="col-8 d-flex flex-column justify-content-center pe-4"> */}

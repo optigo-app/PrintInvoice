@@ -856,10 +856,10 @@ useEffect(() => {
                         <div > {result?.header?.customerAddress3} </div>
                         <div > {result?.header?.customercity} {result?.header?.customerpincode} </div>
                         <div > {result?.header?.customeremail1} </div>
-                        <div > STATE NAME -{result?.header?.customerstate}, {result?.header?.Cust_CST_STATE} - {result?.header?.Cust_CST_STATE_No}</div>
-                        <div > GST -{result?.header?.CustGstNo}, PAN - {result?.header?.CustPanno}</div>
-                        {/* <div > {result?.header?.Cust_CST_STATE_No_} </div>
-                        <div > {result?.header?.vat_cst_pan} </div> */}
+                        {/* <div > STATE NAME -{result?.header?.customerstate}, STATE CODE - {result?.header?.Cust_CST_STATE_No}</div> */}
+                        <div > {result?.header?.Cust_CST_STATE_No_} </div>
+                        <div > {result?.header?.CustGstNo === '' ? '' : 'GST - '} {result?.header?.CustGstNo} {result?.header?.CustGstNo === '' ? '' : '|'}  PAN - {result?.header?.CustPanno}</div>
+                        {/* <div > {result?.header?.vat_cst_pan} </div> */}
                       </div>
                       <div className="w-25 invp4_fs">
                           <div className="d-flex justify-content-end pe-2 w-100">
