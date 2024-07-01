@@ -547,7 +547,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               <div className="pclprint pad_60_allPrint">
                 <div className="pclheader">
                   <div className="orailpcl">
-                    {isImageWorking && (result?.header?.PrintLogo !== "" && <img src={result?.header?.PrintLogo} alt="" className='w-100 h-auto ms-auto d-block object-fit-contain' onError={handleImageErrors} height={120} width={150} style={{maxWidth: "116px"}} />)}
+                    {isImageWorking && (result?.header?.PrintLogo !== "" && <img src={result?.header?.PrintLogo} alt="" className='w-100 h-auto ms-auto d-block object-fit-contain' onError={handleImageErrors} height={120} width={150} style={{maxWidth: "100px"}} />)}
                   </div>
                   <div className="addresspcl fspcl">
                     {result?.header?.CompanyAddress?.split(",")[0]}{" "}
@@ -558,7 +558,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   <div className="pclheaderplist">
                     {result?.header?.PrintHeadLabel}
                   </div>
-                  <div className="d-flex fw-bold justify-content-center align-items-center">
+                  <div className="d-flex fw-bold justify-content-center align-items-center fspcl">
                     ( {result?.header?.PrintRemark === "" ? ( "" ) : ( <b className="d-flex fspcl" dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark?.replace( /<br\s*\/?>/gi, " " ), }} ></b> )} )
                   </div>
                 </div>
@@ -637,7 +637,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           return (
                             <tr key={i}>
                               <td>
-                                <div className="tablebodypcl border-start border-end border-bottom border-black"  style={{marginTop:"-2px"}}>
+                                <div className="tablebodypcl border-start border-end border-bottom border-black border-top-0"  style={{marginTop:"-2px"}}>
                                   <div className="tbodyrowpcl">
                                     <div className="pcltbr1c1 fspcl"> {i+1} </div>
                                     <div className="pcltbr1c2 fspcl">

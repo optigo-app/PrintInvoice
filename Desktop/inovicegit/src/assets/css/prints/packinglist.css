@@ -375,7 +375,7 @@
 }
 
 .pclprint {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     width: 100%;
     padding: 1rem;
@@ -605,18 +605,22 @@
 }
 
 .designimgpcl {
-    height: 70%;
-    width: 70%;
+    /* height: 70%;
+    width: 70%; */
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 #designimgpclid {
-    height: 70%;
-    width: 70%;
+    height: 75px;
+    width: 75px;
     max-width: 116px;
     object-fit: contain;
+    /* height: 70%;
+    width: 70%;
+    max-width: 116px;
+    object-fit: contain; */
 }
 
 .diatotbodypcl {
@@ -851,7 +855,7 @@
 }
 
 .jewpclthead {
-    width: 8%;
+    width: 9%;
     height: 30px;
     text-align: center;
     border-right: 0.5px solid #989898;
@@ -917,7 +921,7 @@
 }
 
 .pricetheadpcl {
-    width: 6%;
+    width: 5%;
     height: 30px;
     display: flex;
     justify-content: center;
@@ -996,7 +1000,7 @@
     justify-content: center;
     align-items: center;
     height: 15px;
-    width: 8%;
+    width: 9%;
     border-right: 0.5px solid #989898;
 }
 
@@ -1035,7 +1039,7 @@
     display: flex;
     align-items: center;
     height: 14px;
-    width: 6%;
+    width: 5%;
     border-right: 0.5px solid #989898;
     background-color: #F5F5F5 !important;
 }
@@ -1079,7 +1083,7 @@
     justify-content: space-around;
     align-items: center;
     /* min-height: 110px; */
-    width: 8%;
+    width: 9%;
     border-right: 0.5px solid #989898;
 }
 
@@ -1114,7 +1118,7 @@
     display: flex;
     align-items: flex-start;
     /* min-height: 110px; */
-    width: 6%;
+    width: 5%;
     border-right: 0.5px solid #989898;
 }
 
@@ -1128,7 +1132,7 @@
 .fspcl {
     font-size: 11px !important;
     /* line-height: 12px; */
-    line-height: 10px;
+    line-height: 9px;
 }
 .p_2_pcl{
     padding-top: 6px;
@@ -1168,7 +1172,7 @@
     .tablebodypcl::before {
         content: "";
         display: block;
-        border-top: 0.5px solid #989898;
+        /* border-top: 0.5px solid #989898; */
     }
         .print_sec_sum4 {
             display: none !important;
@@ -1188,10 +1192,30 @@
         }
 
         #designimgpclid {
-            height: 70%;
+            /* height: 70%;
             width: 70%;
             max-width: 80px;
-            object-fit: contain;
+            object-fit: contain; */
+            padding-top: 5px;
+            margin: 5px;
+        }
+        .pclsubheader{
+            padding-bottom: 0px;
+            font-size: 10px;
+            height: 30px;
+        }
+        .fspcl_3{
+            font-size: 10px !important;
+        }
+        .pclheaderplist {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 16px;
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 120%;
         }
         
 }
