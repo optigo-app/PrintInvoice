@@ -407,32 +407,32 @@ console.log(result, result2);
                             result2?.map((e, i) => {
                                 return (<React.Fragment key={i}>
                                     <tr>
-                                        { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}} rowSpan={e?.srRowSpan + 1} align='center'>{e?.sr}</td>}
-                                        <td width={1}></td>
+                                        { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black', verticalAlign:'middle'}} rowSpan={e?.srRowSpan + 1} align='center'>{e?.sr}</td>}
+                                        <td width={1} style={{verticalAlign:'middle'}}></td>
                                         {<td width={150} colSpan={1}  align='center' style={{borderRight:'0.5px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'0.5px solid black'}} >&nbsp;{e?.designImage}&nbsp;</td>}
-                                        { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}} rowSpan={e?.srRowSpan + 1} align='center'>{e?.designno}</td> }
-                                        { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}} rowSpan={e?.srRowSpan + 1} align='center'>{e?.MetalPurity}</td>}
-                                        { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}} rowSpan={e?.srRowSpan + 1} align='center'>{e?.color}</td>}
-                                        { e?.srflag &&<td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}} rowSpan={e?.srRowSpan + 1} align='right'>{e?.quantity}</td> }
-                                        { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}} rowSpan={e?.srRowSpan + 1} align='right'>{e?.grosswt}</td>}
-                                        { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}} rowSpan={e?.srRowSpan + 1} align='right'>{e?.netwt}</td>}
+                                        { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black', verticalAlign:'middle'}} rowSpan={e?.srRowSpan + 1} align='center'>{e?.designno}</td> }
+                                        { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black', verticalAlign:'middle'}} rowSpan={e?.srRowSpan + 1} align='center'>{e?.MetalPurity}</td>}
+                                        { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black', verticalAlign:'middle'}} rowSpan={e?.srRowSpan + 1} align='center'>{e?.color}</td>}
+                                        { e?.srflag &&<td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black', verticalAlign:'middle'}} rowSpan={e?.srRowSpan + 1} align='right'>{e?.quantity}</td> }
+                                        { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black', verticalAlign:'middle'}} rowSpan={e?.srRowSpan + 1} align='right'>{e?.grosswt}</td>}
+                                        { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black', verticalAlign:'middle'}} rowSpan={e?.srRowSpan + 1} align='right'>{e?.netwt}</td>}
                                         { e?.srflag && <td style={{borderTop:'0.5px solid black'}} align='left' width={90}>{e?.dia_Code}</td>}
                                         { e?.srflag && <td style={{borderTop:'0.5px solid black'}} align='right' width={50}>{e?.dia_Pcs}</td>}
                                         { e?.srflag && <td style={{borderTop:'0.5px solid black', borderRight:'0.5px solid black'}} align='right' width={50}>{e?.dia_Cts}</td>}
                                         { e?.srflag && <td style={{borderTop:'0.5px solid black'}} align='left' width={90}>{e?.cls_Code}</td>}
                                         { e?.srflag && <td style={{borderTop:'0.5px solid black'}} align='right' width={50}>{e?.cls_Pcs}</td>}
                                         { e?.srflag && <td style={{borderRight:'0.5px solid black', borderTop:'0.5px solid black'}} align='right' width={50}>{e?.cls_Cts}</td>}
-                                        { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}} rowSpan={e?.srRowSpan + 1} align='right'>{e?.finalvalue}</td>}
+                                        { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black', verticalAlign:'middle'}} rowSpan={e?.srRowSpan + 1} align='right'>{e?.finalvalue}</td>}
                                     </tr>
                                     {
                                         e?.matrialArr?.map((el, ind) => {
                                             return <tr key={ind}>
                                                 <td width={1}></td>
-                                                <td colSpan={1} style={{borderRight:'0.5px solid black', verticalAlign:'center'}} width={150} 
-                                                align='center'>
+                                                <td colSpan={1} style={{borderRight:'0.5px solid black', verticalAlign:'middle'}}  
+                                                align='center'>&nbsp;
                                                     <span style={{textAlign:'center'}}>{el?.imgflag && <img src={el?.img} alt=""
-                                                      onError={eve => handleGlobalImgError(eve, result?.header?.DefImage)} width={140} height={140}
-                                                    style={{ paddingLeft: "10px", objectFit: "contain", verticalAlign:'center' }} />}</span>
+                                                      onError={eve => handleGlobalImgError(eve, result?.header?.DefImage)} width={140} height={130}
+                                                    style={{ paddingLeft: "10px", objectFit: "contain", verticalAlign:'center' }} />}</span>&nbsp;
                                                 </td>
                                                 <td align='left' width={90}>{ el?.diaflag && el?.dia_Code}</td>
                                                 <td align='right' width={50}>{ el?.diaflag && el?.dia_Pcs}</td>

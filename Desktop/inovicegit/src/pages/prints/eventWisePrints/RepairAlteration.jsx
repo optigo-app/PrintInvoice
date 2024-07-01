@@ -102,7 +102,6 @@ const RepairAlteration = ({ data }) => {
         <p>Tel: {headerData?.customermobileno}</p>
         <p>{headerData?.customeremail1}</p>
         <p>{headerData?.aadharno === '' ? '' : `Aadhar : ${headerData?.aadharno} | `}{headerData?.CustPanno === '' ? '' : ` PAN - ${headerData?.CustPanno}`}</p>
-        {console.log(headerData)}
       </div>
       <div className="col-6 d-flex justify-content-end">
         {/* <div className="col-8 d-flex flex-column justify-content-center pe-4"> */}
