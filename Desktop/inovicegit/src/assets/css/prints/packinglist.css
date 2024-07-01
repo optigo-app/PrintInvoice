@@ -1160,6 +1160,8 @@
     justify-content: flex-end;
     align-items: flex-start;
 }
+
+
 @media print {
     .btnpcl {
         display: none !important;

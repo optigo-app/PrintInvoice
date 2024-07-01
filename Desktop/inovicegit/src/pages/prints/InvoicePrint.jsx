@@ -416,7 +416,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           {/* <p>{json0?.CompanyAddress2}-{json0?.CompanyPinCode}, {json0?.CompanyState}({json0?.CompanyCountry})</p> */}
           <p className='pb-1 invp_830_fs'>T {json0?.CompanyTellNo} | TOLL FREE {json0?.CompanyTollFreeNo}</p>
           <p className='pb-1 invp_830_fs'>{json0?.CompanyEmail} | {json0?.CompanyWebsite}</p>
-          { json0?.MSME && <p className='pb-1 invp_830_fs'>MSME - {json0?.MSME}</p>}
+          {/* { json0?.MSME && <p className='pb-1 invp_830_fs'>MSME - {json0?.MSME}</p>} */}
         </div>
         <div className='col-2'>
           {isImageWorking && (json0?.PrintLogo !== "" &&
@@ -458,7 +458,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             <p className="pb-1 ps-4 invp_830_fs">{json0?.customercity}{json0?.customerpincode}</p>
             <p className="pb-1 ps-4 invp_830_fs">STATE NAME : {json0?.State}</p>
           </div>
-          <div className="col-2"></div>
+          <div className="col-3"></div>
           <div className="col-4 d-flex justify-content-center align-items-start flex-column">
             <p className='d-flex w-100 pb-1'><span className='fw-bold invp_830_fs' style={{ minWidth: "70px" }}>GSTIN: </span><span className='ps-2 invp_830_fs'>{json0?.CustGstNo}</span></p>
             <p className='d-flex w-100 pb-1'><span className='fw-bold invp_830_fs' style={{ minWidth: "70px" }}>STATE CODE: </span><span className='ps-2 invp_830_fs'>{json0?.Cust_CST_STATE_No}</span></p>
@@ -471,7 +471,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         <div className="d-flex border border-2 border-black minh_invp_830_2">
           <div className="col-3 border-end border-2 border-black position-relative">
             <p className="fw-bold p-1 text-center border-bottom border-2 border-black invp_830_fs">DESCRIPTION</p>
-            <div className="minHieght150InvoicePrint d-flex justify-content-center pd_top_invp h-100 invp_830_fs">
+            <div className="minHieght150InvoicePrint d-flex justify-content-center pd_top_invp invp_830_fs">
               <p className='invp_830_fs'>{datass?.mainTotal?.diamonds?.Pcs > 0 ? "DIAMOND STUDDED" : "GOLD"}  JEWELLERY</p>
             </div>
             <div className="minHieght28InvoicePrint border-top border-2 border-black position-absolute bottom-0 left-0 w-100"></div>
