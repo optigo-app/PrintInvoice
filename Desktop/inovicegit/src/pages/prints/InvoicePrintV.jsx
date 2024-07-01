@@ -901,8 +901,8 @@ useEffect(() => {
                  
                  <div className="w-100 border-bottom" >
                  
-                 <div className="d-flex justify-content-start align-items-center border-start border-end  position-absolute" style={{    top: "50%", marginLeft:'10%'}}>
-                  <input type="text"  style={{width:'170px',}} className="d-flex justify-content-center align-items-center  position-absolute" value={descText} onChange={(e) => setDescText(e.target.value)} />
+                 <div className="d-flex justify-content-start align-items-center border-start border-end  position-absolute " style={{    top: "50%", marginLeft:'10%'}}>
+                  <input type="text"  style={{width:'170px',}} className="d-flex justify-content-center align-items-center  position-absolute showValOnly" value={descText} onChange={(e) => setDescText(e.target.value)} />
                   </div>
                   {
                     metal_s?.map((e, i) => {
