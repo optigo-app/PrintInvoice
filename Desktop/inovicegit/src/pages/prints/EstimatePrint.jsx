@@ -125,27 +125,29 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const caiculateMaterial = (data) => {
     let diamondDetailsss = [];
     data?.BillPrint_Json2?.forEach((ele, ind) => {
-      if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
-        if (ele?.ShapeName === "RND") {
-          let findDiamond = diamondDetailsss?.findIndex((elem, index) => elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName);
+      let obj1 = cloneDeep(ele);
+      if (obj1?.MasterManagement_DiamondStoneTypeid === 1) {
+        if (obj1?.ShapeName === "RND") {
+          let findDiamond = diamondDetailsss?.findIndex((elem, index) => elem?.Colorname === obj1?.Colorname && elem?.QualityName === obj1?.QualityName);
           if (findDiamond === -1) {
-            diamondDetailsss.push(ele);
+            diamondDetailsss.push(obj1);
           } else {
-            diamondDetailsss[findDiamond].Wt += ele?.Wt;
-            diamondDetailsss[findDiamond].Pcs += ele?.Pcs;
-            diamondDetailsss[findDiamond].Amount += ele?.Amount;
+            diamondDetailsss[findDiamond].Wt += obj1?.Wt;
+            diamondDetailsss[findDiamond].Pcs += obj1?.Pcs;
+            diamondDetailsss[findDiamond].Amount += obj1?.Amount;
           }
 
         } else {
+          let obj = cloneDeep(ele);
           let findOther = diamondDetailsss?.findIndex((elem, index) => elem?.ShapeName === "OTHER");
           if (findOther === -1) {
-            let obj = { ...ele };
+            // let obj = { ...ele };
             obj.ShapeName = "OTHER";
             diamondDetailsss.push(obj);
           } else {
-            diamondDetailsss[findOther].Wt += ele?.Wt;
-            diamondDetailsss[findOther].Pcs += ele?.Pcs;
-            diamondDetailsss[findOther].Amount += ele?.Amount;
+            diamondDetailsss[findOther].Wt += obj?.Wt;
+            diamondDetailsss[findOther].Pcs += obj?.Pcs;
+            diamondDetailsss[findOther].Amount += obj?.Amount;
           }
         }
       }
@@ -534,25 +536,26 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             ...obj?.diamonds,
           ].flat();
           diamonds.forEach((elem, ind) => {
+            let obj = cloneDeep(elem);
             let findDiamonds = blankDiamondArr.findIndex(
               (elee, indd) =>
-                elee?.ShapeName === elem?.ShapeName &&
-                elee?.Colorname === elem?.Colorname &&
-                elee?.QualityName === elem?.QualityName &&
-                elee?.Rate === elem?.Rate &&
-                elee?.SizeName === elem?.SizeName
+                elee?.ShapeName === obj?.ShapeName &&
+                elee?.Colorname === obj?.Colorname &&
+                elee?.QualityName === obj?.QualityName &&
+                elee?.Rate === obj?.Rate &&
+                elee?.SizeName === obj?.SizeName
             );
             if (findDiamonds === -1) {
-              blankDiamondArr.push(elem);
+              blankDiamondArr.push(obj);
             } else {
-              blankDiamondArr[findDiamonds].Wt += elem?.Wt;
-              blankDiamondArr[findDiamonds].Pcs += elem?.Pcs;
-              blankDiamondArr[findDiamonds].Amount += elem?.Amount;
-              if (elem?.SettingAmount !== null) {
+              blankDiamondArr[findDiamonds].Wt += obj?.Wt;
+              blankDiamondArr[findDiamonds].Pcs += obj?.Pcs;
+              blankDiamondArr[findDiamonds].Amount += obj?.Amount;
+              if (obj?.SettingAmount !== null) {
                 if (blankDiamondArr[findDiamonds].SettingAmount === null) {
-                  blankDiamondArr[findDiamonds].SettingAmount = elem?.SettingAmount;
+                  blankDiamondArr[findDiamonds].SettingAmount = obj?.SettingAmount;
                 } else {
-                  blankDiamondArr[findDiamonds].SettingAmount += elem?.SettingAmount;
+                  blankDiamondArr[findDiamonds].SettingAmount += obj?.SettingAmount;
                 }
               }
 
@@ -566,25 +569,26 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             ...obj?.colorStones,
           ].flat();
           colorStones.forEach((elem, ind) => {
+            let obj = cloneDeep(elem);
             let findColorStones = blankColorStoneArr.findIndex(
               (elee, indd) =>
-                elee?.ShapeName === elem?.ShapeName &&
-                elee?.Colorname === elem?.Colorname &&
-                elee?.QualityName === elem?.QualityName &&
-                elee?.Rate === elem?.Rate &&
-                elee?.SizeName === elem?.SizeName
+                elee?.ShapeName ===obj?.ShapeName &&
+                elee?.Colorname ===obj?.Colorname &&
+                elee?.QualityName ===obj?.QualityName &&
+                elee?.Rate ===obj?.Rate &&
+                elee?.SizeName ===obj?.SizeName
             );
             if (findColorStones === -1) {
-              blankColorStoneArr.push(elem);
+              blankColorStoneArr.push(obj);
             } else {
-              blankColorStoneArr[findColorStones].Wt += elem?.Wt;
-              blankColorStoneArr[findColorStones].Pcs += elem?.Pcs;
-              blankColorStoneArr[findColorStones].Amount += elem?.Amount;
+              blankColorStoneArr[findColorStones].Wt +=obj?.Wt;
+              blankColorStoneArr[findColorStones].Pcs +=obj?.Pcs;
+              blankColorStoneArr[findColorStones].Amount +=obj?.Amount;
               if (elem?.SettingAmount !== null) {
                 if (blankColorStoneArr[findColorStones].SettingAmount === null) {
-                  blankColorStoneArr[findColorStones].SettingAmount = elem?.SettingAmount;
+                  blankColorStoneArr[findColorStones].SettingAmount =obj?.SettingAmount;
                 } else {
-                  blankColorStoneArr[findColorStones].SettingAmount += elem?.SettingAmount;
+                  blankColorStoneArr[findColorStones].SettingAmount +=obj?.SettingAmount;
                 }
               }
             }
@@ -922,6 +926,92 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
       return 0;
     });
+
+
+
+    
+
+    finalArr2?.forEach((e) => {
+
+      let finalArr3 = [];
+
+      e?.diamonds?.forEach((el) => {
+        let eem = cloneDeep(el);
+        let findrec = finalArr3?.findIndex((a) => a?.Rate === eem?.Rate && 
+        a?.ShapeName === eem?.ShapeName && 
+        a?.SizeName === eem?.SizeName && 
+        a?.QualityName === eem?.QualityName &&
+        a?.Colorname === eem?.Colorname)
+        if(findrec === -1){
+          // let obj = {...eem};
+          // obj.wt = eem?.Wt;
+          // obj.pcs = eem?.Pcs;
+          // obj.amount = eem?.Amount;
+          finalArr3.push(eem);
+        }else{
+          finalArr3[findrec].Wt += eem?.Wt;
+          finalArr3[findrec].Pcs += eem?.Pcs;
+          finalArr3[findrec].Amount += eem?.Amount;
+          finalArr3[findrec].SizeName = eem?.SizeName;
+        }
+      })
+
+      e.diamonds = finalArr3;
+
+      let clr = [];
+
+      e?.colorStones?.forEach((el) => {
+        let eem = cloneDeep(el);
+        let findrec = clr?.findIndex((a) => a?.Rate === eem?.Rate && 
+        a?.ShapeName === eem?.ShapeName && 
+        a?.SizeName === eem?.SizeName && 
+        a?.QualityName === eem?.QualityName &&
+        a?.Colorname === eem?.Colorname)
+        if(findrec === -1){
+          // let obj = {...eem};
+          // obj.wt = eem?.Wt;
+          // obj.pcs = eem?.Pcs;
+          // obj.amount = eem?.Amount;
+          clr.push(eem);
+        }else{
+          clr[findrec].Wt += eem?.Wt;
+          clr[findrec].Pcs += eem?.Pcs;
+          clr[findrec].Amount += eem?.Amount;
+          clr[findrec].SizeName = eem?.SizeName;
+        }
+      })
+
+      e.colorStones = clr;
+
+
+      let miscs = [];
+
+      e?.mics?.forEach((el) => {
+        let eem = cloneDeep(el);
+        let findrec = miscs?.findIndex((a) => a?.Rate === eem?.Rate && 
+        a?.ShapeName === eem?.ShapeName && 
+        a?.SizeName === eem?.SizeName && 
+        a?.QualityName === eem?.QualityName &&
+        a?.Colorname === eem?.Colorname)
+        if(findrec === -1){
+          // let obj = {...eem};
+          // obj.wt = eem?.Wt;
+          // obj.pcs = eem?.Pcs;
+          // obj.amount = eem?.Amount;
+          miscs.push(eem);
+        }else{
+          miscs[findrec].Wt += eem?.Wt;
+          miscs[findrec].Pcs += eem?.Pcs;
+          miscs[findrec].Amount += eem?.Amount;
+          miscs[findrec].SizeName = eem?.SizeName;
+        }
+      })
+
+      e.mics = miscs;
+
+    })
+
+
     setJson2Data(finalArr2);
   };
 
@@ -973,8 +1063,9 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 checked={image}
                 onChange={(e) => handleChange(e)}
                 name="image"
+                id="withimg"
               />
-              <label className="form-check-label h6 mb-0 pt-1">
+              <label className="form-check-label h6 mb-0 pt-1 user-select-none" htmlFor="withimg">
                 With Image
               </label>
             </div>
@@ -985,8 +1076,9 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 checked={brokrage}
                 onChange={(e) => handleChange(e)}
                 name="brokrage"
+                id="withbrokrage"
               />
-              <label className="form-check-label h6 mb-0 pt-1">
+              <label className="form-check-label h6 mb-0 pt-1 user-select-none" htmlFor="withbrokrage">
                 With Brokrage
               </label>
             </div>
@@ -1406,12 +1498,12 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   </div>
                                   <div className="width20EstimatePrint p_1Estimate">
                                     <p className="text-end">
-                                      {ele?.Rate > 0 && NumberWithCommas(ele?.Rate, 2)}
+                                      { NumberWithCommas(ele?.Rate, 2)}
                                     </p>
                                   </div>
                                   <div className="width20EstimatePrint p_1Estimate">
                                     <p className="fw-bold text-end">
-                                      {ele?.Amount > 0 && NumberWithCommas(ele?.Amount, 2)}
+                                      { NumberWithCommas(ele?.Amount, 2)}
                                     </p>
                                   </div>
                                 </div>
@@ -1424,7 +1516,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   <div className="width20EstimatePrint p_1Estimate">
                                     <p>
                                       M: {ele?.ShapeName} {ele?.QualityName}{" "}
-                                      {ele?.Colorname}
+                                      {/* {ele?.Colorname} */}
                                     </p>
                                   </div>
                                   <div className="width20EstimatePrint p_1Estimate">
@@ -1442,12 +1534,12 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   </div>
                                   <div className="width20EstimatePrint p_1Estimate">
                                     <p className="text-end">
-                                      {ele?.Rate > 0 && NumberWithCommas(ele?.Rate, 2)}
+                                      { NumberWithCommas(ele?.Rate, 2)}
                                     </p>
                                   </div>
                                   <div className="width20EstimatePrint p_1Estimate">
                                     <p className="fw-bold text-end">
-                                      {ele?.Amount > 0 && NumberWithCommas(ele?.Amount, 2)}
+                                      { NumberWithCommas(ele?.Amount, 2)}
                                     </p>
                                   </div>
                                 </div>
@@ -1465,7 +1557,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           </div>
                           <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
                             <p className="text-end fw-bold">
-                              {(e?.colorStones.length > 0 ||
+                              {(e?.colorStones?.length > 0 ||
                                 e?.mics.length > 0) && (
                                   <>
                                     {NumberWithCommas(
@@ -1496,8 +1588,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           </div>
                           <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
                             <p className="text-end fw-bold">
-                              {(e?.colorStonesTotal?.amount +
-                                e?.miscsTotal?.amount > 0) && (
+                              {((e?.colorStones?.length + e?.mics?.length) > 0) && (
                                   <>
                                     {NumberWithCommas(
                                       e?.colorStonesTotal?.amount +
@@ -1708,7 +1799,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   <div className="width20EstimatePrint p_1Estimate h-100"></div>
                   <div className="width20EstimatePrint p_1Estimate h-100">
                     <p className="text-end fw-bold">
-                      {diamondTotal?.Amount > 0 && NumberWithCommas(diamondTotal?.Amount, 2)}
+                      {NumberWithCommas(diamondTotal?.Amount, 2)}
                     </p>
                   </div>
                 </div>
@@ -1767,7 +1858,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   <div className="width20EstimatePrint p_1Estimate h-100"></div>
                   <div className="width20EstimatePrint p_1Estimate h-100">
                     <p className="text-end fw-bold">
-                      {colorStoneMiscTotal?.Amount !== 0 && NumberWithCommas(
+                      {NumberWithCommas(
                         colorStoneMiscTotal?.Amount,
                         2
                       )}
