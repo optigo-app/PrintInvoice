@@ -123,12 +123,15 @@ const ColorIndia = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.quantity = e?.Quantity;
             obj.grosswt = e?.grosswt;
             obj.netwt = (e?.NetWt + e?.LossWt);
+            obj.metal_rate = (e?.metal_rate);
             obj.dia_Code = e?.diamonds[0]?.ShapeName;
             obj.dia_Pcs = e?.diamonds[0]?.Pcs;
             obj.dia_Cts = e?.diamonds[0]?.Wt;
+            obj.dia_rate = e?.diamonds[0]?.Rate;
             obj.cls_Code = e?.colorstone[0]?.ShapeName;
             obj.cls_Pcs = e?.colorstone[0]?.Pcs;
             obj.cls_Cts = e?.colorstone[0]?.Wt;
+            obj.cls_rate = e?.colorstone[0]?.Rate;
             obj.finalvalue = e?.TotalAmount;
 
             Array?.from({length : len})?.map((el, ind) => { 
@@ -148,6 +151,7 @@ const ColorIndia = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         obj.dia_Code = e?.diamonds[ind + 1]?.ShapeName;
                         obj.dia_Pcs = e?.diamonds[ind + 1]?.Pcs;
                         obj.dia_Cts = e?.diamonds[ind + 1]?.Wt;    
+                        obj.dia_rate = e?.diamonds[ind + 1]?.Rate;    
 
                     }
                     if(e?.colorstone[ind + 1]){
@@ -156,6 +160,7 @@ const ColorIndia = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         obj.cls_Code = e?.colorstone[ind + 1]?.ShapeName;
                         obj.cls_Pcs = e?.colorstone[ind + 1]?.Pcs;
                         obj.cls_Cts = e?.colorstone[ind + 1]?.Wt;    
+                        obj.cls_rate = e?.colorstone[ind + 1]?.Rate;    
 
                     }
                     
@@ -377,9 +382,9 @@ console.log(result, result2);
                         {/* table */}
                         <tr>
                             <th style={{borderLeft:'0.5px solid black', borderBottom:'0.5px solid black', borderRight:'0.5px solid black',  borderTop:'0.5px solid black', fontSize:'20px'}} align='center' >TO.</th>
-                            <th style={{borderBottom:'0.5px solid black', borderRight:'0.5px solid black',   borderTop:'0.5px solid black', fontSize:'20px'}} colSpan={3} align='center'  >{result?.header?.customerfirmname}</th>
-                            <th style={{borderBottom:'0.5px solid black', borderRight:'0.5px solid black',   borderTop:'0.5px solid black', fontSize:'20px'}} align='center' colSpan={11}>PACKING LIST</th>
-                            <th style={{borderBottom:'0.5px solid black', borderRight:'0.5px solid black',   borderTop:'0.5px solid black', fontSize:'20px'}} align='center' >{result?.header?.EntryDate}</th>
+                            <th style={{borderBottom:'0.5px solid black', borderRight:'0.5px solid black',   borderTop:'0.5px solid black', fontSize:'20px'}} colSpan={4} align='center'  >{result?.header?.customerfirmname}</th>
+                            <th style={{borderBottom:'0.5px solid black', borderRight:'0.5px solid black',   borderTop:'0.5px solid black', fontSize:'20px'}} align='center' colSpan={12}>PACKING LIST</th>
+                            <th style={{borderBottom:'0.5px solid black', borderRight:'0.5px solid black',   borderTop:'0.5px solid black', fontSize:'20px'}} align='center'  colSpan={2}>{result?.header?.EntryDate}</th>
                         </tr>
                         <tr>
                             <th style={{borderBottom:'0.5px solid black', borderRight:'0.5px solid black',  }}  rowSpan={2} >#</th>
@@ -388,20 +393,23 @@ console.log(result, result2);
                             <th style={{borderBottom:'0.5px solid black', borderRight:'0.5px solid black',  }}  rowSpan={2} >GOLD KT</th>
                             <th style={{borderBottom:'0.5px solid black', borderRight:'0.5px solid black',  }}  rowSpan={2} >COLOR</th>
                             <th style={{borderBottom:'0.5px solid black', borderRight:'0.5px solid black',  }}  rowSpan={2} >QTY</th>
-                            <th style={{borderBottom:'0.5px solid black', borderRight:'0.5px solid black',  }} align='center' colSpan={2} >GOLD DETAILS :-</th>
-                            <th style={{borderBottom:'0.5px solid black', borderRight:'0.5px solid black',  }}   colSpan={3} >DIAMOND DETAILS : -</th>
-                            <th style={{borderBottom:'0.5px solid black', borderRight:'0.5px solid black',  }}   colSpan={3} >GEM STONE DETAILS : -</th>
+                            <th style={{borderBottom:'0.5px solid black', borderRight:'0.5px solid black',  }}   align='center' colSpan={3} >GOLD DETAILS :-</th>
+                            <th style={{borderBottom:'0.5px solid black', borderRight:'0.5px solid black',  }}   colSpan={4} >DIAMOND DETAILS : -</th>
+                            <th style={{borderBottom:'0.5px solid black', borderRight:'0.5px solid black',  }}   colSpan={4} >GEM STONE DETAILS : -</th>
                             <th style={{borderBottom:'0.5px solid black', borderRight:'0.5px solid black',  }} rowSpan={2}>FINAL VALUE</th>
                         </tr>
                         <tr>
                             <th style={{borderBottom:'0.5px solid black', borderRight:'0.5px solid black', }} colSpan={1} align='center'>GROSS WEIGHT</th>
                             <th style={{borderBottom:'0.5px solid black', borderRight:'0.5px solid black',  }} colSpan={1} align='center'>NET WEIGHT</th>
+                            <th style={{borderBottom:'0.5px solid black', borderRight:'0.5px solid black',  }} colSpan={1} align='center'>METAL RATE</th>
                             <th style={{ borderRight:'0.5px solid black',borderBottom:'0.5px solid black',  }}>TYPE</th>
                             <th style={{ borderRight:'0.5px solid black',borderBottom:'0.5px solid black',  }}>PCS</th>
                             <th style={{ borderRight:'0.5px solid black',borderBottom:'0.5px solid black',  }}>CTS</th>
+                            <th style={{ borderRight:'0.5px solid black',borderBottom:'0.5px solid black',  }}>RATE</th>
                             <th style={{ borderRight:'0.5px solid black',borderBottom:'0.5px solid black',  }}>CS</th>
                             <th style={{ borderRight:'0.5px solid black',borderBottom:'0.5px solid black',  }}>PCS</th>
                             <th style={{ borderRight:'0.5px solid black',borderBottom:'0.5px solid black',  }}>CTS</th>
+                            <th style={{ borderRight:'0.5px solid black',borderBottom:'0.5px solid black',  }}>RATE</th>
                         </tr>
                         {
                             result2?.map((e, i) => {
@@ -416,12 +424,15 @@ console.log(result, result2);
                                         { e?.srflag &&<td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black', verticalAlign:'middle'}} rowSpan={e?.srRowSpan + 1} align='right'>{e?.quantity}</td> }
                                         { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black', verticalAlign:'middle'}} rowSpan={e?.srRowSpan + 1} align='right'>{e?.grosswt}</td>}
                                         { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black', verticalAlign:'middle'}} rowSpan={e?.srRowSpan + 1} align='right'>{e?.netwt}</td>}
+                                        { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black', verticalAlign:'middle'}} rowSpan={e?.srRowSpan + 1} align='right'>{e?.metal_rate}</td>}
                                         { e?.srflag && <td style={{borderTop:'0.5px solid black'}} align='left' width={90}>{e?.dia_Code}</td>}
                                         { e?.srflag && <td style={{borderTop:'0.5px solid black'}} align='right' width={50}>{e?.dia_Pcs}</td>}
-                                        { e?.srflag && <td style={{borderTop:'0.5px solid black', borderRight:'0.5px solid black'}} align='right' width={50}>{e?.dia_Cts}</td>}
+                                        { e?.srflag && <td style={{borderTop:'0.5px solid black'}} align='right' width={50}>{e?.dia_Cts}</td>}
+                                        { e?.srflag && <td style={{borderTop:'0.5px solid black', borderRight:'0.5px solid black'}} align='right' width={50}>{e?.dia_rate}</td>}
                                         { e?.srflag && <td style={{borderTop:'0.5px solid black'}} align='left' width={90}>{e?.cls_Code}</td>}
                                         { e?.srflag && <td style={{borderTop:'0.5px solid black'}} align='right' width={50}>{e?.cls_Pcs}</td>}
-                                        { e?.srflag && <td style={{borderRight:'0.5px solid black', borderTop:'0.5px solid black'}} align='right' width={50}>{e?.cls_Cts}</td>}
+                                        { e?.srflag && <td style={{borderTop:'0.5px solid black'}} align='right' width={50}>{e?.cls_Cts}</td>}
+                                        { e?.srflag && <td style={{borderRight:'0.5px solid black', borderTop:'0.5px solid black'}} align='right' width={50}>{e?.cls_rate}</td>}
                                         { e?.srflag && <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black', verticalAlign:'middle'}} rowSpan={e?.srRowSpan + 1} align='right'>{e?.finalvalue}</td>}
                                     </tr>
                                     {
@@ -436,10 +447,12 @@ console.log(result, result2);
                                                 </td>
                                                 <td align='left' width={90}>{ el?.diaflag && el?.dia_Code}</td>
                                                 <td align='right' width={50}>{ el?.diaflag && el?.dia_Pcs}</td>
-                                                <td style={{borderRight:'0.5px solid black'}} align='right' width={50}>{ el?.diaflag && el?.dia_Cts}</td>
+                                                <td align='right' width={50}>{ el?.diaflag && el?.dia_Cts}</td>
+                                                <td style={{borderRight:'0.5px solid black'}} align='right' width={50}>{ el?.diaflag && el?.dia_rate}</td>
                                                 <td align='left' width={90}>{ el?.clsflag && el?.cls_Code}</td>
                                                 <td align='right' width={50}>{ el?.clsflag && el?.cls_Pcs}</td>
-                                                <td style={{borderRight:'0.5px solid black'}} align='right' width={50}>{ el?.clsflag && el?.cls_Cts}</td>
+                                                <td align='right' width={50}>{ el?.clsflag && el?.cls_Cts}</td>
+                                                <td style={{borderRight:'0.5px solid black'}} align='right' width={50}>{ el?.clsflag && el?.cls_rate}</td>
                                             </tr>
                                         })
                                     }
@@ -454,18 +467,21 @@ console.log(result, result2);
                                 <td colSpan={1} style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}}>{result?.mainTotal?.total_Quantity}</td>
                                 <td colSpan={1}  style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}}>{result?.mainTotal?.grosswt}</td>
                                 <td  style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}}>{(result?.mainTotal?.netwt + result?.mainTotal?.lossWt)}</td>
+                                <td  style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}}></td>
                                 <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black', borderTop:'0.5px solid black'}}></td>
                                 <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black', borderTop:'0.5px solid black'}}>{result?.mainTotal?.diamonds?.Pcs}</td>
-                                <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black', borderTop:'0.5px solid black'}}>{result?.mainTotal?.diamonds?.Wt}</td>
+                                <td style={{borderBottom:'0.5px solid black', borderTop:'0.5px solid black'}}>{result?.mainTotal?.diamonds?.Wt}</td>
+                                <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black', borderTop:'0.5px solid black'}}></td>
                                 <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black', borderTop:'0.5px solid black'}}></td>
                                 <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black',borderTop:'0.5px solid black'}}>{result?.mainTotal?.colorstone?.Pcs}</td>
-                                <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black', borderTop:'0.5px solid black'}}>{result?.mainTotal?.colorstone?.Wt}</td>
+                                <td style={{borderBottom:'0.5px solid black', borderTop:'0.5px solid black'}}>{result?.mainTotal?.colorstone?.Wt}</td>
+                                <td style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black', borderTop:'0.5px solid black'}}></td>
                                 <td  style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}}>{result?.mainTotal?.total_amount}</td>
                         </tr>
                         <tr>
-                          <td colSpan={10} style={{borderRight:'0.5px solid black'}}></td>
+                          <td colSpan={15} style={{borderRight:'0.5px solid black'}}></td>
                           <td align='center' colSpan={3} style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}}> TOTAL AMOUNT : -</td>
-                          <td align='right' colSpan={3} style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}}>{result?.mainTotal?.total_amount}</td>
+                          <td align='right' colSpan={1} style={{borderRight:'0.5px solid black', borderBottom:'0.5px solid black'}}>{result?.mainTotal?.total_amount}</td>
                         </tr>
                     </tbody>
                 </table> 

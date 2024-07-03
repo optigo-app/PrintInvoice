@@ -640,7 +640,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           </td>
                         </tr>
                       </thead>
-                      <tbody>
+                      {/* <tbody> */}
                         {result?.resultArray?.map((e, i) => {
                           return (
                             <tr key={i}>
@@ -941,7 +941,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   </div>
 
                                   {/* row wise total */}
-                                  <div className="tbodyrowpcltot fspcl" style={{ borderTop: "1px solid #989898", backgroundColor:'#F5F5F5 !important' }} >
+                                  <div className="tbodyrowpcltot2 fspcl" style={{ borderTop: "1px solid #989898", backgroundColor:'#F5F5F5 !important' }} >
                                     <div className="srpcltotrowtb fspcl" style={{ backgroundColor:'#F5F5F5 !important', height: "14px", }} ></div>
                                     <div className="jwlpcltotrowtb fspcl" style={{ backgroundColor:'#F5F5F5 !important', height: "14px", }} ></div>
                                     <div className="diapcltotrowtb fspcl">
@@ -1007,7 +1007,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </div>
                                   </div>
                                   {e?.DiscountAmt === 0 ? ( "" ) : (
-                                    <div className="tbodyrowpcltot fspcl" style={{ borderTop: "1px solid #989898"}} >
+                                    <div className="tbodyrowpcltot2 fspcl" style={{ borderTop: "1px solid #989898"}} >
                                       <div className="srpcltotrowtb fspcl" style={{ backgroundColor:'#F5F5F5 !important', height: "13px", }} ></div>
                                       <div className="jwlpcltotrowtb fspcl" style={{ backgroundColor:'#F5F5F5 !important', height: "13px", }} ></div>
                                       <div className="diapcltotrowtb fspcl"></div>
@@ -1033,7 +1033,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             </tr>
                           );
                         })}
-                      </tbody>
+                      {/* </tbody> */}
                     </table>
                   </div>
                   <div className="tbodyrowpcltot border-start border-end border-black border-bottom" style={{ marginTop:'-1.2px' }} >
