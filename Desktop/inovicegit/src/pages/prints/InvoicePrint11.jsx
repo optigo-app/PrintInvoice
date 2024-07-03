@@ -431,6 +431,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 {/* {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber} */}
                 {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
               </div>
+              <div>{headerData?.MSME === '' ? '' : 'MSME - ' } {headerData?.MSME} </div>
             </div>
             <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100">
               {isImageWorking && (headerData?.PrintLogo !== "" &&

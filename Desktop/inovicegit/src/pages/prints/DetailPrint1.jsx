@@ -831,6 +831,19 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               </span>
                             </p>
                           )}
+                          
+                          {!detailPrintK && (
+                            <>
+                            {
+                              e?.CertificateNo !== '' && <p className="text-center">
+                              Cert#{" "}
+                              <span className="fw-bold">
+                                {e?.CertificateNo}
+                              </span>
+                            </p>
+                            }
+                            </>
+                          )}
 
                           {dp1lp ? <>
                             <p className="text-center">

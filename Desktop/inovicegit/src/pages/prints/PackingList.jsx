@@ -560,9 +560,15 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   <div className="pclheaderplist">
                     {result?.header?.PrintHeadLabel}
                   </div>
-                  <div className="d-flex fw-bold justify-content-center align-items-center fspcl">
-                    ( {result?.header?.PrintRemark === "" ? ( "" ) : ( <b className="d-flex fspcl" dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark?.replace( /<br\s*\/?>/gi, " " ), }} ></b> )} )
+                  {
+                    result?.header?.PrintRemark === '' ? '' : 
+                    <div className="d-flex fw-bold justify-content-center align-items-center fspcl">
+                    ( 
+                      {result?.header?.PrintRemark === "" ?  ""  :
+                      ( <b className="d-flex fspcl" dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark?.replace( /<br\s*\/?>/gi, " " ), }} ></b> )}
+                    )
                   </div>
+                  }
                 </div>
                 <div className="pclsubheader">
                   <div className="partynamepcl">
