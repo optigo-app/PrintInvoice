@@ -1,8 +1,9 @@
 export const printConditions = [
   {printName: 'bill sticker', etpType: 'print', componentName: 'BillSticker'},
   {printName: 'customer daily statement', etpType: 'print', componentName: 'CustomerDailyStatement'},
-  {printName: 'detail print1 (l)', etpType: 'print', componentName: 'DetailPrint1'},
+  // {printName: 'detail print1 (l)', etpType: 'print', componentName: 'DetailPrint1'},
   {printName: 'detail print1 (p)', etpType: 'print', componentName: 'DetailPrint1'},
+  {printName: 'detail print1 (l)', etpType: 'print', componentName: 'DetailPrintC'},
   // {printName: 'print (l)', etpType: 'print', componentName: 'DetailPrint1Printlp'},
   // {printName: 'print (p)', etpType: 'print', componentName: 'DetailPrint1Printlp'},
   {printName: 'detail print1 group(l)', etpType: 'print', componentName: 'DetailPrint1LPGroup'},
@@ -150,10 +151,11 @@ export const MemoPrints = [
   {printName: 'jewellery item wise', etpType: 'print', componentName: 'HallmarkItemWisePrint'},
   {printName: 'detail print 12', etpType: 'print', componentName: 'DetailPrint12Quote'},
   {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
-  {printName: 'detail print 1 ', etpType: 'print', componentName: 'DetailPrint1'},
+  {printName: 'detail print 1', etpType: 'print', componentName: 'DetailPrint1'},
+  {printName: 'Detail Print 1', etpType: 'print', componentName: 'DetailPrint1'},
 ]
 
-export const MemoReturnPrints = [
+export const MemoReturnPrints = [ 
   {printName: 'detail print 12', etpType: 'print', componentName: 'DetailPrint12Quote'},
 ]
 

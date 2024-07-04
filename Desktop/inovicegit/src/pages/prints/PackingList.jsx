@@ -1036,7 +1036,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       {/* </tbody> */}
                     </table>
                   </div>
-                  <div className="tbodyrowpcltot border-start border-end border-black border-bottom" style={{ marginTop:'-1.2px' }} >
+                  <div className="tbodyrowpcltot border-start border-end border-black border-bottom" style={{ marginTop:'-1.2px'}} >
                     <div className="srpcltotrowtb"></div>
                     <div className="jwlpcltotrowtb fspcl">
                       <b className="fspcl">TOTAL</b>
@@ -1136,8 +1136,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className="totdispcl">
                       <div className="summaryalignpcl fspcl">Grand Total</div>
                       <div className="fspcl w-50 d-flex justify-content-end align-items-center">
-                        {/* {formatAmount(result?.finalAmount)} */}
-                        {/* {formatAmount((((result?.mainTotal?.total_amount) + result?.mainTotal?.total_discount_amount + result?.allTaxesTotal + (result?.header?.AddLess/(result?.header?.CurrencyExchRate)))/(result?.header?.CurrencyExchRate)))} */}
                         {formatAmount(((
                           (result?.mainTotal?.total_amount + result?.header?.AddLess)/(result?.header?.CurrencyExchRate))
                           + result?.allTaxesTotal + (result?.header?.FreightCharges / result?.header?.CurrencyExchRate)
@@ -1145,6 +1143,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       </div>
                     </div>
                   </div>
+               
                 </div>
               </div>
             </>
