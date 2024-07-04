@@ -56,6 +56,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     withDiscountTaxAmount: 0,
     labourAmount: 0,
     netWt: 0,
+    PureNetWt:0
   });
   const [summary, setSummary] = useState({
     gold24Kt: 0,
@@ -274,6 +275,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       withDiscountTaxAmount: 0,
       labourAmount: 0,
       netWt: 0,
+      PureNetWt:0
     };
 
     let summary = {
@@ -389,6 +391,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       metalWt = metalWt / 5 + e?.NetWt;
       totals.metalWt += metalWt;
+      totals.PureNetWt += e?.PureNetWt;
       // totals.metalWt += e?.DiamondCTWwithLoss / 5;
       metalTotal.Wt = metalWt;
       // discountTotalAmount = e?.TotalAmount - e?.DiscountAmt;
@@ -927,10 +930,10 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     {dp1lp ? NumberWithCommas(ele?.Wt, 3) : fixedValues(e?.NetWt + e?.LossWt, 3)}
                                   </p>
                                   <p className="w4_dpc  text-end paddingRightDetailPrint1">
-                                    { fixedValues(e?.Tunch, 3)}
+                                    { NumberWithCommas(e?.Tunch, 3)}
                                   </p>
                                   <p className="w5_dpc  text-end paddingRightDetailPrint1">
-                                    {fixedValues(e?.FineWt, 3)}
+                                    {NumberWithCommas(e?.PureNetWt, 3)}
                                   </p>
                                   <p className="w6_dpc  text-end paddingRightDetailPrint1">
                                     {NumberWithCommas(ele?.Rate, 2)}
@@ -941,7 +944,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
                               );
                             })}
-                          {e?.JobRemark !== "" && <div className={``}>
+                          {e?.JobRemark !== "" && <div className={`pt-2`}>
                             <p className="fw-bold">
                               REMARK:
                             </p>
@@ -960,7 +963,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.NetWt !== 0 && (dp1lp ? fixedValues(e?.primaryMetalWt, 3) : fixedValues(e?.NetWt + e?.LossWt, 3))}
                             </p>
                             <p className="w4_dpc text-end paddingRightDetailPrint1"></p>
-                            <p className="w5_dpc text-end paddingRightDetailPrint1"></p>
+                            <p className="w5_dpc text-end paddingRightDetailPrint1 fw-bold">{NumberWithCommas(e?.PureNetWt, 3)}</p>
                             {/* <p className="w6_dpc text-end paddingRightDetailPrint1"></p> */}
                             <p className="w7_dpc text-end fw-bold d-flex justify-content-end align-items-center  paddingRightDetailPrint1 " style={{width:'28.56%'}}> { NumberWithCommas(e?.metal[0].Amount, 2)} </p>
                           </div>
@@ -1298,8 +1301,8 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       {/* {NumberWithCommas(finalD?.mainTotal?.netwt, 3)} */}
                     </p>
                   </div>
-                  <div className="w4_dpc text-end paddingRightDetailPrint1"></div>
                   <div className="w5_dpc text-end paddingRightDetailPrint1"></div>
+                  <div className="w4_dpc text-end paddingRightDetailPrint1 fw-bold">{NumberWithCommas(total?.PureNetWt, 3)}</div>
                   {/* <div className="w6_dpc text-end paddingRightDetailPrint1">
                     <p className=""></p>
                   </div> */}
