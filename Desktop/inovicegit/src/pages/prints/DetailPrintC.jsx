@@ -570,7 +570,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </p>
             </div>
             {/* header */}
-            <div className="d-flex align-items-center pb-2 border-bottom  recordDetailPrint1">
+            <div className="d-flex align-items-center pb-2 brbtm_dpc  recordDetailPrint1">
               <div className="col-6">
                 <h2 className="fw-bold detailPrint1L_font_16 pb-1">{json0Data?.CompanyFullName}</h2>
                 <p className="lhDetailPrint1 pb-1">{json0Data?.CompanyAddress}</p>
@@ -602,8 +602,8 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
             </div>
             {/* address */}
-            <div className="d-flex border-start border-end  border-bottom mb-1 recordDetailPrint1">
-              <div className="col-4 border-end  p-1">
+            <div className="d-flex brtleft_dpc brright_dpc  brbtm_dpc mb-1 recordDetailPrint1">
+              <div className="col-4 brright_dpc  p-1">
                 <p className="lhDetailPrint1 pb-1">{json0Data?.lblBillTo}</p>
                 <p className="lhDetailPrint1 fw-bold detailPrint1L_font_14 pb-1">
                   {json0Data?.customerfirmname}
@@ -621,7 +621,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   {json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No}
                 </p>
               </div>
-              <div className="col-4 border-end  p-1">
+              <div className="col-4 brright_dpc  p-1">
                 <p className="lhDetailPrint1 pb-1">Ship To,</p>
                 <p className="lhDetailPrint1 fw-bold detailPrint1L_font_14 pb-1">
                   {json0Data?.customerfirmname}
@@ -661,32 +661,32 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
             </div>
             {/* table header*/}
-            <div className="d-flex w-100 border-top  recordDetailPrint1 lightGrey detailPrint1L_font_11">
-              <div className="srNoDetailprint11 border-end border-start  border-bottom d-flex justify-content-center align-items-center flex-column">
+            <div className="d-flex w-100 brtop_dpc border-black  recordDetailPrint1 lightGrey detailPrint1L_font_11">
+              <div className="srNoDetailprint11 brright_dpc brtleft_dpc2  brbtm_dpc d-flex justify-content-center align-items-center flex-column">
                 <p className="fw-bold">Sr </p>
               </div>
-              <div className="designDetalPrint1 border-end  p-1 border-bottom d-flex justify-content-center align-items-center">
+              <div className="designDetalPrint1 brright_dpc  p-1 brbtm_dpc d-flex justify-content-center align-items-center">
                 <p className="fw-bold p-1">Design</p>
               </div>
-              <div className={`${dpp ? "diamondDetailPrint1p" : "diamondDetailPrint1l"} border-end `}>
+              <div className={`${dpp ? "diamondDetailPrint1p" : "diamondDetailPrint1l"} brright_dpc `}>
                 <div className="d-grid h-100">
-                  <div className="d-flex justify-content-center border-bottom ">
+                  <div className="d-flex justify-content-center brbtm_dpc ">
                     <p className="fw-bold p-1">Diamond</p>
                   </div>
-                  <div className="d-flex border-bottom ">
-                    <p className="fw-bold col-3 d-flex align-items-center justify-content-center border-end ">
+                  <div className="d-flex brbtm_dpc ">
+                    <p className="fw-bold col-3 d-flex align-items-center justify-content-center brright_dpc ">
                       Code
                     </p>
-                    <p className="fw-bold col-2 d-flex align-items-center justify-content-center border-end ">
+                    <p className="fw-bold col-2 d-flex align-items-center justify-content-center brright_dpc ">
                       Size
                     </p>
-                    <p className="fw-bold col-1 d-flex align-items-center justify-content-center border-end ">
+                    <p className="fw-bold col-1 d-flex align-items-center justify-content-center brright_dpc ">
                       Pcs
                     </p>
-                    <p className="fw-bold col-2 d-flex align-items-center justify-content-center border-end ">
+                    <p className="fw-bold col-2 d-flex align-items-center justify-content-center brright_dpc ">
                       Wt
                     </p>
-                    <p className="fw-bold col-2 d-flex align-items-center justify-content-center border-end ">
+                    <p className="fw-bold col-2 d-flex align-items-center justify-content-center brright_dpc ">
                       Rate
                     </p>
                     <p className="fw-bold col-2 d-flex align-items-center justify-content-center text-center">
@@ -695,28 +695,28 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              <div className={`${dpp ? "metalGoldDetailPrint1p" : "metalGoldDetailPrint1l"} border-end `}>
+              <div className={`${dpp ? "metalGoldDetailPrint1p" : "metalGoldDetailPrint1l"} brright_dpc `}>
                 <div className="d-grid h-100">
-                  <div className="d-flex justify-content-center align-items-center border-bottom ">
+                  <div className="d-flex justify-content-center align-items-center brbtm_dpc ">
                     <p className="fw-bold p-1">Metal </p>
                   </div>
-                  <div className="d-flex border-bottom ">
-                    <p className="fw-bold w1_dpc border-end  d-flex align-items-center justify-content-center">
+                  <div className="d-flex brbtm_dpc ">
+                    <p className="fw-bold w1_dpc brright_dpc  d-flex align-items-center justify-content-center">
                       Quality
                     </p>
-                    <p className="fw-bold w2_dpc border-end  d-flex align-items-center justify-content-center">
+                    <p className="fw-bold w2_dpc brright_dpc  d-flex align-items-center justify-content-center">
                       *Wt
                     </p>
-                    <p className="fw-bold w3_dpc border-end  d-flex align-items-center justify-content-center">
+                    <p className="fw-bold w3_dpc brright_dpc  d-flex align-items-center justify-content-center">
                       N+L
                     </p>
-                    <p className="fw-bold w4_dpc border-end  d-flex align-items-center justify-content-center">
+                    <p className="fw-bold w4_dpc brright_dpc  d-flex align-items-center justify-content-center">
                       Tunch
                     </p>
-                    <p className="fw-bold w5_dpc border-end  d-flex align-items-center justify-content-center">
+                    <p className="fw-bold w5_dpc brright_dpc  d-flex align-items-center justify-content-center">
                       Fine
                     </p>
-                    <p className="fw-bold w6_dpc border-end  d-flex align-items-center justify-content-center">
+                    <p className="fw-bold w6_dpc brright_dpc  d-flex align-items-center justify-content-center">
                       Rate
                     </p>
                     <p className="fw-bold w7_dpc d-flex align-items-center justify-content-center">
@@ -725,25 +725,25 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              <div className={`${dpp ? "stoneDetailsPrint1p" : "stoneDetailsPrint1l"} border-end `}>
+              <div className={`${dpp ? "stoneDetailsPrint1p" : "stoneDetailsPrint1l"} brright_dpc `}>
                 <div className="d-grid h-100">
-                  <div className="d-flex justify-content-center border-bottom ">
+                  <div className="d-flex justify-content-center brbtm_dpc ">
                     <p className="fw-bold p-1">Stone</p>
                   </div>
-                  <div className="d-flex border-bottom ">
-                    <p className="fw-bold col-2 border-end  d-flex align-items-center justify-content-center">
+                  <div className="d-flex brbtm_dpc ">
+                    <p className="fw-bold col-2 brright_dpc  d-flex align-items-center justify-content-center">
                       Code
                     </p>
-                    <p className="fw-bold col-2 border-end  d-flex align-items-center justify-content-center">
+                    <p className="fw-bold col-2 brright_dpc  d-flex align-items-center justify-content-center">
                       Size
                     </p>
-                    <p className="fw-bold col-2 border-end  d-flex align-items-center justify-content-center">
+                    <p className="fw-bold col-2 brright_dpc  d-flex align-items-center justify-content-center">
                       Pcs
                     </p>
-                    <p className="fw-bold col-2 border-end  d-flex align-items-center justify-content-center">
+                    <p className="fw-bold col-2 brright_dpc  d-flex align-items-center justify-content-center">
                       Wt
                     </p>
-                    <p className="fw-bold col-2 border-end  d-flex align-items-center justify-content-center">
+                    <p className="fw-bold col-2 brright_dpc  d-flex align-items-center justify-content-center">
                       Rate
                     </p>
                     <p className="fw-bold col-2 d-flex align-items-center justify-content-center text-center">
@@ -752,18 +752,18 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              {/* <div className={`${dpp ? "otherAmountDetailPrint1p" : "otherAmountDetailPrint1l"} border-end  border-bottom d-flex align-items-center justify-content-center flex-column`}>
+              {/* <div className={`${dpp ? "otherAmountDetailPrint1p" : "otherAmountDetailPrint1l"} brright_dpc  brbtm_dpc d-flex align-items-center justify-content-center flex-column`}>
                 <p className="fw-bold text-center d-flex align-items-center justify-content-center" style={{wordBreak: "normal"}}>
                   Other Amount
                 </p>
               </div> */}
-              <div className="labourAmountDetailPrint1 border-end  border-bottom">
+              <div className="labourAmountDetailPrint1 brright_dpc  brbtm_dpc">
                 <div className="d-grid h-100">
-                  <div className="border-bottom  d-flex align-items-center justify-content-center">
+                  <div className="brbtm_dpc  d-flex align-items-center justify-content-center">
                     <p className="text-center fw-bold">Labour</p>
                   </div>
                   <div className="d-flex">
-                    <div className="col-5 border-end  d-flex align-items-center justify-content-center">
+                    <div className="col-5 brright_dpc  d-flex align-items-center justify-content-center">
                       <p className="fw-bold ">Rate</p>
                     </div>
                     <div className="col-7 d-flex align-items-center justify-content-center">
@@ -772,7 +772,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              <div className="totalAmountDetailPrint1 border-end  border-bottom d-flex align-items-center justify-content-center flex-column">
+              <div className="totalAmountDetailPrint1 brright_dpc  brbtm_dpc d-flex align-items-center justify-content-center flex-column brright_dpc2">
                 <p className="text-center fw-bold ">Total</p>
                 <p className="text-center fw-bold ">Amount</p>
               </div>
@@ -781,12 +781,12 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             {
               finalD?.resultArray?.map((e, i) => {
                 return (
-                  <div key={i} className="recordDetailPrint1 detailPrint1L_font_11">
+                  <div key={i} className="recordDetailPrint1 detailPrint1L_font_11 brtleft_dpc2 brright_dpc2">
                     <div className="d-flex w-100">
-                      <div className="srNoDetailprint11 border-end border-start border-bottom pt-1">
+                      <div className="srNoDetailprint11 brright_dpc brtleft_dpc brbtm_dpc pt-1">
                         <p className="p-1 text-center paddingLeftDetailPrint1 paddingRightDetailPrint1">{NumberWithCommas(i + 1, 0)}</p>
                       </div>
-                      <div className="designDetalPrint1 border-end  p-1 border-bottom paddingLeftDetailPrint1 paddingRightDetailPrint1">
+                      <div className="designDetalPrint1 brright_dpc  p-1 brbtm_dpc paddingLeftDetailPrint1 paddingRightDetailPrint1">
                         <div className="d-flex justify-content-between">
                           <div className="col">
                             <p>{e?.designno}</p>
@@ -860,7 +860,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           )}
                         </div>
                       </div>
-                      <div className={`${dpp ? "diamondDetailPrint1p" : "diamondDetailPrint1l"} border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
+                      <div className={`${dpp ? "diamondDetailPrint1p" : "diamondDetailPrint1l"} brright_dpc  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
                         <div className="h-100 paddingBottomTotalDetailPrint1">
                           {e?.diamonds.length > 0 &&
                             e?.diamonds.map((ele, ind) => {
@@ -894,7 +894,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
                               );
                             })}
-                          <div className="d-flex border-bottom position-absolute bottom-0 w-100  border-top totalMinHeightDetailPrint1 lightGrey start-0">
+                          <div className="d-flex brbtm_dpc position-absolute bottom-0 w-100  brtop_dpc totalMinHeightDetailPrint1 lightGrey start-0">
                             <p className="col-2 paddingRightDetailPrint1 "></p>
                             <p className="col-2 paddingRightDetailPrint1 "></p>
                             <p className="col-2 paddingRightDetailPrint1 text-end fw-bold d-flex align-items-center justify-content-end">
@@ -913,7 +913,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                         </div>
                       </div>
-                      <div className={`${dpp ? "metalGoldDetailPrint1p" : "metalGoldDetailPrint1l"} border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
+                      <div className={`${dpp ? "metalGoldDetailPrint1p" : "metalGoldDetailPrint1l"} brright_dpc  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
                         <div className="h-100 paddingBottomTotalDetailPrint1">
                           {e?.metal.length > 0 &&
                             e?.metal.map((ele, ind) => {
@@ -952,7 +952,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.JobRemark}
                             </p>
                           </div>}
-                          <div className="d-flex position-absolute bottom-0 w-100  totalMinHeightDetailPrint1 border-top border-bottom lightGrey start-0">
+                          <div className="d-flex position-absolute bottom-0 w-100  totalMinHeightDetailPrint1 brtop_dpc brbtm_dpc lightGrey start-0">
                             <p className="w1_dpc  paddingRightDetailPrint1"></p>
                             <p className="w2_dpc text-end fw-bold d-flex justify-content-end align-items-center paddingRightDetailPrint1">
                               {e?.totals?.metal?.Wt !== 0 &&
@@ -969,7 +969,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                         </div>
                       </div>
-                      <div className={`${dpp ? "stoneDetailsPrint1p" : "stoneDetailsPrint1l"} border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
+                      <div className={`${dpp ? "stoneDetailsPrint1p" : "stoneDetailsPrint1l"} brright_dpc  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
                         <div className="h-100 paddingBottomTotalDetailPrint1">
                           {e?.colorstone.length > 0 &&
                             e?.colorstone.map((ele, ind) => {
@@ -1000,7 +1000,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
                               );
                             })}
-                          <div className="d-flex border-bottom position-absolute bottom-0 w-100  border-top totalMinHeightDetailPrint1 lightGrey paddingRightDetailPrint1 paddingLeftDetailPrint1 start-0">
+                          <div className="d-flex brbtm_dpc position-absolute bottom-0 w-100  brtop_dpc totalMinHeightDetailPrint1 lightGrey paddingRightDetailPrint1 paddingLeftDetailPrint1 start-0">
                             <p className=" col-2  paddingRightDetailPrint1"></p>
                             <p className=" col-2  paddingRightDetailPrint1"></p>
                             <p className=" col-2  paddingRightDetailPrint1 text-end fw-bold d-flex align-items-center justify-content-end">
@@ -1022,7 +1022,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                         </div>
                       </div>
-                      {/* <div className={`${dpp ? "otherAmountDetailPrint1p" : "otherAmountDetailPrint1l"} border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
+                      {/* <div className={`${dpp ? "otherAmountDetailPrint1p" : "otherAmountDetailPrint1l"} brright_dpc  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
                         <div className="paddingBottomTotalDetailPrint1">
                           <div>
                             {detailtPrintR ? (
@@ -1090,7 +1090,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             )}
                           </div>
                         </div>
-                        <div className="position-absolute bottom-0 w-100 border-top border-bottom  totalMinHeightDetailPrint1 lightGrey d-flex align-items-center justify-content-end paddingRightDetailPrint1 start-0">
+                        <div className="position-absolute bottom-0 w-100 brtop_dpc brbtm_dpc  totalMinHeightDetailPrint1 lightGrey d-flex align-items-center justify-content-end paddingRightDetailPrint1 start-0">
                           <p className="text-end fw-bold  ">
                             {
                               (dp1lp || detailtPrintR) ?
@@ -1101,7 +1101,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </p>
                         </div>
                       </div> */}
-                      <div className="labourAmountDetailPrint1 border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1">
+                      <div className="labourAmountDetailPrint1 brright_dpc  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1">
                         <div className="d-grid h-100 paddingBottomTotalDetailPrint1">
                           <div className="d-flex ">
                             <div className="col-5 ">
@@ -1126,7 +1126,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                           </div>
                         </div>
-                        <div className="position-absolute bottom-0 w-100 border-bottom  border-top totalMinHeightDetailPrint1 d-flex lightGrey d-flex align-items-center justify-content-end paddingRightDetailPrint1 start-0">
+                        <div className="position-absolute bottom-0 w-100 brbtm_dpc  brtop_dpc totalMinHeightDetailPrint1 d-flex lightGrey d-flex align-items-center justify-content-end paddingRightDetailPrint1 start-0">
                           <div className="col-5">
                             <p className="text-end fw-bold">
                               {/* {e?.MaKingCharge_Unit !== 0 &&
@@ -1149,7 +1149,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                         </div>
                       </div>
-                      <div className="totalAmountDetailPrint1 border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1">
+                      <div className="totalAmountDetailPrint1 brright_dpc  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1">
                         <div className="d-grid h-100 paddingBottomTotalDetailPrint1">
                           <div>
                             <p className="text-end fw-bold">
@@ -1158,7 +1158,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </p>
                           </div>
                         </div>
-                        <div className="position-absolute bottom-0 w-100 border-top border-bottom  totalMinHeightDetailPrint1 lightGrey d-flex align-items-center justify-content-end start-0">
+                        <div className="position-absolute bottom-0 w-100 brtop_dpc brbtm_dpc  totalMinHeightDetailPrint1 lightGrey d-flex align-items-center justify-content-end start-0">
                           <p className="text-end fw-bold  paddingRightDetailPrint1 paddingRightDetailPrint1">
                             {e?.UnitCost !== 0 &&
                               NumberWithCommas(e?.UnitCost, 2)}
@@ -1167,15 +1167,15 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                     </div>
                     {e?.Discount !== 0 && <div className="d-flex w-100">
-                      <div className="srNoDetailprint11 border-end border-start  border-bottom">
+                      <div className="srNoDetailprint11 brright_dpc brtleft_dpc  brbtm_dpc">
                         <p className=" p-1"></p>
                       </div>
-                      <div className="designDetalPrint1 border-end  p-1 border-bottom"></div>
-                      <div className={`${dpp ? "diamondDetailPrint1p" : "diamondDetailPrint1l"} border-end  position-relative border-bottom lightGrey`}>
+                      <div className="designDetalPrint1 brright_dpc  p-1 brbtm_dpc"></div>
+                      <div className={`${dpp ? "diamondDetailPrint1p" : "diamondDetailPrint1l"} brright_dpc  position-relative brbtm_dpc lightGrey`}>
                         <div className="d-grid"></div>
                       </div>
-                      <div className={`${dpp ? "metalGoldDetailPrint1p" : "metalGoldDetailPrint1l"} border-end  position-relative border-bottom lightGrey`}></div>
-                      <div className={`${dpp ? "stoneDetailsPrint1p" : "stoneDetailsPrint1l"} border-end position-relative border-bottom pt-1 lightGrey`}>
+                      <div className={`${dpp ? "metalGoldDetailPrint1p" : "metalGoldDetailPrint1l"} brright_dpc  position-relative brbtm_dpc lightGrey`}></div>
+                      <div className={`${dpp ? "stoneDetailsPrint1p" : "stoneDetailsPrint1l"} brright_dpc position-relative brbtm_dpc pt-1 lightGrey`}>
                         <div className="d-grid">
                           {e?.Discount !== 0 && (
                             <p className="p-1 text-end fw-bold paddingLeftDetailPrint1 paddingRightDetailPrint1">
@@ -1187,10 +1187,10 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           )}
                         </div>
                       </div>
-                      <div className={`${dpp ? "otherAmountDetailPrint1p" : "otherAmountDetailPrint1l"} border-end  border-bottom lightGrey`}>
+                      <div className={`${dpp ? "otherAmountDetailPrint1p" : "otherAmountDetailPrint1l"} brright_dpc  brbtm_dpc lightGrey`}>
                         <p className="d-flex align-items-center justify-content-end"></p>
                       </div>
-                      <div className="labourAmountDetailPrint1 border-end  lightGrey border-bottom pt-1 ">
+                      <div className="labourAmountDetailPrint1 brright_dpc  lightGrey brbtm_dpc pt-1 ">
                         <div className="d-grid h-100">
                           <div className="d-flex">
                             <div className="col-5">
@@ -1205,7 +1205,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                         </div>
                       </div>
-                      <div className="totalAmountDetailPrint1 border-end  border-bottom d-flex align-tems-center justify-content-end lightGrey">
+                      <div className="totalAmountDetailPrint1 brright_dpc  brbtm_dpc d-flex align-tems-center justify-content-end lightGrey">
                         <p className="d-flex align-items-center">
                           {!dp1lp && <span
                             dangerouslySetInnerHTML={{
@@ -1224,8 +1224,8 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               })
             }
             {/* cgst */}
-            <div className="d-flex w-100 border-bottom  border-start recordDetailPrint1 detailPrint1L_font_11">
-              <div className="cgstDetailPrint1 text-end border-end  paddingLeftDetailPrint1 paddingRightDetailPrint1 py-1">
+            <div className="d-flex w-100 brbtm_dpc   recordDetailPrint1 detailPrint1L_font_11 brtleft_dpc2 brright_dpc2">
+              <div className="cgstDetailPrint1 text-end brright_dpc  paddingLeftDetailPrint1 paddingRightDetailPrint1 py-1">
                 <p className="">Total Discount</p>
                 {json0Data?.Privilege_discount !== 0 && (
                   <p className="">Privilege Card Discount</p>
@@ -1242,7 +1242,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <p className="">{json0Data?.AddLess < 0 ? "Less" : "Add"}</p>
                 )}
               </div>
-              <div className="cgstTotalDetailPrint1 text-end border-end  paddingLeftDetailPrint1 paddingRightDetailPrint1 py-1">
+              <div className="cgstTotalDetailPrint1 text-end brright_dpc  paddingLeftDetailPrint1 paddingRightDetailPrint1 py-1">
                 <p>{(total?.discountTotalAmount).toFixed(2)}</p>
                 {json0Data?.Privilege_discount !== 0 && (
                   <p>- {json0Data?.Privilege_discount}</p>
@@ -1255,13 +1255,13 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
             </div>
             {/* total */}
-            <div className="d-flex w-100 recordDetailPrint1 lightGrey detailPrint1L_font_11">
-              <div className="designDetalPrint1Total border-end  border-bottom border-start d-table">
+            <div className="d-flex w-100 recordDetailPrint1 lightGrey detailPrint1L_font_11 brtleft_dpc2 brbtm_dpc2 brright_dpc2">
+              <div className="designDetalPrint1Total brright_dpc  brbtm_dpc brtleft_dpc d-table">
                 <p className="fw-bold text-center d-table-cell align-middle">
                   Total
                 </p>
               </div>
-              <div className={`${dpp ? "diamondDetailPrint1p" : "diamondDetailPrint1l"} border-end  position-relative border-bottom d-flex flex-column justify-content-center paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
+              <div className={`${dpp ? "diamondDetailPrint1p" : "diamondDetailPrint1l"} brright_dpc  position-relative brbtm_dpc d-flex flex-column justify-content-center paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
                 <div className="d-flex">
                   <div className=" col-2">
                     <p className=""></p>
@@ -1287,7 +1287,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              <div className={`${dpp ? "metalTotalDetailPrint1p" : "metalTotalDetailPrint1l"} border-end  position-relative border-bottom d-flex flex-column justify-content-center`}>
+              <div className={`${dpp ? "metalTotalDetailPrint1p" : "metalTotalDetailPrint1l"} brright_dpc  position-relative brbtm_dpc d-flex flex-column justify-content-center`}>
                 <div className="d-flex">
                   <div className="w1_dpc paddingRightDetailPrint1">
                     <p className=""></p>
@@ -1313,7 +1313,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              <div className={`${dpp ? "stoneDetailsPrint1p" : "stoneDetailsPrint1l"} border-end  position-relative border-bottom d-flex flex-column justify-content-center paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
+              <div className={`${dpp ? "stoneDetailsPrint1p" : "stoneDetailsPrint1l"} brright_dpc  position-relative brbtm_dpc d-flex flex-column justify-content-center paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
                 <div className="d-flex">
                   <div className="col-2 paddingRightDetailPrint1">
                     <p className=""></p>
@@ -1341,12 +1341,12 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              {/* <div className={`${dpp ? "otherAmountDetailPrint1p" : "otherAmountDetailPrint1l"} border-end  border-bottom d-table paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
+              {/* <div className={`${dpp ? "otherAmountDetailPrint1p" : "otherAmountDetailPrint1l"} brright_dpc  brbtm_dpc d-table paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
                 <p className="py-1 d-flex align-items-center justify-content-end d-table-cell align-middle fw-bold" >
                   <span>{NumberWithCommas(finalD?.mainTotal?.miscChargesTotals, 2)}</span>
                 </p>
               </div> */}
-              <div className="labourAmountDetailPrint1 border-end  border-bottom paddingLeftDetailPrint1 paddingRightDetailPrint1">
+              <div className="labourAmountDetailPrint1 brright_dpc  brbtm_dpc paddingLeftDetailPrint1 paddingRightDetailPrint1">
                 <div className="d-grid h-100">
                   <div className="d-flex justify-content-end">
                     <div className="d-table">
@@ -1357,7 +1357,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              <div className="totalAmountDetailPrint1 border-end  border-bottom paddingLeftDetailPrint1 paddingRightDetailPrint1">
+              <div className="totalAmountDetailPrint1 brright_dpc  brbtm_dpc paddingLeftDetailPrint1 paddingRightDetailPrint1">
                 <p className="d-flex justify-content-end align-items-center h-100 text-end fw-bold">
                   {!dp1lp && <span
                     dangerouslySetInnerHTML={{
@@ -1371,11 +1371,11 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             {/* summary */}
             <div className="d-flex w-100 pt-1 recordDetailPrint1 detailPrint1L_font_11">
               <div className="col-4 pe-1">
-                <p className="border-start  fw-bold text-center border-bottom  w-100 border-end border-top lightGrey">
+                <p className="brtleft_dpc  fw-bold text-center brbtm_dpc  w-100 brright_dpc brtop_dpc lightGrey">
                   SUMMARY
                 </p>
-                <div className="d-flex border-end ">
-                  <div className="border-start col-6 border-end  position-relative summaryPadBotDetailPrint1 d-flex flex-column">
+                <div className="d-flex brright_dpc ">
+                  <div className="brtleft_dpc col-6 brright_dpc  position-relative summaryPadBotDetailPrint1 d-flex flex-column">
                     <div className="d-flex justify-content-between">
                       <p className="fw-bold px-1 pt-1">GOLD IN 24KT</p>
                       <p className="px-1 pt-1">
@@ -1424,7 +1424,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <p className="px-1 pt-1">- {json0Data?.Privilege_discount}</p>
                       </div>
                     )}
-                    <div className="d-flex justify-content-between border-top  position-absolute w-100 border-bottom bottom-0 totalLineDetailPrint1 lightGrey">
+                    <div className="d-flex justify-content-between brtop_dpc  position-absolute w-100 brbtm_dpc bottom-0 totalLineDetailPrint1 lightGrey">
                       <p className="fw-bold px-1 pt-1"> </p>
                       <p className="px-1 pt-1"> </p>
                     </div>
@@ -1472,7 +1472,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {NumberWithCommas(summary?.addLess, 2)}
                       </p>
                     </div>
-                    <div className="d-flex justify-content-between border-top  position-absolute w-100 border-bottom  bottom-0 totalLineDetailPrint1 lightGrey">
+                    <div className="d-flex justify-content-between brtop_dpc  position-absolute w-100 brbtm_dpc  bottom-0 totalLineDetailPrint1 lightGrey">
                       <p className="fw-bold p-1">TOTAL</p>
                       <p className="px-1 p-1">
                         {NumberWithCommas(total?.withDiscountTaxAmount, 2)}
@@ -1483,8 +1483,8 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
               {/* summaryPadBotDetailPrint1 */}
               <div className="col-2   pe-1">
-                <div className={`border-end border-start border-top ${diamondDetails?.length === 1 && `d-flex flex-column justify-content-between h-100`}`}>
-                  <p className="fw-bold text-center border-bottom  w-100 lightGrey">
+                <div className={`brright_dpc brtleft_dpc brtop_dpc ${diamondDetails?.length === 1 && `d-flex flex-column justify-content-between h-100`}`}>
+                  <p className="fw-bold text-center brbtm_dpc  w-100 lightGrey">
                     Diamond Detail
                   </p>
                   <div className="d-flex flex-column justify-content-start h-100">
@@ -1500,21 +1500,21 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     })}
                   </div>
 
-                  <div className="d-flex justify-content-between border-top  w-100 border-bottom totalLineDetailPrint1 lightGrey">
+                  <div className="d-flex justify-content-between brtop_dpc  w-100 brbtm_dpc totalLineDetailPrint1 lightGrey">
                     <p className="fw-bold p-1"></p>
                     <p className="p-1"></p>
                   </div>
                 </div>
               </div>
               <div className="col-2 pe-1">
-                <div className="border-bottom  border-top">
-                  <p className="fw-bold text-center border-start border-end border-bottom  w-100 border-start lightGrey">
+                <div className="brbtm_dpc  brtop_dpc">
+                  <p className="fw-bold text-center brtleft_dpc brright_dpc brbtm_dpc  w-100 brtleft_dpc lightGrey">
                     OTHER DETAILS
                   </p>
                   {checkBox?.brokarage && brokarage.map((e, i) => {
                     return (
                       <div
-                        className="d-flex border-start border-end "
+                        className="d-flex brtleft_dpc brright_dpc "
                         key={i}
                       >
                         <div className="col-6">
@@ -1526,7 +1526,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                     );
                   })}
-                  <div className="d-flex border-start border-end ">
+                  <div className="d-flex brtleft_dpc brright_dpc ">
                     <div className="col-6">
                       <p className="fw-bold p-1">RATE IN 24KT</p>
                     </div>
@@ -1539,8 +1539,8 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
               </div>
               <div className="col-2 pe-1">
-                <div className="border  border-top">
-                  <p className="fw-bold text-center border-start border-bottom  w-100 border-start lightGrey">
+                <div className="brall_dpc  brtop_dpc">
+                  <p className="fw-bold text-center brtleft_dpc brbtm_dpc  w-100 brtleft_dpc lightGrey">
                     REMARK
                   </p>
                   <p
@@ -1550,8 +1550,8 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
               </div>
               <div className="col-2">
-                <div className="d-flex  border-start border-end border-bottom createdByDetailPrint1 border-top">
-                  <div className="col-6 border-end  d-flex align-items-end justify-content-center">
+                <div className="d-flex  brtleft_dpc brright_dpc brbtm_dpc createdByDetailPrint1 brtop_dpc">
+                  <div className="col-6 brright_dpc  d-flex align-items-end justify-content-center">
                     <i> Created By</i>
                   </div>
                   <div className="col-6 d-flex align-items-end justify-content-center">

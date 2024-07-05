@@ -3,7 +3,7 @@ export const printConditions = [
   {printName: 'customer daily statement', etpType: 'print', componentName: 'CustomerDailyStatement'},
   {printName: 'detail print1 (l)', etpType: 'print', componentName: 'DetailPrint1'},
   {printName: 'detail print1 (p)', etpType: 'print', componentName: 'DetailPrint1'},
-  {printName: 'detail print1 c', etpType: 'print', componentName: 'DetailPrintC'},
+  {printName: 'detail print c', etpType: 'print', componentName: 'DetailPrintC'},
   // {printName: 'print (l)', etpType: 'print', componentName: 'DetailPrint1Printlp'},
   // {printName: 'print (p)', etpType: 'print', componentName: 'DetailPrint1Printlp'},
   {printName: 'detail print1 group(l)', etpType: 'print', componentName: 'DetailPrint1LPGroup'},

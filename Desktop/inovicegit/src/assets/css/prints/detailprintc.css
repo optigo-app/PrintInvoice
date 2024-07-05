@@ -227,6 +227,35 @@
     width: 15.28%;
 }
 
+
+.brtop_dpc{
+   border-top: 1px solid #BDBDBD
+}
+.brtleft_dpc{
+   border-left: 1px solid #BDBDBD
+}
+.brtleft_dpc2{
+   border-left: 1px solid black
+}
+.brtleft_dpc2{
+   border-left: 1px solid black
+}
+.brright_dpc{
+   border-right: 1px solid #BDBDBD
+}
+.brright_dpc2{
+   border-right: 1px solid black
+}
+.brbtm_dpc{
+   border-bottom: 1px solid #BDBDBD
+}
+.brbtm_dpc2{
+   border-bottom: 1px solid black
+}
+.brall_dpc{
+   border: 1px solid #BDBDBD
+}
+
 @media print {
     .containerDetailPrint1 {
         zoom: unset;
