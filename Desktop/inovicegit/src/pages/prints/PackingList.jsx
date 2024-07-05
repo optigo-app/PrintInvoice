@@ -552,8 +552,8 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {isImageWorking && (result?.header?.PrintLogo !== "" && <img src={result?.header?.PrintLogo} alt="" className='w-100 h-auto ms-auto d-block object-fit-contain' onError={handleImageErrors} height={120} width={150} style={{maxWidth: "100px"}} />)}
                   </div>
                   <div className="addresspcl fspcl">
-                    {result?.header?.CompanyAddress?.split(",")[0]}{" "}
-                    {result?.header?.CompanyAddress2?.split(",")[0]}{" "}
+                    {result?.header?.CompanyAddress}
+                    {result?.header?.CompanyAddress2}
                     {result?.header?.CompanyCity} -{" "}
                     {result?.header?.CompanyPinCode}
                   </div>
@@ -576,10 +576,10 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   </div>
                   <div className="w-25">
                     <div className="d-flex justify-content-between align-items-center">
-                      <div className="d-flex justify-content-end align-items-center fspcl_3 w-50"> Invoice No:{" "} </div> <b className="d-flex justify-content-end align-items-center fspcl_3 w-50"> {result?.header?.InvoiceNo} </b>
+                      <div className="d-flex justify-content-end align-items-center fspcl w-50"> Invoice No:{" "} </div> <b className="d-flex justify-content-end align-items-center fspcl w-50"> {result?.header?.InvoiceNo} </b>
                     </div>
                     <div className="d-flex align-items-center">
-                      <div className="d-flex justify-content-end align-items-center fspcl_3 w-50"> Date:{" "} </div> <b className="d-flex justify-content-end align-items-center fspcl_3 w-50"> {result?.header?.EntryDate} </b>
+                      <div className="d-flex justify-content-end align-items-center fspcl w-50"> Date:{" "} </div> <b className="d-flex justify-content-end align-items-center fspcl w-50"> {result?.header?.EntryDate} </b>
                     </div>
                   </div>
                 </div>
