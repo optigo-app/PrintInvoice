@@ -781,7 +781,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             {
               finalD?.resultArray?.map((e, i) => {
                 return (
-                  <div key={i} className="recordDetailPrint1 detailPrint1L_font_11 brtleft_dpc2 brright_dpc2">
+                  <div key={i} className="recordDetailPrint1 detailPrint1L_font_11 brtop_dpc2 brtleft_dpc2 brright_dpc2">
                     <div className="d-flex w-100">
                       <div className="srNoDetailprint11 brright_dpc brtleft_dpc brbtm_dpc pt-1">
                         <p className="p-1 text-center paddingLeftDetailPrint1 paddingRightDetailPrint1">{NumberWithCommas(i + 1, 0)}</p>
@@ -866,7 +866,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             e?.diamonds.map((ele, ind) => {
                               return (
                                 <div
-                                  className={`d-flex justify-content-between `}
+                                  className={`d-flex justify-content-between align-items-center `}
                                   key={ind}
                                 >
                                   <p className="col-3 paddingRightDetailPrint1 text-break">
@@ -894,7 +894,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
                               );
                             })}
-                          <div className="d-flex brbtm_dpc position-absolute bottom-0 w-100  brtop_dpc totalMinHeightDetailPrint1 lightGrey start-0">
+                          <div className="d-flex align-items-center brbtm_dpc position-absolute bottom-0 w-100  brtop_dpc totalMinHeightDetailPrint1 lightGrey start-0">
                             <p className="col-2 paddingRightDetailPrint1 "></p>
                             <p className="col-2 paddingRightDetailPrint1 "></p>
                             <p className="col-2 paddingRightDetailPrint1 text-end fw-bold d-flex align-items-center justify-content-end">
@@ -918,7 +918,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           {e?.metal.length > 0 &&
                             e?.metal.map((ele, ind) => {
                               return (
-                                <div className={`d-flex`} key={ind}>
+                                <div className={`d-flex align-items-center`} key={ind}>
                                   {/* 3 1 1 1 1 2 3 */}
                                   <p className="w1_dpc paddingRightDetailPrint1 text-break">
                                     {ele?.ShapeName + " " + ele?.QualityName}
@@ -952,7 +952,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.JobRemark}
                             </p>
                           </div>}
-                          <div className="d-flex position-absolute bottom-0 w-100  totalMinHeightDetailPrint1 brtop_dpc brbtm_dpc lightGrey start-0">
+                          <div className="d-flex align-items-center position-absolute bottom-0 w-100  totalMinHeightDetailPrint1 brtop_dpc brbtm_dpc lightGrey start-0">
                             <p className="w1_dpc  paddingRightDetailPrint1"></p>
                             <p className="w2_dpc text-end fw-bold d-flex justify-content-end align-items-center paddingRightDetailPrint1">
                               {e?.totals?.metal?.Wt !== 0 &&
@@ -974,7 +974,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           {e?.colorstone.length > 0 &&
                             e?.colorstone.map((ele, ind) => {
                               return (
-                                <div className={`d-flex`} key={ind}>
+                                <div className={`d-flex align-items-center`} key={ind}>
                                   <p className="col-3 paddingRightDetailPrint1 text-break">
                                     {ele?.ShapeName} {ele?.QualityName}{" "}
                                     {ele?.Colorname}
@@ -1000,7 +1000,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
                               );
                             })}
-                          <div className="d-flex brbtm_dpc position-absolute bottom-0 w-100  brtop_dpc totalMinHeightDetailPrint1 lightGrey paddingRightDetailPrint1 paddingLeftDetailPrint1 start-0">
+                          <div className="d-flex align-items-center brbtm_dpc position-absolute bottom-0 w-100  brtop_dpc totalMinHeightDetailPrint1 lightGrey paddingRightDetailPrint1 paddingLeftDetailPrint1 start-0">
                             <p className=" col-2  paddingRightDetailPrint1"></p>
                             <p className=" col-2  paddingRightDetailPrint1"></p>
                             <p className=" col-2  paddingRightDetailPrint1 text-end fw-bold d-flex align-items-center justify-content-end">
@@ -1166,7 +1166,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                       </div>
                     </div>
-                    {e?.Discount !== 0 && <div className="d-flex w-100">
+                    {e?.Discount !== 0 && <div className="d-flex  w-100">
                       <div className="srNoDetailprint11 brright_dpc brtleft_dpc  brbtm_dpc">
                         <p className=" p-1"></p>
                       </div>
@@ -1192,7 +1192,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className="labourAmountDetailPrint1 brright_dpc  lightGrey brbtm_dpc pt-1 ">
                         <div className="d-grid h-100">
-                          <div className="d-flex">
+                          <div className="d-flex align-items-center">
                             <div className="col-5">
                               <p className=" p-1 text-end"></p>
                             </div>
@@ -1262,7 +1262,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </p>
               </div>
               <div className={`${dpp ? "diamondDetailPrint1p" : "diamondDetailPrint1l"} brright_dpc  position-relative brbtm_dpc d-flex flex-column justify-content-center paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
-                <div className="d-flex">
+                <div className="d-flex align-items-center">
                   <div className=" col-2">
                     <p className=""></p>
                   </div>
@@ -1277,10 +1277,10 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       {NumberWithCommas(finalD?.mainTotal?.diamonds?.Wt, 3)}
                     </p>
                   </div>
-                  <div className=" col-2 text-end">
+                  <div className=" col-1 text-end">
                     <p className=""></p>
                   </div>
-                  <div className=" col-2 text-end">
+                  <div className=" col-3 text-end">
                     <p className="fw-bold">
                       {NumberWithCommas(finalD?.mainTotal?.diamonds?.Amount, 2)}
                     </p>
@@ -1288,7 +1288,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
               </div>
               <div className={`${dpp ? "metalTotalDetailPrint1p" : "metalTotalDetailPrint1l"} brright_dpc  position-relative brbtm_dpc d-flex flex-column justify-content-center`}>
-                <div className="d-flex">
+                <div className="d-flex align-items-center">
                   <div className="w1_dpc paddingRightDetailPrint1">
                     <p className=""></p>
                   </div>
@@ -1314,7 +1314,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
               </div>
               <div className={`${dpp ? "stoneDetailsPrint1p" : "stoneDetailsPrint1l"} brright_dpc  position-relative brbtm_dpc d-flex flex-column justify-content-center paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
-                <div className="d-flex">
+                <div className="d-flex align-items-center">
                   <div className="col-2 paddingRightDetailPrint1">
                     <p className=""></p>
                   </div>
