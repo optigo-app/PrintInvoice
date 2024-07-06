@@ -1,7 +1,10 @@
 .taxinvoice5 *{
     font-size: 14px;
-    line-height: 120%;
+    line-height: 100%;
     word-break: normal;
+}
+.max_width_container_ti{
+  max-width: 870px;
 }
 
 .Sr {
@@ -72,7 +75,9 @@
 .word_break,.word_break *{
   word-break: break-all;
 } 
-
+.declti *{
+  line-height: 130%;
+}
 @media print{
   .print_sec_sum4{
     display: none !important;

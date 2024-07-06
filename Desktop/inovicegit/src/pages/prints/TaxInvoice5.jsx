@@ -147,7 +147,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     <Loader />
   ) : msg === "" ? (
     <div
-      className={`container container-fluid max_width_container mt-1 ${style?.taxinvoice5} pad_60_allPrint`}
+      className={`container container-fluid  mt-1 ${style?.taxinvoice5} ${style?.max_width_container_ti} pad_60_allPrint`}
     >
       {/* buttons */}
       <div
@@ -413,7 +413,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       </div>
       {/* declaration */}
       <div
-        className="border-start border-end border-bottom p-2 no_break"
+        className={`border-start border-end border-bottom p-2 no_break ${style?.declti}`}
         dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}
       ></div>
       {/* footer */}
