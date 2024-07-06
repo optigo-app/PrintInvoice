@@ -396,7 +396,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
     <Loader />
   ) : msg === "" ? (
     <div
-      className={`container container-fluid max_width_container mt-1 ${style?.InvoicePrint_10_11} pad_60_allPrint`}
+      className={`container container-fluid mt-1 ${style?.InvoicePrint_10_11} ${style?.max_width_invp1011} pad_60_allPrint`}
     >
       {/* buttons */}
       <div
@@ -517,9 +517,9 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
               <div style={{ minWidth: "17%", width: "17%" }} className="fw-bold px-1">Detail</div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className="fw-bold px-1 text-end">Gross Wt. </div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className="fw-bold px-1 text-end">Net Wt. </div>
-              <div style={{ minWidth: "9%", width: "9%" }} className="fw-bold px-1 text-end">Pcs </div>
+              <div style={{ minWidth: "7%", width: "7%" }} className="fw-bold px-1 text-end">Pcs </div>
               <div style={{ minWidth: "15%", width: "15%" }} className="fw-bold px-1 text-end">Qty </div>
-              <div style={{ minWidth: "15%", width: "15%" }} className="fw-bold px-1 text-end">Rate </div>
+              <div style={{ minWidth: "17%", width: "17%" }} className="fw-bold px-1 text-end">Rate </div>
               <div style={{ minWidth: "15%", width: "15%" }} className="fw-bold px-1 text-end">Amount</div>
             </div>
           </div>
@@ -535,9 +535,9 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p>{e?.primaryMetal?.ShapeName} {e?.primaryMetal?.QualityName}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.grosswt, 3)} Gms</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.primaryWt, 3)} Gms</p></div>
-                <div style={{ minWidth: "9%", width: "9%" }} className=" px-1"><p></p></div>
+                <div style={{ minWidth: "7%", width: "7%" }} className=" px-1"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className=" px-1"><p></p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.primaryMetal?.Rate, 2)}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.primaryMetal?.Rate, 2)}</p></div>
                 {/* <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.primaryWt * e?.primaryMetal?.Rate, 2)}</p></div> */}
                 <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.latestAmount, 2)}</p></div>
               </div>
@@ -547,9 +547,9 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>{e?.ShapeName} {e?.QualityName}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Wt, 3)} Gms</p></div>
-                <div style={{ minWidth: "9%", width: "9%" }} className="px-1"><p></p></div>
+                <div style={{ minWidth: "7%", width: "7%" }} className="px-1"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1"><p></p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Rate, 2)}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Rate, 2)}</p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Amount, 2)}</p></div>
               </div>
             })}
@@ -558,9 +558,9 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>{e?.ShapeName} {e?.QualityName}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Wt, 3)} Gms</p></div>
-                <div style={{ minWidth: "9%", width: "9%" }} className="px-1"><p></p></div>
+                <div style={{ minWidth: "7%", width: "7%" }} className="px-1"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1"><p></p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Rate, 2)}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Rate, 2)}</p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Amount, 2)}</p></div>
               </div>
             })}
@@ -569,9 +569,9 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>{e?.MasterManagement_DiamondStoneTypeName}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "9%", width: "9%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Pcs, 0)}</p></div>
+                <div style={{ minWidth: "7%", width: "7%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Pcs, 0)}</p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Wt, 3)} Ctw</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas(e?.Amount / e?.Wt, 2)} / Wt</>) : (e?.Pcs !== 0 && <>{NumberWithCommas(e?.Amount / e?.Pcs, 2)} / Pcs</>))}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p>{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas(e?.Amount / e?.Wt, 2)} / Wt</>) : (e?.Pcs !== 0 && <>{NumberWithCommas(e?.Amount / e?.Pcs, 2)} / Pcs</>))}</p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Amount, 2)}</p></div>
               </div>
             })}
@@ -580,9 +580,9 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p>{e?.MasterManagement_DiamondStoneTypeName}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "9%", width: "9%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.Pcs, 0)}</p></div>
+                <div style={{ minWidth: "7%", width: "7%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.Pcs, 0)}</p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.Wt, 3)} Ctw</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas(e?.Amount / e?.Wt, 2)} / Wt</>) : (e?.Pcs !== 0 && <>{NumberWithCommas(e?.Amount / e?.Pcs, 2)} / Pcs</>))}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-end"><p>{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas(e?.Amount / e?.Wt, 2)} / Wt</>) : (e?.Pcs !== 0 && <>{NumberWithCommas(e?.Amount / e?.Pcs, 2)} / Pcs</>))}</p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.Amount, 2)}</p></div>
               </div>
             })}
@@ -591,9 +591,9 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>OTHER MATERIAL</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "9%", width: "9%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Pcs, 0)}</p></div>
+                <div style={{ minWidth: "7%", width: "7%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Pcs, 0)}</p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Wt, 3)} Gms</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas(e?.Amount / e?.Wt, 2)} / Wt</>) : (e?.Pcs !== 0 && <>{NumberWithCommas(e?.Amount / e?.Pcs, 2)} / Pcs</>))}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p>{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas(e?.Amount / e?.Wt, 2)} / Wt</>) : (e?.Pcs !== 0 && <>{NumberWithCommas(e?.Amount / e?.Pcs, 2)} / Pcs</>))}</p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Amount, 2)}</p></div>
               </div>
             })}
@@ -602,9 +602,9 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>{ele?.label}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "9%", width: "9%" }} className="px-1 text-end"><p></p></div>
+                <div style={{ minWidth: "7%", width: "7%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(ele?.MaKingCharge_Unit, 2)}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p>{NumberWithCommas(ele?.MaKingCharge_Unit, 2)}</p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(ele?.MakingAmount, 2)}</p></div>
               </div>
             })}
@@ -613,9 +613,9 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>{e?.ShapeName}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "9%", width: "9%" }} className="px-1 text-end"><p></p></div>
+                <div style={{ minWidth: "7%", width: "7%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p></p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Amount / headerData?.CurrencyExchRate, 2)}</p></div>
               </div>
             })}
@@ -623,9 +623,9 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
               <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p>HANDLING</p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
-              <div style={{ minWidth: "9%", width: "9%" }} className=" px-1 text-end"><p></p></div>
+              <div style={{ minWidth: "7%", width: "7%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
-              <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
+              <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(mainDatas?.mainTotal?.total_diamondHandling, 2)}</p></div>
             </div>}
             {mainData?.otherCharges?.map((e, i) => {
@@ -633,9 +633,9 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p>{e?.label}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "9%", width: "9%" }} className=" px-1 text-end"><p></p></div>
+                <div style={{ minWidth: "7%", width: "7%" }} className=" px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(+e?.value, 2)}</p></div>
               </div>
             })}
@@ -643,9 +643,9 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
               <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p>SETTING</p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
-              <div style={{ minWidth: "9%", width: "9%" }} className=" px-1 text-end"><p></p></div>
+              <div style={{ minWidth: "7%", width: "7%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
-              <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
+              <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(totalss?.SettingAmount, 2)}</p></div>
             </div>}
           </div>
@@ -734,7 +734,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
           </div>
         </div>
         <div
-          className=" border-start border-end border-bottom p-1 no_break"
+          className={`border-start border-end border-bottom p-1 no_break ${style?.delinvp11}`}
           dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}
         ></div>
         <p className="p-1 no_break">
