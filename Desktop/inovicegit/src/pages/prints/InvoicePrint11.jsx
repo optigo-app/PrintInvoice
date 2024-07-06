@@ -413,21 +413,21 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       </div>
       {/* header */}
       {headerData?.IsEinvoice !== 1 ?
-        <><div className={`${style2.headline} headerTitle`}>{headerData?.PrintHeadLabel}</div>
-          <div className={style2.companyDetails}>
-            <div className={`${style2.companyhead} p-2`}>
-              <div className={style2.lines} style={{ fontWeight: "bold" }}>
+        <><div className={`${style2.headline} ${style?.headerTitle}`}>{headerData?.PrintHeadLabel}</div>
+          <div className={`${style2.companyDetails} ${style?.head_line_invp1011} `}>
+            <div className={`${style2.companyhead} p-2 ${style?.head_line_invp1011}`}>
+              <div style={{ fontWeight: "bold" }}>
                 {headerData?.CompanyFullName}
               </div>
-              <div className={style2.lines}>{headerData?.CompanyAddress}</div>
-              <div className={style2.lines}>{headerData?.CompanyAddress2}</div>
-              <div className={style2.lines}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
-              {/* <div className={style2.lines}>Tell No: {headerData?.CompanyTellNo}</div> */}
-              <div className={style2.lines}>T:  {headerData?.CompanyTellNo} | TOLL FREE {headerData?.CompanyTollFreeNo} | TOLL FREE {headerData?.CompanyTollFreeNo}</div>
-              <div className={style2.lines}>
+              <div>{headerData?.CompanyAddress}</div>
+              <div>{headerData?.CompanyAddress2}</div>
+              <div>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
+              {/* <div>Tell No: {headerData?.CompanyTellNo}</div> */}
+              <div>T:  {headerData?.CompanyTellNo} | TOLL FREE {headerData?.CompanyTollFreeNo} | TOLL FREE {headerData?.CompanyTollFreeNo}</div>
+              <div>
                 {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
               </div>
-              <div className={style2.lines}>
+              <div>
                 {/* {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber} */}
                 {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
               </div>
@@ -437,7 +437,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
               {isImageWorking && (headerData?.PrintLogo !== "" &&
                 <img src={headerData?.PrintLogo} alt=""
                   className='w-100 h-auto ms-auto d-block object-fit-contain'
-                  style={{ maxWidth: '116px' }}
+                  style={{ maxWidth: '97px' }}
                   onError={handleImageErrors} height={120} width={150} />)}
               {/* <img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /> */}
             </div>
