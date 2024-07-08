@@ -668,92 +668,92 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             {/* table header*/}
             <div className="d-flex w-100 brtop_dpc border-black  recordDetailPrint1 lightGrey detailPrint1L_font_11">
               <div className="srNoDetailprint11 brright_dpc brtleft_dpc2  brbtm_dpc d-flex justify-content-center align-items-center flex-column">
-                <p className="fw-bold">Sr </p>
+                <div className="fw-bold">Sr </div>
               </div>
               <div className="designDetalPrint1 brright_dpc  p-1 brbtm_dpc d-flex justify-content-center align-items-center">
-                <p className="fw-bold p-1">Design</p>
+                <div className="fw-bold p-1">Design</div>
               </div>
               <div className={`${dpp ? "diamondDetailPrint1p" : "diamondDetailPrint1l"} brright_dpc `}>
                 <div className="d-grid h-100">
                   <div className="d-flex justify-content-center brbtm_dpc ">
-                    <p className="fw-bold p-1">Diamond</p>
+                    <div className="fw-bold p-1">Diamond</div>
                   </div>
                   <div className="d-flex brbtm_dpc ">
-                    <p className="fw-bold col-3 d-flex align-items-center justify-content-center brright_dpc ">
+                    <div className="fw-bold col-3 d-flex align-items-center justify-content-center brright_dpc ">
                       Code
-                    </p>
-                    <p className="fw-bold col-2 d-flex align-items-center justify-content-center brright_dpc ">
+                    </div>
+                    <div className="fw-bold col-2 d-flex align-items-center justify-content-center brright_dpc ">
                       Size
-                    </p>
-                    <p className="fw-bold col-1 d-flex align-items-center justify-content-center brright_dpc ">
+                    </div>
+                    <div className="fw-bold col-1 d-flex align-items-center justify-content-center brright_dpc ">
                       Pcs
-                    </p>
-                    <p className="fw-bold col-2 d-flex align-items-center justify-content-center brright_dpc ">
+                    </div>
+                    <div className="fw-bold col-2 d-flex align-items-center justify-content-center brright_dpc ">
                       Wt
-                    </p>
-                    <p className="fw-bold col-2 d-flex align-items-center justify-content-center brright_dpc ">
+                    </div>
+                    <div className="fw-bold col-2 d-flex align-items-center justify-content-center brright_dpc ">
                       Rate
-                    </p>
-                    <p className="fw-bold col-2 d-flex align-items-center justify-content-center text-center">
+                    </div>
+                    <div className="fw-bold col-2 d-flex align-items-center justify-content-center text-center">
                       Amount
-                    </p>
+                    </div>
                   </div>
                 </div>
               </div>
               <div className={`${dpp ? "metalGoldDetailPrint1p" : "metalGoldDetailPrint1l"} brright_dpc `}>
                 <div className="d-grid h-100">
                   <div className="d-flex justify-content-center align-items-center brbtm_dpc ">
-                    <p className="fw-bold p-1">Metal </p>
+                    <div className="fw-bold p-1">Metal </div>
                   </div>
                   <div className="d-flex brbtm_dpc ">
-                    <p className="fw-bold w1_dpc brright_dpc  d-flex align-items-center justify-content-center">
+                    <div className="fw-bold w1_dpc brright_dpc  d-flex align-items-center justify-content-center">
                       Quality
-                    </p>
-                    <p className="fw-bold w2_dpc brright_dpc  d-flex align-items-center justify-content-center">
+                    </div>
+                    <div className="fw-bold w2_dpc brright_dpc  d-flex align-items-center justify-content-center">
                       *Wt
-                    </p>
-                    <p className="fw-bold w3_dpc brright_dpc  d-flex align-items-center justify-content-center">
+                    </div>
+                    <div className="fw-bold w3_dpc brright_dpc  d-flex align-items-center justify-content-center">
                       N+L
-                    </p>
-                    <p className="fw-bold w4_dpc brright_dpc  d-flex align-items-center justify-content-center">
+                    </div>
+                    <div className="fw-bold w4_dpc brright_dpc  d-flex align-items-center justify-content-center">
                       Tunch
-                    </p>
-                    <p className="fw-bold w5_dpc brright_dpc  d-flex align-items-center justify-content-center">
+                    </div>
+                    <div className="fw-bold w5_dpc brright_dpc  d-flex align-items-center justify-content-center">
                       Fine
-                    </p>
-                    <p className="fw-bold w6_dpc brright_dpc  d-flex align-items-center justify-content-center">
+                    </div>
+                    <div className="fw-bold w6_dpc brright_dpc  d-flex align-items-center justify-content-center">
                       Rate
-                    </p>
-                    <p className="fw-bold w7_dpc d-flex align-items-center justify-content-center">
+                    </div>
+                    <div className="fw-bold w7_dpc d-flex align-items-center justify-content-center">
                       Amount
-                    </p>
+                    </div>
                   </div>
                 </div>
               </div>
               <div className={`${dpp ? "stoneDetailsPrint1p" : "stoneDetailsPrint1l"} brright_dpc `}>
                 <div className="d-grid h-100">
                   <div className="d-flex justify-content-center brbtm_dpc ">
-                    <p className="fw-bold p-1">Stone</p>
+                    <div className="fw-bold p-1">Stone</div>
                   </div>
                   <div className="d-flex brbtm_dpc ">
-                    <p className="fw-bold col-2 brright_dpc  d-flex align-items-center justify-content-center">
+                    <div className="fw-bold col-2 brright_dpc  d-flex align-items-center justify-content-center">
                       Code
-                    </p>
-                    <p className="fw-bold col-2 brright_dpc  d-flex align-items-center justify-content-center">
+                    </div>
+                    <div className="fw-bold col-2 brright_dpc  d-flex align-items-center justify-content-center">
                       Size
-                    </p>
-                    <p className="fw-bold col-2 brright_dpc  d-flex align-items-center justify-content-center">
+                    </div>
+                    <div className="fw-bold col-2 brright_dpc  d-flex align-items-center justify-content-center">
                       Pcs
-                    </p>
-                    <p className="fw-bold col-2 brright_dpc  d-flex align-items-center justify-content-center">
+                    </div>
+                    <div className="fw-bold col-2 brright_dpc  d-flex align-items-center justify-content-center">
                       Wt
-                    </p>
-                    <p className="fw-bold col-2 brright_dpc  d-flex align-items-center justify-content-center">
+                    </div>
+                    <div className="fw-bold col-2 brright_dpc  d-flex align-items-center justify-content-center">
                       Rate
-                    </p>
-                    <p className="fw-bold col-2 d-flex align-items-center justify-content-center text-center">
+                    </div>
+                    <div className="fw-bold col-2 d-flex align-items-center justify-content-center text-center">
                       Amount
-                    </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -765,21 +765,27 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <div className="labourAmountDetailPrint1 brright_dpc  brbtm_dpc">
                 <div className="d-grid h-100">
                   <div className="brbtm_dpc  d-flex align-items-center justify-content-center">
-                    <p className="text-center fw-bold">Labour</p>
+                    <div className="text-center fw-bold p-1">Labour</div>
                   </div>
-                  <div className="d-flex">
+                  <div className="d-flex h-100">
                     <div className="col-5 brright_dpc  d-flex align-items-center justify-content-center">
-                      <p className="fw-bold ">Rate</p>
+                      <div className="fw-bold ">Rate</div>
                     </div>
                     <div className="col-7 d-flex align-items-center justify-content-center">
-                      <p className="fw-bold text-end ">Amount</p>
+                      <div className="fw-bold text-end ">Amount</div>
                     </div>
                   </div>
                 </div>
+                {/* <div className="h-50 brbtm_dpc fw-bold text-center">
+                  Labour
+                </div>
+                <div className="d-flex align-items-center h-50">
+                  <div className="w-50 h-100 brright_dpc h-100">Rate</div><div className="w-50 h-100">Amount</div>
+                </div> */}
               </div>
               <div className="totalAmountDetailPrint1 brright_dpc  brbtm_dpc d-flex align-items-center justify-content-center flex-column brright_dpc2">
-                <p className="text-center fw-bold ">Total</p>
-                <p className="text-center fw-bold ">Amount</p>
+                <div className="text-center fw-bold ">Total</div>
+                <div className="text-center fw-bold ">Amount</div>
               </div>
             </div>
             {/* data */}
@@ -965,7 +971,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <p className="w4_dpc text-end paddingRightDetailPrint1"></p>
                             <p className="w5_dpc text-end paddingRightDetailPrint1 fw-bold">{NumberWithCommas(e?.PureNetWt, 3)}</p>
                             {/* <p className="w6_dpc text-end paddingRightDetailPrint1"></p> */}
-                            <p className="w7_dpc text-end fw-bold d-flex justify-content-end align-items-center  paddingRightDetailPrint1 " style={{width:'28.56%'}}> { NumberWithCommas(e?.metal[0].Amount, 2)} </p>
+                            <p className="w7_dpc text-end fw-bold d-flex justify-content-end align-items-center  paddingRightDetailPrint1 " style={{width:'29.56%'}}> { NumberWithCommas(e?.metal[0].Amount, 2)} </p>
                           </div>
                         </div>
                       </div>
@@ -1306,7 +1312,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   {/* <div className="w6_dpc text-end paddingRightDetailPrint1">
                     <p className=""></p>
                   </div> */}
-                  <div className="w7_dpc text-end paddingRightDetailPrint1" style={{width:'28.56%'}}>
+                  <div className="w7_dpc text-end paddingRightDetailPrint1" style={{width:'29.56%'}}>
                     <p className="fw-bold">
                       {NumberWithCommas(finalD?.mainTotal?.MetalAmount, 2)}
                     </p>
