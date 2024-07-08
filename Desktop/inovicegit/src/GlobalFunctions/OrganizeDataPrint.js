@@ -1,4 +1,4 @@
-import { CapitalizeWords, otherAmountDetail, taxGenrator } from "../GlobalFunctions";
+import { CapitalizeWords, discountCriteria, otherAmountDetail, taxGenrator } from "../GlobalFunctions";
 import { numberToWords } from "number-to-words";
 import { cloneDeep } from 'lodash';
 import { ToWords } from "to-words";
@@ -640,6 +640,7 @@ const allTaxes = allTax?.map((e) => {
     
     obj.other_details_arr_total_amount = other_details_arr_total_amount;
 
+    obj.discountOn = discountCriteria(e);
     
     finalArr.push(obj);
   })

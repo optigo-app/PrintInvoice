@@ -5,6 +5,7 @@ import {
   NumberWithCommas,
   apiCall,
   brokarageDetail,
+  discountCriteria,
   fixedValues,
   handleImageError,
   handlePrint,
@@ -313,6 +314,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       totals.labourAmount +=
         e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost;
       let obj = { ...e };
+
       obj.OtherAmountDetail = OtherAmountDetail;
       obj.totalOther = totalOther;
       obj.SettingAmount = 0;
@@ -443,6 +445,9 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       hr?.AddLess + totals?.totalAmount - hr?.Privilege_discount;
     setSummary(summary);
     setTotal(totals);
+
+
+
     return resultArr;
   };
 
@@ -523,7 +528,6 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   };
 
   calculatedData.push(other);
-
   return (
     <>
       {loader ? (
@@ -845,7 +849,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <p className="text-center">
                               Gross Wt:{" "}
                               <span className="fw-bold">
-                                {fixedValues(e?.grosswt, 3)}
+                                {fixedValues(e?.grosswt, 3)} Gm
                               </span>
                             </p>
                           </>}
@@ -880,7 +884,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     {NumberWithCommas(ele?.Rate, 2)}
                                   </p>
                                   <p
-                                    className={`col-2 text-end ${dp1lp && "fw-bold"} ${detailPrintK && "fw-bold "
+                                    className={`col-2 text-end fw-bold ${dp1lp && "fw-bold"} ${detailPrintK && "fw-bold "
                                       }`}
                                   >
                                     {NumberWithCommas(ele?.Amount, 2)}
@@ -909,8 +913,8 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className={`${dpp ? "metalGoldDetailPrint1p" : "metalGoldDetailPrint1l"} brright_dpc  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
                         <div className="h-100 paddingBottomTotalDetailPrint1">
-                          {e?.metal.length > 0 &&
-                            e?.metal.map((ele, ind) => {
+                          {e?.metal?.length > 0 &&
+                            e?.metal?.map((ele, ind) => {
                               return (
                                 <div className={`d-flex align-items-center`} key={ind}>
                                   {/* 3 1 1 1 1 2 3 */}
@@ -921,18 +925,19 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     {ind === 0 ? NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3) : NumberWithCommas(ele?.Wt, 3)}
                                   </p>
                                   <p className="w3_dpc  text-end paddingRightDetailPrint1">
-                                    {dp1lp ? NumberWithCommas(ele?.Wt, 3) : fixedValues(e?.NetWt + e?.LossWt, 3)}
+                                    {/* {dp1lp ? NumberWithCommas(ele?.Wt, 3) : fixedValues(e?.NetWt + e?.LossWt, 3)} */}
+                                    {( ele?.IsPrimaryMetal === 1 ? e?.totals?.metal?.IsPrimaryMetal?.toFixed(3) : ele?.Wt)}
                                   </p>
                                   <p className="w4_dpc  text-end paddingRightDetailPrint1">
-                                    { NumberWithCommas(e?.Tunch, 3)}
+                                    { ele?.IsPrimaryMetal === 0 ? '' : NumberWithCommas(e?.Tunch, 3)}
                                   </p>
                                   <p className="w5_dpc  text-end paddingRightDetailPrint1">
-                                    {NumberWithCommas(e?.PureNetWt, 3)}
+                                    { ele?.IsPrimaryMetal === 0 ? '' : NumberWithCommas(e?.PureNetWt, 3)}
                                   </p>
                                   <p className="w6_dpc  text-end paddingRightDetailPrint1">
                                     {NumberWithCommas(ele?.Rate, 2)}
                                   </p>
-                                  <p className={`w7_dpc text-end ${ind > 0 && "fw-bold"}`}>
+                                  <p className={`w7_dpc fw-bold text-end ${ind > 0 && "fw-bold"}`}>
                                     {(NumberWithCommas(ele?.Amount, 2))}
                                   </p>
                                 </div>
@@ -954,7 +959,8 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {/* fixedValues(e?.totals?.metal?.Wt + (e?.totals?.diamonds?.Wt / 5), 3)} */}
                             </p>
                             <p className="w3_dpc text-end fw-bold d-flex justify-content-end align-items-center paddingRightDetailPrint1">
-                              {e?.NetWt !== 0 && (dp1lp ? fixedValues(e?.primaryMetalWt, 3) : fixedValues(e?.NetWt + e?.LossWt, 3))}
+                              {/* {e?.NetWt !== 0 && (dp1lp ? fixedValues(e?.primaryMetalWt, 3) : fixedValues(e?.NetWt + e?.LossWt, 3))} */}
+                              {e?.totals?.metal?.IsPrimaryMetal?.toFixed(3)}
                             </p>
                             <p className="w4_dpc text-end paddingRightDetailPrint1"></p>
                             <p className="w5_dpc text-end paddingRightDetailPrint1 fw-bold">{NumberWithCommas(e?.PureNetWt, 3)}</p>
@@ -986,7 +992,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     {NumberWithCommas(ele?.Rate, 2)}
                                   </p>
                                   <p
-                                    className={`col-2 text-end ${dp1lp && "fw-bold"} ${detailPrintK && "fw-bold paddingRightDetailPrint1"
+                                    className={`col-2 text-end ${dp1lp && "fw-bold"} fw-bold ${detailPrintK && "fw-bold paddingRightDetailPrint1"
                                       }`}
                                   >
                                     {NumberWithCommas(ele?.Amount, 2)}
@@ -1172,18 +1178,18 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className={`${dpp ? "stoneDetailsPrint1p" : "stoneDetailsPrint1l"} brright_dpc position-relative brbtm_dpc pt-1 lightGrey`}>
                         <div className="d-grid">
                           {e?.Discount !== 0 && (
-                            <p className="p-1 text-end fw-bold paddingLeftDetailPrint1 paddingRightDetailPrint1">
+                            <p className="p-1 text-end fw-bold paddingLeftDetailPrint1 paddingRightDetailPrint1 pe-1">
                               Discount{" "}
                               {e?.Discount !== 0 &&
                                 NumberWithCommas(e?.Discount, 2)}
-                              {!detailPrintK && "%"} @Total Amount
+                              {!detailPrintK && "%"} {e?.discountOn === '' ? '@TotalAmount' : `On ${e?.discountOn}`}
                             </p>
                           )}
                         </div>
                       </div>
-                      <div className={`${dpp ? "otherAmountDetailPrint1p" : "otherAmountDetailPrint1l"} brright_dpc  brbtm_dpc lightGrey`}>
+                      {/* <div className={`${dpp ? "otherAmountDetailPrint1p" : "otherAmountDetailPrint1l"} brright_dpc  brbtm_dpc lightGrey`}>
                         <p className="d-flex align-items-center justify-content-end"></p>
-                      </div>
+                      </div> */}
                       <div className="labourAmountDetailPrint1 brright_dpc  lightGrey brbtm_dpc pt-1 ">
                         <div className="d-grid h-100">
                           <div className="d-flex align-items-center">
@@ -1191,7 +1197,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               <p className=" p-1 text-end"></p>
                             </div>
                             <div className="col-7 fw-bold">
-                              <p className=" text-end">
+                              <p className=" text-end pe-1">
                                 {e?.DiscountAmt !== 0 &&
                                   NumberWithCommas(e?.DiscountAmt, 2)}
                               </p>
@@ -1291,7 +1297,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div className="w3_dpc text-end paddingRightDetailPrint1">
                     <p className="fw-bold">
-                      {dp1lp ? NumberWithCommas(totalMetalWts, 3) : NumberWithCommas(finalD?.mainTotal?.metal?.Wt, 3)}
+                      {NumberWithCommas(finalD?.mainTotal?.metal?.IsPrimaryMetal, 3)}
                       {/* {NumberWithCommas(finalD?.mainTotal?.netwt, 3)} */}
                     </p>
                   </div>
@@ -1373,17 +1379,15 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="d-flex justify-content-between">
                       <p className="fw-bold px-1 pt-1">GOLD IN 24KT</p>
                       <p className="px-1 pt-1">
-                        {" "}
                         {/* {(detailtPrintR || detailtPrintL || detailtPrintp) ?  */}
-                        
-                        {(detailtPrintR) ? 
-                        NumberWithCommas(summary?.gold24Kt, 3) : fixedValues(finalD?.mainTotal?.total_purenetwt, 3)} gm
+                          {fixedValues(finalD?.mainTotal?.total_purenetwt, 3)} gm
+                        {/* {(detailtPrintR) ? 
+                        NumberWithCommas(summary?.gold24Kt, 3) : fixedValues(finalD?.mainTotal?.total_purenetwt, 3)} gm */}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
                       <p className="fw-bold px-1 pt-1">GROSS WT</p>
                       <p className="px-1 pt-1">
-                        {" "}
                         {fixedValues(summary?.grossWt, 3)} gm
                       </p>
                     </div>
