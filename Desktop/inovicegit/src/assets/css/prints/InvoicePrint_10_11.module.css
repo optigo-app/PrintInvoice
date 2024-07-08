@@ -73,6 +73,9 @@
     justify-content: flex-start;
     align-items: center;
 }
+.companyFUllnameInvp11{
+    font-size: 14px;
+}
 @media print{
 
     .print_sec_sum4{
@@ -107,15 +110,18 @@
         line-height: 10px !important;
     }
     .headerTitle{
-        height: 25px;
+        height: 30px;
         width: 100%;
         background-color: #939292;
         font-weight: bold;
         color: white;
-        font-size: 17px !important;
-        padding: 1rem;
+        font-size: 16px !important;
+        padding: 7px;
         display: flex;
         justify-content: flex-start;
         align-items: center;
+    }
+    .companyFUllnameInvp11{
+        font-size: 12px;
     }
 }

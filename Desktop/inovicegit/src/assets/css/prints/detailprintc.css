@@ -1,6 +1,6 @@
 .containerDetailPrint1 {
     /* max-width: 297mm !important; */
-    max-width: 1200px !important;
+    max-width: 1400px !important;
     padding: 0 5px !important;
 }
 
@@ -27,8 +27,8 @@
 .srNoDetailprint11 {
     /* width: 21px;
     min-width: 21px; */
-    width: 3%;
-    min-width: 3%;
+    width: 1.5%;
+    min-width: 1.5%;
 }
 
 .designDetalPrint1 {
@@ -99,8 +99,8 @@
 }
 
 .totalAmountDetailPrint1 {
-    width: 5%;
-    min-width: 5%;
+    width: 6.5%;
+    min-width: 6.5%;
 }
 
 .metalGoldDetailPrint1,
@@ -274,7 +274,7 @@
 
     .containerDetailPrint1 p,
     .containerDetailPrint1 p span {
-        font-size: 7px;
+        font-size: 9px;
     }
 
     .print_sec_sum4 {
@@ -283,8 +283,18 @@
 
     .containerDetailPrint1 .detailPrint1L_font_11 *,
     .containerDetailPrint1 .detailPrint1L_font_11 {
-        font-size: 7px;
+        font-size: 9px;
     }
 
 
+    .lhheader{
+        line-height: 10px !important;
+        font-size: 12px !important;
+    }
+    .containerDetailPrint1 {
+        /* max-width: 297mm !important; */
+        max-width: 1200px !important;
+        padding: 0 5px !important;
+    }
+    
 }

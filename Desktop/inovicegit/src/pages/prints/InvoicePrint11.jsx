@@ -413,10 +413,10 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       </div>
       {/* header */}
       {headerData?.IsEinvoice !== 1 ?
-        <><div className={`${style2.headline} ${style?.headerTitle}`}>{headerData?.PrintHeadLabel}</div>
+        <><div className={` ${style?.headerTitle}`}>{headerData?.PrintHeadLabel}</div>
           <div className={`${style2.companyDetails} ${style?.head_line_invp1011} `}>
             <div className={`${style2.companyhead} p-2 ${style?.head_line_invp1011}`}>
-              <div style={{ fontWeight: "bold" }}>
+              <div style={{ fontWeight: "bold" }} className={style?.companyFUllnameInvp11}>
                 {headerData?.CompanyFullName}
               </div>
               <div>{headerData?.CompanyAddress}</div>
@@ -532,121 +532,121 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
           <div className="col-9">
             {mainData?.resultArr?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p>{e?.primaryMetal?.ShapeName} {e?.primaryMetal?.QualityName}</p></div>
-                <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.grosswt, 3)} Gms</p></div>
-                <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.primaryWt, 3)} Gms</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p className="line_height_ivp11">{e?.primaryMetal?.ShapeName} {e?.primaryMetal?.QualityName}</p></div>
+                <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.grosswt, 3)} Gms</p></div>
+                <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.primaryWt, 3)} Gms</p></div>
                 <div style={{ minWidth: "7%", width: "7%" }} className=" px-1"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className=" px-1"><p></p></div>
-                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.primaryMetal?.Rate, 2)}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.primaryMetal?.Rate, 2)}</p></div>
                 {/* <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.primaryWt * e?.primaryMetal?.Rate, 2)}</p></div> */}
-                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.latestAmount, 2)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.latestAmount, 2)}</p></div>
               </div>
             })}
             {mainData?.findings?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>{e?.ShapeName} {e?.QualityName}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p className="line_height_ivp11">{e?.ShapeName} {e?.QualityName}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Wt, 3)} Gms</p></div>
+                <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Wt, 3)} Gms</p></div>
                 <div style={{ minWidth: "7%", width: "7%" }} className="px-1"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1"><p></p></div>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Rate, 2)}</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Amount, 2)}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Rate, 2)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Amount, 2)}</p></div>
               </div>
             })}
             {mainData?.secondaryMetal?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>{e?.ShapeName} {e?.QualityName}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p className="line_height_ivp11">{e?.ShapeName} {e?.QualityName}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Wt, 3)} Gms</p></div>
+                <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Wt, 3)} Gms</p></div>
                 <div style={{ minWidth: "7%", width: "7%" }} className="px-1"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1"><p></p></div>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Rate, 2)}</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Amount, 2)}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Rate, 2)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Amount, 2)}</p></div>
               </div>
             })}
             {mainData?.diamonds?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>{e?.MasterManagement_DiamondStoneTypeName}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p className="line_height_ivp11">{e?.MasterManagement_DiamondStoneTypeName}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "7%", width: "7%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Pcs, 0)}</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Wt, 3)} Ctw</p></div>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p>{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas(e?.Amount / e?.Wt, 2)} / Wt</>) : (e?.Pcs !== 0 && <>{NumberWithCommas(e?.Amount / e?.Pcs, 2)} / Pcs</>))}</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Amount, 2)}</p></div>
+                <div style={{ minWidth: "7%", width: "7%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Pcs, 0)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Wt, 3)} Ctw</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p className="line_height_ivp11">{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas(e?.Amount / e?.Wt, 2)} / Wt</>) : (e?.Pcs !== 0 && <>{NumberWithCommas(e?.Amount / e?.Pcs, 2)} / Pcs</>))}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Amount, 2)}</p></div>
               </div>
             })}
             {mainData?.colorStones?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p>{e?.MasterManagement_DiamondStoneTypeName}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p className="line_height_ivp11">{e?.MasterManagement_DiamondStoneTypeName}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "7%", width: "7%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.Pcs, 0)}</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.Wt, 3)} Ctw</p></div>
-                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-end"><p>{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas(e?.Amount / e?.Wt, 2)} / Wt</>) : (e?.Pcs !== 0 && <>{NumberWithCommas(e?.Amount / e?.Pcs, 2)} / Pcs</>))}</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.Amount, 2)}</p></div>
+                <div style={{ minWidth: "7%", width: "7%" }} className=" px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Pcs, 0)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Wt, 3)} Ctw</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-end"><p className="line_height_ivp11">{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas(e?.Amount / e?.Wt, 2)} / Wt</>) : (e?.Pcs !== 0 && <>{NumberWithCommas(e?.Amount / e?.Pcs, 2)} / Pcs</>))}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Amount, 2)}</p></div>
               </div>
             })}
             {mainData?.misc2?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>OTHER MATERIAL</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p className="line_height_ivp11">OTHER MATERIAL</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "7%", width: "7%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Pcs, 0)}</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Wt, 3)} Gms</p></div>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p>{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas(e?.Amount / e?.Wt, 2)} / Wt</>) : (e?.Pcs !== 0 && <>{NumberWithCommas(e?.Amount / e?.Pcs, 2)} / Pcs</>))}</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Amount, 2)}</p></div>
+                <div style={{ minWidth: "7%", width: "7%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Pcs, 0)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Wt, 3)} Gms</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p className="line_height_ivp11">{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas(e?.Amount / e?.Wt, 2)} / Wt</>) : (e?.Pcs !== 0 && <>{NumberWithCommas(e?.Amount / e?.Pcs, 2)} / Pcs</>))}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Amount, 2)}</p></div>
               </div>
             })}
             {mainData?.labours?.map((ele, ind) => {
               return <div className="d-flex" key={ind}>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>{ele?.label}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p className="line_height_ivp11">{ele?.label}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "7%", width: "7%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p>{NumberWithCommas(ele?.MaKingCharge_Unit, 2)}</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(ele?.MakingAmount, 2)}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(ele?.MaKingCharge_Unit, 2)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(ele?.MakingAmount, 2)}</p></div>
               </div>
             })}
             {mainData?.miscs?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>{e?.ShapeName}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p className="line_height_ivp11">{e?.ShapeName}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "7%", width: "7%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Amount / headerData?.CurrencyExchRate, 2)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Amount / headerData?.CurrencyExchRate, 2)}</p></div>
               </div>
             })}
             {mainDatas?.mainTotal?.total_diamondHandling !== 0 && <div className="d-flex">
-              <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p>HANDLING</p></div>
+              <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p className="line_height_ivp11">HANDLING</p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "7%", width: "7%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-end"><p></p></div>
-              <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(mainDatas?.mainTotal?.total_diamondHandling, 2)}</p></div>
+              <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(mainDatas?.mainTotal?.total_diamondHandling, 2)}</p></div>
             </div>}
             {mainData?.otherCharges?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p>{e?.label}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p className="line_height_ivp11">{e?.label}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "7%", width: "7%" }} className=" px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(+e?.value, 2)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(+e?.value, 2)}</p></div>
               </div>
             })}
             {totalss?.SettingAmount !== 0 && <div className="d-flex">
-              <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p>SETTING</p></div>
+              <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p className="line_height_ivp11">SETTING</p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "7%", width: "7%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-end"><p></p></div>
-              <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(totalss?.SettingAmount, 2)}</p></div>
+              <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(totalss?.SettingAmount, 2)}</p></div>
             </div>}
           </div>
         </div>

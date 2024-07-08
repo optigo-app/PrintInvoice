@@ -342,7 +342,11 @@ const SaleOrderMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       taxValue.reduce((acc, cobj) => {
         return acc + +cobj?.amount;
       }, 0) + totals?.TotalAmount;
-    totals.grandTotal = totals.afterTax + data?.BillPrint_Json[0]?.AddLess + data?.BillPrint_Json[0]?.FreightCharges;
+    // totals.grandTotal = totals.afterTax + data?.BillPrint_Json[0]?.AddLess + data?.BillPrint_Json[0]?.FreightCharges;
+    totals.grandTotal = totals.afterTax + data?.BillPrint_Json[0]?.AddLess;
+
+    let frightcharge = (data?.BillPrint_Json[0]?.FreightCharges / data?.BillPrint_Json[0]?.CurrencyExchRate);
+    totals.grandTotal = totals.grandTotal + frightcharge;
 
     setTotal(totals);
     setData(resultArr);

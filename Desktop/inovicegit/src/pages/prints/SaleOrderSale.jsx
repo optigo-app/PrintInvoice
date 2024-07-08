@@ -338,12 +338,17 @@ const SaleOrderSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
     let taxValue = taxGenrator2(data?.BillPrint_Json[0], totals?.TotalAmount);
     settax(taxValue);
+
     totals.afterTax =
       taxValue.reduce((acc, cobj) => {
         return acc + +cobj?.amount;
       }, 0) + totals?.TotalAmount;
-    totals.grandTotal = totals.afterTax + data?.BillPrint_Json[0]?.AddLess;
 
+    totals.grandTotal = totals.afterTax + data?.BillPrint_Json[0]?.AddLess ;
+    let frightcharge = (data?.BillPrint_Json[0]?.FreightCharges / data?.BillPrint_Json[0]?.CurrencyExchRate);
+    totals.grandTotal = totals.grandTotal + frightcharge;
+    console.log(frightcharge, totals);
+      
     setTotal(totals);
     setData(resultArr);
 
@@ -776,9 +781,7 @@ const SaleOrderSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             {NumberWithCommas(total?.afterTax, 2)}
           </p>
           <p>
-            <span
-              dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}
-            ></span>{" "}
+            <span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }} ></span>
             {NumberWithCommas(((headerData?.FreightCharges)/headerData?.CurrencyExchRate), 2)}
           </p>
           {headerData?.AddLess !== 0 && (
@@ -817,7 +820,7 @@ const SaleOrderSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <span
               dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}
             ></span>{" "}
-            {NumberWithCommas(total?.grandTotal, 2)}
+            {NumberWithCommas((total?.grandTotal), 2)}
           </p>
         </div>
       </div>

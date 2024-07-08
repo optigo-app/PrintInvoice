@@ -82,5 +82,24 @@
   .print_sec_sum4{
     display: none !important;
   }
+  .taxinvoice5 .font_16,.taxinvoice5 .font_16 *{
+    font-size: 15px !important;
+    line-height: 16px !important;
+  }
   
+  .taxinvoice5 .font_12,.taxinvoice5  .font_12 *{
+    font-size: 13px !important;
+    line-height: 14px !important;
+  }
+  .taxinvoice5 *{
+    font-size: 11px;
+    line-height: 12px !important;
+    word-break: normal;
+}
+.fstitle_ti5{
+  font-size: 19px !important;
+}
+.lhheaderti5{
+  line-height: 7px !important;
+}
 }

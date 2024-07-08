@@ -435,3 +435,8 @@ html .footer_secInvoicePrint8 .target_footer * {
 .tax_fs_12{
   font-size: 12px;
 }
+
+
+.line_height_ivp11{
+  line-height: 17px !important;
+}
