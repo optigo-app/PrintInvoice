@@ -962,6 +962,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                           <div>
                                             {
                                               e?.other_details?.map((e, i) => {
+                                                
                                                 return ( i < 3 && <div key={i} className="text-break left_pcl_new2">{e?.label}</div>)
                                               })
                                             }
@@ -984,15 +985,17 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         <div >{ e?.TotalDiamondHandling === 0 ? '' : formatAmount(e?.TotalDiamondHandling) }</div>
                                         <div>
                                         {
-                                          e?.other_details?.map((e, i) => {
-                                            return  ((i < 3) ? <div key={i}>{e?.value}</div> : '') 
+                                          e?.other_details?.map((el, i) => {
+                                            return  ((i < 3) ? <div key={i}>{el?.value}</div> : '') 
                                           })
                                         }
                                         {
                                           e?.misc?.map((el, i) => {
                                             // return  ((i < 3) ? <div key={i}>{e?.value}</div> : '') 
                                             return (
-                                              (  (el?.IsHSCOE === 1 || el?.IsHSCOE === 2 || el?.IsHSCOE === 3) ? <div>{( el?.Amount === 0 ? '' : ( el?.Amount / result?.header?.CurrencyExchRate))}</div> : '')
+                                              (  (el?.IsHSCOE === 1 || el?.IsHSCOE === 2 || el?.IsHSCOE === 3) ? 
+                                                <div key={i}>{( el?.Amount === 0 ? '' : formatAmount(( el?.Amount / result?.header?.CurrencyExchRate)))}</div>
+                                               : '')
                                             )
                                           })
                                         }
