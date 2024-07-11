@@ -121,7 +121,8 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     else {
       setPriceFlag(true);
     }
-  };  const handleImageErrors = () => {
+  };  
+  const handleImageErrors = () => {
     setIsImageWorking(false);
   };
 
@@ -729,54 +730,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
           </div>
 
-          {/* <div className="totaldp12 w-100 brtdp12 border-top-0 border_start_dp12 border_end_dp12 fsgdp12">
-            <div className="totcol1dp12"></div>
-            <div className="totcol2dp12 dp12cen2" style={{ width: "15%" }}>
-
-            </div>
-
-            <div className="totcol3dp12 dp12cen2"> </div>
-            <div className="totcol3dp12 dp12cen2">
-              {" "}
-              {priceFlag &&
-                formatAmount(
-                  result?.mainTotal?.total_Making_Amount /
-                    result?.header?.CurrencyExchRate +
-                    result?.mainTotal?.metal?.Amount /
-                      result?.header?.CurrencyExchRate
-                )}{" "}
-            </div>
-            <div className="totcol3dp12 dp12cen2"> </div>
-
-            <div className="totcol4dp12">
-              <div className="brdp12 end_dp12 pe-1" style={{ width: "60%" }}>
-                {(
-                  result?.mainTotal?.diamonds?.Wt +
-                  result?.mainTotal?.colorstone?.Wt +
-                  result?.mainTotal?.misc?.Wt +
-                  result?.mainTotal?.metal?.withOutPrimaryMetal
-                )?.toFixed(3)}
-              </div>
-              <div style={{ width: "40%" }}></div>
-            </div>
-            <div className="totcol5dp12 dp12cen2">
-              {" "}
-              {result?.mainTotal?.total_diamond_colorstone_misc_amount !== 0 &&
-                priceFlag &&
-                formatAmount(
-                  result?.mainTotal?.total_diamond_colorstone_misc_amount /
-                    result?.header?.CurrencyExchRate
-                )}{" "}
-            </div>
-            <div className="totcol7dp12 dp12cen2">
-              {" "}
-              {
-                formatAmount(
-                  result?.mainTotal?.total_amount /
-                    result?.header?.CurrencyExchRate
-                )}{" "}
-            </div>
-          </div> */}
+       
 
           <div className="d-flex fw-bold totaldp12 w-100 brtdp12 border-top-0 border_start_dp12 border_end_dp12 fsgdp12">
             <div style={{width:'15%'}} className="brdp12">&nbsp;</div>
