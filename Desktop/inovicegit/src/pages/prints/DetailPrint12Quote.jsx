@@ -21,10 +21,7 @@ const DetailPrint12Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
   const [imgFlag, setImgFlag] = useState(true);
   const [priceFlag, setPriceFlag] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
-  // const [isImageWorking, setIsImageWorking] = useState(true);
-  // const handleImageErrors = () => {
-  //   setIsImageWorking(false);
-  // };
+
 
   useEffect(() => {
     const sendData = async () => {
@@ -226,17 +223,9 @@ const DetailPrint12Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 <div className="       w-25 h-100 text-break text-center">
                   METAL / MAKING AMOUNT
                 </div>
-                {/* <div className='w-25 brdp12 h-100'></div>
-            <div className='w-25'></div>
-            <div className='w-25 brdp12 h-100'></div>
-            <div className='w-25'></div> */}
+              
               </div>
-              {/* <div className="col3dp12 dp12cen"></div>
-          <div className="col4dp12 dp12cen"></div> */}
-              {/* <div className="col5dp12 dp12cen">NET</div> */}
-              {/* <div className="col5dp12 dp12cen p-1 text-break">METAL / MAKING RATE</div> */}
-              {/* <div className="col6dp12 dp12cen">WASTAGE</div> */}
-              {/* <div className="col6dp12 dp12cen text-break p-1">METAL / MAKING AMOUNT</div> */}
+   
               <div className="col7dp12 d-flex flex-column ">
                 <div className="dp12cen brbdp12 h-50">
                   POLKI DIAMOND STONE DESCRIPTION{" "}
@@ -267,7 +256,6 @@ const DetailPrint12Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                   </div>
                 </div>
               </div>
-              {/* <div className="col8dp12 dp12cen d-flex flex-column"> <span>OTHER</span> <span>CHARGES</span> </div> */}
               <div className="col9dp12 dp12cen border-end-0">TOTAL AMOUNT</div>
             </div>
             <div className="tbodydp12">
@@ -278,7 +266,6 @@ const DetailPrint12Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                     <div className="rcol2dp12 d-flex flex-column  justify-content-center  align-items-start p-1 border_top_dp12">
                       <div className="d-flex justify-content-between align-items-start w-100">
                         <div>{e?.designno}</div>
-                        {/* <div>{e?.SrJobno}</div> */}
                       </div>
                       {imgFlag ? (
                         <div className="w-100 d-flex justify-content-center align-items-start">
@@ -317,7 +304,6 @@ const DetailPrint12Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                             <div className="w-50 end_dp12 pe-1"></div>
                           </div>
 
-                          {/* <div className='w-50 pe-1 end_dp12'> {e?.MetalPurity} {e?.MetalColor} </div> */}
                         </div>
                         <div className="d-flex brbdp12 w-100">
                           <div className="w-50 brdp12 ps-1 d-flex">
@@ -330,7 +316,6 @@ const DetailPrint12Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                             <div className="w-50 brdp12 ps-1"></div>
                             <div className="w-50 center_dp12 pe-1"></div>
                           </div>
-                          {/* <div className='w-50 pe-1 end_dp12'> {e?.grosswt?.toFixed(3)} </div> */}
                         </div>
                         <div className="d-flex brbdp12 w-100">
                           <div className="w-50 brdp12 ps-1 d-flex">
@@ -445,7 +430,6 @@ const DetailPrint12Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                                       className="w_subcoldp12 dp12cen2 brdp12 center_dp12"
                                       style={{ width: "10%" }}
                                     >
-                                      {/* {el?.dcm_pcs} */}
                                       {el?.Pcs}
                                     </div>
                                     <div className="w_subcoldp12 dp12cen2 brdp12 center_dp12">
@@ -484,7 +468,7 @@ const DetailPrint12Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                                   style={{ width: "10%" }}
                                 >
                   
-                                  {/* {el?.dcm_pcs} */} {el?.Pcs}{" "}
+                                   {el?.Pcs}{" "}
                                 </div>
                                 <div className="w_subcoldp12 dp12cen2 brdp12 center_dp12">
                                   {el?.Wt?.toFixed(3)}
@@ -566,7 +550,6 @@ const DetailPrint12Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                                   className="w_subcoldp12 dp12cen2 brdp12 center_dp12"
                                   style={{ width: "10%" }}
                                 >
-                                  {/* {el?.dcm_pcs} */}
                                   {el?.Pcs}
                                 </div>
                                 <div className="w_subcoldp12 dp12cen2 brdp12 center_dp12">
@@ -676,52 +659,8 @@ const DetailPrint12Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
               })}
             </div>
           </div>
-          {/* table all row total */}
-          {/* <div className="totaldp12 w-100 brtdp12 border-top-0 border_start_dp12 border_end_dp12 fsgdp12">
-            <div className="totcol1dp12"></div>
-            <div className="totcol2dp12 dp12cen2" style={{ width: "15%" }}>
-            </div>
-            <div className="totcol3dp12 dp12cen2"> </div>
-            <div className="totcol3dp12 dp12cen2 center_dp12">
-              {" "}
-              {priceFlag &&
-                formatAmount(
-                  result?.mainTotal?.total_Making_Amount /
-                    result?.header?.CurrencyExchRate +
-                    result?.mainTotal?.metal?.Amount /
-                      result?.header?.CurrencyExchRate
-                )}{" "}
-            </div>
-            <div className="totcol3dp12 dp12cen2"> </div>
-            <div className="totcol4dp12">
-              <div className="brdp12 end_dp12 pe-1 center_dp12" style={{ width: "60%" }}>
-                {(
-                  result?.mainTotal?.diamonds?.Wt +
-                  result?.mainTotal?.colorstone?.Wt +
-                  result?.mainTotal?.misc?.Wt +
-                  result?.mainTotal?.metal?.withOutPrimaryMetal
-                )?.toFixed(3)}
-              </div>
-              <div style={{ width: "40%" }}></div>
-            </div>
-            <div className="totcol5dp12 dp12cen2 center_dp12">
-              {" "}
-              {result?.mainTotal?.total_diamond_colorstone_misc_amount !== 0 &&
-                priceFlag &&
-                formatAmount(
-                  result?.mainTotal?.total_diamond_colorstone_misc_amount /
-                    result?.header?.CurrencyExchRate
-                )}{" "}
-            </div>
-            <div className="totcol7dp12 dp12cen2 center_dp12">
-              {" "}
-              {
-                formatAmount(
-                  result?.mainTotal?.total_amount /
-                    result?.header?.CurrencyExchRate
-                )}{" "}
-            </div>
-          </div> */}
+        
+        {/* table row all total */}
           <div className="d-flex fw-bold totaldp12 w-100 brtdp12 border-top-0 border_start_dp12 border_end_dp12 fsgdp12">
             <div style={{width:'15%'}} className="brdp12">&nbsp;</div>
             <div style={{width:'17.9%'}} className="brdp12">&nbsp;</div>

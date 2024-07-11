@@ -20,6 +20,8 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [diamondWise, setDiamondWise] = useState([]);
   const [imgFlag, setImgFlag] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
+  const evname = atob(evn)
+  
 
   useEffect(() => {
     const sendData = async () => {
@@ -663,7 +665,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="tbcol2dp10_pcl7 d-flex flex-column justify-content-between">
                             <div className="d-flex justify-content-between px-1 flex-wrap pad_top_pcl7">
                               <div className="fsgdp10_pcl7">{e?.designno}</div>
-                              <div className="fsgdp10_pcl7">{e?.SrJobno}</div>
+                              <div className="fsgdp10_pcl7">{ evname === 'quote' ? '' : e?.SrJobno}</div>
                             </div>
                      
                             {imgFlag ? (
