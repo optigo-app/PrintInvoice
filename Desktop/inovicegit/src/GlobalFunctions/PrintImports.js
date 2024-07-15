@@ -128,6 +128,7 @@ export const printConditions = [
 ];
 export const SaleReturn = [
   {printName: 'estimate print', etpType: 'print', componentName: 'EstimatePrint'},
+  {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
   {printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group'},
 ]
 export const QuotationPrints = [
@@ -160,6 +161,7 @@ export const MemoPrints = [
 
 export const MemoReturnPrints = [ 
   {printName: 'detail print 12', etpType: 'print', componentName: 'DetailPrint12'},
+  {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
   {printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group'},
 ]
 
