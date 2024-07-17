@@ -121,7 +121,7 @@ const InvoicePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div>Invoice Date : {result?.header?.EntryDate}</div>
                     </div>
                     <div className='d-flex justify-content-between align-items-center px-1'>
-                        <div>Financial Year : 2023-2024</div>
+                        <div>Financial Year : 2024-2025</div>
                     </div>
                     <div className='d-flex justify-content-between align-items-center px-1'>
                         <div>{result?.header?.Company_VAT_GST_No}</div>
