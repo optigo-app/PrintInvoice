@@ -734,7 +734,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 })
                                               }
                                           </div>
-                                          <div className=" fspcl text-break br_top_pcl text-break bg_pcl fw-bold end_pcl_new end_p_pcl_new" >{formatAmount(e?.totals?.diamonds?.Amount)}</div>
+                                          <div className=" fspcl text-break br_top_pcl text-break bg_pcl fw-bold end_pcl_new end_p_pcl_new" >{formatAmount((e?.totals?.diamonds?.Amount / result?.header?.CurrencyExchRate))}</div>
                                         </div>
                                       </div>
                                     </div>
@@ -797,7 +797,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <div className="be_1_pcl end_pcl_new end_p_pcl_new fspcl "  style={{ width: "18%" }}>{e?.grosswt?.toFixed(3)}</div>
                                             <div className="be_1_pcl end_pcl_new end_p_pcl_new fspcl "  style={{ width: "18%" }}> { (e?.totals?.metal?.IsPrimaryMetal)?.toFixed(3) }</div>
                                             <div className="be_1_pcl end_pcl_new end_p_pcl_new fspcl "  style={{ width: "20%" }}>&nbsp;</div>
-                                            <div className="end_pcl_new end_p_pcl_new fspcl " style={{ width: "22%" }}>{formatAmount(e?.totals?.metal?.IsPrimaryMetal_Amount)}</div>
+                                            <div className="end_pcl_new end_p_pcl_new fspcl " style={{ width: "22%" }}>{formatAmount((e?.totals?.metal?.IsPrimaryMetal_Amount / result?.header?.CurrencyExchRate))}</div>
                                           </div>
                                         </div>
                                         </>
@@ -925,7 +925,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             })
                                           }
                                           </div>
-                                          <div className="bg_pcl br_top_pcl end_pcl_new end_p_pcl_new fw-bold">{ e?.totals?.colorstone?.Amount === 0 ? <div>&nbsp;</div> : formatAmount(e?.totals?.colorstone?.Amount)}</div>
+                                          <div className="bg_pcl br_top_pcl end_pcl_new end_p_pcl_new fw-bold">{ e?.totals?.colorstone?.Amount === 0 ? <div>&nbsp;</div> : formatAmount((e?.totals?.colorstone?.Amount / result?.header?.CurrencyExchRate))}</div>
                                       </div>
                                     </div>
 
@@ -945,7 +945,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         <div className="end_pcl_new end_p_pcl_new">
                                          { (e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost) !== 0 && formatAmount( ((e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost)/(result?.header?.CurrencyExchRate)) )} 
                                         </div>
-                                        <div className="end_pcl_new end_p_pcl_new br_top_pcl bg_pcl">
+                                        <div className="end_pcl_new end_p_pcl_new br_top_pcl bg_pcl fw-bold">
                                          { 
                                           ( (e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost) === 0 ? <div>&nbsp;</div> : (e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost) !== 0 && formatAmount( ((e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost)/(result?.header?.CurrencyExchRate)) ))
                                          } 
@@ -982,7 +982,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         <div>
                                         <div className=" d-flex flex-column justify-content-end align-items-end  fspcl">
                                         <div >{ e?.totals?.misc?.onlyIsHSCODE0_Amount === 0 ? '' : formatAmount((e?.totals?.misc?.onlyIsHSCODE0_Amount / result?.header?.CurrencyExchRate)) }</div>
-                                        <div >{ e?.TotalDiamondHandling === 0 ? '' : formatAmount(e?.TotalDiamondHandling) }</div>
+                                        <div >{ e?.TotalDiamondHandling === 0 ? '' : formatAmount((e?.TotalDiamondHandling / result?.header?.CurrencyExchRate)) }</div>
                                         <div>
                                         {
                                           e?.other_details?.map((el, i) => {
@@ -1005,7 +1005,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         </div>
                                         <div className="bg_pcl end_pcl_new end_p_pcl_new br_top_pcl fw-bold">
                                           {
-                                            (e?.other_details?.length === 0 && e?.misc?.length === 0 && e?.TotalDiamondHandling === 0 && e?.totals?.misc?.onlyIsHSCODE0_Amount === 0) ? <div>&nbsp;</div> : formatAmount( e?.other_details_arr_total_amount + (e?.totals?.misc?.Amount / result?.header?.CurrencyExchRate) + e?.TotalDiamondHandling )
+                                            (e?.other_details?.length === 0 && e?.misc?.length === 0 && e?.TotalDiamondHandling === 0 && e?.totals?.misc?.onlyIsHSCODE0_Amount === 0) ? <div>&nbsp;</div> : formatAmount( (e?.other_details_arr_total_amount / result?.header?.CurrencyExchRate) + (e?.totals?.misc?.Amount / result?.header?.CurrencyExchRate) + (e?.TotalDiamondHandling / result?.header?.CurrencyExchRate) )
                                           }
                                         </div>
                                       </div>
@@ -1141,8 +1141,9 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       </div>
                       <div className="lopcltotrowtb">
                         <div className="lopclcol"></div>
+                        {console.log(result?.mainTotal)}
                         <div className="lopclcol  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", }} >
-                            { (result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount) !== 0 && formatAmount( ((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate)) )}
+                            { (result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.total_TotalCsSetcost) !== 0 && formatAmount( ((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.total_TotalCsSetcost)/(result?.header?.CurrencyExchRate)) )}
                         </div>
                       </div>
                       <div className="lopcltotrowtb">
