@@ -203,12 +203,30 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             }
           });
 
-          resultArr[findRecord].colorstone = colorstone;
-          resultArr[findRecord].totals.colorstone.Wt += e?.totals.colorstone.Wt;
-          resultArr[findRecord].totals.colorstone.Amount += e?.totals.colorstone.Amount;
-          resultArr[findRecord].totals.colorstone.Pcs += e?.totals.colorstone.Pcs;
-          resultArr[findRecord].totals.colorstone.FineWt += e?.totals.colorstone.FineWt;
-          resultArr[findRecord].totals.colorstone.SettingAmount += e?.totals.colorstone.SettingAmount;
+          // color stones
+          let misc = [];
+          let miscArr = [...resultArr[findRecord]?.misc, ...e?.misc].flat();
+
+          miscArr?.forEach((ele, ind) => {
+            let findDiamond = misc?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName &&
+              elem?.SizeName === ele?.SizeName && elem?.QualityName === ele?.QualityName &&
+              elem?.Colorname === ele?.Colorname && elem?.Rate === ele?.Rate);
+            if (findDiamond === -1) {
+              misc.push(ele);
+            } else {
+              misc[findDiamond].Amount += ele?.Amount;
+            }
+          });
+
+          resultArr[findRecord].misc = misc;
+          resultArr[findRecord].totals.misc.Wt += e?.totals.misc.Wt;
+          resultArr[findRecord].totals.misc.Amount += e?.totals.misc.Amount;
+          resultArr[findRecord].totals.misc.Pcs += e?.totals.misc.Pcs;
+          resultArr[findRecord].totals.misc.FineWt += e?.totals.misc.FineWt;
+          resultArr[findRecord].totals.misc.SettingAmount += e?.totals.misc.SettingAmount;
+          resultArr[findRecord].totals.misc.onlyIsHSCODE0_Amount += e?.totals.misc.onlyIsHSCODE0_Amount;
+          resultArr[findRecord].totals.misc.onlyIsHSCODE0_Wt += e?.totals.misc.onlyIsHSCODE0_Wt;
+          resultArr[findRecord].totals.misc.onlyIsHSCODE0_Pcs += e?.totals.misc.onlyIsHSCODE0_Pcs;
 
 
           // metals
@@ -230,6 +248,31 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     datas.afterReceive = datas?.finalAmount - data?.BillPrint_Json[0]?.BankReceived - data?.BillPrint_Json[0]?.CashReceived;
     setTotal({ ...total, FineWt: FineWts });
     setCategory(categories);
+
+    
+    let finalArr_ = [];
+    datas.resultArray?.forEach((e) => {
+      let arr = [];
+      let arr2 = [];
+      e?.misc?.forEach((a) => {
+        if(a?.MasterManagement_DiamondStoneTypeid === 3 && a?.IsHSCOE === 0){
+          arr.push(a);
+        }else{
+          arr2.push(a);
+        }
+      })
+      e.misc = arr;
+
+      let obj = {...e};
+      obj.miscOther = arr2;
+
+      finalArr_.push(obj);
+
+    })
+
+    datas.resultArray = finalArr_;
+
+
     setData(datas);
   };
 
@@ -443,7 +486,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div className="d-grid h-100">
               <div className="d-flex justify-content-center">
                 <p className="fw-bold border-bottom w-100 text-center pad_1">
-                  Stone
+                  Stone & Misc
                 </p>
               </div>
               <div className="d-flex">
@@ -543,6 +586,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       {/* table data */}
       {data?.resultArray.map((e, i) => {
+        console.log(e);
         return <div key={i} className="no_break">
           <div className="border-start border-end  border-black">
             <div className={`d-flex border-bottom ${style?.word_break}`}>
@@ -572,7 +616,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 {e?.diamonds?.map((ele, ind) => {
                   return <div className="d-flex" key={ind}>
                     <div className="w_20">
-                      <p className="pad_1">{ele?.ShapeName} {ele?.QualityName} {ele?.Colorname} </p>
+                      <p className="pad_1 text-break"> {ele?.MaterialTypeName} {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname} </p>
                     </div>
                     <div className="w_20">
                       <p className="pad_1">{ele?.SizeName}</p>
@@ -610,7 +654,23 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 {e?.colorstone.map((ele, ind) => {
                   return <div className="d-flex" key={ind}>
                     <div className="col-3">
-                      <p className="pad_1">{ele?.ShapeName} {ele?.QualityName} {ele?.Colorname} </p>
+                      <p className="pad_1 text-break"> {ele?.MaterialTypeName} {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname} </p>
+                    </div>
+                    <div className="col-3">
+                      <p className="pad_1 text-end">{NumberWithCommas(ele?.Wt, 3)}</p>
+                    </div>
+                    <div className="col-3">
+                      <p className="text-end pad_1">{NumberWithCommas(ele?.Rate, 2)}</p>
+                    </div>
+                    <div className="col-3">
+                      <p className="text-end pad_1 fw-bold">{NumberWithCommas(ele?.Amount, 2)}</p>
+                    </div>
+                  </div>
+                })}
+                {e?.misc.map((ele, ind) => {
+                  return <div className="d-flex" key={ind}>
+                    <div className="col-3">
+                      <p className="pad_1 text-break"> {ele?.ShapeName === '' ? '' : 'M: '}  {ele?.MaterialTypeName} {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname} </p>
                     </div>
                     <div className="col-3">
                       <p className="pad_1 text-end">{NumberWithCommas(ele?.Wt, 3)}</p>
@@ -628,13 +688,13 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <p className="text-center pad_1"></p>
                   </div>
                   <div className="col-3">
-                    <p className="text-end pad_1 fw-bold">{e?.totals?.colorstone?.Wt !== 0 && NumberWithCommas(e?.totals?.colorstone?.Wt, 3)}</p>
+                    <p className="text-end pad_1 fw-bold">{(e?.totals?.colorstone?.Wt + e?.totals?.misc?.onlyIsHSCODE0_Wt) !== 0 && NumberWithCommas((e?.totals?.colorstone?.Wt + e?.totals?.misc?.onlyIsHSCODE0_Wt), 3)}</p>
                   </div>
                   <div className="col-3">
                     <p className="text-end pad_1"></p>
                   </div>
                   <div className="col-3">
-                    <p className="text-end pad_1 fw-bold">{e?.totals?.colorstone?.Amount !== 0 && NumberWithCommas(e?.totals?.colorstone?.Amount, 2)}</p>
+                    <p className="text-end pad_1 fw-bold">{(e?.totals?.colorstone?.Amount + e?.totals?.misc?.onlyIsHSCODE0_Amount) !== 0 && NumberWithCommas(((e?.totals?.colorstone?.Amount + + e?.totals?.misc?.onlyIsHSCODE0_Amount)), 2)}</p>
                   </div>
                 </div>
               </div>
@@ -660,6 +720,12 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   return <div className="d-flex justify-content-between" key={ind}>
                     <p className="pad_1">{ele?.label}</p>
                     <p className=" text-end pad_1">{NumberWithCommas(+ele?.value, 2)}</p>
+                  </div>
+                })}
+                {e?.miscOther.map((ele, ind) => {
+                  return <div className="d-flex justify-content-between" key={ind}>
+                    <p className="pad_1">{ele?.ShapeName}</p>
+                    <p className=" text-end pad_1">{NumberWithCommas(+ele?.Amount, 2)}</p>
                   </div>
                 })}
                 <div className="border-top position-absolute left-0 bottom-0 w-100 lightGrey">
@@ -859,13 +925,13 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <p className="pad_1 fw-bold"></p>
               </div>
               <div className="col-3">
-                <p className="pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)}</p>
+                <p className="pad_1 fw-bold">{NumberWithCommas((data?.mainTotal?.colorstone?.Wt + data?.mainTotal?.misc?.onlyIsHSCODE0_Wt), 3)}</p>
               </div>
               <div className="col-3">
                 <p className="text-end pad_1 fw-bold"></p>
               </div>
               <div className="col-3">
-                <p className="text-end pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.colorstone?.Amount, 2)}</p>
+                <p className="text-end pad_1 fw-bold">{NumberWithCommas((data?.mainTotal?.colorstone?.Amount + data?.mainTotal?.misc?.onlyIsHSCODE0_Amount), 2)}</p>
               </div>
           </div>
           <div className={`${style?.labour} border-end lightGrey d-flex align-items-center`}>

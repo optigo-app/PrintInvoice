@@ -1005,7 +1005,11 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         </div>
                                         <div className="bg_pcl end_pcl_new end_p_pcl_new br_top_pcl fw-bold">
                                           {
-                                            (e?.other_details?.length === 0 && e?.misc?.length === 0 && e?.TotalDiamondHandling === 0 && e?.totals?.misc?.onlyIsHSCODE0_Amount === 0) ? <div>&nbsp;</div> : formatAmount( (e?.other_details_arr_total_amount / result?.header?.CurrencyExchRate) + (e?.totals?.misc?.Amount / result?.header?.CurrencyExchRate) + (e?.TotalDiamondHandling / result?.header?.CurrencyExchRate) )
+                                            (e?.other_details?.length === 0 && e?.misc?.length === 0 && 
+                                              e?.TotalDiamondHandling === 0 && e?.totals?.misc?.onlyIsHSCODE0_Amount === 0) ? <div>&nbsp;</div> : 
+                                              formatAmount(((e?.other_details_arr_total_amount + e?.totals?.misc?.amount + e?.TotalDiamondHandling) / result?.header?.CurrencyExchRate))
+                                              // formatAmount( (e?.other_details_arr_total_amount / result?.header?.CurrencyExchRate) + 
+                                              // (e?.totals?.misc?.Amount / result?.header?.CurrencyExchRate) + (e?.TotalDiamondHandling / result?.header?.CurrencyExchRate) )
                                           }
                                         </div>
                                       </div>
@@ -1141,7 +1145,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       </div>
                       <div className="lopcltotrowtb">
                         <div className="lopclcol"></div>
-                        {console.log(result?.mainTotal)}
                         <div className="lopclcol  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", }} >
                             { (result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.total_TotalCsSetcost) !== 0 && formatAmount( ((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.total_TotalCsSetcost)/(result?.header?.CurrencyExchRate)) )}
                         </div>
@@ -1149,7 +1152,8 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <div className="lopcltotrowtb">
                         <div className="lopclcol"></div>
                         <div className="lopclcol  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", }} >
-                          { (result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.totalMiscAmount) !== 0 && formatAmount( ((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.totalMiscAmount)/(result?.header?.CurrencyExchRate) ) )}
+                          { (result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.totalMiscAmount) !== 0 &&
+                           formatAmount( ((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.totalMiscAmount)/(result?.header?.CurrencyExchRate) ) )}
                         </div>
                       </div>
                       <div className="prpcltotrowtb  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px" }} >

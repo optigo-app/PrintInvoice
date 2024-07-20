@@ -65,9 +65,33 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       });
       obj.primaryWt = primaryWt
       obj.primaryAmount = primaryAmount;
+
+      let dia = [];
+
+      e?.diamonds?.forEach((all) => {
+        let a = cloneDeep(all);
+         let findrec = dia?.findIndex((al) => al?.ShapeName === a?.ShapeName &&
+          al?.QualityName === a?.QualityName && al?.Colorname === a?.Colorname &&
+           al?.SizeName === a?.SizeName && al?.Rate === a?.Rate)
+        if(findrec === -1){
+          dia.push(a);
+        }else{
+          dia[findrec].Wt += a?.Wt;
+          dia[findrec].Pcs += a?.Pcs;
+          dia[findrec].Amount += a?.Amount;
+        }
+      })
+
+      obj.diamonds = dia;
+      
       resultArray?.push(obj);
+      
     });
     datas.resultArray = resultArray;
+
+
+
+
     setData(datas);
     let diamondArr = [];
     data?.BillPrint_Json2?.forEach((ele, ind) => {
