@@ -3,6 +3,7 @@ import "../../assets/css/prints/detailprint4.css";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import {
   apiCall,
+  checkMsg,
   formatAmount,
   handleImageError,
   handlePrint,
@@ -42,7 +43,10 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.log(error);

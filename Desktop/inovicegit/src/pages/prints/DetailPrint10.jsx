@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import {
   apiCall,
+  checkMsg,
   formatAmount,
   handleImageError,
   handlePrint,
@@ -38,7 +39,10 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.log(error);

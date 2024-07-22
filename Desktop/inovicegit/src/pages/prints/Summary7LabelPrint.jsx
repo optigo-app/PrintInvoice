@@ -3,7 +3,7 @@ import Button from "../../GlobalFunctions/Button";
 import "../../assets/css/prints/summary7labelprint.css";
 import { ToWords } from 'to-words';
 import * as lsh from "lodash";
-import { apiCall, formatAmount, isObjectEmpty } from '../../GlobalFunctions';
+import { apiCall, checkMsg, formatAmount, isObjectEmpty } from '../../GlobalFunctions';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import Loader from '../../components/Loader';
 const Summary7LabelPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
@@ -28,7 +28,10 @@ const Summary7LabelPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
               }
             } else {
               setLoader(false);
-              setMsg(data?.Message);
+            //   setMsg(data?.Message);
+            const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
             }
           } catch (error) {
             console.error(error);

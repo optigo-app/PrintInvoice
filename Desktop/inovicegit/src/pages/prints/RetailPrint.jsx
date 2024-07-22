@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { CapitalizeWords, NumberWithCommas, apiCall, fixedValues, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
+import { CapitalizeWords, NumberWithCommas, apiCall, checkMsg, fixedValues, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
 import "../../assets/css/prints/retailPrint.css";
 import Loader from '../../components/Loader';
 import { ToWords } from 'to-words';
@@ -308,7 +308,10 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

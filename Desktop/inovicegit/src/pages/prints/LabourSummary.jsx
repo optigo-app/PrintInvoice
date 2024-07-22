@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/prints/laboursummary.css";
-import { FooterComponent, HeaderComponent, apiCall, handlePrint, isObjectEmpty } from "../../GlobalFunctions";
+import { FooterComponent, HeaderComponent, apiCall, checkMsg, handlePrint, isObjectEmpty } from "../../GlobalFunctions";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { cloneDeep } from "lodash";
 import { formatAmount } from './../../GlobalFunctions';
@@ -38,7 +38,10 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.error(error);

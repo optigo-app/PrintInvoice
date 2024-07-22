@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { apiCall, isObjectEmpty } from '../../GlobalFunctions';
+import { apiCall, checkMsg, isObjectEmpty } from '../../GlobalFunctions';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 import Loader from '../../components/Loader';
@@ -62,7 +62,10 @@ const ImageExportExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.error(error);

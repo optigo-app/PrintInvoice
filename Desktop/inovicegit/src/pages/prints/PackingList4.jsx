@@ -3,6 +3,7 @@ import style from "../../assets/css/prints/PackingList4.module.css";
 import Loader from "../../components/Loader";
 import {
     apiCall,
+    checkMsg,
     handleImageError,
     handlePrint,
     isObjectEmpty,
@@ -96,7 +97,10 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

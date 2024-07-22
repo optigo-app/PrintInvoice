@@ -8,6 +8,7 @@ import {
   HeaderComponent,
   NumberWithCommas,
   apiCall,
+  checkMsg,
   fixedValues,
   handleImageError,
   handlePrint,
@@ -141,7 +142,10 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.error(error);

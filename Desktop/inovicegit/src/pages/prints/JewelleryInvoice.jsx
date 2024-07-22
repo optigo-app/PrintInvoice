@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/jewellery_invoice.css";
 import html2pdf from 'html2pdf.js';
-import { apiCall, handleImageError, handlePrint, CapitalizeWords, taxGenrator, isObjectEmpty, NumberWithCommas } from '../../GlobalFunctions';
+import { apiCall, handleImageError, handlePrint, CapitalizeWords, taxGenrator, isObjectEmpty, NumberWithCommas, checkMsg } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import numberToWords from 'number-to-words';
 import { ToWords } from 'to-words';
@@ -162,7 +162,10 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.error(error);

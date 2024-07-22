@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { apiCall, handlePrint, isObjectEmpty, HeaderComponent, NumberWithCommas, taxGenrator, numberToWord, ReceiveInBank, fixedValues, GovernMentDocuments } from '../../GlobalFunctions';
+import { apiCall, handlePrint, isObjectEmpty, HeaderComponent, NumberWithCommas, taxGenrator, numberToWord, ReceiveInBank, fixedValues, GovernMentDocuments, checkMsg } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import style from '../../assets/css/prints/retailInovice2_3.module.css';
 import Footer2 from '../../components/footers/Footer2';
@@ -175,7 +175,10 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

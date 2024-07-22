@@ -1,5 +1,5 @@
 import React from 'react';
-import { NumberWithCommas, ReceiveInBank, apiCall, fixedValues, handleImageError, handlePrint, isObjectEmpty, otherAmountDetail, taxGenrator } from '../../GlobalFunctions';
+import { NumberWithCommas, ReceiveInBank, apiCall, checkMsg, fixedValues, handleImageError, handlePrint, isObjectEmpty, otherAmountDetail, taxGenrator } from '../../GlobalFunctions';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import Loader from '../../components/Loader';
@@ -311,7 +311,10 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

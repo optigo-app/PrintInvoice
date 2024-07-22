@@ -6,6 +6,7 @@ import {
   NumberWitdCommas,
   NumberWithCommas,
   apiCall,
+  checkMsg,
   handleGlobalImgError,
   isObjectEmpty,
 } from "../../GlobalFunctions";
@@ -310,7 +311,10 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.error(error);

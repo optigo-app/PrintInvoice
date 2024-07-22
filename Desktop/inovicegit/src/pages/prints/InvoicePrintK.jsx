@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { apiCall, formatAmount, isObjectEmpty } from '../../GlobalFunctions';
+import { apiCall, checkMsg, formatAmount, isObjectEmpty } from '../../GlobalFunctions';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import Loader from '../../components/Loader';
 import "../../assets/css/prints/invoiceprintk.css";
@@ -30,7 +30,10 @@ const InvoicePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+        //   setMsg(data?.Message);
+        const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.error(error);

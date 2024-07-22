@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import style from "../../assets/css/prints/taxInvoice.module.css";
-import { NumberWithCommas, apiCall, formatAmount, handleImageError, handlePrint, isObjectEmpty } from "../../GlobalFunctions";
+import { NumberWithCommas, apiCall, checkMsg, formatAmount, handleImageError, handlePrint, isObjectEmpty } from "../../GlobalFunctions";
 import Header from "../../components/Header";
 import { useEffect } from "react";
 import { HeaderComponent } from "./../../GlobalFunctions";
@@ -165,7 +165,10 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.error(error);

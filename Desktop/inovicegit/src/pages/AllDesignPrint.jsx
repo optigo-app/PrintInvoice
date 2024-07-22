@@ -24,8 +24,8 @@ const AllDesignPrint = () => {
     etp = "cHJpbnQ=";
   }
 
-  let printName = atob(printname).toLowerCase();
-  let etpType = atob(etp).toLowerCase();
+  let printName = atob(printname)?.toLowerCase();
+  let etpType = atob(etp)?.toLowerCase();
   let evnname = atob(eventName).toLowerCase();
 
   const importComponent = async (name) => {

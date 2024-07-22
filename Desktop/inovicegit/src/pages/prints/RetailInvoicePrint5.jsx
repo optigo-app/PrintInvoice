@@ -6,6 +6,7 @@ import style from "../../assets/css/prints/jewelleryRetailinvoicePrint3.module.c
 import {
     apiCall,
     CapitalizeWords,
+    checkMsg,
     fixedValues,
     GovernMentDocuments,
     handleImageError,
@@ -330,7 +331,10 @@ const RetailInvoiceprint5 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

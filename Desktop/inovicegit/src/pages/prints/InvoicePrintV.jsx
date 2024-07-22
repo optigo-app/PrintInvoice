@@ -4,6 +4,7 @@ import {
   HeaderComponent,
   NumberWithCommas,
   apiCall,
+  checkMsg,
   formatAmount,
   handleGlobalImgError,
   isObjectEmpty,
@@ -645,7 +646,10 @@ useEffect(() => {
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.error(error);

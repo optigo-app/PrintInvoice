@@ -15,6 +15,7 @@ import {
     FooterComponent,
     fixedValues,
     ReceiveInBank,
+    checkMsg,
 } from "../../GlobalFunctions";
 
 const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
@@ -115,7 +116,10 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

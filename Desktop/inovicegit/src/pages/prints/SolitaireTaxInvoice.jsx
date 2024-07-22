@@ -14,6 +14,7 @@ import {
     taxGenrator,
     FooterComponent,
     fixedValues,
+    checkMsg,
 } from "../../GlobalFunctions";
 import { NavLink } from 'react-router-dom';
 // import { blue } from '@mui/material/colors';
@@ -133,7 +134,10 @@ const SolitaireTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { NumberWithCommas, apiCall, fixedValues, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
+import { NumberWithCommas, apiCall, checkMsg, fixedValues, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import style from "../../assets/css/prints/invoiceprint4clone.module.css";
 import { ToWords } from 'to-words';
@@ -138,7 +138,10 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                         setLoader(false);
                     } else {
                         setLoader(false);
-                        setMsg("Data Not Found");
+                        // setMsg("Data Not Found");
+                        const err = checkMsg(data?.Message);
+                        console.log(data?.Message);
+                        setMsg(err);
                     }
                 } else {
                     setLoader(false);

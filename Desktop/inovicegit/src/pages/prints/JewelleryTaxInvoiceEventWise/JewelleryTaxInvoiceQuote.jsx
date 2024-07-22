@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import {
   NumberWithCommas,
   apiCall,
+  checkMsg,
   formatAmount,
   handleGlobalImgError,
   handleImageError,
@@ -247,7 +248,10 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.log(error);

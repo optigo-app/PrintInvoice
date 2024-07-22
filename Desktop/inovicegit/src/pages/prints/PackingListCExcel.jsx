@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { NumberWithCommas, apiCall, checkImageExists, checkImageExistss, handleGlobalImgError, isObjectEmpty } from '../../GlobalFunctions';
+import { NumberWithCommas, apiCall, checkImageExists, checkImageExistss, checkMsg, handleGlobalImgError, isObjectEmpty } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import style from "../../assets/css/prints/PackingListCExcel.module.css"
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
@@ -194,7 +194,10 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.log(error);

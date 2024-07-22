@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import "../../assets/css/prints/detailprint6.css";
 import { ToWords } from "to-words";
-import { apiCall, formatAmount, handleImageError, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
+import { apiCall, checkMsg, formatAmount, handleImageError, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
 import { cloneDeep } from 'lodash';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import Loader from '../../components/Loader';
@@ -40,7 +40,10 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.log(error);

@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import Loader from '../../components/Loader';
 import { useEffect } from 'react';
-import {NumberWithCommas, apiCall, isObjectEmpty } from '../../GlobalFunctions';
+import {NumberWithCommas, apiCall, checkMsg, isObjectEmpty } from '../../GlobalFunctions';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import style from "../../assets/css/prints/exporttojsondownloadA.module.css";
 
@@ -80,7 +80,10 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

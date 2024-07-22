@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import style from "../../assets/css/prints/export.module.css";
-import { NumberWithCommas, apiCall, fixedValues, handlePrint, isObjectEmpty } from "../../GlobalFunctions";
+import { NumberWithCommas, apiCall, checkMsg, fixedValues, handlePrint, isObjectEmpty } from "../../GlobalFunctions";
 import { useState } from "react";
 import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
@@ -205,7 +205,10 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/miscPrint1.css";
-import { apiCall, fixedValues, handlePrint, isObjectEmpty, NumberWithCommas } from '../../GlobalFunctions';
+import { apiCall, checkMsg, fixedValues, handlePrint, isObjectEmpty, NumberWithCommas } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { usePDF } from 'react-to-pdf';
 const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
@@ -150,7 +150,10 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { apiCall, formatAmount, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
+import { apiCall, checkMsg, formatAmount, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import * as lsh from "lodash";
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
@@ -32,7 +32,10 @@ const SummaryPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             }
           } else {
             setLoader(false);
-            setMsg(data?.Message);
+            // setMsg(data?.Message);
+            const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
           }
         } catch (error) {
           console.error(error);

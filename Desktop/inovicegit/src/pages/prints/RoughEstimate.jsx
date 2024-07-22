@@ -4,7 +4,7 @@ import { useState } from "react";
 import "../../assets/css/prints/roughestimate.css";
 import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
-import { apiCall, formatAmount, isObjectEmpty, NumberWithCommas, taxGenrator } from "./../../GlobalFunctions";
+import { apiCall, checkMsg, formatAmount, isObjectEmpty, NumberWithCommas, taxGenrator } from "./../../GlobalFunctions";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import cloneDeep from "lodash/cloneDeep";
 
@@ -385,7 +385,10 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.log(error);

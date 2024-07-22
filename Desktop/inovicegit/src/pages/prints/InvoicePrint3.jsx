@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/prints/invoiceprint3.css";
-import { apiCall, formatAmount, isObjectEmpty, numberToWord, NumberWithCommas } from "../../GlobalFunctions";
+import { apiCall, checkMsg, formatAmount, isObjectEmpty, numberToWord, NumberWithCommas } from "../../GlobalFunctions";
 import { taxGenrator } from "./../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import Button from "../../GlobalFunctions/Button";
@@ -529,7 +529,10 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.error(error);

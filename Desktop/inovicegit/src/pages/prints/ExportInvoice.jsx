@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { NumberWithCommas, apiCall, fixedValues, handlePrint, isObjectEmpty, taxGenrator, FooterComponent, } from '../../GlobalFunctions';
+import { NumberWithCommas, apiCall, fixedValues, handlePrint, isObjectEmpty, taxGenrator, FooterComponent, checkMsg, } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import style from "../../assets/css/prints/ExportInvoice.module.css";
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
@@ -121,7 +121,10 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

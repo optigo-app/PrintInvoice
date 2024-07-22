@@ -6,6 +6,7 @@ import {
   isObjectEmpty,
   formatAmount,
   taxGenrator,
+  checkMsg,
 } from "../../GlobalFunctions";
 import convertor from "number-to-words";
 import Button from "./../../GlobalFunctions/Button";
@@ -422,7 +423,10 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.error(error);

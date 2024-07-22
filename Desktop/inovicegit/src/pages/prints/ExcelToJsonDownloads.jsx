@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-import { apiCall, fixedValues, handleImageError, isObjectEmpty, NumberWithCommas } from '../../GlobalFunctions';
+import { apiCall, checkMsg, fixedValues, handleImageError, isObjectEmpty, NumberWithCommas } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 
 const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
@@ -344,7 +344,10 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn, ApiVer }
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

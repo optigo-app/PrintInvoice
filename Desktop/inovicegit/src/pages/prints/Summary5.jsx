@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import {
   apiCall,
+  checkMsg,
   formatAmount,
   handleImageError,
   handlePrint,
@@ -48,7 +49,10 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.log(error);

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Loader from "../../components/Loader";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { cloneDeep } from "lodash";
-import { apiCall, handlePrint, isObjectEmpty } from "../../GlobalFunctions";
+import { apiCall, checkMsg, handlePrint, isObjectEmpty } from "../../GlobalFunctions";
 import "../../assets/css/prints/jewelleryinvoice2.css";
 import { formatAmount } from "./../../GlobalFunctions";
 import { ToWords } from "to-words";
@@ -34,7 +34,10 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.error(error);

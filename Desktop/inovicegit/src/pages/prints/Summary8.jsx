@@ -5,7 +5,8 @@ import {
     isObjectEmpty,
     NumberWithCommas,
     handlePrint,
-    ReceiveInBank
+    ReceiveInBank,
+    checkMsg
 } from "../../GlobalFunctions";
 
 import style from '../../assets/css/prints/summary8.module.css';
@@ -112,7 +113,10 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

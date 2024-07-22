@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect } from 'react';
-import { FooterComponent, HeaderComponent, NumberWithCommas, apiCall, fixedValues, handlePrint, isObjectEmpty, numberToWord, taxGenrator } from '../../GlobalFunctions';
+import { FooterComponent, HeaderComponent, NumberWithCommas, apiCall, checkMsg, fixedValues, handlePrint, isObjectEmpty, numberToWord, taxGenrator } from '../../GlobalFunctions';
 import { useState } from 'react';
 import Loader from '../../components/Loader';
 import style from "../../assets/css/prints/summary11.module.css"
@@ -116,7 +116,10 @@ const Summary11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

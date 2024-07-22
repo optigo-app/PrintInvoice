@@ -6,7 +6,8 @@ import {
     handleImageError,
     isObjectEmpty,
     NumberWithCommas,
-    handlePrint
+    handlePrint,
+    checkMsg
 } from "../../GlobalFunctions";
 import style from '../../assets/css/prints/summary9.module.css';
 import Loader from "../../components/Loader";
@@ -225,7 +226,10 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

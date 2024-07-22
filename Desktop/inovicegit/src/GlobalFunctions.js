@@ -653,3 +653,19 @@ export const discountCriteria = (data) => {
   let str_discountOn = discountOn?.join(',');
   return str_discountOn;
 }
+
+
+export const checkMsg = (msg) => {
+  let wholemsg = msg?.toLowerCase();
+  let newmsg = '';
+  if(msg === ''){
+    return msg;
+  }else{
+    if(wholemsg === 'bill data not found' || wholemsg === 'invalid token'){
+      return msg;
+    }else{
+      newmsg = 'Some error occurred. Please try again or later.'
+      return newmsg;
+    }
+  }
+}

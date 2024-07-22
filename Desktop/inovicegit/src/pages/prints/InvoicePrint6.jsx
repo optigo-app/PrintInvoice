@@ -10,7 +10,8 @@ import {
     numberToWord,
     NumberWithCommas,
     taxGenrator,
-    handlePrint
+    handlePrint,
+    checkMsg
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import { ToWords } from "to-words";
@@ -381,7 +382,10 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

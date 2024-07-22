@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import {
   NumberWithCommas,
   apiCall,
+  checkMsg,
   formatAmount,
   handleImageError,
   handlePrint,
@@ -241,7 +242,10 @@ const JewelleryTaxInvoiceMemo = ({ urls, token, invoiceNo, printName, evn, ApiVe
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.log(error);

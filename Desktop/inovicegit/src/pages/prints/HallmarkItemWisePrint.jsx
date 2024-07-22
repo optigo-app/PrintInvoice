@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../assets/css/prints/itemwiseprint.css";
 import "../../assets/css/prints/hallmarkItemWisePrint.css"
-import { apiCall, handlePrint, taxGenrator, isObjectEmpty, handleImageError, NumberWithCommas, fixedValues, numberToWord } from "../../GlobalFunctions";
+import { apiCall, handlePrint, taxGenrator, isObjectEmpty, handleImageError, NumberWithCommas, fixedValues, numberToWord, checkMsg } from "../../GlobalFunctions";
 import { usePDF } from "react-to-pdf";
 import Loader from "../../components/Loader";
 import style from "../../assets/css/prints/hallmarkItemwisePrint1.module.css"
@@ -184,7 +184,10 @@ const HallmarkItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer 
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/summary4.css";
-import { apiCall, handleImageError, handlePrint, isObjectEmpty, taxGenrator, fixedValues, NumberWithCommas } from '../../GlobalFunctions';
+import { apiCall, handleImageError, handlePrint, isObjectEmpty, taxGenrator, fixedValues, NumberWithCommas, checkMsg } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 
 const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
@@ -332,7 +332,10 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

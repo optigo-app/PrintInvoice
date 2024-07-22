@@ -159,12 +159,14 @@ export const MemoPrints = [
   {printName: 'Detail Print 1', etpType: 'print', componentName: 'DetailPrint1'},
   {printName: 'detail print 11', etpType: 'print', componentName: 'DetailPrint11'},
   {printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group'},
+  {printName: 'summary 12', etpType: 'print', componentName: 'Summary12'},
 ]
 
 export const MemoReturnPrints = [ 
   {printName: 'detail print 12', etpType: 'print', componentName: 'DetailPrint12'},
   {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
   {printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group'},
+  {printName: 'summary 12', etpType: 'print', componentName: 'Summary12'},
 ]
 
 export const ShipmentArray = [

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/miscPrint1.css";
-import { apiCall, fixedValues, handleImageError, handlePrint, isObjectEmpty, NumberWithCommas, otherAmountDetail, taxGenrator } from '../../GlobalFunctions';
+import { apiCall, checkMsg, fixedValues, handleImageError, handlePrint, isObjectEmpty, NumberWithCommas, otherAmountDetail, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import style from "../../assets/css/prints/packingList1.module.css";
 
@@ -421,7 +421,10 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

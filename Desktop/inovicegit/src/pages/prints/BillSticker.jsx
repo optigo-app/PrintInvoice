@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
-import { apiCall, isObjectEmpty } from '../../GlobalFunctions';
+import { apiCall, checkMsg, isObjectEmpty } from '../../GlobalFunctions';
 import { useEffect } from 'react';
 import Loader from '../../components/Loader';
 import BarcodeGenerator from '../../components/BarcodeGenerator';
@@ -29,7 +29,10 @@ const BillSticker = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               }
             } else {
               setLoader(false);
-              setMsg(data?.Message);
+              // setMsg(data?.Message);
+              const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
             }
           } catch (error) {
             console.log(error);

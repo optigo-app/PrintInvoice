@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../assets/css/prints/itemwiseprint.css";
-import { apiCall, handlePrint, taxGenrator, isObjectEmpty, NumberWithCommas, fixedValues } from "../../GlobalFunctions";
+import { apiCall, handlePrint, taxGenrator, isObjectEmpty, NumberWithCommas, fixedValues, checkMsg } from "../../GlobalFunctions";
 import { usePDF } from "react-to-pdf";
 import { ToWords } from 'to-words';
 import Loader from "../../components/Loader";
@@ -284,7 +284,10 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.error(error);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import style from "../../assets/css/prints/exportPrint1.module.css";
-import { NumberWithCommas, apiCall, fixedValues, handlePrint, isObjectEmpty, numberToWord } from '../../GlobalFunctions';
+import { NumberWithCommas, apiCall, checkMsg, fixedValues, handlePrint, isObjectEmpty, numberToWord } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { ToWords } from "to-words";
 
@@ -115,7 +115,10 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

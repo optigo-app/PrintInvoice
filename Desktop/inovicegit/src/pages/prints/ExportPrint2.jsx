@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import style from "../../assets/css/prints/exportPrint2.module.css";
-import { NumberWithCommas, apiCall, fixedValues, handlePrint, isObjectEmpty, numberToWord, FooterComponent, } from '../../GlobalFunctions';
+import { NumberWithCommas, apiCall, fixedValues, handlePrint, isObjectEmpty, numberToWord, FooterComponent, checkMsg, } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import lodash from 'lodash';
@@ -158,7 +158,10 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         setLoader(false);
                     } else {
                         setLoader(false);
-                        setMsg("Data Not Found");
+                        // setMsg("Data Not Found");
+                        const err = checkMsg(data?.Message);
+                        console.log(data?.Message);
+                        setMsg(err);
                     }
                 } else {
                     setLoader(false);

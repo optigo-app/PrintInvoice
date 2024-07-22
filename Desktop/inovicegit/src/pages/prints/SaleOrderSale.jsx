@@ -5,6 +5,7 @@ import {
   HeaderComponent,
   NumberWithCommas,
   apiCall,
+  checkMsg,
   fixedValues,
   handleImageError,
   handlePrint,
@@ -483,7 +484,10 @@ const SaleOrderSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.error(error);

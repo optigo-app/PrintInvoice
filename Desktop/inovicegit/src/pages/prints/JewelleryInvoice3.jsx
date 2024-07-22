@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from "../../GlobalFunctions/Button";
 import "../../assets/css/prints/jewelleryinvoice3.css";
-import { apiCall, formatAmount, isObjectEmpty } from '../../GlobalFunctions';
+import { apiCall, checkMsg, formatAmount, isObjectEmpty } from '../../GlobalFunctions';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
@@ -30,7 +30,10 @@ const JewelleryInvoice3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+        //   setMsg(data?.Message);
+        const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.log(error);

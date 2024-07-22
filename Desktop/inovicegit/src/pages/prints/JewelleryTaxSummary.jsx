@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Loader from '../../components/Loader';
 import Button from '../../GlobalFunctions/Button';
 import { useEffect } from 'react';
-import { apiCall, formatAmount, isObjectEmpty } from '../../GlobalFunctions';
+import { apiCall, checkMsg, formatAmount, isObjectEmpty } from '../../GlobalFunctions';
 import { cloneDeep } from 'lodash';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import { deepClone } from '@mui/x-data-grid/utils/utils';
@@ -34,7 +34,10 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

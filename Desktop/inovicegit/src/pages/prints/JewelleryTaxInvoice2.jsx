@@ -2,7 +2,7 @@ import React from 'react'
 import "../../assets/css/prints/jewellerytaxinvoice2.css"
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { apiCall, formatAmount, handleImageError, isObjectEmpty } from '../../GlobalFunctions';
+import { apiCall, checkMsg, formatAmount, handleImageError, isObjectEmpty } from '../../GlobalFunctions';
 import { cloneDeep } from 'lodash';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import Loader from '../../components/Loader';
@@ -29,7 +29,10 @@ const JewelleryTaxInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                       }
                   } else {
                       setLoader(false);
-                      setMsg(data?.Message);
+                    //   setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                   }
               } catch (error) {
                   console.error(error);

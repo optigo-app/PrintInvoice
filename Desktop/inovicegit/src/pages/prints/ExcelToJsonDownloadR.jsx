@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import Loader from '../../components/Loader';
 import { useEffect } from 'react';
-import { NumberWithCommas, apiCall, isObjectEmpty, shapeColorQuality } from '../../GlobalFunctions';
+import { NumberWithCommas, apiCall, checkMsg, isObjectEmpty, shapeColorQuality } from '../../GlobalFunctions';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import style from "../../assets/css/prints/exporttojsondownloadR.module.css";
 import { OrganizeDataPrint } from "./../../GlobalFunctions/OrganizeDataPrint";
@@ -199,7 +199,10 @@ const ExcelToJsonDownloadR = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

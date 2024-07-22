@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { apiCall, formatAmount, handleGlobalImgError, isObjectEmpty } from '../../GlobalFunctions';
+import { apiCall, checkMsg, formatAmount, handleGlobalImgError, isObjectEmpty } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import  ReactHTMLTableToExcel  from 'react-html-table-to-excel';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
@@ -35,7 +35,10 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
               }
             } else {
               setLoader(false);
-              setMsg(data?.Message);
+              // setMsg(data?.Message);
+              const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
             }
           } catch (error) {
             console.log(error);

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useState } from 'react';
-import { ExportToExcel, apiCall, formatAmount, isObjectEmpty } from '../../GlobalFunctions';
+import { ExportToExcel, apiCall, checkMsg, formatAmount, isObjectEmpty } from '../../GlobalFunctions';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import Loader from '../../components/Loader';
 import { cloneDeep } from 'lodash';
@@ -32,7 +32,10 @@ const PackingListJsonToExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer
               }
             } else {
               setLoader(false);
-              setMsg(data?.Message);
+              // setMsg(data?.Message);
+              const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
             }
           } catch (error) {
             console.log(error);

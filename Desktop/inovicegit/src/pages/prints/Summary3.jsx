@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
-import { apiCall, formatAmount, handlePrint, isObjectEmpty } from "../../GlobalFunctions";
+import { apiCall, checkMsg, formatAmount, handlePrint, isObjectEmpty } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import "../../assets/css/prints/summary3.css";
 import { cloneDeep } from "lodash";
@@ -42,7 +42,10 @@ const Summary3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.error(error);

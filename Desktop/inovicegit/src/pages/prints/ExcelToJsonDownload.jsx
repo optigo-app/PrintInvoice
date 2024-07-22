@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import Loader from '../../components/Loader';
 import { useEffect } from 'react';
-import { ExportToExcel, NumberWithCommas, apiCall, fixedValues, isObjectEmpty } from '../../GlobalFunctions';
+import { ExportToExcel, NumberWithCommas, apiCall, checkMsg, fixedValues, isObjectEmpty } from '../../GlobalFunctions';
 
 const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
@@ -242,7 +242,10 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

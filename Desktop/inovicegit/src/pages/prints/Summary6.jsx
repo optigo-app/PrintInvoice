@@ -9,7 +9,8 @@ import {
     numberToWord,
     NumberWithCommas,
     taxGenrator,
-    handlePrint
+    handlePrint,
+    checkMsg
 } from "../../GlobalFunctions";
 import style from '../../assets/css/prints/summary6.module.css';
 import Loader from "../../components/Loader";
@@ -82,7 +83,10 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     }
                 } else {
                     setLoader(false);
-                    setMsg(data?.Message);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
                 }
             } catch (error) {
                 console.error(error);

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "../../assets/css/prints/detailPrint1.css";
 import { useState } from "react";
-import { NumberWithCommas, apiCall, brokarageDetail, discountCriteria, fixedValues, formatAmount, handleImageError, handlePrint, isObjectEmpty, otherAmountDetail, taxGenrator, } from "../../GlobalFunctions";
+import { NumberWithCommas, apiCall, brokarageDetail, checkMsg, discountCriteria, fixedValues, formatAmount, handleImageError, handlePrint, isObjectEmpty, otherAmountDetail, taxGenrator, } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
@@ -281,7 +281,10 @@ const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, })
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.error(error);

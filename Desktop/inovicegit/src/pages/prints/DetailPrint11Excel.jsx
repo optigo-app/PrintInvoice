@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { NumberWithCommas, apiCall, checkImageExists, fixedValues, handleGlobalImgError, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
+import { NumberWithCommas, apiCall, checkImageExists, checkMsg, fixedValues, handleGlobalImgError, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import defaultImg from "../../assets/img/default.jpg";
@@ -448,7 +448,10 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
           }
         } else {
           setLoader(false);
-          setMsg(data?.Message);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
         }
       } catch (error) {
         console.error(error);
