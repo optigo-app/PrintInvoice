@@ -489,6 +489,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           finalArr[find_record].totals.misc.onlyIsHSCODE0_Wt += b?.totals?.misc?.onlyIsHSCODE0_Wt;
           finalArr[find_record].totals.misc.onlyIsHSCODE3_ServeWt += b?.totals?.misc?.onlyIsHSCODE3_ServeWt;
           // finalArr[find_record].misc_d = [...finalArr[find_record]?.misc ,...b?.misc]?.flat();
+          finalArr[find_record].fineWtss += b?.fineWtss;
         }
       }
       })
@@ -696,71 +697,9 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setImgFlag(true);
     }
   };
-  function formatAmountInWords(amount) {
-    // Convert the amount to words
-    const amountInWords = numberToWords.toWords(Math.floor(amount));
-
-    // Extract and format the decimal part separately
-    const decimalPart = amount.toString().split(".")[1];
-    const decimalInWords = decimalPart
-      ? `point ${numberToWords.toWords(parseInt(decimalPart))}`
-      : "";
-
-    // Combine the integer and decimal parts in words
-    const amountInWordsFormatted = `${amountInWords} ${decimalInWords}`.trim();
-
-    return amountInWordsFormatted;
-  }
 
 
-  // {e?.metal?.length > 0 &&
-  //   e?.metal?.map((el, ind) => {
-  //     return (
-        
-  //         el?.IsPrimaryMetal === 0 &&  <React.Fragment key={ind}>
-          
-  //           <div
-  //             className="d-flex brtdp7"
-  //             key={ind}
-  //           >
-  //             <div
-  //               className="w_subcoldp7 dp7cen1 brdp7"
-  //               style={{ width: "25%" }}
-  //             >
-  //               {el?.ShapeName}
-  //             </div>
-  //             <div
-  //               className="w_subcoldp7 dp7cen2 brdp7"
-  //               style={{ width: "10%" }}
-  //             >
-  //               {/* {el?.dcm_pcs} */}
-  //               {el?.Pcs}
-  //             </div>
-  //             <div className="w_subcoldp7 dp7cen2 brdp7">
-  //               {el?.Wt?.toFixed(3)}
-  //               {/* {el?.ShapeName ===
-  //           "Certification_NM award"
-  //             ? e?.certificateWtDia?.toFixed(3)
-  //             : el?.dcm_wt?.toFixed(3)} */}
-  //             </div>
-  //             <div className="w_subcoldp7 dp7cen2 brdp7">
-  //               {/* {formatAmount(el?.Rate)} */}
-  //               {/* {el?.ShapeName === "Certification_NM award" ? (formatAmount(((el?.dcm_amt)/(e?.certificateWtDia === 0 ? 1 : e?.certificateWtDia))))
-  //             : (formatAmount((el?.dcm_amt)/(el?.dcm_wt)))} */}
-  //             </div>
-  //             <div
-  //               className="w_subcoldp7 dp7cen2"
-  //               style={{ width: "25%" }}
-  //             >
-  //               {/* {el?.dcm_amt?.toFixed(2)} */}
-  //               {/* {formatAmount(el?.Amount)} */}
-  //             </div>
-  //           </div>
-          
-  //       </React.Fragment>
-        
-  //     );
-  //   })}
+
 
   return (
     <>
@@ -797,57 +736,6 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       {result?.header?.PrintHeadLabel === '' ? 'TAX INVOICE' : result?.header?.PrintHeadLabel}
                     </div>
 
-                  {/* <div className="d-flex justify-content-between align-items-center p-1 ">
-                    <div className="w-75 fsgdp7">
-                      <div className="fw-bold fsgdp7_ lhdp7">
-                        {result?.header?.CompanyFullName}
-                      </div>
-                      <div className="fsgdp7 lhdp7">
-                        {result?.header?.CompanyAddress} <br />
-                        {result?.header?.CompanyAddress2}
-                      </div>
-                      <div className="fsgdp7 lhdp7">
-                        {result?.header?.CompanyCity}-
-                        {result?.header?.CompanyPinCode},
-                        {result?.header?.CompanyState}(
-                        {result?.header?.CompanyCountry})
-                      </div>
-                      <div className="fsgdp7 lhdp7">
-                        T {result?.header?.CompanyTellNo} | TOLL FREE{" "}
-                        {result?.header?.CompanyTollFreeNo} | TOLL FREE{" "}
-                        {result?.header?.CompanyTollFreeNo}
-                      </div>
-                      <div className="fsgdp7 lhdp7">
-                        {result?.header?.CompanyEmail} |{" "}
-                        {result?.header?.CompanyWebsite}
-                      </div>
-                      <div className="fsgdp7 lhdp7">
-                        {result?.header?.Company_VAT_GST_No} |{" "}
-                        {result?.header?.Company_CST_STATE} -{" "}
-                        {result?.header?.Company_CST_STATE_No} | PAN-
-                        {result?.header?.Pannumber}{" "}
-                      </div>
-                    </div>
-                    <div className="d-flex justify-content-end w-25 fsgdp7 pe-2">
-                  
-                      {isImageWorking && result?.header?.PrintLogo !== "" && (
-                        <img
-                          src={result?.header?.PrintLogo}
-                          alt=""
-                          className="w-100 h-auto ms-auto d-block object-fit-contain headimgdp7"
-                          style={{
-                            minHeight: "75px",
-                            maxHeight: "75px",
-                            minWidth: "115px",
-                            maxWidth: "117px",
-                          }}
-                          onError={handleImageErrors}
-                          height={120}
-                          width={150}
-                        />
-                      )}
-                    </div>
-                  </div> */}
                 </div>
 
                 {/* table sub header */}
@@ -859,40 +747,9 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="_fsgdp7_ lhdp7_S">
                       <b>{result?.header?.customerfirmname}</b>
                     </div>
-                    {/* <div className="fsgdp7 lhdp7_S">
-                      {result?.header?.customerAddress1}
-                    </div>
-                    <div className="fsgdp7 lhdp7">
-                      {result?.header?.customerAddress2}
-                    </div>
-                    <div className="fsgdp7 lhdp7">
-                      {result?.header?.customercity1}{" "}
-                      {result?.header?.customerpincode}
-                    </div> */}
-                    {/* <div className="fsgdp7 lhdp7">
-                      {result?.header?.customeremail1}
-                    </div> */}
-                    {/* <div className="fsgdp7 lhdp7">
-                      {result?.header?.vat_cst_pan}
-                    </div> */}
-                    {/* <div className="fsgdp7 lhdp7">
-                      {result?.header?.Cust_CST_STATE} -{" "}
-                      {result?.header?.Cust_CST_STATE_No}
-                    </div> */}
+               
                   </div>
-                  {/* <div className="subheaddiv2">
-                    <div className="fsgdp7 lhdp7">Ship To,</div>
-                    <div className="_fsgdp7_ lhdp7">
-                      <b>{result?.header?.customerfirmname}</b>
-                    </div>
-                    {result?.header?.address?.map((e, i) => {
-                      return (
-                        <div className="fsgdp7 lhdp7" key={i}>
-                          {e}
-                        </div>
-                      );
-                    })}
-                  </div> */}
+                
                   <div className="subheaddiv3 fsgdp7 w-50">
                     <div className="fsgdp7 lhdp7_S d-flex justify-content-between">
                       <span className="w-50 fw-bold">INVOICE NO</span>
@@ -920,21 +777,9 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {result?.header?.Delivery_Mode}
                       </span>
                     </div>}
-                    {/* <div className="fsgdp7 lhdp7 d-flex justify-content-between">
-                      <span className="w-50 fw-bold">Sales Person</span>
-                      <span className="w-50 d-flex justify-content-start">
-                        {result?.header?.SalPerName?.split(" ")[0]}
-                      </span>
-                    </div> */}
+                   
                     <div>
-                      {/* <div className="d-flex">
-                        <div className="fw-bold w-50">Due Date :</div>
-                        <div className="w-50">{result?.header?.DueDate}</div>
-                      </div>
-                      <div className="d-flex">
-                        <div className="fw-bold w-50">Terms :</div>
-                        <div className="w-50">{result?.header?.DueDays}</div>
-                      </div> */}
+                      
                     </div>
                   </div>
                 </div>
@@ -982,6 +827,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div className="tbodydp7">
                     {result?.resultArray?.map((e, i) => {
+                      console.log(e);
                       return (
                         <React.Fragment key={i}>
                         <div className="d-flex brbdp7 hcompdp7 bordersdp7" >
@@ -1042,26 +888,21 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         className="w_subcoldp7 dp7cen2 brdp7"
                                         style={{ width: "10%" }}
                                       >
-                                        {/* {el?.dcm_pcs} */}
-                                        {/* {el?.Pcs} */}
+                                      
                                       </div>
                                       <div className="w_subcoldp7 dp7cen2 brdp7">
                                         {el?.Wt?.toFixed(3)}
-                                        {/* {el?.ShapeName ===
-                                      "Certification_NM award"
-                                        ? e?.certificateWtDia?.toFixed(3)
-                                        : el?.dcm_wt?.toFixed(3)} */}
+                                    
                                       </div>
                                       <div className="w_subcoldp7 dp7cen2 brdp7">
                                         {formatAmount(el?.Rate)}
-                                        {/* {el?.ShapeName === "Certification_NM award" ? (formatAmount(((el?.dcm_amt)/(e?.certificateWtDia === 0 ? 1 : e?.certificateWtDia))))
-                                        : (formatAmount((el?.dcm_amt)/(el?.dcm_wt)))} */}
+                                       
                                       </div>
                                       <div
                                         className="w_subcoldp7 dp7cen2"
                                         style={{ width: "25%" }}
                                       >
-                                        {/* {el?.dcm_amt?.toFixed(2)} */}
+                                   
                                         {formatAmount(
                                           el?.Amount /
                                             result?.header?.CurrencyExchRate
@@ -1086,26 +927,22 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         className="w_subcoldp7 dp7cen2 brdp7"
                                         style={{ width: "10%" }}
                                       >
-                                        {/* {el?.dcm_pcs} */}
+                                      
                                         {el?.Pcs}
                                       </div>
                                       <div className="w_subcoldp7 dp7cen2 brdp7">
                                         {el?.Wt?.toFixed(3)}
-                                        {/* {el?.ShapeName ===
-                                      "Certification_NM award"
-                                        ? e?.certificateWtDia?.toFixed(3)
-                                        : el?.dcm_wt?.toFixed(3)} */}
+                                     
                                       </div>
                                       <div className="w_subcoldp7 dp7cen2 brdp7">
                                         {formatAmount(el?.Rate)}
-                                        {/* {el?.ShapeName === "Certification_NM award" ? (formatAmount(((el?.dcm_amt)/(e?.certificateWtDia === 0 ? 1 : e?.certificateWtDia))))
-                                        : (formatAmount((el?.dcm_amt)/(el?.dcm_wt)))} */}
+                                    
                                       </div>
                                       <div
                                         className="w_subcoldp7 dp7cen2"
                                         style={{ width: "25%" }}
                                       >
-                                        {/* {el?.dcm_amt?.toFixed(2)} */}
+                                       
                                         {formatAmount(
                                           el?.Amount /
                                             result?.header?.CurrencyExchRate
@@ -1128,26 +965,22 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         className="w_subcoldp7 dp7cen2 brdp7"
                                         style={{ width: "10%" }}
                                       >
-                                        {/* {el?.dcm_pcs} */}
+                            
                                         {el?.Pcs}
                                       </div>
                                       <div className="w_subcoldp7 dp7cen2 brdp7">
                                         {el?.Wt?.toFixed(3)}
-                                        {/* {el?.ShapeName ===
-                                      "Certification_NM award"
-                                        ? e?.certificateWtDia?.toFixed(3)
-                                        : el?.dcm_wt?.toFixed(3)} */}
+                                       
                                       </div>
                                       <div className="w_subcoldp7 dp7cen2 brdp7">
                                         {formatAmount(el?.Rate)}
-                                        {/* {el?.ShapeName === "Certification_NM award" ? (formatAmount(((el?.dcm_amt)/(e?.certificateWtDia === 0 ? 1 : e?.certificateWtDia))))
-                                        : (formatAmount((el?.dcm_amt)/(el?.dcm_wt)))} */}
+                                       
                                       </div>
                                       <div
                                         className="w_subcoldp7 dp7cen2"
                                         style={{ width: "25%" }}
                                       >
-                                        {/* {el?.dcm_amt?.toFixed(2)} */}
+                                        
                                         {formatAmount(
                                           el?.Amount /
                                             result?.header?.CurrencyExchRate
@@ -1180,22 +1013,17 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         {el?.IsHSCOE === 0
                                           ? el?.Wt?.toFixed(3)
                                           : el?.ServWt?.toFixed(3)}
-                                        {/* {el?.Wt?.toFixed(3)} */}
-                                        {/* {el?.ShapeName ===
-                                      "Certification_NM award"
-                                        ? e?.certificateWtDia?.toFixed(3)
-                                        : el?.dcm_wt?.toFixed(3)} */}
+                                     
                                       </div>
                                       <div className="w_subcoldp7 dp7cen2 brdp7">
                                         {formatAmount(el?.Rate)}
-                                        {/* {el?.ShapeName === "Certification_NM award" ? (formatAmount(((el?.dcm_amt)/(e?.certificateWtDia === 0 ? 1 : e?.certificateWtDia))))
-                                        : (formatAmount((el?.dcm_amt)/(el?.dcm_wt)))} */}
+                                        
                                       </div>
                                       <div
                                         className="w_subcoldp7 dp7cen2"
                                         style={{ width: "25%" }}
                                       >
-                                        {/* {el?.dcm_amt?.toFixed(2)} */}
+                                 
                                         {formatAmount(
                                           el?.Amount /
                                             result?.header?.CurrencyExchRate
@@ -1237,10 +1065,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                           </div>
                           <div className="rcol12dp7 dp7cen2 bldp7">
-                            {/* {formatAmount(
-                              (e?.OtherCharges + e?.TotalDiamondHandling) /
-                                result?.header?.CurrencyExchRate
-                            )} */}
+                           
                             {e?.fineWtss?.toFixed(3)}
                           </div>
                           <div className="rcol13dp7 dp7cen2 border-end-0">
@@ -1283,14 +1108,10 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                           </div>
                           <div className="rcol12dp7 dp7cen2 bldp7">
-                            {/* {formatAmount(
-                              (e?.OtherCharges + e?.TotalDiamondHandling) /
-                                result?.header?.CurrencyExchRate
-                            )} */}
-                            {/* {e?.fineWtss?.toFixed(3)} */}
+                     
                           </div>
                           <div className="rcol13dp7 dp7cen2 border-end-0">
-                                {/* {formatAmount(e?.TotalAmount)} */}
+                               
                           </div>
                         </div>
                       
@@ -1311,7 +1132,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}
                     
                   </div>
-                  {/* <div className="totcol4dp7" style={{width:"35.3%"}}></div> */}
+                  
                   <div style={{width:'17%'}} className=" border-end"></div>
                   <div style={{width:'4%'}} className=" border-end text-end pe-1">
                     {(result?.mainTotal?.diamonds?.Pcs + result?.mainTotal?.colorstone?.Pcs + 
@@ -1339,13 +1160,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
 
                 {/* table total */}
-                {/* <div className="w-100 brtdp7 dp7cen2 bradp7 fsgdp7">
-                  {result?.mainTotal?.total_amount !== 0 &&
-                    formatAmount(
-                      result?.mainTotal?.total_amount /
-                        result?.header?.CurrencyExchRate
-                    )}
-                </div> */}
+       
 
                 {/* Courier info and Charges */}
                 <div className="w-100 d-flex border border-top-0 fsgdp7">
@@ -1441,7 +1256,6 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     }}
                   ></div>
                   <div className="ps-2 fw-bold" style={{ width: "97%" }}>
-                    {/* {result?.finalAmount !== 0 && toWords.convert((result?.finalAmount + result?.header?.FreightCharges))}  /- */}
                     {result?.finalAmount !== 0 &&
                       toWords.convert( +( result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate + (result?.header?.FreightCharges / result?.header?.CurrencyExchRate + result?.allTaxesTotal + result?.header?.AddLess / result?.header?.CurrencyExchRate) )?.toFixed(2) )}{" "}
                     Only
@@ -1485,13 +1299,9 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.Wastage?.toFixed(3)}
                             </div>
                             <div className="sum_prod_head_col_6 dp7cen2">
-                              {/* {e?.fineWtBYNetWtCal?.toFixed(3)} */}
-                              {/* {((e?.NetWt * e?.Tunch)/100)?.toFixed(3)} */}
-                              {/* {((e?.cg_netwt * e?.Tunch)/100)?.toFixed(3)} */}
+                            
                               {e?.cg_finewt?.toFixed(3)}
-                              {/* {e?.LossWt === 0 ? e?.PureNetWt : ((
-                              (((e?.NetWt - e?.totals?.finding?.Wt) * (e?.Tunch))/100)
-                               + (e?.totals?.finding?.FineWt))?.toFixed(3))} */}
+               
                             </div>
                           </div>
                         );
@@ -1507,12 +1317,10 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           result?.mainTotal?.grosswt?.toFixed(3)}
                       </div>
                       <div className="sum_prod_head_col_4 dp7cen2">
-                        {/* {result?.mainTotal?.netwtWithLossWt !== 0 && result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
                         {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}
                       </div>
                       <div className="sum_prod_head_col_5 dp7cen2"></div>
                       <div className="sum_prod_head_col_6 dp7cen2">
-                        {/* {result?.mainTotal?.total_fineWtByMetalWtCalculation !== 0 && result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(3)} */}
                         {fineWtTotal === 0 ? 0 : fineWtTotal?.toFixed(3)}
                       </div>
                     </div>
@@ -1548,11 +1356,9 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.ShapeName}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_2 dp7cen2">
-                              {/* {e?.Pcs} */}
                               {e?.pcPcs}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_3 dp7cen2">
-                              {/* {e?.Rate?.toFixed(2)} */}
                               {formatAmount((((e?.AmtAmount / result?.header?.CurrencyExchRate))/((e?.isRateOnPcs === 0 ? (e?.Wt === 0 ? 1 : e?.Wt) : (e?.Pcs === 0 ? 1 : e?.Pcs)))))}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_4 dp7cen2">
@@ -1561,9 +1367,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 : `${e?.wtWeight?.toFixed(3)} gm`}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
-                              {/* {formatAmount(e?.AmtAmount)} */}
                               {formatAmount(e?.AmtAmount )}
-                              {/* {formatAmount((e?.AmtAmount / result?.header?.CurrencyExchRate))} */}
                             </div>
                           </div>
                         );
@@ -1586,7 +1390,6 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           {formatAmount(
                             otherAMountTotal / result?.header?.CurrencyExchRate
                           )}
-                          {/* {(result?.mainTotal?.total_other + result?.header?.FreightCharges)?.toFixed(2)} */}
                         </div>
                       </div>
                     )}
@@ -1596,26 +1399,20 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         Total
                       </div>
                       <div className="summary_container_dp7_misc_head_col_2 dp7cen2">
-                         {/* {miscWise_total?.Pcs}  */}
                         {miscWise_total?.pcPcs}
                       </div>
                       <div className="summary_container_dp7_misc_head_col_3 dp7cen1"></div>
                       <div className="summary_container_dp7_misc_head_col_4 dp7cen2 d-flex flex-column">
-                        {/* {miscWise_total?.WtCtw === 0 ? ( "" ) : ( */}
                         {miscWise_total?.wtWeight_Ctw === 0 ? ( "" ) : (
                           <div className="w-100 dp7cen2">
-                            {/* {miscWise_total?.WtCtw?.toFixed(3)} Ctw */}
                             {miscWise_total?.wtWeight_Ctw?.toFixed(3)} Ctw
                           </div>
                         )}
-                        {/* {miscWise_total?.wtWeight_gm === 0 ? ( "" ) : ( */}
                          {miscWise_total?.WtGm === 0 ? ( "" ) : (
-                          // <div className="w-100 dp7cen2"> {" "} {miscWise_total?.WtGm?.toFixed(3)} Gm </div>
                           <div className="w-100 dp7cen2"> {" "} {miscWise_total?.wtWeight_gm?.toFixed(3)} Gm </div>
                         )}
                       </div>
                       <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0"> {formatAmount( miscWise_total?.AmtAmount + otherAMountTotal / result?.header?.CurrencyExchRate )}
-                      {/* <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0"> {formatAmount( ((miscWise_total?.AmtAmount / result?.header?.CurrencyExchRate) + ( otherAMountTotal / result?.header?.CurrencyExchRate )) )} */}
                       </div>
                     </div>
                   </div>
@@ -1630,32 +1427,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 >
                   {}
                 </div>
-                {/* <div className="border-top-0 bradp7 border-bottom-0 ps-1 fsgdp7">
-                  <b>REMARKS</b> : {result?.header?.PrintRemark}
-                </div> */}
-                {/* <div className="d-flex footer_bank hcompdp7 fsgdp7">
-                  <div className="subheaddiv_1">
-                    <div className="fw-bold">Bank Detail</div>
-                    <div>Bank Name: {result?.header?.bankname}</div>
-                    <div>Branch: {result?.header?.bankaddress}</div>
-                    <div>Account Name: {result?.header?.accountname}</div>
-                    <div>Account No. : {result?.header?.accountnumber}</div>
-                    <div>RTGS/NEFT IFSC: {result?.header?.rtgs_neft_ifsc}</div>
-                    <div>Enquiry No. (E & OE)</div>
-                  </div>
-                  <div className="subheaddiv_1 d-flex flex-column justify-content-between align-items-start">
-                    <div>Signature</div>
-                    <div className="fw-bold mb-2">
-                      {result?.header?.customerfirmname}
-                    </div>
-                  </div>
-                  <div className="subheaddiv_1 d-flex flex-column justify-content-between align-items-start border-end-0">
-                    <div>Signature</div>
-                    <div className="fw-bold mb-2">
-                      {result?.header?.CompanyFullName}
-                    </div>
-                  </div>
-                </div> */}
+              
               </div>
             </>
           ) : (

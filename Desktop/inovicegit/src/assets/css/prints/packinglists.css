@@ -1,0 +1,136 @@
+.container_pcls{
+    max-width: 1230px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 10px;
+    padding-bottom: 5rem;
+    font-size: 12px;
+    line-height: 14px;
+}
+.headText_pcls{
+    font-size: 20px;
+    background-color: #939292;
+    color: #FFF;
+    padding: 8px 0px 8px 6px !important;
+    font-weight: bold;
+}
+.companylogo_pcls{
+    height: 75px;
+}
+
+/* borders */
+.brall_pcls{
+    border: 1px solid #BDBDBD;
+}
+.bright_pcls{
+    border-right: 1px solid #BDBDBD;
+}
+.bleft_pcls{
+    border-left: 1px solid #BDBDBD;
+}
+.bbottom_pcls{
+    border-bottom: 1px solid #BDBDBD;
+}
+
+/* contents */
+.centerall_pcls{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.start_pcls{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+.billbox_pcls{
+    width: 60px;
+}
+
+.fs_16_pcls{
+    font-size: 16px;
+}
+.fs_14_pcls{
+    font-size: 14px;
+}
+
+/* table head */
+
+.thead_pcls{
+    background-color: #F5F5F5;
+    font-weight: bold;
+}
+
+.col1_pcls{
+    width: 2%;
+}
+.col2_pcls{
+    width: 11%;
+}
+.col3_pcls{
+    width: 22%;
+}
+.col4_pcls{
+    width: 21%;
+}
+.col5_pcls{
+    width: 22%;
+}
+.col6_pcls{
+    width: 15%;
+}
+.col7_pcls{
+    width: 7%;
+}
+
+/* diamond and colorstone */
+.dcol1_pcls{
+    width: 20%;
+}
+.dcol2_pcls{
+    width: 17%;
+}
+.dcol3_pcls{
+    width: 12%;
+}
+.dcol4_pcls{
+    width: 14%;
+}
+.dcol5_pcls{
+    width: 16%;
+}
+.dcol6_pcls{
+    width: 21%;
+}
+
+/* metal */
+.mcol1_pcls{
+    width: 25%;
+}
+.mcol2_pcls{
+    width: 20%;
+}
+.mcol3_pcls{
+    width: 10%;
+}
+.mcol4_pcls{
+    width: 20%;
+}
+.mcol5_pcls{
+    width: 25%;
+}
+
+
+/* labour */
+.lcol1_pcls{
+    width: 33.33%;
+}
+
+.designimg_pcls{
+    height: 75px;
+    width: 75px;
+    box-sizing: border-box;
+    object-fit: contain;
+    margin: 2px;
+}
