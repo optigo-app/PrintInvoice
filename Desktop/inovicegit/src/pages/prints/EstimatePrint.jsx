@@ -1226,13 +1226,15 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               </div>
             </div>
             {/* data */}
-            <div className="border-end border-start border-black">
+            {/* <div className="border-end border-start border-black"> */}
+            <div>
               {json2Data.length > 0 &&
                 json2Data.map((e, i) => {
                   return (
                     <div
-                      className={`d-flex border-bottom recordEstimatePrint overflow-hidden border_color_estimates word_break_estimatePrint`}
+                      className={`d-flex border-bottom recordEstimatePrint overflow-hidden word_break_estimatePrint`}
                       key={i}
+                      style={{borderLeft:'1px solid black', borderRight:'1px solid black'}}
                     >
                       <div className="srNoEstimatePrint border-end p_1Estimate border_color_estimates">
                         <p className="text-center">{i + 1}</p>

@@ -548,7 +548,6 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
 
                 }
                 if(j2?.MasterManagement_DiamondStoneTypeid === 5){
-
                     findingList.push(j2);
 
                     perjobTotal.finding.Amount += j2?.Amount;
@@ -598,6 +597,12 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
         let other_details_array = otherAmountDetail(j1?.OtherAmtDetail);
 
         obj.other_details_array = other_details_array;
+
+        let oth = 0;
+        other_details_array?.forEach((e) => {
+            oth = oth + e?.amtval;
+        })
+        obj.other_details_array_amount = oth;
 
         resultArray.push(obj);
 
