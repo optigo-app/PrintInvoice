@@ -591,6 +591,8 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
         obj.isRateOnPcsMisc_0List = isRateOnPcsMisc_0List;
         obj.isRateOnPcsMisc_1List = isRateOnPcsMisc_1List;
 
+        obj.totals = perjobTotal;
+
         obj.metal_rate = metal_rate;
 
         let other_details_array = otherAmountDetail(j1?.OtherAmtDetail);

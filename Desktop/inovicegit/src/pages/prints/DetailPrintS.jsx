@@ -827,7 +827,6 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div className="tbodydp7">
                     {result?.resultArray?.map((e, i) => {
-                      console.log(e);
                       return (
                         <React.Fragment key={i}>
                         <div className="d-flex brbdp7 hcompdp7 bordersdp7" >

@@ -488,56 +488,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     setResult(datas);
     setLoader(false);
   };
-  // dynamicList2?.length > 0 &&
-  //   // eslint-disable-next-line array-callback-return
-  //   dynamicList2?.map((e, i) => {
-  //     if (e?.MasterManagement_DiamondStoneTypeid === 1) {
-  //       totalObj.totdiapcs = totalObj?.totdiapcs + +e?.Pcs;
-  //       totalObj.totdiawt = totalObj?.totdiawt + +e?.Wt;
-  //       totalObj.totdiaamt = totalObj?.totdiaamt + +e?.Amount;
-  //       diamondList.push(e);
-  //     }
-  //     if (e?.MasterManagement_DiamondStoneTypeid === 2) {
-  //       totalObj.totcspcs = totalObj?.totcspcs + e?.Pcs;
-  //       totalObj.totcswt = totalObj?.totcswt + e?.Wt;
-  //       totalObj.totcsamt = totalObj?.totcsamt + e?.Amount;
-  //       colorStoneList.push(e);
-  //     }
-  //     if (e?.MasterManagement_DiamondStoneTypeid === 3) {
-  //       totalObj.totmiscpcs = totalObj?.totmiscpcs + e?.Pcs;
-  //       totalObj.totmiscwt = totalObj?.totmiscwt + e?.Wt;
-  //       totalObj.totmiscamt = totalObj?.totmiscamt + e?.Amount;
-  //       miscList.push(e);
-  //     }
-  //     if (e?.MasterManagement_DiamondStoneTypeid === 4) {
-  //       totalObj.totmtpcs = totalObj?.totmtpcs + e?.Pcs;
-  //       totalObj.totmtwt = totalObj?.totmtwt + e?.Wt;
-  //       totalObj.totmtamt = totalObj?.totmtamt + e?.Amount;
-  //       metalList.push(e);
-  //     }
-  //     if (e?.MasterManagement_DiamondStoneTypeid === 5) {
-  //       findingList?.push(e);
-  //     }
-  //     if (
-  //       e?.MasterManagement_DiamondStoneTypeid === 2 ||
-  //       e?.MasterManagement_DiamondStoneTypeid === 3
-  //     ) {
-  //       totalObj.totstpcs = totalObj?.totstpcs + e?.Pcs;
-  //       totalObj.totstwt = totalObj?.totstwt + e?.Wt;
-  //       totalObj.totstamt = totalObj?.totstamt + e?.Amount;
-  //     }
-  //   });
 
-  // // eslint-disable-next-line array-callback-return
-  // dynamicList1?.map((e) => {
-  //   totalObj.totlbramt = totalObj?.totlbramt + e?.MaKingCharge_Unit;
-  //   totalObj.totalAmt = totalObj?.totalAmt + e?.TotalAmount;
-  //   totalObj.totmakingAmt = totalObj?.totmakingAmt + e?.MakingAmount;
-  //   totalObj.totDiscount = totalObj?.totDiscount + e?.DiscountAmt;
-  //   totalObj.totgrosswt = totalObj?.totgrosswt + e?.grosswt;
-  //   totalObj.totnetwt = totalObj?.totnetwt + e?.NetWt;
-  //   totalObj.totOthAmt = totalObj?.totOthAmt + e?.OtherCharges + e?.MiscAmount;
-  // });
 
   return (
     <>
@@ -972,7 +923,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             }
                                               {
                                                 e?.misc?.map((el, i) => {
-                                                  // return  ((i < 3) ? <div key={i}>{e?.value}</div> : '') 
                                                   return (
                                                     (  (el?.IsHSCOE === 1 || el?.IsHSCOE === 2 || el?.IsHSCOE === 3) ? <div className="left_pcl_new2">{( el?.Amount === 0 ? '' :  ( el?.IsHSCOE === 3 ? (el?.ShapeName?.split("_")[1]) : el?.ShapeName))}</div> : '')
                                                   )
@@ -986,7 +936,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         <div>
                                         <div className=" d-flex flex-column justify-content-end align-items-end  fspcl">
                                         <div >{ e?.totals?.misc?.onlyIsHSCODE0_Amount === 0 ? '' : formatAmount((e?.totals?.misc?.onlyIsHSCODE0_Amount / result?.header?.CurrencyExchRate)) }</div>
-                                        <div >{ e?.TotalDiamondHandling === 0 ? '' : formatAmount((e?.TotalDiamondHandling / result?.header?.CurrencyExchRate)) }</div>
+                                        <div >{ e?.TotalDiamondHandling === 0 ? '' : formatAmount((e?.TotalDiamondHandling)) }</div>
                                         <div>
                                         {
                                           e?.other_details?.map((el, i) => {
@@ -995,7 +945,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         }
                                         {
                                           e?.misc?.map((el, i) => {
-                                            // return  ((i < 3) ? <div key={i}>{e?.value}</div> : '') 
                                             return (
                                               (  (el?.IsHSCOE === 1 || el?.IsHSCOE === 2 || el?.IsHSCOE === 3) ? 
                                                 <div key={i}>{( el?.Amount === 0 ? '' : formatAmount(( el?.Amount / result?.header?.CurrencyExchRate)))}</div>
@@ -1011,9 +960,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                           {
                                             (e?.other_details?.length === 0 && e?.misc?.length === 0 && 
                                               e?.TotalDiamondHandling === 0 && e?.totals?.misc?.onlyIsHSCODE0_Amount === 0) ? <div>&nbsp;</div> : 
-                                              formatAmount(((e?.other_details_arr_total_amount + e?.totals?.misc?.amount + e?.TotalDiamondHandling) / result?.header?.CurrencyExchRate))
-                                              // formatAmount( (e?.other_details_arr_total_amount / result?.header?.CurrencyExchRate) + 
-                                              // (e?.totals?.misc?.Amount / result?.header?.CurrencyExchRate) + (e?.TotalDiamondHandling / result?.header?.CurrencyExchRate) )
+                                              formatAmount(((e?.other_details_arr_total_amount + (e?.totals?.misc?.Amount / result?.header?.CurrencyExchRate) + e?.TotalDiamondHandling ) ))
                                           }
                                         </div>
                                       </div>
@@ -1027,62 +974,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </div>
                                   </div>
 
-                                  {/* row wise total */}
-                                  {/* <div className="tbodyrowpcltot2 fspcl" style={{ borderTop: "1px solid #989898", backgroundColor:'#F5F5F5 !important' }} >
-                                    <div className="srpcltotrowtb fspcl" style={{ backgroundColor:'#F5F5F5 !important', height: "14px", }} ></div>
-                                    <div className="jwlpcltotrowtb fspcl" style={{ backgroundColor:'#F5F5F5 !important', height: "14px", }} ></div>
-                                    <div className="diapcltotrowtb fspcl">
-                                      <div className="dcolsthpcl" style={{ width: "27%" }} ></div>
-                                      <div className="dcolsthpcl" style={{ width: "27%" }} ></div>
-                                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ width: "22%" }} >
-                                        {e?.totals?.diamonds?.Wt === 0 ? '' : e?.totals?.diamonds?.Wt?.toFixed(3)}
-                                      </div>
-                                      <div className="dcolsthpcl" style={{ width: "22%" }} ></div>
-                                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", width: "27%", }} >
-                                        {e?.totals?.diamonds?.Amount === 0 ? '' : formatAmount( (e?.totals?.diamonds?.Amount/(result?.header?.CurrencyExchRate)) )}
-                                      </div>
-                                    </div>
-                                    <div className="diapcltotrowtb">
-                                      <div className="dcolsthpcl" style={{ width: "22%" }} ></div>
-                                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ width: "18%" }} >
-                                        {e?.grosswt?.toFixed(3)}
-                                      </div>
-                                      <div className="dcolsthpcl  fwboldpcl fspcld-flex justify-content-end align-items-center end_pcl_new end_p_pcl_new" style={{ width: "18%" }} >
-
-                                        { (e?.totals?.metal?.IsPrimaryMetal)?.toFixed(3) }
-                                      </div>
-                                      <div className="dcolsthpcl" style={{ width: "20%" }} ></div>
-                                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px",  width: "22%", }} >
-                                        
-                                      </div>
-                                    </div>
-                                    <div className="stnpcltotrowtb">
-                                      <div className="shpthcolspcl" style={{ width: "27%" }} ></div>
-                                      <div className="shpthcolspcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_pcl_new end_p_pcl_new" style={{ width: "22%", }} >
-                                        {e?.totals?.colorstone?.Wt === 0 ? '' : e?.totals?.colorstone?.Wt?.toFixed(3)}
-                                      </div>
-                                      <div className="shpthcolspcl" style={{ width: "23%" }} ></div>
-                                      <div className="shpthcolspcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", width: "28%", }} >
-                                        {e?.totals?.colorstone?.Amount === 0 ? '' : formatAmount( (e?.totals?.colorstone?.Amount/(result?.header?.CurrencyExchRate)) )}
-                                      </div>
-                                    </div>
-                                    <div className="lopcltotrowtb">
-                                      <div className="lopclcol"></div>
-
-                                      <div className="lopclcol  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", }} >
-                                        {(e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost) === 0 ? '' : formatAmount( ((e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost)/(result?.header?.CurrencyExchRate)) )}
-                                        
-                                      </div>
-                                    </div>
-                                    <div className="lopcltotrowtb">
-                                      <div className="lopclcol  fwboldpcl fspcl d-flex justify-content-end align-items-center w-100 end_p_pcl_new" style={{ borderRight: "0px" }} >
-                                        {e?.other_details_arr_total_amount + e?.totals?.misc?.Amount + e?.TotalDiamondHandling === 0 ? '' : formatAmount( e?.other_details_arr_total_amount + (e?.totals?.misc?.Amount / result?.header?.CurrencyExchRate) + e?.TotalDiamondHandling )}
-                                      </div>
-                                    </div>
-                                    <div className="prpcltotrowtb  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px" }} >
-                                      {formatAmount((e?.UnitCost/(result?.header?.CurrencyExchRate)))}
-                                    </div>
-                                  </div> */}
                                   {e?.DiscountAmt === 0 ? ( "" ) : (
                                     <div className="tbodyrowpcltot2 fspcl" style={{ borderTop: "1px solid #989898"}} >
                                       <div className="lopcltotrowtb dispcltotrowtb " style={{ width: "95%" }} >
@@ -1156,7 +1047,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <div className="lopcltotrowtb">
                         <div className="lopclcol"></div>
                         <div className="lopclcol  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", }} >
-                          { (result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.totalMiscAmount) !== 0 &&
+                          { (result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + (result?.mainTotal?.totalMiscAmount)) !== 0 &&
                            formatAmount( ((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.totalMiscAmount)/(result?.header?.CurrencyExchRate) ) )}
                         </div>
                       </div>
@@ -1169,61 +1060,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       {/* </tbody> */}
                     </table>
                   </div>
-                  {/* <div className="tbodyrowpcltot border-start border-end border-black border-bottom" >
-                    <div className="srpcltotrowtb"></div>
-                    <div className="jwlpcltotrowtb fspcl">
-                      <b className="fspcl">TOTAL</b>
-                    </div>
-                    <div className="diapcltotrowtb">
-                      <div className="dcolsthpcl" style={{ width: "27%", backgroundColor:'#F5F5F5 !important' }} ></div>
-                      <div className="dcolsthpcl" style={{ width: "27%", backgroundColor:'#F5F5F5 !important' }} ></div>
-                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{  width: "22%" }} >
-                        { result?.mainTotal?.diamonds?.Wt !== 0 && result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
-                      </div>
-                      <div className="dcolsthpcl" style={{ width: "22%" }} ></div>
-                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px",  width: "27%", }} >
-                        { result?.mainTotal?.diamonds?.Amount !== 0 && formatAmount(((result?.mainTotal?.diamonds?.Amount)/(result?.header?.CurrencyExchRate)))}
-                      </div>
-                    </div>
-                    <div className="diapcltotrowtb">
-                      <div className="dcolsthpcl" style={{ width: "22%" }} ></div>
-                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{  width: "18%" }} >
-                        {result?.mainTotal?.grosswt?.toFixed(3)}
-                      </div>
-                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{  width: "18%" }} >
-                        {(result?.mainTotal?.metal?.IsPrimaryMetal )?.toFixed(3)}
-                      </div>
-                      <div className="dcolsthpcl" style={{ width: "20%" }} ></div>
-                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", width: "22%", }} >
-                        { result?.mainTotal.metal?.IsPrimaryMetal_Amount !== 0 && formatAmount(((result?.mainTotal.metal?.IsPrimaryMetal_Amount)/(result?.header?.CurrencyExchRate)))}
-                      </div>
-                    </div>
-                    <div className="stnpcltotrowtb">
-                      <div className="shpthcolspcl" style={{ width: "27%" }} ></div>
-                      <div className="shpthcolspcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ width: "22%" }} >
-                        { result?.mainTotal?.colorstone?.Wt !== 0 && result?.mainTotal?.colorstone?.Wt?.toFixed(3)}
-                      </div>
-                      <div className="shpthcolspcl" style={{ width: "23%" }} ></div>
-                      <div className="shpthcolspcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", width: "28%", }} >
-                        { result?.mainTotal.colorstone?.Amount !== 0 && formatAmount((result?.mainTotal.colorstone?.Amount/(result?.header?.CurrencyExchRate)))}
-                      </div>
-                    </div>
-                    <div className="lopcltotrowtb">
-                      <div className="lopclcol"></div>
-                      <div className="lopclcol  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", }} >
-                          { (result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount) !== 0 && formatAmount( ((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate)) )}
-                      </div>
-                    </div>
-                    <div className="lopcltotrowtb">
-                      <div className="lopclcol"></div>
-                      <div className="lopclcol  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", }} >
-                        { (result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.totalMiscAmount) !== 0 && formatAmount( ((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.totalMiscAmount)/(result?.header?.CurrencyExchRate) ) )}
-                      </div>
-                    </div>
-                    <div className="prpcltotrowtb  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px" }} >
-                      {formatAmount((result?.mainTotal?.total_amount/(result?.header?.CurrencyExchRate)))}
-                    </div>
-                  </div> */}
+                  
                   <div className="tablebodypcl  border-start border-end border-bottom border-black">
                     <div className="totdispcl">
                       <div className="summaryalignpcl fspcl">
