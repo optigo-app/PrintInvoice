@@ -604,7 +604,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   <div className="tbodyrowpcl">
                                     <div className="pcltbr1c1 fspcl"> {i+1} </div>
                                     <div className="pcltbr1c2 fspcl">
-                                      <div className="fspcl w-100  text-break left_pcl_new pd_top_pcl"> {e?.JewelCodePrefix + e?.Category_Prefix + e?.SrJobno?.split("/")[1]} </div>
+                                      <div className="fspcl w-100  text-break left_pcl_new pd_top_pcl"> {e?.JewelCodePrefix?.slice(0,2) + e?.Category_Prefix?.slice(0,2) + e?.SrJobno?.split("/")[1]} </div>
                                       <div className="designimgpcl fspcl">
                                         <img src={e?.DesignImage} alt="packinglist" id="designimgpclid" onError={(e) => handleImageError(e)} />
                                       </div>
@@ -689,7 +689,8 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 })
                                               }
                                           </div>
-                                          <div className=" fspcl text-break br_top_pcl text-break bg_pcl fw-bold end_pcl_new end_p_pcl_new" >{formatAmount((e?.totals?.diamonds?.Amount / result?.header?.CurrencyExchRate))}</div>
+                                          <div className=" fspcl text-break br_top_pcl text-break bg_pcl fw-bold end_pcl_new end_p_pcl_new" >
+                                            {formatAmount((e?.totals?.diamonds?.Amount / result?.header?.CurrencyExchRate))}</div>
                                         </div>
                                       </div>
                                     </div>
@@ -1008,8 +1009,8 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{  width: "22%" }} >
                           { result?.mainTotal?.diamonds?.Wt !== 0 && result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
                         </div>
-                        <div className="dcolsthpcl" style={{ width: "22%" }} ></div>
-                        <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px",  width: "27%", }} >
+                        {/* <div className="dcolsthpcl" style={{ width: "22%" }} ></div> */}
+                        <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px",  width: "49%", }} >
                           { result?.mainTotal?.diamonds?.Amount !== 0 && formatAmount(((result?.mainTotal?.diamonds?.Amount)/(result?.header?.CurrencyExchRate)))}
                         </div>
                       </div>
@@ -1023,8 +1024,8 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           {/* {(result?.mainTotal?.metal?.IsPrimaryMetal + result?.mainTotal?.lossWt)?.toFixed(3)} */}
                           {(result?.mainTotal?.metal?.IsPrimaryMetal )?.toFixed(3)}
                         </div>
-                        <div className="dcolsthpcl" style={{ width: "20%" }} ></div>
-                        <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", width: "22%", }} >
+                        {/* <div className="dcolsthpcl" style={{ width: "20%" }} ></div> */}
+                        <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", width: "42%", }} >
                           { result?.mainTotal.metal?.IsPrimaryMetal_Amount !== 0 && formatAmount(((result?.mainTotal.metal?.IsPrimaryMetal_Amount)/(result?.header?.CurrencyExchRate)))}
                         </div>
                       </div>
@@ -1033,20 +1034,20 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div className="shpthcolspcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ width: "22%" }} >
                           { result?.mainTotal?.colorstone?.Wt !== 0 && result?.mainTotal?.colorstone?.Wt?.toFixed(3)}
                         </div>
-                        <div className="shpthcolspcl" style={{ width: "23%" }} ></div>
-                        <div className="shpthcolspcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", width: "28%", }} >
+                        {/* <div className="shpthcolspcl" style={{ width: "23%" }} ></div> */}
+                        <div className="shpthcolspcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", width: "51%", }} >
                           { result?.mainTotal.colorstone?.Amount !== 0 && formatAmount((result?.mainTotal.colorstone?.Amount/(result?.header?.CurrencyExchRate)))}
                         </div>
                       </div>
                       <div className="lopcltotrowtb">
-                        <div className="lopclcol"></div>
-                        <div className="lopclcol  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", }} >
+                        {/* <div className="lopclcol"></div> */}
+                        <div className="lopclcol  fwboldpcl w-100 fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", }} >
                             { (result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.total_TotalCsSetcost) !== 0 && formatAmount( ((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.total_TotalCsSetcost)/(result?.header?.CurrencyExchRate)) )}
                         </div>
                       </div>
                       <div className="lopcltotrowtb">
-                        <div className="lopclcol"></div>
-                        <div className="lopclcol  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", }} >
+                        {/* <div className="lopclcol"></div> */}
+                        <div className="lopclcol  fwboldpcl w-100 fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", }} >
                           { (result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + (result?.mainTotal?.totalMiscAmount)) !== 0 &&
                            formatAmount( ((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.totalMiscAmount)/(result?.header?.CurrencyExchRate) ) )}
                         </div>

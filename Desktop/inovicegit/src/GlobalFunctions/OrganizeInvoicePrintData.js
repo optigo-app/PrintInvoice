@@ -557,6 +557,7 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
                     perjobTotal.finding.Pcs += j2?.Pcs;
                     perjobTotal.finding.Wt += j2?.Wt;
                     perjobTotal.finding.SettingAmount += j2?.SettingAmount;
+                    perjobTotal.finding.SettingRate += j2?.SettingRate;
 
                     mainTotal.finding.Amount += j2?.Amount;
                     mainTotal.finding.Rate = j2?.Rate;
@@ -564,6 +565,7 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
                     mainTotal.finding.Pcs += j2?.Pcs;
                     mainTotal.finding.Wt += j2?.Wt;
                     mainTotal.finding.SettingAmount += j2?.SettingAmount;
+                    mainTotal.finding.SettingRate += j2?.SettingRate;
 
                 }
 
