@@ -251,10 +251,10 @@ const PackingListJsonToExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer
 
 
          // for download excel direct
-        //  setTimeout(() => {
-        //   const button = document?.getElementById('test-table-xls-button');
-        //   button.click();
-        // }, 0);
+         setTimeout(() => {
+          const button = document?.getElementById('test-table-xls-button');
+          button.click();
+        }, 0);
 
       }
 

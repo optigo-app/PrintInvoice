@@ -1368,7 +1368,8 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                             <div className="summary_container_dp7_misc_head_col_3 dp7cen2">
                               {/* {formatAmount((((e?.AmtAmount / result?.header?.CurrencyExchRate))/((e?.isRateOnPcs === 0 ? (e?.Wt === 0 ? 1 : e?.Wt) : (e?.Pcs === 0 ? 1 : e?.Pcs)))))} */}
-                              {formatAmount(e?.Rate)}
+                              {formatAmount((((e?.AmtAmount / result?.header?.CurrencyExchRate))/((e?.isRateOnPcs === 0 ? (e?.wtWeight === 0 ? 1 : e?.wtWeight) : (e?.pcPcs === 0 ? 1 : e?.pcPcs)))))}
+                              {/* {formatAmount(e?.Rate)} */}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_4 dp7cen2">
                               {e?.MasterManagement_DiamondStoneTypeid === 2
