@@ -239,7 +239,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         let findMiscs = miscs_filter.findIndex(
           (elem, index) =>
             elem?.ShapeName === b?.ShapeName && elem?.isRateOnPcs === ele?.isRateOnPcs
-            // && elem?.Rate === b?.Rate
+            && elem?.Rate === b?.Rate
         );
         if (findMiscs === -1) {
           let objj = { ...ele };
@@ -259,7 +259,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         let findcs = colrStone_filter?.findIndex(
           (elem, index) =>
             elem?.ShapeName === ele?.ShapeName && elem?.isRateOnPcs === ele?.isRateOnPcs
-            // && elem?.Rate === ele?.Rate
+            && elem?.Rate === ele?.Rate
         );
         if (findcs === -1) {
           let objj = { ...ele };
@@ -1368,7 +1368,9 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                             <div className="summary_container_dp7_misc_head_col_3 dp7cen2">
                               {/* {formatAmount((((e?.AmtAmount / result?.header?.CurrencyExchRate))/((e?.isRateOnPcs === 0 ? (e?.Wt === 0 ? 1 : e?.Wt) : (e?.Pcs === 0 ? 1 : e?.Pcs)))))} */}
-                              {formatAmount((((e?.AmtAmount / result?.header?.CurrencyExchRate))/((e?.isRateOnPcs === 0 ? (e?.wtWeight === 0 ? 1 : e?.wtWeight) : (e?.pcPcs === 0 ? 1 : e?.pcPcs)))))}
+                              {formatAmount((((e?.AmtAmount / result?.header?.CurrencyExchRate))
+                              /
+                              ((e?.isRateOnPcs === 0 ? (e?.wtWeight === 0 ? 1 : e?.wtWeight) : (e?.pcPcs === 0 ? 1 : e?.pcPcs)))))}
                               {/* {formatAmount(e?.Rate)} */}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_4 dp7cen2">
