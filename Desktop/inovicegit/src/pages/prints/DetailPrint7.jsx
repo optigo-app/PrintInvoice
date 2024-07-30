@@ -1169,7 +1169,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="summary_container_dp7_product_head">
                       <div className="sum_prod_head_col_1 dp7cen">CATEGORY</div>
                       <div className="sum_prod_head_col_2 dp7cen">PIECES</div>
-                      <div className="sum_prod_head_col_3 dp7cen">GORSS WT</div>
+                      <div className="sum_prod_head_col_3 dp7cen">GROSS WT</div>
                       <div className="sum_prod_head_col_4 dp7cen">NET WT</div>
                       <div className="sum_prod_head_col_5 dp7cen">WASTAGE</div>
                       <div className="sum_prod_head_col_6 dp7cen">FINE</div>

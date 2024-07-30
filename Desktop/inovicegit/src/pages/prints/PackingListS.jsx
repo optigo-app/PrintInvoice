@@ -57,7 +57,6 @@ const PackingListS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         data?.BillPrint_Json2
       );
 
-      console.log(datas);
 
       let finalArr = [];
 
@@ -313,10 +312,10 @@ const PackingListS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className='w-100 centerall_pcls bbottom_pcls'>Metal</div>
                         <div className='d-flex w-100'>
                             <div className='mcol1_pcls centerall_pcls bright_pcls'>Quality</div>
-                            <div className='mcol1_pcls centerall_pcls bright_pcls'>Gwt</div>
-                            <div className='mcol1_pcls centerall_pcls bright_pcls'>N + L</div>
-                            <div className='mcol1_pcls centerall_pcls bright_pcls'>Rate</div>
-                            <div className='mcol1_pcls centerall_pcls '>Amount</div>
+                            <div className='mcol2_pcls centerall_pcls bright_pcls'>Gwt</div>
+                            <div className='mcol3_pcls centerall_pcls bright_pcls'>N + L</div>
+                            <div className='mcol4_pcls centerall_pcls bright_pcls'>Rate</div>
+                            <div className='mcol5_pcls centerall_pcls '>Amount</div>
                         </div>
                     </div>
                     <div className='col5_pcls bright_pcls'>
@@ -411,7 +410,7 @@ const PackingListS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   {
                                         e?.totals?.finding?.Wt !== 0 &&
                                             <div className='d-flex w-100 text-break' >
-                                                <div className='mcol1_pcls start_center_pcls pdl_pcls text-break' style={{width:'37%'}}>FINDING ACESSORIES</div>
+                                                <div className='mcol1_pcls start_center_pcls pdl_pcls text-break' style={{width:'39%'}}>FINDING ACESSORIES</div>
                                                 <div className='mcol3_pcls end_pcls pdr_pcls text-break'>{e?.totals?.finding?.Wt?.toFixed(3)} {e?.totals?.finding?.Wt !== 0 && 'gm'}</div>
                                                 <div className='mcol4_pcls end_pcls pdr_pcls'>{formatAmount(e?.metal_rate)}</div>
                                                 <div className='mcol5_pcls end_pcls pdr_pcls fw-bold'>{formatAmount(((e?.totals?.finding?.Wt * e?.metal_rate) / result?.header?.CurrencyExchRate))}</div>

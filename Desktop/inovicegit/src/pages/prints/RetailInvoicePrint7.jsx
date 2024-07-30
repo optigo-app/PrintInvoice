@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import style from "../../assets/css/prints/retailInvoicePrint7.module.css";
 import { ToWords } from 'to-words';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, result } from 'lodash';
 import Loader from '../../components/Loader';
 import {
     HeaderComponent,
@@ -58,6 +58,7 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
 
         let resultArr = [];
         datas.resultArray?.forEach((e, i) => {
+
             if (e.GroupJob === "") {
                 resultArr.push(e);
             } else {
@@ -70,6 +71,7 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         resultArr[findObj].MetalPurity = e?.MetalPurity;
                         resultArr[findObj].Categoryname = e?.Categoryname;
                         resultArr[findObj].SubCategoryname = e?.SubCategoryname;
+                        resultArr[findObj].Collectionname = e?.Collectionname;
                         resultArr[findObj].designno = e?.designno;
                         resultArr[findObj].SrJobno = e?.SrJobno;
                     }
@@ -175,7 +177,9 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         </div>
                         <div className="d-flex">
                             <div className="col-6"> <p className='fw-bold'>Reverse Charge </p> </div>
-                            <div className="col-6 d-flex"> <input type="checkbox" /> <p className='px-1'> Yes</p> <input type="checkbox" /> <p className='px-1'> No</p> </div>
+                            <div className="col-6 d-flex"> 
+                            <input type="checkbox" id='yes_rip' /> <p className='px-1'> <label htmlFor="yes_rip">Yes</label></p>
+                             <input type="checkbox" id='no_rip' /> <p className='px-1'> <label htmlFor="no_rip">No</label></p> </div>
                         </div>
                         {document?.aadharcard !== "" && <div className="d-flex">
                             <div className="col-6"> <p className='fw-bold'>AADHAR CARD </p> </div>
@@ -215,7 +219,7 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     return <div className=" d-flex border-start border-end border-bottom no_break" key={i}>
                         <div className={`${style?.Sr} p-1 d-flex justify-content-center align-items-center border-end d-flex align-items-center`}><p className=" text-center">{NumberWithCommas(i + 1, 0)}</p></div>
                         <div className={`${style?.Product} p-1 border-end d-flex  flex-column justify-content-center`}>
-                            <p className="" style={{ wordBreak: "normal" }}>{e?.SubCategoryname}  {e?.Categoryname} </p>
+                            <p className="" style={{ wordBreak: "normal" }}>{e?.Collectionname}  {e?.Categoryname} </p>
                             <p className="">{e?.designno} | {e?.SrJobno}</p>
                             {/* <p className="text-center">HUID-{e?.HUID}</p> */}
                         </div>
@@ -225,11 +229,11 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                     <p className="  col-3 border-end p-1 d-flex align-items-center">{e?.MetalType}</p>
                                     <div className="col-3 border-end p-1 d-flex align-items-center"> <p>{e?.MetalPurity}</p> </div>
                                     <p className="  col-3 text-center border-end p-1 d-flex justify-content-center align-items-center">{NumberWithCommas(e?.Quantity, 0)}</p>
-                                    <p className="  col-3 text-end p-1 d-flex align-items-center justify-content-end">{NumberWithCommas(e?.metalRate, 2)}</p>
+                                    <p className="  col-3 text-end p-1 d-flex align-items-center justify-content-end">{NumberWithCommas((e?.metalRate / data?.header?.CurrencyExchRate), 2)}</p>
                                 </div>
                             </div>
                         </div>
-                        <div className={`${style?.Total} p-1 text-end d-flex align-items-center justify-content-end`}><p className="">{NumberWithCommas(e?.UnitCost, 2)}</p></div>
+                        <div className={`${style?.Total} p-1 text-end d-flex align-items-center justify-content-end`}><p className="">{NumberWithCommas((e?.UnitCost / data?.header?.CurrencyExchRate), 2)}</p></div>
                     </div>
                 })
                 }
@@ -291,9 +295,12 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                             })
                         }
                         {/* <p className='text-end px-1'>{NumberWithCommas(headerData?.BankReceived, 2)}</p> */}
-                        <p className='text-end px-1'>{NumberWithCommas((data?.mainTotal?.total_amount / headerData?.CurrencyRate) +
-                            data?.allTaxes?.reduce((acc, cObj) => acc + +((+cObj?.amount)?.toFixed(2)), 0) +(headerData?.AddLess / headerData?.CurrencyExchRate) -
-                            bank?.reduce((acc, cObj) => acc + +((+cObj?.amount)?.toFixed(2)), 0) - headerData?.OldGoldAmount - headerData?.CashReceived, 2)}</p>
+                        <p className='text-end px-1'>{
+                        NumberWithCommas((data?.mainTotal?.total_amount / headerData?.CurrencyRate) +
+                            data?.allTaxes?.reduce((acc, cObj) => acc +
+                             +((+cObj?.amount)?.toFixed(2)), 0) +(headerData?.AddLess / headerData?.CurrencyExchRate) -
+                            // bank?.reduce((acc, cObj) => acc + +((+cObj?.amount)?.toFixed(2)), 0) - headerData?.OldGoldAmount - headerData?.CashReceived, 2)}</p>
+                            bank?.reduce((acc, cObj) => acc + +((+cObj?.amount)?.toFixed(2)), 0) - headerData?.OldGoldAmount , 2)}</p>
                         <p className="text-end mt-1 border-top p-1 fw-bold"><span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }} className='pe-1'></span>{NumberWithCommas(+(data?.mainTotal?.total_amount / headerData?.CurrencyRate)?.toFixed(2) +
                             data?.allTaxes?.reduce((acc, cObj) => acc + +((+cObj?.amount)?.toFixed(2)), 0) +(headerData?.AddLess / headerData?.CurrencyExchRate), 2)}</p>
                     </div>

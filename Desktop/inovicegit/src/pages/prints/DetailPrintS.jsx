@@ -1270,7 +1270,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="summary_container_dp7_product_head">
                       <div className="sum_prod_head_col_1 dp7cen">CATEGORY</div>
                       <div className="sum_prod_head_col_2 dp7cen">PIECES</div>
-                      <div className="sum_prod_head_col_3 dp7cen">GORSS WT</div>
+                      <div className="sum_prod_head_col_3 dp7cen">GROSS WT</div>
                       <div className="sum_prod_head_col_4 dp7cen">NET WT</div>
                       <div className="sum_prod_head_col_5 dp7cen">WASTAGE</div>
                       <div className="sum_prod_head_col_6 dp7cen">FINE</div>
@@ -1358,7 +1358,8 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.pcPcs}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_3 dp7cen2">
-                              {formatAmount((((e?.AmtAmount / result?.header?.CurrencyExchRate))/((e?.isRateOnPcs === 0 ? (e?.Wt === 0 ? 1 : e?.Wt) : (e?.Pcs === 0 ? 1 : e?.Pcs)))))}
+                              {/* {formatAmount((((e?.AmtAmount / result?.header?.CurrencyExchRate))/((e?.isRateOnPcs === 0 ? (e?.Wt === 0 ? 1 : e?.Wt) : (e?.Pcs === 0 ? 1 : e?.Pcs)))))} */}
+                              {formatAmount(e?.Rate)}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_4 dp7cen2">
                               {e?.MasterManagement_DiamondStoneTypeid === 2
