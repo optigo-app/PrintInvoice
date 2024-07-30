@@ -24,6 +24,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [imgFlag, setImgFlag] = useState(true);
+  const [catcount, setCatCount] = useState(0);
   const [miscWise_total, setMiscWise_total] = useState({
     Pcs: 0,
     pcPcs: 0,
@@ -167,7 +168,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setLoader(false);
 
       let cgwise = [];
-
+      let cat_Count = 0;
       datas?.resultArray?.forEach((e) => {
         let findIndex = cgwise?.findIndex(
           (el) =>
@@ -182,6 +183,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           obj.cg_tunch = e?.Tunch;
           // obj.cg_finewt = (e?.NetWt * e?.Tunch) / 100;
           obj.cg_finewt = e?.fineWtss;
+          obj.cat_count = 1;
           cgwise.push(obj);
         } else {
           cgwise[findIndex].cg_netwt +=
@@ -191,10 +193,15 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           cgwise[findIndex].cg_quantity += e?.Quantity;
           cgwise[findIndex].cg_tunch += e?.Tunch;
           cgwise[findIndex].cg_wastage += e?.Wastage;
+          cgwise[findIndex].cat_count += 1;
           // cgwise[findIndex].cg_finewt += (e?.NetWt * e?.Tunch) / 100;
           cgwise[findIndex].cg_finewt += e?.fineWtss;
         }
       });
+      cgwise.forEach((e) => {
+        cat_Count = cat_Count + e?.cat_count
+      });
+      setCatCount(cat_Count)
       cgwise.sort((a, b) => a.Categoryname.localeCompare(b.Categoryname));
       setCategoryWise(cgwise);
       //product summary wise start
@@ -1185,7 +1192,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.Categoryname}
                             </div>
                             <div className="sum_prod_head_col_2 dp7cen2">
-                              {e?.cg_quantity}
+                              {e?.cat_count}
                             </div>
                             <div className="sum_prod_head_col_3 dp7cen2">
                               {e?.cg_grosswt?.toFixed(3)}
@@ -1211,8 +1218,9 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="summary_container_dp7_product_total fw-bold fsgdp7">
                       <div className="sum_prod_head_col_1 dp7cen1">Total</div>
                       <div className="sum_prod_head_col_2 dp7cen2">
-                        {result?.mainTotal?.total_Quantity !== 0 &&
-                          result?.mainTotal?.total_Quantity}
+                        {/* {result?.mainTotal?.total_Quantity !== 0 &&
+                          result?.mainTotal?.total_Quantity} */}
+                          {catcount}
                       </div>
                       <div className="sum_prod_head_col_3 dp7cen2">
                         {result?.mainTotal?.grosswt !== 0 &&

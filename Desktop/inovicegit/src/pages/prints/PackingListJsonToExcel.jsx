@@ -71,15 +71,22 @@ const PackingListJsonToExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer
             item_group:'OPERATION',
             desc:``,
             PIECES:0,
+            // Pcs:0,
             WEIGHT:0,
+            Wt:0,
             row_no:4,
             RATE:0,
             MasterManagement_DiamondStoneTypeid : 11
           }
           if(e?.MakingChargeOnid === 1){
-            obj.desc = 'Making Charge per Gram'
-          }else if(e?.MakingChargeOnid === 5){
-            obj.desc = "Making Charge Per Pieces"
+            obj.desc = 'Making Charge per Gram';
+            // obj.WEIGHT = e?.NetWt;
+            obj.Wt = (e?.NetWt + e?.LossWt);
+
+          }else if(e?.MakingChargeOnid === 5 || e?.MakingChargeOnid === 4){
+            obj.desc = "Making Charge Per Pieces";
+            // obj.WEIGHT = e?.NetWt;
+            obj.Wt = (e?.NetWt + e?.LossWt);
           }
 
           let all = [...b?.metal, ...b?.diamonds, ...b?.colorstone, ...misc23, obj];
@@ -91,7 +98,6 @@ const PackingListJsonToExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer
         })
 
         datas.resultArray = finalArr;
-
         let finalArr2 = [];
 
         datas?.resultArray?.forEach((e) => {
@@ -153,7 +159,6 @@ const PackingListJsonToExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer
               }
               obj.row_no = 4
             }
-            
             arr.push(obj);
           });
         
@@ -223,7 +228,7 @@ const PackingListJsonToExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer
               obj.item_group = (e?.material[ind]?.item_group);
               obj.item_name = (e?.material[ind]?.item_name);
               obj.PIECES = ( (e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 6 || e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 3) ? '' : e?.material[ind]?.Pcs);
-              obj.WEIGHT = ( (e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 6 || e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 3) ? '' : e?.material[ind]?.Wt);
+              obj.WEIGHT = ( (e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 6 || e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 3) ? '' : e?.material[ind]?.Wt );
               obj.RATE = ( e?.material[ind]?.MasterManagement_DiamondStoneTypeid === 11 ? (e?.MaKingCharge_Unit) : e?.material[ind]?.Rate);
               obj.desc = (e?.material[ind]?.desc);
               obj.row_no = e?.material[ind]?.row_no;
@@ -246,13 +251,12 @@ const PackingListJsonToExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer
 
 
          // for download excel direct
-         setTimeout(() => {
-          const button = document?.getElementById('test-table-xls-button');
-          button.click();
-        }, 0);
+        //  setTimeout(() => {
+        //   const button = document?.getElementById('test-table-xls-button');
+        //   button.click();
+        // }, 0);
 
       }
-
 
   return (
     <>
