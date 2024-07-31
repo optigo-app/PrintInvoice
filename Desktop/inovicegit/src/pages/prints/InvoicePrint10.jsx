@@ -51,6 +51,7 @@ const InvoicePrint_10_11 = ({
   const [taxes, setTaxes] = useState([]);
   const [pnm, setPnm] = useState(atob(printName).toLowerCase());
   const [totalpcsss, setTotalPcsss] = useState(0);
+  const [inpDesc, setInpDesc] = useState('DIAMOND STUDDED JEWELLERY');
   const toWords = new ToWords();
   const [headerss, setHeaderss] = useState(null);
 
@@ -362,10 +363,10 @@ const InvoicePrint_10_11 = ({
 
     newArr?.sort((a, b) => {
       var regex = /(\d+)|(\D+)/g;
-      var partsA = a.label.match(regex);
-      var partsB = b.label.match(regex);
+      var partsA = a?.label?.match(regex);
+      var partsB = b?.label?.match(regex);
 
-      for (var i = 0; i < Math.min(partsA.length, partsB.length); i++) {
+      for (var i = 0; i < Math?.min(partsA.length, partsB.length); i++) {
         var partA = partsA[i];
         var partB = partsB[i];
 
@@ -434,11 +435,15 @@ const InvoicePrint_10_11 = ({
     sendData();
   }, []);
 
+  const handleChange = (e) => {
+    setInpDesc(e.target.value);
+  }
+
   return loader ? (
     <Loader />
   ) : msg === "" ? (
     <div
-      className={`container container-fluid max_width_container mt-1 ${style?.InvoicePrint_10_11} pad_60_allPrint`}
+      className={`container container-fluid ${style?.max_width_invp1011} mt-1 ${style?.InvoicePrint_10_11} pad_60_allPrint`}
     >
       {/* buttons */}
       <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`} >
@@ -450,27 +455,27 @@ const InvoicePrint_10_11 = ({
       {headerData?.IsEinvoice !== 1 ? <><div className={`${style2.headline} headerTitle`}>
         {headerData?.PrintHeadLabel}
       </div>
-        <div className={`${style?.font_12} ${style2.companyDetails}`}>
-          <div className={`${style2.companyhead} p-2`}>
+        <div className={`${style?.font_12} ${style2.companyDetails} ${style?.head_line_invp1011}`}>
+          <div className={`${style2.companyhead} p-2 ${style?.head_line_invp1011}`}>
             <div className={`${style2.lines} ${style?.font_16}`} style={{ fontWeight: "bold" }} >
               {headerData?.CompanyFullName}
             </div>
-            <div className={style2.lines}>{headerData?.CompanyAddress}</div>
-            <div className={style2.lines}>{headerData?.CompanyAddress2}</div>
-            <div className={style2.lines}>
+            <div >{headerData?.CompanyAddress}</div>
+            <div >{headerData?.CompanyAddress2}</div>
+            <div >
               {headerData?.CompanyCity}-{headerData?.CompanyPinCode},
               {headerData?.CompanyState}({headerData?.CompanyCountry})
             </div>
             {/* <div className={style2.lines}>Tell No: {headerData?.CompanyTellNo}</div> */}
-            <div className={style2.lines}>
+            <div >
               T: {headerData?.CompanyTellNo} | TOLL FREE{" "}
               {headerData?.CompanyTollFreeNo} | TOLL FREE{" "}
               {headerData?.CompanyTollFreeNo}
             </div>
-            <div className={style2.lines}>
+            <div >
               {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
             </div>
-            <div className={style2.lines}>
+            <div >
               {/* {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber} */}
               {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-
               {headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
@@ -485,7 +490,7 @@ const InvoicePrint_10_11 = ({
                 src={headerData?.PrintLogo}
                 alt=""
                 className="w-100 h-auto ms-auto d-block object-fit-contain"
-                style={{ maxWidth: "116px" }}
+                style={{ maxWidth: "97px" }}
                 onError={handleImageErrors}
                 height={120}
                 width={150}
@@ -618,11 +623,15 @@ const InvoicePrint_10_11 = ({
         </div>
         <div className="d-flex border-start border-end border-bottom">
           <div className="col-3 border-end d-flex align-items-center pt-5 flex-column">
-            <p className={`w-100 text-center pb-1 ${style?.font_13}`}>
-              {mainDatas?.mainTotal?.diamonds?.Pcs > 0
+            <div className={style?.print_sec_sum4}>
+              <input type="text" autoFocus={true} className={`${style?.inp_Desc}`} value={inpDesc} onChange={handleChange} />
+            </div>
+            <p className={`w-100 text-center pb-1 ${style?.font_13} ${style?.print_sec_sum42}`}>
+              {/* {mainDatas?.mainTotal?.diamonds?.Pcs > 0
                 ? "DIAMOND STUDDED"
                 : "GOLD"}{" "}
-              JEWELLERY
+              JEWELLERY */}
+              {inpDesc}
             </p>
             <p className={`fw-bold ${style?.font_17}`}>
               Total Pcs : {NumberWithCommas(totalss?.totalPcs, 0)}
@@ -1039,7 +1048,7 @@ const InvoicePrint_10_11 = ({
                     style={{ minWidth: "15%", width: "15%" }}
                     className=" px-1 text-end"
                   >
-                    <p>{NumberWithCommas(e?.value, 2)}</p>
+                    <p>{ e?.value === undefined ? '0.00' : NumberWithCommas(e?.value, 2)}</p>
                   </div>
                 </div>
               );
@@ -1131,7 +1140,7 @@ const InvoicePrint_10_11 = ({
           className={`d-flex border-start border-end border-bottom no_break ${style?.font_15}`}
         >
           <div className="col-8 border-end px-1">
-            <p className="fw-bold"> IN Words Indian Rupees</p>
+            <p className="fw-bold"> In Words Indian Rupees</p>
             <p className="fw-bold">
               {toWords.convert(
                 +fixedValues(
@@ -1170,7 +1179,7 @@ const InvoicePrint_10_11 = ({
           </div>
         </div>
         <div
-          className={`border-start border-end border-bottom p-1 no_break ${style?.Declaration}`}
+          className={`border-start border-end border-bottom p-1 no_break  ${style?.delinvp11}`}
           dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}
         ></div>
         <p className="p-1 no_break">

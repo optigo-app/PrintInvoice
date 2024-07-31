@@ -76,10 +76,19 @@
 .companyFUllnameInvp11{
     font-size: 14px;
 }
+.inp_Desc{
+    width: 170px;
+}
+.print_sec_sum42{
+    display: none !important;
+}
 @media print{
 
     .print_sec_sum4{
         display: none !important;
+    }
+    .print_sec_sum42{
+        display: unset !important;
     }
 
     .InvoicePrint_10_11 *, .font_13 *:not(.Declaration *), .font_13{

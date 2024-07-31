@@ -1021,10 +1021,10 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <p className="fw-bold">GROSS WT </p>
                 <p>{NumberWithCommas(data?.mainTotal?.grosswt, 3)} gm</p>
               </div>
-              <div className="d-flex justify-content-between pad_1">
+              {/* <div className="d-flex justify-content-between pad_1">
                 <p className="fw-bold">*(G+D) WT </p>
                 <p>{NumberWithCommas(data?.mainTotal?.netwt + (data?.mainTotal?.diamonds?.Wt / 5), 3)} gm</p>
-              </div>
+              </div> */}
               <div className="d-flex justify-content-between pad_1" style={{ minHeight: "11.59px" }}>
                 <p className="fw-bold">{checkBox?.WithNetWt && "NET WT"} </p>
                 <p>{checkBox?.WithNetWt && <>{NumberWithCommas(netWt, 3)}gm</>} </p>
