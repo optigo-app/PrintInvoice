@@ -21,6 +21,7 @@ const PackingList7Group = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
   const [loader, setLoader] = useState(true);
   const [diamondWise, setDiamondWise] = useState([]);
   const [imgFlag, setImgFlag] = useState(true);
+  const [imgFlag2, setImgFlag2] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
 
   useEffect(() => {
@@ -432,6 +433,13 @@ const PackingList7Group = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
       setImgFlag(true);
     }
   };
+  const handleCheckbox2 = () => {
+    if (imgFlag2) {
+      setImgFlag2(false);
+    } else {
+      setImgFlag2(true);
+    }
+  };
 
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -464,10 +472,18 @@ const PackingList7Group = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
             <>
               <div className="containerdp10_pcl7 pab60_dp10_pcl7">
                 <div className="d-flex justify-content-end align-items-center hidebtndp10_pcl7 mb-4">
+                <span>
                   <input type="checkbox" id="imghideshow" className="mx-1" checked={imgFlag} onChange={handleCheckbox} />
                   <label htmlFor="imghideshow" className="me-3 user-select-none">
                     With Image
                   </label>
+                  </span>
+                  <span>
+                  <input type="checkbox" id="imghideshow2" className="mx-1" checked={imgFlag2} onChange={handleCheckbox2} />
+                  <label htmlFor="imghideshow2" className="me-3 user-select-none">
+                    With Header
+                  </label>
+                  </span>
                   <button className="btn_white blue mb-0 hidedp10_pcl7 m-0 p-2" onClick={(e) => handlePrint(e)} >
                     Print
                   </button>
@@ -478,7 +494,7 @@ const PackingList7Group = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                   { result?.header?.PrintHeadLabel === '' ? '' : <div className="pheaddp10_pcl7">
                     {result?.header?.PrintHeadLabel}
                   </div>}
-                  <div className="d-flex justify-content-between">
+                  { imgFlag2 && <div className="d-flex justify-content-between">
                     <div className="p-1 fsgdp10_pcl7_2">
                       <div className="fw-bold cfullname_pcl7 ">
                         {result?.header?.CompanyFullName}
@@ -513,7 +529,7 @@ const PackingList7Group = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                         className="imgHWdp10"
                       /> */}
                     </div>
-                  </div>
+                  </div>}
                 </div>
                 {/* subheader */}
                 <div className="subheaderdp10_pcl7">

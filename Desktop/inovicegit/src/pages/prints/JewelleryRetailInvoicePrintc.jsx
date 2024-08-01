@@ -6,6 +6,7 @@ import {
   CapitalizeWords,
   checkMsg,
   fixedValues,
+  formatAmount,
   GovernMentDocuments,
   handleImageError,
   isObjectEmpty,
@@ -16,6 +17,7 @@ import {
 import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
 import { ToWords } from 'to-words';
+import { cloneDeep } from "lodash";
 
 const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [headerData, setHeaderData] = useState({});
@@ -43,11 +45,41 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
   const [documents, setDocuments] = useState([]);
   const [taxes, setTaxes] = useState([]);
   const [bank, setBank] = useState([]);
+  const [metRate, setMetRate] = useState([]);
   async function loadData(data) {
     try {
       setHeaderData(data?.BillPrint_Json[0]);
       let blankArr = [];
       let totals = { ...total };
+
+      //diamond grouping start
+      let diaArr = [];
+      data?.BillPrint_Json1?.forEach((e) => {
+        data?.BillPrint_Json2?.forEach((el) => {
+          let b = cloneDeep(el);
+          if(e?.SrJobno === b?.StockBarcode){
+            if(el?.MasterManagement_DiamondStoneTypeid === 1){
+               let findrec =  diaArr?.findIndex((a) => a?.ShapeName === b?.ShapeName)
+               if(findrec === -1){
+                diaArr.push(b);
+               }else{
+                diaArr[findrec].Wt += b?.Wt;
+                diaArr[findrec].Amount += b?.Amount;
+                diaArr[findrec].Pcs += b?.Pcs;
+               }
+            }
+          }
+        })
+      });
+
+       let bj2 = data?.BillPrint_Json2?.filter((e) => e?.MasterManagement_DiamondStoneTypeid !== 1);
+       const mainBJ = [...bj2, ...diaArr];
+
+       data.BillPrint_Json2 = mainBJ;
+
+
+       //diamond grouping over
+
       data?.BillPrint_Json1.forEach((e, i) => {
         let obj = { ...e };
         totals.gwt += e?.grosswt;
@@ -58,6 +90,7 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
         totals.discount += e?.DiscountAmt;
         let materials = [];
         let metalMaking = obj?.MetalAmount + obj?.MakingAmount;
+
         data?.BillPrint_Json2.forEach((ele, ind) => {
           if (e?.SrJobno === ele?.StockBarcode) {
             if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
@@ -66,11 +99,11 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
             if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
               totals.diaColorWt += ele?.Wt;
               let findIndex = materials.findIndex(elem => elem?.MasterManagement_DiamondStoneTypeid === 1);
-              if (findIndex === -1) {
+              // if (findIndex === -1) {
                 materials.push(ele);
-              } else {
-                materials[findIndex].Wt += ele?.Wt;
-              }
+              // } else {
+              //   materials[findIndex].Wt += ele?.Wt;
+              // }
             }
             if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
               totals.diaColorWt += ele?.Wt;
@@ -158,6 +191,24 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
       let document = GovernMentDocuments(data?.BillPrint_Json[0]?.DocumentDetail);
       setDocuments(document);
       setLoader(false);
+
+
+      //metal grouping start
+      let metrate = [];
+      data?.BillPrint_Json2?.forEach((a) => {
+        const e = cloneDeep(a);
+
+        if(e?.MasterManagement_DiamondStoneTypeid === 4){
+          let findrec = metrate?.findIndex((al) => al?.QualityName === e?.QualityName);
+          if(findrec === -1){
+            metrate.push(e);
+          }
+        }
+
+      })
+      setMetRate(metrate);
+      //metal grouping over
+
     } catch (error) {
       console.log(error);
     }
@@ -290,7 +341,7 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
                       {headerData?.Cust_CST_STATE_No}
                     </div>
                   </div>
-                  <div className="col-4 p-2 position-relative pb-5">
+                  <div className="col-4 p-2 position-relative pb-1">
                     <div className="d-flex">
                       <div className="col-5">
                         <b className="JL13">INVOICE NO : </b>
@@ -325,11 +376,18 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
                       </div>
                     </div>
                     })}
-                    <div className="d-flex  position-absolute w-100 pb-2 bottom-0">
-                      <div className="d-flex">
-                        <b className="JL13 fs-6 pe-2">24K Gold Rate</b>
-                        <b className="fs-6"> {NumberWithCommas(headerData?.MetalRate24K, 2)}</b>
-                      </div>
+                    {/* <div className="d-flex  position-absolute w-100 pb-2 bottom-0"> */}
+                    <div className="pb-2 mt-2">
+                      {
+                        metRate?.map((e, i) => {
+                          return(
+                            <div className="d-flex" key={i}>
+                              <b className="JL13 fs-6 pe-2 fw-normal">{e?.QualityName}</b>
+                              <b className="fs-6 fw-normal"> {NumberWithCommas(e?.Rate, 2)}</b>
+                            </div>
+                          )
+                        })
+                      }
                     </div>
                   </div>
                 </div>
@@ -346,8 +404,9 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
                       <div className="d-flex">
                         <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-center border-end`}><p className="fw-bold p-1">Material</p></div>
                         <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-center border-end`}><p className="fw-bold p-1">Carat</p></div>
-                        <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-center border-end`}><p className="fw-bold p-1">GWT</p></div>
                         <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-center border-end p-1 flex-column`}><p className="fw-bold">STONE/</p><p className="fw-bold">DIA Wt.</p></div>
+                        <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-center border-end`}><p className="fw-bold p-1">Amount</p></div>
+                        <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-center border-end`}><p className="fw-bold p-1">GWT</p></div>
                         <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-center`}><p className="fw-bold p-1">NWT</p></div>
                       </div>
                     </div>
@@ -374,17 +433,19 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
                         {e?.materials.length > 0 ? e?.materials.map((ele, ind) => {
                           return <div className={`d-flex ${ind !== e?.materials.length - 1 && 'border-bottom'}`} key={ind}>
                             <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center`}><p className="p-1 lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 ? ele?.ShapeName : ele?.MasterManagement_DiamondStoneTypeName}</p></div>
-                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center`}><p className=" p-1 lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && ele?.QualityName}</p></div>
-                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.grosswt, 3)}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center`}><p className=" p-1 lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 ? ele?.QualityName : (ele?.MasterManagement_DiamondStoneTypeid === 1 ? ele?.ShapeName : '')}</p></div>
                             <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end p-1 d-flex align-items-center justify-content-end`}><p className=" text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid !== 4 && fixedValues(ele?.Wt, 3)}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid !== 4 && formatAmount(ele?.Amount)}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.grosswt, 3)}</p></div>
                             {/* <div className={`${style?.w_20JewerryRetailInvoicePrint} `}><p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.NetWt, 3)}</p></div> */}
                             <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.MetalDiaWt, 3)}</p></div>
                           </div>
                         }) : <div className="d-flex">
                           <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}><p className=" p-1 lh-1"></p></div>
                           <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}><p className=" p-1 lh-1"></p></div>
-                          <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}><p className=" p-1 text-end lh-1"></p></div>
                           <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end p-1 `}><p className=" text-end lh-1"></p></div>
+                          <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}><p className=" p-1 text-end lh-1"></p></div>
+                          <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}><p className=" p-1 text-end lh-1"></p></div>
                           <div className={`${style?.w_20JewerryRetailInvoicePrint} `}><p className=" p-1 text-end lh-1"></p></div>
                         </div>}
                       </div>
@@ -405,10 +466,11 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
                   <div className={`${style?.materialJewerryRetailInvoicePrint} border-end d-flex`}>
                     <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}><p className="fw-bold p-1 lh-1"></p></div>
                     <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}></div>
-                    <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}> <p className="fw-bold p-1 lh-1 text-end">{fixedValues(total?.gwt, 3)} gm</p> </div>
                     <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end p-1 flex-column d-flex align-items-end justify-content-center`}>
                       <p className="fw-bold pb-1 text-end lh-1">{fixedValues(total?.diaColorWt, 3)} Ctw</p>
                       <p className="fw-bold text-end lh-1">{fixedValues(total?.stoneWt, 3)} gm</p></div>
+                    <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}> <p className="fw-bold p-1 lh-1 text-end">{fixedValues(total?.gwt, 3)} </p> </div>
+                    <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}> <p className="fw-bold p-1 lh-1 text-end">{fixedValues(total?.gwt, 3)} gm</p> </div>
                     <div className={`${style?.w_20JewerryRetailInvoicePrint}  d-flex align-items-center justify-content-end`}><p className="fw-bold p-1 text-end lh-1">{fixedValues(total?.nwt, 3)} gm</p></div>
                   </div>
                   <div className={`${style?.metalMakingJewerryRetailInvoicePrint} border-end flex-column d-flex align-items-center justify-content-end`}>

@@ -364,24 +364,24 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       {/* header */}
       {checkBox?.WithHeader && <div className={style2?.companyDetails}>
         <div className={`${style2?.companyhead} p-2`}>
-          <div className={`${style2?.lines}`} style={{ fontWeight: "bold", }}>
+          <div className={`${style?.fs_header_dp9}`} style={{ fontWeight: "bold", }}>
             <p style={{ fontSize: "16px" }}>{headerData?.CompanyFullName}</p>
           </div>
-          <div className={`${style2?.lines} ${style?.addressFont}`}>{headerData?.CompanyAddress}</div>
-          <div className={`${style2?.lines} ${style?.addressFont}`}>{headerData?.CompanyAddress2}</div>
-          <div className={`${style2?.lines} ${style?.addressFont}`}>
+          <div className={`${style?.fs_header_dp9} ${style?.addressFont}`}>{headerData?.CompanyAddress}</div>
+          <div className={`${style?.fs_header_dp9} ${style?.addressFont}`}>{headerData?.CompanyAddress2}</div>
+          <div className={`${style?.fs_header_dp9} ${style?.addressFont}`}>
             {headerData?.CompanyCity}-{headerData?.CompanyPinCode},
             {headerData?.CompanyState}({headerData?.CompanyCountry})
           </div>
           {/* <div className={style2?.lines}>Tell No: {headerData?.CompanyTellNo}</div> */}
-          <div className={`${style2?.lines} ${style?.addressFont}`}>
+          <div className={`${style?.fs_header_dp9} ${style?.addressFont}`}>
             T {headerData?.CompanyTellNo} 
             {/* | TOLL FREE{" "} {headerData?.CompanyTollFreeNo} */}
           </div>
-          <div className={`${style2?.lines} ${style?.addressFont}`}>
+          <div className={`${style?.fs_header_dp9} ${style?.addressFont}`}>
             {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
           </div>
-          <div className={`${style2?.lines} ${style?.addressFont}`}>
+          <div className={`${style?.fs_header_dp9} ${style?.addressFont}`}>
             {/* {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber} */}
             {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-
             {headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
@@ -408,16 +408,16 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div className="col-3 border-end p-2">
           {checkBox?.WithHeader && <>  <p className={`${style?.addressFont}`}>{headerData?.lblBillTo}</p>
             <p className="fw-bold" style={{ fontSize: "14px" }}>{headerData?.customerfirmname}</p>
-            <p className={`${style?.addressFont}`}>{headerData?.customerAddress2}</p>
-            <p className={`${style?.addressFont}`}>{headerData?.customerAddress1}</p>
-            <p className={`${style?.addressFont}`}>{headerData?.customerAddress3}</p>
-            <p className={`${style?.addressFont}`}>
+            <p className={`${style?.addressFont} ${style?.fs_header_dp9}`}>{headerData?.customerAddress2}</p>
+            <p className={`${style?.addressFont} ${style?.fs_header_dp9}`}>{headerData?.customerAddress1}</p>
+            <p className={`${style?.addressFont} ${style?.fs_header_dp9}`}>{headerData?.customerAddress3}</p>
+            <p className={`${style?.addressFont} ${style?.fs_header_dp9}`}>
               {headerData?.customercity1}
               {headerData?.customerpincode}
             </p>
-            <p className={`${style?.addressFont}`}>{headerData?.customeremail1}</p>
-            <p className={`${style?.addressFont}`}>{headerData?.vat_cst_pan}</p>
-            <p className={`${style?.addressFont}`}>
+            <p className={`${style?.addressFont} ${style?.fs_header_dp9}`}>{headerData?.customeremail1}</p>
+            <p className={`${style?.addressFont} ${style?.fs_header_dp9}`}>{headerData?.vat_cst_pan}</p>
+            <p className={`${style?.addressFont} ${style?.fs_header_dp9}`}>
               {headerData?.Cust_CST_STATE}-{headerData?.Cust_CST_STATE_No}
             </p></>}
         </div>
@@ -432,16 +432,16 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </>}
           </div>
           <div className="col-6 d-flex justify-content-end align-items-end">
-            {checkBox?.WithHeader && <p className={`fw-bold ${style?.addressFont}  pb-5`}>
-              <span className={`pe-2 ${style?.addressFont}`}>Bill No</span>
+            {checkBox?.WithHeader && <p className={`fw-bold ${style?.addressFont}  pb-5`} style={{ fontSize: "14px" }}>
+              <span className={`pe-2 ${style?.addressFont}`} style={{ fontSize: "14px" }}>Bill No</span>
               {headerData?.InvoiceNo}
             </p>
             }
           </div>
         </div>
         <div className="col-3 p-2 text-end">
-          <p className={`${style?.addressFont}`}>
-            <span className={`fw-bold pe-4 ${style?.addressFont}`}>Gold Rate</span>{" "}
+          <p className={`${style?.addressFont}`} style={{ fontSize: "14px" }}>
+            <span className={`fw-bold pe-4 ${style?.addressFont}`} style={{ fontSize: "14px" }}>Gold Rate</span>{" "}
             {NumberWithCommas(headerData?.MetalRate24K, 2)}{" "}
           </p>
         </div>
@@ -590,8 +590,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       {/* table data */}
       {data?.resultArray.map((e, i) => {
-        console.log(e);
-        return <div key={i} className="no_break">
+        return <div key={i} className="no_break border-top">
           <div className="border-start border-end  border-black">
             <div className={`d-flex border-bottom ${style?.word_break}`}>
               <div
@@ -721,9 +720,9 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 className={`${style?.other} border-end position-relative ${style?.pad_bot_15}`}
               >
                 {e?.other_details.map((ele, ind) => {
-                  return <div className="d-flex justify-content-between" key={ind}>
-                    <p className="pad_1">{ele?.label}</p>
-                    <p className=" text-end pad_1">{NumberWithCommas(+ele?.value, 2)}</p>
+                  return <div className="d-flex justify-content-between text-break" key={ind}>
+                    <p className="pad_1 text-break" style={{width:'60%'}}>{ele?.label}</p>
+                    <p className=" text-end pad_1 text-break" style={{width:'40%'}}>{NumberWithCommas(+ele?.value, 2)}</p>
                   </div>
                 })}
                 {e?.miscOther.map((ele, ind) => {
@@ -820,7 +819,8 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
             </div>
           </div>
-          {e?.DiscountAmt !== 0 && <div className="d-flex border-start border-end border-bottom">
+          {/* {e?.DiscountAmt !== 0 && <div className="d-flex border-start border-end border-bottom"> */}
+          {e?.DiscountAmt !== 0 && <div className="d-flex" style={{borderLeft:'1px solid black', borderRight:'1px solid black', borderBottom:'1px solid #e8e8e8'}}>
             <div
               className={`${style?.sr} pad_1 border-end d-flex align-items-center justify-content-center`}
             >
@@ -1078,7 +1078,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           <div className="col-5 border-start border-end border-bottom">
             <h4 className="lightGrey fw-bold text-center border-bottom">Summary Detail</h4>
             {category.map((e, i) => {
-              return <div className="d-flex justify-content-between" key={i}>
+              return <div className="d-flex justify-content-between pad_1" key={i}>
                 <p className="fw-bold">{e?.label}</p>
                 <p>{NumberWithCommas(e?.value, 0)}</p>
               </div>
@@ -1086,12 +1086,12 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
           <div className="col-7 border-start border-end border-bottom d-flex">
             <div className={`col-6 border-end pad_1 ${style?.min_height_100} d-flex flex-column justify-content-between`} >
-              <p>Signature</p>
-              <p className="fw-bold pb-4">{headerData?.customerfirmname}</p>
+              <p className="pad_1">Signature</p>
+              <p className="fw-bold pb-1 pad_1">{headerData?.customerfirmname}</p>
             </div>
             <div className={`col-6 pad_1 ${style?.min_height_100} d-flex flex-column justify-content-between`} >
-              <p>Signature</p>
-              <p className="fw-bold pb-4">{headerData?.CompanyFullName}</p>
+              <p className="pad_1">Signature</p>
+              <p className="fw-bold pb-1 pad_1">{headerData?.CompanyFullName}</p>
             </div>
           </div>
         </div>

@@ -283,6 +283,8 @@ blockquote div {
 
 .pad_1 {
   padding: 1px;
+  padding-left: 2px;
+  padding-right: 2px;
 }
 
 .w_20 {

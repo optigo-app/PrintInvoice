@@ -78,7 +78,9 @@
   word-break: break-all;
 }
 
-
+.fs_header_dp9{
+  font-size: 12px;
+}
 @media print{
   /* .detailprint9 * { */
     /* font-size: 10px;
@@ -92,5 +94,8 @@
 
   .detailprint9 * {
     font-size: 8px;
+  }
+  .fs_header_dp9{
+    font-size: 10px;
   }
 }

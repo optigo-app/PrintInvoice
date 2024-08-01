@@ -82,6 +82,11 @@
 .print_sec_sum42{
     display: none !important;
 }
+.font_head{
+    font-size: 14px !important;
+}
+
+
 @media print{
 
     .print_sec_sum4{
@@ -133,4 +138,9 @@
     .companyFUllnameInvp11{
         font-size: 12px;
     }
+    .font_head{
+        font-size: 14px !important;
+    }
+
+
 }

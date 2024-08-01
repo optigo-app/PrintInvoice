@@ -18,7 +18,7 @@ import style2 from "../../assets/css/headers/header1.module.css";
 import footerStyle from "../../assets/css/footers/footer2.module.css";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { cloneDeep } from "lodash";
-
+import "../../components/barcodes/barcodeprintgen.css";
 const InvoicePrint_10_11 = ({
   token,
   invoiceNo,
@@ -457,7 +457,7 @@ const InvoicePrint_10_11 = ({
       </div>
         <div className={`${style?.font_12} ${style2.companyDetails} ${style?.head_line_invp1011}`}>
           <div className={`${style2.companyhead} p-2 ${style?.head_line_invp1011}`}>
-            <div className={`${style2.lines} ${style?.font_16}`} style={{ fontWeight: "bold" }} >
+            <div className={` ${style?.font_head}`} style={{ fontWeight: "bold" }} >
               {headerData?.CompanyFullName}
             </div>
             <div >{headerData?.CompanyAddress}</div>
@@ -503,11 +503,11 @@ const InvoicePrint_10_11 = ({
       {pnm === "invoice print 10" && (
         <div className={`mb-1 ${style?.font_15}`}>
           <div className={`d-flex justify-content-between border p-2 pb-1 `}>
-            <div className={`${style?.barcode}`}>
-              <BarcodePrintGenerator data={headerData?.VenCode} />
+            <div className={`barcodeinvp10_11`}>
+              <BarcodePrintGenerator data={headerData?.VenCode}  />
               <p className="fw-bold text-center">{headerData?.VenCode}</p>
             </div>
-            <div className={`${style?.barcode}`}>
+            <div className={`barcodeinvp10_11`}>
               <BarcodePrintGenerator data={headerData?.InvoiceNo} />
               <p className="fw-bold text-center">{headerData?.InvoiceNo}</p>
             </div>
@@ -627,10 +627,6 @@ const InvoicePrint_10_11 = ({
               <input type="text" autoFocus={true} className={`${style?.inp_Desc}`} value={inpDesc} onChange={handleChange} />
             </div>
             <p className={`w-100 text-center pb-1 ${style?.font_13} ${style?.print_sec_sum42}`}>
-              {/* {mainDatas?.mainTotal?.diamonds?.Pcs > 0
-                ? "DIAMOND STUDDED"
-                : "GOLD"}{" "}
-              JEWELLERY */}
               {inpDesc}
             </p>
             <p className={`fw-bold ${style?.font_17}`}>
