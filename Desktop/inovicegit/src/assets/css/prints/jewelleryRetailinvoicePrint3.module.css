@@ -142,6 +142,13 @@
     line-height: 150%;
 }
 
+.w_20_jrtic{
+    width: 20%;
+}
+.w_40_jrtic{
+    width: 40%;
+}
+
 @media print {
     .jewelelryRetailInvoiceContainer {
         max-width: 100% !important;
@@ -159,4 +166,5 @@
     .retailInvoice5Container *, .RetailInvoiceprint4 *, .RetailInvoiceprint6 *{
         font-size: 9px;
     }
+ 
 }

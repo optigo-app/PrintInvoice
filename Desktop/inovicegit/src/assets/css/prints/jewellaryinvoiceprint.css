@@ -408,6 +408,13 @@
 .tot_jip{
     font-size: 15px;
 }
+
+.w_20_jrtic{
+    width: 20%;
+}
+.w_40_jrtic{
+    width: 40%;
+}
 @media print {
     .trowJL {
         page-break-inside: avoid;
@@ -432,4 +439,12 @@
         .tot_jip{
             font-size: 12px;
         }
+
+        
+    .w_20_jrtic{
+        width: 10% !important;
+    }
+    .w_40_jrtic{
+        width: 40% !important; 
+    }
 }

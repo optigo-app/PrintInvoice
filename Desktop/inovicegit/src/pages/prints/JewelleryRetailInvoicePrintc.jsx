@@ -382,8 +382,8 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
                         metRate?.map((e, i) => {
                           return(
                             <div className="d-flex" key={i}>
-                              <b className="JL13 fs-6 pe-2 fw-normal">{e?.QualityName}</b>
-                              <b className="fs-6 fw-normal"> {NumberWithCommas(e?.Rate, 2)}</b>
+                              <b className={`JL13  pe-2  JL13 w_20_jrtic`} style={{width:'20%'}}>{e?.QualityName}</b>
+                              <b className={"  JL13 w_40_jrtic"} style={{width:'40%'}}>Rate: {NumberWithCommas(e?.Rate, 2)}</b>
                             </div>
                           )
                         })
