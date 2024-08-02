@@ -18,10 +18,12 @@ import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
 import { ToWords } from 'to-words';
 import { cloneDeep } from "lodash";
+import { OrganizeInvoicePrintData } from './../../GlobalFunctions/OrganizeInvoicePrintData';
 
 const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [headerData, setHeaderData] = useState({});
   const [data, setdata] = useState([]);
+  const [data2, setdata2] = useState([]);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const toWords = new ToWords();
@@ -54,28 +56,29 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
 
       //diamond grouping start
       let diaArr = [];
-      data?.BillPrint_Json1?.forEach((e) => {
-        data?.BillPrint_Json2?.forEach((el) => {
-          let b = cloneDeep(el);
-          if(e?.SrJobno === b?.StockBarcode){
-            if(el?.MasterManagement_DiamondStoneTypeid === 1){
-               let findrec =  diaArr?.findIndex((a) => a?.ShapeName === b?.ShapeName)
-               if(findrec === -1){
-                diaArr.push(b);
-               }else{
-                diaArr[findrec].Wt += b?.Wt;
-                diaArr[findrec].Amount += b?.Amount;
-                diaArr[findrec].Pcs += b?.Pcs;
-               }
-            }
-          }
-        })
-      });
+      // data?.BillPrint_Json1?.forEach((e) => {
+      //   data?.BillPrint_Json2?.forEach((el) => {
+      //     let b = cloneDeep(el);
+      //     if(e?.SrJobno === b?.StockBarcode){
+      //       if(el?.MasterManagement_DiamondStoneTypeid === 1){
+      //         console.log(el);
+      //          let findrec =  diaArr?.findIndex((a) => a?.ShapeName === b?.ShapeName)
+      //          if(findrec === -1){
+      //           diaArr.push(b);
+      //          }else{
+      //           diaArr[findrec].Wt += b?.Wt;
+      //           diaArr[findrec].Amount += b?.Amount;
+      //           diaArr[findrec].Pcs += b?.Pcs;
+      //          }
+      //       }
+      //     }
+      //   })
+      // });
 
-       let bj2 = data?.BillPrint_Json2?.filter((e) => e?.MasterManagement_DiamondStoneTypeid !== 1);
-       const mainBJ = [...bj2, ...diaArr];
-
-       data.BillPrint_Json2 = mainBJ;
+      //  let bj2 = data?.BillPrint_Json2?.filter((e) => e?.MasterManagement_DiamondStoneTypeid !== 1);
+      //  const mainBJ = [...bj2, ...diaArr];
+      // console.log(diaArr);
+      //  data.BillPrint_Json2 = mainBJ;
 
 
        //diamond grouping over
@@ -91,40 +94,40 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
         let materials = [];
         let metalMaking = obj?.MetalAmount + obj?.MakingAmount;
 
-        data?.BillPrint_Json2.forEach((ele, ind) => {
-          if (e?.SrJobno === ele?.StockBarcode) {
-            if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
-              materials.unshift(ele);
-            };
-            if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
-              totals.diaColorWt += ele?.Wt;
-              let findIndex = materials.findIndex(elem => elem?.MasterManagement_DiamondStoneTypeid === 1);
-              // if (findIndex === -1) {
-                materials.push(ele);
-              // } else {
-              //   materials[findIndex].Wt += ele?.Wt;
-              // }
-            }
-            if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
-              totals.diaColorWt += ele?.Wt;
-              let findIndex = materials.findIndex(elem => elem?.MasterManagement_DiamondStoneTypeid === 2);
-              if (findIndex === -1) {
-                materials.push(ele);
-              } else {
-                materials[findIndex].Wt += ele?.Wt;
-              }
-            }
-            if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
-              totals.stoneWt += ele?.Wt;
-              let findIndex = materials.findIndex(elem => elem?.MasterManagement_DiamondStoneTypeid === 3);
-              if (findIndex === -1) {
-                materials.push(ele);
-              } else {
-                materials[findIndex].Wt += ele?.Wt;
-              }
-            }
-          }
-        });
+        // data?.BillPrint_Json2.forEach((ele, ind) => {
+        //   if (e?.SrJobno === ele?.StockBarcode) {
+        //     if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
+        //       materials.unshift(ele);
+        //     };
+        //     if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+        //       totals.diaColorWt += ele?.Wt;
+        //       let findIndex = materials.findIndex(elem => elem?.MasterManagement_DiamondStoneTypeid === 1);
+        //       // if (findIndex === -1) {
+        //         materials.push(ele);
+        //       // } else {
+        //       //   materials[findIndex].Wt += ele?.Wt;
+        //       // }
+        //     }
+        //     if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
+        //       totals.diaColorWt += ele?.Wt;
+        //       let findIndex = materials.findIndex(elem => elem?.MasterManagement_DiamondStoneTypeid === 2);
+        //       if (findIndex === -1) {
+        //         materials.push(ele);
+        //       } else {
+        //         materials[findIndex].Wt += ele?.Wt;
+        //       }
+        //     }
+        //     if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
+        //       totals.stoneWt += ele?.Wt;
+        //       let findIndex = materials.findIndex(elem => elem?.MasterManagement_DiamondStoneTypeid === 3);
+        //       if (findIndex === -1) {
+        //         materials.push(ele);
+        //       } else {
+        //         materials[findIndex].Wt += ele?.Wt;
+        //       }
+        //     }
+        //   }
+        // });
         obj.materials = materials;
         obj.metalMaking = metalMaking;
         blankArr.push(obj);
@@ -142,52 +145,52 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
       });
       setTaxes(taxValue);
       setTotal(totals);
-      let resultArr = [];
-      blankArr.forEach((e, i) => {
-        if (e?.GroupJob !== "") {
-          let findIndex = resultArr.findIndex(ele => ele?.GroupJob === e?.GroupJob);
-          if (findIndex === -1) {
-            resultArr.push(e);
-          } else {
-            resultArr[findIndex].MakingAmount += e?.MakingAmount;
-            resultArr[findIndex].MetalAmount += e?.MetalAmount;
-            resultArr[findIndex].OtherCharges += e?.OtherCharges;
-            resultArr[findIndex].TotalAmount += e?.TotalAmount;
-            resultArr[findIndex].grosswt += e?.grosswt;
-            resultArr[findIndex].NetWt += e?.NetWt;
-            let arr = [resultArr[findIndex], e];
-            let findRecord = arr.find(elem => elem?.SrJobno === e?.GroupJob);
-            resultArr[findIndex].SubCategoryname = findRecord?.SubCategoryname;
-            resultArr[findIndex].Collectionname = findRecord?.Collectionname;
-            resultArr[findIndex].designno = findRecord?.designno;
-            resultArr[findIndex].SrJobno = findRecord?.SrJobno;
-            resultArr[findIndex].DesignImage = findRecord?.DesignImage;
-            e?.materials.forEach((ele, ind) => {
-              let arr = [1, 2, 3];
-              arr.forEach((element, index) => {
-                if (ele?.MasterManagement_DiamondStoneTypeid === element) {
-                  let findindexs = resultArr[findIndex].materials.findIndex((elem, index) => elem?.MasterManagement_DiamondStoneTypeid === element);
-                  if (findindexs === -1) {
-                    resultArr[findIndex].materials.push(ele);
-                  } else {
-                    resultArr[findIndex].materials[findindexs].Wt += ele?.Wt;
-                  }
-                }
-              });
-              if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
-                let findIndexss = resultArr[findIndex].materials.findIndex((elem, index) => elem?.MasterManagement_DiamondStoneTypeid === 4);
-                let findShapenameIndex = findRecord.materials.findIndex(elements => elements?.MasterManagement_DiamondStoneTypeid === 4)
-                resultArr[findIndex].materials[findIndexss].ShapeName = findRecord?.materials[findShapenameIndex].ShapeName;
-                resultArr[findIndex].materials[findIndexss].QualityName = findRecord?.materials[findShapenameIndex].QualityName;
-              }
-            });
+      // let resultArr = [];
+      // // blankArr.forEach((e, i) => {
+      // //   if (e?.GroupJob !== "") {
+      // //     let findIndex = resultArr.findIndex(ele => ele?.GroupJob === e?.GroupJob);
+      // //     if (findIndex === -1) {
+      // //       resultArr.push(e);
+      // //     } else {
+      // //       resultArr[findIndex].MakingAmount += e?.MakingAmount;
+      // //       resultArr[findIndex].MetalAmount += e?.MetalAmount;
+      // //       resultArr[findIndex].OtherCharges += e?.OtherCharges;
+      // //       resultArr[findIndex].TotalAmount += e?.TotalAmount;
+      // //       resultArr[findIndex].grosswt += e?.grosswt;
+      // //       resultArr[findIndex].NetWt += e?.NetWt;
+      // //       let arr = [resultArr[findIndex], e];
+      // //       let findRecord = arr.find(elem => elem?.SrJobno === e?.GroupJob);
+      // //       resultArr[findIndex].SubCategoryname = findRecord?.SubCategoryname;
+      // //       resultArr[findIndex].Collectionname = findRecord?.Collectionname;
+      // //       resultArr[findIndex].designno = findRecord?.designno;
+      // //       resultArr[findIndex].SrJobno = findRecord?.SrJobno;
+      // //       resultArr[findIndex].DesignImage = findRecord?.DesignImage;
+      // //       e?.materials.forEach((ele, ind) => {
+      // //         let arr = [1, 2, 3];
+      // //         arr.forEach((element, index) => {
+      // //           if (ele?.MasterManagement_DiamondStoneTypeid === element) {
+      // //             let findindexs = resultArr[findIndex].materials.findIndex((elem, index) => elem?.MasterManagement_DiamondStoneTypeid === element);
+      // //             if (findindexs === -1) {
+      // //               resultArr[findIndex].materials.push(ele);
+      // //             } else {
+      // //               resultArr[findIndex].materials[findindexs].Wt += ele?.Wt;
+      // //             }
+      // //           }
+      // //         });
+      // //         if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
+      // //           let findIndexss = resultArr[findIndex].materials.findIndex((elem, index) => elem?.MasterManagement_DiamondStoneTypeid === 4);
+      // //           let findShapenameIndex = findRecord.materials.findIndex(elements => elements?.MasterManagement_DiamondStoneTypeid === 4)
+      // //           resultArr[findIndex].materials[findIndexss].ShapeName = findRecord?.materials[findShapenameIndex].ShapeName;
+      // //           resultArr[findIndex].materials[findIndexss].QualityName = findRecord?.materials[findShapenameIndex].QualityName;
+      // //         }
+      // //       });
 
-          }
-        } else {
-          resultArr.push(e);
-        }
-      });
-      setdata(resultArr);
+      // //     }
+      // //   } else {
+      // //     resultArr.push(e);
+      // //   }
+      // // });
+      // setdata(resultArr);
       let document = GovernMentDocuments(data?.BillPrint_Json[0]?.DocumentDetail);
       setDocuments(document);
       setLoader(false);
@@ -199,7 +202,7 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
         const e = cloneDeep(a);
 
         if(e?.MasterManagement_DiamondStoneTypeid === 4){
-          let findrec = metrate?.findIndex((al) => al?.QualityName === e?.QualityName);
+          let findrec = metrate?.findIndex((al) => al?.QualityName === e?.QualityName );
           if(findrec === -1){
             metrate.push(e);
           }
@@ -207,6 +210,7 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
 
       })
       setMetRate(metrate);
+
       //metal grouping over
 
     } catch (error) {
@@ -221,6 +225,7 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
             loadData(data?.Data);
+            loadData2(data?.Data);
             setLoader(false);
           } else {
             setLoader(false);
@@ -244,6 +249,120 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
     image ? setImage(false) : setImage(true);
   }
 
+  function loadData2(data){
+    const datas2 = OrganizeInvoicePrintData(
+      data?.BillPrint_Json[0],
+      data?.BillPrint_Json1,
+      data?.BillPrint_Json2
+    );
+    const datas_clone = cloneDeep(datas2);
+
+    let finalArr = [];
+
+    datas_clone?.resultArray?.forEach((a) => {
+        if(a?.GroupJob === ''){
+          finalArr.push(a);
+      }else{
+        let b = cloneDeep(a);
+        let find_record = finalArr.findIndex((el) => el?.GroupJob === b?.GroupJob);
+        if(find_record === -1){
+          finalArr.push(b);
+        }else{
+          if(finalArr[find_record]?.GroupJob !== finalArr[find_record]?.SrJobno){
+              finalArr[find_record].designno = b?.designno;
+              finalArr[find_record].HUID = b?.HUID; 
+          }
+
+          finalArr[find_record].grosswt += b?.grosswt;
+          finalArr[find_record].NetWt += b?.NetWt;
+          finalArr[find_record].LossWt += b?.LossWt;
+          finalArr[find_record].TotalAmount += b?.TotalAmount;
+          finalArr[find_record].DiscountAmt += b?.DiscountAmt;
+          finalArr[find_record].UnitCost += b?.UnitCost;
+          finalArr[find_record].MakingAmount += b?.MakingAmount;
+          finalArr[find_record].OtherCharges += b?.OtherCharges;
+          finalArr[find_record].TotalDiamondHandling += b?.TotalDiamondHandling;
+          finalArr[find_record].Quantity += b?.Quantity;
+          finalArr[find_record].Wastage += b?.Wastage;
+
+          finalArr[find_record].diamonds = [...finalArr[find_record]?.diamonds, ...b?.diamonds]?.flat();
+          finalArr[find_record].colorstone = [...finalArr[find_record]?.colorstone, ...b?.colorstone]?.flat();
+          finalArr[find_record].metal = [...finalArr[find_record]?.metal, ...b?.metal]?.flat();
+          finalArr[find_record].misc = [...finalArr[find_record]?.misc ,...b?.misc]?.flat();
+          finalArr[find_record].misc_0List = [...finalArr[find_record]?.misc_0List ,...b?.misc_0List]?.flat();
+          finalArr[find_record].finding = [...finalArr[find_record]?.finding ,...b?.finding]?.flat();
+          finalArr[find_record].other_details_array = [...finalArr[find_record]?.other_details_array ,...b?.other_details_array]?.flat();
+
+          finalArr[find_record].other_details_array_amount += b?.other_details_array_amount;
+
+          finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
+          finalArr[find_record].totals.diamonds.Pcs += b?.totals?.diamonds?.Pcs;
+          finalArr[find_record].totals.diamonds.Amount += b?.totals?.diamonds?.Amount;
+          finalArr[find_record].totals.diamonds.SettingAmount += b?.totals?.diamonds?.SettingAmount;
+
+          finalArr[find_record].totals.finding.Wt += b?.totals?.finding?.Wt;
+          finalArr[find_record].totals.finding.Rate = b?.totals?.finding?.Rate;
+          finalArr[find_record].totals.finding.Pcs += b?.totals?.finding?.Pcs;
+          finalArr[find_record].totals.finding.Amount += b?.totals?.finding?.Amount;
+          finalArr[find_record].totals.finding.SettingAmount += b?.totals?.finding?.SettingAmount;
+
+          finalArr[find_record].totals.colorstone.Wt += b?.totals?.colorstone?.Wt;
+          finalArr[find_record].totals.colorstone.Pcs += b?.totals?.colorstone?.Pcs;
+          finalArr[find_record].totals.colorstone.Amount += b?.totals?.colorstone?.Amount;
+          finalArr[find_record].totals.colorstone.SettingAmount += b?.totals?.colorstone?.SettingAmount;
+
+          finalArr[find_record].totals.misc.Wt += b?.totals?.misc?.Wt;
+          finalArr[find_record].totals.misc.Pcs += b?.totals?.misc?.Pcs;
+          finalArr[find_record].totals.misc.Amount += b?.totals?.misc?.Amount;
+          finalArr[find_record].totals.misc.SettingAmount += b?.totals?.misc?.SettingAmount;
+
+          finalArr[find_record].totals.misc.IsHSCODE_0_amount += b?.totals?.misc?.IsHSCODE_0_amount;
+          finalArr[find_record].totals.misc.IsHSCODE_0_pcs += b?.totals?.misc?.IsHSCODE_0_pcs;
+          finalArr[find_record].totals.misc.IsHSCODE_0_wt += b?.totals?.misc?.IsHSCODE_0_wt;
+
+          finalArr[find_record].totals.metal.Amount += b?.totals?.metal?.Amount;
+          finalArr[find_record].totals.metal.Wt += b?.totals?.metal?.Wt;
+          finalArr[find_record].totals.metal.Pcs += b?.totals?.metal?.Pcs;
+
+          finalArr[find_record].totals.metal.IsNotPrimaryMetalAmount += b?.totals?.metal?.IsNotPrimaryMetalAmount;
+          finalArr[find_record].totals.metal.IsNotPrimaryMetalPcs += b?.totals?.metal?.IsNotPrimaryMetalPcs;
+          finalArr[find_record].totals.metal.IsNotPrimaryMetalSettingAmount += b?.totals?.metal?.IsNotPrimaryMetalSettingAmount;
+          finalArr[find_record].totals.metal.IsNotPrimaryMetalWt += b?.totals?.metal?.IsNotPrimaryMetalWt;
+
+          finalArr[find_record].totals.metal.IsPrimaryMetalAmount += b?.totals?.metal?.IsPrimaryMetalAmount;
+          finalArr[find_record].totals.metal.IsPrimaryMetalPcs += b?.totals?.metal?.IsPrimaryMetalPcs;
+          finalArr[find_record].totals.metal.IsPrimaryMetalSettingAmount += b?.totals?.metal?.IsPrimaryMetalSettingAmount;
+          finalArr[find_record].totals.metal.IsPrimaryMetalWt += b?.totals?.metal?.IsPrimaryMetalWt;
+
+        }
+      }
+      })
+  
+      datas_clone.resultArray = finalArr;
+
+
+      datas_clone?.resultArray?.forEach((a) => {
+        let dia = [];
+        
+        a?.diamonds?.forEach((el) => {
+          let obj = cloneDeep(el);
+          let findrec = dia?.findIndex((al) => al?.ShapeName === obj?.ShapeName)
+          if(findrec === -1){
+            dia.push(obj)
+          }else{
+            dia[findrec].Wt += obj?.Wt;
+            dia[findrec].Pcs += obj?.Pcs;
+            dia[findrec].Amount += obj?.Amount;
+          }
+        })
+        a.diamonds = dia;
+
+      })
+
+      setdata2(datas_clone);
+
+  }
+  console.log(data2);
   return (
     <>
       {loader ? (
@@ -366,7 +485,7 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
                         {headerData?.HSN_No}
                       </div>
                     </div>
-                    {documents.length > 0 && documents.map((e, i) => {
+                    {documents?.length > 0 && documents?.map((e, i) => {
                       return <div className="d-flex" key={i}>
                       <div className="col-5">
                         <b className="JL13">{e?.label} : </b>
@@ -381,10 +500,12 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
                       {
                         metRate?.map((e, i) => {
                           return(
-                            <div className="d-flex" key={i}>
-                              <b className={`JL13  pe-2  JL13 w_20_jrtic`} style={{width:'20%'}}>{e?.QualityName}</b>
+                            <>
+                            { e?.Rate !== 0 && <div className="d-flex" key={i}>
+                              <b className={`JL13  pe-2  JL13 w_20_jrtic`} style={{width:'40%'}}>{e?.QualityName}</b>
                               <b className={"  JL13 w_40_jrtic"} style={{width:'40%'}}>Rate: {NumberWithCommas(e?.Rate, 2)}</b>
-                            </div>
+                            </div>}
+                            </>
                           )
                         })
                       }
@@ -419,7 +540,117 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
                   </div>
                 </div>
                 {/* data */}
-                {data.length > 0 && data.map((e, i) => {
+                {/* {data?.resultArray?.length > 0 && data?.resultArray?.map((e, i) => { */}
+                {data2?.resultArray?.length > 0 && data2?.resultArray?.map((e, i) => {
+                  return <div className="border-start border-end border-bottom d-flex no_break" key={i}>
+                    <div className={`${style?.srNoJewerryRetailInvoicePrint} border-end p-1 d-flex align-items-center justify-content-center`}><p className="">{i + 1}</p></div>
+                    <div className={`${style?.productJewerryRetailInvoicePrint} border-end p-1 `}>
+                      <p className="">{e?.SubCategoryname} {e?.Categoryname}</p>
+                      <p className="">{e?.designno} | {e?.SrJobno}</p>
+                      {image && <img src={e?.DesignImage} alt="" onError={handleImageError} lazy='eagar' className={`w-75 p-1 ${style?.imageJewelleryC}`} />}
+                      {e?.HUID !== "" && <p className={`text-center ${!image && 'pt-3'}`}>HUID-{e?.HUID}</p>}
+                    </div>
+                    <div className={`${style?.materialJewerryRetailInvoicePrint} border-end`}>
+                      <div className="d-grid h-100">
+                        {
+                          e?.metal?.length > 0 && e?.metal?.map((ele, ind) => {
+                            return(
+                              <div className={`d-flex ${ind !== e?.materials?.length - 1 && 'border-bottom'}`} key={ind}>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center`}><p className="p-1 lh-1 text-break">{ele?.MasterManagement_DiamondStoneTypeid === 4 ? ele?.ShapeName : ele?.MasterManagement_DiamondStoneTypeName}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center`}><p className=" p-1 lh-1 text-break">{ele?.MasterManagement_DiamondStoneTypeid === 4 ? ele?.QualityName : (ele?.MasterManagement_DiamondStoneTypeid === 1 ? ele?.ShapeName : '')}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end p-1 d-flex align-items-center justify-content-end text-break`}>
+                                <p className=" text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid !== 4 && fixedValues(ele?.Wt, 3)}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}>
+                              <p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid !== 4 && formatAmount(ele?.Amount)}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}>
+                              <p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.grosswt, 3)}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.MetalDiaWt, 3)}</p></div>
+                          </div>
+                            )
+                          })
+                        }
+                        {
+                          e?.diamonds?.length > 0 && e?.diamonds?.map((ele, ind) => {
+                            return(
+                              <div className={`d-flex ${ind !== e?.materials?.length - 1 && 'border-bottom'}`} key={ind}>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center`}><p className="p-1 lh-1 text-break">DIAMOND</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center`}><p className=" p-1 lh-1 text-break">{ele?.ShapeName}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end p-1 d-flex align-items-center justify-content-end text-break`}>
+                                <p className=" text-end lh-1">{fixedValues(ele?.Wt, 3)}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}>
+                              <p className=" p-1 text-end lh-1">{formatAmount(ele?.Amount)}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}>
+                              <p className=" p-1 text-end lh-1"></p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
+                          </div>
+                            )
+                          })
+                        }
+                        {
+            
+                              // <div className={`d-flex ${ind !== e?.materials?.length - 1 && 'border-bottom'}`}>
+                              (e?.totals?.colorstone?.Wt !== 0 && e?.totals?.colorstone?.Amount !== 0) &&  <div className={`d-flex `}>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center`}><p className="p-1 lh-1 text-break">COLORSTONE</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center`}><p className=" p-1 lh-1 text-break"></p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end p-1 d-flex align-items-center justify-content-end text-break`}>
+                                <p className=" text-end lh-1">{fixedValues(e?.totals?.colorstone?.Wt, 3)}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}>
+                              <p className=" p-1 text-end lh-1">{formatAmount(e?.totals?.colorstone?.Amount)}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}>
+                              <p className=" p-1 text-end lh-1"></p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
+                          </div>
+                  
+                        }
+                        {
+            
+                              // <div className={`d-flex ${ind !== e?.materials?.length - 1 && 'border-bottom'}`}>
+                              (e?.totals?.misc?.IsHSCODE_0_wt !== 0 && e?.totals?.misc?.IsHSCODE_0_amount !== 0) &&  <div className={`d-flex border-top`}>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center`}><p className="p-1 lh-1 text-break">MISC</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center`}><p className=" p-1 lh-1 text-break"></p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end p-1 d-flex align-items-center justify-content-end text-break`}>
+                                <p className=" text-end lh-1">{fixedValues(e?.totals?.misc?.IsHSCODE_0_wt, 3)}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}>
+                              <p className=" p-1 text-end lh-1">{formatAmount(e?.totals?.misc?.IsHSCODE_0_amount)}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}>
+                              <p className=" p-1 text-end lh-1"></p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-end`}>
+                              <p className=" p-1 text-end lh-1"></p></div>
+                          </div>
+                  
+                        }
+                        {/* {e?.materials?.length > 0 ? e?.materials?.map((ele, ind) => { */}
+                         {/* { e?.metal?.map((ele, ind) => {
+                          return <div className={`d-flex ${ind !== e?.materials.length - 1 && 'border-bottom'}`} key={ind}>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center`}><p className="p-1 lh-1 text-break">{ele?.MasterManagement_DiamondStoneTypeid === 4 ? ele?.ShapeName : ele?.MasterManagement_DiamondStoneTypeName}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center`}><p className=" p-1 lh-1 text-break">{ele?.MasterManagement_DiamondStoneTypeid === 4 ? ele?.QualityName : (ele?.MasterManagement_DiamondStoneTypeid === 1 ? ele?.ShapeName : '')}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end p-1 d-flex align-items-center justify-content-end text-break`}>
+                                <p className=" text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid !== 4 && fixedValues(ele?.Wt, 3)}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}>
+                              <p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid !== 4 && formatAmount(ele?.Amount)}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}>
+                              <p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.grosswt, 3)}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.MetalDiaWt, 3)}</p></div>
+                          </div>
+                        }) } */}
+                         { (e?.metal?.length + e?.diamonds?.length + e?.colorstone?.length + e?.misc?.length ) === 0 && <div className="d-flex">
+                           <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}><p className=" p-1 lh-1"></p></div>
+                           <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}><p className=" p-1 lh-1"></p></div>
+                           <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end p-1 `}><p className=" text-end lh-1"></p></div>
+                           <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}><p className=" p-1 text-end lh-1"></p></div>
+                           <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}><p className=" p-1 text-end lh-1"></p></div>
+                           <div className={`${style?.w_20JewerryRetailInvoicePrint} `}><p className=" p-1 text-end lh-1"></p></div>
+                         </div>}
+                      </div>
+                    </div>
+                    <div className={`${style?.metalMakingJewerryRetailInvoicePrint} border-end align-items-center d-flex justify-content-end`}>
+                      <p className="text-end p-1">{NumberWithCommas((e?.totals?.metal?.Amount + e?.MakingAmount), 2)}</p>
+                    </div>
+                    <div className={`${style?.othersJewerryRetailInvoicePrint} border-end align-items-center d-flex justify-content-end`}><p className=" text-end p-1">{NumberWithCommas(e?.OtherCharges, 2)}</p></div>
+                    <div className={`${style?.totalJewerryRetailInvoicePrint} align-items-center d-flex justify-content-end`}><p className=" text-end p-1">{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
+                    </div>
+                })}
+                {/* {data.length > 0 && data.map((e, i) => {
                   return <div className="border-start border-end border-bottom d-flex no_break" key={i}>
                     <div className={`${style?.srNoJewerryRetailInvoicePrint} border-end p-1 d-flex align-items-center justify-content-center`}><p className="">{i + 1}</p></div>
                     <div className={`${style?.productJewerryRetailInvoicePrint} border-end p-1 `}>
@@ -432,12 +663,14 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
                       <div className="d-grid h-100">
                         {e?.materials.length > 0 ? e?.materials.map((ele, ind) => {
                           return <div className={`d-flex ${ind !== e?.materials.length - 1 && 'border-bottom'}`} key={ind}>
-                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center`}><p className="p-1 lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 ? ele?.ShapeName : ele?.MasterManagement_DiamondStoneTypeName}</p></div>
-                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center`}><p className=" p-1 lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 ? ele?.QualityName : (ele?.MasterManagement_DiamondStoneTypeid === 1 ? ele?.ShapeName : '')}</p></div>
-                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end p-1 d-flex align-items-center justify-content-end`}><p className=" text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid !== 4 && fixedValues(ele?.Wt, 3)}</p></div>
-                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid !== 4 && formatAmount(ele?.Amount)}</p></div>
-                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.grosswt, 3)}</p></div>
-                            {/* <div className={`${style?.w_20JewerryRetailInvoicePrint} `}><p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.NetWt, 3)}</p></div> */}
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center`}><p className="p-1 lh-1 text-break">{ele?.MasterManagement_DiamondStoneTypeid === 4 ? ele?.ShapeName : ele?.MasterManagement_DiamondStoneTypeName}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center`}><p className=" p-1 lh-1 text-break">{ele?.MasterManagement_DiamondStoneTypeid === 4 ? ele?.QualityName : (ele?.MasterManagement_DiamondStoneTypeid === 1 ? ele?.ShapeName : '')}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end p-1 d-flex align-items-center justify-content-end text-break`}>
+                                <p className=" text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid !== 4 && fixedValues(ele?.Wt, 3)}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}>
+                              <p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid !== 4 && formatAmount(ele?.Amount)}</p></div>
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}>
+                              <p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.grosswt, 3)}</p></div>
                             <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.MetalDiaWt, 3)}</p></div>
                           </div>
                         }) : <div className="d-flex">
@@ -455,8 +688,8 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
                     </div>
                     <div className={`${style?.othersJewerryRetailInvoicePrint} border-end align-items-center d-flex justify-content-end`}><p className=" text-end p-1">{NumberWithCommas(e?.OtherCharges, 2)}</p></div>
                     <div className={`${style?.totalJewerryRetailInvoicePrint} align-items-center d-flex justify-content-end`}><p className=" text-end p-1">{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
-                  </div>
-                })}
+                    </div>
+                })} */}
                 {/* total */}
                 <div className={`${style?.minHeight20RetailinvoicePrint3} border-start border-end border-bottom d-flex no_break`}>
                   <div className={`${style?.srNoJewerryRetailInvoicePrint} border-end p-1`}><p className="fw-bold"></p></div>
@@ -467,17 +700,19 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
                     <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}><p className="fw-bold p-1 lh-1"></p></div>
                     <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}></div>
                     <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end p-1 flex-column d-flex align-items-end justify-content-center`}>
-                      <p className="fw-bold pb-1 text-end lh-1">{fixedValues(total?.diaColorWt, 3)} Ctw</p>
-                      <p className="fw-bold text-end lh-1">{fixedValues(total?.stoneWt, 3)} gm</p></div>
-                    <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}> <p className="fw-bold p-1 lh-1 text-end">{fixedValues(total?.gwt, 3)} </p> </div>
-                    <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}> <p className="fw-bold p-1 lh-1 text-end">{fixedValues(total?.gwt, 3)} gm</p> </div>
-                    <div className={`${style?.w_20JewerryRetailInvoicePrint}  d-flex align-items-center justify-content-end`}><p className="fw-bold p-1 text-end lh-1">{fixedValues(total?.nwt, 3)} gm</p></div>
+                      {/* <p className="fw-bold pb-1 text-end lh-1">{fixedValues(total?.diaColorWt, 3)} Ctw</p> */}
+                      <p className="fw-bold pb-1 text-end lh-1">{fixedValues((data2?.mainTotal?.diamonds?.Wt + data2?.mainTotal?.colorstone?.Wt), 3)} Ctw</p>
+                      <p className="fw-bold text-end lh-1">{fixedValues(data2?.mainTotal?.misc?.IsHSCODE_0_wt, 3)} gm</p></div>
+                      {/* <p className="fw-bold text-end lh-1">{fixedValues(total?.stoneWt, 3)} gm</p></div> */}
+                    <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}> <p className="fw-bold p-1 lh-1 text-end">{formatAmount((data2?.mainTotal?.diamonds?.Amount + data2?.mainTotal?.colorstone?.Amount))} </p> </div>
+                    <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}> <p className="fw-bold p-1 lh-1 text-end">{fixedValues(data2?.mainTotal?.grosswt, 3)} gm</p> </div>
+                    <div className={`${style?.w_20JewerryRetailInvoicePrint}  d-flex align-items-center justify-content-end`}><p className="fw-bold p-1 text-end lh-1">{fixedValues((data2?.mainTotal?.NetWt + data2?.mainTotal?.LossWt), 3)} gm</p></div>
                   </div>
-                  <div className={`${style?.metalMakingJewerryRetailInvoicePrint} border-end flex-column d-flex align-items-center justify-content-end`}>
-                    <p className="fw-bold text-end p-1"></p>
+                  <div className={`${style?.metalMakingJewerryRetailInvoicePrint} border-end flex-column d-flex align-items-end justify-content-center`}>
+                    <p className="fw-bold text-end d-flex align-items-center justify-content-center pe-1">{formatAmount((data2?.mainTotal?.metal?.Amount + data2?.mainTotal?.MakingAmount))}</p>
                   </div>
-                  <div className={`${style?.othersJewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}><p className="fw-bold text-end p-1">{NumberWithCommas(total?.others, 2)}</p></div>
-                  <div className={`${style?.totalJewerryRetailInvoicePrint} d-flex align-items-center justify-content-end`}><p className="fw-bold text-end p-1">{NumberWithCommas(total?.total, 2)}</p></div>
+                  <div className={`${style?.othersJewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}><p className="fw-bold text-end p-1">{formatAmount((data2?.mainTotal?.OtherCharges))}</p></div>
+                  <div className={`${style?.totalJewerryRetailInvoicePrint} d-flex align-items-center justify-content-end`}><p className="fw-bold text-end pe-1">{NumberWithCommas(data2?.mainTotal?.TotalAmount, 2)}</p></div>
                 </div>
                 {/* tax */}
                 <div className="d-flex border-start border-end border-bottom w-100 no_break">

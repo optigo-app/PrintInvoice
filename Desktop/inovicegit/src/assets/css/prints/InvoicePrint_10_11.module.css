@@ -86,6 +86,9 @@
     font-size: 14px !important;
 }
 
+.inp_25_10{
+    height: 25px;
+}
 
 @media print{
 
@@ -102,7 +105,7 @@
     }
 
     .font_15 *:not(.Declaration *), .font_15, .font_14 *:not(.Declaration *), .font_14{
-        font-size: 12px;
+        font-size: 13px;
         line-height: 100%;
     }
 
@@ -117,11 +120,11 @@
     }
     .InvoicePrint_10_11 *:not(.Declaration *){
         font-size: 11px;
-        line-height: 13px;
+        line-height: 15px;
         word-break: normal;
     }
     .head_line_invp1011{
-        line-height: 10px !important;
+        line-height: 12px !important;
     }
     .headerTitle{
         height: 30px;
@@ -137,10 +140,15 @@
     }
     .companyFUllnameInvp11{
         font-size: 12px;
+        line-height: 15px;
     }
     .font_head{
         font-size: 14px !important;
+        line-height: 20px;
     }
 
+    .inp_25_10{
+        height: auto;
+    }
 
 }

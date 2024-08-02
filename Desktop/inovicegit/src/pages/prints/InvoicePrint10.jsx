@@ -624,12 +624,12 @@ const InvoicePrint_10_11 = ({
         <div className="d-flex border-start border-end border-bottom">
           <div className="col-3 border-end d-flex align-items-center pt-5 flex-column">
             <div className={style?.print_sec_sum4}>
-              <input type="text" autoFocus={true} className={`${style?.inp_Desc}`} value={inpDesc} onChange={handleChange} />
+              <input type="text" autoFocus={true} className={`${style?.inp_Desc} ${style?.inp_25_10}`} value={inpDesc} onChange={handleChange} />
             </div>
             <p className={`w-100 text-center pb-1 ${style?.font_13} ${style?.print_sec_sum42}`}>
               {inpDesc}
             </p>
-            <p className={`fw-bold ${style?.font_17}`}>
+            <p className={`fw-bold ${style?.font_17} mt-2`}>
               Total Pcs : {NumberWithCommas(totalss?.totalPcs, 0)}
             </p>
           </div>
@@ -1002,8 +1002,8 @@ const InvoicePrint_10_11 = ({
             </div>
 
             {mainData?.otherCharges?.map((e, i) => {
-              return (
-                <div className="d-flex" key={i}>
+              return (<>
+                { e?.label === 'HANDLING' && (e?.value === 0 || e?.value === '0.00') ? '' : <div className="d-flex" key={i}>
                   <div
                     style={{ minWidth: "17%", width: "17%" }}
                     className=" px-1 text-uppercase"
@@ -1046,7 +1046,8 @@ const InvoicePrint_10_11 = ({
                   >
                     <p>{ e?.value === undefined ? '0.00' : NumberWithCommas(e?.value, 2)}</p>
                   </div>
-                </div>
+                </div>}
+                </>
               );
             })}
           </div>
