@@ -25,6 +25,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
   const [estimate, setEstimate] = useState(atob(evn)?.toLowerCase() === "product estimate" ? true : false);
   const [summary, setSummary] = useState([]);
   const [summary2, setSummary2] = useState([]);
+  const [imgFlag, setImgFlag] = useState(false);
   const [isImageWorking, setIsImageWorking] = useState(true);
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -41,6 +42,10 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
   });
 
   const [msg, setMsg] = useState("");
+
+  const [addressVal, setAddressVal] = useState('');
+  const [MobVal, setMobVal] = useState('');
+  const [emailVal, setEmailVal] = useState('');
 
 
   const [evns, setEvns] = useState(atob(evn).toLowerCase());
@@ -172,16 +177,17 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
       grand: grandTotal,
     };
 
-    // resultArr?.sort((a, b) => {
-    //   const designNoA = parseInt((a?.designno)?.match(/\d+/)[0]);
-    //   const designNoB = parseInt((b?.designno)?.match(/\d+/)[0]);
-    //   return designNoA - designNoB;
-    // });
+    resultArr?.sort((a, b) => {
+      const designNoA = parseInt(((a?.id)?.toString())?.match(/\d+/)[0]);
+      const designNoB = parseInt(((b?.id)?.toString())?.match(/\d+/)[0]);
+      return designNoA - designNoB;
+    });
 
   
     settotalAmount(totalAmounts);
     settax(taxValue);
     setData(resultArr);
+
   };
   const loadData2 = (data) => {
     const copydata = cloneDeep(data);
@@ -193,6 +199,15 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
       copydata?.BillPrint_Json1,
       copydata?.BillPrint_Json2
     );
+
+    let ard = copydata?.BillPrint_Json[0]?.customerstate + " " + copydata?.BillPrint_Json[0]?.customercountry + " " + copydata?.BillPrint_Json[0]?.customerpincode
+    let emailval = copydata?.BillPrint_Json[0]?.customeremail1 ;
+    let mob = copydata?.BillPrint_Json[0]?.customermobileno ;
+
+      setAddressVal(ard)
+      setMobVal(mob)
+      setEmailVal(emailval)
+
 
     setResult(datas)
 
@@ -228,14 +243,35 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
+  const handleImgShow = (e) => {
+    if (imgFlag) setImgFlag(false);
+    else {
+      setImgFlag(true);
+    }
+  };
+
+  const handleAddress = (e) => {
+    setAddressVal(e.target.value);
+  }
+  const handleMob = (e) => {
+    setMobVal(e.target.value);
+  }
+  const handleEmail = (e) => {
+    setEmailVal(e.target.value);
+  }
+
   return loader ? (
     <Loader />
   ) : msg === "" ? (
     <>
       <div className={`container max_width_container pad_60_allPrint ${style?.containerJewellery} jewelleryinvoiceContain`} >
         {/* buttons */}
-        <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`} >
-          <div className="form-check ps-3 mt-4">
+        <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4 mt-4`} >
+          <div className='px-2'>
+                <input type="checkbox" onChange={handleImgShow} value={imgFlag} checked={imgFlag} id='imgshow' />
+                <label htmlFor="imgshow" className='user-select-none mx-1'>Short Header</label>
+          </div>
+          <div className="form-check ps-3 ">
             <input
               type="button"
               className="btn_white blue py-1"
@@ -244,7 +280,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
             />
           </div>
         </div>
-        { json0Data?.PrintHeadLabel !== '' && <div className={`${style?.headLabelJTI_quote}`}>{json0Data?.PrintHeadLabel}</div>}
+        {/* { json0Data?.PrintHeadLabel !== '' && <div className={`${style?.headLabelJTI_quote}`}>{json0Data?.PrintHeadLabel}</div>} */}
         {/* header */}
         {json0Data?.IsBranchWiseAddress === 1 ? (
           <div className="d-flex justify-content-between p-2">
@@ -315,6 +351,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                   {json0Data?.customerfirmname}
                 </p>
               )}
+              { !imgFlag && <>
               {json0Data?.customerstreet !== "" && (
                 <p className="lh-1 pb-1">{json0Data?.customerstreet}</p>
               )}
@@ -324,13 +361,30 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
               {json0Data?.customercity !== "" && (
                 <p className="lh-1 pb-1">{json0Data?.customercity}</p>
               )}
-              <p className="lh-1 pb-1">
+              </>}
+              
+
+              { !imgFlag && <p className="lh-1 pb-1">
                 {json0Data?.customerstate}, {json0Data?.customercountry} {json0Data?.customerpincode}
-              </p>
-              {json0Data?.customermobileno !== "" && (
-                <p className="lh-1 pb-1">Tel : {json0Data?.customermobileno}</p>
-              )}
-              <p className="lh-1 pb-1">{json0Data?.customeremail1}</p>
+              </p>}
+              { imgFlag && <input type="text" value={addressVal} style={{height:'17px', width:'200px', outline:'none', border:'none'}} onChange={handleAddress} />}
+
+                
+                { !imgFlag && <>
+                  {json0Data?.customermobileno !== "" && (
+                    <p className="lh-1 pb-1">Tel : {json0Data?.customermobileno}</p>
+                    )}
+                  <p className="lh-1 pb-1">{json0Data?.customeremail1}</p>
+                </>}
+                {
+                  imgFlag && 
+                  <>
+                    <div><input type="text" value={MobVal} style={{height:'17px', width:'200px', outline:'none', border:'none'}} onChange={handleMob} /></div>
+                    <div><input type="text" value={emailVal} style={{height:'17px', width:'200px', outline:'none', border:'none'}} onChange={handleEmail} /></div>
+                  </>
+                }
+
+
             </div>
             <div className="col-5 px-2 py-3">
               <p className="lh-1 pb-1">
@@ -338,11 +392,11 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                 <span className="fw-bold">#: {json0Data?.InvoiceNo}</span> Dated{" "}
                 <span className="fw-bold">{json0Data?.EntryDate}</span>
               </p>
-              {customerDetail?.pan !== "" && (
+            {  !imgFlag && <>{customerDetail?.pan !== "" && (
                 <p className="lh-1 pb-1">
                   PAN<span className="fw-bold">#: {customerDetail?.pan}</span>{" "}
                 </p>
-              )}
+              )}</>}
               {/* {customerDetail?.gst !== "" && (
                 <p className="lh-1 pb-1">
                   GSTIN <span className="fw-bold">{customerDetail?.gst} </span>
@@ -357,11 +411,12 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                     )}{" "}
                 </p>
               )} */}
-              <div>
-                GSTIN : <span className="fw-bold">{result?.header?.CustGstNo}</span> | { result?.header?.Cust_CST_STATE } <span className="fw-bold"> { result?.header?.Cust_CST_STATE_No }</span>
-              </div>
+              { !imgFlag && <div>
+                   { result?.header?.Cust_VAT_GST_No  !== '' && <><span>VAT</span> <span className="fw-bold">{ result?.header?.Cust_VAT_GST_No }</span></>}
+                 { result?.header?.Cust_VAT_GST_No === '' ? '' : ' | '} { result?.header?.Cust_CST_STATE } <span className="fw-bold"> { result?.header?.Cust_CST_STATE_No }</span>
+              </div>}
        
-              
+                  { !imgFlag && <>
                  <p className="lh-1 pb-1">
                  Terms: {" "}
                 <span className="fw-bold"> {json0Data?.DueDays}</span>
@@ -370,6 +425,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                 Due Date:{" "}
                 <span className="fw-bold">{json0Data?.DueDate}</span>
               </p>
+                  </>}
               
             </div>
           </div>

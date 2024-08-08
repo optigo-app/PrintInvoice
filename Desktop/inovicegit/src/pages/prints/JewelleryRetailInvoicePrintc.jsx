@@ -362,7 +362,6 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
       setdata2(datas_clone);
 
   }
-  console.log(data2);
   return (
     <>
       {loader ? (

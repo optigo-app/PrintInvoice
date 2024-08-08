@@ -181,7 +181,11 @@ const JewelleryTaxInvoiceMemo = ({ urls, token, invoiceNo, printName, evn, ApiVe
   //     const designNoB = parseInt((b?.designno)?.match(/\d+/)[0]);
   //     return designNoA - designNoB;
   // });
-  resultArr?.sort((a, b) => a?.designno - b?.designno)
+  resultArr?.sort((a, b) => {
+    const designNoA = parseInt(((a?.id)?.toString())?.match(/\d+/)[0]);
+    const designNoB = parseInt(((b?.id)?.toString())?.match(/\d+/)[0]);
+    return designNoA - designNoB;
+  });
   
     settotalAmount(totalAmounts);
     settax(taxValue);
@@ -271,7 +275,7 @@ const JewelleryTaxInvoiceMemo = ({ urls, token, invoiceNo, printName, evn, ApiVe
             />
           </div>
         </div>
-        { json0Data?.PrintHeadLabel !== '' && <div className={`${style?.headLabelJTI_quote}`}>{json0Data?.PrintHeadLabel}</div>}
+        {/* { json0Data?.PrintHeadLabel !== '' && <div className={`${style?.headLabelJTI_quote}`}>{json0Data?.PrintHeadLabel}</div>} */}
         {/* header */}
         {json0Data?.IsBranchWiseAddress === 1 ? (
           <div className="d-flex justify-content-between p-2">
@@ -375,7 +379,9 @@ const JewelleryTaxInvoiceMemo = ({ urls, token, invoiceNo, printName, evn, ApiVe
                 </p>
               )}
               <div>
-                GSTIN : <span className="fw-bold">{result?.header?.CustGstNo}</span> | { result?.header?.Cust_CST_STATE } <span className="fw-bold"> { result?.header?.Cust_CST_STATE_No }</span>
+                {/* GSTIN : <span className="fw-bold">{result?.header?.CustGstNo}</span> | { result?.header?.Cust_CST_STATE } <span className="fw-bold"> { result?.header?.Cust_CST_STATE_No }</span> */}
+                { result?.header?.Cust_VAT_GST_No  !== '' && <><span>VAT</span> <span className="fw-bold">{ result?.header?.Cust_VAT_GST_No }</span></>}
+                 { result?.header?.Cust_VAT_GST_No === '' ? '' : ' | '} { result?.header?.Cust_CST_STATE } <span className="fw-bold"> { result?.header?.Cust_CST_STATE_No }</span>
               </div>
      
             </div>
