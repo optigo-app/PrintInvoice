@@ -293,8 +293,8 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
               
             {isImageWorking && (json0Data?.PrintLogo !== "" && 
                       <img src={json0Data?.PrintLogo} alt="" 
-                      className='w-25 h-auto ms-auto d-block object-fit-contain' 
-                      onError={handleImageErrors} height={120} width={150} />)}
+                      className={` ms-auto d-block object-fit-contain ${style?.JTIlogo}`} 
+                      onError={handleImageErrors}  />)}
               {/* <img
                 src={json0Data?.PrintLogo}
                 alt=""
@@ -305,24 +305,24 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
         ) : (
           <div className={`${style2.companyDetails}`}>
             <div className={`${style2.companyhead} p-2`}>
-              <p className={`${style2.lines} fw-bold px-1`} style21={{ fontWeight: "bold" }}>
+              <p className={`${style.lines} fw-bold ${style?.fs_16_jti} px-1`} style21={{ fontWeight: "bold" }}>
                 {json0Data?.CompanyFullName}
               </p>
 
     
-              <p className={style2.lines}>{json0Data?.CompanyAddress}</p>
-              <p className={style2.lines}>{json0Data?.CompanyAddress2}</p>
-              <p className={style2.lines}>
+              <p className={style.lines}>{json0Data?.CompanyAddress}</p>
+              <p className={style.lines}>{json0Data?.CompanyAddress2}</p>
+              <p className={style.lines}>
                 {json0Data?.CompanyCity} - {json0Data?.CompanyPinCode},
                 {json0Data?.CompanyState}({json0Data?.CompanyCountry})
               </p>
-              <p className={style2.lines}>
+              <p className={style.lines}>
                 Tell No: {json0Data?.CompanyTellNo}
               </p>
-              <p className={style2.lines}>
+              <p className={style.lines}>
                 {json0Data?.CompanyEmail} | {json0Data?.CompanyWebsite}
               </p>
-              <p className={style2.lines}>
+              <p className={style.lines}>
                 {json0Data?.Company_VAT_GST_No} | {json0Data?.Company_CST_STATE}
                 - {json0Data?.Company_CST_STATE_No} | PAN - {json0Data?.Pannumber}
               </p>
@@ -335,19 +335,19 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
               /> */}
                 {isImageWorking && (json0Data?.PrintLogo !== "" && 
                       <img src={json0Data?.PrintLogo} alt="" 
-                      className='w-100 h-auto ms-auto d-block object-fit-contain'
+                      className={` ms-auto d-block object-fit-contain ${style?.JTIlogo}`} 
                       style={{maxWidth:'116px'}}
-                      onError={handleImageErrors} height={120} width={150} />)}
+                      onError={handleImageErrors} />)}
             </div>
           </div>
         )}
         {/* sub header */}
         <div className="mt-2 no_break">
           <div className="border d-flex justify-content-between">
-            <div className="col-6 p-2">
+            <div className="col-7 p-2">
               <p className="lh-1 pb-1">To, </p>
               {json0Data?.customerfirmname !== "" && (
-                <p className="fw-bold lh-1 pb-1">
+                <p className={`fw-bold lh-1 pb-1 ${style?.fs_16_jti}`}>
                   {json0Data?.customerfirmname}
                 </p>
               )}
@@ -386,7 +386,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
 
 
             </div>
-            <div className="col-5 px-2 py-3">
+            <div className="col-4 px-2 py-3 pt-4">
               <p className="lh-1 pb-1">
                 Invoice
                 <span className="fw-bold">#: {json0Data?.InvoiceNo}</span> Dated{" "}
@@ -454,16 +454,17 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
         {data?.length > 0 &&
           data?.map((e, i) => {
             return (
-              <div className="d-flex border-start border-end border-bottom no_break" key={i} >
+              <div className="d-flex border-start border-end border-bottom no_break border-top" key={i} >
                 <div className="col-1 p-1 border-end">
                   <p className="text-center">{i + 1}</p>
                 </div>
                 <div className={`col-2 p-1 border-end position-relative`}>
                     <p>Job: {e?.SrJobno} </p>
                   <p>
-                    Design: <span className="fw-bold">{e?.designno}</span>{" "}
+                    Design: <span className="fw-bold text-break">{e?.designno}</span>{" "}
                   </p>
-                  { e?.Size === '' || e?.Size === '-' ? '' : <p className="fw-bold">{e?.Size}</p>}
+                  { e?.Size === '' ? ''  : <p className="text-break">{e?.Size}</p>}
+                  { e?.lineid === '' ? '' : <p className="text-break">{e?.lineid}</p>}
                   {/* <div className="text-center w-100 " style={{position: 'absolute', top:'50%' }}><span><span className="fw-normal">QTY :</span> </span><span className="fw-bold">{e?.Quantity}</span></div> */}
                 </div>
                 <div className={`col-5 p-1 border-end`}>
@@ -517,7 +518,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                   <img
                     src={e?.DesignImage}
                     alt=""
-                    className={`d-block mx-auto ${style?.image} w-100`}
+                    className={`d-block mx-auto ${style?.image} `}
                     onError={handleImageError}
                   />
                 </div>
@@ -557,14 +558,14 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
         <div className="d-flex border-start border-end border-bottom no_break">
           <div className="col-4 p-1 border-end">
             <p className="fw-bold text-decoration-underline"> REMARKS</p>
-            <div
+            <div className={`${style?.lh_dec_JTI}`}
               dangerouslySetInnerHTML={{ __html: json0Data?.PrintRemark }}
             ></div>
           </div>
           <div className="col-4 p-1 border-end">
             {  summary.map((e, i) => {
               return (
-                <div className="d-flex justify-content-between" key={i}>
+                <div className="d-flex justify-content-between" style={{width:'65%'}} key={i}>
                   <p key={i}>{e?.label}: </p>
                   <p>
                     {NumberWithCommas(e?.value, 3)} {e?.gm ? "gm" : "cts"}
@@ -610,13 +611,13 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
               <span
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
-              {NumberWithCommas(json0Data?.AddLess, 2)}{" "}
+              {NumberWithCommas((json0Data?.AddLess / json0Data?.CurrencyExchRate), 2)}{" "}
             </p>
             <p className="text-end fw-bold">
               <span
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
-              {NumberWithCommas(json0Data?.FreightCharges, 2)}{" "}
+              {NumberWithCommas((json0Data?.FreightCharges / json0Data?.CurrencyExchRate), 2)}{" "}
             </p>
           </div>
         </div>
@@ -632,12 +633,12 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
               {/* {NumberWithCommas(totalAmount.grand, 2)}{" "} */}
-              {formatAmount(((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal) + result?.header?.AddLess))}
+              {formatAmount(((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal) + (result?.header?.AddLess / result?.header?.CurrencyExchRate) + (result?.header?.FreightCharges / result?.header?.CurrencyExchRate) ))}
             </p>
           </div>
         </div>
         {/* computer generated */}
-        <p className={`py-2 ${style.generated} no_break text-secondary`}>
+        <p className={`py-2 ${style.generated} no_break text-secondary ${style?.fs_comment_jti}`}>
           ** THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US
           IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF
           TRANSACTIONS{" "}
@@ -650,7 +651,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
         </div>
         {/* bank detail */}
         <div className="border-start border-end border-bottom d-flex no_break">
-          <div className="col-6 border-end p-2">
+          <div className={`col-6 border-end p-2 ${style?.lh_dec_JTI}`}>
             <p className="fw-bold">Bank Detail</p>
             <p>Bank Name: {json0Data?.bankname}</p>
             <p className="text-break">Branch: {json0Data?.bankaddress}</p>
