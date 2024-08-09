@@ -1,6 +1,10 @@
 .containerJewellery * {
     font-size: 14px
 }
+.containerJewelleryMaxWidth{
+    max-width: 836px !important;
+    box-sizing: border-box;
+}
 
 
 .image{

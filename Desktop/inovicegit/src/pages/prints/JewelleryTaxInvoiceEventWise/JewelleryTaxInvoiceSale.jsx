@@ -264,7 +264,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
     <Loader />
   ) : msg === "" ? (
     <>
-      <div className={`container max_width_container pad_60_allPrint ${style?.containerJewellery} jewelleryinvoiceContain`} >
+      <div className={`container  pad_60_allPrint ${style?.containerJewellery} ${style?.containerJewelleryMaxWidth} jewelleryinvoiceContain`} >
         {/* buttons */}
         <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4 mt-4`} >
           <div className='px-2'>
