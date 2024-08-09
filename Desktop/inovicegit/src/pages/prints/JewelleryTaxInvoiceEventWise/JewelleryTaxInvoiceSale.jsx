@@ -305,7 +305,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
         ) : (
           <div className={`${style2.companyDetails}`}>
             <div className={`${style2.companyhead} p-2`}>
-              <p className={`${style.lines} fw-bold ${style?.fs_16_jti} px-1`} style21={{ fontWeight: "bold" }}>
+              <p className={` fw-bold ${style?.fs_16_jti}`} style21={{ fontWeight: "bold" }}>
                 {json0Data?.CompanyFullName}
               </p>
 

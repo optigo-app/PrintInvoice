@@ -8,6 +8,7 @@ import "../../assets/css/prints/packinglist3.css";
 import Button from './../../GlobalFunctions/Button';
 import { OrganizeInvoicePrintData } from '../../GlobalFunctions/OrganizeInvoicePrintData';
 import { cloneDeep } from 'lodash';
+import { MetalShapeNameWiseArr } from '../../GlobalFunctions/MetalShapeNameWiseArr';
 
 const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
@@ -17,6 +18,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [imgFlag, setImgFlag] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
   const [diamondArr, setDiamondArr] = useState([]);
+  const [MetShpWise, setMetShpWise] = useState([]);
  
   useEffect(() => {
     const sendData = async () => {
@@ -56,8 +58,6 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
-
-      console.log(datas);
 
       let finalArr = [];
 
@@ -220,6 +220,11 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       darr4 = [...darr3, obj_];
 
       setDiamondArr(darr4);
+
+      let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
+      
+      setMetShpWise(met_shp_arr);
+
   }
 
   const handleImgShow = (e) => {
@@ -232,13 +237,12 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
-
   return (
     <>
     { loader ? <Loader /> : msg === '' ? <div>
         <div className='container_pcls'>
             {/* print btn and flag */}
-            <div className=' d-flex align-items-center justify-content-end my-5'>
+            <div className=' d-flex align-items-center justify-content-end my-5 whole_none_pcl3'>
                 <div className='px-2'>
                     <input type="checkbox" onChange={handleImgShow} value={imgFlag} checked={imgFlag} id='imgshow' />
                     <label htmlFor="imgshow" className='user-select-none mx-1'>With Image</label>
@@ -252,7 +256,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                  {result?.header?.PrintHeadLabel ?? 'PACKING LIST'} 
             </div>
             {/* comapny header */}
-            <div className='d-flex justify-content-between align-items-center px-1'>
+            <div className='d-flex justify-content-between align-items-center px-1 com_fs_pcl3'>
                 <div>
                     <div className='fs_16_pcls fw-bold py-1'>{result?.header?.CompanyFullName}</div>
                     <div>{result?.header?.CompanyAddress}</div>
@@ -267,8 +271,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
             </div>
             {/* customer header */}
-            <div className='d-flex  mt-1 brall_pcls brall_pcls'>
-                <div className='bright_pcls p-1' style={{width:'35%'}}>
+            <div className='d-flex  mt-1 brall_pcls brall_pcls '>
+                <div className='bright_pcls p-1 com_fs_pcl3' style={{width:'35%'}}>
                     <div>Bill To,</div>
                     <div className='fs_14_pcls fw-bold'>{result?.header?.customerfirmname}</div>
                     <div>{result?.header?.customerAddress2}</div>
@@ -278,7 +282,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div>{result?.header?.vat_cst_pan}</div>
                     <div>{result?.header?.Cust_CST_STATE}-{result?.header?.Cust_CST_STATE_No}</div>
                 </div>
-                <div className='bright_pcls p-1' style={{width:'35%'}}>
+                <div className='bright_pcls p-1 com_fs_pcl3' style={{width:'35%'}}>
                     <div>Ship To,</div>
                     <div className='fs_14_pcls fw-bold'>{result?.header?.customerfirmname}</div>
                     <div>{result?.header?.CustName}</div>
@@ -286,7 +290,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div>{result?.header?.customercountry}{result?.header?.customerpincode}</div>
                     <div>Mobile No : {result?.header?.customermobileno}</div>
                 </div>
-                <div className='p-1' style={{width:'30%'}}>
+                <div className='p-1 com_fs_pcl3' style={{width:'30%'}}>
                     <div className='d-flex align-items-center'><div className='fw-bold billbox_pcls'>BILL NO </div><div>{result?.header?.InvoiceNo}</div></div>
                     <div className='d-flex align-items-center'><div className='fw-bold billbox_pcls'>DATE </div><div>{result?.header?.EntryDate}</div></div>
                     <div className='d-flex align-items-center'><div className='fw-bold billbox_pcls'>{result?.header?.HSN_No_Label} </div><div>{result?.header?.HSN_No}</div></div>
@@ -344,8 +348,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 {
                     result?.resultArray?.map((e, i) => {
                         return (
-                            <div className='d-flex tbody_pcls bbottom_pcls tb_fs_pcls' style={{borderLeft:'1px solid black', borderRight:'1px solid black'}}>
-                                <div className='col1_pcls centerall_pcls bright_pcls'>{i+1}</div>
+                            <div className='d-flex tbody_pcls bbottom_pcls tb_fs_pcls pbia_pcl3 border-top' style={{borderLeft:'1px solid black', borderRight:'1px solid black'}} key={i}>
+                                <div className='col1_pcls d-flex justify-content-center align-items-start bright_pcls pt-1'>{i+1}</div>
                                 <div className='col2_pcls start_top_pcls flex-column bright_pcls pt-1'>
                                     <div className='d-flex flex-wrap justify-content-between align-items-center w-100 text-break pdl_pcls pdr_pcls'>
                                         <div>{e?.designno}</div>
@@ -659,6 +663,14 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     <div className='w-50 ps-1 fw-bold'>GOLD IN 24KT</div>
                                     <div className='w-50 pe-1 end_pcls'>{result?.mainTotal?.PureNetWt?.toFixed(3)} gm</div>
                                 </div>    
+                                {
+                                    MetShpWise?.map((e, i) => { 
+                                       return <div className='d-flex align-items-center text-break' key={i}>
+                                            <div className='w-50 ps-1 fw-bold'>{e?.ShapeName}</div>
+                                            <div className='w-50 pe-1 end_pcls'>{e?.FineWt?.toFixed(3)} gm</div>
+                                        </div>
+                                        })
+                                }    
                                 <div className='d-flex align-items-center text-break'>
                                     <div className='w-50 ps-1 fw-bold'>GROSS WT</div>
                                     <div className='w-50 pe-1 end_pcls'>{result?.mainTotal?.grosswt?.toFixed(3)} gm</div>
@@ -693,6 +705,14 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     <div className='w-50 ps-1 fw-bold'>GOLD</div>
                                     <div className='w-50 pe-1 end_pcls'>{formatAmount((result?.mainTotal?.metal?.Amount / result?.header?.CurrencyExchRate))}</div>
                                 </div>    
+                                {
+                                    MetShpWise?.map((e, i) => { 
+                                       return <div className='d-flex align-items-center text-break' key={i}>
+                                            <div className='w-50 ps-1 fw-bold'>{e?.ShapeName}</div>
+                                            <div className='w-50 pe-1 end_pcls'>{formatAmount((e?.Amount / result?.header?.CurrencyExchRate))}</div>
+                                        </div>
+                                        })
+                                }      
                                 <div className='d-flex align-items-center text-break'>
                                     <div className='w-50 ps-1 fw-bold'>DIAMOND</div>
                                     <div className='w-50 pe-1 end_pcls'>{formatAmount((result?.mainTotal?.diamonds?.Amount / result?.header?.CurrencyExchRate))}</div>

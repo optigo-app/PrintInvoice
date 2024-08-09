@@ -6,6 +6,7 @@
     padding-bottom: 5rem;
     font-size: 12px;
     line-height: 14px;
+    font-family: Calibri !important;
 }
 .headText_pcls{
     font-size: 20px;
@@ -244,6 +245,15 @@
     }
     .companylogo_pcls{
         height: 60px;
+    }
+    .whole_none_pcl3{
+        display: none !important;
+    }
+    .pbia_pcl3{
+        page-break-inside: avoid !important;
+    }
+    .com_fs_pcl3{
+        font-size: 9px ;
     }
     
     
