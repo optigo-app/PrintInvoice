@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { GetData } from "../../GlobalFunctions/GetData";
-import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import Loader from "../../components/Loader";
@@ -13,16 +12,15 @@ const SearchMaterial = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
-  const resultString = GetUniquejob(queryParams?.str_srjobno);
 
   useEffect(() => {
-    if (Object.keys(queryParams)?.length !== 0) {
-      atob(queryParams?.imagepath);
-    }
+
     const fetchData = async () => {
+
       try {
+
         const objs = {
-          jobno: queries?.printname === "searchmaterial" ? queryParams?.str_srjobno : resultString,
+          jobno: queryParams?.str_srjobno,
           custid: queries.custid,
           printname: queries.printname,
           appuserid: queries.appuserid,
@@ -52,79 +50,102 @@ const SearchMaterial = ({ queries, headers }) => {
 
         //metal
         if(apiData?.Mastermanagement_itemid === 1){
-          showObj.istoreCust_Customercode = apiData?.istoreCust_Customercode;
+          
+          showObj.ItemName = 'METAL';
+
+          showObj.istoreCust_Customercode = '';
           showObj.rfbag = apiData?.rfbag;
           showObj.materialtypename = apiData?.materialtypename;
           showObj.job = apiData?.job;
+          showObj.Mastermanagement_itemid = apiData?.Mastermanagement_itemid;
+
           showObj.ShapeName = apiData?.metaltypename;
           showObj.QualityName = apiData?.metalpurity;
           showObj.Colorname = apiData?.metalcolorname;
           showObj.SizeName = '';
           showObj.Wt = apiData?.materialWt;
           showObj.Pcs = '';
-          showObj.ItemName = 'METAL';
-          showObj.Mastermanagement_itemid = apiData?.Mastermanagement_itemid;
+          
         }
+
         //diamond
         if(apiData?.Mastermanagement_itemid === 3){
+
+          showObj.ItemName = 'DIA';
+
+          showObj.Mastermanagement_itemid = apiData?.Mastermanagement_itemid;
           showObj.istoreCust_Customercode = apiData?.istoreCust_Customercode;
           showObj.rfbag = apiData?.rfbag;
           showObj.materialtypename = apiData?.materialtypename;
           showObj.job = apiData?.job;
+
           showObj.ShapeName = apiData?.diamondshapename;
           showObj.QualityName = apiData?.diamondclarityname;
           showObj.Colorname = apiData?.diamondcolorname;
           showObj.SizeName = apiData?.diamondsize;
           showObj.Wt = apiData?.materialWt;
           showObj.Pcs = '';
-          showObj.ItemName = 'DIA';
-          showObj.Mastermanagement_itemid = apiData?.Mastermanagement_itemid;
+          
         }
+
         //colorstone
         if(apiData?.Mastermanagement_itemid === 4){
+
+          showObj.ItemName = 'CS';
+
+          showObj.Mastermanagement_itemid = apiData?.Mastermanagement_itemid;
           showObj.istoreCust_Customercode = apiData?.istoreCust_Customercode;
           showObj.rfbag = apiData?.rfbag;
           showObj.materialtypename = apiData?.materialtypename;
           showObj.job = apiData?.job;
+
           showObj.ShapeName = apiData?.fancystoneshapename;
           showObj.QualityName = apiData?.fancystonequalityname;
           showObj.Colorname = apiData?.fancystonecolorname;
           showObj.SizeName = apiData?.fancystonesize;
           showObj.Wt = apiData?.materialWt;
           showObj.Pcs = '';
-          showObj.ItemName = 'CS';
-          showObj.Mastermanagement_itemid = apiData?.Mastermanagement_itemid;
+
         }
+
         //finding
         if(apiData?.Mastermanagement_itemid === 5){
-          showObj.istoreCust_Customercode = apiData?.istoreCust_Customercode;
+          showObj.ItemName = 'FINDING';
+
+          showObj.findingaccessoriesname = apiData?.findingaccessoriesname;
+          showObj.Mastermanagement_itemid = apiData?.Mastermanagement_itemid;
+          showObj.istoreCust_Customercode = '';
           showObj.rfbag = apiData?.rfbag;
           showObj.materialtypename = apiData?.materialtypename;
           showObj.job = apiData?.job;
+
           showObj.ShapeName = apiData?.metaltypename + " " + apiData?.findingpurity;
           showObj.QualityName = apiData?.findingtypename;
           showObj.Colorname = apiData?.findingcolorname;
           showObj.SizeName = apiData?.fancystonesize;
           showObj.Wt = (apiData?.findingctw)?.toFixed(3) + " gm";
           showObj.Pcs = apiData?.findingpcs;
-          showObj.ItemName = 'Finding';
-          showObj.findingaccessoriesname = apiData?.findingaccessoriesname;
-          showObj.Mastermanagement_itemid = apiData?.Mastermanagement_itemid;
+
         }
+
         //misc
         if(apiData?.Mastermanagement_itemid === 7){
+
+          showObj.ItemName = 'MISC';
+
+          showObj.Mastermanagement_itemid = apiData?.Mastermanagement_itemid;
           showObj.istoreCust_Customercode = apiData?.istoreCust_Customercode;
           showObj.rfbag = apiData?.rfbag;
           showObj.materialtypename = apiData?.materialtypename;
           showObj.job = apiData?.job;
+
           showObj.ShapeName = apiData?.fancystoneshapename;
           showObj.QualityName = apiData?.fancystonequalityname;
           showObj.Colorname = apiData?.fancystonecolorname;
           showObj.SizeName = apiData?.fancystonesize;
           showObj.Wt = apiData?.materialWt;
           showObj.Pcs = '';
-          showObj.ItemName = 'MISC';
-          showObj.Mastermanagement_itemid = apiData?.Mastermanagement_itemid;
+
         }
 
         setData(showObj);
@@ -132,12 +153,13 @@ const SearchMaterial = ({ queries, headers }) => {
       } catch (error) {
         console.log(error);
       }
+
     };
+
     fetchData();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  console.log(data);
 
   return (
     <>
@@ -167,7 +189,6 @@ const SearchMaterial = ({ queries, headers }) => {
             </button>
           </div>
           </div>
-    
         </>
       )}
     </>
