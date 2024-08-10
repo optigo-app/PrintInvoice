@@ -1,6 +1,7 @@
 .containerdp3 *{
     box-sizing: border-box;
     word-break: break-all;
+    font-family: Calibri;
 }
 .containerdp3{
     max-width: 1200px;

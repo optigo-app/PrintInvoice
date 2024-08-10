@@ -196,14 +196,18 @@
     width: 9%;
 }
 
+.minH_pcl3{
+    min-height: 8rem;
+    border-right:1px solid #BDBDBD;
+}
 
 
 @media print {
     .fs_16_pcls{
-        font-size: 13px;
+        font-size: 12px;
     }
     .fs_14_pcls{
-        font-size: 11px;
+        font-size: 10px;
     }
     .fs_header_pcls{
         font-size: 9px;
@@ -255,6 +259,9 @@
     .com_fs_pcl3{
         font-size: 9px ;
     }
-    
+    .minH_pcl3{
+        min-height: 4rem;
+        border-right:1px solid #BDBDBD;
+    }
     
 }

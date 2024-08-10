@@ -2,12 +2,14 @@
     font-size: 12px;
     line-height: 120%;
     line-height: 10px;
+    font-family: Calibri;
 }
 
 .declarationInvoicePrint *{
     line-height: 135%;
     word-wrap: break-word;
     word-break: break-word;
+    font-family: Calibri;
 }
 
 /* .minHieght150InvoicePrint{

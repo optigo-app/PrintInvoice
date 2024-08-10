@@ -22,6 +22,8 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     m_Wt:0,
   })
   const [isImageWorking, setIsImageWorking] = useState(true);
+  
+
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };

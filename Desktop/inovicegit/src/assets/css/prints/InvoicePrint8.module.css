@@ -1,6 +1,7 @@
 .invoiceprint8 *:not(.Declaration *), .invoiceprint8 .target_footer{
     font-size: 12px !important;
     line-height: 19px;
+    font-family: Calibri;
 }
 
 .Detail{

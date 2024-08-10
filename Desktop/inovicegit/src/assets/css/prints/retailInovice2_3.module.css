@@ -1,12 +1,14 @@
 .containerretailInvoice2 {
     max-width: 1200px;
     margin: 0 auto;
+    font-family: Calibri;
 }
 
 .containerretailInvoice2_font *:not(.terms *),
 .containerretailInvoice2_font p {
     font-size: 10px;
     line-height: 120%;
+    font-family: Calibri;
 }
 
 .font_16 *,

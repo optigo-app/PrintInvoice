@@ -17,6 +17,7 @@ import {
 import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
+import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 
 const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [image, setImage] = useState(false);
@@ -24,6 +25,10 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [json0Data, setJson0Data] = useState({});
   const [json1Data, setJson1Data] = useState([]);
   const [json1Data2, setJson1Data2] = useState([]);
+
+  const [MetShpWise, setMetShpWise] = useState([]);
+  const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
+
   // eslint-disable-next-line no-unused-vars
   const [detailtPrintR, setdetailtPrintR] = useState(
     atob(printName).toLowerCase() === "detail print r" ? true : false
@@ -109,6 +114,16 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setJson1Data2(data?.BillPrint_Json2);
     setLoader(false);
     let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
+
+    let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
+      
+    setMetShpWise(met_shp_arr);
+    let tot_met = 0;
+    met_shp_arr?.forEach((e, i) => {
+      tot_met += e?.Amount;
+    })    
+    setNotGoldMetalTotal(tot_met);
+
     let finalArr = [];
     let totalMetalWt = 0;
     let miscChargesTotals = 0
@@ -1395,6 +1410,17 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         NumberWithCommas(summary?.gold24Kt, 3) : fixedValues(finalD?.mainTotal?.total_purenetwt, 3)} gm */}
                       </p>
                     </div>
+                    {
+                      MetShpWise?.map((e, i) => {
+                        return <div className="d-flex justify-content-between" key={i}>
+                        <p className="fw-bold px-1 pt-1">{e?.ShapeName}</p>
+                        <p className="px-1 pt-1">
+                          {" "}
+                          {NumberWithCommas(e?.metalfinewt, 3)} gm
+                        </p>
+                      </div>
+                      })
+                    }
                     <div className="d-flex justify-content-between">
                       <p className="fw-bold px-1 pt-1">GROSS WT</p>
                       <p className="px-1 pt-1">
@@ -1443,9 +1469,20 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <p className="fw-bold px-1 pt-1">GOLD</p>
                       <p className="px-1 pt-1">
                         {" "}
-                        {NumberWithCommas(finalD?.mainTotal?.MetalAmount, 2)}
+                        {NumberWithCommas((finalD?.mainTotal?.MetalAmount - notGoldMetalTotal), 2)}
                       </p>
                     </div>
+                    {
+                      MetShpWise?.map((e, i) => {
+                        return <div className="d-flex justify-content-between" key={i}>
+                        <p className="fw-bold px-1 pt-1">{e?.ShapeName}</p>
+                        <p className="px-1 pt-1">
+                          {" "}
+                          {NumberWithCommas(e?.Amount, 2)}
+                        </p>
+                      </div>
+                      })
+                    }
                     <div className="d-flex justify-content-between">
                       <p className="fw-bold px-1 pt-1">DIAMOND</p>
                       <p className="px-1 pt-1">

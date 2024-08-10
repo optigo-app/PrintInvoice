@@ -9,6 +9,7 @@ import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { cloneDeep, findIndex } from "lodash";
 import style1 from "../../assets/css/headers/header1.module.css";
 import ImageComponent from "../../components/ImageComponent ";
+import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [image, setimage] = useState(true);
   const [loader, setLoader] = useState(true);
@@ -24,6 +25,10 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   };
   const [category, setCategory] = useState([]);
   const [isImageWorking, setIsImageWorking] = useState(true);
+
+  const [MetShpWise, setMetShpWise] = useState([]);
+  const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
+
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -50,7 +55,14 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     let head = HeaderComponent("1", data?.BillPrint_Json[0]);
     setHeaderComp(head);
     let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
-
+    let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
+      
+    setMetShpWise(met_shp_arr);
+    let tot_met = 0;
+    met_shp_arr?.forEach((e, i) => {
+      tot_met += e?.Amount;
+    })    
+    setNotGoldMetalTotal(tot_met);
     let resultArray = [];
     let criterialbased = false;
     datas?.resultArray?.forEach((e, i) => {
@@ -527,6 +539,14 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <p className={`lightGrey fw-bold border-bottom ${style?.pad_1}`}>SUMMARY</p>
                     <div className="d-flex " style={{ height: "calc(100% - 15px)" }}>
                       <div className="col-6 border-end px-1 position-relative" style={{ paddingBottom: "15px" }}>
+                      {
+                          MetShpWise?.map((e, i) => {
+                            return <div className="d-flex justify-content-between" key={i}>
+                            <div className="fw-bold">{e?.ShapeName}</div>
+                            <div className="text-end">{NumberWithCommas(e?.metalfinewt, 3)} gm</div>
+                          </div>
+                          })
+                        }
                         <div className="d-flex justify-content-between">
                           <p className="fw-bold">GROSS WT	</p>
                           <p className="text-end">{NumberWithCommas(data?.mainTotal?.grosswt, 3)} gm	</p>
@@ -549,9 +569,17 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className="col-6 px-1 position-relative" style={{ paddingBottom: "15px" }}>
                         <div className="d-flex justify-content-between">
-                          <div className="fw-bold" v>GOLD	</div>
-                          <div className="text-end">{NumberWithCommas(data?.mainTotal?.metal?.IsPrimaryMetal_Amount, 2)} </div>
+                          <div className="fw-bold">GOLD	</div>
+                          <div className="text-end">{NumberWithCommas((data?.mainTotal?.metal?.IsPrimaryMetal_Amount - notGoldMetalTotal), 2)} </div>
                         </div>
+                        {
+                          MetShpWise?.map((e, i) => {
+                            return <div className="d-flex justify-content-between" key={i}>
+                            <div className="fw-bold">{e?.ShapeName}</div>
+                            <div className="text-end">{NumberWithCommas(e?.Amount, 2)} </div>
+                          </div>
+                          })
+                        }
                         <div className="d-flex justify-content-between">
                           <div className="fw-bold">DIAMOND	</div>
                           <div className="text-end">{NumberWithCommas(data?.mainTotal?.diamonds?.Amount, 2)} </div>

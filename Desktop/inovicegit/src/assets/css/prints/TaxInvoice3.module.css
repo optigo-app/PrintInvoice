@@ -1,6 +1,7 @@
 .taxinvoice3 * {
   font-size: 12px;
   line-height: 120%;
+  font-family: Calibri;
 }
 
 /* Sr#	Item	Purity	Qty	Gold	Diamond	ColorStone	Others	Labour	Total */

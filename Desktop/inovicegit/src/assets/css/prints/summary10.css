@@ -1,6 +1,7 @@
 .container_s10 *{
     box-sizing: border-box;
     word-break: break-all;
+    font-family: Calibri;
 }
 .container_s10{
     max-width: 1200px;

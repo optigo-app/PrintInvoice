@@ -1,6 +1,7 @@
 .estimate1Container *:not(.remark *){
     font-size: 14px;
     word-break: normal;
+    font-family: Calibri;
 }
 
 .img{

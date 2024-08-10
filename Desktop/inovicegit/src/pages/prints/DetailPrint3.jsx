@@ -3,6 +3,7 @@ import "../../assets/css/prints/detailprint3.css";
 import { apiCall, checkMsg, formatAmount, handleImageError, handlePrint, isObjectEmpty } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
+import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   const [result, setResult] = useState(null);
@@ -10,6 +11,9 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
   const [imgFlag, setImgFlag] = useState(true);
   const [mdwt, setMdwt] = useState(0);
+
+  const [MetShpWise, setMetShpWise] = useState([]);
+  const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
  
   useEffect(() => {
     const sendData = async () => {
@@ -48,6 +52,16 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
+
+      let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
+      
+      setMetShpWise(met_shp_arr);
+      let tot_met = 0;
+      met_shp_arr?.forEach((e, i) => {
+        tot_met += e?.Amount;
+      })    
+      setNotGoldMetalTotal(tot_met);
+
       let mdtot = 0;
       datas?.resultArray?.forEach((e, i) => {
           mdtot += (((e?.totals?.diamonds?.Wt)/5) + e?.NetWt)
@@ -411,6 +425,16 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div className="d-flex w-100 ">
               <div className="w-50">
                 <div className="d-flex justify-content-between"><div className="border-secondary border-start pad_s_dp3 fw-bold ps-2">GOLD IN 24KT</div><div className="border-secondary border-end pad_e_dp3 pe-2">{result?.mainTotal?.convertednetwt?.toFixed(3)} gm</div></div>
+
+                {
+                  MetShpWise?.map((e, i) => {
+                    return <div className="d-flex justify-content-between" key={i}>
+                    <div className="border-secondary border-start pad_s_dp3 fw-bold ps-2">{e?.Amount}</div>
+                    <div className="border-secondary border-end pad_e_dp3 pe-2">{e?.metalfinewt?.toFixed(3)} gm</div>
+                  </div>
+                  })
+                }
+
                 <div className="d-flex justify-content-between"><div className="border-secondary border-start pad_s_dp3 fw-bold ps-2">GROSS WT</div><div className="border-secondary border-end pad_e_dp3 pe-2">{result?.mainTotal?.grosswt?.toFixed(3)} gm</div></div>
                 <div className="d-flex justify-content-between"><div className="border-secondary border-start pad_s_dp3 fw-bold ps-2">G+D WT</div><div className="border-secondary border-end pad_e_dp3 pe-2">{mdwt?.toFixed(3)} gm</div></div>
                 <div className="d-flex justify-content-between"><div className="border-secondary border-start pad_s_dp3 fw-bold ps-2">NET WT</div><div className="border-secondary border-end pad_e_dp3 pe-2">{result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)} gm</div></div>
@@ -419,7 +443,17 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className="summary_dp3_head border-secondary border border-start border-bottom-0"></div>
               </div>
               <div className="w-50">
-                <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold ps-2">GOLD</div><div className="border-secondary border-end pad_e_dp3 pe-2">{formatAmount(result?.mainTotal?.MetalAmount)}</div></div>
+                <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold ps-2">GOLD</div><div className="border-secondary border-end pad_e_dp3 pe-2">{formatAmount((result?.mainTotal?.MetalAmount - notGoldMetalTotal))}</div></div>
+
+                {
+                  MetShpWise?.map((e, i) => {
+                    return <div className="d-flex justify-content-between" key={i}>
+                    <div className="pad_s_dp3 fw-bold ps-2">{e?.ShapeName}</div>
+                    <div className="border-secondary border-end pad_e_dp3 pe-2">{formatAmount(e?.Amount)}</div>
+                  </div>
+                  })
+                }
+
                 <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold ps-2">DIAMOND</div><div className="border-secondary border-end pad_e_dp3 pe-2">{formatAmount(result?.mainTotal?.diamonds?.Amount)} </div></div>
                 <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold ps-2">CST</div><div className="border-secondary border-end pad_e_dp3 pe-2">{formatAmount(result?.mainTotal?.colorstone?.Amount)}</div></div>
                 <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold ps-2">MAKING</div><div className="border-secondary border-end pad_e_dp3 pe-2">{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}</div></div>

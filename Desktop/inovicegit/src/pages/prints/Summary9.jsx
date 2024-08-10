@@ -15,6 +15,7 @@ import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import lodash, { cloneDeep } from 'lodash';
 import style1 from "../../assets/css/headers/header1.module.css";
 import ImageComponent from "../../components/ImageComponent ";
+import { MetalShapeNameWiseArr } from '../../GlobalFunctions/MetalShapeNameWiseArr';
 
 
 const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
@@ -25,6 +26,10 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [headerData, setHeaderData] = useState({});
     const [header, setHeader] = useState(null);
     const [summary, setSummary] = useState([]);
+
+    const [MetShpWise, setMetShpWise] = useState([]);
+    const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
+
     const toWords = new ToWords();
     const [checkBox, setCheckbox] = useState({
         header: true,
@@ -68,6 +73,16 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             data?.BillPrint_Json1,
             data?.BillPrint_Json2
         );
+
+        let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
+      
+        setMetShpWise(met_shp_arr);
+        let tot_met = 0;
+        met_shp_arr?.forEach((e, i) => {
+          tot_met += e?.Amount;
+        })    
+        setNotGoldMetalTotal(tot_met);
+
         let resultArray = [];
         let newMetalList = [];
         let summaries = [];
@@ -546,6 +561,14 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <p className="fw-bold">GOLD IN 24KT</p>
                                     <p>{NumberWithCommas(data?.mainTotal?.total_purenetwt, 3)} gm</p>
                                 </div>
+                                {
+                                    MetShpWise?.map((e, i) => {
+                                        return <div className="d-flex justify-content-between" key={i}>
+                                        <p className="fw-bold">{e?.ShapeName}</p>
+                                        <p>{NumberWithCommas((e?.metalfinewt), 3)} gm </p>
+                                    </div>
+                                    })
+                                }
                                 <div className="d-flex justify-content-between">
                                     <p className="fw-bold">GROSS WT	</p>
                                     <p>{NumberWithCommas(data?.mainTotal?.grosswt, 3)} gm</p>
@@ -569,8 +592,16 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div className="col-6 px-1  position-relative" style={{ paddingBottom: "32px" }}>
                                 <div className="d-flex justify-content-between">
                                     <p className="fw-bold">GOLD</p>
-                                    <p>{NumberWithCommas(data?.mainTotal?.MetalAmount, 2)} </p>
+                                    <p>{NumberWithCommas((data?.mainTotal?.MetalAmount - notGoldMetalTotal), 2)} </p>
                                 </div>
+                                {
+                                    MetShpWise?.map((e, i) => {
+                                        return <div className="d-flex justify-content-between" key={i}>
+                                        <p className="fw-bold">{e?.ShapeName}</p>
+                                        <p>{NumberWithCommas((e?.Amount), 2)} </p>
+                                    </div>
+                                    })
+                                }
                                 <div className="d-flex justify-content-between">
                                     <p className="fw-bold">MINA/KUNDAN	</p>
                                     <p>{NumberWithCommas(data?.mainTotal?.misc?.Amount, 2)} </p>

@@ -11,6 +11,7 @@ import {
 } from "../../GlobalFunctions";
 import Loader from "./../../components/Loader";
 import cloneDeep from "lodash/cloneDeep";
+import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
   // eslint-disable-next-line no-unused-vars
@@ -23,6 +24,9 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   const [jobWIseTotal, setJobWiseTotal] = useState(null);
   const [jobwisemisc, setJobwisemisc] = useState(0);
+
+  const [MetShpWise, setMetShpWise] = useState([]);
+  const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
 
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -64,6 +68,15 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
+
+    let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
+      
+    setMetShpWise(met_shp_arr);
+    let tot_met = 0;
+    met_shp_arr?.forEach((e, i) => {
+      tot_met += e?.Amount;
+    })    
+    setNotGoldMetalTotal(tot_met);
       
     let diaObj = {
       ShapeName: "OTHERS",
@@ -1134,15 +1147,27 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="border-secondary border-start pad_s_dp4 fw-bold">
                             GOLD IN 24KT
                           </div>
-                          <div className="border-secondary border-end pad_e_dp4">
+                          <div className=" pad_e_dp4">
                             {result?.mainTotal?.convertednetwt?.toFixed(3)} gm
                           </div>
                         </div>
+                        {
+                          MetShpWise?.map((e, i) => {
+                            return <div className="d-flex justify-content-between">
+                            <div className="border-secondary border-start pad_s_dp4 fw-bold">
+                              {e?.ShapeName}
+                            </div>
+                            <div className=" pad_e_dp4">
+                              {e?.metalfinewt?.toFixed(3)} gm
+                            </div>
+                          </div>
+                          })
+                        }
                         <div className="d-flex justify-content-between">
                           <div className="border-secondary border-start pad_s_dp4 fw-bold">
                             GROSS WT
                           </div>
-                          <div className="border-secondary border-end pad_e_dp4">
+                          <div className=" pad_e_dp4">
                             {result?.mainTotal?.grosswt?.toFixed(3)} gm
                           </div>
                         </div>
@@ -1150,7 +1175,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="border-secondary border-start pad_s_dp4 fw-bold">
                             G+D WT
                           </div>
-                          <div className="border-secondary border-end pad_e_dp4">
+                          <div className=" pad_e_dp4">
                             {mdwt?.toFixed(3)} gm
                           </div>
                         </div>
@@ -1158,7 +1183,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="border-secondary border-start pad_s_dp4 fw-bold">
                             NET WT
                           </div>
-                          <div className="border-secondary border-end pad_e_dp4">
+                          <div className=" pad_e_dp4">
                             {/* {result?.mainTotal?.netwt?.toFixed(3)} gm */}
                             {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)} gm
                           </div>
@@ -1167,7 +1192,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="border-secondary border-start pad_s_dp4 fw-bold">
                             DIAMOND WT
                           </div>
-                          <div className="border-secondary border-end pad_e_dp4">
+                          <div className=" pad_e_dp4">
                             { result?.mainTotal?.diamonds?.Pcs } / {result?.mainTotal?.diamonds?.Wt?.toFixed(3)} cts
                           </div>
                         </div>
@@ -1175,22 +1200,32 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="border-secondary border-start pad_s_dp4 fw-bold">
                             STONE WT
                           </div>
-                          <div className="border-secondary border-end pad_e_dp4">
+                          <div className="border-secondary  pad_e_dp4">
                           {/* { (result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.Pcs) } / {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.Wt + result?.mainTotal?.misc?.allservwt )?.toFixed(3)} cts */}
                           {/* { (result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.onlyHSCODE3_pcs + result?.mainTotal?.misc?.withouthscode1_2_pcs ) } / {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.Wt + result?.mainTotal?.misc?.allservwt )?.toFixed(3)} cts */}
                           {/* { (result?.mainTotal?.colorstone?.Pcs + jobWIseTotal?.misc_dp4_pcs ) } / {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.Wt + result?.mainTotal?.misc?.allservwt )?.toFixed(3)} cts */}
                           {result?.mainTotal?.colorstone?.Pcs + jobWIseTotal?.misc_dp4_pcs} / {(result?.mainTotal?.colorstone?.Wt + jobWIseTotal?.misc_dp4_wt)?.toFixed(3)} cts
                           </div>
                         </div>
-                        <div className="summary_dp4_head border-secondary border border-start border-bottom-0"></div>
+                        <div className="summary_dp4_head border-secondary  border border-start border-bottom border-end-0"></div>
                       </div>
-                      <div className="w-50">
+                      <div className="w-50 border-secondary border-start">
                         <div className="d-flex justify-content-between">
                           <div className="pad_s_dp4 fw-bold">GOLD</div>
                           <div className="border-secondary border-end pad_e_dp4">
-                            {formatAmount(result?.mainTotal?.MetalAmount)}
+                            {formatAmount((result?.mainTotal?.MetalAmount - notGoldMetalTotal))}
                           </div>
                         </div>
+                        {
+                          MetShpWise?.map((e, i) => {
+                            return <div className="d-flex justify-content-between" key={i}>
+                          <div className="pad_s_dp4 fw-bold">{e?.ShapeName}</div>
+                          <div className="border-secondary border-end pad_e_dp4">
+                            {formatAmount(e?.Amount)}
+                          </div>
+                        </div>
+                          })
+                        }
                         <div className="d-flex justify-content-between">
                           <div className="pad_s_dp4 fw-bold">DIAMOND</div>
                           <div className="border-secondary border-end pad_e_dp4">

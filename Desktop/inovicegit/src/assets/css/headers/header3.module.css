@@ -1,6 +1,7 @@
 .header3{
     word-break: break-all;
     box-sizing: border-box;
+    font-family: Calibri;
 }
 .headline {
     height: 40px;

@@ -128,13 +128,13 @@ function BagPrint14A({ queries, headers }) {
         fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-//     useEffect(() => {
-//         if (data?.length !== 0) {
-//             setTimeout(() => {
-//                 window.print();
-//             }, 5000);
-//         }
-// }, [data?.length]);
+    useEffect(() => {
+        if (data?.length !== 0) {
+            setTimeout(() => {
+                window.print();
+            }, 5000);
+        }
+}, [data?.length]);
     return (
         <>
             {

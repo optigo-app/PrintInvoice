@@ -1,5 +1,6 @@
 .containerJewellery * {
   font-size: 13px;
+  font-family: Calibri;
 }
 
 .containerJewellery > div:first-child > div:first-child > span:first-child {

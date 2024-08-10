@@ -14,6 +14,7 @@ import { checkInstruction } from "./../../GlobalFunctions"
 const BagPrint17A = ({ queries, headers }) => {
   
   const [data, setData] = useState([]);
+  const [msg, setMsg] = useState('');
   const location = useLocation();
   const queryParams = queryString.parse(location?.search);
   const resultString = GetUniquejob(queryParams?.str_srjobno);
@@ -36,7 +37,7 @@ const BagPrint17A = ({ queries, headers }) => {
           headers: headers,
         };
         let allDatas = await GetData(objs);
-
+        setMsg(allDatas?.msg);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
 
         // eslint-disable-next-line array-callback-return
@@ -165,6 +166,7 @@ const BagPrint17A = ({ queries, headers }) => {
         <Loader />
       ) : (
         <>
+        { msg !== '' ? <div className="fs-3 text-danger fw-bold text-center mt-5 pt-5">{msg}</div> : <>
           <button
             className="btn_white blue print_btn btn17"
             onClick={(e) => handlePrint(e)}
@@ -694,6 +696,7 @@ const BagPrint17A = ({ queries, headers }) => {
                 );
               })}
           </div>
+          </>}
         </>
       )}
     </>

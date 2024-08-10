@@ -1,6 +1,7 @@
 .retailInvoicePrint7 *:not(.declaration *) {
     font-size: 12px;
     line-height: 120%;
+    font-family: Calibri;
 }
 
 .Sr {

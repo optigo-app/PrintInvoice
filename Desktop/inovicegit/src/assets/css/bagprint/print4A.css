@@ -1,6 +1,7 @@
 .print4A {
     display: flex;
     flex-wrap: wrap;
+    font-family: Calibri;
 }
 
 .border_bottom4A {

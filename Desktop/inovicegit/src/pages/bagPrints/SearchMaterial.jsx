@@ -31,6 +31,7 @@ const SearchMaterial = ({ queries, headers }) => {
 
         const allDatas = await GetData(objs);
         setMsg(allDatas?.msg);
+        
         const showObj = {
           istoreCust_Customercode:'',
           rfbag:'',
@@ -167,7 +168,7 @@ const SearchMaterial = ({ queries, headers }) => {
         <Loader />
       ) : (
         <>
-            { msg !== '' ? <div className="text-danger fw-bold text-center mt-5 pt-5">{msg}</div> :  <div style={{display:'flex'}}>
+            { msg !== '' ? <div className="fs-3 text-danger fw-bold text-center mt-5 pt-5">{msg}</div> :  <div style={{display:'flex'}}>
             <div className="sm_container">
               <div className="div2_SM">
                 <div className="center_sm_rf mt_8_SM">{data?.istoreCust_Customercode}</div>

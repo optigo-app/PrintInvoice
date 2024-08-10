@@ -1,6 +1,7 @@
 .container_ls *{
     box-sizing: border-box;
     word-break: break-all;
+    font-family: Calibri;
 }
 .container_ls{
     max-width: 1200px;

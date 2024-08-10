@@ -18,6 +18,7 @@ import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { ToWords } from "to-words";
 import style2 from "../../assets/css/headers/header1.module.css";
 import { cloneDeep } from "lodash";
+import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 
 const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
@@ -40,6 +41,10 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     FineWt: 0,
   })
   const [isImageWorking, setIsImageWorking] = useState(true);
+
+  const [MetShpWise, setMetShpWise] = useState([]);
+  const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
+
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -56,6 +61,16 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
+
+    let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
+      
+    setMetShpWise(met_shp_arr);
+    let tot_met = 0;
+    met_shp_arr?.forEach((e, i) => {
+      tot_met += e?.Amount;
+    })    
+    setNotGoldMetalTotal(tot_met);
+
     let resultArr = [];
     let categories = [];
     let netWts = 0;
@@ -1017,6 +1032,14 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <p className="fw-bold">GOLD IN 24KT</p>
                 <p>{NumberWithCommas(data?.mainTotal?.convertednetwt, 3)} gm</p>
               </div>
+              {
+                MetShpWise?.map((e, i) => {
+                  return <div className="d-flex justify-content-between pad_1" key={i}>
+                  <p className="fw-bold">{e?.ShapeName}</p>
+                  <p>{NumberWithCommas(e?.metalfinewt, 3)} gm</p>
+                </div>
+                })
+              }
               <div className="d-flex justify-content-between pad_1">
                 <p className="fw-bold">GROSS WT </p>
                 <p>{NumberWithCommas(data?.mainTotal?.grosswt, 3)} gm</p>
@@ -1045,8 +1068,16 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div className={`col-6 pad_1 ${style?.pad_bot_12} position-relative`}>
               <div className="d-flex justify-content-between pad_1">
                 <p className="fw-bold">GOLD</p>
-                <p>{NumberWithCommas(data?.mainTotal?.MetalAmount, 2)}</p>
+                <p>{NumberWithCommas((data?.mainTotal?.MetalAmount - notGoldMetalTotal), 2)}</p>
               </div>
+              {
+                MetShpWise?.map((e, i) => {
+                  return <div className="d-flex justify-content-between pad_1" key={i}>
+                  <p className="fw-bold">{e?.ShapeName}</p>
+                  <p>{NumberWithCommas(e?.Amount, 2)}</p>
+                </div>
+                })
+              }
               <div className="d-flex justify-content-between pad_1">
                 <p className="fw-bold">DIAMOND</p>
                 <p>{NumberWithCommas(data?.mainTotal?.diamonds?.Amount, 2)}</p>

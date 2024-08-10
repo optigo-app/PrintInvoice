@@ -6,6 +6,7 @@ import Loader from '../../components/Loader';
 import { usePDF } from 'react-to-pdf';
 import html2pdf from 'html2pdf.js';
 import '../../assets/css/prints/summary12.css';
+import { MetalShapeNameWiseArr } from '../../GlobalFunctions/MetalShapeNameWiseArr';
 const Summary12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const { toPDF, targetRef } = usePDF({ filename: 'page.pdf' });
 
@@ -67,6 +68,10 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [loader, setLoader] = useState(true);
     const [taxes, setTaxes] = useState([]);
     const [msg, setMsg] = useState("");
+
+    const [MetShpWise, setMetShpWise] = useState([]);
+    const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
+
     const findMaterialWise = (findElement, elementNo, arr) => {
         let resultArr = arr?.filter((e, i) => {
             return e[findElement] === elementNo
@@ -249,6 +254,16 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
     const loadData = (datas) => {
         setBillprintJson(datas?.BillPrint_Json[0]);
+
+        let met_shp_arr = MetalShapeNameWiseArr(datas?.BillPrint_Json2);
+      
+        setMetShpWise(met_shp_arr);
+        let tot_met = 0;
+        met_shp_arr?.forEach((e, i) => {
+          tot_met += e?.Amount;
+        })    
+        setNotGoldMetalTotal(tot_met);
+
         let json1Arr = [];
         datas?.BillPrint_Json1?.forEach((e, i) => {
             let findMaterials = findMaterial(e.SrJobno, datas.BillPrint_Json2);
@@ -595,6 +610,14 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                     <div className="w-50 fw-bold ps-2">GOLD IN 24KT	</div>
                                                     <div className="w-50 text-end pe-2">{fixedValues(totalSummary?.gold24Kt, 3)} gm</div>
                                                 </div>
+                                                {
+                                                    MetShpWise?.map((e, i) => {
+                                                        return <div className="d-flex w-100" key={i}>
+                                                                <div className="w-50 fw-bold ps-2">{e?.ShapeName}</div>
+                                                                <div className="w-50 text-end pe-2">{NumberWithCommas(e?.metalfinewt, 3)} gm</div>
+                                                            </div>
+                                                            })
+                                                        }
                                                 <div className="d-flex w-100">
                                                     <div className="w-50 fw-bold ps-2">GROSS WT	</div>
                                                     <div className="w-50 text-end pe-2">{fixedValues(total?.gwt, 3)} gm	</div>
@@ -629,6 +652,14 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                             <div className="w-50 fw-bold ps-2">GOLD</div>
                                                             <div className="w-50 text-end pe-2">{NumberWithCommas(total.goldAmt, 2)}</div>
                                                         </div>
+                                                        {
+                                                            MetShpWise?.map((e, i) => {
+                                                                return <div className="d-flex w-100" key={i}>
+                                                                <div className="w-50 fw-bold ps-2">{e?.ShapeName}</div>
+                                                                <div className="w-50 text-end pe-2">{NumberWithCommas(e?.Amount, 2)}</div>
+                                                            </div>
+                                                            })
+                                                        }
                                                         <div className="d-flex w-100">
                                                             <div className="w-50 fw-bold ps-2">DIAMOND</div>
                                                             <div className="w-50 text-end pe-2">{NumberWithCommas(total.diaAmt, 2)}</div>

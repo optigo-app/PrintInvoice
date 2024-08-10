@@ -1,6 +1,7 @@
 .container_dp4 *{
     box-sizing: border-box;
     word-break: break-all;
+    font-family: Calibri;
 }
 .container_dp4{
     max-width: 1200px;

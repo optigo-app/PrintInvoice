@@ -1,6 +1,7 @@
 .container_sp *{
     box-sizing: border-box;
     word-break: break-all;
+    font-family: Calibri;
 }
 .container_sp{
     max-width: 1200px;

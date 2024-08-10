@@ -16,6 +16,7 @@ import Loader2 from "../../components/Loader2";
 import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
+import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 
 const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [image, setImage] = useState(true);
@@ -114,6 +115,9 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [brokrage, setBrokrage] = useState(false);
   const [brokarage, setBrokarage] = useState([]);
 
+  const [MetShpWise, setMetShpWise] = useState([]);
+  const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
+
   const handleChange = (e) => {
     const { name } = e?.target;
     if (name === "image") {
@@ -181,6 +185,16 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     let colorStoneTotals = { ...colorStoneMiscTotal };
     let colorStoness = { ...ColorStoneTotal };
     let miscstotals = { ...miscTotal };
+
+    let met_shp_arr = MetalShapeNameWiseArr(data?.BillPrint_Json2);
+      
+    setMetShpWise(met_shp_arr);
+    let tot_met = 0;
+    met_shp_arr?.forEach((e, i) => {
+      tot_met += e?.Amount;
+    })    
+    setNotGoldMetalTotal(tot_met);
+
 
     data?.BillPrint_Json1.forEach((e, i) => {
       totals.discountAmt += e?.DiscountAmt;
@@ -1916,6 +1930,14 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <p className="fw-bold">GOLD IN 24KT</p>
                         <p>{fixedValues(total?.gold24Kt, 3)} gm</p>
                       </div>
+                      {
+                        MetShpWise?.map((e, i) => {
+                          return <div className="d-flex justify-content-between px-1" key={i}>
+                          <p className="fw-bold">{e?.ShapeName}</p>
+                          <p>{NumberWithCommas(e?.metalfinewt, 3)} gm</p>
+                        </div>
+                        })
+                      }
                       <div className="d-flex justify-content-between px-1">
                         <p className="fw-bold">GROSS WT</p>
                         <p>{fixedValues(total?.grosswt, 3)} gm</p>
@@ -1959,9 +1981,17 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className="w-50 h-100 pb-2">
                       <div className="d-flex justify-content-between px-1">
                         <p className="fw-bold">GOLD</p>
-                        <p>{NumberWithCommas(total?.finalMetalsTotal?.amount, 2)}</p>
+                        <p>{NumberWithCommas((total?.finalMetalsTotal?.amount - notGoldMetalTotal), 2)}</p>
                         {/* <p>{NumberWithCommas(total?.goldAmount, 2)}</p> */}
                       </div>
+                      {
+                        MetShpWise?.map((e, i) => {
+                          return <div className="d-flex justify-content-between px-1" key={i}>
+                          <p className="fw-bold">{e?.ShapeName}</p>
+                          <p>{NumberWithCommas(e?.Amount, 2)}</p>
+                        </div>
+                        })
+                      }
                       <div className="d-flex justify-content-between px-1">
                         <p className="fw-bold">DIAMOND</p>
                         <p>{NumberWithCommas(total?.diamondAmount, 2)}</p>

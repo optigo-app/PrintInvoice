@@ -1,5 +1,6 @@
 .excelToJsonDownloadATable {
     border-collapse: collapse;
+    font-family: Calibri;
 }
 
 .excelToJsonDownloadATable td p,

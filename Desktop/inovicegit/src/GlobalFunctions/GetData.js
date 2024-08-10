@@ -17,9 +17,8 @@ export const GetData = async (job) => {
         };
 
         let urls = atob(job?.url);
-
-        const response = await axios.post(urls, Body, { headers: job?.headers });
         
+        const response = await axios.post(urls, Body, { headers: job?.headers });
         let datas = JSON?.parse(response?.data?.d);
         let responseMsg = '';
         if(datas?.rd[0]?.stat_msg?.includes('Contact your Admin')){
@@ -65,6 +64,15 @@ export const GetData = async (job) => {
         return obj;
         // return datas;
     } catch (error) {
-        console.log(error);
+        let msg = '';
+        if(error?.response?.status === 500){
+            msg = error?.response?.statusText;
+        }
+        const obj = {
+            rd:[],
+            rd1:undefined,
+            msg: msg
+        }
+        return obj
     }
 };

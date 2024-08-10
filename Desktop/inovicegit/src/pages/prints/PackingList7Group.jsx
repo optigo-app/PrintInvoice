@@ -13,6 +13,7 @@ import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import "../../assets/css/prints/packinglist7.css";
 import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
+import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 
 const PackingList7Group = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   
@@ -23,6 +24,9 @@ const PackingList7Group = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
   const [imgFlag, setImgFlag] = useState(true);
   const [imgFlag2, setImgFlag2] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
+
+  const [MetShpWise, setMetShpWise] = useState([]);
+  const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
 
   useEffect(() => {
     const sendData = async () => {
@@ -62,6 +66,16 @@ const PackingList7Group = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
+
+    let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
+      
+    setMetShpWise(met_shp_arr);
+    let tot_met = 0;
+    met_shp_arr?.forEach((e, i) => {
+      tot_met += e?.Amount;
+    })    
+    setNotGoldMetalTotal(tot_met)
+
       //grouping of jobs and isGroupJob is 1
    
       let finalArr = [];
@@ -1200,6 +1214,16 @@ const PackingList7Group = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                               {result?.mainTotal?.total_purenetwt?.toFixed(3)} gm
                             </div>
                           </div>
+                          {
+                            MetShpWise?.map((e, i) => {
+                              return <div className="d-flex justify-content-between px-1" key={i}>
+                              <div className="w-50 fw-bold">{e?.ShapeName}</div>
+                              <div className="w-50 end_dp10_pcl7 pe-1">
+                                {e?.metalfinewt?.toFixed(3)} gm
+                              </div>
+                            </div>
+                            })
+                          }
                           <div className="d-flex justify-content-between px-1">
                             <div className="w-50 fw-bold">GROSS WT</div>
                             <div className="w-50 end_dp10_pcl7 pe-1">
@@ -1245,9 +1269,19 @@ const PackingList7Group = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                           <div className="d-flex justify-content-between px-1">
                             <div className="w-50 fw-bold">GOLD</div>
                             <div className="w-50 end_dp10_pcl7">
-                              {formatAmount((result?.mainTotal?.metal?.Amount / result?.header?.CurrencyExchRate))}
+                              {formatAmount(((result?.mainTotal?.metal?.Amount - notGoldMetalTotal) / result?.header?.CurrencyExchRate))}
                             </div>
                           </div>
+                          {
+                            MetShpWise?.map((e, i) => {
+                              return <div className="d-flex justify-content-between px-1" key={i}>
+                              <div className="w-50 fw-bold">{e?.ShapeName}</div>
+                              <div className="w-50 end_dp10_pcl7">
+                                {formatAmount((e?.Amount / result?.header?.CurrencyExchRate))}
+                              </div>
+                            </div>
+                            })
+                          }
                           <div className="d-flex justify-content-between px-1">
                             <div className="w-50 fw-bold">DIAMOND</div>
                             <div className="w-50 end_dp10_pcl7">

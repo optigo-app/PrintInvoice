@@ -8,6 +8,7 @@ import "../../assets/css/prints/packinglists.css";
 import Button from './../../GlobalFunctions/Button';
 import { OrganizeInvoicePrintData } from '../../GlobalFunctions/OrganizeInvoicePrintData';
 import { cloneDeep } from 'lodash';
+import { MetalShapeNameWiseArr } from '../../GlobalFunctions/MetalShapeNameWiseArr';
 
 const PackingListS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
@@ -17,6 +18,9 @@ const PackingListS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [imgFlag, setImgFlag] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
   const [diamondArr, setDiamondArr] = useState([]);
+
+  const [MetShpWise, setMetShpWise] = useState([]);
+  const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
  
   useEffect(() => {
     const sendData = async () => {
@@ -57,7 +61,15 @@ const PackingListS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         data?.BillPrint_Json2
       );
 
-
+      let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
+      
+      setMetShpWise(met_shp_arr);
+      let tot_met = 0;
+      met_shp_arr?.forEach((e, i) => {
+        tot_met += e?.Amount;
+      })    
+      setNotGoldMetalTotal(tot_met);
+      
       let finalArr = [];
 
       datas?.resultArray?.forEach((a) => {
@@ -657,7 +669,15 @@ const PackingListS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className='d-flex align-items-center text-break'>
                                     <div className='w-50 ps-1 fw-bold'>GOLD IN 24KT</div>
                                     <div className='w-50 pe-1 end_pcls'>{result?.mainTotal?.PureNetWt?.toFixed(3)} gm</div>
-                                </div>    
+                                </div>
+                                {
+                                MetShpWise?.map((e, i) => {
+                                    return <div className='d-flex align-items-center text-break' key={i}>
+                                        <div className='w-50 ps-1 fw-bold'>{e?.ShapeName}</div>
+                                        <div className='w-50 pe-1 end_pcls'>{((e?.metalfinewt)?.toFixed(3))} gm</div>
+                                    </div>
+                                    })
+                                }    
                                 <div className='d-flex align-items-center text-break'>
                                     <div className='w-50 ps-1 fw-bold'>GROSS WT</div>
                                     <div className='w-50 pe-1 end_pcls'>{result?.mainTotal?.grosswt?.toFixed(3)} gm</div>
@@ -690,8 +710,16 @@ const PackingListS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className='w-50 tb_fs_pcls bright_pcls bbottom_pcls'>
                                 <div className='d-flex align-items-center text-break'>
                                     <div className='w-50 ps-1 fw-bold'>GOLD</div>
-                                    <div className='w-50 pe-1 end_pcls'>{formatAmount((result?.mainTotal?.metal?.Amount / result?.header?.CurrencyExchRate))}</div>
-                                </div>    
+                                    <div className='w-50 pe-1 end_pcls'>{formatAmount(((result?.mainTotal?.metal?.Amount - notGoldMetalTotal) / result?.header?.CurrencyExchRate))}</div>
+                                </div>
+                                {
+                                    MetShpWise?.map((e, i) => {
+                                        return <div className='d-flex align-items-center text-break' key={i}>
+                                        <div className='w-50 ps-1 fw-bold'>{e?.ShapeName}</div>
+                                        <div className='w-50 pe-1 end_pcls'>{formatAmount((e?.Amount / result?.header?.CurrencyExchRate))}</div>
+                                    </div>
+                                    })
+                                }    
                                 <div className='d-flex align-items-center text-break'>
                                     <div className='w-50 ps-1 fw-bold'>DIAMOND</div>
                                     <div className='w-50 pe-1 end_pcls'>{formatAmount((result?.mainTotal?.diamonds?.Amount / result?.header?.CurrencyExchRate))}</div>

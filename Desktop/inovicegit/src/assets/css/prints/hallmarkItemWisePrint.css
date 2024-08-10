@@ -1,11 +1,13 @@
 .hallmarkItemWisePrintContainer{
     zoom: 1;
     padding-bottom: 60px;
+    font-family: Calibri;
 }
 
 .itemWisePrintfontHallmark * {
     font-size: 12px;
     line-height: 120%;
+    font-family: Calibri;
 }
 
 .metaltypeItemWisePrintHallmark{

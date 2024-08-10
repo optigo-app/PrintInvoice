@@ -29,7 +29,6 @@ const BagPrint4C = ({ queries, headers }) => {
                 const objs = {
                     jobno: resultString,
                     custid: queries.custid,
-                    // printname: "BagPrint4A",
                     printname: queries.printname,
                     appuserid: queries.appuserid,
                     url: queries.url,
@@ -136,13 +135,13 @@ const BagPrint4C = ({ queries, headers }) => {
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    // useEffect(() => {
-    //     if (data.length !== 0) {
-    //         setTimeout(() => {
-    //             window.print();
-    //         }, 5000);
-    //     }
-    // }, [data]);
+    useEffect(() => {
+        if (data.length !== 0) {
+            setTimeout(() => {
+                window.print();
+            }, 5000);
+        }
+    }, [data]);
     return (
         <>
             {data.length === 0 ? (

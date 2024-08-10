@@ -1,6 +1,7 @@
 .summaryInCurrency * {
     font-size: 12px;
     line-height: 120%;
+    font-family: Calibri;
     word-break: normal;
 }
 

@@ -13,6 +13,7 @@ import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import "../../assets/css/prints/detailprint10.css";
 import Loader from "../../components/Loader";
 import { OrganizeInvoicePrintData } from "../../GlobalFunctions/OrganizeInvoicePrintData";
+import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 
 const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
@@ -22,6 +23,9 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [imgFlag, setImgFlag] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
 
+  
+  const [MetShpWise, setMetShpWise] = useState([]);
+  const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
 
   useEffect(() => {
     const sendData = async () => {
@@ -61,6 +65,15 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
+
+    let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
+      
+    setMetShpWise(met_shp_arr);
+    let tot_met = 0;
+    met_shp_arr?.forEach((e, i) => {
+      tot_met += e?.Amount;
+    })    
+    setNotGoldMetalTotal(tot_met);
 
     let diaObj = {
       ShapeName: "OTHERS",
@@ -754,6 +767,16 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {result?.mainTotal?.convertednetwt?.toFixed(3)} gm
                             </div>
                           </div>
+                          {
+                            MetShpWise?.map((e, i) => {
+                              return <div className="d-flex justify-content-between px-1" key={i}>
+                              <div className="w-50 fw-bold">{e?.ShapeName}</div>
+                              <div className="w-50 end_dp10 pe-1">
+                                {e?.metalfinewt?.toFixed(3)} gm
+                              </div>
+                            </div>
+                            })
+                          }
                           <div className="d-flex justify-content-between px-1">
                             <div className="w-50 fw-bold">GROSS WT</div>
                             <div className="w-50 end_dp10 pe-1">
@@ -787,9 +810,19 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="d-flex justify-content-between px-1">
                             <div className="w-50 fw-bold">GOLD</div>
                             <div className="w-50 end_dp10">
-                              {formatAmount(result?.mainTotal?.metal?.IsPrimaryMetal_Amount)}
+                              {formatAmount((result?.mainTotal?.metal?.IsPrimaryMetal_Amount - notGoldMetalTotal))}
                             </div>
                           </div>
+                          {
+                            MetShpWise?.map((e, i) => {
+                              return <div className="d-flex justify-content-between px-1" key={i}>
+                              <div className="w-50 fw-bold">{e?.ShapeName}</div>
+                              <div className="w-50 end_dp10">
+                                {formatAmount((e?.Amount))}
+                              </div>
+                            </div>
+                            })
+                          }
                           <div className="d-flex justify-content-between px-1">
                             <div className="w-50 fw-bold">DIAMOND</div>
                             <div className="w-50 end_dp10">

@@ -1,6 +1,7 @@
 .containerIp5 * {
     box-sizing: border-box;
     word-break: break-all;
+    font-family: Calibri;
 }
 
 /* global in print */
