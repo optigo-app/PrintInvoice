@@ -459,7 +459,7 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
                   <p className="text-center">{i + 1}</p>
                 </div>
                 <div className={`col-2 p-1 border-end position-relative`}>
-                    <p>Job: {e?.SrJobno} </p>
+                    {/* <p>Job: {e?.SrJobno} </p> */}
                   <p>
                     Design: <span className="fw-bold text-break">{e?.designno}</span>{" "}
                   </p>

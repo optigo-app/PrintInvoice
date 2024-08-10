@@ -10,6 +10,7 @@ import "../../assets/css/bagprint/searchmaterial.css";
 const SearchMaterial = ({ queries, headers }) => {
   
   const [data, setData] = useState([]);
+  const [msg, setMsg] = useState('');
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
 
@@ -29,7 +30,7 @@ const SearchMaterial = ({ queries, headers }) => {
         };
 
         const allDatas = await GetData(objs);
-
+        setMsg(allDatas?.msg);
         const showObj = {
           istoreCust_Customercode:'',
           rfbag:'',
@@ -160,14 +161,13 @@ const SearchMaterial = ({ queries, headers }) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   return (
     <>
       {data?.length === 0 ? (
         <Loader />
       ) : (
         <>
-            <div style={{display:'flex'}}>
+            { msg !== '' ? <div className="text-danger fw-bold text-center mt-5 pt-5">{msg}</div> :  <div style={{display:'flex'}}>
             <div className="sm_container">
               <div className="div2_SM">
                 <div className="center_sm_rf mt_8_SM">{data?.istoreCust_Customercode}</div>
@@ -188,7 +188,7 @@ const SearchMaterial = ({ queries, headers }) => {
               Print
             </button>
           </div>
-          </div>
+            </div>}
         </>
       )}
     </>

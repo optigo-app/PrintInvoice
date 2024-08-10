@@ -21,7 +21,14 @@ export const GetData = async (job) => {
         const response = await axios.post(urls, Body, { headers: job?.headers });
         
         let datas = JSON?.parse(response?.data?.d);
-
+        let responseMsg = '';
+        if(datas?.rd[0]?.stat_msg?.includes('Contact your Admin')){
+            responseMsg = 'Contact Your Admin';
+        }
+        if(datas?.rd?.length === 0){
+            responseMsg = 'Data Not Present';
+        }
+        // if(response?.data)
         // let newArr = [];
         // let jobss = [];
         // let jobs = job.jobno.split(",");
@@ -51,7 +58,8 @@ export const GetData = async (job) => {
 
         const obj = {
             rd:rd,
-            rd1:rd1
+            rd1:rd1,
+            msg:responseMsg
         }
 
         return obj;
