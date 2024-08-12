@@ -90,7 +90,9 @@
 .inp_25_10{
     height: 25px;
 }
-
+.fsremark_10{
+    font-size: 12px;
+}
 @media print{
 
     .print_sec_sum4{

@@ -570,7 +570,7 @@ const InvoicePrint_10_11 = ({
       </div>
 
       <div className="my-1">
-        <div className={`d-flex border ${style?.font_15}`}>
+        <div className={`d-flex border ${style?.fsremark_10}`}>
           <div className="col-3 border-end">
             <p className="text-center fw-bold border-bottom">DESCRIPTION</p>
           </div>
@@ -626,14 +626,14 @@ const InvoicePrint_10_11 = ({
             <div className={style?.print_sec_sum4}>
               <input type="text" autoFocus={true} className={`${style?.inp_Desc} ${style?.inp_25_10}`} value={inpDesc} onChange={handleChange} />
             </div>
-            <p className={`w-100 text-center pb-1 ${style?.font_13} ${style?.print_sec_sum42}`}>
+            <p className={`w-100 text-center pb-1 ${style?.fsremark_10} ${style?.print_sec_sum42}`}>
               {inpDesc}
             </p>
-            <p className={`fw-bold ${style?.font_17} mt-2`}>
+            <p className={`fw-bold ${style?.fsremark_10} mt-2`}>
               Total Pcs : {NumberWithCommas(totalss?.totalPcs, 0)}
             </p>
           </div>
-          <div className={`col-9 ${style?.font_13}`}>
+          <div className={`col-9 ${style?.fsremark_10}`}>
             {mainData?.resultArr?.map((e, i) => {
               return (
                 <div className="d-flex" key={i}>
@@ -1003,7 +1003,7 @@ const InvoicePrint_10_11 = ({
 
             {mainData?.otherCharges?.map((e, i) => {
               return (<>
-                { e?.label === 'HANDLING' && (e?.value === 0 || e?.value === '0.00') ? '' : <div className="d-flex" key={i}>
+                { e?.label === 'HANDLING' && (e?.value === 0 || e?.value === '0.00') ? '' : <div className={`d-flex ${style?.fsremark_10}`} key={i}>
                   <div
                     style={{ minWidth: "17%", width: "17%" }}
                     className=" px-1 text-uppercase"
@@ -1053,7 +1053,7 @@ const InvoicePrint_10_11 = ({
           </div>
         </div>
         {/* total */}
-        <div className={`d-flex border-start border-end border-bottom mb-1 no_break ${style?.font_15}`} >
+        <div className={`d-flex border-start border-end border-bottom mb-1 no_break ${style?.fsremark_10}`} >
           <div className="col-3 border-end d-flex align-items-center justify-content-center flex-column"></div>
           <div className="col-9">
             <div className="d-flex border-bottom">
@@ -1085,7 +1085,7 @@ const InvoicePrint_10_11 = ({
           </div>
         </div>
         {/* taxes */}
-        <div className={`d-flex border no_break ${style?.font_15}`}>
+        <div className={`d-flex border no_break ${style?.fsremark_10}`}>
           <div className="col-8 border-end"></div>
           <div className="col-4 px-1">
             {totalss?.discount !== 0 && (
@@ -1134,11 +1134,11 @@ const InvoicePrint_10_11 = ({
           </div>
         </div>
         <div
-          className={`d-flex border-start border-end border-bottom no_break ${style?.font_15}`}
+          className={`d-flex border-start border-end border-bottom no_break `}
         >
           <div className="col-8 border-end px-1">
-            <p className="fw-bold"> In Words Indian Rupees</p>
-            <p className="fw-bold">
+            <p className={`fw-bold ${style?.fsremark_10}`}> In Words Indian Rupees</p>
+            <p className={`fw-bold ${style?.fsremark_10}`}>
               {toWords.convert(
                 +fixedValues(
                   mainDatas?.mainTotal?.total_amount /
@@ -1158,7 +1158,7 @@ const InvoicePrint_10_11 = ({
                 headerData?.AddLess + headerData?.FreightCharges, 2))} Only. */}
             </p>
           </div>
-          <div className="col-4 px-1 d-flex justify-content-between align-items-center">
+          <div className={`col-4 px-1 d-flex justify-content-between align-items-center ${style?.fsremark_10}`}>
             <p className="text-end fw-bold">Grand Total </p>
             <p className="text-end fw-bold">
               {NumberWithCommas(
@@ -1179,44 +1179,44 @@ const InvoicePrint_10_11 = ({
           className={`border-start border-end border-bottom p-1 no_break  ${style?.delinvp11}`}
           dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}
         ></div>
-        <p className="p-1 no_break">
+        <p className={`p-1 no_break ${style?.fsremark_10}`}>
           <span className="fw-bold"> REMARKS :</span> <span dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></span> 
         </p>
         {/* {footer} */}
         <div
-          className={`${footerStyle.container} no_break ${style?.font_15} ${style?.footer}`}
+          className={`${footerStyle.container} no_break ${style?.fsremark_10} ${style?.footer}`}
         >
           <div
             className={`${footerStyle.block1f3} ${style?.footers}`}
             style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
           >
-            <div className={footerStyle.linesf3} style={{ fontWeight: "bold" }}>
+            <div className={style?.fsremark_10}  style={{ fontWeight: "bold" }}>
               Bank Detail
             </div>
-            <div className={footerStyle.linesf3}>
+            <div className={style?.fsremark_10}>
               Bank Name: {headerData?.bankname}
             </div>
-            <div className={footerStyle.linesf3}>
+            <div className={style?.fsremark_10}>
               Branch: {headerData?.bankaddress}
             </div>
-            <div className={footerStyle.linesf3}>
+            <div className={style?.fsremark_10}>
               Account Name: {headerData?.accountname}
             </div>
-            <div className={footerStyle.linesf3}>
+            <div className={style?.fsremark_10}>
               Account No. : {headerData?.accountnumber}
             </div>
-            <div className={footerStyle.linesf3}>
+            <div className={style?.fsremark_10}>
               RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}
             </div>
-            <div className={footerStyle.linesf3}>Enquiry No. </div>
-            <div className={footerStyle.linesf3}> (E & OE)</div>
+            <div className={style?.fsremark_10}>Enquiry No. </div>
+            <div className={style?.fsremark_10}> (E & OE)</div>
           </div>
           <div
             className={`${footerStyle.block2f3} ${style?.footers}`}
             style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
           >
-            <div className={`${footerStyle.linesf3} fw-normal`}>Signature</div>
-            <div className={footerStyle.linesf3}>
+            <div className={`${style?.fsremark_10} fw-normal`}>Signature</div>
+            <div >
               {headerData?.customerfirmname}
             </div>
           </div>
@@ -1224,8 +1224,8 @@ const InvoicePrint_10_11 = ({
             className={`${footerStyle.block2f3} ${style?.footers}`}
             style={{ width: "33.33%" }}
           >
-            <div className={`${footerStyle.linesf3} fw-normal`}>Signature</div>
-            <div className={footerStyle.linesf3}>
+            <div className={`${style?.fsremark_10} fw-normal`}>Signature</div>
+            <div >
               {headerData?.CompanyFullName}
             </div>
           </div>
