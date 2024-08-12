@@ -71,6 +71,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
     const [MetShpWise, setMetShpWise] = useState([]);
     const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
+    const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
 
     const findMaterialWise = (findElement, elementNo, arr) => {
         let resultArr = arr?.filter((e, i) => {
@@ -259,10 +260,13 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       
         setMetShpWise(met_shp_arr);
         let tot_met = 0;
+        let tot_met_wt = 0;
         met_shp_arr?.forEach((e, i) => {
           tot_met += e?.Amount;
+          tot_met_wt += e?.metalfinewt;
         })    
         setNotGoldMetalTotal(tot_met);
+        setNotGoldMetalWtTotal(tot_met_wt);
 
         let json1Arr = [];
         datas?.BillPrint_Json1?.forEach((e, i) => {
@@ -316,7 +320,8 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 result[foundIndex].pureWt += key8Value;
             }
         });
-        let findGold24K = result.reduce((sum, item) => sum + item?.fineWt, 0)
+        // let findGold24K = result.reduce((sum, item) => sum + item?.fineWt, 0)
+        let findGold24K = json1Arr.reduce((sum, item) => sum + item?.PureNetWt, 0)
         let totMAMT = result.reduce((sum, item) => sum + item?.totalMetalAmount, 0)
         let obj = { ...totalSummary };
         obj.totalMetalAmount = totMAMT;
@@ -608,7 +613,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <div className="gold_24kt_sum4 w-50 border-end">
                                                 <div className="d-flex w-100">
                                                     <div className="w-50 fw-bold ps-2">GOLD IN 24KT	</div>
-                                                    <div className="w-50 text-end pe-2">{fixedValues(totalSummary?.gold24Kt, 3)} gm</div>
+                                                    <div className="w-50 text-end pe-2">{fixedValues((totalSummary?.gold24Kt - notGoldMetalWtTotal), 3)} gm</div>
                                                 </div>
                                                 {
                                                     MetShpWise?.map((e, i) => {
@@ -650,7 +655,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                     <div>
                                                         <div className="d-flex w-100">
                                                             <div className="w-50 fw-bold ps-2">GOLD</div>
-                                                            <div className="w-50 text-end pe-2">{NumberWithCommas(total.goldAmt, 2)}</div>
+                                                            <div className="w-50 text-end pe-2">{NumberWithCommas((total.goldAmt - notGoldMetalTotal), 2)}</div>
                                                         </div>
                                                         {
                                                             MetShpWise?.map((e, i) => {

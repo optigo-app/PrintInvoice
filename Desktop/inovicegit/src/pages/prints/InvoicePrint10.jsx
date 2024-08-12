@@ -487,7 +487,7 @@ const InvoicePrint_10_11 = ({
           >
             {isImageWorking && headerData?.PrintLogo !== "" && (
               <img
-                src={headerData?.PrintLogo}
+                src={headerData?.PrintLogo }
                 alt=""
                 className="w-100 h-auto ms-auto d-block object-fit-contain"
                 style={{ maxWidth: "97px" }}

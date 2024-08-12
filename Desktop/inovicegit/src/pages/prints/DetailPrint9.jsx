@@ -44,6 +44,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
+  const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
 
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -66,10 +67,13 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       
     setMetShpWise(met_shp_arr);
     let tot_met = 0;
+    let tot_met_wt = 0;
     met_shp_arr?.forEach((e, i) => {
       tot_met += e?.Amount;
+      tot_met_wt += e?.metalfinewt;
     })    
     setNotGoldMetalTotal(tot_met);
+    setNotGoldMetalWtTotal(tot_met_wt);
 
     let resultArr = [];
     let categories = [];
@@ -1030,7 +1034,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div className={`col-6 border-end pad_1 ${style?.pad_bot_12} position-relative`}>
               <div className="d-flex justify-content-between pad_1">
                 <p className="fw-bold">GOLD IN 24KT</p>
-                <p>{NumberWithCommas(data?.mainTotal?.convertednetwt, 3)} gm</p>
+                <p>{NumberWithCommas((data?.mainTotal?.total_purenetwt - notGoldMetalWtTotal), 3)} gm</p>
               </div>
               {
                 MetShpWise?.map((e, i) => {

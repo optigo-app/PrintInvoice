@@ -269,7 +269,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
         <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4 mt-4`} >
           <div className='px-2'>
                 <input type="checkbox" onChange={handleImgShow} value={imgFlag} checked={imgFlag} id='imgshow' />
-                <label htmlFor="imgshow" className='user-select-none mx-1'>Short Header</label>
+                <label htmlFor="imgshow" className='user-select-none mx-1'>Header</label>
           </div>
           <div className="form-check ps-3 ">
             <input

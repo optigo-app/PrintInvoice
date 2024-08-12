@@ -26,6 +26,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
+  const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
 
   useEffect(() => {
     const sendData = async () => {
@@ -70,10 +71,13 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       
     setMetShpWise(met_shp_arr);
     let tot_met = 0;
+    let tot_met_wt = 0;
     met_shp_arr?.forEach((e, i) => {
       tot_met += e?.Amount;
+      tot_met_wt += e?.metalfinewt;
     })    
     setNotGoldMetalTotal(tot_met);
+    setNotGoldMetalWtTotal(tot_met_wt);
 
     let diaObj = {
       ShapeName: "OTHERS",
@@ -764,7 +768,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="d-flex justify-content-between px-1">
                             <div className="w-50 fw-bold">GOLD IN 24KT</div>
                             <div className="w-50 end_dp10 pe-1">
-                              {result?.mainTotal?.convertednetwt?.toFixed(3)} gm
+                              {(result?.mainTotal?.total_purenetwt - notGoldMetalWtTotal)?.toFixed(3)} gm
                             </div>
                           </div>
                           {

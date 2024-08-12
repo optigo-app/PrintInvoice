@@ -29,6 +29,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
     const [MetShpWise, setMetShpWise] = useState([]);
     const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
+    const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
 
     const toWords = new ToWords();
     const [checkBox, setCheckbox] = useState({
@@ -78,10 +79,13 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       
         setMetShpWise(met_shp_arr);
         let tot_met = 0;
+        let tot_met_wt = 0;
         met_shp_arr?.forEach((e, i) => {
           tot_met += e?.Amount;
+          tot_met_wt += e?.metalfinewt;
         })    
         setNotGoldMetalTotal(tot_met);
+        setNotGoldMetalWtTotal(tot_met_wt);
 
         let resultArray = [];
         let newMetalList = [];
@@ -559,7 +563,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div className="col-6 px-1 border-end pb-4 position-relative">
                                 <div className="d-flex justify-content-between">
                                     <p className="fw-bold">GOLD IN 24KT</p>
-                                    <p>{NumberWithCommas(data?.mainTotal?.total_purenetwt, 3)} gm</p>
+                                    <p>{NumberWithCommas((data?.mainTotal?.total_purenetwt - notGoldMetalWtTotal), 3)} gm</p>
                                 </div>
                                 {
                                     MetShpWise?.map((e, i) => {

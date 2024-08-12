@@ -28,6 +28,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
+  const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
 
   // eslint-disable-next-line no-unused-vars
   const [detailtPrintR, setdetailtPrintR] = useState(
@@ -119,10 +120,13 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       
     setMetShpWise(met_shp_arr);
     let tot_met = 0;
+    let tot_met_wt = 0;
     met_shp_arr?.forEach((e, i) => {
       tot_met += e?.Amount;
+      tot_met_wt += e?.metalfinewt;
     })    
     setNotGoldMetalTotal(tot_met);
+    setNotGoldMetalWtTotal(tot_met_wt);
 
     let finalArr = [];
     let totalMetalWt = 0;
@@ -1405,7 +1409,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <p className="fw-bold px-1 pt-1">GOLD IN 24KT</p>
                       <p className="px-1 pt-1">
                         {/* {(detailtPrintR || detailtPrintL || detailtPrintp) ?  */}
-                          {fixedValues(finalD?.mainTotal?.total_purenetwt, 3)} gm
+                          {fixedValues((finalD?.mainTotal?.total_purenetwt - notGoldMetalWtTotal), 3)} gm
                         {/* {(detailtPrintR) ? 
                         NumberWithCommas(summary?.gold24Kt, 3) : fixedValues(finalD?.mainTotal?.total_purenetwt, 3)} gm */}
                       </p>

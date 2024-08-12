@@ -1,5 +1,4 @@
 .InvoicePrint_10_11 *:not(.Declaration *){
-    font-size: 12px;
     line-height: 13px;
     word-break: normal;
     font-family: Calibri;
@@ -79,6 +78,7 @@
 }
 .inp_Desc{
     width: 170px;
+    font-size: 12px;
 }
 .print_sec_sum42{
     display: none !important;
@@ -106,8 +106,8 @@
     }
 
     .font_15 *:not(.Declaration *), .font_15, .font_14 *:not(.Declaration *), .font_14{
-        font-size: 13px;
-        line-height: 100%;
+        font-size: 12px;
+        line-height: 12px !important;
     }
 
     .font_17 *:not(.Declaration *), .font_17{
@@ -150,6 +150,10 @@
 
     .inp_25_10{
         height: auto;
+    }
+    .font_12 *:not(.Declaration *), .font_12{
+        font-size: 11px;
+        line-height: 12px !important;
     }
 
 }

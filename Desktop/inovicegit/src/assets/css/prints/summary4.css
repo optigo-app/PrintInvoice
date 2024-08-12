@@ -1,10 +1,16 @@
 .h1_sum4 {
     line-height: 120%;
     font-size: 20px;
+    font-size: Calibri !important;
+}
+.fs_S4{
+    font-size: Calibri !important;
 }
 
 .address_sum4>p {
     margin-bottom: 0;
+    font-size: Calibri !important;
+
 }
 
 .address_para_sum4 {

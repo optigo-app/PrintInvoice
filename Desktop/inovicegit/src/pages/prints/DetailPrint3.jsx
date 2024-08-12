@@ -14,6 +14,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
+  const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
  
   useEffect(() => {
     const sendData = async () => {
@@ -57,10 +58,13 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       
       setMetShpWise(met_shp_arr);
       let tot_met = 0;
+      let tot_met_wt = 0;
       met_shp_arr?.forEach((e, i) => {
         tot_met += e?.Amount;
+        tot_met_wt += e?.metalfinewt;
       })    
       setNotGoldMetalTotal(tot_met);
+      setNotGoldMetalWtTotal(tot_met_wt);
 
       let mdtot = 0;
       datas?.resultArray?.forEach((e, i) => {
@@ -424,7 +428,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div className="summary_dp3_head border-secondary border border-top fw-bold ">SUMMARY</div>
             <div className="d-flex w-100 ">
               <div className="w-50">
-                <div className="d-flex justify-content-between"><div className="border-secondary border-start pad_s_dp3 fw-bold ps-2">GOLD IN 24KT</div><div className="border-secondary border-end pad_e_dp3 pe-2">{result?.mainTotal?.convertednetwt?.toFixed(3)} gm</div></div>
+                <div className="d-flex justify-content-between"><div className="border-secondary border-start pad_s_dp3 fw-bold ps-2">GOLD IN 24KT</div><div className="border-secondary border-end pad_e_dp3 pe-2">{(result?.mainTotal?.total_purenetwt - notGoldMetalWtTotal)?.toFixed(3)} gm</div></div>
 
                 {
                   MetShpWise?.map((e, i) => {

@@ -20,6 +20,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [diamondArr, setDiamondArr] = useState([]);
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
+  const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
   useEffect(() => {
     const sendData = async () => {
       try {
@@ -225,10 +226,13 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       
       setMetShpWise(met_shp_arr);
       let tot_met = 0;
+      let tot_met_wt = 0;
       met_shp_arr?.forEach((e, i) => {
         tot_met += e?.Amount;
+        tot_met_wt += e?.metalfinewt;
       })    
       setNotGoldMetalTotal(tot_met);
+      setNotGoldMetalWtTotal(tot_met_wt);
 
   }
 
@@ -667,7 +671,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className='w-50 tb_fs_pcls bright_pcls bbottom_pcls bleft_pcls'>
                                 <div className='d-flex align-items-center text-break'>
                                     <div className='w-50 ps-1 fw-bold'>GOLD IN 24KT</div>
-                                    <div className='w-50 pe-1 end_pcls'>{result?.mainTotal?.PureNetWt?.toFixed(3)} gm</div>
+                                    <div className='w-50 pe-1 end_pcls'>{(result?.mainTotal?.PureNetWt - notGoldMetalWtTotal)?.toFixed(3)} gm</div>
                                 </div>    
                                 {
                                     MetShpWise?.map((e, i) => { 

@@ -117,6 +117,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
+  const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
 
   const handleChange = (e) => {
     const { name } = e?.target;
@@ -190,10 +191,13 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       
     setMetShpWise(met_shp_arr);
     let tot_met = 0;
+    let tot_met_wt = 0;
     met_shp_arr?.forEach((e, i) => {
       tot_met += e?.Amount;
+      tot_met_wt += e?.metalfinewt;
     })    
     setNotGoldMetalTotal(tot_met);
+    setNotGoldMetalWtTotal(tot_met_wt);
 
 
     data?.BillPrint_Json1.forEach((e, i) => {
@@ -241,7 +245,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         amount: 0,
       };
       let primaryMetalAmount = 0;
-      totals.gold24Kt += e?.convertednetwt;
+      // totals.gold24Kt += e?.convertednetwt;
+      totals.gold24Kt += e?.PureNetWt;
       data?.BillPrint_Json2.forEach((ele, ind) => {
         if (e?.SrJobno === ele?.StockBarcode) {
           if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
@@ -1928,7 +1933,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className="w-50 border-end h-100 pb-2 border_color_estimates">
                       <div className="d-flex justify-content-between px-1">
                         <p className="fw-bold">GOLD IN 24KT</p>
-                        <p>{fixedValues(total?.gold24Kt, 3)} gm</p>
+                        <p>{fixedValues((total?.gold24Kt - notGoldMetalWtTotal), 3)} gm</p>
                       </div>
                       {
                         MetShpWise?.map((e, i) => {

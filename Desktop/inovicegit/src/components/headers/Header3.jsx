@@ -2,14 +2,14 @@ import React from "react";
 import style from "../../assets/css/headers/header3.module.css";
 import QrCodeForPrint from "../QrCodeForPrint";
 import { handleGlobalImgError } from "../../GlobalFunctions";
-
+import img from "../../assets/img/E_invoice_QR.png";
 const Header3 = ({ data }) => {
   return (
     <div className={style.header3}>
 
       <div className={style.headline}>
-        <div className="fs-4">{data?.PrintHeadLabel}</div>
-        <div className="fs-4">{data?.E_HeadLabel}</div>
+        <div className={style.headline2}>{data?.PrintHeadLabel}</div>
+        <div className={style.headline2}>{data?.E_HeadLabel}</div>
       </div>
       <div
         className={`${style.companyDetails} d-flex justify-content-between align-items-center w-100 `}
@@ -34,9 +34,10 @@ const Header3 = ({ data }) => {
         <div className="" style={{width:"40%"}}>
           <div className={style.qrcodeupperdivh3}>
             {/* <QrCodeForPrint text="hellosdkjnksdfbnkjbsfkjbbdasfklnenfsdeflkhnresglkjgklkndfkgjngkjngklnasdfkjndfdglkndfgknkdfgjnkjadekjsdnkj" /> */}
-            <img src={data?.E_Qr} alt="" onError={handleGlobalImgError} />
+            <img src={data?.E_Qr} alt="" className={`${style?.max_min_h3}`} onError={handleGlobalImgError} />
+            {/* <img src={img} alt="" className={`${style?.max_min_h3}`}  onError={handleGlobalImgError} /> */}
           </div>
-          <div className="w-100 text-end fw-bold pe-2 lh-1" style={{fontSize: "15px"}}>
+          <div className={`w-100 text-end fw-bold pe-2 lh-1 ${style?.taxInvfs}`}>
             {data?.InvoiceBillType}
           </div>
         </div>

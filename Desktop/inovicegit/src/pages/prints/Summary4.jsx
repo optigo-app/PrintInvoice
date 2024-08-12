@@ -33,6 +33,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
     const [MetShpWise, setMetShpWise] = useState([]);
     const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
+    const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
 
     const [totalSummary, setTotalSummary] = useState({
         gold24Kt: 0,
@@ -259,10 +260,13 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       
         setMetShpWise(met_shp_arr);
         let tot_met = 0;
+        let tot_met_wt = 0;
         met_shp_arr?.forEach((e, i) => {
           tot_met += e?.Amount;
+          tot_met_wt += e?.metalfinewt;
         })    
         setNotGoldMetalTotal(tot_met);
+        setNotGoldMetalWtTotal(tot_met_wt);
 
         countCategorySubCategory(datas?.BillPrint_Json1);
         setBillPrintJson1(json1Arr);
@@ -300,7 +304,9 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 result[foundIndex].pureWt = key8Value;
             }
         });
-        let findGold24K = result.reduce((sum, item) => sum + item?.fineWt, 0)
+        // let findGold24K = result.reduce((sum, item) => sum + item?.fineWt, 0)
+        let findGold24K = json1Arr.reduce((sum, item) => sum + item?.PureNetWt, 0)
+
         let obj = { ...totalSummary };
         obj.gold24Kt = findGold24K;
         obj.gDWt = ((+((gDWt).toFixed(3)) / 5) + nWt).toFixed(3);
@@ -371,9 +377,8 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             summary ? setSummary(false) : setSummary(true);
         }
     }
-
-    return (<>{loader ? <Loader /> : msg === "" ? <div className='zoom1_5_summary12 container max_width_container pt-4 pad_60_allPrint '>
-        <div className="d-flex justify-content-end align-items-center print_sec_sum4">
+    return (<>{loader ? <Loader /> : msg === "" ? <div className='zoom1_5_summary12 container max_width_container fs_S4 pt-4 pad_60_allPrint '>
+        <div className="d-flex justify-content-end align-items-center fs_S4 print_sec_sum4">
             <div className="form-check pe-3">
                 <input className="form-check-input border-dark" type="checkbox" checked={header} onChange={e => handleChange(e, "header")} />
                 <label className="form-check-label pt-1">
@@ -397,7 +402,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             </div>
         </div>
         <div className='pt-4'>
-            {header && <div className="d-flex header_section_sum4 justify-content-between align-items-center pb-2">
+            {header && <div className="d-flex header_section_sum4 justify-content-between align-items-center pb-2 fs_S4">
                 <div className='address_sum4'>
                     <h1 className='h1_sum4 fw-bold'>{billPrintJson?.CompanyFullName}</h1>
                     <p className='address_para_sum4 lh-1 pb-1'> {billPrintJson?.CompanyAddress} </p>
@@ -590,7 +595,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <div className="gold_24kt_sum4 w-50 border-end">
                                     <div className="d-flex w-100">
                                         <div className="w-50 fw-bold ps-2">GOLD IN 24KT	</div>
-                                        <div className="w-50 text-end pe-2">{fixedValues(totalSummary?.gold24Kt, 3)} gm	</div>
+                                        <div className="w-50 text-end pe-2">{fixedValues((totalSummary?.gold24Kt - notGoldMetalWtTotal), 3)} gm	</div>
                                     </div>
                                     {
                                         MetShpWise?.map((e, i) => {

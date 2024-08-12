@@ -26,6 +26,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [json1Data2, setJson1Data2] = useState([]);
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
+  const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
   // eslint-disable-next-line no-unused-vars
   const [detailtPrintR, setdetailtPrintR] = useState(
     atob(printName).toLowerCase() === "detail print r" ? true : false
@@ -96,6 +97,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   const [diamondDetails, setDiamondDetails] = useState([]);
   const [isImageWorking, setIsImageWorking] = useState(true);
+
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -128,9 +130,14 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       
     setMetShpWise(met_shp_arr);
     let tot_met = 0;
-    met_shp_arr?.forEach((e, i) => {
+    let tot_met_wt = 0;
+
+    met_shp_arr?.forEach((e) => {
       tot_met += e?.Amount;
+      tot_met_wt += e?.metalfinewt;
+
     })    
+    setNotGoldMetalWtTotal(tot_met_wt)
     setNotGoldMetalTotal(tot_met);
 
     let finalArr = [];
@@ -1395,7 +1402,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {" "}
                         {/* {(detailtPrintR || detailtPrintL || detailtPrintp) ?  */}
                         {(detailtPrintR) ? 
-                        NumberWithCommas(summary?.gold24Kt, 3) : fixedValues(finalD?.mainTotal?.convertednetwt, 3)} gm
+                        NumberWithCommas((summary?.gold24Kt - notGoldMetalWtTotal), 3) : fixedValues((finalD?.mainTotal?.total_purenetwt - notGoldMetalWtTotal), 3)} gm
                       </p>
                     </div>
                     {

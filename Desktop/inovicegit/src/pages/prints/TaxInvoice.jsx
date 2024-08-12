@@ -28,6 +28,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
+  const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
 
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -59,10 +60,15 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       
     setMetShpWise(met_shp_arr);
     let tot_met = 0;
+    let tot_met_wt = 0;
     met_shp_arr?.forEach((e, i) => {
       tot_met += e?.Amount;
+      tot_met_wt += e?.metalfinewt;
     })    
     setNotGoldMetalTotal(tot_met);
+    setNotGoldMetalWtTotal(tot_met_wt);
+
+
     let resultArray = [];
     let criterialbased = false;
     datas?.resultArray?.forEach((e, i) => {

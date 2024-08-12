@@ -44,6 +44,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     gold24kt: 0,
     grosswt: 0,
   });
+  
   const [taxes, setTaxes] = useState([]);
   const [diamondDetail, setdDiamondDetails] = useState([]);
   const [otherAmt, setOtherAmt] = useState(0);
@@ -53,6 +54,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
+  const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
 
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -73,10 +75,13 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       
     setMetShpWise(met_shp_arr);
     let tot_met = 0;
+    let tot_met_wt = 0;
     met_shp_arr?.forEach((e, i) => {
       tot_met += e?.Amount;
+      tot_met_wt += e?.metalfinewt;
     })    
     setNotGoldMetalTotal(tot_met);
+    setNotGoldMetalWtTotal(tot_met_wt);
 
     data?.BillPrint_Json1.forEach((e, i) => {
       let obj = { ...e };
@@ -922,7 +927,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="col-6 border-end position-relative pb-3 px-1">
                     <div className="d-flex justify-content-between">
                       <p className="fw-bold">GOLD IN 24KT </p>
-                      <p>{NumberWithCommas(total?.gold24kt, 3)} gm</p>
+                      <p>{NumberWithCommas((total?.gold24kt - notGoldMetalWtTotal), 3)} gm</p>
                     </div>
                     {
                       MetShpWise?.map((e, i) => {
