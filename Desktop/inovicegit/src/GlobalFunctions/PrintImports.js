@@ -140,7 +140,7 @@ export const QuotationPrints = [
   {printName: 'print (l)', etpType: 'print', componentName: 'QuotePrintLP'},
   {printName: 'print (p)', etpType: 'print', componentName: 'QuotePrintLP' },
   {printName: 'sale order', etpType: 'print', componentName: 'SaleOrder'},
-  {printName: 'detail print 11', etpType: 'print', componentName: 'DetailPrisnt11'},
+  {printName: 'detail print 11', etpType: 'print', componentName: 'DetailPrint11'},
   // {printName: 'summary 4', etpType: 'print', componentName: 'Summary4'},
   {printName: 'jewellery tax invoice', etpType: 'print', componentName: 'JewelleryTaxInvoice'},
   {printName: 'packing list', etpType: 'print', componentName: 'PackingList'},
@@ -218,6 +218,11 @@ export const alterationArray = [
 
 export const quoteArray = [
   {label:"alteration", evname: "quote"},
+];
+
+export const ordersArray = [
+  {printName: 'sale order', etpType: 'print', componentName: 'SaleOrder'},
+  {printName: 'print', etpType: 'print', componentName: 'OrderPrint'},
 ];
 
 export const MaterialSale = [

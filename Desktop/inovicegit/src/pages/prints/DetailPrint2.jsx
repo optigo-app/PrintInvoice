@@ -380,7 +380,7 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 { MetShpWise?.map((e, i) => {
                                     return <div className="d-flex px-1 justify-content-between" key={i}>
                                         <p className='fw-bold'>{e?.ShapeName}</p>
-                                        <p>{NumberWithCommas(e?.metalfinewt, 3)} 	</p>
+                                        <p>{NumberWithCommas(e?.metalfinewt, 3)} gm</p>
                                     </div>
                                     }) 
                                 }

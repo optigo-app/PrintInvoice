@@ -409,7 +409,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             <div className="designDetailPrint11 border-end">
               <div className="d-flex justify-content-between p-1">
                 <div><p>{e?.designno}</p></div>
-                <div> <p>{e?.SrJobno}</p> <p>{e?.MetalColor}</p> </div>
+                <div> <p>{ atob(evn) === 'quote' ? '' :  e?.SrJobno}</p> <p>{e?.MetalColor}</p> </div>
               </div>
               {image && <img src={e?.DesignImage} alt="" className='w-100 p-1' onError={handleImageError} />}
               {tunch && <p className='text-center fw-bold'>Tunch: {NumberWithCommas(e?.Tunch, 3)}</p>}

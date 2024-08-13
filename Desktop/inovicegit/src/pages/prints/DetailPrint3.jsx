@@ -433,7 +433,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 {
                   MetShpWise?.map((e, i) => {
                     return <div className="d-flex justify-content-between" key={i}>
-                    <div className="border-secondary border-start pad_s_dp3 fw-bold ps-2">{e?.Amount}</div>
+                    <div className="border-secondary border-start pad_s_dp3 fw-bold ps-2">{e?.ShapeName}</div>
                     <div className="border-secondary border-end pad_e_dp3 pe-2">{e?.metalfinewt?.toFixed(3)} gm</div>
                   </div>
                   })

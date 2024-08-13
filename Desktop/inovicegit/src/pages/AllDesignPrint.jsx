@@ -124,6 +124,9 @@ const AllDesignPrint = () => {
       if(etpType === 'print' && evnname === 'material sale'){
         return module.MaterialSale || []
       }
+      if(etpType === 'print' && evnname === 'orders'){
+        return module.ordersArray || []
+      }
   }
 
   const checkFavicon = () => {
