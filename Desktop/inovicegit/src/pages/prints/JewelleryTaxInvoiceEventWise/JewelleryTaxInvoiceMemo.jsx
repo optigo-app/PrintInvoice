@@ -491,7 +491,7 @@ const JewelleryTaxInvoiceMemo = ({ urls, token, invoiceNo, printName, evn, ApiVe
                          
                             <span className="text-break">
                               {ele?.MasterManagement_DiamondStoneTypeid === 1 &&
-                                "Diamond"}
+                                ( ele?.IsCenterStone === 1 ? "CenterStone" :  "Diamond")}
                               {ele?.MasterManagement_DiamondStoneTypeid === 2 &&
                                 "Colorstone"}
                               {ele?.MasterManagement_DiamondStoneTypeid === 3 &&

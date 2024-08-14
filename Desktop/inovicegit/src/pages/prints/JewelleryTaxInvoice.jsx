@@ -15,6 +15,22 @@ import style1 from "../../assets/css/prints/jewelleryTaxInvoice.module.css";
 import style2 from "../../assets/css/headers/header1.module.css";
 import { cloneDeep } from "lodash";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
+import JewelleryTaxInvoiceSale from './JewelleryTaxInvoiceEventWise/JewelleryTaxInvoiceSale';
+import JewelleryTaxInvoiceQuote from './JewelleryTaxInvoiceEventWise/JewelleryTaxInvoiceQuote';
+import JewelleryTaxInvoiceMemo from './JewelleryTaxInvoiceEventWise/JewelleryTaxInvoiceMemo';
+
+const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
+  
+  return (
+    <>
+          { atob(evn)?.trim()?.toLowerCase() === 'sale' && <JewelleryTaxInvoiceSale urls={urls} token={token} invoiceNo={invoiceNo} printName={printName} evn={evn} ApiVer={ApiVer}  /> }      
+          { atob(evn)?.trim()?.toLowerCase() === 'quote' && <JewelleryTaxInvoiceQuote urls={urls} token={token} invoiceNo={invoiceNo} printName={printName} evn={evn} ApiVer={ApiVer} /> }      
+          { atob(evn)?.trim()?.toLowerCase() === 'memo' && <JewelleryTaxInvoiceMemo urls={urls} token={token} invoiceNo={invoiceNo} printName={printName} evn={evn} ApiVer={ApiVer} /> }      
+    </>
+  )
+}
+
+export default JewelleryTaxInvoice
 
 // const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 //   const [loader, setLoader] = useState(true);
@@ -698,9 +714,6 @@ import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 // import JewelleryTaxInvoiceSale from './JewelleryTaxInvoiceEventWise/JewelleryTaxInvoiceSale';
 // import JewelleryTaxInvoiceQuote from './JewelleryTaxInvoiceEventWise/JewelleryTaxInvoiceQuote';
 // import JewelleryTaxInvoiceMemo from './JewelleryTaxInvoiceEventWise/JewelleryTaxInvoiceMemo';
-import JewelleryTaxInvoiceSale from './JewelleryTaxInvoiceEventWise/JewelleryTaxInvoiceSale';
-import JewelleryTaxInvoiceQuote from './JewelleryTaxInvoiceEventWise/JewelleryTaxInvoiceQuote';
-import JewelleryTaxInvoiceMemo from './JewelleryTaxInvoiceEventWise/JewelleryTaxInvoiceMemo';
 
 // const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 //   const [loader, setLoader] = useState(true);
@@ -1271,15 +1284,3 @@ import JewelleryTaxInvoiceMemo from './JewelleryTaxInvoiceEventWise/JewelleryTax
 // export default JewelleryTaxInvoice;
 
 
-const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
-  
-  return (
-    <>
-          { atob(evn)?.trim()?.toLowerCase() === 'sale' && <JewelleryTaxInvoiceSale urls={urls} token={token} invoiceNo={invoiceNo} printName={printName} evn={evn} ApiVer={ApiVer}  /> }      
-          { atob(evn)?.trim()?.toLowerCase() === 'quote' && <JewelleryTaxInvoiceQuote urls={urls} token={token} invoiceNo={invoiceNo} printName={printName} evn={evn} ApiVer={ApiVer} /> }      
-          { atob(evn)?.trim()?.toLowerCase() === 'memo' && <JewelleryTaxInvoiceMemo urls={urls} token={token} invoiceNo={invoiceNo} printName={printName} evn={evn} ApiVer={ApiVer} /> }      
-    </>
-  )
-}
-
-export default JewelleryTaxInvoice

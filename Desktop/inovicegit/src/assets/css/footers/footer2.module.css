@@ -37,3 +37,12 @@
     /* line-height: 12px0; */
     line-height: 130%;
 }
+
+@media print {
+    .block1f3{
+        min-height: auto !important;
+    }
+    .container{
+        min-height: auto !important;
+    }
+}

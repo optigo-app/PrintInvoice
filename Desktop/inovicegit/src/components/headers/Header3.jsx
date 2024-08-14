@@ -18,7 +18,7 @@ const Header3 = ({ data }) => {
           <div>
             <img src={data?.PrintLogo} alt="home" className="mb-2" style={{ width: "116px" }} />
           </div>
-          <div className={`fw-bold fs-5 ${style.linesmain}`}>{data?.CompanyFullName}</div>
+          <div className={`fw-bold  ${style.linesmain}`}>{data?.CompanyFullName}</div>
           <div className={style.lines}>{data?.CompanyAddress}</div>
           <div className={style.lines}>{data?.CompanyCity} {data?.CompanyAddress2}</div>
           <div className={style.lines}>{data?.CompanyCity} - {data?.CompanyPinCode} {data?.CompanyState} ({data?.CompanyCountry})</div>

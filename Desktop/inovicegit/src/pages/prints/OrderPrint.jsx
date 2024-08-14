@@ -1227,6 +1227,7 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               <div>
                 {json2Data.length > 0 &&
                   json2Data.map((e, i) => {
+                    
                     return (
                       <div
                         className={`d-flex border-bottom recordEstimatePrint overflow-hidden word_break_estimatePrint`}
@@ -1264,6 +1265,7 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           </div>
                           <div>
                             <p className="w-100 ps-1 fw-bold">{e?.MetalColor}</p>
+                            { (e?.PromiseDate !== '' && e?.PromiseDate !== null) && <p className="w-100 ps-1 fw-bold">PR Date : {e?.PromiseDate}</p>}
                           </div>
 
                         </div>

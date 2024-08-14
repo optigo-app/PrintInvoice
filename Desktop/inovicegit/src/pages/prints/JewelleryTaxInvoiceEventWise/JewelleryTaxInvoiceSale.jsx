@@ -486,12 +486,13 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                   
                   {e?.materials?.length > 0 &&
                     e?.materials?.map((ele, ind) => {
+                      console.log(ele);
                       return (
                         <p key={ind} className="text-break">
                          
                             <span className="text-break">
                               {ele?.MasterManagement_DiamondStoneTypeid === 1 &&
-                                "Diamond"}
+                                ( ele?.IsCenterStone === 1 ? "CenterStone" :  "Diamond")}
                               {ele?.MasterManagement_DiamondStoneTypeid === 2 &&
                                 "Colorstone"}
                               {ele?.MasterManagement_DiamondStoneTypeid === 3 &&
