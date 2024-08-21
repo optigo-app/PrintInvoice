@@ -41,6 +41,7 @@
     "react-scripts": "^5.0.1",
     "react-spinners": "^0.13.8",
     "react-to-pdf": "^1.0.1",
+    "react-toastify": "^10.0.5",
     "redux-saga": "^1.2.3",
     "sanitize-html": "^2.13.0",
     "to-words": "^3.6.1",

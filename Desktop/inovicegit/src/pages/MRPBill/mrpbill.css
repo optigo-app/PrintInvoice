@@ -1,8 +1,9 @@
 .container_mrp{
     box-sizing: border-box;
     width: 100%;
-    font-size: 13px;
+    font-size: 16px;
     font-family: calibri;
+    padding-bottom: 30px;
 }
 .head_mrp{
     font-size: 22px;
@@ -19,4 +20,242 @@
 }
 .w_inp{
     width: 80%;
+}
+.btn_go{
+    width: 60px;
+    height: 36px;
+    padding: 5px;
+    padding-left: 0px;
+    border: none;
+    border-radius: 7px;
+    color: black;
+    background-color: white;
+    border-left: 8px solid green;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    margin-left: 20px;
+}
+.btn_go:hover{
+    background-color: #e8e8e8;
+}
+.scanblock_mrpbill{
+    min-height: 120px;
+    min-width: 120px;
+    max-height: 120px;
+    max-width: 120px;
+    width: 100%;
+    height: 100%;
+    margin: 5px;
+    border: 1px solid #e8e8e8;
+    margin-bottom: 20px;
+}
+.jobitem_mrp{
+    font-size: 20px;
+    color: green;
+    background-color: #b3ffb3;
+    min-width: 90px;
+    max-width: 120px;
+    width: 100%;
+    border-radius: 8px;
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #e8e8e8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+}
+
+.minH_mrp{
+    min-height: 170px;
+}
+
+  .max_w_table{
+    max-width: 1000px;
+    border: 1px solid #989898;
+    border-radius: 8px;
+  }
+  .tableDiv_mrp{
+    width: 100%;
+    margin-top: 3rem;
+    padding: 10px;
+  }
+  .continue_btn_mrp{
+    height: 40px;
+    color: white;
+    background-color: green;
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .continue_btn_mrp:hover{
+    background-color: #078f07;
+  }
+
+  .tableImg{
+    height: 75px;
+    width: 75px;
+    margin: 2px;
+  }
+
+.tdH_mrp{
+    min-height: 85px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.w_75_mrp{
+    width: 75%;
+}
+.w_25_mrp{
+    width: 25%;
+}
+
+.lock_select{
+    padding: 5px;
+}
+
+
+/* .d_none_mrp{
+    display: block !important;
+} */
+.d_unset_mrp{
+    display: none !important;
+}
+
+.scanJobImg{
+    height: 120px;
+    width: 120px;
+    margin: 1px;
+}
+
+@media screen and (max-width:768px){
+    .cust_name_title{
+        padding-right: 5px;
+    }
+    .center_jl_mrp{
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+    .tableImg {
+        height: 55px;
+        width: 55px;
+        margin: 2px;
+    }
+    .pd_0{
+        padding: 4px !important;
+    }
+}
+@media screen and (max-width:720px){
+    .cust_name_title{
+        padding-right: 5px;
+    }
+    .center_jl_mrp{
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+    .tableImg {
+        height: 55px;
+        width: 55px;
+        margin: 2px;
+    }
+    .pd_0{
+        padding: 4px !important;
+    }
+    .flex_Start_mrp{
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: flex-start !important;
+        margin-top: 4px;
+        gap: 15px;
+    }
+
+
+    .d_none_mrp{
+        display: none !important;
+    }
+    .d_unset_mrp{
+        display: unset !important;
+    }
+
+    .d_grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* 2 columns */
+        gap: 1rem !important; /* Gap between grid items */
+      }
+      
+      .grid-item {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+      }
+
+}
+@media screen and (max-width:500px){
+    
+.w_75_mrp2{
+    width: 75% !important;
+}
+.w_50_mrp2{
+    width: 50% !important;
+}
+.container_mrp{
+    font-size: 12px;
+}
+.cust_name_title{
+    font-size: 15px;
+}
+.tableImg {
+    height: 35px;
+    width: 35px;
+    margin: 1px;
+}
+
+.d_none_mrp{
+    display: none !important;
+}
+.d_unset_mrp{
+    display: unset !important;
+}
+
+.d_grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important; /* 2 columns */
+    gap: 1rem !important; /* Gap between grid items */
+  }
+  
+  .grid-item {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+  }
+
+}
+@media screen and (max-width:450px){
+    .d_none_mrp{
+        display: none !important;
+    }
+    .d_unset_mrp{
+        display: unset !important;
+    }
+
+    .d_grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* 2 columns */
+        gap: 1rem !important; /* Gap between grid items */
+      }
+      
+      .grid-item {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+      }
+
 }

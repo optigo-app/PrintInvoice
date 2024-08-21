@@ -1,3 +1,4 @@
+import { ToastContainer } from "react-toastify";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 import './App.css';
 import router from './routes/router';
@@ -8,6 +9,7 @@ function App() {
   return (
     <>
        <RouterProvider router={router}/>
+       <ToastContainer />
     </>
   );
 }
