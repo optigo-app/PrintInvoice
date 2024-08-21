@@ -14,6 +14,7 @@ import Loader from "../../components/Loader";
 import { ToWords } from "to-words";
 import "../../assets/css/prints/detailprint12.css";
 import { NumToWord } from "./../../GlobalFunctions/NumToWord";
+import { cloneDeep } from "lodash";
 
 const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
@@ -22,6 +23,23 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [imgFlag, setImgFlag] = useState(true);
   const [priceFlag, setPriceFlag] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
+
+  const [categoryWise, setCategoryWise] = useState([]);
+  const [miscWise, setMiscWise] = useState([]);
+  const [fineWtTotal, setFineWtTotal] = useState(0);
+  const [catcount, setCatCount] = useState(0);
+  const [miscWise_total, setMiscWise_total] = useState({
+    Pcs: 0,
+    pcPcs: 0,
+    wtWeight_Ctw: 0,
+    wtWeight_gm: 0,
+    AmtAmount: 0,
+    Wt: 0,
+    Wt_Ctw: 0,
+    dia_Wt_gm: 0,
+    Wt_gm: 0,
+    Amount: 0,
+  });
 
   useEffect(() => {
     const sendData = async () => {
@@ -67,11 +85,63 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
-    // datas?.resultArray?.forEach((e) => {
-    //   let arr = [];
-    //   arr = e?.misc?.filter((a) => a?.Amount !== 0);
-    //   e.misc = arr;
-    // })
+
+    let mainArr =   datas?.resultArray?.map((e) => {
+      let obj = cloneDeep(e);
+      let findings = {
+        Wt: 0,
+        SizeName: 0
+      };
+    let sizeWt =0
+    datas?.json2?.forEach((ele, ind) => {
+      if (ele?.MasterManagement_DiamondStoneTypeid === 5 && ele?.StockBarcode === e?.SrJobno) {
+        findings.Wt += ele?.Wt 
+        findings.SizeName += +ele?.SizeName;
+        sizeWt += (+ele?.SizeName* ele?.Wt);
+      }
+    });
+    let fineWtss = (((e?.NetWt-findings?.Wt)*e?.Tunch)/100) + ((sizeWt)/100);
+    obj.fineWtss = fineWtss;
+    return obj
+    // totals.fineWts += fineWtss;
+  })
+  datas.resultArray = mainArr;
+
+    let cgwise = [];
+    let cat_Count = 0;
+    datas?.resultArray?.forEach((e) => {
+      let findIndex = cgwise?.findIndex(
+        (el) =>
+          el?.Categoryname === e?.Categoryname && el?.Wastage === e?.Wastage
+      );
+      if (findIndex === -1) {
+        let obj = { ...e };
+        obj.cg_netwt = (e?.NetWt + e?.LossWt - e?.totals?.metal?.WithOutPrimaryMetal);
+        obj.cg_grosswt = e?.grosswt;
+        obj.cg_quantity = e?.Quantity;
+        obj.cg_wastage = e?.Wastage;
+        obj.cg_tunch = e?.Tunch;
+        obj.cg_finewt = e?.fineWtss;
+        obj.cat_count = 1;
+        cgwise.push(obj);
+      } else {
+        cgwise[findIndex].cg_netwt +=
+          e?.NetWt + e?.LossWt - e?.totals?.metal?.WithOutPrimaryMetal;
+        cgwise[findIndex].cg_grosswt += e?.grosswt;
+        cgwise[findIndex].cg_wastage += e?.Wastage;
+        cgwise[findIndex].cg_quantity += e?.Quantity;
+        cgwise[findIndex].cg_tunch += e?.Tunch;
+        cgwise[findIndex].cg_wastage += e?.Wastage;
+        cgwise[findIndex].cat_count += 1;
+        cgwise[findIndex].cg_finewt += e?.fineWtss;
+      }
+    });
+    cgwise.forEach((e) => {
+      cat_Count = cat_Count + e?.cat_count
+    });
+    setCatCount(cat_Count)
+    cgwise.sort((a, b) => a.Categoryname.localeCompare(b.Categoryname));
+    setCategoryWise(cgwise);
 
     datas?.resultArray?.forEach((e) => {
       let arr = [];
@@ -112,7 +182,85 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     });
 
     setResult(datas);
+
+    let finewt_ = 0;
+    datas?.resultArray?.forEach((e) => {
+      // finewt_ += (e?.NetWt * e?.Tunch) / 100;
+      finewt_ += e?.fineWtss;
+    });
+    setFineWtTotal(finewt_);
+
+    let misc_wise = [];
+    datas?.json2?.forEach((e, i) => {
+      let obj = cloneDeep(e);
+      if(obj?.MasterManagement_DiamondStoneTypeid === 1 || obj?.MasterManagement_DiamondStoneTypeid === 2 || obj?.MasterManagement_DiamondStoneTypeid === 3){
+        misc_wise.push(obj);
+      }
+    })
+
+    let misc_wise2 = [];
+    misc_wise?.forEach((e, i) => {
+      let obj = cloneDeep(e);
+      if(obj?.MasterManagement_DiamondStoneTypeid === 3 && obj?.IsHSCOE !== 1 && obj?.IsHSCOE !== 2){
+          misc_wise2.push(obj);
+      }else if(obj?.MasterManagement_DiamondStoneTypeid !== 3 && (obj?.MasterManagement_DiamondStoneTypeid === 1 || obj?.MasterManagement_DiamondStoneTypeid === 2)){
+        misc_wise2.push(obj);
+      }
+    })
+
+    let misc_wise3 = [];
+    misc_wise2?.forEach((e, i) => {
+      let obj = cloneDeep(e);
+      let findrec = misc_wise3?.findIndex((el) => el?.ShapeName === obj?.ShapeName && el?.Rate === obj?.Rate);
+      if(findrec === -1){
+        misc_wise3.push(obj);
+      }else{
+        misc_wise3[findrec].Wt += obj?.Wt;
+        misc_wise3[findrec].Pcs += obj?.Pcs;
+        misc_wise3[findrec].Amount += obj?.Amount;
+        misc_wise3[findrec].ServWt += obj?.ServWt;
+      }
+    })
+
+
+    let misc_sum_total = {
+      Pcs: 0,
+      pcPcs: 0,
+      wtWeight_Ctw: 0,
+      wtWeight_gm: 0,
+      Wt_Ctw: 0,
+      dia_Wt_gm: 0,
+      Wt_gm: 0,
+      Wt_ServWt:0,
+      Amount: 0,
+      AmtAmount: 0,
+      Wt: 0,
+    };
+
+    misc_wise3?.forEach((e) => {
+
+      misc_sum_total.Wt += e?.Wt;
+      misc_sum_total.Pcs += e?.Pcs;
+      misc_sum_total.Amount += e?.Amount;
+
+      if (e?.MasterManagement_DiamondStoneTypeid === 1 || e?.MasterManagement_DiamondStoneTypeid === 2) {
+        misc_sum_total.wtWeight_Ctw += e?.Wt;
+      } else {
+        misc_sum_total.wtWeight_gm += e?.Wt;
+        misc_sum_total.Wt_ServWt += e?.ServWt;
+      }
+      // misc_sum_total.pcPcs += e?.pcPcs;
+      // misc_sum_total.AmtAmount += e?.AmtAmount;
+    });
+
+    misc_wise3.sort((a, b) => a.ShapeName.localeCompare(b.ShapeName));
+
+    setMiscWise(misc_wise3);
+    setMiscWise_total(misc_sum_total);
+
+    console.log(misc_wise3);
   };
+
 
   const handleImgShow = (e) => {
     if (imgFlag) setImgFlag(false);
@@ -912,6 +1060,151 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           >
             <b>REMARKS</b> : <span className="text-break" dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark }}></span>
           </div>
+           {/* summary */}
+           <div className="summary_container_dp12  fsgdp12">
+                  <div className="summary_container_dp7_product_table hcompdp7">
+                    <div className="summary_container_dp7_product_title">
+                      PRODUCT SUMMARY
+                    </div>
+                    <div className="summary_container_dp7_product_head">
+                      <div className="sum_prod_head_col_1 d-flex justify-content-center align-items-center">CATEGORY</div>
+                      <div className="sum_prod_head_col_2 d-flex justify-content-center align-items-center">PIECES</div>
+                      <div className="sum_prod_head_col_3 d-flex justify-content-center align-items-center">GROSS WT</div>
+                      <div className="sum_prod_head_col_4 d-flex justify-content-center align-items-center">NET WT</div>
+                      <div className="sum_prod_head_col_5 d-flex justify-content-center align-items-center">WASTAGE</div>
+                      <div className="sum_prod_head_col_6 d-flex justify-content-center align-items-center">FINE</div>
+                    </div>
+                    {categoryWise?.length > 0 &&
+                      categoryWise?.map((e, i) => {
+                        return (
+                          <div
+                            className="summary_container_dp7_product_body fsgdp12 hcompdp7"
+                            key={i}
+                          >
+                            <div className="sum_prod_head_col_1 d-flex justify-content-start align-items-center ps-1">
+                              {e?.Categoryname}
+                            </div>
+                            <div className="sum_prod_head_col_2 d-flex justify-content-end align-items-center pe-1">
+                              {e?.cat_count}
+                            </div>
+                            <div className="sum_prod_head_col_3 d-flex justify-content-end align-items-center pe-1">
+                              {e?.cg_grosswt?.toFixed(3)}
+                            </div>
+                            <div className="sum_prod_head_col_4 d-flex justify-content-end align-items-center pe-1">
+                              {e?.cg_netwt?.toFixed(3)}
+                            </div>
+                            <div className="sum_prod_head_col_5 d-flex justify-content-end align-items-center pe-1">
+                              {e?.Wastage?.toFixed(3)}
+                            </div>
+                            <div className="sum_prod_head_col_6 d-flex justify-content-end align-items-center pe-1">
+                              {/* {e?.fineWtBYNetWtCal?.toFixed(3)} */}
+                              {/* {((e?.NetWt * e?.Tunch)/100)?.toFixed(3)} */}
+                              {/* {((e?.cg_netwt * e?.Tunch)/100)?.toFixed(3)} */}
+                              {e?.cg_finewt?.toFixed(3)}
+                              {/* {e?.LossWt === 0 ? e?.PureNetWt : ((
+                              (((e?.NetWt - e?.totals?.finding?.Wt) * (e?.Tunch))/100)
+                               + (e?.totals?.finding?.FineWt))?.toFixed(3))} */}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    <div className="summary_container_dp7_product_total fw-bold fsgdp12">
+                      <div className="sum_prod_head_col_1 d-flex justify-content-start align-items-center ps-1">Total</div>
+                      <div className="sum_prod_head_col_2 d-flex justify-content-end align-items-center pe-1">
+                        {/* {result?.mainTotal?.total_Quantity !== 0 &&
+                          result?.mainTotal?.total_Quantity} */}
+                          {catcount}
+                      </div>
+                      <div className="sum_prod_head_col_3 d-flex justify-content-end align-items-center pe-1">
+                        {result?.mainTotal?.grosswt !== 0 &&
+                          result?.mainTotal?.grosswt?.toFixed(3)}
+                      </div>
+                      <div className="sum_prod_head_col_4 d-flex justify-content-end align-items-center pe-1">
+                        {/* {result?.mainTotal?.netwtWithLossWt !== 0 && result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
+                        {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}
+                      </div>
+                      <div className="sum_prod_head_col_5 d-flex justify-content-end align-items-center pe-1"></div>
+                      <div className="sum_prod_head_col_6 d-flex justify-content-end align-items-center pe-1">
+                        {/* {result?.mainTotal?.total_fineWtByMetalWtCalculation !== 0 && result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(3)} */}
+                        {fineWtTotal === 0 ? 0 : fineWtTotal?.toFixed(3)}
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{ height: "16px" }}></div>
+                  <div className="summary_container_dp7_misc_table  fsgdp7">
+                    <div className="summary_container_dp7_misc_title">
+                      MISC SUMMARY
+                    </div>
+
+                    <div className="summary_container_dp7_misc_head w-100 fw-bold fsgdp12">
+                      <div className="summary_container_dp7_misc_head_col_1 d-flex justify-content-center align-items-center">
+                        TYPE
+                      </div>
+                      <div className="summary_container_dp7_misc_head_col_2 d-flex justify-content-center align-items-center">
+                        PIECES
+                      </div>
+                      <div className="summary_container_dp7_misc_head_col_3 d-flex justify-content-center align-items-center">
+                        RATE
+                      </div>
+                      <div className="summary_container_dp7_misc_head_col_4 d-flex justify-content-center align-items-center">
+                        WT
+                      </div>
+                      <div className="summary_container_dp7_misc_head_col_5 d-flex justify-content-center align-items-center border-end-0">
+                        AMOUNT
+                      </div>
+                    </div>
+                    {miscWise?.length > 0 &&
+                      miscWise?.map((e, i) => {
+                        return (
+                          <div className="summary_container_dp7_misc_body  hcompdp7" key={i} >
+                            <div className="summary_container_dp7_misc_head_col_1 d-flex justify-content-start align-items-center fsgdp12 text-break ps-1">
+                              {e?.ShapeName}
+                            </div>
+                            <div className="summary_container_dp7_misc_head_col_2 d-flex justify-content-end align-items-center fsgdp12 pe-1">
+                              {e?.Pcs}
+                            </div>
+                            <div className="summary_container_dp7_misc_head_col_3 d-flex justify-content-end align-items-center fsgdp12 pe-1">
+                              {e?.Rate?.toFixed(2)}
+                            </div>
+                            <div className="summary_container_dp7_misc_head_col_4 d-flex justify-content-end align-items-center fsgdp12 pe-1">
+                              {/* {e?.MasterManagement_DiamondStoneTypeid === 2
+                                ? `${e?.Wt?.toFixed(3)} Ctw`
+                                : `${(e?.Wt_ServWt)?.toFixed(3)} gm`} */}
+                                {
+                                  (e?.MasterManagement_DiamondStoneTypeid === 1 || e?.MasterManagement_DiamondStoneTypeid === 2) ? `${e?.Wt?.toFixed(3)} Ctw` :
+                                  `${(e?.ServWt + e?.Wt)?.toFixed(3)} gm`
+                                }
+                            </div>
+                            <div className="summary_container_dp7_misc_head_col_5 d-flex justify-content-end align-items-center border-end-0 fsgdp12 pe-1">
+                              {formatAmount(e?.Amount)}
+                            </div>
+                          </div>
+                        );
+                      })}
+
+                    <div className="summary_container_dp7_misc_total fw-bold">
+                      <div className="summary_container_dp7_misc_head_col_1 d-flex justify-content-start align-items-center ps-1 fsgdp12">
+                        Total
+                      </div>
+                      <div className="summary_container_dp7_misc_head_col_2 d-flex justify-content-end align-items-center pe-1 fsgdp12">
+                        {miscWise_total?.Pcs}
+                      </div>
+                      <div className="summary_container_dp7_misc_head_col_3 dp7cen1"></div>
+                      <div className="summary_container_dp7_misc_head_col_4 d-flex justify-content-end align-items-center pe-1 d-flex flex-column fsgdp12">
+                        {miscWise_total?.wtWeight_Ctw === 0 ? ( "" ) : (
+                          <div className="w-100 d-flex justify-content-end align-items-center pe-1 fsgdp12">
+                            {miscWise_total?.wtWeight_Ctw?.toFixed(3)} Ctw
+                          </div>
+                        )}
+                        {miscWise_total?.wtWeight_gm === 0 ? ( "" ) : (
+                          <div className="w-100 d-flex justify-content-end align-items-center pe-1 fsgdp12"> {" "} {(miscWise_total?.wtWeight_gm + miscWise_total?.Wt_ServWt)?.toFixed(3)} Gm </div>
+                        )}
+                      </div>
+                      <div className="summary_container_dp7_misc_head_col_5 d-flex justify-content-end align-items-center pe-1 border-end-0 fsgdp12"> {formatAmount( miscWise_total?.Amount  / result?.header?.CurrencyExchRate )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
         </div>
       ) : (

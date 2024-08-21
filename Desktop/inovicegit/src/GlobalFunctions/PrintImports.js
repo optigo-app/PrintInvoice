@@ -150,7 +150,6 @@ export const QuotationPrints = [
   {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
   {printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group'},
 ]
-
 export const MemoPrints = [
   {printName: 'print 1', etpType: 'print', componentName: 'Print1SME'},
   {printName: 'sale order', etpType: 'print', componentName: 'SaleOrderMemo'},
@@ -165,7 +164,6 @@ export const MemoPrints = [
   {printName: 'summary 12', etpType: 'print', componentName: 'Summary12'},
   {printName: 'estimate print', etpType: 'print', componentName: 'EstimatePrint'},
 ]
-
 export const MemoReturnPrints = [ 
   {printName: 'detail print 12', etpType: 'print', componentName: 'DetailPrint12'},
   {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
@@ -173,11 +171,9 @@ export const MemoReturnPrints = [
   {printName: 'summary 12', etpType: 'print', componentName: 'Summary12'},
   {printName: 'estimate print', etpType: 'print', componentName: 'EstimatePrint'},
 ]
-
 export const ShipmentArray = [
   {printName: 'rough estimate', etpType: 'print', componentName: 'Shipment'},
 ]
-
 export const EstimatePrints = [
   {printName: 'print 1', etpType: 'print', componentName: 'Print1SME'},
   {printName: 'detail print 12', etpType: 'print', componentName: 'DetailPrint12'},
@@ -186,11 +182,9 @@ export const EstimatePrints = [
   {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
   {printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group'},
 ]
-
 export const HallMarkPrints = [
   {printName: 'jewellery item wise', etpType: 'print', componentName: 'HallmarkItemWisePrint'},
 ]
-
 export const excelConditions = [
   { printName: "detail print 11", etpType: "excel", componentName: "DetailPrint11Excel"},
   { printName: "image zip file", etpType: "excel", componentName: "ImageExportExcel"},
@@ -207,24 +201,18 @@ export const excelConditions = [
   { printName: "packing list c", etpType: "excel", componentName: "PackingListCExcel2"},
   { printName: "packing list 2", etpType: "excel", componentName: "ColorIndia"},
 ];
-
-
 export const alterationArray = [
   {label:"alteration", evname: "RepairAlteration", componentName:'RepairAlteration'},
   {label:"alteration receive", evname: "RepairAlterationReceive", componentName: 'RepairAlterationReceive'},
   {printName: 'repair print', etpType: 'print', componentName: 'RepairPrint'},
 ];
-
-
 export const quoteArray = [
   {label:"alteration", evname: "quote"},
 ];
-
 export const ordersArray = [
   {printName: 'sale order', etpType: 'print', componentName: 'SaleOrder'},
   {printName: 'print', etpType: 'print', componentName: 'OrderPrint'},
 ];
-
 export const MaterialSale = [
   {printName: 'invoice print', etpType: 'print', componentName: 'InvoicePrintShwinit'}
 ]

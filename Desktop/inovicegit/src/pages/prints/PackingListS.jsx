@@ -15,9 +15,13 @@ const PackingListS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
-  const [imgFlag, setImgFlag] = useState(true);
-  const [isImageWorking, setIsImageWorking] = useState(true);
   const [diamondArr, setDiamondArr] = useState([]);
+  const [isImageWorking, setIsImageWorking] = useState(true);
+
+  const [imgFlag, setImgFlag] = useState(true);
+  const [unitFlag, setUnitFlag] = useState(true);
+  const [headFlag, setHeadFlag] = useState(true);
+  const [tunchFlag, setTunchFlag] = useState(true);
 
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
@@ -237,10 +241,30 @@ const PackingListS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setDiamondArr(darr4);
   }
 
-  const handleImgShow = (e) => {
-    if (imgFlag) setImgFlag(false);
-    else {
-      setImgFlag(true);
+  const handleImgShow = (args) => {
+    if(args === 'unit'){
+        if (unitFlag) setUnitFlag(false);
+        else {
+            setUnitFlag(true);
+        }
+    }
+    if(args === 'tunch'){
+        if (tunchFlag) setTunchFlag(false);
+        else {
+            setTunchFlag(true);
+        }
+    }
+    if(args === 'head'){
+        if (headFlag) setHeadFlag(false);
+        else {
+            setHeadFlag(true);
+        }
+    }
+    if(args === 'img'){
+        if (imgFlag) setImgFlag(false);
+        else {
+        setImgFlag(true);
+        }
     }
   };
 
@@ -255,7 +279,19 @@ const PackingListS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             {/* print btn and flag */}
             <div className=' d-flex align-items-center justify-content-end my-5 d_none_pcl_s'>
                 <div className='px-2'>
-                    <input type="checkbox" onChange={handleImgShow} value={imgFlag} checked={imgFlag} id='imgshow' />
+                    <input type="checkbox" onChange={() => handleImgShow('unit')} value={unitFlag} checked={unitFlag} id='unitShow' />
+                    <label htmlFor="unitShow" className='user-select-none mx-1'>With Unit</label>
+                </div>
+                <div className='px-2'>
+                    <input type="checkbox" onChange={() => handleImgShow('tunch')} value={tunchFlag} checked={tunchFlag} id='tunchShow' />
+                    <label htmlFor="tunchShow" className='user-select-none mx-1'>With Tunch</label>
+                </div>
+                <div className='px-2'>
+                    <input type="checkbox" onChange={() => handleImgShow('head')} value={headFlag} checked={headFlag} id='headShow' />
+                    <label htmlFor="headShow" className='user-select-none mx-1'>With Header</label>
+                </div>
+                <div className='px-2'>
+                    <input type="checkbox" onChange={() => handleImgShow('img')} value={imgFlag} checked={imgFlag} id='imgshow' />
                     <label htmlFor="imgshow" className='user-select-none mx-1'>With Image</label>
                 </div>
                 <div>
@@ -267,7 +303,7 @@ const PackingListS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                  {result?.header?.PrintHeadLabel ?? 'PACKING LIST'} 
             </div>
             {/* comapny header */}
-            <div className='d-flex justify-content-between align-items-center px-1 fs_header_pcls'>
+            { !headFlag && <div className='d-flex justify-content-between align-items-center px-1 fs_header_pcls'>
                 <div>
                     <div className='fs_16_pcls fw-bold py-1'>{result?.header?.CompanyFullName}</div>
                     <div>{result?.header?.CompanyAddress}</div>
@@ -280,9 +316,9 @@ const PackingListS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div>
                     { isImageWorking && <img src={result?.header?.PrintLogo} alt="#companylogo" className='companylogo_pcls' onError={handleImageErrors} />}
                 </div>
-            </div>
+            </div>}
             {/* customer header */}
-            <div className='d-flex  mt-1 brall_pcls brall_pcls fs_header_pcls'>
+            { !headFlag && <div className='d-flex  mt-1 brall_pcls brall_pcls fs_header_pcls'>
                 <div className='bright_pcls p-1' style={{width:'35%'}}>
                     <div>Bill To,</div>
                     <div className='fs_14_pcls fw-bold'>{result?.header?.customerfirmname}</div>
@@ -306,7 +342,30 @@ const PackingListS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className='d-flex align-items-center'><div className='fw-bold billbox_pcls'>DATE </div><div>{result?.header?.EntryDate}</div></div>
                     <div className='d-flex align-items-center'><div className='fw-bold billbox_pcls'>{result?.header?.HSN_No_Label} </div><div>{result?.header?.HSN_No}</div></div>
                 </div>
-            </div>
+            </div>}
+            {
+                headFlag && 
+                <div className='d-flex justify-content-between align-items-center p-2'>
+                    <div className='p-2'>
+                        <div className='h_head_pcls fs_h_head2 p-1'>To,</div>
+                        <div className='fw-bold fs_h_head2 p-1'>{result?.header?.CustName?.toUpperCase()}</div>
+                    </div>
+                    <div>
+                        <div className='d-flex align-items-center p-1'>
+                            <div className='h_head_pcls w_h_head'>Invoice#</div>
+                            <div className='fw-bold fs_h_head2'>: &nbsp;&nbsp;{result?.header?.InvoiceNo}</div>
+                        </div>
+                        <div className='d-flex align-items-center p-1'>
+                            <div className='h_head_pcls w_h_head'>Date</div>
+                            <div className='fw-bold fs_h_head2'>: &nbsp;&nbsp;{result?.header?.EntryDate}</div>
+                        </div>
+                        <div className='d-flex align-items-center p-1'>
+                            <div className='h_head_pcls w_h_head'>{result?.header?.HSN_No_Label}</div>
+                            <div className='fw-bold fs_h_head2'>: &nbsp;&nbsp;{result?.header?.HSN_No}</div>
+                        </div>
+                    </div>
+                </div>
+            }
             {/* table */}
             <div className='mt-1 '>
                 {/* table head */}
@@ -378,7 +437,7 @@ const PackingListS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     { e?.HUID !== '' && <div className='centerall_pcls w-100 text-break'>HUID : <span className='fw-bold'>{e?.HUID}</span></div>}
                                     { e?.PO !== '' && <div className='centerall_pcls w-100 fw-bold text-break'>PO : {e?.PO}</div>}
                                     { e?.lineid !== '' && <div className='centerall_pcls w-100 text-break'>{e?.lineid}</div>}
-                                    { e?.Tunch !== '' && <div className='centerall_pcls w-100 text-break'>Tunch : <span className='fw-bold'>{e?.Tunch?.toFixed(3)}</span></div>}
+                                    { tunchFlag && <> { e?.Tunch !== '' && <div className='centerall_pcls w-100 text-break'>Tunch : <span className='fw-bold'>{e?.Tunch?.toFixed(3)}</span></div>} </>}
                                     { e?.Size !== '' && <div className='centerall_pcls w-100 text-break'><span className='fw-bold'>Size : {e?.Size}</span></div>}
                                 </div>
 
@@ -391,7 +450,7 @@ const PackingListS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                     <div className='dcol1_pcls start_center_pcls pdl_pcls'>{el?.ShapeName}</div>
                                                     <div className='dcol2_pcls start_center_pcls pdl_pcls'>{el?.SizeName}</div>
                                                     <div className='dcol3_pcls end_pcls pdr_pcls'>{el?.Pcs}</div>
-                                                    <div className='dcol4_pcls end_pcls pdr_pcls text-break'>{el?.Wt?.toFixed(3)} {el?.Wt !== 0 && 'ctw'}</div>
+                                                    <div className='dcol4_pcls end_pcls pdr_pcls text-break'>{el?.Wt?.toFixed(3)} { unitFlag && <> {el?.Wt !== 0 && 'ctw'} </>}</div>
                                                     <div className='dcol5_pcls end_pcls pdr_pcls'>{formatAmount(el?.Rate)}</div>
                                                     <div className='dcol6_pcls end_pcls pdr_pcls fw-bold'>{formatAmount((el?.Amount / result?.header?.CurrencyExchRate))}</div>
                                                 </div>
@@ -414,9 +473,9 @@ const PackingListS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     e?.metal?.map((el, ind) => {
                                         return (
                                             <div className='d-flex w-100' key={ind}>
-                                                <div className='mcol1_pcls start_center_pcls pdl_pcls'>{ el?.ShapeName +" "+ el?.QualityName}</div>
-                                                <div className='mcol2_pcls end_pcls pdr_pcls text-break'>{e?.grosswt?.toFixed(3)} {e?.grosswt !== 0 && 'gm'}</div>
-                                                <div className='mcol3_pcls end_pcls pdr_pcls text-break'>{(e?.NetWt - e?.totals?.finding?.Wt)?.toFixed(3)} {(e?.NetWt - e?.totals?.finding?.Wt) !== 0 && 'gm'}</div>
+                                                <div className='mcol1_pcls start_center_pcls pdl_pcls text-break'>{ el?.ShapeName +" "+ el?.QualityName}</div>
+                                                <div className='mcol2_pcls end_pcls pdr_pcls text-break'>{e?.grosswt?.toFixed(3)} { unitFlag && <> {e?.grosswt !== 0 && 'gm'} </>}</div>
+                                                <div className='mcol3_pcls end_pcls pdr_pcls text-break'>{(e?.NetWt - e?.totals?.finding?.Wt)?.toFixed(3)} { unitFlag && <>{(e?.NetWt - e?.totals?.finding?.Wt) !== 0 && 'gm'}</>}</div>
                                                 <div className='mcol4_pcls end_pcls pdr_pcls'>{formatAmount(el?.Rate)}</div>
                                                 <div className='mcol5_pcls end_pcls pdr_pcls fw-bold'>{formatAmount((((el?.Amount - ((e?.totals?.finding?.Wt * e?.metal_rate) + e?.LossAmt))) / result?.header?.CurrencyExchRate))}</div>
                                             </div>
@@ -427,7 +486,7 @@ const PackingListS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         e?.totals?.finding?.Wt !== 0 &&
                                             <div className='d-flex w-100 text-break' >
                                                 <div className='mcol1_pcls start_center_pcls pdl_pcls text-break' style={{width:'39%'}}>FINDING ACESSORIES</div>
-                                                <div className='mcol3_pcls end_pcls pdr_pcls text-break'>{e?.totals?.finding?.Wt?.toFixed(3)} {e?.totals?.finding?.Wt !== 0 && 'gm'}</div>
+                                                <div className='mcol3_pcls end_pcls pdr_pcls text-break'>{e?.totals?.finding?.Wt?.toFixed(3)} { unitFlag && <> {e?.totals?.finding?.Wt !== 0 && 'gm'} </>}</div>
                                                 <div className='mcol4_pcls end_pcls pdr_pcls'>{formatAmount(e?.metal_rate)}</div>
                                                 <div className='mcol5_pcls end_pcls pdr_pcls fw-bold'>{formatAmount(((e?.totals?.finding?.Wt * e?.metal_rate) / result?.header?.CurrencyExchRate))}</div>
                                             </div>
@@ -436,7 +495,7 @@ const PackingListS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                             { e?.LossWt !== 0 && <div className='d-flex w-100 pt-1'>
                                                 <div className='mcol1_pcls start_center_pcls pdl_pcls'>Loss</div>
                                                 <div className='mcol2_pcls end_pcls pdr_pcls'>{(e?.LossPer)?.toFixed(3)} %</div>
-                                                <div className='mcol3_pcls end_pcls pdr_pcls text-break'>{e?.LossWt?.toFixed(3)} {e?.LossWt !== 0 && 'gm'}</div>
+                                                <div className='mcol3_pcls end_pcls pdr_pcls text-break'>{e?.LossWt?.toFixed(3)} { unitFlag && <>{e?.LossWt !== 0 && 'gm'}</>}</div>
                                                 <div className='mcol4_pcls end_pcls pdr_pcls'>{formatAmount(e?.metal_rate)}</div>
                                                 <div className='mcol5_pcls end_pcls pdr_pcls fw-bold'>{formatAmount((e?.LossAmt / result?.header?.CurrencyExchRate))}</div>
                                             </div>}
@@ -462,7 +521,7 @@ const PackingListS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                     <div className='dcol1_pcls start_center_pcls pdl_pcls'>{el?.ShapeName}</div>
                                                     <div className='dcol2_pcls start_center_pcls pdl_pcls'>{el?.SizeName}</div>
                                                     <div className='dcol3_pcls end_pcls pdr_pcls'>{el?.Pcs}</div>
-                                                    <div className='dcol4_pcls end_pcls pdr_pcls text-break'>{el?.Wt?.toFixed(3)} {el?.Wt !== 0 && 'ctw'}</div>
+                                                    <div className='dcol4_pcls end_pcls pdr_pcls text-break'>{el?.Wt?.toFixed(3)} { unitFlag && <> {el?.Wt !== 0 && 'ctw'} </>}</div>
                                                     <div className='dcol5_pcls end_pcls pdr_pcls'>{formatAmount(el?.Rate)}</div>
                                                     <div className='dcol6_pcls end_pcls pdr_pcls fw-bold'>{formatAmount((el?.Amount / result?.header?.CurrencyExchRate))}</div>
                                                 </div>
@@ -476,7 +535,7 @@ const PackingListS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                     <div className='dcol1_pcls start_center_pcls pdl_pcls'>{el?.ShapeName}</div>
                                                     <div className='dcol2_pcls start_center_pcls pdl_pcls'>{el?.SizeName}</div>
                                                     <div className='dcol3_pcls end_pcls pdr_pcls'>{el?.Pcs}</div>
-                                                    <div className='dcol4_pcls end_pcls pdr_pcls text-break'>{el?.Wt?.toFixed(3)} {el?.Wt !== 0 && 'gm'}</div>
+                                                    <div className='dcol4_pcls end_pcls pdr_pcls text-break'>{el?.Wt?.toFixed(3)} { unitFlag && <>{el?.Wt !== 0 && 'gm'}</>}</div>
                                                     <div className='dcol5_pcls end_pcls pdr_pcls'>{formatAmount(el?.Rate)}</div>
                                                     <div className='dcol6_pcls end_pcls pdr_pcls fw-bold'>{formatAmount((el?.Amount / result?.header?.CurrencyExchRate))}</div>
                                                 </div>

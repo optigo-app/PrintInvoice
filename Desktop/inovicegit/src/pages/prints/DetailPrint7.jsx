@@ -325,7 +325,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setResult(datas);
       let finewt_ = 0;
       datas?.resultArray?.forEach((e) => {
-        // finewt_ += (e?.NetWt * e?.Tunch) / 100;
         finewt_ += e?.fineWtss;
       });
 
