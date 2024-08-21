@@ -4,7 +4,7 @@ import {
   createBrowserRouter,
 } from "react-router-dom";
 import AllDesign from "../pages/AllDesign";
-import ScanJob from "../pages/scanjob/ScanJob";
+import MRPBill from "../pages/MRPBill/MRPBill";
 
 const router = createBrowserRouter([
   {
@@ -16,8 +16,8 @@ const router = createBrowserRouter([
     element: <></>,
   },
   {
-    path: "/scanjob",
-    element: <><ScanJob /></>,
+    path: "/mrpbill",
+    element: <><MRPBill /></>,
   },
 ]);
 

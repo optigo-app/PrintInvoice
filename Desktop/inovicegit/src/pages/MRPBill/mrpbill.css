@@ -1,0 +1,22 @@
+.container_mrp{
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 13px;
+    font-family: calibri;
+}
+.head_mrp{
+    font-size: 22px;
+    font-weight: bold;
+    color: red;
+    background-color: yellow;
+    padding-top: 10px;
+    padding-bottom: 10px;    
+    padding-left: 10px;
+}
+.cust_name_title{
+    font-size: 22px;
+    padding-right: 30px;
+}
+.w_inp{
+    width: 80%;
+}
