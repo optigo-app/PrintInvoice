@@ -134,6 +134,28 @@
     margin: 1px;
 }
 
+.custom_scrollbar::-webkit-scrollbar {
+    /* stroke-width: 5%; */
+    /* width: 25px; */
+    /* scrollbar-width: thin;  */
+    /* scrollbar-color: #888 #f1f1f1; 
+    overflow-y: auto; */
+}
+.custom_scrollbar::-webkit-scrollbar {
+  
+    scrollbar-width: thin;
+  }
+
+  .search_sug_line:hover{
+    background-color: #e8e8e8;
+    border:0px;
+    outline:none
+}
+  .search_sug_line.active{
+    background-color: #e8e8e8;
+    color: black;
+  }
+
 @media screen and (max-width:768px){
     .cust_name_title{
         padding-right: 5px;

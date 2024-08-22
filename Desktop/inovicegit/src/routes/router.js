@@ -9,7 +9,7 @@ import MRPBill from "../pages/MRPBill/MRPBill";
 
 const router = createBrowserRouter([
   {
-    path: "/*",
+    path: "/",
     element: <AllDesign />,
   },
   {
@@ -19,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: "/mrpbill",
     element: <><MRPBill /></>,
+  },
+  {
+    path: "/*",
+    element: <><AllDesign /></>,
   },
 ]);
 

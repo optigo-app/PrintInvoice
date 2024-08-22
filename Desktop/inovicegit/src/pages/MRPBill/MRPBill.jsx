@@ -20,9 +20,12 @@ const MRPBill = () => {
   const [currencyData, setCurrencyData] = useState([]);
   const [lockerData, setLockerData] = useState([]);
   const [customerData, setCustomerData] = useState([]);
+  const [filteredCustomers, setFilteredCustomers] = useState([]);
   const [jobDetail, setJobDetail] = useState(null);
   const [msg, setMsg] = useState('');
   const [addnew, setAddNew] = useState('');
+  const [custSearch, setSearchCust] = useState('');
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const [jobList, setJobList] = useState([]);
 
@@ -148,6 +151,48 @@ const MRPBill = () => {
         setJobList(updatedJL);
   }
 
+  const handleSelectCustomer = (customerName) => {
+    setSearchCust(customerName);
+    setFilteredCustomers([]); // Clear suggestions after selection
+    setSelectedIndex(-1);
+  };
+
+  const handleSearchCustomer = (val) => {
+    let searchValue = val?.toLowerCase();
+    setSearchCust(val);
+    if (searchValue) {
+      const filtered = customerData?.filter(customer =>
+        customer?.userid?.toLowerCase()?.includes(searchValue.toLowerCase())
+      );
+      setFilteredCustomers(filtered);
+    } else {
+      setFilteredCustomers([]);
+    }
+  }
+  const handleSelectBlur = () => {
+      setFilteredCustomers([]);
+      setSelectedIndex(-1);
+  }
+
+  const handleKeyDown = (e) => {
+    if(selectedIndex < filteredCustomers?.length){
+
+      if(e.key === 'ArrowUp' && selectedIndex > 0){
+        setSelectedIndex(prev => prev - 1)
+    }
+    else if(e.key === 'ArrowDown' && selectedIndex < filteredCustomers?.length - 1){
+      setSelectedIndex(prev => prev + 1)
+    }
+    else if(e.key === 'Enter' && selectedIndex >= 0){
+      setSearchCust(filteredCustomers[selectedIndex]?.userid);
+      setFilteredCustomers([]);
+    }
+  }else{
+    setSelectedIndex(-1);
+  }
+
+  }
+
   return (
     <>
       <div className="container_mrp">
@@ -162,12 +207,27 @@ const MRPBill = () => {
             <div className="">
               <input
                 type="text"
-                value={searchVal}
+                value={custSearch}
                 placeholder="customer name"
                 className="form-control p-2  border border-secondary"
                 id="custtitle"
-                
+                onChange={(e) => handleSearchCustomer(e.target.value)}
+                onBlur={(e) => handleSelectBlur(e)}
+                onKeyDown={handleKeyDown}
               />
+               {filteredCustomers?.length > 0 && (
+        <ul className="list-group position-absolute custom_scrollbar" style={{ zIndex: 1000, width:'max-content', minWidth:'50px', maxHeight:'180px', overflowY:'scroll', minWidth:'240px' }}>
+          {filteredCustomers?.map((customer, index) => (
+            <li
+              key={index}
+              className={`list-group-item list-group-item-action p-1 ${selectedIndex === index ? "search_sug_line active" : "search_sug_line"}`}
+              onClick={() => handleSelectCustomer(customer?.userid)}
+            >
+              {customer?.userid}
+            </li>
+          ))}
+        </ul>
+      )}
             </div>
           </div>
           <div className="">
@@ -181,6 +241,7 @@ const MRPBill = () => {
                 value={selectLocker}
                 className="lock_select"
                 onChange={(e) => handleLockerChange(e)}
+                style={{border:'1px solid #989898'}}
               >
                 {
                     lockerData?.map((e, i) => {
@@ -201,6 +262,7 @@ const MRPBill = () => {
                 value={selectVal}
                 className="lock_select"
                 onChange={(e) => handleCurrencyChange(e)}
+                style={{border:'1px solid #989898'}}
               >
                 {
                     currencyData?.map((e, i) => {
@@ -364,12 +426,12 @@ const MRPBill = () => {
           </table>
         </div>
 
-        <div className="w-100 d-flex justify-content-center align-items-center">
-          <div className="continue_btn_mrp mx-2">SAVE MRP</div>
-          <div className="continue_btn_mrp">SAVE MRP</div>
-        </div>
-        <div className="w-100 d-flex justify-content-center align-items-center">
+        { isJobPresent && <div className="w-100 d-flex justify-content-center align-items-center">
           <div className="continue_btn_mrp mx-2">CONTINUE TO BILL</div>
+          <div className="continue_btn_mrp">ESTIMATE</div>
+        </div>}
+        <div className="w-100 d-flex justify-content-center align-items-center mt-1">
+          <div className="continue_btn_mrp mx-2">SAVE MRP</div>
         </div>
       </div>
     </>
