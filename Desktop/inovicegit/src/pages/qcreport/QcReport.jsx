@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import './index.css'
+import './qcreport.css'
 import {IconButton } from '@mui/material';
 
 import { DataGrid } from "@mui/x-data-grid";
@@ -33,7 +33,7 @@ const QcReport = () => {
   const [filteredData, setFilteredData] = useState([]);
 
   const queryParams = useQueryParams();
-        const Yc= queryParams.get("yc");;
+        const Yc= queryParams.get("yc");
       console.log("yc",Yc);
     const [myData, setMyData] = useState([]);
 
@@ -109,7 +109,7 @@ const QcReport = () => {
 
   const getColumns = () => {
     const alwaysVisibleColumns = [
-      { field: "id", headerName: "id", width: 80 },
+      { field: "id", headerName: "sr. no", width: 80 },
       {
         field: "jobId",
         headerName: "Job ID",
@@ -138,7 +138,7 @@ const QcReport = () => {
         width: 150,
         renderCell: (params) => (
           <span
-            className={`py-1 px-2 rounded ${params.value === "Approved"
+            className={`py-1 px-2 flex justify-center bg rounded ${params.value === "Approved"
                 ? "text-green-600 bg-green-100"
                 : params.value === "On Hold"
                 ? "text-blue-600 bg-blue-100"
@@ -247,7 +247,6 @@ useEffect(() => {
     try {
       const headers = {
         Authorization: '',
-        // YearCode: 'e3t6ZW59fXt7MjB9fXt7b3JhaWwyNX19e3tvcmFpbDI1fX0=',
         YearCode: Yc,
         version: 'v4',
         'Content-Type': 'application/json',
@@ -419,63 +418,63 @@ const organizeDataByJobId = (data) => {
 
 
   return (
-    <div className="p-4 bg-[#F3F2F5]">
-     <div className="mb-6">
-     <Card sx={{ boxShadow: 3, padding: 2, backgroundColor: '#ffffff' }}>
-        <Typography variant="h6" color="textSecondary" gutterBottom>
-          Statistics
-        </Typography>
-        <Grid container spacing={2}>
+<div className="p-3 h-full fixed inset-0 bg-[#F3F2F5]">
+{/* <div style={{ padding: '16px', backgroundColor: '#F3F2F5', display: 'flex', flexDirection: 'column', gap: '16px' }}> */}
+      {/* <div style={{ padding: '16px', backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)' }}> */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
           {stats.map((stat, index) => (
-            <Grid item xs={12} sm={4} key={index}>
-              <Box
-                sx={{
+            <div
+              key={index}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '16px',
+                borderRadius: '8px',
+                border: `2px solid ${stat.iconBg}`,
+                backgroundColor: 'white',
+              
+              }}
+              className='flex w-fit  '
+            >
+              {/* <div
+                style={{
+                  backgroundColor: stat.iconBg,
+                  borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
-                  padding: 2,
-                  borderRadius: 2,
-                  backgroundColor: stat.color,
+                  justifyContent: 'center',
+                  width: '40px',
+                  height: '40px',
+                  marginRight: '16px',
                 }}
               >
-                <Box
-                  sx={{
-                    backgroundColor: stat.iconBg,
-                    borderRadius: 1,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: 40,
-                    height: 40,
-                  }}
-                >
-                  {stat.icon}
-                </Box>
-                <Box ml={2}>
-                  <Typography variant="h5" component="div">
-                    {stat.value.toLocaleString()}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    {stat.title}
-                  </Typography>
-                </Box>
-              </Box>
-            </Grid>
+                {stat.icon}
+              </div> */}
+              <div>
+                <div style={{ fontSize: '1.25rem', fontWeight: 'bold',color:`${stat.iconBg}` }}>
+                  {stat.value.toLocaleString()}
+                </div>
+                <div style={{ color: '#757575' }}>
+                  {stat.title}
+                </div>
+              </div>
+            </div>
           ))}
-        </Grid>
-      </Card>
-     </div>
+        {/* </div> */}
+      {/* </div> */}
+    </div>
 
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 my-2">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div>
-            <label className="block mb-1 text-gray-700">From</label>
+      <div className="flex flex-row gap-2">
+            <label className="flex items-center  mb-1 text-gray-700">From</label>
             <div className="relative">
               <input
                 type="date"
                 value={searchTerms.fromDate}
                 onChange={handleSearchChange("fromDate")}
-                className="w-full p-2 pl-10 pr-10 border border-gray-300 rounded focus:outline-none focus:ring-blue-500 customdate-input "
+                className="w-full lg:w-[11rem] p-2 pl-10 pr-10 border border-gray-300 rounded focus:outline-none focus:ring-blue-500 customdate-input "
                 placeholder="From Date"
               />
               {searchTerms.fromDate && (
@@ -487,14 +486,14 @@ const organizeDataByJobId = (data) => {
             </div>
           </div>
 
-          <div>
-            <label className="block mb-1 text-gray-700">To</label>
+          <div className="flex flex-row gap-2">
+            <label className="flex items-center mb-1 text-gray-700">To  </label>
             <div className="relative">
               <input
                 type="date"
                 value={searchTerms.toDate}
                 onChange={handleSearchChange("toDate")}
-                className="w-full p-2 pl-10 pr-10 border border-gray-300 rounded focus:outline-none focus:ring-blue-500 customdate-input "
+                className="w-full lg:w-[11rem] p-2 pl-10 pr-10 border border-gray-300 rounded focus:outline-none focus:ring-blue-500 customdate-input "
                 placeholder="To Date"
               />
               {searchTerms.toDate && (
@@ -507,7 +506,7 @@ const organizeDataByJobId = (data) => {
           </div>
         </div>
         <div>
-          <label className="block mb-1 text-gray-700">Search by Job ID</label>
+          {/* <label className="block mb-1 text-gray-700">Search by Job ID</label> */}
           <div className="relative">
             <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
@@ -515,7 +514,7 @@ const organizeDataByJobId = (data) => {
               value={searchTerms.roleId}
               onChange={handleSearchChange("roleId")}
               className="w-full p-2 pl-10 border border-gray-300 ps-10 rounded focus:outline-none focus:ring-blue-500 custom-input"
-              placeholder="Search..."
+              placeholder="Search by Job ID"
             />
             {searchTerms.roleId && (
               <ClearIcon
@@ -527,7 +526,7 @@ const organizeDataByJobId = (data) => {
         </div>
 
         <div>
-          <label className="block mb-1 text-gray-700">Search by Status</label>
+          {/* <label className="block mb-1 text-gray-700">Search by Status</label> */}
           <div className="relative">
             <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
@@ -535,7 +534,7 @@ const organizeDataByJobId = (data) => {
               value={searchTerms.status}
               onChange={handleSearchChange("status")}
               className="w-full p-2 pl-10 border border-gray-300 rounded focus:outline-none focus:ring-blue-500 custom-input"
-              placeholder="Search..."
+              placeholder="Search by Status"
             />
             {searchTerms.status && (
               <ClearIcon
@@ -548,7 +547,7 @@ const organizeDataByJobId = (data) => {
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className=" mx-auto my-0  justify-center">
-          <label className="block mb-1 text-transparent">Clear</label>
+          {/* <label className="block mb-1 text-transparent">Clear</label> */}
           <button
             onClick={handleClearAllFilters}
             className="px-4 py-2 bg-red-500 text-white  rounded hover:bg-red-600"
@@ -558,12 +557,12 @@ const organizeDataByJobId = (data) => {
           </div>
 
           <div className=" mx-auto my-0  justify-center">
-          <label className="block mb-1 text-transparent">Clear</label>
+          {/* <label className="block mb-1 text-transparent">Download</label> */}
           <button
                   onClick={handleExportToExcel}
             className="px-4 py-2 bg-green-700 text-white  rounded hover:bg-green-600"
           >
-            Clear Excel
+          Download Excel
           </button>
           </div>
         </div>
@@ -571,7 +570,7 @@ const organizeDataByJobId = (data) => {
        
       </div>
 
-      <div className="w-full flex items-center justify-center h-[80vh]">
+      <div className="w-full flex items-center justify-center h-auto" >
         {loading ? (
           <CircularProgress />
         ) : (
@@ -584,7 +583,8 @@ const organizeDataByJobId = (data) => {
           sx={{
             boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
             backgroundColor: "#fff !important",
-            height: '80vh !important',
+        
+            height: "60vh !important",
             "& .MuiDataGrid-columnHeaders": {
               fontWeight: "bold",
               fontSize: "1rem",
@@ -599,6 +599,7 @@ const organizeDataByJobId = (data) => {
               fontSize: "0.875rem",
               border: "1px solid #F7F7F7",
               color: "rgba(47, 43, 61, 0.78)",
+              padding:'0px 5px'
             },
             "& .MuiDataGrid-cell:focus": {
               outline: "none",
