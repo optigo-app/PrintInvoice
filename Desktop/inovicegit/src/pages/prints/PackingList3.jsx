@@ -60,6 +60,9 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         data?.BillPrint_Json2
       );
 
+      console.log(datas);
+
+      datas.header.PrintRemark = (datas.header.PrintRemark)?.replace(/<br\s*\/?>/gi, "");
       
 
       let finalArr = [];
@@ -284,7 +287,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             {/* customer header */}
             <div className='d-flex  mt-1 brall_pcls brall_pcls '>
                 <div className='bright_pcls p-1 com_fs_pcl3' style={{width:'35%'}}>
-                    <div>Bill To,</div>
+                    <div>{result?.header?.lblBillTo}</div>
                     <div className='fs_14_pcls fw-bold'>{result?.header?.customerfirmname}</div>
                     <div>{result?.header?.customerAddress2}</div>
                     <div>{result?.header?.customerAddress1}</div>
@@ -296,10 +299,15 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className='bright_pcls p-1 com_fs_pcl3' style={{width:'35%'}}>
                     <div>Ship To,</div>
                     <div className='fs_14_pcls fw-bold'>{result?.header?.customerfirmname}</div>
-                    <div>{result?.header?.CustName}</div>
+                    {
+                      result?.header?.address?.map((e, i) => {
+                        return <div key={i}>{e}</div>
+                      })
+                    }
+                    {/* <div>{result?.header?.CustName}</div>
                     <div>{result?.header?.customercity}</div>
                     <div>{result?.header?.customercountry}{result?.header?.customerpincode}</div>
-                    <div>Mobile No : {result?.header?.customermobileno}</div>
+                    <div>Mobile No : {result?.header?.customermobileno}</div> */}
                 </div>
                 <div className='p-1 com_fs_pcl3' style={{width:'30%'}}>
                     <div className='d-flex align-items-center'><div className='fw-bold billbox_pcls'>BILL NO </div><div>{result?.header?.InvoiceNo}</div></div>

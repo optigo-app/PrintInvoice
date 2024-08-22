@@ -13,18 +13,18 @@
     align-items: center;
 }
 .barcode_sticker_4ABCC{
-    height: 167pt;
+    /* height: 167pt; */
 }
 
 .barcode_img_4C>img {
-    top: -130px !important;
+    /* top: -130px !important;
     height: 12px !important;
     width: 115px !important;
     object-fit: cover;
     transform: rotate(90deg) !important;
     position: relative !important;
     left: 42px !important;
-    margin: 0px;
+    margin: 0px; */
 }
 .barcodeText4ABCC {
     width: 60pt;
@@ -69,19 +69,19 @@
     height: 13pt !important;
 }
 .barcode_img_container_4B_CC {
-    width: 27pt;
+    /* width: 27pt;
     position: relative;
-    border-left: 1px solid #000;
+    border-left: 1px solid #000; */
 }
 .barcode_img_container_4B_CC>img {
-    height: 12px !important;
+    /* height: 12px !important;
     width: 115px !important;
     object-fit: cover !important;
     transform: rotate(90deg) !important;
     position: relative !important;
     left: -38px !important;
     right: -56px !important;
-    top: 94px !important;
+    top: 94px !important; */
 }
 
 .lh_4C_new{
