@@ -30,10 +30,12 @@ const QcReport = () => {
   const [jobIdDisabled, setJobIdDisabled] = useState(false);
   const [ischecked, setIschecked] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
+
   const queryParams = useQueryParams();
-  const Yc = queryParams.get("Yc");
-  console.log("yc",Yc);
+        const Yc= queryParams.get("yc");;
+      console.log("yc",Yc);
     const [myData, setMyData] = useState([]);
+
   const [searchTerms, setSearchTerms] = useState({
     roleId: "",
     fromDate: "",
@@ -42,6 +44,10 @@ const QcReport = () => {
     question: "",
   });
   const [loading, setLoading] = useState(true); 
+  const [decodedData, setDecodedData] = useState("");
+  const [error, setError] = useState("");
+  const location = useLocation();
+  
 
   const handleJobIdToggle = () => {
     setJobIdDisabled(prev => !prev);
@@ -241,7 +247,7 @@ useEffect(() => {
       const headers = {
         Authorization: '',
         // YearCode: 'e3t6ZW59fXt7MjB9fXt7b3JhaWwyNX19e3tvcmFpbDI1fX0=',
-        YearCode: `${Yc}`,
+        YearCode: Yc,
         version: 'v4',
         'Content-Type': 'application/json',
       };
@@ -445,7 +451,7 @@ const organizeDataByJobId = (data) => {
                 </Box>
                 <Box ml={2}>
                   <Typography variant="h5" component="div">
-                    {stat.value.toLocaleString()}k
+                    {stat.value.toLocaleString()}
                   </Typography>
                   <Typography variant="body2" color="textSecondary">
                     {stat.title}

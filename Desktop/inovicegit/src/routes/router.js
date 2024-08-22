@@ -15,7 +15,6 @@ const router = createBrowserRouter([
   {
     path: "/qcreport",
     element: <QcReport />,
-    element: <></>,
   },
   {
     path: "/mrpbill",
