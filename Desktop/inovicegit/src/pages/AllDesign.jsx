@@ -21,6 +21,8 @@ const AllDesign = () => {
       return <AllDesignBagPrint2 />;
     } else if (searchUrl?.includes("grids")) {
       return <AllGrids />;
+    } else if (searchUrl?.includes("pid=18125")) {
+      return <QcReport />;
     } else {
       return <ErrorPage />;
     }
