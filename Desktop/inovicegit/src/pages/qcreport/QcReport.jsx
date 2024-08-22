@@ -27,6 +27,7 @@ const useQueryParams = () => {
 
 
 const QcReport = () => {
+  console.log('hello');
   const [jobIdDisabled, setJobIdDisabled] = useState(false);
   const [ischecked, setIschecked] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
