@@ -288,7 +288,9 @@
 .H_sum_pcl3{
     height: 131px;
 }
-
+.h14_dp10{
+    height: 14px;
+}
 @media print {
     .fs_16_pcls{
         font-size: 12px;
@@ -352,6 +354,16 @@
     }
     .resremark_pcl3 *{
         line-height: 10px !important;
+    }
+    .h14_dp10{
+        height: 7.5px !important;
+    }
+
+    .minH_sum_pcl3{
+        min-height: 70px;
+    }
+    .H_sum_pcl3{
+        height: 70px;
     }
 
     @page {
