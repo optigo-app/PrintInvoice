@@ -6,6 +6,7 @@ import AllGrids from "./AllGrids";
 // import AllDesignBagPrint from './AllDeisgnBagPrint';
 import ErrorPage from "./error/ErrorPage";
 import Loader from "../components/Loader";
+import  QcReport  from "./qcreport/QcReport";
 
 const AllDesign = () => {
   
