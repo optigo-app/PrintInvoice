@@ -789,7 +789,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className='col6_s_pcls d-flex justify-content-center align-items-end bbottom_pcls bleft_pcls bright_pcls'>Checked By</div>
                 </div> */}
                 <div className="d-flex justify-content-between tb_fs_pcls mt-1 summarydp10">
-                    <div className="d-flex flex-column sumdp10">
+                    <div className="d-flex flex-column sumdp10 minH_sum_pcl3">
                       <div className="fw-bold bg_dp10 w-100 centerdp10  ball_dp10">
                         SUMMARY
                       </div>
@@ -908,7 +908,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                       </div>
                     </div>
-                    <div className="dia_sum_dp10 d-flex flex-column  fsgdp10">
+                    <div className="dia_sum_dp10 d-flex flex-column  fsgdp10 H_sum_pcl3 minH_sum_pcl3">
                       <div className="h_bd10 centerdp10 bg_dp10 fw-bold ball_dp10 tb_fs_pcls">
                         Diamond Detail
                       </div>
@@ -968,10 +968,10 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                        <div className="p-1 bright_pcls bbottom_pcls bleft_pcls text-break" dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark }} ></div>
                     </div>
                      } 
-                    <div className="check_dp10 ball_dp10 d-flex justify-content-center align-items-end pb-1 fsgdp10">
+                    <div className="check_dp10 ball_dp10 d-flex justify-content-center align-items-end pb-1 fsgdp10 tb_fs_pcls H_sum_pcl3">
                       <i>Created By</i>
                     </div>
-                    <div className="check_dp10 ball_dp10 d-flex justify-content-center align-items-end pb-1 fsgdp10">
+                    <div className="check_dp10 ball_dp10 d-flex justify-content-center align-items-end pb-1 fsgdp10 tb_fs_pcls H_sum_pcl3">
                       <i>Checked By</i>
                     </div>
                   </div>

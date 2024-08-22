@@ -282,7 +282,12 @@
 .pr_dp10{
     padding-right: 2px !important;
 }
-
+.minH_sum_pcl3{
+    min-height: 131px;
+}
+.H_sum_pcl3{
+    height: 131px;
+}
 
 @media print {
     .fs_16_pcls{
