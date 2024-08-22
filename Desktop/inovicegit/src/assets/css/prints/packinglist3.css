@@ -1,6 +1,6 @@
 .container_pcls{
     max-width: 1230px;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     box-sizing: border-box;
     padding: 10px;
     padding-bottom: 5rem;
@@ -38,6 +38,55 @@
 .bg_pcls{
     background-color: #F5F5F5;
 }
+
+.centerdp10{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.center_sdp10{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 1px;
+}
+.end_dp10{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+.start_dp10{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+/* border */
+.brR_dp10{
+    border-right:1px solid rgb(117, 115, 115) !important;
+}
+.br_dp10{
+    border:1px solid rgb(117, 115, 115) !important;
+}
+.bg_dp10{
+    background-color: #f1f1f1;
+}
+.bl_dp10{
+    border-left: 1px solid #BDBDBD;
+}
+.bt_dp10{
+    border-top: 1px solid #BDBDBD;
+}
+.bright_dp10{
+    border-right: 1px solid #BDBDBD;
+}
+.bb_dp10{
+    border-bottom: 1px solid #BDBDBD;
+}
+.ball_dp10{
+    border: 1px solid #BDBDBD;
+}
+
 /* contents */
 .centerall_pcls{
     display: flex;
@@ -197,11 +246,51 @@
 }
 
 .minH_pcl3{
-    min-height: 8rem;
+    min-height: 8.9rem;
     border-right:1px solid #BDBDBD;
 }
 
+.resremark_pcl3 *{
+    line-height: 10px !important;
+    font-size: 9px !important;
+}
 
+/* summary */
+.sumdp10{
+    width: 31%;
+}
+.dia_sum_dp10{
+    width: 18%;
+}
+.oth_sum_dp10{
+    width: 15%;
+}
+.remark_sum_dp10{
+    width: 15%;
+}
+.check_dp10{
+    width: 10%;
+}
+
+.h14_dp10{
+    height: 14px;
+}
+.pad_top_dp10{
+    padding: 0px !important;
+    /* padding-top: 10px !important; */
+}
+.pr_dp10{
+    padding-right: 2px !important;
+}
+.minH_sum_pcl3{
+    min-height: 131px;
+}
+.H_sum_pcl3{
+    height: 131px;
+}
+.h14_dp10{
+    height: 14px;
+}
 @media print {
     .fs_16_pcls{
         font-size: 12px;
@@ -241,10 +330,10 @@
     }
 
     .headText_pcls{
-        font-size: 16px;
+        font-size: 13px;
         background-color: #939292;
         color: #FFF;
-        padding: 8px 0px 8px 6px !important;
+        padding: 6px 0px 6px 4px !important;
         font-weight: bold;
     }
     .companylogo_pcls{
@@ -257,11 +346,28 @@
         page-break-inside: avoid !important;
     }
     .com_fs_pcl3{
-        font-size: 9px ;
+        font-size: 8.5px ;
     }
     .minH_pcl3{
-        min-height: 4rem;
+        min-height: 4.5rem;
         border-right:1px solid #BDBDBD;
+    }
+    .resremark_pcl3 *{
+        line-height: 10px !important;
+    }
+    .h14_dp10{
+        height: 7.5px !important;
+    }
+
+    .minH_sum_pcl3{
+        min-height: 70px;
+    }
+    .H_sum_pcl3{
+        height: 70px;
+    }
+
+    @page {
+        margin: 5mm;
     }
     
 }
