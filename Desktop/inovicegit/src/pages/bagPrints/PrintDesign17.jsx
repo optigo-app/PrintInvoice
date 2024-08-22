@@ -238,7 +238,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                       <p className="bold fsize17"></p>
                                     ) : (
                                       <p className="bold fsize17">
-                                        {e?.data?.rd?.["promisedate"]}
+                                        {e?.data?.rd?.["promiseDatef"]}
                                       </p>
                                     )}
                                   </div>
@@ -513,7 +513,6 @@ const PrintDesign17 = ({ queries, headers }) => {
                                     ORD.DT.
                                   </span>
                                   <span className="bold fsize17">
-                                  {console.log(e?.data?.rd)}
                                     {e?.data?.rd?.["OrderDate"] === "01 Jan 1900" ? '' : e?.data?.rd?.orderDatef}
                                   </span>
                                 </p>
@@ -531,7 +530,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                     <span className="bold fsize17"></span>
                                   ) : (
                                     <span className="bold fsize17">
-                                      {e?.data?.rd?.["promisedate"]}
+                                      {e?.data?.rd?.["promiseDatef"]}
                                     </span>
                                   )}
                                 </p>
