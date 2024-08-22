@@ -196,7 +196,17 @@
     width: 9%;
 }
 
-
+.w_h_head{
+    width: 100px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 10px;
+    font-size: 14px;
+}
+.fs_h_head2{
+    font-size: 14px;
+}
 
 @media print {
     .fs_16_pcls{
@@ -246,6 +256,16 @@
     .companylogo_pcls{
         height: 60px;
     }
-    
+    .w_h_head{
+        width: 100px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding-right: 10px;
+        font-size: 10px;
+    }
+    .fs_h_head2{
+        font-size: 10px;
+    }
     
 }

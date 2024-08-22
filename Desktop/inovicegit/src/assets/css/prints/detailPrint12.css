@@ -448,6 +448,118 @@
 .border_all_dp12{
     border: 1px solid #BDBDBD;
 }
+.summary_container_dp12{
+    margin-top: 5px;
+    border: 1px solid #BDBDBD;
+}
+
+
+/* summary  */
+.summary_container_dp7{
+    margin-top: 10px;
+    border: 1px solid #e8e8e8;
+}
+
+.summary_container_dp7_product_table{
+    width: 70%;
+    margin: 10px;
+}
+.summary_container_dp7_product_title{
+    border: 1px solid black;
+    text-align: center;
+}
+
+/* summary product table head */
+.summary_container_dp7_product_head{
+    display: flex;
+    font-weight: bold;
+    border: 1px solid black;
+    border-top: 0px;
+}
+.sum_prod_head_col_1{
+    width: 16.66%;
+    border-right: 1px solid black;
+}
+.sum_prod_head_col_2{
+    width: 16.66%;
+    border-right: 1px solid black;
+}
+.sum_prod_head_col_3{
+    width: 16.66%;
+    border-right: 1px solid black;
+}
+.sum_prod_head_col_4{
+    width: 16.66%;
+    border-right: 1px solid black;
+}
+.sum_prod_head_col_5{
+    width: 16.66%;
+    border-right: 1px solid black;
+}
+.sum_prod_head_col_6{
+    width: 16.66%;
+}
+
+/* summary product table body */
+.summary_container_dp7_product_body{
+    display: flex;
+    border: 1px solid black;
+    border-top: 0px;
+    /* height: 24px; */
+}
+
+/* summary product table total */
+.summary_container_dp7_product_total{
+    display: flex;
+    border: 1px solid black;
+    border-top: 0px;
+}
+
+.summary_container_dp7_misc_table{
+    width: 46.7%;   
+    margin: 10px;
+}
+.summary_container_dp7_misc_title{
+    border: 1px solid black;
+    text-align: center;
+}
+.summary_container_dp7_misc_head{
+    display: flex;
+    border: 1px solid black;
+    border-top: 0px;
+}
+.summary_container_dp7_misc_head_col_1{
+    width: 20%;
+    border-right: 1px solid black;
+}
+.summary_container_dp7_misc_head_col_2{
+    width: 20%;
+    border-right: 1px solid black;
+}
+.summary_container_dp7_misc_head_col_3{
+    width: 20%;
+    border-right: 1px solid black;
+}
+.summary_container_dp7_misc_head_col_4{
+    width: 20%;
+    border-right: 1px solid black;
+}
+.summary_container_dp7_misc_head_col_5{
+    width: 20%;
+    border-right: 1px solid black;
+}
+.summary_container_dp7_misc_body{
+    display: flex;
+    border: 1px solid black;
+    border-top: 0px;
+}
+.summary_container_dp7_misc_total{
+    display: flex;
+    border: 1px solid black;
+    border-top: 0px;
+}
+
+
 @media print {
     .hidebtn{
      display: none !important;   
@@ -469,6 +581,10 @@
     .fsgdp12{
         font-size: 10px !important;
     }
+    .fsgdp7{
+        font-size: 12px;
+    }
+  
     .fsgdp12_{
         font-size: 14px;
     }

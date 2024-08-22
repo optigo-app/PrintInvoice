@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 import AllDesign from "../pages/AllDesign";
 import QcReport from "../pages/qcreport/QcReport";
+import MRPBill from "../pages/MRPBill/MRPBill";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,11 @@ const router = createBrowserRouter([
   {
     path: "/qcreport",
     element: <QcReport />,
+    element: <></>,
+  },
+  {
+    path: "/mrpbill",
+    element: <><MRPBill /></>,
   },
 ]);
 

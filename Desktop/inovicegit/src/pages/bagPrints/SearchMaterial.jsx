@@ -31,7 +31,7 @@ const SearchMaterial = ({ queries, headers }) => {
 
         const allDatas = await GetData(objs);
         setMsg(allDatas?.msg);
-        
+        console.log(allDatas);
         const showObj = {
           istoreCust_Customercode:'',
           rfbag:'',
@@ -45,7 +45,9 @@ const SearchMaterial = ({ queries, headers }) => {
           Pcs: 0,
           ItemName:'',
           findingaccessoriesname:'',
-          Mastermanagement_itemid:''
+          Mastermanagement_itemid:'',
+          diamondunitprice:0,
+          fancystoneunitprice:0
         }
 
         let apiData = allDatas?.rd[0];
@@ -82,6 +84,7 @@ const SearchMaterial = ({ queries, headers }) => {
           showObj.job = apiData?.job;
 
           showObj.ShapeName = apiData?.diamondshapename;
+          showObj.price = apiData?.diamondunitprice;
           showObj.QualityName = apiData?.diamondclarityname;
           showObj.Colorname = apiData?.diamondcolorname;
           showObj.SizeName = apiData?.diamondsize;
@@ -89,19 +92,20 @@ const SearchMaterial = ({ queries, headers }) => {
           showObj.Pcs = '';
           
         }
-
+        
         //colorstone
         if(apiData?.Mastermanagement_itemid === 4){
 
           showObj.ItemName = 'CS';
-
+          
           showObj.Mastermanagement_itemid = apiData?.Mastermanagement_itemid;
           showObj.istoreCust_Customercode = apiData?.istoreCust_Customercode;
           showObj.rfbag = apiData?.rfbag;
           showObj.materialtypename = apiData?.materialtypename;
           showObj.job = apiData?.job;
-
+          
           showObj.ShapeName = apiData?.fancystoneshapename;
+          showObj.price = apiData?.fancystoneunitprice;
           showObj.QualityName = apiData?.fancystonequalityname;
           showObj.Colorname = apiData?.fancystonecolorname;
           showObj.SizeName = apiData?.fancystonesize;
@@ -142,6 +146,7 @@ const SearchMaterial = ({ queries, headers }) => {
           showObj.job = apiData?.job;
 
           showObj.ShapeName = apiData?.fancystoneshapename;
+          showObj.price = apiData?.fancystoneunitprice;
           showObj.QualityName = apiData?.fancystonequalityname;
           showObj.Colorname = apiData?.fancystonecolorname;
           showObj.SizeName = apiData?.fancystonesize;
@@ -178,9 +183,9 @@ const SearchMaterial = ({ queries, headers }) => {
               </div>
               <div className="div1_SM">
                 <div>{data?.ItemName} : <span className="rfbagValSM">{data?.rfbag}</span></div>
-                <div> {data?.materialtypename} {data?.ShapeName} { data?.Mastermanagement_itemid === 5 ? data?.QualityName + " " + data?.findingaccessoriesname : data?.QualityName} {data?.Colorname}</div>
+                <div> {data?.ShapeName} { data?.Mastermanagement_itemid === 5 ? data?.QualityName + " " + data?.findingaccessoriesname : data?.QualityName} {data?.Colorname}</div>
                 <div>{data?.job}</div>
-                { data?.Wt !== '' && <div>{data?.Wt}</div>}
+                <div className="d-flex align-items-center">{ data?.Wt !== '' && <div>{data?.Wt}</div>}{ data?.price !== 0 && `/${data?.price}` }</div>
                 { data?.SizeName !== '' && <div>{data?.SizeName}</div>}
               </div>
             </div>
