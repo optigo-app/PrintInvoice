@@ -530,6 +530,7 @@
 
 .print4bpart_1{
     margin: 1pt 0 20px 14pt;
+    position: relative;
 }
 @media print {
     /* .print4Apart_1:nth-child(6n+6) {

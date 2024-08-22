@@ -25,6 +25,14 @@
     position: relative !important;
     left: 42px !important;
     margin: 0px; */
+    top: 205px !important;
+    height: 18px !important;
+    width: 169px !important;
+    object-fit: cover;
+    transform: rotate(90deg) !important;
+    position: absolute !important;
+    /* left: 238px !important; */
+    right: -67px;
 }
 .barcodeText4ABCC {
     width: 60pt;
@@ -69,6 +77,9 @@
     height: 13pt !important;
 }
 .barcode_img_container_4B_CC {
+        width: 27pt;
+        border-left: 1px solid black;
+    
     /* width: 27pt;
     position: relative;
     border-left: 1px solid #000; */
@@ -82,6 +93,14 @@
     left: -38px !important;
     right: -56px !important;
     top: 94px !important; */
+    top: 227px !important;
+    height: 16px !important;
+    width: 154px !important;
+    object-fit: cover;
+    transform: rotate(90deg) !important;
+    position: absolute !important;
+    /* left: 238px !important; */
+    right: -58px;
 }
 
 .lh_4C_new{
