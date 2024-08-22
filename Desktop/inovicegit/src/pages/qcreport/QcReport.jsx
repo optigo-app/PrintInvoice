@@ -32,7 +32,7 @@ const QcReport = () => {
   const [ischecked, setIschecked] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const queryParams = useQueryParams();
-  const Yc = queryParams.get("Yc");
+  const Yc = queryParams.get("yc");
   console.log("yc",Yc);
     const [myData, setMyData] = useState([]);
   const [searchTerms, setSearchTerms] = useState({
