@@ -9,21 +9,21 @@ import MRPBill from "../pages/MRPBill/MRPBill";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/*",
     element: <AllDesign />,
   },
-  {
-    path: "/qcreport",
-    element: <QcReport />,
-  },
-  {
-    path: "/mrpbill",
-    element: <><MRPBill /></>,
-  },
-  {
-    path: "/*",
-    element: <><AllDesign /></>,
-  },
+  // {
+  //   path: "/qcreport",
+  //   element: <QcReport />,
+  // },
+  // {
+  //   path: "/mrpbill",
+  //   element: <><MRPBill /></>,
+  // },
+  // {
+  //   path: "/*",
+  //   element: <><AllDesign /></>,
+  // },
 ]);
 
 export default router
