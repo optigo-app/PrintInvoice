@@ -27,7 +27,19 @@ const MRPBill = () => {
   const [custSearch, setSearchCust] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
+  const [custId, setCustID] = useState('');
+  const [currencyId, setCurrencyID] = useState('');
+  const [currencyRate, setCurrencyRate] = useState('');
+  const [lockerId, setLockerId] = useState('');
+
   const [jobList, setJobList] = useState([]);
+
+  const [billNo, setBillNo] = useState(0);
+  const [billSavedFlag, setBillSavedFlag] = useState(false);
+  
+  const [custErrorMsg, setCustErrorMsg] = useState('');
+  const [lockerErrorMsg, setLockerErrorMsg] = useState('');
+
 
   const fetchMRPData = async () => {
     try {
@@ -74,9 +86,18 @@ const MRPBill = () => {
   
   const handleCurrencyChange = (e) => {
     setSelectVal(e.target.value);
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    const currencyRate = selectedOption.getAttribute('data-curr_Rate');
+    const currencyId = selectedOption.getAttribute('data-currId');
+    setCurrencyRate(currencyRate);
+    setCurrencyID(currencyId);
   }
   const handleLockerChange = (e) => {
     setSelectLocker(e.target.value);
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    const lockerId = selectedOption.getAttribute('data-lockId');
+    setLockerId(lockerId);
+    setLockerErrorMsg('');
   }
   const handleJobNoChange = (e) => {
     setJobnoVal(e.target.value);
@@ -93,10 +114,25 @@ const MRPBill = () => {
         if(response?.status === 200 && response?.data?.Status === '200'){
             if(!isEmptyObject(response?.data?.Data)){
                 if(response?.data?.Data?.DT?.length > 0){
-                    setJobDetail(response?.data?.Data?.DT)
-                    setMsg('')
-                    setJobnoVal('');
-                    setIsJobPresent(true);
+                    if(jobList?.length > 0){
+                         let isJobPresent = jobList?.find((al) => al?.StockBarcode === response?.data?.Data?.DT[0]?.StockBarcode);
+                         if(isJobPresent){
+                          console.log('already present');
+                          setMsg('Already Present');
+                          setJobDetail([]);
+                         }else{
+                          setJobDetail(response?.data?.Data?.DT)
+                          setMsg('')
+                          setJobnoVal('');
+                          setIsJobPresent(true);
+                         }
+                    }else{
+                      setJobDetail(response?.data?.Data?.DT)
+                      setMsg('')
+                      setJobnoVal('');
+                      setIsJobPresent(true);
+                    }
+                    
                 }else{
                     setJobDetail([]);
                     console.log(response?.data?.Data?.DT);
@@ -151,10 +187,12 @@ const MRPBill = () => {
         setJobList(updatedJL);
   }
 
-  const handleSelectCustomer = (customerName) => {
-    setSearchCust(customerName);
+  const handleSelectCustomer = (customer) => {
+    setCustID(customer?.id);
+    setSearchCust(customer?.userid);
     setFilteredCustomers([]); // Clear suggestions after selection
     setSelectedIndex(-1);
+    setCustErrorMsg('');
   };
 
   const handleSearchCustomer = (val) => {
@@ -165,13 +203,17 @@ const MRPBill = () => {
         customer?.userid?.toLowerCase()?.includes(searchValue.toLowerCase())
       );
       setFilteredCustomers(filtered);
-    } else {
+    } 
+    else {
       setFilteredCustomers([]);
     }
+    setCustErrorMsg('');
   }
   const handleSelectBlur = () => {
-      setFilteredCustomers([]);
-      setSelectedIndex(-1);
+      setTimeout(() => {
+        setFilteredCustomers([]);
+        setSelectedIndex(-1);
+      }, 1000)  
   }
 
   const handleKeyDown = (e) => {
@@ -185,11 +227,110 @@ const MRPBill = () => {
     }
     else if(e.key === 'Enter' && selectedIndex >= 0){
       setSearchCust(filteredCustomers[selectedIndex]?.userid);
+      setCustID(filteredCustomers[selectedIndex]?.id);
       setFilteredCustomers([]);
     }
+
+
+        // Scroll the selected item into view
+        setTimeout(() => {
+          const element = document.querySelector(".search_sug_line.active");
+          if (element) {
+            element.scrollIntoView({
+              behavior: 'smooth',
+              block: 'nearest',
+            });
+          }
+        }, 0);
+
+        setCustErrorMsg('');
+
   }else{
+    setCustErrorMsg('');
     setSelectedIndex(-1);
   }
+
+  }
+  const saveMRP = async(e, args) => {
+    let IsForEst = 0;
+    if(args === 'bill'){
+      IsForEst = 1;
+    }
+    if(args === 'estimate'){
+      IsForEst = 0;
+    }
+    const isValid = checkValidation();
+    
+    if (!isValid) {
+      return; // Stop execution if validation fails
+    }
+
+    if(jobList?.length > 0){
+      let isEveryNot0 = jobList?.every((e) => e?.salePrice !== 0);
+      if(isEveryNot0){
+
+        const bill_detail = jobList?.map((e) => {
+        
+          return { STB: e?.StockBarcode, MRP:e?.salePrice };
+        })
+        const body = {
+          "Token" : "9065471700535651","ReqData":`[{\"Token\":\"9065471700535651\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"8\",\"BillDetail\":${JSON.stringify(bill_detail)}}]`
+        }
+        console.log(body);
+
+        const response = await axios.post("http://zen/jo/api-lib/App/API_MRPBill", body);
+
+        if(response?.status === 200 && response?.data?.Status === '200'){
+          console.log(response?.data?.Data?.DT[0]?.BillNo);
+          setBillNo(response?.data?.Data?.DT[0]?.BillNo);
+          setBillSavedFlag(true);
+        }else{
+          toast.error("Some Error Occured");
+        }
+
+        console.log(response);
+      }
+  }
+  }
+
+  const checkValidation = () => {
+    let isValid = true;
+
+    if (!custId) {
+      setCustErrorMsg('Customer is required');
+      isValid = false;
+    } else {
+      setCustErrorMsg('');
+    }
+
+    if (!lockerId) {
+      setLockerErrorMsg('Locker is required');
+      isValid = false;
+    } else {
+      setLockerErrorMsg('');
+    }
+
+    return isValid;
+  };
+
+  const saveNextBill = () => {
+
+    setJobDetail(null);
+    setMsg('');
+    setSearchCust('');
+    setSelectedIndex(-1);
+    setCustID('');
+    setCurrencyID('');
+    setLockerId('');
+    setCurrencyRate('');
+    setJobList([]);
+    setSearchVal('');
+    setSelectVal('');
+    setSelectLocker('');
+    setJobnoVal('');
+    setIsJobPresent(false);
+
+    setBillSavedFlag(false);
 
   }
 
@@ -209,10 +350,10 @@ const MRPBill = () => {
                 type="text"
                 value={custSearch}
                 placeholder="customer name"
-                className="form-control p-2  border border-secondary"
+                className="form-control p-2  border border-secondary minW_search_mrp"
                 id="custtitle"
                 onChange={(e) => handleSearchCustomer(e.target.value)}
-                onBlur={(e) => handleSelectBlur(e)}
+                onBlur={() => handleSelectBlur()}
                 onKeyDown={handleKeyDown}
               />
                {filteredCustomers?.length > 0 && (
@@ -221,17 +362,20 @@ const MRPBill = () => {
             <li
               key={index}
               className={`list-group-item list-group-item-action p-1 ${selectedIndex === index ? "search_sug_line active" : "search_sug_line"}`}
-              onClick={() => handleSelectCustomer(customer?.userid)}
+              // onClick={() => handleSelectCustomer(customer?.userid)}
+              onClick={() => handleSelectCustomer(customer)}
             >
               {customer?.userid}
             </li>
           ))}
         </ul>
-      )}
+                )}
+                <div className="text-danger">{custErrorMsg}</div>
             </div>
           </div>
           <div className="">
-            <div className=" d-flex align-items-center ">
+            <div className=" d-flex flex-column align-items-center ">
+              <div>
               <label htmlFor="currency" className="pe-3 cust_name_title">
                 LOCKER
               </label>
@@ -243,12 +387,15 @@ const MRPBill = () => {
                 onChange={(e) => handleLockerChange(e)}
                 style={{border:'1px solid #989898'}}
               >
+                <option  value="">Select</option>
                 {
                     lockerData?.map((e, i) => {
-                        return <option key={i} value={e?.Lockername}>{e?.Lockername}</option>
+                        return <option key={i} data-lockId={e?.id} value={e?.Lockername}>{e?.Lockername}</option>
                     })
                 }
               </select>
+              </div>
+              <div className="lockerErrorMsg_mrp text-danger">{lockerErrorMsg}</div>
             </div>
           </div>
           <div className="">
@@ -264,9 +411,10 @@ const MRPBill = () => {
                 onChange={(e) => handleCurrencyChange(e)}
                 style={{border:'1px solid #989898'}}
               >
+                <option  value="">Select</option>
                 {
                     currencyData?.map((e, i) => {
-                        return <option key={i} value={e?.Currencycode}>{e?.Currencycode}</option>
+                        return <option key={i} data-curr_Rate={e?.CurrencyRate} data-currId={e?.id} value={e?.Currencycode}>{e?.Currencycode}</option>
                     })
                 }
               </select>
@@ -285,7 +433,24 @@ const MRPBill = () => {
                 placeholder="customer name"
                 className="form-control p-2 border border-secondary"
                 id="custtitle"
+                onChange={(e) => handleSearchCustomer(e.target.value)}
+                onBlur={() => handleSelectBlur()}
+                onKeyDown={handleKeyDown}
                 />
+                {filteredCustomers?.length > 0 && (
+        <ul className="list-group position-absolute custom_scrollbar" style={{ zIndex: 1000, width:'max-content', minWidth:'50px', maxHeight:'180px', overflowY:'scroll', minWidth:'240px' }}>
+          {filteredCustomers?.map((customer, index) => (
+            <li
+              key={index}
+              className={`list-group-item list-group-item-action p-1 ${selectedIndex === index ? "search_sug_line active" : "search_sug_line"}`}
+              onClick={() => handleSelectCustomer(customer)}
+            >
+              {customer?.userid}
+            </li>
+          ))}
+        </ul>
+                )}
+                <div>{custErrorMsg}</div>
             </div>
             <div className="grid-item">
                 <label htmlFor="locker" className="pe-3 cust_name_title">
@@ -298,12 +463,14 @@ const MRPBill = () => {
                 className="form-select w-100"
                 onChange={(e) => handleLockerChange(e)}
                 >
+                  <option  value="">Select</option>
                 {
                     lockerData?.map((e, i) => {
-                        return <option key={i} value={e?.Lockername}>{e?.Lockername}</option>
+                        return <option key={i} data-lockId={e?.id} value={e?.Lockername}>{e?.Lockername}</option>
                     })
                 }
                 </select>
+                <div>{lockerErrorMsg}</div>
             </div>
             <div className="grid-item">
                 <label htmlFor="currency" className="pe-3 cust_name_title">
@@ -316,9 +483,10 @@ const MRPBill = () => {
                 className="form-select w-100"
                 onChange={(e) => handleCurrencyChange(e)}
                 >
+                  <option  value="">Select</option>
                 {
                     currencyData?.map((e, i) => {
-                        return <option key={i} value={e?.Currencycode}>{e?.Currencycode}</option>
+                        return <option key={i} value={e?.Currencycode} data-curr_Rate={e?.CurrencyRate} data-currId={e?.id} >{e?.Currencycode}</option>
                     })
                 }
                 </select>
@@ -341,7 +509,7 @@ const MRPBill = () => {
               />
               <button className="btn_go" disabled={jobnoVal === ''} onClick={() => handleGoClick()}>GO</button>
             </div>
-            <div className="text-danger px-2">{msg}</div>
+            <div className="text-danger px-2 msg_h_mrpbill">{msg}</div>
           </div>
           { isJobPresent && <div className="w-50 d-flex flex-wrap center_jl_mrp w_75_mrp2">
             {jobDetail?.map((e, i) => {
@@ -369,7 +537,7 @@ const MRPBill = () => {
           </div>}
         </div>
 
-        <div className="tableDiv_mrp">
+        { billSavedFlag !== true && <div className="tableDiv_mrp">
           <table className="table max_w_table">
             <thead className="table-head">
               <tr>
@@ -424,14 +592,19 @@ const MRPBill = () => {
               }) : <tr><td colSpan={5} align="center">No Jobs Data Present</td></tr>}
             </tbody>
           </table>
-        </div>
-
-        { isJobPresent && <div className="w-100 d-flex justify-content-center align-items-center">
-          <div className="continue_btn_mrp mx-2">CONTINUE TO BILL</div>
-          <div className="continue_btn_mrp">ESTIMATE</div>
         </div>}
-        <div className="w-100 d-flex justify-content-center align-items-center mt-1">
-          <div className="continue_btn_mrp mx-2">SAVE MRP</div>
+
+        { billSavedFlag !== true && <div className="w-100 d-flex justify-content-center align-items-center mt-1">
+          <div className="continue_btn_bill mx-2" disabled={jobList?.length === 0 ? true : false} onClick={(e) => saveMRP(e, 'bill')}>SAVE BILL</div>
+          <div className="continue_btn_est mx-2" disabled={jobList?.length === 0 ? true : false} onClick={(e) => saveMRP(e, 'estimate')}>SAVE ESTIMATE</div>
+        </div>}
+        <div className="d-flex flex-column justify-content-center align-items-center w-100">
+        { billSavedFlag === true &&
+        <>
+          <div className="generatedBill">Generate Bill No : {billNo}</div>
+          <div className="continue_btn_next mx-2"  onClick={(e) => saveNextBill(e, 'next')}>NEXT BILL</div>
+        </>
+        }
         </div>
       </div>
     </>

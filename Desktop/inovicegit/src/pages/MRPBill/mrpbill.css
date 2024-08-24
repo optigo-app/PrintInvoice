@@ -7,9 +7,8 @@
 }
 .head_mrp{
     font-size: 22px;
-    font-weight: bold;
-    color: red;
-    background-color: yellow;
+    color: black;
+    background-color: rgb(255, 235, 59);
     padding-top: 10px;
     padding-bottom: 10px;    
     padding-left: 10px;
@@ -79,10 +78,10 @@
     margin-top: 3rem;
     padding: 10px;
   }
-  .continue_btn_mrp{
+  .continue_btn_bill{
     height: 40px;
     color: white;
-    background-color: green;
+    background-color: rgb(56, 126, 186);
     width: 150px;
     display: flex;
     justify-content: center;
@@ -91,8 +90,23 @@
     border-radius: 8px;
     cursor: pointer;
   }
-  .continue_btn_mrp:hover{
-    background-color: #078f07;
+  .continue_btn_bill:hover{
+    background-color:  rgb(35, 114, 184);
+  }
+  .continue_btn_est{
+    height: 40px;
+    color: white;
+    background-color: rgb(213, 75, 72);
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .continue_btn_est:hover{
+    background-color: rgb(196, 46, 44);
   }
 
   .tableImg{
@@ -156,7 +170,91 @@
     color: black;
   }
 
-@media screen and (max-width:768px){
+  .msg_h_mrpbill{
+    height: 25px;
+  }
+
+
+  .minW_search_mrp{
+    min-width: 225px;
+  }
+/* 
+  .generatedBill{
+    font-size: 22px;
+    background-color: #6a6a6a;
+    color: white;
+    padding: 5px;
+    border-radius: 8px;
+    margin: 5px;
+    min-width: 350px;
+  } */
+
+  .lockerErrorMsg_mrp{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding-left: 50px;
+  }
+
+
+
+
+
+
+
+
+  /* extra css */
+  .generatedBill {
+    background-color: #f0f8ff; /* Light blue background */
+    color: #004085; /* Dark blue text color */
+    font-size: 1.5rem; /* Larger font size for prominence */
+    font-weight: bold; /* Bold text */
+    padding: 10px 20px; /* Padding around the text */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin-top: 20px; /* Spacing from the top */
+    margin-bottom: 20px; /* Spacing from the bottom */
+    text-align: center; /* Centered text */
+    display: inline-block; /* Ensures it doesn't stretch to full width */
+    animation: fadeIn 2s ease-in-out; /* Smooth fade-in animation */
+  }
+  
+  /* Optional: Animation for fading in */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+.continue_btn_next{
+    height: 40px;
+    color: white;
+    background-color: green;
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.continue_btn_next:hover{
+    background-color: rgb(45, 139, 45);
+  }
+
+@media screen and (max-width:862px){
+    .minW_search_mrp{
+        min-width: 180px;
+      } 
+}
+
+@media screen and (max-width:768px), (max-width:810px){
     .cust_name_title{
         padding-right: 5px;
     }
@@ -172,6 +270,26 @@
     }
     .pd_0{
         padding: 4px !important;
+    }
+    .form-select {
+        width: 60%; /* 60% width on larger screens */
+      }
+      .minW_search_mrp{
+        min-width: 160px;
+      } 
+ 
+}
+
+@media screen and (max-width:791px){ 
+    .cust_name_title {
+        padding-right: 10px;
+        font-size: 18px;
+    }
+}
+@media screen and (max-width:736px){ 
+    .cust_name_title {
+        padding-right: 10px;
+        font-size: 16px;
     }
 }
 @media screen and (max-width:720px){
@@ -280,4 +398,7 @@
         justify-content: center !important;
       }
 
+}
+@media screen and (max-width:320px){
+    
 }

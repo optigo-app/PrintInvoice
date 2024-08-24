@@ -7,11 +7,7 @@ import AllGrids from "./AllGrids";
 import ErrorPage from "./error/ErrorPage";
 import Loader from "../components/Loader";
 import  QcReport  from "./qcreport/QcReport";
-const useQueryParams = () => {
-  const location = useLocation();
-  return new URLSearchParams(location.search);
-};
- 
+import MRPBill from "./MRPBill/MRPBill";
 
 const AllDesign = () => {
   
@@ -20,9 +16,9 @@ const AllDesign = () => {
   // const queryParams = new URLSearchParams(location.search);
   const [loadedComponent, setLoadedComponent] = useState(null);
 
-  const queryParams = useQueryParams();
-  const pid= queryParams.get("pid");
-console.log("pid",pid);
+//   const queryParams = useQueryParams();
+//   const pid= queryParams.get("pid");
+// console.log("pid",pid);
 
 
   const openProject = (searchUrl) => {
@@ -32,10 +28,12 @@ console.log("pid",pid);
       return <AllDesignBagPrint2 />;
     } else if (searchUrl?.includes("grids")) {
       return <AllGrids />;
-    } else if (pid === "18125") {
-      return <QcReport />;
-    } else {
-      return <ErrorPage />;
+    }
+     else if (searchUrl?.includes("pid=18126")) {
+      return <MRPBill />;
+    }
+     else {
+      return <AllGrids />;
     }
   };
 

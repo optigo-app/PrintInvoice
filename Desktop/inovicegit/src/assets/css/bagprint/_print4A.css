@@ -258,25 +258,17 @@
 
 .barcode_img_4A {
     width: 28pt;
-    /* position: relative; */
+    position: relative;
 }
 
 .barcode_img_4A>img {
-    /* top: 100px !important;
+    top: 100px !important;
     height: 23px !important;
     width: 175px !important;
     object-fit: cover !important;
     transform: rotate(90deg) !important;
     position: relative !important;
-    left: -67px !important; */
-    top: 205px !important;
-    height: 23px !important;
-    width: 175px !important;
-    object-fit: cover;
-    transform: rotate(90deg) !important;
-    position: absolute !important;
-    /* left: 238px !important; */
-    right: -66px;
+    left: -67px !important;
 }
 
 .priority4A {
@@ -443,41 +435,30 @@
 
 .barcode_img_container_4A {
     width: 27pt;
-    /* position: relative; */
-    border-left: 1px solid #000;
-    /* height: 230px;
-    border: 1px solid #989898;
-    width: 30px;
-    border-top: 0px;
-    border-bottom: 0px;
-    border-right: 0px; */
+    /* width: 27pt;
+    position: relative;
+    border-left: 1px solid #000; */
 }
 
-.barcode_img_container_4A>.barcode_sticker {
+/* .barcode_img_container_4A>img { */
+.barcode_img_container_4A > .barcode_sticker {
     /* height: 23px !important;
     width: 175px !important;
     object-fit: cover !important;
     transform: rotate(90deg) !important;
-    position: absolute !important;
+    position: relative !important;
     left: -66px !important;
     right: -56px !important;
     top: 91px !important; */
-    /* height: 20px !important;
-    width: 200px !important;
+    position: absolute;
+    top: 5px !important;
+    right: unset !important;
+    left: 118px !important;
+    transform: translate(0) rotate(0deg) !important;
+    width: 30mm !important;
+    /* max-width: 20mm !important; */
+    height: 4mm !important;
     object-fit: cover;
-    position: absolute !important;
-    top: 110px !important;
-    right: -86.5px !important;
-    transform: rotate(90deg)  !important; */
-
-    height: 23px !important;
-    width: 175px !important;
-    object-fit: cover !important;
-    transform: rotate(90deg) !important;
-    position: absolute !important;
-    /* left: -66px !important; */
-    right: -68px !important;
-    top: 215px !important;
 }
 
 .part_1_container_4A {
@@ -525,12 +506,10 @@
 }
 .print4apart_1{
     margin: 1pt 0 20px 14pt;
-    position: relative;
 }
 
 .print4bpart_1{
     margin: 1pt 0 20px 14pt;
-    position: relative;
 }
 @media print {
     /* .print4Apart_1:nth-child(6n+6) {

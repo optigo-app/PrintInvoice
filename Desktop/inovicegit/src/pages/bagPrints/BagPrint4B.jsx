@@ -501,6 +501,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                           <div className="wt4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && fixedValues(notZero(elem?.IssueWeight), 3)}</div>
                                         </div>
                                       );
+                                      <div className="barcode_img_4A barcode_img_4B">
                                     })} */}
                                     {
                                       Array.from(
@@ -563,7 +564,8 @@ const BagPrint4B = ({ queries, headers }) => {
                                         <div className="diamond_custom_4B "></div>
                                       </div>
                                     </div>
-                                    <div className="barcode_img_4A barcode_img_4B">
+                                    
+                                    <div className=" barcode_img_4B">
                                       <BarcodeGenerator
                                         data={e?.data?.serialjobno}
                                       />

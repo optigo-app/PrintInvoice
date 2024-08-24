@@ -41,29 +41,47 @@
     height: 130pt;
 }
 .barcode_img_4B>img {
-    top: 75px !important;
+    /* top: 75px !important;
     height: 25px !important;
     width: 170px !important;
     object-fit: cover;
     transform: rotate(90deg) !important;
     position: relative !important;
     left: -66px !important;
-    margin: 0px;
+    margin: 0px; */
+    top: 227px !important;
+    height: 16px !important;
+    width: 154px !important;
+    object-fit: cover;
+    transform: rotate(90deg) !important;
+    position: absolute !important;
+    /* left: 238px !important; */
+    right: -58px;
 }
 .barcode_img_container_4B>img {
-    height: 23px !important;
+    /* height: 23px !important;
     width: 175px !important;
     object-fit: cover !important;
     transform: rotate(90deg) !important;
     position: relative !important;
     left: -66px !important;
     right: -56px !important;
-    top: 91px !important;
+    top: 91px !important; */
+    top: 227px !important;
+    height: 16px !important;
+    width: 154px !important;
+    object-fit: cover;
+    transform: rotate(90deg) !important;
+    position: absolute !important;
+    /* left: 238px !important; */
+    right: -58px;
 }
 .barcode_img_container_4B {
     width: 27pt;
+    border-left: 1px solid black;
+    /* width: 27pt;
     position: relative;
-    border-left: 1px solid #000;
+    border-left: 1px solid #000; */
 }
 
 .bagPrint4C *{
@@ -111,4 +129,9 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
+}
+
+.print4apart_1{
+    margin: 1pt 0 20px 14pt;
+    position: relative;
 }

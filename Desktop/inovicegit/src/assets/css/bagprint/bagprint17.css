@@ -1769,13 +1769,22 @@ table {
     position: relative;
     top: 26.516667mm;
     left: -21.345833mm; */
-  box-sizing: border-box;
+  /* box-sizing: border-box;
+
   transform: rotate(90deg) translate(-50%, 0);
   width: 50.264583mm !important;
   height: 5.529167mm !important;
   position: relative;
   top: 26.516667mm !important;
-  left: -21.345833mm !important;
+  left: -21.345833mm !important; */
+
+  box-sizing: border-box;
+    transform: rotate(90deg) translate(-50%, 0);
+    width: 33.264583mm !important;
+    height: 4.529167mm !important;
+    position: relative;
+    top: 26.516667mm !important;
+    left: -12.545833mm !important;
 }
 
 #img17 {
