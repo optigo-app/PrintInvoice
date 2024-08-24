@@ -18,7 +18,11 @@ import axios from 'axios';
 import * as XLSX from 'xlsx';
 import { CheckCircle, Cancel, DoNotDisturb, Dashboard, BarChart, PieChart } from '@mui/icons-material';
 import { FaCheckCircle, FaTimesCircle, FaTachometerAlt } from 'react-icons/fa';
+import { FaExclamationCircle } from 'react-icons/fa';
+import { FaFilter, FaFileExcel } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
+import { GridToolbarFilterButton } from '@mui/x-data-grid'
+import CustomToolbar from "./CustomToolbar";
 
 const useQueryParams = () => {
   const location = useLocation();
@@ -27,14 +31,15 @@ const useQueryParams = () => {
 
 
 const QcReport = () => {
-  console.log('hello');
+  // console.log('hello');
   const [jobIdDisabled, setJobIdDisabled] = useState(false);
   const [ischecked, setIschecked] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
+  const [noData,setNoData]=useState(false)
 
   const queryParams = useQueryParams();
         const Yc= queryParams.get("yc");
-      console.log("yc",Yc);
+      // console.log("yc",Yc);
     const [myData, setMyData] = useState([]);
 
   const [searchTerms, setSearchTerms] = useState({
@@ -77,7 +82,9 @@ const QcReport = () => {
   
   const formatDate = (date) => dayjs(date).format("DD-MMM-YYYY");
 
-  const filteredRows = myData.filter((row) => {
+  const filteredRows = myData.filter(
+    
+    (row) => {
     const jobIdMatch = searchTerms.roleId
       ? row.jobId.toLowerCase().includes(searchTerms.roleId.toLowerCase())
       : true;
@@ -95,7 +102,8 @@ const QcReport = () => {
       : true;
 
     return jobIdMatch && dateMatch && statusMatch;
-  });
+  }
+  );
 
   const handleClearAllFilters = () => {
     setSearchTerms({
@@ -167,9 +175,16 @@ const QcReport = () => {
   
 
 
-  const totalApproved = filteredRows.filter(row => row.StatusName === "Approved").length;
-  const totalRejected = filteredRows.filter(row => row.StatusName === "Rejected").length;
-  const totalEntries = filteredRows.length;
+  const countStatus = (statusName) => {
+    return filteredRows.reduce((count, row) => {
+      const statuses = row.StatusName.split(',').map(s => s.trim().toLowerCase());
+      return count + (statuses.includes(statusName.toLowerCase()) ? 1 : 0);
+    }, 0);
+  };
+
+  const totalApproved = countStatus("approved");
+  const totalRejected = countStatus("rejected");
+  const totalEntries = noData?0:filteredRows.length;
   
   const getDateWiseData = (data) => {
     const dateWiseMap = new Map();
@@ -261,9 +276,16 @@ useEffect(() => {
       const response = await axios.post('http://zen/api/M.asmx/Optigo', data, { headers });
 
       const parsedResponse = JSON.parse(response.data.d);
+      console.log("parsedresponse",parsedResponse.rd);
 
+     
       const organizedData = organizeDataByJobId(parsedResponse.rd);
-
+      // console.log("org",organizedData);
+      if(parsedResponse.rd[0].stat === 0){
+        setNoData(true);
+        console.log("Some Error Occured");
+      }
+      
       const uniqueQuestions = Array.from(new Set(
         parsedResponse.rd
           .map(item => item.QCQuetionvalue)
@@ -317,6 +339,8 @@ useEffect(() => {
       setFilteredData(ischecked ? jobIdArray : dateWiseArray);
       setLoading(false);
       console.log("JobidArray", jobIdArray);
+    
+
 
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -418,7 +442,9 @@ const organizeDataByJobId = (data) => {
 
 
   return (
-<div className="p-3 h-full fixed inset-0 bg-[#F3F2F5]">
+<div className="p-3 h-full fixed inset-0 bg-[#F3F2F5] w-auto">
+
+  {/* <GridToolbarFilterButton/> */}
 {/* <div style={{ padding: '16px', backgroundColor: '#F3F2F5', display: 'flex', flexDirection: 'column', gap: '16px' }}> */}
       {/* <div style={{ padding: '16px', backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)' }}> */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
@@ -434,7 +460,7 @@ const organizeDataByJobId = (data) => {
                 backgroundColor: 'white',
               
               }}
-              className='flex w-fit  '
+              className='flex w-fit'
             >
               {/* <div
                 style={{
@@ -465,7 +491,7 @@ const organizeDataByJobId = (data) => {
     </div>
 
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 my-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-2">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       <div className="flex flex-row gap-2">
             <label className="flex items-center  mb-1 text-gray-700">From</label>
@@ -545,80 +571,90 @@ const organizeDataByJobId = (data) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div className=" mx-auto my-0  justify-center">
-          {/* <label className="block mb-1 text-transparent">Clear</label> */}
-          <button
-            onClick={handleClearAllFilters}
-            className="px-4 py-2 bg-red-500 text-white  rounded hover:bg-red-600"
-          >
-            Clear Filters
-          </button>
-          </div>
+        <div className="flex flex-row gap-4">
+  <div>
+    {/* <label className="block mb-1 text-transparent">Clear</label> */}
+    <button
+      onClick={handleClearAllFilters}
+      className="flex items-center px-4 py-2 bg-red-500 text-white rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition duration-150 ease-in-out"
+    >
+      <FaFilter className="mr-2" />
+      Clear Filters
+    </button>
+  </div>
 
-          <div className=" mx-auto my-0  justify-center">
-          {/* <label className="block mb-1 text-transparent">Download</label> */}
-          <button
-                  onClick={handleExportToExcel}
-            className="px-4 py-2 bg-green-700 text-white  rounded hover:bg-green-600"
-          >
-          Download Excel
-          </button>
-          </div>
-        </div>
+  <div>
+    {/* <label className="block mb-1 text-transparent">Download</label> */}
+    <button
+      onClick={handleExportToExcel}
+      className="flex items-center px-4 py-2 bg-green-700 text-white rounded-md shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-150 ease-in-out"
+    >
+      <FaFileExcel className="mr-2" />
+      Export to Excel
+    </button>
+  </div>
+</div>
 
        
       </div>
 
-      <div className="w-full flex items-center justify-center h-auto" >
-        {loading ? (
-          <CircularProgress />
-        ) : (
-          <DataGrid
-          rows={filteredRows}
-          columns={getColumns()}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
-        
-          sx={{
-            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-            backgroundColor: "#fff !important",
-        
-            height: "60vh !important",
-            "& .MuiDataGrid-columnHeaders": {
-              fontWeight: "bold",
-              fontSize: "1rem",
-              borderBottom: "2px solid #e0e0e0",
-              "& .MuiDataGrid-columnHeader": {
-                borderRight: "1px solid #e0e0e0",
-                color: "rgba(47, 43, 61, 0.78)",
-                backgroundColor: "#F6F6F7 !important",
-              },
-            },
-            "& .MuiDataGrid-cell": {
-              fontSize: "0.875rem",
-              border: "1px solid #F7F7F7",
-              color: "rgba(47, 43, 61, 0.78)",
-              padding:'0px 5px'
-            },
-            "& .MuiDataGrid-cell:focus": {
-              outline: "none",
-            },
-            "& .MuiDataGrid-footerContainer": {
-              justifyContent: "flex-end",
-            },
-            "& .MuiDataGrid-footerContainer .MuiTablePagination-selectLabel, & .MuiDataGrid-footerContainer .MuiTablePagination-displayedRows": {
-              fontSize: "0.875rem",
-              fontWeight: "500",
-              color: "#757575",
-            },
-            "& .MuiDataGrid-footerContainer .MuiTablePagination-actions": {
-              marginRight: "1rem",
-            },
-          }}
-        />
-        )}
-      </div>
+      <div className="w-full flex items-center justify-center h-auto">
+  {loading ? (
+    <CircularProgress />
+  ) : noData ? (
+    <div className="w-full flex justify-center items-center flex-col py-10 text-gray-600">
+    <FaExclamationCircle className="h-16 w-16 mb-4 text-gray-400" />
+    <span className="text-xl font-semibold">No Data Available</span>
+    <p className="text-sm mt-2">There are no records to display at the moment.</p>
+  </div>
+
+  ) : (
+    <DataGrid
+      rows={filteredRows}
+      columns={getColumns()}
+      pageSize={10}
+      rowsPerPageOptions={[10]}
+      components={{ Toolbar: CustomToolbar }}
+      sx={{
+        boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+        backgroundColor: '#fff !important',
+        height: '60vh !important',
+        '& .MuiDataGrid-columnHeaders': {
+          fontWeight: 'bold',
+          fontSize: '1rem',
+          borderBottom: '2px solid #e0e0e0',
+          '& .MuiDataGrid-columnHeader': {
+            borderRight: '1px solid #e0e0e0',
+            color: 'rgba(47, 43, 61, 0.78)',
+            backgroundColor: '#F6F6F7 !important',
+          },
+        },
+        '& .MuiDataGrid-cell': {
+          fontSize: '0.875rem',
+          border: '1px solid #F7F7F7',
+          color: 'rgba(47, 43, 61, 0.78)',
+          padding: '0px 5px',
+        },
+        '& .MuiDataGrid-cell:focus': {
+          outline: 'none',
+        },
+        '& .MuiDataGrid-footerContainer': {
+          justifyContent: 'flex-end',
+        },
+        '& .MuiDataGrid-footerContainer .MuiTablePagination-selectLabel, & .MuiDataGrid-footerContainer .MuiTablePagination-displayedRows': {
+          fontSize: '0.875rem',
+          fontWeight: '500',
+          color: '#757575',
+        },
+        '& .MuiDataGrid-footerContainer .MuiTablePagination-actions': {
+          marginRight: '1rem',
+        },
+      }}
+    />
+  )}
+</div>
+
+
     </div>
   );
 };
