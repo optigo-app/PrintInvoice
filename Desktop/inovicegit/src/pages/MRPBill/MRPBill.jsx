@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./mrpbill.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -9,6 +9,9 @@ import { toast } from "react-toastify";
 import scanImg from "../../assets/img/scanimg.gif";
 import { handleImageError } from "./MRPGlobalFunctions";
 import { useLocation } from "react-router-dom";
+import { Html5Qrcode } from "html5-qrcode";
+import QRreader from "./QRBarcodeReader";
+import { CircularProgress } from "@mui/material";
 
 
 const MRPBill = () => {
@@ -41,6 +44,14 @@ const MRPBill = () => {
   const [custErrorMsg, setCustErrorMsg] = useState('');
   const [lockerErrorMsg, setLockerErrorMsg] = useState('');
 
+  //scan
+  const [scannedValue, setScannedValue] = useState('');
+  const [scanning, setScanning] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  const scannerRef = useRef(null);
+  const [scanCompFlag, setScanCompFlag] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const location = useLocation();
   const queryParam = location?.search;
@@ -50,6 +61,8 @@ const MRPBill = () => {
   const tkn = params.get('tkn');
   const pid = params.get('pid');
 
+
+  //getting intial main data from api
   const fetchMRPData = async () => {
     try {
       const url = "http://zen/jo/api-lib/App/API_MRPBill";
@@ -93,6 +106,8 @@ const MRPBill = () => {
     fetchMRPData();
   }, []);
   
+
+  //currency logic
   const handleCurrencyChange = (e) => {
     setSelectVal(e.target.value);
     const selectedOption = e.target.options[e.target.selectedIndex];
@@ -101,6 +116,8 @@ const MRPBill = () => {
     setCurrencyRate(currencyRate);
     setCurrencyID(currencyId);
   }
+
+  //locker logic
   const handleLockerChange = (e) => {
     setSelectLocker(e.target.value);
     const selectedOption = e.target.options[e.target.selectedIndex];
@@ -108,17 +125,23 @@ const MRPBill = () => {
     setLockerId(lockerId);
     setLockerErrorMsg('');
   }
+
+  //job no input field on change logic
   const handleJobNoChange = (e) => {
     setJobnoVal(e.target.value);
     setMsg('');
   }
+
+  //go button logic and job api calling
   const handleGoClick = async() => {
     if(jobnoVal !== ''){
+      try {
         const url = "http://zen/jo/api-lib/App/API_MRPBill";
         const body = JSON.stringify({
             Token : `${atob(tkn)}`,
             ReqData:`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"GetJobDeatil\",\"STB\":\"${jobnoVal}\"}]`
         })
+        setIsLoading(true);
         const response = await axios.post(url, body);
         if(response?.status === 200 && response?.data?.Status === '200'){
             if(!isEmptyObject(response?.data?.Data)){
@@ -129,17 +152,21 @@ const MRPBill = () => {
                           console.log('already present');
                           setMsg('Already Present');
                           setJobDetail([]);
+                          setIsLoading(false);
                          }else{
                           setJobDetail(response?.data?.Data?.DT)
                           setMsg('')
                           setJobnoVal('');
                           setIsJobPresent(true);
+                          setIsLoading(false);
                          }
                     }else{
                       setJobDetail(response?.data?.Data?.DT)
                       setMsg('')
                       setJobnoVal('');
                       setIsJobPresent(true);
+                      setIsLoading(false);
+
                     }
                     
                 }else{
@@ -147,20 +174,31 @@ const MRPBill = () => {
                     console.log(response?.data?.Data?.DT);
                     setMsg('')
                     setIsJobPresent(false);
+                    setIsLoading(false);
                 }
             }else{
                 console.log(response?.data?.Data);
                 setIsJobPresent(false);
+                setIsLoading(false);
             }
         }else{
             console.log(response?.data?.Data);
             setMsg('Invalid Job');
             setIsJobPresent(false);
+            setIsLoading(false);
         }
+
+      } catch (error) {
+        console.log(error);
+        toast.error('Some Error Occured');
+        setIsLoading(false);
+      }
 
     }
   }
   const isEmptyObject = (obj) => Object.keys(obj).length === 0;
+
+  //add new button logic
   const handleAddNew = (obj) => {
       let newobj = {...obj};
       newobj.salePrice = Number(addnew);
@@ -171,9 +209,12 @@ const MRPBill = () => {
       setIsJobPresent(false);
 
   }
+  //input field of add new event logic
   const handleAddNewChange = (e) => {
     setAddNew(e.target.value);
   }
+
+  //update price and changes in price logic
   const handlePriceChange = (event, obj) => {
 
     const newPrice = event?.target?.value?.replace(/,/g, ""); // Remove commas for easier processing
@@ -191,11 +232,14 @@ const MRPBill = () => {
     }
 
   };
+
+  //job delete logic
   const handleJobDelete = (obj) => {
         const updatedJL = jobList?.filter((e) => e?.StockBarcode !== obj?.StockBarcode)
         setJobList(updatedJL);
   }
 
+  //customer logic
   const handleSelectCustomer = (customer) => {
     setCustID(customer?.id);
     setSearchCust(customer?.userid);
@@ -203,7 +247,6 @@ const MRPBill = () => {
     setSelectedIndex(-1);
     setCustErrorMsg('');
   };
-
   const handleSearchCustomer = (val) => {
     let searchValue = val?.toLowerCase();
     setSearchCust(val);
@@ -224,7 +267,6 @@ const MRPBill = () => {
         setSelectedIndex(-1);
       }, 1000)  
   }
-
   const handleKeyDown = (e) => {
     if(selectedIndex < filteredCustomers?.length){
 
@@ -260,13 +302,15 @@ const MRPBill = () => {
   }
 
   }
+
+  //save bill logic
   const saveMRP = async(e, args) => {
     let IsForEst = 0;
     if(args === 'bill'){
-      IsForEst = 1;
+      IsForEst = 0;
     }
     if(args === 'estimate'){
-      IsForEst = 0;
+      IsForEst = 1;
     }
     const isValid = checkValidation();
     
@@ -282,23 +326,31 @@ const MRPBill = () => {
         
           return { STB: e?.StockBarcode, MRP:e?.salePrice };
         })
+
         const body = {
           "Token" : `${atob(tkn)}`,"ReqData":`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"8\",\"BillDetail\":${JSON.stringify(bill_detail)}}]`
         }
 
+        try {
+        
+        setIsLoading(true);
         const response = await axios.post("http://zen/jo/api-lib/App/API_MRPBill", body);
 
         if(response?.status === 200 && response?.data?.Status === '200'){
           setBillNo(response?.data?.Data?.DT[0]?.BillNo);
           setBillSavedFlag(true);
+          setIsLoading(false);
         }else{
           toast.error("Some Error Occured");
+          setIsLoading(false);
         }
-
+      } catch (error) {
+        console.log(error);
+        toast.error('Some Error Occured');
+      }
       }
   }
   }
-
   const checkValidation = () => {
     let isValid = true;
 
@@ -319,6 +371,7 @@ const MRPBill = () => {
     return isValid;
   };
 
+  //next bill button logic
   const saveNextBill = () => {
 
     setJobDetail(null);
@@ -343,14 +396,67 @@ const MRPBill = () => {
 
   }
 
+  //   // Handle scanning
+  //   const handleScan = (decodedText, decodedResult) => {
+  //     setScannedValue(decodedText);
+  //     setScanning(false);
+  //     stopScanning();
+  //     // You can also update jobnoVal or other states as needed here
+  //   };
+  //   //start scan
+  //   const startScanning = () => {
+  //     setScanning(true);
+  //     const html5QrCode = new Html5Qrcode("scanner");
+  //     html5QrCode.start(
+  //       { facingMode: "environment" },
+  //       {
+  //         fps: 10,
+  //         qrbox: { width: 250, height: 250 },
+  //       },
+  //       handleScan,
+  //       handleError
+  //     ).catch((err) => {
+  //       setErrorMsg('Error starting scanner: ' + err);
+  //       setScanning(false);
+  //     });
+  //   };
+  //   //stop scan
+  //   const stopScanning = () => {
+  //     if (scannerRef.current) {
+  //       scannerRef.current.stop();
+  //     }
+  //   };
+  
+  //   //scanning error logic
+  //   const handleError = (error) => {
+  //     setErrorMsg('Scanning error: ' + error);
+  //   };
+
+  //   //useeffect for job scan focus
+  //   useEffect(() => {
+  //     if (scannerRef.current) {
+  //       scannerRef.current.focus();
+  //     }
+  // }, [])
+
+  const handleOpenScanComp = () => {
+    setScanCompFlag(true);
+  }
+  
+
   return (
     <>
-      <div className="container_mrp">
+            {isLoading && (
+                <div className="loader-overlay">
+                    <CircularProgress className='loadingBarManage' />
+                </div>
+            )}
+      { !scanCompFlag && <div className="container_mrp">
 
         <div className="head_mrp">ADD MRP AND PROCCED TO BILL</div>
         
-        <div className="d-flex justify-content-around align-items-center p-2 py-4 flex_Start_mrp d_none_mrp">
-          <div className="d-flex align-items-center ">
+        <div className="d-flex justify-content-around align-items-start p-2 py-4 flex_Start_mrp d_none_mrp">
+          <div className="d-flex align-items-start ">
             <label className="cust_name_title" htmlFor="custtitle">
               CUSTOMER NAME
             </label>
@@ -382,8 +488,8 @@ const MRPBill = () => {
                 <div className="text-danger">{custErrorMsg}</div>
             </div>
           </div>
-          <div className="">
-            <div className=" d-flex flex-column align-items-center ">
+          <div className="currW_mrp">
+            <div className=" d-flex flex-column align-items-start minH_erorr">
               <div>
               <label htmlFor="currency" className="pe-3 cust_name_title">
                 LOCKER
@@ -392,9 +498,9 @@ const MRPBill = () => {
                 name="currency"
                 id="currency"
                 value={selectLocker}
-                className="lock_select"
+                className="lock_select minW_lockSelect"
                 onChange={(e) => handleLockerChange(e)}
-                style={{border:'1px solid #989898'}}
+                style={{border:'1px solid #989898', borderRadius:'8px'}}
               >
                 <option  value="">Select</option>
                 {
@@ -408,7 +514,7 @@ const MRPBill = () => {
             </div>
           </div>
           <div className="">
-            <div className=" d-flex align-items-center ">
+            <div className=" d-flex align-items-start ">
               <label htmlFor="currency" className="pe-3 cust_name_title">
                 CURRENCY
               </label>
@@ -416,9 +522,9 @@ const MRPBill = () => {
                 name="currency"
                 id="currency"
                 value={selectVal}
-                className="lock_select"
+                className="lock_select minW_CurrSelect"
                 onChange={(e) => handleCurrencyChange(e)}
-                style={{border:'1px solid #989898'}}
+                style={{border:'1px solid #989898',  borderRadius:'8px'}}
               >
                 <option  value="">Select</option>
                 {
@@ -459,7 +565,7 @@ const MRPBill = () => {
           ))}
         </ul>
                 )}
-                <div>{custErrorMsg}</div>
+                <div className="text-danger">{custErrorMsg}</div>
             </div>
             <div className="grid-item">
                 <label htmlFor="locker" className="pe-3 cust_name_title">
@@ -479,7 +585,7 @@ const MRPBill = () => {
                     })
                 }
                 </select>
-                <div>{lockerErrorMsg}</div>
+                <div className="text-danger">{lockerErrorMsg}</div>
             </div>
             <div className="grid-item">
                 <label htmlFor="currency" className="pe-3 cust_name_title">
@@ -505,7 +611,7 @@ const MRPBill = () => {
         <div className="w-100 d-flex p-2 minH_mrp">
           <div className="w-25 d-flex flex-column  align-items-start ps-3 w_50_mrp2">
             <div className="scanblock_mrpbill">
-                <img src={scanImg} alt="#scanjob" className="scanJobImg" />
+                <img src={scanImg} alt="#scanjob" className="scanJobImg" onClick={handleOpenScanComp} />
             </div>
             <div className="d-flex justify-content-center align-items-center">
               <input
@@ -598,7 +704,7 @@ const MRPBill = () => {
                     </td>
                   </tr>
                 );
-              }) : <tr><td colSpan={5} align="center">No Jobs Data Present</td></tr>}
+              }) : <tr><td colSpan={5} align="center">No Data Present</td></tr>}
             </tbody>
           </table>
         </div>}
@@ -615,7 +721,10 @@ const MRPBill = () => {
         </>
         }
         </div>
-      </div>
+      </div>}
+      {
+        scanCompFlag && <QRreader setScanCompFlag={setScanCompFlag} />
+      }
     </>
   );
 };
