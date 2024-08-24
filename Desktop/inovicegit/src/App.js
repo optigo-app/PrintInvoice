@@ -12,15 +12,14 @@ function App() {
   console.log("location url 1",window.location?.origin +  window.location.pathname);
   return (
     <>
-       <RouterProvider router={router}/>
-       {/* <BrowserRouter> */}
-       {/* <Routes> */}
-        {/* <Route path={`${window.location?.origin + window.location.pathname}/`} element={<AllDesign />} />
-        <Route path={`${window.location?.origin + window.location.pathname}/qcreport`} element={<QcReport />} /> */}
-        {/* <Route path={`/R50B3/RBIP/`} element={<AllDesign />} />
+       {/* <RouterProvider router={router}/> */}
+       <BrowserRouter>
+       <Routes>
+        <Route path={`/`} element={<AllDesign />} />
+        <Route path={`/R50B3/RBIP/`} element={<AllDesign />} />
         <Route path={`/R50B3/RBIP/qcreport`} element={<QcReport />} />
-       </Routes> */}
-       {/* </BrowserRouter> */}
+       </Routes>
+       </BrowserRouter>
        <ToastContainer />
     </>
   );

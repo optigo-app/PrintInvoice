@@ -33,7 +33,7 @@ const AllDesign = () => {
       return <MRPBill />;
     }
      else {
-      return <AllGrids />;
+      return <ErrorPage />;
     }
   };
 
