@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 import scanImg from "../../assets/img/scanimg.gif";
 import { handleImageError } from "./MRPGlobalFunctions";
+import { useLocation } from "react-router-dom";
 
 
 const MRPBill = () => {
@@ -41,10 +42,18 @@ const MRPBill = () => {
   const [lockerErrorMsg, setLockerErrorMsg] = useState('');
 
 
+  const location = useLocation();
+  const queryParam = location?.search;
+  const params = new URLSearchParams(queryParam);
+
+  // Extract specific parameters
+  const tkn = params.get('tkn');
+  const pid = params.get('pid');
+
   const fetchMRPData = async () => {
     try {
       const url = "http://zen/jo/api-lib/App/API_MRPBill";
-      const token = "9065471700535651";
+      const token = `${atob(tkn)}`;
   
       // Utility function for API requests
       const fetchData = async (mode, setData) => {
@@ -107,8 +116,8 @@ const MRPBill = () => {
     if(jobnoVal !== ''){
         const url = "http://zen/jo/api-lib/App/API_MRPBill";
         const body = JSON.stringify({
-            Token : "9065471700535651",
-            ReqData:`[{\"Token\":\"9065471700535651\",\"Mode\":\"GetJobDeatil\",\"STB\":\"${jobnoVal}\"}]`
+            Token : `${atob(tkn)}`,
+            ReqData:`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"GetJobDeatil\",\"STB\":\"${jobnoVal}\"}]`
         })
         const response = await axios.post(url, body);
         if(response?.status === 200 && response?.data?.Status === '200'){
@@ -274,21 +283,18 @@ const MRPBill = () => {
           return { STB: e?.StockBarcode, MRP:e?.salePrice };
         })
         const body = {
-          "Token" : "9065471700535651","ReqData":`[{\"Token\":\"9065471700535651\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"8\",\"BillDetail\":${JSON.stringify(bill_detail)}}]`
+          "Token" : `${atob(tkn)}`,"ReqData":`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"8\",\"BillDetail\":${JSON.stringify(bill_detail)}}]`
         }
-        console.log(body);
 
         const response = await axios.post("http://zen/jo/api-lib/App/API_MRPBill", body);
 
         if(response?.status === 200 && response?.data?.Status === '200'){
-          console.log(response?.data?.Data?.DT[0]?.BillNo);
           setBillNo(response?.data?.Data?.DT[0]?.BillNo);
           setBillSavedFlag(true);
         }else{
           toast.error("Some Error Occured");
         }
 
-        console.log(response);
       }
   }
   }
@@ -331,6 +337,9 @@ const MRPBill = () => {
     setIsJobPresent(false);
 
     setBillSavedFlag(false);
+
+    setLockerErrorMsg('');
+    setCustErrorMsg('');
 
   }
 
