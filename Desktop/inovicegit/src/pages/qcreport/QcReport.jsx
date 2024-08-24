@@ -598,7 +598,7 @@ const organizeDataByJobId = (data) => {
        
       </div>
 
-      <div className="w-full flex items-center justify-center h-auto">
+      <div className="w-full flex items-start justify-center h-[80vh]   ">
   {loading ? (
     <CircularProgress />
   ) : noData ? (
@@ -618,7 +618,7 @@ const organizeDataByJobId = (data) => {
       sx={{
         boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
         backgroundColor: '#fff !important',
-        height: '60vh !important',
+        height: '70vh !important',
         '& .MuiDataGrid-columnHeaders': {
           fontWeight: 'bold',
           fontSize: '1rem',
