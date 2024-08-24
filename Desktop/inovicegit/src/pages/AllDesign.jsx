@@ -15,6 +15,12 @@ const AllDesign = () => {
 
   // const queryParams = new URLSearchParams(location.search);
   const [loadedComponent, setLoadedComponent] = useState(null);
+
+//   const queryParams = useQueryParams();
+//   const pid= queryParams.get("pid");
+// console.log("pid",pid);
+
+
   const openProject = (searchUrl) => {
     if (searchUrl?.includes("pnm")) {
       return <AllDesignPrint />;
