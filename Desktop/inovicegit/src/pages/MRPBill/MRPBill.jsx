@@ -212,6 +212,7 @@ const MRPBill = () => {
   //input field of add new event logic
   const handleAddNewChange = (e) => {
     setAddNew(e.target.value);
+    console.log("Input value:", e.target.value); // Debugging log
   }
 
   //update price and changes in price logic

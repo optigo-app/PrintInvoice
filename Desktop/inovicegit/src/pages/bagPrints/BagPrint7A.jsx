@@ -387,6 +387,10 @@ const BagPrint7A = ({ queries, headers }) => {
                                             {e?.data?.rd?.Size}
                                           </div>
                                         </div>
+                                        <div className="d-flex align-items-center">
+                                          <div>Sales Rep : &nbsp;</div>
+                                          <div className="fw-bold">{e?.data?.rd?.SalesrepCode}</div>
+                                        </div>
                                         <div className="pe-1 fw-bold">
                                           (
                                           {
@@ -976,6 +980,10 @@ const BagPrint7A = ({ queries, headers }) => {
                                     <div className="fw-bold px-1">
                                       {e?.data?.rd?.Size}
                                     </div>
+                                  </div>
+                                  <div className="d-flex align-items-center">
+                                    <div>Sales Rep : &nbsp;</div>
+                                    <div className="fw-bold">{e?.data?.rd?.SalesrepCode}</div>
                                   </div>
                                   <div className="pe-1 fw-bold">
                                     ({e?.data?.rd?.IsSplits_Quotation_Quantity})
