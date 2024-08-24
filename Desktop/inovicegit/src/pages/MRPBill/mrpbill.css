@@ -72,6 +72,7 @@
     max-width: 1000px;
     border: 1px solid #989898;
     border-radius: 8px;
+    margin-bottom: 0px !important;
   }
   .tableDiv_mrp{
     width: 100%;

@@ -134,7 +134,18 @@ const MRPBill = () => {
 
   //go button logic and job api calling
   const handleGoClick = async() => {
+
+    const areAllSalePricesSet = () => {
+      return jobList.every(job => job.salePrice !== '');
+    };
+
     if(jobnoVal !== ''){
+
+      if (jobList.length > 0 && !areAllSalePricesSet()) {
+        setMsg('Please add sale price for previous jobs before adding new ones.');
+        return;
+      }
+
       try {
         const url = "http://zen/jo/api-lib/App/API_MRPBill";
         const body = JSON.stringify({
@@ -143,6 +154,7 @@ const MRPBill = () => {
         })
         setIsLoading(true);
         const response = await axios.post(url, body);
+        
         if(response?.status === 200 && response?.data?.Status === '200'){
             if(!isEmptyObject(response?.data?.Data)){
                 if(response?.data?.Data?.DT?.length > 0){
@@ -155,16 +167,23 @@ const MRPBill = () => {
                           setIsLoading(false);
                          }else{
                           setJobDetail(response?.data?.Data?.DT)
+                          let newobj = {...response?.data?.Data?.DT[0]};
+                          newobj.salePrice = '';
+                          console.log(jobList);
+                          setJobList((prev) => [...prev, newobj]);
                           setMsg('')
                           setJobnoVal('');
-                          setIsJobPresent(true);
+                          setIsJobPresent(false);
                           setIsLoading(false);
                          }
                     }else{
                       setJobDetail(response?.data?.Data?.DT)
+                      let newobj = {...response?.data?.Data?.DT[0]};
+                      newobj.salePrice = '';
+                      setJobList((prev) => [...prev, newobj]);
                       setMsg('')
                       setJobnoVal('');
-                      setIsJobPresent(true);
+                      setIsJobPresent(false);
                       setIsLoading(false);
 
                     }
@@ -318,39 +337,39 @@ const MRPBill = () => {
     if (!isValid) {
       return; // Stop execution if validation fails
     }
+    // if(jobList?.length > 0){
+    //   let isEveryNot0 = jobList?.every((e) => e?.salePrice !== 0 || e?.salePrice !== '' || e?.salePrice !== null);
+    //   console.log(isEveryNot0, jobList);
+    //   if(isEveryNot0){
 
-    if(jobList?.length > 0){
-      let isEveryNot0 = jobList?.every((e) => e?.salePrice !== 0);
-      if(isEveryNot0){
-
-        const bill_detail = jobList?.map((e) => {
+    //     const bill_detail = jobList?.map((e) => {
         
-          return { STB: e?.StockBarcode, MRP:e?.salePrice };
-        })
+    //       return { STB: e?.StockBarcode, MRP: Number(e?.salePrice) };
+    //     })
 
-        const body = {
-          "Token" : `${atob(tkn)}`,"ReqData":`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"8\",\"BillDetail\":${JSON.stringify(bill_detail)}}]`
-        }
+    //     const body = {
+    //       "Token" : `${atob(tkn)}`,"ReqData":`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"8\",\"BillDetail\":${JSON.stringify(bill_detail)}}]`
+    //     }
 
-        try {
+    //     try {
         
-        setIsLoading(true);
-        const response = await axios.post("http://zen/jo/api-lib/App/API_MRPBill", body);
+    //     setIsLoading(true);
+    //     const response = await axios.post("http://zen/jo/api-lib/App/API_MRPBill", body);
 
-        if(response?.status === 200 && response?.data?.Status === '200'){
-          setBillNo(response?.data?.Data?.DT[0]?.BillNo);
-          setBillSavedFlag(true);
-          setIsLoading(false);
-        }else{
-          toast.error("Some Error Occured");
-          setIsLoading(false);
-        }
-      } catch (error) {
-        console.log(error);
-        toast.error('Some Error Occured');
-      }
-      }
-  }
+    //     if(response?.status === 200 && response?.data?.Status === '200'){
+    //       setBillNo(response?.data?.Data?.DT[0]?.BillNo);
+    //       setBillSavedFlag(true);
+    //       setIsLoading(false);
+    //     }else{
+    //       toast.error("Some Error Occured");
+    //       setIsLoading(false);
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //     toast.error('Some Error Occured');
+    //   }
+    //   }
+    // }
   }
   const checkValidation = () => {
     let isValid = true;
@@ -609,7 +628,7 @@ const MRPBill = () => {
             </div>
         </div>
 
-        <div className="w-100 d-flex p-2 minH_mrp">
+        <div className="w-100 d-flex align-items-baseline p-2 minH_mrp">
           <div className="w-25 d-flex flex-column  align-items-start ps-3 w_50_mrp2">
             <div className="scanblock_mrpbill">
                 <img src={scanImg} alt="#scanjob" className="scanJobImg" onClick={handleOpenScanComp} />
@@ -627,7 +646,7 @@ const MRPBill = () => {
             </div>
             <div className="text-danger px-2 msg_h_mrpbill">{msg}</div>
           </div>
-          { isJobPresent && <div className="w-50 d-flex flex-wrap center_jl_mrp w_75_mrp2">
+          {/* { isJobPresent && <div className="w-50 d-flex flex-wrap center_jl_mrp w_75_mrp2">
             {jobDetail?.map((e, i) => {
               return (
                 <div key={i}>
@@ -650,10 +669,8 @@ const MRPBill = () => {
                 </div>
               );
             })}
-          </div>}
-        </div>
-
-        { billSavedFlag !== true && <div className="tableDiv_mrp">
+          </div>} */}
+            { billSavedFlag !== true && <div className="tableDiv_mrp">
           <table className="table max_w_table">
             <thead className="table-head">
               <tr>
@@ -662,6 +679,63 @@ const MRPBill = () => {
                 <td width={520} style={{ borderRight: "1px solid #989898", backgroundColor: "#e8e8e8", }} > Description </td>
                 <td width={120} style={{ borderRight: "1px solid #989898", backgroundColor: "#e8e8e8", }} > Sale Price </td>
                 {/* <td width={90} style={{borderRight:'1px solid #989898', backgroundColor:'#e8e8e8'}}>Edit</td> */}
+                <td width={90} style={{ backgroundColor: "#e8e8e8" }}> Delete </td>
+              </tr>
+            </thead>
+            <tbody className="table-body">
+              {jobList?.length > 0 ? jobList?.map((e, i) => {
+                return (
+                  <tr key={i}>
+                    <td width={90} className="pd_0" align="center" style={{ borderRight: "1px solid #989898" }} >
+                      1
+                    </td>
+                    <td width={90} align="center" className="pd_0" style={{ borderRight: "1px solid #989898" }} >
+                      <img src={e?.DesignImage} alt="#img" className="tableImg" onError={handleImageError} />
+                    </td>
+                    <td width={520} style={{ borderRight: "1px solid #989898" }} className="pd_0" >
+                      {e?.Description}
+                    </td>
+                    <td width={120} style={{ borderRight: "1px solid #989898" }}  className="pd_0">
+                      <input
+                        type="number"
+                        value={e?.salePrice}
+                        autoFocus={e?.StockBarcode === jobDetail[0]?.StockBarcode ? true : false}
+                        onChange={(event) => handlePriceChange(event, e)}
+                        style={{
+                          width: "100%",
+                          border: "none",
+                          textAlign: "center",
+                          backgroundColor: "transparent",
+                          border:'1px solid #989898'
+                        }}
+                      />
+                    </td>
+                    {/* <td width={90} align="center" style={{borderRight:'1px solid #989898', verticalAlign:'center'}}>
+                            <EditIcon titleAccess="update" sx={{color:'grey', cursor:'pointer'}} />
+                        </td> */}
+                    <td width={90} align="center" className="pd_0">
+                      <DeleteIcon
+                        titleAccess="delete"
+                        sx={{ color: "grey", cursor: "pointer" }}
+                        onClick={() => handleJobDelete(e)} 
+                      />
+                    </td>
+                  </tr>
+                );
+              }) : <tr><td colSpan={5} align="center">No Data Present</td></tr>}
+            </tbody>
+          </table>
+        </div>}
+        </div>
+
+        {/* { billSavedFlag !== true && <div className="tableDiv_mrp">
+          <table className="table max_w_table">
+            <thead className="table-head">
+              <tr>
+                <td width={90} style={{ borderRight: "1px solid #989898", backgroundColor: "#e8e8e8", }} > SrNo </td>
+                <td width={90} style={{ borderRight: "1px solid #989898", backgroundColor: "#e8e8e8", }} > Image </td>
+                <td width={520} style={{ borderRight: "1px solid #989898", backgroundColor: "#e8e8e8", }} > Description </td>
+                <td width={120} style={{ borderRight: "1px solid #989898", backgroundColor: "#e8e8e8", }} > Sale Price </td>
                 <td width={90} style={{ backgroundColor: "#e8e8e8" }}> Delete </td>
               </tr>
             </thead>
@@ -693,9 +767,6 @@ const MRPBill = () => {
                         }}
                       />
                     </td>
-                    {/* <td width={90} align="center" style={{borderRight:'1px solid #989898', verticalAlign:'center'}}>
-                            <EditIcon titleAccess="update" sx={{color:'grey', cursor:'pointer'}} />
-                        </td> */}
                     <td width={90} align="center" className="pd_0">
                       <DeleteIcon
                         titleAccess="delete"
@@ -708,7 +779,7 @@ const MRPBill = () => {
               }) : <tr><td colSpan={5} align="center">No Data Present</td></tr>}
             </tbody>
           </table>
-        </div>}
+        </div>} */}
 
         { billSavedFlag !== true && <div className="w-100 d-flex justify-content-center align-items-center mt-1">
           <div className="continue_btn_bill mx-2" disabled={jobList?.length === 0 ? true : false} onClick={(e) => saveMRP(e, 'bill')}>SAVE BILL</div>
