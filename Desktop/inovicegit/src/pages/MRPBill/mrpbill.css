@@ -323,6 +323,24 @@
  
 }
 
+@media screen and (max-width:876px){
+  .d_none_mrp{
+    display: none !important;
+}
+.d_unset_mrp{
+    display: unset !important;
+}
+.pd10_mrp{
+  padding: 10px;
+}
+.d_grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important; /* 2 columns */
+  gap: 1rem !important; /* Gap between grid items */
+}
+
+}
+
 @media screen and (max-width:791px){ 
     .cust_name_title {
         padding-right: 10px;
@@ -381,7 +399,7 @@
       }
 
 }
-@media screen and (max-width:500px){
+@media screen and (max-width:500px), (max-width:576px), (max-width:620px){
     
 .w_75_mrp2{
     width: 75% !important;
@@ -443,7 +461,11 @@
 
 }
 @media screen and (max-width:320px){
-    
+  .d_grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important; /* 2 columns */
+    gap: 0.1rem !important; /* Gap between grid items */
+  }
 }
 
 .loader-overlay {

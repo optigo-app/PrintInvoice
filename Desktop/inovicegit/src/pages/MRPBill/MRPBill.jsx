@@ -538,7 +538,7 @@ const MRPBill = () => {
         </div>
 
         <div className="p-1 d_grid d_unset_mrp">
-            <div className="grid-item">
+            <div className="grid-item pd10_mrp">
                 <label className="cust_name_title pe-3" htmlFor="custtitle">
                 CUSTOMER NAME
                 </label>
@@ -567,7 +567,7 @@ const MRPBill = () => {
                 )}
                 <div className="text-danger">{custErrorMsg}</div>
             </div>
-            <div className="grid-item">
+            <div className="grid-item pd10_mrp">
                 <label htmlFor="locker" className="pe-3 cust_name_title">
                 LOCKER
                 </label>
@@ -587,7 +587,7 @@ const MRPBill = () => {
                 </select>
                 <div className="text-danger">{lockerErrorMsg}</div>
             </div>
-            <div className="grid-item">
+            <div className="grid-item pd10_mrp">
                 <label htmlFor="currency" className="pe-3 cust_name_title">
                 CURRENCY
                 </label>
@@ -713,7 +713,7 @@ const MRPBill = () => {
           <div className="continue_btn_bill mx-2" disabled={jobList?.length === 0 ? true : false} onClick={(e) => saveMRP(e, 'bill')}>SAVE BILL</div>
           <div className="continue_btn_est mx-2" disabled={jobList?.length === 0 ? true : false} onClick={(e) => saveMRP(e, 'estimate')}>SAVE ESTIMATE</div>
         </div>}
-        <div className="d-flex flex-column justify-content-center align-items-center w-100">
+        <div className="d-flex flex-column justify-content-center align-items-center w-100 mb-4 pb-2">
         { billSavedFlag === true &&
         <>
           <div className="generatedBill">Generate Bill No : {billNo}</div>
