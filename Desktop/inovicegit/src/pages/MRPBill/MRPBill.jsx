@@ -71,6 +71,7 @@ const MRPBill = () => {
   // Extract specific parameters
   const tkn = params.get('tkn');
   const pid = params.get('pid');
+  const cid = params.get('cid');
 
 
   //getting intial main data from api
@@ -180,15 +181,20 @@ const MRPBill = () => {
 
     let isCustValid = false;
 
-    customerData?.forEach((e) => {
-      console.log(e?.id === custId && e?.TypoLabel?.toLowerCase() === searchVal?.toLowerCase(), e?.id, custId);
-      if(e?.id === custId && e?.TypoLabel?.toLowerCase() === searchVal?.toLowerCase()){
-        isCustValid = true;
-        setCustErrorMsg('');
-      }else{
-        setCustErrorMsg('Invalid Customer');
-      }
-    })
+    if(cid === undefined){
+      customerData?.forEach((e) => {
+        if(e?.id === custId && e?.TypoLabel?.toLowerCase() === searchVal?.toLowerCase()){
+          isCustValid = true;
+          setCustErrorMsg('');
+        }else{
+          setCustErrorMsg('Invalid Customer');
+        }
+      })
+    }else{
+      isCustValid = true;
+      setCustErrorMsg('');
+    }
+
     if(jobnoVal !== '' && isValid && isCustValid){
 
       if (jobList.length > 0 && !areAllSalePricesSet()) {
@@ -569,11 +575,26 @@ const MRPBill = () => {
     setScanCompFlag(true);
   }
 
+  //print url set up
   const handlePrintUrl = () => {
 
     window.open(printUrl, '_blank');
 
   }
+
+  useEffect(() => {
+    if(cid){
+      customerData?.forEach((e) => {
+        if(e?.id === Number(atob(cid))){
+          setSearchVal(e?.TypoLabel);
+          setSearchCust(e?.TypoLabel);
+          setCustID(Number(atob(cid)));
+          setDisableSelect(true);
+        }
+      })
+    }
+  },[cid, customerData])
+
   return (
     <>
             {isLoading && (
