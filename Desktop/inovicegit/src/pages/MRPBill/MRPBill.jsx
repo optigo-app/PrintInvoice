@@ -50,6 +50,9 @@ const MRPBill = () => {
   const [currErrorMsg, setCurrErrorMsg] = useState('');
 
   const [disableSelect, setDisableSelect] = useState(false);
+  const [disableSelect2, setDisableSelect2] = useState(false);
+  const [disableSelect3, setDisableSelect3] = useState(false);
+  const [disableSelect4, setDisableSelect4] = useState(false);
 
   //scan
   const [scannedValue, setScannedValue] = useState('');
@@ -169,6 +172,12 @@ const MRPBill = () => {
   const handleJobNoChange = (e) => {
     setJobnoVal(e.target.value);
     setMsg('');
+
+  }
+  const handleKeyDownEnter = (e) => {
+    if (e.key === 'Enter') {
+      handleGoClick(); // Trigger the Go button's click logic
+    }
   }
 
   //go button logic and job api calling
@@ -220,12 +229,18 @@ const MRPBill = () => {
                           setJobDetail([]);
                           setIsLoading(false);
                           setDisableSelect(true);
+                          setDisableSelect2(true);
+                          setDisableSelect3(true);
+                          setDisableSelect4(true);
                          }else{
                           setJobDetail(response?.data?.Data?.DT)
                           let newobj = {...response?.data?.Data?.DT[0]};
                           newobj.salePrice = '';
                           setJobList((prev) => [...prev, newobj]);
                           setDisableSelect(true);
+                          setDisableSelect2(true);
+                          setDisableSelect3(true);
+                          setDisableSelect4(true);
                           setMsg('')
                           setJobnoVal('');
                           setIsJobPresent(false);
@@ -243,6 +258,9 @@ const MRPBill = () => {
                       setJobnoVal('');
                       setIsJobPresent(false);
                       setDisableSelect(true);
+                      setDisableSelect2(true);
+                      setDisableSelect3(true);
+                      setDisableSelect4(true);
                       setIsLoading(false);
 
                     }
@@ -740,7 +758,7 @@ const MRPBill = () => {
                 value={selectLocker}
                 className="form-select w-100 b1_9898px"
                 onChange={(e) => handleLockerChange(e)}
-                disabled={disableSelect}
+                disabled={disableSelect2}
                 >
                   <option  value="">Select</option>
                 {
@@ -763,6 +781,7 @@ const MRPBill = () => {
                 value={selectVal}
                 className="form-select w-100 b1_9898px"
                 onChange={(e) => handleCurrencyChange(e)}
+                disabled={disableSelect3}
                 >
                   <option  value="">Select</option>
                 {
@@ -785,6 +804,7 @@ const MRPBill = () => {
                 value={selectBook}
                 className="form-select w-100 b1_9898px"
                 onChange={(e) => handleBookChange(e)}
+                disabled={disableSelect4}
                 >
                   <option  value="">Select</option>
                 {
@@ -811,6 +831,7 @@ const MRPBill = () => {
                 value={jobnoVal}
                 autoFocus={true}
                 onChange={(e) => handleJobNoChange(e)}
+                onKeyDown={(e) => handleKeyDownEnter(e)}
                 disabled={disableInp ? true : false}
               />
               <button className="btn_go" disabled={jobnoVal === ''} onClick={() => handleGoClick()}>GO</button>
@@ -960,7 +981,7 @@ const MRPBill = () => {
         <div className="d-flex flex-column justify-content-center align-items-center w-100 mb-4 pb-2">
         { billSavedFlag === true &&
         <>
-          <div className="generatedBill">Generate Bill No : {billNo} <span><PrintIcon titleAccess="click here for Print" style={{cursor:'pointer'}} onClick={() => handlePrintUrl()} /></span></div>
+          <div className="generatedBill ">Bill No : {billNo} Generated <span className="ps-1"><PrintIcon titleAccess="click here for Print" style={{cursor:'pointer'}} onClick={() => handlePrintUrl()} /></span></div>
           <button className="continue_btn_next mx-2"  onClick={(e) => saveNextBill(e, 'next')}>NEXT BILL</button>
         </>
         }
