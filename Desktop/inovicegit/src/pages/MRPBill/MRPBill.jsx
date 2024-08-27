@@ -183,6 +183,7 @@ const MRPBill = () => {
     customerData?.forEach((e) => {
       if(e?.custId === custId && e?.TypoLabel?.toLowerCase() === searchVal?.toLowerCase()){
         isCustValid = true;
+        setCustErrorMsg('');
       }else{
         setCustErrorMsg('Invalid Customer');
       }
@@ -471,32 +472,32 @@ const MRPBill = () => {
   const checkValidation = () => {
     let isValid = true;
 
-    // if (!custId && searchVal !== '') {
-    //   setCustErrorMsg('Customer is required');
-    //   isValid = false;
-    // } else {
-    //   setCustErrorMsg('');
-    // }
     if (!custId && searchVal !== '') {
-      const matchedCustomer = customerData?.find(
-        (customer) => customer?.TypoLabel?.toLowerCase() === searchVal?.toLowerCase()
-      );
-  
-      // If no match is found or the match does not align with the customer ID
-      if (!matchedCustomer || matchedCustomer?.id !== custId) {
-        setCustErrorMsg('Invalid customer');
-        isValid = false;
-      } else {
-        // If valid, set the customer ID
-        setCustID(matchedCustomer?.id);
-        setCustErrorMsg('');
-      }
-    } else if (!custId && searchVal === '') {
       setCustErrorMsg('Customer is required');
       isValid = false;
     } else {
       setCustErrorMsg('');
     }
+    // if (!custId && searchVal !== '') {
+    //   const matchedCustomer = customerData?.find(
+    //     (customer) => customer?.TypoLabel?.toLowerCase() === searchVal?.toLowerCase()
+    //   );
+  
+    //   // If no match is found or the match does not align with the customer ID
+    //   if (!matchedCustomer || matchedCustomer?.id !== custId) {
+    //     setCustErrorMsg('Invalid customer');
+    //     isValid = false;
+    //   } else {
+    //     // If valid, set the customer ID
+    //     setCustID(matchedCustomer?.id);
+    //     setCustErrorMsg('');
+    //   }
+    // } else if (!custId && searchVal === '') {
+    //   setCustErrorMsg('Customer is required');
+    //   isValid = false;
+    // } else {
+    //   setCustErrorMsg('');
+    // }
 
     if (!lockerId) {
       setLockerErrorMsg('Locker is required');
