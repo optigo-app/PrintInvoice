@@ -178,17 +178,17 @@ const MRPBill = () => {
     };
     const isValid = checkValidation();
 
-    const isCustValid = false;
+    let isCustValid = false;
 
     customerData?.forEach((e) => {
-      if(e?.custId === custId && e?.TypoLabel?.toLowerCase() === searchVal?.toLowerCase()){
+      console.log(e?.id === custId && e?.TypoLabel?.toLowerCase() === searchVal?.toLowerCase(), e?.id, custId);
+      if(e?.id === custId && e?.TypoLabel?.toLowerCase() === searchVal?.toLowerCase()){
         isCustValid = true;
         setCustErrorMsg('');
       }else{
         setCustErrorMsg('Invalid Customer');
       }
     })
-    
     if(jobnoVal !== '' && isValid && isCustValid){
 
       if (jobList.length > 0 && !areAllSalePricesSet()) {
