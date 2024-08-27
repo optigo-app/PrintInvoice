@@ -114,6 +114,37 @@
     background-color:  rgb(223, 169, 54);
   }
 
+  .continue_btn_continue{
+    height: 40px;
+    color: white;
+    background-color: #ff540f;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .continue_btn_continue:hover{
+    background-color:  #ff5f20;
+  }
+  .continue_btn_back{
+    height: 40px;
+    color: white;
+    background-color: black;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .continue_btn_back:hover{
+    background-color:  black;
+  }
+
   .continue_btn_cen{
     height: 40px;
     color: white;

@@ -15,12 +15,11 @@ import { CircularProgress } from "@mui/material";
 import PrintIcon from '@mui/icons-material/Print';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 
-const ConfirmDialog = ({ open, onClose, onConfirm, actionType  }) => (
+const ConfirmDialog = ({ open, onClose, onConfirm  }) => (
   <Dialog open={open} onClose={onClose}>
-    {console.log(actionType)}
     <DialogTitle>Please Confirm</DialogTitle>
     <DialogContent>
-      <Typography variant="body1">Are you sure you want to proceed  with {actionType}?</Typography>
+      <Typography variant="body1">Are you sure you want to proceed ?</Typography>
     </DialogContent>
     <DialogActions>
       <Button onClick={onClose} variant="contained" color="error">
@@ -89,6 +88,8 @@ const MRPBill = () => {
   const [disableSelect2, setDisableSelect2] = useState(false);
   const [disableSelect3, setDisableSelect3] = useState(false);
   const [disableSelect4, setDisableSelect4] = useState(false);
+
+  const [editableFlag, setEditTableFlag] = useState(false);
 
   //scan
   const [scannedValue, setScannedValue] = useState('');
@@ -683,6 +684,14 @@ const MRPBill = () => {
     setOpen(false);
   };
 
+  const handleContinue = () => {
+    setEditTableFlag(true); // Disable fields
+  };
+
+  const handleBack = () => {
+    setEditTableFlag(false); // Enable fields
+  };
+
 
   return (
     <>
@@ -926,7 +935,7 @@ const MRPBill = () => {
               );
             })}
           </div>} */}
-            { billSavedFlag !== true && <div className="tableDiv_mrp">
+            { billSavedFlag !== true && <div className="tableDiv_mrp d-flex flex-column">
           <table className="table max_w_table">
             <thead className="table-head">
               <tr>
@@ -964,6 +973,7 @@ const MRPBill = () => {
                           backgroundColor: "transparent",
                           border:'1px solid #989898'
                         }}
+                        disabled={editableFlag}
                       />
                     </td>
                     {/* <td width={90} align="center" style={{borderRight:'1px solid #989898', verticalAlign:'center'}}>
@@ -981,6 +991,13 @@ const MRPBill = () => {
               }) : <tr><td colSpan={5} align="center">No Data Present</td></tr>}
             </tbody>
           </table>
+          <div className="w-100 d-flex justify-content-end align-items-center my-1" style={{ maxWidth: '1000px' }}>
+            {!editableFlag ? (
+              <button className="continue_btn_continue" onClick={handleContinue}>Continue</button>
+            ) : (
+              <button className="continue_btn_back" onClick={handleBack}>Back</button>
+            )}
+          </div>
         </div>}
         </div>
 
@@ -1041,8 +1058,8 @@ const MRPBill = () => {
         <div className="w-100 d-flex justify-content-center align-items-center mt-1">
           {/* <button className="continue_btn_bill mx-2" disabled={jobList?.length === 0 ? true : false} onClick={(e) => saveMRP(e, 'bill')}>SAVE BILL</button>
           <button className="continue_btn_est mx-2" disabled={jobList?.length === 0 ? true : false} onClick={(e) => saveMRP(e, 'estimate')}>SAVE ESTIMATE</button> */}
-          <button className="continue_btn_bill mx-2" disabled={jobList?.length === 0 ? true : false} onClick={() => handleClickOpen('bill')}>SAVE BILL</button>
-          <button className="continue_btn_est mx-2" disabled={jobList?.length === 0 ? true : false}  onClick={() => handleClickOpen('estimate')}>SAVE ESTIMATE</button>
+          { editableFlag ? <button className="continue_btn_bill mx-2" disabled={jobList?.length === 0 ? true : false} onClick={() => handleClickOpen('bill')}>SAVE BILL</button> : <div style={{height:'40px'}}></div>}
+          { editableFlag ? <button className="continue_btn_est mx-2" disabled={jobList?.length === 0 ? true : false}  onClick={() => handleClickOpen('estimate')}>SAVE ESTIMATE</button> : <div style={{height:'40px'}}></div>}
         </div>
         <div> <ConfirmDialog open={open} onClose={handleClose} onConfirm={() => handleConfirm(actionType)} /></div>
         {/* <button className="continue_btn_cen mx-2" onClick={() => saveNextBill()}>CANCEL ALL</button> */}
