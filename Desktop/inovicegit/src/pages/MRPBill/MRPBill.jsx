@@ -43,6 +43,7 @@ const MRPBill = () => {
   
   const [custErrorMsg, setCustErrorMsg] = useState('');
   const [lockerErrorMsg, setLockerErrorMsg] = useState('');
+  const [currErrorMsg, setCurrErrorMsg] = useState('');
 
   //scan
   const [scannedValue, setScannedValue] = useState('');
@@ -138,8 +139,8 @@ const MRPBill = () => {
     const areAllSalePricesSet = () => {
       return jobList.every(job => job.salePrice !== '');
     };
-
-    if(jobnoVal !== ''){
+    const isValid = checkValidation();
+    if(jobnoVal !== '' && isValid){
 
       if (jobList.length > 0 && !areAllSalePricesSet()) {
         setMsg('Please add sale price for previous jobs before adding new ones.');
@@ -154,7 +155,7 @@ const MRPBill = () => {
         })
         setIsLoading(true);
         const response = await axios.post(url, body);
-        
+        console.log(response);
         if(response?.status === 200 && response?.data?.Status === '200'){
             if(!isEmptyObject(response?.data?.Data)){
                 if(response?.data?.Data?.DT?.length > 0){
@@ -388,6 +389,13 @@ const MRPBill = () => {
       setLockerErrorMsg('');
     }
 
+    if (!currencyId) {
+      setCurrErrorMsg('Currency is required');
+      isValid = false;
+    } else {
+      setCurrErrorMsg('');
+    }
+
     return isValid;
   };
 
@@ -475,7 +483,7 @@ const MRPBill = () => {
 
         <div className="head_mrp">ADD MRP AND PROCCED TO BILL</div>
         
-        <div className="d-flex justify-content-around align-items-start p-2 py-4 flex_Start_mrp d_none_mrp">
+        <div className="d-flex justify-content-between align-items-start p-2 py-4 flex_Start_mrp d_none_mrp">
           <div className="d-flex align-items-start ">
             <label className="cust_name_title" htmlFor="custtitle">
               CUSTOMER NAME
@@ -534,7 +542,8 @@ const MRPBill = () => {
             </div>
           </div>
           <div className="">
-            <div className=" d-flex align-items-start ">
+            <div className=" d-flex flex-column align-items-start ">
+              <div>
               <label htmlFor="currency" className="pe-3 cust_name_title">
                 CURRENCY
               </label>
@@ -553,6 +562,8 @@ const MRPBill = () => {
                     })
                 }
               </select>
+              </div>
+              <div className="lockerErrorMsg_mrp text-danger">{currErrorMsg}</div>
             </div>
           </div>
         </div>
@@ -631,7 +642,8 @@ const MRPBill = () => {
         <div className="w-100 d-flex align-items-baseline p-2 minH_mrp">
           <div className="w-25 d-flex flex-column  align-items-start ps-3 w_50_mrp2">
             <div className="scanblock_mrpbill">
-                <img src={scanImg} alt="#scanjob" className="scanJobImg" onClick={handleOpenScanComp} />
+                {/* <img src={scanImg} alt="#scanjob" className="scanJobImg" onClick={handleOpenScanComp} /> */}
+                <img src={scanImg} alt="#scanjob" className="scanJobImg" />
             </div>
             <div className="d-flex justify-content-center align-items-center">
               <input
