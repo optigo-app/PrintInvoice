@@ -322,6 +322,12 @@ const MRPBill = () => {
         customer?.TypoLabel?.toLowerCase()?.includes(searchValue?.toLowerCase())
       );
       setFilteredCustomers(filtered);
+      if (filtered?.length === 1 && filtered[0]?.TypoLabel?.toLowerCase() === searchValue?.toLowerCase()) {
+        setSearchCust(filtered[0]?.TypoLabel);
+        setSearchVal(filtered[0]?.TypoLabel);
+        setCustID(filtered[0]?.id);
+        setFilteredCustomers([]); // Hide the dropdown
+      }
     } 
     else {
       setFilteredCustomers([]);
@@ -429,9 +435,16 @@ const MRPBill = () => {
   const checkValidation = () => {
     let isValid = true;
 
-    if (!custId) {
+    if (!custId && searchVal !== '') {
       setCustErrorMsg('Customer is required');
       isValid = false;
+      console.log(customerData, searchVal);
+      customerData?.map((e) => {
+        if(e?.TypoLabel?.toLowerCase() !== searchVal?.toLowerCase()){
+          setCustErrorMsg('Customer is required');
+          isValid = false;
+        }
+      })
     } else {
       setCustErrorMsg('');
     }
