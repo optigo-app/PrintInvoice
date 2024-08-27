@@ -478,26 +478,6 @@ const MRPBill = () => {
     } else {
       setCustErrorMsg('');
     }
-    // if (!custId && searchVal !== '') {
-    //   const matchedCustomer = customerData?.find(
-    //     (customer) => customer?.TypoLabel?.toLowerCase() === searchVal?.toLowerCase()
-    //   );
-  
-    //   // If no match is found or the match does not align with the customer ID
-    //   if (!matchedCustomer || matchedCustomer?.id !== custId) {
-    //     setCustErrorMsg('Invalid customer');
-    //     isValid = false;
-    //   } else {
-    //     // If valid, set the customer ID
-    //     setCustID(matchedCustomer?.id);
-    //     setCustErrorMsg('');
-    //   }
-    // } else if (!custId && searchVal === '') {
-    //   setCustErrorMsg('Customer is required');
-    //   isValid = false;
-    // } else {
-    //   setCustErrorMsg('');
-    // }
 
     if (!lockerId) {
       setLockerErrorMsg('Locker is required');
@@ -690,7 +670,7 @@ const MRPBill = () => {
           </div>
         </div> */}
 
-        <div className="p-1 d_grid">
+        <div className="p-1 px-4 d_grid">
             <div className="grid-item pd10_mrp">
                 <label className="cust_name_title pe-3" htmlFor="custtitle">
                 CUSTOMER NAME
