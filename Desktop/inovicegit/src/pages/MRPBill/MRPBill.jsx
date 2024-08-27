@@ -58,6 +58,8 @@ const MRPBill = () => {
   const scannerRef = useRef(null);
   const [scanCompFlag, setScanCompFlag] = useState(false);
 
+  const [printUrl, setPrintUrl] = useState(null);
+
   const [isLoading, setIsLoading] = useState(false);
 
   const location = useLocation();
@@ -311,12 +313,13 @@ const MRPBill = () => {
     setCustErrorMsg('');
   };
   const handleSearchCustomer = (val) => {
+    console.log(val);
     let searchValue = val?.toLowerCase();
     setSearchCust(val);
     setSearchVal(val);
     if (searchValue) {
       const filtered = customerData?.filter(customer =>
-        customer?.TypoLabel?.toLowerCase()?.includes(searchValue.toLowerCase())
+        customer?.TypoLabel?.toLowerCase()?.includes(searchValue?.toLowerCase())
       );
       setFilteredCustomers(filtered);
     } 
@@ -409,6 +412,7 @@ const MRPBill = () => {
           console.log(response);
         if(response?.status === 200 && response?.data?.Status === '200'){
           setBillNo(response?.data?.Data?.DT[0]?.BillNo);
+          setPrintUrl(atob(response?.data?.Data?.DT[0]?.PrintUrl));
           setBillSavedFlag(true);
           setIsLoading(false);
         }else{
@@ -521,8 +525,10 @@ const MRPBill = () => {
     setScanCompFlag(true);
   }
 
-  const handlePrintUrl = () => {
-    
+  const handlePrintUrl = (billno) => {
+
+    window.open(printUrl, '_blank');
+
   }
   return (
     <>
@@ -874,14 +880,14 @@ const MRPBill = () => {
         </div>} */}
 
         { billSavedFlag !== true && <div className="w-100 d-flex justify-content-center align-items-center mt-1">
-          <div className="continue_btn_bill mx-2" disabled={jobList?.length === 0 ? true : false} onClick={(e) => saveMRP(e, 'bill')}>SAVE BILL</div>
-          <div className="continue_btn_est mx-2" disabled={jobList?.length === 0 ? true : false} onClick={(e) => saveMRP(e, 'estimate')}>SAVE ESTIMATE</div>
+          <button className="continue_btn_bill mx-2" disabled={jobList?.length === 0 ? true : false} onClick={(e) => saveMRP(e, 'bill')}>SAVE BILL</button>
+          <button className="continue_btn_est mx-2" disabled={jobList?.length === 0 ? true : false} onClick={(e) => saveMRP(e, 'estimate')}>SAVE ESTIMATE</button>
         </div>}
         <div className="d-flex flex-column justify-content-center align-items-center w-100 mb-4 pb-2">
         { billSavedFlag === true &&
         <>
-          <div className="generatedBill">Generate Bill No : {billNo} <span><PrintIcon titleAccess="print" onClick={() => handlePrintUrl()} /></span></div>
-          <div className="continue_btn_next mx-2"  onClick={(e) => saveNextBill(e, 'next')}>NEXT BILL</div>
+          <div className="generatedBill">Generate Bill No : {billNo} <span><PrintIcon titleAccess="print" onClick={() => handlePrintUrl(billNo)} /></span></div>
+          <button className="continue_btn_next mx-2"  onClick={(e) => saveNextBill(e, 'next')}>NEXT BILL</button>
         </>
         }
         </div>
