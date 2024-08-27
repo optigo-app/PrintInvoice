@@ -596,6 +596,12 @@ const MRPBill = () => {
     }
   },[cid, customerData])
 
+  useEffect(() => {
+    if(jobList?.length === 0){
+      setDisableSelect(false);
+    }
+  },[jobList])
+
   return (
     <>
             {isLoading && (
