@@ -62,6 +62,8 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
     diamondHandling: 0,
     secondaryMetal: [],
     fullnfinaltotal: 0,
+    totalGrossWt:0,
+    totalNetWt:0,
   });
 
   const [totalss, setTotalss] = useState({
@@ -70,6 +72,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
     totalPcs: 0,
     SettingAmount: 0,
   });
+  
 
 
   const loadData = (data) => {
@@ -108,9 +111,13 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
     let jobWiseMinusFindigWt = 0;
     let SettingAmount = datas?.mainTotal?.diamonds?.SettingAmount + datas?.mainTotal?.colorstone?.SettingAmount;
     let fullnfinaltotal = 0;
+    let total_grosswt = 0;
+    let total_netwt = 0;
 
     let pcsCounts = []
     datas?.resultArray?.map((e, i) => {
+      total_grosswt += e?.grosswt;
+      total_netwt += e?.NetWt ;
       let findGroups = pcsCounts?.findIndex((ele, ind) => ele?.GroupJob === e?.GroupJob);
       if (findGroups === -1) {
         pcsCounts?.push({ GroupJob: e?.GroupJob, count: 1 });
@@ -336,6 +343,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       fullnfinaltotal += ele?.Amount;
     });
     fullnfinaltotal += diamondHandling + SettingAmount;
+    
     otherCharges?.forEach((ele, ind) => {
       fullnfinaltotal += +ele?.value;
     });
@@ -365,7 +373,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
     setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, SettingAmount: SettingAmount, });
     setMainData({
       ...mainData, resultArr: resultArr, findings: findings, diamonds: diamonds, colorStones: colorStones,
-      miscs: miscs, otherCharges: otherCharges, misc2: misc2, labour: labour, diamondHandling: diamondHandling, secondaryMetal: secondaryMetal, labours: labours, fullnfinaltotal: fullnfinaltotal
+      miscs: miscs, otherCharges: otherCharges, misc2: misc2, labour: labour, diamondHandling: diamondHandling, secondaryMetal: secondaryMetal, labours: labours, fullnfinaltotal: fullnfinaltotal, totalGrossWt:total_grosswt, totalNetWt:total_netwt
     });
   };
 
@@ -417,7 +425,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       </div>
       {/* header */}
       {headerData?.IsEinvoice !== 1 ?
-        <><div className={` ${style?.headerTitle}`}>{headerData?.PrintHeadLabel}</div>
+        <><div className={` ${style?.headerTitle} `}>{headerData?.PrintHeadLabel}</div>
           <div className={`${style2.companyDetails} ${style?.head_line_invp1011} `}>
             <div className={`${style2.companyhead} p-2 ${style?.head_line_invp1011}`}>
               <div style={{ fontWeight: "bold" }} className={style?.companyFUllnameInvp11}>
@@ -437,7 +445,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
               </div>
               <div>{headerData?.MSME === '' ? '' : 'MSME - ' } {headerData?.MSME} </div>
             </div>
-            <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100">
+            <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100 fsremark_10_invp1011">
               {isImageWorking && (headerData?.PrintLogo !== "" &&
                 <img src={headerData?.PrintLogo} alt=""
                   className='w-100 h-auto ms-auto d-block object-fit-contain'
@@ -461,7 +469,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       </div>}
 
       <div className="border border-black d-flex">
-        <div className="col-4 px-2 border-end border-black">
+        <div className="col-4 px-2 border-end border-black fsremark_10_invp1011">
           <p>{headerData?.lblBillTo}</p>
           <p className="fw-bold pe-2">{headerData?.customerfirmname}</p>
           <p>{headerData?.customerAddress1}</p>
@@ -477,36 +485,36 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
           </p>
         </div>
         <div className="col-4 px-2 border-end border-black">
-          <p>Ship To,</p>
-          <p className="fw-bold">{headerData?.customerfirmname}</p>
+          <p className="fsremark_10_invp1011">Ship To,</p>
+          <p className="fw-bold fsremark_10_invp1011">{headerData?.customerfirmname}</p>
           {customerAddress.map((e, i) => {
-            return <p key={i}>{e}</p>;
+            return <p key={i} className="fsremark_10_invp1011">{e}</p>;
           })}
         </div>
         <div className="col-4 px-2">
           <div className="d-flex">
-            <div className="fw-bold col-6">BILL NO</div>
-            <div className="col-6">{headerData?.InvoiceNo} </div>
+            <div className="fw-bold col-6 fsremark_10_invp1011">BILL NO</div>
+            <div className="col-6 fsremark_10_invp1011">{headerData?.InvoiceNo} </div>
           </div>
           <div className="d-flex">
-            <div className="fw-bold col-6">DATE</div>
-            <div className="col-6">{headerData?.EntryDate} </div>
+            <div className="fw-bold col-6 fsremark_10_invp1011">DATE</div>
+            <div className="col-6 fsremark_10_invp1011">{headerData?.EntryDate} </div>
           </div>
           {/* <div className="d-flex">
             <div className="fw-bold col-6">{headerData?.HSN_No_Label}</div>
             <div className="col-6">{headerData?.HSN_No} </div>
           </div> */}
           <div className="d-flex">
-            <div className="fw-bold col-6">NAME OF GOODS</div>
-            <div className="col-6">{headerData?.NameOfGoods} </div>
+            <div className="fw-bold col-6 fsremark_10_invp1011">NAME OF GOODS</div>
+            <div className="col-6 fsremark_10_invp1011">{headerData?.NameOfGoods} </div>
           </div>
           <div className="d-flex">
-            <div className="fw-bold col-6">PLACE OF SUPPLY</div>
-            <div className="col-6">{headerData?.customerstate} </div>
+            <div className="fw-bold col-6 fsremark_10_invp1011">PLACE OF SUPPLY</div>
+            <div className="col-6 fsremark_10_invp1011">{headerData?.customerstate} </div>
           </div>
           <div className="d-flex">
-            <div className="fw-bold col-6">TERMS</div>
-            <div className="col-6">{headerData?.DueDays} </div>
+            <div className="fw-bold col-6 fsremark_10_invp1011">TERMS</div>
+            <div className="col-6 fsremark_10_invp1011">{headerData?.DueDays} </div>
           </div>
         </div>
       </div>
@@ -514,10 +522,10 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       <div className="my-1">
         <div className="d-flex border border-black">
           <div className="col-3 border-end">
-            <p className="text-center fw-bold border-bottom">DESCRIPTION</p>
+            <p className="text-center fw-bold border-bottom fsremark_10_invp1011">DESCRIPTION</p>
           </div>
           <div className="col-9">
-            <div className="d-flex border-bottom">
+            <div className="d-flex border-bottom fsremark_10_invp1011">
               <div style={{ minWidth: "17%", width: "17%" }} className="fw-bold px-1">Detail</div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className="fw-bold px-1 text-end">Gross Wt. </div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className="fw-bold px-1 text-end">Net Wt. </div>
@@ -530,162 +538,162 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
         </div>
         <div className="d-flex border-start border-black border-end border-bottom border-black">
           <div className="col-3 border-end border-black d-flex align-items-center justify-content-center flex-column">
-            <p className="w-100 text-center">{ ((
+            <p className="w-100 text-center fsremark_10_invp1011">{ ((
               mainData?.diamonds?.length + mainData?.colorStones?.length + 
               mainData?.miscs?.length + mainData?.misc2?.length) > 0 ) ? `STUDDED JEWELLERY` : 'PLAIN JEWELLERY'}</p>
             <div className="d-flex pt-1">
-              <div className="fw-bold col-6">{headerData?.HSN_No_Label}</div>
-              <div className="col-6">{headerData?.HSN_No} </div>
+              <div className="fw-bold col-6 fsremark_10_invp1011">{headerData?.HSN_No_Label}</div>
+              <div className="col-6 fsremark_10_invp1011">{headerData?.HSN_No} </div>
             </div>
             {/* <p className="fw-bold">Total Pcs : {NumberWithCommas(totalpcsss, 0)}</p> */}
           </div>
           <div className="col-9 pb-5">
             {mainData?.resultArr?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p className="line_height_ivp11">{e?.primaryMetal?.ShapeName} {e?.primaryMetal?.QualityName}</p></div>
-                <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.grosswt, 3)} Gms</p></div>
-                <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.primaryWt, 3)} Gms</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p className="line_height_ivp11 fsremark_10_invp1011">{e?.primaryMetal?.ShapeName} {e?.primaryMetal?.QualityName}</p></div>
+                <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(e?.grosswt, 3)} Gms</p></div>
+                <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(e?.primaryWt, 3)} Gms</p></div>
                 <div style={{ minWidth: "7%", width: "7%" }} className=" px-1"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className=" px-1"><p></p></div>
-                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.primaryMetal?.Rate, 2)}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(e?.primaryMetal?.Rate, 2)}</p></div>
                 {/* <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.primaryWt * e?.primaryMetal?.Rate, 2)}</p></div> */}
-                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.latestAmount, 2)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(e?.latestAmount, 2)}</p></div>
               </div>
             })}
             {mainData?.findings?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p className="line_height_ivp11">{e?.ShapeName} {e?.QualityName}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p className="line_height_ivp11 fsremark_10_invp1011">{e?.ShapeName} {e?.QualityName}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Wt, 3)} Gms</p></div>
+                <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(e?.Wt, 3)} Gms</p></div>
                 <div style={{ minWidth: "7%", width: "7%" }} className="px-1"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1"><p></p></div>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Rate, 2)}</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Amount, 2)}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(e?.Rate, 2)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(e?.Amount, 2)}</p></div>
               </div>
             })}
             {mainData?.secondaryMetal?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p className="line_height_ivp11">{e?.ShapeName} {e?.QualityName}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p className="line_height_ivp11 fsremark_10_invp1011">{e?.ShapeName} {e?.QualityName}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Wt, 3)} Gms</p></div>
+                <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(e?.Wt, 3)} Gms</p></div>
                 <div style={{ minWidth: "7%", width: "7%" }} className="px-1"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1"><p></p></div>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Rate, 2)}</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Amount, 2)}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(e?.Rate, 2)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(e?.Amount, 2)}</p></div>
               </div>
             })}
             {mainData?.diamonds?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p className="line_height_ivp11">DIA { e?.MaterialTypeName !== '' && `(${e?.MaterialTypeName})`}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p className="line_height_ivp11 fsremark_10_invp1011">DIA { e?.MaterialTypeName !== '' && `(${e?.MaterialTypeName})`}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "7%", width: "7%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Pcs, 0)}</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Wt, 3)} Ctw</p></div>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p className="line_height_ivp11">{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas(e?.Amount / e?.Wt, 2)} / Wt</>) : (e?.Pcs !== 0 && <>{NumberWithCommas(e?.Amount / e?.Pcs, 2)} / Pcs</>))}</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Amount, 2)}</p></div>
+                <div style={{ minWidth: "7%", width: "7%" }} className="px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(e?.Pcs, 0)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(e?.Wt, 3)} Ctw</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas(e?.Amount / e?.Wt, 2)} / Wt</>) : (e?.Pcs !== 0 && <>{NumberWithCommas(e?.Amount / e?.Pcs, 2)} / Pcs</>))}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(e?.Amount, 2)}</p></div>
               </div>
             })}
             {mainData?.colorStones?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p className="line_height_ivp11">CS { e?.MaterialTypeName !== '' && `(${e?.MaterialTypeName})`}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p className="line_height_ivp11 fsremark_10_invp1011">CS { e?.MaterialTypeName !== '' && `(${e?.MaterialTypeName})`}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "7%", width: "7%" }} className=" px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Pcs, 0)}</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Wt, 3)} Ctw</p></div>
-                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-end"><p className="line_height_ivp11">{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas(e?.Amount / e?.Wt, 2)} / Wt</>) : (e?.Pcs !== 0 && <>{NumberWithCommas(e?.Amount / e?.Pcs, 2)} / Pcs</>))}</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Amount, 2)}</p></div>
+                <div style={{ minWidth: "7%", width: "7%" }} className=" px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(e?.Pcs, 0)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(e?.Wt, 3)} Ctw</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas(e?.Amount / e?.Wt, 2)} / Wt</>) : (e?.Pcs !== 0 && <>{NumberWithCommas(e?.Amount / e?.Pcs, 2)} / Pcs</>))}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(e?.Amount, 2)}</p></div>
               </div>
             })}
             {mainData?.misc2?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p className="line_height_ivp11">MISC { e?.MaterialTypeName !== '' && `(${e?.MaterialTypeName})`} </p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p className="line_height_ivp11 fsremark_10_invp1011">MISC { e?.MaterialTypeName !== '' && `(${e?.MaterialTypeName})`} </p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "7%", width: "7%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Pcs, 0)}</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Wt, 3)} Gms</p></div>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p className="line_height_ivp11">{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas(e?.Amount / e?.Wt, 2)} / Wt</>) : (e?.Pcs !== 0 && <>{NumberWithCommas(e?.Amount / e?.Pcs, 2)} / Pcs</>))}</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Amount, 2)}</p></div>
+                <div style={{ minWidth: "7%", width: "7%" }} className="px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(e?.Pcs, 0)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(e?.Wt, 3)} Gms</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas(e?.Amount / e?.Wt, 2)} / Wt</>) : (e?.Pcs !== 0 && <>{NumberWithCommas(e?.Amount / e?.Pcs, 2)} / Pcs</>))}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(e?.Amount, 2)}</p></div>
               </div>
             })}
             {mainData?.labours?.map((ele, ind) => {
               return <div className="d-flex" key={ind}>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p className="line_height_ivp11">{ele?.label}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p className="line_height_ivp11 fsremark_10_invp1011">{ele?.label}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "7%", width: "7%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(ele?.MaKingCharge_Unit, 2)}</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(ele?.MakingAmount, 2)}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(ele?.MaKingCharge_Unit, 2)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(ele?.MakingAmount, 2)}</p></div>
               </div>
             })}
             {mainData?.miscs?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p className="line_height_ivp11">{e?.ShapeName}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p className="line_height_ivp11 fsremark_10_invp1011">{e?.ShapeName}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "7%", width: "7%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(e?.Amount / headerData?.CurrencyExchRate, 2)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(e?.Amount / headerData?.CurrencyExchRate, 2)}</p></div>
               </div>
             })}
             {mainDatas?.mainTotal?.total_diamondHandling !== 0 && <div className="d-flex">
-              <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p className="line_height_ivp11">HANDLING</p></div>
+              <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p className="line_height_ivp11 fsremark_10_invp1011">HANDLING</p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "7%", width: "7%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-end"><p></p></div>
-              <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(mainDatas?.mainTotal?.total_diamondHandling, 2)}</p></div>
+              <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(mainDatas?.mainTotal?.total_diamondHandling, 2)}</p></div>
             </div>}
             {mainData?.otherCharges?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p className="line_height_ivp11">{e?.label}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p className="line_height_ivp11 fsremark_10_invp1011">{e?.label}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "7%", width: "7%" }} className=" px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(+e?.value, 2)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(+e?.value, 2)}</p></div>
               </div>
             })}
             {totalss?.SettingAmount !== 0 && <div className="d-flex">
-              <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p className="line_height_ivp11">SETTING</p></div>
+              <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p className="line_height_ivp11 fsremark_10_invp1011">SETTING</p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "7%", width: "7%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-end"><p></p></div>
-              <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p className="line_height_ivp11">{NumberWithCommas(totalss?.SettingAmount, 2)}</p></div>
+              <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(totalss?.SettingAmount, 2)}</p></div>
             </div>}
           </div>
         </div>
         {/* total */}
-        <div className={`d-flex border-start border-end border-bottom mb-1 border-black no_break ${style?.font_15}`}>
+        <div className={`d-flex border-start border-end border-bottom mb-1 border-black no_break `}>
           <div className="col-3 border-end d-flex align-items-center justify-content-center flex-column border-black"></div>
           <div className="col-9">
-            <div className="d-flex border-bottom ">
-              <div className="col-2 px-1">
-                <p className={`${style?.min_height_21} fw-bold`}>Total</p>
+            <div className="d-flex border-bottom fsremark_10_invp1011 fw-bold">
+              <div className="col-2 px-1 fsremark_10_invp1011">
+                <p className={`${style?.min_height_21} fsremark_10_invp1011 fw-bold d-flex justify-content-start align-items-center`}>Total</p>
               </div>
-              <div className="col-2 px-1">
-                <p className={`${style?.min_height_21} text-end`}></p>
+              <div className="col-2 px-1 fsremark_10_invp1011">
+                <p className={`${style?.min_height_21} text-end d-flex justify-content-end align-items-center`}>{mainData?.totalGrossWt?.toFixed(3)}</p>
               </div>
-              <div className="col-2 px-1">
-                <p className={`${style?.min_height_21} text-end`}></p>
+              <div className="col-2 px-1 fsremark_10_invp1011">
+                <p className={`${style?.min_height_21} text-end d-flex justify-content-end align-items-center`}>{mainData?.totalNetWt?.toFixed(3)}</p>
               </div>
-              <div className="col-1 px-1">
+              <div className="col-1 px-1 fsremark_10_invp1011">
                 <p className={`${style?.min_height_21} text-end`}></p>
               </div>
 
-              <div className="col-1 px-1">
+              <div className="col-1 px-1 fsremark_10_invp1011">
                 <p className={`${style?.min_height_21} text-end`}></p>
               </div>
-              <div className="col-2 px-1">
+              <div className="col-2 px-1 fsremark_10_invp1011">
                 <p className={`${style?.min_height_21} text-end`}></p>
               </div>
-              <div className="col-2 px-1">
-                <p className={`${style?.min_height_21} text-end fw-bold`}>
+              <div className="col-2 px-1 fsremark_10_invp1011">
+                <p className={`${style?.min_height_21} text-end fw-bold fsremark_10_invp1011 d-flex justify-content-end align-items-center`}>
                   {NumberWithCommas(mainData?.fullnfinaltotal, 2)}
                 </p>
               </div>
@@ -695,21 +703,21 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
         {/* taxes */}
         <div className="d-flex border no_break border-black">
           <div className="col-8 border-end border-black"></div>
-          <div className="col-4 px-1">
+          <div className="col-4 px-1 fsremark_10_invp1011">
             {mainDatas?.mainTotal?.total_discount_amount !== 0 && <><div className="d-flex justify-content-between">
               <p>
                 Discount
               </p>
               <p>{NumberWithCommas(mainDatas?.mainTotal?.total_discount_amount, 2)}</p>
             </div>
-              <div className="d-flex justify-content-between">
+              <div className="d-flex justify-content-between fsremark_10_invp1011">
                 <p className="fw-bold"> Total Amount </p>
                 <p className="fw-bold"> {NumberWithCommas(((mainDatas?.mainTotal?.total_amount + headerData?.FreightCharges) / headerData?.CurrencyExchRate), 2)}</p>
               </div></>
             }
             {taxes?.map((e, i) => {
               return (
-                <div className="d-flex justify-content-between" key={i}>
+                <div className="d-flex justify-content-between fsremark_10_invp1011" key={i}>
                   <p>
                     {e?.name} @ {e?.per}
                   </p>
@@ -718,7 +726,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
               );
             })}
             {headerData?.AddLess !== 0 && (
-              <div className="d-flex justify-content-between">
+              <div className="d-flex justify-content-between fsremark_10_invp1011">
                 <p>{headerData?.AddLess > 0 ? "Add" : "Less"}</p>
                 <p>{NumberWithCommas(headerData?.AddLess / headerData?.CurrencyExchRate, 2)}</p>
               </div>
@@ -727,16 +735,16 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
         </div>
         <div className="d-flex border-start border-end border-bottom border-black no_break">
           <div className="col-8 border-end px-1">
-            <p className="fw-bold"> IN Words Indian Rupees</p>
-            <p className="fw-bold">
+            <p className="fw-bold fsremark_10_invp1011" > IN Words Indian Rupees</p>
+            <p className="fw-bold fsremark_10_invp1011">
               {toWords.convert(+fixedValues(+fixedValues((mainDatas?.mainTotal?.total_amount + headerData?.FreightCharges) / headerData?.CurrencyExchRate, 2) +
                 (+fixedValues(headerData?.AddLess / headerData?.CurrencyExchRate, 2) +
                   mainDatas?.allTaxes?.reduce((acc, cObj) => acc + (+fixedValues(+cObj?.amount, 2)), 0)), 2))} Only.
             </p>
           </div>
           <div className="col-4 px-1 d-flex justify-content-between align-items-center">
-            <p className="text-end fw-bold">Grand Total </p>
-            <p className="text-end fw-bold">
+            <p className={`text-end fw-bold ${style?.fsremark_10}`}>Grand Total </p>
+            <p className={`text-end fw-bold ${style?.fsremark_10}`}>
               {NumberWithCommas(+fixedValues((mainDatas?.mainTotal?.total_amount + headerData?.FreightCharges) / headerData?.CurrencyExchRate, 2) +
                 (+fixedValues(headerData?.AddLess / headerData?.CurrencyExchRate, 2) +
                   mainDatas?.allTaxes?.reduce((acc, cObj) => acc + (+fixedValues(+cObj?.amount, 2)), 0)), 2)}
@@ -744,37 +752,37 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
           </div>
         </div>
         <div
-          className={`border-start border-end border-bottom border-black p-1 no_break ${style?.delinvp11}`}
+          className={`border-start border-end border-bottom border-black p-1 no_break ${style?.delinvp11} ${style?.fsremark_10}`}
           dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}
         ></div>
         <p className="p-1 no_break">
-          <span className="fw-bold"> REMARKS :</span> <span dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></span> 
+          <span className={`fw-bold ${style?.fsremark_10}`}> REMARKS :</span> <span className={`${style?.fsremark_10}`} dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></span> 
         </p>
         {/* {footer} */}
-        <div className={`${footerStyle.container} no_break border-black`}>
+        <div className={`${footerStyle.container} no_break border-black ${style?.fsremark_10}`}>
           <div
             className={`${footerStyle.block1f3} border-black`}
             style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
           >
-            <div className={footerStyle.linesf3} style={{ fontWeight: "bold" }}>Bank Detail</div>
-            <div className={footerStyle.linesf3}>Bank Name: {headerData?.bankname}</div>
-            <div className={footerStyle.linesf3}>Branch: {headerData?.bankaddress}</div>
-            <div className={footerStyle.linesf3}>Account Name: {headerData?.accountname}</div>
-            <div className={footerStyle.linesf3}>Account No. : {headerData?.accountnumber}</div>
-            <div className={footerStyle.linesf3}>RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}</div>
-            <div className={footerStyle.linesf3}>Enquiry No. </div>
-            <div className={footerStyle.linesf3}> (E & OE)</div>
+            <div className={`${style?.fsremark_10}`} style={{ fontWeight: "bold" }}>Bank Detail</div>
+            <div className={`${style?.fsremark_10}`}>Bank Name: {headerData?.bankname}</div>
+            <div className={`${style?.fsremark_10}`}>Branch: {headerData?.bankaddress}</div>
+            <div className={`${style?.fsremark_10}`}>Account Name: {headerData?.accountname}</div>
+            <div className={`${style?.fsremark_10}`}>Account No. : {headerData?.accountnumber}</div>
+            <div className={`${style?.fsremark_10}`}>RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}</div>
+            <div className={`${style?.fsremark_10}`}>Enquiry No. </div>
+            <div className={`${style?.fsremark_10}`}> (E & OE)</div>
           </div>
           <div
             className={`${footerStyle.block2f3} border-black`}
             style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
           >
-            <div className={`${footerStyle.linesf3} fw-normal`}>Signature</div>
-            <div className={footerStyle.linesf3}>{headerData?.customerfirmname}</div>
+            <div className={`${`${style?.fsremark_10}`} fw-normal`}>Signature</div>
+            <div className={`${style?.fsremark_10}`}>{headerData?.customerfirmname}</div>
           </div>
           <div className={footerStyle.block2f3} style={{ width: "33.33%" }}>
-            <div className={`${footerStyle.linesf3} fw-normal`}>Signature</div>
-            <div className={footerStyle.linesf3}>{headerData?.CompanyFullName}</div>
+            <div className={`${`${style?.fsremark_10}`} fw-normal`}>Signature</div>
+            <div className={`${style?.fsremark_10}`}>{headerData?.CompanyFullName}</div>
           </div>
         </div>
       </div>
@@ -1541,7 +1549,7 @@ export default InvoicePrint_10_11;
 //             className={footerStyle.block1f3}
 //             style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
 //           >
-//             <div className={footerStyle.linesf3} style={{ fontWeight: "bold" }}>Bank Detail</div>
+//             <div className={} style={{ fontWeight: "bold" }}>Bank Detail</div>
 //             <div className={footerStyle.linesf3}>Bank Name: {headerData?.bankname}</div>
 //             <div className={footerStyle.linesf3}>Branch: {headerData?.bankaddress}</div>
 //             <div className={footerStyle.linesf3}>Account Name: {headerData?.accountname}</div>

@@ -263,7 +263,9 @@ const MRPBill = () => {
   //customer logic
   const handleSelectCustomer = (customer) => {
     setCustID(customer?.id);
+    console.log(customer?.userid);
     setSearchCust(customer?.userid);
+    setSearchVal(customer?.userid);
     setFilteredCustomers([]); // Clear suggestions after selection
     setSelectedIndex(-1);
     setCustErrorMsg('');
@@ -483,7 +485,7 @@ const MRPBill = () => {
 
         <div className="head_mrp">ADD MRP AND PROCCED TO BILL</div>
         
-        <div className="d-flex justify-content-between align-items-start p-2 py-4 flex_Start_mrp d_none_mrp">
+        {/* <div className="d-flex justify-content-between align-items-start p-2 py-4 flex_Start_mrp d_none_mrp">
           <div className="d-flex align-items-start ">
             <label className="cust_name_title" htmlFor="custtitle">
               CUSTOMER NAME
@@ -566,9 +568,9 @@ const MRPBill = () => {
               <div className="lockerErrorMsg_mrp text-danger">{currErrorMsg}</div>
             </div>
           </div>
-        </div>
+        </div> */}
 
-        <div className="p-1 d_grid d_unset_mrp">
+        <div className="p-1 d_grid">
             <div className="grid-item pd10_mrp">
                 <label className="cust_name_title pe-3" htmlFor="custtitle">
                 CUSTOMER NAME
@@ -637,10 +639,30 @@ const MRPBill = () => {
                 }
                 </select>
             </div>
+            <div className="grid-item pd10_mrp">
+                <label htmlFor="books" className="pe-3 cust_name_title">
+                BOOKS
+                </label>
+                <select
+                name="books"
+                id="books"
+                value={selectVal}
+                className="form-select w-100"
+                onChange={(e) => handleCurrencyChange(e)}
+                >
+                  <option  value="">Select</option>
+                {
+                    currencyData?.map((e, i) => {
+                        return <option key={i} value={e?.Currencycode} data-curr_Rate={e?.CurrencyRate} data-currId={e?.id} >{e?.Currencycode}</option>
+                    })
+                }
+                </select>
+            </div>
         </div>
 
-        <div className="w-100 d-flex align-items-baseline p-2 minH_mrp">
-          <div className="w-25 d-flex flex-column  align-items-start ps-3 w_50_mrp2">
+        {/* <div className="w-100 d-flex align-items-baseline p-2 minH_mrp"> */}
+        <div className="w-100 d-flex align-items-baseline p-2 flex_column_mrp minH_mrp">
+          <div className="w-25 d-flex flex-column  align-items-start ps-3 w_50_mrp2 w_100_mrp_scan mt_mrp">
             <div className="scanblock_mrpbill">
                 {/* <img src={scanImg} alt="#scanjob" className="scanJobImg" onClick={handleOpenScanComp} /> */}
                 <img src={scanImg} alt="#scanjob" className="scanJobImg" />
