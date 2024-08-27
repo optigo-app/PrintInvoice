@@ -12,7 +12,7 @@ import { useLocation } from "react-router-dom";
 import { Html5Qrcode } from "html5-qrcode";
 import QRreader from "./QRBarcodeReader";
 import { CircularProgress } from "@mui/material";
-
+import PrintIcon from '@mui/icons-material/Print';
 
 const MRPBill = () => {
   const [searchVal, setSearchVal] = useState("");
@@ -76,7 +76,7 @@ const MRPBill = () => {
       const token = `${atob(tkn)}`;
   
       // Utility function for API requests
-      const fetchData = async (mode, setData) => {
+      const fetchData = async (mode, setData, args) => {
         const body = JSON.stringify({
           Token: token,
           ReqData: `[{"Token":"${token}","Mode":"${mode}"}]`,
@@ -85,6 +85,30 @@ const MRPBill = () => {
         if (response?.status === 200 && response?.data?.Status === '200') {
           if (response?.data?.Data?.DT?.length > 0) {
             setData(response?.data?.Data?.DT);
+
+            response?.data?.Data?.DT?.forEach((e) => {
+              if (e?.IsDefault === 1) {
+                switch (args) {
+                  case 'locker':
+                    setLockerId(e?.id);
+                    setSelectLocker(e?.Lockername);
+                    break;
+                  case 'currency':
+                    setCurrencyID(e?.id);
+                    setSelectVal(e?.Currencycode);
+                    break;
+                  case 'book':
+                    setBookId(e?.id);
+                    setSelectBook(e?.id);
+                    break;
+                  default:
+                    break;
+                }
+              }
+            });
+         
+        
+
           } else {
             setData([]);
             console.log(response?.data?.Data);
@@ -95,16 +119,16 @@ const MRPBill = () => {
       };
   
       // Fetch locker data
-      await fetchData("GetLocker", setLockerData);
+      await fetchData("GetLocker", setLockerData, 'locker');
   
       // Fetch currency data
-      await fetchData("GetCurrency", setCurrencyData);
+      await fetchData("GetCurrency", setCurrencyData, 'currency');
   
       // Fetch customer data
-      await fetchData("GetCustomer", setCustomerData);
+      await fetchData("GetCustomer", setCustomerData, 'customer');
 
       // Fetch customer data
-      await fetchData("GetBook", setBookData);
+      await fetchData("GetBook", setBookData, 'book');
   
     } catch (error) {
       console.log("An error occurred while fetching data:", error);
@@ -273,19 +297,26 @@ const MRPBill = () => {
 
   //customer logic
   const handleSelectCustomer = (customer) => {
+
     setCustID(customer?.id);
-    setSearchCust(customer?.userid);
-    setSearchVal(customer?.userid);
+
+    // setSearchCust(customer?.userid);
+    // setSearchVal(customer?.userid);
+    setSearchCust(customer?.TypoLabel);
+    setSearchVal(customer?.TypoLabel);
+
     setFilteredCustomers([]); // Clear suggestions after selection
+
     setSelectedIndex(-1);
     setCustErrorMsg('');
   };
   const handleSearchCustomer = (val) => {
     let searchValue = val?.toLowerCase();
     setSearchCust(val);
+    setSearchVal(val);
     if (searchValue) {
       const filtered = customerData?.filter(customer =>
-        customer?.userid?.toLowerCase()?.includes(searchValue.toLowerCase())
+        customer?.TypoLabel?.toLowerCase()?.includes(searchValue.toLowerCase())
       );
       setFilteredCustomers(filtered);
     } 
@@ -310,7 +341,8 @@ const MRPBill = () => {
       setSelectedIndex(prev => prev + 1)
     }
     else if(e.key === 'Enter' && selectedIndex >= 0){
-      setSearchCust(filteredCustomers[selectedIndex]?.userid);
+      setSearchCust(filteredCustomers[selectedIndex]?.TypoLabel);
+      setSearchVal(filteredCustomers[selectedIndex]?.TypoLabel);
       setCustID(filteredCustomers[selectedIndex]?.id);
       setFilteredCustomers([]);
     }
@@ -489,6 +521,9 @@ const MRPBill = () => {
     setScanCompFlag(true);
   }
 
+  const handlePrintUrl = () => {
+    
+  }
   return (
     <>
             {isLoading && (
@@ -599,16 +634,18 @@ const MRPBill = () => {
                 onChange={(e) => handleSearchCustomer(e.target.value)}
                 onBlur={() => handleSelectBlur()}
                 onKeyDown={handleKeyDown}
+                disabled={disableSelect}
+
                 />
                 {filteredCustomers?.length > 0 && (
         <ul className="list-group position-absolute custom_scrollbar" style={{ zIndex: 1000, width:'max-content', minWidth:'50px', maxHeight:'180px', overflowY:'scroll', minWidth:'240px' }}>
           {filteredCustomers?.map((customer, index) => (
             <li
               key={index}
-              className={`list-group-item list-group-item-action p-1 ${selectedIndex === index ? "search_sug_line active" : "search_sug_line"}`}
+              className={`list-group-item list-group-item-action li_fs_mrp p-1 ${selectedIndex === index ? "search_sug_line active" : "search_sug_line"}`}
               onClick={() => handleSelectCustomer(customer)}
             >
-              {customer?.userid}
+              {customer?.TypoLabel}
             </li>
           ))}
         </ul>
@@ -648,7 +685,6 @@ const MRPBill = () => {
                 value={selectVal}
                 className="form-select w-100 b1_9898px"
                 onChange={(e) => handleCurrencyChange(e)}
-                disabled={disableSelect}
                 >
                   <option  value="">Select</option>
                 {
@@ -844,7 +880,7 @@ const MRPBill = () => {
         <div className="d-flex flex-column justify-content-center align-items-center w-100 mb-4 pb-2">
         { billSavedFlag === true &&
         <>
-          <div className="generatedBill">Generate Bill No : {billNo}</div>
+          <div className="generatedBill">Generate Bill No : {billNo} <span><PrintIcon titleAccess="print" onClick={() => handlePrintUrl()} /></span></div>
           <div className="continue_btn_next mx-2"  onClick={(e) => saveNextBill(e, 'next')}>NEXT BILL</div>
         </>
         }

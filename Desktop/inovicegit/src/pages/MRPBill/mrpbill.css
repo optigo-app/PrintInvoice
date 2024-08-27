@@ -276,6 +276,9 @@
     grid-template-columns: repeat(4, 1fr); /* 4 columns for desktop */
     gap: 1rem; /* Gap between grid items */
   }
+  .li_fs_mrp{
+    font-size: 13px;
+  }
 
 @media (max-width: 1024px) {
     .d_grid {
