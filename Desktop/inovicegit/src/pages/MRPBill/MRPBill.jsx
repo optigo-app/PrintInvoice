@@ -13,6 +13,42 @@ import { Html5Qrcode } from "html5-qrcode";
 import QRreader from "./QRBarcodeReader";
 import { CircularProgress } from "@mui/material";
 import PrintIcon from '@mui/icons-material/Print';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
+
+const ConfirmDialog = ({ open, onClose, onConfirm, actionType  }) => (
+  <Dialog open={open} onClose={onClose}>
+    {console.log(actionType)}
+    <DialogTitle>Please Confirm</DialogTitle>
+    <DialogContent>
+      <Typography variant="body1">Are you sure you want to proceed  with {actionType}?</Typography>
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={onClose} variant="contained" color="error">
+        Cancel
+      </Button>
+      <Button onClick={onConfirm}  variant="contained" color="success">
+        Confirm
+      </Button>
+    </DialogActions>
+  </Dialog>
+);
+// const SaveBillButton = () => {
+//   const [open, setOpen] = useState(false);
+
+//   const handleClickOpen = () => {
+//     setOpen(true);
+//   };
+
+//   const handleClose = () => {
+//     setOpen(false);
+//   };
+
+//   const handleConfirm = () => {
+//     // Add logic for what should happen when confirmed
+//     console.log('User confirmed the action.');
+//     setOpen(false);
+//   };
+
 
 const MRPBill = () => {
   const [searchVal, setSearchVal] = useState("");
@@ -181,7 +217,7 @@ const MRPBill = () => {
   }
 
   //go button logic and job api calling
-  const handleGoClick = async() => {
+  const handleGoClick = async(type) => {
 
     const areAllSalePricesSet = () => {
       return jobList.every(job => job.salePrice !== '');
@@ -193,7 +229,6 @@ const MRPBill = () => {
     // if(cid === undefined){
       customerData?.forEach((e) => {
         if(e?.id === custId && e?.TypoLabel?.toLowerCase() === searchVal?.toLowerCase()){
-          console.log(searchVal);
           isCustValid = true;
           setCustErrorMsg('');
         }
@@ -245,9 +280,6 @@ const MRPBill = () => {
                           setJobnoVal('');
                           setIsJobPresent(false);
                           setIsLoading(false);
-
-                          
-
                          }
                     }else{
                       setJobDetail(response?.data?.Data?.DT)
@@ -545,6 +577,12 @@ const MRPBill = () => {
     setLockerErrorMsg('');
     setCustErrorMsg('');
 
+    setDisableSelect2(false);
+    setDisableSelect3(false);
+    setDisableSelect4(false);
+
+    
+
   }
 
   //   // Handle scanning
@@ -618,7 +656,33 @@ const MRPBill = () => {
     if(jobList?.length === 0){
       setDisableSelect(false);
     }
-  },[jobList])
+  },[jobList]);
+
+  const [open, setOpen] = useState(false);
+  const [actionType, setActionType] = useState('');
+
+  const handleClickOpen = (type) => {
+    console.log(type);
+    setActionType(type);  // Store the action type
+    setTimeout(() => {
+      setActionType(type);
+    },0)
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleConfirm = () => {
+    if (actionType === 'bill') {
+      saveMRP('bill');
+    } else if (actionType === 'estimate') {
+      saveMRP('estimate');
+    }
+    setOpen(false);
+  };
+
 
   return (
     <>
@@ -973,11 +1037,18 @@ const MRPBill = () => {
           </table>
         </div>} */}
 
-        { billSavedFlag !== true && <div className="w-100 d-flex justify-content-center align-items-center mt-1">
-          <button className="continue_btn_bill mx-2" disabled={jobList?.length === 0 ? true : false} onClick={(e) => saveMRP(e, 'bill')}>SAVE BILL</button>
-          <button className="continue_btn_est mx-2" disabled={jobList?.length === 0 ? true : false} onClick={(e) => saveMRP(e, 'estimate')}>SAVE ESTIMATE</button>
-          <button className="continue_btn_cen mx-2" onClick={() => saveNextBill()}>CANCEL ALL</button>
-        </div>}
+        { billSavedFlag !== true && <>
+        <div className="w-100 d-flex justify-content-center align-items-center mt-1">
+          {/* <button className="continue_btn_bill mx-2" disabled={jobList?.length === 0 ? true : false} onClick={(e) => saveMRP(e, 'bill')}>SAVE BILL</button>
+          <button className="continue_btn_est mx-2" disabled={jobList?.length === 0 ? true : false} onClick={(e) => saveMRP(e, 'estimate')}>SAVE ESTIMATE</button> */}
+          <button className="continue_btn_bill mx-2" disabled={jobList?.length === 0 ? true : false} onClick={() => handleClickOpen('bill')}>SAVE BILL</button>
+          <button className="continue_btn_est mx-2" disabled={jobList?.length === 0 ? true : false}  onClick={() => handleClickOpen('estimate')}>SAVE ESTIMATE</button>
+        </div>
+        <div> <ConfirmDialog open={open} onClose={handleClose} onConfirm={() => handleConfirm(actionType)} /></div>
+        {/* <button className="continue_btn_cen mx-2" onClick={() => saveNextBill()}>CANCEL ALL</button> */}
+        <div className="d-flex justify-content-end pe-5"><a className="text-primary cursor-pointer mx-2" onClick={() => saveNextBill()}>Cancel All ?</a></div>
+        </>
+        }
         <div className="d-flex flex-column justify-content-center align-items-center w-100 mb-4 pb-2">
         { billSavedFlag === true &&
         <>
