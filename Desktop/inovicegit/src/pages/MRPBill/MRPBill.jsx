@@ -62,6 +62,8 @@ const MRPBill = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const [disableInp, setDisableInp] = useState(false);
+
   const location = useLocation();
   const queryParam = location?.search;
   const params = new URLSearchParams(queryParam);
@@ -175,7 +177,18 @@ const MRPBill = () => {
       return jobList.every(job => job.salePrice !== '');
     };
     const isValid = checkValidation();
-    if(jobnoVal !== '' && isValid){
+
+    const isCustValid = false;
+
+    customerData?.forEach((e) => {
+      if(e?.custId === custId && e?.TypoLabel?.toLowerCase() === searchVal?.toLowerCase()){
+        isCustValid = true;
+      }else{
+        setCustErrorMsg('Invalid Customer');
+      }
+    })
+    
+    if(jobnoVal !== '' && isValid && isCustValid){
 
       if (jobList.length > 0 && !areAllSalePricesSet()) {
         setMsg('Please add sale price for previous jobs before adding new ones.');
@@ -190,7 +203,6 @@ const MRPBill = () => {
         })
         setIsLoading(true);
         const response = await axios.post(url, body);
-        console.log(response);
         if(response?.status === 200 && response?.data?.Status === '200'){
             if(!isEmptyObject(response?.data?.Data)){
                 if(response?.data?.Data?.DT?.length > 0){
@@ -212,6 +224,9 @@ const MRPBill = () => {
                           setJobnoVal('');
                           setIsJobPresent(false);
                           setIsLoading(false);
+
+                          
+
                          }
                     }else{
                       setJobDetail(response?.data?.Data?.DT)
@@ -269,7 +284,6 @@ const MRPBill = () => {
   //input field of add new event logic
   const handleAddNewChange = (e) => {
     setAddNew(e.target.value);
-    console.log("Input value:", e.target.value); // Debugging log
   }
 
   //update price and changes in price logic
@@ -313,7 +327,6 @@ const MRPBill = () => {
     setCustErrorMsg('');
   };
   const handleSearchCustomer = (val) => {
-    console.log(val);
     let searchValue = val?.toLowerCase();
     setSearchCust(val);
     setSearchVal(val);
@@ -328,7 +341,29 @@ const MRPBill = () => {
         setCustID(filtered[0]?.id);
         setFilteredCustomers([]); // Hide the dropdown
       }
-    } 
+    }
+    // else if(searchVal){
+    //   if (searchValue) {
+    //     // Split the search value into separate words
+    //     const searchWords = searchValue?.split(" ")?.filter(word => word);
+    
+    //     const filtered = customerData?.filter(customer => {
+    //       const customerName = customer?.TypoLabel?.toLowerCase();
+    
+    //       // Check if all search words are present in the customer name in order
+    //       return searchWords?.every((word, index) => {
+    //         const wordIndex = customerName.indexOf(word);
+    //         if (wordIndex === -1) return false;
+    
+    //         // Remove the found word and the preceding part for the next word search
+    //         customerName = customerName?.slice(wordIndex + word.length);
+    //         return true;
+    //       });
+    //     });
+    
+    //     setFilteredCustomers(filtered);
+    //   }
+    // } 
     else {
       setFilteredCustomers([]);
     }
@@ -399,7 +434,6 @@ const MRPBill = () => {
     }
     if(jobList?.length > 0){
       let isEveryNot0 = jobList?.every((e) => e?.salePrice !== 0 || e?.salePrice !== '' || e?.salePrice !== null);
-      console.log(isEveryNot0, jobList);
       if(isEveryNot0){
 
         const bill_detail = jobList?.map((e) => {
@@ -415,11 +449,13 @@ const MRPBill = () => {
         
         setIsLoading(true);
         const response = await axios.post("http://zen/jo/api-lib/App/API_MRPBill", body);
-          console.log(response);
         if(response?.status === 200 && response?.data?.Status === '200'){
           setBillNo(response?.data?.Data?.DT[0]?.BillNo);
           setPrintUrl(atob(response?.data?.Data?.DT[0]?.PrintUrl));
           setBillSavedFlag(true);
+          setTimeout(() => {
+            setDisableInp(true);
+          },0)  
           setIsLoading(false);
         }else{
           toast.error("Some Error Occured");
@@ -435,16 +471,29 @@ const MRPBill = () => {
   const checkValidation = () => {
     let isValid = true;
 
+    // if (!custId && searchVal !== '') {
+    //   setCustErrorMsg('Customer is required');
+    //   isValid = false;
+    // } else {
+    //   setCustErrorMsg('');
+    // }
     if (!custId && searchVal !== '') {
+      const matchedCustomer = customerData?.find(
+        (customer) => customer?.TypoLabel?.toLowerCase() === searchVal?.toLowerCase()
+      );
+  
+      // If no match is found or the match does not align with the customer ID
+      if (!matchedCustomer || matchedCustomer?.id !== custId) {
+        setCustErrorMsg('Invalid customer');
+        isValid = false;
+      } else {
+        // If valid, set the customer ID
+        setCustID(matchedCustomer?.id);
+        setCustErrorMsg('');
+      }
+    } else if (!custId && searchVal === '') {
       setCustErrorMsg('Customer is required');
       isValid = false;
-      console.log(customerData, searchVal);
-      customerData?.map((e) => {
-        if(e?.TypoLabel?.toLowerCase() !== searchVal?.toLowerCase()){
-          setCustErrorMsg('Customer is required');
-          isValid = false;
-        }
-      })
     } else {
       setCustErrorMsg('');
     }
@@ -485,7 +534,8 @@ const MRPBill = () => {
     setIsJobPresent(false);
     setDisableSelect(false);
     setBillSavedFlag(false);
-
+    setDisableInp(false);
+    setTimeout(() => {setDisableInp(false)},0);
     setLockerErrorMsg('');
     setCustErrorMsg('');
 
@@ -538,7 +588,7 @@ const MRPBill = () => {
     setScanCompFlag(true);
   }
 
-  const handlePrintUrl = (billno) => {
+  const handlePrintUrl = () => {
 
     window.open(printUrl, '_blank');
 
@@ -738,7 +788,7 @@ const MRPBill = () => {
         </div>
 
         {/* <div className="w-100 d-flex align-items-baseline p-2 minH_mrp"> */}
-        <div className="w-100 d-flex align-items-baseline p-2 flex_column_mrp minH_mrp">
+        <div className="w-100 d-flex align-items-baseline p-2 flex_column_mrp minH_mrp mt_top_mrp_head">
           <div className="w-25 d-flex flex-column  align-items-start ps-3 w_50_mrp2 w_100_mrp_scan mt_mrp">
             <div className="scanblock_mrpbill">
                 {/* <img src={scanImg} alt="#scanjob" className="scanJobImg" onClick={handleOpenScanComp} /> */}
@@ -752,6 +802,7 @@ const MRPBill = () => {
                 value={jobnoVal}
                 autoFocus={true}
                 onChange={(e) => handleJobNoChange(e)}
+                disabled={disableInp ? true : false}
               />
               <button className="btn_go" disabled={jobnoVal === ''} onClick={() => handleGoClick()}>GO</button>
             </div>
@@ -899,7 +950,7 @@ const MRPBill = () => {
         <div className="d-flex flex-column justify-content-center align-items-center w-100 mb-4 pb-2">
         { billSavedFlag === true &&
         <>
-          <div className="generatedBill">Generate Bill No : {billNo} <span><PrintIcon titleAccess="print" onClick={() => handlePrintUrl(billNo)} /></span></div>
+          <div className="generatedBill">Generate Bill No : {billNo} <span><PrintIcon titleAccess="click here for Print" style={{cursor:'pointer'}} onClick={() => handlePrintUrl()} /></span></div>
           <button className="continue_btn_next mx-2"  onClick={(e) => saveNextBill(e, 'next')}>NEXT BILL</button>
         </>
         }

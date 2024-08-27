@@ -279,7 +279,9 @@
   .li_fs_mrp{
     font-size: 13px;
   }
-
+.mt_top_mrp_head{
+  margin-top: 10px;
+}
 @media (max-width: 1024px) {
     .d_grid {
       grid-template-columns: repeat(2, 1fr); /* 2 columns */
