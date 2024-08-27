@@ -18,13 +18,16 @@ const MRPBill = () => {
   const [searchVal, setSearchVal] = useState("");
   const [selectVal, setSelectVal] = useState("");
   const [selectLocker, setSelectLocker] = useState("");
+  const [selectBook, setSelectBook] = useState("");
   const [jobnoVal, setJobnoVal] = useState("");
   const [isJobPresent, setIsJobPresent] = useState(false);
 
   const [currencyData, setCurrencyData] = useState([]);
   const [lockerData, setLockerData] = useState([]);
   const [customerData, setCustomerData] = useState([]);
+  const [bookData, setBookData] = useState([]);
   const [filteredCustomers, setFilteredCustomers] = useState([]);
+  
   const [jobDetail, setJobDetail] = useState(null);
   const [msg, setMsg] = useState('');
   const [addnew, setAddNew] = useState('');
@@ -35,6 +38,7 @@ const MRPBill = () => {
   const [currencyId, setCurrencyID] = useState('');
   const [currencyRate, setCurrencyRate] = useState('');
   const [lockerId, setLockerId] = useState('');
+  const [bookId, setBookId] = useState('');
 
   const [jobList, setJobList] = useState([]);
 
@@ -44,6 +48,8 @@ const MRPBill = () => {
   const [custErrorMsg, setCustErrorMsg] = useState('');
   const [lockerErrorMsg, setLockerErrorMsg] = useState('');
   const [currErrorMsg, setCurrErrorMsg] = useState('');
+
+  const [disableSelect, setDisableSelect] = useState(false);
 
   //scan
   const [scannedValue, setScannedValue] = useState('');
@@ -96,6 +102,9 @@ const MRPBill = () => {
   
       // Fetch customer data
       await fetchData("GetCustomer", setCustomerData);
+
+      // Fetch customer data
+      await fetchData("GetBook", setBookData);
   
     } catch (error) {
       console.log("An error occurred while fetching data:", error);
@@ -151,7 +160,7 @@ const MRPBill = () => {
         const url = "http://zen/jo/api-lib/App/API_MRPBill";
         const body = JSON.stringify({
             Token : `${atob(tkn)}`,
-            ReqData:`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"GetJobDeatil\",\"STB\":\"${jobnoVal}\"}]`
+            ReqData:`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"GetJobDeatil\",\"STB\":\"${jobnoVal}\",\"LockerId\":\"${lockerId}\",\"CustomerId\":\"${custId}\"}]`
         })
         setIsLoading(true);
         const response = await axios.post(url, body);
@@ -166,12 +175,13 @@ const MRPBill = () => {
                           setMsg('Already Present');
                           setJobDetail([]);
                           setIsLoading(false);
+                          setDisableSelect(true);
                          }else{
                           setJobDetail(response?.data?.Data?.DT)
                           let newobj = {...response?.data?.Data?.DT[0]};
                           newobj.salePrice = '';
-                          console.log(jobList);
                           setJobList((prev) => [...prev, newobj]);
+                          setDisableSelect(true);
                           setMsg('')
                           setJobnoVal('');
                           setIsJobPresent(false);
@@ -185,6 +195,7 @@ const MRPBill = () => {
                       setMsg('')
                       setJobnoVal('');
                       setIsJobPresent(false);
+                      setDisableSelect(true);
                       setIsLoading(false);
 
                     }
@@ -263,7 +274,6 @@ const MRPBill = () => {
   //customer logic
   const handleSelectCustomer = (customer) => {
     setCustID(customer?.id);
-    console.log(customer?.userid);
     setSearchCust(customer?.userid);
     setSearchVal(customer?.userid);
     setFilteredCustomers([]); // Clear suggestions after selection
@@ -326,6 +336,12 @@ const MRPBill = () => {
 
   }
 
+  //book change logic
+  const handleBookChange = (e) => {
+      setSelectBook(e.target.value);
+      setBookId(e.target.value)
+  }
+
   //save bill logic
   const saveMRP = async(e, args) => {
     let IsForEst = 0;
@@ -340,39 +356,39 @@ const MRPBill = () => {
     if (!isValid) {
       return; // Stop execution if validation fails
     }
-    // if(jobList?.length > 0){
-    //   let isEveryNot0 = jobList?.every((e) => e?.salePrice !== 0 || e?.salePrice !== '' || e?.salePrice !== null);
-    //   console.log(isEveryNot0, jobList);
-    //   if(isEveryNot0){
+    if(jobList?.length > 0){
+      let isEveryNot0 = jobList?.every((e) => e?.salePrice !== 0 || e?.salePrice !== '' || e?.salePrice !== null);
+      console.log(isEveryNot0, jobList);
+      if(isEveryNot0){
 
-    //     const bill_detail = jobList?.map((e) => {
+        const bill_detail = jobList?.map((e) => {
         
-    //       return { STB: e?.StockBarcode, MRP: Number(e?.salePrice) };
-    //     })
+          return { STB: e?.StockBarcode, MRP: Number(e?.salePrice) };
+        })
 
-    //     const body = {
-    //       "Token" : `${atob(tkn)}`,"ReqData":`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"8\",\"BillDetail\":${JSON.stringify(bill_detail)}}]`
-    //     }
+        const body = {
+          "Token" : `${atob(tkn)}`,"ReqData":`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"BookId\":\"${bookId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"8\",\"BillDetail\":${JSON.stringify(bill_detail)}}]`
+        }
 
-    //     try {
+        try {
         
-    //     setIsLoading(true);
-    //     const response = await axios.post("http://zen/jo/api-lib/App/API_MRPBill", body);
-
-    //     if(response?.status === 200 && response?.data?.Status === '200'){
-    //       setBillNo(response?.data?.Data?.DT[0]?.BillNo);
-    //       setBillSavedFlag(true);
-    //       setIsLoading(false);
-    //     }else{
-    //       toast.error("Some Error Occured");
-    //       setIsLoading(false);
-    //     }
-    //   } catch (error) {
-    //     console.log(error);
-    //     toast.error('Some Error Occured');
-    //   }
-    //   }
-    // }
+        setIsLoading(true);
+        const response = await axios.post("http://zen/jo/api-lib/App/API_MRPBill", body);
+          console.log(response);
+        if(response?.status === 200 && response?.data?.Status === '200'){
+          setBillNo(response?.data?.Data?.DT[0]?.BillNo);
+          setBillSavedFlag(true);
+          setIsLoading(false);
+        }else{
+          toast.error("Some Error Occured");
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error('Some Error Occured');
+      }
+      }
+    }
   }
   const checkValidation = () => {
     let isValid = true;
@@ -418,7 +434,7 @@ const MRPBill = () => {
     setSelectLocker('');
     setJobnoVal('');
     setIsJobPresent(false);
-
+    setDisableSelect(false);
     setBillSavedFlag(false);
 
     setLockerErrorMsg('');
@@ -472,7 +488,6 @@ const MRPBill = () => {
   const handleOpenScanComp = () => {
     setScanCompFlag(true);
   }
-  
 
   return (
     <>
@@ -579,7 +594,7 @@ const MRPBill = () => {
                 type="text"
                 value={searchVal}
                 placeholder="customer name"
-                className="form-control p-2 border border-secondary"
+                className="form-control p-2 pd5px_mrp border border-secondary"
                 id="custtitle"
                 onChange={(e) => handleSearchCustomer(e.target.value)}
                 onBlur={() => handleSelectBlur()}
@@ -600,7 +615,7 @@ const MRPBill = () => {
                 )}
                 <div className="text-danger">{custErrorMsg}</div>
             </div>
-            <div className="grid-item pd10_mrp">
+            <div className="grid-item pd10_mrp ">
                 <label htmlFor="locker" className="pe-3 cust_name_title">
                 LOCKER
                 </label>
@@ -608,8 +623,9 @@ const MRPBill = () => {
                 name="locker"
                 id="locker"
                 value={selectLocker}
-                className="form-select w-100"
+                className="form-select w-100 b1_9898px"
                 onChange={(e) => handleLockerChange(e)}
+                disabled={disableSelect}
                 >
                   <option  value="">Select</option>
                 {
@@ -621,6 +637,8 @@ const MRPBill = () => {
                 <div className="text-danger">{lockerErrorMsg}</div>
             </div>
             <div className="grid-item pd10_mrp">
+              <div className=" d-flex flex-column align-items-start ">
+                
                 <label htmlFor="currency" className="pe-3 cust_name_title">
                 CURRENCY
                 </label>
@@ -628,8 +646,9 @@ const MRPBill = () => {
                 name="currency"
                 id="currency"
                 value={selectVal}
-                className="form-select w-100"
+                className="form-select w-100 b1_9898px"
                 onChange={(e) => handleCurrencyChange(e)}
+                disabled={disableSelect}
                 >
                   <option  value="">Select</option>
                 {
@@ -638,6 +657,9 @@ const MRPBill = () => {
                     })
                 }
                 </select>
+                </div>
+                <div className="text-danger px-1">{currErrorMsg}</div>
+
             </div>
             <div className="grid-item pd10_mrp">
                 <label htmlFor="books" className="pe-3 cust_name_title">
@@ -646,14 +668,14 @@ const MRPBill = () => {
                 <select
                 name="books"
                 id="books"
-                value={selectVal}
-                className="form-select w-100"
-                onChange={(e) => handleCurrencyChange(e)}
+                value={selectBook}
+                className="form-select w-100 b1_9898px"
+                onChange={(e) => handleBookChange(e)}
                 >
                   <option  value="">Select</option>
                 {
-                    currencyData?.map((e, i) => {
-                        return <option key={i} value={e?.Currencycode} data-curr_Rate={e?.CurrencyRate} data-currId={e?.id} >{e?.Currencycode}</option>
+                    bookData?.map((e, i) => {
+                        return <option key={i} value={e?.id} >{e?.BookName}</option>
                     })
                 }
                 </select>

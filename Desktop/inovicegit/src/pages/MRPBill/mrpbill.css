@@ -263,6 +263,13 @@
     min-height: 70px;
   }
 
+  .pd5px_mrp{
+    padding: 5.5px !important;
+  }
+  .b1_9898px{
+    border: 1px solid #989898;
+  }
+
 
   .d_grid {
     display: grid;

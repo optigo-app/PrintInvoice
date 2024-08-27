@@ -729,7 +729,6 @@ useEffect(() => {
 
   }
 
-
   return (
     <React.Fragment>
       {loader ? (
