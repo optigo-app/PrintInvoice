@@ -101,7 +101,7 @@
   .continue_btn_est{
     height: 40px;
     color: white;
-    background-color: rgb(213, 75, 72);
+    background-color: rgb(207, 153, 36);
     width: 150px;
     display: flex;
     justify-content: center;
@@ -111,6 +111,22 @@
     cursor: pointer;
   }
   .continue_btn_est:hover{
+    background-color:  rgb(223, 169, 54);
+  }
+
+  .continue_btn_cen{
+    height: 40px;
+    color: white;
+    background-color: rgb(213, 75, 72);
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .continue_btn_cen:hover{
     background-color: rgb(196, 46, 44);
   }
 

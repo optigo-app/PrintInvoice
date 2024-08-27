@@ -181,19 +181,18 @@ const MRPBill = () => {
 
     let isCustValid = false;
 
-    if(cid === undefined){
+    // if(cid === undefined){
       customerData?.forEach((e) => {
         if(e?.id === custId && e?.TypoLabel?.toLowerCase() === searchVal?.toLowerCase()){
+          console.log(searchVal);
           isCustValid = true;
           setCustErrorMsg('');
-        }else{
-          setCustErrorMsg('Invalid Customer');
         }
       })
-    }else{
-      isCustValid = true;
-      setCustErrorMsg('');
-    }
+    // }else{
+    //   isCustValid = true;
+    //   setCustErrorMsg('');
+    // }
 
     if(jobnoVal !== '' && isValid && isCustValid){
 
@@ -247,7 +246,6 @@ const MRPBill = () => {
                       setIsLoading(false);
 
                     }
-                    
                 }else{
                     setJobDetail([]);
                     console.log(response?.data?.Data?.DT);
@@ -316,6 +314,9 @@ const MRPBill = () => {
   const handleJobDelete = (obj) => {
         const updatedJL = jobList?.filter((e) => e?.StockBarcode !== obj?.StockBarcode)
         setJobList(updatedJL);
+        if(updatedJL?.length === 0){
+          setDisableSelect(false);
+        }
   }
 
   //customer logic
@@ -948,6 +949,7 @@ const MRPBill = () => {
         { billSavedFlag !== true && <div className="w-100 d-flex justify-content-center align-items-center mt-1">
           <button className="continue_btn_bill mx-2" disabled={jobList?.length === 0 ? true : false} onClick={(e) => saveMRP(e, 'bill')}>SAVE BILL</button>
           <button className="continue_btn_est mx-2" disabled={jobList?.length === 0 ? true : false} onClick={(e) => saveMRP(e, 'estimate')}>SAVE ESTIMATE</button>
+          <button className="continue_btn_cen mx-2" onClick={() => saveNextBill()}>CANCEL ALL</button>
         </div>}
         <div className="d-flex flex-column justify-content-center align-items-center w-100 mb-4 pb-2">
         { billSavedFlag === true &&
