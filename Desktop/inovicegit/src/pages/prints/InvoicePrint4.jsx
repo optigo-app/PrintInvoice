@@ -989,7 +989,7 @@ useEffect(() => {
                   {
                     diamond_s?.map((e, i) => {
                       return(
-                        <div key={i} className="d-flex w-100   border-start border-end" >
+                        <div key={i} className="d-flex w-100   border-start border-end invp4_fs" >
                         <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
                         <div style={{width:'30%'}} className="ps-2">{e?.MasterManagement_DiamondStoneTypeName}</div>
                         <div className="end_invp4_ pe-1" style={{width:'10%'}}>{e?.wt?.toFixed(3)} ctw</div>
@@ -1002,7 +1002,7 @@ useEffect(() => {
                   {
                     colorstone_s?.map((e, i) => {
                       return(
-                        <div key={i} className="d-flex w-100   border-start border-end" >
+                        <div key={i} className="d-flex w-100   border-start border-end invp4_fs" >
                         <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
                         <div style={{width:'30%'}} className="ps-2">{e?.MasterManagement_DiamondStoneTypeName}</div>
                         <div className="end_invp4_ pe-1" style={{width:'10%'}}>{e?.wt?.toFixed(3)} ctw</div>
@@ -1048,28 +1048,28 @@ useEffect(() => {
                         <div style={{width:'10%'}}></div>
                         <div style={{width:'10%'}}>{formatAmount(result?.mainTotal?.misc?.Amount)}</div>
                         </div> */}
-                        <div className="d-flex w-100  fsinvp3 border-start border-end" >
+                        <div className="d-flex w-100  fsinvp3 border-start border-end invp4_fs" >
                         <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
                         <div style={{width:'30%'}} className="ps-2">LABOUR</div>
                         <div style={{width:'10%'}}></div>
-                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{total_makingcharge_unit === 0 ? '' : total_makingcharge_unit}</div>
+                        <div className="end_invp4_ pe-1 invp4_fs" style={{width:'10%'}}>{total_makingcharge_unit === 0 ? '' : total_makingcharge_unit}</div>
                         {/* <div style={{width:'10%'}}>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.total_TotalDiaSetcost))}</div> */}
-                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.totalMiscAmount + result?.mainTotal?.total_diamondHandling))}</div>
+                        <div className="end_invp4_ pe-1 invp4_fs" style={{width:'10%'}}>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.totalMiscAmount + result?.mainTotal?.total_diamondHandling))}</div>
                         </div>
                         <div className="d-flex w-100  fsinvp3 border-start border-end">
                         <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
-                        <div style={{width:'30%'}} className="ps-2">OTHER</div>
+                        <div style={{width:'30%'}} className="ps-2 invp4_fs">OTHER</div>
                         <div style={{width:'10%'}}></div>
                         <div style={{width:'10%'}}></div>
-                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{formatAmount(result?.mainTotal?.total_other)}</div>
+                        <div className="end_invp4_ pe-1 invp4_fs" style={{width:'10%'}}>{formatAmount(result?.mainTotal?.total_other)}</div>
                         </div>
                  </div>
                  <div className="d-flex w-100 fw-bold border-top-0 border invp4_fs_3">
                   <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
-                  <div style={{width:'30%'}} className="ps-2">TOTAL</div>
+                  <div style={{width:'30%'}} className="ps-2 invp4_fs">TOTAL</div>
                   <div style={{width:'10%'}}></div>
                   {/* <div style={{width:'10%'}}></div> */}
-                  <div className="end_invp4_ pe-1" style={{width:'20%'}}>{formatAmount(result?.mainTotal?.total_amount)}</div>
+                  <div className="end_invp4_ pe-1 invp4_fs" style={{width:'20%'}}>{formatAmount(result?.mainTotal?.total_amount)}</div>
                  </div>
                 </div>
                   <div className="summaryinvp4">
@@ -1079,11 +1079,11 @@ useEffect(() => {
                         <div className="d-flex flex-column justify-content-between align-items-center ps-1">
                           {result?.allTaxes?.map((e, i) => {
                             return (
-                              <div className="d-flex justify-content-between align-items-center w-100" key={i} >
-                                <div className="w-50" style={{ borderRight: "1px solid #e8e8e8" }} >
+                              <div className="d-flex justify-content-between align-items-center w-100 invp4_fs" key={i} >
+                                <div className="w-50 invp4_fs" style={{ borderRight: "1px solid #e8e8e8" }} >
                                   {e?.name} {e?.per}
                                 </div>
-                                <div className="w-50 d-flex justify-content-end align-items-center pe-1">
+                                <div className="w-50 d-flex justify-content-end align-items-center invp4_fs pe-1">
                                   {formatAmount((+e?.amount * result?.header?.CurrencyExchRate))}
                                 </div>
                               </div>
@@ -1092,18 +1092,18 @@ useEffect(() => {
                         </div>
                         {result?.header?.AddLess !== 0 && (
                           <div className="d-flex justify-content-between align-items-center ps-1">
-                            <div className="w-50" style={{ borderRight: "1px solid #e8e8e8" }} >
+                            <div className="w-50 invp4_fs" style={{ borderRight: "1px solid #e8e8e8" }} >
                               {result?.header?.AddLess > 0 ? "Add" : "Less"}
                             </div>
-                            <div className="w-50 d-flex justify-content-end align-items-center pe-1">
+                            <div className="w-50 d-flex justify-content-end align-items-center pe-1 invp4_fs">
                               {formatAmount(result?.header?.AddLess)}
                             </div>
                           </div>
                         )}
                       </div>
                       <div className="d-flex justify-content-between align-items-center ps-1 fw-bold" style={{ borderTop: "1px solid #e8e8e8", borderLeft: "1px solid #e8e8e8", }} >
-                        <div className="w-50" style={{fontSize:"13px"}}>GRAND TOTAL</div>
-                        <div className="w-50 d-flex justify-content-end align-items-center pe-1" style={{fontSize:"13px"}}>
+                        <div className="w-50 invp4_fs" style={{fontSize:"13px"}}>GRAND TOTAL</div>
+                        <div className="w-50 d-flex justify-content-end align-items-center pe-1 invp4_fs" style={{fontSize:"13px"}}>
                           {/* {formatAmount(grandTotal)} */}
                           {formatAmount((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate) + result?.header?.AddLess))}
                         </div>
@@ -1111,8 +1111,8 @@ useEffect(() => {
                     </div>
                   </div>
                   <div className="wordsinvp4">
-                    <div>In Words Indian Rupees</div>
-                    <div className="fw-bold">{NumToWord((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate) + result?.header?.AddLess))}</div>
+                    <div className="invp4_fs">In Words Indian Rupees</div>
+                    <div className="fw-bold invp4_fs">{NumToWord((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate) + result?.header?.AddLess))}</div>
                   </div>
                   <div className="noteinvp4">
                     <div className="fw-bold">NOTE:</div>
@@ -1120,7 +1120,7 @@ useEffect(() => {
                   </div>
                   <div className="declarationinvp4" style={{borderBottom:'1px solid #e8e8e8'}}>
                     <div className="fw-bold fs12invp4">DECLARATION :</div>
-                    <div style={{ fontWeight: "bold" }} className="text-break" dangerouslySetInnerHTML={{ __html: result?.header?.Declaration, }} ></div>
+                    <div style={{ fontWeight: "bold" }} className="text-break dec_invp4_fs" dangerouslySetInnerHTML={{ __html: result?.header?.Declaration }} ></div>
                   </div>
                   <div className="d-flex brright_invp4 brbottom_invp4 brleft_invp4 footer_invp4_box">
                     <div className="invp4_33 brright_invp4 invp4_fs p-1">

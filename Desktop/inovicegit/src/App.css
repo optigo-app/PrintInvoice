@@ -443,6 +443,14 @@ html .footer_secInvoicePrint8 .target_footer * {
   line-height: 17px !important;
 }
 
+
+
 .fsremark_10_invp1011{
   font-size: 12px;
+}
+
+@media print{
+  .fslineh_10_invp1011{
+    line-height: 11px !important;
+  } 
 }

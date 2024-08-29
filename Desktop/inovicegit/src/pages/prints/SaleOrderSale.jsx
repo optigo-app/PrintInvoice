@@ -348,7 +348,6 @@ const SaleOrderSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     totals.grandTotal = totals.afterTax + data?.BillPrint_Json[0]?.AddLess ;
     let frightcharge = (data?.BillPrint_Json[0]?.FreightCharges / data?.BillPrint_Json[0]?.CurrencyExchRate);
     totals.grandTotal = totals.grandTotal + frightcharge;
-    console.log(frightcharge, totals);
       
     setTotal(totals);
     setData(resultArr);
@@ -424,7 +423,6 @@ const SaleOrderSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   // const sortedArr = resultArr?.sort((a, b) => a?.GroupJob - b?.GroupJob)
   // const sortedArr = resultArr?.sort((a, b) => (`${b?.GroupJob}_${b?.SrJobno}`)?.localeCompare(`${a?.GroupJob}_${a?.SrJobno}`));
 
-      // console.log(resultArr);
 
       function sortJobs(arr) {
         const primaryJobs = arr?.filter(job => job?.SrJobno === job?.GroupJob);
@@ -538,7 +536,7 @@ const SaleOrderSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </span>
           <span className={style2.lines}>
             {/* {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber} */}
-            {/* {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber} */}
+            {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
           </span>
         </div>
         <div
@@ -553,8 +551,8 @@ const SaleOrderSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div className="col-4 p-2 border-end">
           <p> To,</p>
           <p className="fw-bold">{headerData?.customerfirmname}</p>
-          <p>{headerData?.customerstreet}</p>
-          <p>{headerData?.customerregion}</p>
+          <p>{headerData?.customerAddress1}</p>
+          <p>{headerData?.customerAddress2}</p>
           <p>{headerData?.customercity}</p>
           <p>
             {headerData?.customerstate} , {headerData?.customercountry}{" "}
@@ -562,6 +560,8 @@ const SaleOrderSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </p>
           <p>Tel : {headerData?.customermobileno}</p>
           <p>{headerData?.customeremail1}</p>
+          <p>{headerData?.CustGstNo === '' ? 'VAT : ' : 'GST : '} {headerData?.CustGstNo === '' ? headerData?.Cust_VAT_GST_No : headerData?.CustGstNo}</p>
+          <p>{headerData?.CustPanno === '' ? '' : 'Panno : '}{headerData?.CustPanno === '' ? '' : headerData?.CustPanno}</p>
         </div>
         <div className="col-4 p-2">
           <p>Ship To,</p>
@@ -569,7 +569,7 @@ const SaleOrderSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           {/* <div
             dangerouslySetInnerHTML={{ __html: headerData?.Printlable }}
           ></div> */}
-          {address.map((e, i) => {
+          {address?.map((e, i) => {
             return <p key={i}> {e}</p>;
           })}
         </div>

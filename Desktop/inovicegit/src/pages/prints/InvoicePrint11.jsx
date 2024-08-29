@@ -426,26 +426,26 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       {/* header */}
       {headerData?.IsEinvoice !== 1 ?
         <><div className={` ${style?.headerTitle} `}>{headerData?.PrintHeadLabel}</div>
-          <div className={`${style2.companyDetails} ${style?.head_line_invp1011} `}>
-            <div className={`${style2.companyhead} p-2 ${style?.head_line_invp1011}`}>
-              <div style={{ fontWeight: "bold" }} className={style?.companyFUllnameInvp11}>
+          <div className={`${style2.companyDetails}  head_line_h_invp1011 fsremark_10_invp1011 fslineh_10_invp1011`}>
+            <div className={`${style2.companyhead} p-2 `}>
+              <div style={{ fontWeight: "bold",paddingBottom:'2px' }} className={style?.companyFUllnameInvp11}>
                 {headerData?.CompanyFullName}
               </div>
-              <div>{headerData?.CompanyAddress}</div>
-              <div>{headerData?.CompanyAddress2}</div>
-              <div>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
+              <div className="fslineh_10_invp1011">{headerData?.CompanyAddress}</div>
+              <div className="fslineh_10_invp1011">{headerData?.CompanyAddress2}</div>
+              <div className="fslineh_10_invp1011">{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
               {/* <div>Tell No: {headerData?.CompanyTellNo}</div> */}
-              <div>T:  {headerData?.CompanyTellNo} | TOLL FREE {headerData?.CompanyTollFreeNo} | TOLL FREE {headerData?.CompanyTollFreeNo}</div>
-              <div>
+              <div className="fslineh_10_invp1011">T:  {headerData?.CompanyTellNo} | TOLL FREE {headerData?.CompanyTollFreeNo} | TOLL FREE {headerData?.CompanyTollFreeNo}</div>
+              <div className="fslineh_10_invp1011">
                 {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
               </div>
-              <div>
+              <div className="fslineh_10_invp1011">
                 {/* {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber} */}
                 {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
               </div>
-              <div>{headerData?.MSME === '' ? '' : 'MSME - ' } {headerData?.MSME} </div>
+              <div className="fslineh_10_invp1011">{headerData?.MSME === '' ? '' : 'MSME - ' } {headerData?.MSME} </div>
             </div>
-            <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100 fsremark_10_invp1011">
+            <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100 fsremark_10_invp1011 fslineh_10_invp1011">
               {isImageWorking && (headerData?.PrintLogo !== "" &&
                 <img src={headerData?.PrintLogo} alt=""
                   className='w-100 h-auto ms-auto d-block object-fit-contain'
@@ -457,11 +457,11 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       {/* barcodes */}
       {pnm === "invoice print 10" && <div className="mb-1">
         <div className="d-flex justify-content-between border border-black p-2 pb-1">
-          <div className={`${style?.barcode}`}>
+          <div className={`${style?.barcode} fslineh_10_invp1011`}>
             <BarcodePrintGenerator data={headerData?.VenCode} />
             <p className="fw-bold text-center">{headerData?.VenCode}</p>
           </div>
-          <div className={`${style?.barcode}`}>
+          <div className={`${style?.barcode} fslineh_10_invp1011`}>
             <BarcodePrintGenerator data={headerData?.InvoiceNo} />
             <p className="fw-bold text-center">{headerData?.InvoiceNo}</p>
           </div>
@@ -469,53 +469,53 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       </div>}
 
       <div className="border border-black d-flex">
-        <div className="col-4 px-2 border-end border-black fsremark_10_invp1011">
-          <p>{headerData?.lblBillTo}</p>
+        <div className="col-4 px-2 border-end border-black fsremark_10_invp1011 fslineh_10_invp1011">
+          <p className="fslineh_10_invp1011">{headerData?.lblBillTo}</p>
           <p className="fw-bold pe-2">{headerData?.customerfirmname}</p>
-          <p>{headerData?.customerAddress1}</p>
-          <p>{headerData?.customerAddress2}</p>
-          <p>
+          <p className="fslineh_10_invp1011">{headerData?.customerAddress1}</p>
+          <p className="fslineh_10_invp1011">{headerData?.customerAddress2}</p>
+          <p className="fslineh_10_invp1011">
             {headerData?.customercity1} - {" "}
             {headerData?.PinCode}
           </p>
-          <p>{headerData?.customeremail1}</p>
-          <p>{headerData?.vat_cst_pan}</p>
-          <p>
+          <p className="fslineh_10_invp1011">{headerData?.customeremail1}</p>
+          <p className="fslineh_10_invp1011">{headerData?.vat_cst_pan}</p>
+          <p className="fslineh_10_invp1011">
             {headerData?.Cust_CST_STATE}-{headerData?.Cust_CST_STATE_No}
           </p>
         </div>
         <div className="col-4 px-2 border-end border-black">
-          <p className="fsremark_10_invp1011">Ship To,</p>
-          <p className="fw-bold fsremark_10_invp1011">{headerData?.customerfirmname}</p>
+          <p className="fsremark_10_invp1011 fslineh_10_invp1011">Ship To,</p>
+          <p className="fw-bold fsremark_10_invp1011 fslineh_10_invp1011">{headerData?.customerfirmname}</p>
           {customerAddress.map((e, i) => {
-            return <p key={i} className="fsremark_10_invp1011">{e}</p>;
+            return <p key={i} className="fsremark_10_invp1011 fslineh_10_invp1011">{e}</p>;
           })}
         </div>
         <div className="col-4 px-2">
           <div className="d-flex">
-            <div className="fw-bold col-6 fsremark_10_invp1011">BILL NO</div>
-            <div className="col-6 fsremark_10_invp1011">{headerData?.InvoiceNo} </div>
+            <div className="fw-bold col-6 fsremark_10_invp1011 fslineh_10_invp1011">BILL NO</div>
+            <div className="col-6 fsremark_10_invp1011 fslineh_10_invp1011">{headerData?.InvoiceNo} </div>
           </div>
           <div className="d-flex">
-            <div className="fw-bold col-6 fsremark_10_invp1011">DATE</div>
-            <div className="col-6 fsremark_10_invp1011">{headerData?.EntryDate} </div>
+            <div className="fw-bold col-6 fsremark_10_invp1011 fslineh_10_invp1011">DATE</div>
+            <div className="col-6 fsremark_10_invp1011 fslineh_10_invp1011">{headerData?.EntryDate} </div>
           </div>
           {/* <div className="d-flex">
             <div className="fw-bold col-6">{headerData?.HSN_No_Label}</div>
             <div className="col-6">{headerData?.HSN_No} </div>
           </div> */}
           <div className="d-flex">
-            <div className="fw-bold col-6 fsremark_10_invp1011">NAME OF GOODS</div>
-            <div className="col-6 fsremark_10_invp1011">{headerData?.NameOfGoods} </div>
+            <div className="fw-bold col-6 fsremark_10_invp1011 fslineh_10_invp1011">NAME OF GOODS</div>
+            <div className="col-6 fsremark_10_invp1011 fslineh_10_invp1011">{headerData?.NameOfGoods} </div>
           </div>
           <div className="d-flex">
-            <div className="fw-bold col-6 fsremark_10_invp1011">PLACE OF SUPPLY</div>
-            <div className="col-6 fsremark_10_invp1011">{headerData?.customerstate} </div>
+            <div className="fw-bold col-6 fsremark_10_invp1011 fslineh_10_invp1011">PLACE OF SUPPLY</div>
+            <div className="col-6 fsremark_10_invp1011 fslineh_10_invp1011">{headerData?.customerstate} </div>
           </div>
-          <div className="d-flex">
-            <div className="fw-bold col-6 fsremark_10_invp1011">TERMS</div>
-            <div className="col-6 fsremark_10_invp1011">{headerData?.DueDays} </div>
-          </div>
+          {  headerData?.DueDays !== 0 && <div className="d-flex">
+            <div className="fw-bold col-6 fsremark_10_invp1011 fslineh_10_invp1011">TERMS</div>
+            <div className="col-6 fsremark_10_invp1011 fslineh_10_invp1011">{headerData?.DueDays} </div>
+          </div>}
         </div>
       </div>
 

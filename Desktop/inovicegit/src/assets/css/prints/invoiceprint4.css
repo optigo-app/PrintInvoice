@@ -1,5 +1,6 @@
 .containerinvp4{
-    max-width: 1200px !important;
+    /* max-width: 1200px !important; */
+    max-width: 845px !important;
     padding: 0 15px !important;
     margin: 2rem auto !important;
     width: 100% !important;
@@ -212,18 +213,32 @@
             page-break-inside: avoid;
           }
           .invp4_fs{
-            font-size: 10px;
+            font-size: 11px;
+            line-height: 14px;
         }
         .invp4_fs_2{
             font-size: 13px;
+            line-height: 15px;
         }
         .invp4_fs_3{
             font-size: 12px;
+            line-height: 14px;
         }
         .cust_title_invpV{
             font-size: 40px;
         }
         .showValOnly{
             border: 0px !important;
+        }
+        .dec_invp4_fs *{
+            font-size: 11px;
+            line-height: 16px !important;
+        }
+        .containerinvp4{
+            margin: 0 auto !important;
+        }
+        .headline_invp4{
+            font-size: 17px;
+            height: 30px;
         }
     }

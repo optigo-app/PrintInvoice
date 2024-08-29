@@ -530,7 +530,7 @@ const SaleOrderMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </span>
           <span className={style2.lines}>
             {/* {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber} */}
-            {/* {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber} */}
+            {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
           </span>
         </div>
         <div
@@ -554,6 +554,8 @@ const SaleOrderMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </p>
           <p>Tel : {headerData?.customermobileno}</p>
           <p>{headerData?.customeremail1}</p>
+          <p>{headerData?.CustGstNo === '' ? 'VAT : ' : 'GST : '} {headerData?.CustGstNo === '' ? headerData?.Cust_VAT_GST_No : headerData?.CustGstNo}</p>
+          <p>{headerData?.CustPanno === '' ? '' : 'Panno : '}{headerData?.CustPanno === '' ? '' : headerData?.CustPanno}</p>
         </div>
         <div className="col-4 p-2">
           <p>Ship To,</p>
