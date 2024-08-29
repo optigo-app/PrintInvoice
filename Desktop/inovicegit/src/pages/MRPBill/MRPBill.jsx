@@ -991,13 +991,23 @@ const MRPBill = () => {
               }) : <tr><td colSpan={5} align="center">No Data Present</td></tr>}
             </tbody>
           </table>
-          <div className="w-100 d-flex justify-content-end align-items-center my-1" style={{ maxWidth: '1000px' }}>
+
+          { jobList?.length !== 0 && <div className="w-100 d-flex justify-content-between align-items-center my-1" style={{ maxWidth: '1000px' }}>
+            <>
+            <div className="d-flex align-items-center">
+              { editableFlag ? <button className="continue_btn_bill mx-2" disabled={jobList?.length === 0 ? true : false} onClick={() => handleClickOpen('bill')}>SAVE BILL</button> : <div style={{height:'40px'}}></div>}
+              { editableFlag ? <button className="continue_btn_est mx-2" disabled={jobList?.length === 0 ? true : false}  onClick={() => handleClickOpen('estimate')}>SAVE ESTIMATE</button> : <div style={{height:'40px'}}></div>}
+            </div>
+            <div>
+
             {!editableFlag ? (
               <button className="continue_btn_continue" onClick={handleContinue}>Continue</button>
-            ) : (
-              <button className="continue_btn_back" onClick={handleBack}>Back</button>
-            )}
-          </div>
+              ) : (
+                <button className="continue_btn_back" onClick={handleBack}>Back</button>
+                )}
+                </div>
+                </>
+          </div>}
         </div>}
         </div>
 
@@ -1058,8 +1068,8 @@ const MRPBill = () => {
         <div className="w-100 d-flex justify-content-center align-items-center mt-1">
           {/* <button className="continue_btn_bill mx-2" disabled={jobList?.length === 0 ? true : false} onClick={(e) => saveMRP(e, 'bill')}>SAVE BILL</button>
           <button className="continue_btn_est mx-2" disabled={jobList?.length === 0 ? true : false} onClick={(e) => saveMRP(e, 'estimate')}>SAVE ESTIMATE</button> */}
-          { editableFlag ? <button className="continue_btn_bill mx-2" disabled={jobList?.length === 0 ? true : false} onClick={() => handleClickOpen('bill')}>SAVE BILL</button> : <div style={{height:'40px'}}></div>}
-          { editableFlag ? <button className="continue_btn_est mx-2" disabled={jobList?.length === 0 ? true : false}  onClick={() => handleClickOpen('estimate')}>SAVE ESTIMATE</button> : <div style={{height:'40px'}}></div>}
+          {/* { editableFlag ? <button className="continue_btn_bill mx-2" disabled={jobList?.length === 0 ? true : false} onClick={() => handleClickOpen('bill')}>SAVE BILL</button> : <div style={{height:'40px'}}></div>} */}
+          {/* { editableFlag ? <button className="continue_btn_est mx-2" disabled={jobList?.length === 0 ? true : false}  onClick={() => handleClickOpen('estimate')}>SAVE ESTIMATE</button> : <div style={{height:'40px'}}></div>} */}
         </div>
         <div> <ConfirmDialog open={open} onClose={handleClose} onConfirm={() => handleConfirm(actionType)} /></div>
         {/* <button className="continue_btn_cen mx-2" onClick={() => saveNextBill()}>CANCEL ALL</button> */}
