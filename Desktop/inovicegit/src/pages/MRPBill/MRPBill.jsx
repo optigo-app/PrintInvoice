@@ -7,6 +7,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import scanImg from "../../assets/img/scanimg.gif";
+import f2Img from "../../assets/img/f2.gif";
 import { handleImageError } from "./MRPGlobalFunctions";
 import { useLocation } from "react-router-dom";
 import { Html5Qrcode } from "html5-qrcode";
@@ -14,6 +15,10 @@ import QRreader from "./QRBarcodeReader";
 import { CircularProgress } from "@mui/material";
 import PrintIcon from '@mui/icons-material/Print';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
+import ScanWithDevice from "./ScanWithDevice";
+import useBarcodeScanner from "./useBarcodeScanner";
+import { scannedValue } from './../../recoil/atom';
+import { useRecoilValue } from "recoil";
 
 const ConfirmDialog = ({ open, onClose, onConfirm  }) => (
   <Dialog open={open} onClose={onClose}>
@@ -92,7 +97,11 @@ const MRPBill = () => {
   const [editableFlag, setEditTableFlag] = useState(false);
 
   //scan
-  const [scannedValue, setScannedValue] = useState('');
+
+  const scanValue = useRecoilValue(scannedValue);
+
+  const [scanFlag, setScanFlag] = useState(false);
+  // const [scannedValue, setScannedValue] = useState('');
   const [scanning, setScanning] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const scannerRef = useRef(null);
@@ -692,6 +701,132 @@ const MRPBill = () => {
     setEditTableFlag(false); // Enable fields
   };
 
+const handleScanFlagAndComp = () => {
+  setScanFlag(!scanFlag);
+  setScanCompFlag(!scanCompFlag);
+}
+
+useEffect(() => {
+  console.log('called');
+  if(scanValue){
+    console.log('called');
+    console.log('scanValue', scanValue);
+    // setTimeout(() => {
+    //   setJobnoVal(scanValue);
+    //   handleGoClick(); 
+    //   handleKeyDownEnter();
+    // },10) 
+
+
+   const handleGoClick2 = async() => {
+      const areAllSalePricesSet = () => {
+        return jobList.every(job => job.salePrice !== '');
+      };
+      const isValid = checkValidation();
+  
+      let isCustValid = false;
+  
+      // if(cid === undefined){
+        customerData?.forEach((e) => {
+          if(e?.id === custId && e?.TypoLabel?.toLowerCase() === searchVal?.toLowerCase()){
+            isCustValid = true;
+            setCustErrorMsg('');
+          }
+        })
+      // }else{
+      //   isCustValid = true;
+      //   setCustErrorMsg('');
+      // }
+  
+      if(jobnoVal !== '' && isValid && isCustValid){
+  
+        if (jobList.length > 0 && !areAllSalePricesSet()) {
+          setMsg('Please add sale price for previous jobs before adding new ones.');
+          return;
+        }
+  
+        try {
+          const url = "http://zen/jo/api-lib/App/API_MRPBill";
+          const body = JSON.stringify({
+              Token : `${atob(tkn)}`,
+              ReqData:`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"GetJobDeatil\",\"STB\":\"${jobnoVal}\",\"LockerId\":\"${lockerId}\",\"CustomerId\":\"${custId}\"}]`
+          })
+          setIsLoading(true);
+          const response = await axios.post(url, body);
+          if(response?.status === 200 && response?.data?.Status === '200'){
+              if(!isEmptyObject(response?.data?.Data)){
+                  if(response?.data?.Data?.DT?.length > 0){
+                      if(jobList?.length > 0){
+                           let isJobPresent = jobList?.find((al) => al?.StockBarcode === response?.data?.Data?.DT[0]?.StockBarcode);
+                           if(isJobPresent){
+                            console.log('already present');
+                            setMsg('Already Present');
+                            setJobDetail([]);
+                            setIsLoading(false);
+                            setDisableSelect(true);
+                            setDisableSelect2(true);
+                            setDisableSelect3(true);
+                            setDisableSelect4(true);
+                           }else{
+                            setJobDetail(response?.data?.Data?.DT)
+                            let newobj = {...response?.data?.Data?.DT[0]};
+                            newobj.salePrice = '';
+                            setJobList((prev) => [...prev, newobj]);
+                            setDisableSelect(true);
+                            setDisableSelect2(true);
+                            setDisableSelect3(true);
+                            setDisableSelect4(true);
+                            setMsg('')
+                            setJobnoVal('');
+                            setIsJobPresent(false);
+                            setIsLoading(false);
+                           }
+                      }else{
+                        setJobDetail(response?.data?.Data?.DT)
+                        let newobj = {...response?.data?.Data?.DT[0]};
+                        newobj.salePrice = '';
+                        setJobList((prev) => [...prev, newobj]);
+                        setMsg('')
+                        setJobnoVal('');
+                        setIsJobPresent(false);
+                        setDisableSelect(true);
+                        setDisableSelect2(true);
+                        setDisableSelect3(true);
+                        setDisableSelect4(true);
+                        setIsLoading(false);
+  
+                      }
+                  }else{
+                      setJobDetail([]);
+                      console.log(response?.data?.Data?.DT);
+                      setMsg('')
+                      setIsJobPresent(false);
+                      setIsLoading(false);
+                  }
+              }else{
+                  console.log(response?.data?.Data);
+                  setIsJobPresent(false);
+                  setIsLoading(false);
+              }
+          }else{
+              console.log(response?.data?.Data);
+              setMsg('Invalid Job');
+              setIsJobPresent(false);
+              setIsLoading(false);
+          }
+  
+        } catch (error) {
+          console.log(error);
+          toast.error('Some Error Occured');
+          setIsLoading(false);
+        }
+  
+      }
+    }
+    handleGoClick2();
+
+  }
+}, [scanValue]);
 
   return (
     <>
@@ -703,91 +838,6 @@ const MRPBill = () => {
       { !scanCompFlag && <div className="container_mrp">
 
         <div className="head_mrp">ADD MRP AND PROCCED TO BILL</div>
-        
-        {/* <div className="d-flex justify-content-between align-items-start p-2 py-4 flex_Start_mrp d_none_mrp">
-          <div className="d-flex align-items-start ">
-            <label className="cust_name_title" htmlFor="custtitle">
-              CUSTOMER NAME
-            </label>
-            <div className="">
-              <input
-                type="text"
-                value={custSearch}
-                placeholder="customer name"
-                className="form-control p-2  border border-secondary minW_search_mrp"
-                id="custtitle"
-                onChange={(e) => handleSearchCustomer(e.target.value)}
-                onBlur={() => handleSelectBlur()}
-                onKeyDown={handleKeyDown}
-              />
-               {filteredCustomers?.length > 0 && (
-        <ul className="list-group position-absolute custom_scrollbar" style={{ zIndex: 1000, width:'max-content', minWidth:'50px', maxHeight:'180px', overflowY:'scroll', minWidth:'240px' }}>
-          {filteredCustomers?.map((customer, index) => (
-            <li
-              key={index}
-              className={`list-group-item list-group-item-action p-1 ${selectedIndex === index ? "search_sug_line active" : "search_sug_line"}`}
-              // onClick={() => handleSelectCustomer(customer?.userid)}
-              onClick={() => handleSelectCustomer(customer)}
-            >
-              {customer?.userid}
-            </li>
-          ))}
-        </ul>
-                )}
-                <div className="text-danger">{custErrorMsg}</div>
-            </div>
-          </div>
-          <div className="currW_mrp">
-            <div className=" d-flex flex-column align-items-start minH_erorr">
-              <div>
-              <label htmlFor="currency" className="pe-3 cust_name_title">
-                LOCKER
-              </label>
-              <select
-                name="currency"
-                id="currency"
-                value={selectLocker}
-                className="lock_select minW_lockSelect"
-                onChange={(e) => handleLockerChange(e)}
-                style={{border:'1px solid #989898', borderRadius:'8px'}}
-              >
-                <option  value="">Select</option>
-                {
-                    lockerData?.map((e, i) => {
-                        return <option key={i} data-lockId={e?.id} value={e?.Lockername}>{e?.Lockername}</option>
-                    })
-                }
-              </select>
-              </div>
-              <div className="lockerErrorMsg_mrp text-danger">{lockerErrorMsg}</div>
-            </div>
-          </div>
-          <div className="">
-            <div className=" d-flex flex-column align-items-start ">
-              <div>
-              <label htmlFor="currency" className="pe-3 cust_name_title">
-                CURRENCY
-              </label>
-              <select
-                name="currency"
-                id="currency"
-                value={selectVal}
-                className="lock_select minW_CurrSelect"
-                onChange={(e) => handleCurrencyChange(e)}
-                style={{border:'1px solid #989898',  borderRadius:'8px'}}
-              >
-                <option  value="">Select</option>
-                {
-                    currencyData?.map((e, i) => {
-                        return <option key={i} data-curr_Rate={e?.CurrencyRate} data-currId={e?.id} value={e?.Currencycode}>{e?.Currencycode}</option>
-                    })
-                }
-              </select>
-              </div>
-              <div className="lockerErrorMsg_mrp text-danger">{currErrorMsg}</div>
-            </div>
-          </div>
-        </div> */}
 
         <div className="p-1 px-4 d_grid">
             <div className="grid-item pd10_mrp">
@@ -894,7 +944,11 @@ const MRPBill = () => {
           <div className="w-25 d-flex flex-column  align-items-start ps-3 w_50_mrp2 w_100_mrp_scan mt_mrp">
             <div className="scanblock_mrpbill">
                 {/* <img src={scanImg} alt="#scanjob" className="scanJobImg" onClick={handleOpenScanComp} /> */}
-                <img src={scanImg} alt="#scanjob" className="scanJobImg" />
+                { scanFlag ? <><img src={scanImg} alt="#scanjob" className="scanJobImg" onClick={handleScanFlagAndComp} /><div className="fs_scanimg"></div></> : 
+                <>
+                  <img src={f2Img} alt="#scanjob" className="scanJobImg" onClick={handleScanFlagAndComp} />
+                  <div className="fw-bold text-danger fs_scanimg">Click Here For Scan Image</div>
+                </>}
             </div>
             <div className="d-flex justify-content-center align-items-center">
               <input
@@ -952,7 +1006,7 @@ const MRPBill = () => {
                 return (
                   <tr key={i}>
                     <td width={90} className="pd_0" align="center" style={{ borderRight: "1px solid #989898" }} >
-                      1
+                      {i+1}
                     </td>
                     <td width={90} align="center" className="pd_0" style={{ borderRight: "1px solid #989898" }} >
                       <img src={e?.DesignImage} alt="#img" className="tableImg" onError={handleImageError} />
@@ -1073,7 +1127,7 @@ const MRPBill = () => {
         </div>
         <div> <ConfirmDialog open={open} onClose={handleClose} onConfirm={() => handleConfirm(actionType)} /></div>
         {/* <button className="continue_btn_cen mx-2" onClick={() => saveNextBill()}>CANCEL ALL</button> */}
-        <div className="d-flex justify-content-end pe-5"><a className="text-primary cursor-pointer mx-2" onClick={() => saveNextBill()}>Cancel All ?</a></div>
+        { jobList?.length !== 0 && <div className="d-flex justify-content-end pe-5"><a className="text-primary cursor-pointer mx-2" onClick={() => saveNextBill()}>Cancel All ?</a></div>}
         </>
         }
         <div className="d-flex flex-column justify-content-center align-items-center w-100 mb-4 pb-2">
@@ -1086,8 +1140,11 @@ const MRPBill = () => {
         </div>
       </div>}
       {
-        scanCompFlag && <QRreader setScanCompFlag={setScanCompFlag} />
+        // scanCompFlag && <QRreader setScanCompFlag={setScanCompFlag} />
+        // scanCompFlag && <ScanWithDevice setScanCompFlag={setScanCompFlag} />
       }
+      <ScanWithDevice setScanCompFlag={setScanCompFlag}  />
+    
     </>
   );
 };

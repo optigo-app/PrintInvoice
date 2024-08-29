@@ -38,9 +38,9 @@
     background-color: #e8e8e8;
 }
 .scanblock_mrpbill{
-    min-height: 120px;
+    min-height: 140px;
     min-width: 120px;
-    max-height: 120px;
+    max-height: 140px;
     max-width: 120px;
     width: 100%;
     height: 100%;
@@ -195,7 +195,7 @@
 }
 
 .scanJobImg{
-    height: 120px;
+    height: 125px;
     width: 120px;
     margin: 1px;
 }
@@ -249,7 +249,11 @@
     padding-left: 50px;
   }
 
-
+.fs_scanimg{
+  font-size: 11px;
+  line-height: 12px;
+  height: 15px;
+}
 
 
 
