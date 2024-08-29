@@ -227,6 +227,7 @@ const MRPBill = () => {
 
   }
   const handleKeyDownEnter = (e) => {
+    
     if(searchVal !== ''){
       if (e.key === 'Enter') {
         setIsLoading(true);
@@ -236,7 +237,28 @@ const MRPBill = () => {
       setCustErrorMsg('Customer required');
     }
   }
+const removeDuplicates = (array) => {
+  // Create a Map to store unique StockBarcodes
+  // const uniqueMap = new Map();
 
+  // // Iterate over the array and add each job to the Map
+  // array?.forEach(item => {
+  //   uniqueMap?.set(item?.StockBarcode, item);
+  // });
+
+  let arr = [];
+  array?.forEach((a) => {
+    let findrec = arr.findIndex((e) => e?.StockBarcode === a?.StockBarcode);
+    if(findrec === -1){
+      arr.push(a);
+    }else{
+      arr.pop(arr[findrec]);
+    }
+  })
+console.log(arr);
+  return arr;
+
+};
   //go button logic and job api calling
   const handleGoClick = async(type) => {
     setEditTableFlag(false);
@@ -267,6 +289,7 @@ const MRPBill = () => {
         return;
       }
 
+
       try {
         const url = "http://zen/jo/api-lib/App/API_MRPBill";
         const body = JSON.stringify({
@@ -280,7 +303,8 @@ const MRPBill = () => {
                 if(response?.data?.Data?.DT?.length > 0){
                     if(jobList?.length > 0){
                          let isJobPresent = jobList?.find((al) => al?.StockBarcode === response?.data?.Data?.DT[0]?.StockBarcode);
-                         if(isJobPresent){
+                         let isJobPresent2 = jobList?.some((al) => al?.StockBarcode === response?.data?.Data?.DT[0]?.StockBarcode);
+                         if(isJobPresent && isJobPresent2){
                           console.log('already present');
                           setMsg('Already Present');
                           setJobDetail([]);
@@ -307,6 +331,7 @@ const MRPBill = () => {
                       setJobDetail(response?.data?.Data?.DT)
                       let newobj = {...response?.data?.Data?.DT[0]};
                       newobj.salePrice = '';
+                      
                       setJobList((prev) => [...prev, newobj]);
                       setMsg('')
                       setJobnoVal('');
