@@ -19,6 +19,7 @@ import ScanWithDevice from "./ScanWithDevice";
 import useBarcodeScanner from "./useBarcodeScanner";
 import { scannedValue } from './../../recoil/atom';
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { Helmet } from "react-helmet-async";
 
 const ConfirmDialog = ({ open, onClose, onConfirm  }) => (
   <Dialog open={open} onClose={onClose}>
@@ -874,6 +875,9 @@ useEffect(() => {
 
   return (
     <>
+      <Helmet>
+        <title>MRP AND BILL</title>
+      </Helmet>
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
