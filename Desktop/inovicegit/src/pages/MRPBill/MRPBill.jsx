@@ -229,6 +229,7 @@ const MRPBill = () => {
   const handleKeyDownEnter = (e) => {
     if(searchVal !== ''){
       if (e.key === 'Enter') {
+        setIsLoading(true);
         handleGoClick(); // Trigger the Go button's click logic
       }
     }else{
@@ -238,7 +239,7 @@ const MRPBill = () => {
 
   //go button logic and job api calling
   const handleGoClick = async(type) => {
-
+    setEditTableFlag(false);
     const areAllSalePricesSet = () => {
       return jobList.every(job => job.salePrice !== '');
     };
@@ -257,7 +258,6 @@ const MRPBill = () => {
     //   isCustValid = true;
     //   setCustErrorMsg('');
     // }
-    console.log(searchVal);
    if( searchVal !== ''){
         console.log(searchVal);
     if(jobnoVal !== '' && isValid && isCustValid){

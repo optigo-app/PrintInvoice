@@ -28,8 +28,7 @@ const AllDesign = () => {
       return <AllDesignBagPrint2 />;
     } else if (searchUrl?.includes("grids")) {
       return <AllGrids />;
-    }
-     else if (searchUrl?.includes("pid=18126")) {
+    } else if (searchUrl?.includes("pid=18126")) {
       return <MRPBill />;
     }
      else {
