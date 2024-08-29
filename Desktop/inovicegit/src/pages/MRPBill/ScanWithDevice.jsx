@@ -3,10 +3,13 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { scannedValue } from '../../recoil/atom';
+import { QrReader } from 'react-qr-reader';
+import { useRef } from 'react';
 
 const ScanWithDevice = () => {
     const [scannedValues, setScannedValues] = useState([]);
     const setScanValue = useSetRecoilState(scannedValue);
+    // const scanRef = useRef(null);
     useEffect(() => {
         const handleScan = (event) => {
           // Capture scanned data from keyboard events
@@ -23,15 +26,35 @@ const ScanWithDevice = () => {
         };
         
         // Attach event listener for scanning
-        const inputElement = document.getElementById('scanner-input');
-        inputElement.addEventListener('keydown', handleScan);
+        const inputElement = document?.getElementById('scanner-input');
+        inputElement?.addEventListener('keydown', handleScan);
     
         // Cleanup
         return () => {
-          inputElement.removeEventListener('keydown', handleScan);
+          inputElement?.removeEventListener('keydown', handleScan);
         };
       }, []);
+  //   useEffect(() => {
+  //     if (scanRef.current) {
+  //         scanRef.current.focus()
+  //     }
+  // }, [])
+    useEffect(() => {
+      console.log('Component mounted or updated');
+      console.log('Scanned values:', scannedValues);
+  }, [scannedValues]);
+
       console.log(scannedValues);
+    //   const handleScan = (result, error) => {
+    //     if (result) {
+    //         console.log('QR Code Result:', result.text);
+    //         setScanValue(result.text); // Update Recoil state
+    //         setScannedValues(prev => [...prev, result.text]); // Update local state
+    //     }
+    //     if (error) {
+    //         console.info('QR Code Error:', error);
+    //     }
+    // };
       
       return (
         <div>
@@ -46,7 +69,6 @@ const ScanWithDevice = () => {
           style={{ position: 'absolute', left: '-9999px' }} 
           autoFocus 
         />
-
       </div>
       );
 }

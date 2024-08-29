@@ -18,7 +18,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography }
 import ScanWithDevice from "./ScanWithDevice";
 import useBarcodeScanner from "./useBarcodeScanner";
 import { scannedValue } from './../../recoil/atom';
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 const ConfirmDialog = ({ open, onClose, onConfirm  }) => (
   <Dialog open={open} onClose={onClose}>
@@ -96,12 +96,15 @@ const MRPBill = () => {
 
   const [editableFlag, setEditTableFlag] = useState(false);
 
+  const [inpAutoFocus, setInpAutoFocus] = useState(true);
+
   //scan
 
-  const scanValue = useRecoilValue(scannedValue);
+  // const scanValue = useRecoilValue(scannedValue);
+  // const setScanValue = useSetRecoilState(scannedValue);
 
   const [scanFlag, setScanFlag] = useState(false);
-  // const [scannedValue, setScannedValue] = useState('');
+  const [scannedValue, setScannedValue] = useState('');
   const [scanning, setScanning] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const scannerRef = useRef(null);
@@ -116,6 +119,8 @@ const MRPBill = () => {
   const location = useLocation();
   const queryParam = location?.search;
   const params = new URLSearchParams(queryParam);
+
+  const inputRef = useRef(null); 
 
   // Extract specific parameters
   const tkn = params.get('tkn');
@@ -393,8 +398,12 @@ const MRPBill = () => {
 
     setSelectedIndex(-1);
     setCustErrorMsg('');
+    setInpAutoFocus(true);
+    inputRef.current?.focus();
+    
   };
   const handleSearchCustomer = (val) => {
+    setInpAutoFocus(true);
     let searchValue = val?.toLowerCase();
     setSearchCust(val);
     setSearchVal(val);
@@ -436,12 +445,14 @@ const MRPBill = () => {
       setFilteredCustomers([]);
     }
     setCustErrorMsg('');
+    setInpAutoFocus(true);
   }
   const handleSelectBlur = () => {
       setTimeout(() => {
         setFilteredCustomers([]);
         setSelectedIndex(-1);
       }, 1000)  
+      setInpAutoFocus(true);
   }
   const handleKeyDown = (e) => {
     if(selectedIndex < filteredCustomers?.length){
@@ -477,7 +488,7 @@ const MRPBill = () => {
     setCustErrorMsg('');
     setSelectedIndex(-1);
   }
-
+  setInpAutoFocus(true);
   }
 
   //book change logic
@@ -701,132 +712,146 @@ const MRPBill = () => {
     setEditTableFlag(false); // Enable fields
   };
 
-const handleScanFlagAndComp = () => {
-  setScanFlag(!scanFlag);
-  setScanCompFlag(!scanCompFlag);
+const handleScanFlagAndComp = (args) => {
+  if(args === 'f2'){
+    inputRef.current?.focus();
+  }
+  if(searchVal !== ''){
+    setScanFlag(!scanFlag);
+    setInpAutoFocus(true);
+  }else{
+    setCustErrorMsg('Select Customer');
+  }
+  // setScanCompFlag(!scanCompFlag);
 }
 
 useEffect(() => {
   console.log('called');
-  if(scanValue){
+  if(scannedValue){
     console.log('called');
-    console.log('scanValue', scanValue);
+    console.log('scanValue', scannedValue);
+    
     // setTimeout(() => {
-    //   setJobnoVal(scanValue);
-    //   handleGoClick(); 
-    //   handleKeyDownEnter();
+    //   setJobnoVal(scannedValue);
+      handleScanJob(scannedValue); 
+    //   // handleKeyDownEnter();
     // },10) 
+    
 
+  }
+}, [scannedValue]);
 
-   const handleGoClick2 = async() => {
-      const areAllSalePricesSet = () => {
-        return jobList.every(job => job.salePrice !== '');
-      };
-      const isValid = checkValidation();
-  
-      let isCustValid = false;
-  
-      // if(cid === undefined){
-        customerData?.forEach((e) => {
-          if(e?.id === custId && e?.TypoLabel?.toLowerCase() === searchVal?.toLowerCase()){
-            isCustValid = true;
-            setCustErrorMsg('');
-          }
-        })
-      // }else{
-      //   isCustValid = true;
-      //   setCustErrorMsg('');
-      // }
-  
-      if(jobnoVal !== '' && isValid && isCustValid){
-  
-        if (jobList.length > 0 && !areAllSalePricesSet()) {
-          setMsg('Please add sale price for previous jobs before adding new ones.');
-          return;
-        }
-  
-        try {
-          const url = "http://zen/jo/api-lib/App/API_MRPBill";
-          const body = JSON.stringify({
-              Token : `${atob(tkn)}`,
-              ReqData:`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"GetJobDeatil\",\"STB\":\"${jobnoVal}\",\"LockerId\":\"${lockerId}\",\"CustomerId\":\"${custId}\"}]`
-          })
-          setIsLoading(true);
-          const response = await axios.post(url, body);
-          if(response?.status === 200 && response?.data?.Status === '200'){
-              if(!isEmptyObject(response?.data?.Data)){
-                  if(response?.data?.Data?.DT?.length > 0){
-                      if(jobList?.length > 0){
-                           let isJobPresent = jobList?.find((al) => al?.StockBarcode === response?.data?.Data?.DT[0]?.StockBarcode);
-                           if(isJobPresent){
-                            console.log('already present');
-                            setMsg('Already Present');
-                            setJobDetail([]);
-                            setIsLoading(false);
-                            setDisableSelect(true);
-                            setDisableSelect2(true);
-                            setDisableSelect3(true);
-                            setDisableSelect4(true);
-                           }else{
-                            setJobDetail(response?.data?.Data?.DT)
-                            let newobj = {...response?.data?.Data?.DT[0]};
-                            newobj.salePrice = '';
-                            setJobList((prev) => [...prev, newobj]);
-                            setDisableSelect(true);
-                            setDisableSelect2(true);
-                            setDisableSelect3(true);
-                            setDisableSelect4(true);
-                            setMsg('')
-                            setJobnoVal('');
-                            setIsJobPresent(false);
-                            setIsLoading(false);
-                           }
-                      }else{
-                        setJobDetail(response?.data?.Data?.DT)
-                        let newobj = {...response?.data?.Data?.DT[0]};
-                        newobj.salePrice = '';
-                        setJobList((prev) => [...prev, newobj]);
-                        setMsg('')
-                        setJobnoVal('');
-                        setIsJobPresent(false);
-                        setDisableSelect(true);
-                        setDisableSelect2(true);
-                        setDisableSelect3(true);
-                        setDisableSelect4(true);
-                        setIsLoading(false);
-  
-                      }
-                  }else{
-                      setJobDetail([]);
-                      console.log(response?.data?.Data?.DT);
-                      setMsg('')
-                      setIsJobPresent(false);
-                      setIsLoading(false);
-                  }
+const handleScanJob = async() => {
+  try {
+    const url = "http://zen/jo/api-lib/App/API_MRPBill";
+    const body = JSON.stringify({
+        Token : `${atob(tkn)}`,
+        ReqData:`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"GetJobDeatil\",\"STB\":\"${scannedValue}\",\"LockerId\":\"${lockerId}\",\"CustomerId\":\"${custId}\"}]`
+    })
+    setIsLoading(true);
+    const response = await axios.post(url, body);
+    if(response?.status === 200 && response?.data?.Status === '200'){
+      if(!isEmptyObject(response?.data?.Data)){
+          if(response?.data?.Data?.DT?.length > 0){
+              if(jobList?.length > 0){
+                   let isJobPresent = jobList?.find((al) => al?.StockBarcode === response?.data?.Data?.DT[0]?.StockBarcode);
+                   if(isJobPresent){
+                    console.log('already present');
+                    setMsg('Already Present');
+                    setJobDetail([]);
+                    setIsLoading(false);
+                    setDisableSelect(true);
+                    setDisableSelect2(true);
+                    setDisableSelect3(true);
+                    setDisableSelect4(true);
+                   }else{
+                    setJobDetail(response?.data?.Data?.DT)
+                    let newobj = {...response?.data?.Data?.DT[0]};
+                    newobj.salePrice = '';
+                    setJobList((prev) => [...prev, newobj]);
+                    setDisableSelect(true);
+                    setDisableSelect2(true);
+                    setDisableSelect3(true);
+                    setDisableSelect4(true);
+                    setMsg('')
+                    setJobnoVal('');
+                    setIsJobPresent(false);
+                    setIsLoading(false);
+                   }
               }else{
-                  console.log(response?.data?.Data);
-                  setIsJobPresent(false);
-                  setIsLoading(false);
+                setJobDetail(response?.data?.Data?.DT)
+                let newobj = {...response?.data?.Data?.DT[0]};
+                newobj.salePrice = '';
+                setJobList((prev) => [...prev, newobj]);
+                setMsg('')
+                setJobnoVal('');
+                setIsJobPresent(false);
+                setDisableSelect(true);
+                setDisableSelect2(true);
+                setDisableSelect3(true);
+                setDisableSelect4(true);
+                setIsLoading(false);
+
               }
           }else{
-              console.log(response?.data?.Data);
-              setMsg('Invalid Job');
+              setJobDetail([]);
+              console.log(response?.data?.Data?.DT);
+              setMsg('')
               setIsJobPresent(false);
               setIsLoading(false);
           }
-  
-        } catch (error) {
-          console.log(error);
-          toast.error('Some Error Occured');
+      }else{
+          console.log(response?.data?.Data);
+          setIsJobPresent(false);
           setIsLoading(false);
-        }
-  
+      }
+  }else{
+      console.log(response?.data?.Data);
+      setMsg('Scanned Job Invalid');
+      setIsJobPresent(false);
+      setIsLoading(false);
+  }
+
+  } catch (error) {
+    console.log(error);
+    toast.error('Some Error Occured');
+    setIsLoading(false);
+  }
+}
+
+
+
+
+useEffect(() => {
+  const handleScan = (event) => {
+    // Capture scanned data from keyboard events
+    if (event.key === 'Enter') {
+      // Process scanned value here
+      const value = event.target.value.trim();
+      if (value) {
+          console.log(value);
+          setScannedValue(value);
+        // setScannedValues((prev) => [...prev, value]);
+        event.target.value = ''; // Clear input after scan
       }
     }
-    handleGoClick2();
+  };
+  
+  // Attach event listener for scanning
+  const inputElement = document?.getElementById('scanner-input');
+  inputElement?.addEventListener('keydown', handleScan);
 
+  // Cleanup
+  return () => {
+    inputElement?.removeEventListener('keydown', handleScan);
+  };
+}, []);
+
+useEffect(() => {
+  if (scanFlag) {
+    setInpAutoFocus(true);
   }
-}, [scanValue]);
+}, [scanFlag]);
 
   return (
     <>
@@ -835,7 +860,7 @@ useEffect(() => {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-      { !scanCompFlag && <div className="container_mrp">
+      {  <div className="container_mrp">
 
         <div className="head_mrp">ADD MRP AND PROCCED TO BILL</div>
 
@@ -944,9 +969,9 @@ useEffect(() => {
           <div className="w-25 d-flex flex-column  align-items-start ps-3 w_50_mrp2 w_100_mrp_scan mt_mrp">
             <div className="scanblock_mrpbill">
                 {/* <img src={scanImg} alt="#scanjob" className="scanJobImg" onClick={handleOpenScanComp} /> */}
-                { scanFlag ? <><img src={scanImg} alt="#scanjob" className="scanJobImg" onClick={handleScanFlagAndComp} /><div className="fs_scanimg"></div></> : 
+                { scanFlag ? <><img src={scanImg} alt="#scanjob" className="scanJobImg" onClick={() => handleScanFlagAndComp('scan')} /><div className="fs_scanimg"></div></> : 
                 <>
-                  <img src={f2Img} alt="#scanjob" className="scanJobImg" onClick={handleScanFlagAndComp} />
+                  <img src={f2Img} alt="#scanjob" className="scanJobImg" onClick={() => handleScanFlagAndComp('f2')} />
                   <div className="fw-bold text-danger fs_scanimg">Click Here For Scan Image</div>
                 </>}
             </div>
@@ -956,7 +981,6 @@ useEffect(() => {
                 id="jobno"
                 className="form-control border border-secondary"
                 value={jobnoVal}
-                autoFocus={true}
                 onChange={(e) => handleJobNoChange(e)}
                 onKeyDown={(e) => handleKeyDownEnter(e)}
                 disabled={disableInp ? true : false}
@@ -1143,7 +1167,22 @@ useEffect(() => {
         // scanCompFlag && <QRreader setScanCompFlag={setScanCompFlag} />
         // scanCompFlag && <ScanWithDevice setScanCompFlag={setScanCompFlag} />
       }
-      <ScanWithDevice setScanCompFlag={setScanCompFlag}  />
+      {/* <ScanWithDevice setScanCompFlag={setScanCompFlag}  /> */}
+      <div>
+        <img 
+          src="path-to-your-image.jpg" 
+          alt="Scan" 
+          onClick={() => document.getElementById('scanner-input').focus()} 
+          style={{ cursor: 'pointer' }}
+        />
+        <input 
+          id="scanner-input"
+          style={{ position: 'absolute', left: '-9999px' }} 
+          autoFocus={inpAutoFocus}
+          ref={inputRef}
+        />
+        Scan:
+      </div>
     
     </>
   );

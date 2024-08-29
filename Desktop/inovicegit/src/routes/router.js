@@ -12,14 +12,14 @@ const router = createBrowserRouter([
     path: "/*",
     element: <AllDesign />,
   },
-  {
-    path: "/qcreport",
-    element: <QcReport />,
-  },
-  {
-    path: "/mrpbill",
-    element: <><MRPBill /></>,
-  },
+  // {
+  //   path: "/qcreport",
+  //   element: <QcReport />,
+  // },
+  // {
+  //   path: "/mrpbill",
+  //   element: <><MRPBill /></>,
+  // },
   // {
   //   path: "/*",
   //   element: <><AllDesign /></>,
