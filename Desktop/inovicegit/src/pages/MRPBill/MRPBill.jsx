@@ -257,8 +257,10 @@ const MRPBill = () => {
     //   isCustValid = true;
     //   setCustErrorMsg('');
     // }
-
-    if(jobnoVal !== '' && isValid && isCustValid && searchVal !== ''){
+    console.log(searchVal);
+   if( searchVal !== ''){
+        console.log(searchVal);
+    if(jobnoVal !== '' && isValid && isCustValid){
 
       if (jobList.length > 0 && !areAllSalePricesSet()) {
         setMsg('Please add sale price for previous jobs before adding new ones.');
@@ -342,6 +344,9 @@ const MRPBill = () => {
       }
 
     }
+   }else{
+      setCustErrorMsg('Customer required');
+   }
   }
   const isEmptyObject = (obj) => Object.keys(obj).length === 0;
 
