@@ -226,8 +226,12 @@ const MRPBill = () => {
 
   }
   const handleKeyDownEnter = (e) => {
-    if (e.key === 'Enter') {
-      handleGoClick(); // Trigger the Go button's click logic
+    if(searchVal !== ''){
+      if (e.key === 'Enter') {
+        handleGoClick(); // Trigger the Go button's click logic
+      }
+    }else{
+      setCustErrorMsg('Customer required');
     }
   }
 
@@ -253,7 +257,7 @@ const MRPBill = () => {
     //   setCustErrorMsg('');
     // }
 
-    if(jobnoVal !== '' && isValid && isCustValid){
+    if(jobnoVal !== '' && isValid && isCustValid && searchVal !== ''){
 
       if (jobList.length > 0 && !areAllSalePricesSet()) {
         setMsg('Please add sale price for previous jobs before adding new ones.');
@@ -498,7 +502,8 @@ const MRPBill = () => {
   }
 
   //save bill logic
-  const saveMRP = async(e, args) => {
+  const saveMRP = async(args) => {
+    console.log(args);
     let IsForEst = 0;
     if(args === 'bill'){
       IsForEst = 0;
@@ -528,6 +533,7 @@ const MRPBill = () => {
         
         setIsLoading(true);
         const response = await axios.post("http://zen/jo/api-lib/App/API_MRPBill", body);
+        console.log(response);
         if(response?.status === 200 && response?.data?.Status === '200'){
           setBillNo(response?.data?.Data?.DT[0]?.BillNo);
           setPrintUrl(atob(response?.data?.Data?.DT[0]?.PrintUrl));
@@ -676,6 +682,10 @@ const MRPBill = () => {
   useEffect(() => {
     if(jobList?.length === 0){
       setDisableSelect(false);
+      setDisableSelect2(false);
+      setDisableSelect3(false);
+      setDisableSelect4(false);
+      setEditTableFlag(false);
     }
   },[jobList]);
 
@@ -713,14 +723,23 @@ const MRPBill = () => {
   };
 
 const handleScanFlagAndComp = (args) => {
+  let isCustValid = false;
+
+  // if(cid === undefined){
+    customerData?.forEach((e) => {
+      if(e?.id === custId && e?.TypoLabel?.toLowerCase() === searchVal?.toLowerCase()){
+        isCustValid = true;
+        setCustErrorMsg('');
+      }
+    })
   if(args === 'f2'){
     inputRef.current?.focus();
   }
-  if(searchVal !== ''){
+  if(searchVal !== '' && isCustValid){
     setScanFlag(!scanFlag);
     setInpAutoFocus(true);
   }else{
-    setCustErrorMsg('Select Customer');
+    setCustErrorMsg('Select Valid Customer');
   }
   // setScanCompFlag(!scanCompFlag);
 }
