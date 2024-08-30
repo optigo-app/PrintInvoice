@@ -118,6 +118,10 @@ const MRPBill = () => {
 
   const [disableInp, setDisableInp] = useState(false);
 
+  
+  const [open, setOpen] = useState(false);
+  const [actionType, setActionType] = useState('');
+
   const location = useLocation();
   const queryParam = location?.search;
   const params = new URLSearchParams(queryParam);
@@ -129,14 +133,7 @@ const MRPBill = () => {
   const pid = params.get('pid');
   const cid = params.get('cid');
 
-  let cust_id = '';
-  let cust_val = '';
-  let book_id = '';
-  let book_value = '';
-  let curr_id = '';
-  let currVal = '';
-  let lock_Id = '';
-  let locker_Val = '';
+
 
   //getting intial main data from api
   const fetchMRPData = async () => {
@@ -162,8 +159,6 @@ const MRPBill = () => {
                   case 'locker':
                     setLockerId(e?.id);
                     setSelectLocker(e?.Lockername);
-                    lock_Id = e?.id;
-                    locker_Val = e?.Lockername;
                     setTimeout(() => {
                       setLockerId(e?.id);
                       setSelectLocker(e?.Lockername);
@@ -172,8 +167,6 @@ const MRPBill = () => {
                   case 'currency':
                     setCurrencyID(e?.id);
                     setSelectVal(e?.Currencycode);
-                    curr_id = e?.id;
-                    currVal = e?.Currencycode;
                     setTimeout(() => {
                       setCurrencyID(e?.id);
                       setSelectVal(e?.Currencycode);
@@ -182,8 +175,6 @@ const MRPBill = () => {
                   case 'book':
                     setBookId(e?.id);
                     setSelectBook(e?.id);
-                    book_id = e?.id;
-                    book_value = e?.id;
                     setTimeout(() => {
                       setBookId(e?.id);
                       setSelectBook(e?.id);
@@ -223,16 +214,13 @@ const MRPBill = () => {
       toast.error("Some Error Occurred");
     }
 
-
-    
-
   };
   
+  //api calling for dropdowns
   useEffect(() => {
     fetchMRPData();
   }, []);
   
-
   //currency logic
   const handleCurrencyChange = (e) => {
     setSelectVal(e.target.value);
@@ -257,13 +245,14 @@ const MRPBill = () => {
   const handleJobNoChange = (e) => {
     setJobnoVal(e.target.value);
     setMsg('');
+    setScanFlag(false);
 
   }
   const handleKeyDownEnter = (e) => {
     
     if(searchVal !== ''){
       if (e.key === 'Enter') {
-        setIsLoading(true);
+        setDisableInp(true);
         handleGoClick(); // Trigger the Go button's click logic
       }
     }else{
@@ -289,7 +278,6 @@ const MRPBill = () => {
         }
       })
    if( searchVal !== ''){
-        console.log(searchVal);
     if(jobnoVal !== '' && isValid && isCustValid){
 
       if (jobList.length > 0 && !areAllSalePricesSet()) {
@@ -312,6 +300,7 @@ const MRPBill = () => {
                     if(jobList?.length > 0){
                          let isJobPresent = jobList?.find((al) => al?.StockBarcode === response?.data?.Data?.DT[0]?.StockBarcode);
                          let isJobPresent2 = jobList?.some((al) => al?.StockBarcode === response?.data?.Data?.DT[0]?.StockBarcode);
+                         console.log(isJobPresent2);
                          if(isJobPresent && isJobPresent2){
                           console.log('already present');
                           setMsg('Already Present');
@@ -321,6 +310,7 @@ const MRPBill = () => {
                           setDisableSelect2(true);
                           setDisableSelect3(true);
                           setDisableSelect4(true);
+                          setDisableInp(false);
                          }else{
                           setJobDetail(response?.data?.Data?.DT)
                           let newobj = {...response?.data?.Data?.DT[0]};
@@ -334,6 +324,7 @@ const MRPBill = () => {
                           setJobnoVal('');
                           setIsJobPresent(false);
                           setIsLoading(false);
+                          setDisableInp(false);
                          }
                     }else{
                       setJobDetail(response?.data?.Data?.DT)
@@ -349,6 +340,7 @@ const MRPBill = () => {
                       setDisableSelect3(true);
                       setDisableSelect4(true);
                       setIsLoading(false);
+                      setDisableInp(false);
 
                     }
                 }else{
@@ -357,28 +349,33 @@ const MRPBill = () => {
                     setMsg('')
                     setIsJobPresent(false);
                     setIsLoading(false);
+                    setDisableInp(false);
                 }
             }else{
                 console.log(response?.data?.Data);
                 setIsJobPresent(false);
                 setIsLoading(false);
+                setDisableInp(false);
             }
         }else{
             console.log(response?.data?.Data);
             setMsg('Invalid Job');
             setIsJobPresent(false);
             setIsLoading(false);
+            setDisableInp(false);
         }
 
       } catch (error) {
         console.log(error);
         toast.error('Some Error Occured');
         setIsLoading(false);
+        setDisableInp(false);
       }
 
     }
    }else{
       setCustErrorMsg('Customer required');
+      setDisableInp(false);
    }
   }
   const isEmptyObject = (obj) => Object.keys(obj).length === 0;
@@ -709,6 +706,7 @@ const MRPBill = () => {
 
   }
 
+  //customer id and value set up logic
   useEffect(() => {
     if(cid){
       customerData?.forEach((e) => {
@@ -722,6 +720,7 @@ const MRPBill = () => {
     }
   },[cid, customerData])
 
+  //job list variable set up of disable
   useEffect(() => {
     if(jobList?.length === 0){
       setDisableSelect(false);
@@ -732,9 +731,7 @@ const MRPBill = () => {
     }
   },[jobList]);
 
-  const [open, setOpen] = useState(false);
-  const [actionType, setActionType] = useState('');
-
+  //dialog box open logic
   const handleClickOpen = (type) => {
     console.log(type);
     setActionType(type);  // Store the action type
@@ -744,10 +741,12 @@ const MRPBill = () => {
     setOpen(true);
   };
 
+  //dialog box close logic
   const handleClose = () => {
     setOpen(false);
   };
 
+  //dialog box confirm button logic
   const handleConfirm = () => {
     if (actionType === 'bill') {
       saveMRP('bill');
@@ -757,15 +756,18 @@ const MRPBill = () => {
     setOpen(false);
   };
 
+  //continue button logic
   const handleContinue = () => {
     setEditTableFlag(true); // Disable fields
   };
 
+  //back button logic
   const handleBack = () => {
     setEditTableFlag(false); // Enable fields
   };
 
-const handleScanFlagAndComp = (args) => {
+  //focus event set up logic
+  const handleScanFlagAndComp = (args) => {
   let isCustValid = false;
 
   // if(cid === undefined){
@@ -785,14 +787,11 @@ const handleScanFlagAndComp = (args) => {
     setCustErrorMsg('Select Valid Customer');
   }
   // setScanCompFlag(!scanCompFlag);
-}
+  }
 
+//scan value handle scan value
 useEffect(() => {
-  console.log('called');
   if(scannedValue){
-    console.log('called');
-    console.log('scanValue', scannedValue);
-    
     // setTimeout(() => {
     //   setJobnoVal(scannedValue);
       handleScanJob(scannedValue); 
@@ -803,6 +802,7 @@ useEffect(() => {
   }
 }, [scannedValue]);
 
+//handleScanJob api calling logic
 const handleScanJob = async() => {
   try {
     const url = "http://zen/jo/api-lib/App/API_MRPBill";
@@ -881,9 +881,7 @@ const handleScanJob = async() => {
   }
 }
 
-
-
-
+//scanning main event
 useEffect(() => {
 
   const handleScan = (event) => {
@@ -928,8 +926,6 @@ useEffect(() => {
   const inputElement = document?.getElementById('scanner-input');
   inputElement?.addEventListener('keydown', handleScan);
   
-  console.log('called 2', currencyId, lockerId);
-  console.log('called 3 cust : ', custId, custId==='', scanFlag);
   setMsg('');
 
   // Cleanup
@@ -939,59 +935,14 @@ useEffect(() => {
 
 }, [currencyId, lockerId, custId]);
 
+//focus true event
 useEffect(() => {
   if (scanFlag) {
     setInpAutoFocus(true);
   }
 }, [scanFlag]);
 
-const checkScanValidation = () => {
-      let isValid = false;
-      if(cust_id === '' || custId){
-        setCustErrorMsg('Customer required');
-        isValid = false;
-      }else{
-        isValid = true;
-        setCustErrorMsg('');
-      }
-      if(cust_val === '' || searchVal === ''){
-        setCustErrorMsg('Customer required');
-        isValid = false;
-      }else{
-        isValid = true;
-        setCustErrorMsg('');
-      }
-      if(lock_Id === '' || lockerId === ''){
-        setLockerErrorMsg('Locker required');
-        isValid = false;
-      }else{
-        isValid = true;
-        setLockerErrorMsg('');
-      }
-      if(locker_Val === '' || selectLocker === ''){
-        setLockerErrorMsg('Locker required');
-        isValid = false;
-      }else{
-        isValid = true;
-        setLockerErrorMsg('');
-      }
-      if(curr_id === '' || currencyId === ''){
-        setCurrErrorMsg('Currency required');
-        isValid = false;
-      }else{
-        isValid = true;
-        setCurrErrorMsg('');
-      }
-      if(currVal === '' || selectVal === ''){
-        setCurrErrorMsg('Currency required');
-        isValid = false;
-      }else{
-        isValid = true;
-        setCurrErrorMsg('');
-      }
-      return isValid;
-}
-
+//F2 key event
 useEffect(() => {
     const handleKeyDown = (e) => {
       if(e?.key === 'F2'){
