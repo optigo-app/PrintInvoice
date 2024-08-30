@@ -128,15 +128,18 @@ const MRPBill = () => {
   const pid = params.get('pid');
   const cid = params.get('cid');
 
+  let cust_id = '';
+  let cust_val = '';
+  let book_id = '';
+  let book_value = '';
+  let curr_id = '';
+  let currVal = '';
+  let lock_Id = '';
+  let locker_Val = '';
 
   //getting intial main data from api
   const fetchMRPData = async () => {
-    let custId = '';
-    let custValue = '';
-    let currId = '';
-    let currVal = '';
-    let lockId = '';
-    let lockerVal = '';
+
     try {
       const url = "http://zen/jo/api-lib/App/API_MRPBill";
       const token = `${atob(tkn)}`;
@@ -158,6 +161,8 @@ const MRPBill = () => {
                   case 'locker':
                     setLockerId(e?.id);
                     setSelectLocker(e?.Lockername);
+                    lock_Id = e?.id;
+                    locker_Val = e?.Lockername;
                     setTimeout(() => {
                       setLockerId(e?.id);
                       setSelectLocker(e?.Lockername);
@@ -166,6 +171,8 @@ const MRPBill = () => {
                   case 'currency':
                     setCurrencyID(e?.id);
                     setSelectVal(e?.Currencycode);
+                    curr_id = e?.id;
+                    currVal = e?.Currencycode;
                     setTimeout(() => {
                       setCurrencyID(e?.id);
                       setSelectVal(e?.Currencycode);
@@ -174,6 +181,8 @@ const MRPBill = () => {
                   case 'book':
                     setBookId(e?.id);
                     setSelectBook(e?.id);
+                    book_id = e?.id;
+                    book_value = e?.id;
                     setTimeout(() => {
                       setBookId(e?.id);
                       setSelectBook(e?.id);
@@ -875,18 +884,36 @@ const handleScanJob = async() => {
 
 
 useEffect(() => {
-  console.log(custId, searchVal, custSearch, lockerId, selectLocker, currencyId);
+  
   const handleScan = (event) => {
     // Capture scanned data from keyboard events
     if (event.key === 'Enter') {
       // Process scanned value here
       const value = event.target.value.trim();
       if (value) {
-          console.log(value);
-              setScannedValue(value);
-        // setScannedValues((prev) => [...prev, value]);
+        if(currencyId !== '' && lockerId !== '' && custId !== ''){
+
+        setScannedValue(value);
         event.target.value = ''; // Clear input after scan
-      }
+        }
+        else{
+        if(custId === ''){
+          setCustErrorMsg('Customer required');
+        }else{
+          setCustErrorMsg('');
+        }
+        if(lockerId === ''){
+          setLockerErrorMsg('Locker required');
+        }else{
+          setLockerErrorMsg('');
+        }
+        if(currencyId === ''){
+          setCurrErrorMsg('Currency required');
+        }else{
+          setCurrErrorMsg('');
+        }
+        }
+    }
     }
   };
   
@@ -898,13 +925,61 @@ useEffect(() => {
   return () => {
     inputElement?.removeEventListener('keydown', handleScan);
   };
-}, []);
+ 
+}, [currencyId, lockerId, custId]);
 
 useEffect(() => {
   if (scanFlag) {
     setInpAutoFocus(true);
   }
 }, [scanFlag]);
+
+const checkScanValidation = () => {
+      let isValid = false;
+      if(cust_id === '' || custId){
+        setCustErrorMsg('Customer required');
+        isValid = false;
+      }else{
+        isValid = true;
+        setCustErrorMsg('');
+      }
+      if(cust_val === '' || searchVal === ''){
+        setCustErrorMsg('Customer required');
+        isValid = false;
+      }else{
+        isValid = true;
+        setCustErrorMsg('');
+      }
+      if(lock_Id === '' || lockerId === ''){
+        setLockerErrorMsg('Locker required');
+        isValid = false;
+      }else{
+        isValid = true;
+        setLockerErrorMsg('');
+      }
+      if(locker_Val === '' || selectLocker === ''){
+        setLockerErrorMsg('Locker required');
+        isValid = false;
+      }else{
+        isValid = true;
+        setLockerErrorMsg('');
+      }
+      if(curr_id === '' || currencyId === ''){
+        setCurrErrorMsg('Currency required');
+        isValid = false;
+      }else{
+        isValid = true;
+        setCurrErrorMsg('');
+      }
+      if(currVal === '' || selectVal === ''){
+        setCurrErrorMsg('Currency required');
+        isValid = false;
+      }else{
+        isValid = true;
+        setCurrErrorMsg('');
+      }
+      return isValid;
+}
 
   return (
     <>
@@ -1229,7 +1304,7 @@ useEffect(() => {
           src="path-to-your-image.jpg" 
           alt="Scan" 
           onClick={() => document.getElementById('scanner-input').focus()} 
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: 'pointer', position:'absolute', left:'-9999px' }}
         />
         <input 
           id="scanner-input"
@@ -1237,7 +1312,6 @@ useEffect(() => {
           autoFocus={inpAutoFocus}
           ref={inputRef}
         />
-        Scan:
       </div>
     
     </>
