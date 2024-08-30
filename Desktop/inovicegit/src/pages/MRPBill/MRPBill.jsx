@@ -970,7 +970,7 @@ useEffect(() => {
 
         <div className="head_mrp">ADD MRP AND PROCCED TO BILL</div>
 
-        <div className="p-1 px-4 d_grid">
+        <div className="p-1 px-4 d_grid min_h_92_mrp">
             <div className="grid-item pd10_mrp">
                 <label className="cust_name_title pe-3" htmlFor="custtitle">
                 CUSTOMER NAME
@@ -1002,7 +1002,7 @@ useEffect(() => {
                 )}
                 <div className="text-danger">{custErrorMsg}</div>
             </div>
-            <div className="grid-item pd10_mrp ">
+            <div className="grid-item pd10_mrp min_h_92_mrp">
                 <label htmlFor="locker" className="pe-3 cust_name_title">
                 LOCKER
                 </label>
@@ -1023,7 +1023,7 @@ useEffect(() => {
                 </select>
                 <div className="text-danger">{lockerErrorMsg}</div>
             </div>
-            <div className="grid-item pd10_mrp">
+            <div className="grid-item pd10_mrp min_h_92_mrp">
               <div className=" d-flex flex-column align-items-start ">
                 
                 <label htmlFor="currency" className="pe-3 cust_name_title">
@@ -1048,7 +1048,7 @@ useEffect(() => {
                 <div className="text-danger px-1">{currErrorMsg}</div>
 
             </div>
-            <div className="grid-item pd10_mrp">
+            <div className="grid-item pd10_mrp min_h_92_mrp">
                 <label htmlFor="books" className="pe-3 cust_name_title">
                 BOOKS
                 </label>
@@ -1075,10 +1075,11 @@ useEffect(() => {
           <div className="w-25 d-flex flex-column  align-items-start ps-3 w_50_mrp2 w_100_mrp_scan mt_mrp">
             <div className="scanblock_mrpbill">
                 {/* <img src={scanImg} alt="#scanjob" className="scanJobImg" onClick={handleOpenScanComp} /> */}
-                { scanFlag ? <><img src={scanImg} alt="#scanjob" className="scanJobImg" onClick={() => handleScanFlagAndComp('scan')} /><div className="fs_scanimg"></div></> : 
+                { scanFlag ? <><img src={scanImg} alt="#scanjob" className="scanJobImg scanJobImg2" onClick={() => handleScanFlagAndComp('scan')} /><div className="fs_scanimg"></div></> : 
                 <>
                   <img src={f2Img} alt="#scanjob" className="scanJobImg" onClick={() => handleScanFlagAndComp('f2')} />
-                  <div className="fw-bold text-danger fs_scanimg">Click Here For Scan Image</div>
+                  <div className="fw-bold text-danger fs_scanimg d-flex justify-content-center align-items-center">Click Here For Scan</div>
+                  <div className="fw-bold text-danger fs_scanimg d-flex justify-content-center align-items-center">OR Press F2 to Scan</div>
                 </>}
             </div>
             <div className="d-flex justify-content-center align-items-center">
