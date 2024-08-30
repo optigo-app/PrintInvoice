@@ -992,6 +992,18 @@ const checkScanValidation = () => {
       return isValid;
 }
 
+useEffect(() => {
+    const handleKeyDown = (e) => {
+      if(e?.key === 'F2'){
+        setScanFlag(true);
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+},[])
+
   return (
     <>
       <Helmet>
