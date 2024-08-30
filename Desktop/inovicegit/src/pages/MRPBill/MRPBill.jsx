@@ -947,6 +947,7 @@ useEffect(() => {
     const handleKeyDown = (e) => {
       if(e?.key === 'F2'){
         setScanFlag(true);
+        inputRef.current?.focus();
       }
     }
     window.addEventListener('keydown', handleKeyDown);
