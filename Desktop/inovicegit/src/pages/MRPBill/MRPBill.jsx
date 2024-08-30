@@ -104,7 +104,8 @@ const MRPBill = () => {
   // const scanValue = useRecoilValue(scannedValue);
   // const setScanValue = useSetRecoilState(scannedValue);
 
-  const [scanFlag, setScanFlag] = useState(false);
+  const [scanFlag, setScanFlag] = useState(true);
+  const [scanFlagError, setScanFlagError] = useState(false);
   const [scannedValue, setScannedValue] = useState('');
   const [scanning, setScanning] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -651,7 +652,7 @@ const MRPBill = () => {
     setDisableSelect4(false);
     inputRef.current?.focus();
     
-    setScanFlag(false);
+    setScanFlag(true);
   }
 
   //   // Handle scanning
@@ -884,7 +885,7 @@ const handleScanJob = async() => {
 
 
 useEffect(() => {
-  
+
   const handleScan = (event) => {
     // Capture scanned data from keyboard events
     if (event.key === 'Enter') {
@@ -899,33 +900,43 @@ useEffect(() => {
         else{
         if(custId === ''){
           setCustErrorMsg('Customer required');
+          setIsLoading(false);
         }else{
           setCustErrorMsg('');
+          setIsLoading(false);
         }
         if(lockerId === ''){
           setLockerErrorMsg('Locker required');
+          setIsLoading(false);
         }else{
           setLockerErrorMsg('');
+          setIsLoading(false);
         }
         if(currencyId === ''){
           setCurrErrorMsg('Currency required');
+          setIsLoading(false);
         }else{
           setCurrErrorMsg('');
+          setIsLoading(false);
         }
         }
-    }
+      }
     }
   };
   
   // Attach event listener for scanning
   const inputElement = document?.getElementById('scanner-input');
   inputElement?.addEventListener('keydown', handleScan);
+  
+  console.log('called 2', currencyId, lockerId);
+  console.log('called 3 cust : ', custId, custId==='', scanFlag);
+  setMsg('');
 
   // Cleanup
   return () => {
     inputElement?.removeEventListener('keydown', handleScan);
   };
- 
+
 }, [currencyId, lockerId, custId]);
 
 useEffect(() => {
