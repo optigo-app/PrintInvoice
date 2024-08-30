@@ -131,6 +131,12 @@ const MRPBill = () => {
 
   //getting intial main data from api
   const fetchMRPData = async () => {
+    let custId = '';
+    let custValue = '';
+    let currId = '';
+    let currVal = '';
+    let lockId = '';
+    let lockerVal = '';
     try {
       const url = "http://zen/jo/api-lib/App/API_MRPBill";
       const token = `${atob(tkn)}`;
@@ -152,14 +158,26 @@ const MRPBill = () => {
                   case 'locker':
                     setLockerId(e?.id);
                     setSelectLocker(e?.Lockername);
+                    setTimeout(() => {
+                      setLockerId(e?.id);
+                      setSelectLocker(e?.Lockername);
+                    },0)
                     break;
                   case 'currency':
                     setCurrencyID(e?.id);
                     setSelectVal(e?.Currencycode);
+                    setTimeout(() => {
+                      setCurrencyID(e?.id);
+                      setSelectVal(e?.Currencycode);
+                    },0)
                     break;
                   case 'book':
                     setBookId(e?.id);
                     setSelectBook(e?.id);
+                    setTimeout(() => {
+                      setBookId(e?.id);
+                      setSelectBook(e?.id);
+                    },0)
                     break;
                   default:
                     break;
@@ -194,6 +212,10 @@ const MRPBill = () => {
       console.log("An error occurred while fetching data:", error);
       toast.error("Some Error Occurred");
     }
+
+
+    
+
   };
   
   useEffect(() => {
@@ -204,6 +226,7 @@ const MRPBill = () => {
   //currency logic
   const handleCurrencyChange = (e) => {
     setSelectVal(e.target.value);
+    setCurrErrorMsg('');
     const selectedOption = e.target.options[e.target.selectedIndex];
     const currencyRate = selectedOption.getAttribute('data-curr_Rate');
     const currencyId = selectedOption.getAttribute('data-currId');
@@ -237,28 +260,7 @@ const MRPBill = () => {
       setCustErrorMsg('Customer required');
     }
   }
-const removeDuplicates = (array) => {
-  // Create a Map to store unique StockBarcodes
-  // const uniqueMap = new Map();
 
-  // // Iterate over the array and add each job to the Map
-  // array?.forEach(item => {
-  //   uniqueMap?.set(item?.StockBarcode, item);
-  // });
-
-  let arr = [];
-  array?.forEach((a) => {
-    let findrec = arr.findIndex((e) => e?.StockBarcode === a?.StockBarcode);
-    if(findrec === -1){
-      arr.push(a);
-    }else{
-      arr.pop(arr[findrec]);
-    }
-  })
-console.log(arr);
-  return arr;
-
-};
   //go button logic and job api calling
   const handleGoClick = async(type) => {
     setEditTableFlag(false);
@@ -276,10 +278,6 @@ console.log(arr);
           setCustErrorMsg('');
         }
       })
-    // }else{
-    //   isCustValid = true;
-    //   setCustErrorMsg('');
-    // }
    if( searchVal !== ''){
         console.log(searchVal);
     if(jobnoVal !== '' && isValid && isCustValid){
@@ -407,7 +405,11 @@ console.log(arr);
         setJobList(updatedJl);
 
     }
-
+    if(scanFlag){
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 1000);
+    }
   };
 
   //job delete logic
@@ -638,9 +640,9 @@ console.log(arr);
     setDisableSelect2(false);
     setDisableSelect3(false);
     setDisableSelect4(false);
-
+    inputRef.current?.focus();
     
-
+    setScanFlag(false);
   }
 
   //   // Handle scanning
@@ -873,6 +875,7 @@ const handleScanJob = async() => {
 
 
 useEffect(() => {
+  console.log(custId, searchVal, custSearch, lockerId, selectLocker, currencyId);
   const handleScan = (event) => {
     // Capture scanned data from keyboard events
     if (event.key === 'Enter') {
@@ -880,7 +883,7 @@ useEffect(() => {
       const value = event.target.value.trim();
       if (value) {
           console.log(value);
-          setScannedValue(value);
+              setScannedValue(value);
         // setScannedValues((prev) => [...prev, value]);
         event.target.value = ''; // Clear input after scan
       }
