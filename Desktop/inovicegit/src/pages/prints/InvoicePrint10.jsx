@@ -1097,11 +1097,11 @@ const InvoicePrint_10_11 = ({
               </>
             )}
             <div className="d-flex justify-content-between">
-              <p className="fw-bold"> Total Amount </p>
+              {/* <p className="fw-bold"> Total Amount </p>
               <p className="fw-bold">
                 {" "}
                 {NumberWithCommas((mainDatas?.mainTotal?.total_amount / headerData?.CurrencyExchRate), 2)}
-              </p>
+              </p> */}
               {/* <p className="fw-bold"> {NumberWithCommas(totalss?.total-totalss?.discount, 2)}</p> */}
             </div>
             {mainDatas?.allTaxes?.map((e, i) => {

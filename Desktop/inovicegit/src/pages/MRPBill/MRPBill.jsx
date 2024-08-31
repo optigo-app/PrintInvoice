@@ -89,6 +89,7 @@ const MRPBill = () => {
   const [custErrorMsg, setCustErrorMsg] = useState('');
   const [lockerErrorMsg, setLockerErrorMsg] = useState('');
   const [currErrorMsg, setCurrErrorMsg] = useState('');
+  const [bookErrorMsg, setBookErrorMsg] = useState('');
 
   const [disableSelect, setDisableSelect] = useState(false);
   const [disableSelect2, setDisableSelect2] = useState(false);
@@ -123,6 +124,7 @@ const MRPBill = () => {
   const [actionType, setActionType] = useState('');
 
   const [scanOff, setScanOff] = useState(false);
+  const [jobNoFocus, setJobNoFocus] = useState(true);
 
   const location = useLocation();
   const queryParam = location?.search;
@@ -308,10 +310,19 @@ const MRPBill = () => {
                     if(jobList?.length > 0){
                          let isJobPresent = jobList?.find((al) => al?.StockBarcode === response?.data?.Data?.DT[0]?.StockBarcode);
                          let isJobPresent2 = jobList?.some((al) => al?.StockBarcode === response?.data?.Data?.DT[0]?.StockBarcode);
-                         console.log(isJobPresent2);
                          if(isJobPresent && isJobPresent2){
                           console.log('already present');
                           setMsg('Already Present');
+                          setTimeout(() => {
+                            setMsg('');
+                          }, 2000);
+                          setTimeout(() => {
+                            inputRef.current.focus();
+                            setJobNoFocus(true);
+                          }, 0);
+                          inputRef.current.focus();
+                          setJobnoVal('');
+
                           setJobDetail([]);
                           setIsLoading(false);
                           setDisableSelect(true);
@@ -551,13 +562,15 @@ const MRPBill = () => {
 
   //book change logic
   const handleBookChange = (e) => {
+      setBookErrorMsg('');
       setSelectBook(e.target.value);
       setBookId(e.target.value)
+      setJobnoVal('');
+      setDisableInp(false);
   }
 
   //save bill logic
   const saveMRP = async(args) => {
-    console.log(args);
     let IsForEst = 0;
     if(args === 'bill'){
       IsForEst = 0;
@@ -587,7 +600,6 @@ const MRPBill = () => {
         
         setIsLoading(true);
         const response = await axios.post("http://zen/jo/api-lib/App/API_MRPBill", body);
-        console.log(response);
         if(response?.status === 200 && response?.data?.Status === '200'){
           setBillNo(response?.data?.Data?.DT[0]?.BillNo);
           setPrintUrl(atob(response?.data?.Data?.DT[0]?.PrintUrl));
@@ -631,6 +643,13 @@ const MRPBill = () => {
       setCurrErrorMsg('');
     }
 
+    if (!bookId) {
+      setBookErrorMsg('Book is required');
+      isValid = false;
+    } else {
+      setBookErrorMsg('');
+    }
+
     return isValid;
   };
 
@@ -657,6 +676,7 @@ const MRPBill = () => {
     setTimeout(() => {setDisableInp(false)},0);
     setLockerErrorMsg('');
     setCustErrorMsg('');
+    setBookErrorMsg('');
 
     setDisableSelect2(false);
     setDisableSelect3(false);
@@ -747,7 +767,6 @@ const MRPBill = () => {
 
   //dialog box open logic
   const handleClickOpen = (type) => {
-    console.log(type);
     setActionType(type);  // Store the action type
     setTimeout(() => {
       setActionType(type);
@@ -839,6 +858,18 @@ const handleScanJob = async() => {
                    if(isJobPresent){
                     console.log('already present');
                     setMsg('Already Present');
+                    setTimeout(() => {
+                      setMsg('');
+                    }, 2000);
+                    setTimeout(() => {
+                      inputRef.current.focus();
+                      setJobNoFocus(true);
+                    }, 0);
+                    setJobnoVal('');
+                    setJobNoFocus(true);
+                    inputRef.current.focus();
+
+
                     setJobDetail([]);
                     setIsLoading(false);
                     setDisableSelect(true);
@@ -904,9 +935,7 @@ const handleScanJob = async() => {
 
 //scanning main event
 useEffect(() => {
-  console.log(scanOff);
   if(!scanOff){
-    console.log('scanning off', scanOff);
   
   const handleScan = (event) => {
     // Capture scanned data from keyboard events
@@ -914,7 +943,7 @@ useEffect(() => {
       // Process scanned value here
       const value = event.target.value.trim();
       if (value) {
-        if(currencyId !== '' && lockerId !== '' && custId !== ''){
+        if(currencyId !== '' && lockerId !== '' && custId !== '' && bookId !== ''){
         setScannedValue(value);
         event.target.value = ''; // Clear input after scan
         }
@@ -952,6 +981,17 @@ useEffect(() => {
           setJobnoVal('');
           setDisableInp(false);
         }
+        if(bookId === ''){
+          setBookErrorMsg('Book required');
+          setIsLoading(false);
+          setJobnoVal('');
+          setDisableInp(false);
+        }else{
+          setBookErrorMsg('');
+          setIsLoading(false);
+          setJobnoVal('');
+          setDisableInp(false);
+        }
         }
       }
     }
@@ -967,11 +1007,9 @@ useEffect(() => {
   return () => {
     inputElement?.removeEventListener('keydown', handleScan);
   };
-}else{
-  console.log(scanOff);
 }
 
-}, [currencyId, lockerId, custId, scanOff]);
+}, [currencyId, lockerId, custId, bookId, scanOff]);
 
 //focus true event
 useEffect(() => {
@@ -1000,6 +1038,7 @@ const handleSalePriceKeyDown = (e) => {
       inputRef.current?.focus();
       setScanFlag(true);
       setJobnoVal('');
+      setJobNoFocus(true);
       setDisableInp(false);
       setMsg('');
     }else{
@@ -1107,6 +1146,7 @@ const handleSalePriceFocus = (e) => {
 
             </div>
             <div className="grid-item pd10_mrp min_h_92_mrp">
+              <div className=" d-flex flex-column align-items-start ">
                 <label htmlFor="books" className="pe-3 cust_name_title">
                 BOOKS
                 </label>
@@ -1125,6 +1165,8 @@ const handleSalePriceFocus = (e) => {
                     })
                 }
                 </select>
+              </div>
+              <div className="text-danger px-1">{bookErrorMsg}</div>
             </div>
         </div>
 
@@ -1149,6 +1191,8 @@ const handleSalePriceFocus = (e) => {
                 onChange={(e) => handleJobNoChange(e)}
                 onKeyDown={(e) => handleKeyDownEnter(e)}
                 disabled={disableInp ? true : false}
+                autoFocus={jobNoFocus}
+                ref={inputRef}
               />
               <button className="btn_go" disabled={jobnoVal === ''} onClick={() => handleGoClick()}>GO</button>
             </div>
@@ -1345,8 +1389,8 @@ const handleSalePriceFocus = (e) => {
         <input 
           id="scanner-input"
           style={{ position: 'absolute', left: '-9999px' }} 
-          autoFocus={inpAutoFocus}
-          ref={inputRef}
+          // autoFocus={inpAutoFocus}
+          // ref={inputRef}
         />
       </div>
     
