@@ -50,7 +50,6 @@ const ConfirmDialog = ({ open, onClose, onConfirm  }) => (
 
 //   const handleConfirm = () => {
 //     // Add logic for what should happen when confirmed
-//     console.log('User confirmed the action.');
 //     setOpen(false);
 //   };
 
@@ -154,7 +153,6 @@ const MRPBill = () => {
       url = 'https://view.optigoapps.com/linkedapp/App/API_MRPBill';
     }
     fetchMRPData(url);
-    console.log();
 
   }, []);
 
@@ -288,7 +286,6 @@ const MRPBill = () => {
 
   //go button logic and job api calling
   const handleGoClick = async(type) => {
-    console.log('called');
     if(noJobAdd) {
       setJobnoVal('');
       setDisableInp(false);
@@ -402,6 +399,11 @@ const MRPBill = () => {
         }else{
             console.log(response?.data?.Data);
             setMsg('Invalid Job');
+            setTimeout(() => {
+              setMsg('');
+              inputRef.current.focus();
+              setJobnoVal('');
+            },3000)  
             setIsJobPresent(false);
             setIsLoading(false);
             setDisableInp(false);
@@ -470,6 +472,14 @@ const MRPBill = () => {
         if(updatedJL?.length === 0){
           setDisableSelect(false);
         }
+        setMsg('');
+          inputRef.current.focus();
+          setJobnoVal('');
+        // setTimeout(() => {
+        //   setMsg('');
+        //   inputRef.current.focus();
+        //   setJobnoVal('');
+        // },0) 
   }
 
   //customer logic
@@ -875,9 +885,7 @@ const MRPBill = () => {
 
 //scan value handle scan value
 useEffect(() => {
-  console.log('scanned value, no job add ', noJobAdd);
   if(scannedValue && !noJobAdd){
-    console.log(noJobAdd);
     // setTimeout(() => {
     //   setJobnoVal(scannedValue);
     if(!scanOff){
@@ -891,10 +899,8 @@ useEffect(() => {
 
 //handleScanJob api calling logic
 const handleScanJob = async() => {
-  console.log("hello",noJobAdd);
-  console.log('hello');
+
   if(!noJobAdd){
-    console.log('hello2');
   
   try {
     const url = "http://zen/jo/api-lib/App/API_MRPBill";
@@ -1089,6 +1095,8 @@ useEffect(() => {
       window.removeEventListener('keydown', handleKeyDown);
     };
 },[])
+
+//sale price focus and key logic
 const handleSalePriceKeyDown = (e) => {
     if(e?.key === 'Enter' || e?.key === 'enter'){
       inputRef.current?.focus();
@@ -1109,6 +1117,8 @@ const handleSalePriceFocus = (e) => {
   },10)
   inputRef.current?.blur();
 }
+
+//focus on customer at starting
 useEffect(() => {
   if(custId === ''){
     setCustFocus(true);
@@ -1119,6 +1129,10 @@ useEffect(() => {
     },20);
   }
 },[]);
+
+
+
+
   return (
     <>
       <Helmet>
