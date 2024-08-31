@@ -139,7 +139,20 @@ const MRPBill = () => {
   const pid = params.get('pid');
   const cid = params.get('cid');
 
+  //api calling for dropdowns
+  useEffect(() => {
+    let url = '';
+    if(window.location?.hostname?.toLowerCase() === 'zen' || window.location?.hostname?.toLowerCase() === 'localhost'){
+      setUrl('http://zen/jo/api-lib/App/API_MRPBill');
+      url = 'http://zen/jo/api-lib/App/API_MRPBill';
+    }else{
+      setUrl('https://view.optigoapps.com/linkedapp/App/API_MRPBill');
+      url = 'https://view.optigoapps.com/linkedapp/App/API_MRPBill';
+    }
+    fetchMRPData(url);
+    console.log();
 
+  }, []);
 
   //getting intial main data from api
   const fetchMRPData = async (url) => {
@@ -199,7 +212,7 @@ const MRPBill = () => {
             console.log(response?.data?.Data);
           }
         } else {
-          toast.error("Some Error Occurred");
+          console.log("Some Error Occurred");
         }
       };
   
@@ -222,20 +235,7 @@ const MRPBill = () => {
 
   };
   
-  //api calling for dropdowns
-  useEffect(() => {
-    let url = '';
-    if(window.location?.hostname?.toLowerCase() === 'zen' || window.location?.hostname?.toLowerCase() === 'localhost'){
-      setUrl('http://zen/jo/api-lib/App/API_MRPBill');
-      url = 'http://zen/jo/api-lib/App/API_MRPBill';
-    }else{
-      setUrl('https://view.optigoapps.com/linkedapp/App/API_MRPBill');
-      url = 'https://view.optigoapps.com/linkedapp/App/API_MRPBill';
-    }
-    fetchMRPData(url);
-    console.log();
 
-  }, []);
   
   //currency logic
   const handleCurrencyChange = (e) => {
