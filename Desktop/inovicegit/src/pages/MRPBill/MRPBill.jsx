@@ -122,6 +122,8 @@ const MRPBill = () => {
   const [open, setOpen] = useState(false);
   const [actionType, setActionType] = useState('');
 
+  const [scanOff, setScanOff] = useState(false);
+
   const location = useLocation();
   const queryParam = location?.search;
   const params = new URLSearchParams(queryParam);
@@ -230,6 +232,8 @@ const MRPBill = () => {
     const currencyId = selectedOption.getAttribute('data-currId');
     setCurrencyRate(currencyRate);
     setCurrencyID(currencyId);
+    setJobnoVal('');
+    setDisableInp(false);
   }
 
   //locker logic
@@ -239,6 +243,8 @@ const MRPBill = () => {
     const lockerId = selectedOption.getAttribute('data-lockId');
     setLockerId(lockerId);
     setLockerErrorMsg('');
+    setJobnoVal('');
+    setDisableInp(false);
   }
 
   //job no input field on change logic
@@ -252,8 +258,10 @@ const MRPBill = () => {
     
     if(searchVal !== ''){
       if (e.key === 'Enter') {
-        setDisableInp(true);
-        handleGoClick(); // Trigger the Go button's click logic
+        if(lockerErrorMsg === '' && currErrorMsg === ''){
+          setDisableInp(true);
+          handleGoClick(); // Trigger the Go button's click logic
+        }
       }
     }else{
       setCustErrorMsg('Customer required');
@@ -442,12 +450,14 @@ const MRPBill = () => {
 
     setSelectedIndex(-1);
     setCustErrorMsg('');
+    setJobnoVal('');
     setInpAutoFocus(true);
     inputRef.current?.focus();
     
   };
   const handleSearchCustomer = (val) => {
     setInpAutoFocus(true);
+    setJobnoVal('');
     let searchValue = val?.toLowerCase();
     setSearchCust(val);
     setSearchVal(val);
@@ -459,6 +469,7 @@ const MRPBill = () => {
       if (filtered?.length === 1 && filtered[0]?.TypoLabel?.toLowerCase() === searchValue?.toLowerCase()) {
         setSearchCust(filtered[0]?.TypoLabel);
         setSearchVal(filtered[0]?.TypoLabel);
+        inputRef.current?.focus();
         setCustID(filtered[0]?.id);
         setFilteredCustomers([]); // Hide the dropdown
       }
@@ -497,8 +508,10 @@ const MRPBill = () => {
         setSelectedIndex(-1);
       }, 1000)  
       setInpAutoFocus(true);
+      setJobnoVal('');
   }
   const handleKeyDown = (e) => {
+    setJobnoVal('');
     if(selectedIndex < filteredCustomers?.length){
 
       if(e.key === 'ArrowUp' && selectedIndex > 0){
@@ -512,6 +525,7 @@ const MRPBill = () => {
       setSearchVal(filteredCustomers[selectedIndex]?.TypoLabel);
       setCustID(filteredCustomers[selectedIndex]?.id);
       setFilteredCustomers([]);
+      inputRef.current?.focus();
     }
 
 
@@ -759,11 +773,14 @@ const MRPBill = () => {
   //continue button logic
   const handleContinue = () => {
     setEditTableFlag(true); // Disable fields
+    setScanOff(true);
   };
 
   //back button logic
   const handleBack = () => {
     setEditTableFlag(false); // Enable fields
+    setScanOff(true); //make scan on
+    setScanFlag(false);
   };
 
   //focus event set up logic
@@ -794,7 +811,9 @@ useEffect(() => {
   if(scannedValue){
     // setTimeout(() => {
     //   setJobnoVal(scannedValue);
+    if(!scanOff){
       handleScanJob(scannedValue); 
+    }
     //   // handleKeyDownEnter();
     // },10) 
     
@@ -869,7 +888,9 @@ const handleScanJob = async() => {
       }
   }else{
       console.log(response?.data?.Data);
-      setMsg('Scanned Job Invalid');
+      setTimeout(() => {
+        setMsg('Scanned Job Invalid');
+      },3000)
       setIsJobPresent(false);
       setIsLoading(false);
   }
@@ -883,7 +904,10 @@ const handleScanJob = async() => {
 
 //scanning main event
 useEffect(() => {
-
+  console.log(scanOff);
+  if(!scanOff){
+    console.log('scanning off', scanOff);
+  
   const handleScan = (event) => {
     // Capture scanned data from keyboard events
     if (event.key === 'Enter') {
@@ -891,7 +915,6 @@ useEffect(() => {
       const value = event.target.value.trim();
       if (value) {
         if(currencyId !== '' && lockerId !== '' && custId !== ''){
-
         setScannedValue(value);
         event.target.value = ''; // Clear input after scan
         }
@@ -899,23 +922,35 @@ useEffect(() => {
         if(custId === ''){
           setCustErrorMsg('Customer required');
           setIsLoading(false);
+          setJobnoVal('');
+          setDisableInp(false);
         }else{
           setCustErrorMsg('');
           setIsLoading(false);
+          setJobnoVal('');
+          setDisableInp(false);
         }
         if(lockerId === ''){
           setLockerErrorMsg('Locker required');
           setIsLoading(false);
+          setJobnoVal('');
+          setDisableInp(false);
         }else{
           setLockerErrorMsg('');
           setIsLoading(false);
+          setJobnoVal('');
+          setDisableInp(false);
         }
         if(currencyId === ''){
           setCurrErrorMsg('Currency required');
           setIsLoading(false);
+          setJobnoVal('');
+          setDisableInp(false);
         }else{
           setCurrErrorMsg('');
           setIsLoading(false);
+          setJobnoVal('');
+          setDisableInp(false);
         }
         }
       }
@@ -932,8 +967,11 @@ useEffect(() => {
   return () => {
     inputElement?.removeEventListener('keydown', handleScan);
   };
+}else{
+  console.log(scanOff);
+}
 
-}, [currencyId, lockerId, custId]);
+}, [currencyId, lockerId, custId, scanOff]);
 
 //focus true event
 useEffect(() => {
@@ -947,6 +985,8 @@ useEffect(() => {
     const handleKeyDown = (e) => {
       if(e?.key === 'F2'){
         setScanFlag(true);
+        setJobnoVal('');
+        setDisableInp(false);
         inputRef.current?.focus();
       }
     }
@@ -955,7 +995,25 @@ useEffect(() => {
       window.removeEventListener('keydown', handleKeyDown);
     };
 },[])
-
+const handleSalePriceKeyDown = (e) => {
+    if(e?.key === 'Enter' || e?.key === 'enter'){
+      inputRef.current?.focus();
+      setScanFlag(true);
+      setJobnoVal('');
+      setDisableInp(false);
+      setMsg('');
+    }else{
+      setScanFlag(false);
+    }
+    
+}
+const handleSalePriceFocus = (e) => {
+  setScanOff(true);
+  setTimeout(() => {
+    setScanOff(true);
+  },10)
+  inputRef.current?.blur();
+}
   return (
     <>
       <Helmet>
@@ -1151,6 +1209,8 @@ useEffect(() => {
                         value={e?.salePrice}
                         autoFocus={e?.StockBarcode === jobDetail[0]?.StockBarcode ? true : false}
                         onChange={(event) => handlePriceChange(event, e)}
+                        onKeyDown={handleSalePriceKeyDown}
+                        onFocus={handleSalePriceFocus}
                         style={{
                           width: "100%",
                           border: "none",

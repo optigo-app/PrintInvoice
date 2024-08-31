@@ -181,7 +181,7 @@ const InvoicePrint_10_11 = ({
 
       // labour.primaryWt += primaryWt;
       labour.makingAmount += e?.MakingAmount;
-      labour.totalAmount += e?.MakingAmount + e?.TotalDiaSetcost + e?.TotalCsSetcost;
+      labour.totalAmount += e?.MakingAmount + e?.TotalDiaSetcost + e?.TotalCsSetcost + e?.totals?.finding?.SettingAmount;
       total2.discount += e?.DiscountAmt;
       obj.primaryWt = primaryWt;
       obj.netWtFinal = netWtFinal;
@@ -562,10 +562,10 @@ const InvoicePrint_10_11 = ({
             <div className="fw-bold col-6">PLACE OF SUPPLY</div>
             <div className="col-6">{headerData?.customerstate} </div>
           </div>
-          <div className="d-flex">
+          { headerData?.DueDays !== 0 && <div className="d-flex">
             <div className="fw-bold col-6">TERMS</div>
             <div className="col-6">{headerData?.DueDays} </div>
-          </div>
+          </div>}
         </div>
       </div>
 

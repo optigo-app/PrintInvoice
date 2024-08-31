@@ -494,7 +494,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
         <div className="col-4 px-2">
           <div className="d-flex">
             <div className="fw-bold col-6 fsremark_10_invp1011 fslineh_10_invp1011">BILL NO</div>
-            <div className="col-6 fsremark_10_invp1011 fslineh_10_invp1011">{headerData?.InvoiceNo} </div>
+            <div className="col-6 fsremark_10_invp1011 fslineh_10_invp1011 fw-bold">{headerData?.InvoiceNo} </div>
           </div>
           <div className="d-flex">
             <div className="fw-bold col-6 fsremark_10_invp1011 fslineh_10_invp1011">DATE</div>
@@ -677,10 +677,10 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 <p className={`${style?.min_height_21} fsremark_10_invp1011 fw-bold d-flex justify-content-start align-items-center`}>Total</p>
               </div>
               <div className="col-2 px-1 fsremark_10_invp1011">
-                <p className={`${style?.min_height_21} text-end d-flex justify-content-end align-items-center`}>{mainData?.totalGrossWt?.toFixed(3)}</p>
+                <p className={`${style?.min_height_21} text-end d-flex justify-content-center align-items-center`}>{mainData?.totalGrossWt?.toFixed(3)}</p>
               </div>
               <div className="col-2 px-1 fsremark_10_invp1011">
-                <p className={`${style?.min_height_21} text-end d-flex justify-content-end align-items-center`}>{mainData?.totalNetWt?.toFixed(3)}</p>
+                <p className={`${style?.min_height_21} text-end d-flex justify-content-center align-items-center`}>{mainData?.totalNetWt?.toFixed(3)}</p>
               </div>
               <div className="col-1 px-1 fsremark_10_invp1011">
                 <p className={`${style?.min_height_21} text-end`}></p>
