@@ -2023,6 +2023,12 @@ table {
   .lineheightbg17old{
     line-height: 10px !important;
   }
+
+.qrcodebg_17 > .qrcodegen{
+    height: 40px !important;
+    width: 40px !important;
+}
+
 @media print {
 
 

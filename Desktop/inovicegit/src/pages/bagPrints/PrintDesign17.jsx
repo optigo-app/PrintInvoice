@@ -9,6 +9,7 @@ import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import Loader from "../../components/Loader";
 import BarcodeGenerator from "../../components/BarcodeGenerator";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
+import QRCodeGenerator from "../../components/QRCodeGenerator";
 
 const PrintDesign17 = ({ queries, headers }) => {
   const location = useLocation();
@@ -133,13 +134,13 @@ const PrintDesign17 = ({ queries, headers }) => {
     e.target.src = require("../../assets/img/default.jpg");
   };
 
-  useEffect(() => {
-    if (data?.length !== 0) {
-      setTimeout(() => {
-        window.print();
-      }, 5000);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data?.length !== 0) {
+  //     setTimeout(() => {
+  //       window.print();
+  //     }, 5000);
+  //   }
+  // }, [data]);
 
   const handlePrint = (e) => {
     e.preventDefault();
@@ -377,13 +378,10 @@ const PrintDesign17 = ({ queries, headers }) => {
                                     e?.additional?.dia?.diaWt?.toFixed(3)}
                                 </div>
                               </div>
-                              <div
-                                className="w_12mm border_right"
-                                style={{ borderBottom: "0px solid black" }}
-                              >
+                              {/* <div className="w_12mm border_right" style={{ borderBottom: "0px solid black" }} >
                                 <div className="upper"></div>
                                 <div className="lower17"></div>
-                              </div>
+                              </div> */}
                               <div className="w17cs border_right">
                                 <div className="upper border_bottom text_center center_item">
                                   <p
@@ -399,13 +397,10 @@ const PrintDesign17 = ({ queries, headers }) => {
                                     +e?.additional?.clr?.clrWt?.toFixed(3)}
                                 </div>
                               </div>
-                              <div
-                                className="w_12mm border_right"
-                                style={{ borderBottom: "0px solid black" }}
-                              >
+                              {/* <div className="w_12mm border_right" style={{ borderBottom: "0px solid black" }} >
                                 <div className="upper"></div>
                                 <div className="lower17"></div>
-                              </div>
+                              </div> */}
                               <div className="w_10 border_right">
                                 <div className="upper border_bottom text_center center_item">
                                   <p
@@ -420,14 +415,11 @@ const PrintDesign17 = ({ queries, headers }) => {
                                   {e?.data?.rd?.netwt?.toFixed(3)}
                                 </div>
                               </div>
-                              <div
-                                className="w_13 border_right"
-                                style={{ borderBottom: "0px solid black" }}
-                              >
+                              {/* <div className="w_13 border_right" style={{ borderBottom: "0px solid black" }} >
                                 <div className="upper"></div>
                                 <div className="lower17"></div>
-                              </div>
-                              <div className="w_9 border_right">
+                              </div> */}
+                              <div className=" border_right" style={{width:'15mm', boxSizing:'border-box'}}>
                                 <div className="upper border_bottom text_center center_item">
                                   <p
                                     className="semibold"
@@ -440,12 +432,20 @@ const PrintDesign17 = ({ queries, headers }) => {
                                   {(+e?.additional?.misc?.miscWt)?.toFixed(3)}
                                 </div>
                               </div>
-                              <div
-                                className="w_12_5mm"
-                                style={{ borderBottom: "0px solid black" }}
-                              >
+                              <div className="w_12_5mm" style={{ borderBottom: "0px solid black" }} >
                                 <div className="upper"></div>
                                 <div className="lower17"></div>
+                              </div>
+                              <div className="w_12_5mm" style={{ borderBottom: "0px solid black" }} >
+                                <div className="upper"></div>
+                                <div className="lower17"></div>
+                              </div>
+                              <div>
+                              <div className="qrcodebg_17">
+                                  <QRCodeGenerator
+                                    text={e?.data?.rd.serialjobno}
+                                  />
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -641,10 +641,10 @@ const PrintDesign17 = ({ queries, headers }) => {
                                 e?.additional?.dia?.diaWt?.toFixed(3)}
                             </div>
                           </div>
-                          <div className="w_12mm border_right">
+                          {/* <div className="w_12mm border_right">
                             <div className="upper"></div>
                             <div className="lower17"></div>
-                          </div>
+                          </div> */}
                           <div className="w17cs border_right">
                             <div className="upper border_bottom text_center center_item">
                               <p className="semibold">CS</p>
@@ -658,10 +658,10 @@ const PrintDesign17 = ({ queries, headers }) => {
                                 +e?.additional?.clr?.clrWt?.toFixed(3)}
                             </div>
                           </div>
-                          <div className="w_12mm border_right">
+                          {/* <div className="w_12mm border_right">
                             <div className="upper"></div>
                             <div className="lower17"></div>
-                          </div>
+                          </div> */}
                           <div className="w_10 border_right">
                             <div className="upper border_bottom text_center center_item">
                               <p className="semibold">METAL</p>
@@ -674,11 +674,11 @@ const PrintDesign17 = ({ queries, headers }) => {
                               {e?.data?.rd?.netwt?.toFixed(3)}
                             </div>
                           </div>
-                          <div className="w_13 border_right">
+                          {/* <div className="w_13 border_right">
                             <div className="upper"></div>
                             <div className="lower17"></div>
-                          </div>
-                          <div className="w_9 border_right">
+                          </div> */}
+                          <div className=" border_right" style={{width:'15mm', boxSizing:'border-box'}}>
                             <div className="upper border_bottom text_center center_item">
                               <p className="semibold">MISC</p>
                             </div>
@@ -694,6 +694,15 @@ const PrintDesign17 = ({ queries, headers }) => {
                           <div className="w_12_5mm">
                             <div className="upper"></div>
                             <div className="lower17"></div>
+                          </div>
+                          <div className="w_12_5mm">
+                            <div className="upper"></div>
+                            <div className="lower17"></div>
+                          </div>
+                          <div className="qrcodebg_17">
+                                  <QRCodeGenerator
+                                    text={e?.data?.rd.serialjobno}
+                                  />
                           </div>
                         </div>
                       </div>
