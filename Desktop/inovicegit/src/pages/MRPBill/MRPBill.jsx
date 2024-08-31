@@ -125,6 +125,8 @@ const MRPBill = () => {
 
   const [scanOff, setScanOff] = useState(false);
   const [jobNoFocus, setJobNoFocus] = useState(true);
+  const [noJobAdd, setNoJobAdd] = useState(false);
+  
 
   const location = useLocation();
   const queryParam = location?.search;
@@ -272,7 +274,7 @@ const MRPBill = () => {
     
     if(searchVal !== ''){
       if (e.key === 'Enter') {
-        if(lockerErrorMsg === '' && currErrorMsg === ''){
+        if(lockerErrorMsg === '' && currErrorMsg === '' && jobnoVal !== ''){
           setDisableInp(true);
           handleGoClick(); // Trigger the Go button's click logic
         }
@@ -284,6 +286,13 @@ const MRPBill = () => {
 
   //go button logic and job api calling
   const handleGoClick = async(type) => {
+    console.log('called');
+    if(noJobAdd) {
+      setJobnoVal('');
+      setDisableInp(false);
+      return
+    }
+
     setEditTableFlag(false);
     const areAllSalePricesSet = () => {
       return jobList.every(job => job.salePrice !== '');
@@ -809,7 +818,11 @@ const MRPBill = () => {
     setScanOff(true);
     setTimeout(() => {
       inputRef.current.focus();
+      setNoJobAdd(true);
+      setScanFlag(false);
     },0)
+    setNoJobAdd(true);
+    setDisableInp(true);
   };
 
   //back button logic
@@ -817,6 +830,15 @@ const MRPBill = () => {
     setEditTableFlag(false); // Enable fields
     setScanOff(true); //make scan on
     setScanFlag(false);
+    setNoJobAdd(false);
+    setJobnoVal('');
+    setDisableInp(false);
+    inputRef.current.focus();
+    setTimeout(() => {
+      setDisableInp(false);
+      inputRef.current.focus();
+      setScanFlag(true);
+    },10);
   };
 
   //focus event set up logic
@@ -844,7 +866,9 @@ const MRPBill = () => {
 
 //scan value handle scan value
 useEffect(() => {
-  if(scannedValue){
+  console.log('scanned value, no job add ', noJobAdd);
+  if(scannedValue && !noJobAdd){
+    console.log(noJobAdd);
     // setTimeout(() => {
     //   setJobnoVal(scannedValue);
     if(!scanOff){
@@ -852,13 +876,17 @@ useEffect(() => {
     }
     //   // handleKeyDownEnter();
     // },10) 
-    
 
   }
 }, [scannedValue]);
 
 //handleScanJob api calling logic
 const handleScanJob = async() => {
+  console.log("hello",noJobAdd);
+  console.log('hello');
+  if(!noJobAdd){
+    console.log('hello2');
+  
   try {
     const url = "http://zen/jo/api-lib/App/API_MRPBill";
     const body = JSON.stringify({
@@ -934,26 +962,29 @@ const handleScanJob = async() => {
           setIsJobPresent(false);
           setIsLoading(false);
       }
-  }else{
-      console.log(response?.data?.Data);
-      setTimeout(() => {
-        setMsg('Scanned Job Invalid');
-      },3000)
-      setIsJobPresent(false);
-      setIsLoading(false);
-  }
+    }else{
+        console.log(response?.data?.Data);
+        setTimeout(() => {
+          setMsg('Scanned Job Invalid');
+          inputRef.current.focus();
+          setJobnoVal('');
+        },3000)        
+        setIsJobPresent(false);
+        setIsLoading(false);
+    }
 
   } catch (error) {
     console.log(error);
     toast.error('Some Error Occured');
     setIsLoading(false);
   }
+
+}
 }
 
 //scanning main event
 useEffect(() => {
   if(!scanOff){
-  
   const handleScan = (event) => {
     // Capture scanned data from keyboard events
     if (event.key === 'Enter') {
@@ -1027,7 +1058,6 @@ useEffect(() => {
 }
 
 }, [currencyId, lockerId, custId, bookId, scanOff]);
-
 //focus true event
 useEffect(() => {
   if (scanFlag) {
@@ -1240,6 +1270,7 @@ const handleSalePriceFocus = (e) => {
               );
             })}
           </div>} */}
+          
             { billSavedFlag !== true && <div className="tableDiv_mrp d-flex flex-column">
           <table className="table max_w_table">
             <thead className="table-head">
@@ -1277,7 +1308,7 @@ const handleSalePriceFocus = (e) => {
                           width: "100%",
                           border: "none",
                           textAlign: "center",
-                          backgroundColor: "transparent",
+                          backgroundColor: `${editableFlag ? '#E9ECEF' : "transparent"}`,
                           border:'1px solid #989898'
                         }}
                         disabled={editableFlag}
