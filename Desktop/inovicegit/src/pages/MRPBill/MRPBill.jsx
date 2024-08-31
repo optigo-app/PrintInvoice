@@ -126,6 +126,7 @@ const MRPBill = () => {
   const [scanOff, setScanOff] = useState(false);
   const [jobNoFocus, setJobNoFocus] = useState(true);
   const [noJobAdd, setNoJobAdd] = useState(false);
+  const [custFocus, setCustFocus] = useState(true);
   
 
   const location = useLocation();
@@ -133,6 +134,7 @@ const MRPBill = () => {
   const params = new URLSearchParams(queryParam);
 
   const inputRef = useRef(null); 
+  const custRef = useRef(null); 
 
   const [url, setUrl] = useState('');
 
@@ -440,7 +442,8 @@ const MRPBill = () => {
   const handlePriceChange = (event, obj) => {
 
     const newPrice = event?.target?.value?.replace(/,/g, ""); // Remove commas for easier processing
-
+    setDisableInp(false);
+    setMsg('');
     if (!isNaN(newPrice)) {
 
         const updatedJl = jobList.map(item => 
@@ -459,7 +462,8 @@ const MRPBill = () => {
     }
   };
 
-  //job delete logic
+  //job delete logic1/268373
+
   const handleJobDelete = (obj) => {
         const updatedJL = jobList?.filter((e) => e?.StockBarcode !== obj?.StockBarcode)
         setJobList(updatedJL);
@@ -485,6 +489,7 @@ const MRPBill = () => {
     setJobnoVal('');
     setInpAutoFocus(true);
     inputRef.current?.focus();
+    setScanFlag(true);
     
   };
   const handleSearchCustomer = (val) => {
@@ -552,12 +557,16 @@ const MRPBill = () => {
     else if(e.key === 'ArrowDown' && selectedIndex < filteredCustomers?.length - 1){
       setSelectedIndex(prev => prev + 1)
     }
-    else if(e.key === 'Enter' && selectedIndex >= 0){
+    else if(e.key?.toLowerCase() === 'enter' || e.key?.toLowerCase() === 'tab' && selectedIndex >= 0){
       setSearchCust(filteredCustomers[selectedIndex]?.TypoLabel);
       setSearchVal(filteredCustomers[selectedIndex]?.TypoLabel);
       setCustID(filteredCustomers[selectedIndex]?.id);
       setFilteredCustomers([]);
       inputRef.current?.focus();
+      setTimeout(() => {
+        inputRef.current?.focus();
+        setScanFlag(true);
+      },10);
     }
 
 
@@ -1100,6 +1109,16 @@ const handleSalePriceFocus = (e) => {
   },10)
   inputRef.current?.blur();
 }
+useEffect(() => {
+  if(custId === ''){
+    setCustFocus(true);
+    setTimeout(() => {
+      setCustFocus(true);
+      custRef.current.focus();
+      setScanFlag(false);
+    },20);
+  }
+},[]);
   return (
     <>
       <Helmet>
@@ -1130,7 +1149,8 @@ const handleSalePriceFocus = (e) => {
                 onKeyDown={handleKeyDown}
                 disabled={disableSelect}
                 autoComplete="off"
-
+                autoFocus={custFocus}
+                ref={custRef}
                 />
                 {filteredCustomers?.length > 0 && (
         <ul className="list-group position-absolute custom_scrollbar" style={{ zIndex: 1000, width:'max-content', minWidth:'50px', maxHeight:'180px', overflowY:'scroll', minWidth:'240px' }}>
@@ -1241,6 +1261,7 @@ const handleSalePriceFocus = (e) => {
                 disabled={disableInp ? true : false}
                 autoFocus={jobNoFocus}
                 ref={inputRef}
+                autoComplete="off"
               />
               <button className="btn_go" disabled={jobnoVal === ''} onClick={() => handleGoClick()}>GO</button>
             </div>
