@@ -132,6 +132,8 @@ const MRPBill = () => {
 
   const inputRef = useRef(null); 
 
+  const [url, setUrl] = useState('');
+
   // Extract specific parameters
   const tkn = params.get('tkn');
   const pid = params.get('pid');
@@ -140,10 +142,10 @@ const MRPBill = () => {
 
 
   //getting intial main data from api
-  const fetchMRPData = async () => {
+  const fetchMRPData = async (url) => {
 
     try {
-      const url = "http://zen/jo/api-lib/App/API_MRPBill";
+      // const url = "http://zen/jo/api-lib/App/API_MRPBill";
       const token = `${atob(tkn)}`;
   
       // Utility function for API requests
@@ -222,7 +224,17 @@ const MRPBill = () => {
   
   //api calling for dropdowns
   useEffect(() => {
-    fetchMRPData();
+    let url = '';
+    if(window.location?.hostname?.toLowerCase() === 'zen' || window.location?.hostname?.toLowerCase() === 'localhost'){
+      setUrl('http://zen/jo/api-lib/App/API_MRPBill');
+      url = 'http://zen/jo/api-lib/App/API_MRPBill';
+    }else{
+      setUrl('https://view.optigoapps.com/linkedapp/App/API_MRPBill');
+      url = 'https://view.optigoapps.com/linkedapp/App/API_MRPBill';
+    }
+    fetchMRPData(url);
+    console.log();
+
   }, []);
   
   //currency logic
@@ -297,7 +309,7 @@ const MRPBill = () => {
 
 
       try {
-        const url = "http://zen/jo/api-lib/App/API_MRPBill";
+        // const url = "http://zen/jo/api-lib/App/API_MRPBill";
         const body = JSON.stringify({
             Token : `${atob(tkn)}`,
             ReqData:`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"GetJobDeatil\",\"STB\":\"${jobnoVal}\",\"LockerId\":\"${lockerId}\",\"CustomerId\":\"${custId}\"}]`
@@ -597,9 +609,11 @@ const MRPBill = () => {
         }
 
         try {
+        let live_url = 'https://view.optigoapps.com/linkedapp/App/API_MRPBill';
+        let zen_url = 'http://zen/jo/api-lib/App/API_MRPBill';
         
         setIsLoading(true);
-        const response = await axios.post("http://zen/jo/api-lib/App/API_MRPBill", body);
+        const response = await axios.post(url, body);
         if(response?.status === 200 && response?.data?.Status === '200'){
           setBillNo(response?.data?.Data?.DT[0]?.BillNo);
           setPrintUrl(atob(response?.data?.Data?.DT[0]?.PrintUrl));
@@ -793,6 +807,9 @@ const MRPBill = () => {
   const handleContinue = () => {
     setEditTableFlag(true); // Disable fields
     setScanOff(true);
+    setTimeout(() => {
+      inputRef.current.focus();
+    },0)
   };
 
   //back button logic
@@ -1082,6 +1099,7 @@ const handleSalePriceFocus = (e) => {
                 onBlur={() => handleSelectBlur()}
                 onKeyDown={handleKeyDown}
                 disabled={disableSelect}
+                autoComplete="off"
 
                 />
                 {filteredCustomers?.length > 0 && (
