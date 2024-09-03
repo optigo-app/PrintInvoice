@@ -47,6 +47,10 @@
     margin: 5px;
     /* border: 1px solid #e8e8e8; */
     margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
 }
 .jobitem_mrp{
     font-size: 20px;
@@ -259,6 +263,7 @@
   font-size: 11px;
   line-height: 12px;
   height: 15px;
+  width: 100%;
 }
 
 
@@ -660,4 +665,40 @@
 }
 .loadingBarManage{
   color: #7d7f85 !important;
+}
+
+
+
+
+
+
+
+@keyframes scanner-line {
+  0% {
+    top: 0;
+  }
+  50% {
+    top: 100%;
+  }
+  100% {
+    top: 0;
+  }
+}
+
+.animate-scanner-line {
+  animation: scanner-line 4s infinite linear;
+  position: absolute;
+  top: 0;
+}
+.qrbox_mrp{
+  height: 7rem; 
+  width: 7rem;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
 }

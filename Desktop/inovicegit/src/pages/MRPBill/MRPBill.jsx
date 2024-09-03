@@ -1,24 +1,25 @@
 import React, { useRef, useState } from "react";
 import "./mrpbill.css";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import img from "../../assets/img/default.png";
+// import EditIcon from "@mui/icons-material/Edit";
+// import img from "../../assets/img/default.png";
 import axios from "axios";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import scanImg from "../../assets/img/scanimg.gif";
+import qrImg from "../../assets/img/Qrcode.png";
 import f2Img from "../../assets/img/f2.gif";
 import { handleImageError } from "./MRPGlobalFunctions";
 import { useLocation } from "react-router-dom";
-import { Html5Qrcode } from "html5-qrcode";
-import QRreader from "./QRBarcodeReader";
+// import { Html5Qrcode } from "html5-qrcode";
+// import QRreader from "./QRBarcodeReader";
 import { CircularProgress } from "@mui/material";
 import PrintIcon from '@mui/icons-material/Print';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
-import ScanWithDevice from "./ScanWithDevice";
-import useBarcodeScanner from "./useBarcodeScanner";
-import { scannedValue } from './../../recoil/atom';
-import { useRecoilValue, useSetRecoilState } from "recoil";
+// import ScanWithDevice from "./ScanWithDevice";
+// import useBarcodeScanner from "./useBarcodeScanner";
+// import { scannedValue } from './../../recoil/atom';
+// import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Helmet } from "react-helmet-async";
 
 const ConfirmDialog = ({ open, onClose, onConfirm  }) => (
@@ -105,12 +106,12 @@ const MRPBill = () => {
   // const setScanValue = useSetRecoilState(scannedValue);
 
   const [scanFlag, setScanFlag] = useState(true);
-  const [scanFlagError, setScanFlagError] = useState(false);
   const [scannedValue, setScannedValue] = useState('');
-  const [scanning, setScanning] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
-  const scannerRef = useRef(null);
-  const [scanCompFlag, setScanCompFlag] = useState(false);
+  // const [scanFlagError, setScanFlagError] = useState(false);
+  // const [scanning, setScanning] = useState(false);
+  // const [errorMsg, setErrorMsg] = useState('');
+  // const scannerRef = useRef(null);
+  // const [scanCompFlag, setScanCompFlag] = useState(false);
 
   const [printUrl, setPrintUrl] = useState(null);
 
@@ -771,9 +772,9 @@ const MRPBill = () => {
   //     }
   // }, [])
 
-  const handleOpenScanComp = () => {
-    setScanCompFlag(true);
-  }
+  // const handleOpenScanComp = () => {
+  //   setScanCompFlag(true);
+  // }
 
   //print url set up
   const handlePrintUrl = () => {
@@ -1257,7 +1258,44 @@ useEffect(() => {
           <div className="w-25 d-flex flex-column  align-items-start ps-3 w_50_mrp2 w_100_mrp_scan mt_mrp">
             <div className="scanblock_mrpbill">
                 {/* <img src={scanImg} alt="#scanjob" className="scanJobImg" onClick={handleOpenScanComp} /> */}
-                { scanFlag ? <><img src={scanImg} alt="#scanjob" className="scanJobImg scanJobImg2" onClick={() => handleScanFlagAndComp('scan')} /><div className="fs_scanimg"></div></> : 
+                { scanFlag ? <>
+                {/* <img src={scanImg} alt="#scanjob" className="scanJobImg scanJobImg2" onClick={() => handleScanFlagAndComp('scan')} /> */}
+                <div
+                className="qrbox_mrp"
+    >
+      <img
+        src={qrImg}
+        alt="scanner"
+        style={{
+          height: '100%', // equivalent to h-full
+          width: '100%', // equivalent to w-full
+          objectFit: 'contain' // equivalent to object-contain
+        }}
+        onClick={() => handleScanFlagAndComp('scan')}
+      />
+      
+      <div
+        style={{
+          position: 'absolute', // equivalent to absolute
+          top: 0,
+          left: 0,
+          width: '100%', // equivalent to w-full
+          height: '100%' // equivalent to h-full
+        }}
+      >
+        <div
+          style={{
+            width: '100%', // equivalent to w-full
+            height: '0.25rem', // equivalent to h-1
+            backgroundColor: '#f56565', // equivalent to bg-red-500
+            animation: 'scanner-line 4s infinite linear', // equivalent to animate-scanner-line
+            position: 'absolute',
+            top: 0
+          }}
+        ></div>
+      </div>
+    </div>
+                <div className="fs_scanimg"></div></> : 
                 <>
                   <img src={f2Img} alt="#scanjob" className="scanJobImg" onClick={() => handleScanFlagAndComp('f2')} />
                   <div className="fw-bold text-danger fs_scanimg d-flex justify-content-center align-items-center">Click Here For Scan</div>
