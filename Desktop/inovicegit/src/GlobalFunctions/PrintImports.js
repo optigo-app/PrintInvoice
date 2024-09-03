@@ -183,6 +183,7 @@ export const EstimatePrints = [
   {printName: 'export print', etpType: 'print', componentName: 'ExportPrint'},
   {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
   {printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group'},
+  {printName: 'detail print 12', etpType: 'print', componentName: 'DetailPrint12'},
 ]
 export const HallMarkPrints = [
   {printName: 'jewellery item wise', etpType: 'print', componentName: 'HallmarkItemWisePrint'},

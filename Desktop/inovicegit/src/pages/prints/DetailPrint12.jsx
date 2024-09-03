@@ -22,6 +22,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
   const [imgFlag, setImgFlag] = useState(true);
   const [priceFlag, setPriceFlag] = useState(true);
+  const [summaryFlag, setSummaryFlag] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
 
   const [categoryWise, setCategoryWise] = useState([]);
@@ -281,6 +282,12 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setPriceFlag(true);
     }
   };  
+  const handleSummaryShow = (e) => {
+    if (summaryFlag) setSummaryFlag(false);
+    else {
+      setSummaryFlag(true);
+    }
+  };  
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -293,6 +300,8 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div className="containerdp12 pb-5 mb-5">
           
           <div className="d-flex justify-content-end align-items-center my-5 fsgdp12 hidebtn">
+            <input type="checkbox" checked={summaryFlag} id="showSummary" onChange={handleSummaryShow} className="mx-2" />
+            <label htmlFor="showSummary" className="me-2 user-select-none"> {" "} With Summary{" "} </label>
             <input type="checkbox" checked={priceFlag} id="showPrice" onChange={handlePriceShow} className="mx-2" />
             <label htmlFor="showPrice" className="me-2 user-select-none"> {" "} With Price{" "} </label>
             <input type="checkbox" checked={imgFlag} id="showImg" onChange={handleImgShow} className="mx-2" />
@@ -1068,7 +1077,151 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <b>REMARKS</b> : <span className="text-break" dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark }}></span>
           </div>
            {/* summary */}
-    
+            
+{ summaryFlag && <div className="summary_container_dp12  fsgdp12">
+<div className="summary_container_dp7_product_table hcompdp7">
+  <div className="summary_container_dp7_product_title">
+    PRODUCT SUMMARY
+  </div>
+  <div className="summary_container_dp7_product_head">
+    <div className="sum_prod_head_col_1 d-flex justify-content-center align-items-center">CATEGORY</div>
+    <div className="sum_prod_head_col_2 d-flex justify-content-center align-items-center">PIECES</div>
+    <div className="sum_prod_head_col_3 d-flex justify-content-center align-items-center">GROSS WT</div>
+    <div className="sum_prod_head_col_4 d-flex justify-content-center align-items-center">NET WT</div>
+    <div className="sum_prod_head_col_5 d-flex justify-content-center align-items-center">WASTAGE</div>
+    <div className="sum_prod_head_col_6 d-flex justify-content-center align-items-center">FINE</div>
+  </div>
+  {categoryWise?.length > 0 &&
+    categoryWise?.map((e, i) => {
+      return (
+        <div
+          className="summary_container_dp7_product_body fsgdp12 hcompdp7"
+          key={i}
+        >
+          <div className="sum_prod_head_col_1 d-flex justify-content-start align-items-center ps-1">
+            {e?.Categoryname}
+          </div>
+          <div className="sum_prod_head_col_2 d-flex justify-content-end align-items-center pe-1">
+            {e?.cat_count}
+          </div>
+          <div className="sum_prod_head_col_3 d-flex justify-content-end align-items-center pe-1">
+            {e?.cg_grosswt?.toFixed(3)}
+          </div>
+          <div className="sum_prod_head_col_4 d-flex justify-content-end align-items-center pe-1">
+            {e?.cg_netwt?.toFixed(3)}
+          </div>
+          <div className="sum_prod_head_col_5 d-flex justify-content-end align-items-center pe-1">
+            {e?.Wastage?.toFixed(3)}
+          </div>
+          <div className="sum_prod_head_col_6 d-flex justify-content-end align-items-center pe-1">
+            {/* {e?.fineWtBYNetWtCal?.toFixed(3)} */}
+            {/* {((e?.NetWt * e?.Tunch)/100)?.toFixed(3)} */}
+            {/* {((e?.cg_netwt * e?.Tunch)/100)?.toFixed(3)} */}
+            {e?.cg_finewt?.toFixed(3)}
+            {/* {e?.LossWt === 0 ? e?.PureNetWt : ((
+            (((e?.NetWt - e?.totals?.finding?.Wt) * (e?.Tunch))/100)
+             + (e?.totals?.finding?.FineWt))?.toFixed(3))} */}
+          </div>
+        </div>
+      );
+    })}
+  <div className="summary_container_dp7_product_total fw-bold fsgdp12">
+    <div className="sum_prod_head_col_1 d-flex justify-content-start align-items-center ps-1">Total</div>
+    <div className="sum_prod_head_col_2 d-flex justify-content-end align-items-center pe-1">
+      {/* {result?.mainTotal?.total_Quantity !== 0 &&
+        result?.mainTotal?.total_Quantity} */}
+        {catcount}
+    </div>
+    <div className="sum_prod_head_col_3 d-flex justify-content-end align-items-center pe-1">
+      {result?.mainTotal?.grosswt !== 0 &&
+        result?.mainTotal?.grosswt?.toFixed(3)}
+    </div>
+    <div className="sum_prod_head_col_4 d-flex justify-content-end align-items-center pe-1">
+      {/* {result?.mainTotal?.netwtWithLossWt !== 0 && result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
+      {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}
+    </div>
+    <div className="sum_prod_head_col_5 d-flex justify-content-end align-items-center pe-1"></div>
+    <div className="sum_prod_head_col_6 d-flex justify-content-end align-items-center pe-1">
+      {/* {result?.mainTotal?.total_fineWtByMetalWtCalculation !== 0 && result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(3)} */}
+      {fineWtTotal === 0 ? 0 : fineWtTotal?.toFixed(3)}
+    </div>
+  </div>
+</div>
+<div style={{ height: "16px" }}></div>
+<div className="summary_container_dp7_misc_table  fsgdp7">
+  <div className="summary_container_dp7_misc_title">
+    STUDDED SUMMARY
+  </div>
+
+  <div className="summary_container_dp7_misc_head w-100 fw-bold fsgdp12">
+    <div className="summary_container_dp7_misc_head_col_1 d-flex justify-content-center align-items-center">
+      TYPE
+    </div>
+    <div className="summary_container_dp7_misc_head_col_2 d-flex justify-content-center align-items-center">
+      PIECES
+    </div>
+    <div className="summary_container_dp7_misc_head_col_3 d-flex justify-content-center align-items-center">
+      RATE
+    </div>
+    <div className="summary_container_dp7_misc_head_col_4 d-flex justify-content-center align-items-center">
+      WT
+    </div>
+    <div className="summary_container_dp7_misc_head_col_5 d-flex justify-content-center align-items-center border-end-0">
+      AMOUNT
+    </div>
+  </div>
+  {miscWise?.length > 0 &&
+    miscWise?.map((e, i) => {
+      return (
+        <div className="summary_container_dp7_misc_body  hcompdp7" key={i} >
+          <div className="summary_container_dp7_misc_head_col_1 d-flex justify-content-start align-items-center fsgdp12 text-break ps-1">
+            {e?.MaterialTypeName === '' ? e?.ShapeName : e?.MaterialTypeName}
+          </div>
+          <div className="summary_container_dp7_misc_head_col_2 d-flex justify-content-end align-items-center fsgdp12 pe-1">
+            {e?.Pcs}
+          </div>
+          <div className="summary_container_dp7_misc_head_col_3 d-flex justify-content-end align-items-center fsgdp12 pe-1">
+            {e?.Rate?.toFixed(2)}
+          </div>
+          <div className="summary_container_dp7_misc_head_col_4 d-flex justify-content-end align-items-center fsgdp12 pe-1">
+            {/* {e?.MasterManagement_DiamondStoneTypeid === 2
+              ? `${e?.Wt?.toFixed(3)} Ctw`
+              : `${(e?.Wt_ServWt)?.toFixed(3)} gm`} */}
+              {
+                (e?.MasterManagement_DiamondStoneTypeid === 1 || e?.MasterManagement_DiamondStoneTypeid === 2) ? `${e?.Wt?.toFixed(3)} Ctw` :
+                `${(e?.ServWt + e?.Wt)?.toFixed(3)} gm`
+              }
+          </div>
+          <div className="summary_container_dp7_misc_head_col_5 d-flex justify-content-end align-items-center border-end-0 fsgdp12 pe-1">
+            {formatAmount(e?.Amount)}
+          </div>
+        </div>
+      );
+    })}
+
+  <div className="summary_container_dp7_misc_total fw-bold">
+    <div className="summary_container_dp7_misc_head_col_1 d-flex justify-content-start align-items-center ps-1 fsgdp12">
+      Total
+    </div>
+    <div className="summary_container_dp7_misc_head_col_2 d-flex justify-content-end align-items-center pe-1 fsgdp12">
+      {miscWise_total?.Pcs}
+    </div>
+    <div className="summary_container_dp7_misc_head_col_3 dp7cen1"></div>
+    <div className="summary_container_dp7_misc_head_col_4 d-flex justify-content-end align-items-center pe-1 d-flex flex-column fsgdp12">
+      {miscWise_total?.wtWeight_Ctw === 0 ? ( "" ) : (
+        <div className="w-100 d-flex justify-content-end align-items-center pe-1 fsgdp12">
+          {miscWise_total?.wtWeight_Ctw?.toFixed(3)} Ctw
+        </div>
+      )}
+      {miscWise_total?.wtWeight_gm === 0 ? ( "" ) : (
+        <div className="w-100 d-flex justify-content-end align-items-center pe-1 fsgdp12"> {" "} {(miscWise_total?.wtWeight_gm + miscWise_total?.Wt_ServWt)?.toFixed(3)} Gm </div>
+      )}
+    </div>
+    <div className="summary_container_dp7_misc_head_col_5 d-flex justify-content-end align-items-center pe-1 border-end-0 fsgdp12"> {formatAmount( miscWise_total?.Amount  / result?.header?.CurrencyExchRate )}
+    </div>
+  </div>
+</div>
+</div>}
 
 
         </div>
