@@ -8,8 +8,7 @@ import QcReport from "./pages/qcreport/QcReport";
 
 
 function App() {
-  console.log('location', window.location);
-  console.log("location url 1", window.location?.origin +  window.location.pathname);
+  
   return (
     <>
        <RouterProvider router={router}/>

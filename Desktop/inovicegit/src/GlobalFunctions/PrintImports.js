@@ -165,6 +165,7 @@ export const MemoPrints = [
   {printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group'},
   {printName: 'summary 12', etpType: 'print', componentName: 'Summary12'},
   {printName: 'estimate print', etpType: 'print', componentName: 'EstimatePrint'},
+  {printName: 'packing list 3', etpType: 'print', componentName: 'PackingList3'},
 ]
 export const MemoReturnPrints = [ 
   {printName: 'detail print 12', etpType: 'print', componentName: 'DetailPrint12'},
@@ -184,6 +185,7 @@ export const EstimatePrints = [
   {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
   {printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group'},
   {printName: 'detail print 12', etpType: 'print', componentName: 'DetailPrint12'},
+  {printName: 'sale order', etpType: 'print', componentName: 'SaleOrderSale'},
 ]
 export const HallMarkPrints = [
   {printName: 'jewellery item wise', etpType: 'print', componentName: 'HallmarkItemWisePrint'},

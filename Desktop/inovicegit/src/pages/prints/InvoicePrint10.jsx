@@ -75,7 +75,7 @@ const InvoicePrint_10_11 = ({
   const loadData = (data) => {
     let head = HeaderComponent("1", data?.BillPrint_Json[0]);
     setHeader(head);
-    setHeaderData(data?.BillPrint_Json[0]);
+    // setHeaderData(data?.BillPrint_Json[0]);
     let footers = FooterComponent("2", data?.BillPrint_Json[0]);
     setFooter(footers);
     let custAddress = data?.BillPrint_Json[0]?.Printlable.split("\n");
@@ -88,6 +88,7 @@ const InvoicePrint_10_11 = ({
       data?.BillPrint_Json2
     );
     setMainDatas(datas);
+    setHeaderData(datas?.header);
     let resultArr = [];
     let findings = [];
     let diamonds = [];
@@ -195,27 +196,28 @@ const InvoicePrint_10_11 = ({
         primaryWt = e?.NetWt + e?.LossWt;
       }
       if (obj?.primaryMetal) {
+        let objd = cloneDeep(obj);
         // total2.total +=
         //   obj?.metalAmountFinal / data?.BillPrint_Json[0]?.CurrencyExchRate;
-        let findRecord = resultArr?.findIndex((ele, ind) => ele?.primaryMetal?.ShapeName === obj?.primaryMetal?.ShapeName &&
-          ele?.primaryMetal?.QualityName === obj?.primaryMetal?.QualityName && ele?.primaryMetal?.Rate === obj?.primaryMetal?.Rate
+        let findRecord = resultArr?.findIndex((ele, ind) => ele?.primaryMetal?.ShapeName === objd?.primaryMetal?.ShapeName &&
+          ele?.primaryMetal?.QualityName === objd?.primaryMetal?.QualityName && ele?.primaryMetal?.Rate === objd?.primaryMetal?.Rate
         );
         if (findRecord === -1) {
-          resultArr?.push(obj);
+          resultArr?.push(objd);
         } else {
-          resultArr[findRecord].grosswt += obj?.grosswt;
-          resultArr[findRecord].NetWt += obj?.NetWt;
-          resultArr[findRecord].LossWt += obj?.LossWt;
-          resultArr[findRecord].primaryWt += obj?.primaryWt;
-          resultArr[findRecord].primaryMetal.Pcs += obj?.primaryMetal.Pcs;
-          resultArr[findRecord].primaryMetal.Wt += obj?.primaryMetal.Wt;
-          resultArr[findRecord].primaryMetal.Amount += obj?.primaryMetal.Amount;
-          resultArr[findRecord].netWtFinal += obj?.netWtFinal;
-          resultArr[findRecord].metalAmountFinal += obj?.metalAmountFinal;
-          resultArr[findRecord].secondaryMetalAmount += obj?.secondaryMetalAmount;
+          resultArr[findRecord].grosswt += objd?.grosswt;
+          resultArr[findRecord].NetWt += objd?.NetWt;
+          resultArr[findRecord].LossWt += objd?.LossWt;
+          resultArr[findRecord].primaryWt += objd?.primaryWt;
+          resultArr[findRecord].primaryMetal.Pcs += objd?.primaryMetal.Pcs;
+          resultArr[findRecord].primaryMetal.Wt += objd?.primaryMetal.Wt;
+          resultArr[findRecord].primaryMetal.Amount += objd?.primaryMetal.Amount;
+          resultArr[findRecord].netWtFinal += objd?.netWtFinal;
+          resultArr[findRecord].metalAmountFinal += objd?.metalAmountFinal;
+          resultArr[findRecord].secondaryMetalAmount += objd?.secondaryMetalAmount;
           resultArr[findRecord].latestAmount += latestAmount;
-          resultArr[findRecord].finalMetalAmount += obj?.finalMetalAmount;
-          resultArr[findRecord].secondMetalWt += obj?.secondMetalWt;
+          resultArr[findRecord].finalMetalAmount += objd?.finalMetalAmount;
+          resultArr[findRecord].secondMetalWt += objd?.secondMetalWt;
         }
       }
 
@@ -308,7 +310,8 @@ const InvoicePrint_10_11 = ({
         (e?.totals?.finding?.Wt * e?.LossPer) / 100 +
         e?.totals?.finding?.Wt +
         e?.secondMetalWt;
-      let finalRate = e?.latestAmount / e?.netWtFinal;
+      // let finalRate = e?.latestAmount / e?.netWtFinal;
+      let finalRate = e?.metalAmountFinal / e?.netWtFinal;
       let obj = cloneDeep(e);
       obj.finalMetalWt = finalMetalWt;
       obj.finalRate = finalRate;
@@ -386,6 +389,15 @@ const InvoicePrint_10_11 = ({
       return a.label.length - b.label.length;
     });
 
+
+    let tot_invp10 = 0;
+    finalsArr?.forEach((e, i) => {
+      console.log('finalArr',e , e?.metalAmountFinal);
+      tot_invp10 += e?.metalAmountFinal;
+    })
+    console.log(tot_invp10);
+
+
     setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, });
     setMainData({
       ...mainData,
@@ -438,6 +450,7 @@ const InvoicePrint_10_11 = ({
   const handleChange = (e) => {
     setInpDesc(e.target.value);
   }
+
 
   return loader ? (
     <Loader />
@@ -635,6 +648,7 @@ const InvoicePrint_10_11 = ({
           </div>
           <div className={`col-9 ${style?.fsremark_10}`}>
             {mainData?.resultArr?.map((e, i) => {
+              console.log('check',e, );
               return (
                 <div className="d-flex" key={i}>
                   <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-uppercase" >
@@ -656,10 +670,11 @@ const InvoicePrint_10_11 = ({
                     <p></p>
                   </div>
                   <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end" >
-                    <p>{NumberWithCommas(e?.finalRate, 2)}</p>
+                    <p>{NumberWithCommas((e?.finalRate / headerData?.CurrencyExchRate), 2)}</p>
                   </div>
                   <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end" >
-                    <p> {NumberWithCommas( e?.latestAmount, 2 )} </p>
+                    {/* <p> {NumberWithCommas( e?.latestAmount, 2 )} </p> */}
+                    <p> {NumberWithCommas( (e?.metalAmountFinal / headerData?.CurrencyExchRate), 2 )} </p>
                   </div>
                 </div>
               );
@@ -1078,7 +1093,7 @@ const InvoicePrint_10_11 = ({
               </div>
               <div className="col-2 px-1">
                 <p className={`${style?.min_height_21} text-end fw-bold`}>
-                  {NumberWithCommas(totalss?.total, 2)}
+                  {/* {NumberWithCommas((totalss?.total), 2)} */}
                 </p>
               </div>
             </div>

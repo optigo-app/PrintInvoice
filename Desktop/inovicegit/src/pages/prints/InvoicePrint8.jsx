@@ -434,7 +434,6 @@ const InvoicePrint8 = ({
     };
     sendData();
   }, []);
-
   return loader ? (
     <Loader />
   ) : msg === "" ? (
