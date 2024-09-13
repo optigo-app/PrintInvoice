@@ -142,7 +142,9 @@ const MRPBill = () => {
   const tkn = params.get('tkn');
   const pid = params.get('pid');
   const cid = params.get('cid');
-
+  const luid = atob(params.get('LUId'));
+  const lid = atob(params.get('LId'));
+    console.log(luid, lid);
   //api calling for dropdowns
   useEffect(() => {
     let url = '';
@@ -163,7 +165,7 @@ const MRPBill = () => {
     try {
       // const url = "http://zen/jo/api-lib/App/API_MRPBill";
       const token = `${atob(tkn)}`;
-  
+      console.log(token);
       // Utility function for API requests
       const fetchData = async (mode, setData, args) => {
         const body = JSON.stringify({
@@ -403,6 +405,7 @@ const MRPBill = () => {
             setTimeout(() => {
               setMsg('');
               inputRef.current.focus();
+              setScanFlag(true);
               setJobnoVal('');
             },3000)  
             setIsJobPresent(false);
@@ -634,7 +637,7 @@ const MRPBill = () => {
         })
 
         const body = {
-          "Token" : `${atob(tkn)}`,"ReqData":`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"BookId\":\"${bookId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"8\",\"BillDetail\":${JSON.stringify(bill_detail)}}]`
+          "Token" : `${atob(tkn)}`,"ReqData":`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"BookId\":\"${bookId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"${lid}\",\"userid\":\"${luid}\",\"BillDetail\":${JSON.stringify(bill_detail)}}]`
         }
 
         try {
@@ -724,8 +727,10 @@ const MRPBill = () => {
     setDisableSelect2(false);
     setDisableSelect3(false);
     setDisableSelect4(false);
-    inputRef.current?.focus();
-    
+    custRef.current?.focus();
+    setTimeout(() => {
+      custRef.current?.focus();
+    }, 0)
     setScanFlag(true);
   }
 
@@ -1256,23 +1261,16 @@ useEffect(() => {
         {/* <div className="w-100 d-flex align-items-baseline p-2 minH_mrp"> */}
         <div className="w-100 d-flex align-items-baseline p-2 flex_column_mrp minH_mrp mt_top_mrp_head">
           <div className="w-25 d-flex flex-column  align-items-start ps-3 w_50_mrp2 w_100_mrp_scan mt_mrp">
-            <div className="scanblock_mrpbill">
-                {/* <img src={scanImg} alt="#scanjob" className="scanJobImg" onClick={handleOpenScanComp} /> */}
-                { scanFlag ? <>
-                {/* <img src={scanImg} alt="#scanjob" className="scanJobImg scanJobImg2" onClick={() => handleScanFlagAndComp('scan')} /> */}
-                <div
-                className="qrbox_mrp"
-    >
-      <img
-        src={qrImg}
-        alt="scanner"
-        style={{
-          height: '100%', // equivalent to h-full
-          width: '100%', // equivalent to w-full
-          objectFit: 'contain' // equivalent to object-contain
-        }}
-        onClick={() => handleScanFlagAndComp('scan')}
-      />
+            <div className="scanblock_mrpbill"> {/* <img src={scanImg} alt="#scanjob" className="scanJobImg" onClick={handleOpenScanComp} /> */} 
+            { scanFlag ? <> {/* <img src={scanImg} alt="#scanjob" className="scanJobImg scanJobImg2" onClick={() => handleScanFlagAndComp('scan')} /> */} 
+            <div className="qrbox_mrp" >
+              <img src={qrImg} alt="scanner" style={{
+                height: '100%', // equivalent to h-full
+                width: '100%', // equivalent to w-full
+                objectFit: 'contain' // equivalent to object-contain
+              }}
+              onClick={() => handleScanFlagAndComp('scan')}
+            />
       
       <div
         style={{

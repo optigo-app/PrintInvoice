@@ -112,11 +112,14 @@
 
 .metalGoldDetailPrint1l,
 .metalTotalDetailPrint1l {
-    width: 28%;
+    /* width: 28%; */
+    width: 19%;
     /* width: 22%; */
     /* min-width: 22%; */
 }
-
+.other_Charges_DPC{
+    width: 9%;
+}
 .metalGoldDetailPrint1p,
 .metalTotalDetailPrint1p {
     width: 20%;

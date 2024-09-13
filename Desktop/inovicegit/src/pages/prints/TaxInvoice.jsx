@@ -107,7 +107,20 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     });
     datas.resultArray = resultArray;
 
+    datas.resultArray?.sort((a, b) => {
+      // First, compare based on Categoryname
+      if (a.Categoryname < b.Categoryname) return -1;
+      if (a.Categoryname > b.Categoryname) return 1;
+      
+      // If Categoryname is the same, compare based on SrJobno
+      if (a.SrJobno < b.SrJobno) return -1;
+      if (a.SrJobno > b.SrJobno) return 1;
+    
+      // If both Categoryname and SrJobno are the same, return 0
+      return 0;
+    });
 
+    
 
 
     setData(datas);

@@ -249,7 +249,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                     className="px_2 bold line_clamp_17"
                                     style={{
                                       fontSize: "12px",
-                                      lineHeight: "9px",
+                                      lineHeight: "11px",
                                       padding: "2px",
                                       wordBreak: "break-all",
                                     }}
@@ -378,10 +378,10 @@ const PrintDesign17 = ({ queries, headers }) => {
                                     e?.additional?.dia?.diaWt?.toFixed(3)}
                                 </div>
                               </div>
-                              {/* <div className="w_12mm border_right" style={{ borderBottom: "0px solid black" }} >
+                              <div className="w_12mm border_right" style={{ borderBottom: "0px solid black" }} >
                                 <div className="upper"></div>
                                 <div className="lower17"></div>
-                              </div> */}
+                              </div>
                               <div className="w17cs border_right">
                                 <div className="upper border_bottom text_center center_item">
                                   <p
@@ -397,10 +397,10 @@ const PrintDesign17 = ({ queries, headers }) => {
                                     +e?.additional?.clr?.clrWt?.toFixed(3)}
                                 </div>
                               </div>
-                              {/* <div className="w_12mm border_right" style={{ borderBottom: "0px solid black" }} >
+                              <div className="w_12mm border_right" style={{ borderBottom: "0px solid black" }} >
                                 <div className="upper"></div>
                                 <div className="lower17"></div>
-                              </div> */}
+                              </div>
                               <div className="w_10 border_right">
                                 <div className="upper border_bottom text_center center_item">
                                   <p
@@ -415,10 +415,10 @@ const PrintDesign17 = ({ queries, headers }) => {
                                   {e?.data?.rd?.netwt?.toFixed(3)}
                                 </div>
                               </div>
-                              {/* <div className="w_13 border_right" style={{ borderBottom: "0px solid black" }} >
+                              <div className="w_13 border_right" style={{ borderBottom: "0px solid black" }} >
                                 <div className="upper"></div>
                                 <div className="lower17"></div>
-                              </div> */}
+                              </div>
                               <div className=" border_right" style={{width:'15mm', boxSizing:'border-box'}}>
                                 <div className="upper border_bottom text_center center_item">
                                   <p
@@ -432,14 +432,15 @@ const PrintDesign17 = ({ queries, headers }) => {
                                   {(+e?.additional?.misc?.miscWt)?.toFixed(3)}
                                 </div>
                               </div>
-                              <div className="w_12_5mm" style={{ borderBottom: "0px solid black" }} >
+                              {/* <div className="w_12_5mm" style={{ borderBottom: "0px solid black" }} > */}
+                              <div  style={{ borderBottom: "0px solid black", width:'0px' }} >
                                 <div className="upper"></div>
                                 <div className="lower17"></div>
                               </div>
-                              <div className="w_12_5mm" style={{ borderBottom: "0px solid black" }} >
+                              {/* <div className="w_12_5mm" style={{ borderBottom: "0px solid black" }} >
                                 <div className="upper"></div>
                                 <div className="lower17"></div>
-                              </div>
+                              </div> */}
                               <div>
                               <div className="qrcodebg_17">
                                   <QRCodeGenerator
@@ -544,7 +545,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                 className="px_2 bold line_clamp_17"
                                 style={{
                                   fontSize: "12px",
-                                  lineHeight: "9px",
+                                  lineHeight: "11px",
                                   padding: "2px",
                                   wordBreak: "break-all",
                                 }}

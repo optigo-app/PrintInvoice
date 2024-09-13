@@ -8,6 +8,7 @@ import {
   checkMsg,
   discountCriteria,
   fixedValues,
+  formatAmount,
   handleImageError,
   handlePrint,
   isObjectEmpty,
@@ -729,25 +730,25 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="fw-bold p-1">Metal </div>
                   </div>
                   <div className="d-flex brbtm_dpc ">
-                    <div className="fw-bold w1_dpc brright_dpc  d-flex align-items-center justify-content-center">
+                    {/* <div className="fw-bold w1_dpc brright_dpc  d-flex align-items-center justify-content-center">
                       Quality
-                    </div>
-                    <div className="fw-bold w2_dpc brright_dpc  d-flex align-items-center justify-content-center">
+                    </div> */}
+                    {/*<div className="fw-bold w2_dpc brright_dpc  d-flex align-items-center justify-content-center">
                       *Wt
-                    </div>
-                    <div className="fw-bold w3_dpc brright_dpc  d-flex align-items-center justify-content-center">
+                    </div>*/}
+                    <div className="fw-bold  brright_dpc  d-flex align-items-center justify-content-center" style={{width:'20%'}}>
                       N+L
                     </div>
-                    <div className="fw-bold w4_dpc brright_dpc  d-flex align-items-center justify-content-center">
+                    <div className="fw-bold  brright_dpc  d-flex align-items-center justify-content-center" style={{width:'20%'}}>
                       Tunch
                     </div>
-                    <div className="fw-bold w5_dpc brright_dpc  d-flex align-items-center justify-content-center">
+                    <div className="fw-bold  brright_dpc  d-flex align-items-center justify-content-center" style={{width:'20%'}}>
                       Fine
                     </div>
-                    <div className="fw-bold w6_dpc brright_dpc  d-flex align-items-center justify-content-center">
+                    <div className="fw-bold  brright_dpc  d-flex align-items-center justify-content-center" style={{width:'20%'}}>
                       Rate
                     </div>
-                    <div className="fw-bold w7_dpc d-flex align-items-center justify-content-center">
+                    <div className="fw-bold  d-flex align-items-center justify-content-center" style={{width:'20%'}}>
                       Amount
                     </div>
                   </div>
@@ -779,6 +780,9 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                   </div>
                 </div>
+              </div>
+              <div className="other_Charges_DPC brright_dpc d-flex justify-content-center align-items-center fw-bold">
+                Other Charges
               </div>
               {/* <div className={`${dpp ? "otherAmountDetailPrint1p" : "otherAmountDetailPrint1l"} brright_dpc  brbtm_dpc d-flex align-items-center justify-content-center flex-column`}>
                 <p className="fw-bold text-center d-flex align-items-center justify-content-center" style={{wordBreak: "normal"}}>
@@ -842,6 +846,11 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                         <div className={`${!image && "pt-2 "}`}>
 
+                          {e?.MetalTypePurity !== "" && (
+                            <p className="text-center fw-bold">
+                              {/* Lineid - */}
+                              {e?.MetalTypePurity}</p>
+                          )}
                           {e?.HUID !== "" && (
                             <p className="text-center">HUID - {e?.HUID}</p>
                           )}
@@ -947,26 +956,26 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               return (
                                 <div className={`d-flex align-items-center`} key={ind}>
                                   {/* 3 1 1 1 1 2 3 */}
-                                  <p className="w1_dpc paddingRightDetailPrint1 text-break">
+                                  {/* <p className="w1_dpc paddingRightDetailPrint1 text-break">
                                     {ele?.ShapeName + " " + ele?.QualityName}
-                                  </p>
-                                  <p className="w2_dpc  text-end paddingRightDetailPrint1 text-break">
+                                  </p> */}
+                                  {/* {<p className="w2_dpc  text-end paddingRightDetailPrint1 text-break">
                                     {ind === 0 ? NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3) : NumberWithCommas(ele?.Wt, 3)}
-                                  </p>
-                                  <p className="w3_dpc  text-end paddingRightDetailPrint1">
+                                  </p>} */}
+                                  <p className="  text-end paddingRightDetailPrint1" style={{width:'20%'}}>
                                     {/* {dp1lp ? NumberWithCommas(ele?.Wt, 3) : fixedValues(e?.NetWt + e?.LossWt, 3)} */}
                                     {( ele?.IsPrimaryMetal === 1 ? e?.totals?.metal?.IsPrimaryMetal?.toFixed(3) : ele?.Wt)}
                                   </p>
-                                  <p className="w4_dpc  text-end paddingRightDetailPrint1">
+                                  <p className="  text-end paddingRightDetailPrint1" style={{width:'20%'}}>
                                     { ele?.IsPrimaryMetal === 0 ? '' : NumberWithCommas(e?.Tunch, 3)}
                                   </p>
-                                  <p className="w5_dpc  text-end paddingRightDetailPrint1">
+                                  <p className="  text-end paddingRightDetailPrint1" style={{width:'20%'}}>
                                     { ele?.IsPrimaryMetal === 0 ? '' : NumberWithCommas(e?.PureNetWt, 3)}
                                   </p>
-                                  <p className="w6_dpc  text-end paddingRightDetailPrint1">
+                                  <p className="  text-end paddingRightDetailPrint1" style={{width:'20%'}}>
                                     {NumberWithCommas(ele?.Rate, 2)}
                                   </p>
-                                  <p className={`w7_dpc fw-bold text-end ${ind > 0 && "fw-bold"}`}>
+                                  <p className={` fw-bold text-end ${ind > 0 && "fw-bold"}`} style={{width:'20%'}}>
                                     {(NumberWithCommas(ele?.Amount, 2))}
                                   </p>
                                 </div>
@@ -981,20 +990,20 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </p>
                           </div>}
                           <div className="d-flex align-items-center position-absolute bottom-0 w-100  totalMinHeightDetailPrint1 brtop_dpc brbtm_dpc lightGrey start-0">
-                            <p className="w1_dpc  paddingRightDetailPrint1"></p>
-                            <p className="w2_dpc text-end fw-bold d-flex justify-content-end align-items-center paddingRightDetailPrint1">
-                              {e?.totals?.metal?.Wt !== 0 &&
-                                fixedValues(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3)}
+                            {/* <p className="w1_dpc  paddingRightDetailPrint1"></p> */}
+                            {/* <p className="w2_dpc text-end fw-bold d-flex justify-content-end align-items-center paddingRightDetailPrint1"> */}
+                              {/* {e?.totals?.metal?.Wt !== 0 &&
+                                fixedValues(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3)} */}
                               {/* fixedValues(e?.totals?.metal?.Wt + (e?.totals?.diamonds?.Wt / 5), 3)} */}
-                            </p>
-                            <p className="w3_dpc text-end fw-bold d-flex justify-content-end align-items-center paddingRightDetailPrint1">
+                            {/* </p> */}
+                            <p className=" text-end fw-bold d-flex justify-content-end align-items-center paddingRightDetailPrint1" style={{width:'20%'}}>
                               {/* {e?.NetWt !== 0 && (dp1lp ? fixedValues(e?.primaryMetalWt, 3) : fixedValues(e?.NetWt + e?.LossWt, 3))} */}
                               {e?.totals?.metal?.IsPrimaryMetal?.toFixed(3)}
                             </p>
-                            <p className="w4_dpc text-end paddingRightDetailPrint1"></p>
-                            <p className="w5_dpc text-end paddingRightDetailPrint1 fw-bold">{NumberWithCommas(e?.PureNetWt, 3)}</p>
+                            {/* <p className=" text-end paddingRightDetailPrint1" style={{width:'20%'}}></p> */}
+                            <p className=" text-end paddingRightDetailPrint1 fw-bold" style={{width:'40%'}}>{NumberWithCommas(e?.PureNetWt, 3)}</p>
                             {/* <p className="w6_dpc text-end paddingRightDetailPrint1"></p> */}
-                            <p className="w7_dpc text-end fw-bold d-flex justify-content-end align-items-center  paddingRightDetailPrint1 " style={{width:'29.56%'}}> { NumberWithCommas(e?.metal[0].Amount, 2)} </p>
+                            <p className=" text-end fw-bold d-flex justify-content-end align-items-center  paddingRightDetailPrint1 " style={{width:'40%'}}> { NumberWithCommas(e?.metal[0].Amount, 2)} </p>
                           </div>
                         </div>
                       </div>
@@ -1049,6 +1058,24 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 )}
                             </p>
                           </div>
+                        </div>
+                      </div>
+                      <div className="other_Charges_DPC d-flex flex-column justify-content-between align-items-center brright_dpc">
+                        
+                        <div className="w-100">
+                        {
+                          e?.other_details?.map((el, i) => {
+                            return (
+                              <div className="d-flex jsutify-content-between align-items-center w-100" key={i}>
+                                <div className="w-50 d-flex justify-content-start align-items-center paddingLeftDetailPrint1 text-break">{el?.label}</div>
+                                <div className="w-50 d-flex justify-content-end align-items-center paddingRightDetailPrint1">{el?.value}</div>
+                              </div>
+                            )
+                          })
+                        }
+                        </div>
+                        <div className="d-flex justify-content-end align-items-center w-100 totalMinHeightDetailPrint1 paddingRightDetailPrint1 brtop_dpc lightGrey fw-bold brbtm_dpc">
+                          {formatAmount(e?.OtherCharges)}
                         </div>
                       </div>
                       {/* <div className={`${dpp ? "otherAmountDetailPrint1p" : "otherAmountDetailPrint1l"} brright_dpc  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
@@ -1204,6 +1231,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="d-grid"></div>
                       </div>
                       <div className={`${dpp ? "metalGoldDetailPrint1p" : "metalGoldDetailPrint1l"} brright_dpc  position-relative brbtm_dpc lightGrey`}></div>
+                      <div className="other_Charges_DPC lightGrey brbtm_dpc"></div>
                       <div className={`${dpp ? "stoneDetailsPrint1p" : "stoneDetailsPrint1l"} brright_dpc position-relative brbtm_dpc pt-1 lightGrey`}>
                         <div className="d-grid">
                           {e?.Discount !== 0 && (
@@ -1318,24 +1346,24 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
               <div className={`${dpp ? "metalTotalDetailPrint1p" : "metalTotalDetailPrint1l"} brright_dpc  position-relative brbtm_dpc d-flex flex-column justify-content-center`}>
                 <div className="d-flex align-items-center">
-                  <div className="w1_dpc paddingRightDetailPrint1">
+                  {/* <div className=" paddingRightDetailPrint1">
                     <p className=""></p>
-                  </div>
-                  <div className="w2_dpc text-end paddingRightDetailPrint1">
+                  </div> */}
+                  {/* {<div className="w2_dpc text-end paddingRightDetailPrint1">
                     <p className="fw-bold">{NumberWithCommas(finalD?.mainTotal?.netwt + (finalD?.mainTotal?.diamonds?.Wt / 5), 3)}</p>
-                  </div>
-                  <div className="w3_dpc text-end paddingRightDetailPrint1">
+                  </div>} */}
+                  <div className=" text-end paddingRightDetailPrint1" style={{width:'20%'}}>
                     <p className="fw-bold">
                       {NumberWithCommas(finalD?.mainTotal?.metal?.IsPrimaryMetal, 3)}
                       {/* {NumberWithCommas(finalD?.mainTotal?.netwt, 3)} */}
                     </p>
                   </div>
-                  <div className="w5_dpc text-end paddingRightDetailPrint1"></div>
-                  <div className="w4_dpc text-end paddingRightDetailPrint1 fw-bold">{NumberWithCommas(total?.PureNetWt, 3)}</div>
+                  {/* <div className="w5_dpc text-end paddingRightDetailPrint1"></div> */}
+                  <div className=" text-end paddingRightDetailPrint1 fw-bold" style={{width:'40%'}}>{NumberWithCommas(total?.PureNetWt, 3)}</div>
                   {/* <div className="w6_dpc text-end paddingRightDetailPrint1">
                     <p className=""></p>
                   </div> */}
-                  <div className="w7_dpc text-end paddingRightDetailPrint1" style={{width:'29.56%'}}>
+                  <div className=" text-end paddingRightDetailPrint1" style={{width:'40%'}}>
                     <p className="fw-bold">
                       {NumberWithCommas(finalD?.mainTotal?.MetalAmount, 2)}
                     </p>
@@ -1370,6 +1398,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
+              <div className="other_Charges_DPC brright_dpc paddingRightDetailPrint1 d-flex justify-content-end align-items-center fw-bold">{formatAmount(finalD?.mainTotal?.total_other_charges)}</div>
               {/* <div className={`${dpp ? "otherAmountDetailPrint1p" : "otherAmountDetailPrint1l"} brright_dpc  brbtm_dpc d-table paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
                 <p className="py-1 d-flex align-items-center justify-content-end d-table-cell align-middle fw-bold" >
                   <span>{NumberWithCommas(finalD?.mainTotal?.miscChargesTotals, 2)}</span>

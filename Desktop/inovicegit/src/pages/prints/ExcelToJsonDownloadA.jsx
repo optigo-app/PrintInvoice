@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import Loader from '../../components/Loader';
 import { useEffect } from 'react';
-import {NumberWithCommas, apiCall, checkMsg, isObjectEmpty } from '../../GlobalFunctions';
+import {NumberWithCommas, apiCall, checkMsg, formatAmount, isObjectEmpty } from '../../GlobalFunctions';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import style from "../../assets/css/prints/exporttojsondownloadA.module.css";
 
@@ -100,7 +100,7 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
                     id="test-table-xls-button"
                     className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5 d-none"
                     table="table-to-xls"
-                    filename={`Sale_Format_A_${header?.InvoiceNo}_${Date.now()}`}
+                    filename={`${atob(printName)}${header?.InvoiceNo}_${Date.now()}`}
                     sheet="tablexls"
                     buttonText="Download as XLS" />
                 <table id='table-to-xls' className={`${style?.excelToJsonDownloadATable}`}>
@@ -145,10 +145,12 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
                                 <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.jewellery}</td>
                                 <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.goldJewellery}</td>
                                 <td width="500" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.description}</td>
-                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>&nbsp;{NumberWithCommas(e?.pcs, 0)}</td>
+                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger' align='left'>{e?.pcs}</td>
                                 <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.piece}</td>
-                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>&nbsp;{NumberWithCommas(e?.hkd, 2)}</td>
-                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>&nbsp;{NumberWithCommas(e?.grossWt, 3)}</td>
+                                {/* <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>&nbsp;{NumberWithCommas(e?.hkd, 2)}</td>
+                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>&nbsp;{NumberWithCommas(e?.grossWt, 3)}</td> */}
+                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger' align='left'>{formatAmount(e?.hkd, 2)}</td>
+                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger' align='left'>{formatAmount(e?.grossWt, 3)}</td>
                                 <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.gramSymbol}</td>
                                 <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.cn}</td>
                                 <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.barcode}</td>

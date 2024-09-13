@@ -31,7 +31,6 @@ const SearchMaterial = ({ queries, headers }) => {
 
         const allDatas = await GetData(objs);
         setMsg(allDatas?.msg);
-        console.log(allDatas);
         const showObj = {
           istoreCust_Customercode:'',
           rfbag:'',
