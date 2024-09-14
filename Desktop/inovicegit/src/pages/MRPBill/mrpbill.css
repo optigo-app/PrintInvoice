@@ -669,8 +669,22 @@
 
 
 
-
-
+.remarkWidth_mrp{
+  width: 60% !important;
+}
+.date_mrp{
+  width: 16% !important;
+}
+.date_mrp .MuiInputBase-input{
+  padding: 8px !important;
+}
+.remarkWidth_mrp .MuiInputBase-input{
+  padding: 8px !important;
+}
+/* .remarkWidth_mrp .MuiFormLabel-root{
+  position: absolute;
+  top: -7px;
+} */
 
 
 @keyframes scanner-line {

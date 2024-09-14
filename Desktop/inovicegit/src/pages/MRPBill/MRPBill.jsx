@@ -13,7 +13,7 @@ import { handleImageError } from "./MRPGlobalFunctions";
 import { useLocation } from "react-router-dom";
 // import { Html5Qrcode } from "html5-qrcode";
 // import QRreader from "./QRBarcodeReader";
-import { CircularProgress } from "@mui/material";
+import { Box, CircularProgress, TextField } from "@mui/material";
 import PrintIcon from '@mui/icons-material/Print';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 // import ScanWithDevice from "./ScanWithDevice";
@@ -24,7 +24,7 @@ import { Helmet } from "react-helmet-async";
 
 const ConfirmDialog = ({ open, onClose, onConfirm  }) => (
   <Dialog open={open} onClose={onClose}>
-    <DialogTitle>Please Confirm</DialogTitle>
+    <DialogTitle>Generate Bill</DialogTitle>
     <DialogContent>
       <Typography variant="body1">Are you sure you want to proceed ?</Typography>
     </DialogContent>
@@ -62,6 +62,12 @@ const MRPBill = () => {
   const [selectBook, setSelectBook] = useState("");
   const [jobnoVal, setJobnoVal] = useState("");
   const [isJobPresent, setIsJobPresent] = useState(false);
+
+  const [customerEnteredDate, setCustomerEnterDate] = useState('');
+  const [customerEnteredDateError, setCustomerEnteredDateError] = useState('');
+  const [customerEnteredRemark, setCustomerEnteredRemark] = useState('');
+  const [customerEnteredRemarkError, setCustomerEnteredRemarkError] = useState('');
+  const [dateRemarkFlag, setDateRemarkFlag] = useState(false);
 
   const [currencyData, setCurrencyData] = useState([]);
   const [lockerData, setLockerData] = useState([]);
@@ -144,7 +150,6 @@ const MRPBill = () => {
   const cid = params.get('cid');
   const luid = atob(params.get('LUId'));
   const lid = atob(params.get('LId'));
-    console.log(luid, lid);
   //api calling for dropdowns
   useEffect(() => {
     let url = '';
@@ -165,7 +170,6 @@ const MRPBill = () => {
     try {
       // const url = "http://zen/jo/api-lib/App/API_MRPBill";
       const token = `${atob(tkn)}`;
-      console.log(token);
       // Utility function for API requests
       const fetchData = async (mode, setData, args) => {
         const body = JSON.stringify({
@@ -274,7 +278,7 @@ const MRPBill = () => {
 
   }
   const handleKeyDownEnter = (e) => {
-    
+    console.log(e);
     if(searchVal !== ''){
       if (e.key === 'Enter') {
         if(lockerErrorMsg === '' && currErrorMsg === '' && jobnoVal !== ''){
@@ -623,7 +627,6 @@ const MRPBill = () => {
       IsForEst = 1;
     }
     const isValid = checkValidation();
-    
     if (!isValid) {
       return; // Stop execution if validation fails
     }
@@ -641,8 +644,8 @@ const MRPBill = () => {
         }
 
         try {
-        let live_url = 'https://view.optigoapps.com/linkedapp/App/API_MRPBill';
-        let zen_url = 'http://zen/jo/api-lib/App/API_MRPBill';
+        // let live_url = 'https://view.optigoapps.com/linkedapp/App/API_MRPBill';
+        // let zen_url = 'http://zen/jo/api-lib/App/API_MRPBill';
         
         setIsLoading(true);
         const response = await axios.post(url, body);
@@ -696,6 +699,19 @@ const MRPBill = () => {
       setBookErrorMsg('');
     }
 
+    if (!customerEnteredDate) {
+      setCustomerEnteredDateError('Date is required');
+      isValid = false;
+    } else {
+      setCustomerEnteredDateError('');
+    }
+    if (!customerEnteredRemark) {
+      setCustomerEnteredRemarkError('Remark is required');
+      isValid = false;
+    } else {
+      setCustomerEnteredRemarkError('');
+    }
+
     return isValid;
   };
 
@@ -732,6 +748,12 @@ const MRPBill = () => {
       custRef.current?.focus();
     }, 0)
     setScanFlag(true);
+
+    setCustomerEnteredRemarkError('');
+    setCustomerEnteredDateError('');
+    setCustomerEnterDate('');
+    setCustomerEnteredRemark('');
+
   }
 
   //   // Handle scanning
@@ -848,6 +870,7 @@ const MRPBill = () => {
     },0)
     setNoJobAdd(true);
     setDisableInp(true);
+    setDateRemarkFlag(true);
   };
 
   //back button logic
@@ -864,6 +887,7 @@ const MRPBill = () => {
       inputRef.current.focus();
       setScanFlag(true);
     },10);
+    setDateRemarkFlag(false);
   };
 
   //focus event set up logic
@@ -1137,6 +1161,24 @@ useEffect(() => {
 },[]);
 
 
+//customer entered date
+const handleCustomerEnteredDate = (e) => {
+  const custEnteredDate = e.target.value;
+  setCustomerEnterDate(custEnteredDate);
+  setCustomerEnteredDateError('');
+
+
+  // const enterDate = new Date(custEnteredDate)?.toDateString();
+  const enterDate = new Date(custEnteredDate)?.toLocaleDateString();
+  console.log(enterDate);
+
+}
+//customer entered remark
+const handleCustomerEnteredRemark = (e) => {
+  const custEnteredRemark = e.target.value;
+  setCustomerEnteredRemark(custEnteredRemark);
+  setCustomerEnteredRemarkError('');
+}
 
 
   return (
@@ -1258,7 +1300,6 @@ useEffect(() => {
             </div>
         </div>
 
-        {/* <div className="w-100 d-flex align-items-baseline p-2 minH_mrp"> */}
         <div className="w-100 d-flex align-items-baseline p-2 flex_column_mrp minH_mrp mt_top_mrp_head">
           <div className="w-25 d-flex flex-column  align-items-start ps-3 w_50_mrp2 w_100_mrp_scan mt_mrp">
             <div className="scanblock_mrpbill"> {/* <img src={scanImg} alt="#scanjob" className="scanJobImg" onClick={handleOpenScanComp} /> */} 
@@ -1316,32 +1357,7 @@ useEffect(() => {
               <button className="btn_go" disabled={jobnoVal === ''} onClick={() => handleGoClick()}>GO</button>
             </div>
             <div className="text-danger px-2 msg_h_mrpbill">{msg}</div>
-          </div>
-          {/* { isJobPresent && <div className="w-50 d-flex flex-wrap center_jl_mrp w_75_mrp2">
-            {jobDetail?.map((e, i) => {
-              return (
-                <div key={i}>
-                  <div className="jobitem_mrp" key={i}>
-                    {e?.StockBarcode}
-                  </div>
-                  <div>
-                    <input
-                      type="number"
-                      className="form-control border border-secondary p-1 mt-2 w-75"
-                      value={addnew}
-                      onChange={(e) => handleAddNewChange(e)}
-                    />
-                  </div>
-                  <div>
-                    <button className="w-75 btn btn-success mt-2" disabled={addnew === ''} onClick={() => handleAddNew(e)}>
-                      ADD NEW
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>} */}
-          
+          </div>          
             { billSavedFlag !== true && <div className="tableDiv_mrp d-flex flex-column">
           <table className="table max_w_table">
             <thead className="table-head">
@@ -1400,88 +1416,53 @@ useEffect(() => {
               }) : <tr><td colSpan={5} align="center">No Data Present</td></tr>}
             </tbody>
           </table>
+            
+            <div style={{minHeight:'130px', maxWidth:'1000px', width:'100%', display:'flex', flexDirection:'column', justifyContent:'flex-end'}}>
+              { dateRemarkFlag && <div style={{paddingTop:'1rem', paddingBottom:'1rem', width:'100%', maxWidth:'1000px', minHeight:'72px'}}>
+                <Box style={{display:'flex', alignItems:'center', padding:'0px 10px'}}>
+                  <div className="date_mrp" style={{minHeight:'65px'}}>
+                  <TextField
+                    label="Select Date"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,  // This ensures that the label stays above the input field when a date is selected
+                    }}
+                    style={{padding:'8px !important'}}
+                    value={customerEnteredDate}
+                    onChange={handleCustomerEnteredDate}
+                  />
+                  <div className="text-danger">{customerEnteredDateError}</div>
+                  </div>
+                  <div className="remarkWidth_mrp" style={{minHeight:'65px'}}>
+                    <TextField  placeholder="Enter Remark" style={{marginLeft:'10px', width:'100%'}} value={customerEnteredRemark} onChange={handleCustomerEnteredRemark}  />
+                    <div className="px-3 text-danger">{customerEnteredRemarkError}</div>
+                  </div>
+                </Box>
+              </div>}
 
-          { jobList?.length !== 0 && <div className="w-100 d-flex justify-content-between align-items-center my-1" style={{ maxWidth: '1000px' }}>
-            <>
-            <div className="d-flex align-items-center">
-              { editableFlag ? <button className="continue_btn_bill mx-2" disabled={jobList?.length === 0 ? true : false} onClick={() => handleClickOpen('bill')}>SAVE BILL</button> : <div style={{height:'40px'}}></div>}
-              { editableFlag ? <button className="continue_btn_est mx-2" disabled={jobList?.length === 0 ? true : false}  onClick={() => handleClickOpen('estimate')}>SAVE ESTIMATE</button> : <div style={{height:'40px'}}></div>}
-            </div>
-            <div>
-
-            {!editableFlag ? (
-              <button className="continue_btn_continue" onClick={handleContinue}>Continue</button>
-              ) : (
-                <button className="continue_btn_back" onClick={handleBack}>Back</button>
-                )}
+              { jobList?.length !== 0 && <div className="w-100 d-flex justify-content-between align-items-center my-1" style={{ maxWidth: '1000px' }}>
+                <>
+                <div className="d-flex align-items-center">
+                  { editableFlag ? <button className="continue_btn_bill mx-2" disabled={jobList?.length === 0 ? true : false} onClick={() => handleClickOpen('bill')}>SAVE BILL</button> : <div style={{height:'40px'}}></div>}
+                  { editableFlag ? <button className="continue_btn_est mx-2" disabled={jobList?.length === 0 ? true : false}  onClick={() => handleClickOpen('estimate')}>SAVE ESTIMATE</button> : <div style={{height:'40px'}}></div>}
                 </div>
-                </>
-          </div>}
+                <div>
+
+                {!editableFlag ? (
+                  <button className="continue_btn_continue" onClick={handleContinue}>Continue</button>
+                  ) : (
+                    <button className="continue_btn_back" onClick={handleBack}>Back</button>
+                    )}
+                    </div>
+                    </>
+              </div>}
+            </div>
         </div>}
         </div>
 
-        {/* { billSavedFlag !== true && <div className="tableDiv_mrp">
-          <table className="table max_w_table">
-            <thead className="table-head">
-              <tr>
-                <td width={90} style={{ borderRight: "1px solid #989898", backgroundColor: "#e8e8e8", }} > SrNo </td>
-                <td width={90} style={{ borderRight: "1px solid #989898", backgroundColor: "#e8e8e8", }} > Image </td>
-                <td width={520} style={{ borderRight: "1px solid #989898", backgroundColor: "#e8e8e8", }} > Description </td>
-                <td width={120} style={{ borderRight: "1px solid #989898", backgroundColor: "#e8e8e8", }} > Sale Price </td>
-                <td width={90} style={{ backgroundColor: "#e8e8e8" }}> Delete </td>
-              </tr>
-            </thead>
-            <tbody className="table-body">
-              {jobList?.length > 0 ? jobList?.map((e, i) => {
-                return (
-                  <tr key={i}>
-                    <td width={90} className="pd_0" align="center" style={{ borderRight: "1px solid #989898" }} >
-                      1
-                    </td>
-                    <td width={90} align="center" className="pd_0" style={{ borderRight: "1px solid #989898" }} >
-                      <img src={e?.DesignImage} alt="#img" className="tableImg" onError={handleImageError} />
-                    </td>
-                    <td width={520} style={{ borderRight: "1px solid #989898" }} className="pd_0" >
-                      {e?.Description}
-                    </td>
-                    <td width={120} style={{ borderRight: "1px solid #989898" }}  className="pd_0">
-                      {" "}
-                      <input
-                        type="number"
-                        value={e?.salePrice}
-                        onChange={(event) => handlePriceChange(event, e)}
-                        style={{
-                          width: "100%",
-                          border: "none",
-                          textAlign: "center",
-                          backgroundColor: "transparent",
-                          border:'1px solid #989898'
-                        }}
-                      />
-                    </td>
-                    <td width={90} align="center" className="pd_0">
-                      <DeleteIcon
-                        titleAccess="delete"
-                        sx={{ color: "grey", cursor: "pointer" }}
-                        onClick={() => handleJobDelete(e)} 
-                      />
-                    </td>
-                  </tr>
-                );
-              }) : <tr><td colSpan={5} align="center">No Data Present</td></tr>}
-            </tbody>
-          </table>
-        </div>} */}
-
+     
         { billSavedFlag !== true && <>
-        <div className="w-100 d-flex justify-content-center align-items-center mt-1">
-          {/* <button className="continue_btn_bill mx-2" disabled={jobList?.length === 0 ? true : false} onClick={(e) => saveMRP(e, 'bill')}>SAVE BILL</button>
-          <button className="continue_btn_est mx-2" disabled={jobList?.length === 0 ? true : false} onClick={(e) => saveMRP(e, 'estimate')}>SAVE ESTIMATE</button> */}
-          {/* { editableFlag ? <button className="continue_btn_bill mx-2" disabled={jobList?.length === 0 ? true : false} onClick={() => handleClickOpen('bill')}>SAVE BILL</button> : <div style={{height:'40px'}}></div>} */}
-          {/* { editableFlag ? <button className="continue_btn_est mx-2" disabled={jobList?.length === 0 ? true : false}  onClick={() => handleClickOpen('estimate')}>SAVE ESTIMATE</button> : <div style={{height:'40px'}}></div>} */}
-        </div>
         <div> <ConfirmDialog open={open} onClose={handleClose} onConfirm={() => handleConfirm(actionType)} /></div>
-        {/* <button className="continue_btn_cen mx-2" onClick={() => saveNextBill()}>CANCEL ALL</button> */}
         { jobList?.length !== 0 && <div className="d-flex justify-content-end pe-5"><a className="text-primary cursor-pointer mx-2" onClick={() => saveNextBill()}>Cancel All ?</a></div>}
         </>
         }
@@ -1494,11 +1475,6 @@ useEffect(() => {
         }
         </div>
       </div>}
-      {
-        // scanCompFlag && <QRreader setScanCompFlag={setScanCompFlag} />
-        // scanCompFlag && <ScanWithDevice setScanCompFlag={setScanCompFlag} />
-      }
-      {/* <ScanWithDevice setScanCompFlag={setScanCompFlag}  /> */}
       <div>
         <img 
           src="path-to-your-image.jpg" 
