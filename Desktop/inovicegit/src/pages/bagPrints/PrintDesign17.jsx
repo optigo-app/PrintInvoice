@@ -214,15 +214,15 @@ const PrintDesign17 = ({ queries, headers }) => {
                                       {e?.data?.rd?.["CustomerCode"]}
                                     </p>
                                   </div>
-                                  <div className="w_25 border_right p_3">
+                                  <div className="w_25 border_right p_3" style={{width:'35%'}}>
                                     <p className="grey bold fsize17 linehP17">
                                       SIZE
                                     </p>
-                                    <p className="bold fsize17">
+                                    <p className="bold fsize17_size">
                                       {e?.data?.rd?.["Size"]}
                                     </p>
                                   </div>
-                                  <div className="w_25 border_right p_3">
+                                  <div className="w_25 border_right p_3" style={{width:'20%'}}>
                                     <p className="grey bold fsize17 linehP17">
                                       ORD.DT.
                                     </p>
@@ -230,7 +230,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                       {e?.data?.rd?.["OrderDate"] === "01 Jan 1900" ? '' : e?.data?.rd?.orderDatef}
                                     </p>
                                   </div>
-                                  <div className="w_25 p_3">
+                                  <div className="w_25 p_3" style={{width:'20%'}}>
                                     <p className="grey bold fsize17 linehP17">
                                       DEL.DT.
                                     </p>
@@ -496,11 +496,11 @@ const PrintDesign17 = ({ queries, headers }) => {
                                 className="header_17two"
                                 style={{ borderRight: "0px solid black" }}
                               >
-                                <p className="d-flex flex-column">
+                                <p className="d-flex flex-column" style={{width:'35%'}}>
                                   <span className="grey bold fsize17 linehP17">
                                     SIZE
                                   </span>
-                                  <span className="bold fsize17">
+                                  <span className="bold fsize17_size">
                                     {e?.data?.rd?.["Size"]}
                                   </span>
                                 </p>
@@ -509,7 +509,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                 className="header_17two"
                                 style={{ borderRight: "0px solid black" }}
                               >
-                                <p className="d-flex flex-column">
+                                <p className="d-flex flex-column" style={{width:'20%'}}>
                                   <span className="grey bold fsize17 linehP17">
                                     ORD.DT.
                                   </span>
@@ -522,7 +522,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                 className="header_17two"
                                 style={{ borderRight: "0px solid black" }}
                               >
-                                <p className="d-flex flex-column">
+                                <p className="d-flex flex-column" style={{width:'20%'}}>
                                   <span className="grey bold fsize17 linehP17">
                                     DEL.DT.
                                   </span>

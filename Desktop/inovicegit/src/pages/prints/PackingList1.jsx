@@ -402,7 +402,6 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         //     }
         //     return 0;
         // });
-        console.log(newArr);
         newArr?.sort((a, b) => {
             // First, compare based on Categoryname
             if (a.Categoryname < b.Categoryname) return -1;
