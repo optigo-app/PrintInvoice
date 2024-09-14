@@ -391,18 +391,30 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
         setTaxes(taxValue);
 
-        newArr.sort((a, b) => {
-            const nameA = (a?.JewelCodePrefix + a?.srJob).toUpperCase();
-            const nameB = (b?.JewelCodePrefix + b?.srJob).toUpperCase();
-            if (nameA < nameB) {
-                return -1;
-            }
-            if (nameA > nameB) {
-                return 1;
-            }
+        // newArr.sort((a, b) => {
+        //     const nameA = (a?.JewelCodePrefix + a?.srJob).toUpperCase();
+        //     const nameB = (b?.JewelCodePrefix + b?.srJob).toUpperCase();
+        //     if (nameA < nameB) {
+        //         return -1;
+        //     }
+        //     if (nameA > nameB) {
+        //         return 1;
+        //     }
+        //     return 0;
+        // });
+        console.log(newArr);
+        newArr?.sort((a, b) => {
+            // First, compare based on Categoryname
+            if (a.Categoryname < b.Categoryname) return -1;
+            if (a.Categoryname > b.Categoryname) return 1;
+            
+            // If Categoryname is the same, compare based on SrJobno
+            if (a.SrJobno < b.SrJobno) return -1;
+            if (a.SrJobno > b.SrJobno) return 1;
+          
+            // If both Categoryname and SrJobno are the same, return 0
             return 0;
-        });
-
+          });
         setData(newArr);
     }
 

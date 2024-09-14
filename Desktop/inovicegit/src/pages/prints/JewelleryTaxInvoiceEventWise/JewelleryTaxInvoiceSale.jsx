@@ -486,7 +486,6 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                   
                   {e?.materials?.length > 0 &&
                     e?.materials?.map((ele, ind) => {
-                      console.log(ele);
                       return (
                         <p key={ind} className="text-break">
                          
@@ -566,12 +565,16 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
           <div className="col-4 p-1 border-end">
             {  summary.map((e, i) => {
               return (
-                <div className="d-flex justify-content-between" style={{width:'65%'}} key={i}>
+                <React.Fragment key={i}>
+                {
+                  e?.value === 0 ? '' : <div className="d-flex justify-content-between" style={{width:'65%'}} key={i}>
                   <p key={i}>{e?.label}: </p>
                   <p>
                     {NumberWithCommas(e?.value, 3)} {e?.gm ? "gm" : "cts"}
                   </p>
                 </div>
+                }
+                </React.Fragment>
               );
             })}
        
@@ -584,9 +587,9 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                 </p>
               );
             })}
-            <p>Total</p>
-            {json0Data?.AddLess > 0 ? <p>Add</p> : <p>Less</p>}
-            <p>Delivery Charges</p>
+            { ((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal)) !== 0 && <p>Total</p>}
+            { json0Data?.AddLess !== 0 && <>{json0Data?.AddLess > 0 ? <p>Add</p> : <p>Less</p>}</>}
+            { json0Data?.FreightCharges !== 0 && <p>Delivery Charges</p>}
           </div>
           <div className="col-2 p-1">
             {tax?.map((e, i) => {
@@ -601,25 +604,25 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                 </p>
               );
             })}
-            <p className="text-end fw-bold">
+            { ((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal)) !== 0 && <p className="text-end fw-bold">
               <span
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
               {/* {NumberWithCommas(totalAmount.after, 2)}{" "} */}
               {formatAmount(((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal)))}
-            </p>
-            <p className="text-end fw-bold">
+            </p>}
+            { json0Data?.AddLess !== 0 && <p className="text-end fw-bold">
               <span
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
               {NumberWithCommas((json0Data?.AddLess / json0Data?.CurrencyExchRate), 2)}{" "}
-            </p>
-            <p className="text-end fw-bold">
+            </p>}
+            { json0Data?.FreightCharges !== 0 && <p className="text-end fw-bold">
               <span
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
               {NumberWithCommas((json0Data?.FreightCharges / json0Data?.CurrencyExchRate), 2)}{" "}
-            </p>
+            </p>}
           </div>
         </div>
         {/* gran total */}

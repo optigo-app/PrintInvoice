@@ -1541,7 +1541,7 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <p className="fw-bold px-1 pt-1">OTHER</p>
                       <p className="px-1 pt-1">
                         {" "}
-                        {NumberWithCommas(finalD?.mainTotal?.miscChargesTotals, 2)}
+                        {NumberWithCommas(finalD?.mainTotal?.total_other_charges, 2)}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
@@ -1552,9 +1552,10 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </p>
                     </div>
                     <div className="d-flex justify-content-between brtop_dpc  position-absolute w-100 brbtm_dpc  bottom-0 totalLineDetailPrint1 lightGrey">
-                      <p className="fw-bold p-1">TOTAL</p>
+                      {/* <p className="fw-bold p-1">TOTAL</p> */}
+                      <p className="fw-bold p-1"></p>
                       <p className="px-1 p-1">
-                        {NumberWithCommas(total?.withDiscountTaxAmount, 2)}
+                        {/* {NumberWithCommas(total?.withDiscountTaxAmount, 2)} */}
                       </p>
                     </div>
                   </div>
