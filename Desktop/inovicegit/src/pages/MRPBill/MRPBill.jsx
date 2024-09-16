@@ -24,16 +24,16 @@ import { Helmet } from "react-helmet-async";
 
 const ConfirmDialog = ({ open, onClose, onConfirm  }) => (
   <Dialog open={open} onClose={onClose}>
-    <DialogTitle>Generate Bill</DialogTitle>
+    <DialogTitle style={{display:'flex', justifyContent:'center', alignItems:'center', width:'100%'}}>Generate Bill</DialogTitle>
     <DialogContent>
       <Typography variant="body1">Are you sure you want to proceed ?</Typography>
     </DialogContent>
-    <DialogActions>
-      <Button onClick={onClose} variant="contained" color="error">
-        Cancel
-      </Button>
+    <DialogActions style={{display:'flex', justifyContent:'center', alignItems:'center', width:'100%'}}>
       <Button onClick={onConfirm}  variant="contained" color="success">
         Confirm
+      </Button>
+      <Button onClick={onClose} variant="contained" color="error">
+        Cancel
       </Button>
     </DialogActions>
   </Dialog>
@@ -148,8 +148,8 @@ const MRPBill = () => {
   const tkn = params.get('tkn');
   const pid = params.get('pid');
   const cid = params.get('cid');
-  const luid = atob(params.get('LUId'));
-  const lid = atob(params.get('LId'));
+  const luid = (params?.get('LUId') === null || params?.get('LUId') === undefined) ? '' : atob(params.get('LUId'));
+  const lid = (params?.get('LId') === null || params?.get('LId') === undefined) ? '' : atob(params.get('LId'));
   //api calling for dropdowns
   useEffect(() => {
     let url = '';
@@ -278,7 +278,6 @@ const MRPBill = () => {
 
   }
   const handleKeyDownEnter = (e) => {
-    console.log(e);
     if(searchVal !== ''){
       if (e.key === 'Enter') {
         if(lockerErrorMsg === '' && currErrorMsg === '' && jobnoVal !== ''){
@@ -298,7 +297,6 @@ const MRPBill = () => {
       setDisableInp(false);
       return
     }
-
     setEditTableFlag(false);
     const areAllSalePricesSet = () => {
       return jobList.every(job => job.salePrice !== '');
@@ -627,7 +625,22 @@ const MRPBill = () => {
       IsForEst = 1;
     }
     const isValid = checkValidation();
-    if (!isValid) {
+    let is_valid = true;
+    if (!customerEnteredDate) {
+      setCustomerEnteredDateError('Date is required');
+      is_valid = false;
+    } else {
+      setCustomerEnteredDateError('');
+    }
+    if (!customerEnteredRemark) {
+      setCustomerEnteredRemarkError('Remark is required');
+      is_valid = false;
+    } else {
+      setCustomerEnteredRemarkError('');
+    }
+    // const enterDate = new Date(custEnteredDate)?.toDateString();
+    const enterDate = new Date(customerEnteredDate)?.toLocaleDateString();
+    if (!isValid && !is_valid) {
       return; // Stop execution if validation fails
     }
     if(jobList?.length > 0){
@@ -638,11 +651,10 @@ const MRPBill = () => {
         
           return { STB: e?.StockBarcode, MRP: Number(e?.salePrice) };
         })
-
+        
         const body = {
-          "Token" : `${atob(tkn)}`,"ReqData":`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"BookId\":\"${bookId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"${lid}\",\"userid\":\"${luid}\",\"BillDetail\":${JSON.stringify(bill_detail)}}]`
+          "Token" : `${atob(tkn)}`,"ReqData":`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"BookId\":\"${bookId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"${lid}\",\"userid\":\"${luid}\",\"date\":\"${enterDate}\",\"remark\":\"${customerEnteredRemark}\",\"BillDetail\":${JSON.stringify(bill_detail)}}]`
         }
-
         try {
         // let live_url = 'https://view.optigoapps.com/linkedapp/App/API_MRPBill';
         // let zen_url = 'http://zen/jo/api-lib/App/API_MRPBill';
@@ -699,18 +711,18 @@ const MRPBill = () => {
       setBookErrorMsg('');
     }
 
-    if (!customerEnteredDate) {
-      setCustomerEnteredDateError('Date is required');
-      isValid = false;
-    } else {
-      setCustomerEnteredDateError('');
-    }
-    if (!customerEnteredRemark) {
-      setCustomerEnteredRemarkError('Remark is required');
-      isValid = false;
-    } else {
-      setCustomerEnteredRemarkError('');
-    }
+    // if (!customerEnteredDate) {
+    //   setCustomerEnteredDateError('Date is required');
+    //   isValid = false;
+    // } else {
+    //   setCustomerEnteredDateError('');
+    // }
+    // if (!customerEnteredRemark) {
+    //   setCustomerEnteredRemarkError('Remark is required');
+    //   isValid = false;
+    // } else {
+    //   setCustomerEnteredRemarkError('');
+    // }
 
     return isValid;
   };
@@ -753,6 +765,9 @@ const MRPBill = () => {
     setCustomerEnteredDateError('');
     setCustomerEnterDate('');
     setCustomerEnteredRemark('');
+    setDateRemarkFlag(false);
+
+    setNoJobAdd(false);
 
   }
 
@@ -837,11 +852,27 @@ const MRPBill = () => {
 
   //dialog box open logic
   const handleClickOpen = (type) => {
-    setActionType(type);  // Store the action type
-    setTimeout(() => {
-      setActionType(type);
-    },0)
-    setOpen(true);
+    let is_valid = true;
+    if (!customerEnteredDate) {
+      setCustomerEnteredDateError('Date is required');
+      is_valid = false;
+    } else {
+      setCustomerEnteredDateError('');
+    }
+    if (!customerEnteredRemark) {
+      setCustomerEnteredRemarkError('Remark is required');
+      is_valid = false;
+    } else {
+      setCustomerEnteredRemarkError('');
+    }
+
+    if(is_valid){
+      setActionType(type);  // Store the action type
+      setTimeout(() => {
+        setActionType(type);
+      },0)
+      setOpen(true);
+    }
   };
 
   //dialog box close logic
@@ -1170,7 +1201,6 @@ const handleCustomerEnteredDate = (e) => {
 
   // const enterDate = new Date(custEnteredDate)?.toDateString();
   const enterDate = new Date(custEnteredDate)?.toLocaleDateString();
-  console.log(enterDate);
 
 }
 //customer entered remark
@@ -1313,8 +1343,7 @@ const handleCustomerEnteredRemark = (e) => {
               onClick={() => handleScanFlagAndComp('scan')}
             />
       
-      <div
-        style={{
+      <div style={{
           position: 'absolute', // equivalent to absolute
           top: 0,
           left: 0,
