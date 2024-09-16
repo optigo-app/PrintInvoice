@@ -21,6 +21,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography }
 // import { scannedValue } from './../../recoil/atom';
 // import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Helmet } from "react-helmet-async";
+import moment from "moment/moment";
 
 const ConfirmDialog = ({ open, onClose, onConfirm  }) => (
   <Dialog open={open} onClose={onClose}>
@@ -639,7 +640,16 @@ const MRPBill = () => {
       setCustomerEnteredRemarkError('');
     }
     // const enterDate = new Date(custEnteredDate)?.toDateString();
-    const enterDate = new Date(customerEnteredDate)?.toLocaleDateString();
+    // const enterDate = new Date(customerEnteredDate)?.toLocaleDateString();
+    // const enterDateDay = new Date(customerEnteredDate)?.getDate();
+    // const enterDateMonth = new Date(customerEnteredDate)?.getMonth();
+    // const enterDateYear = new Date(customerEnteredDate)?.getFullYear();
+    // // console.log(enterDateDay, enterDateMonth, enterDateYear);
+
+
+    const formatedDate = moment(customerEnteredDate).format('l'); 
+    const formatedRemark = customerEnteredRemark?.slice(0, 500);
+
     if (!isValid && !is_valid) {
       return; // Stop execution if validation fails
     }
@@ -653,7 +663,7 @@ const MRPBill = () => {
         })
         
         const body = {
-          "Token" : `${atob(tkn)}`,"ReqData":`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"BookId\":\"${bookId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"${lid}\",\"userid\":\"${luid}\",\"date\":\"${enterDate}\",\"remark\":\"${customerEnteredRemark}\",\"BillDetail\":${JSON.stringify(bill_detail)}}]`
+          "Token" : `${atob(tkn)}`,"ReqData":`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"BookId\":\"${bookId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"${lid}\",\"userid\":\"${luid}\",\"date\":\"${formatedDate}\",\"remark\":\"${formatedRemark}\",\"BillDetail\":${JSON.stringify(bill_detail)}}]`
         }
         try {
         // let live_url = 'https://view.optigoapps.com/linkedapp/App/API_MRPBill';
@@ -1200,7 +1210,9 @@ const handleCustomerEnteredDate = (e) => {
 
 
   // const enterDate = new Date(custEnteredDate)?.toDateString();
-  const enterDate = new Date(custEnteredDate)?.toLocaleDateString();
+  // const enterDate = new Date(custEnteredDate)?.toLocaleDateString();
+
+  // const formatedDate = moment(custEnteredDate).format('l'); 
 
 }
 //customer entered remark
