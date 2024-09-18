@@ -16,6 +16,7 @@ import {
     fixedValues,
     ReceiveInBank,
     checkMsg,
+    formatAmount,
 } from "../../GlobalFunctions";
 
 const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
@@ -295,12 +296,14 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                             })
                         }
                         {/* <p className='text-end px-1'>{NumberWithCommas(headerData?.BankReceived, 2)}</p> */}
-                        <p className='text-end px-1'>{
+                        {/* <p className='text-end px-1'>{
                         NumberWithCommas((data?.mainTotal?.total_amount / headerData?.CurrencyRate) +
                             data?.allTaxes?.reduce((acc, cObj) => acc +
                              +((+cObj?.amount)?.toFixed(2)), 0) +(headerData?.AddLess / headerData?.CurrencyExchRate) -
                             // bank?.reduce((acc, cObj) => acc + +((+cObj?.amount)?.toFixed(2)), 0) - headerData?.OldGoldAmount - headerData?.CashReceived, 2)}</p>
-                            bank?.reduce((acc, cObj) => acc + +((+cObj?.amount)?.toFixed(2)), 0) - headerData?.OldGoldAmount , 2)}</p>
+                            bank?.reduce((acc, cObj) => acc + +((+cObj?.amount)?.toFixed(2)), 0) - headerData?.OldGoldAmount , 2)}</p> */}
+                            {console.log(data)}
+                            <p className='text-end px-1'>{formatAmount(((headerData?.AddLess / headerData?.CurrencyExchRate) + (data?.allTaxesTotal)  + (data?.mainTotal?.total_amount / headerData?.CurrencyRate) - ( headerData?.OldGoldAmount +  (data?.header?.BankReceived) +headerData?.CashReceived) ))}</p>
                         <p className="text-end mt-1 border-top p-1 fw-bold"><span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }} className='pe-1'></span>{NumberWithCommas(+(data?.mainTotal?.total_amount / headerData?.CurrencyRate)?.toFixed(2) +
                             data?.allTaxes?.reduce((acc, cObj) => acc + +((+cObj?.amount)?.toFixed(2)), 0) +(headerData?.AddLess / headerData?.CurrencyExchRate), 2)}</p>
                     </div>
