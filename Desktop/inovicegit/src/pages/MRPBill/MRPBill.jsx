@@ -104,6 +104,7 @@ const MRPBill = () => {
   const [disableSelect4, setDisableSelect4] = useState(false);
 
   const [editableFlag, setEditTableFlag] = useState(false);
+  const [deleteFlag, setDeleteFlag] = useState(true);
 
   const [inpAutoFocus, setInpAutoFocus] = useState(true);
 
@@ -474,14 +475,18 @@ const MRPBill = () => {
   //job delete logic1/268373
 
   const handleJobDelete = (obj) => {
-        const updatedJL = jobList?.filter((e) => e?.StockBarcode !== obj?.StockBarcode)
-        setJobList(updatedJL);
-        if(updatedJL?.length === 0){
-          setDisableSelect(false);
-        }
-        setMsg('');
-          inputRef.current.focus();
-          setJobnoVal('');
+
+    if(deleteFlag){
+
+      const updatedJL = jobList?.filter((e) => e?.StockBarcode !== obj?.StockBarcode)
+      setJobList(updatedJL);
+      if(updatedJL?.length === 0){
+        setDisableSelect(false);
+      }
+      setMsg('');
+      inputRef.current.focus();
+      setJobnoVal('');
+    }
         // setTimeout(() => {
         //   setMsg('');
         //   inputRef.current.focus();
@@ -912,6 +917,9 @@ const MRPBill = () => {
     setNoJobAdd(true);
     setDisableInp(true);
     setDateRemarkFlag(true);
+
+    setDeleteFlag(false);
+
   };
 
   //back button logic
@@ -929,6 +937,9 @@ const MRPBill = () => {
       setScanFlag(true);
     },10);
     setDateRemarkFlag(false);
+
+    setDeleteFlag(true);
+
   };
 
   //focus event set up logic
@@ -1445,7 +1456,7 @@ const handleCustomerEnteredRemark = (e) => {
                     {/* <td width={90} align="center" style={{borderRight:'1px solid #989898', verticalAlign:'center'}}>
                             <EditIcon titleAccess="update" sx={{color:'grey', cursor:'pointer'}} />
                         </td> */}
-                    <td width={90} align="center" className="pd_0">
+                    <td width={90} align="center" className="pd_0" >
                       <DeleteIcon
                         titleAccess="delete"
                         sx={{ color: "grey", cursor: "pointer" }}
