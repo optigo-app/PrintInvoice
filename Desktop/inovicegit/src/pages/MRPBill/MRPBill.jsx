@@ -245,9 +245,7 @@ const MRPBill = () => {
     }
 
   };
-  
 
-  
   //currency logic
   const handleCurrencyChange = (e) => {
     setSelectVal(e.target.value);
