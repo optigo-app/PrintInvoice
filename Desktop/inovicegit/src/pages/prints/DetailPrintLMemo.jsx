@@ -18,6 +18,7 @@ import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
+import { OrganizeInvoicePrintData } from './../../GlobalFunctions/OrganizeInvoicePrintData';
 
 const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [image, setImage] = useState(false);
@@ -28,6 +29,7 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
   const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
+  const [result, SetResult] = useState(null);
   // eslint-disable-next-line no-unused-vars
   const [detailtPrintR, setdetailtPrintR] = useState(
     atob(printName).toLowerCase() === "detail print r" ? true : false
@@ -92,11 +94,7 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
     image: true,
     brokarage: true,
   });
-
   const [finalD, setFinalD] = useState({});
-
-
-  const [diamondDetails, setDiamondDetails] = useState([]);
   const [isImageWorking, setIsImageWorking] = useState(true);
   const [showQlty, setShowQlty] = useState(true);
 
@@ -117,155 +115,155 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
     }
   };
 
-  // eslint-disable-next-line no-unused-vars
-  const findDiamond = (obj, diamondArr) => {
-    let recordIndex = diamondArr.findIndex(
-      (e, i) =>
-        e?.ShapeName === obj?.ShapeName &&
-        e?.QualityName === obj?.QualityName &&
-        e?.Colorname === obj?.Colorname
-    );
-    return recordIndex;
-  };
+  // // eslint-disable-next-line no-unused-vars
+  // const findDiamond = (obj, diamondArr) => {
+  //   let recordIndex = diamondArr.findIndex(
+  //     (e, i) =>
+  //       e?.ShapeName === obj?.ShapeName &&
+  //       e?.QualityName === obj?.QualityName &&
+  //       e?.Colorname === obj?.Colorname
+  //   );
+  //   return recordIndex;
+  // };
 
-  const loadData = (data) => {
-    let label = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
-    setAddress(label);
-    setJson0Data(data?.BillPrint_Json[0]);
-    setJson1Data2(data?.BillPrint_Json2);
-    setLoader(false);
-    let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
+  // const loadData = (data) => {
+  //   let label = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
+  //   setAddress(label);
+  //   setJson0Data(data?.BillPrint_Json[0]);
+  //   setJson1Data2(data?.BillPrint_Json2);
+  //   setLoader(false);
+  //   let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
 
-    let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
+  //   let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
       
-    setMetShpWise(met_shp_arr);
-    let tot_met = 0;
-    let tot_met_wt = 0;
+  //   setMetShpWise(met_shp_arr);
+  //   let tot_met = 0;
+  //   let tot_met_wt = 0;
 
-    met_shp_arr?.forEach((e) => {
-      tot_met += e?.Amount;
-      tot_met_wt += e?.metalfinewt;
+  //   met_shp_arr?.forEach((e) => {
+  //     tot_met += e?.Amount;
+  //     tot_met_wt += e?.metalfinewt;
 
-    })    
-    setNotGoldMetalWtTotal(tot_met_wt)
-    setNotGoldMetalTotal(tot_met);
+  //   })    
+  //   setNotGoldMetalWtTotal(tot_met_wt)
+  //   setNotGoldMetalTotal(tot_met);
 
-    let finalArr = [];
-    let totalMetalWt = 0;
-    let miscChargesTotals = 0
-    datas?.resultArray?.map((e, i) => {
-      let primaryMetalWt = 0;
-      let otherMisc = e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling;
-      let findMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
-      if (findMetal !== undefined) {
-        primaryMetalWt = findMetal?.Wt;
-        totalMetalWt += findMetal?.Wt;
-      }
-      let obj = cloneDeep(e);
-      let miscChargesTotal = e?.OtherCharges+e?.TotalDiamondHandling
-      let miscChargesss = 0;
-      let miscCharges = data?.BillPrint_Json2?.filter((ele, ind) => {
-        if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
-          if (ele?.IsHSCOE !== 0 && ele?.StockBarcode === e?.SrJobno) {
-            // miscChargesTotal += ele?.Amount;
-            miscChargesTotal += ele?.Amount;
-            return ele
-          } else if (ele?.IsHSCOE === 0 && ele?.StockBarcode === e?.SrJobno) {
-            miscChargesss += ele?.Amount;
-            miscChargesTotal += ele?.Amount;
-          }
-        }
-      });
+  //   let finalArr = [];
+  //   let totalMetalWt = 0;
+  //   let miscChargesTotals = 0
+  //   datas?.resultArray?.map((e, i) => {
+  //     let primaryMetalWt = 0;
+  //     let otherMisc = e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling;
+  //     let findMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
+  //     if (findMetal !== undefined) {
+  //       primaryMetalWt = findMetal?.Wt;
+  //       totalMetalWt += findMetal?.Wt;
+  //     }
+  //     let obj = cloneDeep(e);
+  //     let miscChargesTotal = e?.OtherCharges+e?.TotalDiamondHandling
+  //     let miscChargesss = 0;
+  //     let miscCharges = data?.BillPrint_Json2?.filter((ele, ind) => {
+  //       if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
+  //         if (ele?.IsHSCOE !== 0 && ele?.StockBarcode === e?.SrJobno) {
+  //           // miscChargesTotal += ele?.Amount;
+  //           miscChargesTotal += ele?.Amount;
+  //           return ele
+  //         } else if (ele?.IsHSCOE === 0 && ele?.StockBarcode === e?.SrJobno) {
+  //           miscChargesss += ele?.Amount;
+  //           miscChargesTotal += ele?.Amount;
+  //         }
+  //       }
+  //     });
 
       
-      miscChargesTotals += miscChargesTotal;
-      obj.primaryMetalWt = primaryMetalWt;
-      obj.otherMisc = otherMisc;
-      obj.miscCharges = miscCharges;
-      obj.miscChargesTotal = miscChargesTotal;
-      obj.miscChargesss = miscChargesss
-      finalArr.push(obj);
-    })
-    datas.mainTotal.miscChargesTotals = miscChargesTotals
-    settotalMetalWts(totalMetalWt);
-    datas.resultArray = finalArr;
-    setFinalD(datas);
-    let brok = brokarageDetail(data?.BillPrint_Json[0]?.Brokerage);
-    setBrokarage(brok);
-    let diamondDetail = [];
-    data?.BillPrint_Json2?.forEach((e, i) => {
-      if (e?.MasterManagement_DiamondStoneTypeid === 1) {
-        let findDiamond = diamondDetail?.findIndex((ele, ind) => ele?.ShapeName === e?.ShapeName && ele?.QualityName === e?.QualityName && ele?.Colorname === e?.Colorname);
-        if (findDiamond === -1) {
-          diamondDetail.push(e);
-        } else {
-          diamondDetail[findDiamond].Pcs += e?.Pcs;
-          diamondDetail[findDiamond].Wt += e?.Wt;
-          diamondDetail[findDiamond].Amount += e?.Amount;
-        }
-      }
-    });
-    let findRND = [];
-    let remaingDia = [];
-    diamondDetail?.forEach((ele, ind) => {
-      if (ele?.ShapeName === "RND") {
-        findRND.push(ele);
-      } else {
-        remaingDia.push(ele);
-      }
-    });
-    let resultArr = [];
-    findRND.sort((a, b) => {
-      if (a.ShapeName !== b.ShapeName) {
-        return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
-      } else if (a.QualityName !== b.QualityName) {
-        return a.QualityName.localeCompare(b.QualityName); // If ShapeName is same, sort by QualityName
-      } else {
-        return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
-      }
-    });
+  //     miscChargesTotals += miscChargesTotal;
+  //     obj.primaryMetalWt = primaryMetalWt;
+  //     obj.otherMisc = otherMisc;
+  //     obj.miscCharges = miscCharges;
+  //     obj.miscChargesTotal = miscChargesTotal;
+  //     obj.miscChargesss = miscChargesss
+  //     finalArr.push(obj);
+  //   })
+  //   datas.mainTotal.miscChargesTotals = miscChargesTotals
+  //   settotalMetalWts(totalMetalWt);
+  //   datas.resultArray = finalArr;
+  //   setFinalD(datas);
+  //   let brok = brokarageDetail(data?.BillPrint_Json[0]?.Brokerage);
+  //   setBrokarage(brok);
+  //   let diamondDetail = [];
+  //   data?.BillPrint_Json2?.forEach((e, i) => {
+  //     if (e?.MasterManagement_DiamondStoneTypeid === 1) {
+  //       let findDiamond = diamondDetail?.findIndex((ele, ind) => ele?.ShapeName === e?.ShapeName && ele?.QualityName === e?.QualityName && ele?.Colorname === e?.Colorname);
+  //       if (findDiamond === -1) {
+  //         diamondDetail.push(e);
+  //       } else {
+  //         diamondDetail[findDiamond].Pcs += e?.Pcs;
+  //         diamondDetail[findDiamond].Wt += e?.Wt;
+  //         diamondDetail[findDiamond].Amount += e?.Amount;
+  //       }
+  //     }
+  //   });
+  //   let findRND = [];
+  //   let remaingDia = [];
+  //   diamondDetail?.forEach((ele, ind) => {
+  //     if (ele?.ShapeName === "RND") {
+  //       findRND.push(ele);
+  //     } else {
+  //       remaingDia.push(ele);
+  //     }
+  //   });
+  //   let resultArr = [];
+  //   findRND.sort((a, b) => {
+  //     if (a.ShapeName !== b.ShapeName) {
+  //       return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
+  //     } else if (a.QualityName !== b.QualityName) {
+  //       return a.QualityName.localeCompare(b.QualityName); // If ShapeName is same, sort by QualityName
+  //     } else {
+  //       return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
+  //     }
+  //   });
 
-    remaingDia.sort((a, b) => {
-      if (a.ShapeName !== b.ShapeName) {
-        return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
-      } else if (a.QualityName !== b.QualityName) {
-        return a.QualityName.localeCompare(b.QualityName); // If ShapeName is same, sort by QualityName
-      } else {
-        return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
-      }
-    });
-    if (findRND?.length > 6) {
-      let arr = findRND.slice(0, 6);
-      let anotherArr = [...findRND.slice(6), remaingDia].flat();
-      let obj = { ...anotherArr[0] };
-      anotherArr?.reduce((acc, cobj) => {
-        obj.Pcs += cobj?.Pcs;
-        obj.Wt += cobj?.Wt;
-        obj.Amount += cobj?.Amount;
-      }, obj);
-      obj.ShapeName = "OTHER";
-      resultArr = [...arr, obj].flat();
-    } else {
-      let arr = [...findRND].flat();
-      let smallArr = [...remaingDia.slice(0, 6 - findRND?.length)].flat();
-      let largeArr = [...remaingDia.slice(6 - findRND?.length)].flat();
-      let finalArr = [...arr, ...smallArr].flat();
+  //   remaingDia.sort((a, b) => {
+  //     if (a.ShapeName !== b.ShapeName) {
+  //       return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
+  //     } else if (a.QualityName !== b.QualityName) {
+  //       return a.QualityName.localeCompare(b.QualityName); // If ShapeName is same, sort by QualityName
+  //     } else {
+  //       return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
+  //     }
+  //   });
+  //   if (findRND?.length > 6) {
+  //     let arr = findRND.slice(0, 6);
+  //     let anotherArr = [...findRND.slice(6), remaingDia].flat();
+  //     let obj = { ...anotherArr[0] };
+  //     anotherArr?.reduce((acc, cobj) => {
+  //       obj.Pcs += cobj?.Pcs;
+  //       obj.Wt += cobj?.Wt;
+  //       obj.Amount += cobj?.Amount;
+  //     }, obj);
+  //     obj.ShapeName = "OTHER";
+  //     resultArr = [...arr, obj].flat();
+  //   } else {
+  //     let arr = [...findRND].flat();
+  //     let smallArr = [...remaingDia.slice(0, 6 - findRND?.length)].flat();
+  //     let largeArr = [...remaingDia.slice(6 - findRND?.length)].flat();
+  //     let finalArr = [...arr, ...smallArr].flat();
 
-      let obj = { ...largeArr[0] };
-      obj.Pcs = 0;
-      obj.Wt = 0;
-      obj.Amount = 0;
-      largeArr?.reduce((acc, cobj) => {
-        obj.Pcs += cobj?.Pcs;
-        obj.Wt += cobj?.Wt;
-        obj.Amount += cobj?.Amount;
-      }, obj);
-      obj.ShapeName = "OTHER";
-      resultArr = [...finalArr, obj].flat();
-    }
+  //     let obj = { ...largeArr[0] };
+  //     obj.Pcs = 0;
+  //     obj.Wt = 0;
+  //     obj.Amount = 0;
+  //     largeArr?.reduce((acc, cobj) => {
+  //       obj.Pcs += cobj?.Pcs;
+  //       obj.Wt += cobj?.Wt;
+  //       obj.Amount += cobj?.Amount;
+  //     }, obj);
+  //     obj.ShapeName = "OTHER";
+  //     resultArr = [...finalArr, obj].flat();
+  //   }
 
-    setDiamondDetails(resultArr);
-  };
+  //   setDiamondDetails(resultArr);
+  // };
 
   useEffect(() => {
     const sendData = async () => {
@@ -274,13 +272,49 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
-            loadData(data?.Data);
-            let arr = organizeDataSample(
+            // loadData(data?.Data);
+            let address = data?.Data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
+            data.Data.BillPrint_Json[0].address = address;
+            let datas = OrganizeInvoicePrintData(
               data?.Data?.BillPrint_Json[0],
               data?.Data?.BillPrint_Json1,
               data?.Data?.BillPrint_Json2
-            );
-            setJson1Data(arr);
+              );
+              setJson0Data(datas?.header);
+
+            datas?.resultArray?.forEach((e) => {
+              let dia = [];
+
+              e?.diamonds?.forEach((e, i) => {
+                let obj = cloneDeep(e);
+                let findrec = dia?.findIndex((a) => a?.ShapeName === obj?.ShapeName && a?.QualityName === obj?.QualityName && a?.Colorname === obj?.Colorname);
+                if(findrec === -1){
+                  dia.push(obj);
+                }else{
+                  dia[findrec].Wt += obj?.Wt;
+                  dia[findrec].Pcs += obj?.Pcs;
+                }
+              })
+              e.diamonds = dia;
+
+              let clr = [];
+
+              e?.colorstone?.forEach((e) => {
+                let obj = cloneDeep(e);
+                let findrec = clr?.findIndex((a) => a?.ShapeName === obj?.ShapeName && a?.QualityName === obj?.QualityName && a?.Colorname === obj?.Colorname);
+                if(findrec === -1){
+                  clr.push(obj);
+                }else{
+                  clr[findrec].Wt += obj?.Wt;
+                  clr[findrec].Pcs += obj?.Pcs;
+                }
+              })
+              e.colorstone = clr;
+            })
+
+            // setJson1Data(datas);
+            SetResult(datas);
+            setFinalD(datas)
             setLoader(false);
           } else {
             setLoader(false);
@@ -301,271 +335,274 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const organizeDataSample = (hr, ar1, ar2) => {
-    let resultArr = [];
-    let totals = {
-      diamondPcs: 0,
-      diamondWt: 0,
-      diamondAmount: 0,
-      metalWt: 0,
-      metalNL: 0,
-      metalAmount: 0,
-      colorStonePcs: 0,
-      colorStoneWt: 0,
-      colorStoneAmount: 0,
-      totalAmount: 0,
-      discountTotalAmount: 0,
-      sgstAmount: 0,
-      cgstAmount: 0,
-      withoutDiscountTotalAmount: 0,
-      withDiscountTaxAmount: 0,
-      labourAmount: 0,
-      netWt: 0,
-    };
+  // const organizeDataSample = (hr, ar1, ar2) => {
+  //   let resultArr = [];
+  //   let totals = {
+  //     diamondPcs: 0,
+  //     diamondWt: 0,
+  //     diamondAmount: 0,
+  //     metalWt: 0,
+  //     metalNL: 0,
+  //     metalAmount: 0,
+  //     colorStonePcs: 0,
+  //     colorStoneWt: 0,
+  //     colorStoneAmount: 0,
+  //     totalAmount: 0,
+  //     discountTotalAmount: 0,
+  //     sgstAmount: 0,
+  //     cgstAmount: 0,
+  //     withoutDiscountTotalAmount: 0,
+  //     withDiscountTaxAmount: 0,
+  //     labourAmount: 0,
+  //     netWt: 0,
+  //   };
 
-    let summary = {
-      gold24Kt: 0,
-      grossWt: 0,
-      gDWt: 0,
-      netWt: 0,
-      diamondWt: 0,
-      diamondpcs: 0,
-      stoneWt: 0,
-      stonePcs: 0,
-      metalAmount: 0,
-      diamondAmount: 0,
-      colorStoneAmount: 0,
-      makingAmount: 0,
-      otherCharges: 0,
-      addLess: 0,
-      total: 0,
-    };
+  //   let summary = {
+  //     gold24Kt: 0,
+  //     grossWt: 0,
+  //     gDWt: 0,
+  //     netWt: 0,
+  //     diamondWt: 0,
+  //     diamondpcs: 0,
+  //     stoneWt: 0,
+  //     stonePcs: 0,
+  //     metalAmount: 0,
+  //     diamondAmount: 0,
+  //     colorStoneAmount: 0,
+  //     makingAmount: 0,
+  //     otherCharges: 0,
+  //     addLess: 0,
+  //     total: 0,
+  //   };
 
-    // eslint-disable-next-line array-callback-return
-    ar1?.map((e) => {
-      let metalWt = 0;
-      if (detailtPrintR || detailtPrintL || detailtPrintp) {
-        summary.gold24Kt = summary.gold24Kt + e?.PureNetWt;
-      }
-      if (detailPrintK) {
-        summary.gold24Kt += e.PureNetWt;
-      }
-      let totalAmounts = e?.DiscountAmt + e?.TotalAmount;
-      let OtherAmountDetail = otherAmountDetail(e?.OtherAmtDetail);
-      let totalOther =
-        e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling;
-      totals.labourAmount +=
-        e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost;
-      let obj = { ...e };
-      obj.OtherAmountDetail = OtherAmountDetail;
-      obj.totalOther = totalOther;
-      obj.SettingAmount = 0;
-      let diamondArr = [];
-      let metalArr = [];
-      let colorStoneArr = [];
-      let otherMisc = e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling;
-      let primaryMetalWt = 0;
-      let diamondsTotal = {
-        Pcs: 0,
-        Wt: 0,
-        Amount: 0,
-        RMwt: 0,
-      };
-      let metalTotal = {
-        Pcs: 0,
-        Wt: 0,
-        Amount: 0,
-      };
-      let colorStonesTotal = {
-        Pcs: 0,
-        Wt: 0,
-        Amount: 0,
-      };
-      let discountTotalAmount = 0;
+  //   // eslint-disable-next-line array-callback-return
+  //   ar1?.map((e) => {
+  //     let metalWt = 0;
+  //     if (detailtPrintR || detailtPrintL || detailtPrintp) {
+  //       summary.gold24Kt = summary.gold24Kt + e?.PureNetWt;
+  //     }
+  //     if (detailPrintK) {
+  //       summary.gold24Kt += e.PureNetWt;
+  //     }
+  //     let totalAmounts = e?.DiscountAmt + e?.TotalAmount;
+  //     let OtherAmountDetail = otherAmountDetail(e?.OtherAmtDetail);
+  //     let totalOther =
+  //       e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling;
+  //     totals.labourAmount +=
+  //       e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost;
+  //     let obj = { ...e };
+  //     obj.OtherAmountDetail = OtherAmountDetail;
+  //     obj.totalOther = totalOther;
+  //     obj.SettingAmount = 0;
+  //     let diamondArr = [];
+  //     let metalArr = [];
+  //     let colorStoneArr = [];
+  //     let otherMisc = e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling;
+  //     let primaryMetalWt = 0;
+  //     let diamondsTotal = {
+  //       Pcs: 0,
+  //       Wt: 0,
+  //       Amount: 0,
+  //       RMwt: 0,
+  //     };
+  //     let metalTotal = {
+  //       Pcs: 0,
+  //       Wt: 0,
+  //       Amount: 0,
+  //     };
+  //     let colorStonesTotal = {
+  //       Pcs: 0,
+  //       Wt: 0,
+  //       Amount: 0,
+  //     };
+  //     let discountTotalAmount = 0;
 
-      // eslint-disable-next-line array-callback-return
-      ar2?.map((el) => {
-        if (e?.SrJobno === el?.StockBarcode) {
-          if (el?.MasterManagement_DiamondStoneTypeid === 1) {
-            diamondArr.push(el);
-            diamondsTotal.Pcs += el?.Pcs;
-            diamondsTotal.Wt += el?.Wt;
-            diamondsTotal.Amount += el?.Amount;
-            diamondsTotal.RMwt += el?.RMwt;
-            totals.diamondPcs += el?.Pcs;
-            totals.diamondWt += el?.Wt;
-            totals.diamondAmount += el?.Amount;
-            summary.diamondWt += el?.Wt;
-            summary.diamondpcs += el?.Pcs;
-            summary.diamondAmount += el?.Amount;
-            metalWt += el?.Wt;
-          }
-          if (el?.MasterManagement_DiamondStoneTypeid === 4) {
-            metalArr.push(el);
-            metalTotal.Pcs += el?.Pcs;
-            metalTotal.Wt += el?.Wt;
-            metalTotal.Amount += el?.Amount;
-            if (!detailtPrintR) {
-              if (!detailPrintK) {
-                summary.gold24Kt += el?.FineWt;
-              }
-            }
-            if (el?.IsPrimaryMetal === 1) {
-              primaryMetalWt += el?.Wt;
-            }
-            // totals.metalWt += el?.Wt;
-            totals.metalAmount += el?.Amount;
-            summary.metalAmount += el?.Amount;
-          }
-          if (el?.MasterManagement_DiamondStoneTypeid === 2) {
-            colorStoneArr.push(el);
-            colorStonesTotal.Pcs += el?.Pcs;
-            colorStonesTotal.Wt += el?.Wt;
-            colorStonesTotal.Amount += el?.Amount;
-            totals.colorStonePcs += el?.Pcs;
-            totals.colorStoneWt += el?.Wt;
-            totals.colorStoneAmount += el?.Amount;
-            summary.stoneWt += el?.Wt;
-            summary.stonePcs += el?.Pcs;
-            summary.colorStoneAmount += el?.Amount;
-          }
-          obj.SettingAmount += el?.SettingAmount;
-          summary.makingAmount += el?.SettingAmount;
-        }
-      });
+  //     // eslint-disable-next-line array-callback-return
+  //     ar2?.map((el) => {
+  //       if (e?.SrJobno === el?.StockBarcode) {
+  //         if (el?.MasterManagement_DiamondStoneTypeid === 1) {
+  //           diamondArr.push(el);
+  //           diamondsTotal.Pcs += el?.Pcs;
+  //           diamondsTotal.Wt += el?.Wt;
+  //           diamondsTotal.Amount += el?.Amount;
+  //           diamondsTotal.RMwt += el?.RMwt;
+  //           totals.diamondPcs += el?.Pcs;
+  //           totals.diamondWt += el?.Wt;
+  //           totals.diamondAmount += el?.Amount;
+  //           summary.diamondWt += el?.Wt;
+  //           summary.diamondpcs += el?.Pcs;
+  //           summary.diamondAmount += el?.Amount;
+  //           metalWt += el?.Wt;
+  //         }
+  //         if (el?.MasterManagement_DiamondStoneTypeid === 4) {
+  //           metalArr.push(el);
+  //           metalTotal.Pcs += el?.Pcs;
+  //           metalTotal.Wt += el?.Wt;
+  //           metalTotal.Amount += el?.Amount;
+  //           if (!detailtPrintR) {
+  //             if (!detailPrintK) {
+  //               summary.gold24Kt += el?.FineWt;
+  //             }
+  //           }
+  //           if (el?.IsPrimaryMetal === 1) {
+  //             primaryMetalWt += el?.Wt;
+  //           }
+  //           // totals.metalWt += el?.Wt;
+  //           totals.metalAmount += el?.Amount;
+  //           summary.metalAmount += el?.Amount;
+  //         }
+  //         if (el?.MasterManagement_DiamondStoneTypeid === 2) {
+  //           colorStoneArr.push(el);
+  //           colorStonesTotal.Pcs += el?.Pcs;
+  //           colorStonesTotal.Wt += el?.Wt;
+  //           colorStonesTotal.Amount += el?.Amount;
+  //           totals.colorStonePcs += el?.Pcs;
+  //           totals.colorStoneWt += el?.Wt;
+  //           totals.colorStoneAmount += el?.Amount;
+  //           summary.stoneWt += el?.Wt;
+  //           summary.stonePcs += el?.Pcs;
+  //           summary.colorStoneAmount += el?.Amount;
+  //         }
+  //         obj.SettingAmount += el?.SettingAmount;
+  //         summary.makingAmount += el?.SettingAmount;
+  //       }
+  //     });
 
-      metalWt = metalWt / 5 + e?.NetWt;
-      totals.metalWt += metalWt;
-      // totals.metalWt += e?.DiamondCTWwithLoss / 5;
-      metalTotal.Wt = metalWt;
-      // discountTotalAmount = e?.TotalAmount - e?.DiscountAmt;
-      discountTotalAmount = e?.TotalAmount;
-      summary.grossWt += e?.grosswt;
-      summary.gDWt += e?.MetalDiaWt + e?.DiamondCTWwithLoss / 5;
-      summary.netWt += e?.NetWt;
-      summary.makingAmount += e?.MakingAmount;
-      // summary.otherCharges += e?.OtherCharges;
-      summary.otherCharges += totalOther;
-      obj.diamonds = diamondArr;
-      obj.primaryMetalWt = primaryMetalWt;
-      obj.metals = metalArr;
-      obj.colorStones = colorStoneArr;
-      obj.diamondsTotal = diamondsTotal;
-      obj.metalTotal = metalTotal;
-      obj.colorStonesTotal = colorStonesTotal;
-      obj.discountTotalAmount = discountTotalAmount;
-      obj.totalAmounts = totalAmounts;
-      obj.otherMisc = otherMisc;
-      if (obj.metals[0]) {
-        obj.metals[0].Wt = metalWt;
-      }
-      totals.totalAmount += e?.TotalAmount;
-      totals.discountTotalAmount += obj?.DiscountAmt;
-      totals.withoutDiscountTotalAmount += e?.TotalAmount;
-      totals.netWt += e?.NetWt + e?.LossWt;
-      resultArr.push(obj);
-      // setDiamondDetails(diamondDetails);
-    });
-    summary.addLess = hr?.AddLess;
-    summary.total =
-      summary?.metalAmount +
-      summary?.diamondAmount +
-      summary?.colorStoneAmount +
-      summary?.makingAmount +
-      summary?.otherCharges +
-      summary?.addLess;
-    totals.cgstAmount = (totals?.withoutDiscountTotalAmount * hr?.CGST) / 100;
-    totals.sgstAmount = (totals?.withoutDiscountTotalAmount * hr?.SGST) / 100;
-    let taxValue = taxGenrator(hr, totals?.totalAmount);
-    setTaxes(taxValue);
-    taxValue?.length > 0 &&
-      taxValue.forEach((e, i) => {
-        totals.withDiscountTaxAmount += +e?.amount;
-      });
-    totals.withDiscountTaxAmount +=
-      hr?.AddLess + totals?.totalAmount - hr?.Privilege_discount;
-    setSummary(summary);
-    setTotal(totals);
-    return resultArr;
-  };
+  //     metalWt = metalWt / 5 + e?.NetWt;
+  //     totals.metalWt += metalWt;
+  //     // totals.metalWt += e?.DiamondCTWwithLoss / 5;
+  //     metalTotal.Wt = metalWt;
+  //     // discountTotalAmount = e?.TotalAmount - e?.DiscountAmt;
+  //     discountTotalAmount = e?.TotalAmount;
+  //     summary.grossWt += e?.grosswt;
+  //     summary.gDWt += e?.MetalDiaWt + e?.DiamondCTWwithLoss / 5;
+  //     summary.netWt += e?.NetWt;
+  //     summary.makingAmount += e?.MakingAmount;
+  //     // summary.otherCharges += e?.OtherCharges;
+  //     summary.otherCharges += totalOther;
+  //     obj.diamonds = diamondArr;
+  //     obj.primaryMetalWt = primaryMetalWt;
+  //     obj.metals = metalArr;
+  //     obj.colorStones = colorStoneArr;
+  //     obj.diamondsTotal = diamondsTotal;
+  //     obj.metalTotal = metalTotal;
+  //     obj.colorStonesTotal = colorStonesTotal;
+  //     obj.discountTotalAmount = discountTotalAmount;
+  //     obj.totalAmounts = totalAmounts;
+  //     obj.otherMisc = otherMisc;
+  //     if (obj.metals[0]) {
+  //       obj.metals[0].Wt = metalWt;
+  //     }
+  //     totals.totalAmount += e?.TotalAmount;
+  //     totals.discountTotalAmount += obj?.DiscountAmt;
+  //     totals.withoutDiscountTotalAmount += e?.TotalAmount;
+  //     totals.netWt += e?.NetWt + e?.LossWt;
+  //     resultArr.push(obj);
+  //     // setDiamondDetails(diamondDetails);
+  //   });
+  //   summary.addLess = hr?.AddLess;
+  //   summary.total =
+  //     summary?.metalAmount +
+  //     summary?.diamondAmount +
+  //     summary?.colorStoneAmount +
+  //     summary?.makingAmount +
+  //     summary?.otherCharges +
+  //     summary?.addLess;
+  //   totals.cgstAmount = (totals?.withoutDiscountTotalAmount * hr?.CGST) / 100;
+  //   totals.sgstAmount = (totals?.withoutDiscountTotalAmount * hr?.SGST) / 100;
+  //   let taxValue = taxGenrator(hr, totals?.totalAmount);
+  //   setTaxes(taxValue);
+  //   taxValue?.length > 0 &&
+  //     taxValue.forEach((e, i) => {
+  //       totals.withDiscountTaxAmount += +e?.amount;
+  //     });
+  //   totals.withDiscountTaxAmount +=
+  //     hr?.AddLess + totals?.totalAmount - hr?.Privilege_discount;
+  //   setSummary(summary);
+  //   setTotal(totals);
 
-  const d = json1Data2?.reduce((grouped, ee) => {
-    if (
-      ee?.MasterManagement_DiamondStoneTypeid === 1 &&
-      ee?.ShapeName === "Round"
-    ) {
-      const key = `${ee?.ShapeName} ${ee?.QualityName} ${ee?.Colorname}`;
 
-      if (!grouped[key]) {
-        grouped[key] = [];
-      }
 
-      grouped[key].push(ee);
-    }
-    return grouped;
-  }, {});
+  //   return resultArr;
+  // };
 
-  const er = json1Data2?.reduce((grouped, ei) => {
-    if (
-      ei?.MasterManagement_DiamondStoneTypeid === 1 &&
-      ei?.ShapeName !== "Round"
-    ) {
-      const key = `${ei?.ShapeName} ${ei?.QualityName} ${ei?.Colorname}`;
+  // // const d = json1Data2?.reduce((grouped, ee) => {
+  // //   if (
+  // //     ee?.MasterManagement_DiamondStoneTypeid === 1 &&
+  // //     ee?.ShapeName === "Round"
+  // //   ) {
+  // //     const key = `${ee?.ShapeName} ${ee?.QualityName} ${ee?.Colorname}`;
 
-      if (!grouped[key]) {
-        grouped[key] = [];
-      }
+  // //     if (!grouped[key]) {
+  // //       grouped[key] = [];
+  // //     }
 
-      grouped[key].push(ei);
-    }
-    return grouped;
-  }, {});
+  // //     grouped[key].push(ee);
+  // //   }
+  // //   return grouped;
+  // // }, {});
 
-  const calculatedData = [];
-  const calData = [];
+  // // const er = json1Data2?.reduce((grouped, ei) => {
+  // //   if (
+  // //     ei?.MasterManagement_DiamondStoneTypeid === 1 &&
+  // //     ei?.ShapeName !== "Round"
+  // //   ) {
+  // //     const key = `${ei?.ShapeName} ${ei?.QualityName} ${ei?.Colorname}`;
 
-  for (const key in d) {
-    if (d.hasOwnProperty(key)) {
-      const group = d[key];
+  // //     if (!grouped[key]) {
+  // //       grouped[key] = [];
+  // //     }
 
-      const totalPcs = group?.reduce((sum, item) => sum + item.Pcs, 0);
-      const totalWt = group?.reduce((sum, item) => sum + item.Wt, 0);
+  // //     grouped[key].push(ei);
+  // //   }
+  // //   return grouped;
+  // // }, {});
 
-      calculatedData.push({
-        ShapeName: key,
-        totalPcs,
-        totalWt,
-      });
-    }
-  }
-  for (const key in er) {
-    if (er.hasOwnProperty(key)) {
-      const group = er[key];
+  // // const calculatedData = [];
+  // // const calData = [];
 
-      const totalPcs = group.reduce((sum, item) => sum + item.Pcs, 0);
-      const totalWt = group.reduce((sum, item) => sum + item.Wt, 0);
+  // // for (const key in d) {
+  // //   if (d.hasOwnProperty(key)) {
+  // //     const group = d[key];
 
-      calData.push({
-        ShapeName: key,
-        totalPcs,
-        totalWt,
-      });
-    }
-  }
-  let totalPcs1 = 0;
-  let totalWt1 = 0;
+  // //     const totalPcs = group?.reduce((sum, item) => sum + item.Pcs, 0);
+  // //     const totalWt = group?.reduce((sum, item) => sum + item.Wt, 0);
 
-  for (const obj of calData) {
-    totalPcs1 += obj.totalPcs;
-    totalWt1 += obj.totalWt;
-  }
-  let other = {
-    ShapeName: "OTHER",
-    totalPcs: totalPcs1,
-    totalWt: totalWt1,
-  };
+  // //     calculatedData.push({
+  // //       ShapeName: key,
+  // //       totalPcs,
+  // //       totalWt,
+  // //     });
+  // //   }
+  // // }
+  // // for (const key in er) {
+  // //   if (er.hasOwnProperty(key)) {
+  // //     const group = er[key];
 
-  calculatedData.push(other);
+  // //     const totalPcs = group.reduce((sum, item) => sum + item.Pcs, 0);
+  // //     const totalWt = group.reduce((sum, item) => sum + item.Wt, 0);
+
+  // //     calData.push({
+  // //       ShapeName: key,
+  // //       totalPcs,
+  // //       totalWt,
+  // //     });
+  // //   }
+  // // }
+  // // let totalPcs1 = 0;
+  // // let totalWt1 = 0;
+
+  // // for (const obj of calData) {
+  // //   totalPcs1 += obj.totalPcs;
+  // //   totalWt1 += obj.totalWt;
+  // // }
+  // // let other = {
+  // //   ShapeName: "OTHER",
+  // //   totalPcs: totalPcs1,
+  // //   totalWt: totalWt1,
+  // // };
+
+  // // calculatedData.push(other);
 
   return (
     <>
@@ -630,8 +667,9 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                 </p>
                 <p className="lhDetailPrint1 pb-1">
                   {json0Data?.Company_VAT_GST_No} |{" "}
-                  {json0Data?.Company_CST_STATE}-
-                  {json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.Pannumber}
+                  { json0Data?.Company_CST_STATE_No !== '' && <>{json0Data?.Company_CST_STATE}-
+                  {json0Data?.Company_CST_STATE_No}</>}
+                   | PAN-{json0Data?.Pannumber}
                 </p>
               </div>
               <div className="col-6">
@@ -658,21 +696,21 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                 </p>
                 <p className="lhDetailPrint1 pb-1">{json0Data?.customeremail1}</p>
                 <p className="lhDetailPrint1 pb-1">{json0Data?.vat_cst_pan}</p>
-                <p className="lhDetailPrint1 pb-1">
+                { json0Data?.Cust_CST_STATE_No !== '' && <p className="lhDetailPrint1 pb-1">
                   {json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No}
-                </p>
+                </p>}
               </div>
               <div className="col-4 border-end  p-1">
                 <p className="lhDetailPrint1 pb-1">Ship To,</p>
                 <p className="lhDetailPrint1 fw-bold detailPrint1L_font_14 pb-1">
                   {json0Data?.customerfirmname}
                 </p>
-                {
-                  dp1lp ? <>
-                    {address?.map((e, i) => {
+                
+                    
+                    {json0Data?.address?.map((e, i) => {
                       return <p className="lhDetailPrint1 pb-1" key={i}>{e}</p>
                     })}
-                  </> : <><p className="lhDetailPrint1 pb-1">{json0Data?.CustName}</p>
+                 {/* <><p className="lhDetailPrint1 pb-1">{json0Data?.CustName}</p>
                     <p className="lhDetailPrint1 pb-1">{json0Data?.customerstreet}</p>
                     <p className="lhDetailPrint1 pb-1">
                       {json0Data?.customercity} {json0Data?.State}
@@ -682,22 +720,22 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                     </p>
                     <p className="lhDetailPrint1 pb-1">
                       Mobile No : {json0Data?.customermobileno}
-                    </p></>
-                }
+                    </p></> */}
+                
 
               </div>
               <div className="col-4 p-1 ps-2">
                 <div className="d-flex ">
-                  <p className="fw-bold col-2 me-2">BILL NO </p>
-                  <p className="col-10">{json0Data?.InvoiceNo}</p>
+                  <p className="fw-bold col-3 me-2">VOUCHER NO </p>
+                  <p className="col-9">{json0Data?.InvoiceNo}</p>
                 </div>
                 <div className="d-flex ">
-                  <p className="fw-bold col-2 me-2">DATE </p>
-                  <p className="col-10">{json0Data?.EntryDate}</p>
+                  <p className="fw-bold col-3 me-2">DATE </p>
+                  <p className="col-9">{json0Data?.EntryDate}</p>
                 </div>
                 <div className="d-flex ">
-                  <p className="fw-bold col-2 me-2">HSN </p>
-                  <p className="col-10">{json0Data?.HSN_No}</p>
+                  <p className="fw-bold col-3 me-2">HSN </p>
+                  <p className="col-9">{json0Data?.HSN_No}</p>
                 </div>
               </div>
             </div>
@@ -749,7 +787,7 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                       GWT
                     </p>
                     <p className="fw-bold col-3 border-end  d-flex align-items-center justify-content-center">
-                      N+L
+                      NetWt
                     </p>
                     {/* <p className="fw-bold col-2 border-end  d-flex align-items-center justify-content-center">
                       Rate
@@ -805,7 +843,6 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                           </div>
                           <div className="col d-flex flex-column align-items-end">
                             <p>{e?.SrJobno}</p>
-                            {/* <p>{e?.MetalColor}</p> */}
                           </div>
                         </div>
                         <div className="imgBlock_dplmemo">
@@ -822,7 +859,7 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                         <div className={`${!image && "pt-2 "}`}>
 
                           {e?.uniqueno !== "" && (
-                            <p className="text-center">{e?.uniqueno}</p>
+                            <p className="text-center fw-bold">{e?.uniqueno}</p>
                           )}
                           {/* {e?.PO !== "" && e?.PO !== "-" && (
                             <p className="text-center fw-bold">PO: {e?.PO}</p>
@@ -939,7 +976,8 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                                     {e?.grosswt?.toFixed(3)}
                                   </p>
                                   <p className="col-3  text-end paddingRightDetailPrint1">
-                                    {dp1lp ? NumberWithCommas(ele?.Wt, 3) : fixedValues(e?.NetWt + e?.LossWt, 3)}
+                                    {/* {dp1lp ? NumberWithCommas(ele?.Wt, 3) : fixedValues(e?.NetWt + e?.LossWt, 3)} */}
+                                    {(e?.NetWt + e?.LossWt)?.toFixed(3)}
                                   </p>
                                   {/* <p className="col-2  text-end paddingRightDetailPrint1">
                                     {NumberWithCommas(ele?.Rate, 2)}
@@ -967,7 +1005,8 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                               {/* fixedValues(e?.totals?.metal?.Wt + (e?.totals?.diamonds?.Wt / 5), 3)} */}
                             </p>
                             <p className="col-3 text-end fw-bold d-flex justify-content-end align-items-center paddingRightDetailPrint1">
-                              {e?.NetWt !== 0 && (dp1lp ? fixedValues(e?.primaryMetalWt, 3) : fixedValues(e?.NetWt + e?.LossWt, 3))}
+                              {/* {e?.NetWt !== 0 && (dp1lp ? fixedValues(e?.primaryMetalWt, 3) : fixedValues(e?.NetWt + e?.LossWt, 3))} */}
+                              {(e?.NetWt + e?.LossWt)?.toFixed(3)}
                             </p>
                             {/* <p className="col-2 text-end paddingRightDetailPrint1"></p>
                             <p className="col-3 text-end fw-bold d-flex justify-content-end align-items-center  paddingRightDetailPrint1 ">
@@ -1103,10 +1142,10 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                   <div className=" col-4">
                     <p className=""></p>
                   </div>
-                  <div className=" col-4">
+                  <div className=" col-3">
                     <p className=""></p>
                   </div>
-                  <div className=" col-1 text-end fw-bold">
+                  <div className=" col-2 text-end fw-bold">
                     <p className="">{NumberWithCommas(finalD?.mainTotal?.diamonds?.Pcs, 0)}</p>
                   </div>
                   <div className=" col-3 text-end">
@@ -1130,11 +1169,13 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                     <p className=""></p>
                   </div>
                   <div className="col-3 text-end paddingRightDetailPrint1">
-                    <p className="fw-bold">{NumberWithCommas(finalD?.mainTotal?.netwt + (finalD?.mainTotal?.diamonds?.Wt / 5), 3)}</p>
+                    {/* <p className="fw-bold">{NumberWithCommas(finalD?.mainTotal?.netwt + (finalD?.mainTotal?.diamonds?.Wt / 5), 3)}</p> */}
+                    <p className="fw-bold">{NumberWithCommas(finalD?.mainTotal?.grosswt, 3)}</p>
                   </div>
                   <div className="col-3 text-end paddingRightDetailPrint1">
                     <p className="fw-bold">
-                      {dp1lp ? NumberWithCommas(totalMetalWts, 3) : NumberWithCommas(finalD?.mainTotal?.metal?.Wt, 3)}
+                      {/* {dp1lp ? NumberWithCommas(totalMetalWts, 3) : NumberWithCommas(finalD?.mainTotal?.metal?.Wt, 3)} */}
+                      {NumberWithCommas(finalD?.mainTotal?.metal?.Wt, 3)}
                       {/* {NumberWithCommas(finalD?.mainTotal?.netwt, 3)} */}
                     </p>
                   </div>
@@ -1158,12 +1199,12 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                   </div>
                   <div className="col-2 text-end d-flex justify-content-end align-items-center h-100  paddingRightDetailPrint1">
                     <p className="fw-bold">
-                      {NumberWithCommas(total?.colorStonePcs, 0)}
+                      {finalD?.mainTotal?.colorstone?.Pcs}
                     </p>
                   </div>
                   <div className="col-3 text-end d-flex justify-content-end align-items-center h-100  paddingRightDetailPrint1">
                     <p className="fw-bold">
-                      {fixedValues(total?.colorStoneWt, 3)}
+                      {(finalD?.mainTotal?.colorstone?.Wt)?.toFixed(3)}
                     </p>
                   </div>
                   {/* <div className="col-2 text-end d-flex justify-content-end align-items-center h-100  paddingRightDetailPrint1">
