@@ -127,6 +127,12 @@ const AllDesignPrint = () => {
       if(etpType === 'print' && evnname === 'orders'){
         return module.ordersArray || []
       }
+      if(etpType === 'print' && evnname === 'fgpurchase'){
+        return module.fgPurchase || []
+      }
+      if(etpType === 'print' && evnname === 'fgpurchase return'){
+        return module.fgPurchaseReturn || []
+      }
   }
 
   const checkFavicon = () => {
