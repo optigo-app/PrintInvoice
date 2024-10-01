@@ -706,7 +706,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                      
                             {imgFlag ? (
                               <div className="w-100 d-flex justify-content-center align-items-start fsgdp10_pcl7" style={{ minHeight: "80px" }} >
-                                <img src={e?.DesignImage} onError={(e) => handleImageError(e)} alt="design" className="imgdp10_pcl7" />
+                                <img src={e?.CDNDesignImage} onError={(e) => handleImageError(e)} alt="design" className="imgdp10_pcl7" />
                               </div>
                             ) : (
                               ""
