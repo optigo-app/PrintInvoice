@@ -89,51 +89,72 @@ const AllDesignPrint = () => {
       setImportedComponent(component);
     }
   };
-
+  // const checkEvName = (etpType, evnname, module) => {
+  //     if(etpType === 'print' && evnname === 'sale'){
+  //       return module.printConditions || []
+  //     }
+  //     if(etpType === 'print' && evnname === 'sale return'){
+  //       return module.SaleReturn || []
+  //     }
+  //     if(etpType === 'print' && evnname === 'quote'){
+  //       return module.QuotationPrints || []
+  //     }
+  //     if(etpType === 'print' && evnname === 'alteration receive'){
+  //       return module.alterationArray || []
+  //     }
+  //     if(etpType === 'print' && evnname === 'alteration'){
+  //       return module.alterationArray || []
+  //     }
+  //     if(etpType === 'print' && evnname === 'memo'){
+  //       return module.MemoPrints || []
+  //     }
+  //     if(etpType === 'print' && evnname === 'memo return'){
+  //       return module.MemoReturnPrints || []
+  //     }
+  //     if(etpType === 'print' && evnname === 'estimate'){
+  //       return module.EstimatePrints || []
+  //     }
+  //     if(etpType === 'print' && evnname === 'hallmark'){
+  //       return module.HallMarkPrints || []
+  //     }
+  //     if(etpType === 'print' && evnname === 'shipment'){
+  //       return module.ShipmentArray || []
+  //     }
+  //     if(etpType === 'print' && evnname === 'material sale'){
+  //       return module.MaterialSale || []
+  //     }
+  //     if(etpType === 'print' && evnname === 'orders'){
+  //       return module.ordersArray || []
+  //     }
+  //     if(etpType === 'print' && evnname === 'fgpurchase'){
+  //       return module.fgPurchase || []
+  //     }
+  //     if(etpType === 'print' && evnname === 'fgpurchase return'){
+  //       return module.fgPurchaseReturn || []
+  //     }
+  // }
   const checkEvName = (etpType, evnname, module) => {
-      if(etpType === 'print' && evnname === 'sale'){
-        return module.printConditions || []
-      }
-      if(etpType === 'print' && evnname === 'sale return'){
-        return module.SaleReturn || []
-      }
-      if(etpType === 'print' && evnname === 'quote'){
-        return module.QuotationPrints || []
-      }
-      if(etpType === 'print' && evnname === 'alteration receive'){
-        return module.alterationArray || []
-      }
-      if(etpType === 'print' && evnname === 'alteration'){
-        return module.alterationArray || []
-      }
-      if(etpType === 'print' && evnname === 'memo'){
-        return module.MemoPrints || []
-      }
-      if(etpType === 'print' && evnname === 'memo return'){
-        return module.MemoReturnPrints || []
-      }
-      if(etpType === 'print' && evnname === 'estimate'){
-        return module.EstimatePrints || []
-      }
-      if(etpType === 'print' && evnname === 'hallmark'){
-        return module.HallMarkPrints || []
-      }
-      if(etpType === 'print' && evnname === 'shipment'){
-        return module.ShipmentArray || []
-      }
-      if(etpType === 'print' && evnname === 'material sale'){
-        return module.MaterialSale || []
-      }
-      if(etpType === 'print' && evnname === 'orders'){
-        return module.ordersArray || []
-      }
-      if(etpType === 'print' && evnname === 'fgpurchase'){
-        return module.fgPurchase || []
-      }
-      if(etpType === 'print' && evnname === 'fgpurchase return'){
-        return module.fgPurchaseReturn || []
-      }
-  }
+    if (etpType !== 'print') return [];
+    const eventMappings = {
+      'sale': module.printConditions || [],
+      'sale return': module.SaleReturn || [],
+      'quote': module.QuotationPrints || [],
+      'alteration receive': module.alterationArray || [],
+      'alteration': module.alterationArray || [],
+      'memo': module.MemoPrints || [],
+      'memo return': module.MemoReturnPrints || [],
+      'estimate': module.EstimatePrints || [],
+      'hallmark': module.HallMarkPrints || [],
+      'shipment': module.ShipmentArray || [],
+      'material sale': module.MaterialSale || [],
+      'orders': module.ordersArray || [],
+      'fg purchase': module.fgPurchase || [],
+      'fg purchase return': module.fgPurchaseReturn || []
+    };
+  
+    return eventMappings[evnname] || [];
+  };
+  
 
   const checkFavicon = () => {
     setIsFaviconLoaded(true);

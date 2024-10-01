@@ -155,7 +155,7 @@
 }
 
 .createdByDetailPrint1 {
-    min-height: 116px;
+    min-height: 90px;
 }
 
 .paddingBottomTotalDetailPrint1 {
@@ -181,7 +181,7 @@
 
 .containerDetailPrint1 .detailPrint1L_font_11 *,
 .containerDetailPrint1 .detailPrint1L_font_11 {
-    font-size: 11px;
+    font-size: 10px;
 }
 
 .containerDetailPrint1 .detailPrint1L_font_12 *,
@@ -208,9 +208,12 @@
     font-size: 16px;
 }
 .dlp_p_memo_font14{
-    font-size: 14px;
+    font-size: 14px !important;
 }
-
+.dlpp_headline_fs{
+    font-size: 15px !important;
+    padding: 4px;
+}
 @media print {
 
     .containerDetailPrint1 {
@@ -245,9 +248,13 @@
     }
 
     .dlp_p_memo_font14{
-        font-size: 10px;
+        font-size: 10px !important;
     }
     .lh_dlp_p_memo{
         line-height: 8px !important;        
     }
+    
+.createdByDetailPrint1 {
+    min-height: 60px !important;
+}
 }

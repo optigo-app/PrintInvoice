@@ -7,6 +7,7 @@ import {
   brokarageDetail,
   checkMsg,
   fixedValues,
+  formatAmount,
   handleImageError,
   handlePrint,
   isObjectEmpty,
@@ -598,7 +599,7 @@ const DetailPrintPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
             </div>
             {/* header line*/}
             <div className="jewelleryPackingList mb-2 mt-2 recordDetailPrint1">
-              <p className={`p-2 fw-bold text-white`} style={{fontSize: "20px"}}>
+              <p className={` fw-bold text-white dlpp_headline_fs`} >
                 {json0Data?.PrintHeadLabel == '' ? 'JEWELLERY MEMO' : json0Data?.PrintHeadLabel}
               </p>
             </div>
@@ -820,7 +821,7 @@ const DetailPrintPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                           </div>
                           <div className="col d-flex flex-column align-items-end">
                             <p>{e?.SrJobno}</p>
-                            <p>{e?.MetalColor}</p>
+                            {/* <p>{e?.MetalColor}</p> */}
                           </div>
                         </div>
                         <div>
@@ -948,7 +949,7 @@ const DetailPrintPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                               return (
                                 <div className={`d-flex`} key={ind}>
                                   <p className="col-3  paddingRightDetailPrint1 text-break">
-                                    {ele?.ShapeName + " " + ele?.QualityName}
+                                    {ele?.ShapeName + " " + ele?.QualityName} {e?.MetalColor}
                                   </p>
                                   <p className="col-2  text-end paddingRightDetailPrint1 text-break">
                                     {ind === 0 ? NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3) : NumberWithCommas(ele?.Wt, 3)}
@@ -1257,9 +1258,7 @@ const DetailPrintPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                       </p>
                     );
                   })}
-                {json0Data?.AddLess !== 0 && (
                   <p className="">{json0Data?.AddLess < 0 ? "Less" : "Add"}</p>
-                )}
               </div>
               <div className="cgstTotalDetailPrint1 text-end border-end  paddingLeftDetailPrint1 paddingRightDetailPrint1 py-1">
                 <p>{(total?.discountTotalAmount).toFixed(2)}</p>
@@ -1270,7 +1269,7 @@ const DetailPrintPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                   taxes.map((e, i) => {
                     return <p key={i}>{NumberWithCommas(e?.amount, 2)}</p>;
                   })}
-                {json0Data?.AddLess !== 0 && <p>{json0Data?.AddLess}</p>}
+                <p>{formatAmount(json0Data?.AddLess)}</p>
               </div>
             </div>
             {/* total */}
@@ -1392,10 +1391,10 @@ const DetailPrintPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                   SUMMARY
                 </p>
                 <div className="d-flex border-end ">
-                  <div className="border-start col-6 border-end  position-relative summaryPadBotDetailPrint1 d-flex flex-column">
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold px-1 pt-1">GOLD IN 24KT</p>
-                      <p className="px-1 pt-1">
+                  <div className="border-start col-6 border-end  position-relative  d-flex flex-column">
+                    <div className="d-flex justify-content-between px-1">
+                      <p className="fw-bold lh_dlpp_memo_11">GOLD IN 24KT</p>
+                      <p className="lh_dlpp_memo_11">
                         {" "}
                         {/* {(detailtPrintR || detailtPrintL || detailtPrintp) ?  */}
                         {(detailtPrintR) ? 
@@ -1404,69 +1403,69 @@ const DetailPrintPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                     </div>
                     {
                       MetShpWise?.map((e, i) => {
-                        return <div className="d-flex justify-content-between" key={i}>
-                        <p className="fw-bold px-1 pt-1">{e?.ShapeName}</p>
-                        <p className="px-1 pt-1"> {(detailtPrintR) ?  NumberWithCommas(e?.metalfinewt, 3) : fixedValues(e?.metalfinewt, 3)} gm </p>
+                        return <div className="d-flex justify-content-between px-1" key={i}>
+                        <p className="fw-bold lh_dlpp_memo_11">{e?.ShapeName}</p>
+                        <p className="lh_dlpp_memo_11"> {(detailtPrintR) ?  NumberWithCommas(e?.metalfinewt, 3) : fixedValues(e?.metalfinewt, 3)} gm </p>
                       </div>
                       })
                     }
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold px-1 pt-1">GROSS WT</p>
-                      <p className="px-1 pt-1">
+                    <div className="d-flex justify-content-between px-1">
+                      <p className="fw-bold lh_dlpp_memo_11">GROSS WT</p>
+                      <p className="lh_dlpp_memo_11">
                         {" "}
                         {fixedValues(summary?.grossWt, 3)} gm
                       </p>
                     </div>
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold px-1 pt-1">*(G+D) WT</p>
+                    <div className="d-flex justify-content-between px-1">
+                      <p className="fw-bold lh_dlpp_memo_11">*(G+D) WT</p>
                       {/* <p classNamxe= pt-1'p-1'> {fixedValues(summary?.gDWt, 3)} gm</p> */}
-                      <p className="px-1 pt-1">
+                      <p className="lh_dlpp_memo_11">
                         {NumberWithCommas(finalD?.mainTotal?.netwt + (finalD?.mainTotal?.diamonds?.Wt / 5), 3)} gm
                       </p>
                     </div>
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold px-1 pt-1">NET WT</p>
-                      <p className="px-1 pt-1"> {fixedValues(finalD?.mainTotal?.metal?.IsPrimaryMetal, 3)} gm</p>
+                    <div className="d-flex justify-content-between px-1">
+                      <p className="fw-bold lh_dlpp_memo_11">NET WT</p>
+                      <p className="lh_dlpp_memo_11"> {fixedValues(finalD?.mainTotal?.metal?.IsPrimaryMetal, 3)} gm</p>
                     </div>
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold px-1 pt-1">DIAMOND WT</p>
-                      <p className="px-1 pt-1">
+                    <div className="d-flex justify-content-between px-1">
+                      <p className="fw-bold lh_dlpp_memo_11">DIAMOND WT</p>
+                      <p className="lh_dlpp_memo_11">
                         {NumberWithCommas(finalD?.mainTotal?.diamonds?.Pcs, 0)} / {NumberWithCommas(finalD?.mainTotal?.diamonds?.Wt, 3)} cts
                         {/* {NumberWithCommas(summary?.diamondpcs, 0)} /{" "} {fixedValues(summary?.diamondWt, 3)} cts */}
                       </p>
                     </div>
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold px-1 pt-1">STONE WT</p>
-                      <p className="px-1 pt-1">
+                    <div className="d-flex justify-content-between px-1">
+                      <p className="fw-bold lh_dlpp_memo_11">STONE WT</p>
+                      <p className="lh_dlpp_memo_11">
                         {" "}
                         {NumberWithCommas(summary?.stonePcs, 0)} /{" "}
                         {fixedValues(summary?.stoneWt, 3)} cts
                       </p>
                     </div>
                     {json0Data?.Privilege_discount !== 0 && (
-                      <div className="d-flex justify-content-between">
-                        <p className="fw-bold px-1 pt-1">Privilege Discount</p>
-                        <p className="px-1 pt-1">- {json0Data?.Privilege_discount}</p>
+                      <div className="d-flex justify-content-between px-1">
+                        <p className="fw-bold lh_dlpp_memo_11">Privilege Discount</p>
+                        <p className="lh_dlpp_memo_11">- {json0Data?.Privilege_discount}</p>
                       </div>
                     )}
-                    <div className="d-flex justify-content-between border-top  position-absolute w-100 border-bottom bottom-0 totalLineDetailPrint1 lightGrey">
-                      <p className="fw-bold px-1 pt-1"> </p>
-                      <p className="px-1 pt-1"> </p>
+                    <div className="d-flex justify-content-between border-top   w-100 border-bottom bottom-0 totalLineDetailPrint1 lightGrey">
+                      <p className="fw-bold lh_dlpp_memo_11"> </p>
+                      <p className="lh_dlpp_memo_11"> </p>
                     </div>
                   </div>
-                  <div className="col-6 position-relative summaryPadBotDetailPrint1  d-flex flex-column">
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold px-1 pt-1">GOLD</p>
-                      <p className="px-1 pt-1">
+                  <div className="col-6 position-relative   d-flex flex-column">
+                    <div className="d-flex justify-content-between px-1">
+                      <p className="fw-bold lh_dlpp_memo_11">GOLD</p>
+                      <p className="lh_dlpp_memo_11">
                         {" "}
                         {NumberWithCommas((finalD?.mainTotal?.MetalAmount - notGoldMetalTotal), 2)}
                       </p>
                     </div>
                       {
                         MetShpWise?.map((e, i) => {
-                          return <div className="d-flex justify-content-between">
-                           <React.Fragment key={i}><p className="fw-bold px-1 pt-1">{e?.ShapeName}</p>
-                          <p className="px-1 pt-1">
+                          return <div className="d-flex justify-content-between px-1">
+                           <React.Fragment key={i}><p className="fw-bold lh_dlpp_memo_11">{e?.ShapeName}</p>
+                          <p className="lh_dlpp_memo_11">
                             {" "}
                             {NumberWithCommas(e?.Amount, 2)}
                           </p>
@@ -1474,44 +1473,44 @@ const DetailPrintPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                       </div>
                         })
                       }
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold px-1 pt-1">DIAMOND</p>
-                      <p className="px-1 pt-1">
+                    <div className="d-flex justify-content-between px-1">
+                      <p className="fw-bold lh_dlpp_memo_11">DIAMOND</p>
+                      <p className="lh_dlpp_memo_11">
                         {" "}
                         {NumberWithCommas(finalD?.mainTotal?.diamonds?.Amount, 2)}
                       </p>
                     </div>
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold px-1 pt-1">CST</p>
-                      <p className="px-1 pt-1">
+                    <div className="d-flex justify-content-between px-1">
+                      <p className="fw-bold lh_dlpp_memo_11">CST</p>
+                      <p className="lh_dlpp_memo_11">
                         {NumberWithCommas(finalD?.mainTotal?.colorstone?.Amount, 2)}
                       </p>
                     </div>
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold px-1 pt-1">MAKING</p>
-                      <p className="px-1 pt-1">
+                    <div className="d-flex justify-content-between px-1">
+                      <p className="fw-bold lh_dlpp_memo_11">MAKING</p>
+                      <p className="lh_dlpp_memo_11">
                         {" "}
                         {/* {NumberWithCommas(summary?.makingAmount, 2)} */}
                         {NumberWithCommas(total?.labourAmount, 2)}
                       </p>
                     </div>
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold px-1 pt-1">OTHER</p>
-                      <p className="px-1 pt-1">
+                    <div className="d-flex justify-content-between px-1">
+                      <p className="fw-bold lh_dlpp_memo_11">OTHER</p>
+                      <p className="lh_dlpp_memo_11">
                         {" "}
                         {NumberWithCommas(finalD?.mainTotal?.miscChargesTotals, 2)}
                       </p>
                     </div>
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold px-1 pt-1">LESS</p>
-                      <p className="px-1 pt-1">
+                    <div className="d-flex justify-content-between px-1">
+                      <p className="fw-bold lh_dlpp_memo_11">LESS</p>
+                      <p className="lh_dlpp_memo_11">
                         {" "}
                         {NumberWithCommas(summary?.addLess, 2)}
                       </p>
                     </div>
-                    <div className="d-flex justify-content-between border-top  position-absolute w-100 border-bottom  bottom-0 totalLineDetailPrint1 lightGrey">
-                      <p className="fw-bold p-1">TOTAL</p>
-                      <p className="px-1 p-1">
+                    <div className="d-flex justify-content-between border-top  position-absolute w-100 border-bottom  bottom-0 totalLineDetailPrint1 lightGrey px-1">
+                      <p className="fw-bold lh_dlpp_memo_11 d-flex justify-content-center align-items-center">TOTAL</p>
+                      <p className="lh_dlpp_memo_11 d-flex justify-content-center align-items-center">
                         {NumberWithCommas(total?.withDiscountTaxAmount, 2)}
                       </p>
                     </div>
@@ -1576,7 +1575,7 @@ const DetailPrintPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                 </div>
               </div>
               <div className="col-2 pe-1">
-                <div className="border  border-top">
+                { json0Data?.PrintRemark !== '' && <div className="border  border-top">
                   <p className="fw-bold text-center border-start border-bottom  w-100 border-start lightGrey">
                     REMARK
                   </p>
@@ -1584,7 +1583,7 @@ const DetailPrintPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                     dangerouslySetInnerHTML={{ __html: json0Data?.PrintRemark }}
                     className="pb-3 pt-1 ps-1 pe-1"
                   ></p>
-                </div>
+                </div>}
               </div>
               <div className="col-2">
                 <div className="d-flex  border-start border-end border-bottom createdByDetailPrint1 border-top">
@@ -1596,11 +1595,6 @@ const DetailPrintPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="fs_dp4 text-secondary pt-3 detailPrint1L_font_12">
-              ** THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US
-              IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF
-              TRANSACTIONS
             </div>
           </div>{" "}
 
