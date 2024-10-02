@@ -228,6 +228,7 @@ export const excelConditions = [
   { printName: "sale format r", etpType: "excel", componentName: "ExcelToJsonDownloadR"},
   { printName: "quotation format", etpType: "excel", componentName: "QuotationExcel"},
   { printName: "quote format", etpType: "excel", componentName: "QuoteFormateExcel"},
+  { printName: "quote excel", etpType: "excel", componentName: "QuoteFormateExcel"},
   { printName: "tax invoice", etpType: "excel", componentName: "TaxInvoiceExcel"},
   { printName: "packing list c", etpType: "excel", componentName: "PackingListCExcel2"},
   { printName: "packing list 2", etpType: "excel", componentName: "ColorIndia"},
