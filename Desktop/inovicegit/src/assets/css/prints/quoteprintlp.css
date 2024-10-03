@@ -336,22 +336,19 @@
         height: 10px !important;
     }
     .fsgdp10{
-        font-size: 6px !important;
+        font-size: 8px !important;
         line-height: 8px !important;
     }
     .fsg2dp10{
-        font-size: 6px !important;
+        font-size: 8px !important;
         /* line-height: 14px; */
     }
     .fs_3_qlp{
         font-size: 12px !important;
     }
-    .fs_4_qlp{
-        font-size: 7px !important;
-    }
-    .fs_mttype{
-        font-size: 4px !important;
-    }
+.fs_cust_name_qpl{
+    font-size: 10px !important;
+}
     .pheaddp10{
         height: 25px;
         background-color: #989898;
