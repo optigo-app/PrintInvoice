@@ -54,7 +54,6 @@ const ExportPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-
     return (loader ? <Loader /> : <div className={`${style?.containerExportPrint}`}>
         {/* print button */}
         <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} pb-4 mt-5 w-100`} >
@@ -87,7 +86,7 @@ const ExportPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <p className='fw-bold'>{NumberWithCommas(i + 1, 0)}</p>
                                 <p className='fw-bold'>{e?.designno}</p>
                             </div>
-                            <div className={`fw-bold px-1 ${style?.lh_ep}`}>{e?.SrJobno} </div>
+                            { atob(evn)?.toLowerCase() === 'quote' ? '' : <div className={`fw-bold px-1 ${style?.lh_ep}`}>{e?.SrJobno} </div>}
                         </div>
                     </div>
                 </div>

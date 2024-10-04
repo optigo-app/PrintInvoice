@@ -163,6 +163,7 @@ export const QuotationPrints = [
   {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
   {printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group'},
   {printName: 'packing list', etpType: 'print', componentName: 'PackingList'},
+  {printName: 'export print', etpType: 'print', componentName: 'ExportPrint'},
 ]
 export const MemoPrints = [
   {printName: 'print 1', etpType: 'print', componentName: 'Print1SME'},
@@ -234,6 +235,7 @@ export const excelConditions = [
   { printName: "sale format a", etpType: "excel", componentName: "ExcelToJsonDownloadA"},
   { printName: "sale format j1", etpType: "excel", componentName: "ExcelToJsonDownloadJ1"},
   { printName: "sale format r", etpType: "excel", componentName: "ExcelToJsonDownloadR"},
+  { printName: "repair packing list", etpType: "excel", componentName: "ExcelToJsonDownloadR"},
   { printName: "quotation format", etpType: "excel", componentName: "QuotationExcel"},
   { printName: "quote format", etpType: "excel", componentName: "QuoteFormateExcel"},
   { printName: "quote excel", etpType: "excel", componentName: "QuoteFormateExcel"},
