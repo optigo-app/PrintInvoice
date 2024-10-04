@@ -1,3 +1,6 @@
+export const Sales = [
+  {printName: 'detail print 10', etpType: 'print', componentName: 'SalePrint1'},
+]
 export const printConditions = [
   {printName: 'bill sticker', etpType: 'print', componentName: 'BillSticker'},
   {printName: 'customer daily statement', etpType: 'print', componentName: 'CustomerDailyStatement'},

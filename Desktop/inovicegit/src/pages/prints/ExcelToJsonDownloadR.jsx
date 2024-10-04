@@ -196,7 +196,6 @@ const ExcelToJsonDownloadR = ({ token, invoiceNo, printName, urls, evn, ApiVer }
         });
         let datass = lodash.cloneDeep(datas);
         
-        console.log(resultArr);
 
 
 

@@ -31,6 +31,7 @@ const AllDesignPrint = () => {
   const importComponent = async (name) => {
     try {
       const module = await import(`./prints/${name}`);
+      // const module = await import(`./SalesPrint/SalePrint1`);
       const AnotherComponent = module?.default;
       const billNum = queryParams.get("billNo");
       const urls = queryParams.get("up");
@@ -137,6 +138,7 @@ const AllDesignPrint = () => {
     if (etpType !== 'print') return [];
     const eventMappings = {
       'sale': module.printConditions || [],
+      // 'sale': module.Sales || [],
       'sale return': module.SaleReturn || [],
       'quote': module.QuotationPrints || [],
       'alteration receive': module.alterationArray || [],

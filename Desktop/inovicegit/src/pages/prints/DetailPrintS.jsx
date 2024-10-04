@@ -12,6 +12,7 @@ import {
   isObjectEmpty,
 } from "../../GlobalFunctions";
 import { cloneDeep } from "lodash";
+
 import { numberToWords } from "number-to-words";
 
 const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
@@ -48,9 +49,6 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     try {
       let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
       data.BillPrint_Json[0].address = address;
-
-     
-
 
       const datas = OrganizeDataPrint(
         data?.BillPrint_Json[0],
@@ -308,6 +306,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setMiscWise_total(misc_sum_total);
 
       let nvoarray = [];
+
       datas?.resultArray?.forEach((e) => {
         let grp = [];
         let obj = { ...e };
@@ -335,9 +334,11 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         obj.dcm_grp = grp;
         nvoarray.push(obj);
       });
+
       datas.resultArray = nvoarray;
       setResult(datas);
       let finewt_ = 0;
+
       datas?.resultArray?.forEach((e) => {
         // finewt_ += (e?.NetWt * e?.Tunch) / 100;
         finewt_ += e?.fineWtss;
@@ -374,11 +375,13 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
         e.misc = arr;
       });
+
       datas?.resultArray?.forEach((e) => {
         if(e?.misc?.length === 1 && e?.misc[0]?.IsHSCOE === 3 && e?.misc[0]?.Rate === 0 ){
           // e.misc = [];
         }
-      })
+      });
+
       setFineWtTotal(finewt_);
       datas?.resultArray?.forEach((e, i) => {
         let counts =
@@ -406,7 +409,9 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       // })
       // datas?.resultArray?.forEach((e) => {
       // })
+
       let secArr = [];
+
       datas?.resultArray?.forEach((e) => {
         let b = cloneDeep(e);
         let tot_obj  = {
@@ -438,7 +443,6 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       })
 
       datas.resultArray = secArr;
-
 
       let finalArr = [];
 
@@ -596,47 +600,46 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       // setMiscWise_total(misc_main_total)
 
-
     } catch (error) {
       console.log(error);
     }
   }
 
-  useEffect(() => {
-    const sendData = async () => {
-      try {
-        const data = await apiCall(
-          token,
-          invoiceNo,
-          printName,
-          urls,
-          evn,
-          ApiVer
-        );
-        if (data?.Status === "200") {
-          let isEmpty = isObjectEmpty(data?.Data);
-          if (!isEmpty) {
-            loadData(data?.Data);
-            // separateData(data?.Data);
-            setLoader(false);
+    useEffect(() => {
+      const sendData = async () => {
+        try {
+          const data = await apiCall(
+            token,
+            invoiceNo,
+            printName,
+            urls,
+            evn,
+            ApiVer
+          );
+          if (data?.Status === "200") {
+            let isEmpty = isObjectEmpty(data?.Data);
+            if (!isEmpty) {
+              loadData(data?.Data);
+              // separateData(data?.Data);
+              setLoader(false);
+            } else {
+              setLoader(false);
+              setMsg("Data Not Found");
+            }
           } else {
             setLoader(false);
-            setMsg("Data Not Found");
+            // setMsg(data?.Message);
+            const err = checkMsg(data?.Message);
+                      console.log(data?.Message);
+                      setMsg(err);
           }
-        } else {
-          setLoader(false);
-          // setMsg(data?.Message);
-          const err = checkMsg(data?.Message);
-                    console.log(data?.Message);
-                    setMsg(err);
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    sendData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+      };
+      sendData();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
   // const separateData = (data) => {
   //     const deep_data = cloneDeep(data);
@@ -699,12 +702,13 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   //   setDia_Cls_Misc_Arr(dia_cls_misc_merge);
 
   // }
-  const handleImgShow = (e) => {
-    if (imgFlag) setImgFlag(false);
-    else {
-      setImgFlag(true);
-    }
-  };
+
+    const handleImgShow = (e) => {
+      if (imgFlag) setImgFlag(false);
+      else {
+        setImgFlag(true);
+      }
+    };
 
 
 
