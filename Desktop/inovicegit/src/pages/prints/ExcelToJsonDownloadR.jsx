@@ -19,6 +19,35 @@ const ExcelToJsonDownloadR = ({ token, invoiceNo, printName, urls, evn, ApiVer }
     setIsImageWorking(false);
   };
     const loadData = (data) => {
+        let arr = [];
+        data?.BillPrint_Json1?.forEach((e) => {
+            data?.BillPrint_Json3?.forEach((a) => {
+                if(e?.SrJobno === a?.StockBarcode){
+
+                    let obj = {...e};
+
+                    obj.ReceivedGrossWt = a?.grosswt;
+                    obj.ReceivedNetWt = a?.netwt;
+                    obj.ReceivedDiaWt = a?.TotalODiamondWt;
+                    obj.ReceivedCSWt = a?.TotalOColorStoneWt;
+                    obj.ReceivedMiscWt = a?.TotalOMiscWt;
+
+                    obj.RepairedGrossWt = a?.Ret_RepairGrossWeightDiff;
+                    obj.RepairedNetWt = a?.RepairNetWeightDiff;
+                    obj.RepairedDiaWt = a?.RepairDiaWtAdded;
+                    obj.RepairedCSWt = a?.RepairCSWtAdded;
+                    obj.RepairedMiscWt = a?.RepairMiscWtAdded;
+
+                    obj.DetachNetWt = a?.DetachNetWeight;
+                    obj.DetachDiaWt = a?.DetachDiaWeight;
+                    obj.DetachCSWt = a?.DetachCSWeight;
+                    obj.DetachMiscWt = a?.DetachMiscWeight;
+                    
+                    arr.push(obj);
+                }
+            })
+        })
+        data.BillPrint_Json1 = arr;
         let datas = OrganizeDataPrint(
             data?.BillPrint_Json[0],
             data?.BillPrint_Json1,
@@ -63,6 +92,15 @@ const ExcelToJsonDownloadR = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                     otherCharges: ind === 0 ? obj?.OtherCharges : 0,
                     TotalAmount: ind === 0 ? obj?.TotalAmount : 0,
                     borderBottom: (checkIsImage ? ((ind === borderBottom && borderBottom !== 0) ? true : false) : ((ind === diaClr.length - 1) ? true : false)),
+
+                    issueWeight : ind === 0 ? obj?.ReceivedGrossWt : 0,
+                    AfterRepair : ind === 0 ? obj?.RepairedGrossWt : 0,
+                    RepairWeightLoss : ind === 0 ? obj?.LossWt : 0,
+                    RepairGoldAddInProduct : ind === 0 ? obj?.NeWt : 0,
+                    ReturnGoldToCaratlaneWeight : ind === 0 ? obj?.DetachNetWt : 0,
+                    CertificateNo: ind === 0 ? obj?.CertificateNo : '' , 
+                    Length : ind === 0 ? obj?.Size : ''
+
                 };
                 resultArr.push(objectType);
             });
@@ -94,6 +132,15 @@ const ExcelToJsonDownloadR = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                     otherCharges: obj?.OtherCharges,
                     TotalAmount: obj?.TotalAmount,
                     borderBottom: false,
+
+                    issueWeight :  obj?.ReceivedGrossWt ,
+                    AfterRepair :  obj?.RepairedGrossWt ,
+                    RepairWeightLoss :  obj?.LossWt ,
+                    RepairGoldAddInProduct :  obj?.NetWt ,
+                    ReturnGoldToCaratlaneWeight :  obj?.DetachNetWt ,
+                    CertificateNo:  obj?.CertificateNo,
+                    Length :  obj?.Size,
+
                 };
                 resultArr.push(objectType);
                 let objectTypes = {
@@ -122,6 +169,15 @@ const ExcelToJsonDownloadR = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                     otherCharges: 0,
                     TotalAmount: 0,
                     borderBottom: checkIsImage ? false : true,
+
+                    issueWeight :  0 ,
+                    AfterRepair :  0 ,
+                    RepairWeightLoss :  0 ,
+                    RepairGoldAddInProduct :  0 ,
+                    ReturnGoldToCaratlaneWeight :  0 ,
+                    CertificateNo:  '',
+                    Length :  ''
+
                 };
                 resultArr.push(objectTypes);
             }
@@ -139,6 +195,11 @@ const ExcelToJsonDownloadR = ({ token, invoiceNo, printName, urls, evn, ApiVer }
             }
         });
         let datass = lodash.cloneDeep(datas);
+        
+        console.log(resultArr);
+
+
+
         datass.resultArray = resultArr;
         setData(datass);
         let shapeColQualityArr = shapeColorQuality(data?.BillPrint_Json2);
@@ -300,15 +361,15 @@ const ExcelToJsonDownloadR = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                                         {e?.SrJobno !== "" && e?.SrJobno}
                                     </td>
                                     <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }}> </td>
+                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }} align='left'>{e?.Length}</td>
                                     <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }} align='left'>{e?.mtpyColName}  </td>
                                     <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }} align='right'>&nbsp;{e?.Quantity !== 0 && NumberWithCommas(e?.Quantity, 0)} </td>
                                     <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }} align='right'>&nbsp;{e?.metalRate !== 0 && NumberWithCommas(e?.metalRate, 2)}</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }}></td>
+                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }} align='right'>{e?.issueWeight !== 0 && NumberWithCommas(e?.issueWeight, 3)}</td>
+                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }} align='right'>&nbsp;{e?.AfterRepair !== 0 && NumberWithCommas(e?.AfterRepair, 3)}</td>
+                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }} align='right'>&nbsp;{e?.RepairWeightLoss !== 0 && NumberWithCommas(e?.RepairWeightLoss, 3)}</td>
+                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }} align='right'>{e?.RepairGoldAddInProduct !== 0 && NumberWithCommas(e?.RepairGoldAddInProduct, 3)}</td>
+                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }} align='right'>{e?.ReturnGoldToCaratlaneWeight !== 0 && NumberWithCommas(e?.ReturnGoldToCaratlaneWeight, 3)}</td>
                                     <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }} align='right'>&nbsp;{e?.consumableAdd !== 0 && NumberWithCommas(e?.consumableAdd, 3)}</td>
                                     <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }} align='right'>&nbsp;{e?.eneaml !== 0 && NumberWithCommas(e?.eneaml, 2)} </td>
                                     <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }} align='left'>{e?.diaclrquality}</td>
@@ -317,7 +378,7 @@ const ExcelToJsonDownloadR = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                                     <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }} align='right'>&nbsp;{e?.diaclrWt !== 0 && NumberWithCommas(e?.diaclrWt, 3)}</td>
                                     <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }} align='right'>&nbsp;{e?.diaclrRate !== 0 && NumberWithCommas(e?.diaclrRate, 2)}</td>
                                     <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }} align='right'>&nbsp;{e?.diaAmount !== 0 && NumberWithCommas(e?.diaAmount, 2)}</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }}></td>
+                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }} align='left'>{e?.CertificateNo !== '' && e?.CertificateNo}</td>
                                     <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }} align='right'>&nbsp;{e?.findAmount !== 0 && NumberWithCommas(e?.findAmount, 2)}</td>
                                     <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }} align='right'>&nbsp;{e?.metalAmount !== 0 && NumberWithCommas(e?.metalAmount, 2)}</td>
                                     <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }} align='right'>&nbsp;{e?.diamondHandlingChanges !== 0 && NumberWithCommas(e?.diamondHandlingChanges, 2)}</td>
