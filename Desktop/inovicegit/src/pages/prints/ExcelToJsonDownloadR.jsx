@@ -217,7 +217,8 @@ const ExcelToJsonDownloadR = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                     id="test-table-xls-button"
                     className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5 d-none"
                     table="table-to-xls"
-                    filename={`Sale_Format_R_${header?.InvoiceNo}_${Date.now()}`}
+                    // filename={`Sale_Format_R_${header?.InvoiceNo}_${Date.now()}`}
+                    filename={`Repair_Packing_List_${header?.InvoiceNo}_${Date.now()}`}
                     sheet="tablexls"
                     buttonText="Download as XLS" />
                 <table id='table-to-xls' className={`${style?.excelToJsonDownloadATable}`}>
