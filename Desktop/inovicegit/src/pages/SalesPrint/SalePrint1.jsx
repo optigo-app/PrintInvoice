@@ -40,6 +40,15 @@ const SalePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [tncFlag, setTncFlag] = useState(true);
   const [groupJobEffectFlag, setGroupJobEffectFlag] = useState(true);
 
+  const checkboxes = [
+    { id: 'headerHideShow', label: 'With Short Header', flag: shortHeaderFlag, setter: setShortHeaderFlag },
+    { id: 'shipAddressHS', label: 'Without Ship To Address', flag: withoutShipToAddressFlag, setter: setWithoutShipToAddressFlag },
+    { id: 'gold24KrateHS', label: 'With Gold 24K Rate', flag: gold24KRateFlag, setter: setGold24KRateFlag },
+    { id: 'catCountHS', label: 'With Category Count Summary', flag: catCountFlag, setter: setCatCountFlag },
+    { id: 'totalHS', label: 'With Job Wise Total', flag: jobWiseTotalFlag, setter: setJobWiseTotalFlag },
+    { id: 'tncFlag', label: 'With Terms & Conditions', flag: tncFlag, setter: setTncFlag },
+    { id: 'groupJobEffect', label: 'With Group Job Effect', flag: groupJobEffectFlag, setter: setGroupJobEffectFlag }
+  ];
 
   useEffect(() => {
     const sendData = async () => {
@@ -284,7 +293,6 @@ const SalePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       datas.resultArray = finalArr;
     }
 
-
     setCatWiseArr(catwise);
     setDiamondWise(diarndotherarr5);
     setResult(datas);
@@ -303,29 +311,33 @@ const SalePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   };
 
 
-  //Check Flag Wise
-  const handleShortHeader = () => {
-    setShortHeaderFlag(!shortHeaderFlag);
-  }
-  const handleShipToAddress = () => {
-    setWithoutShipToAddressFlag(!withoutShipToAddressFlag);
-  }
-  const handleGoldRateHideShow = () => {
-    setGold24KRateFlag(!gold24KRateFlag);
-  }
-  const handleCategoryCountSummary = () => {
-    setCatCountFlag(!catCountFlag);
-  }
-  const handleJobWiseTotal = () => {
-    setJobWiseTotalFlag(!jobWiseTotalFlag);
-  }
-  const handleTncFlag = () => {
-    setTncFlag(!tncFlag);
-  }
-  const handleGroupJobEffect = () => {
-    setGroupJobEffectFlag(!groupJobEffectFlag);
-  }
+  // //Check Flag Wise
+  // const handleShortHeader = () => {
+  //   setShortHeaderFlag(!shortHeaderFlag);
+  // }
+  // const handleShipToAddress = () => {
+  //   setWithoutShipToAddressFlag(!withoutShipToAddressFlag);
+  // }
+  // const handleGoldRateHideShow = () => {
+  //   setGold24KRateFlag(!gold24KRateFlag);
+  // }
+  // const handleCategoryCountSummary = () => {
+  //   setCatCountFlag(!catCountFlag);
+  // }
+  // const handleJobWiseTotal = () => {
+  //   setJobWiseTotalFlag(!jobWiseTotalFlag);
+  // }
+  // const handleTncFlag = () => {
+  //   setTncFlag(!tncFlag);
+  // }
+  // const handleGroupJobEffect = () => {
+  //   setGroupJobEffectFlag(!groupJobEffectFlag);
+  // }
 
+// Reusable toggle handler
+const toggleFlag = (setter, flag) => {
+  setter(!flag);
+};
 
   useEffect(() => {
     if (apiData) {
@@ -343,7 +355,7 @@ const SalePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <>
               <div className="containerdp10 pab60_dp10">
                 <div className="d-flex justify-content-end align-items-center hidebtndp10 mb-4">
-                  <div className="d-flex align-items-center">
+                  {/* <div className="d-flex align-items-center">
                     <input
                       type="checkbox"
                       id="headerHideShow"
@@ -426,7 +438,23 @@ const SalePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <label htmlFor="groupJobEffect" className="me-3 user-select-none">
                       With GroupJob Effect
                     </label>
-                  </div>
+                  </div> */}
+                      <div>
+                        {checkboxes?.map(({ id, label, flag, setter }) => (
+                          <div className="d-flex align-items-center" key={id}>
+                            <input
+                              type="checkbox"
+                              id={id}
+                              className="mx-1"
+                              checked={flag}
+                              onChange={() => toggleFlag(setter, flag)}
+                            />
+                            <label htmlFor={id} className="me-3 user-select-none">
+                              {label}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
                   <input
                     type="checkbox"
                     id="imghideshow"

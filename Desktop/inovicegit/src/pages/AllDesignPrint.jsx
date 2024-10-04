@@ -58,15 +58,6 @@ const AllDesignPrint = () => {
   const takePrint = async () => {
     let module = await import(`../GlobalFunctions/PrintImports`);
     let conditions = [];
-    // if (etpType === "print") {
-    //   conditions = module.printConditions;
-    // } else if (etpType === "excel") {
-    //   conditions = module.excelConditions;
-    // } else if (etpType === "alteration") {
-    //   conditions = module.alterationConditions;
-    // } else if (etpType === "alteration receive") {
-    //   conditions = module.alterationReceiveConditions;
-    // }
     switch (etpType) {
       case "excel":
         conditions = module.excelConditions;
@@ -137,21 +128,21 @@ const AllDesignPrint = () => {
   const checkEvName = (etpType, evnname, module) => {
     if (etpType !== 'print') return [];
     const eventMappings = {
-      'sale': module.printConditions || [],
-      // 'sale': module.Sales || [],
-      'sale return': module.SaleReturn || [],
-      'quote': module.QuotationPrints || [],
-      'alteration receive': module.alterationArray || [],
-      'alteration': module.alterationArray || [],
-      'memo': module.MemoPrints || [],
-      'memo return': module.MemoReturnPrints || [],
-      'estimate': module.EstimatePrints || [],
-      'hallmark': module.HallMarkPrints || [],
-      'shipment': module.ShipmentArray || [],
-      'material sale': module.MaterialSale || [],
-      'orders': module.ordersArray || [],
-      'fg purchase': module.fgPurchase || [],
-      'fg purchase return': module.fgPurchaseReturn || []
+      'sale': module?.printConditions || [],
+      // 'sale': module?.Sales || [],
+      'sale return': module?.SaleReturn || [],
+      'quote': module?.QuotationPrints || [],
+      'alteration receive': module?.alterationArray || [],
+      'alteration': module?.alterationArray || [],
+      'memo': module?.MemoPrints || [],
+      'memo return': module?.MemoReturnPrints || [],
+      'estimate': module?.EstimatePrints || [],
+      'hallmark': module?.HallMarkPrints || [],
+      'shipment': module?.ShipmentArray || [],
+      'material sale': module?.MaterialSale || [],
+      'orders': module?.ordersArray || [],
+      'fg purchase': module?.fgPurchase || [],
+      'fg purchase return': module?.fgPurchaseReturn || []
     };
   
     return eventMappings[evnname] || [];
