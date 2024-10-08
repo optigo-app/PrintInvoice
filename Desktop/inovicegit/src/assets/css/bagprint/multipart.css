@@ -79,6 +79,10 @@
     color: black;
     border: 2px solid #655BD3;
 }
+.showOnPrint{
+    display: none !important;
+}
+
 @media print {
     .containerjbsbg{
         page-break-after: always;
@@ -89,5 +93,10 @@
         display: block;
         flex-wrap: unset;
     }
-    
+    .hideOnPrint{
+        display: none !important;
+    }
+    .showOnPrint{
+        display: block !important;
+    }
 }
