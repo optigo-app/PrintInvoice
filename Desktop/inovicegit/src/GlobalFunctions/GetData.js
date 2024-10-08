@@ -63,7 +63,7 @@ export const GetData = async (job) => {
             rd1:rd1,
             msg:responseMsg
         }
-
+        
         return obj;
         // return datas;
     } catch (error) {

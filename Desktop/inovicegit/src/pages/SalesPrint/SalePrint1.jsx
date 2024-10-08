@@ -3,8 +3,10 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import {
+  NumberWithCommas,
   apiCall,
   checkMsg,
+  fixedValues,
   formatAmount,
   handleImageError,
   handlePrint,
@@ -77,6 +79,48 @@ const SalePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       }
     };
     sendData();
+
+    let printNameEvWise = (atob(printName))?.toLowerCase();
+    if(printNameEvWise){
+      console.log(atob(printName));
+      if(printNameEvWise === 'detail print 10'){
+          setShortHeaderFlag(false);
+          setWithoutShipToAddressFlag(true);
+          setGold24KRateFlag(true);
+          setCatCountFlag(false);
+          setJobWiseTotalFlag(false);
+          setTncFlag(false);
+          setGroupJobEffectFlag(false);
+      }
+      if(printNameEvWise === 'detail print 5'){
+          setShortHeaderFlag(false);
+          setWithoutShipToAddressFlag(true);
+          setGold24KRateFlag(false);
+          setCatCountFlag(false);
+          setJobWiseTotalFlag(true);
+          setTncFlag(false);
+          setGroupJobEffectFlag(false);
+      }
+      if(printNameEvWise === 'estimate print'){
+          setShortHeaderFlag(true);
+          setWithoutShipToAddressFlag(true);
+          setGold24KRateFlag(false);
+          setCatCountFlag(false);
+          setJobWiseTotalFlag(true);
+          setTncFlag(false);
+          setGroupJobEffectFlag(true);
+      }
+      if(printNameEvWise === 'tax invoice'){
+          setShortHeaderFlag(false);
+          setWithoutShipToAddressFlag(true);
+          setGold24KRateFlag(false);
+          setCatCountFlag(true);
+          setJobWiseTotalFlag(true);
+          setTncFlag(true);
+          setGroupJobEffectFlag(true);
+      }
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -293,6 +337,7 @@ const SalePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       datas.resultArray = finalArr;
     }
 
+
     setCatWiseArr(catwise);
     setDiamondWise(diarndotherarr5);
     setResult(datas);
@@ -310,29 +355,6 @@ const SalePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setIsImageWorking(false);
   };
 
-
-  // //Check Flag Wise
-  // const handleShortHeader = () => {
-  //   setShortHeaderFlag(!shortHeaderFlag);
-  // }
-  // const handleShipToAddress = () => {
-  //   setWithoutShipToAddressFlag(!withoutShipToAddressFlag);
-  // }
-  // const handleGoldRateHideShow = () => {
-  //   setGold24KRateFlag(!gold24KRateFlag);
-  // }
-  // const handleCategoryCountSummary = () => {
-  //   setCatCountFlag(!catCountFlag);
-  // }
-  // const handleJobWiseTotal = () => {
-  //   setJobWiseTotalFlag(!jobWiseTotalFlag);
-  // }
-  // const handleTncFlag = () => {
-  //   setTncFlag(!tncFlag);
-  // }
-  // const handleGroupJobEffect = () => {
-  //   setGroupJobEffectFlag(!groupJobEffectFlag);
-  // }
 
 // Reusable toggle handler
 const toggleFlag = (setter, flag) => {
@@ -355,94 +377,11 @@ const toggleFlag = (setter, flag) => {
             <>
               <div className="containerdp10 pab60_dp10">
                 <div className="d-flex justify-content-end align-items-center hidebtndp10 mb-4">
-                  {/* <div className="d-flex align-items-center">
-                    <input
-                      type="checkbox"
-                      id="headerHideShow"
-                      className="mx-1"
-                      checked={shortHeaderFlag}
-                      onChange={handleShortHeader}
-                    />
-                    <label htmlFor="headerHideShow" className="me-3 user-select-none">
-                      With Short Header
-                    </label>
-                  </div>
-                  <div className="d-flex align-items-center">
-                    <input
-                      type="checkbox"
-                      id="shipAddressHS"
-                      className="mx-1"
-                      checked={withoutShipToAddressFlag}
-                      onChange={handleShipToAddress}
-                    />
-                    <label htmlFor="shipAddressHS" className="me-3 user-select-none">
-                      WithOut Ship To Address
-                    </label>
-                  </div>
-                  <div className="d-flex align-items-center">
-                    <input
-                      type="checkbox"
-                      id="gold24KrateHS"
-                      className="mx-1"
-                      checked={gold24KRateFlag}
-                      onChange={handleGoldRateHideShow}
-                    />
-                    <label htmlFor="gold24KrateHS" className="me-3 user-select-none">
-                      With Gold 24K Rate
-                    </label>
-                  </div>
-                  <div className="d-flex align-items-center">
-                    <input
-                      type="checkbox"
-                      id="catCountHS"
-                      className="mx-1"
-                      checked={catCountFlag}
-                      onChange={handleCategoryCountSummary}
-                    />
-                    <label htmlFor="catCountHS" className="me-3 user-select-none">
-                      With Category Count Summary
-                    </label>
-                  </div>
-                  <div className="d-flex align-items-center">
-                    <input
-                      type="checkbox"
-                      id="totalHS"
-                      className="mx-1"
-                      checked={jobWiseTotalFlag}
-                      onChange={handleJobWiseTotal}
-                    />
-                    <label htmlFor="totalHS" className="me-3 user-select-none">
-                      With Job Wise Total
-                    </label>
-                  </div>
-                  <div className="d-flex align-items-center">
-                    <input
-                      type="checkbox"
-                      id="tncFlag"
-                      className="mx-1"
-                      checked={tncFlag}
-                      onChange={handleTncFlag}
-                    />
-                    <label htmlFor="tncFlag" className="me-3 user-select-none">
-                      With terms & Conditions
-                    </label>
-                  </div>
-                  <div className="d-flex align-items-center">
-                    <input
-                      type="checkbox"
-                      id="groupJobEffect"
-                      className="mx-1"
-                      checked={groupJobEffectFlag}
-                      onChange={handleGroupJobEffect}
-                    />
-                    <label htmlFor="groupJobEffect" className="me-3 user-select-none">
-                      With GroupJob Effect
-                    </label>
-                  </div> */}
-                      <div>
+
+                      <div className="d-flex align-items-center">
                         {checkboxes?.map(({ id, label, flag, setter }) => (
                           <div className="d-flex align-items-center" key={id}>
-                            <input
+                            {/* <input
                               type="checkbox"
                               id={id}
                               className="mx-1"
@@ -451,7 +390,7 @@ const toggleFlag = (setter, flag) => {
                             />
                             <label htmlFor={id} className="me-3 user-select-none">
                               {label}
-                            </label>
+                            </label> */}
                           </div>
                         ))}
                       </div>
@@ -860,6 +799,42 @@ const toggleFlag = (setter, flag) => {
                                   </div>
                                   <div className="theadsubcol1_dp10 end_dp10 fw-bold pr_dp10">
                                     {el?.Amount?.toFixed(2)}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                            {e?.mics?.length > 0 &&
+                            e?.mics?.map((ele, ind) => {
+                              return (
+                                <div className="d-flex" key={ind}>
+                                  <div className="width20EstimatePrint p_1Estimate">
+                                    <p>
+                                      M: {ele?.ShapeName} {ele?.QualityName}{" "}
+                                      {/* {ele?.Colorname} */}
+                                    </p>
+                                  </div>
+                                  <div className="width20EstimatePrint p_1Estimate">
+                                    <p className="">{ele?.SizeName}</p>
+                                  </div>
+                                  <div className="width20EstimatePrint p_1Estimate">
+                                    <p className="text-end">
+                                      {ele?.Pcs > 0 && NumberWithCommas(ele?.Pcs, 0)}
+                                    </p>
+                                  </div>
+                                  <div className="width20EstimatePrint p_1Estimate">
+                                    <p className="text-end">
+                                      {ele?.Wt > 0 && fixedValues(ele?.Wt, 3)}
+                                    </p>
+                                  </div>
+                                  <div className="width20EstimatePrint p_1Estimate">
+                                    <p className="text-end">
+                                      { NumberWithCommas(ele?.Rate, 2)}
+                                    </p>
+                                  </div>
+                                  <div className="width20EstimatePrint p_1Estimate">
+                                    <p className="fw-bold text-end">
+                                      { NumberWithCommas(ele?.Amount, 2)}
+                                    </p>
                                   </div>
                                 </div>
                               );

@@ -575,7 +575,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <div className="diamhpclcol w-100">
                                   <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "22%" }} > KT </div>
                                   <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "18%" }} > Gr Wt </div>
-                                  <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "18%" }} > N + L </div>
+                                  <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "18%" }} > NetWt </div>
                                   <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "20%" }} > Rate </div>
                                   <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ borderRight: "0px", width: "22%" }} > Amount </div>
                                 </div>

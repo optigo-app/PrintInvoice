@@ -1448,7 +1448,6 @@ const DetailPrintC = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         return <div className="d-flex justify-content-between" key={i}>
                         <p className="fw-bold px-1 pt-1">{e?.ShapeName}</p>
                         <p className="px-1 pt-1">
-                          {" "}
                           {NumberWithCommas(e?.metalfinewt, 3)} gm
                         </p>
                       </div>

@@ -38,6 +38,7 @@ export const printConditions = [
   {printName: 'export print 2', etpType: 'print', componentName: 'ExportPrint2'},
   {printName: 'invoice print', etpType: 'print', componentName: 'InvoicePrint'},
   {printName: 'invoice print 10', etpType: 'print', componentName: 'InvoicePrint10'},
+  // {printName: 'invoice print 11', etpType: 'print', componentName: 'InvoicePrint11'},
   {printName: 'invoice print 11', etpType: 'print', componentName: 'InvoicePrint11'},
   {printName: 'invoice print 12', etpType: 'print', componentName: 'InvoicePrint_12'},
   {printName: 'invoice print 2', etpType: 'print', componentName: 'InvoicePrint2'},
@@ -190,7 +191,6 @@ export const MemoPrints = [
   {printName: 'item wise print2', etpType: 'print', componentName: 'ItemWisePrint'},
   {printName: 'detail print3', etpType: 'print', componentName: 'DetailPrint3'},
   {printName: 'detail print4', etpType: 'print', componentName: 'DetailPrint4'},
-  {printName: 'packing list', etpType: 'print', componentName: 'PackingList'},
   {printName: 'summary 4', etpType: 'print', componentName: 'Summary4'},
   {printName: 'summary 1', etpType: 'print', componentName: 'Summary1'},
 ]
@@ -222,7 +222,6 @@ export const EstimatePrints = [
   {printName: 'detail print 11', etpType: 'print', componentName: 'DetailPrint11'},
   {printName: 'estimate print', etpType: 'print', componentName: 'EstimatePrint'},
   {printName: 'summary 4', etpType: 'print', componentName: 'Summary4'},
-  {printName: 'packing list', etpType: 'print', componentName: 'PackingList'},
   {printName: 'detail print4', etpType: 'print', componentName: 'DetailPrint4'},
 ]
 export const HallMarkPrints = [
@@ -267,6 +266,7 @@ export const fgPurchase = [
   {printName: 'item wise print1', etpType: 'print', componentName: 'ItemWisePrint'},
   {printName: 'item wise print2', etpType: 'print', componentName: 'ItemWisePrint'},
   {printName: 'summary 4', etpType: 'print', componentName: 'Summary4'},
+  {printName: 'retail print', etpType: 'print', componentName: 'RetailPrint'},
 ];
 export const fgPurchaseReturn = [
   {printName: 'item wise print', etpType: 'print', componentName: 'ItemWisePrint'},

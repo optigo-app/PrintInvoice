@@ -1,7 +1,7 @@
 import { GetData } from "./GetData";
 import { organizeData } from "./OrganizeBagPrintData";
 
-export const FetchDatas = async (queryParams,resultString, queries, headers) => {
+export const FetchDatas = async (queryParams, resultString, queries, headers) => {
     try {
         const responseData = [];
             const objs = {
@@ -13,9 +13,7 @@ export const FetchDatas = async (queryParams,resultString, queries, headers) => 
                 headers: headers,
               };
               let allDatas = await GetData(objs);
-      
               let datas = organizeData(allDatas?.rd, allDatas?.rd1);
-
               // eslint-disable-next-line array-callback-return
               datas?.map((a) => {
 
@@ -59,7 +57,7 @@ export const FetchDatas = async (queryParams,resultString, queries, headers) => 
                 imagePath = atob(queryParams?.imagepath);
                 
                 let img = imagePath + a?.rd?.ThumbImagePath;
-                responseData.push({ data: a, additional: { length: length, clr: clr, dia: dia, img: img, misc: misc } });
+                responseData.push({ data: a, additional: { length: length, clr: clr, dia: dia, img: img, misc: misc }, allDatas:allDatas });
               })
               return responseData;
     } catch (error) {

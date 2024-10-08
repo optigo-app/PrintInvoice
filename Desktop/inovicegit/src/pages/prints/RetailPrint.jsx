@@ -16,6 +16,8 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [msg, setMsg] = useState("");
     const [taxes, setTaxes] = useState([]);
     const [finalD, setFinalD] = useState({});
+
+    const [resultArrayC, setResultArryC] = useState();
     let pName = atob(printName).toLowerCase();
 
     const getStyles = (retailPrint1, retailPrint, value) => {
@@ -39,7 +41,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     };
     const loadData = (data) => {
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
-
+        setResultArryC(datas);
         let resultArr = [];
         let makingSetting = 0;
         let otherChargesDiamondHandling = 0;
@@ -326,8 +328,8 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 {/* print button */}
                 <div className="d-flex w-100 justify-content-end align-items-baseline print_sec_sum4 no_break position-relative">
                     <div className="form-check pe-3 mb-0">
-                        <input className="form-check-input border-dark" type="checkbox" checked={rate} onChange={e => handleChange(e)} />
-                        <label className="form-check-label h6 mb-0 ratePara pt-1">
+                        <input className="form-check-input border-dark" type="checkbox" id='withrate' checked={rate} onChange={e => handleChange(e)} />
+                        <label className="form-check-label h6 mb-0 ratePara pt-1" htmlFor='withrate'>
                             With Rate
                         </label>
                     </div>
@@ -592,7 +594,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div className={`${styles.Wt} border-end p-1 d-flex align-items-end justify-content-around flex-column min_height_44_retail_print_1 ft_12_retailPrint`}>
                                 <p className='fw-bold lh-1 text-end'>{fixedValues(total?.materialWeight, 3)} Ctw</p>
                                 <p className='fw-bold lh-1 text-end'>{fixedValues(total?.goldWeight - (finalD?.mainTotal?.diamonds?.Wt / 5), 3)} gm</p>
-                            </div>
+                            </div>{console.log(resultArrayC)}
                             {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end min_height_44_retail_print_1 ft_12_retailPrint`}>
                                 <p className='fw-bold text-end'>
                                     {/* {NumberWithCommas(total?.rate, 2)} */}

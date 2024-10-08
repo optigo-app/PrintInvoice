@@ -98,6 +98,12 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [diamondDetails, setDiamondDetails] = useState([]);
   const [isImageWorking, setIsImageWorking] = useState(true);
 
+  const [metalFineWtFlag, setMetalFineWtFlag] = useState(true);
+  const [tunchFlag, setTunchFlag] = useState(true);
+  const [gold24KRateFlag, setGold24KRateFlag] = useState(true);
+  const [OtherShowFlag, setOtherShowFlag] = useState(true);
+  const [diaClrFlag, setDiaClrFlag] = useState(true);
+
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };

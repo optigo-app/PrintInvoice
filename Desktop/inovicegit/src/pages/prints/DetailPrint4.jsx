@@ -868,9 +868,9 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className="dia_col_w_dp4 end_dp4" style={{ width: "15%" }} >
                                   {e?.totals?.diamonds?.Wt === 0 ? '' : e?.totals?.diamonds?.Wt?.toFixed(3)}
                                 </div>
-                                <div className="dia_col_w_dp4 end_dp4">
-                                </div>
-                                <div className="dia_col_w_dp4 end_dp4">
+                                {/* <div className="dia_col_w_dp4 end_dp4">
+                                </div> */}
+                                <div className="dia_col_w_dp4 end_dp4" style={{width:'40%'}}>
                                   {e?.totals?.diamonds?.Amount === 0 ? '' : formatAmount(e?.totals?.diamonds?.Amount)}
                                 </div>
                               </div>
@@ -912,8 +912,8 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   {/* { (e?.totals?.colorstone?.Wt + e?.totals?.misc?.withouthscode1_2_wt) === 0 ? '' : (e?.totals?.colorstone?.Wt + e?.totals?.misc?.withouthscode1_2_wt)?.toFixed(3)} */}
                                   {/* { (e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt + e?.totals?.misc?.allservwt) === 0 ? '' : (e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt + e?.totals?.misc?.allservwt)?.toFixed(3)} */}
                                 </div>
-                                <div className="dia_col_w_dp4 end_dp4"></div>
-                                <div className="dia_col_w_dp4 end_dp4">
+                                {/* <div className="dia_col_w_dp4 end_dp4"></div> */}
+                                <div className="dia_col_w_dp4 end_dp4" style={{width:'40%'}}>
                                   {/* {(e?.totals?.colorstone?.Amount + e?.totals?.misc?.withouthscode1_2_amount) === 0 ? '' : formatAmount((e?.totals?.colorstone?.Amount + e?.totals?.misc?.withouthscode1_2_amount ))} */}
                                   {(e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount) === 0 ? '' : formatAmount((e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount ))}
                                 </div>
@@ -1062,9 +1062,9 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="dia_col_w_dp4 end_dp4" style={{ width: "15%" }} >
                           {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
                         </div>
-                        <div className="dia_col_w_dp4 end_dp4">
-                        </div>
-                        <div className="dia_col_w_dp4 end_dp4">
+                        {/* <div className="dia_col_w_dp4 end_dp4">
+                        </div> */}
+                        <div className="dia_col_w_dp4 end_dp4" style={{ width: "40%" }}>
                           {formatAmount(result?.mainTotal?.diamonds?.Amount)}
                         </div>
                       </div>
@@ -1105,8 +1105,8 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           {/* {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.withouthscode1_2_pcs)?.toFixed(3)} */}
                           {(result?.mainTotal?.colorstone?.Wt + jobWIseTotal?.misc_dp4_wt)?.toFixed(3)}
                         </div>
-                        <div className="dia_col_w_dp4 end_dp4"></div>
-                        <div className="dia_col_w_dp4 end_dp4">
+                        {/* <div className="dia_col_w_dp4 end_dp4"></div> */}
+                        <div className="dia_col_w_dp4 end_dp4" style={{ width: "40%" }}>
                           {formatAmount((result?.mainTotal?.colorstone?.Amount + result?.mainTotal?.misc?.Amount))}
                         </div>
                       </div>

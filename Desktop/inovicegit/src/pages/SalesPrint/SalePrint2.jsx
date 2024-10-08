@@ -7,7 +7,7 @@ import { cloneDeep } from 'lodash';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import Loader from '../../components/Loader';
 const SalePrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
-
+  const [QnCHS, setQnCHS] = useState(true);
   const toWords = new ToWords();
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
@@ -51,6 +51,11 @@ const SalePrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       } catch (error) {
         console.log(error);
       }
+
+      if(atob(printName)?.toLowerCase() === 'detail print 8'){
+        setQnCHS(false);
+      }
+      
     };
     sendData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -509,8 +514,8 @@ const SalePrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               <div className='d-flex border-bottom w-100' key={i}>
                                 <div className='border-end col3_dp6_1 pad_st_dp6 center_start_dp6' >{el?.MasterManagement_DiamondStoneTypeName}</div>
                                 <div className='border-end col3_dp6_2 pad_st_dp6 center_start_dp6' >{el?.ShapeName}</div>
-                                <div className='border-end col3_dp6_3 pad_st_dp6 center_start_dp6' >{el?.QualityName}</div>
-                                <div className='border-end col3_dp6_4 pad_st_dp6 center_start_dp6' >{el?.Colorname}</div>
+                                <div className='border-end col3_dp6_3 pad_st_dp6 center_start_dp6' >{ QnCHS && el?.QualityName}</div>
+                                <div className='border-end col3_dp6_4 pad_st_dp6 center_start_dp6' >{ QnCHS && el?.Colorname}</div>
                                 <div className='border-end col3_dp6_5 pad_st_dp6 center_start_dp6' >{el?.SizeName}</div>
                                 <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6' >{el?._Pcs}</div>
                                 {/* <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6' >{(el?.ShapeName?.includes('Certification') && el?.MasterManagement_DiamondStoneTypeid === 3) ? (e?.jobwise_dia_wt_certificate?.toFixed(3)) :  el?.jwt?.toFixed(3)}</div> */}
