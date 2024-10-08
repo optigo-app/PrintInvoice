@@ -31,9 +31,7 @@
     margin-bottom: 2rem;
     padding-bottom: 60px;
 }
-.multipart_container{
-    width: 50%;
-}
+
 
 .multipart_head{
     font-size: 35px;
@@ -43,7 +41,7 @@
     letter-spacing: 1.2px;
 }
 .cls_btn:hover{
-    background-color: #cd1516 !important;
+    background-color: #b72829 !important;
 }
 .misc_btn:hover{
     background-color: #e37812 !important;
@@ -52,6 +50,19 @@
     background-color: #433b9a !important;
 }
 .diaCount{
+    box-sizing: border-box;
+    width: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 23px;
+    font-weight: bold;
+    margin: 1px;
+    border-radius: 4px;
+    padding: 1px;
+    margin-bottom: 5px;
+}
+.diaCount2{
     box-sizing: border-box;
     width: 120px;
     display: flex;
@@ -82,12 +93,51 @@
 .showOnPrint{
     display: none !important;
 }
-
+.box_css_mlt{
+    min-width: 20rem !important;
+    min-height: 10rem !important;
+}
+.number-box {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: #f0f0f0; /* Light grey background */
+    font-weight: bold;
+    border-radius: 4px;
+    margin: 0 5px;
+}
+.bg_color_dia{
+    /* background-color: #28C76F; */
+    background-color: #28c76f21;
+}
+.bg_color_cls{
+    /* background-color: #b72829; */
+    background-color: #b728291f;
+}
+.bg_color_misc{
+    /* background-color: #e37812; */
+    background-color: #e3781214;
+}
+.bg_color_finding{
+    /* background-color: #433b9a; */
+    background-color: #433b9a14;
+}
+.border_color_head{
+    border-color: #c6c6c6 !important;
+}
+.bg_color_container{
+    background-color: #e8e8e863;
+}
+.h_100_vh_mlt{
+    height: 100vh !important;
+}
 @media print {
     .containerjbsbg{
         page-break-after: always;
-        page-break-before: always;
         margin-top: 1rem;
+    }
+    .containerjbsbg:last-child {
+        page-break-after: avoid;
+        /* display: none !important; */
     }
     .mainjobbagsticker{
         display: block;
