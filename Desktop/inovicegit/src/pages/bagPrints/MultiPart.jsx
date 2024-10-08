@@ -205,51 +205,51 @@ const MultiPart = ({ queries, headers }) => {
                             <div className='multipart_head'>&nbsp;{data?.length > 1 ? 'Jobs' : 'Job'}</div>
                         </div>
                         <div className='d-flex  justify-content-between align-items-center py-2 flex-wrap'>
-                            <div style={{margin:'1rem', boxSizing:'border-box'}} className='bg-white'>
+                            <div style={{margin:'1rem', boxSizing:'border-box'}} className='bg-white text-black'>
                                 <Box className="border rounded box_css_mlt d-flex flex-column border_color_head justify-content-between align-items-center ">
                                     <div className='w-100 d-flex justify-content-center align-items-center py-2 border-bottom border_color_head'><Typography sx={{fontWeight:'bold'}}>DIAMOND BAGS</Typography></div>
                                     <div className='p-2 text-break text-center'>
-                                            Your Selection having <span className='number-box border border_color_head'>{countObj?.dia}</span>  <span className='fw-bold'>Jobs</span> for <span className='fw-bold'>Diamond </span> bagging.
+                                            Your Selection having <span className='number-box border border_color_head'>{countObj?.dia}</span>  <span >Jobs</span> for <span >Diamond </span> bagging.
                                     </div>
 
                                     <div className='p-1 d-flex justify-content-center align-items-center pb-2'>
-                                        <Button variant='contained' size='small' color='primary' disabled={countObj.dia < 1} onClick={() => handleButtonClick('diamond')}>Print</Button>
+                                        <button className="btn_white blue print_btn" disabled={countObj.dia < 1} onClick={() => handleButtonClick('diamond')}>Print</button>
                                     </div>
                                 </Box>
                             </div>
-                            <div style={{margin:'1rem', boxSizing:'border-box'}} className='bg-white'>
+                            <div style={{margin:'1rem', boxSizing:'border-box'}} className='bg-white text-black'>
                                 <Box className="border rounded box_css_mlt d-flex flex-column border_color_head justify-content-between align-items-center ">
                                     <div className='w-100 d-flex justify-content-center align-items-center py-2 border-bottom border_color_head'><Typography sx={{fontWeight:'bold'}}>COLORSTONE BAGS</Typography></div>
                                     <div className='p-2 text-break text-center'>
-                                            Your Selection having <span className='number-box border border_color_head'>{countObj?.cls}</span>  <span className='fw-bold'>Jobs</span> for <span className='fw-bold'>Colorstone </span> bagging.
+                                            Your Selection having <span className='number-box border border_color_head'>{countObj?.cls}</span>  <span >Jobs</span> for <span >Colorstone </span> bagging.
                                     </div>
 
                                     <div className='p-1 d-flex justify-content-center align-items-center pb-2'>
-                                        <Button variant='contained' size='small' color='primary' disabled={countObj.cls < 1} onClick={() => handleButtonClick('colorstone')}>Print</Button>
+                                    <button className="btn_white blue print_btn" disabled={countObj.cls < 1} onClick={() => handleButtonClick('colorstone')}>Print</button>
                                     </div>
                                 </Box>
                             </div>
-                            <div style={{margin:'1rem', boxSizing:'border-box'}} className='bg-white'>
+                            <div style={{margin:'1rem', boxSizing:'border-box'}} className='bg-white text-black'>
                                 <Box className="border rounded box_css_mlt d-flex flex-column border_color_head justify-content-between align-items-center ">
                                     <div className='w-100 d-flex justify-content-center align-items-center py-2 border-bottom border_color_head'><Typography sx={{fontWeight:'bold'}}>MISC BAGS</Typography></div>
                                     <div className='p-2 text-break text-center'>
-                                            Your Selection having <span className='number-box border border_color_head'>{countObj?.misc}</span>  <span className='fw-bold'>Jobs</span> for <span className='fw-bold'>Misc </span> bagging.
+                                            Your Selection having <span className='number-box border border_color_head'>{countObj?.misc}</span>  <span >Jobs</span> for <span >Misc </span> bagging.
                                     </div>
 
                                     <div className='p-1 d-flex justify-content-center align-items-center pb-2'>
-                                        <Button variant='contained' size='small' color='primary' disabled={countObj.misc < 1} onClick={() => handleButtonClick('misc')}>Print</Button>
+                                    <button className="btn_white blue print_btn" disabled={countObj.misc < 1} onClick={() => handleButtonClick('misc')}>Print</button>
                                     </div>
                                 </Box>
                             </div>
-                            <div style={{margin:'1rem', boxSizing:'border-box'}} className='bg-white'>
+                            <div style={{margin:'1rem', boxSizing:'border-box'}} className='bg-white text-black'>
                                 <Box className="border rounded box_css_mlt d-flex flex-column border_color_head justify-content-between align-items-center ">
                                     <div className='w-100 d-flex justify-content-center align-items-center py-2 border-bottom border_color_head'><Typography sx={{fontWeight:'bold'}}>FINDING BAGS</Typography></div>
                                     <div className='p-2 text-break text-center'>
-                                            Your Selection having <span className='number-box border border_color_head'>{countObj?.finding}</span>  <span className='fw-bold'>Jobs</span> for <span className='fw-bold'>Finding </span> bagging.
+                                            Your Selection having <span className='number-box border border_color_head'>{countObj?.finding}</span>  <span >Jobs</span> for <span >Finding </span> bagging.
                                     </div>
 
                                     <div className='p-1 d-flex justify-content-center align-items-center pb-2'>
-                                        <Button variant='contained' size='small' color='primary' disabled={countObj.finding < 1} onClick={() => handleButtonClick('finding')}>Print</Button>
+                                        <button className="btn_white blue print_btn" disabled={countObj.finding < 1} onClick={() => handleButtonClick('finding')}>Print</button>
                                     </div>
                                 </Box>
                             </div>
@@ -330,8 +330,8 @@ const MultiPart = ({ queries, headers }) => {
                             { e?.data?.rd?.mastermanagement_maketypename?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.mastermanagement_maketypename}</div>}
                             { e?.data?.rd?.MetalType?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.MetalType?.split(" ")[1] + " " +e?.data?.rd?.MetalColorCo}</div>}
                             { e?.data?.rd?.MetalWeight > 0 && <div className='fsjbsbg'>{(+e?.data?.rd?.MetalWeight)?.toFixed(3)}gm</div>}
-                            <div className='fsjbsbg'>{(+e?.data?.rd?.MetalWeight)?.toFixed(3)}gm</div>
-                            { e?.data?.rd?.Size?.length > 0 && <div className='fsjbsbg'>Size: {e?.data?.rd?.Size}</div>}
+                            {/* <div className='fsjbsbg'>{(+e?.data?.rd?.MetalWeight)?.toFixed(3)}gm</div>
+                            { e?.data?.rd?.Size?.length > 0 && <div className='fsjbsbg'>Size: {e?.data?.rd?.Size}</div>} */}
                             <div className='d-flex justify-content-start align-items-center'>
                             <QRCodeGenerator
                               text={e?.data?.rd.serialjobno}
@@ -350,8 +350,8 @@ const MultiPart = ({ queries, headers }) => {
                             { e?.data?.rd?.promiseDatef?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.promiseDatef}</div>}
                             { e?.data?.rd?.mastermanagement_maketypename?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.mastermanagement_maketypename}</div>}
                             { e?.data?.rd?.MetalType?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.MetalType?.split(" ")[1] +" " +e?.data?.rd?.MetalColorCo}</div>}
-                            { e?.data?.rd?.MetalWeight > 0 && <div className='fsjbsbg'>{(+e?.data?.rd?.MetalWeight)?.toFixed(3)}gm</div>}
-                            { e?.data?.rd?.Size?.length > 0 && <div className='fsjbsbg'>Size: {e?.data?.rd?.Size}</div>}
+                            {/* { e?.data?.rd?.MetalWeight > 0 && <div className='fsjbsbg'>{(+e?.data?.rd?.MetalWeight)?.toFixed(3)}gm</div>}
+                            { e?.data?.rd?.Size?.length > 0 && <div className='fsjbsbg'>Size: {e?.data?.rd?.Size}</div>} */}
                             <div className='d-flex justify-content-start align-items-center'>
                             <QRCodeGenerator
                               text={e?.data?.rd.serialjobno}
