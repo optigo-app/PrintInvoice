@@ -190,66 +190,71 @@ const MultiPart = ({ queries, headers }) => {
   
 
   return (
-    <div className='bg_color_mlt'>
+    <div className='bg_color_mlt pb-5 mb-5'>
     {
       data?.length === 0 ? <Loader /> : <React.Fragment>
         {/* <div className="print_btn"><button className="btn_white blue print_btn" onClick={(e) => handlePrint(e)}>
                 Print
             </button></div> */}
-            <div className='hideOnPrint bg_color_container h_100_vh_mlt'>
+            
+            <div className='hideOnPrint  '>
                 <div className='w-100 d-flex align-items-center justify-content-center'>
-                    <div className=' d-flex flex-column justify-content-between align-items-center p-1'>
+                    <div className=' d-flex flex-column justify-content-between align-items-center p-1 w-100'>
                         <div className='d-flex align-items-center justify-content-center py-2'>
                             <div className='multipart_head' style={{fontFamily:'Helvetica, Verdana, sans-serif'}}>Multi Part Bagging Process For &nbsp;</div>
-                            <div className='multipart_head text-center number-box border border_color_head' style={{minWidth:'100px'}}>{data?.length}</div>
+                            <div className='multipart_head text-center number-box border border_color_head ' style={{minWidth:'100px'}}>{data?.length}</div>
                             <div className='multipart_head'>&nbsp;{data?.length > 1 ? 'Jobs' : 'Job'}</div>
                         </div>
-                        <div className='d-flex  justify-content-between align-items-center py-2 flex-wrap'>
-                            <div style={{margin:'1rem', boxSizing:'border-box'}} className='bg-white text-black'>
-                                <Box className="border rounded box_css_mlt d-flex flex-column border_color_head justify-content-between align-items-center ">
+                        <div className='d-flex  justify-content-around align-items-center py-2 flex-wrap border bg_color_container' style={{marginTop:'3%', minHeight:'30rem', width:'80%', paddingLeft:'1%', paddingRight:'1%'}}>
+                            <div style={{margin:'1rem', boxSizing:'border-box'}} className='bg-white text-black mx-0'>
+                                <Box className="border rounded box_css_mlt d-flex flex-column border_color_head justify-content-between align-items-center m-0">
                                     <div className='w-100 d-flex justify-content-center align-items-center py-2 border-bottom border_color_head'><Typography sx={{fontWeight:'bold'}}>DIAMOND BAGS</Typography></div>
-                                    <div className='p-2 text-break text-center'>
-                                            Your Selection having <span className='number-box border border_color_head'>{countObj?.dia}</span>  <span >Jobs</span> for <span >Diamond </span> bagging.
-                                    </div>
-
-                                    <div className='p-1 d-flex justify-content-center align-items-center pb-2'>
-                                        <button className="btn_white blue print_btn" disabled={countObj.dia < 1} onClick={() => handleButtonClick('diamond')}>Print</button>
+                                        <div className='countBox'>{countObj?.dia}</div>
+                                        <div>Jobs Are Ready To Print</div>
+                                    {/* <div className='p-2 text-break text-center'>
+                                            Your Selection having <span className='number-box border border_color_head'>{countObj?.dia}</span>  <span >Jobs</span> <br></br> for <span >Diamond </span> bagging.
+                                    </div> */}
+                                    <div className='p-1 d-flex justify-content-center align-items-center pb-3'>
+                                        <button className="btn_white btn_w2 blue print_btn" disabled={countObj.dia < 1} onClick={() => handleButtonClick('diamond')}>Print</button>
                                     </div>
                                 </Box>
                             </div>
-                            <div style={{margin:'1rem', boxSizing:'border-box'}} className='bg-white text-black'>
-                                <Box className="border rounded box_css_mlt d-flex flex-column border_color_head justify-content-between align-items-center ">
+                            <div style={{margin:'1rem', boxSizing:'border-box'}} className='bg-white text-black mx-0'>
+                                <Box className="border rounded box_css_mlt d-flex flex-column border_color_head justify-content-between align-items-center m-0">
                                     <div className='w-100 d-flex justify-content-center align-items-center py-2 border-bottom border_color_head'><Typography sx={{fontWeight:'bold'}}>COLORSTONE BAGS</Typography></div>
-                                    <div className='p-2 text-break text-center'>
-                                            Your Selection having <span className='number-box border border_color_head'>{countObj?.cls}</span>  <span >Jobs</span> for <span >Colorstone </span> bagging.
-                                    </div>
-
-                                    <div className='p-1 d-flex justify-content-center align-items-center pb-2'>
-                                    <button className="btn_white blue print_btn" disabled={countObj.cls < 1} onClick={() => handleButtonClick('colorstone')}>Print</button>
+                                    {/* <div className='p-2 text-break text-center'>
+                                            Your Selection having <span className='number-box border border_color_head'>{countObj?.cls}</span>  <span >Jobs</span> <br></br> for <span >Colorstone </span> bagging.
+                                    </div> */}
+                                    <div className='countBox'>{countObj?.cls}</div>
+                                        <div>Jobs Are Ready To Print</div>
+                                    <div className='p-1 d-flex justify-content-center align-items-center pb-3'>
+                                    <button className="btn_white btn_w2 blue print_btn" disabled={countObj.cls < 1} onClick={() => handleButtonClick('colorstone')}>Print</button>
                                     </div>
                                 </Box>
                             </div>
-                            <div style={{margin:'1rem', boxSizing:'border-box'}} className='bg-white text-black'>
-                                <Box className="border rounded box_css_mlt d-flex flex-column border_color_head justify-content-between align-items-center ">
+                            <div style={{margin:'1rem', boxSizing:'border-box'}} className='bg-white mx-0'>
+                                <Box className="border rounded box_css_mlt d-flex flex-column border_color_head justify-content-between align-items-center m-0">
                                     <div className='w-100 d-flex justify-content-center align-items-center py-2 border-bottom border_color_head'><Typography sx={{fontWeight:'bold'}}>MISC BAGS</Typography></div>
-                                    <div className='p-2 text-break text-center'>
-                                            Your Selection having <span className='number-box border border_color_head'>{countObj?.misc}</span>  <span >Jobs</span> for <span >Misc </span> bagging.
-                                    </div>
-
-                                    <div className='p-1 d-flex justify-content-center align-items-center pb-2'>
-                                    <button className="btn_white blue print_btn" disabled={countObj.misc < 1} onClick={() => handleButtonClick('misc')}>Print</button>
+                                    {/* <div className='p-2 text-break text-center'>
+                                            Your Selection having <span className='number-box border border_color_head'>{countObj?.misc}</span>  <span >Jobs</span> <br></br> for <span >Misc </span> bagging.
+                                    </div> */}
+                                    <div className='countBox'>{countObj?.misc}</div>
+                                        <div>Jobs Are Ready To Print</div>
+                                    <div className='p-1 d-flex justify-content-center align-items-center pb-3'>
+                                    <button className="btn_white btn_w2 blue print_btn" disabled={countObj.misc < 1} onClick={() => handleButtonClick('misc')}>Print</button>
                                     </div>
                                 </Box>
                             </div>
-                            <div style={{margin:'1rem', boxSizing:'border-box'}} className='bg-white text-black'>
-                                <Box className="border rounded box_css_mlt d-flex flex-column border_color_head justify-content-between align-items-center ">
+                            <div style={{margin:'1rem', boxSizing:'border-box'}} className='bg-white mx-0'>
+                                <Box className="border rounded box_css_mlt d-flex flex-column border_color_head justify-content-between align-items-center m-0">
                                     <div className='w-100 d-flex justify-content-center align-items-center py-2 border-bottom border_color_head'><Typography sx={{fontWeight:'bold'}}>FINDING BAGS</Typography></div>
-                                    <div className='p-2 text-break text-center'>
-                                            Your Selection having <span className='number-box border border_color_head'>{countObj?.finding}</span>  <span >Jobs</span> for <span >Finding </span> bagging.
-                                    </div>
-
-                                    <div className='p-1 d-flex justify-content-center align-items-center pb-2'>
-                                        <button className="btn_white blue print_btn" disabled={countObj.finding < 1} onClick={() => handleButtonClick('finding')}>Print</button>
+                                    {/* <div className='p-2 text-break text-center'>
+                                            Your Selection having <span className='number-box border border_color_head'>{countObj?.finding}</span>  <span >Jobs</span> <br></br> for <span >Finding </span> bagging.
+                                    </div> */}
+                                    <div className='countBox'>{countObj?.finding}</div>
+                                        <div>Jobs Are Ready To Print</div>
+                                    <div className='p-1 d-flex justify-content-center align-items-center pb-3'>
+                                        <button className="btn_white btn_w2 blue print_btn" disabled={countObj.finding < 1} onClick={() => handleButtonClick('finding')}>Print</button>
                                     </div>
                                 </Box>
                             </div>

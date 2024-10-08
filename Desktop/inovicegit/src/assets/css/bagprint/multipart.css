@@ -130,6 +130,28 @@
 .h_100_vh_mlt{
     height: 100vh !important;
 }
+.btn_w2{
+    min-width: 80px;
+    min-height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+.countBox{
+    font-size: 25px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+    width: 90px;
+    border: 1px solid #989898;
+    border-radius: 4px;
+    margin: 5px;
+    padding: 5px;
+    margin-top: 10px;
+}
 @media print {
     .containerjbsbg{
         page-break-after: always;
