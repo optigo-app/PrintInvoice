@@ -1,5 +1,5 @@
 .container_pcls{
-    max-width: 1230px;
+    max-width: 1260px;
     /* margin: 0 auto; */
     box-sizing: border-box;
     padding: 10px;
@@ -189,7 +189,7 @@
 /* metal */
 .mcol1_pcls{
     /* width: 25%; */
-    width: 20%;
+    width: 16.66%;
 }
 .mcol2_pcls{
     width: 17%;
@@ -204,6 +204,10 @@
 .mcol5_pcls{
     /* width: 25%; */
     width: 25%;
+}
+.mcol6_pcls{
+    /* width: 25%; */
+    width: 20%;
 }
 
 
