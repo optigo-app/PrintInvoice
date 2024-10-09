@@ -100,102 +100,54 @@ const MultiPart = ({ queries, headers }) => {
     }, [queryParams]);
 
     const handleButtonClick = (args) => {
+
         setTitle('');
         setFilterData([]);
-        if(args === 'diamond'){
-            let finalArr = [];
-            data?.forEach((e, i) => {
-                countObj?.diamondJobList?.forEach((a) => {
-                    if(e?.data?.rd?.serialjobno === a){
-                        finalArr.push(e);
-                    }
-                })
-            })
-            setTimeout(() => {
-                setFilterData(finalArr);
-                setTitle('DIAMOND')
-
-                // setData(finalArr);
-            },0);
-            if(finalArr.length > 0){
-                setTimeout(() => {
-                    window.print();
-                }, 1000) 
-            }
-        }
-        if(args === 'colorstone'){
-            let finalArr = [];
-            data?.forEach((e, i) => {
-                countObj?.colorStoneList?.forEach((a) => {
-                    if(e?.data?.rd?.serialjobno === a){
-                        finalArr.push(e);
-                    }
-                })
-            })
-            setTimeout(() => {
-                setFilterData(finalArr);
-                setTitle('COLORSTONE')
-
-                // setData(finalArr);
-            },0);
-            if(finalArr.length > 0){
-                setTimeout(() => {
-                    window.print();
-                }, 1000) 
-            }
-        }
-        if(args === 'misc'){
-            let finalArr = [];
-            data?.forEach((e, i) => {
-                countObj?.miscJobList?.forEach((a) => {
-                    if(e?.data?.rd?.serialjobno === a){
-                        finalArr.push(e);
-                    }
-                })
-            })
-            setTimeout(() => {
-                setFilterData(finalArr);
-                setTitle('MISC')
-
-                // setData(finalArr);
-            },0);
-            if(finalArr.length > 0){
-                setTimeout(() => {
-                    window.print();
-                }, 1000) 
-            }
-        }
-        if(args === 'finding'){
-            let finalArr = [];
-            data?.forEach((e, i) => {
-                countObj?.findingJobList?.forEach((a) => {
-                    if(e?.data?.rd?.serialjobno === a){
-                        finalArr.push(e);
-                    }
-                })
-            })
-            setTimeout(() => {
-                setFilterData(finalArr);
-                setTitle('FINDING')
-
-                // setData(finalArr);
-            },0);
-            if(finalArr.length > 0){
-                setTimeout(() => {
-                    window.print();
-                }, 1000) 
-            }
+    
+        switch (args) {
+            case 'diamond':
+                filterDataByType('diamondJobList', 'DIAMOND');
+                break;
+            case 'colorstone':
+                filterDataByType('colorStoneList', 'COLORSTONE');
+                break;
+            case 'misc':
+                filterDataByType('miscJobList', 'MISC');
+                break;
+            case 'finding':
+                filterDataByType('findingJobList', 'FINDING');
+                break;
+            default:
+                break;
         }
     }
-  
+
+    const filterDataByType = (listType, title) => {
+        let finalArr = [];
+        data?.forEach((e) => {
+            countObj?.[listType]?.forEach((a) => {
+                if (e?.data?.rd?.serialjobno === a) {
+                    finalArr.push(e);
+                }
+            });
+        });
+        
+        setTimeout(() => {
+            setFilterData(finalArr);
+            setTitle(title);
+        }, 0);
+    
+        if (finalArr.length > 0) {
+            setTimeout(() => {
+                window.print();
+            }, 500);
+        }
+    };
 
   return (
     <div className='bg_color_mlt pb-5 mb-5'>
     {
       data?.length === 0 ? <Loader /> : <React.Fragment>
-        {/* <div className="print_btn"><button className="btn_white blue print_btn" onClick={(e) => handlePrint(e)}>
-                Print
-            </button></div> */}
             
             <div className='hideOnPrint  '>
                 <div className='w-100 d-flex align-items-center justify-content-center'>
@@ -326,13 +278,14 @@ const MultiPart = ({ queries, headers }) => {
                           e?.additional?.pages?.length > 0 ? e?.additional?.pages?.map((e, i) => {
                             return(
                               <div className='containerjbsbg' key={i}>
-                                <div className=' fsjbsbg fw-bold py-1 d-flex align-items-center'>{title}</div>
-                            { e?.data?.rd?.serialjobno?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.serialjobno}</div>}
+                                <div className=' fsjbsbg  py-1 d-flex align-items-center'>{title}</div>
+                            { e?.data?.rd?.serialjobno?.length > 0 && <div className='fsjbsbg fw-bold'>{e?.data?.rd?.serialjobno}</div>}
                             { e?.data?.rd?.Designcode?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.Designcode}</div>}
                             { e?.data?.rd?.CustomerCode?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.CustomerCode}</div>}
                             { e?.data?.rd?.OrderNo?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.OrderNo}</div>}
-                            { e?.data?.rd?.promiseDatef?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.promiseDatef}</div>}
-                            { e?.data?.rd?.mastermanagement_maketypename?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.mastermanagement_maketypename}</div>}
+                            { e?.data?.rd?.promiseDatef?.length > 0 && <div className='fsjbsbg fw-bold'>{e?.data?.rd?.promiseDatef}</div>}
+                            {/* { e?.data?.rd?.mastermanagement_maketypename?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.mastermanagement_maketypename}</div>} */}
+                            { e?.data?.rd?.Size?.length > 0 && <div className='fsjbsbg'>Size: {e?.data?.rd?.Size}</div>}
                             { e?.data?.rd?.MetalType?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.MetalType?.split(" ")[1] + " " +e?.data?.rd?.MetalColorCo}</div>}
                             { e?.data?.rd?.MetalWeight > 0 && <div className='fsjbsbg'>{(+e?.data?.rd?.MetalWeight)?.toFixed(3)}gm</div>}
                             {/* <div className='fsjbsbg'>{(+e?.data?.rd?.MetalWeight)?.toFixed(3)}gm</div>
@@ -347,13 +300,14 @@ const MultiPart = ({ queries, headers }) => {
                           }) : 
                           
                           <div className='containerjbsbg'>
-                                <div className=' fsjbsbg fw-bold py-1 d-flex align-items-center'>{title}</div>
-                            { e?.data?.rd?.serialjobno?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.serialjobno}</div>}
+                                <div className=' fsjbsbg  py-1 d-flex align-items-center'>{title}</div>
+                            { e?.data?.rd?.serialjobno?.length > 0 && <div className='fsjbsbg fw-bold'>{e?.data?.rd?.serialjobno}</div>}
                             { e?.data?.rd?.Designcode?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.Designcode}</div>}
                             { e?.data?.rd?.CustomerCode?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.CustomerCode}</div>}
                             { e?.data?.rd?.OrderNo?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.OrderNo}</div>}
-                            { e?.data?.rd?.promiseDatef?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.promiseDatef}</div>}
-                            { e?.data?.rd?.mastermanagement_maketypename?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.mastermanagement_maketypename}</div>}
+                            { e?.data?.rd?.promiseDatef?.length > 0 && <div className='fsjbsbg fw-bold'>{e?.data?.rd?.promiseDatef}</div>}
+                            {/* { e?.data?.rd?.mastermanagement_maketypename?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.mastermanagement_maketypename}</div>} */}
+                            { e?.data?.rd?.Size?.length > 0 && <div className='fsjbsbg'>Size: {e?.data?.rd?.Size}</div>}
                             { e?.data?.rd?.MetalType?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.MetalType?.split(" ")[1] +" " +e?.data?.rd?.MetalColorCo}</div>}
                             {/* { e?.data?.rd?.MetalWeight > 0 && <div className='fsjbsbg'>{(+e?.data?.rd?.MetalWeight)?.toFixed(3)}gm</div>}
                             { e?.data?.rd?.Size?.length > 0 && <div className='fsjbsbg'>Size: {e?.data?.rd?.Size}</div>} */}
