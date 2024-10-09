@@ -510,12 +510,14 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
                     perjobTotal.metal.Rate = j2?.Rate;
                     perjobTotal.metal.Pcs += j2?.Pcs;
                     perjobTotal.metal.Wt += j2?.Wt;
+                    perjobTotal.metal.FineWt += j2?.FineWt;
                     perjobTotal.metal.SettingAmount += j2?.SettingAmount;
 
                     mainTotal.metal.Amount += j2?.Amount;
                     mainTotal.metal.Rate = j2?.Rate;
                     mainTotal.metal.Pcs += j2?.Pcs;
                     mainTotal.metal.Wt += j2?.Wt;
+                    mainTotal.metal.FineWt += j2?.FineWt;
                     mainTotal.metal.SettingAmount += j2?.SettingAmount;
 
                     metal_rate += j2?.Rate;
