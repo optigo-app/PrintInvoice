@@ -592,10 +592,10 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <p className='fw-bold text-end'>{NumberWithCommas(finalD?.mainTotal?.diasCsMiscPcs, 0)}</p>
                             </div>
                             <div className={`${styles.Wt} border-end p-1 d-flex align-items-end justify-content-around flex-column min_height_44_retail_print_1 ft_12_retailPrint`}>
-                                <p className='fw-bold lh-1 text-end'>{fixedValues(total?.materialWeight, 3)} Ctw</p>
+                                <p className='fw-bold lh-1 text-end fs_maintotal_wt_rp'>D + C : {fixedValues(total?.materialWeight, 3)} Ctw</p>
                                 {/* <p className='fw-bold lh-1 text-end'>{fixedValues(total?.goldWeight - (finalD?.mainTotal?.diamonds?.Wt / 5), 3)} gm</p> */}
-                                <p className='fw-bold lh-1 text-end'>{((total?.goldWeight - (finalD?.mainTotal?.diamonds?.Wt / 5)) - resultArrayC?.mainTotal?.misc?.onlyIsHSCODE0_Wt)?.toFixed(3)} gm</p>
-                                <p className='fw-bold lh-1 text-end'>{(resultArrayC?.mainTotal?.misc?.onlyIsHSCODE0_Wt)?.toFixed(3)} gm</p>
+                                <p className='fw-bold lh-1 text-end fs_maintotal_wt_rp'>Metal : {((total?.goldWeight - (finalD?.mainTotal?.diamonds?.Wt / 5)) - resultArrayC?.mainTotal?.misc?.onlyIsHSCODE0_Wt)?.toFixed(3)} gm</p>
+                                <p className='fw-bold lh-1 text-end fs_maintotal_wt_rp'>Misc : {(resultArrayC?.mainTotal?.misc?.onlyIsHSCODE0_Wt)?.toFixed(3)} gm</p>
                             </div>
                             {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end min_height_44_retail_print_1 ft_12_retailPrint`}>
                                 <p className='fw-bold text-end'>

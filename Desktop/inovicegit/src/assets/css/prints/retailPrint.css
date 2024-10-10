@@ -83,14 +83,15 @@
 }
 
 .wtRetailPrint{
-    width: 18%;
-    min-width: 18%;
+    width: 21%;
+    min-width: 21%;
 }
 
 .pcsRetailPrint{
-    width: 9%;
-    min-width: 9%;
+    width: 7%;
+    min-width: 7%;
 }
+
 
 .qtyRetailPrint {
     width: 23%;
@@ -210,7 +211,9 @@
     .print_sec_sum4 {
         display: none !important;
     }
-
+    .fs_maintotal_wt_rp{
+        font-size: 9px !important;
+    }
     
 .ft_12_retailPrint,
 .ft_12_retailPrint * {
