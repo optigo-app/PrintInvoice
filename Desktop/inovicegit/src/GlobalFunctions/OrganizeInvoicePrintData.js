@@ -160,6 +160,7 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
         let findingList = [];
 
         let metal_rate = 0;
+        let metal_finewt = 0;
 
         let perjobTotal = {
             
@@ -521,6 +522,7 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
                     mainTotal.metal.SettingAmount += j2?.SettingAmount;
 
                     metal_rate += j2?.Rate;
+                    metal_finewt += j2?.FineWt;
 
                     if(j2?.IsPrimaryMetal === 1){
 
@@ -598,6 +600,7 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
         obj.totals = perjobTotal;
 
         obj.metal_rate = metal_rate;
+        obj.metal_finewt = metal_finewt;
 
         let other_details_array = otherAmountDetail(j1?.OtherAmtDetail);
 
