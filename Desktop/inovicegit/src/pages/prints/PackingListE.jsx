@@ -380,7 +380,6 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         <div>{e?.designno}</div>
                                         <div>{e?.SrJobno}</div>
                                     </div>
-                                    {/* <div className='d-flex flex-wrap justify-content-end w-100 text-break pdr_pcls'>{e?.MetalColor}</div> */}
                                     {imgFlag ? (
                                     <div>
                                         <img src={e?.DesignImage} onError={(e) => handleImageError(e)} alt="design" className='designimg_pcls' />
@@ -395,7 +394,6 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     { e?.lineid !== '' && <div className='centerall_pcls w-100 text-break'>{e?.lineid}</div>}
                                     { e?.Tunch !== '' && <div className='centerall_pcls w-100 text-break'>Tunch : <span className='fw-bold'>{e?.Tunch?.toFixed(3)}</span></div>}
                                     { e?.Size !== '' && <div className='centerall_pcls w-100 text-break'><span className=''>Size : {e?.Size}</span></div>}
-                                    {/* { e?.grosswt !== '' && <div className='centerall_pcls text-break w-100 fw-bold'>{e?.grosswt?.toFixed(3)} gm <span className='fw-normal'>&nbsp;Gross</span></div>} */}
                                 </div>
 
                                 <div className='col4_pcls  d-flex flex-column justify-content-between bright_pcls'>
