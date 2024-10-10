@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/bagprint/print4A.css";
+import "../../assets/css/bagprint/titanbg.css";
 import BarcodeGenerator from "../../components/BarcodeGenerator";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
@@ -215,6 +216,7 @@ const TitanBagPrint = ({ queries, headers }) => {
                                       </div>
                                     </div>
                                   </div>
+                                  <div className="border-bottom border-black border-end text-danger fw-bold fs_titan_bg ps-1">&nbsp;{e?.data?.stamping}</div>
                                   <div className="title4A border_bottom4A d_flex4A">
                                     <div className="code4A border_right4A code4A_text d-flex align-items-center">
                                       CODE
@@ -236,10 +238,7 @@ const TitanBagPrint = ({ queries, headers }) => {
                                     </div>
                                   </div>
                                   <div className="height_23_4A border_bottom4A d_flex4A">
-                                    <div
-                                      className="code4A border_right4A code4A_text"
-                                      style={{ width: "94pt" }}
-                                    >
+                                    <div className="code4A border_right4A code4A_text" style={{ width: "94pt" }} >
                                       <div className="code_4A_change  height_23_4A code4A_text height_11_Print4a" style={{width:"89.99pt"}}>
                                         {e?.data?.MetalType} {e?.data?.MetalColorCo}
                                       </div>
@@ -263,10 +262,7 @@ const TitanBagPrint = ({ queries, headers }) => {
                                           <div className="wt4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && fixedValues(notZero(elem?.IssueWeight), 3)}</div>
                                         </div>
                                       ) : (
-                                        <div
-                                          className="record_line_4A border_bottom4A"
-                                          key={index}
-                                        >
+                                        <div className="record_line_4A border_bottom4A" key={index} >
                                           <div className="code4A border_right4A code4A_text">
                                             {elem?.LimitedShapeQualityColorCode}
                                           </div>
@@ -282,12 +278,8 @@ const TitanBagPrint = ({ queries, headers }) => {
                                     })}
                                     {ele?.length !== 0 &&
                                       Array.from(
-                                        { length: ele?.length },
-                                        (_, index) => (
-                                          <div
-                                            className="record_line_4A border_bottom4A"
-                                            key={index}
-                                          >
+                                        { length: ele?.length }, (_, index) => (
+                                          <div className="record_line_4A border_bottom4A" key={index} >
                                             <div className="code4A border_right4A code4A_text"></div>
                                             <div className="size4AS border_right4A code4A_text"></div>
                                             <div className="pcs4A border_right4A code4A_text"></div>
@@ -353,7 +345,7 @@ const TitanBagPrint = ({ queries, headers }) => {
                                     CAST INS.:
                                     <span className="red_4A line_height_123">
                                       {checkInstruction(e?.data?.officeuse)}
-                                      {(e?.data?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.ProductInstruction) : checkInstruction(e?.data?.QuoteRemark))}
+                                      {(e?.data?.ProductInstruction?.length > 0 ? (checkInstruction(e?.data?.ProductInstruction)) : checkInstruction(e?.data?.QuoteRemark))}
                                     </span>
                                   </div>
                                 </div>
@@ -425,6 +417,7 @@ const TitanBagPrint = ({ queries, headers }) => {
                                       </div>
                                     </div>
                                   </div>
+                                  <div className="border-bottom border-black border-end text-danger fw-bold fs_titan_bg ps-1">&nbsp;{e?.data?.stamping}</div>
                                   <div className="title4A border_bottom4A d_flex4A">
                                     <div className="code4A border_right4A code4A_text d-flex align-items-center">
                                       CODE
@@ -460,40 +453,10 @@ const TitanBagPrint = ({ queries, headers }) => {
                                     <div className="wt4A border_right4A code4A_text"></div>
                                   </div>
                                   <div className="record_line_1">
-                                    {/* {ele?.data.map((elem, index) => {
-                                      return elem?.MasterManagement_DiamondStoneTypeid ===
-                                        5 ? (
-                                        <div className="record_line_4A border_bottom4A" key={index} >
-                                          <div className="code4A border_right4A code4A_text" style={{ width: "94pt", lineHeight: "8px", }} >
-                                            <div className="finding height_23_4A"> {elem?.Shapename} {elem?.Quality} {elem?.ColorName} </div>
-                                          </div>
-                                          <div className="pcs4A border_right4A code4A_text">{NumberWithCommas(elem?.ActualPcs, 0)}</div>
-                                          <div className="wt4A border_right4A code4A_text">{fixedValues(elem?.ActualWeight, 3)}</div>
-                                          <div className="pcs4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && NumberWithCommas(notZero(elem?.IssuePcs), 0)}</div>
-                                          <div className="wt4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && fixedValues(notZero(elem?.IssueWeight), 3)}</div>
-                                        </div>
-                                      ) : (
-                                        <div
-                                          className="record_line_4A border_bottom4A"
-                                          key={index}
-                                        >
-                                          <div className="code4A border_right4A code4A_text">
-                                            {elem?.LimitedShapeQualityColorCode}
-                                          </div>
-                                          <div className="size4AS border_right4A code4A_text">
-                                            {elem?.Sizename}
-                                          </div>
-                                          <div className="pcs4A border_right4A code4A_text"> {NumberWithCommas(elem?.ActualPcs, 0)} </div>
-                                          <div className="wt4A border_right4A code4A_text"> {fixedValues(elem?.ActualWeight, 3)} </div>
-                                          <div className="pcs4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && NumberWithCommas(notZero(elem?.IssuePcs), 0)} </div>
-                                          <div className="wt4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && fixedValues(notZero(elem?.IssueWeight), 3)}</div>
-                                        </div>
-                                      );
-                                      <div className="barcode_img_4A barcode_img_4B">
-                                    })} */}
+                           
                                     {
                                       Array.from(
-                                        { length: 14 },
+                                        { length: 13 },
                                         (_, index) => (
                                           <div
                                             className="record_line_4A border_bottom4A"
@@ -602,7 +565,7 @@ const TitanBagPrint = ({ queries, headers }) => {
                               <div className="priority_sec_4A border_right4A">
                                 <div
                                   className="sales_Rep_text_4A"
-                                  style={{ paddingTop: "3px" }}
+                                //   style={{ paddingTop: "3px" }}
                                 >
                                   SALES REP.
                                 </div>
@@ -613,7 +576,7 @@ const TitanBagPrint = ({ queries, headers }) => {
                               <div className=" border_right4A  loc4A ">
                                 <div
                                   className="sales_Rep_text_4A"
-                                  style={{ paddingTop: "3px" }}
+                                //   style={{ paddingTop: "3px" }}
                                 >
                                   FROSTING
                                 </div>
@@ -624,7 +587,7 @@ const TitanBagPrint = ({ queries, headers }) => {
                               <div className=" border_right4A  qc4A ">
                                 <div
                                   className="sales_Rep_text_4A"
-                                  style={{ paddingTop: "3px" }}
+                                //   style={{ paddingTop: "3px" }}
                                 >
                                   ENAMELING
                                 </div>
@@ -662,8 +625,9 @@ const TitanBagPrint = ({ queries, headers }) => {
                                 </div>
                               </div>
                             </div>
-                            <div style={{height:'42px', borderBottom:'1px solid black', borderRight:'1px solid black'}}>
+                            <div className="text-break text-danger ps-1 fs_titan_bg fw-bold" style={{height:'42px', borderBottom:'1px solid black', borderRight:'1px solid black'}}>
                                 {console.log(e)}
+                                Batch Number
                             </div>
                           </div>
                           <div className="part_2_container_4A container_print4bpart_1">

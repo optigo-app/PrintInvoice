@@ -160,5 +160,8 @@
     .fsremark_10{
         line-height: 10px !important;
     }
+    .pbia_invpc11{
+        page-break-inside: avoid !important;
+    }
 
 }

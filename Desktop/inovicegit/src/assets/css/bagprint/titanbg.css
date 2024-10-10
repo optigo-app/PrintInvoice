@@ -1,0 +1,9 @@
+.fs_titan_bg{
+    font-size: 12px;
+}
+
+@media print{
+    .fs_titan_bg{
+        font-size: 9px;
+    }
+}
