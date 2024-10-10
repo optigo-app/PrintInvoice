@@ -239,74 +239,74 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setNotGoldMetalTotal(tot_met);
       setNotGoldMetalWtTotal(tot_met_wt);
 
-      let mainArr2 = [];
-      datas.resultArray?.forEach((e) => {
-        let find_cust = [];
-        let find_company_hook = [];
-        let find_company_chain = [];
-        let obj = cloneDeep(e);
-        e?.finding?.forEach((el, i) => {
+      // let mainArr2 = [];
+      // datas.resultArray?.forEach((e) => {
+      //   let find_cust = [];
+      //   let find_company_hook = [];
+      //   let find_company_chain = [];
+      //   let obj = cloneDeep(e);
+      //   e?.finding?.forEach((el, i) => {
 
-          if(el?.Supplier?.toLowerCase() === 'customer'){
-            find_cust.push(el);
-          } 
-          if(el?.Supplier?.toLowerCase() === 'company' && el?.FindingTypename?.toLowerCase() === 'hook'){
-            find_company_hook.push(el);
-          }
-           if(el?.Supplier?.toLowerCase() === 'company' && el?.FindingTypename?.toLowerCase() === 'chain'){
-            find_company_hook.push(el);
-          }
+      //     if(el?.Supplier?.toLowerCase() === 'customer'){
+      //       find_cust.push(el);
+      //     } 
+      //     if(el?.Supplier?.toLowerCase() === 'company' && el?.FindingTypename?.toLowerCase() === 'hook'){
+      //       find_company_hook.push(el);
+      //     }
+      //      if(el?.Supplier?.toLowerCase() === 'company' && el?.FindingTypename?.toLowerCase() === 'chain'){
+      //       find_company_hook.push(el);
+      //     }
         
-        })
+      //   })
 
-        obj.finding_cust = find_cust;
-        obj.find_company_chain = find_company_chain;
-        obj.find_company_hook = find_company_hook;
+      //   obj.finding_cust = find_cust;
+      //   obj.find_company_chain = find_company_chain;
+      //   obj.find_company_hook = find_company_hook;
 
-        mainArr2.push(obj);
+      //   mainArr2.push(obj);
 
-      })
-      datas.resultArray = mainArr2;
+      // })
+      // datas.resultArray = mainArr2;
 
-      datas.resultArray?.forEach((e) => {
-        let wt_merge_find_cust = [];
-        let obj = cloneDeep(e);
-        obj?.finding_cust?.forEach((el) => {
-          let findrec = wt_merge_find_cust?.findIndex((al) => al?.Supplier?.toLowerCase() === 'customer')
-            if(findrec === -1){
-              wt_merge_find_cust.push(el);
-            }else{
-              wt_merge_find_cust[findrec].Wt += el?.Wt;
-            }
-        })
+      // datas.resultArray?.forEach((e) => {
+      //   let wt_merge_find_cust = [];
+      //   let obj = cloneDeep(e);
+      //   obj?.finding_cust?.forEach((el) => {
+      //     let findrec = wt_merge_find_cust?.findIndex((al) => al?.Supplier?.toLowerCase() === 'customer')
+      //       if(findrec === -1){
+      //         wt_merge_find_cust.push(el);
+      //       }else{
+      //         wt_merge_find_cust[findrec].Wt += el?.Wt;
+      //       }
+      //   })
 
-        obj.finding_cust = wt_merge_find_cust;
+      //   obj.finding_cust = wt_merge_find_cust;
 
-        let wt_merge_find_chain = [];
-        obj?.find_company_chain?.forEach((el) => {
-          let findrec = wt_merge_find_chain?.findIndex((al) => al?.FindingTypename?.toLowerCase() === 'chain')
-            if(findrec === -1){
-              wt_merge_find_chain.push(el);
-            }else{
-              wt_merge_find_chain[findrec].Wt += el?.Wt;
-            }
-        })
+      //   let wt_merge_find_chain = [];
+      //   obj?.find_company_chain?.forEach((el) => {
+      //     let findrec = wt_merge_find_chain?.findIndex((al) => al?.FindingTypename?.toLowerCase() === 'chain')
+      //       if(findrec === -1){
+      //         wt_merge_find_chain.push(el);
+      //       }else{
+      //         wt_merge_find_chain[findrec].Wt += el?.Wt;
+      //       }
+      //   })
 
-        obj.find_company_chain = wt_merge_find_chain;
+      //   obj.find_company_chain = wt_merge_find_chain;
 
-        let wt_merge_find_hook = [];
-        obj?.find_company_hook?.forEach((el) => {
-          let findrec = wt_merge_find_hook?.findIndex((al) => al?.FindingTypename?.toLowerCase() === 'hook')
-            if(findrec === -1){
-              wt_merge_find_hook.push(el);
-            }else{
-              wt_merge_find_hook[findrec].Wt += el?.Wt;
-            }
-        })
+      //   let wt_merge_find_hook = [];
+      //   obj?.find_company_hook?.forEach((el) => {
+      //     let findrec = wt_merge_find_hook?.findIndex((al) => al?.FindingTypename?.toLowerCase() === 'hook')
+      //       if(findrec === -1){
+      //         wt_merge_find_hook.push(el);
+      //       }else{
+      //         wt_merge_find_hook[findrec].Wt += el?.Wt;
+      //       }
+      //   })
 
-        obj.find_company_hook = wt_merge_find_hook;
+      //   obj.find_company_hook = wt_merge_find_hook;
         
-      })
+      // })
       
 
 
@@ -483,56 +483,23 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         )
                                     })
                                    }
-                                  {/* {
-                                        e?.totals?.finding?.Wt !== 0 &&
-                                            <div className='d-flex w-100 text-break' >
-                                                <div className='mcol1_pcls start_center_pcls pdl_pcls text-break' style={{width:'37%'}}>FINDING ACESSORIES</div>
-                                                <div className='mcol3_pcls end_pcls pdr_pcls'>{e?.totals?.finding?.Wt?.toFixed(3)}</div>
-                                                <div className='mcol4_pcls end_pcls pdr_pcls'>{(e?.metal_rate)}</div>
-                                                <div className='mcol5_pcls end_pcls pdr_pcls fw-bold'>{(((e?.totals?.finding?.Wt * e?.metal_rate) / result?.header?.CurrencyExchRate))}</div>
+                                  {
+                                    e?.finding?.map((el, ind) => {
+                                        
+                                        return (
+                                            <div className='d-flex w-100' key={ind}>
+                                                <div className='mcol1_pcls start_center_pcls pdl_pcls' style={{width:'38.33%'}}>FINDING ACESSORIES</div>
+                                                <div className='mcol1_pcls end_pcls pdr_pcls' style={{width:'14%'}}>{(el?.Wt)?.toFixed(3)}</div>
+                                                <div className='mcol1_pcls end_pcls pdr_pcls'></div>
+                                                <div className='mcol1_pcls end_pcls pdr_pcls'>{ el?.Rate !==0 && formatAmount(el?.Rate)}</div>
+                                                <div className='mcol1_pcls end_pcls pdr_pcls fw-bold'>
+                                                  { ((((el?.Amount - ((el?.Wt * e?.metal_rate) + e?.LossAmt))) / result?.header?.CurrencyExchRate)) !== 0 && 
+                                                  Math.round((((el?.Amount - ((el?.Wt * e?.metal_rate) + e?.LossAmt))) / result?.header?.CurrencyExchRate))}</div>
                                             </div>
-                                 
-                                   } */}
-                                   {
-                                    e?.find_cust?.map((el, i) => {
-                                      return <>
-                                       <div className='d-flex w-100 text-break' key={i}>
-                                      <div className='mcol1_pcls start_center_pcls pdl_pcls text-break' style={{width:'37%'}}>FINDING ACESSORIES</div>
-                                      <div className='mcol1_pcls end_pcls pdr_pcls'>{el?.Wt?.toFixed(3)}</div>
-                                      <div className='mcol1_pcls end_pcls pdr_pcls'>{el?.FineWt?.toFixed(3)}</div>
-                                      <div className='mcol1_pcls end_pcls pdr_pcls'>{e?.metal_rate !==0 && formatAmount(e?.metal_rate)}</div>
-                                      <div className='mcol1_pcls end_pcls pdr_pcls fw-bold'>{ (el?.Wt * e?.metal_rate) !== 0 && (Math.round((el?.Wt * e?.metal_rate) / result?.header?.CurrencyExchRate))}</div>
-                                  </div>
-                                      </>
+                                        )
                                     })
                                    }
-                                   {
-                                    e?.find_company_chain?.map((el, i) => {
-                                      return <>
-                                       <div className='d-flex w-100 text-break' key={i}>
-                                      <div className='mcol1_pcls start_center_pcls pdl_pcls text-break' style={{width:'37%'}}>FINDING ACESSORIES</div>
-                                      <div className='mcol1_pcls end_pcls pdr_pcls'>{el?.Wt?.toFixed(3)}</div>
-                                      <div className='mcol1_pcls end_pcls pdr_pcls'>{el?.FineWt?.toFixed(3)}</div>
-                                      <div className='mcol1_pcls end_pcls pdr_pcls'>{ e?.metal_rate !== 0 && formatAmount(e?.metal_rate)}</div>
-                                      <div className='mcol1_pcls end_pcls pdr_pcls fw-bold'>{ (el?.Wt * e?.metal_rate) !== 0 && (Math.round((el?.Wt * e?.metal_rate) / result?.header?.CurrencyExchRate))}</div>
-                                  </div>
-                                      </>
-                                    })
-                                   }
-                                   {
-                                    e?.find_company_hook?.map((el, i) => {
-                                      return <>
-                                       <div className='d-flex w-100 text-break' key={i}>
-                                      <div className='mcol1_pcls start_center_pcls pdl_pcls text-break' style={{width:'37%'}}>FINDING ACESSORIES</div>
-                                      <div className='mcol1_pcls end_pcls pdr_pcls'>{el?.Wt?.toFixed(3)}</div>
-                                      <div className='mcol1_pcls end_pcls pdr_pcls'>{el?.FineWt?.toFixed(3)}</div>
-                                      <div className='mcol1_pcls end_pcls pdr_pcls'>{ e?.metal_rate !== 0 && formatAmount(e?.metal_rate)}</div>
-                                      <div className='mcol1_pcls start_center_pcls pdl_pcls text-break'></div>
-                                      <div className='mcol1_pcls end_pcls pdr_pcls fw-bold'>{( (el?.Wt * e?.metal_rate) !== 0 && Math.round((el?.Wt * e?.metal_rate) / result?.header?.CurrencyExchRate))}</div>
-                                  </div>
-                                      </>
-                                    })
-                                   }
+              
                                             { e?.LossWt !== 0 && <div className='d-flex w-100 pt-1'>
                                                 <div className='mcol1_pcls start_center_pcls pdl_pcls'>Loss</div>
                                                 <div className='mcol1_pcls end_pcls pdr_pcls'>{(e?.LossPer)?.toFixed(3)} %</div>
@@ -545,22 +512,14 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                 <div className='ps-1 start_center_pcls '>Remark :</div>
                                                 <div className='ps-1 fw-bold start_center_pcls '>{e?.JobRemark}</div>
                                             </div>}
-                                  </div>
-                                            {/* <div className='d-flex w-100 btop_pcls bg_pcls fw-bold'>
-                                                <div className='mcol1_pcls '>&nbsp;</div>
-                                                <div className='mcol1_pcls '>&nbsp;</div>
-                                                <div className='mcol1_pcls end_pcls pdr_pcls'>{ e?.grosswt !== 0 && e?.grosswt?.toFixed(3)}</div>
-                                                <div className='mcol1_pcls end_pcls pdr_pcls'>{ e?.fine_Wt !== 0 && e?.fine_wt?.toFixed(3)}</div>
-                                                <div className='mcol1_pcls end_pcls pdr_pcls'>{ (e?.NetWt + e?.LossWt) !== 0 && (e?.NetWt + e?.LossWt)?.toFixed(3)}</div>
-                                                <div className='mcol1_pcls end_pcls pdr_pcls'>{ e?.totals?.metal?.Amount !== 0 && Math.round((e?.totals?.metal?.Amount / result?.header?.CurrencyExchRate))}</div>
-                                            </div> */}
+                                    </div>
+                                          
                                             <div className='d-flex w-100 btop_pcls bg_pcls fw-bold'>
                                                 <div className='mcol1_pcls '>&nbsp;</div>
                                                 <div className='mcol1_pcls end_pcls pdr_pcls'>{ e?.grosswt !== 0 && e?.grosswt?.toFixed(3)}</div>
                                                 <div className='mcol1_pcls end_pcls pdr_pcls'>{ (e?.NetWt + e?.LossWt) !== 0 && (e?.NetWt + e?.LossWt)?.toFixed(3)}</div>
                                                 <div className='mcol1_pcls end_pcls pdr_pcls'>{ e?.totals?.metal?.fineWt !== 0 && e?.totals?.metal?.fineWt?.toFixed(3)}</div>
-                                                <div className='mcol1_pcls '>&nbsp;</div>
-                                                <div className='mcol1_pcls end_pcls pdr_pcls'>{ e?.totals?.metal?.Amount !== 0 && Math.round((e?.totals?.metal?.Amount / result?.header?.CurrencyExchRate))}</div>
+                                                <div className='mcol1_pcls end_pcls pdr_pcls' style={{width:'33.33%'}}>{ ( e?.LossAmt + e?.totals?.metal?.Amount + e?.totals?.finding?.Amount) !== 0 && Math.round(((e?.totals?.metal?.Amount + e?.totals?.finding?.Amount + e?.LossAmt) / result?.header?.CurrencyExchRate))}</div>
                                             </div>
                                 </div>
 
@@ -570,7 +529,6 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         e?.diamonds?.map((el, ind) => {
                                             return (
                                                 <div className='d-flex w-100' key={ind}>
-                                                    {/* <div className='dcol1_pcls start_center_pcls pdl_pcls'>{el?.ShapeName +" "+el?.QualityName+" "+el?.Colorname}</div> */}
                                                     <div className='dcol1_pcls start_center_pcls pdl_pcls'>{el?.ShapeName }</div>
                                                     <div className='dcol2_pcls start_center_pcls pdl_pcls'>{el?.SizeName}</div>
                                                     <div className='dcol3_pcls end_pcls pdr_pcls'>{el?.Pcs}</div>
@@ -736,8 +694,7 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className='mcol1_pcls end_pcls pdr_pcls '>{result?.mainTotal?.grosswt?.toFixed(3)}</div>
                             <div className='mcol1_pcls end_pcls pdr_pcls '>{(result?.mainTotal?.NetWt + result?.mainTotal?.LossWt)?.toFixed(3)}</div>
                             <div className='mcol1_pcls end_pcls pdr_pcls '>{(result?.mainTotal?.metal?.FineWt)?.toFixed(3)}</div>
-                            <div className='mcol1_pcls  '></div>    
-                            <div className='mcol1_pcls end_pcls pdr_pcls'>{Math.round((result?.mainTotal?.metal?.Amount / result?.header?.CurrencyExchRate))}</div>
+                            <div className='mcol1_pcls end_pcls pdr_pcls' style={{width:'33.33%'}}>{Math.round(((result?.mainTotal?.metal?.Amount + result?.mainTotal?.finding?.Amount + result?.mainTotal?.LossAmt ) / result?.header?.CurrencyExchRate))}</div>
                         </div>
                     </div>
                     <div className='col3_pcls bright_pcls'>
@@ -756,7 +713,7 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className='dcol2_pcls centerall_pcls '></div>
                             <div className='dcol3_pcls end_pcls pdr_pcls '>{(result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.IsHSCODE_0_pcs)}</div>
                             <div className='dcol4_pcls end_pcls pdr_pcls '>{(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.IsHSCODE_0_wt)?.toFixed(3)}</div>
-                            <div className=' end_pcls pdr_pcls' style={{width:'37%'}}>{((Math.round(  result?.mainTotal?.misc?.IsHSCODE_0_amount + result?.mainTotal?.colorstone?.Amount) / result?.header?.CurrencyExchRate))}</div>
+                            <div className=' end_pcls pdr_pcls' style={{width:'37%'}}>{Math.round(((  result?.mainTotal?.misc?.IsHSCODE_0_amount + result?.mainTotal?.colorstone?.Amount) / result?.header?.CurrencyExchRate))}</div>
                         </div>
                     </div>
                     <div className='col6_pcls bright_pcls'>
@@ -886,9 +843,7 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="d-flex justify-content-between px-1">
                             <div className="w-50 fw-bold">DIAMOND</div>
                             <div className="w-50 end_dp10">
-                              {Math.round(
-                                result?.mainTotal?.diamonds?.Amount
-                              )}
+                              {Math.round( result?.mainTotal?.diamonds?.Amount )}
                             </div>
                           </div>
                           <div className="d-flex justify-content-between px-1">
