@@ -261,6 +261,7 @@ const BagPrint4A = ({ queries, headers }) => {
               data?.map((e, i) => {
                 return (
                   <React.Fragment key={i}>
+                    {console.log(e)}
                     {e?.additional?.pages?.length > 0 ? <> {(
                       e?.additional?.pages?.map((ele, ind) => {
                         return (

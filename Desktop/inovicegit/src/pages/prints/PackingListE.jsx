@@ -400,13 +400,13 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <div>
                                   {
                                     e?.metal?.map((el, ind) => {
-                                        
+                                        console.log(el);
                                         return (
                                             <div className='d-flex w-100' key={ind}>
                                                 <div className='mcol1_pcls start_center_pcls pdl_pcls'>{ el?.ShapeName}</div>
                                                 <div className='mcol1_pcls end_pcls pdr_pcls'>{e?.grosswt?.toFixed(3)}</div>
                                                 <div className='mcol1_pcls end_pcls pdr_pcls'>{(e?.NetWt - e?.totals?.finding?.Wt)?.toFixed(3)}</div>
-                                                <div className='mcol1_pcls end_pcls pdr_pcls'>{e?.FineWt?.toFixed(3)}</div>
+                                                <div className='mcol1_pcls end_pcls pdr_pcls'>{el?.FineWt?.toFixed(3)}</div>
                                                 <div className='mcol1_pcls end_pcls pdr_pcls'>{ el?.Rate !==0 && formatAmount(el?.Rate)}</div>
                                                 <div className='mcol1_pcls end_pcls pdr_pcls fw-bold'>{ ((((el?.Amount - ((e?.totals?.finding?.Wt * e?.metal_rate) + e?.LossAmt))) / result?.header?.CurrencyExchRate)) !== 0 && Math.round((((el?.Amount - ((e?.totals?.finding?.Wt * e?.metal_rate) + e?.LossAmt))) / result?.header?.CurrencyExchRate))}</div>
                                             </div>
@@ -423,8 +423,8 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                 <div className='mcol1_pcls end_pcls pdr_pcls'></div>
                                                 <div className='mcol1_pcls end_pcls pdr_pcls'>{ el?.Rate !==0 && formatAmount(el?.Rate)}</div>
                                                 <div className='mcol1_pcls end_pcls pdr_pcls fw-bold'>
-                                                  { ((((el?.Amount - ((el?.Wt * e?.metal_rate) + e?.LossAmt))) / result?.header?.CurrencyExchRate)) !== 0 && 
-                                                  Math.round((((el?.Amount - ((el?.Wt * e?.metal_rate) + e?.LossAmt))) / result?.header?.CurrencyExchRate))}</div>
+                                                  { (((( ((el?.Wt * e?.metal_rate) + e?.LossAmt))) / result?.header?.CurrencyExchRate)) !== 0 && 
+                                                  Math.round(((( ((el?.Wt * e?.metal_rate) + e?.LossAmt))) / result?.header?.CurrencyExchRate))}</div>
                                             </div>
                                         )
                                     })

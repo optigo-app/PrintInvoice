@@ -297,13 +297,13 @@
 }
 @media print {
     .fs_16_pcls{
-        font-size: 10px;
+        font-size: 14px;
     }
     .fs_14_pcls{
-        font-size: 10px;
+        font-size: 12px;
     }
     .fs_header_pcls{
-        font-size: 9px;
+        font-size: 11px;
     }
     .container_pcls{
         max-width: 1230px;
@@ -311,12 +311,12 @@
         box-sizing: border-box;
         padding: 0px;
         padding-bottom: 5rem;
-        font-size: 6px;
+        font-size: 8px;
         line-height: 9px;
     }
     .tb_fs_pcls{
-        font-size: 6px;
-        line-height: 7px;
+        font-size: 8px;
+        line-height: 9px;
     }
     .pbia_s{
         page-break-inside: avoid !important;
@@ -350,7 +350,7 @@
         page-break-inside: avoid !important;
     }
     .com_fs_pcl3{
-        font-size: 8.5px ;
+        font-size: 10.5pxpx ;
     }
     .minH_pcl3{
         min-height: 4.5rem;

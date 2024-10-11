@@ -27,7 +27,7 @@ const TitanBagPrint = ({ queries, headers }) => {
         const objs = {
           jobno: resultString,
           custid: queries.custid,
-          printname: queries.printname,
+          printname: "bagprint4a",
           appuserid: queries.appuserid,
           url: queries.url,
           headers: headers,
@@ -121,13 +121,13 @@ const TitanBagPrint = ({ queries, headers }) => {
     fetchData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-//   useEffect(() => {
-//     if (data.length !== 0) {
-//       setTimeout(() => {
-//         window.print();
-//       }, 5000);
-//     }
-//   }, [data]);
+  useEffect(() => {
+    if (data.length !== 0) {
+      setTimeout(() => {
+        window.print();
+      }, 5000);
+    }
+  }, [data]);
   return (
     <>
       {data.length === 0 ? (
@@ -184,7 +184,7 @@ const TitanBagPrint = ({ queries, headers }) => {
                                   </div>
                                   <div className="height_border_31_4A border_bottom4A">
                                     <div className="cust4A border_right4A">
-                                      <div className="custText4A" style={{ paddingTop: "3px" }} >
+                                      <div className="custText4A" style={{ paddingTop: "0px" }} >
                                         CUST
                                       </div>
                                       <div className="custTextRes4A ">
@@ -192,7 +192,7 @@ const TitanBagPrint = ({ queries, headers }) => {
                                       </div>
                                     </div>
                                     <div className="ordDt4A border_right4A">
-                                      <div className="custText4A" style={{ paddingTop: "3px" }} >
+                                      <div className="custText4A" style={{ paddingTop: "0px" }} >
                                         ORD.DT.
                                       </div>
                                       <div className="custTextRes4A" style={{fontSize:`${e?.data?.orderDatef?.length > 7 ? '7.5pt' : '9pt'}`}}>
@@ -200,7 +200,7 @@ const TitanBagPrint = ({ queries, headers }) => {
                                       </div>
                                     </div>
                                     <div className="delDt4A border_right4A">
-                                      <div className="custText4A" style={{ paddingTop: "3px" }} >
+                                      <div className="custText4A" style={{ paddingTop: "0px" }} >
                                         DEL.DT.
                                       </div>
                                       <div className="custTextRes4A" style={{fontSize:`${e?.data?.promiseDatef?.length > 7 ? '7.5pt' : '9pt'}`, lineHeight:"6px"}}>
@@ -208,7 +208,7 @@ const TitanBagPrint = ({ queries, headers }) => {
                                       </div>
                                     </div>
                                     <div className="size4AB border_right4A">
-                                      <div className="custText4A" style={{ paddingTop: "1px", paddingLeft: "1px" }} >
+                                      <div className="custText4A" style={{ paddingTop: "0px", paddingLeft: "1px" }} >
                                         SIZE
                                       </div>
                                       <div className="custTextRes4A">
@@ -239,7 +239,7 @@ const TitanBagPrint = ({ queries, headers }) => {
                                   </div>
                                   <div className="height_23_4A border_bottom4A d_flex4A">
                                     <div className="code4A border_right4A code4A_text" style={{ width: "94pt" }} >
-                                      <div className="code_4A_change  height_23_4A code4A_text height_11_Print4a" style={{width:"89.99pt"}}>
+                                      <div className="code_4A_change  height_23_4A code4A_text height_11_Print4a" style={{width:"88.99pt"}}>
                                         {e?.data?.MetalType} {e?.data?.MetalColorCo}
                                       </div>
                                     </div>
@@ -253,8 +253,9 @@ const TitanBagPrint = ({ queries, headers }) => {
                                       return elem?.MasterManagement_DiamondStoneTypeid ===
                                         5 ? (
                                         <div className="record_line_4A border_bottom4A" key={index} >
-                                          <div className="code4A border_right4A code4A_text" style={{ width: "94pt", lineHeight: "8px", }} >
-                                            <div className="finding height_23_4A"> {elem?.Shapename} {elem?.Quality} {elem?.ColorName} </div>
+                                          <div className="code4A border_right4A code4A_text" style={{ width: "94.5pt", lineHeight: "8px", }} >
+                                            {/* <div className="finding height_23_4A"> {elem?.Shapename} {elem?.Quality} {elem?.ColorName} </div> */}
+                                            <div className="finding height_23_4A">{elem?.ConcatedFullShapeQualityColorCode}</div>
                                           </div>
                                           <div className="pcs4A border_right4A code4A_text">{NumberWithCommas(elem?.ActualPcs, 0)}</div>
                                           <div className="wt4A border_right4A code4A_text">{fixedValues(elem?.ActualWeight, 3)}</div>
@@ -626,8 +627,7 @@ const TitanBagPrint = ({ queries, headers }) => {
                               </div>
                             </div>
                             <div className="text-break text-danger ps-1 fs_titan_bg fw-bold" style={{height:'42px', borderBottom:'1px solid black', borderRight:'1px solid black'}}>
-                                {console.log(e)}
-                                Batch Number
+                                {e?.data?.batchnumber}
                             </div>
                           </div>
                           <div className="part_2_container_4A container_print4bpart_1">
@@ -666,7 +666,7 @@ const TitanBagPrint = ({ queries, headers }) => {
                               
                               <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className="dept_4A border_right4A d-flex align-items-center px-1">
-                                  FIL.
+                                  GRD.
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
@@ -676,7 +676,17 @@ const TitanBagPrint = ({ queries, headers }) => {
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className="dept_4A border_right4A d-flex align-items-center px-1">
-                                  PPL.
+                                  FIL.
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
+                              <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
+                                <div className=" dept_4A border_right4A d-flex align-items-center px-1">
+                                  EPL.
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
@@ -696,7 +706,7 @@ const TitanBagPrint = ({ queries, headers }) => {
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-                                  CUT.
+                                  ASM.
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
@@ -706,7 +716,7 @@ const TitanBagPrint = ({ queries, headers }) => {
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-                                  Fin.W
+                                  FPL.
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
@@ -716,7 +726,7 @@ const TitanBagPrint = ({ queries, headers }) => {
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-                                  F.PoI.
+                                  PLT.
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
@@ -726,17 +736,7 @@ const TitanBagPrint = ({ queries, headers }) => {
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-                                  Fit.
-                                </div>
-                                <div className="issue_4A border_right4A"></div>
-                                <div className="receive_4A border_right4A"></div>
-                                <div className="scrap_4A border_right4A"></div>
-                                <div className="pcs_4A border_right4A"></div>
-                                <div className="worker_4A border_right_4A"></div>
-                              </div>
-                              <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
-                                <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-                                  FP.
+                                  ENM.
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
@@ -746,7 +746,7 @@ const TitanBagPrint = ({ queries, headers }) => {
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className=" dept_4A border_right4A d-flex align-items-center">
-
+                                  FG.
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
@@ -756,32 +756,33 @@ const TitanBagPrint = ({ queries, headers }) => {
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className=" dept_4A border_right4A d-flex align-items-center">
-
+                                  SLS.INS.
                                 </div>
-                                <div className="issue_4A border_right4A"></div>
+                                {/* <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
                                 <div className="scrap_4A border_right4A"></div>
                                 <div className="pcs_4A border_right4A"></div>
-                                <div className="worker_4A border_right_4A"></div>
+                                <div className="worker_4A border_right_4A"></div> */}
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className=" dept_4A border_right4A d-flex align-items-center">
-
+                                  PRD. INS.
                                 </div>
-                                <div className="issue_4A border_right4A"></div>
+                                {/* <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
                                 <div className="scrap_4A border_right4A"></div>
                                 <div className="pcs_4A border_right4A"></div>
-                                <div className="worker_4A border_right_4A"></div>
+                                <div className="worker_4A border_right_4A"></div> */}
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className=" dept_4A border_right4A d-flex align-items-center ">
+                                  QC.INS.
                                 </div>
-                                <div className="issue_4A border_right4A"></div>
+                                {/* <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
                                 <div className="scrap_4A border_right4A"></div>
                                 <div className="pcs_4A border_right4A"></div>
-                                <div className="worker_4A border_right_4A"></div>
+                                <div className="worker_4A border_right_4A"></div> */}
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className=" dept_4A border_right4A d-flex align-items-center">

@@ -96,7 +96,7 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
   });
   const [finalD, setFinalD] = useState({});
   const [isImageWorking, setIsImageWorking] = useState(true);
-  const [showQlty, setShowQlty] = useState(true);
+  const [showQlty, setShowQlty] = useState(false);
 
   const handleImageErrors = () => {
     setIsImageWorking(false);
