@@ -548,8 +548,9 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
                       <p className="">{e?.designno} | {e?.SrJobno}</p>
                       {image && <img src={e?.DesignImage} alt="" onError={handleImageError} lazy='eagar' className={`w-75 p-1 ${style?.imageJewelleryC}`} />}
                       {e?.HUID !== "" && <p className={`text-center ${!image && 'pt-3'}`}>HUID-{e?.HUID}</p>}
+                      { e?.CertificateNo !== '' && <p className="">Certificate : {e?.CertificateNo}</p>}
                     </div>
-                      <p className="">Certificate : {e?.CertificateNo}</p>
+                      {/* <p className="">Certificate : {e?.CertificateNo}</p> */}
                     <div className={`${style?.materialJewerryRetailInvoicePrint} border-end`}>
                       <div className="d-grid h-100">
                         {
