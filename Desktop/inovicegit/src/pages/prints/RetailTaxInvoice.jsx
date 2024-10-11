@@ -365,10 +365,12 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
               <div className='headrti border-bottom'>
               <div>
                   <div className='cmpnamerti'>{result?.header?.CompanyFullName}</div>
-                  <div>{result?.header?.CompanyAddress?.split(",")[0]}</div>
-                  <div>{result?.header?.CompanyCity} - {result?.header?.CompanyPinCode}, {result?.header?.CompanyState} ({result?.header?.CompanyCountry})</div>
-                  <div>T {result?.header?.CompanyTellNo} | TOLL FREE {result?.header?.CompanyTollFreeNo}</div>
-                  <div>{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</div>
+                  <div className='lh_decrease'>{result?.header?.CompanyAddress}</div>
+                  <div className='lh_decrease'>{result?.header?.CompanyAddress2}</div>
+                  <div className='lh_decrease'>{result?.header?.CompanyCity} - {result?.header?.CompanyPinCode}, {result?.header?.CompanyState} ({result?.header?.CompanyCountry})</div>
+                  <div className='lh_decrease'>T {result?.header?.CompanyTellNo} | TOLL FREE {result?.header?.CompanyTollFreeNo}</div>
+                  <div className='lh_decrease'>{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</div>
+                  { result?.header?.MSME !== '' && <div className='lh_decrease'>MSME : {result?.header?.MSME}</div>}
               </div>
               <div className='pe-4'>  {isImageWorking && (result?.header?.PrintLogo !== "" && 
                       <img src={result?.header?.PrintLogo} alt="" 
@@ -376,11 +378,11 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                       style={{minHeight:'75px', minWidth:'115px', maxWidth:'117px', maxHeight:'75px'}}
                       onError={handleImageErrors} height={120} width={150} />)}</div>
               </div>
-              <div className='subheadrti pt-3 fsrti'>
+              <div className='subheadrti pt-1 fsrti'>
               <div className='subheadrti1 fsrti'>
-                <div className='d-flex'><div className='w-50 fw-bold'>BILL NO</div><div className='w-50'>{result?.header?.InvoiceNo}</div></div>
-                <div className='d-flex'><div className='w-50 fw-bold'>DATE</div><div className='w-50'>{result?.header?.EntryDate}</div></div>
-                <div className='d-flex'><div className='w-50 fw-bold'>{result?.header?.HSN_No_Label}</div><div className='w-50'>{result?.header?.HSN_No}</div></div>
+                <div className='d-flex'><div className='w-50 fw-bold lh_decrease'>BILL NO</div><div className='w-50 lh_decrease'>{result?.header?.InvoiceNo}</div></div>
+                <div className='d-flex'><div className='w-50 fw-bold lh_decrease'>DATE</div><div className='w-50 lh_decrease'>{result?.header?.EntryDate}</div></div>
+                <div className='d-flex'><div className='w-50 fw-bold lh_decrease'>{result?.header?.HSN_No_Label}</div><div className='w-50 lh_decrease'>{result?.header?.HSN_No}</div></div>
               </div>
               </div>
               {/* sub header part2 */}
@@ -389,10 +391,10 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                     <div className='fw-bold pe-2  custnamefsrti'>To, </div>
                     <div>
                       <div className='custnamefsrti'>{result?.header?.customerfirmname}</div>
-                      <div>{result?.header?.customerstreet}</div>
-                      <div>{result?.header?.customerregion}</div>
-                      <div>{result?.header?.customercity}{result?.header?.customerpincode}</div>
-                      <div>STATE NAME : {result?.header?.customerstate}</div>
+                      <div className='lh_decrease'>{result?.header?.customerstreet}</div>
+                      <div className='lh_decrease'>{result?.header?.customerregion}</div>
+                      <div className='lh_decrease'>{result?.header?.customercity}{result?.header?.customerpincode}</div>
+                      <div className='lh_decrease'>STATE NAME : {result?.header?.customerstate}</div>
                     </div>
                   </div>
                   <div className='subheadertri2_2'>
@@ -527,20 +529,20 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
               {/* amount in words */}
               <div className='amtinwrdrti fw-bold ps-2 pe-2 fsrti pbiarti'>Rs. {toWords?.convert(+(result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate ) + result?.header?.AddLess)?.toFixed(2))} Only /-</div>
               <div className='mt-2 amtinwrdrti fsrti pbiarti'>
-                    <div className='p-1 fw-bold'>NOTE :</div>
+                    <div className='ps-1 lh_decrease fw-bold'>NOTE :</div>
                     <div className='decrti p-1 fsrti' dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></div>
               </div>
               {/* footer comapny details */}
               <div className='footer_rti p-1 fsrti pbiarti'>
                 <div className='fw-bold'>COMPANY DETAILS :</div>
-                <div>GSTIN : {result?.header?.Company_VAT_GST_No?.split("-")[1]}</div>
-                <div>{result?.header?.Company_CST_STATE} : {result?.header?.Company_CST_STATE_No}</div>
-                <div>PAN NO. : {result?.header?.Com_pannumber}</div>
-                <div>Kindly make your payment by the name of  "<b className='fsrti'>{result?.header?.accountname}</b>"</div>
-                <div>Payable at Surat (GJ) by cheque or DD</div>
-                <div>Bank Detail: Bank Account No {result?.header?.accountnumber}</div>
-                <div>Bank Name : {result?.header?.bankname}, {result?.header?.bankaddress}</div>
-                <div>RTGS/NEFT IFSC : {result?.header?.rtgs_neft_ifsc}</div>
+                <div className='lh_decrease'>GSTIN : {result?.header?.Company_VAT_GST_No?.split("-")[1]}</div>
+                <div className='lh_decrease'>{result?.header?.Company_CST_STATE} : {result?.header?.Company_CST_STATE_No}</div>
+                <div className='lh_decrease'>PAN NO. : {result?.header?.Com_pannumber}</div>
+                <div className='lh_decrease'>Kindly make your payment by the name of  "<b className='fsrti'>{result?.header?.accountname}</b>"</div>
+                <div className='lh_decrease'>Payable at Surat (GJ) by cheque or DD</div>
+                <div className='lh_decrease'>Bank Detail: Bank Account No {result?.header?.accountnumber}</div>
+                <div className='lh_decrease'>Bank Name : {result?.header?.bankname}, {result?.header?.bankaddress}</div>
+                <div className='lh_decrease'>RTGS/NEFT IFSC : {result?.header?.rtgs_neft_ifsc}</div>
               </div>
               <div className='mt-2 d-flex w-100 frti fw-bold pbiarti fsrti'>
                 <div className='w-50 me-2 brfrti frti d-flex justify-content-center frti'>AUTHORISED, {result?.header?.customerfirmname}</div>

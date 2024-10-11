@@ -411,7 +411,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       <div className="bgGrey text-uppercase fs-5 fw-bold p-2 text-white mb_2 no_break invp_830_fs invp_830_fs_head_label">{json0?.PrintHeadLabel}</div>
       {/* address */}
       <div className="w-100 d-flex justify-content-between  no_break">
-        <div className='col-10 p-1 border border-2 border-white p-1 invp_830_fs'>
+        <div className='col-10  border  border-white p-1 invp_830_fs'>
           <p className='fw-bold fs-6 pb-1 invp_830_fs'>{json0?.CompanyFullName}</p>
           <p className='pb-1 invp_830_fs'>{json0?.CompanyAddress}</p>
           <p className='pb-1 invp_830_fs'>{json0?.CompanyAddress2}</p>
@@ -435,7 +435,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         <div className='col-9'>
         </div>
         <div className='col-3'>
-          <div className="border border-2 p_2 border-black">
+          <div className="border  p_2 border-black">
             <div className="d-flex pb-1">
               <p className='col-3 fw-bold invp_830_fs'>BILL NO</p>
               <p className='col-9 ps-2 invp_830_fs'>{json0?.InvoiceNo}</p>
@@ -453,7 +453,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       </div>
       {/* customer address */}
       <div className="pb-1 no_break">
-        <div className="d-flex border-2 border border-black p-1">
+        <div className="d-flex  border border-black p-1">
           <div className="col-6">
             <p className='pb-1 fs-6 fw-bold invp_830_fs'> To,	{json0?.customerfirmname}</p>
             <p className="pb-1 ps-4 invp_830_fs">{json0?.customerstreet}</p>
@@ -471,7 +471,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       </div>
       {/* discription */}
       <div className="pb-1 ">
-        <div className="d-flex border border-2 border-black minh_invp_830_2">
+        <div className="d-flex border  border-black minh_invp_830_2">
           <div className="col-3 border-end border-2 border-black position-relative">
             <p className="fw-bold p-1 text-center border-bottom border-2 border-black invp_830_fs">DESCRIPTION</p>
             <div className="minHieght150InvoicePrint d-flex justify-content-center pd_top_invp invp_830_fs">
@@ -628,20 +628,20 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       </div>
       {/* total price in text */}
       <div className="pb-1 no_break">
-        <div className="border border-2 border-black p-1">
+        <div className="border  border-black p-1">
           <p className="fw-bold invp_830_fs">Rs. {toWords?.convert(+fixedValues(datass?.mainTotal?.total_amount + datass?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * json0?.CurrencyExchRate), 0) + json0?.AddLess, 2))} Only.</p>
         </div>
       </div>
       {/* note */}
       <div className="pb-1 no_break">
-        <div className="border border-2 border-black pad_10_invp_830">
+        <div className="border  border-black pad_10_invp_830">
           <p className='fw-bold invp_830_fs'>NOTE :</p>
           <p className='declarationInvoicePrint invp_830_fs text-break' dangerouslySetInnerHTML={{ __html: json0?.Declaration }}></p>
         </div>
       </div>
       {/* company details */}
       <div className="pb-1 no_break">
-        <div className="border border-2 border-black p-1 invp_830_fs">
+        <div className="border  border-black p-1 invp_830_fs">
           <p className="fw-bold pb-1 invp_830_fs">COMPANY DETAILS :</p>
           <p className='pb-1 invp_830_fs'>GSTIN. : {json0?.Company_VAT_GST_No?.split("-")[1]}</p>
           <p className='pb-1 invp_830_fs'>{json0?.Company_CST_STATE} : {json0?.Company_CST_STATE_No}</p>
@@ -657,12 +657,12 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       {/* authorised amigos */}
       <div className="pb-2 d-flex justify-content-between no_break">
         <div className="w-50 pe-1">
-          <div className="border border-2 border-black d-flex justify-content-center minHieght138InvoicePrint">
+          <div className="border  border-black d-flex justify-content-center minHieght138InvoicePrint">
             <p className='fw-bold invp_830_fs pt-2'> AUTHORISED, {json0?.customerfirmname}</p>
           </div>
         </div>
         <div className="w-50 ps-1">
-          <div className="border border-2 border-black d-flex justify-content-center minHieght138InvoicePrint">
+          <div className="border border-black d-flex justify-content-center minHieght138InvoicePrint">
             <p className='fw-bold invp_830_fs pt-2'>AUTHORISED, {json0?.CompanyFullName}</p>
           </div>
         </div>

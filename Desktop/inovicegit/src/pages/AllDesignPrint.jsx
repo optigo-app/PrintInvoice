@@ -31,7 +31,7 @@ const AllDesignPrint = () => {
   const importComponent = async (name) => {
     try {
       const module = await import(`./prints/${name}`);
-      // const module = await import(`./SalesPrint/SalePrint7`);
+      // const module = await import(`./SalesPrint/SalePrint5`);
       const AnotherComponent = module?.default;
       const billNum = queryParams.get("billNo");
       const urls = queryParams.get("up");

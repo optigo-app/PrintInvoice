@@ -1,5 +1,7 @@
 export const Sales = [
   {printName: 'detail print 10', etpType: 'print', componentName: 'SalePrint1'},
+  {printName: 'detail print 2', etpType: 'print', componentName: 'SalePrint5'},
+  {printName: 'detail print 3', etpType: 'print', componentName: 'SalePrint5'},
 ]
 export const printConditions = [
   {printName: 'bill sticker', etpType: 'print', componentName: 'BillSticker'},
