@@ -276,8 +276,9 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
             <div className={`${style?.Jewel} border-end ${style?.word_break}`}>
               <p className="p-1">
+                {console.log(e)}
                 {e?.JewelCodePrefix}
-                {e?.Category_Prefix}
+                {e?.Category_Prefix?.slice(0, 2)}
                 {e?.srjobno[1]}
               </p>
             </div>
