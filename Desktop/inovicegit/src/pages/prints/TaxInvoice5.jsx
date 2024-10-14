@@ -28,7 +28,6 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [pnm, setPnm] = useState(atob(printName).toLowerCase());
   const toWords = new ToWords();
   const [isImageWorking, setIsImageWorking] = useState(true);
-  // const [taxIn5, setTaxIn5] = useState(atob(printName)?.toLowerCase() === "tax invoice 5" ? true : false)
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -157,15 +156,6 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       <div
         className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`}
       >
-        {/* {!taxIn5 && <div className="form-check pe-3 pt-2">
-          <input
-            className="form-check-input border-dark"
-            type="checkbox"
-            checked={image}
-            onChange={(e) => setImage(!image)}
-          />
-          <label className="form-check-label">With Image</label>
-        </div>} */}
         <div className="form-check ps-3">
           <input
             type="button"
@@ -276,7 +266,6 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
             <div className={`${style?.Jewel} border-end ${style?.word_break}`}>
               <p className="p-1">
-                {console.log(e)}
                 {e?.JewelCodePrefix}
                 {e?.Category_Prefix?.slice(0, 2)}
                 {e?.srjobno[1]}
@@ -374,11 +363,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           <div className="d-flex">
             <div className={`${style?.grandTotalWord} text-end border-end p-1`}>
               {data?.allTaxes?.map((e, i) => {
-                return (
-                  <p key={i} className={`${style?.font_12}`}>
-                    {e?.name} @ {e?.per}
-                  </p>
-                );
+                return ( <p key={i} className={`${style?.font_12}`}> {e?.name} @ {e?.per} </p> );
               })}
               {headerData?.ModeOfDel !== '' && (
                 <p className={`${style?.font_12}`}>{headerData?.ModeOfDel}</p>

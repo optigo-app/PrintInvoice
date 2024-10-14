@@ -319,6 +319,27 @@ const InvoicePrint11Clone = ({ token, invoiceNo, printName, urls, evn, ApiVer })
       });
 
     });
+
+    let takeFindingOnly = [];
+    datas?.resultArray?.forEach((a) => {
+
+      a?.finding?.forEach((el) => {
+        takeFindingOnly?.push(el);
+      })
+     
+    });
+
+     let findingLabourArr = [];
+     takeFindingOnly?.forEach((a) => {
+      let obj = cloneDeep(a);
+        let findrecord = findingLabourArr?.findIndex((al) => al?.SettingRate === obj?.SettingRate);
+        if(findrecord === -1){
+          findingLabourArr?.push(obj);
+        }else{
+          findingLabourArr[findrecord].SettingAmount += obj?.SettingAmount;
+        }
+      })
+
     setTotalPcsss(pcsCounts?.reduce((acc, cObj) => acc + cObj?.count, 0))
     findings?.forEach((ele, ind) => {
       ele.Rate = ele?.Amount / ele?.Wt;
@@ -347,7 +368,9 @@ const InvoicePrint11Clone = ({ token, invoiceNo, printName, urls, evn, ApiVer })
     otherCharges?.forEach((ele, ind) => {
       fullnfinaltotal += +ele?.value;
     });
-
+    findingLabourArr?.forEach((ele, ind) => {
+      fullnfinaltotal += ele?.SettingAmount;
+    });
     let totalPcs = totalPcss?.reduce((acc, cObj) => acc + cObj?.value, 0);
     total2.total += (diamondTotal / data?.BillPrint_Json[0]?.CurrencyExchRate) + (colorStone1Total1 / data?.BillPrint_Json[0]?.CurrencyExchRate) +
       (colorStone2Total2 / data?.BillPrint_Json[0]?.CurrencyExchRate) + (misc1Total1 / data?.BillPrint_Json[0]?.CurrencyExchRate) +
@@ -373,7 +396,7 @@ const InvoicePrint11Clone = ({ token, invoiceNo, printName, urls, evn, ApiVer })
     setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, SettingAmount: SettingAmount, });
     setMainData({
       ...mainData, resultArr: resultArr, findings: findings, diamonds: diamonds, colorStones: colorStones,
-      miscs: miscs, otherCharges: otherCharges, misc2: misc2, labour: labour, diamondHandling: diamondHandling, secondaryMetal: secondaryMetal, labours: labours, fullnfinaltotal: fullnfinaltotal, totalGrossWt:total_grosswt, totalNetWt:total_netwt
+      miscs: miscs, otherCharges: otherCharges, misc2: misc2, labour: labour, diamondHandling: diamondHandling, secondaryMetal: secondaryMetal, labours: labours, fullnfinaltotal: fullnfinaltotal, totalGrossWt:total_grosswt, totalNetWt:total_netwt, findingLabourArr : findingLabourArr
     });
   };
 
@@ -627,6 +650,17 @@ const InvoicePrint11Clone = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(ele?.MakingAmount, 2)}</p></div>
               </div>
             })}
+            {mainData?.findingLabourArr?.map((ele, ind) => {
+              return <div className="d-flex" key={ind}>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p className="line_height_ivp11 fsremark_10_invp1011">LABOUR</p></div>
+                <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
+                <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
+                <div style={{ minWidth: "7%", width: "7%" }} className="px-1 text-end"><p></p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p></p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(ele?.SettingRate, 2)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p className="line_height_ivp11 fsremark_10_invp1011">{NumberWithCommas(ele?.SettingAmount, 2)}</p></div>
+              </div>
+            })}
             {mainData?.miscs?.map((e, i) => {
               return <div className="d-flex" key={i}>
                 <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p className="line_height_ivp11 fsremark_10_invp1011">{e?.ShapeName}</p></div>
@@ -678,10 +712,12 @@ const InvoicePrint11Clone = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                 <p className={`${style?.min_height_21} fsremark_10_invp1011 fw-bold d-flex justify-content-start align-items-center`}>Total</p>
               </div>
               <div className="col-2 px-1 fsremark_10_invp1011">
-                <p className={`${style?.min_height_21} text-end d-flex justify-content-center align-items-center`}>{mainData?.totalGrossWt?.toFixed(3)}</p>
+                {/* <p className={`${style?.min_height_21} text-end d-flex justify-content-center align-items-center`}>{mainData?.totalGrossWt?.toFixed(3)}</p> */}
+                <p className={`${style?.min_height_21} text-end d-flex justify-content-center align-items-center`}></p>
               </div>
               <div className="col-2 px-1 fsremark_10_invp1011">
-                <p className={`${style?.min_height_21} text-end d-flex justify-content-center align-items-center`}>{mainData?.totalNetWt?.toFixed(3)}</p>
+                {/* <p className={`${style?.min_height_21} text-end d-flex justify-content-center align-items-center`}>{mainData?.totalNetWt?.toFixed(3)}</p> */}
+                <p className={`${style?.min_height_21} text-end d-flex justify-content-center align-items-center`}></p>
               </div>
               <div className="col-1 px-1 fsremark_10_invp1011">
                 <p className={`${style?.min_height_21} text-end`}></p>
