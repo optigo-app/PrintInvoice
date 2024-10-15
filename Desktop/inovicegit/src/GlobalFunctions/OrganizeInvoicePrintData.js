@@ -139,6 +139,7 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
             Amount:0,
             SettingAmount:0,
             SettingRate:0,
+            FineWt:0
         }
 
     }
@@ -161,6 +162,7 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
 
         let metal_rate = 0;
         let metal_finewt = 0;
+        let finding_customer_wt = 0;
 
         let perjobTotal = {
             
@@ -258,6 +260,7 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
                 Amount:0,
                 SettingAmount:0,
                 SettingRate:0,
+                FineWt:0
             }
     
         }
@@ -420,76 +423,7 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
                         mainTotal.misc.IsHSCODE_3_ServeWt += obj2?.ServWt;
 
                     }
-                    // if(obj2?.IsHSCOE === 0 || obj2?.obj2?.IsHSCOE === 3){
-
-                    //     misc_03List.push(j2);
-
-                    //     perjobTotal.misc.IsHSCODE_0_wt += obj2?.Wt;
-                    //     perjobTotal.misc.IsHSCODE_0_pcs += obj2?.Pcs;
-                    //     perjobTotal.misc.IsHSCODE_0_amount += obj2?.Amount;
-                    //     perjobTotal.misc.IsHSCODE_0_SettingAmount += obj2?.SettingAmount;
-                    //     perjobTotal.misc.IsHSCODE_0_ServeWt += obj2?.ServWt;
-
-                    //     mainTotal.misc.IsHSCODE_0_wt += obj2?.Wt;
-                    //     mainTotal.misc.IsHSCODE_0_pcs += obj2?.Pcs;
-                    //     mainTotal.misc.IsHSCODE_0_amount += obj2?.Amount;
-                    //     mainTotal.misc.IsHSCODE_0_SettingAmount += obj2?.SettingAmount;
-                    //     mainTotal.misc.IsHSCODE_0_ServeWt += obj2?.ServWt;
-
-                    //     perjobTotal.misc.IsHSCODE_3_wt += obj2?.Wt;
-                    //     perjobTotal.misc.IsHSCODE_3_pcs += obj2?.Pcs;
-                    //     perjobTotal.misc.IsHSCODE_3_amount += obj2?.Amount;
-                    //     perjobTotal.misc.IsHSCODE_3_SettingAmount += obj2?.SettingAmount;
-                    //     perjobTotal.misc.IsHSCODE_3_ServeWt += obj2?.ServWt;
-
-                    //     mainTotal.misc.IsHSCODE_3_wt += obj2?.Wt;
-                    //     mainTotal.misc.IsHSCODE_3_pcs += obj2?.Pcs;
-                    //     mainTotal.misc.IsHSCODE_3_amount += obj2?.Amount;
-                    //     mainTotal.misc.IsHSCODE_3_SettingAmount += obj2?.SettingAmount;
-                    //     mainTotal.misc.IsHSCODE_3_ServeWt += obj2?.ServWt;
-
-                    // }
-                    // if(obj2?.IsHSCOE === 1 || obj2?.IsHSCOE === 2 || obj2?.IsHSCOE === 3){
-
-                    //     misc_123List.push(j2);
-
-                    //     perjobTotal.misc.IsHSCODE_1_wt += obj2?.Wt;
-                    //     perjobTotal.misc.IsHSCODE_1_pcs += obj2?.Pcs;
-                    //     perjobTotal.misc.IsHSCODE_1_amount += obj2?.Amount;
-                    //     perjobTotal.misc.IsHSCODE_1_SettingAmount += obj2?.SettingAmount;
-                    //     perjobTotal.misc.IsHSCODE_1_ServeWt += obj2?.ServWt;
-
-                    //     mainTotal.misc.IsHSCODE_1_wt += obj2?.Wt;
-                    //     mainTotal.misc.IsHSCODE_1_pcs += obj2?.Pcs;
-                    //     mainTotal.misc.IsHSCODE_1_amount += obj2?.Amount;
-                    //     mainTotal.misc.IsHSCODE_1_SettingAmount += obj2?.SettingAmount;
-                    //     mainTotal.misc.IsHSCODE_1_ServeWt += obj2?.ServWt;
-
-                    //     perjobTotal.misc.IsHSCODE_2_wt += obj2?.Wt;
-                    //     perjobTotal.misc.IsHSCODE_2_pcs += obj2?.Pcs;
-                    //     perjobTotal.misc.IsHSCODE_2_amount += obj2?.Amount;
-                    //     perjobTotal.misc.IsHSCODE_2_SettingAmount += obj2?.SettingAmount;
-                    //     perjobTotal.misc.IsHSCODE_2_ServeWt += obj2?.ServWt;
-
-                    //     mainTotal.misc.IsHSCODE_2_wt += obj2?.Wt;
-                    //     mainTotal.misc.IsHSCODE_2_pcs += obj2?.Pcs;
-                    //     mainTotal.misc.IsHSCODE_2_amount += obj2?.Amount;
-                    //     mainTotal.misc.IsHSCODE_2_SettingAmount += obj2?.SettingAmount;
-                    //     mainTotal.misc.IsHSCODE_2_ServeWt += obj2?.ServWt;
-
-                    //     perjobTotal.misc.IsHSCODE_3_wt += obj2?.Wt;
-                    //     perjobTotal.misc.IsHSCODE_3_pcs += obj2?.Pcs;
-                    //     perjobTotal.misc.IsHSCODE_3_amount += obj2?.Amount;
-                    //     perjobTotal.misc.IsHSCODE_3_SettingAmount += obj2?.SettingAmount;
-                    //     perjobTotal.misc.IsHSCODE_3_ServeWt += obj2?.ServWt;
-
-                    //     mainTotal.misc.IsHSCODE_3_wt += obj2?.Wt;
-                    //     mainTotal.misc.IsHSCODE_3_pcs += obj2?.Pcs;
-                    //     mainTotal.misc.IsHSCODE_3_amount += obj2?.Amount;
-                    //     mainTotal.misc.IsHSCODE_3_SettingAmount += obj2?.SettingAmount;
-                    //     mainTotal.misc.IsHSCODE_3_ServeWt += obj2?.ServWt;
-
-                    // }
+                  
                     if(j2?.isRateOnPcs === 0){
                         
                         isRateOnPcsMisc_0List.push(j2);
@@ -562,6 +496,7 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
                     perjobTotal.finding.Wt += j2?.Wt;
                     perjobTotal.finding.SettingAmount += j2?.SettingAmount;
                     perjobTotal.finding.SettingRate += j2?.SettingRate;
+                    perjobTotal.finding.FineWt += j2?.FineWt;
 
                     mainTotal.finding.Amount += j2?.Amount;
                     mainTotal.finding.Rate = j2?.Rate;
@@ -570,6 +505,11 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
                     mainTotal.finding.Wt += j2?.Wt;
                     mainTotal.finding.SettingAmount += j2?.SettingAmount;
                     mainTotal.finding.SettingRate += j2?.SettingRate;
+                    mainTotal.finding.FineWt += j2?.FineWt;
+
+                    if(j2?.Supplier?.toLowerCase() === 'customer'){
+                        finding_customer_wt += j2?.Wt;
+                    }
 
                 }
 
@@ -601,6 +541,7 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
 
         obj.metal_rate = metal_rate;
         obj.metal_finewt = metal_finewt;
+        obj.finding_customer_wt = finding_customer_wt;
 
         let other_details_array = otherAmountDetail(j1?.OtherAmtDetail);
 
@@ -713,3 +654,77 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
     return finalObject;
 
 }
+
+
+
+
+  // if(obj2?.IsHSCOE === 0 || obj2?.obj2?.IsHSCOE === 3){
+
+                    //     misc_03List.push(j2);
+
+                    //     perjobTotal.misc.IsHSCODE_0_wt += obj2?.Wt;
+                    //     perjobTotal.misc.IsHSCODE_0_pcs += obj2?.Pcs;
+                    //     perjobTotal.misc.IsHSCODE_0_amount += obj2?.Amount;
+                    //     perjobTotal.misc.IsHSCODE_0_SettingAmount += obj2?.SettingAmount;
+                    //     perjobTotal.misc.IsHSCODE_0_ServeWt += obj2?.ServWt;
+
+                    //     mainTotal.misc.IsHSCODE_0_wt += obj2?.Wt;
+                    //     mainTotal.misc.IsHSCODE_0_pcs += obj2?.Pcs;
+                    //     mainTotal.misc.IsHSCODE_0_amount += obj2?.Amount;
+                    //     mainTotal.misc.IsHSCODE_0_SettingAmount += obj2?.SettingAmount;
+                    //     mainTotal.misc.IsHSCODE_0_ServeWt += obj2?.ServWt;
+
+                    //     perjobTotal.misc.IsHSCODE_3_wt += obj2?.Wt;
+                    //     perjobTotal.misc.IsHSCODE_3_pcs += obj2?.Pcs;
+                    //     perjobTotal.misc.IsHSCODE_3_amount += obj2?.Amount;
+                    //     perjobTotal.misc.IsHSCODE_3_SettingAmount += obj2?.SettingAmount;
+                    //     perjobTotal.misc.IsHSCODE_3_ServeWt += obj2?.ServWt;
+
+                    //     mainTotal.misc.IsHSCODE_3_wt += obj2?.Wt;
+                    //     mainTotal.misc.IsHSCODE_3_pcs += obj2?.Pcs;
+                    //     mainTotal.misc.IsHSCODE_3_amount += obj2?.Amount;
+                    //     mainTotal.misc.IsHSCODE_3_SettingAmount += obj2?.SettingAmount;
+                    //     mainTotal.misc.IsHSCODE_3_ServeWt += obj2?.ServWt;
+
+                    // }
+                    // if(obj2?.IsHSCOE === 1 || obj2?.IsHSCOE === 2 || obj2?.IsHSCOE === 3){
+
+                    //     misc_123List.push(j2);
+
+                    //     perjobTotal.misc.IsHSCODE_1_wt += obj2?.Wt;
+                    //     perjobTotal.misc.IsHSCODE_1_pcs += obj2?.Pcs;
+                    //     perjobTotal.misc.IsHSCODE_1_amount += obj2?.Amount;
+                    //     perjobTotal.misc.IsHSCODE_1_SettingAmount += obj2?.SettingAmount;
+                    //     perjobTotal.misc.IsHSCODE_1_ServeWt += obj2?.ServWt;
+
+                    //     mainTotal.misc.IsHSCODE_1_wt += obj2?.Wt;
+                    //     mainTotal.misc.IsHSCODE_1_pcs += obj2?.Pcs;
+                    //     mainTotal.misc.IsHSCODE_1_amount += obj2?.Amount;
+                    //     mainTotal.misc.IsHSCODE_1_SettingAmount += obj2?.SettingAmount;
+                    //     mainTotal.misc.IsHSCODE_1_ServeWt += obj2?.ServWt;
+
+                    //     perjobTotal.misc.IsHSCODE_2_wt += obj2?.Wt;
+                    //     perjobTotal.misc.IsHSCODE_2_pcs += obj2?.Pcs;
+                    //     perjobTotal.misc.IsHSCODE_2_amount += obj2?.Amount;
+                    //     perjobTotal.misc.IsHSCODE_2_SettingAmount += obj2?.SettingAmount;
+                    //     perjobTotal.misc.IsHSCODE_2_ServeWt += obj2?.ServWt;
+
+                    //     mainTotal.misc.IsHSCODE_2_wt += obj2?.Wt;
+                    //     mainTotal.misc.IsHSCODE_2_pcs += obj2?.Pcs;
+                    //     mainTotal.misc.IsHSCODE_2_amount += obj2?.Amount;
+                    //     mainTotal.misc.IsHSCODE_2_SettingAmount += obj2?.SettingAmount;
+                    //     mainTotal.misc.IsHSCODE_2_ServeWt += obj2?.ServWt;
+
+                    //     perjobTotal.misc.IsHSCODE_3_wt += obj2?.Wt;
+                    //     perjobTotal.misc.IsHSCODE_3_pcs += obj2?.Pcs;
+                    //     perjobTotal.misc.IsHSCODE_3_amount += obj2?.Amount;
+                    //     perjobTotal.misc.IsHSCODE_3_SettingAmount += obj2?.SettingAmount;
+                    //     perjobTotal.misc.IsHSCODE_3_ServeWt += obj2?.ServWt;
+
+                    //     mainTotal.misc.IsHSCODE_3_wt += obj2?.Wt;
+                    //     mainTotal.misc.IsHSCODE_3_pcs += obj2?.Pcs;
+                    //     mainTotal.misc.IsHSCODE_3_amount += obj2?.Amount;
+                    //     mainTotal.misc.IsHSCODE_3_SettingAmount += obj2?.SettingAmount;
+                    //     mainTotal.misc.IsHSCODE_3_ServeWt += obj2?.ServWt;
+
+                    // }

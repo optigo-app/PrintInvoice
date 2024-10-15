@@ -2,6 +2,7 @@ export const Sales = [
   {printName: 'detail print 10', etpType: 'print', componentName: 'SalePrint1'},
   {printName: 'detail print 2', etpType: 'print', componentName: 'SalePrint5'},
   {printName: 'detail print 3', etpType: 'print', componentName: 'SalePrint5'},
+  {printName: 'detail print 4', etpType: 'print', componentName: 'SalePrint5'},
 ]
 export const printConditions = [
   {printName: 'bill sticker', etpType: 'print', componentName: 'BillSticker'},
@@ -136,6 +137,7 @@ export const printConditions = [
   {printName: 'tax invoice 3', etpType: 'print', componentName: 'TaxInvoice3'},
   {printName: 'tax invoice print 4', etpType: 'print', componentName: 'TaxInvoicePrint4'}, 
   {printName: 'tax invoice 5', etpType: 'print', componentName: 'TaxInvoice5'}, 
+  {printName: 'tax invoice 5a', etpType: 'print', componentName: 'TaxInvoice5A'},
   {printName: 'tax invoice 6', etpType: 'print', componentName: 'TaxInvoice5'},
 ];
 export const SaleReturn = [
