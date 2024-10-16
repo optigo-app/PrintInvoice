@@ -1,8 +1,35 @@
 export const Sales = [
+
   {printName: 'detail print 10', etpType: 'print', componentName: 'SalePrint1'},
+  {printName: 'detail print 5', etpType: 'print', componentName: 'SalePrint1'},
+  {printName: 'tax invoice', etpType: 'print', componentName: 'SalePrint1'},
+  {printName: 'estimate print', etpType: 'print', componentName: 'SalePrint1'},
+
+  {printName: 'detail print 6', etpType: 'print', componentName: 'SalePrint2'},
+  {printName: 'detail print 8', etpType: 'print', componentName: 'SalePrint2'},
+
+  {printName: 'detail print c', etpType: 'print', componentName: 'SalePrint3'},
+  {printName: 'detail print k', etpType: 'print', componentName: 'SalePrint3'},
+  {printName: 'detail print r', etpType: 'print', componentName: 'SalePrint3'},
+  {printName: 'detail print1 group(l)', etpType: 'print', componentName: 'SalePrint3'},
+  {printName: 'detail print1 group(p)', etpType: 'print', componentName: 'SalePrint3'},
+
+  {printName: 'detail print s', etpType: 'print', componentName: 'SalePrint4'},
+  {printName: 'detail print 7', etpType: 'print', componentName: 'SalePrint4'},
+
   {printName: 'detail print 2', etpType: 'print', componentName: 'SalePrint5'},
   {printName: 'detail print 3', etpType: 'print', componentName: 'SalePrint5'},
   {printName: 'detail print 4', etpType: 'print', componentName: 'SalePrint5'},
+
+  { printName: 'invoice print 8', etpType: 'print', componentName: 'SalePrint6'},
+  {printName: 'invoice print 8a', etpType: 'print', componentName: 'SalePrint6'},
+  {printName: 'invoice print 10', etpType: 'print', componentName: 'SalePrint6'},
+  {printName: 'invoice print 11', etpType: 'print', componentName: 'SalePrint6'},
+
+  {  printName: 'invoice print', etpType: 'print', componentName: 'SalePrint7'},
+  {printName: 'invoice print 6', etpType: 'print', componentName: 'SalePrint7'},
+  {printName: 'invoice print r', etpType: 'print', componentName: 'SalePrint7'},
+
 ]
 export const printConditions = [
   {printName: 'bill sticker', etpType: 'print', componentName: 'BillSticker'},

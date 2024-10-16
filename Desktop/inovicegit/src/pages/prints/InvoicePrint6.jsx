@@ -429,7 +429,7 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             </div>
             {/* bill no */}
             <div className="d-flex justify-content-end py-1">
-                <div className="col-3 border border-black border-2">
+                <div className="col-3  border-black border-2">
                     <p style={{ fontSize: "12px", display: "flex" }}>
                         <p className="fw-semibold px-2" style={{ minWidth: "60px" }}>BILL NO </p>{" "}
                         <p>{headerData?.InvoiceNo}</p>
@@ -445,7 +445,7 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
             </div>
             {/* sub header */}
-            <div className="d-flex border border-black mb-1 align-items-center border-2">
+            <div className="d-flex  border-black mb-1 align-items-center border-2">
                 <div className="col-8 p-2">
                     <p className="fw-semibold" style={{ fontSize: "16px" }}>To, {headerData?.customerfirmname}</p>
                     <p className='fw-light ps-3' style={{ fontSize: "12px", lineHeight: "140% ", }}>{headerData?.customerstreet}</p>
