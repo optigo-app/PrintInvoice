@@ -11,6 +11,7 @@ import {
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import style from "../../assets/css/prints/TaxInvoice5.module.css";
+import "../../assets/css/prints/taxinvoice5a.css";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { ToWords } from "to-words";
 import style2 from "../../assets/css/headers/header1.module.css";
@@ -150,7 +151,7 @@ const TaxInvoice5A = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     <Loader />
   ) : msg === "" ? (
     <div
-      className={`container container-fluid  mt-1 ${style?.taxinvoice5} ${style?.max_width_container_ti} pad_60_allPrint`}
+      className={`container container-fluid  mt-1 taxInv5A pad_60_allPrint`}
     >
       {/* buttons */}
       <div
@@ -166,93 +167,91 @@ const TaxInvoice5A = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
       </div>
       {/* header */}
-      <div className={`px-2 pb-1 ${style?.fstitle_ti5} d-flex justify-content-center`} style={{ fontSize: "24px", fontWeight: "700", textDecoration: "underline #000 3px" }}>{headerData?.PrintHeadLabel}</div>
-      <div className={`${style2.companyDetails} ${style?.lhheaderti5} `}>
-        <div className={`${style2.companyhead} ${style?.lhheaderti5} p-2 d-flex justify-content-center`}>
-          <div className={`${style2.lines} ${style?.font_16} d-flex justify-content-center`} style={{ fontWeight: "bold" }}>
+      <div className={`px-2 pb-1 d-flex justify-content-center ti5aheadline`} style={{  fontWeight: "700", textDecoration: "underline #000 3px" }}>{headerData?.PrintHeadLabel}</div>
+      <div className={`h1tinvp5a  `}>
+        <div className={`companyheadtinvp5a  p-2 d-flex justify-content-center`}>
+          <div className={` d-flex justify-content-center companyNametp5a lh_ti5a`} style={{ fontWeight: "bold" }}>
             {headerData?.CompanyFullName}
           </div>
-          <div className={`${style2.lines} ${style?.lhheaderti5} d-flex justify-content-center`}> <span className="fw-bold">Address : &nbsp;</span> {headerData?.CompanyAddress + " " + headerData?.CompanyAddress2}</div>
-          <div className={`${style2.lines} ${style?.lhheaderti5} d-flex justify-content-center`}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
-          <div className={`px-1 fw-bold ${style?.font_16} d-flex justify-content-center`} >
+          <div className={` d-flex justify-content-center`}> <span className="fw-bold">Address : &nbsp;</span> {headerData?.CompanyAddress + " " + headerData?.CompanyAddress2}</div>
+          <div className={` d-flex justify-content-center`}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
+          <div className={`px-1 fw-bold d-flex justify-content-center`} >
             {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
           </div>
         </div>
-        
-          {/* <img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /> */}
       </div>
       {/* sub header */}
       <div className="d-flex border border-black ">
         <div className="col-5 border-end border-black p-2">
-          <p>{headerData?.lblBillTo}</p>
-          <p className={`fw-semibold ${style?.font_16}`}>{headerData?.CustName}</p>
-          <p>{headerData?.customerAddress1}</p>
-          <p>{headerData?.customerAddress2}</p>
-          <p>
+          <p className=" companyNametp5a2">{headerData?.lblBillTo}</p>
+          <p className={`fw-semibold companyNametp5a`}>{headerData?.CustName}</p>
+          <p className=" companyNametp5a2">{headerData?.customerAddress1}</p>
+          <p className=" companyNametp5a2">{headerData?.customerAddress2}</p>
+          <p className=" companyNametp5a2">
             {headerData?.customercity1}
             {headerData?.customerpincode}
           </p>
-          <p>{headerData?.Cust_CST_STATE_No_?.replaceAll(",", " | ")}</p>
-          <p>{headerData?.vat_cst_pan}</p>
+          <p className=" companyNametp5a2">{headerData?.Cust_CST_STATE_No_?.replaceAll(",", " | ")}</p>
+          <p className=" companyNametp5a2">{headerData?.vat_cst_pan}</p>
         </div>
         <div className="col-4 border-end border-black p-2">
-          <p>Ship To,</p>
-          <p className={`fw-semibold ${style?.font_16}`}>{headerData?.CustName}</p>
+          <p className="companyNametp5a2">Ship To,</p>
+          <p className={`fw-semibold companyNametp5a`}>{headerData?.CustName}</p>
           {address?.map((e, i) => {
-            return <p key={i}>{e}</p>;
+            return <p key={i} className="companyNametp5a2">{e}</p>;
           })}
         </div>
         <div className="col-3 p-2">
           <p className="d-flex">
-            <span className="col-6 fw-semibold pe-2">INVOICE NO	 </span>{" "}
-            <span className="col-6">: {headerData?.InvoiceNo}</span>
+            <span className="col-6 fw-semibold companyNametp5a2 pe-2">INVOICE NO	 </span>{" "}
+            <span className="col-6 companyNametp5a2">: {headerData?.InvoiceNo}</span>
           </p>
           <p className="d-flex">
-            <span className="col-6 fw-semibold pe-2">DATE </span>{" "}
-            <span className="col-6">: {headerData?.EntryDate}</span>
+            <span className="col-6 companyNametp5a2 fw-semibold pe-2">DATE </span>{" "}
+            <span className="col-6 companyNametp5a2">: {headerData?.EntryDate}</span>
           </p>
           <p className="d-flex">
-            <span className="col-6 fw-semibold pe-2">{headerData?.HSN_No_Label} </span>
-            <span className="col-6">: {headerData?.HSN_No}</span>
+            <span className="col-6 companyNametp5a2 fw-semibold pe-2">{headerData?.HSN_No_Label} </span>
+            <span className="col-6 companyNametp5a2">: {headerData?.HSN_No}</span>
           </p>
           <p className="d-flex">
-            <span className="col-6 fw-semibold pe-2">TERMS </span>
-            <span className="col-6">: {headerData?.DueDays} Days</span>
+            <span className="col-6 companyNametp5a2 fw-semibold pe-2">TERMS </span>
+            <span className="col-6 companyNametp5a2">: {headerData?.DueDays} Days</span>
           </p>
         </div>
       </div>
       {/* table Header */}
       <div className="d-flex  border border-top-0 border-black">
         <div className={`${style?.Sr}  py-1 border-end border-black`}>
-          <p className="text-center fw-bold">Sr. No. </p>
+          <p className="text-center fw-bold companyNametp5a2">Sr. No. </p>
         </div>
         <div className={`${style?.Jewel}  py-1 border-end border-black`}>
-          <p className="text-center fw-bold">Jewel Code </p>
+          <p className="text-center fw-bold companyNametp5a2">Jewel Code </p>
         </div>
         <div className={`${style?.KT}  py-1 border-end border-black`}>
-          <p className="text-center fw-bold">KT </p>
+          <p className="text-center fw-bold companyNametp5a2">KT </p>
         </div>
         {pnm === "tax invoice 6" && (
           <div className={`${style?.Diamond}  py-1 border-end border-black`}>
-            <p className="text-center fw-bold">HSN </p>
+            <p className="text-center fw-bold companyNametp5a2">HSN </p>
           </div>
         )}
         <div className={`${style?.Gross}  py-1 border-end border-black`}>
-          <p className="text-center fw-bold">Gross Wt <span className="fw-normal">(in gm)</span> </p>
+          <p className="text-center fw-bold companyNametp5a2">Gross Wt <span className="fw-normal companyNametp5a2">(in gm)</span> </p>
         </div>
         <div className={`${style?.Net}  py-1 border-end border-black`}>
-          <p className="text-center fw-bold">Net Wt <span className="fw-normal">(in gm)</span> </p>
+          <p className="text-center fw-bold companyNametp5a2">Net Wt <span className="fw-normal companyNametp5a2">(in gm)</span> </p>
         </div>
         {pnm !== "tax invoice 6" && (
           <div className={`${style?.Diamond}  py-1 border-end border-black`}>
-            <p className="text-center fw-bold">Diamond <span className="fw-normal">(in ct)</span> </p>
+            <p className="text-center fw-bold companyNametp5a2">Diamond <span className="fw-normal companyNametp5a2">(in ct)</span> </p>
           </div>
         )}
         <div className={`${style?.Stone}  py-1 border-end border-black`}>
-          <p className="text-center fw-bold">Stone <span className="fw-normal">(in ct)</span> </p>
+          <p className="text-center fw-bold companyNametp5a2">Stone <span className="fw-normal companyNametp5a2">(in ct)</span> </p>
         </div>
         <div className={`${style?.Price} py-1 `}>
-          <p className="text-center fw-bold">Price</p>
+          <p className="text-center fw-bold companyNametp5a2">Price</p>
         </div>
       </div>
       {/* table data */}
@@ -260,45 +259,45 @@ const TaxInvoice5A = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         return (
           <div className="d-flex border-start border-end border-bottom border-black no_break" key={i}>
             <div className={`${style?.Sr} border-black border-end`}>
-              <p className="text-center p-1">{i + 1}</p>
+              <p className="text-center p-1 companyNametp5a2">{i + 1}</p>
             </div>
             <div className={`${style?.Jewel} border-end border-black ${style?.word_break}`}>
-              <p className="p-1">
+              <p className="p-1 companyNametp5a2">
                 {e?.JewelCodePrefix}
                 {e?.Category_Prefix?.slice(0, 2)}
                 {e?.srjobno[1]}
               </p>
             </div>
             <div className={`${style?.KT} border-end border-black text-center`}>
-              <p className="p-1">{e?.MetalType?.toLowerCase() !== "gold" && e?.MetalType} {e?.MetalPurity} </p>
+              <p className="p-1 companyNametp5a2">{e?.MetalType?.toLowerCase() !== "gold" && e?.MetalType} {e?.MetalPurity} </p>
             </div>
             {pnm === "tax invoice 6" && (
               <div className={`${style?.Diamond} border-end border-black`}>
-                <p className="p-1">{headerData?.HSN_No}</p>
+                <p className="p-1 companyNametp5a2">{headerData?.HSN_No}</p>
               </div>
             )}
             <div className={`${style?.Gross} border-end border-black`}>
-              <p className="text-end p-1">{NumberWithCommas(e?.grosswt, 3)}</p>
+              <p className="text-end p-1 companyNametp5a2">{NumberWithCommas(e?.grosswt, 3)}</p>
             </div>
             <div className={`${style?.Net} border-end border-black`}>
-              <p className="text-end p-1">
+              <p className="text-end p-1 companyNametp5a2">
                 {NumberWithCommas(e?.primaryWt, 3)}
               </p>
             </div>
             {pnm !== "tax invoice 6" && (
               <div className={`${style?.Diamond} border-end border-black`}>
-                <p className="text-end p-1">
+                <p className="text-end p-1 companyNametp5a2">
                   {NumberWithCommas(e?.totals?.diamonds?.Wt, 3)}
                 </p>
               </div>
             )}
             <div className={`${style?.Stone} border-end border-black`}>
-              <p className="text-end p-1">
+              <p className="text-end p-1 companyNametp5a2">
                 {NumberWithCommas(e?.totals?.colorstone?.Wt, 3)}{" "}
               </p>
             </div>
             <div className={`${style?.Price}`}>
-              <p className="text-end p-1">
+              <p className="text-end p-1 companyNametp5a2">
                 {NumberWithCommas(e?.TotalAmount / headerData?.CurrencyExchRate, 2)}{" "}
               </p>
             </div>
@@ -311,7 +310,7 @@ const TaxInvoice5A = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           <p className="text-center p-1"></p>
         </div>
         <div className={`${style?.Jewel} border-end border-black`}>
-          <p className="p-1 fw-bold">TOTAL</p>
+          <p className="p-1 fw-bold companyNametp5a2">TOTAL</p>
         </div>
         <div className={`${style?.KT} border-end border-black`}>
           <p className="p-1"> </p>
@@ -322,38 +321,36 @@ const TaxInvoice5A = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
         )}
         <div className={`${style?.Gross} border-end border-black`}>
-          <p className="text-end p-1 fw-bold">
+          <p className="text-end p-1 fw-bold companyNametp5a2">
             {NumberWithCommas(data?.mainTotal?.grosswt, 3)}
           </p>
         </div>
         <div className={`${style?.Net} border-end border-black`}>
-          <p className="text-end p-1 fw-bold">
+          <p className="text-end p-1 fw-bold companyNametp5a2">
             {NumberWithCommas(data?.mainTotal?.primaryWts, 3)}
           </p>
         </div>
         {pnm !== "tax invoice 6" && <div className={`${style?.Diamond} border-end border-black`}>
-          <p className="text-end p-1 fw-bold ">
+          <p className="text-end p-1 fw-bold companyNametp5a2">
             {NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)}
           </p>
         </div>}
         <div className={`${style?.Stone} border-end border-black`}>
-          <p className="text-end p-1 fw-bold">
+          <p className="text-end p-1 fw-bold companyNametp5a2">
             {NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)}
           </p>
         </div>
         <div className={`${style?.Price}`}>
-          <p className="text-end p-1 fw-bold">
+          <p className="text-end p-1 fw-bold companyNametp5a2">
             {NumberWithCommas(data?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2)}
           </p>
         </div>
       </div>
       {/* In Words */}
       <div className="d-flex border-start border-end border-bottom border-black no_break">
-        <div
-          className={`${style?.words} border-end p-1 d-flex justify-content-end flex-column border-black`}
-        >
-          <p>In Words (Indian Rupees)</p>
-          <p className="fw-bold">
+        <div className={`${style?.words} border-end p-1 d-flex justify-content-end flex-column border-black companyNametp5a2`} >
+          <p className="companyNametp5a2">In Words (Indian Rupees)</p>
+          <p className="fw-bold companyNametp5a2">
             {toWords.convert(+fixedValues((data?.mainTotal?.total_amount / headerData?.CurrencyExchRate) + data?.allTaxes?.reduce((acc, cObj) => acc + +cObj?.amount, 0) +  + (headerData?.AddLess/ headerData?.CurrencyExchRate), 2))} Only
           </p>
         </div>
@@ -361,84 +358,82 @@ const TaxInvoice5A = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           <div className="d-flex">
             <div className={`${style?.grandTotalWord} text-end border-end border-black p-1`}>
               {data?.allTaxes?.map((e, i) => {
-                return ( <p key={i} className={`${style?.font_12}`}> {e?.name} @ {e?.per} </p> );
+                return ( <p key={i} className={`companyNametp5a2`}> {e?.name} @ {e?.per} </p> );
               })}
               {headerData?.ModeOfDel !== '' && (
-                <p className={`${style?.font_12}`}>{headerData?.ModeOfDel}</p>
+                <p className={`companyNametp5a2`}>{headerData?.ModeOfDel}</p>
               )}
               {headerData?.AddLess !== 0 && (
-                <p className={`${style?.font_12}`}>{headerData?.AddLess > 0 ? "Add" : "Less"}</p>
+                <p className={`companyNametp5a2`}>{headerData?.AddLess > 0 ? "Add" : "Less"}</p>
               )}
             </div>
             <div className={`${style?.grandTotalValue} p-1 text-end`}>
               {data?.allTaxes.map((e, i) => {
-                return <p key={i} className={`${style?.font_12}`}>{NumberWithCommas(e?.amount, 2)}</p>;
+                return <p key={i} className={`companyNametp5a2`}>{NumberWithCommas(e?.amount, 2)}</p>;
               })}
               {headerData?.FreightCharges !== 0 && (
-                <p className={`${style?.font_12}`}>{NumberWithCommas(headerData?.FreightCharges / headerData?.CurrencyExchRate, 2)}</p>
+                <p className={`companyNametp5a2`}>{NumberWithCommas(headerData?.FreightCharges / headerData?.CurrencyExchRate, 2)}</p>
               )}
               {headerData?.AddLess !== 0 && (
-                <p className={`${style?.font_12}`}>{NumberWithCommas(headerData?.AddLess / headerData?.CurrencyExchRate, 2)}</p>
+                <p className={`companyNametp5a2`}>{NumberWithCommas(headerData?.AddLess / headerData?.CurrencyExchRate, 2)}</p>
               )}
             </div>
           </div>
           <div className="d-flex border-top border-black">
-            <div className={`${style?.grandTotalWord} text-end border-end border-black p-1`}>
-              <p className="fw-bold">GRAND TOTAL</p>
+            <div className={`${style?.grandTotalWord} text-end border-end companyNametp5a2 border-black p-1`}>
+              <p className="fw-bold companyNametp5a2">GRAND TOTAL</p>
             </div>
-            <div className={`${style?.grandTotalValue} p-1 text-end`}>
-              <p className="fw-bold">{NumberWithCommas((data?.mainTotal?.total_amount / headerData?.CurrencyExchRate) + (headerData?.FreightCharges / headerData?.CurrencyExchRate) + data?.allTaxes?.reduce((acc, cObj) => acc + +cObj?.amount, 0) + (headerData?.AddLess/ headerData?.CurrencyExchRate), 2)}</p>
+            <div className={`${style?.grandTotalValue} p-1 companyNametp5a2 text-end`}>
+              <p className="fw-bold companyNametp5a2">{NumberWithCommas((data?.mainTotal?.total_amount / headerData?.CurrencyExchRate) + (headerData?.FreightCharges / headerData?.CurrencyExchRate) + data?.allTaxes?.reduce((acc, cObj) => acc + +cObj?.amount, 0) + (headerData?.AddLess/ headerData?.CurrencyExchRate), 2)}</p>
             </div>
           </div>
         </div>
       </div>
       {/* remarks */}
       <div className="border-start border-end border-bottom p-2 no_break border-black">
-        <p className="fw-bold">REMARKS : </p>
-        <p dangerouslySetInnerHTML={{__html:headerData?.PrintRemark}}></p>
+        <p className="fw-bold companyNametp5a2">REMARKS : </p>
+        <p className="companyNametp5a2" dangerouslySetInnerHTML={{__html:headerData?.PrintRemark}}></p>
       </div>
-      {/* declaration */}
-      <div
-        className={`border-start border-end border-bottom p-2 no_break border-black ${style?.declti}`}
-        dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}
-      ></div>
+
       {/* footer */}
       <div className="d-flex border-start border-end border-bottom no_break border-black">
         <div style={{ width: "30%" }} className="border-end p-2 d-flex flex-column justify-content-between border-black">
-          <p className="">Signature</p>
+          <p className="companyNametp5a2">Signature</p>
           <p>
-            <span className="fw-bold">{headerData?.CustName}</span>
-            <span className={`${style?.sup}`}></span> (With Stamp)
+            <span className="fw-bold companyNametp5a2">{headerData?.CustName}</span>
+            <span className={`${style?.sup} companyNametp5a2`}></span> (With Stamp)
           </p>
         </div>
-        <div style={{ width: "40%" }} className="border-end border-black p-2">
-          <p className="fw-bold">Bank Detail</p>
+        <div style={{ width: "40%" }} className="border-end border-black p-2 ">
+          <p className="fw-bold companyNametp5a2">Bank Detail</p>
           <div className="d-flex">
-            <p className="col-4">Account Name</p>
-            <p className="col-8">: {headerData?.accountname}</p>
+            <p className="col-4 companyNametp5a2">Account Name</p>
+            <p className="col-8 companyNametp5a2">: {headerData?.accountname}</p>
           </div>
           <div className="d-flex">
-            <p className="col-4">Bank Name</p>
-            <p className="col-8">: {headerData?.bankname}</p>
+            <p className="col-4 companyNametp5a2">Bank Name</p>
+            <p className="col-8 companyNametp5a2">: {headerData?.bankname}</p>
           </div>
           <div className="d-flex">
-            <p className="col-4">Branch </p>
-            <p className="col-8">: {headerData?.bankaddress}</p>
+            <p className="col-4 companyNametp5a2">Branch </p>
+            <p className="col-8 companyNametp5a2">: {headerData?.bankaddress}</p>
           </div>
           <div className="d-flex">
-            <p className="col-4">Account No.  </p>
-            <p className="col-8">: {headerData?.accountnumber}</p>
+            <p className="col-4 companyNametp5a2">Account No.  </p>
+            <p className="col-8 companyNametp5a2">: {headerData?.accountnumber}</p>
           </div>
           <div className="d-flex">
-            <p className="col-4">RTGS/NEFT IFSC</p>
-            <p className="col-8">: {headerData?.rtgs_neft_ifsc}</p>
+            <p className="col-4 companyNametp5a2">RTGS/NEFT IFSC</p>
+            <p className="col-8 companyNametp5a2">: {headerData?.rtgs_neft_ifsc}</p>
           </div>
         </div>
         <div style={{ width: "30%" }} className="p-2 d-flex flex-column justify-content-between border-black">
-          <p className="">Signature</p>
-          <p className="fw-bold">{headerData?.CompanyFullName}</p>
+          <p className="companyNametp5a2">Signature</p>
+          <p className="fw-bold companyNametp5a2">{headerData?.CompanyFullName}</p>
         </div>
       </div>
+            {/* declaration */}
+      <div className={`  p-2 no_break border-black lh_decl_ti5a ${style?.declti}`} dangerouslySetInnerHTML={{ __html: headerData?.Declaration }} ></div>
     </div>
   ) : (
     <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
