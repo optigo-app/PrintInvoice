@@ -394,6 +394,9 @@ const TaxInvoice5A = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <p className="fw-bold companyNametp5a2">REMARKS : </p>
         <p className="companyNametp5a2" dangerouslySetInnerHTML={{__html:headerData?.PrintRemark}}></p>
       </div>
+      
+      {/* declaration */}
+      <div className={`border-start border-end border-bottom border-black p-2 no_break ${style?.declti}`} dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}></div>
 
       {/* footer */}
       <div className="d-flex border-start border-end border-bottom no_break border-black">
@@ -432,8 +435,7 @@ const TaxInvoice5A = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           <p className="fw-bold companyNametp5a2">{headerData?.CompanyFullName}</p>
         </div>
       </div>
-            {/* declaration */}
-      <div className={`  p-2 no_break border-black lh_decl_ti5a ${style?.declti}`} dangerouslySetInnerHTML={{ __html: headerData?.Declaration }} ></div>
+      
     </div>
   ) : (
     <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">

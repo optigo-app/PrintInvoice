@@ -263,8 +263,8 @@
 .sumdp10{
     width: 31%;
 }
-.dia_sum_dp10{
-    width: 18%;
+.dia_sum_dp10e{
+    width: 33%;
 }
 .oth_sum_dp10{
     width: 15%;
@@ -294,6 +294,14 @@
 }
 .h14_dp10{
     height: 14px;
+}
+.fs_head{
+    font-size: 15px;
+    line-height: 20px;
+}
+.total_row_pcle{
+    height: 30px;
+    font-size: 11px;
 }
 @media print {
     .fs_16_pcls{
@@ -369,7 +377,10 @@
     .H_sum_pcl3{
         height: 70px;
     }
-
+    .fs_head{
+        font-size: 12px;
+        line-height: 16px;
+    }
     @page {
         margin: 5mm;
         size: landscape !important;
