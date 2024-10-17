@@ -13,8 +13,13 @@
     margin: 0 auto;
     padding: 0.5rem;   
     page-break-after: always;
+    position: relative;
 }
-
+.ins_multipart{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
 .fsjbsbg{
     font-size: 20px;
     font-weight: 500;
@@ -170,5 +175,20 @@
     }
     .showOnPrint{
         display: block !important;
+    }
+    .ins_multipart{
+        position: absolute;
+        top: 90px;
+        right: -50px;
+        line-height: 18px !important;
+        font-size: 14px !important;
+        transform: translate(0) rotate(270deg) !important;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        padding: 20px !important;
+        padding-top: 40px !important;
+        width: 80mm;
     }
 }

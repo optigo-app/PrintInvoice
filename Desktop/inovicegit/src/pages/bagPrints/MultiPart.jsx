@@ -161,9 +161,16 @@ import "../../assets/css/bagprint/jobbagsticker.css"
 import Loader from '../../components/Loader';
 import QRCodeGenerator from '../../components/QRCodeGenerator';
 import { GetUniquejob } from '../../GlobalFunctions/GetUniqueJob';
-import { handlePrint } from '../../GlobalFunctions/HandlePrint';
 import { FetchDatas } from '../../GlobalFunctions/FetchDatas';
-import { Box, Button, Typography } from "@mui/material";
+import { Box,  Typography } from "@mui/material";
+
+export const JobDesc = () => {
+    return (
+        <div>Jobs are ready to print</div>
+    )
+}
+
+
 const MultiPart = ({ queries, headers }) => {
     const location = useLocation();
     const [filterData, setFilterData] = useState([]);
@@ -181,15 +188,18 @@ const MultiPart = ({ queries, headers }) => {
         let clsList = [];
         let miscList = [];
         let findingList = [];
+        let metalList = [];
         let obj = {
             dia:0,
             cls:0,
             misc:0,
             finding:0,
+            metal:0,
             diamondJobList:[],
             colorStoneList:[],
             miscJobList:[],
-            findingJobList:[]
+            findingJobList:[],
+            metalJobList:[]
         }
         let arr = [];
         abc[0]?.allDatas?.rd1?.forEach((a) => {
@@ -215,10 +225,16 @@ const MultiPart = ({ queries, headers }) => {
                 //clr
             }
         })
+        abc[0]?.allDatas?.rd?.forEach((a) => {
+            if(a?.MetalType !== '') {
+                metalList?.push(a);
+            }
+        })
         const uniqueDiamondJobs = [...new Set(diaList.map(d => d.SerialJobno))];
         const uniqueClsJobs = [...new Set(clsList.map(d => d.SerialJobno))];
         const uniqueMiscJobs = [...new Set(miscList.map(d => d.SerialJobno))];
         const uniqueFindingJobs = [...new Set(findingList.map(d => d.SerialJobno))];
+        const uniqueMetalJobs = [...new Set(metalList.map(d => d.serialjobno))];
 
         obj.dia = uniqueDiamondJobs.length;
         obj.diamondJobList = uniqueDiamondJobs;
@@ -231,6 +247,9 @@ const MultiPart = ({ queries, headers }) => {
 
         obj.finding = uniqueFindingJobs.length;
         obj.findingJobList = uniqueFindingJobs;
+
+        obj.metal = uniqueMetalJobs.length;
+        obj.metalJobList = uniqueMetalJobs;
 
         setCountObj(obj);
         
@@ -267,6 +286,9 @@ const MultiPart = ({ queries, headers }) => {
                 break;
             case 'finding':
                 filterDataByType('findingJobList', 'FINDING');
+                break;
+            case 'metal':
+                filterDataByType('metalJobList', 'METAL');
                 break;
             default:
                 break;
@@ -308,12 +330,22 @@ const MultiPart = ({ queries, headers }) => {
                             <div className='multipart_head text-center number-box border border_color_head ' style={{minWidth:'100px'}}>{data?.length}</div>
                             <div className='multipart_head'>&nbsp;{data?.length > 1 ? 'Jobs' : 'Job'}</div>
                         </div>
-                        <div className='d-flex  justify-content-around align-items-center py-2 flex-wrap border bg_color_container' style={{marginTop:'3%', minHeight:'30rem', width:'80%', paddingLeft:'1%', paddingRight:'1%'}}>
+                        <div className='d-flex  justify-content-around align-items-center py-2 flex-wrap border bg_color_container' style={{marginTop:'3%', minHeight:'30rem', width:'95%', paddingLeft:'1%', paddingRight:'1%'}}>
+                            <div style={{margin:'1rem', boxSizing:'border-box'}} className='bg-white text-black mx-0'>
+                                <Box className="border rounded box_css_mlt d-flex flex-column border_color_head justify-content-between align-items-center m-0">
+                                    <div className='w-100 d-flex justify-content-center align-items-center py-2 border-bottom border_color_head'><Typography sx={{fontWeight:'bold'}}>METAL BAGS</Typography></div>
+                                        <div className='countBox'>{countObj?.metal}</div>
+                                        <JobDesc />
+                                    <div className='p-1 d-flex justify-content-center align-items-center pb-3'>
+                                        <button className="btn_white btn_w2 blue print_btn" disabled={countObj.metal < 1} onClick={() => handleButtonClick('metal')}>Print</button>
+                                    </div>
+                                </Box>
+                            </div>
                             <div style={{margin:'1rem', boxSizing:'border-box'}} className='bg-white text-black mx-0'>
                                 <Box className="border rounded box_css_mlt d-flex flex-column border_color_head justify-content-between align-items-center m-0">
                                     <div className='w-100 d-flex justify-content-center align-items-center py-2 border-bottom border_color_head'><Typography sx={{fontWeight:'bold'}}>DIAMOND BAGS</Typography></div>
                                         <div className='countBox'>{countObj?.dia}</div>
-                                        <div>Jobs Are Ready To Print</div>
+                                        <JobDesc />
                                     <div className='p-1 d-flex justify-content-center align-items-center pb-3'>
                                         <button className="btn_white btn_w2 blue print_btn" disabled={countObj.dia < 1} onClick={() => handleButtonClick('diamond')}>Print</button>
                                     </div>
@@ -323,7 +355,7 @@ const MultiPart = ({ queries, headers }) => {
                                 <Box className="border rounded box_css_mlt d-flex flex-column border_color_head justify-content-between align-items-center m-0">
                                     <div className='w-100 d-flex justify-content-center align-items-center py-2 border-bottom border_color_head'><Typography sx={{fontWeight:'bold'}}>COLORSTONE BAGS</Typography></div>
                                     <div className='countBox'>{countObj?.cls}</div>
-                                        <div>Jobs Are Ready To Print</div>
+                                    <JobDesc />
                                     <div className='p-1 d-flex justify-content-center align-items-center pb-3'>
                                     <button className="btn_white btn_w2 blue print_btn" disabled={countObj.cls < 1} onClick={() => handleButtonClick('colorstone')}>Print</button>
                                     </div>
@@ -333,7 +365,7 @@ const MultiPart = ({ queries, headers }) => {
                                 <Box className="border rounded box_css_mlt d-flex flex-column border_color_head justify-content-between align-items-center m-0">
                                     <div className='w-100 d-flex justify-content-center align-items-center py-2 border-bottom border_color_head'><Typography sx={{fontWeight:'bold'}}>MISC BAGS</Typography></div>
                                     <div className='countBox'>{countObj?.misc}</div>
-                                        <div>Jobs Are Ready To Print</div>
+                                    <JobDesc />
                                     <div className='p-1 d-flex justify-content-center align-items-center pb-3'>
                                     <button className="btn_white btn_w2 blue print_btn" disabled={countObj.misc < 1} onClick={() => handleButtonClick('misc')}>Print</button>
                                     </div>
@@ -364,36 +396,46 @@ const MultiPart = ({ queries, headers }) => {
                         {
                           e?.additional?.pages?.length > 0 ? e?.additional?.pages?.map((e, i) => {
                             return(
+                                <>
                               <div className='containerjbsbg' key={i}>
-                                <div className=' fsjbsbg  py-1 d-flex align-items-center'>{title}</div>
-                            { e?.data?.rd?.serialjobno?.length > 0 && <div className='fsjbsbg fw-bold'>{e?.data?.rd?.serialjobno}</div>}
-                            { e?.data?.rd?.Designcode?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.Designcode}</div>}
-                            { e?.data?.rd?.CustomerCode?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.CustomerCode}</div>}
-                            { e?.data?.rd?.OrderNo?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.OrderNo}</div>}
-                            { e?.data?.rd?.promiseDatef?.length > 0 && <div className='fsjbsbg fw-bold'>{e?.data?.rd?.promiseDatef}</div>}
-                            { e?.data?.rd?.Size?.length > 0 && <div className='fsjbsbg'>Size: {e?.data?.rd?.Size}</div>}
-                            { e?.data?.rd?.MetalType?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.MetalType?.split(" ")[1] + " " +e?.data?.rd?.MetalColorCo}</div>}
-                            { e?.data?.rd?.MetalWeight > 0 && <div className='fsjbsbg'>{(+e?.data?.rd?.MetalWeight)?.toFixed(3)}gm</div>}
-                            <div className='d-flex justify-content-start align-items-center'>
-                                <QRCodeGenerator text={e?.data?.rd.serialjobno} />
-                            </div>
-                          </div>
+                                <div>
+                                        <div className=' fsjbsbg  py-1 d-flex align-items-center'>{title}</div>
+                                    { e?.data?.rd?.serialjobno?.length > 0 && <div className='fsjbsbg fw-bold'>{e?.data?.rd?.serialjobno}</div>}
+                                    { e?.data?.rd?.Designcode?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.Designcode}</div>}
+                                    { e?.data?.rd?.CustomerCode?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.CustomerCode}</div>}
+                                    { e?.data?.rd?.OrderNo?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.OrderNo}</div>}
+                                    { e?.data?.rd?.promiseDatef?.length > 0 && <div className='fsjbsbg fw-bold'>{e?.data?.rd?.promiseDatef}</div>}
+                                    { e?.data?.rd?.Size?.length > 0 && <div className='fsjbsbg'>Size: {e?.data?.rd?.Size}</div>}
+                                    { e?.data?.rd?.MetalType?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.MetalType?.split(" ")[1] + " " +e?.data?.rd?.MetalColorCo}</div>}
+                                    { e?.data?.rd?.MetalWeight > 0 && <div className='fsjbsbg'>{(+e?.data?.rd?.MetalWeight)?.toFixed(3)}gm</div>}
+                                    <div className='d-flex justify-content-start align-items-center'>
+                                        <QRCodeGenerator text={e?.data?.rd.serialjobno} />
+                                    </div>
+                                </div>
+                                <div className='text-break ins_multipart'>{e?.data?.rd?.ProductInstruction}</div>
+
+                              </div>
+                          </>
                             )
                           }) : 
-                          
+                          <>
                           <div className='containerjbsbg'>
-                                <div className=' fsjbsbg  py-1 d-flex align-items-center'>{title}</div>
-                            { e?.data?.rd?.serialjobno?.length > 0 && <div className='fsjbsbg fw-bold'>{e?.data?.rd?.serialjobno}</div>}
-                            { e?.data?.rd?.Designcode?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.Designcode}</div>}
-                            { e?.data?.rd?.CustomerCode?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.CustomerCode}</div>}
-                            { e?.data?.rd?.OrderNo?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.OrderNo}</div>}
-                            { e?.data?.rd?.promiseDatef?.length > 0 && <div className='fsjbsbg fw-bold'>{e?.data?.rd?.promiseDatef}</div>}
-                            { e?.data?.rd?.Size?.length > 0 && <div className='fsjbsbg'>Size: {e?.data?.rd?.Size}</div>}
-                            { e?.data?.rd?.MetalType?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.MetalType?.split(" ")[1] +" " +e?.data?.rd?.MetalColorCo}</div>}
-                            <div className='d-flex justify-content-start align-items-center'>
-                                <QRCodeGenerator text={e?.data?.rd.serialjobno} />
+                            <div>
+                                    <div className=' fsjbsbg  py-1 d-flex align-items-center'>{title}</div>
+                                { e?.data?.rd?.serialjobno?.length > 0 && <div className='fsjbsbg fw-bold'>{e?.data?.rd?.serialjobno}</div>}
+                                { e?.data?.rd?.Designcode?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.Designcode}</div>}
+                                { e?.data?.rd?.CustomerCode?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.CustomerCode}</div>}
+                                { e?.data?.rd?.OrderNo?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.OrderNo}</div>}
+                                { e?.data?.rd?.promiseDatef?.length > 0 && <div className='fsjbsbg fw-bold'>{e?.data?.rd?.promiseDatef}</div>}
+                                { e?.data?.rd?.Size?.length > 0 && <div className='fsjbsbg'>Size: {e?.data?.rd?.Size}</div>}
+                                { e?.data?.rd?.MetalType?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.MetalType?.split(" ")[1] +" " +e?.data?.rd?.MetalColorCo}</div>}
+                                <div className='d-flex justify-content-start align-items-center'>
+                                    <QRCodeGenerator text={e?.data?.rd.serialjobno} />
+                                </div>
                             </div>
+                            <div ><label htmlFor="" className='ins_multipart text-break'>{(e?.data?.rd?.ProductInstruction)}</label></div>
                           </div>
+                          </>
                         }
                       </React.Fragment>
                     )
