@@ -412,7 +412,7 @@ const MultiPart = ({ queries, headers }) => {
                                         <QRCodeGenerator text={e?.data?.rd.serialjobno} />
                                     </div>
                                 </div>
-                                <div className='text-break ins_multipart'>{e?.data?.rd?.ProductInstruction}</div>
+                                <div className='text-break ins_multipart fw-bolder'>{e?.data?.rd?.ProductInstruction}</div>
 
                               </div>
                           </>
@@ -433,7 +433,7 @@ const MultiPart = ({ queries, headers }) => {
                                     <QRCodeGenerator text={e?.data?.rd.serialjobno} />
                                 </div>
                             </div>
-                            <div ><label htmlFor="" className='ins_multipart text-break'>{(e?.data?.rd?.ProductInstruction)}</label></div>
+                            <div ><label htmlFor="" className='ins_multipart text-break fw-bolder'>{(e?.data?.rd?.ProductInstruction)}</label></div>
                           </div>
                           </>
                         }

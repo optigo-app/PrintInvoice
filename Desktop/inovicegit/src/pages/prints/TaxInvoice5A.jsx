@@ -346,12 +346,13 @@ const TaxInvoice5A = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </p>
         </div>
       </div>
+      {console.log(data)}
       {/* In Words */}
       <div className="d-flex border-start border-end border-bottom border-black no_break">
         <div className={`${style?.words} border-end p-1 d-flex justify-content-end flex-column border-black companyNametp5a2`} >
           <p className="companyNametp5a2">In Words (Indian Rupees)</p>
           <p className="fw-bold companyNametp5a2">
-            {toWords.convert(+fixedValues((data?.mainTotal?.total_amount / headerData?.CurrencyExchRate) + data?.allTaxes?.reduce((acc, cObj) => acc + +cObj?.amount, 0) +  + (headerData?.AddLess/ headerData?.CurrencyExchRate), 2))} Only
+            {toWords.convert(+fixedValues((data?.mainTotal?.total_amount / headerData?.CurrencyExchRate) + data?.allTaxes?.reduce((acc, cObj) => acc + +cObj?.amount, 0) + (headerData?.FreightCharges / headerData?.CurrencyExchRate) + (headerData?.AddLess/ headerData?.CurrencyExchRate), 2))} Only
           </p>
         </div>
         <div className={`${style?.grandTotal}`}>
