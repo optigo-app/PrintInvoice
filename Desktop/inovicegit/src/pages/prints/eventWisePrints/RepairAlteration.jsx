@@ -86,47 +86,75 @@ const RepairAlteration = ({ data }) => {
       </div>
     </div>
     {/* company address */}
-    {headerComp}
+    
+    <div className={style.headline}>{headerData?.PrintHeadLabel}</div>
+      <div className={style.companyDetails}>
+      <div className={style.companyhead}>
+          <span className={style.lines} style={{ fontWeight: "bold" }}>
+            {headerData?.CompanyFullName}
+          </span>
+          <span className={style.lines}>{headerData?.CompanyAddress}</span>
+          <span className={style.lines}>{headerData?.CompanyAddress2}</span>
+          <span className={style.lines}>
+            {headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}(
+            {headerData?.CompanyCountry})
+          </span>
+          <span className={style.lines}>Tell No: {headerData?.CompanyTellNo}</span>
+          <span className={style.lines}>
+            {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
+          </span>
+          <span className={style.lines}>
+            {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No}
+            {/* -GSTIN-25GJERDR202314 */}
+          </span>
+        </div>
+        <div style={{ width: "30%" }} className="d-flex justify-content-center align-item-center h-100" >
+          <img src={headerData?.PrintLogo} alt="" className={style.headerImg} />
+        </div>
+
+      </div>
+
+
     {/* customer address */}
     <div className="mt-1 p-2 border-top d-flex">
       <div className="col-6">
-        <p>To,</p>
-        <p className="fs-6 fw-bold">{headerData?.customerfirmname}</p>
+        <div>To,</div>
+        <div className="fs-6 fw-bold">{headerData?.customerfirmname}</div>
         
         {/* <p className="fs-6 fw-bold">{headerData?.CustName}</p> */}
-        <p>{headerData?.customerstreet}</p>
-        <p>{headerData?.customerregion}</p>
-        <p>
+        <div>{headerData?.customerstreet}</div>
+        <div>{headerData?.customerregion}</div>
+        <div>
           {headerData?.customercity} {headerData?.customerpincode}
-        </p>
-        <p>Tel: {headerData?.customermobileno}</p>
-        <p>{headerData?.customeremail1}</p>
-        <p>{headerData?.aadharno === '' ? '' : `Aadhar : ${headerData?.aadharno} | `}{headerData?.CustPanno === '' ? '' : ` PAN - ${headerData?.CustPanno}`}</p>
+        </div>
+        <div>Tel: {headerData?.customermobileno}</div>
+        <div>{headerData?.customeremail1}</div>
+        <div>{headerData?.aadharno === '' ? '' : `Aadhar : ${headerData?.aadharno} | `}{headerData?.CustPanno === '' ? '' : ` PAN - ${headerData?.CustPanno}`}</div>
       </div>
       <div className="col-6 d-flex justify-content-end">
         {/* <div className="col-8 d-flex flex-column justify-content-center pe-4"> */}
         <div
           className={`${style?.width_301} d-flex flex-column justify-content-center`}
         >
-          <p>
+          <div>
             Invoice#:{" "}
             <span className="fw-bold">{headerData?.InvoiceNo}</span> Dated{" "}
             <span className="fw-bold">{headerData?.EntryDate}</span>
-          </p>
-          <p>
+          </div>
+          <div>
             HSN: <span className="fw-bold">{headerData?.HSN_No}</span>
-          </p>
-          <p>
+          </div>
+          <div>
             GSTIN: <span className="fw-bold">{headerData?.Cust_VAT_GST_No}</span> |
             {headerData?.Cust_CST_STATE}{" "}
             <span className="fw-bold">
               {headerData?.Cust_CST_STATE_No}
             </span>
-          </p>
-          <p>
+          </div>
+          <div>
             Due Date:{" "}
             <span className="fw-bold">{headerData?.DueDate}</span>
-          </p>
+          </div>
         </div>
       </div>
     </div>
@@ -147,17 +175,19 @@ const RepairAlteration = ({ data }) => {
       {datas.map((e, i) => {
         return (
           <div
-            className="d-flex border-start border-bottom border-end"
+            className={`d-flex border-start border-bottom border-end ${style?.pgia_ralt}`}
             key={i}
           >
             <div className="col-1 border-end">
               <p className="fw-bold p-1 text-center pt-2">{i + 1}</p>
             </div>
             <div className="col-3 border-end">
+              <div className="d-flex align-items-center justify-content-between">
               <p className="p-1"> Job: {e?.SrJobno} </p>
               <p className="p-1">
                 Design: <span className="fw-bold">{e?.designno}</span>
               </p>
+              </div>
               <img
                 src={e?.DesignImage}
                 alt=""
@@ -165,11 +195,11 @@ const RepairAlteration = ({ data }) => {
                 onError={handleImageError}
               />
             </div>
-            <div className="col-8">
-              <p className="fw-bold p-1 text_secondary">
+            <div className="col-8 p-1">
+              <p className="fw-bold  text_secondary">
                 RECEIVED JEWELLERY
               </p>
-              <p className="px-1 pb-1 pt-2">
+              <div className="">
                 {e?.MetalTypePurity} {e?.metalColorCode} |{" "}
                 {e?.grosswt !== 0 && (
                   <>{NumberWithCommas(e?.grosswt, 3)} gms GW</>
@@ -186,40 +216,40 @@ const RepairAlteration = ({ data }) => {
                 {e?.miscWt !== 0 && (
                   <> | MISC: {NumberWithCommas(e?.miscWt, 3)} gms</>
                 )}
-              </p>
+              </div>
 
               {e?.diamonds.map((ele, ind) => {
                 return (
-                  <p key={ind} className="p-1">
+                  <div key={ind} >
                     {ele?.MasterManagement_DiamondStoneTypeName}:{" "}
                     {ele?.Pcs !== 0 && <>{ele?.Pcs} PCs |</>}{" "}
                     {ele?.Wt !== 0 && <>{ele?.Wt} Cts |</>}{" "}
                     {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}{" "}
-                  </p>
+                  </div>
                 );
               })}
 
               {e?.colorStones.map((ele, ind) => {
                 return (
-                  <p key={ind} className="p-1">
+                  <div key={ind} >
                     {" "}
                     {ele?.MasterManagement_DiamondStoneTypeName}:{" "}
                     {ele?.Pcs !== 0 && <>{ele?.Pcs} PCs</>}{" "}
                     {ele?.Wt !== 0 && <> | {ele?.Wt} Cts</>}{" "}
                     | {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}{" "}
-                  </p>
+                  </div>
                 );
               })}
 
               {e?.miscs.map((ele, ind) => {
                 return (
-                  <p key={ind} className="p-1">
+                  <div key={ind} >
                     {" "}
                     {ele?.MasterManagement_DiamondStoneTypeName}:{" "}
                     {ele?.Pcs !== 0 && <>{ele?.Pcs} PCs</>}{" "}
                     {ele?.Wt !== 0 && <> | {ele?.Wt} gms</>}{" "}
                     | {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}{" "}
-                  </p>
+                  </div>
                 );
               })}
             </div>

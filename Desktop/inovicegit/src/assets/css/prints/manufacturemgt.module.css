@@ -29,8 +29,78 @@
     width: 301px;
 }
 
+
+.headline{
+    align-items: center;
+    background-color: #939292;
+    color: #fff;
+    display: flex;
+    font-size: 20px !important;
+    font-weight: 700;
+    height: 30px;
+    justify-content: flex-start;
+    padding: 1rem;
+    width: 100%;
+}
+.companyDetails{
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    
+}
+.headerImg{
+    width: 116px;
+    height: auto;
+    max-width: 116px;
+}
+.companyhead{
+    display: flex;
+    flex-direction: column;
+    padding-top: .4rem;
+    width: 85%;
+}
+.lines{
+    font-size: 14px;
+    line-height: 100%;
+}
 @media print{
     .print_sec_sum4 {
         display: none !important;
       }
+
+      .img_manufacture{
+        max-width: 50px !important;
+        max-height: 50px !important;
+        object-fit: contain;
+        min-width: 50px !important;
+        min-height: 50px !important; 
+        margin: 0px !important;
+        padding: 0px !important;
+    }
+    .pgia_ralt{
+        page-break-inside: avoid;
+    }
+    .manufacture_container *{
+        font-size: 11px;
+        line-height: 12px;
+        font-family: Calibri;
+    }
+    .headline{
+        align-items: center;
+        background-color: #939292;
+        color: #fff;
+        display: flex;
+        font-size: 15px !important;
+        font-weight: 700;
+        height: 18px;
+        justify-content: flex-start;
+        padding: 3px;
+        width: 100%;
+    }
+    .lines{
+        font-size: 11px;
+
+        line-height: 12px;
+        line-height: 100%;
+    }
 }

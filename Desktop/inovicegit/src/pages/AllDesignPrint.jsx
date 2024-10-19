@@ -13,13 +13,12 @@ const AllDesignPrint = () => {
   const eventName = queryParams.get("evn");
   let etp = queryParams.get("etp");
   const [faviconIcon, setFaviconIcon] = useState(null);
+  const [isFaviconLoaded, setIsFaviconLoaded] = useState(true);
 
   useEffect(() => {
       setFaviconIcon(atob(queryParams?.get("Fv")))
-    }, [faviconIcon])
+  }, [faviconIcon])
     
-  const [isFaviconLoaded, setIsFaviconLoaded] = useState(true);
-
   if (etp === null) {
     etp = "cHJpbnQ=";
   }
@@ -148,7 +147,6 @@ const AllDesignPrint = () => {
     return eventMappings[evnname] || [];
   };
   
-
   const checkFavicon = () => {
     setIsFaviconLoaded(true);
   };
@@ -175,6 +173,7 @@ const AllDesignPrint = () => {
     checkFaviconUrl();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <>
       <Suspense fallback={<Loader />}>{importedComponent}</Suspense>
