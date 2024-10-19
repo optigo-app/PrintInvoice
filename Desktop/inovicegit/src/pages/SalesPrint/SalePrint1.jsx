@@ -18,6 +18,7 @@ import Loader from "../../components/Loader";
 import { OrganizeInvoicePrintData } from "../../GlobalFunctions/OrganizeInvoicePrintData";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 import { cloneDeep } from "lodash";
+import { checkFlag } from "../../GlobalFunctions/checkFlag";
 
 const SalePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [apiData, setApiData] = useState(null);
@@ -62,6 +63,7 @@ const SalePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           if (!isEmpty) {
             loadData(data?.Data);
             setApiData(data?.Data);
+            checkFlag(atob(invoiceNo), atob(printName), atob(evn));
             setLoader(false);
           } else {
             setLoader(false);
@@ -127,11 +129,10 @@ const SalePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   function loadData(data) {
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
-
     const datas = OrganizeDataPrint(
       data?.BillPrint_Json[0],
       data?.BillPrint_Json1,
-      data?.BillPrint_Json2
+      data?.BillPrint_Json2,
     );
 
     let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
@@ -430,7 +431,7 @@ const toggleFlag = (setter, flag) => {
                         {result?.header?.CompanyState}(
                         {result?.header?.CompanyCountry})
                       </div>
-                      <div>T {result?.header?.CompanyTellNo}</div>
+                       <div>T {result?.header?.CompanyTellNo}</div>
                       <div>
                         {result?.header?.CompanyEmail} |{" "}
                         {result?.header?.CompanyWebsite}

@@ -580,19 +580,19 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
        
           </div>
           <div className="col-2 p-1 border-end">
-            {tax.map((e, i) => {
+            { result?.allTaxesTotal !== 0 && <>{tax.map((e, i) => {
               return (
                 <p key={i}>
-                  {e?.name} @ {e?.per}
+                  {e?.name}  @ {e?.per}
                 </p>
               );
             })}
-            { ((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal)) !== 0 && <p>Total</p>}
+            { ((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal)) !== 0 && <p>Total</p>}</>}
             { json0Data?.AddLess !== 0 && <>{json0Data?.AddLess > 0 ? <p>Add</p> : <p>Less</p>}</>}
             { json0Data?.FreightCharges !== 0 && <p>Delivery Charges</p>}
           </div>
           <div className="col-2 p-1">
-            {tax?.map((e, i) => {
+            { result?.allTaxesTotal !== 0 && <>{tax?.map((e, i) => {
               return (
                 <p className="text-end fw-bold" key={i}>
                   <span
@@ -603,14 +603,14 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                   {NumberWithCommas((+e?.amount / result?.header?.CurrencyExchRate), 2)}{" "}
                 </p>
               );
-            })}
-            { ((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal)) !== 0 && <p className="text-end fw-bold">
+            })}</>}
+            { result?.allTaxesTotal !== 0 && <>{ ((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal)) !== 0 && <p className="text-end fw-bold">
               <span
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
               {/* {NumberWithCommas(totalAmount.after, 2)}{" "} */}
               {formatAmount(((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal)))}
-            </p>}
+            </p>}</>}
             { json0Data?.AddLess !== 0 && <p className="text-end fw-bold">
               <span
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}

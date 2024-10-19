@@ -3,7 +3,10 @@ import { numberToWords } from "number-to-words";
 import { cloneDeep } from 'lodash';
 import { ToWords } from "to-words";
 import { deepClone } from "@mui/x-data-grid/utils/utils";
-export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
+export const OrganizeDataPrint = (header2, json1_1, json2_1, invoiceNo, printName, evn) => {
+
+  
+
   const toWords = new ToWords();
   let header = cloneDeep(header2);
   let json1 = cloneDeep(json1_1);
@@ -117,7 +120,6 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
     total_MakingAmount_Setting_Amount: 0,
     total_otherCharge_Diamond_Handling: 0,
   };
-
 
   //json1 array
   json1?.length > 0 &&
