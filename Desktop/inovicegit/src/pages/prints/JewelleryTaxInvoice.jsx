@@ -1,20 +1,5 @@
 //code of version 66 
 import React, { useEffect, useState } from "react";
-import {
-  NumberWithCommas,
-  apiCall,
-  formatAmount,
-  handleImageError,
-  handlePrint,
-  isObjectEmpty,
-  taxGenrator,
-} from "../../GlobalFunctions";
-import Loader from "../../components/Loader";
-import style from "../../assets/css/prints/jewelleryTaxInvoice.module.css";
-import style1 from "../../assets/css/prints/jewelleryTaxInvoice.module.css";
-import style2 from "../../assets/css/headers/header1.module.css";
-import { cloneDeep } from "lodash";
-import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import JewelleryTaxInvoiceSale from './JewelleryTaxInvoiceEventWise/JewelleryTaxInvoiceSale';
 import JewelleryTaxInvoiceQuote from './JewelleryTaxInvoiceEventWise/JewelleryTaxInvoiceQuote';
 import JewelleryTaxInvoiceMemo from './JewelleryTaxInvoiceEventWise/JewelleryTaxInvoiceMemo';
