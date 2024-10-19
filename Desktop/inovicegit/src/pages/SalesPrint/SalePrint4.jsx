@@ -1,7 +1,8 @@
+// detail print s and detail print 7
 import React, { useEffect, useState } from "react";
 import { OrganizeDataPrint } from "./../../GlobalFunctions/OrganizeDataPrint";
 import Loader from "../../components/Loader";
-import "../../assets/css/prints/detailprint7.css";
+import "../../assets/css/salesprint/saleprint4.css";
 import { ToWords } from "to-words";
 import {
   apiCall,
@@ -82,19 +83,6 @@ const SalePrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         // totals.fineWts += fineWtss;
       })
       datas.resultArray = mainArr; 
-        //certification wt added
-        // datas?.resultArray?.forEach((e) => {
-        //   datas?.json2?.forEach((el) => {
-        //     if (e?.SrJobno === el?.StockBarcode) {
-        //       if (
-        //         el?.ShapeName === "Certification_NM award" &&
-        //         el?.MasterManagement_DiamondStoneTypeid === 3
-        //       ) {
-        //         el.Wt = e?.certificateWtDia;
-        //       }
-        //     }
-        //   });
-        // });
 
         let blankArr = [];
         //category wise data setting
@@ -109,8 +97,6 @@ const SalePrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             obj.netwt = j2?.NetWt;
             obj.fineWtByMetalWtCalculation_finewt =
               j2?.fineWtByMetalWtCalculation;
-            // obj.quantity = j2?.Quantity;
-            // obj.wastage = j2?.wastage;
             blankArr.push(obj);
           } else {
             blankArr[recordIs].GrossWt += +j2?.grosswt;
@@ -119,8 +105,6 @@ const SalePrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             blankArr[recordIs].PureNetWt += +j2?.PureNetWt;
             blankArr[recordIs].Quantity += +j2?.Quantity;
             blankArr[recordIs].fineWtss += +j2?.fineWtss;
-            // blankArr[recordIs].fineWtByMetalWtCalculation_finewt +=
-            //   +j2?.fineWtByMetalWtCalculation;
           }
         });
 
@@ -130,17 +114,7 @@ const SalePrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         blankArr?.forEach((e) => {
           let obj = { ...e };
           let netwtwithloss = e?.netwt + e?.LossWt;
-          // let fineWtBYNetWtCal = 0;
-          // fineWtBYNetWtCal += e?.fineWtByMetalWtCalculation_finewt;
-          // if (e?.LossWt === 0) {
-          //   fine_wt_calculation += e?.PureNetWt;
-          // } else {
-          //   fine_wt_calculation +=
-          //     ((e?.NetWt - e?.totals?.finding?.Wt) * e?.Tunch) / 100 +
-          //     e?.totals?.finding?.FineWt;
-          // }
           
-          // obj.fineWtBYNetWtCal = fineWtBYNetWtCal;
           obj.netwtwithloss = netwtwithloss;
           cateWise2.push(obj);
         });
@@ -167,10 +141,8 @@ const SalePrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         datas?.resultArray?.forEach((e) => {
           othamttot += e?.OtherCharges + e?.TotalDiamondHandling;
         });
-        //  let arr3 =  cateWise2?.sort((a,b) => a?.DesignNo - b?.DesignNo);
+
         setOtherAmountTotal(othamttot);
-        // setCategoryWise(cateWise2);
-        // setResult(datas);
         setLoader(false);
 
         let cgwise = [];
@@ -188,7 +160,6 @@ const SalePrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             obj.cg_quantity = e?.Quantity;
             obj.cg_wastage = e?.Wastage;
             obj.cg_tunch = e?.Tunch;
-            // obj.cg_finewt = (e?.NetWt * e?.Tunch) / 100;
             obj.cg_finewt = e?.fineWtss;
             obj.cat_count = 1;
             cgwise.push(obj);
@@ -357,64 +328,27 @@ const SalePrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             if (a?.IsHSCOE === 0 || a?.IsHSCOE === 3) {
               arr?.push(a);
             }
-            // if(a?.IsHSCOE === 0){
-            //     if(a?.IsHSCOE === 1 || a?.IsHSCOE === 2){
-            //         return ''
-            //     }else if(a?.IsHSCOE === 0 || a?.IsHSCOE === 3){
-            //       arr?.push(a);
-            //     }
-            // }
           });
           if (arr?.length === 1) {
             if (arr[0]?.IsHSCOE === 3) {
               // arr = [];
             }
           }
-          // let arr2 = [];
-          // arr?.forEach((a) => {
-          //   if(a?.IsHSCOE !== 0){
-          //       return ''
-          //   }else{
-          //     arr2.push(a);
-          //   }
-          // })
+          
 
           e.misc = arr;
         });
 
-        datas?.resultArray?.forEach((e) => {
-          if(e?.misc?.length === 1 && e?.misc[0]?.IsHSCOE === 3 && e?.misc[0]?.Rate === 0 ){
-            // e.misc = [];
-          }
-        });
+        
 
         setFineWtTotal(finewt_);
         datas?.resultArray?.forEach((e, i) => {
           let counts =
-            // e?.metal?.reduce( (acc, cObj) => cObj?.IsPrimaryMetal === 0 ? acc+1 : acc , 0 ) +
+            
             e?.diamonds?.length + e?.colorstone?.length + e?.misc?.length;
             e.counts = counts;
         });
 
-        // datas?.resultArray?.forEach((e) => {
-        //   let g_array = [];
-        //   e?.metal?.forEach((a) => {
-        //       g_array.push(a);
-        //   })
-        //   e?.diamonds?.forEach((a) => {
-        //       g_array.push(a);
-        //   })
-        //   e?.colorstone?.forEach((a) => {
-        //       g_array.push(a);
-        //   })
-        //   e?.misc?.forEach((a) => {
-        //       g_array.push(a);
-        //   })
-        //   let obj = {...e};
-        //   obj.g_array = g_array;
-        // })
-        // datas?.resultArray?.forEach((e) => {
-        // })
 
         let secArr = [];
 
@@ -514,97 +448,7 @@ const SalePrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     
         datas.resultArray = finalArr;
 
-        // let prod_sum_dia = [];
-        // let prod_sum_clr = [];
-        // let prod_sum_misc = [];
 
-        // datas?.json2?.forEach((e) => {
-        //   if(e?.MasterManagement_DiamondStoneTypeid === 1){
-        //     prod_sum_dia.push(e);
-        //   }
-        //   if(e?.MasterManagement_DiamondStoneTypeid === 2){
-        //     prod_sum_clr.push(e);
-        //   }
-        //   if(e?.MasterManagement_DiamondStoneTypeid === 3){
-        //     prod_sum_misc.push(e);
-        //   }
-        // })
-
-        // let dia_arr = [];
-        // prod_sum_dia?.forEach((a) => {
-        //   let b = cloneDeep(a);
-        //   let findrec = dia_arr?.findIndex((al) => al?.ShapeName === b?.ShapeName)
-        //   if(findrec === -1){
-        //     dia_arr.push(b);
-        //   }else{
-
-        //     dia_arr[findrec].Wt += b?.Wt;
-        //     dia_arr[findrec].Pcs += b?.Pcs;
-        //     dia_arr[findrec].Amount += b?.Amount;
-        //   }
-        // });
-        // let clr_arr = [];
-        // prod_sum_clr?.forEach((a) => {
-        //   let b = cloneDeep(a);
-        //   let findrec = clr_arr?.findIndex((al) => al?.ShapeName === b?.ShapeName && al?.isRateOnPcs === a?.isRateOnPcs)
-        //   if(findrec === -1){
-        //       clr_arr.push(b);
-        //   }else{
-        //     clr_arr[findrec].Wt += b?.Wt;
-        //     clr_arr[findrec].Pcs += b?.Pcs;
-        //     clr_arr[findrec].Amount += b?.Amount;
-        //   }
-        // });
-
-        // let misc_arr = [];
-        // prod_sum_misc?.forEach((a) => {
-        //   let b = cloneDeep(a);
-        //   if(b?.MasterManagement_DiamondStoneTypeid === 3 && (b?.IsHSCOE === 0 || b?.IsHSCOE === 3)){
-        //     let findrec = misc_arr?.findIndex((al) => al?.ShapeName === b?.ShapeName && al?.isRateOnPcs === a?.isRateOnPcs)
-        //     if(findrec === -1){
-        //       misc_arr.push(b);
-        //     }else{
-        //       misc_arr[findrec].Wt += (b?.Wt);
-        //       misc_arr[findrec].Pcs += b?.Pcs;
-        //       misc_arr[findrec].Amount += b?.Amount;
-        //       if(b?.IsHSCOE === 3){
-        //         misc_arr[findrec].ServWt += b?.ServWt;
-        //       }
-        //     }
-        //   }
-        // });
-
-        // // let final_all_arr = [...dia_arr, ...clr_arr, ...misc_arr];
-        // let final_all_arr = [...clr_arr, ...misc_arr];
-        
-        // setMiscWise(final_all_arr);
-
-        // let misc_main_total = {
-        //   Pcs:0,
-        //   Wt:0,
-        //   WtCtw:0,
-        //   WtGm:0,
-        //   ServWt:0,
-        //   Amount:0,
-        //   Rate:0
-        // }
-
-        // final_all_arr?.forEach((a) => {
-        //   misc_main_total.Pcs += a?.Pcs;
-        //   misc_main_total.Wt += a?.Wt;
-        //   misc_main_total.ServWt += a?.ServWt;
-        //   misc_main_total.Rate = a?.Rate;
-        //   misc_main_total.Amount += a?.Amount;
-
-        //   if (a?.MasterManagement_DiamondStoneTypeid === 2) {
-        //     misc_main_total.WtCtw += a?.Wt;
-        //   } else {
-        //     misc_main_total.WtGm += a?.Wt;
-        //   }
-
-        // })
-
-        // setMiscWise_total(misc_main_total)
 
       } catch (error) {
         console.log(error);
@@ -659,68 +503,6 @@ const SalePrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-  // const separateData = (data) => {
-  //     const deep_data = cloneDeep(data);
-  //     let dia_arr = [];
-  //     let cls_arr = [];
-  //     let misc_arr = [];
-
-  //     deep_data?.BillPrint_Json2?.forEach((j2) => {
-
-  //         if(j2?.MasterManagement_DiamondStoneTypeid === 1){
-  //           dia_arr?.push(j2);
-  //         }
-  //         if(j2?.MasterManagement_DiamondStoneTypeid === 2){
-  //           cls_arr?.push(j2);
-  //         }
-  //         if(j2?.MasterManagement_DiamondStoneTypeid === 3){
-  //           misc_arr?.push(j2);
-  //         }
-  //     });
-
-  //     let dia_grp_arr = [];
-  //     let cls_grp_arr = [];
-  //     let misc_grp_arr = [];
-
-  //     dia_arr?.forEach((e) => {
-  //         let findInd = dia_grp_arr?.findIndex((ele) => ele?.ShapeName === e?.ShapeName && ele?.QualityName === e?.QualityName && ele?.Colorname === e.Colorname && ele?.SizeName === e?.SizeName)
-  //         if(findInd === -1){
-  //           dia_grp_arr.push(e)
-  //         }else{
-  //           dia_grp_arr[findInd].Wt += e?.Wt;
-  //           dia_grp_arr[findInd].Pcs += e?.Pcs;
-  //           dia_grp_arr[findInd].Amount += e?.Amount;
-  //           dia_grp_arr[findInd].Rate += e?.Rate;
-  //         }
-  //     })
-  //     cls_arr?.forEach((e) => {
-  //         let findInd = cls_grp_arr?.findIndex((ele) => ele?.ShapeName === e?.ShapeName && ele?.QualityName === e?.QualityName && ele?.Colorname === e.Colorname && ele?.SizeName === e?.SizeName)
-  //         if(findInd === -1){
-  //           cls_grp_arr.push(e)
-  //         }else{
-  //           cls_grp_arr[findInd].Wt += e?.Wt;
-  //           cls_grp_arr[findInd].Pcs += e?.Pcs;
-  //           cls_grp_arr[findInd].Amount += e?.Amount;
-  //           cls_grp_arr[findInd].Rate += e?.Rate;
-  //         }
-  //     })
-  //     misc_arr?.forEach((e) => {
-  //       let findInd = misc_grp_arr?.findIndex((ele) => ele?.ShapeName === e?.ShapeName && ele?.QualityName === e?.QualityName && ele?.Colorname === e.Colorname && ele?.SizeName === e?.SizeName)
-  //       if(findInd === -1){
-  //         misc_grp_arr.push(e)
-  //       }else{
-  //         misc_grp_arr[findInd].Wt += e?.Wt;
-  //         misc_grp_arr[findInd].Pcs += e?.Pcs;
-  //         misc_grp_arr[findInd].Amount += e?.Amount;
-  //         misc_grp_arr[findInd].Rate += e?.Rate;
-  //       }
-  //   })
-
-  //   let dia_cls_misc_merge = [...dia_grp_arr, ...cls_grp_arr, ...misc_grp_arr];
-  //   setDia_Cls_Misc_Arr(dia_cls_misc_merge);
-
-  // }
 
     const handleImgShow = (e) => {
       if (imgFlag) setImgFlag(false);
@@ -958,53 +740,6 @@ const SalePrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
                 </div>
 
-                {/* table sub header */}
-                {/* <div className="d-flex subhead hcompdp7 fsgdp7">
-                  <div className="subheaddiv1 w-50">
-                    <div className="fsgdp7 lhdp7_S">
-                      {result?.header?.lblBillTo}
-                    </div>
-                    <div className="_fsgdp7_ lhdp7_S">
-                      <b>{result?.header?.customerfirmname}</b>
-                    </div>
-               
-                  </div>
-                
-                  <div className="subheaddiv3 fsgdp7 w-50">
-                    <div className="fsgdp7 lhdp7_S d-flex justify-content-between">
-                      <span className="w-50 fw-bold">INVOICE NO</span>
-                      <span className="w-50 d-flex justify-content-start">
-                        {result?.header?.InvoiceNo}
-                      </span>
-                    </div>
-                    <div className="fsgdp7 lhdp7_S d-flex justify-content-between">
-                      <span className="w-50 fw-bold">DATE</span>
-                      <span className="w-50 d-flex justify-content-start">
-                        {result?.header?.EntryDate}
-                      </span>
-                    </div>
-                    { result?.header?.HSN_No === '' ? '' : <div className="fsgdp7 lhdp7_S d-flex justify-content-between">
-                      <span className="w-50 fw-bold">
-                        {result?.header?.HSN_No_Label}
-                      </span>
-                      <span className="w-50 d-flex justify-content-start">
-                        {result?.header?.HSN_No}
-                      </span>
-                    </div>}
-                    { result?.header?.Delivery_Mode === '' ? '' : <div className="fsgdp7 lhdp7_S d-flex justify-content-between">
-                      <span className="w-50 fw-bold">Delivery Mode</span>
-                      <span className="w-50 d-flex justify-content-start">
-                        {result?.header?.Delivery_Mode}
-                      </span>
-                    </div>}
-                   
-                    <div>
-                      
-                    </div>
-                  </div>
-                </div> */}
-                
-
                 {/* table head */}
                 <div className="tabledp7 fsgdp7">
                   <div className="theaddp7 hcompdp7 bordersdp7">
@@ -1104,29 +839,17 @@ const SalePrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                       >
                                         {el?.ShapeName}
                                       </div>
-                                      <div
-                                        className="w_subcoldp7 dp7cen2 brdp7"
-                                        style={{ width: "10%" }}
-                                      >
+                                      <div className="w_subcoldp7 dp7cen2 brdp7" style={{ width: "10%" }} >
                                       
                                       </div>
-                                      <div className="w_subcoldp7 dp7cen2 brdp7">
-                                        {el?.Wt?.toFixed(3)}
-                                    
-                                      </div>
+                                      <div className="w_subcoldp7 dp7cen2 brdp7"> {el?.Wt?.toFixed(3)} </div>
                                       <div className="w_subcoldp7 dp7cen2 brdp7">
                                         {formatAmount(el?.Rate)}
                                        
                                       </div>
-                                      <div
-                                        className="w_subcoldp7 dp7cen2"
-                                        style={{ width: "25%" }}
-                                      >
+                                      <div className="w_subcoldp7 dp7cen2" style={{ width: "25%" }} >
                                    
-                                        {formatAmount(
-                                          el?.Amount /
-                                            result?.header?.CurrencyExchRate
-                                        )}
+                                        {formatAmount( el?.Amount / result?.header?.CurrencyExchRate )}
                                       </div>
                                     </div>
                                     }

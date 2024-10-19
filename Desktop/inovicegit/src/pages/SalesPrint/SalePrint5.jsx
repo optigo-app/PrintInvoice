@@ -1,3 +1,4 @@
+//dp2, dp3, dp4
 import React, { useEffect, useState } from "react";
 import "../../assets/css/salesprint/saleprint5.css";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";

@@ -1,7 +1,7 @@
 //invp8,8A,10,11
 import React, { useEffect, useState } from "react";
 import Loader from "../../components/Loader";
-import style from "../../assets/css/prints/InvoicePrint_10_11.module.css";
+import style from "../../assets/css/salesprint/saleprint6.css";
 import {
   FooterComponent,
   HeaderComponent,

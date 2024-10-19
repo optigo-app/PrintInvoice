@@ -1,6 +1,6 @@
 //Detail Print 6 and 8 Both
 import React, { useEffect, useState } from 'react'
-import "../../assets/css/prints/detailprint6.css";
+import "../../assets/css/salesprint/saleprint2.css";
 import { ToWords } from "to-words";
 import { apiCall, checkMsg, formatAmount, handleImageError, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
 import { cloneDeep } from 'lodash';

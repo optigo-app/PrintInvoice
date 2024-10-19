@@ -1,5 +1,6 @@
+// detail print c, r, k, l/p
 import React, { useEffect } from "react";
-import "../../assets/css/prints/detailPrint1.css";
+import "../../assets/css/salesprint/saleprint3.css";
 import { useState } from "react";
 import { NumberWithCommas, apiCall, brokarageDetail, checkMsg, discountCriteria, fixedValues, formatAmount, handleImageError, handlePrint, isObjectEmpty, otherAmountDetail, taxGenrator, } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
