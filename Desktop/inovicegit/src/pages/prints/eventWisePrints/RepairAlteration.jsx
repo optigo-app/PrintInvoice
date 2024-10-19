@@ -119,7 +119,7 @@ const RepairAlteration = ({ data }) => {
     <div className="mt-1 p-2 border-top d-flex">
       <div className="col-6">
         <div>To,</div>
-        <div className="fs-6 fw-bold">{headerData?.customerfirmname}</div>
+        <div className=" fw-bold">{headerData?.customerfirmname}</div>
         
         {/* <p className="fs-6 fw-bold">{headerData?.CustName}</p> */}
         <div>{headerData?.customerstreet}</div>
@@ -188,12 +188,14 @@ const RepairAlteration = ({ data }) => {
                 Design: <span className="fw-bold">{e?.designno}</span>
               </p>
               </div>
-              <img
-                src={e?.DesignImage}
-                alt=""
-                className={`${style?.img_manufacture} p-1`}
-                onError={handleImageError}
-              />
+              <div className={style?.imgBox_ra}>
+                <img
+                  src={e?.DesignImage}
+                  alt=""
+                  className={`${style?.img_manufacture} p-1`}
+                  onError={handleImageError}
+                />
+              </div>
             </div>
             <div className="col-8 p-1">
               <p className="fw-bold  text_secondary">
