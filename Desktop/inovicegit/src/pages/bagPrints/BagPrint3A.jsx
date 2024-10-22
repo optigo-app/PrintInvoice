@@ -197,7 +197,8 @@ const BagPrint3A = ({ queries, headers }) => {
                                       <p className='info3Acust hw3Asr' style={{ borderRight: "0px" }}><b></b></p>
                                     </div>
                                   </div>
-                                  <div className='imgBox3A'><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} style={{height:"6rem", width:"6rem"}} alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
+                                  <div className='imgBox3A'><img src={e?.data?.rd?.DesignImage !== '' 
+                                          ? e?.data?.rd?.DesignImage : require("../../assets/img/default.jpg")} style={{height:"6rem", width:"6rem"}} alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
                                 </div>
                                 <div className='Ins3A' ><span style={{color:"red"}}>INSTRUCTION : </span><span style={{color:"red"}}>{e?.data?.rd?.ShowInstruction ?? ''}</span></div>
                                 <div className='enteryBarcode3A'>
@@ -280,7 +281,8 @@ const BagPrint3A = ({ queries, headers }) => {
                                 <p className='info3Acust hw3Asr' style={{ borderRight: "0px" }}><b></b></p>
                               </div>
                             </div>
-                            <div className='imgBox3A'><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} style={{height:"6rem", width:"6rem"}} alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
+                            <div className='imgBox3A'><img src={e?.data?.rd?.DesignImage !== '' 
+                                          ? e?.data?.rd?.DesignImage : require("../../assets/img/default.jpg")} style={{height:"6rem", width:"6rem"}} alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
                           </div>
                           <div className='Ins3A' >
                             <span style={{color:"red"}}>INSTRUCTION : </span>
@@ -331,7 +333,8 @@ const BagPrint3A = ({ queries, headers }) => {
                               <div className='prlocqc3AE' style={{ borderRight: "0px", lineHeight: "9px" }}><p>MAKETYPE</p><p><b style={{ lineHeight: "9px" }}>{e?.data?.rd?.mastermanagement_maketypename}</b></p></div>
                             </div>
                           </div>
-                          <div className='imgBox3A' style={{ height: "120px" }}><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} style={{height:"7.4rem", width:"6rem"}} alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
+                          <div className='imgBox3A' style={{ height: "120px" }}><img src={e?.data?.rd?.DesignImage !== '' 
+                                          ? e?.data?.rd?.DesignImage : require("../../assets/img/default.jpg")} style={{height:"7.4rem", width:"6rem"}} alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
                         </div>
                         <div className='enteryBarcode3A'>
                           <div className='enteryBarcode3ADyn'>

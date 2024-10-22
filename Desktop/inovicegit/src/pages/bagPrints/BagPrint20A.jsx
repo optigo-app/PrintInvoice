@@ -396,8 +396,8 @@ const BagPrint20A = ({ queries, headers }) => {
                                   {" "}
                                   <img
                                     src={
-                                      e?.additional?.img !== ""
-                                        ? e?.additional?.img
+                                      e?.data?.rd?.DesignImage !== '' 
+                                          ? e?.data?.rd?.DesignImage
                                         : require("../../assets/img/default.jpg")
                                     }
                                     id="img7Acopy"
@@ -916,8 +916,8 @@ const BagPrint20A = ({ queries, headers }) => {
                             {" "}
                             <img
                               src={
-                                e?.additional?.img !== ""
-                                  ? e?.additional?.img
+                                e?.data?.rd?.DesignImage !== '' 
+                                          ? e?.data?.rd?.DesignImage
                                   : require("../../assets/img/default.jpg")
                               }
                               id="img7Acopy"

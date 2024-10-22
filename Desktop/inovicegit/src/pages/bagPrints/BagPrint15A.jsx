@@ -256,7 +256,7 @@ const BagPrint15A = ({ queries, headers }) => {
                                                         </div>
                                                     </div>
                                                     <div className="aside">
-                                                        <div className="imgSize15"><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img15" alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
+                                                        <div className="imgSize15"><img src={e?.data?.rd?.DesignImage !== ''  ? e?.data?.rd?.DesignImage : require("../../assets/img/default.jpg")} id="img15" alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
                                                         <div>
                                                             <div className="sub-aside"> Total : {e?.additional?.dia?.diaPcs} pcs</div>
                                                             <div className="sub-aside"> Type : Colorstone sieve size </div>
@@ -380,7 +380,7 @@ const BagPrint15A = ({ queries, headers }) => {
                                             </div>
                                         </div>
                                         <div className="aside">
-                                            <div className="imgSize15"><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img15" alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
+                                            <div className="imgSize15"><img src={e?.data?.rd?.DesignImage !== '' ? e?.data?.rd?.DesignImage : require("../../assets/img/default.jpg")} id="img15" alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
                                             <div>
                                                 <div className="sub-aside"> Total : {e?.additional?.dia?.diaPcs} Pcs</div>
                                                 <div className="sub-aside"> Type: Colorstone sieve size</div>

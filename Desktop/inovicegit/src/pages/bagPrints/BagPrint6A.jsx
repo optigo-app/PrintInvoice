@@ -283,8 +283,8 @@ const BagPrint6A = ({ queries, headers }) => {
                                   {" "}
                                   <img
                                     src={
-                                      e?.additional?.img !== ""
-                                        ? e?.additional?.img
+                                      e?.data?.rd?.DesignImage !== '' 
+                                          ? e?.data?.rd?.DesignImage
                                         : require("../../assets/img/default.jpg")
                                     }
                                     id="img6A"
@@ -462,8 +462,8 @@ const BagPrint6A = ({ queries, headers }) => {
                               {" "}
                               <img
                                 src={
-                                  e?.additional?.img !== ""
-                                    ? e?.additional?.img
+                                  e?.data?.rd?.DesignImage !== '' 
+                                          ? e?.data?.rd?.DesignImage
                                     : require("../../assets/img/default.jpg")
                                 }
                                 id="img6A"

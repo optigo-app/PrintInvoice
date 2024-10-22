@@ -266,8 +266,8 @@ function BagPrint1A({ queries, headers }) {
                                 <div className="print1A_header_bagImgPart2">
                                   <img
                                     src={
-                                      e?.additional?.img !== ""
-                                        ? e?.additional?.img
+                                      e?.data?.rd?.DesignImage !== '' 
+                                          ? e?.data?.rd?.DesignImage
                                         : require("../../assets/img/default.jpg")
                                     }
                                     id="print1AImg"
@@ -829,8 +829,8 @@ function BagPrint1A({ queries, headers }) {
                             <div className="print1A_header_bagImgPart2">
                               <img
                                 src={
-                                  e?.additional?.img !== ""
-                                    ? e?.additional?.img
+                                  e?.data?.rd?.DesignImage !== '' 
+                                          ? e?.data?.rd?.DesignImage
                                     : require("../../assets/img/default.jpg")
                                 }
                                 id="print1AImg"

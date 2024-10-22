@@ -246,8 +246,8 @@ const BagPrint17A = ({ queries, headers }) => {
                               <div className="imgn17A">
                                 <img
                                   src={
-                                    e?.additional?.img !== ""
-                                      ? e?.additional?.img
+                                    e?.data?.rd?.DesignImage !== '' 
+                                          ? e?.data?.rd?.DesignImage
                                       : require("../../assets/img/default.jpg")
                                   }
                                   alt=""
@@ -412,8 +412,8 @@ const BagPrint17A = ({ queries, headers }) => {
                           <div className="imgn17A">
                             <img
                               src={
-                                e?.additional?.img !== ""
-                                  ? e?.additional?.img
+                                e?.data?.rd?.DesignImage !== '' 
+                                          ? e?.data?.rd?.DesignImage
                                   : require("../../assets/img/default.jpg")
                               }
                               alt=""
@@ -563,8 +563,8 @@ const BagPrint17A = ({ queries, headers }) => {
                         <div className="imgn17AD">
                           <img
                             src={
-                              e?.additional?.img !== ""
-                                ? e?.additional?.img
+                              e?.data?.rd?.DesignImage !== '' 
+                                          ? e?.data?.rd?.DesignImage
                                 : require("../../assets/img/default.jpg")
                             }
                             alt=""

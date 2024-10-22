@@ -402,9 +402,12 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     {/* {(e?.MetalPurity || e?.MetalColor) !== '' && <div className='centerall_pcls text-break w-100 fw-bold'>{e?.MetalPurity}&nbsp;{e?.MetalColor}</div>} */}
                                     { e?.CertificateNo !== '' && <div className='centerall_pcls text-break w-100'>Certificate# : <span className='fw-bold'>{e?.CertificateNo}</span></div>}
                                     { e?.HUID !== '' && <div className='centerall_pcls w-100 text-break'>HUID : <span className='fw-bold'>{e?.HUID}</span></div>}
-                                    { e?.PO !== '' && <div className='centerall_pcls w-100 fw-bold text-break'>PO : {e?.PO}</div>}
-                                    {/* { e?.lineid !== '' && <div className='centerall_pcls w-100 text-break'>{e?.lineid}</div>} */}
+                                    <div className='d-flex align-items-center w-100  btop_pcls' style={{backgroundColor:'#F5F5F5'}}>
+                                    { e?.PO !== '' && <div className='centerall_pcls w-100 fw-bold text-break'>Ur Ref : {e?.PO}</div>}&nbsp;
                                     { e?.Size !== '' && <div className='centerall_pcls w-100 text-break'><span className=''>Size : {e?.Size}</span></div>}
+                                    </div>
+                                    {/* { e?.lineid !== '' && <div className='centerall_pcls w-100 text-break'>{e?.lineid}</div>} */}
+                                    
                                 </div>
 
                                 <div className='col4_pcls  d-flex flex-column justify-content-between bright_pcls'>
@@ -414,10 +417,10 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         return (
                                             <div className='d-flex w-100' key={ind}>
                                                 <div className='mcol1_pcls start_center_pcls pdl_pcls text-break'>{ el?.ShapeName} <br /> {e?.MetalPurity} {e?.MetalColor}</div>
-                                                <div className='mcol1_pcls end_pcls pdr_pcls'>{ el?.IsPrimaryMetal === 1 && e?.grosswt?.toFixed(3)}</div>
-                                                <div className='mcol1_pcls end_pcls pdr_pcls'>{ el?.IsPrimaryMetal === 1 ? ((e?.NetWt - e?.finding_customer_wt) + e?.LossWt )?.toFixed(3) : el?.Wt?.toFixed(3)}</div>
-                                                <div className='mcol1_pcls end_pcls pdr_pcls'>{ el?.IsPrimaryMetal === 1 && (e?.PureNetWt)?.toFixed(3)}</div>
-                                                <div className='mcol1_pcls end_pcls pdr_pcls'>{ priceFlag && <>{ el?.Rate !==0 && Math.round(el?.Rate)}</>}</div>
+                                                <div className='mcol1_pcls pcle_center  pdr_pcls'>{ el?.IsPrimaryMetal === 1 && e?.grosswt?.toFixed(3)}</div>
+                                                <div className='mcol1_pcls pcle_center pdr_pcls'>{ el?.IsPrimaryMetal === 1 ? ((e?.NetWt - e?.finding_customer_wt) + e?.LossWt )?.toFixed(3) : el?.Wt?.toFixed(3)}</div>
+                                                <div className='mcol1_pcls pcle_center pdr_pcls'>{ el?.IsPrimaryMetal === 1 && (e?.PureNetWt)?.toFixed(3)}</div>
+                                                <div className='mcol1_pcls pcle_center pdr_pcls'>{ priceFlag && <>{ el?.Rate !==0 && Math.round(el?.Rate)}</>}</div>
                                                 <div className='mcol1_pcls end_pcls pdr_pcls fw-bold'>
                                                   
                                                   { el?.IsPrimaryMetal === 1 ? <> { priceFlag && 
@@ -439,9 +442,9 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                           
                                             <div className='d-flex w-100 btop_pcls bg_pcls fw-bold'>
                                                 <div className='mcol1_pcls '>&nbsp;</div>
-                                                <div className='mcol1_pcls end_pcls pdr_pcls'>{ e?.grosswt !== 0 && e?.grosswt?.toFixed(3)}</div>
-                                                <div className='mcol1_pcls end_pcls pdr_pcls'>{ (e?.NetWt + e?.LossWt) !== 0 && (e?.NetWt + e?.LossWt)?.toFixed(3)}</div>
-                                                <div className='mcol1_pcls end_pcls pdr_pcls'>{ (e?.PureNetWt )?.toFixed(3)}</div>
+                                                <div className='mcol1_pcls pcle_center pdr_pcls'>{ e?.grosswt !== 0 && e?.grosswt?.toFixed(3)}</div>
+                                                <div className='mcol1_pcls pcle_center pdr_pcls'>{ (e?.NetWt + e?.LossWt) !== 0 && (e?.NetWt + e?.LossWt)?.toFixed(3)}</div>
+                                                <div className='mcol1_pcls pcle_center pdr_pcls'>{ (e?.PureNetWt )?.toFixed(3)}</div>
                                                 <div className='mcol1_pcls end_pcls pdr_pcls' style={{width:'33.33%'}}>{ priceFlag && ( e?.LossAmt + e?.totals?.metal?.Amount + e?.totals?.finding?.Amount) !== 0 && Math.round(((e?.totals?.metal?.Amount + e?.totals?.finding?.Amount + e?.LossAmt) / result?.header?.CurrencyExchRate))}</div>
                                             </div>
                                 </div>
@@ -454,9 +457,9 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                 <div className='d-flex w-100' key={ind}>
                                                     <div className='dcol1_pcls start_center_pcls pdl_pcls'>{el?.ShapeName }</div>
                                                     <div className='dcol2_pcls start_center_pcls pdl_pcls'>{el?.SizeName}</div>
-                                                    <div className='dcol3_pcls end_pcls pdr_pcls'>{el?.Pcs}</div>
-                                                    <div className='dcol4_pcls end_pcls pdr_pcls'>{el?.Wt?.toFixed(3)}</div>
-                                                    <div className='dcol5_pcls end_pcls pdr_pcls'>{ priceFlag && (el?.Rate)}</div>
+                                                    <div className='dcol3_pcls pcle_center pdr_pcls'>{el?.Pcs}</div>
+                                                    <div className='dcol4_pcls pcle_center pdr_pcls'>{el?.Wt?.toFixed(3)}</div>
+                                                    <div className='dcol5_pcls pcle_center pdr_pcls'>{ priceFlag && (el?.Rate)}</div>
                                                     <div className='dcol6_pcls end_pcls pdr_pcls fw-bold'>{ priceFlag && <>{ el?.Amount !== 0 && Math.round((el?.Amount / result?.header?.CurrencyExchRate))}</>}</div>
                                                 </div>
                                             )
@@ -466,8 +469,8 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                 <div className='d-flex w-100 btop_pcls bg_pcls fw-bold'>
                                                     <div className='dcol1_pcls'>&nbsp;</div>
                                                     <div className='dcol2_pcls'></div>
-                                                    <div className='dcol3_pcls end_pcls pdr_pcls'>{e?.totals?.diamonds?.Pcs !== 0 && e?.totals?.diamonds?.Pcs}</div>
-                                                    <div className='dcol4_pcls end_pcls pdr_pcls'>{ e?.totals?.diamonds?.Wt !== 0 && e?.totals?.diamonds?.Wt?.toFixed(3)}</div>
+                                                    <div className='dcol3_pcls pcle_center pdr_pcls'>{e?.totals?.diamonds?.Pcs !== 0 && e?.totals?.diamonds?.Pcs}</div>
+                                                    <div className='dcol4_pcls pcle_center pdr_pcls'>{ e?.totals?.diamonds?.Wt !== 0 && e?.totals?.diamonds?.Wt?.toFixed(3)}</div>
                                                     <div className='end_pcls pdr_pcls' style={{width:'37%'}}>{ priceFlag && <>{ e?.totals?.diamonds?.Amount !== 0 && Math.round((e?.totals?.diamonds?.Amount / result?.header?.CurrencyExchRate))}</>}</div>
                                                 </div>
                                 </div>
@@ -482,9 +485,9 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                     <div className='d-flex w-100' key={ind}>
                                                         <div className='dcol1_pcls start_center_pcls pdl_pcls'>{el?.ShapeName}</div>
                                                         <div className='dcol2_pcls start_center_pcls pdl_pcls'>{el?.SizeName}</div>
-                                                        <div className='dcol3_pcls end_pcls pdr_pcls'>{el?.Pcs}</div>
-                                                        <div className='dcol4_pcls end_pcls pdr_pcls'>{el?.Wt?.toFixed(3)}</div>
-                                                        <div className='dcol5_pcls end_pcls pdr_pcls'>{ priceFlag && (el?.Rate)}</div>
+                                                        <div className='dcol3_pcls pcle_center pdr_pcls'>{el?.Pcs}</div>
+                                                        <div className='dcol4_pcls pcle_center pdr_pcls'>{el?.Wt?.toFixed(3)}</div>
+                                                        <div className='dcol5_pcls pcle_center pdr_pcls'>{ priceFlag && (el?.Rate)}</div>
                                                         <div className='dcol6_pcls end_pcls pdr_pcls fw-bold'>{ priceFlag && <>{ el?.Amount !== 0 && Math.round((el?.Amount / result?.header?.CurrencyExchRate))}</>}</div>
                                                     </div>
                                                 )
@@ -496,9 +499,9 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                         <div className='d-flex w-100' key={ind}>
                                                             <div className='dcol1_pcls start_center_pcls pdl_pcls'>{el?.ShapeName?.length !== 0 && 'M : '}{el?.ShapeName}</div>
                                                             <div className='dcol2_pcls start_center_pcls pdl_pcls'>{el?.SizeName}</div>
-                                                            <div className='dcol3_pcls end_pcls pdr_pcls'>{el?.Pcs}</div>
-                                                            <div className='dcol4_pcls end_pcls pdr_pcls'>{el?.Wt?.toFixed(3)}</div>
-                                                            <div className='dcol5_pcls end_pcls pdr_pcls'>{ priceFlag && (el?.Rate)}</div>
+                                                            <div className='dcol3_pcls pcle_center pdr_pcls'>{el?.Pcs}</div>
+                                                            <div className='dcol4_pcls pcle_center pdr_pcls'>{el?.Wt?.toFixed(3)}</div>
+                                                            <div className='dcol5_pcls pcle_center pdr_pcls'>{ priceFlag && (el?.Rate)}</div>
                                                             <div className='dcol6_pcls end_pcls pdr_pcls fw-bold'>{ priceFlag && <>{ el?.Amount !== 0 && Math.round((el?.Amount / result?.header?.CurrencyExchRate))}</>}</div>
                                                         </div>
                                                     )
@@ -508,8 +511,8 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                 <div className='d-flex w-100 btop_pcls bg_pcls fw-bold'>
                                                     <div className='dcol1_pcls'>&nbsp;</div>
                                                     <div className='dcol2_pcls'></div>
-                                                    <div className='dcol3_pcls end_pcls pdr_pcls'>{( e?.totals?.misc?.IsHSCODE_0_pcs + e?.totals?.colorstone?.Pcs) !== 0 &&  ( e?.totals?.misc?.IsHSCODE_0_pcs + e?.totals?.colorstone?.Pcs)}</div>
-                                                    <div className='dcol4_pcls end_pcls pdr_pcls'>{ ( e?.totals?.misc?.IsHSCODE_0_wt + e?.totals?.colorstone?.Wt) !== 0 && (e?.totals?.colorstone?.Wt + e?.totals?.misc?.IsHSCODE_0_wt)?.toFixed(3)}</div>
+                                                    <div className='dcol3_pcls pcle_center pdr_pcls'>{( e?.totals?.misc?.IsHSCODE_0_pcs + e?.totals?.colorstone?.Pcs) !== 0 &&  ( e?.totals?.misc?.IsHSCODE_0_pcs + e?.totals?.colorstone?.Pcs)}</div>
+                                                    <div className='dcol4_pcls pcle_center pdr_pcls'>{ ( e?.totals?.misc?.IsHSCODE_0_wt + e?.totals?.colorstone?.Wt) !== 0 && (e?.totals?.colorstone?.Wt + e?.totals?.misc?.IsHSCODE_0_wt)?.toFixed(3)}</div>
                                                     <div className='end_pcls pdr_pcls' style={{width:'37%'}}>{ priceFlag && <>{ ( e?.totals?.misc?.IsHSCODE_0_amount + e?.totals?.colorstone?.Amount) !== 0 && ( Math.round( (e?.totals?.misc?.IsHSCODE_0_amount + e?.totals?.colorstone?.Amount) / result?.header?.CurrencyExchRate))}</>}</div>
                                                 </div>
                                 </div>
@@ -518,7 +521,7 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     <div>
                                         { (e?.MaKingCharge_Unit !== 0) && <div className='d-flex w-100'>
                                             <div className='lcol1_pcls start_center_pcls pdl_pcls'>Labour</div>
-                                            <div className='lcol1_pcls end_pcls pdr_pcls'>{ priceFlag && (e?.MaKingCharge_Unit)}</div>
+                                            <div className='lcol1_pcls pcle_center pdr_pcls'>{ priceFlag && (e?.MaKingCharge_Unit)}</div>
                                             <div className='lcol1_pcls end_pcls pdr_pcls'>{ priceFlag && <>{ e?.MakingAmount !== 0 && Math.round((e?.MakingAmount / result?.header?.CurrencyExchRate))}</>}</div>
                                         </div>}
                                         
@@ -574,13 +577,13 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                     </div>}
                                                     { (e?.totals?.finding?.SettingAmount) !== 0 && <div className='d-flex w-100'>
                                                         <div className='lcol1_pcls start_center_pcls pdl_pcls text-break'>Labour</div>
-                                                        <div className='lcol1_pcls end_pcls pdr_pcls text-break'>{ priceFlag && (e?.totals?.finding?.SettingRate)}</div>
+                                                        <div className='lcol1_pcls pcle_center pdr_pcls text-break'>{ priceFlag && (e?.totals?.finding?.SettingRate)}</div>
                                                         <div className='lcol1_pcls end_pcls pdr_pcls'>{ priceFlag && <>{ (e?.totals?.finding?.SettingAmount / result?.header?.CurrencyExchRate) !== 0 && Math.round(((e?.totals?.finding?.SettingAmount / result?.header?.CurrencyExchRate)))}</>}</div>
                                                     </div>}
 
                                         { (e?.TotalDiamondHandling !== 0) && <div className='d-flex w-100'>
                                                 <div className='lcol1_pcls start_center_pcls pdl_pcls'>Handling</div>
-                                                <div className='lcol1_pcls end_pcls pdr_pcls'>{ priceFlag && Math.round((e?.TotalDiamondHandling/e?.totals?.diamonds?.Wt))}</div>
+                                                <div className='lcol1_pcls pcle_center pdr_pcls'>{ priceFlag && Math.round((e?.TotalDiamondHandling/e?.totals?.diamonds?.Wt))}</div>
                                                 <div className='lcol1_pcls end_pcls pdr_pcls'>{ priceFlag && <>{ (e?.TotalDiamondHandling / result?.header?.CurrencyExchRate) !== 0 && Math.round((e?.TotalDiamondHandling / result?.header?.CurrencyExchRate))}</>}</div>
                                             </div>
                                         }
@@ -785,7 +788,7 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="d-flex justify-content-between px-1">
                             <div className="w-50 fw-bold">OTHER </div>
                             <div className="w-50 end_dp10">
-                            { priceFlag && Math.round(((result?.mainTotal?.OtherCharges)))}
+                            { priceFlag && Math.round(((result?.mainTotal?.OtherCharges + result?.mainTotal?.TotalDiamondHandling)))}
                             </div>
                           </div>
                           <div className="d-flex justify-content-between px-1">

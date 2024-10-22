@@ -273,7 +273,11 @@ const PrintDesign17 = ({ queries, headers }) => {
                                 }}
                               >
                                 <img
-                                  src={e?.data?.rd?.DesignImage}
+                                  src={
+                                    e?.data?.rd?.DesignImage !== '' 
+                                            ? e?.data?.rd?.DesignImage
+                                      : require("../../assets/img/default.jpg")
+                                  }
                                   // src={
                                   //   e?.additional?.img !== ""
                                   //     ? e?.additional?.img
@@ -836,7 +840,11 @@ const PrintDesign17 = ({ queries, headers }) => {
                         >
                           
                           <img
-                            src={e?.data?.rd?.DesignImage}
+                            src={
+                              e?.data?.rd?.DesignImage !== '' 
+                                      ? e?.data?.rd?.DesignImage
+                                : require("../../assets/img/default.jpg")
+                            }
                             // src={
                             //   e?.additional?.img !== ""
                             //     ? e?.additional?.img

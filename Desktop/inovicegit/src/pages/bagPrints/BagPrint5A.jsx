@@ -347,8 +347,8 @@ const BagPrint5A = ({ queries, headers }) => {
                                   <div className="img5A">
                                     <img
                                       src={
-                                        e?.additional?.img !== ""
-                                          ? e?.additional?.img
+                                        e?.data?.rd?.DesignImage !== '' 
+                                          ? e?.data?.rd?.DesignImage
                                           : require("../../assets/img/default.jpg")
                                       }
                                       style={{height:"6rem", width:"7rem"}}
@@ -565,8 +565,8 @@ const BagPrint5A = ({ queries, headers }) => {
                             <div className="img5A">
                               <img
                                 src={
-                                  e?.additional?.img !== ""
-                                    ? e?.additional?.img
+                                  e?.data?.rd?.DesignImage !== '' 
+                                          ? e?.data?.rd?.DesignImage
                                     : require("../../assets/img/default.jpg")
                                 }
                                 style={{height:"6rem", width:"7rem"}}
@@ -816,8 +816,8 @@ const BagPrint5A = ({ queries, headers }) => {
                           <div className="img5AD">
                             <img
                               src={
-                                e?.additional?.img !== ""
-                                  ? e?.additional?.img
+                                e?.data?.rd?.DesignImage !== '' 
+                                          ? e?.data?.rd?.DesignImage
                                   : require("../../assets/img/default.jpg")
                               }
                               style={{height:"7rem", width:"7rem"}}

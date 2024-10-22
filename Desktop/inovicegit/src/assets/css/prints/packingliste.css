@@ -45,6 +45,11 @@
     align-items: center;
     
 }
+.pcle_center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .center_sdp10{
     display: flex;
     justify-content: center;

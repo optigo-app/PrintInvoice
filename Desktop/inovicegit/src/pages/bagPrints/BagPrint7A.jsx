@@ -472,8 +472,8 @@ const BagPrint7A = ({ queries, headers }) => {
                                     {" "}
                                     <img
                                       src={
-                                        e?.additional?.img !== ""
-                                          ? e?.additional?.img
+                                        e?.data?.rd?.DesignImage !== '' 
+                                          ? e?.data?.rd?.DesignImage
                                           : require("../../assets/img/default.jpg")
                                       }
                                       id="img7A"
@@ -915,8 +915,8 @@ const BagPrint7A = ({ queries, headers }) => {
                             <div style={{ padding: "1rem" }}>
                               { imgFlag ? '' : <img
                                 src={
-                                  e?.additional?.img !== ""
-                                    ? e?.additional?.img
+                                  e?.data?.rd?.DesignImage !== '' 
+                                          ? e?.data?.rd?.DesignImage
                                     : require("../../assets/img/default.jpg")
                                 }
                                 alt="materialimage"
@@ -1061,8 +1061,8 @@ const BagPrint7A = ({ queries, headers }) => {
                               {" "}
                               <img
                                 src={
-                                  e?.additional?.img !== ""
-                                    ? e?.additional?.img
+                                  e?.data?.rd?.DesignImage !== '' 
+                                          ? e?.data?.rd?.DesignImage
                                     : require("../../assets/img/default.jpg")
                                 }
                                 id="img7A"
@@ -1325,8 +1325,8 @@ const BagPrint7A = ({ queries, headers }) => {
                             <div style={{ padding: "1rem" }}>
                               <img
                                 src={
-                                  e?.additional?.img !== ""
-                                    ? e?.additional?.img
+                                  e?.data?.rd?.DesignImage !== '' 
+                                          ? e?.data?.rd?.DesignImage
                                     : require("../../assets/img/default.jpg")
                                 }
                                 loading="eager"

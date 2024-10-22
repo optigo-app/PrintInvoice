@@ -295,7 +295,11 @@ const TitanBagPrint = ({ queries, headers }) => {
                                 <div className="part_2_4B">
                                   <div className="img_sec_4A border-bottom border-black">
                                     <img
-                                      src={e?.additional?.img}
+                                      src={
+                                        e?.data?.DesignImage !== '' 
+                                                ? e?.data?.DesignImage
+                                          : require("../../assets/img/default.jpg")
+                                      }
                                       alt=""
                                       onError={(e) => handleImageError(e)}
                                       loading="eager"
@@ -477,7 +481,11 @@ const TitanBagPrint = ({ queries, headers }) => {
                                 <div className="part_2_4B">
                                   <div className="img_sec_4A border-bottom border-black">
                                     <img
-                                      src={e?.additional?.img}
+                                      src={
+                                        e?.data?.DesignImage !== '' 
+                                                ? e?.data?.DesignImage
+                                          : require("../../assets/img/default.jpg")
+                                      }
                                       alt=""
                                       onError={(e) => handleImageError(e)}
                                       loading="eager"
@@ -633,7 +641,11 @@ const TitanBagPrint = ({ queries, headers }) => {
                           <div className="part_2_container_4A container_print4bpart_1">
                             <div className="img_sec_container_4b border-bottom border-black">
                               <img
-                                src={e?.additional?.img}
+                                src={
+                                  e?.data?.DesignImage !== '' 
+                                          ? e?.data?.DesignImage
+                                    : require("../../assets/img/default.jpg")
+                                }
                                 alt=""
                                 onError={(e) => handleImageError(e)}
                                 loading="eager"

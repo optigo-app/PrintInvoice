@@ -334,7 +334,11 @@ const BagPrint4C = ({ queries, headers }) => {
                                                                                 {/* { <div className="img_sec_4A border-bottom border-black"> } */}
                                                                                 <div className="img_fir_4C border-bottom border-black">
                                                                                     <img
-                                                                                        src={e?.additional?.img}
+                                                                                        src={
+                                                                                            e?.data?.DesignImage !== '' 
+                                                                                                    ? e?.data?.DesignImage
+                                                                                              : require("../../assets/img/default.jpg")
+                                                                                          }
                                                                                         alt=""
                                                                                         onError={(e) => handleImageError(e)}
                                                                                         loading="eager"

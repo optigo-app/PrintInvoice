@@ -248,7 +248,11 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                             </div>
                                                                         </div>
                                                                         <div className="img_sec_12A border_bottom_2_12A">
-                                                                            <img src="http://zen/R50B3/UFS/ufs2/orail228FT0OWNGEI6DC3BVS/Design_Image/rxGjOQumr7MDE0NTIzMw==/Red_Medium/0145233_05082023173015962.jpg" onError={e => handleImageError(e)} alt="" />
+                                                                            <img src={
+                                  e?.data?.DesignImage !== '' 
+                                          ? e?.data?.DesignImage
+                                    : require("../../assets/img/default.jpg")
+                                } onError={e => handleImageError(e)} alt="" />
                                                                         </div>
                                                                     </div>
                                                                     <div className="master_detail_12A border_bottom_2_12A">

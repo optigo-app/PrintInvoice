@@ -253,7 +253,8 @@ const BagPrint11A = ({ queries, headers }) => {
                         </div>
                       </div>
                       <div className="img11A">
-                        <img src={ e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg") }
+                        <img src={e?.data?.rd?.DesignImage !== '' 
+                                          ? e?.data?.rd?.DesignImage : require("../../assets/img/default.jpg") }
                           id="img11A"
                           alt=""
                           onError={(e) => handleImageError(e)}
