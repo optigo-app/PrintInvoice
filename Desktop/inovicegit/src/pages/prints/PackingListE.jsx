@@ -293,7 +293,7 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div>{result?.header?.CompanyAddress}</div>
                     <div>{result?.header?.CompanyAddress2}</div>
                     <div>{result?.header?.CompanyCity}-{result?.header?.CompanyPinCode},{result?.header?.CompanyState}({result?.header?.CompanyCountry})</div>
-                    <span className='d-flex align-items-center'>{ result?.header?.CompanyTellNo && <div>T {result?.header?.CompanyTellNo}</div>} &nbsp;|&nbsp; {result?.header?.CompanyTellNo2 && <div>M {result?.header?.CompanyTellNo2}</div>}</span>
+                    <span className='d-flex align-items-center'>{ result?.header?.CompanyTellNo && <div>T {result?.header?.CompanyTellNo}</div>} &nbsp;|&nbsp; {result?.header?.CompanyTollFreeNo && <div>M {result?.header?.CompanyTollFreeNo}</div>}</span>
                     <div>{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</div>
                 </div>
                 <div>
@@ -399,7 +399,7 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     ) : (
                                     ""
                                     )}
-                                    {(e?.MetalPurity || e?.MetalColor) !== '' && <div className='centerall_pcls text-break w-100 fw-bold'>{e?.MetalPurity}&nbsp;{e?.MetalColor}</div>}
+                                    {/* {(e?.MetalPurity || e?.MetalColor) !== '' && <div className='centerall_pcls text-break w-100 fw-bold'>{e?.MetalPurity}&nbsp;{e?.MetalColor}</div>} */}
                                     { e?.CertificateNo !== '' && <div className='centerall_pcls text-break w-100'>Certificate# : <span className='fw-bold'>{e?.CertificateNo}</span></div>}
                                     { e?.HUID !== '' && <div className='centerall_pcls w-100 text-break'>HUID : <span className='fw-bold'>{e?.HUID}</span></div>}
                                     { e?.PO !== '' && <div className='centerall_pcls w-100 fw-bold text-break'>PO : {e?.PO}</div>}
@@ -413,7 +413,7 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     e?.metal?.map((el, ind) => {
                                         return (
                                             <div className='d-flex w-100' key={ind}>
-                                                <div className='mcol1_pcls start_center_pcls pdl_pcls'>{ el?.ShapeName}</div>
+                                                <div className='mcol1_pcls start_center_pcls pdl_pcls text-break'>{ el?.ShapeName} <br /> {e?.MetalPurity} {e?.MetalColor}</div>
                                                 <div className='mcol1_pcls end_pcls pdr_pcls'>{ el?.IsPrimaryMetal === 1 && e?.grosswt?.toFixed(3)}</div>
                                                 <div className='mcol1_pcls end_pcls pdr_pcls'>{ el?.IsPrimaryMetal === 1 ? ((e?.NetWt - e?.finding_customer_wt) + e?.LossWt )?.toFixed(3) : el?.Wt?.toFixed(3)}</div>
                                                 <div className='mcol1_pcls end_pcls pdr_pcls'>{ el?.IsPrimaryMetal === 1 && (e?.PureNetWt)?.toFixed(3)}</div>
