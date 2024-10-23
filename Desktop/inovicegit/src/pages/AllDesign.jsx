@@ -8,6 +8,7 @@ import ErrorPage from "./error/ErrorPage";
 import Loader from "../components/Loader";
 import  QcReport  from "./qcreport/QcReport";
 import MRPBill from "./MRPBill/MRPBill";
+import AllMaterialWisePrint from "./AllMaterialWisePrint";
 
 const AllDesign = () => {
   
@@ -26,6 +27,8 @@ const AllDesign = () => {
       return <AllDesignPrint />;
     } else if (searchUrl?.includes("printname")) {
       return <AllDesignBagPrint2 />;
+    } else if (searchUrl?.includes("matsale")) {
+      return <AllMaterialWisePrint />;
     } else if (searchUrl?.includes("grids")) {
       return <AllGrids />;
     } else if (searchUrl?.includes("pid=18126")) {
