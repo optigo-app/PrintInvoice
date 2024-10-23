@@ -191,7 +191,41 @@ const InvoicePrint = () => {
                         <div className='fw-bold d-flex w-100'><div style={{width:'60%'}} className='ps_ip_ms end_dp10 pe_ip_ms py-2'>GRAND TOTAL</div><div className='pe_ip_ms end_dp10 border_start_ip_ms py-2'  style={{width:'40%'}}>0.05</div></div>
                     </div>
                 </div>
+                
+                {/* Declaration */}
+                <div
+                  className="mt-1 bradp7 p-1 hcompdp7 fsgdp7"
+                  dangerouslySetInnerHTML={{
+                    __html: result?.header?.Declaration,
+                  }}
+                >
+                
+                </div>
 
+                {/* footer */}
+                <div className="d-flex footer_bank hcompdp7 fsgdp7 mt-1">
+                  <div className="subheaddiv_1">
+                    <div className="fw-bold">Bank Detail</div>
+                    <div>Bank Name: {result?.header?.bankname}</div>
+                    <div>Branch: {result?.header?.bankaddress}</div>
+                    <div>Account Name: {result?.header?.accountname}</div>
+                    <div>Account No. : {result?.header?.accountnumber}</div>
+                    <div>RTGS/NEFT IFSC: {result?.header?.rtgs_neft_ifsc}</div>
+                    <div>Enquiry No. (E & OE)</div>
+                  </div>
+                  <div className="subheaddiv_1 d-flex flex-column justify-content-between align-items-start">
+                    <div>Signature</div>
+                    <div className="fw-bold mb-2">
+                      {result?.header?.customerfirmname}
+                    </div>
+                  </div>
+                  <div className="subheaddiv_1 d-flex flex-column justify-content-between align-items-start border-end-0">
+                    <div>Signature</div>
+                    <div className="fw-bold mb-2">
+                      {result?.header?.CompanyFullName}
+                    </div>
+                  </div>
+                </div>
         </div>
     </div>
     </>

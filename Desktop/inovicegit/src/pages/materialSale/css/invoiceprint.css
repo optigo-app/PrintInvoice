@@ -146,3 +146,38 @@
 .ps_ip_ms{
     padding-left: 2px;
 }
+
+.fsgdp7{
+    font-size: 12px;
+}
+
+.hcompdp7{
+    page-break-inside: avoid;
+}
+
+/* borders */
+.bradp7{
+    border: 1px solid #e8e8e8;
+}
+.brtdp7{
+    border-top: 1px solid #e8e8e8;
+}
+.brdp7{
+    border-right: 1px solid #e8e8e8;
+}
+.bldp7{
+    border-left: 1px solid #e8e8e8;
+}
+.brbdp7{
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.subheaddiv_1{
+    width: 40%;
+    border-right: 1px solid #e8e8e8;
+    padding: 5px;
+}
+.footer_bank{
+    border: 1px solid #e8e8e8;   
+    min-height: 6rem;   
+}
