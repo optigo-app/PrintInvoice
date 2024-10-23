@@ -181,3 +181,21 @@
     border: 1px solid #e8e8e8;   
     min-height: 6rem;   
 }
+
+@media print {
+    .fsgdp7{
+        font-size: 10px !important;
+    }
+    .hcompdp7{
+        page-break-inside: avoid;
+    }
+    .container_ip_ms{
+        max-width: 835px !important;
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 10px;
+    }
+    .fs2_ip_ms{
+        font-size: 12px !important;
+    }
+}

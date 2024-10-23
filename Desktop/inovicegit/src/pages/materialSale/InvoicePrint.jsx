@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import "./css/invoiceprint.css"
+import Button from '../../GlobalFunctions/Button';
 const InvoicePrint = () => {
     const result = {};
     const [isImageWorking, setIsImageWorking] = useState(true);
@@ -11,6 +12,9 @@ const InvoicePrint = () => {
     <>
     <div className='main_ip_ms'>
         <div className='container_ip_ms'>
+                <div className='d-flex justify-content-end align-items-center my-3 matsal_print_btn_none'>
+                    <Button />
+                </div>
                 {/* header */}
                 <div>
                   <div className="pheaddp10">
@@ -96,15 +100,15 @@ const InvoicePrint = () => {
                   </div>
                   <div className="subdiv3dp10 fsgdp10 border-end">
                     <div className="d-flex justify-content-start px-1">
-                      <div className="w-25 fw-bold">BILL NO</div>
+                      <div className="w-25 fw-bold fs2_ip_ms">BILL NO</div>
                       <div className="w-25">{result?.header?.InvoiceNo}</div>
                     </div>
                     <div className="d-flex justify-content-start px-1">
-                      <div className="w-25 fw-bold">DATE</div>
+                      <div className="w-25 fw-bold fs2_ip_ms">DATE</div>
                       <div className="w-25">{result?.header?.EntryDate}</div>
                     </div>
                     <div className="d-flex justify-content-start px-1">
-                      <div className="w-25 fw-bold">
+                      <div className="w-25 fw-bold fs2_ip_ms">
                         {result?.header?.HSN_No_Label}
                       </div>
                       <div className="w-25">{result?.header?.HSN_No}</div>
