@@ -232,7 +232,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className="d-flex justify-content-between border p-2 lhiv5">
                   <div className="fsgip5 subdiv1ip5">
                     <div>{result?.header?.lblBillTo}</div>
-                    <div className="fw-bold">
+                    <div className="fw-bold cust_fs_invp5">
                       {result?.header?.customerfirmname}
                     </div>
                     <div> {result?.header?.customerAddress1}</div>
@@ -421,24 +421,24 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="wordsip5 d-flex flex-column justify-content-end align-items-start pb-1 ps-1 border-end">
                     <div>Value in Words:</div>
                     <div className="fw-bold">
-                      {numberToWord(grandTotal)}
+                      
+                      { (+grandTotal) === 0 ? 'Only' :   numberToWord(grandTotal)}
                     </div>
                   </div>
                   <div className="taxip5">
-                    <div className="d-flex fw-bold">
+                    { result?.mainTotal?.total_unitcost !== 0 && <div className="d-flex fw-bold">
                       <div className="w-50 px-1 border-end endip5">
                         Total Amount
                       </div>
                       <div className="w-50 px-1 endip5">
                         {formatAmount(result?.mainTotal?.total_unitcost)}
                       </div>
-                    </div>
-                    <div className="d-flex ">
+                    </div>}
+                    { result?.mainTotal?.total_discount_amount !== 0 && <><div className="d-flex ">
                       <div className="w-50 px-1 border-end endip5">
                         Discount
                       </div>
                       <div className="w-50 px-1 endip5">
-                        {/* {formatAmount((result?.mainTotal?.total_discount_amount/result?.header?.CurrencyExchRate))} */}
                         {formatAmount((result?.mainTotal?.total_discount_amount))}
                       </div>
                     </div>
@@ -449,26 +449,28 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="w-50 px-1 endip5">
                       {formatAmount((result?.mainTotal?.total_unitcost - result?.mainTotal?.total_discount_amount))}
                       </div>
-                    </div>
+                    </div></>}
                     {result?.allTaxes?.map((e, i) => {
                       return (
-                        <div className="d-flex" key={i}>
-                          <div className="w-50 px-1 border-end endip5">
+                        <>
+                        { e?.amountInNumber !== 0 && <div className="d-flex" key={i}>
+                          <div className="w-50 px-1 border-end endip5 text-break">
                             {e?.name} @ {e?.per}
                           </div>
                           <div className="w-50 px-1 endip5">{formatAmount((+e?.amount) * result?.header?.CurrencyExchRate)}</div>
-                        </div>
+                        </div>}
+                        </>
                       );
                     })}
 
-                    <div className="d-flex">
+                    { result?.header?.AddLess !== 0 && <div className="d-flex">
                       <div className="w-50 px-1 border-end endip5">
                         {result?.header?.AddLess > 0 ? "ADD" : "LESS"}
                       </div>
                       <div className="w-50 px-1 endip5">
                         {result?.header?.AddLess}
                       </div>
-                    </div>
+                    </div>}
                     <div
                       className="d-flex w-100 border-top h_60_ivp57">
                       <div className="fw-bold px-1 w-50 border-end centerip5">

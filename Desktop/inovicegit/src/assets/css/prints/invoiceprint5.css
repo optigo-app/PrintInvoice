@@ -7,12 +7,13 @@
 /* global in print */
 .containerIp5 {
     padding-top: 5rem;
-    max-width: 1200px;
+    width: 848px !important;
     margin: 0 auto;
+    font-size: 11px;
 }
 
 .fsgip5 {
-    font-size: 14px;
+    font-size: 11px;
 }
 
 .centerip5 {
@@ -49,6 +50,7 @@
 .lhiv5 {
     /* line-height: 14px; */
     line-height: 18px;
+    font-size: 11px;
 }
 .fsh_inv5{
     font-size: 16px;
@@ -158,8 +160,8 @@
 }
 
 .taxip5 {
-    width: 21.3%;
-    /* width: 34.1%; */
+    /* width: 21.3%; */
+    width: 34.1%;
 }
 
 .fwi5 {
@@ -181,6 +183,7 @@
 
     .fsgip5 {
         font-size: 11px !important;
+        line-height: 12px !important;
     }
 
     .wordsip5 {
@@ -197,6 +200,7 @@
 
     .containerIp5{
         padding: 10px !important;
+        width: 848px !important;
     }
 
     .theadip5 {
@@ -214,4 +218,17 @@
         width: 50%;
     }
 
+    .lhiv5 {
+        /* line-height: 14px; */
+        line-height: 12px;
+        font-size: 11px;
+    }
+    .fsh_inv5{
+        font-size: 14px;
+        line-height: 24px;
+        font-weight: bold;
+    }
+    .cust_fs_invp5{
+        font-size: 13px !important;
+    }
 }

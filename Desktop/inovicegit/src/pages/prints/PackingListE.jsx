@@ -19,6 +19,9 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
   const [imgFlag, setImgFlag] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
+
+  const [diaGroupFlag, setDiaGroupFlag] = useState(false);
+
   const [diamondArr, setDiamondArr] = useState([]);
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
@@ -49,7 +52,7 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     };
     sendData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [diaGroupFlag]);
 
   const loadData = (data) => {
 
@@ -243,6 +246,54 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setNotGoldMetalWtTotal(tot_met_wt);
 
 
+      if(diaGroupFlag){ 
+      datas?.resultArray?.forEach((e) => {
+        let dia2 = [];
+        let dia1_ = [];
+        let dia2_ = [];
+        e?.diamonds?.forEach((el) => {
+            if(el?.GroupName === ''){
+              dia1_.push(el);
+            }else{
+              dia2_.push(el);
+            }
+        })
+        let dia1_g = [];
+        dia1_?.forEach((ell) => {
+          let bll = cloneDeep(ell);
+            let findrec = dia1_g.findIndex((a) => a?.ShapeName === bll?.ShapeName  && a?.SizeName === bll?.SizeName)
+            if(findrec === -1){
+              dia1_g.push(bll);
+            }else{
+                dia1_g[findrec].Wt += bll?.Wt;
+                dia1_g[findrec].Pcs += bll?.Pcs;
+                dia1_g[findrec].Amount += bll?.Amount;
+              
+            }
+        });
+        let dia2_g = [];
+        dia2_?.forEach((ell) => {
+          let bll = cloneDeep(ell);
+            let findrec = dia2_g.findIndex((a) => a?.ShapeName === bll?.ShapeName  && a?.GroupName === bll?.GroupName)
+            if(findrec === -1){
+              dia2_g.push(bll);
+            }else{
+                dia2_g[findrec].Wt += bll?.Wt;
+                dia2_g[findrec].Pcs += bll?.Pcs;
+                dia2_g[findrec].Amount += bll?.Amount;
+                
+            }
+        });
+        let dia2_g_ = [];
+        dia2_g?.forEach((e) => {
+          e.SizeName = e?.GroupName;
+          dia2_g_.push(e);
+        })
+        dia2 = [...dia1_g, ...dia2_g_];
+
+        e.diamonds = dia2;
+      })
+    }
 
 
   }
@@ -259,6 +310,12 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setPriceFlag(true);
     }
   };
+  const handleDiaGroupShow = (e) => {
+    if (diaGroupFlag) setDiaGroupFlag(false);
+    else {
+      setDiaGroupFlag(true);
+    }
+  };
 
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -270,6 +327,10 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div className='container_pcls'>
             {/* print btn and flag */}
             <div className=' d-flex align-items-center justify-content-end my-5 whole_none_pcl3'>
+                <div className='px-2'>
+                    <input type="checkbox" onChange={handleDiaGroupShow} value={diaGroupFlag} checked={diaGroupFlag} id='diaGroupShow' />
+                    <label htmlFor="diaGroupShow" className='user-select-none mx-1'>With Diamond Groupwise</label>
+                </div>
                 <div className='px-2'>
                     <input type="checkbox" onChange={handlePriceShow} value={priceFlag} checked={priceFlag} id='priceShow' />
                     <label htmlFor="priceShow" className='user-select-none mx-1'>With Price</label>
@@ -416,7 +477,7 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     e?.metal?.map((el, ind) => {
                                         return (
                                             <div className='d-flex w-100' key={ind}>
-                                                <div className='mcol1_pcls start_center_pcls pdl_pcls text-break'>{ el?.ShapeName} <br /> {e?.MetalPurity} {e?.MetalColor}</div>
+                                                <div className='mcol1_pcls start_center_pcls pdl_pcls text-break'>{ el?.ShapeName} </div>
                                                 <div className='mcol1_pcls pcle_center  pdr_pcls'>{ el?.IsPrimaryMetal === 1 && e?.grosswt?.toFixed(3)}</div>
                                                 <div className='mcol1_pcls pcle_center pdr_pcls'>{ el?.IsPrimaryMetal === 1 ? ((e?.NetWt - e?.finding_customer_wt) + e?.LossWt )?.toFixed(3) : el?.Wt?.toFixed(3)}</div>
                                                 <div className='mcol1_pcls pcle_center pdr_pcls'>{ el?.IsPrimaryMetal === 1 && (e?.PureNetWt)?.toFixed(3)}</div>
@@ -432,7 +493,8 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                             </div>
                                         )
                                     })
-                                   }
+                                  }
+                                  <div>{e?.MetalPurity} {e?.MetalColor}</div>
 
                                             { e?.JobRemark !== '' && <div className=' w-100 pt-2'>
                                                 <div className='ps-1 start_center_pcls '>Remark :</div>
