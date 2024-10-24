@@ -496,11 +496,11 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div className="d-grid h-100 w-100">
                                 <p className="d-flex w-100 fw-bold justify-content-center text-center">Diamond</p>
                                 <div className="d-flex w-100 border-top">
-                                    <p className={`col-2 text-center border-end text-center`}>Shape</p>
-                                    <p className={`col-2 text-center border-end text-center`}>Size</p>
-                                    <p className={`col-2 text-center border-end text-center`}>Wt</p>
-                                    <p className={`col-2 text-center border-end text-center`}>Pcs</p>
-                                    <p className={`col-2 text-center border-end text-center`}>Rate</p>
+                                    <p className={`col-2 text-center border-end `}></p>
+                                    <p className={`col-2  border-end text-center `}>Size</p>
+                                    <p className={`col-2  border-end text-center `}>Wt</p>
+                                    <p className={`col-2  border-end text-center `}>Pcs</p>
+                                    <p className={`col-2  border-end text-center `}>Rate</p>
                                     <p className={`col-2 text-center`}>Amount</p>
                                 </div>
                             </div>
@@ -565,9 +565,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <div className={`${style?.pad_1}  ${style?.design} border-end`}>
                                     <div className="d-grid h-100">
                                         <p className='d-flex ps-1 align-items-center'>
-                                            {e?.JewelCodePrefix}
-                                            {e?.Category_Prefix}
-                                            {e?.srJob}
+                                        {( atob(evn))?.toLowerCase() === 'quote' ? e?.designno : (e?.JewelCodePrefix?.slice(0, 2) + e?.Category_Prefix?.slice(0, 2) + e?.SrJobno?.split("/")[1])}
                                         </p>
                                         <img src={e?.DesignImage} alt="" className={`w-100 ${style?.img} pb-1`} onError={handleImageError} />
                                         {e?.HUID !== "" && <p className='text-center'>HUID-{e?.HUID}</p>}
@@ -577,7 +575,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <div className="d-flex w-100 ">
                                         <div className={`col-2 border-end pb-3 position-relative h-100`}>
                                             {e?.diamonds.map((el, indd) => {
-                                                return <p key={indd}>{el?.ShapeName}</p>
+                                                return <p key={indd}>{el?.ShapeName} {el?.QualityName}</p>
                                             })}
                                         </div>
                                         <div className={`col-2 border-end pb-3 position-relative h-100`}>

@@ -221,7 +221,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                               <div className="diamheadpcl">
                                 <div className="diamhpclcol1 fwboldpcl fspcl"> Diamond </div>
                                 <div className="diamhpclcol">
-                                  <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "27%" }} > Shape </div>
+                                  <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "27%" }} > </div>
                                   <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "27%" }} > Size </div>
                                   <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "22%" }} > Wt </div>
                                   <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "22%" }} > Rate </div>
@@ -241,7 +241,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                               <div className="shptheadpcl">
                                 <div className="shpcolpcl1 fwboldpcl fspcl"> Stone </div>
                                 <div className="shpcolpclcol">
-                                  <div className="shpthcolspcl centerpcl fwboldpcl fspcl" style={{ width: "27%" }} > Shape </div>
+                                  <div className="shpthcolspcl centerpcl fwboldpcl fspcl" style={{ width: "27%" }} >  </div>
                                   <div className="shpthcolspcl centerpcl fwboldpcl fspcl" style={{ width: "22%" }} > Wt </div>
                                   <div className="shpthcolspcl centerpcl fwboldpcl fspcl" style={{ width: "23%" }} > Rate </div>
                                   <div className="shpthcolspcl centerpcl fwboldpcl fspcl" style={{ borderRight: "0px", width: "28%" }} > Amount </div>
@@ -293,7 +293,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             e?.diamonds?.map((ele, ind) => {
                                               
                                               return (
-                                                <div className="leftpcl fspcl text-break" key={ind} > {ele?.ShapeName} </div>
+                                                <div className="leftpcl fspcl text-break" key={ind} > {ele?.ShapeName} {ele?.QualityName} </div>
                                                 // <div className=" fspcl text-break" key={i} ></div>
                                                 );
                                               })
