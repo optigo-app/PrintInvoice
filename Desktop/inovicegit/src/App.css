@@ -454,3 +454,47 @@ html .footer_secInvoicePrint8 .target_footer * {
     line-height: 11px !important;
   } 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.matsal_print_btn_none{
+  display: none;
+}
+
+.center_g{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.start_g{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.end_g{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.pe_g{
+  padding-right: 2px;
+}
+.ps_g{
+  padding-left: 2px;
+}
