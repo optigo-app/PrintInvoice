@@ -481,6 +481,12 @@ html .footer_secInvoicePrint8 .target_footer * {
   justify-content: center;
   align-items: center;
 }
+.center_col_g{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .start_g{
   display: flex;
   justify-content: flex-start;

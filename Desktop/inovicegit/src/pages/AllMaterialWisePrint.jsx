@@ -28,9 +28,10 @@ const AllMaterialWisePrint = () => {
     version: queries.version,
   };
   const ImportComponent = async (name) => {
+    console.log(name);
     try {
       // const module = await import(`./bagPrints/${name}`);
-      const module = await import(`./materialSale/CustReceive`);
+      const module = await import(`./materialSale/MatPurchase`);
       console.log(module);
       const AnotherComponent = module?.default;
       console.log(AnotherComponent);
