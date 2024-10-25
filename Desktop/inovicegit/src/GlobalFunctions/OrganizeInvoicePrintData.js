@@ -163,6 +163,7 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
         let metal_rate = 0;
         let metal_finewt = 0;
         let finding_customer_wt = 0;
+        let specialFinding = null;
 
         let perjobTotal = {
             
@@ -510,6 +511,9 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
                     if(j2?.Supplier?.toLowerCase() === 'customer'){
                         finding_customer_wt += j2?.Wt;
                     }
+                    if(j2?.FindingTypename?.toLowerCase()?.includes('chain') || j2?.FindingTypename?.toLowerCase()?.includes('hook')){
+                        specialFinding = j2;
+                    }
 
                 }
 
@@ -542,6 +546,7 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
         obj.metal_rate = metal_rate;
         obj.metal_finewt = metal_finewt;
         obj.finding_customer_wt = finding_customer_wt;
+        obj.specialFinding = specialFinding;
 
         let other_details_array = otherAmountDetail(j1?.OtherAmtDetail);
 

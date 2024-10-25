@@ -320,7 +320,6 @@ const PackingListE = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
-
   return (
     <>
     { loader ? <Loader /> : msg === '' ? <div>

@@ -846,7 +846,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="rcol2dp7 d-flex flex-column  justify-content-center  align-items-start p-1">
                             <div className="d-flex justify-content-between align-items-start w-100 text-break flex-wrap">
                               <div className="text-break fsgdp7_S">{e?.designno}</div>
-                              <div className="text-break fsgdp7_S">{e?.SrJobno}</div>
+                              <div className="text-break fsgdp7_S">{e?.GroupJob === '' ? e?.SrJobno : e?.GroupJob}</div>
                             </div>
                             {imgFlag ? (
                               <div className="w-100 d-flex justify-content-center align-items-start">

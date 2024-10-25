@@ -28,13 +28,10 @@ const AllMaterialWisePrint = () => {
     version: queries.version,
   };
   const ImportComponent = async (name) => {
-    console.log(name);
     try {
       // const module = await import(`./bagPrints/${name}`);
-      const module = await import(`./materialSale/MatPurchase`);
-      console.log(module);
+      const module = await import(`./materialSale/MatPurchaseReturn`);
       const AnotherComponent = module?.default;
-      console.log(AnotherComponent);
       return <AnotherComponent queries={queries} headers={headers} />;
     } catch (error) {
       console.log(error);
@@ -43,9 +40,7 @@ const AllMaterialWisePrint = () => {
 
   const takeBagPrints = async () => {
     let module = await import("../GlobalFunctions/materialSaleConditions");
-    console.log(module);
     let conditions = module?.materialSaleConditions;
-    console.log(conditions);
     let findBagPrint = conditions?.find((e) => e?.printName === "bag print 10");
     if (findBagPrint) {
       const component = await ImportComponent(findBagPrint?.componentName);

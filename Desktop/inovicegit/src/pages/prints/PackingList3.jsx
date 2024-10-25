@@ -239,74 +239,74 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setNotGoldMetalTotal(tot_met);
       setNotGoldMetalWtTotal(tot_met_wt);
 
-      let mainArr2 = [];
-      datas.resultArray?.forEach((e) => {
-        let find_cust = [];
-        let find_company_hook = [];
-        let find_company_chain = [];
-        let obj = cloneDeep(e);
-        e?.finding?.forEach((el, i) => {
+      // let mainArr2 = [];
+      // datas.resultArray?.forEach((e) => {
+      //   let find_cust = [];
+      //   let find_company_hook = [];
+      //   let find_company_chain = [];
+      //   let obj = cloneDeep(e);
+      //   e?.finding?.forEach((el, i) => {
 
-          if(el?.Supplier?.toLowerCase() === 'customer'){
-            find_cust.push(el);
-          } 
-          if(el?.Supplier?.toLowerCase() === 'company' && el?.FindingTypename?.toLowerCase() === 'hook'){
-            find_company_hook.push(el);
-          }
-           if(el?.Supplier?.toLowerCase() === 'company' && el?.FindingTypename?.toLowerCase() === 'chain'){
-            find_company_hook.push(el);
-          }
+      //     if(el?.Supplier?.toLowerCase() === 'customer'){
+      //       find_cust.push(el);
+      //     } 
+      //     if(el?.Supplier?.toLowerCase() === 'company' && el?.FindingTypename?.toLowerCase() === 'hook'){
+      //       find_company_hook.push(el);
+      //     }
+      //      if(el?.Supplier?.toLowerCase() === 'company' && el?.FindingTypename?.toLowerCase() === 'chain'){
+      //       find_company_hook.push(el);
+      //     }
         
-        })
+      //   })
 
-        obj.finding_cust = find_cust;
-        obj.find_company_chain = find_company_chain;
-        obj.find_company_hook = find_company_hook;
+      //   obj.finding_cust = find_cust;
+      //   obj.find_company_chain = find_company_chain;
+      //   obj.find_company_hook = find_company_hook;
 
-        mainArr2.push(obj);
+      //   mainArr2.push(obj);
 
-      })
-      datas.resultArray = mainArr2;
+      // })
+      // datas.resultArray = mainArr2;
 
-      datas.resultArray?.forEach((e) => {
-        let wt_merge_find_cust = [];
-        let obj = cloneDeep(e);
-        obj?.finding_cust?.forEach((el) => {
-          let findrec = wt_merge_find_cust?.findIndex((al) => al?.Supplier?.toLowerCase() === 'customer')
-            if(findrec === -1){
-              wt_merge_find_cust.push(el);
-            }else{
-              wt_merge_find_cust[findrec].Wt += el?.Wt;
-            }
-        })
+      // datas.resultArray?.forEach((e) => {
+      //   let wt_merge_find_cust = [];
+      //   let obj = cloneDeep(e);
+      //   obj?.finding_cust?.forEach((el) => {
+      //     let findrec = wt_merge_find_cust?.findIndex((al) => al?.Supplier?.toLowerCase() === 'customer')
+      //       if(findrec === -1){
+      //         wt_merge_find_cust.push(el);
+      //       }else{
+      //         wt_merge_find_cust[findrec].Wt += el?.Wt;
+      //       }
+      //   })
 
-        obj.finding_cust = wt_merge_find_cust;
+      //   obj.finding_cust = wt_merge_find_cust;
 
-        let wt_merge_find_chain = [];
-        obj?.find_company_chain?.forEach((el) => {
-          let findrec = wt_merge_find_chain?.findIndex((al) => al?.FindingTypename?.toLowerCase() === 'chain')
-            if(findrec === -1){
-              wt_merge_find_chain.push(el);
-            }else{
-              wt_merge_find_chain[findrec].Wt += el?.Wt;
-            }
-        })
+      //   let wt_merge_find_chain = [];
+      //   obj?.find_company_chain?.forEach((el) => {
+      //     let findrec = wt_merge_find_chain?.findIndex((al) => al?.FindingTypename?.toLowerCase() === 'chain')
+      //       if(findrec === -1){
+      //         wt_merge_find_chain.push(el);
+      //       }else{
+      //         wt_merge_find_chain[findrec].Wt += el?.Wt;
+      //       }
+      //   })
 
-        obj.find_company_chain = wt_merge_find_chain;
+      //   obj.find_company_chain = wt_merge_find_chain;
 
-        let wt_merge_find_hook = [];
-        obj?.find_company_hook?.forEach((el) => {
-          let findrec = wt_merge_find_hook?.findIndex((al) => al?.FindingTypename?.toLowerCase() === 'hook')
-            if(findrec === -1){
-              wt_merge_find_hook.push(el);
-            }else{
-              wt_merge_find_hook[findrec].Wt += el?.Wt;
-            }
-        })
+      //   let wt_merge_find_hook = [];
+      //   obj?.find_company_hook?.forEach((el) => {
+      //     let findrec = wt_merge_find_hook?.findIndex((al) => al?.FindingTypename?.toLowerCase() === 'hook')
+      //       if(findrec === -1){
+      //         wt_merge_find_hook.push(el);
+      //       }else{
+      //         wt_merge_find_hook[findrec].Wt += el?.Wt;
+      //       }
+      //   })
 
-        obj.find_company_hook = wt_merge_find_hook;
+      //   obj.find_company_hook = wt_merge_find_hook;
         
-      })
+      // })
       
 
 
@@ -493,13 +493,43 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   {
                                     e?.metal?.map((el, ind) => {
                                         return (
-                                            <div className='d-flex w-100' key={ind}>
+                                          <>
+                                          
+                                            { el?.IsPrimaryMetal === 1 ? <div className='d-flex w-100' key={ind}>
                                                 <div className='mcol1_pcls start_center_pcls pdl_pcls'>{ el?.ShapeName +" "+ el?.QualityName}</div>
                                                 <div className='mcol2_pcls end_pcls pdr_pcls'>{e?.grosswt?.toFixed(3)}</div>
-                                                <div className='mcol3_pcls end_pcls pdr_pcls'>{(e?.NetWt - e?.totals?.finding?.Wt)?.toFixed(3)}</div>
+                                                <div className='mcol3_pcls end_pcls pdr_pcls'>{ (e?.specialFinding?.FindingTypename?.toLowerCase()?.includes('chain') ||  e?.specialFinding?.FindingTypename?.toLowerCase()?.includes('hook'))  ? (e?.NetWt)?.toFixed(3) :  (e?.NetWt - e?.totals?.finding?.Wt)?.toFixed(3)}</div>
                                                 <div className='mcol4_pcls end_pcls pdr_pcls'>{formatAmount(el?.Rate)}</div>
-                                                <div className='mcol5_pcls end_pcls pdr_pcls fw-bold'>{formatAmount((((el?.Amount - ((e?.totals?.finding?.Wt * e?.metal_rate) + e?.LossAmt))) / result?.header?.CurrencyExchRate))}</div>
-                                            </div>
+                                                <div className='mcol5_pcls end_pcls pdr_pcls fw-bold'>{formatAmount(  
+                                                  (e?.specialFinding?.FindingTypename?.toLowerCase()?.includes('chain') ||  e?.specialFinding?.FindingTypename?.toLowerCase()?.includes('hook')) ? 
+                                                  (((((e?.NetWt * e?.metal_rate) ))) / result?.header?.CurrencyExchRate)
+                                                   :
+                                                  (((el?.Amount - ((e?.totals?.finding?.Wt * e?.metal_rate) + e?.LossAmt))) / result?.header?.CurrencyExchRate)
+                                                  )}</div>
+                                            </div> : <div className='d-flex w-100' key={ind}>
+                                                <div className='mcol1_pcls start_center_pcls pdl_pcls'>{ el?.ShapeName +" "+ el?.QualityName}</div>
+                                                <div className='mcol2_pcls end_pcls pdr_pcls'></div>
+                                                <div className='mcol3_pcls end_pcls pdr_pcls'>{el?.Wt?.toFixed(3)}</div>
+                                                <div className='mcol4_pcls end_pcls pdr_pcls'>{formatAmount(el?.Rate)}</div>
+                                                <div className='mcol5_pcls end_pcls pdr_pcls fw-bold'>{formatAmount((el?.Wt * el?.Rate))}</div>
+                                            </div>}
+                                            </>
+                                        )
+                                    })
+                                   }
+                                  {
+                                    e?.finding?.map((el, ind) => {
+                                        return (
+                                          <>
+                                            { (e?.specialFinding?.FindingTypename?.toLowerCase()?.includes('chain') ||  e?.specialFinding?.FindingTypename?.toLowerCase()?.includes('hook')) ? '' : <div className='d-flex w-100' key={ind}>
+                                                <div className='mcol1_pcls start_center_pcls pdl_pcls text-break'>{ el?.FindingTypename +" "+ el?.Supplier}</div>
+                                                <div className='mcol2_pcls end_pcls pdr_pcls'>{e?.grosswt?.toFixed(3)}</div>
+                                                <div className='mcol3_pcls end_pcls pdr_pcls'>{ (el?.Wt)?.toFixed(3)}</div>
+                                                <div className='mcol4_pcls end_pcls pdr_pcls'>{formatAmount(e?.metal_rate)}</div>
+                                                <div className='mcol5_pcls end_pcls pdr_pcls fw-bold'>{formatAmount((e?.metal_rate * el?.Wt))}</div>
+                                                {/* <div className='mcol5_pcls end_pcls pdr_pcls fw-bold'>{formatAmount((((el?.Amount - ((e?.totals?.finding?.Wt * e?.metal_rate) + e?.LossAmt))) / result?.header?.CurrencyExchRate))}</div> */}
+                                            </div>}
+                                            </>
                                         )
                                     })
                                    }
@@ -513,7 +543,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                             </div>
                                  
                                    } */}
-                                   {
+                                   {/* {
                                     e?.find_cust?.map((el, i) => {
                                       return <>
                                        <div className='d-flex w-100 text-break' key={i}>
@@ -548,7 +578,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   </div>
                                       </>
                                     })
-                                   }
+                                   } */}
                                             { e?.LossWt !== 0 && <div className='d-flex w-100 pt-1'>
                                                 <div className='mcol1_pcls start_center_pcls pdl_pcls'>Loss</div>
                                                 <div className='mcol2_pcls end_pcls pdr_pcls'>{(e?.LossPer)?.toFixed(3)} %</div>
