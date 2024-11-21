@@ -19,10 +19,7 @@ export const GetData = async (job) => {
         let urls = atob(job?.url);
         
         const response = await axios.post(urls, Body, { headers: job?.headers });
-        let datas = JSON?.parse
-        
-        
-        (response?.data?.d);
+        let datas = JSON?.parse(response?.data?.d);
         let responseMsg = '';
         if(datas?.rd[0]?.stat_msg?.includes('Contact your Admin')){
             responseMsg = 'Contact Your Admin';

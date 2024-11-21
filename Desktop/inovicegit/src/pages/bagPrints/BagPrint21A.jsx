@@ -39,7 +39,7 @@ function BagPrint21A({ queries, headers }) {
     
             const allDatas = await GetData(objs);
             let datas = organizeData(allDatas?.rd, allDatas?.rd1);
-
+            console.log(datas);
             let total_ActualPcs = 0;
             let total_ActualWeight = 0;
 
@@ -366,7 +366,7 @@ function BagPrint21A({ queries, headers }) {
                                                             );
                                                         })
                                                       :
-                                                      <div className='container_bg21' key={i}>
+                                                      <div className='container_bg21' >
                                                       <div className='d-flex align-items-center border-bottom border-black fw-bold'>
                                                           <div className='border-end border-black col1_bg21 pd_s_21 start_bg21'>Bag No</div>
                                                           <div className='border-end border-black col2_bg21 pd_s_21 start_bg21'>{val?.serialjobno}</div>
@@ -481,7 +481,7 @@ function BagPrint21A({ queries, headers }) {
                                                         </div>
                                             }
 
-                                                                    <div className='container_bg21' key={i}>
+                                                                    <div className='container_bg21'>
                                                                         <div className='d-flex align-items-center border-bottom border-black fw-bold'>
                                                                             <div className='border-end border-black col1_bg21 pd_s_21 start_bg21'>Bag No</div>
                                                                             <div className='border-end border-black col2_bg21 pd_s_21 start_bg21'>{val?.serialjobno}</div>
