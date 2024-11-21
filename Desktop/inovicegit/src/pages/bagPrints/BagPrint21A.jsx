@@ -238,14 +238,14 @@ function BagPrint21A({ queries, headers }) {
                                                                             <div className='border-end border-black start_bg21 col1_bg21 pd_s_21'>Bag No</div>
                                                                             <div className='border-end border-black start_bg21 col2_bg21 pd_s_21'>{val?.serialjobno}</div>
                                                                             <div className='border-end border-black  col3_bg21 pd_s_21 center_bg21'>{val?.MetalType +" "+ val?.MetalColorCo}</div>
-                                                                            <div className='border-end border-black start_bg21 col4_bg21 pd_s_21'>D.No</div>
-                                                                            <div className=' col5_bg21 pd_s_21 center_bg21'>{val?.Designcode}</div>
+                                                                            <div className='border-end border-black start_bg21 col4_bg21 pd_s_21' style={{width:'40px'}}>P Code</div>
+                                                                            <div className=' col5_bg21 pd_s_21 center_bg21' style={{width:'55px'}}>{val?.CustomerCode}</div>
                                                                         </div>
                                                                         <div className='d-flex'>
                                                                             <div className='d-flex flex-col fw-bold'>
                                                                                 <div className='d-flex border-bottom border-black'>
-                                                                                    <div className='col1_bg21 border-end border-black start_bg21 pd_s_21'>P.Code</div>
-                                                                                    <div className='col6_bg21 border-end border-black start_bg21 pd_s_21'>{val?.CustomerCode}</div>
+                                                                                    <div className='col1_bg21 border-end border-black start_bg21 pd_s_21'>D. No</div>
+                                                                                    <div className='col6_bg21 border-end border-black start_bg21 pd_s_21'>{val?.Designcode}</div>
                                                                                 </div>
                                                                                 <div className='d-flex border-bottom border-black'>
                                                                                     <div className='col1_bg21 border-end border-black start_bg21 pd_s_21'>O.Date</div>
@@ -371,14 +371,14 @@ function BagPrint21A({ queries, headers }) {
                                                           <div className='border-end border-black col1_bg21 pd_s_21 start_bg21'>Bag No</div>
                                                           <div className='border-end border-black col2_bg21 pd_s_21 start_bg21'>{val?.serialjobno}</div>
                                                           <div className='border-end border-black col3_bg21 pd_s_21 center_bg21'>{val?.MetalType +" "+ val?.MetalColorCo}</div>
-                                                          <div className='border-end border-black col4_bg21 pd_s_21 start_bg21'>D.No</div>
-                                                          <div className=' col5_bg21 pd_s_21 start_bg21'>{val?.Designcode}</div>
+                                                          <div className='border-end border-black col4_bg21 pd_s_21 start_bg21' style={{width:'40px'}}>P Code</div>
+                                                          <div className=' col5_bg21 pd_s_21 start_bg21' style={{width:'55px'}}>{val?.CustomerCode}</div>
                                                       </div>
                                                       <div className='d-flex'>
                                                           <div className='d-flex flex-col fw-bold'>
                                                               <div className='d-flex border-bottom border-black'>
-                                                                  <div className='col1_bg21 border-end border-black pd_s_21 start_bg21 '>P.Code</div>
-                                                                  <div className='col6_bg21 border-end border-black pd_s_21 start_bg21'>{val?.CustomerCode}</div>
+                                                                  <div className='col1_bg21 border-end border-black pd_s_21 start_bg21 '>D. No</div>
+                                                                  <div className='col6_bg21 border-end border-black pd_s_21 start_bg21' >{val?.Designcode}</div>
                                                               </div>
                                                               <div className='d-flex border-bottom border-black'>
                                                                   <div className='col1_bg21 border-end border-black pd_s_21 start_bg21'>O.Date</div>
@@ -486,14 +486,14 @@ function BagPrint21A({ queries, headers }) {
                                                                             <div className='border-end border-black col1_bg21 pd_s_21 start_bg21'>Bag No</div>
                                                                             <div className='border-end border-black col2_bg21 pd_s_21 start_bg21'>{val?.serialjobno}</div>
                                                                             <div className='border-end border-black col3_bg21 pd_s_21 center_bg21'>{val?.MetalType +" "+ val?.MetalColorCo}</div>
-                                                                            <div className='border-end border-black col4_bg21 pd_s_21 start_bg21'>D.No</div>
-                                                                            <div className=' col5_bg21 pd_s_21 start_bg21'>{val?.Designcode}</div>
+                                                                            <div className='border-end border-black col4_bg21 pd_s_21 start_bg21' style={{width:'40px'}}>P Code</div>
+                                                                            <div className=' col5_bg21 pd_s_21 start_bg21' style={{width:'55px'}}>{val?.CustomerCode}</div>
                                                                         </div>
                                                                         <div className='d-flex'>
                                                                             <div className='d-flex flex-col fw-bold'>
                                                                                 <div className='d-flex border-bottom border-black'>
-                                                                                    <div className='col1_bg21 border-end border-black pd_s_21 start_bg21'>P.Code</div>
-                                                                                    <div className='col6_bg21 border-end border-black pd_s_21 start_bg21'>{val?.CustomerCode}</div>
+                                                                                    <div className='col1_bg21 border-end border-black pd_s_21 start_bg21'>D. No</div>
+                                                                                    <div className='col6_bg21 border-end border-black pd_s_21 start_bg21'>{val?.Designcode}</div>
                                                                                 </div>
                                                                                 <div className='d-flex border-bottom border-black'>
                                                                                     <div className='col1_bg21 border-end border-black pd_s_21 start_bg21'>O.Date</div>

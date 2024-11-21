@@ -224,10 +224,10 @@ const TaxInvoice5A = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       {/* table Header */}
       <div className="d-flex  border border-top-0 border-black">
         <div className={`${style3?.Sr}  py-1 border-end border-black`}>
-          <p className="text-center fw-bold companyNametp5a2">Sr. No. </p>
+          <p className="text-center fw-bold companyNametp5a2 text-break">Sr. No. </p>
         </div>
         <div className={`${style3?.Jewel}  py-1 border-end border-black`}>
-          <p className="text-center fw-bold companyNametp5a2">Jewel Code </p>
+          <p className="text-center fw-bold companyNametp5a2 text-break">Jewel Code </p>
         </div>
         <div className={`${style3?.KT}  py-1 border-end border-black`}>
           <p className="text-center fw-bold companyNametp5a2">KT </p>
@@ -238,18 +238,18 @@ const TaxInvoice5A = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
         )}
         <div className={`${style3?.Gross}  py-1 border-end border-black`}>
-          <p className="text-center fw-bold companyNametp5a2">Gross Wt <span className="fw-normal companyNametp5a2">(in gm)</span> </p>
+          <p className="text-center fw-bold companyNametp5a2 text-break">Gross Wt <br /> <span className="fw-normal companyNametp5a2">(in gm)</span> </p>
         </div>
         <div className={`${style3?.Net}  py-1 border-end border-black`}>
-          <p className="text-center fw-bold companyNametp5a2">Net Wt <span className="fw-normal companyNametp5a2">(in gm)</span> </p>
+          <p className="text-center fw-bold companyNametp5a2">Net Wt <br /> <span className="fw-normal companyNametp5a2">(in gm)</span> </p>
         </div>
         {pnm !== "tax invoice 6" && (
           <div className={`${style3?.Diamond}  py-1 border-end border-black`}>
-            <p className="text-center fw-bold companyNametp5a2">Diamond <span className="fw-normal companyNametp5a2">(in ct)</span> </p>
+            <p className="text-center fw-bold companyNametp5a2">Diamond <br /> <span className="fw-normal companyNametp5a2">(in ct)</span> </p>
           </div>
         )}
         <div className={`${style3?.Stone}  py-1 border-end border-black`}>
-          <p className="text-center fw-bold companyNametp5a2">Stone <span className="fw-normal companyNametp5a2">(in ct)</span> </p>
+          <p className="text-center fw-bold companyNametp5a2">Stone <br /> <span className="fw-normal companyNametp5a2">(in ct)</span> </p>
         </div>
         <div className={`${style3?.Discount} py-1 border-end border-black`}>
           <p className="text-center fw-bold companyNametp5a2">Discount</p>
@@ -301,9 +301,10 @@ const TaxInvoice5A = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </p>
             </div>
             <div className={`${style3?.Discount} border-end border-black`}>
-              <p className="text-end p-1 companyNametp5a2">
-                {NumberWithCommas(e?.DiscountAmt / headerData?.CurrencyExchRate, 2)}{" "}
-              </p>
+              <div className="text-end p-1 companyNametp5a2">
+                { e?.DiamondDiscountAmount !== 0 && <div>Dia : {NumberWithCommas(e?.DiamondDiscountAmount / headerData?.CurrencyExchRate, 2)}</div>}
+                { e?.StoneDiscountAmount !== 0 && <div>Cs : {NumberWithCommas(e?.StoneDiscountAmount / headerData?.CurrencyExchRate, 2)}{" "}</div>}
+              </div>
             </div>
             <div className={`${style3?.Price}`}>
               <p className="text-end p-1 companyNametp5a2">
