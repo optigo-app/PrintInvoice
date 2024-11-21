@@ -1,0 +1,225 @@
+// ** MUI Import
+import Grid from '@mui/material/Grid'
+
+// // ** Demo Component Imports
+// import AnalyticsProject from 'src/views/dashboards/analytics/AnalyticsProject'
+// import AnalyticsOrderVisits from 'src/views/dashboards/analytics/AnalyticsOrderVisits'
+// import AnalyticsTotalEarning from 'src/views/dashboards/analytics/AnalyticsTotalEarning'
+// import AnalyticsSourceVisits from 'src/views/dashboards/analytics/AnalyticsSourceVisits'
+// import AnalyticsEarningReports from 'src/views/dashboards/analytics/AnalyticsEarningReports'
+// import AnalyticsSupportTracker from 'src/views/dashboards/analytics/AnalyticsSupportTracker'
+// import AnalyticsSalesByCountries from 'src/views/dashboards/analytics/AnalyticsSalesByCountries'
+// import AnalyticsMonthlyCampaignState from 'src/views/dashboards/analytics/AnalyticsMonthlyCampaignState'
+// import AnalyticsWebsiteAnalyticsSlider from 'src/views/dashboards/analytics/AnalyticsWebsiteAnalyticsSlider'
+
+// ** Custom Component Import
+// import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
+// import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
+// import CardStatsWithAreaChart from 'src/@core/components/card-statistics/card-stats-with-area-chart'
+import KeenSliderWrapper from '../@core/styles/libs/keen-slider'
+import ApexChartWrapper from '../@core/styles/libs/react-apexcharts'
+import CardStatsWithAreaChart from '../@core/components/card-statistics/card-stats-with-area-chart'
+
+
+import AnalyticsWebsiteAnalyticsSlider from './AnalyticsWebsiteAnalyticsSlider';
+import AnalyticsOrderVisits from './AnalyticsOrderVisits';
+import AnalyticsEarningReports from './AnalyticsEarningReports';
+import AnalyticsSupportTracker from './AnalyticsSupportTracker';
+import AnalyticsSalesByCountries from './AnalyticsSalesByCountries';
+import AnalyticsTotalEarning from './AnalyticsTotalEarning';
+import AnalyticsMonthlyCampaignState from './AnalyticsMonthlyCampaignState';
+import AnalyticsSourceVisits from './AnalyticsSourceVisits';
+import AnalyticsProject from './AnalyticsProject';
+import RechartsPieChart from '../charts/recharts/RechartsPieChart';
+import ApexRadialBarChart from '../charts/apex-charts/ApexRadialBarChart';
+import CardStatsVertical from './../@core/components/card-statistics/card-stats-vertical/index';
+import AnalyticsCustomerTypeWise from './AnalyticsCustomerTypeWise';
+import AnalyticsFilters from './AnalyticsFilters';
+import AnalyticsSalesEarningReport from './AnalyticsSalesEarningReport';
+import AnalyticsSalesRepWiseSaleAmt from './AnalyticsSalesRepWiseSaleAmt';
+import { useState } from 'react';
+import { Box, Button, useTheme } from '@mui/material';
+import moment from 'moment';
+
+// ** Third Party Imports
+import DatePicker from 'react-datepicker'
+
+// ** Custom Component Imports
+import CustomInput from '../@core/components/pickersComponent/PickersCustomInput';
+import "../@core/components/pickersComponent/datepickerc.css";
+
+const AnalyticsDashboard = ({tkn}) => {
+  const [fdate, setFDate] = useState("");
+  const [tdate, setTDate] = useState("");
+  const [fdatef, setFDatef] = useState("");
+  const [tdatef, setTDatef] = useState("");
+  const [popperPlacement, setPopperPlacement] = useState('bottom-start');
+  const theme = useTheme();
+
+  const handleFDateChange = (e) => {
+    const value = e.target.value;
+    setFDate(value);
+  
+    // Only format if the value is valid
+ 
+  };
+  
+  const handleTDateChange = (e) => {
+    const value = e.target.value;
+    setTDate(value);
+  
+    // Only format if the value is valid
+    
+  };
+
+  const handleApply = () => {
+    if (fdate) {
+      const formattedFDate = moment(fdate)?.format('MM/DD/YYYY');  // Convert to MM/DD/YYYY format
+      console.log('From Date (API Format):', formattedFDate);
+      setFDatef(formattedFDate);
+    } else {
+      console.log('From Date (API Format): Invalid date');
+    }
+    if (tdate) {
+      const formattedTDate = moment(tdate)?.format('MM/DD/YYYY');  // Convert to MM/DD/YYYY format
+      console.log('To Date (API Format):', formattedTDate);
+      setTDatef(formattedTDate);
+    } else {
+      console.log('To Date (API Format): Invalid date');
+    }
+  }
+
+  return (
+    <ApexChartWrapper style={{paddingBottom:'2.5rem', paddingTop:'1rem'}}>
+   
+      <KeenSliderWrapper>
+        <Grid container spacing={3}>
+          {/* <Grid item xs={12} lg={4} style={{paddingTop:'25px'}}>
+            <AnalyticsWebsiteAnalyticsSlider tkn={tkn} />
+            <CardStatsVertical
+              stats='1.28k'
+              chipText='-12.2%'
+              chipColor='default'
+              avatarColor='error'
+              title='Total Profit'
+              subtitle='Last week'
+              avatarIcon='tabler:currency-dollar'
+            />
+          </Grid>
+          <Grid item xs={12} lg={8} style={{paddingTop:'25px'}}>
+            <AnalyticsFilters />
+            <AnalyticsWebsiteAnalyticsSlider tkn={tkn} />
+            <CardStatsVertical
+              stats='1.28k'
+              chipText='-12.2%'
+              chipColor='default'
+              avatarColor='error'
+              title='Total Profit'
+              subtitle='Last week'
+              avatarIcon='tabler:currency-dollar'
+            />
+          </Grid> */}
+          
+          {/* <Grid item xs={12} sm={6} lg={3} style={{paddingTop:'53px'}}>
+            <AnalyticsOrderVisits tkn={tkn} />
+          </Grid> */}
+          {/* <Grid item xs={12} sm={6} lg={3} style={{paddingTop:'53px'}}>
+            <CardStatsWithAreaChart
+              stats='97.5k'
+              chartColor='success'
+              avatarColor='success'
+              title='Revenue Generated'
+              className='fs_analytics_l'
+              avatarIcon='tabler:credit-card'
+              chartSeries={[{ data: [6, 35, 25, 61, 32, 84, 70] }]}
+            />
+          </Grid> */}
+
+          <Grid item xs={12} md={12} lg={12}>
+       
+            <Box style={{margin:'5px', width:'22%', display:'flex', alignItems:'flex-end'}}>
+              <div style={{display:'flex'}}>
+                <div style={{display:'flex', flexDirection:'column'}}>
+                  <span className='fs_analytics_l'>From Date</span>
+                  <DatePicker
+                    selected={fdate}
+                    id='basic-input'
+                    popperPlacement={popperPlacement}
+                    onChange={date => setFDate(date)}
+                    placeholderText='01/10/2024'
+                    customInput={<CustomInput className='fs_analytics_l' sx={{border:'1px solid #989898', backgroundColor:'white', marginRight:'10px'}}  />}
+                    className='fs_analytics_l'
+                  />
+                </div>
+                <div style={{display:'flex',  flexDirection:'column'}}>
+                  <span className='fs_analytics_l'>To Date</span>
+                  <DatePicker
+                    selected={tdate}
+                    id='basic-input'
+                    popperPlacement={popperPlacement}
+                    onChange={date => setTDate(date)}
+                    placeholderText='01/10/2024'
+                    customInput={<CustomInput className='fs_analytics_l' sx={{border:'1px solid #989898',  backgroundColor:'white', marginRight:'10px'}}  />}
+                    className='fs_analytics_l'
+                  />
+                </div>
+              </div>
+              {/* <div style={{display:'flex', flexDirection:'column', marginRight:'10px'}}>
+                <label>From Date</label>
+                <input type="date" id="fdate" value={fdate} onChange={handleFDateChange} />
+              </div>
+              <div  style={{display:'flex', flexDirection:'column', marginRight:'10px'}}>
+                <label htmlFor='tdate'>To Date</label>
+                <input type="date" id="tdate" value={tdate} onChange={handleTDateChange} />
+              </div> */}
+              <div><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green}} size='large' onClick={() => handleApply()}>Apply</Button></div>
+            </Box>
+          </Grid>
+         
+          <Grid item xs={12} md={6} lg={9} style={{paddingTop:'25px'}}>
+            <AnalyticsEarningReports tkn={tkn} fdate={fdatef} tdate={tdatef} />
+          </Grid>
+          <Grid item xs={12} md={6} lg={3} style={{paddingTop:'25px'}}>
+            <AnalyticsSupportTracker tkn={tkn} fdate={fdatef} tdate={tdatef} />
+          </Grid>
+          {/* <Grid item xs={12} md={4} style={{paddingTop:'25px'}}>
+            <AnalyticsSalesRepWiseSaleAmt tkn={tkn} />
+          </Grid> */}
+          
+          <Grid item xs={12} sm={6} md={4} lg={3} style={{paddingTop:'25px'}}>
+            <AnalyticsSalesByCountries tkn={tkn} fdate={fdatef} tdate={tdatef} />
+          </Grid>
+          
+          {/* <Grid item xs={12} md={6} lg={4} style={{paddingTop:'25px'}}>
+            <AnalyticsMonthlyCampaignState tkn={tkn} />
+          </Grid> */}
+          {/* <Grid item xs={12} md={6} lg={4} style={{paddingTop:'25px'}}>
+            <AnalyticsSourceVisits tkn={tkn} />
+          </Grid> */}
+          <Grid item xs={12} sm={6} md={8} lg={9} style={{paddingTop:'25px'}}>
+            {/* <AnalyticsCustomerTypeWise tkn={tkn} /> */}
+            <AnalyticsSalesEarningReport tkn={tkn} fdate={fdatef} tdate={tdatef} />
+          </Grid>
+          <Grid item xs={12} sm={6} md={6} lg={6}  style={{paddingTop:'25px'}}>
+            <AnalyticsTotalEarning tkn={tkn} fdate={fdatef} tdate={tdatef} />
+            {/* <AnalyticsSalesEarningReport /> */}
+          </Grid>
+          <Grid item xs={12} sm={6} md={6} lg={6} style={{paddingTop:'25px'}}>
+            <AnalyticsProject tkn={tkn} fdate={fdatef} tdate={tdatef} />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={4} style={{paddingTop:'25px'}}>
+            <ApexRadialBarChart tkn={tkn} fdate={fdatef} tdate={tdatef} />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={4} style={{paddingTop:'25px'}}>
+            <RechartsPieChart tkn={tkn} fdate={fdatef} tdate={tdatef} />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={4} style={{paddingTop:'25px'}}>
+            <AnalyticsSalesRepWiseSaleAmt tkn={tkn} fdate={fdatef} tdate={tdatef} />
+          </Grid>
+        </Grid>
+      </KeenSliderWrapper>
+    </ApexChartWrapper>
+  )
+}
+
+export default AnalyticsDashboard

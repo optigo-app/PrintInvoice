@@ -183,7 +183,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                           className="container_17_old mb_2 mt_2 pt_2 container_margin_left"
                           key={index}
                         >
-                          <div className="border border-black border-2">
+                          <div className=" border-black border-2">
                             <div className="print_sec d_flex">
                               <div className="print_text border_right">
                                 <div className="header_first">
@@ -272,6 +272,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                   borderLeft: "1px solid",
                                 }}
                               >
+                                {console.log(e?.data)}
                                 <img
                                   src={
                                     e?.data?.rd?.DesignImage !== '' 
@@ -460,7 +461,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                     })
                   ) : (
                     <div className="container_17_old mb_2 mt_2 pt_2 container_margin_left">
-                      <div className="border border-black border-2">
+                      <div className=" border-black border-2">
                         <div className="print_sec d_flex">
                           <div className="print_text border_right">
                             <div className="printhead d_flex justify_content_between ">
@@ -715,7 +716,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                     </div>
                   )}
                   <div className="container_17_old mb_2 mt_2 pt_2 container_margin_left">
-                    <div className="border border-black border-2     enime_17_old">
+                    <div className=" border-black border-2     enime_17_old">
                       <div className="d_flex">
                         <div className="side_1_17">
                           <div
@@ -839,6 +840,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                           }}
                         >
                           
+                          {console.log(e?.data)}
                           <img
                             src={
                               e?.data?.rd?.DesignImage !== '' 

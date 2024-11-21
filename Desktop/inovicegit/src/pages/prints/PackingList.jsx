@@ -33,6 +33,9 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
 
   const [isImageWorking, setIsImageWorking] = useState(true);
+
+  const [diaQlty, setDiaQlty] = useState(false);
+
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -160,6 +163,13 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     setLoader(false);
   };
 
+  const checkDiaQlty = () => {
+      if(diaQlty){
+        setDiaQlty(false);
+      }else{
+        setDiaQlty(true);
+      }
+  }
 
   return (
     <>
@@ -169,8 +179,12 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         <>
           {msg === "" ? (
             <>
-              <div className="btnpcl"> <Button /> 
-              
+              <div className="btnpcl">
+                <div className="mx-3 d-flex align-items-center">
+                  <input type="checkbox" value={diaQlty} onChange={() => checkDiaQlty()} id="diaqlty" />
+                  <label htmlFor="diaqlty" className="mx-2 user-select-none fspcl">Diamond Quality</label>
+                </div>
+                 <Button /> 
               </div>
               <div className="pclprint pad_60_allPrint">
                 <div className="pclheader">
@@ -221,7 +235,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                               <div className="diamheadpcl">
                                 <div className="diamhpclcol1 fwboldpcl fspcl"> Diamond </div>
                                 <div className="diamhpclcol">
-                                  <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "27%" }} > </div>
+                                  <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "27%" }} > Shape </div>
                                   <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "27%" }} > Size </div>
                                   <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "22%" }} > Wt </div>
                                   <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "22%" }} > Rate </div>
@@ -241,7 +255,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                               <div className="shptheadpcl">
                                 <div className="shpcolpcl1 fwboldpcl fspcl"> Stone </div>
                                 <div className="shpcolpclcol">
-                                  <div className="shpthcolspcl centerpcl fwboldpcl fspcl" style={{ width: "27%" }} >  </div>
+                                  <div className="shpthcolspcl centerpcl fwboldpcl fspcl" style={{ width: "27%" }} > Shape </div>
                                   <div className="shpthcolspcl centerpcl fwboldpcl fspcl" style={{ width: "22%" }} > Wt </div>
                                   <div className="shpthcolspcl centerpcl fwboldpcl fspcl" style={{ width: "23%" }} > Rate </div>
                                   <div className="shpthcolspcl centerpcl fwboldpcl fspcl" style={{ borderRight: "0px", width: "28%" }} > Amount </div>
@@ -293,7 +307,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             e?.diamonds?.map((ele, ind) => {
                                               
                                               return (
-                                                <div className="leftpcl fspcl text-break" key={ind} > {ele?.ShapeName} {ele?.QualityName} </div>
+                                                <div className="leftpcl fspcl text-break" key={ind} > {ele?.ShapeName} { diaQlty && ele?.QualityName} </div>
                                                 // <div className=" fspcl text-break" key={i} ></div>
                                                 );
                                               })
@@ -677,7 +691,8 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <div className="diapcltotrowtb">
                         <div className="dcolsthpcl" style={{ width: "27%", backgroundColor:'#F5F5F5 !important' }} ></div>
                         <div className="dcolsthpcl" style={{ width: "27%", backgroundColor:'#F5F5F5 !important' }} ></div>
-                        <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{  width: "22%" }} >
+                        <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-import { value } from './ExportDeclarationForm';
+items-center end_p_pcl_new" style={{  width: "22%" }} >
                           { result?.mainTotal?.diamonds?.Wt !== 0 && result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
                         </div>
                         {/* <div className="dcolsthpcl" style={{ width: "22%" }} ></div> */}

@@ -229,9 +229,13 @@
 
 /* table body img */
 .imgdp10{
-    height: 80%;
+    /* height: 80%;
     width: 65%;
+    margin: 2px; */
+    height: 75px;
+    width: 75px;
     margin: 2px;
+    object-fit: contain;
 }
 
 /* grand total */
@@ -323,7 +327,7 @@
     .containerdp10{
         box-sizing: border-box;
         word-break: break-all;
-        font-size: 7px;
+        font-size: 6px;
         line-height: 7px;
         max-width: 1200px;
         margin: 0 auto;
@@ -336,23 +340,23 @@
         height: 10px !important;
     }
     .fsgdp10{
-        font-size: 8px !important;
-        line-height: 8px !important;
+        font-size: 6px !important;
+        line-height: 6px !important;
     }
     .fsg2dp10{
-        font-size: 8px !important;
+        font-size: 6px !important;
         /* line-height: 14px; */
     }
     .fs_3_qlp{
-        font-size: 12px !important;
+        font-size: 10px !important;
     }
 .fs_cust_name_qpl{
-    font-size: 10px !important;
+    font-size: 8px !important;
 }
     .pheaddp10{
         height: 25px;
         background-color: #989898;
-        font-size: 17px;
+        font-size: 14px;
         font-weight: bold;
         color: white;
         display: flex;
@@ -360,5 +364,19 @@
         align-items: center;
         padding-left: 5px;
         margin-bottom: 3px;
+    }
+    /* table body img */
+    .imgdp10{
+        /* height: 80%;
+        width: 65%;
+        margin: 2px; */
+        height: 40px;
+        width: 40px;
+        margin: 2px;
+        object-fit: contain;
+    }
+
+    @page{
+        margin: 1mm;
     }
 }

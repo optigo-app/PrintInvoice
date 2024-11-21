@@ -152,6 +152,8 @@ const MRPBill = () => {
   const cid = params.get('cid');
   const luid = (params?.get('LUId') === null || params?.get('LUId') === undefined) ? '' : atob(params.get('LUId'));
   const lid = (params?.get('LId') === null || params?.get('LId') === undefined) ? '' : atob(params.get('LId'));
+  const sid = params?.get("serverid");
+  console.log(sid);
   //api calling for dropdowns
   useEffect(() => {
     let url = '';
@@ -609,7 +611,6 @@ const MRPBill = () => {
   }
   setInpAutoFocus(true);
   }
-
   //book change logic
   const handleBookChange = (e) => {
       setBookErrorMsg('');
@@ -833,9 +834,9 @@ const MRPBill = () => {
 
   //print url set up
   const handlePrintUrl = () => {
-
-    window.open(printUrl, '_blank');
-
+    let printUrl1 = '';
+    printUrl1 = printUrl + `&srvid=${sid}`
+    window.open(printUrl1, '_blank');
   }
 
   //customer id and value set up logic

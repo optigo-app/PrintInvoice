@@ -1,0 +1,21 @@
+.fs_analytics_l .MuiDataGrid-columnHeaderTitle{
+    font-weight: bold !important;
+}
+
+
+@media screen and (max-width:1657px){
+    .fs_pd_kpi{
+        font-size: 14px !important;
+    }
+}
+@media screen and (max-width:1580px){
+    .fs_pd_kpi{
+        font-size: 13px !important;
+    }
+}
+
+@media screen and (max-width:1345px){
+    .dp_cmp {
+        width: 20% !important;
+    }
+}

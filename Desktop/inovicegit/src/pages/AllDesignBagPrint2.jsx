@@ -20,12 +20,14 @@ const AllDesignBagPrint2 = () => {
     version: queryParams.version,
     url: queryParams.report_api_url,
     pageStart: +queryParams.start_page,
+    report_sv: queryParams?.report_sv
   };
   const headers = {
     "Content-Type": "application/json",
     Authorization: "",
     YearCode: queries.YearCode,
     version: queries.version,
+    // sv: +queries?.report_sv
   };
   const ImportComponent = async (name) => {
     try {

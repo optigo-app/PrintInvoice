@@ -9,6 +9,7 @@ import Loader from "../components/Loader";
 import  QcReport  from "./qcreport/QcReport";
 import MRPBill from "./MRPBill/MRPBill";
 import AllMaterialWisePrint from "./AllMaterialWisePrint";
+import Dashboard from "./dashboard/Dashboard";
 
 const AllDesign = () => {
   
@@ -33,6 +34,8 @@ const AllDesign = () => {
       return <AllGrids />;
     } else if (searchUrl?.includes("pid=18126")) {
       return <MRPBill />;
+    } else if (searchUrl?.includes("pid=18145") || searchUrl?.includes("pid=18146")){
+      return <Dashboard />;
     }
      else {
       return <ErrorPage />;

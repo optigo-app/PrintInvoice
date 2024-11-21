@@ -72,4 +72,7 @@
         .print_sec_sum4 {
             display: none !important;
           }
+          .d_none_pcl1{
+            display: none !important;
+          }
 }

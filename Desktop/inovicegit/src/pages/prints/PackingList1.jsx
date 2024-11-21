@@ -43,6 +43,16 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     };
     const [taxes, setTaxes] = useState([]);
 
+    const [diaQlty, setDiaQlty] = useState(false);
+    
+  const checkDiaQlty = () => {
+    if(diaQlty){
+      setDiaQlty(false);
+    }else{
+      setDiaQlty(true);
+    }
+}
+
     const loadData = (data) => {
         let exchangerate = data?.BillPrint_Json[0]?.CurrencyExchRate;
         setJson0Data(data?.BillPrint_Json[0]);
@@ -448,8 +458,16 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         <>{loader ? <Loader /> : msg === "" ? <>
             <div className={`container max_width_container pad_60_allPrint ${style?.container} px-1`}>
                 {/* print Button */}
-                <div className={`printBtn_sec text-end  pt-4 `} >
-                    <input type="button" className="btn_white blue" style={{ fontSize: "12px" }} value="Print" onClick={(e) => handlePrint(e)} />
+                <div className='printBtn_sec d-flex justify-content-end align-items-center  pt-4 d_none_pcl1'>
+                    
+                    <div className="mx-3 d-flex align-items-center">
+                        <input type="checkbox" value={diaQlty} onChange={() => checkDiaQlty()} id="diaqlty" />
+                        <label htmlFor="diaqlty" className="mx-2 user-select-none fspcl">Diamond Quality</label>
+                    </div>
+                    <div className={`printBtn_sec text-end  `} >
+                        <input type="button" className="btn_white blue" style={{ fontSize: "12px" }} value="Print" onClick={(e) => handlePrint(e)} />
+                    </div>
+
                 </div>
                 {/* Print Logo */}
                 <div className="pt-2">
@@ -555,7 +573,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                 </div>
                 {/* Table Data */}
-                {data.length > 0 && data?.map((e, i) => {
+                {data?.length > 0 && data?.map((e, i) => {
                     return <div key={i} className={`border-top no_break ${style?.rowWisePad} ${style?.word_break}`}>
                         <div className='border-start border-end border-black'>
                             <div className={`d-flex ${style?.packingListRow}`}>
@@ -575,7 +593,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <div className="d-flex w-100 ">
                                         <div className={`col-2 border-end pb-3 position-relative h-100`}>
                                             {e?.diamonds.map((el, indd) => {
-                                                return <p key={indd}>{el?.ShapeName} {el?.QualityName}</p>
+                                                return <p key={indd}>{el?.ShapeName} { diaQlty && el?.QualityName}</p>
                                             })}
                                         </div>
                                         <div className={`col-2 border-end pb-3 position-relative h-100`}>
@@ -694,7 +712,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             {e?.TotalDiamondHandling !== 0 && <p className={`${style?.min_height}`} style={{ wordBreak: "normal" }}>Charges Handling</p>}
                                         </div>
                                         <div className={` col-6 text-end position-relative h-100 pb-3`}>
-                                        {e?.otherChargess?.map((ele, ind) => {
+                                            {e?.otherChargess?.map((ele, ind) => {
                                                 return ele?.Amount !== 0 && <p key={ind} className={`${style?.min_height}`}>{NumberWithCommas(ele?.Amount / json0Data?.CurrencyExchRate, 2)}</p>
                                             })}
                                             

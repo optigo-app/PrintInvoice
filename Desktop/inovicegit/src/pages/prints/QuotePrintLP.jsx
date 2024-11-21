@@ -424,7 +424,7 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.MetalColor}
                             </div> */}
                             
-                              <div className="w-100 d-flex justify-content-center align-items-start fsgdp10 m-1" style={{ minHeight: "80px" }} >
+                              <div className="w-100 d-flex justify-content-center align-items-center " style={{ minHeight: "80px" }} >
                                 <img src={e?.DesignImage} onError={(e) => handleImageError(e)} alt="design" className="imgdp10" />
                               </div>
                            
