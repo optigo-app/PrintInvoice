@@ -39,7 +39,6 @@ function BagPrint21A({ queries, headers }) {
     
             const allDatas = await GetData(objs);
             let datas = organizeData(allDatas?.rd, allDatas?.rd1);
-            console.log(datas);
             let total_ActualPcs = 0;
             let total_ActualWeight = 0;
 
@@ -211,6 +210,10 @@ function BagPrint21A({ queries, headers }) {
 //             }, 5000);
 //         }
 // }, [data?.length]);
+
+
+
+
     return (
         <>
             {
@@ -262,7 +265,7 @@ function BagPrint21A({ queries, headers }) {
                                                                                 <div className='d-flex border-bottom border-black'>
                                                                                     <div className='col1_bg21 border-end border-black pd_s_21 start_bg21'>PO :</div>
                                                                                     <div className='col2_bg21 border-end border-black pd_s_21 start_bg21'>{val?.PO}</div>
-                                                                                    <div className='col8_bg21 border-end border-black pd_s_21 start_bg21'>BQTY:1</div>
+                                                                                    <div className='col8_bg21 border-end border-black pd_s_21 start_bg21'>BQTY:{val?.Quantity}</div>
                                                                                     <div className='col7_bg21 border-end border-black pd_s_21 start_bg21'></div>
                                                                                 </div>
                                                                                 <div className='d-flex border-bottom border-black'>
@@ -274,7 +277,7 @@ function BagPrint21A({ queries, headers }) {
                                                                                     <div className='col1_bg21 border-end border-black pd_s_21 start_bg21'>Or No.</div>
                                                                                     <div className='col12_bg21 border-end border-black pd_s_21 start_bg21'>{val?.OrderNo}</div>
                                                                                     <div className='col13_bg21 border-end border-black pd_s_21 start_bg21'>Or Wt</div>
-                                                                                    <div className='col7_bg21 border-end border-black pd_e_21 start_bg21'></div>
+                                                                                    <div className='col7_bg21 border-end border-black pd_e_21 start_bg21'>{val?.ActualGrossweight?.toFixed(3)}</div>
                                                                                 </div>
                                                                             </div>
                                                                             <div className='imgDiv_bg21 border-bottom border-black'>
@@ -344,15 +347,15 @@ function BagPrint21A({ queries, headers }) {
                                                                                 </div>
                                                                                 <div className='border-bottom h_ins_bg21 border-black d-flex'>
                                                                                     <div className='col1_bg21 start_bg21 h_ins_bg21 fw-bold ps-1 border-end border-black'>Cust. Ins.</div>
-                                                                                    <div className='h_ins_bg21 text-break d-flex align-items-center flex-wrap ps-1'></div>
+                                                                                    <div className='h_ins_bg21 text-break d-flex align-items-center flex-wrap ps-1'>{val?.productInfoSeparate?.customer}</div>
                                                                                 </div>
                                                                                 <div className='border-bottom h_ins_bg21 border-black d-flex'>
                                                                                     <div className='col1_bg21 start_bg21 h_ins_bg21 fw-bold ps-1 border-end border-black'>D.Pro. Ins.</div>
-                                                                                    <div className='h_ins_bg21 text-break d-flex align-items-center flex-wrap ps-1'></div>
+                                                                                    <div className='h_ins_bg21 text-break d-flex align-items-center flex-wrap ps-1'>{val?.productInfoSeparate?.finding}</div>
                                                                                 </div>
                                                                                 <div className=' h_ins_bg21  d-flex'>
                                                                                     <div className='col1_bg21 start_bg21 h_ins_bg21 fw-bold ps-1 border-end border-black'>Remark</div>
-                                                                                    <div className='h_ins_bg21 text-break d-flex align-items-center flex-wrap ps-1'></div>
+                                                                                    <div className='h_ins_bg21 text-break d-flex align-items-center flex-wrap ps-1'>{val?.productInfoSeparate?.wax}</div>
                                                                                 </div>
                                                                                 
                                                                             </div>
@@ -395,7 +398,7 @@ function BagPrint21A({ queries, headers }) {
                                                               <div className='d-flex border-bottom border-black'>
                                                                   <div className='col1_bg21 border-end border-black pd_s_21 start_bg21'>PO :</div>
                                                                   <div className='col2_bg21 border-end border-black pd_s_21 start_bg21'>{val?.PO}</div>
-                                                                  <div className='col8_bg21 border-end border-black pd_s_21 start_bg21'>BQTY:1</div>
+                                                                  <div className='col8_bg21 border-end border-black pd_s_21 start_bg21'>BQTY:{val?.Quantity}</div>
                                                                   <div className='col7_bg21 border-end border-black pd_s_21 start_bg21'></div>
                                                               </div>
                                                               <div className='d-flex border-bottom border-black'>
@@ -407,7 +410,7 @@ function BagPrint21A({ queries, headers }) {
                                                                   <div className='col1_bg21 border-end border-black pd_s_21 start_bg21'>Or No.</div>
                                                                   <div className='col12_bg21 border-end border-black pd_s_21 start_bg21'>{val?.OrderNo}</div>
                                                                   <div className='col13_bg21 border-end border-black pd_s_21 start_bg21'>Or Wt</div>
-                                                                  <div className='col7_bg21 border-end border-black pd_e_21 start_bg21'></div>
+                                                                  <div className='col7_bg21 border-end border-black pd_e_21 start_bg21'>{val?.ActualGrossweight?.toFixed(3)}</div>
                                                               </div>
                                                           </div>
                                                           <div className='imgDiv_bg21 border-bottom border-black'>
@@ -460,15 +463,15 @@ function BagPrint21A({ queries, headers }) {
                                                                                 </div>
                                                                                 <div className='border-bottom h_ins_bg21 border-black d-flex'>
                                                                                     <div className='col1_bg21 start_bg21 h_ins_bg21 fw-bold ps-1 border-end border-black'>Cust. Ins.</div>
-                                                                                    <div className='h_ins_bg21 text-break d-flex align-items-center flex-wrap ps-1'></div>
+                                                                                    <div className='h_ins_bg21 text-break d-flex align-items-center flex-wrap ps-1'>{val?.productInfoSeparate?.customer}</div>
                                                                                 </div>
                                                                                 <div className='border-bottom h_ins_bg21 border-black d-flex'>
                                                                                     <div className='col1_bg21 start_bg21 h_ins_bg21 fw-bold ps-1 border-end border-black'>D.Pro. Ins.</div>
-                                                                                    <div className='h_ins_bg21 text-break d-flex align-items-center flex-wrap ps-1'></div>
+                                                                                    <div className='h_ins_bg21 text-break d-flex align-items-center flex-wrap ps-1'>{val?.productInfoSeparate?.finding}</div>
                                                                                 </div>
                                                                                 <div className=' h_ins_bg21  d-flex'>
                                                                                     <div className='col1_bg21 start_bg21 h_ins_bg21 fw-bold ps-1 border-end border-black'>Remark</div>
-                                                                                    <div className='h_ins_bg21 text-break d-flex align-items-center flex-wrap ps-1'></div>
+                                                                                    <div className='h_ins_bg21 text-break d-flex align-items-center flex-wrap ps-1'>{val?.productInfoSeparate?.wax}</div>
                                                                                 </div>
                                                                                 
                                                                             </div>
@@ -510,7 +513,7 @@ function BagPrint21A({ queries, headers }) {
                                                                                 <div className='d-flex border-bottom border-black'>
                                                                                     <div className='col1_bg21 border-end border-black pd_s_21 start_bg21'>PO :</div>
                                                                                     <div className='col2_bg21 border-end border-black pd_s_21 start_bg21'>{val?.PO}</div>
-                                                                                    <div className='col8_bg21 border-end border-black pd_s_21 start_bg21'>BQTY:1</div>
+                                                                                    <div className='col8_bg21 border-end border-black pd_s_21 start_bg21'>BQTY:{val?.Quantity}</div>
                                                                                     <div className='col7_bg21 border-end border-black pd_s_21 start_bg21'></div>
                                                                                 </div>
                                                                                 <div className='d-flex border-bottom border-black'>
@@ -522,7 +525,7 @@ function BagPrint21A({ queries, headers }) {
                                                                                     <div className='col1_bg21 border-end border-black pd_s_21 start_bg21'>Or No.</div>
                                                                                     <div className='col12_bg21 border-end border-black pd_s_21 start_bg21'>{val?.OrderNo}</div>
                                                                                     <div className='col13_bg21 border-end border-black pd_s_21 start_bg21'>Or Wt</div>
-                                                                                    <div className='col7_bg21 border-end border-black pd_e_21 start_bg21'></div>
+                                                                                    <div className='col7_bg21 border-end border-black pd_e_21 start_bg21'>{val?.ActualGrossweight?.toFixed(3)}</div>
                                                                                 </div>
                                                                             </div>
                                                                             <div className='imgDiv_bg21 border-bottom border-black'>
@@ -597,15 +600,15 @@ function BagPrint21A({ queries, headers }) {
                                                                                 </div>
                                                                                 <div className='border-bottom h_ins_bg21 border-black d-flex'>
                                                                                     <div className='col1_bg21 start_bg21 h_ins_bg21 fw-bold ps-1 border-end border-black'>Cust. Ins.</div>
-                                                                                    <div className='h_ins_bg21 text-break d-flex align-items-center flex-wrap ps-1'></div>
+                                                                                    <div className='h_ins_bg21 text-break d-flex align-items-center flex-wrap ps-1'>{val?.productInfoSeparate?.customer}</div>
                                                                                 </div>
                                                                                 <div className='border-bottom h_ins_bg21 border-black d-flex'>
                                                                                     <div className='col1_bg21 start_bg21 h_ins_bg21 fw-bold ps-1 border-end border-black'>D.Pro. Ins.</div>
-                                                                                    <div className='h_ins_bg21 text-break d-flex align-items-center flex-wrap ps-1'></div>
+                                                                                    <div className='h_ins_bg21 text-break d-flex align-items-center flex-wrap ps-1'>{val?.productInfoSeparate?.finding}</div>
                                                                                 </div>
                                                                                 <div className=' h_ins_bg21  d-flex'>
                                                                                     <div className='col1_bg21 start_bg21 h_ins_bg21 fw-bold ps-1 border-end border-black'>Remark</div>
-                                                                                    <div className='h_ins_bg21 text-break d-flex align-items-center flex-wrap ps-1'></div>
+                                                                                    <div className='h_ins_bg21 text-break d-flex align-items-center flex-wrap ps-1'>{val?.productInfoSeparate?.wax}</div>
                                                                                 </div>
                                                                                 
                                                                             </div>

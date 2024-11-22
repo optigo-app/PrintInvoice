@@ -7,3 +7,34 @@ export const GetChunkData = (chunkSize, arr) => {
     }
     return chunkData;
 }
+
+// export const extractWords = (str) => {
+//     console.log(str);
+//     const regex = /Customer INS :\s*(\S+).*?Wax\. INS :\s*(\S+).*?Finding INS :\s*(\S+)/;
+//     const matches = str.match(regex);
+
+//     if (matches) {
+//         return {
+//         customer: matches[1],
+//         wax: matches[2],
+//         finding: matches[3],
+//         };
+//     }
+
+//     return null;
+// };
+export const extractWords = (str) => {
+    // Updated regex
+    const regex = /Customer INS :\s*([\w\s]+?)Wax\. INS :\s*([\w\s]+?)Finding INS :\s*([\w\s]+)/;
+    const matches = str?.match(regex);
+
+    if (matches) {
+        return {
+            customer: matches[1].trim(),
+            wax: matches[2].trim(),
+            finding: matches[3].trim(),
+        };
+    }
+
+    return null;
+};
