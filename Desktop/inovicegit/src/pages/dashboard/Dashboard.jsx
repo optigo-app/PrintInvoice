@@ -4,6 +4,7 @@ import customTheme from "./@core/theme/theme"
 import AnalyticsDashboard from './components/AnalyticsDashboard';
 import { useLocation } from 'react-router-dom';
 import KPIAnalytics from './componentsofkpi/KPIAnalytics';
+import FactoryDashBoard from './factoryDashboard/FactoryDashBoard';
 const Dashboard = () => {
     let theme = createTheme(customTheme);
     const location = useLocation();
@@ -22,16 +23,21 @@ const Dashboard = () => {
             maxWidth:'100vw',
             backgroundColor:'#F8F7FA',
         }}>
-            { pid === '18145' && <div style={{
+            {/* { pid === '18145' && <div style={{
                 width:'95%', margin:'0 auto',
                 boxSizing:'border-box',
                 padding:'2rem'}}><AnalyticsDashboard tkn={tkn} /> 
-                {/* // padding:'2rem', paddingTop:'0px'}}><KPIAnalytics tkn={tkn} /> */}
-            </div>}
+            </div>} */}
             { pid === '18146' && <div style={{
                 width:'95%', margin:'0 auto',
                 boxSizing:'border-box',
                 padding:'2rem', paddingTop:'0px'}}><KPIAnalytics tkn={tkn} />
+            </div>}
+            { pid === '18145' && <div style={{
+                width:'95%', margin:'0 auto',
+                boxSizing:'border-box',
+                padding:'2rem'}}><FactoryDashBoard tkn={tkn} /> 
+                {/* // padding:'2rem', paddingTop:'0px'}}><KPIAnalytics tkn={tkn} /> */}
             </div>}
         </div>
     </ThemeProvider>
