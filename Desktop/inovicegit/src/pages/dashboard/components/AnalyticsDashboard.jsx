@@ -37,7 +37,7 @@ import AnalyticsCustomerTypeWise from './AnalyticsCustomerTypeWise';
 import AnalyticsFilters from './AnalyticsFilters';
 import AnalyticsSalesEarningReport from './AnalyticsSalesEarningReport';
 import AnalyticsSalesRepWiseSaleAmt from './AnalyticsSalesRepWiseSaleAmt';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Button, useTheme } from '@mui/material';
 import moment from 'moment';
 
@@ -49,45 +49,128 @@ import CustomInput from '../@core/components/pickersComponent/PickersCustomInput
 import "../@core/components/pickersComponent/datepickerc.css";
 
 const AnalyticsDashboard = ({tkn}) => {
-  const [fdate, setFDate] = useState("");
-  const [tdate, setTDate] = useState("");
+  const [fdate, setFDate] = useState(null);
+  const [tdate, setTDate] = useState(null);
   const [fdatef, setFDatef] = useState("");
   const [tdatef, setTDatef] = useState("");
   const [popperPlacement, setPopperPlacement] = useState('bottom-start');
   const theme = useTheme();
 
-  const handleFDateChange = (e) => {
-    const value = e.target.value;
-    setFDate(value);
+
+
+
+  // const handleFDateChange = (e) => {
+  //   const value = e.target.value;
+  //   setFDate(value);
   
-    // Only format if the value is valid
+  //   // Only format if the value is valid
  
-  };
+  // };
   
-  const handleTDateChange = (e) => {
-    const value = e.target.value;
-    setTDate(value);
+  // const handleTDateChange = (e) => {
+  //   const value = e.target.value;
+  //   setTDate(value);
   
-    // Only format if the value is valid
+  //   // Only format if the value is valid
     
+  // };
+
+  // const handleApply = () => {
+  //   if (fdate) {
+  //     const formattedFDate = moment(fdate)?.format('MM/DD/YYYY');  // Convert to MM/DD/YYYY format
+  //     console.log('From Date (API Format):', formattedFDate);
+  //     setFDatef(formattedFDate);
+  //   } else {
+  //     console.log('From Date (API Format): Invalid date');
+  //   }
+  //   if (tdate) {
+  //     const formattedTDate = moment(tdate)?.format('MM/DD/YYYY');  // Convert to MM/DD/YYYY format
+  //     console.log('To Date (API Format):', formattedTDate);
+  //     setTDatef(formattedTDate);
+  //   } else {
+  //     console.log('To Date (API Format): Invalid date');
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   // Get today's date
+  //   const today = moment();
+
+  //   // Financial year start: 1st April of current year
+  //   const financialYearStart = moment()?.month(3)?.date(1); // April is 3rd month (0-based index)
+
+  //   // Financial year end: 31st March of the next year
+  //   const financialYearEnd = moment(financialYearStart)?.add(1, 'year')?.subtract(1, 'day');
+
+  //   // Set initial values
+  //   setFDate(financialYearStart?.toDate());
+  //   setTDate(today?.isAfter(financialYearEnd) ? financialYearEnd?.toDate() : today?.toDate());
+  //   setFDatef(financialYearStart?.format('MM/DD/YYYY'));
+  //   setTDatef(today?.isAfter(financialYearEnd) ? financialYearEnd?.format('MM/DD/YYYY') : today?.format('MM/DD/YYYY'));
+
+  // }, []);
+
+  // const handleApply = () => {
+  //   if (fdate) {
+  //     const formattedFDate = moment(fdate)?.format('MM/DD/YYYY');
+  //     console.log('From Date (API Format):', formattedFDate);
+  //     setFDatef(formattedFDate);
+  //   }
+  //   if (tdate) {
+  //     const formattedTDate = moment(tdate)?.format('MM/DD/YYYY');
+  //     console.log('To Date (API Format):', formattedTDate);
+  //     setTDatef(formattedTDate);
+  //   }
+  // };
+
+
+  useEffect(() => {
+    // Get today's date
+    const today = moment();
+
+    // Financial year start: 1st April of the current year
+    // const financialYearStart = moment()?.month(3)?.date(1); // April is 3rd month (0-based index)
+    const financialYearStart = moment()?.month(3)?.date(1); // April is 3rd month (0-based index)
+    const financialYearEnd = moment(financialYearStart)?.add(1, "year")?.subtract(1, "day");
+    // Set initial values
+    setFDate(financialYearStart?.toDate());
+    setTDate(today?.isAfter(financialYearEnd) ? financialYearEnd?.toDate() : today?.toDate());
+
+    setTimeout(() => {
+      handleApply();
+    },0);
+  
+  }, []);
+
+  const handleFDateChange = (date) => {
+    // console.log(moment(date).format("MM/DD/YYYY"));
+    setFDate(date); // Store the actual date
   };
+
+  const handleTDateChange = (date) => {
+    // console.log(moment(date).format("MM/DD/YYYY"));
+    setTDate(date);
+  };
+
 
   const handleApply = () => {
     if (fdate) {
-      const formattedFDate = moment(fdate)?.format('MM/DD/YYYY');  // Convert to MM/DD/YYYY format
+      const formattedFDate = moment(fdate)?.format('MM/DD/YYYY');
       console.log('From Date (API Format):', formattedFDate);
       setFDatef(formattedFDate);
-    } else {
-      console.log('From Date (API Format): Invalid date');
+    }else{
+      setFDatef('');
     }
     if (tdate) {
-      const formattedTDate = moment(tdate)?.format('MM/DD/YYYY');  // Convert to MM/DD/YYYY format
+      const formattedTDate = moment(tdate)?.format('MM/DD/YYYY');
       console.log('To Date (API Format):', formattedTDate);
       setTDatef(formattedTDate);
-    } else {
-      console.log('To Date (API Format): Invalid date');
+    }else{
+      setTDatef('');  
     }
-  }
+  };
+
+
 
   return (
     <ApexChartWrapper style={{paddingBottom:'2.5rem', paddingTop:'1rem'}}>
@@ -142,11 +225,15 @@ const AnalyticsDashboard = ({tkn}) => {
                 <div style={{display:'flex', flexDirection:'column'}}>
                   <span className='fs_analytics_l'>From Date</span>
                   <DatePicker
+                    // selected={fdate}
                     selected={fdate}
                     id='basic-input'
                     popperPlacement={popperPlacement}
-                    onChange={date => setFDate(date)}
-                    placeholderText='01/10/2024'
+                    // onChange={date => setFDate(date)}
+                    onChange={handleFDateChange}
+                    // placeholderText='dd/mm/yyyy'
+                    dateFormat="dd-MM-yyyy"
+                    placeholderText={ "DD-MM-YYYY"}
                     customInput={<CustomInput className='fs_analytics_l' sx={{border:'1px solid #989898', backgroundColor:'white', marginRight:'10px'}}  />}
                     className='fs_analytics_l'
                   />
@@ -157,8 +244,11 @@ const AnalyticsDashboard = ({tkn}) => {
                     selected={tdate}
                     id='basic-input'
                     popperPlacement={popperPlacement}
-                    onChange={date => setTDate(date)}
-                    placeholderText='01/10/2024'
+                    // onChange={date => setTDate(date)}
+                    onChange={handleTDateChange}
+                    dateFormat="dd-MM-yyyy"
+                    // placeholderText='dd/mm/yyyy'
+                    placeholderText={ "DD-MM-YYYY"}
                     customInput={<CustomInput className='fs_analytics_l' sx={{border:'1px solid #989898',  backgroundColor:'white', marginRight:'10px'}}  />}
                     className='fs_analytics_l'
                   />
