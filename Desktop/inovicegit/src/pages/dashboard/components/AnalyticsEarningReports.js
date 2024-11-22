@@ -349,7 +349,7 @@
    return (
      <Card className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>
        <CardHeader
-         sx={{ pb: 2 }}
+         sx={{ pb: 0 }}
          title='Summary'
          subheader=''
         //  action={
@@ -362,25 +362,8 @@
          className='fs_analytics_l'
        />
        <CardContent>
-         <Grid container spacing={6}>
-           <StyledGrid
-             item
-             sm={0.5}
-             xs={12}
-             sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-end' }}
-           >
-             {/* <Box sx={{ mb: 1, rowGap: 1, columnGap: 2.5, display: 'flex', flexWrap: 'wrap', alignItems: 'center', width:'100%' }}>
-               <Typography variant='h2' color={theme?.palette?.grey?.A700} sx={{fontWeight:'400', paddingLeft:'12%'}} className='fs_analytics_l'>$468</Typography>
-               <CustomChip rounded size='small' skin='light' color='success' label='+4.2%' />
-             </Box>
-             <Typography variant='body2' className='fs_analytics_l fs_analytics_normal' sx={{paddingLeft:'12%'}}>this week compared to last week</Typography> */}
-           </StyledGrid>
-           <StyledGrid item xs={12} sm={11.5} >
-             <ReactApexcharts type='bar'  height={200} className='fs_analytics_l' series={series} options={options} />
-           </StyledGrid>
-         </Grid>
 
-         <Box sx={{ mt: 4.5, borderRadius: 1, p: theme?.spacing(2, 3), border: `1px solid ${theme?.palette?.divider}` }}>
+       <Box sx={{  borderRadius: 1, p: theme?.spacing(2, 3), border: `1px solid ${theme?.palette?.divider}` }}>
            <Grid container spacing={6}>
              {data?.map((item, index) => (
                <Grid item xs={12} sm={4} key={index}>
@@ -409,6 +392,54 @@
              ))}
            </Grid>
          </Box>
+
+         <Grid container spacing={6} sx={{pt:6.4}}>
+           <StyledGrid
+             item
+             sm={0.5}
+             xs={12}
+             sx={{ display: 'flex',  flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-end' }}
+           >
+             {/* <Box sx={{ mb: 1, rowGap: 1, columnGap: 2.5, display: 'flex', flexWrap: 'wrap', alignItems: 'center', width:'100%' }}>
+               <Typography variant='h2' color={theme?.palette?.grey?.A700} sx={{fontWeight:'400', paddingLeft:'12%'}} className='fs_analytics_l'>$468</Typography>
+               <CustomChip rounded size='small' skin='light' color='success' label='+4.2%' />
+             </Box>
+             <Typography variant='body2' className='fs_analytics_l fs_analytics_normal' sx={{paddingLeft:'12%'}}>this week compared to last week</Typography> */}
+           </StyledGrid>
+           <StyledGrid item xs={12} sm={11.5} >
+             <ReactApexcharts type='bar'  height={200} className='fs_analytics_l' series={series} options={options} />
+           </StyledGrid>
+         </Grid>
+
+         {/* <Box sx={{ mt: 4.5, borderRadius: 1, p: theme?.spacing(2, 3), border: `1px solid ${theme?.palette?.divider}` }}>
+           <Grid container spacing={6}>
+             {data?.map((item, index) => (
+               <Grid item xs={12} sm={4} key={index}>
+                 <Box sx={{ mb: 2.5, display: 'flex', alignItems: 'center' }}>
+                   <CustomAvatar
+                     skin='light'
+                     variant='rounded'
+                     color={item.avatarColor}
+                     sx={{ mr: 2, width: 26, height: 26 }}
+                   >
+                     <Icon fontSize='1.125rem'  icon={item.avatarIcon} />
+                   </CustomAvatar>
+                   <Typography variant='h5' className='fs_analytics_l'>{item.title}</Typography>
+                 </Box>
+                 <Typography variant='h4' sx={{ pb: 1 }} className='fs_analytics_l'>
+                   {item.stats}
+                 </Typography>
+                 <LinearProgress
+                   variant='determinate'
+                   value={item.progress}
+                   color={item.progressColor}
+                   sx={{ height: 4 }}
+                   className='fs_analytics_l'
+                 />
+               </Grid>
+             ))}
+           </Grid>
+         </Box> */}
        </CardContent>
      </Card>
    )
