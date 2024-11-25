@@ -227,7 +227,7 @@ const KPIAnalytics = ({tkn}) => {
     
   return (
     <>
-    <Grid container spacing={1} sx={{marginBottom:'3rem', padding: isSmallScreen ? '1rem' : '1rem' }}>
+    <Grid container spacing={1} sx={{marginBottom:'3rem', padding: isSmallScreen ? '1rem' : '1rem', width:'95%', margin:'0 auto' }}>
         {/* <Grid container justifyContent={'flex-end'}> */}
             <Box className='fs_analytics_l ' style={{width:'100%', display:'flex', justifyContent:'flex-end'}}> 
                 <Box className='fs_analytics_l dp_cmp'  style={{  marginBottom:'3px', padding:'0px', width:'18%'}}>

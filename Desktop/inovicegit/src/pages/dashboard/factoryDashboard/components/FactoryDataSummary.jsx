@@ -56,11 +56,11 @@ const FactoryDataSummary = ({tkn, bgColor}) => {
 
     const renderStats = () => {
         return data.map((sale, index) => (
-          <Grid item xs={12} md={2} key={index}>
+          <Grid item xs={6} sm={6} md={2.4} key={index}>
             <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
               
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography variant='h6' color={bgColor} sx={{fontWeight:'bolder'}} >{sale.title}</Typography>
+                <Typography variant='h5' color={bgColor} sx={{fontWeight:'bolder'}} >{sale.title}</Typography>
                 <Typography variant='h4' color={theme?.palette?.grey?.[700]} >{sale.stats}</Typography>
               </Box>
             </Box>

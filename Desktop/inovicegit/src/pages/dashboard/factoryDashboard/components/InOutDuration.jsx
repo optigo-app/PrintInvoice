@@ -85,7 +85,7 @@ const InOutDuration = () => {
     },
     plotOptions: {
       bar: {
-        columnWidth: '15%',
+        columnWidth: '20%',
         colors: {
           backgroundBarRadius: 10,
           backgroundBarColors: [columnColors.bg, columnColors.bg, columnColors.bg, columnColors.bg, columnColors.bg]

@@ -11,6 +11,9 @@ import FactoryDataSummary from './components/FactoryDataSummary';
 import MarginCt from './components/MarginCt';
 import InOutDuration from './components/InOutDuration';
 import SettingPerGram from './components/SettingPerGram';
+import TotalLabour from './components/TotalLabour';
+import VendorWiseSetPGram from './components/VendorWiseSetPGram';
+import WastageWiseLabourPGram from './components/WastageWiseLabourPGram';
 
 const FactoryDashBoard = () => {
 
@@ -64,12 +67,12 @@ const FactoryDashBoard = () => {
     
 
   return (
-    <div className='facd'>
+    <div className='facd' style={{width:'95%', margin:'0 auto', paddingBottom:'2rem'}}>
         <Grid container spacing={2}>
-            <Grid item xs={8}>
+            <Grid item xs={12} md={8}>
                 <Card className='fs_facd bs_facd' sx={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', p:2, minHeight:'100px', display:'flex', alignItems:'center', justifyContent:'center'}}><Typography variant='h3' sx={{fontFamily:"Public Sans Light", color:theme?.palette?.customColors?.purple}}>Factory Dashboard</Typography></Card>
             </Grid>
-            <Grid item xs={4} sm={4} md={4}>
+            <Grid item xs={12} sm={12} md={4}>
                     <Card className='fs_facd bs_facd' sx={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', p:2, minHeight:'100px', display:'flex', alignItems:'flex-end'}}>
                     <div style={{display:'flex'}}>
                         <div style={{display:'flex', flexDirection:'column'}}>
@@ -102,17 +105,26 @@ const FactoryDashBoard = () => {
                     <div><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green}} size='large' onClick={() => handleApply()}>Apply</Button></div>
                     </Card>
             </Grid>
-            <Grid item xs={12} sm={12} md={12} >
+            <Grid item xs={12}  >
                 <FactoryDataSummary bgColor={theme?.palette?.customColors?.purple} />
             </Grid>
             {/* <Grid item xs={4} sm={4} md={4} >
                 <MarginCt bgColor={theme?.palette?.customColors?.purple} />
             </Grid> */}
-            <Grid item xs={4} sm={4} md={4} >
+            <Grid item xs={12} sm={12} md={4} >
                 <SettingPerGram bgColor={theme?.palette?.customColors?.purple} />
             </Grid>
-            <Grid item xs={8} sm={8} md={8} >
+            <Grid item xs={12} sm={12} md={8} >
                 <InOutDuration bgColor={theme?.palette?.customColors?.purple} />
+            </Grid>
+            <Grid item xs={12} sm={12} md={4} >
+                <TotalLabour bgColor={theme?.palette?.customColors?.purple} />
+            </Grid>
+            <Grid item xs={12} sm={12} md={4} >
+                <WastageWiseLabourPGram bgColor={theme?.palette?.customColors?.purple} />
+            </Grid>
+            <Grid item xs={12} sm={12} md={4} >
+                <VendorWiseSetPGram bgColor={theme?.palette?.customColors?.purple} />
             </Grid>
             
         </Grid>

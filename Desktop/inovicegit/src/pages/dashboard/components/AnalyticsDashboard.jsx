@@ -173,7 +173,7 @@ const AnalyticsDashboard = ({tkn}) => {
 
 
   return (
-    <ApexChartWrapper style={{paddingBottom:'2.5rem', paddingTop:'1rem'}}>
+    <ApexChartWrapper style={{paddingBottom:'2.5rem', paddingTop:'1rem', width:'95%', margin:'0 auto'}}>
    
       <KeenSliderWrapper>
         <Grid container spacing={3}>

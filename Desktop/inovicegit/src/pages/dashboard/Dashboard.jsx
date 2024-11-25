@@ -21,21 +21,23 @@ const Dashboard = () => {
         <div style={{
             width:'100%',
             maxWidth:'100vw',
-            backgroundColor:'#F8F7FA',
         }}>
             {/* { pid === '18145' && <div style={{
-                width:'95%', margin:'0 auto',
+                width:'100%', 
                 boxSizing:'border-box',
+                backgroundColor:'#F8F7FA',
                 padding:'2rem'}}><AnalyticsDashboard tkn={tkn} /> 
             </div>} */}
             { pid === '18146' && <div style={{
-                width:'95%', margin:'0 auto',
+                width:'100%', 
                 boxSizing:'border-box',
+                backgroundColor:'#F8F7FA',
                 padding:'2rem', paddingTop:'0px'}}><KPIAnalytics tkn={tkn} />
             </div>}
             { pid === '18145' && <div style={{
-                width:'95%', margin:'0 auto',
+                width:'100%', 
                 boxSizing:'border-box',
+                backgroundColor:'#F8F7FA',
                 padding:'2rem'}}><FactoryDashBoard tkn={tkn} /> 
                 {/* // padding:'2rem', paddingTop:'0px'}}><KPIAnalytics tkn={tkn} /> */}
             </div>}

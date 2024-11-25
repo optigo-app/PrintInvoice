@@ -93,6 +93,14 @@
     width: 10%;
 }
 
+.headline_fs_eia{
+    font-size: 16px;
+}
+
+.decl_eia *{
+    font-size: 12px !important;
+}
+
 @media print{
     .d_none_eia{
         display: none !important;
@@ -105,5 +113,11 @@
         margin: 0 auto;
         margin-top: 0px;
         padding-bottom: 0px;
+    }
+    .headline_fs_eia{
+        font-size: 13px;
+    }
+    .decl_eia *{
+        font-size: 9px !important;
     }
 }
