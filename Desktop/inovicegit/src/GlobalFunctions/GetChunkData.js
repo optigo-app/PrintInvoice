@@ -24,17 +24,32 @@ export const GetChunkData = (chunkSize, arr) => {
 //     return null;
 // };
 export const extractWords = (str) => {
-    // Updated regex
-    const regex = /Customer INS :\s*([\w\s]+?)Wax\. INS :\s*([\w\s]+?)Finding INS :\s*([\w\s]+)/;
-    const matches = str?.match(regex);
-
-    if (matches) {
-        return {
-            customer: matches[1].trim(),
-            wax: matches[2].trim(),
-            finding: matches[3].trim(),
-        };
+    
+    let arr = str?.split("#");
+    
+    let obj = {
+        customer: arr[0]?.split(":")[1],
+        wax:arr[1]?.split(":")[1],
+        finding:arr[1]?.split(":")[1]
     }
 
-    return null;
+
+    return obj;
+
+
+
+    // console.log(str);
+    // // Updated regex
+    // const regex = /Customer INS :\s*([\w\s]+?)Wax\. INS :\s*([\w\s]+?)Finding INS :\s*([\w\s]+)/;
+    // const matches = str?.match(regex);
+    // console.log(matches);
+    // if (matches) {
+    //     return {
+    //         customer: matches[1].trim(),
+    //         wax: matches[2].trim(),
+    //         finding: matches[3].trim(),
+    //     };
+    // }
+
+    // return null;
 };
