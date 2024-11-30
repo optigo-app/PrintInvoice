@@ -94,6 +94,7 @@ export const printConditions = [
   {printName: 'estimation print', etpType: 'print', componentName: 'EstimationPrint'},
   {printName: 'estimate print 1', etpType: 'print', componentName: 'EstimatePrint1'},
   {printName: 'export', etpType: 'print', componentName: 'Export'},
+  {printName: 'export a', etpType: 'print', componentName: 'ExportA'},
   {printName: 'export declaration form', etpType: 'print', componentName: 'ExportDeclarationForm'},
   {printName: 'export invoice', etpType: 'print', componentName: 'ExportInvoice'},
   {printName: 'export invoice a', etpType: 'print', componentName: 'ExportInvoiceA'},

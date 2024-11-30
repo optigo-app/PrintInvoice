@@ -165,7 +165,8 @@ const BagPrint4B = ({ queries, headers }) => {
                       (
                         e?.additional?.pages?.map
                         ((ele, ind) => 
-                          {
+                        {
+                            console.log(e)
                             return (
                                 <div className="container4A container4B" key={ind}>
                               <div className="print4Apart_1 print4bpart_1">
@@ -708,7 +709,11 @@ const BagPrint4B = ({ queries, headers }) => {
                           <div className="part_2_container_4A container_print4bpart_1">
                             <div className="img_sec_container_4b border-bottom border-black">
                               <img
-                                src={e?.additional?.img}
+                                src={
+                                  e?.data?.DesignImage !== '' 
+                                          ? e?.data?.DesignImage
+                                    : require("../../assets/img/default.jpg")
+                                }
                                 alt=""
                                 onError={(e) => handleImageError(e)}
                                 loading="eager"

@@ -65,7 +65,16 @@ function Jobbagsticker3({ queries, headers }) {
                                             <div className='bag_space' key={i}>
                                                 <div className="heading_job_3">
                                                     <div className='img_aside_3'>
-                                                        <div className='img_job3'><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} alt="" onError={e => handleImageError(e)} loading="eager" id='jobsticker3' /></div>
+                                                        <div className='img_job3'>
+                                                            <img 
+                                                            // src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} 
+                                                            src={
+                                                                e?.data?.rd?.DesignImage !== '' 
+                                                                    ? e?.data?.rd?.DesignImage
+                                                                  : require("../../assets/img/default.jpg")
+                                                              }
+                                                            alt="" onError={e => handleImageError(e)} loading="eager" id='jobsticker3' />
+                                                        </div>
                                                         <div className='ins_3' >
                                                             <h1 className='h1_3' style={{ lineHeight: "28px" }}>{(" " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark)))?.slice(0, 62) }</h1>
                                                         </div>

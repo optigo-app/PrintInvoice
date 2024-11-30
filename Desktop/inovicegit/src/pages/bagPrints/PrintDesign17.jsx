@@ -572,9 +572,14 @@ const PrintDesign17 = ({ queries, headers }) => {
                             }}
                           >
                             <img
+                              // src={
+                              //   e?.additional?.img !== ""
+                              //     ? e?.additional?.img
+                              //     : require("../../assets/img/default.jpg")
+                              // }
                               src={
-                                e?.additional?.img !== ""
-                                  ? e?.additional?.img
+                                e?.data?.rd?.DesignImage !== '' 
+                                    ? e?.data?.rd?.DesignImage
                                   : require("../../assets/img/default.jpg")
                               }
                               alt=""

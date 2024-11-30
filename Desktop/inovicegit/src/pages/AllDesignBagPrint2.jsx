@@ -27,7 +27,7 @@ const AllDesignBagPrint2 = () => {
     Authorization: "",
     YearCode: queries.YearCode,
     version: queries.version,
-    // sv: +queries?.report_sv
+    sv: +queries?.report_sv
   };
   const ImportComponent = async (name) => {
     try {

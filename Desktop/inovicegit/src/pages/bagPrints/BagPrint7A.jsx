@@ -286,12 +286,12 @@ const BagPrint7A = ({ queries, headers }) => {
     }
   }, [data]);
 
-  // const handleImageError2 = (e, jobno) => {
-  //   if(e?.type === "error"){
-  //     setImageFlag(true);
-  //   }
-  //   console.log(e,e?.target, jobno);
-  // }
+  const handleImageError2 = (e, jobno) => {
+    if(e?.type === "error"){
+      setImageFlag(true);
+    }
+    console.log(e,e?.target, jobno);
+  }
 
 
   return (
@@ -479,6 +479,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                       id="img7A"
                                       alt=""
                                       onError={(e) => handleImageError(e)}
+                                      // onError={(e) => handleImageError2(e)}
                                       loading="eager"
                                     />
                                     <div
@@ -908,7 +909,7 @@ const BagPrint7A = ({ queries, headers }) => {
                             </React.Fragment>
                           );
                         })}
-                        {e?.data?.rd?.ThumbImagePath === "" ? (
+                        {e?.data?.rd?.DesignImage === "" ? (
                           ""
                         ) : (
                           <div className="container7A">
@@ -1317,7 +1318,7 @@ const BagPrint7A = ({ queries, headers }) => {
                           </div>
                         </div>
        
-                        {e?.data?.rd?.ThumbImagePath === "" ? (
+                        {e?.data?.rd?.DesignImage === "" ? (
                                           ""
                           
                         ) : (
@@ -1332,6 +1333,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                 loading="eager"
                                 alt="materialimage"
                                 id="img7ABig"
+                                
                               />
                             </div>
                           </div>

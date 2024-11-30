@@ -175,6 +175,7 @@ const BagPrint4C = ({ queries, headers }) => {
                         {
                             data?.length > 0 &&
                             data?.map((e, i) => {
+
                                 return (
                                     <React.Fragment key={i}>
                                         {
@@ -552,7 +553,12 @@ const BagPrint4C = ({ queries, headers }) => {
                                                         <div className="part_2_4BCC">
                                                             <div className="img_sec_4A border-bottom border-black">
                                                                 <img
-                                                                    src={e?.additional?.img}
+                                                                    // src={e?.additional?.img}
+                                                                    src={
+                                                                        e?.data?.rd?.DesignImage !== '' 
+                                                                                ? e?.data?.rd?.DesignImage
+                                                                          : require("../../assets/img/default.jpg")
+                                                                      }
                                                                     alt=""
                                                                     onError={(e) => handleImageError(e)}
                                                                     loading="eager"
@@ -731,7 +737,12 @@ const BagPrint4C = ({ queries, headers }) => {
                                                 <div className="part_2_container_4A container_print4Apart_1 h4C">
                                                     <div className="img_sec_container_4ACC border-bottom border-black">
                                                         <img
-                                                            src={e?.additional?.img}
+                                                            // src={e?.additional?.img}
+                                                            src={
+                                                                e?.data?.DesignImage !== '' 
+                                                                        ? e?.data?.DesignImage
+                                                                  : require("../../assets/img/default.jpg")
+                                                              }
                                                             alt=""
                                                             onError={(e) => handleImageError(e)}
                                                             loading="eager"

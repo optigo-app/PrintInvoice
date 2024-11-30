@@ -34,12 +34,12 @@ const Dashboard = () => {
                 backgroundColor:'#F8F7FA',
                 padding:'2rem', paddingTop:'0px'}}><KPIAnalytics tkn={tkn} />
             </div>}
-            {/* { pid === '18145' && <div style={{
+            { pid === '18147' && <div style={{
                 width:'100%', 
                 boxSizing:'border-box',
                 backgroundColor:'#F8F7FA',
                 padding:'2rem'}}><FactoryDashBoard tkn={tkn} /> 
-            </div>} */}
+            </div>}
                 {/* // padding:'2rem', paddingTop:'0px'}}><KPIAnalytics tkn={tkn} /> */}
         </div>
     </ThemeProvider>

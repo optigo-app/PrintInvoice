@@ -34,7 +34,7 @@ const AllDesign = () => {
       return <AllGrids />;
     } else if (searchUrl?.includes("pid=18126")) {
       return <MRPBill />;
-    } else if (searchUrl?.includes("pid=18145") || searchUrl?.includes("pid=18146")){
+    } else if (searchUrl?.includes("pid=18145") || searchUrl?.includes("pid=18146") || searchUrl?.includes("pid=18147")){
       return <Dashboard />;
     }
      else {

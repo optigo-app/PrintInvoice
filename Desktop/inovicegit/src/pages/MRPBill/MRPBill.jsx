@@ -153,7 +153,6 @@ const MRPBill = () => {
   const luid = (params?.get('LUId') === null || params?.get('LUId') === undefined) ? '' : atob(params.get('LUId'));
   const lid = (params?.get('LId') === null || params?.get('LId') === undefined) ? '' : atob(params.get('LId'));
   const sid = params?.get("serverid");
-  console.log(sid);
   //api calling for dropdowns
   useEffect(() => {
     let url = '';
