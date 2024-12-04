@@ -9,6 +9,7 @@ import footer1 from "../../assets/css/footers/footer1.module.css";
 
 
 const ExportA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
+    
     const [loader, setLoader] = useState(true);
     const [data, setData] = useState([]);
     const [headerData, setHeaderData] = useState({});
@@ -21,13 +22,16 @@ const ExportA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         Pcs: 0,
         Amount: 0,
     });
+
     const [smallTable, setSmallTable] = useState({
         metalList: [],
         diaList: [],
         csList: [],
         findList: []
     });
+
     const [isImageWorking, setIsImageWorking] = useState(true);
+
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };

@@ -26,11 +26,10 @@ export const GetChunkData = (chunkSize, arr) => {
 export const extractWords = (str) => {
     
     let arr = str?.split("#");
-    
     let obj = {
         customer: arr[0]?.split(":")[1],
         wax:arr[1]?.split(":")[1],
-        finding:arr[1]?.split(":")[1]
+        finding:arr[2]?.split(":")[1]
     }
 
 
