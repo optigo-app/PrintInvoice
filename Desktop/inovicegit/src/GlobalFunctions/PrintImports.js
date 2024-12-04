@@ -231,7 +231,7 @@ export const QuotationPrints = [
   {printName: 'jewellery tax invoice', etpType: 'print', componentName: 'JewelleryTaxInvoice'},
   {printName: 'packing list', etpType: 'print', componentName: 'PackingList'},
   {printName: 'packing list 1', etpType: 'print', componentName: 'PackingList1'},
-  {printName: 'packing list 3', etpType: 'print', componentName: 'PackingList3'},
+  {printName: 'packing list 3', etpType: 'print', componentName: 'PackingList3Quote'},
   {printName: 'summary 4', etpType: 'print', componentName: 'Summary4Quote'},
   {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrint'},
   {printName: 'detail print 12', etpType: 'print', componentName: 'DetailPrint12Quote'},
