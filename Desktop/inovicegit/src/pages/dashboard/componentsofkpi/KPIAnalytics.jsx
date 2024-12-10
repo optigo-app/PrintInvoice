@@ -362,11 +362,11 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
               setPDData(data3);
               const data4 = [
               {
-                stats: `${parseInt(checkNullUndefined(obj?.SalesMarketingOrder[0]?.TotalOrder))?.toFixed(3)} gm`,
+                stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketingOrder[0]?.TotalOrder))?.toFixed(3)} gm`,
                 title: 'Total Order',
             },
              {
-                stats: `${parseInt(checkNullUndefined(obj?.SalesMarketingOrder[0]?.AvgOrderSize))?.toFixed(2)}`,
+                stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketingOrder[0]?.AvgOrderSize))?.toFixed(2)}`,
                 title: 'Avg. Order Size',
             },
              {
@@ -378,19 +378,19 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 title: 'Delay Time',
             },
              {
-                stats: `${parseInt(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.AvgLabour))?.toFixed(2)}`,
+                stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.AvgLabour))?.toFixed(2)}`,
                 title: 'Avg. Labour',
             },
              {
-                stats: `${parseInt(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.SaleReturnPer))?.toFixed(2)}`,
+                stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.SaleReturnPer))?.toFixed(2)}`,
                 title: 'Sales Return (%)',
             },
              {
-                stats: `${parseInt(checkNullUndefined(obj?.SalesMarketingOrder[0]?.StockCountWithOutClub))?.toFixed(2)}`,
+                stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketingOrder[0]?.StockCountWithOutClub))?.toFixed(2)}`,
                 title: 'Avg. Stock Book Jobs',
             },
              {
-                stats: parseInt(checkNullUndefined(obj?.SalesMarketing_OrderCompletion[0]?.OverDueDebtorsAmount))?.toFixed(2),
+                stats: parseFloat(checkNullUndefined(obj?.SalesMarketing_OrderCompletion[0]?.OverDueDebtorsAmount))?.toFixed(2),
                 title: 'Overdue Debtors',
             }
               ];
@@ -678,6 +678,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                       },
                     }}
                   >
+                  <MenuItem value="" disabled selected>Date Filters</MenuItem>
                   <MenuItem value="Today">Today</MenuItem>
                   <MenuItem value="Week">Week</MenuItem>
                   <MenuItem value="Month">Month</MenuItem>
