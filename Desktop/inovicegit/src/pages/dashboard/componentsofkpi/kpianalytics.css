@@ -19,3 +19,68 @@
         width: 20% !important;
     }
 }
+
+.fs_analytics_l .MuiTypography-root{
+    font-family: "Public Sans Light" !important;
+}
+.fs_analytics_l{
+    font-family: "Public Sans Light" !important;
+}
+
+.onlyDatagrid .MuiDataGrid-footerContainer{
+    display: none !important;
+}
+
+
+@media screen and (max-width:1300px){
+    .media_w_100{
+        width: 70% !important;
+    }
+}
+@media screen and (max-width:940px){
+    .media_w_100{
+        width: 80% !important;
+    }
+}
+@media screen and (max-width:840px){
+    .media_w_100{
+        width: 90% !important;
+    }
+}
+@media screen and (max-width:760px){
+    .media_w_100{
+        width: 100% !important;
+    }
+}
+@media screen and (max-width:720px){
+    .media_w_100{
+        width: 100% !important;
+        display: flex;
+        flex-direction: column !important;
+        justify-content: center;
+        align-items: flex-start !important;
+    }
+
+
+}
+/* .fs_analytics_l .MuiDataGrid-columnHeaderTitle{
+    font-weight: bold !important;
+}
+
+
+@media screen and (max-width:1657px){
+    .fs_pd_kpi{
+        font-size: 14px !important;
+    }
+}
+@media screen and (max-width:1580px){
+    .fs_pd_kpi{
+        font-size: 13px !important;
+    }
+}
+
+@media screen and (max-width:1345px){
+    .dp_cmp {
+        width: 20% !important;
+    }
+} */

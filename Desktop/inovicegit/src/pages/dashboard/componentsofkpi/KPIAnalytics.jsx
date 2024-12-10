@@ -1,316 +1,860 @@
-import { Box, Grid, useMediaQuery, useTheme } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+
+import { Box, Button, Grid, useMediaQuery, useTheme, Select, MenuItem, Typography, CircularProgress  } from '@mui/material';
+import React, {  useEffect, useState } from 'react';
 import "./kpianalytics.css"
 import AccountNHR from './components/AccountNHR';
 import SalesNMarketing1 from './components/SalesNMarketing1';
 import QualityControl from './components/QualityControl';
 import Manufacturing from './components/Manufacturing';
 import RawMaterial from './components/RawMaterial';
-import { fetchDashboardData } from '../GlobalFunctions';
+import { fetchKPIDashboardData, formatAmountKWise } from '../GlobalFunctions';
 import ProductDevelopment from './components/ProductDevelopment';
 import SalesNMarketing2 from './components/SalesNMarketing2';
 import HeaderOfCard from './components/HeaderOfCard';
-import CardSnippet from './../@core/components/card-snippet/index';
-import PickersRange from './../@core/components/pickersComponent/PickersRange';
-import * as source from '../@core/components/pickersComponent/PickersSourceCode.js';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import SalesNMarketing3 from './components/SalesNMarketing3.js';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import CustomInput from '../@core/components/pickersComponent/PickersCustomInput';
+import { checkDivByZero, checkIsZero, checkNullUndefined } from './components/global.js';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-const KPIAnalytics = ({tkn}) => {
-    const [manufacturingData, setManufacturingData] = useState([]);
+const KPIAnalytics = ({tkn, sv, url, hostName}) => {
+
+
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme?.breakpoints?.down('sm'));
     const isMaxWidth12010px = useMediaQuery('(max-width:1210px)');
     const isMaxWidth1700px = useMediaQuery('(max-width:1700px)');
     const isMaxWidth900px = useMediaQuery('(max-width:899px)');
     const [popperPlacement, setPopperPlacement] = useState('bottom-start');
+    
+    const [allApiData, setAllApiData] = useState(null);
+    const [apiData1, setApiData1] = useState([]);
+
+    const [loading, setLoading] = useState(false);
+
+    const [QCData, setQCData] = useState([]);
+    const [PDData, setPDData] = useState([]);
+    const [SM1, setSM1] = useState([]);
+    const [SM2, setSM2] = useState([]);
+    const [SM3, setSM3] = useState([]);
+    const [RMData, setRMData] = useState([]);
+    const [MFGData, setMFGData] = useState([]);
+    const[columns, setColumns] = useState([]);
+
+
+    const [fdate, setFDate] = useState(moment().format('MM-DD-YYYY'));
+    const [tdate, setTDate] = useState(moment().format('MM-DD-YYYY'));
+    const [fdatef, setFDatef] = useState(moment().format('MM-DD-YYYY'));
+    const [tdatef, setTDatef] = useState(moment().format('MM-DD-YYYY'));
+    const [dropdownValue, setDropdownValue] = useState('Today');
+    const [daysCount, setDaysCount] = useState(1);
+
+    const isMaxWidth720px = useMediaQuery('(max-width:720px)');
+  
 
     useEffect(() => {
+      callAllApi();
+    }, []);
 
-        const fetchData = async () => {
-            try {
-      
-              // Fetch MonthWiseSaleAmount data
-              let MetalTypeColorWiseSale = await fetchDashboardData(tkn, "MetalTypeColorWiseSale");
-              
-              const marr = [
-                {
-                    id:1,
-                    kpi:'Production(gm)',
-                    m_1:77.87,
-                    m_2:447.10,
-                    m_3:468.18,
-                    // m_4:471.84,
 
-                },
-                {
-                    id:2,
-                    kpi:'Jobs',
-                    m_1:234,
-                    m_2:345,
-                    m_3:654,
-                    // m_4:785,
+    const setInitialDateRange = (value) => {
+      const today = moment();
+      let startDate, endDate;
+  
+      switch (value) {
+        case 'Today':
+          startDate = today;
+          endDate = today;
+          break;
+        case 'Week':
+          startDate = today.clone().subtract(6, 'days');
+          endDate = today;
+          break;
+        case 'Month':
+          startDate = today.clone().subtract(1, 'month').add(1, 'day');
+          endDate = today;
+          break;
+        case '6 Months':
+          startDate = today.clone().subtract(6, 'months').add(1, 'day');
+          endDate = today;
+          break;
+        case '1 Year':
+          startDate = today.clone().subtract(1, 'year').add(1, 'day');
+          endDate = today;
+          break;
+        default:
+          startDate = today;
+          endDate = today;
+      }
+  
+      setFDate(startDate.toDate());
+      setTDate(endDate.toDate());
+    };
+    const handlePrevious = () => {
+      if (!fdate || !tdate) return;
+  
+      const start = moment(fdate);
+      const end = moment(tdate);
+  
+      switch (dropdownValue) {
+        case 'Today':
+          setFDate(start.subtract(1, 'day').toDate());
+          setTDate(end.subtract(1, 'day').toDate());
+          break;
+        case 'Week':
+          setFDate(start.subtract(7, 'days').toDate());
+          setTDate(end.subtract(7, 'days').toDate());
+          break;
+        case 'Month':
+          setFDate(start.subtract(1, 'month').toDate());
+          setTDate(end.subtract(1, 'month').toDate());
+          break;
+        case '6 Months':
+          setFDate(start.subtract(6, 'months').toDate());
+          setTDate(end.subtract(6, 'months').toDate());
+          break;
+        case '1 Year':
+          setFDate(start.subtract(1, 'year').toDate());
+          setTDate(end.subtract(1, 'year').toDate());
+          break;
+        default:
+          break;
+      }
+    };
+    const handleNext = () => {
+      if (!fdate || !tdate) return;
+  
+      const start = moment(fdate);
+      const end = moment(tdate);
+  
+      switch (dropdownValue) {
+        case 'Today':
+          setFDate(start.add(1, 'day').toDate());
+          setTDate(end.add(1, 'day').toDate());
+          break;
+        case 'Week':
+          setFDate(start.add(7, 'days').toDate());
+          setTDate(end.add(7, 'days').toDate());
+          break;
+        case 'Month':
+          setFDate(start.add(1, 'month').toDate());
+          setTDate(end.add(1, 'month').toDate());
+          break;
+        case '6 Months':
+          setFDate(start.add(6, 'months').toDate());
+          setTDate(end.add(6, 'months').toDate());
+          break;
+        case '1 Year':
+          setFDate(start.add(1, 'year').toDate());
+          setTDate(end.add(1, 'year').toDate());
+          break;
+        default:
+          break;
+      }
+    };
+    const handleDropdownChange = (event) => {
+      const selectedValue = event.target.value;
+      setDropdownValue(selectedValue);
+      setInitialDateRange(selectedValue);
+    };
 
-                },
-                {
-                    id:3,
-                    kpi:'Labour Amount',
-                    m_1:46946,
-                    m_2:25342,
-                    m_3:65465,
-                    // m_4:78513,
 
-                },
-                {
-                    id:4,
-                    kpi:'Gross Loss (%)',
-                    m_1:'19%',
-                    m_2:'28%',
-                    m_3:'25%',
-                    // m_4:'23%',
 
-                },
-                {
-                    id:5,
-                    kpi:'Rejection (%)',
-                    m_1:'58%',
-                    m_2:'31%',
-                    m_3:'45%',
-                    // m_4:'27%',
 
-                },
-              ]
-              
-              setManufacturingData(marr);
-      
-            } catch (error) {
-              console.error("Error fetching data:", error);
-            }
-          };
+
+    const callAllApi = async() => {
+      try {
+        setLoading(true);
+
+        let apiUrl_kpi = '';
+
+        // let url = '';
+        if(hostName?.toLowerCase() === 'zen' || hostName?.toLowerCase() === 'localhost'){
+          // setUrl('http://zen/jo/api-lib/App/KPI_DashBoard');
+          apiUrl_kpi = 'http://zen/jo/api-lib/App/KPI_DashBoard';
+        }else{
+          // setUrl('https://view.optigoapps.com/linkedapp/App/API_MRPBill');
+          apiUrl_kpi = 'https://view.optigoapps.com/linkedapp/App/KPI_DashBoard';
+        }
+
+
+        // const PD = await fetchKPIDashboardData(tkn, fdatef, tdatef, "ProductDevelopment");
+        // const ACP = await fetchKPIDashboardData(tkn, fdatef, tdatef, "AvgCollectionPeriod");
+        // const SMTS = await fetchKPIDashboardData(tkn, fdatef, tdatef, "SalesMarketing_TotalSale");
+        // const QC = await fetchKPIDashboardData(tkn, fdatef, tdatef, "QualityControl");
+        // const SMO = await fetchKPIDashboardData(tkn, fdatef, tdatef, "SalesMarketing_Order");
+        // const SMOC = await fetchKPIDashboardData(tkn, fdatef, tdatef, "SalesMarketing_OrderCompletion");
+        // const SMTCSBC = await fetchKPIDashboardData(tkn, fdatef, tdatef, "SalesMarketing_TotalSaleBusinessClassWise");
+        // const SMTL = await fetchKPIDashboardData(tkn, fdatef, tdatef, "SalesMarketing_TotalSaleLocationWise");
+        const PD = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "ProductDevelopment");
+        const ACP = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "AvgCollectionPeriod");
+        const SMTS = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_TotalSale");
+        const QC = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "QualityControl");
+        const SMO = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_Order");
+        const SMOC = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_OrderCompletion");
+        const SMTCSBC = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_TotalSaleBusinessClassWise");
+        const SMTL = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_TotalSaleLocationWise");
+        // const url = "http://zen/jo/api-lib/App/KPI_DashBoard";
+     
+        const body = JSON.stringify({
+          "Token" : `${tkn}`  
+          ,"ReqData":`[{\"Token\":\"${tkn}\",\"Evt\":\"InventoryTurnOverRatio\",\"FDate\":\"${moment(fdate)?.format('MM/DD/YYYY')}\",\"TDate\":\"${moment(tdate)?.format('MM/DD/YYYY')}\"}]`
+        });
+        const headers = {
+          "Content-Type":"application/json"
+        }
+        const ITOR_response = await axios.post(apiUrl_kpi, body, headers);
         
-          fetchData(); 
+        
+        // const replacedUrl = ("http://zen/api/M.asmx/Optigo")?.replace("M.asmx/Optigo", "report.aspx");
+        const replacedUrl = (url)?.replace("M.asmx/Optigo", "report.aspx");
+        const body2 = {
+          "con":"{\"id\":\"\",\"mode\":\"kpidashboard\",\"appuserid\":\"admin@hs.com\"}",
+          "p":`{\"fdate\":\"${moment(fdate)?.format('MM/DD/YYYY')}\",\"tdate\":\"${moment(tdate)?.format('MM/DD/YYYY')}\"}`,  
+          "f":"m-test2.orail.co.in (ConversionDetail)"
+        }
 
-    },[]);
+      const headers2 = {
+        Authorization:`Bearer ${tkn}`,
+        YearCode:"e3t6ZW59fXt7MjB9fXt7b3JhaWwyNX19e3tvcmFpbDI1fX0=",
+        version:"v4",
+        sv:sv
+      }
+      // const prdApi = await axios.post("http://zen/api/report.aspx", body2, { headers: headers2 });
+      const prdApi = await axios.post(replacedUrl, body2, { headers: headers2 });
+      const mainData = prdApi?.data?.Data;
 
-    const data = [
-        {
-            heading:'Payment Collection',
-            totalValue:'85',
-            series:[],
-            subheading:'Account & HR'
-        },
-        {
-            heading:'Revenue Per Employees',
-            totalValue:'59,499',
-            series:[],
-            subheading:'Account & HR'
-        },
-        {
-            heading:'OrderDue Payment',
-            totalValue:'-25',
-            series:[],
-            subheading:'Account & HR'
+        let obj = {
+          ProductDevelopment:'',
+          AvgCollectionPeriod:'',
+          SalesMarketing_TotalSale:'',
+          InventoryTurnOverRatio:'',
+          QualityControl:'',
+          ProductionApiData : '',
+          SalesMarketingOrder:'',
+          SalesMarketing_OrderCompletion:'',
+          SalesMarketing_TotalSaleBusinessClassWise:'',
+          SalesMarketing_TotalSaleLocationWise:''
         }
-    ] 
-    const data2 = [
-        {
-            heading:'Inventory Turn Over Ratio',
-            totalValue:'2.77%',
-            series:[],
-            subheading:'Account & HR'
-        },
-        {
-            heading:'Levarage Ratio',
-            totalValue:'2%',
-            series:[],
-            subheading:'Account & HR'
-        },
-        {
-            heading:'Labour vs Exp',
-            totalValue:'6.31%',
-            series:[],
-            subheading:'Account & HR'
+        if(PD){
+          obj.ProductDevelopment = PD;
         }
-    ] ;
-    const data3 = [
-        {
-            heading:'Total Order',
-            totalValue:'175',
-            series:[],
-            subheading:'Sales & Marketing'
-        },
-        {
-            heading:'Avg. Order Size',
-            totalValue:'22',
-            series:[],
-            subheading:'Sales & Marketing'
-        },
-        {
-            heading:'Lead Time',
-            totalValue:'6 ',
-            series:[],
-            subheading:'Sales & Marketing'
-        },
-        {
-            heading:'Delay Time',
-            totalValue:'5',
-            series:[],
-            subheading:'Sales & Marketing'
-        },
-        {
-            heading:'Avg Labour',
-            totalValue:'1475',
-            series:[],
-            subheading:'Sales & Marketing'
-        },
-        {
-            heading:'Sales Return (%)',
-            totalValue:'6.79%',
-            series:[],
-            subheading:'Sales & Marketing'
-        },
-        {
-            heading:'Sales Book Jobs',
-            totalValue:'55',
-            series:[],
-            subheading:'Sales & Marketing'
-        },
-        {
-            heading:'Inventory Turn Over (%)',
-            totalValue:'4%',
-            series:[],
-            subheading:'Sales & Marketing'
-        },
-    ] ;
-    const data4 = [
-        {
-          Locker: 'Total Sale(Net)',
-          SaleAmount:100,
-        },
-        {
-          Locker: 'Gold Amount',
-          SaleAmount:100,
-        },
-        {
-          Locker: 'Diamond Amount',
-          SaleAmount:100,
-        },
-        {
-          Locker: 'Colour Stone Amount',
-          SaleAmount:100,
-        },
-        {
-          Locker: 'Labour Amount',
-          SaleAmount:100,
+        if(ACP){
+          obj.AvgCollectionPeriod = ACP;
         }
-    ];
-    const data5 = [
-        {
-          Locker: 'Customer-Corporate',
-          SaleAmount:24000,
-        },
-        {
-          Locker: 'Customer-Expert',
-          SaleAmount:100,
-        },
-        {
-          Locker: 'Customer-Retailer',
-          SaleAmount:100,
-        },
-        {
-          Locker: 'Customer-Wholesaler',
-          SaleAmount:100,
-        },
-        {
-          Locker: 'Customer-Retail',
-          SaleAmount:100,
+        if(SMTS){
+          obj.SalesMarketing_TotalSale = SMTS;
         }
-    ]
-    
+        if(ITOR_response){
+          obj.InventoryTurnOverRatio = ITOR_response?.data?.Data;
+        }
+        if(QC){
+          obj.QualityControl = QC;
+        }
+        if(mainData){
+          obj.ProductionApiData = mainData;
+        }
+        if(SMO){
+          obj.SalesMarketingOrder = SMO;
+        }
+        if(SMOC){
+          obj.SalesMarketing_OrderCompletion = SMOC;
+        }
+        if(SMTCSBC){
+          obj.SalesMarketing_TotalSaleBusinessClassWise = SMTCSBC;
+        }
+        if(SMTL){
+          obj.SalesMarketing_TotalSaleLocationWise = SMTL;
+        }
+        setAllApiData(obj);
+        setLoading(false);
+
+              const data = [
+                  {
+                      heading:'Fix Asset Laverage Ratio',
+                      totalValue: parseInt(checkNullUndefined( 
+                        ( 
+                        ( 
+                          ( obj?.SalesMarketing_TotalSale[0]?.LabourAmount / (obj?.InventoryTurnOverRatio?.DT?.[0]?.AvgInventory))
+                          / 
+                          (obj?.InventoryTurnOverRatio?.DT?.[0]?.NoOfDays)
+                         ) * 365)
+                         ))?.toFixed(2),
+                      series:[],
+                      subheading:'Account & HR'
+                  },
+                  {
+                      heading:'Revenue Per Employees',
+                      totalValue: parseInt(checkNullUndefined(((obj?.SalesMarketing_TotalSale[0]?.OnlySaleLabourAmount / (PD[0]?.RevenueEmployeeCount)))))?.toFixed(2),
+                      series:[],
+                      subheading:'Account & HR'
+                  },
+                  {
+                      heading:'Avg. OrderDue Debtors',
+                      totalValue: parseInt(checkNullUndefined(checkNullUndefined(obj?.ProductDevelopment[0]?.TotalOverDueDays / obj?.ProductDevelopment[0]?.TotalBillCount)))?.toFixed(2),
+                      series:[],
+                      subheading:'Account & HR'
+                  },
+                  {
+                      heading:'Inventory Turn Over Ratio',
+                      totalValue:parseInt(checkNullUndefined(obj?.InventoryTurnOverRatio?.DT?.[0]?.InventoryTurnOverRatio))?.toFixed(2),
+                      series:[],
+                      subheading:'Account & HR'
+                  },
+                  {
+                      heading:'Avg. Collection Period',
+                      totalValue: parseInt(checkNullUndefined(((obj?.AvgCollectionPeriod[0]?.Sun_Debtor / (obj?.SalesMarketing_TotalSale[0]?.Amount)) * 365)))?.toFixed(2),
+                      // totalValue: (checkNullUndefined((obj?.AvgCollectionPeriod[0]?.Sun_Debtor ) * 365)),
+                      series:[],
+                      subheading:'Account & HR'
+                  },
+                  {
+                      heading:'Labour vs Exp',
+                      totalValue: parseInt(checkNullUndefined(((
+                        ((obj?.SalesMarketing_TotalSale[0]?.LabourAmount) - 
+                        (obj?.InventoryTurnOverRatio?.DT?.[0]?.Direct_Expense + obj?.InventoryTurnOverRatio?.DT1?.[0]?.InDirect_Expense)) / 
+                        (obj?.SalesMarketing_TotalSale[0]?.LabourAmount)
+                        ) * 100)))?.toFixed(2),
+                      series:[],
+                      subheading:'Account & HR'
+                  }
+              ] ;
+              setApiData1(data);
+
+              const data2 = [
+                {
+                  stats: parseInt(checkNullUndefined(obj?.ProductionApiData?.rd[0]?.qc_avg_inward))?.toFixed(2),
+                  title: 'Inward',
+             
+                },
+                {
+                  stats: parseInt(checkNullUndefined(obj?.QualityControl?.[0]?.JobMoveStockBookCount))?.toFixed(2),
+                  title: 'Outward',
+           
+                },
+                {
+                  stats: parseInt(checkNullUndefined(obj?.QualityControl?.[0]?.QACountWithOutClub))?.toFixed(2),
+                  title: 'Total Jobs',
+                },
+                {
+                  stats: parseInt(checkNullUndefined((obj?.QualityControl?.[0]?.DaysDiff_QA_To_Stock / (obj?.QualityControl?.[0]?.TotalJobCount_QA_To_Stock))))?.toFixed(2),
+                  title: 'Avg. Prs. Time',
+                }
+              ]
+              setQCData(data2);
+
+              const data3 = [
+                {
+                  stats: `${parseInt(checkNullUndefined(obj?.ProductDevelopment[0]?.Cnt))} / ${parseInt(checkNullUndefined(obj?.ProductDevelopment[0]?.MetalWeight))?.toFixed(3)} gm`,
+                  title: 'New Development',
+                },
+                {
+                  stats: `${parseInt(checkNullUndefined((obj?.ProductDevelopment[0]?.SaleCount / (obj?.ProductDevelopment[0]?.DesignCnt))))?.toFixed(2)}`,
+                  title: 'Repetation Rate',
+                },
+               
+              ]
+              setPDData(data3);
+              const data4 = [
+              {
+                stats: `${parseInt(checkNullUndefined(obj?.SalesMarketingOrder[0]?.TotalOrder))?.toFixed(3)} Gm`,
+                title: 'Total Order',
+            },
+             {
+                stats: `${parseInt(checkNullUndefined(obj?.SalesMarketingOrder[0]?.AvgOrderSize))?.toFixed(2)}`,
+                title: 'Avg. Order Size',
+            },
+             {
+                stats: `${parseInt(checkNullUndefined(obj?.SalesMarketing_OrderCompletion[0]?.LeadTime))}`,
+                title: 'Lead Time',
+            },
+             {
+                stats: `${obj?.SalesMarketing_OrderCompletion[0]?.DelayTime}`,
+                title: 'Delay Time',
+            },
+             {
+                stats: `${parseInt(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.AvgLabour))?.toFixed(2)}`,
+                title: 'Avg. Labour',
+            },
+             {
+                stats: `${parseInt(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.SaleReturnPer))?.toFixed(2)}`,
+                title: 'Sales Return (%)',
+            },
+             {
+                stats: `${parseInt(checkNullUndefined(obj?.SalesMarketingOrder[0]?.StockCountWithOutClub))?.toFixed(2)}`,
+                title: 'Avg. Stock Book Jobs',
+            },
+             {
+                stats: parseInt(checkNullUndefined(obj?.SalesMarketing_OrderCompletion[0]?.OverDueDebtorsAmount))?.toFixed(2),
+                title: 'Overdue Debtors',
+            }
+              ];
+              setSM1(data4);
+
+              const data5 = [
+                {
+                stats: `${parseInt(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.NetWt))?.toFixed(3)} Gm`,
+                title: 'Total Sale(Net)',
+                },
+               {
+                stats: `${formatAmountKWise(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.MetalAmount))}`,
+                title: 'Gold Amount',
+                },
+               {
+                stats: `${formatAmountKWise(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.DiamondAmount))}`,
+                title: 'Diamond Amount',
+              },
+               {
+                stats: `${formatAmountKWise(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.ColorStoneAmount))}`,
+                title: 'Color Stone Amt',
+              },
+              {
+                stats: `${formatAmountKWise(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.LabourAmount))}`,
+                title: 'Labour Amount',
+              }
+              ];
+              setSM2(data5);
+
+              if(SMTCSBC){
+                const formatedArr = obj?.SalesMarketing_TotalSaleBusinessClassWise?.slice(0, 4);
+                const formatedArr2 = obj?.SalesMarketing_TotalSaleBusinessClassWise?.slice(4);
+                const obj_cs = {
+                  CustomerType : "Other",
+                  MetalAmount:0
+                }
+                
+                formatedArr2?.forEach((a) => {
+                  obj_cs.MetalAmount += a?.MetalAmount;
+                })
+                if(obj_cs?.MetalAmount !== 0){
+                  formatedArr.push(obj_cs);
+                }
+                
+                setSM3(formatedArr);
+              }
+
+              const data6 = [
+                {
+                  stats: obj?.ProductionApiData?.rd[0]?.rm_baggingcompleted,
+                  title: 'Bagging Completed',
+                },
+                {
+                  stats: parseInt((obj?.ProductionApiData?.rd[0]?.rm_avg_proc_time / (60 * 60 * 24)))?.toFixed(2),
+                  title: 'Avg. Process Time',
+                },
+                {
+                  stats: `${(obj?.ProductionApiData?.rd[0]?.rm_grossloss?.toFixed(3))}`,
+                  title: 'Gross Loss',
+                },
+                {
+                  stats: obj?.ProductionApiData?.rd[0]?.rm_goldstock === null ? 0 : ((obj?.ProductionApiData?.rd[0]?.rm_goldstock)),
+                  title: 'Gold Stock',
+                  wt: obj?.ProductionApiData?.rd[0]?.rm_goldstock_wt === null ? 0 : ((obj?.ProductionApiData?.rd[0]?.rm_goldstock_wt)) 
+                },
+                {
+                  stats: obj?.ProductionApiData?.rd[0]?.rm_diastock === null ? 0 : ((obj?.ProductionApiData?.rd[0]?.rm_diastock)),
+                  title: 'Diamond Stock',
+                  wt: obj?.ProductionApiData?.rd[0]?.rm_diastock_wt === null ? 0 : ((obj?.ProductionApiData?.rd[0]?.rm_diastock_wt))
+                },
+                {
+                  stats: obj?.ProductionApiData?.rd[0]?.rm_csstock === null ? 0 : ((obj?.ProductionApiData?.rd[0]?.rm_csstock)),
+                  title: 'Colour Stone Stock',
+                  // wt: obj?.ProductionApiData?.rd[0]?.rm_csstock_wt === null ? 0 : parseInt(checkNullUndefined(obj?.ProductionApiData?.rd[0]?.rm_csstock_wt))?.toFixed(2)
+                  wt: obj?.ProductionApiData?.rd[0]?.rm_csstock_wt === null ? 0 : ((obj?.ProductionApiData?.rd[0]?.rm_csstock_wt))
+                }
+              ];
+              setRMData(data6);
+
+
+              try {
+                
+              
+              const combinedData = {};
+              const allLocations = new Set();
+              obj?.ProductionApiData?.rd1?.forEach((item) => {
+                const location = item?.manufacturelocationname || "NoLocation";
+                if (!combinedData[location]) {
+                  combinedData[location] = {};
+                }
+                combinedData[location] = {
+                  ...combinedData[location],
+                  "Production (gm)": (item?.mfg_production_gms)?.toFixed(3) || 0.000,
+                  Jobs: (item?.mfg_jobs) || 0.00,
+                  "Gross Loss (%)": (item?.mfg_grossloss)?.toFixed(3) || 0.000,
+                  "Rejection (%)": (item?.mfg_rejection)?.toFixed(3) || 0.000,
+                };
+                allLocations.add(location);
+              });
+        
+              // Merge API 2 Data
+              obj?.SalesMarketing_TotalSaleLocationWise?.forEach((item) => {
+                const location = item?.locationname || "NoLocation";
+                if (!combinedData[location]) {
+                  combinedData[location] = {};
+                }
+                combinedData[location] = {
+                  ...combinedData[location],
+                  "Labour Amount": item?.LabourAmount || 0.00,
+                };
+                allLocations.add(location);
+              });
+        
+              // Define KPIs
+              const kpis = [
+                "Production (gm)",
+                "Jobs",
+                "Labour Amount",
+                "Gross Loss (%)",
+                "Rejection (%)",
+              ];
+        
+              // Create Rows for the Table
+              // const tableRows = kpis?.map((kpi, index) => {
+              //   const row = { id: index + 1, KPI: kpi };
+              //   allLocations.forEach((location) => {
+              //     row[location] = combinedData[location]?.[kpi] || 0.00;
+              //   });
+              //   return row;
+              // });
+              const tableRows = kpis?.map((kpi, index) => {
+                const row = { id: index + 1, KPI: kpi };
+                allLocations.forEach((location) => {
+                  // Apply conditional decimal formatting based on KPI name
+                  if (kpi === "Labour Amount") {
+                    row[location] = parseInt(combinedData[location]?.[kpi] || 0.00)?.toFixed(2); // 2 decimals for amount
+                  } else if (kpi === "Production (gm)" || kpi === "Gross Loss (%)" || kpi === "Rejection (%)") {
+                    row[location] = parseInt(combinedData[location]?.[kpi] || 0.000)?.toFixed(3); // 3 decimals for weight/loss
+                  } else {
+                    row[location] = (combinedData[location]?.[kpi] || 0.00);
+                  }
+                });
+                return row;
+              });
+        
+              // Define Columns for the Table
+              const tableColumns = [
+                { field: "KPI", headerName: "KPI", width: 200 },
+                ...Array?.from(allLocations)?.map((location) => ({
+                  field: location,
+                  headerName: location,
+                  flex:1,
+                  minWidth: 170,
+                  maxWidth: 300,
+                })),
+              ];
+        
+          
+              
+              setMFGData(tableRows);
+              setColumns(tableColumns);
+            } catch (error) {
+              console.log(error);
+            }
+            
+        
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    }
+
+
+      // const handleApply = () => {
+      //   if (fdate) {
+      //     const formattedFDate = moment(fdate)?.format('MM/DD/YYYY');
+      //     setFDatef(formattedFDate);
+      //   }else{
+      //     setFDatef('');
+      //   }
+      //   if (tdate) {
+      //     const formattedTDate = moment(tdate)?.format('MM/DD/YYYY');
+      //     setTDatef(formattedTDate);
+      //   }else{
+      //     setTDatef('');  
+      //   }
+
+      //   const startDate = moment(fdate);
+      //   const endDate = moment(tdate);
+
+      //   const daysCount = endDate?.diff(startDate, 'days') + 1;
+      //   setDaysCount(daysCount);
+      //   callAllApi();
+      // };
+      const handleApply = () => {
+        if (fdate && tdate) {
+          const startDate = moment(fdate);
+          const endDate = moment(tdate);
+      
+          // Validation: Check if startDate is later than endDate
+          if (startDate.isAfter(endDate)) {
+            alert('Invalid Dates');
+            return; // Exit the function to prevent further execution
+          }
+      
+          const daysCount = endDate.diff(startDate, 'days') + 1;
+          setDaysCount(daysCount);
+        }
+      
+        if (fdate) {
+          const formattedFDate = moment(fdate)?.format('MM/DD/YYYY');
+          setFDatef(formattedFDate);
+        } else {
+          setFDatef('');
+        }
+      
+        if (tdate) {
+          const formattedTDate = moment(tdate)?.format('MM/DD/YYYY');
+          setTDatef(formattedTDate);
+        } else {
+          setTDatef('');
+        }
+      
+        callAllApi();
+      };
+      
+      const handleFDateChange = (date) => {
+        setFDate(date); // Store the actual date
+      };
+      const handleTDateChange = (date) => {
+        setTDate(date);
+      };
+
+      // useEffect(() => {
+      //   if (fdate) {
+      //     const formattedFDate = moment(fdate).format('MM/DD/YYYY');
+      //     setFDatef(formattedFDate);
+      //   } else {
+      //     setFDatef('');
+      //   }
+      // }, [fdate]); // This will run whenever fdate changes
+      
+      // useEffect(() => {
+      //   if (tdate) {
+      //     const formattedTDate = moment(tdate).format('MM/DD/YYYY');
+      //     setTDatef(formattedTDate);
+      //   } else {
+      //     setTDatef('');
+      //   }
+      // }, [tdate]);
+
   return (
     <>
-    <Grid container spacing={1} sx={{marginBottom:'3rem', padding: isSmallScreen ? '1rem' : '1rem', width:'95%', margin:'0 auto' }}>
-        {/* <Grid container justifyContent={'flex-end'}> */}
-            <Box className='fs_analytics_l ' style={{width:'100%', display:'flex', justifyContent:'flex-end'}}> 
-                <Box className='fs_analytics_l dp_cmp'  style={{  marginBottom:'3px', padding:'0px', width:'18%'}}>
-                    <CardSnippet
-                        title='Date Range Pickers'
-                        code={{ tsx: null, jsx: source?.PickersRangeJSXCode }}
-                        className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}
-                    >
-                        <PickersRange popperPlacement={popperPlacement} />
-                    </CardSnippet>
-                </Box>
+    <Grid container spacing={1} sx={{marginBottom:'3rem', padding: isSmallScreen ? '1rem' : '1rem', width:'95%', margin:'2% auto', marginTop:"0px" }}>
+      { loading ? <Box       sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh', // Full viewport height
+        width: '100%',   // Full width of the container
+        padding: '1rem',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black background
+        position: 'fixed', // Ensure the overlay stays on top of other content
+        top: 0, // Align to the top of the page
+        left: 0, // Align to the left of the page
+        zIndex: 1000, // Ensure it's above other elements
+      }}
+      >
+              <CircularProgress sx={{color:'white'}} />
+            </Box> : <>
+            { !isMaxWidth720px && <Box className='fs_analytics_l ' style={{width:'100%', display:'flex', justifyContent:'flex-end'}}> 
+                <Box style={{margin:'5px', width:'50%', display:'flex', alignItems:'flex-end'}} className="media_w_100">
+                <Select
+                    value={dropdownValue}
+                    onChange={handleDropdownChange}
+                    style={{ width: '150px' }}
+                    size='small'
+                    sx={{
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'gray', // Default border color
+                      },
+                      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        borderColor: theme?.palette?.customColors?.purple, // Purple border when focused
+                      },
+                    }}
+                  >
+                  <MenuItem value="Today">Today</MenuItem>
+                  <MenuItem value="Week">Week</MenuItem>
+                  <MenuItem value="Month">Month</MenuItem>
+                  <MenuItem value="6 Months">6 Months</MenuItem>
+                  <MenuItem value="1 Year">1 Year</MenuItem>
+                </Select>
+                <Button variant="contained" size='small' sx={{mx:1, backgroundColor : theme?.palette?.customColors?.purple, maxWidth:'50px'}} onClick={handlePrevious}>
+                  <ArrowBackIosNewIcon />
+                </Button>
+                
+              <div style={{display:'flex'}}>
+                <div style={{display:'flex', flexDirection:'column'}}>
+                  <span className='fs_analytics_l'>From Date</span>
+                  <DatePicker
+                    selected={fdate}
+                    id='basic-input'
+                    popperPlacement={popperPlacement}
+                    onChange={handleFDateChange}
+                    dateFormat="dd-MM-yyyy"
+                    placeholderText={ "DD-MM-YYYY"}
+                    customInput={<CustomInput className='fs_analytics_l' sx={{border:'1px solid #989898', backgroundColor:'white', marginRight:'10px'}}  />}
+                    className='fs_analytics_l'
+                  />
+                </div>
+                <div style={{display:'flex',  flexDirection:'column'}}>
+                  <span className='fs_analytics_l'>To Date</span>
+                  <DatePicker
+                    selected={tdate}
+                    id='basic-input'
+                    popperPlacement={popperPlacement}
+                    onChange={handleTDateChange}
+                    dateFormat="dd-MM-yyyy"
+                    placeholderText={ "DD-MM-YYYY"}
+                    customInput={<CustomInput className='fs_analytics_l' sx={{border:'1px solid #989898',  backgroundColor:'white', marginRight:'10px'}}  />}
+                    className='fs_analytics_l'
+                  />
+                </div>
+              </div>
+              <div><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green}} size='large' onClick={() => handleApply()}>Apply</Button></div>
+                <Button variant="contained" size='small' sx={{mx:1, backgroundColor : theme?.palette?.customColors?.purple, maxWidth:'50px'}} onClick={handleNext}>
+                  <ArrowForwardIosIcon />
+                </Button>
             </Box>
-        {/* </Grid> */}
-        <Grid item xs={12}><HeaderOfCard headerName="ACCOUNT & HR" bgColor={'grey'} /></Grid>
-            {[...data, ...data2]?.map((item, index) => (
+            </Box>}
+            { isMaxWidth720px && <Box className='fs_analytics_l ' style={{width:'100%', display:'flex', justifyContent:'flex-end'}}> 
+                <Box style={{margin:'5px', width:'50%', display:'flex', alignItems:'flex-end'}} className="media_w_100">
+                <div className='d-flex'>
+                  <Select
+                      value={dropdownValue}
+                      onChange={handleDropdownChange}
+                      style={{ width: '150px' }}
+                      size='small'
+                      sx={{
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderColor: 'gray', // Default border color
+                        },
+                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                          borderColor: theme?.palette?.customColors?.purple, // Purple border when focused
+                        },
+                      }}
+                    >
+                    <MenuItem value="Today">Today</MenuItem>
+                    <MenuItem value="Week">Week</MenuItem>
+                    <MenuItem value="Month">Month</MenuItem>
+                    <MenuItem value="6 Months">6 Months</MenuItem>
+                    <MenuItem value="1 Year">1 Year</MenuItem>
+                  </Select>
+                  <div className='d-flex'>
+                    <Button variant="contained" size='small' sx={{mx:1, backgroundColor : theme?.palette?.customColors?.purple, maxWidth:'50px'}} onClick={handlePrevious}>
+                      <ArrowBackIosNewIcon />
+                    </Button>
+                    <Button variant="contained" size='small' sx={{mx:1, backgroundColor : theme?.palette?.customColors?.purple, maxWidth:'50px'}} onClick={handleNext}>
+                      <ArrowForwardIosIcon />
+                    </Button>
+                  </div>
+                </div>
+                <div className='d-flex align-items-end'>
+              <div style={{display:'flex'}}>
+                <div style={{display:'flex', flexDirection:'column'}}>
+                  <span className='fs_analytics_l'>From Date</span>
+                  <DatePicker
+                    selected={fdate}
+                    id='basic-input'
+                    popperPlacement={popperPlacement}
+                    onChange={handleFDateChange}
+                    dateFormat="dd-MM-yyyy"
+                    placeholderText={ "DD-MM-YYYY"}
+                    customInput={<CustomInput className='fs_analytics_l' size="small" sx={{border:'1px solid #989898', backgroundColor:'white', marginRight:'10px', maxWidth:'120px'}}  />}
+                    className='fs_analytics_l'
+                    size="small"
+                  />
+                </div>
+                <div style={{display:'flex',  flexDirection:'column'}}>
+                  <span className='fs_analytics_l'>To Date</span>
+                  <DatePicker
+                    selected={tdate}
+                    id='basic-input'
+                    popperPlacement={popperPlacement}
+                    onChange={handleTDateChange}
+                    dateFormat="dd-MM-yyyy"
+                    placeholderText={ "DD-MM-YYYY"}
+                    customInput={<CustomInput className='fs_analytics_l' size="small"  sx={{border:'1px solid #989898',  backgroundColor:'white', marginRight:'10px', maxWidth:'120px'}}  />}
+                    className='fs_analytics_l'
+                    size="small"
+                  />
+                </div>
+              </div>
+              <div><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green}} size='small' onClick={() => handleApply()}>Apply</Button></div>
+              </div>
+                {/* <Button variant="contained" size='small' sx={{mx:1, backgroundColor : theme?.palette?.customColors?.purple, maxWidth:'50px'}} onClick={handleNext}>
+                  <ArrowForwardIosIcon />
+                </Button> */}
+            </Box>
+            </Box>}
+        <Grid item xs={12}><HeaderOfCard headerName="ACCOUNT & HR" bgColor={'#7d5ae773'} /></Grid>
+            
+            {apiData1?.map((item, index) => (
                 <Grid item xs={12} sm={6} md={4} key={index}>
-                <AccountNHR tkn={tkn} data={item} bgColor={theme?.palette?.primary?.main} /> {/* Passing each item as a separate prop */}
+                    <AccountNHR tkn={tkn} data={item} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} />
                 </Grid>
             ))}
-            {/* {data2?.map((item, index) => (
-                <Grid item xs={12} md={6} lg={4} key={index}>
-                <AccountNHR tkn={tkn} data={item} bgColor={theme?.palette?.primary?.main} /> 
-                </Grid>
-            ))} */}
-        { !isMaxWidth12010px && <><Grid item xs={12} md={4} lg={6}><HeaderOfCard headerName="RAW MATERIAL" bgColor={'grey'} /></Grid>
-        <Grid item xs={12} md={4} lg={3}><HeaderOfCard headerName="QUALTIY CONTROL" bgColor={'grey'} /></Grid>
-        <Grid item xs={12} md={4} lg={3}><HeaderOfCard headerName="PRODUCT DEVELOPMENT" bgColor={'grey'} /></Grid>
+
+        { !isMaxWidth12010px && <><Grid item xs={12} md={4} lg={6}><HeaderOfCard headerName="RAW MATERIAL" bgColor={'#7d5ae773'} /></Grid>
+        <Grid item xs={12} md={4} lg={3}><HeaderOfCard headerName="QUALTIY CONTROL" bgColor={'#7d5ae773'} /></Grid>
+        <Grid item xs={12} md={4} lg={3}><HeaderOfCard headerName="PRODUCT DEVELOPMENT" bgColor={'#7d5ae773'} /></Grid>
         <Grid item xs={12} md={6} lg={6}>
-            <RawMaterial tkn={tkn} bgColor={theme?.palette?.primary?.main} />
+            <RawMaterial tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} sv={sv} RMData={RMData} />
         </Grid>
         <Grid item xs={12} md={6} lg={3}>
-            <QualityControl tkn={tkn} bgColor={theme?.palette?.primary?.main} />
+            <QualityControl tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} QCData={QCData}  />
         </Grid>
         <Grid item xs={12} md={6} lg={3}>
-            <ProductDevelopment tkn={tkn} bgColor={theme?.palette?.primary?.main} />
+            <ProductDevelopment tkn={tkn} fdate={fdatef} tdate={tdatef} bgColor={theme?.palette?.customColors?.purple}  PDData={PDData} />
         </Grid></>}
+
         { isMaxWidth12010px && <>
-        <Grid item xs={12} ><HeaderOfCard headerName="RAW MATERIAL" bgColor={'grey'} /></Grid>
+        <Grid item xs={12} ><HeaderOfCard headerName="RAW MATERIAL" bgColor={'#7d5ae773'} /></Grid>
             <Grid item xs={12} md={12} lg={12}>
-                <RawMaterial tkn={tkn} bgColor={theme?.palette?.primary?.main} />
+                <RawMaterial tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} sv={sv} RMData={RMData} />
             </Grid>
-        <Grid item xs={12} md={6} lg={6}><HeaderOfCard headerName="QUALTIY CONTROL" bgColor={'grey'} /></Grid>
-        { !isMaxWidth900px && <Grid item xs={12} md={6} lg={6}><HeaderOfCard headerName="PRODUCT DEVELOPMENT" bgColor={'grey'} /></Grid>}
+        <Grid item xs={12} md={6} lg={6}><HeaderOfCard headerName="QUALTIY CONTROL" bgColor={'#7d5ae773'} /></Grid>
+        { !isMaxWidth900px && <Grid item xs={12} md={6} lg={6}><HeaderOfCard headerName="PRODUCT DEVELOPMENT" bgColor={'#7d5ae773'} /></Grid>}
         
         <Grid item xs={12} md={6} lg={6}>
-            <QualityControl tkn={tkn} bgColor={theme?.palette?.primary?.main} />
+            <QualityControl tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} QCData={QCData}  />
         </Grid>
-        { isMaxWidth900px && <Grid item xs={12} md={6} lg={6}><HeaderOfCard headerName="PRODUCT DEVELOPMENT" bgColor={'grey'} /></Grid>}
+        { isMaxWidth900px && <Grid item xs={12} md={6} lg={6}><HeaderOfCard headerName="PRODUCT DEVELOPMENT" bgColor={'#7d5ae773'} /></Grid>}
         <Grid item xs={12} md={6} lg={6}>
-            <ProductDevelopment tkn={tkn} bgColor={theme?.palette?.primary?.main} />
+            <ProductDevelopment tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} PDData={PDData} />
         </Grid></>}
         
         
-        { !isMaxWidth1700px && <><Grid item xs={12} md={12} lg={12}><HeaderOfCard headerName="SALES & MARKETING" bgColor={'grey'} /></Grid>
+        { !isMaxWidth1700px && <><Grid item xs={12} md={12} lg={12}><HeaderOfCard headerName="SALES & MARKETING" bgColor={'#7d5ae773'} /></Grid>
         <Grid item xs={12} md={6} lg={2}>
-            <SalesNMarketing2 tkn={tkn}  bgColor={theme?.palette?.primary?.main} data4={data4} />
+            <SalesNMarketing2 tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  fdate={fdatef} tdate={tdatef} SM2={SM2} />
         </Grid>
         <Grid item xs={12} md={6} lg={2}>
-            <SalesNMarketing2 tkn={tkn} bgColor={theme?.palette?.primary?.main} data4={data5} />
+            <SalesNMarketing3 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  fdate={fdatef} tdate={tdatef} SM3={SM3}  />
         </Grid>
         <Grid item xs={12} md={6} lg={8}>
-            <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.primary?.main} />
-        </Grid></>}
-        { isMaxWidth1700px && <><Grid item xs={12} md={12} lg={12}><HeaderOfCard headerName="SALES & MARKETING" bgColor={'grey'} /></Grid>
-        <Grid item xs={12} md={6} lg={6}>
-            <SalesNMarketing2 tkn={tkn}  bgColor={theme?.palette?.primary?.main} data4={data4} />
-        </Grid>
-        <Grid item xs={12} md={6} lg={6}>
-            <SalesNMarketing2 tkn={tkn} bgColor={theme?.palette?.primary?.main} data4={data5} />
-        </Grid>
-        <Grid item xs={12} md={12} lg={12}>
-            <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.primary?.main} />
+            <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} SM1={SM1} />
         </Grid></>}
         
-        <Grid item xs={12} md={12} lg={12}><HeaderOfCard headerName="MANUFACTURING" bgColor={'grey'} /></Grid>
-        <Grid item xs={12} md={12} lg={12}>
-            <Manufacturing tkn={tkn} manufacturingData={manufacturingData} bgColor={theme?.palette?.primary?.main} />
+        { isMaxWidth1700px && <><Grid item xs={12} md={12} lg={12}><HeaderOfCard headerName="SALES & MARKETING" bgColor={'#7d5ae773'} /></Grid>
+        <Grid item xs={12} md={6} lg={6}>
+            <SalesNMarketing2 tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  fdate={fdatef} tdate={tdatef} SM2={SM2} />
         </Grid>
-        {/* {data3?.map((item, index) => (
-                <Grid item xs={12} md={6} lg={2} key={index}>
-                    <SalesNMarketing1 tkn={tkn} data={item} /> 
-                </Grid>
-            ))} */}
+        <Grid item xs={12} md={6} lg={6}>
+            <SalesNMarketing3 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  fdate={fdatef} tdate={tdatef} SM3={SM3}  />
+        </Grid>
+        <Grid item xs={12} md={12} lg={12}>
+            <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  fdate={fdatef} tdate={tdatef} SM1={SM1} />
+        </Grid></>}
+        
+        <Grid item xs={12} md={12} lg={12}><HeaderOfCard headerName="MANUFACTURING" bgColor={'#7d5ae773'} /></Grid>
+        <Grid item xs={12} md={12} lg={12}>
+            <Manufacturing tkn={tkn}  bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} sv={sv} MFGData={MFGData} columns={columns} />
+        </Grid>
+        </>}
     </Grid>
     </>
   )
