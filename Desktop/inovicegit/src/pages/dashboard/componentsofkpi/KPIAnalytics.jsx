@@ -20,7 +20,7 @@ import CustomInput from '../@core/components/pickersComponent/PickersCustomInput
 import { checkDivByZero, checkIsZero, checkNullUndefined } from './components/global.js';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-
+import "react-datepicker/dist/react-datepicker.css";
 const KPIAnalytics = ({tkn, sv, url, hostName}) => {
 
 
@@ -272,7 +272,8 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         }
         setAllApiData(obj);
         setLoading(false);
-
+        console.log(obj);
+        
               const data = [
                   {
                       heading:'Fix Asset Laverage Ratio',
@@ -337,7 +338,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
            
                 },
                 {
-                  stats: parseInt(checkNullUndefined(obj?.QualityControl?.[0]?.QACountWithOutClub))?.toFixed(2),
+                  stats: (checkNullUndefined(obj?.QualityControl?.[0]?.QACountWithOutClub)),
                   title: 'Total Jobs',
                 },
                 {
@@ -361,7 +362,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
               setPDData(data3);
               const data4 = [
               {
-                stats: `${parseInt(checkNullUndefined(obj?.SalesMarketingOrder[0]?.TotalOrder))?.toFixed(3)} Gm`,
+                stats: `${parseInt(checkNullUndefined(obj?.SalesMarketingOrder[0]?.TotalOrder))?.toFixed(3)} gm`,
                 title: 'Total Order',
             },
              {
@@ -397,16 +398,16 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
 
               const data5 = [
                 {
-                stats: `${parseInt(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.NetWt))?.toFixed(3)} Gm`,
+                stats: `${parseInt(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.NetWt))?.toFixed(3)} gm`,
                 title: 'Total Sale(Net)',
                 },
                {
                 stats: `${formatAmountKWise(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.MetalAmount))}`,
-                title: 'Gold Amount',
+                title: 'Gold Amt',
                 },
                {
                 stats: `${formatAmountKWise(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.DiamondAmount))}`,
-                title: 'Diamond Amount',
+                title: 'Diamond Amt',
               },
                {
                 stats: `${formatAmountKWise(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.ColorStoneAmount))}`,
@@ -414,7 +415,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
               },
               {
                 stats: `${formatAmountKWise(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.LabourAmount))}`,
-                title: 'Labour Amount',
+                title: 'Labour Amt',
               }
               ];
               setSM2(data5);
@@ -443,7 +444,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                   title: 'Bagging Completed',
                 },
                 {
-                  stats: parseInt((obj?.ProductionApiData?.rd[0]?.rm_avg_proc_time / (60 * 60 * 24)))?.toFixed(2),
+                  stats: parseFloat((obj?.ProductionApiData?.rd[0]?.rm_avg_proc_time / (60 * 60 * 24)))?.toFixed(6),
                   title: 'Avg. Process Time',
                 },
                 {
@@ -453,18 +454,18 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 {
                   stats: obj?.ProductionApiData?.rd[0]?.rm_goldstock === null ? 0 : ((obj?.ProductionApiData?.rd[0]?.rm_goldstock)),
                   title: 'Gold Stock',
-                  wt: obj?.ProductionApiData?.rd[0]?.rm_goldstock_wt === null ? 0 : ((obj?.ProductionApiData?.rd[0]?.rm_goldstock_wt)) 
+                  wt: `${+(obj?.ProductionApiData?.rd[0]?.rm_goldstock_wt === null ? 0.000 : ((obj?.ProductionApiData?.rd[0]?.rm_goldstock_wt)) )?.toFixed(3)} gm`
                 },
                 {
                   stats: obj?.ProductionApiData?.rd[0]?.rm_diastock === null ? 0 : ((obj?.ProductionApiData?.rd[0]?.rm_diastock)),
                   title: 'Diamond Stock',
-                  wt: obj?.ProductionApiData?.rd[0]?.rm_diastock_wt === null ? 0 : ((obj?.ProductionApiData?.rd[0]?.rm_diastock_wt))
+                  wt: `${+(obj?.ProductionApiData?.rd[0]?.rm_diastock_wt === null ? 0.000 : ((obj?.ProductionApiData?.rd[0]?.rm_diastock_wt)))?.toFixed(3)} ctw`
                 },
                 {
                   stats: obj?.ProductionApiData?.rd[0]?.rm_csstock === null ? 0 : ((obj?.ProductionApiData?.rd[0]?.rm_csstock)),
                   title: 'Colour Stone Stock',
                   // wt: obj?.ProductionApiData?.rd[0]?.rm_csstock_wt === null ? 0 : parseInt(checkNullUndefined(obj?.ProductionApiData?.rd[0]?.rm_csstock_wt))?.toFixed(2)
-                  wt: obj?.ProductionApiData?.rd[0]?.rm_csstock_wt === null ? 0 : ((obj?.ProductionApiData?.rd[0]?.rm_csstock_wt))
+                  wt: `${+(obj?.ProductionApiData?.rd[0]?.rm_csstock_wt === null ? 0.000 : ((obj?.ProductionApiData?.rd[0]?.rm_csstock_wt)))?.toFixed(3)} ctw`
                 }
               ];
               setRMData(data6);
@@ -525,9 +526,10 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 allLocations.forEach((location) => {
                   // Apply conditional decimal formatting based on KPI name
                   if (kpi === "Labour Amount") {
-                    row[location] = parseInt(combinedData[location]?.[kpi] || 0.00)?.toFixed(2); // 2 decimals for amount
+                    row[location] = parseFloat(combinedData[location]?.[kpi] || 0.00)?.toFixed(2); // 2 decimals for amount
                   } else if (kpi === "Production (gm)" || kpi === "Gross Loss (%)" || kpi === "Rejection (%)") {
-                    row[location] = parseInt(combinedData[location]?.[kpi] || 0.000)?.toFixed(3); // 3 decimals for weight/loss
+                    // row[location] = parseInt(combinedData[location]?.[kpi] || 0.000)?.toFixed(3); // 3 decimals for weight/loss
+                    row[location] = parseFloat(combinedData[location]?.[kpi] || 0.000)?.toFixed(3); // 3 decimals for weight/loss
                   } else {
                     row[location] = (combinedData[location]?.[kpi] || 0.00);
                   }

@@ -505,6 +505,11 @@ const Manufacturning = ({tkn, bgColor, fdate, tdate, MFGData, columns}) => {
             </Box> : <DataGrid
              rows={MFGData}  // Use the sliced paginated data
              columns={columns}
+             disableColumnMenu
+            // columns={columns?.map(col => ({
+            //   ...col,
+            //   disableColumnFilter: true,  // Disable the filter icon for each column
+            // }))}
             //  paginationModel={paginationModel}
             //  onPaginationModelChange={handlePaginationModelChange}
             //  pageSizeOptions={[5]}
@@ -515,6 +520,7 @@ const Manufacturning = ({tkn, bgColor, fdate, tdate, MFGData, columns}) => {
             //  pageSize={paginationModel.pageSize}
             //  onPageChange={handlePageChange}
             //  onPageSizeChange={handlePageSizeChange}
+            
              disableRowSelectionOnClick
              className="fs_analytics_l onlyDatagrid"
              rowHeight={35}
