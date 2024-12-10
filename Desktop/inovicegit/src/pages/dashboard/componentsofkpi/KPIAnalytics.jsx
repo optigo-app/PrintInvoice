@@ -21,8 +21,8 @@ import { checkDivByZero, checkIsZero, checkNullUndefined } from './components/gl
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import "react-datepicker/dist/react-datepicker.css";
-const KPIAnalytics = ({tkn, sv, url, hostName}) => {
 
+const KPIAnalytics = ({tkn, sv, url, hostName}) => {
 
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme?.breakpoints?.down('sm'));
@@ -277,45 +277,45 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
               const data = [
                   {
                       heading:'Fix Asset Laverage Ratio',
-                      totalValue: parseInt(checkNullUndefined( 
+                      totalValue: parseFloat(checkNullUndefined( 
                         ( 
                         ( 
                           ( obj?.SalesMarketing_TotalSale[0]?.LabourAmount / (obj?.InventoryTurnOverRatio?.DT?.[0]?.AvgInventory))
                           / 
                           (obj?.InventoryTurnOverRatio?.DT?.[0]?.NoOfDays)
                          ) * 365)
-                         ))?.toFixed(2),
+                         )),
                       series:[],
                       subheading:'Account & HR'
                   },
                   {
                       heading:'Revenue Per Employees',
-                      totalValue: parseInt(checkNullUndefined(((obj?.SalesMarketing_TotalSale[0]?.OnlySaleLabourAmount / (PD[0]?.RevenueEmployeeCount)))))?.toFixed(2),
+                      totalValue: parseFloat(checkNullUndefined(((obj?.SalesMarketing_TotalSale[0]?.OnlySaleLabourAmount / (PD[0]?.RevenueEmployeeCount)))))?.toFixed(2),
                       series:[],
                       subheading:'Account & HR'
                   },
                   {
                       heading:'Avg. OrderDue Debtors',
-                      totalValue: parseInt(checkNullUndefined(checkNullUndefined(obj?.ProductDevelopment[0]?.TotalOverDueDays / obj?.ProductDevelopment[0]?.TotalBillCount)))?.toFixed(2),
+                      totalValue: parseFloat(checkNullUndefined(checkNullUndefined(obj?.ProductDevelopment[0]?.TotalOverDueDays / obj?.ProductDevelopment[0]?.TotalBillCount)))?.toFixed(2),
                       series:[],
                       subheading:'Account & HR'
                   },
                   {
                       heading:'Inventory Turn Over Ratio',
-                      totalValue:parseInt(checkNullUndefined(obj?.InventoryTurnOverRatio?.DT?.[0]?.InventoryTurnOverRatio))?.toFixed(2),
+                      totalValue:parseFloat(checkNullUndefined(obj?.InventoryTurnOverRatio?.DT?.[0]?.InventoryTurnOverRatio))?.toFixed(2),
                       series:[],
                       subheading:'Account & HR'
                   },
                   {
                       heading:'Avg. Collection Period',
-                      totalValue: parseInt(checkNullUndefined(((obj?.AvgCollectionPeriod[0]?.Sun_Debtor / (obj?.SalesMarketing_TotalSale[0]?.Amount)) * 365)))?.toFixed(2),
+                      totalValue: parseFloat(checkNullUndefined(((obj?.AvgCollectionPeriod[0]?.Sun_Debtor / (obj?.SalesMarketing_TotalSale[0]?.Amount)) * 365)))?.toFixed(2),
                       // totalValue: (checkNullUndefined((obj?.AvgCollectionPeriod[0]?.Sun_Debtor ) * 365)),
                       series:[],
                       subheading:'Account & HR'
                   },
                   {
                       heading:'Labour vs Exp',
-                      totalValue: parseInt(checkNullUndefined(((
+                      totalValue: parseFloat(checkNullUndefined(((
                         ((obj?.SalesMarketing_TotalSale[0]?.LabourAmount) - 
                         (obj?.InventoryTurnOverRatio?.DT?.[0]?.Direct_Expense + obj?.InventoryTurnOverRatio?.DT1?.[0]?.InDirect_Expense)) / 
                         (obj?.SalesMarketing_TotalSale[0]?.LabourAmount)
@@ -328,12 +328,12 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
 
               const data2 = [
                 {
-                  stats: parseInt(checkNullUndefined(obj?.ProductionApiData?.rd[0]?.qc_avg_inward))?.toFixed(2),
+                  stats: parseFloat(checkNullUndefined(obj?.ProductionApiData?.rd[0]?.qc_avg_inward))?.toFixed(2),
                   title: 'Inward',
              
                 },
                 {
-                  stats: parseInt(checkNullUndefined(obj?.QualityControl?.[0]?.JobMoveStockBookCount))?.toFixed(2),
+                  stats: parseFloat(checkNullUndefined(obj?.QualityControl?.[0]?.JobMoveStockBookCount))?.toFixed(2),
                   title: 'Outward',
            
                 },
@@ -342,7 +342,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                   title: 'Total Jobs',
                 },
                 {
-                  stats: parseInt(checkNullUndefined((obj?.QualityControl?.[0]?.DaysDiff_QA_To_Stock / (obj?.QualityControl?.[0]?.TotalJobCount_QA_To_Stock))))?.toFixed(2),
+                  stats: parseFloat(checkNullUndefined((obj?.QualityControl?.[0]?.DaysDiff_QA_To_Stock / (obj?.QualityControl?.[0]?.TotalJobCount_QA_To_Stock))))?.toFixed(2),
                   title: 'Avg. Prs. Time',
                 }
               ]
@@ -350,11 +350,11 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
 
               const data3 = [
                 {
-                  stats: `${parseInt(checkNullUndefined(obj?.ProductDevelopment[0]?.Cnt))} / ${parseInt(checkNullUndefined(obj?.ProductDevelopment[0]?.MetalWeight))?.toFixed(3)} gm`,
+                  stats: `${parseFloat(checkNullUndefined(obj?.ProductDevelopment[0]?.Cnt))} / ${parseFloat(checkNullUndefined(obj?.ProductDevelopment[0]?.MetalWeight))?.toFixed(3)} gm`,
                   title: 'New Development',
                 },
                 {
-                  stats: `${parseInt(checkNullUndefined((obj?.ProductDevelopment[0]?.SaleCount / (obj?.ProductDevelopment[0]?.DesignCnt))))?.toFixed(2)}`,
+                  stats: `${parseFloat(checkNullUndefined((obj?.ProductDevelopment[0]?.SaleCount / (obj?.ProductDevelopment[0]?.DesignCnt))))?.toFixed(2)}`,
                   title: 'Repetation Rate',
                 },
                
@@ -370,7 +370,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 title: 'Avg. Order Size',
             },
              {
-                stats: `${parseInt(checkNullUndefined(obj?.SalesMarketing_OrderCompletion[0]?.LeadTime))}`,
+                stats: `${((obj?.SalesMarketing_OrderCompletion[0]?.LeadTime))}`,
                 title: 'Lead Time',
             },
              {
@@ -398,7 +398,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
 
               const data5 = [
                 {
-                stats: `${parseInt(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.NetWt))?.toFixed(3)} gm`,
+                stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.NetWt))?.toFixed(3)} gm`,
                 title: 'Total Sale(Net)',
                 },
                {
@@ -454,18 +454,21 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 {
                   stats: obj?.ProductionApiData?.rd[0]?.rm_goldstock === null ? 0 : ((obj?.ProductionApiData?.rd[0]?.rm_goldstock)),
                   title: 'Gold Stock',
-                  wt: `${+(obj?.ProductionApiData?.rd[0]?.rm_goldstock_wt === null ? 0.000 : ((obj?.ProductionApiData?.rd[0]?.rm_goldstock_wt)) )?.toFixed(3)} gm`
+                  // wt: `${+(obj?.ProductionApiData?.rd[0]?.rm_goldstock_wt === null ? 0.000 : (+(obj?.ProductionApiData?.rd[0]?.rm_goldstock_wt)))?.toFixed(3)} gm`
+                  wt: `${(+(obj?.ProductionApiData?.rd[0]?.rm_goldstock_wt))?.toFixed(3)} gm`
                 },
                 {
                   stats: obj?.ProductionApiData?.rd[0]?.rm_diastock === null ? 0 : ((obj?.ProductionApiData?.rd[0]?.rm_diastock)),
                   title: 'Diamond Stock',
-                  wt: `${+(obj?.ProductionApiData?.rd[0]?.rm_diastock_wt === null ? 0.000 : ((obj?.ProductionApiData?.rd[0]?.rm_diastock_wt)))?.toFixed(3)} ctw`
+                  // wt: `${+(obj?.ProductionApiData?.rd[0]?.rm_diastock_wt === null ? 0.000 : (+(obj?.ProductionApiData?.rd[0]?.rm_diastock_wt)))?.toFixed(3)} ctw`
+                  wt: `${(+(obj?.ProductionApiData?.rd[0]?.rm_diastock_wt))?.toFixed(3)} ctw`
                 },
                 {
                   stats: obj?.ProductionApiData?.rd[0]?.rm_csstock === null ? 0 : ((obj?.ProductionApiData?.rd[0]?.rm_csstock)),
                   title: 'Colour Stone Stock',
                   // wt: obj?.ProductionApiData?.rd[0]?.rm_csstock_wt === null ? 0 : parseInt(checkNullUndefined(obj?.ProductionApiData?.rd[0]?.rm_csstock_wt))?.toFixed(2)
-                  wt: `${+(obj?.ProductionApiData?.rd[0]?.rm_csstock_wt === null ? 0.000 : ((obj?.ProductionApiData?.rd[0]?.rm_csstock_wt)))?.toFixed(3)} ctw`
+                  // wt: `${+(obj?.ProductionApiData?.rd[0]?.rm_csstock_wt === null ? 0.000 : (+(obj?.ProductionApiData?.rd[0]?.rm_csstock_wt)))?.toFixed(3)} ctw`
+                  wt: `${(+(obj?.ProductionApiData?.rd[0]?.rm_csstock_wt))?.toFixed(3)} ctw`
                 }
               ];
               setRMData(data6);

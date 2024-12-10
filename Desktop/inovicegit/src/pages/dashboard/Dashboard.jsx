@@ -15,7 +15,7 @@ const Dashboard = () => {
     // Extract specific parameters
     const tkn = atob(params.get('tkn'));
     const pid = (params.get('pid'));
-    const sv = (params.get('sv'));
+    const sv = atob(params.get('sv'));
     const url = atob(params.get('report_api_url'));
     const hostName = window.location?.hostname?.toLowerCase();
   return (
