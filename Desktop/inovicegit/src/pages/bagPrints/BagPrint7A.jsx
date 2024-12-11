@@ -11,6 +11,7 @@ import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
 import { checkInstruction } from "../../GlobalFunctions";
 import { GetChunkData } from "../../GlobalFunctions/GetChunkData";
+import img from "../../assets/img/default.jpg";
 
 const BagPrint7A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
@@ -20,6 +21,7 @@ const BagPrint7A = ({ queries, headers }) => {
 
   const resultString = GetUniquejob(queryParams?.str_srjobno);
   const chunkSize7 = 22;
+  
   useEffect(() => {
     if (Object.keys(queryParams)?.length !== 0) {
       atob(queryParams?.imagepath);
@@ -287,6 +289,7 @@ const BagPrint7A = ({ queries, headers }) => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   useEffect(() => {
     if (data?.length !== 0) {
       setTimeout(() => {
@@ -296,6 +299,8 @@ const BagPrint7A = ({ queries, headers }) => {
   }, [data]);
 
   const handleImageError2 = (e, jobno) => {
+    e.target.src = img;
+    
     if(e?.type === "error"){
       setImageFlag(true);
     }
@@ -930,7 +935,12 @@ const BagPrint7A = ({ queries, headers }) => {
                                           ? e?.data?.rd?.RollOverImage
                                     : require("../../assets/img/default.jpg")
                                 }
-                                alt="materialimage"
+                                alt="materialimage1"
+                                onError={(e) => {
+                                  handleImageError(e);
+                                  setImageFlag(false);
+                                  setTimeout(() => setImageFlag(false), 0)
+                                }}
                                 // onError={(el) => handleImageError2(el, e?.data?.rd?.serialjobno)}
                                 id="img7ABig"
                               />}
@@ -1341,7 +1351,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                     : require("../../assets/img/default.jpg")
                                 }
                                 loading="eager"
-                                alt="materialimage"
+                                alt="materialimage 2"
                                 id="img7ABig"
                                 
                               />

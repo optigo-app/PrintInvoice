@@ -460,13 +460,13 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 const formatedArr2 = obj?.SalesMarketing_TotalSaleBusinessClassWise?.slice(4);
                 const obj_cs = {
                   CustomerType : "Other",
-                  MetalAmount:0
+                  Amount:0
                 }
                 
                 formatedArr2?.forEach((a) => {
-                  obj_cs.MetalAmount += a?.MetalAmount;
+                  obj_cs.Amount += a?.Amount;
                 })
-                if(obj_cs?.MetalAmount !== 0){
+                if(obj_cs?.Amount !== 0){
                   formatedArr.push(obj_cs);
                 }
                 

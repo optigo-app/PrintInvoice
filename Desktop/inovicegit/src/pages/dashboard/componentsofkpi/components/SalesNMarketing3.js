@@ -31,11 +31,11 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3}) => {
           const formatedArr2 = SalesMarketing_TotalSaleBusinessClassWise?.slice(4);
           const obj = {
             CustomerType : "Other",
-            MetalAmount:0
+            Amount:0
           }
           
           formatedArr2?.forEach((a) => {
-            obj.MetalAmount += a?.MetalAmount;
+            obj.Amount += a?.Amount;
           })
           
           formatedArr.push(obj);
@@ -118,7 +118,7 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3}) => {
                     alignItems: 'center',
                    }}
                 >
-                  { item?.CustomerType === undefined ? <Typography variant='h6'>&nbsp;</Typography> : <Typography variant='h6' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}}>{` ${checkNullUndefined(formatAmountKWise(item?.MetalAmount))}`}</Typography>}
+                  { item?.CustomerType === undefined ? <Typography variant='h6'>&nbsp;</Typography> : <Typography variant='h6' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}}>{` ${checkNullUndefined(formatAmountKWise(item?.Amount))}`}</Typography>}
                 </Box>
               </Box>
             </Box>
