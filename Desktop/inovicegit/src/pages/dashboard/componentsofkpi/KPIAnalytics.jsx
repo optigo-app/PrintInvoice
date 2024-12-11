@@ -456,8 +456,11 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
               setSM2(data5);
 
               if(SMTCSBC){
-                const formatedArr = obj?.SalesMarketing_TotalSaleBusinessClassWise?.slice(0, 4);
-                const formatedArr2 = obj?.SalesMarketing_TotalSaleBusinessClassWise?.slice(4);
+                let arr = obj?.SalesMarketing_TotalSaleBusinessClassWise?.sort((a, b) => b?.Amount - a?.Amount);
+                // const formatedArr = obj?.SalesMarketing_TotalSaleBusinessClassWise?.slice(0, 4);
+                const formatedArr = arr?.slice(0, 4);
+                // const formatedArr2 = obj?.SalesMarketing_TotalSaleBusinessClassWise?.slice(4);
+                const formatedArr2 = arr?.slice(4);
                 const obj_cs = {
                   CustomerType : "Other",
                   Amount:0

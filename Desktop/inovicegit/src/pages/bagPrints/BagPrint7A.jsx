@@ -936,11 +936,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                     : require("../../assets/img/default.jpg")
                                 }
                                 alt="materialimage1"
-                                onError={(e) => {
-                                  handleImageError(e);
-                                  setImageFlag(false);
-                                  setTimeout(() => setImageFlag(false), 0)
-                                }}
+                                onError={(e) => { handleImageError(e) }}
                                 // onError={(el) => handleImageError2(el, e?.data?.rd?.serialjobno)}
                                 id="img7ABig"
                               />}
