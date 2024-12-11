@@ -444,27 +444,27 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                   title: 'Bagging Completed',
                 },
                 {
-                  stats: parseFloat((obj?.ProductionApiData?.rd[0]?.rm_avg_proc_time / (60 * 60 * 24)))?.toFixed(6),
+                  stats: `${(parseInt((obj?.ProductionApiData?.rd[0]?.rm_avg_proc_time / (60 * 60 * 24)))?.toFixed(0))} Days`,
                   title: 'Avg. Process Time',
                 },
                 {
-                  stats: `${(obj?.ProductionApiData?.rd[0]?.rm_grossloss?.toFixed(3))}`,
+                  stats: `${(obj?.ProductionApiData?.rd[0]?.rm_grossloss?.toFixed(3))} gm`,
                   title: 'Gross Loss',
                 },
                 {
-                  stats: obj?.ProductionApiData?.rd[0]?.rm_goldstock === null ? 0 : ((obj?.ProductionApiData?.rd[0]?.rm_goldstock)),
+                  stats: (obj?.ProductionApiData?.rd[0]?.rm_goldstock === null || obj?.ProductionApiData?.rd[0]?.rm_goldstock === undefined) ? 0 : `${((obj?.ProductionApiData?.rd[0]?.rm_goldstock)?.toFixed(2))} Amt`,
                   title: 'Gold Stock',
                   // wt: `${+(obj?.ProductionApiData?.rd[0]?.rm_goldstock_wt === null ? 0.000 : (+(obj?.ProductionApiData?.rd[0]?.rm_goldstock_wt)))?.toFixed(3)} gm`
                   wt: `${(+(obj?.ProductionApiData?.rd[0]?.rm_goldstock_wt))?.toFixed(3)} gm`
                 },
                 {
-                  stats: obj?.ProductionApiData?.rd[0]?.rm_diastock === null ? 0 : ((obj?.ProductionApiData?.rd[0]?.rm_diastock)),
+                  stats: (obj?.ProductionApiData?.rd[0]?.rm_diastock === null || obj?.ProductionApiData?.rd[0]?.rm_diastock === undefined) ? 0 : `${((obj?.ProductionApiData?.rd[0]?.rm_diastock))?.toFixed(2)} Amt`,
                   title: 'Diamond Stock',
                   // wt: `${+(obj?.ProductionApiData?.rd[0]?.rm_diastock_wt === null ? 0.000 : (+(obj?.ProductionApiData?.rd[0]?.rm_diastock_wt)))?.toFixed(3)} ctw`
                   wt: `${(+(obj?.ProductionApiData?.rd[0]?.rm_diastock_wt))?.toFixed(3)} ctw`
                 },
                 {
-                  stats: obj?.ProductionApiData?.rd[0]?.rm_csstock === null ? 0 : ((obj?.ProductionApiData?.rd[0]?.rm_csstock)),
+                  stats: (obj?.ProductionApiData?.rd[0]?.rm_csstock === null || obj?.ProductionApiData?.rd[0]?.rm_csstock === undefined) ? 0 : `${((obj?.ProductionApiData?.rd[0]?.rm_csstock))?.toFixed(2)} Amt`,
                   title: 'Colour Stone Stock',
                   // wt: obj?.ProductionApiData?.rd[0]?.rm_csstock_wt === null ? 0 : parseInt(checkNullUndefined(obj?.ProductionApiData?.rd[0]?.rm_csstock_wt))?.toFixed(2)
                   // wt: `${+(obj?.ProductionApiData?.rd[0]?.rm_csstock_wt === null ? 0.000 : (+(obj?.ProductionApiData?.rd[0]?.rm_csstock_wt)))?.toFixed(3)} ctw`
@@ -552,7 +552,15 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 })),
               ];
         
-          
+              
+              tableColumns?.forEach((e) => {
+                if (e?.headerName?.toLowerCase() === "nolocation") {
+                    e.headerName = "OutRight";
+                }
+                
+            });
+            
+            
               
               setMFGData(tableRows);
               setColumns(tableColumns);

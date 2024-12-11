@@ -92,11 +92,11 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
        
               { !isMaxWidth599px && <Box sx={{ display: 'flex', flexDirection:'column' }}>
                 <Typography variant='h6' color={bgColor} >{checkNullUndefined(sale.title)}</Typography>
-                <Typography variant='h4' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}}>{checkNullUndefined(sale.stats)}</Typography>
+                <Typography variant='h5' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}}>{checkNullUndefined(sale.stats)}</Typography>
               </Box>}
               { isMaxWidth599px && <Box sx={{ display: 'flex', justifyContent:'space-between', alignItems:'center', width:'100%' }}>
                 <Typography variant='h6' color={bgColor} >{checkNullUndefined(sale.title)}</Typography>
-                <Typography variant='h6' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}}>{checkNullUndefined(sale.stats)}</Typography>
+                <Typography variant='h5' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}}>{checkNullUndefined(sale.stats)}</Typography>
               </Box>}
             </Box>
           </Grid>

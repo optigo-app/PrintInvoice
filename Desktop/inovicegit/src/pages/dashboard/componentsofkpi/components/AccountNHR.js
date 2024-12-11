@@ -23,7 +23,7 @@ const AccountNHR = ({tkn, data, bgColor}) => {
               </Typography>
             </div>
             <div>
-              <Typography variant='h4' sx={{ mb: 0.75, color:theme?.palette?.grey[700], fontWeight:'bolder' }}>
+              <Typography variant='h5' sx={{ mb: 0.75, color:theme?.palette?.grey[700], fontWeight:'bolder' }}>
                 {parseFloat(checkNullUndefined(data?.totalValue))?.toFixed(2)}
               </Typography>
     

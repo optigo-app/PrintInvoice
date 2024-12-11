@@ -113,8 +113,8 @@ const RawMaterial = ({tkn, bgColor, fdate, tdate, RMData}) => {
            
               <Box sx={{ display: 'flex', flexDirection: 'column', pt:0 }}>
                 <Typography variant='h6' color={bgColor}  >{sale.title}</Typography>
-                <Typography variant='h4' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}} >{((sale.stats))}</Typography>
-                { sale.wt !== undefined && <Typography variant='h4' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}} >{((sale.wt))} </Typography>}
+                <Typography variant='h5' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}} >{((sale.stats))}</Typography>
+                { sale.wt === undefined ? <div>&nbsp;</div> : <Typography variant='h5' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}} >{((sale.wt))} </Typography>}
               </Box>
             </Box>
           </Grid>

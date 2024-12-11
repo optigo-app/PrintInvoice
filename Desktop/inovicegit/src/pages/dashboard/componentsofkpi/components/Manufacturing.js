@@ -530,10 +530,10 @@ const Manufacturning = ({tkn, bgColor, fdate, tdate, MFGData, columns}) => {
                 // backgroundColor: '#2F2B3D', // Set the desired background color
                 color: bgColor, // Set the text color (optional)
                 fontWeight:'bolder !important',
-                fontSize:'16px'
+                fontSize:'13px'
               },
               '& .MuiDataGrid-cell': {
-                fontSize: '16px', // Set the font size for cell content
+                fontSize: '13px', // Set the font size for cell content
               },
               '& .MuiDataGrid-columnHeader:focus': {
                 outline: 'none', // Remove outline when the header is focused

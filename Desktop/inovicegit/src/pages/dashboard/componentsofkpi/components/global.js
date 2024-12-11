@@ -39,3 +39,14 @@ export const checkDivByZero = (data) => {
     return data;
   }
 } 
+
+export const makeWordShort = (val) => {
+  if(val){
+    if(val?.toLowercase() === "manufacturer"){
+
+    }
+
+  }else{
+    return val;
+  }
+}

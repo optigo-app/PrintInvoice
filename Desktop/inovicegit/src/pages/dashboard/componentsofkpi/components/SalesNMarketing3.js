@@ -107,7 +107,7 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3}) => {
                 }}
               >
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                  <Typography variant='h6' color={bgColor} >{ item?.CustomerType === undefined ? '' : "Cust.-"}{item?.CustomerType?.toLowerCase() === 'manufacturer' ? 'MFG' : checkNullUndefined(item?.CustomerType)}</Typography>
+                  <Typography variant='h6' color={bgColor} >{ item?.CustomerType === undefined ? '' : ""}{item?.CustomerType?.toLowerCase() === 'manufacturer' ? 'MFG' : checkNullUndefined(item?.CustomerType)}</Typography>
               
                 </Box>
                 <Box
