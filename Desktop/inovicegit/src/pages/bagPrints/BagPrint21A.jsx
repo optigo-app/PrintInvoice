@@ -240,7 +240,7 @@ function BagPrint21A({ queries, headers }) {
                                                                         <div className='d-flex align-items-center border-bottom border-black fw-bold'>
                                                                             <div className='border-end border-black start_bg21 col1_bg21 pd_s_21'>Bag No</div>
                                                                             <div className='border-end border-black start_bg21 col2_bg21 pd_s_21' style={{width:'54px'}}>{val?.serialjobno}</div>
-                                                                            <div className='border-end border-black  col3_bg21 pd_s_21 start_bg21 pd_s_21' style={{width:'90px', fontSize:'12px', color:'#83C8E4'}}>{val?.MetalType +" "+ val?.MetalColorCo}</div>
+                                                                            <div className='border-end border-black  col3_bg21 pd_s_21 start_bg21 pd_s_21' style={{width:'90px', fontSize:'12px', color:'#000080'}}>{val?.MetalType +" "+ val?.MetalColorCo}</div>
                                                                             <div className='border-end border-black start_bg21 col4_bg21 pd_s_21' style={{width:'40px'}}>P Code</div>
                                                                             <div className=' col5_bg21 pd_s_21 start_bg21' style={{width:'111px'}}>{val?.CustomerCode}</div>
                                                                         </div>
@@ -373,7 +373,7 @@ function BagPrint21A({ queries, headers }) {
                                                       <div className='d-flex align-items-center border-bottom border-black fw-bold'>
                                                           <div className='border-end border-black col1_bg21 pd_s_21 start_bg21'>Bag No</div>
                                                           <div className='border-end border-black col2_bg21 pd_s_21 start_bg21 ' style={{width:'54px'}}>{val?.serialjobno}</div>
-                                                          <div className='border-end border-black col3_bg21 pd_s_21 start_bg21 pd_s_21' style={{width:'90px', fontSize:'12px', color:'#83C8E4'}}>{val?.MetalType +" "+ val?.MetalColorCo}</div>
+                                                          <div className='border-end border-black col3_bg21 pd_s_21 start_bg21 pd_s_21' style={{width:'90px', fontSize:'12px', color:'#000080'}}>{val?.MetalType +" "+ val?.MetalColorCo}</div>
                                                           <div className='border-end border-black col4_bg21 pd_s_21 start_bg21' style={{width:'40px'}}>P Code</div>
                                                           <div className=' col5_bg21 pd_s_21 start_bg21' style={{width:'111px'}}>{val?.CustomerCode}</div>
                                                       </div>
@@ -489,7 +489,7 @@ function BagPrint21A({ queries, headers }) {
                                                                         <div className='d-flex align-items-center border-bottom border-black fw-bold'>
                                                                             <div className='border-end border-black col1_bg21 pd_s_21 start_bg21'>Bag No</div>
                                                                             <div className='border-end border-black col2_bg21 pd_s_21 start_bg21' style={{width:'54px'}}>{val?.serialjobno}</div>
-                                                                            <div className='border-end border-black col3_bg21 pd_s_21 start_bg21 pd_s_21' style={{width:'90px', fontSize:'12px', color:'#83C8E4'}}>{val?.MetalType +" "+ val?.MetalColorCo}</div>
+                                                                            <div className='border-end border-black col3_bg21 pd_s_21 start_bg21 pd_s_21' style={{width:'90px', fontSize:'12px', color:'#000080'}}>{val?.MetalType +" "+ val?.MetalColorCo}</div>
                                                                             <div className='border-end border-black col4_bg21 pd_s_21 start_bg21' style={{width:'40px'}}>P Code</div>
                                                                             <div className=' col5_bg21 pd_s_21 start_bg21' style={{width:'111px'}}>{val?.CustomerCode}</div>
                                                                         </div>

@@ -38,7 +38,6 @@ const BagPrint7A = ({ queries, headers }) => {
           headers: headers,
         };
         const allDatas = await GetData(objs);
-        console.log(allDatas);
 
         allDatas?.rd?.forEach((e) => {
           if(e?.RollOverImage === ""){
