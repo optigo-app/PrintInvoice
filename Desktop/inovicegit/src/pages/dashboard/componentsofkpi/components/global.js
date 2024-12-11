@@ -41,12 +41,19 @@ export const checkDivByZero = (data) => {
 } 
 
 export const makeWordShort = (val) => {
-  if(val){
-    if(val?.toLowercase() === "manufacturer"){
-
+  // Check for null, undefined, or empty value
+  if (val === null || val === undefined || val === 'null' || val === 'undefined' || val === '') {
+    return '';
+  } else {
+    // Check for "customer" and "manufacturer" and return short form
+    if (val.toLowerCase().includes('customer')) {
+      return 'Cust.';
+    }
+    if (val.toLowerCase().includes('manufacturer')) {
+      return 'MFG';
     }
 
-  }else{
+    // If none of the conditions match, return the original value
     return val;
   }
-}
+};

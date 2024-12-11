@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import {  fetchKPIDashboardData,  formatAmountKWise } from '../../GlobalFunctions';
 import { CircularProgress } from '@mui/material';
-import { checkNullUndefined } from './global';
+import { checkNullUndefined, makeWordShort } from './global';
 
 //SALES AND MARKETING 2ST BLOCK
 const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3}) => {
@@ -107,7 +107,8 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3}) => {
                 }}
               >
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                  <Typography variant='h6' color={bgColor} >{ item?.CustomerType === undefined ? '' : ""}{item?.CustomerType?.toLowerCase() === 'manufacturer' ? 'MFG' : checkNullUndefined(item?.CustomerType)}</Typography>
+                  {/* <Typography variant='h6' color={bgColor} >{ item?.CustomerType === undefined ? '' : ""}{item?.CustomerType?.toLowerCase() === 'manufacturer' ? 'MFG' : checkNullUndefined(item?.CustomerType)}</Typography> */}
+                  <Typography variant='h6' color={bgColor} >{makeWordShort(item?.CustomerType) || ''}</Typography>
               
                 </Box>
                 <Box

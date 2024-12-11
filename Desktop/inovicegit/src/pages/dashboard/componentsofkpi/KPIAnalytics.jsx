@@ -1,5 +1,5 @@
 
-import { Box, Button, Grid, useMediaQuery, useTheme, Select, MenuItem, Typography, CircularProgress  } from '@mui/material';
+import { Box, Button, Grid, useMediaQuery, useTheme, Select, MenuItem, Typography, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton   } from '@mui/material';
 import React, {  useEffect, useState } from 'react';
 import "./kpianalytics.css"
 import AccountNHR from './components/AccountNHR';
@@ -20,6 +20,7 @@ import CustomInput from '../@core/components/pickersComponent/PickersCustomInput
 import { checkDivByZero, checkIsZero, checkNullUndefined } from './components/global.js';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import CloseIcon from '@mui/icons-material/Close';
 import "react-datepicker/dist/react-datepicker.css";
 
 const KPIAnalytics = ({tkn, sv, url, hostName}) => {
@@ -52,8 +53,11 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
     const [tdatef, setTDatef] = useState(moment().format('MM-DD-YYYY'));
     const [dropdownValue, setDropdownValue] = useState('Today');
     const [daysCount, setDaysCount] = useState(1);
-
+    
     const isMaxWidth720px = useMediaQuery('(max-width:720px)');
+    
+    const [showPopUp, setShowPopUp] = useState(false);
+
   
 
     useEffect(() => {
@@ -161,6 +165,37 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       setDropdownValue(selectedValue);
       setInitialDateRange(selectedValue);
     };
+    const autoSetDropdownValue = (start, end) => {
+      const startDate = moment(start);
+      const endDate = moment(end);
+      const diffInDays = endDate.diff(startDate, 'days');
+    
+      if (diffInDays === 0) {
+        setDropdownValue('Today');
+      } else if (diffInDays <= 7) {  // Adjusted to include diffInDays == 1
+        setDropdownValue('Week');
+      } else if (diffInDays > 7 && diffInDays <= 31) {
+        setDropdownValue('Month');
+      } else if (diffInDays >= 32 && diffInDays <= 180) {
+        setDropdownValue('6 Months');
+      } else if (diffInDays >= 181 && diffInDays <= 366) {
+        setDropdownValue('1 Year');
+      } else {
+        setDropdownValue('Custom');
+      }
+    };
+    const handleFDateChange = (date) => {
+      setFDate(date); // Store the actual date
+      // autoSetDropdownValue(date, tdate); 
+    };
+    const handleTDateChange = (date) => {
+      setTDate(date);
+      // autoSetDropdownValue(fdate, date)
+    };
+
+    // useEffect(() => {
+    //   setInitialDateRange(dropdownValue);
+    // }, [dropdownValue]);
 
 
 
@@ -598,6 +633,15 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       //   callAllApi();
       // };
       const handleApply = () => {
+        const startDate = moment(fdate);
+        const endDate = moment(tdate);
+        const diffInDays = endDate.diff(startDate, 'days');
+
+        if(dropdownValue === "6 Months" || dropdownValue === "1 Year" || diffInDays >= 180 ){
+          setShowPopUp(true);
+          return;
+        }
+
         if (fdate && tdate) {
           const startDate = moment(fdate);
           const endDate = moment(tdate);
@@ -628,13 +672,16 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       
         callAllApi();
       };
+      const handlePopUpConfirm = () => {
+        setShowPopUp(false); // Hide the pop-up
+        callAllApi(); // Proceed with the API call after user confirmation
+      };
       
-      const handleFDateChange = (date) => {
-        setFDate(date); // Store the actual date
+      // Handle pop-up cancellation
+      const handlePopUpCancel = () => {
+        setShowPopUp(false); // Hide the pop-up if user cancels
       };
-      const handleTDateChange = (date) => {
-        setTDate(date);
-      };
+      
 
       // useEffect(() => {
       //   if (fdate) {
@@ -673,6 +720,51 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       >
               <CircularProgress sx={{color:'white'}} />
             </Box> : <>
+            {
+                showPopUp && (
+                  <Dialog open={showPopUp} onClose={handlePopUpCancel} className='fs_analytics_l'>
+                  {/* <DialogTitle variant='h5' sx={{textAlign:'center', borderBottom:'1px solid #989898'}}>Confirm</DialogTitle> */}
+                  <DialogTitle 
+                    variant='h5' 
+                    sx={{ textAlign: 'center', borderBottom: '1px solid #989898', position: 'relative' }}
+                  >
+                    Confirm
+                    {/* Close icon on the top-right corner of the dialog title */}
+                    <IconButton
+                      title='Close'
+                      onClick={handlePopUpCancel}
+                      size="small"
+                      sx={{
+                        position: 'absolute',
+                        right: 8,
+                        top: 9,
+                        color: '#000', // Icon color
+                        '&:hover': {
+                          backgroundColor: '#e8e8e8', // Hover background color
+                          color: 'black', // Hover icon color
+                        },
+                      }}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  </DialogTitle>
+                  <DialogContent>
+                    <Typography sx={{pt:2}}>
+                      <span style={{fontWeight:'bold', color:'#EA5455'}}>Warning</span> : This Process is <span style={{fontWeight:'bold', color:'#EA5455'}}>heavy loaded</span> which can cause effect in other transactions, or It may take some time to calculate.
+                    </Typography>
+                    <Typography>Are you sure want to calculate?</Typography>
+                  </DialogContent>
+                  <DialogActions sx={{display:'flex', alignItems:'center', justifyContent:'center', pb:2}}>
+                    <Button onClick={handlePopUpCancel} variant='contained' sx={{backgroundColor:'#EA5455', color:'white', fontWeight:'bold', letterSpacing:'1.2px', boxShadow:0}} size='small' className='fs_analytics_l'>
+                      Cancel
+                    </Button>
+                    <Button onClick={handlePopUpConfirm} variant='contained' sx={{backgroundColor:'#00b953', color:'white', fontWeight:'bold', letterSpacing:'1.2px', boxShadow:0}} size='small' className='fs_analytics_l'>
+                      Proceed
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+                )
+              }
             { !isMaxWidth720px && <Box className='fs_analytics_l ' style={{width:'100%', display:'flex', justifyContent:'flex-end'}}> 
                 <Box style={{margin:'5px', width:'50%', display:'flex', alignItems:'flex-end'}} className="media_w_100">
                 <Select
