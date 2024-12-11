@@ -304,7 +304,6 @@ const BagPrint7A = ({ queries, headers }) => {
     if(e?.type === "error"){
       setImageFlag(true);
     }
-    console.log(e,e?.target, jobno);
   }
 
 
@@ -945,6 +944,7 @@ const BagPrint7A = ({ queries, headers }) => {
                         )}
                       </>
                     ) : (
+                      //empty block non material wise block only header data
                       <>
                         <div className="container7A">
                           <div className="head7A">
@@ -1335,8 +1335,7 @@ const BagPrint7A = ({ queries, headers }) => {
                         </div>
        
                         {e?.data?.rd?.RollOverImage === "" ? (
-                                          ""
-                          
+                                          ""    
                         ) : (
                           <div className="container7A">
                             <div style={{ padding: "1rem" }}>
