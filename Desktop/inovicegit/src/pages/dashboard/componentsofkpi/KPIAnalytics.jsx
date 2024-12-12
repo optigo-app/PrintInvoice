@@ -74,6 +74,10 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           startDate = today;
           endDate = today;
           break;
+        case 'Yesterday':
+          startDate = today.clone().subtract(1, 'day');
+          endDate = today;
+          break;
         case 'Week':
           startDate = today.clone().subtract(6, 'days');
           endDate = today;
@@ -109,6 +113,10 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           setFDate(start.subtract(1, 'day').toDate());
           setTDate(end.subtract(1, 'day').toDate());
           break;
+        case 'Yesterday':
+          setFDate(start.subtract(1, 'day').toDate());
+          setTDate(end.subtract(1, 'day').toDate());
+          break;
         case 'Week':
           setFDate(start.subtract(7, 'days').toDate());
           setTDate(end.subtract(7, 'days').toDate());
@@ -137,6 +145,10 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
   
       switch (dropdownValue) {
         case 'Today':
+          setFDate(start.add(1, 'day').toDate());
+          setTDate(end.add(1, 'day').toDate());
+          break;
+        case 'Yesterday':
           setFDate(start.add(1, 'day').toDate());
           setTDate(end.add(1, 'day').toDate());
           break;
@@ -640,10 +652,28 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         const endDate = moment(tdate);
         const diffInDays = endDate.diff(startDate, 'days');
 
-        if(dropdownValue === "6 Months" || dropdownValue === "1 Year" || diffInDays >= 180 ){
-          setShowPopUp(true);
-          return;
-        }
+        // if((dropdownValue === "6 Months" && diffInDays >= 180) || (dropdownValue === "1 Year" && diffInDays >= 180) ){
+        //   setShowPopUp(true);
+        //   return;
+        // }
+
+        // Handle popup scenarios
+          if((dropdownValue === "Today" || dropdownValue === "Yesterday" || dropdownValue === "Week" || dropdownValue === "Month") && (diffInDays <= 180)){
+            setShowPopUp(false);
+          }else if ((dropdownValue === "Today" || dropdownValue === "Yesterday" || dropdownValue === "Week" || dropdownValue === "Month") && (diffInDays >= 180)){
+            setShowPopUp(true);
+            return;
+          }else if ((dropdownValue === "Today" || dropdownValue === "Yesterday" || dropdownValue === "Week" || dropdownValue === "Month") && (diffInDays >= 180)){
+            setShowPopUp(true);
+            return;
+          }else if ((dropdownValue === "6 Months" || dropdownValue === "1 Year" ) && (diffInDays >= 180)){
+            setShowPopUp(true);
+            return;
+          }else if ((dropdownValue === "6 Months" || dropdownValue === "1 Year" ) && (diffInDays <= 180)){
+            setShowPopUp(false);
+          }else{
+            setShowPopUp(false);
+          }
 
         if (fdate && tdate) {
           const startDate = moment(fdate);
@@ -786,6 +816,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                   >
                   <MenuItem value="" disabled selected>Date Filters</MenuItem>
                   <MenuItem value="Today">Today</MenuItem>
+                  <MenuItem value="Yesterday">Yesterday</MenuItem>
                   <MenuItem value="Week">Week</MenuItem>
                   <MenuItem value="Month">Month</MenuItem>
                   <MenuItem value="6 Months">6 Months</MenuItem>

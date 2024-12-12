@@ -484,7 +484,6 @@ function BagPrint21A({ queries, headers }) {
                                                       </div>
                                                         </div>
                                             }
-
                                                                     <div className='container_bg21'>
                                                                         <div className='d-flex align-items-center border-bottom border-black fw-bold'>
                                                                             <div className='border-end border-black col1_bg21 pd_s_21 start_bg21'>Bag No</div>
