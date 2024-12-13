@@ -181,17 +181,17 @@ const MultiPart = ({ queries, headers }) => {
             e.data.rd.MetalColorCo = e?.data?.rd?.casting_split_detail?.split(",")[0];
             if(e?.data?.rd?.casting_split_count === 0){
                 let obj = cloneDeep(e);
-                obj.data.rd.MetalColorCo = e?.data?.rd?.casting_split_detail;
+                // obj.data.rd.MetalColorCo = e?.data?.rd?.casting_split_detail;
                 finalArr2.push(obj);
             }
             if(e?.data?.rd?.casting_split_count === 1){
                 let obj1 = cloneDeep(e);
                 obj1.data.rd.metal_color_casted = "(B)";
                 if(e?.data?.rd?.casting_split_detail === ''){
-                    obj1.data.rd.MetalColorCo = e?.data?.rd?.MetalColorCo; 
+                    obj1.data.rd.MetalColor = e?.data?.rd?.MetalColor; 
                 }else{
                     // obj1.data.rd.metal_color_casted = e?.data?.rd?.casting_split_detail?.split(",")[0];
-                    obj1.data.rd.MetalColorCo = (e?.data?.rd?.casting_split_detail?.split(",")[1]);
+                    obj1.data.rd.MetalColor = (e?.data?.rd?.casting_split_detail?.split(",")[1]);
                 }
 
                 finalArr2.push(e);
@@ -203,13 +203,13 @@ const MultiPart = ({ queries, headers }) => {
                 obj1.data.rd.metal_color_casted = "(B)";
                 obj2.data.rd.metal_color_casted = "(C)";
                 if(e?.data?.rd?.casting_split_detail === ''){
-                    obj1.data.rd.metal_color_casted =    e?.data?.rd?.MetalColorCo; 
+                    obj1.data.rd.metal_color_casted =    e?.data?.rd?.MetalColor; 
                 }else{
                     // obj1.data.rd.metal_color_casted = e?.data?.rd?.casting_split_detail?.split(",")[0];
                     // obj2.data.rd.metal_color_casted = e?.data?.rd?.casting_split_detail?.split(",")[1];
 
-                    obj1.data.rd.MetalColorCo = e?.data?.rd?.casting_split_detail?.split(",")[1];
-                    obj2.data.rd.MetalColorCo = e?.data?.rd?.casting_split_detail?.split(",")[2];
+                    obj1.data.rd.MetalColor = e?.data?.rd?.casting_split_detail?.split(",")[1];
+                    obj2.data.rd.MetalColor = e?.data?.rd?.casting_split_detail?.split(",")[2];
                 }
                 
                 finalArr2.push(e);
@@ -219,6 +219,7 @@ const MultiPart = ({ queries, headers }) => {
 
         });
         setTimeout(() => {
+            
             setFilterData(finalArr2);
             setTitle(title);
         }, 0);
@@ -314,7 +315,7 @@ const MultiPart = ({ queries, headers }) => {
                             { e?.data?.rd?.OrderNo?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.OrderNo}</div>}
                             { e?.data?.rd?.promiseDatef?.length > 0 && <div className='fsjbsbg fw-bold'>{e?.data?.rd?.promiseDatef}</div>}
                             { e?.data?.rd?.Size?.length > 0 && <div className='fsjbsbg'>Size: {e?.data?.rd?.Size}</div>}
-                            { e?.data?.rd?.MetalType?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.MetalType?.split(" ")[1] + " " +e?.data?.rd?.MetalColorCo}</div>}
+                            { e?.data?.rd?.MetalType?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.MetalType?.split(" ")[1] + " " +e?.data?.rd?.MetalColor}</div>}
                             { e?.data?.rd?.MetalWeight > 0 && <div className='fsjbsbg'>{(+e?.data?.rd?.MetalWeight)?.toFixed(3)}gm</div>}
                             <div className='d-flex justify-content-start align-items-center'>
                                 <QRCodeGenerator text={e?.data?.rd.serialjobno +" "+ (e?.data?.rd?.metal_color_casted === undefined ? '' : e?.data?.rd?.metal_color_casted)} />{ diaFlag && <span className='fsjbsbg'>{e?.data?.rd?.diamondQuality?.join(",")}</span>}
