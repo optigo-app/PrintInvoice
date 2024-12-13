@@ -200,6 +200,7 @@ const MultiPart = ({ queries, headers }) => {
                 finalArr2.push(obj1);
             }
             if(e?.data?.rd?.casting_split_count === 2){
+                let obj = cloneDeep(e);
                 let obj1 = cloneDeep(e);
                 let obj2 = cloneDeep(e);
                 obj1.data.rd.metal_color_casted = "(B)";
@@ -210,18 +211,18 @@ const MultiPart = ({ queries, headers }) => {
                     // obj1.data.rd.metal_color_casted = e?.data?.rd?.casting_split_detail?.split(",")[0];
                     // obj2.data.rd.metal_color_casted = e?.data?.rd?.casting_split_detail?.split(",")[1];
 
+                    obj.data.rd.MetalColor = e?.data?.rd?.casting_split_detail?.split(",")[0];
                     obj1.data.rd.MetalColor = e?.data?.rd?.casting_split_detail?.split(",")[1];
                     obj2.data.rd.MetalColor = e?.data?.rd?.casting_split_detail?.split(",")[2];
                 }
                 
-                finalArr2.push(e);
+                finalArr2.push(obj);
                 finalArr2.push(obj1);
                 finalArr2.push(obj2);
             }
 
         });
         setTimeout(() => {
-            console.log(finalArr2);
             
             setFilterData(finalArr2);
             setTitle(title);
