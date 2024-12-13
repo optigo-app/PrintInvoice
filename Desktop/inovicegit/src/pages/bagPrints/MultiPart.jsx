@@ -186,15 +186,17 @@ const MultiPart = ({ queries, headers }) => {
             }
             if(e?.data?.rd?.casting_split_count === 1){
                 let obj1 = cloneDeep(e);
+                let obj = cloneDeep(e);
                 obj1.data.rd.metal_color_casted = "(B)";
                 if(e?.data?.rd?.casting_split_detail === ''){
                     obj1.data.rd.MetalColor = e?.data?.rd?.MetalColor; 
                 }else{
                     // obj1.data.rd.metal_color_casted = e?.data?.rd?.casting_split_detail?.split(",")[0];
+                    obj.data.rd.MetalColor = (e?.data?.rd?.casting_split_detail?.split(",")[0]);
                     obj1.data.rd.MetalColor = (e?.data?.rd?.casting_split_detail?.split(",")[1]);
                 }
 
-                finalArr2.push(e);
+                finalArr2.push(obj);
                 finalArr2.push(obj1);
             }
             if(e?.data?.rd?.casting_split_count === 2){
@@ -219,6 +221,7 @@ const MultiPart = ({ queries, headers }) => {
 
         });
         setTimeout(() => {
+            console.log(finalArr2);
             
             setFilterData(finalArr2);
             setTitle(title);
