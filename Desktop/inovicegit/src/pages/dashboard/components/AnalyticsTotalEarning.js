@@ -99,8 +99,19 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate}) => {
       sparkline: { enabled: false }
     },
     legend: { show: true },
-    tooltip: { enabled: false },
-    dataLabels: { enabled: false },
+    tooltip: { enabled: true },
+
+    // dataLabels: { enabled: false },
+    
+    dataLabels: {
+      // offsetY: [10, 15],
+      formatter: val => `${formatAmountKWise(val)}`,
+      style: {
+        fontWeight: 500,
+        colors: [theme.palette.text.secondary],
+        fontSize: theme.typography.body1.fontSize
+      }
+    },
     stroke: {
       width: 6,
       lineCap: 'round',
@@ -130,6 +141,9 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate}) => {
       yaxis: {
         lines: { show: false }
       },
+      xaxis: {
+        lines: { show: false }
+      },
       padding: {
         top: -20,
         left: -5,
@@ -143,8 +157,17 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate}) => {
       crosshairs: { opacity: 0 },
       axisBorder: { show: false },
     },
+    // yaxis: {
+    //   labels: { show: true }
+    // },
     yaxis: {
-      labels: { show: false }
+      labels: {
+        show: true, // Display Y-axis labels
+        formatter: function (value) {
+          // return `${value?.toFixed(2)}`; // Format labels as currency (example)
+          return `${formatAmountKWise(value)}`; // Format labels as currency (example)
+        }
+      }
     },
     responsive: [
       {

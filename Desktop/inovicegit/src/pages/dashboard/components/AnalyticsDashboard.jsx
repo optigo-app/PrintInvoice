@@ -56,6 +56,23 @@ const AnalyticsDashboard = ({tkn}) => {
   const [popperPlacement, setPopperPlacement] = useState('bottom-start');
   const theme = useTheme();
 
+  const [countryList, setCountryList] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState();
+  const [salesList, setSalesList] = useState([]);
+  const [selectedSales, setSelectedSales] = useState();
+  const [officeList, setOfficeList] = useState([]);
+  const [selectedOffice, setSelectedOffice] = useState();
+
+
+  const countryListHandleChange = (e) => {
+    setSelectedCountry(e.target.value);
+  }
+  const salesmanListHandleChange = (e) => {
+    setSelectedSales(e.target.value);
+  }
+  const officeListHandleChange = (e) => {
+    setSelectedOffice(e.target.value);
+  }
 
 
 
@@ -153,23 +170,53 @@ const AnalyticsDashboard = ({tkn}) => {
   };
 
 
+  // const handleApply = () => {
+  //   if (fdate) {
+  //     const formattedFDate = moment(fdate)?.format('MM/DD/YYYY');
+  //     console.log('From Date (API Format):', formattedFDate);
+  //     setFDatef(formattedFDate);
+  //   }else{
+  //     setFDatef('');
+  //   }
+  //   if (tdate) {
+  //     const formattedTDate = moment(tdate)?.format('MM/DD/YYYY');
+  //     console.log('To Date (API Format):', formattedTDate);
+  //     setTDatef(formattedTDate);
+  //   }else{
+  //     setTDatef('');  
+  //   }
+  // };
+
   const handleApply = () => {
-    if (fdate) {
-      const formattedFDate = moment(fdate)?.format('MM/DD/YYYY');
+    // Check if the 'from' and 'to' dates are valid
+    if (fdate && tdate) {
+      const startDate = moment(fdate);
+      const endDate = moment(tdate);
+  
+      if (!startDate.isValid() || !endDate.isValid()) {
+        alert('Please select valid dates.');
+        return;
+      }
+  
+      // Check if the end date is before the start date
+      if (endDate.isBefore(startDate)) {
+        alert('Invalid dates.');
+        return;
+      }
+      // If everything is valid, format the dates and set the state
+      const formattedFDate = startDate.format('MM/DD/YYYY');
+      const formattedTDate = endDate.format('MM/DD/YYYY');
       console.log('From Date (API Format):', formattedFDate);
-      setFDatef(formattedFDate);
-    }else{
-      setFDatef('');
-    }
-    if (tdate) {
-      const formattedTDate = moment(tdate)?.format('MM/DD/YYYY');
       console.log('To Date (API Format):', formattedTDate);
+  
+      setFDatef(formattedFDate);
       setTDatef(formattedTDate);
-    }else{
-      setTDatef('');  
+    } else {
+      // If no dates are selected, reset both date fields
+      setFDatef('');
+      setTDatef('');
     }
   };
-
 
 
   return (
@@ -219,7 +266,7 @@ const AnalyticsDashboard = ({tkn}) => {
           </Grid> */}
 
           <Grid item xs={12} md={12} lg={12}>
-       
+            <div className='d-flex justify-content-start align-items-end w-100'>
             <Box style={{margin:'5px', width:'22%', display:'flex', alignItems:'flex-end'}}>
               <div style={{display:'flex'}}>
                 <div style={{display:'flex', flexDirection:'column'}}>
@@ -262,22 +309,45 @@ const AnalyticsDashboard = ({tkn}) => {
                 <label htmlFor='tdate'>To Date</label>
                 <input type="date" id="tdate" value={tdate} onChange={handleTDateChange} />
               </div> */}
-              <div><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green}} size='large' onClick={() => handleApply()}>Apply</Button></div>
             </Box>
+
+            <Box className="me-1" style={{minWidth:'200px'}}>
+              <label htmlFor="country">Country</label>
+              <select className='form-control' value={selectedCountry} name="country" id="country" onChange={(e) => countryListHandleChange(e)}>
+                <option value="" disabled selected>select</option>
+                <option value="ind">USA</option>
+              </select>
+            </Box>
+            <Box className="me-1" style={{minWidth:'200px'}}>
+              <label htmlFor="salesman">Salesman</label>
+              <select className='form-control' name="salesman" value={selectedSales} id="salesman" onChange={(e) => salesmanListHandleChange(e)}>
+                <option value="" disabled selected>select </option>
+              </select>
+            </Box>
+            <Box className="me-1" style={{minWidth:'200px'}}>
+            <label htmlFor="office">Office</label>
+              <select className='form-control' name="office" id="office" value={selectedOffice} onChange={(e) => officeListHandleChange(e)}>
+                <option value="" disabled selected>select </option>
+                <option value="mumbai">mumbai</option>
+              </select>
+            </Box>
+            <div><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green}} size='large' onClick={() => handleApply()}>Apply</Button></div>
+
+            </div>
           </Grid>
          
           <Grid item xs={12} md={6} lg={9} style={{paddingTop:'25px'}}>
-            <AnalyticsEarningReports tkn={tkn} fdate={fdatef} tdate={tdatef} />
+            <AnalyticsEarningReports tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} />
           </Grid>
           <Grid item xs={12} md={6} lg={3} style={{paddingTop:'25px'}}>
-            <AnalyticsSupportTracker tkn={tkn} fdate={fdatef} tdate={tdatef} />
+            <AnalyticsSupportTracker tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} />
           </Grid>
           {/* <Grid item xs={12} md={4} style={{paddingTop:'25px'}}>
             <AnalyticsSalesRepWiseSaleAmt tkn={tkn} />
           </Grid> */}
           
           <Grid item xs={12} sm={6} md={4} lg={3} style={{paddingTop:'25px'}}>
-            <AnalyticsSalesByCountries tkn={tkn} fdate={fdatef} tdate={tdatef} />
+            <AnalyticsSalesByCountries tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} />
           </Grid>
           
           {/* <Grid item xs={12} md={6} lg={4} style={{paddingTop:'25px'}}>
@@ -288,23 +358,23 @@ const AnalyticsDashboard = ({tkn}) => {
           </Grid> */}
           <Grid item xs={12} sm={6} md={8} lg={9} style={{paddingTop:'25px'}}>
             {/* <AnalyticsCustomerTypeWise tkn={tkn} /> */}
-            <AnalyticsSalesEarningReport tkn={tkn} fdate={fdatef} tdate={tdatef} />
+            <AnalyticsSalesEarningReport tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} />
           </Grid>
           <Grid item xs={12} sm={6} md={6} lg={6}  style={{paddingTop:'25px'}}>
-            <AnalyticsTotalEarning tkn={tkn} fdate={fdatef} tdate={tdatef} />
+            <AnalyticsTotalEarning tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} />
             {/* <AnalyticsSalesEarningReport /> */}
           </Grid>
           <Grid item xs={12} sm={6} md={6} lg={6} style={{paddingTop:'25px'}}>
-            <AnalyticsProject tkn={tkn} fdate={fdatef} tdate={tdatef} />
+            <AnalyticsProject tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} />
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={4} style={{paddingTop:'25px'}}>
-            <ApexRadialBarChart tkn={tkn} fdate={fdatef} tdate={tdatef} />
+            <ApexRadialBarChart tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} />
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={4} style={{paddingTop:'25px'}}>
-            <RechartsPieChart tkn={tkn} fdate={fdatef} tdate={tdatef} />
+            <RechartsPieChart tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} />
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={4} style={{paddingTop:'25px'}}>
-            <AnalyticsSalesRepWiseSaleAmt tkn={tkn} fdate={fdatef} tdate={tdatef} />
+            <AnalyticsSalesRepWiseSaleAmt tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} />
           </Grid>
         </Grid>
       </KeenSliderWrapper>

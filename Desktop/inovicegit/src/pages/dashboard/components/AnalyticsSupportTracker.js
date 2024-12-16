@@ -21,6 +21,7 @@ import ReactApexcharts from '../@core/components/react-apexcharts'
 import { hexToRGBA } from '../@core/utils/hex-to-rgba'
 import { useEffect, useState } from 'react';
 import { fetchDashboardData } from '../GlobalFunctions';
+import { CircularProgress } from '@mui/material'
 
 
 
@@ -31,17 +32,21 @@ const AnalyticsSupportTracker = ({tkn, fdate, tdate}) => {
   const [task, setTask] = useState(85);
   const [taskLabel, setTaskLabel] = useState('In Stock');
 
+  const [loader, setLoader] = useState(true);
+
   useEffect(() => {
 
     const fetchData = async () => {
       try {
 
+        setLoader(true);
         // Fetch MonthWiseSaleAmount data
         const ProgressWiseOrder = await fetchDashboardData(tkn, fdate, tdate, "ProgressWiseOrder");
         setApiData(ProgressWiseOrder);
         
       } catch (error) {
         console.error("Error fetching data:", error);
+        setLoader(false);
       }
     };
   
@@ -56,20 +61,20 @@ const AnalyticsSupportTracker = ({tkn, fdate, tdate}) => {
 
   const data = [
     {
-      subtitle: `${apiData[0]?.NewOrder}`,
+      subtitle: `${apiData[0]?.NewOrder === NaN ? 0 : apiData[0]?.NewOrder}`,
       title: 'New Order',
       // avatarIcon: 'tabler:ticket'
       avatarIcon: ''
     },
     {
-      subtitle: `${apiData[0]?.InWIP}`,
+      subtitle: `${apiData[0]?.InWIP === NaN ? 0 : apiData[0]?.InWIP}`,
       title: 'In WIP',
       avatarColor: 'warning',
       // avatarIcon: 'tabler:clock'
       avatarIcon: ''
     },
     {
-      subtitle: `${apiData[0]?.InStock}`,
+      subtitle: `${apiData[0]?.InStock === NaN ? 0 : apiData[0]?.InStock}`,
       avatarColor: 'info',
       title: 'In Stock',
       // avatarIcon: 'tabler:circle-check'
@@ -77,6 +82,7 @@ const AnalyticsSupportTracker = ({tkn, fdate, tdate}) => {
     }
     
   ]
+
 
   const options = {
     chart: {
@@ -178,13 +184,35 @@ const AnalyticsSupportTracker = ({tkn, fdate, tdate}) => {
   }
 
   useEffect(() => {
-      const totalOrder = (apiData[0]?.InStock + apiData[0]?.InWIP + apiData[0]?.NewOrder);
+    // Ensure values are checked for NaN
+    const inStock = checkNaNVal(apiData[0]?.InStock);
+    const inWIP = checkNaNVal(apiData[0]?.InWIP);
+    const newOrder = checkNaNVal(apiData[0]?.NewOrder);
+  
+    const totalOrder = inStock + inWIP + newOrder; // Summing the values
+  
+    // Avoid dividing by zero
+    const inStockPercentage = totalOrder > 0 ? (inStock / totalOrder) * 100 : 0;
+    setTask(Math.round(inStockPercentage)); // Set task percentage
+    setTotalOrder(totalOrder); // Set total order value
+  
+    setLoader(false); // Hide loader when data is fetched
+  }, [apiData]);
 
-      const inStockPercentage = totalOrder ? (apiData[0]?.InStock / totalOrder) * 100 : 0;
-      setTask(Math.round(inStockPercentage));
+  const checkNaNVal = (val) => {
+    if(isNaN(val)){
+      return 0;
+    }
+    if(val === NaN || val === "NaN" || val === -Infinity || val === Infinity){
+      return 0
+    }else{
+      return val;
+    }
+  }
 
-      setTotalOrder(totalOrder);
-  },[apiData]);
+
+console.log(totalOrder, );
+
   return (
     <Card  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}} className='fs_analytics_l'>
       <CardHeader
@@ -198,12 +226,28 @@ const AnalyticsSupportTracker = ({tkn, fdate, tdate}) => {
         //   />
         // }
       />
-      <CardContent style={{paddingBottom:'45px'}}>
+      {
+        loader ? <Box       sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100%', // Full viewport height
+          width: '100%',   // Full width of the container
+          padding: '1rem',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black background
+          position: 'fixed', // Ensure the overlay stays on top of other content
+          top: 0, // Align to the top of the page
+          left: 0, // Align to the left of the page
+          zIndex: 1000, // Ensure it's above other elements
+        }}
+        >
+                <CircularProgress sx={{color:'white'}} />
+              </Box> : <CardContent style={{paddingBottom:'45px'}}>
         <Grid container spacing={6}>
           <Grid item xs={12} sm={5}>
-            <Typography variant='h4'>{totalOrder == NaN ? 0 : totalOrder}</Typography>
+            { totalOrder === NaN ? '' : <Typography variant='h4'>{totalOrder == NaN ? 0 : checkNaNVal(totalOrder)}</Typography>}
             <Typography sx={{ pb: 3, color: 'text.secondary' }}>Total Orders</Typography>
-            {data.map((item, index) => (
+            {data?.map((item, index) => (
               <Box
                 key={index}
                 sx={{ display: 'flex', 
@@ -236,6 +280,7 @@ const AnalyticsSupportTracker = ({tkn, fdate, tdate}) => {
           </Grid>
         </Grid>
       </CardContent>
+      }
     </Card>
   )
 }

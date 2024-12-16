@@ -102,7 +102,7 @@ const AnalyticsSalesRepWiseSaleAmt = props => {
   }
 
   return (
-    <Card className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'555px'}}>
+    <Card className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'34.85rem'}}>
       <CardHeader
         title='Top Sales Representative Wise Sale Amount'
         // action={

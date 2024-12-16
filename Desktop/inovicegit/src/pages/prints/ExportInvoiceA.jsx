@@ -326,12 +326,13 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               </div>
                           </div>
                           <div className="d-flex ">
-                              <div className="col-6 pt-1 px-1 pb-4 border-end border-black">
+                              <div className="col-6 pt-1 px-1 pb-2 border-end border-black">
                                   <p className="fw-normal">Port of Discharge</p>
                                   <p className="">{result?.header?.portofdischarge}</p>
                               </div>
-                              <div className="col-6 pt-1 px-1 pb-4">
+                              <div className="col-6 pt-1 px-1 pb-2">
                                   <p className="fw-normal">Final Destination</p>
+                                  <span>{result?.header?.customercountry}</span>
                               </div>
                           </div>
                           {/* <div className={`d-flex  h-100`}>
@@ -396,7 +397,7 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       <div className='d-flex fw-bold border border-black mt-1'>
         <div className='col_1_eia fw-normal p-1'>SR No</div>
         <div className='col_2_eia p-1'>Product</div>
-        <div className='col_3_eia p-1'>HSV Code</div>
+        <div className='col_3_eia p-1'>HSN Code</div>
         <div className='col_4_eia p-1'>Dia Wt <br /> (Cts)</div>
         <div className='col_5_eia p-1'>CS Wt <br /> (Cts)</div>
         <div className='col_6_eia border-end border-black p-1'>Gross Wt <br /> (Gms)</div>
@@ -410,7 +411,7 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div className='d-flex fw-normal border border-top-0 border-black ' key={i}>
               <div className='col_1_eia fw-normal p-1'>{i + 1}</div>
               <div className='col_2_eia p-1'>{ e?.Categoryname + " "+ e?.MetalTypePurity }</div>
-              <div className='col_3_eia p-1'>{e?.HUID}</div>
+              <div className='col_3_eia p-1'>{result?.header?.HSN_No}</div>
               <div className='col_4_eia p-1'>{e?.totals?.diamonds?.Wt?.toFixed(3)}</div>
               <div className='col_5_eia p-1'>{e?.totals?.colorstone?.Wt?.toFixed(3)} </div>
               <div className='col_6_eia border-end border-black p-1'>{e?.grosswt?.toFixed(3)} </div>

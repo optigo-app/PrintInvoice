@@ -41,6 +41,7 @@ const ApexRadialBarChart = ({tkn,  fdate, tdate}) => {
       try {
         // Fetch MonthWiseSaleAmount data
         const monthWiseSaleData = await fetchDashboardData(tkn,  fdate, tdate, "CustomerTypeWiseSaleAmount");
+        
         setApiData(monthWiseSaleData);
   
         
@@ -153,7 +154,6 @@ const ApexRadialBarChart = ({tkn,  fdate, tdate}) => {
           tooltip: {
             enabled: true,
             custom: function ({ seriesIndex, dataPointIndex, w }) {
-              console.log(seriesIndex, dataPointIndex, w);
               // Show Sale Amount in Tooltip
               const saleAmount = amountWise[dataPointIndex];
               return `<div style="padding: 10px; font-size: 14px;">${custTypeWise[dataPointIndex]}: ${formatAmountKWise(saleAmount)}</div>`;
@@ -166,7 +166,6 @@ const ApexRadialBarChart = ({tkn,  fdate, tdate}) => {
             fontSize: '2.125rem',
             color: theme.palette.text.primary,
             formatter: function (w) {
-              console.log(totalValue);
               const totalValue =
                 w?.globals?.seriesTotals?.reduce((a, b) => {
                   return a + b
@@ -188,8 +187,9 @@ const ApexRadialBarChart = ({tkn,  fdate, tdate}) => {
       }
     }
   }
+  
   return (
-    <Card className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>
+    <Card className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'34.85rem'}}>
       <CardHeader title='Customer Type wise sales amount' />
       <CardContent>
         {/* <ReactApexcharts type='radialBar' height={440} options={options} series={[80, 50, 35]} /> */}
