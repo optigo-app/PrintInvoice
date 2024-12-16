@@ -10,6 +10,7 @@ import  QcReport  from "./qcreport/QcReport";
 import MRPBill from "./MRPBill/MRPBill";
 import AllMaterialWisePrint from "./AllMaterialWisePrint";
 import Dashboard from "./dashboard/Dashboard";
+import TitanWip from "./MyReports/TitanWip/TitanWip";
 
 const AllDesign = () => {
   
@@ -36,6 +37,8 @@ const AllDesign = () => {
       return <MRPBill />;
     } else if (searchUrl?.includes("pid=18145") || searchUrl?.includes("pid=18146") || searchUrl?.includes("pid=18147")){
       return <Dashboard />;
+    } else if (searchUrl?.includes("pid=18149")){
+      return <TitanWip />;
     }
      else {
       return <ErrorPage />;
