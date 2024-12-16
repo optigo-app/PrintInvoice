@@ -129,7 +129,7 @@
     padding: 20px;
   }
   
-  .react-datepicker {
+  /* .react-datepicker {
     height: 280px !important;
     box-shadow: 0 0.1875rem 0.75rem 0 rgba(47, 43, 61, 0.14) !important;
     border: none !important;
@@ -162,7 +162,7 @@
   .react-datepicker__year-dropdown{
     background-color: white!important;
   }
-  
+   */
   /* Testgrid.css */
   
   .transition-container {

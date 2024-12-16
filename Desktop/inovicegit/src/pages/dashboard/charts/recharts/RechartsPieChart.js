@@ -26,7 +26,7 @@ const renderCustomizedLabel = props => {
   const y = cy + radius * Math.sin(-midAngle * RADIAN)
 
   return (
-    <text x={x} y={y} fill='#fff' textAnchor='middle' dominantBaseline='central'>
+    <text x={x} y={y}  textAnchor='middle' dominantBaseline='central'>
       {/* {`${(percent * 100).toFixed(0)}%`} */}
       {/* {`${(percent * 100)?.toFixed(0)}`} */}
     </text>
@@ -120,7 +120,7 @@ const RechartsPieChart = ({tkn,  fdate, tdate}) => {
       <CardHeader
         title='Top Vendors'
         subheader='Overview of NetWt'
-        subheaderTypographyProps={{ sx: { color: theme => `${theme.palette.text.disabled} !important` } }}
+        // subheaderTypographyProps={{ sx: { color: theme => `${theme.palette.text.disabled} !important` } }}
       />
       <CardContent>
         <Box sx={{ height: 350,  position:'relative' }}>
@@ -131,6 +131,8 @@ const RechartsPieChart = ({tkn,  fdate, tdate}) => {
                     setHoveredData(data)
                   }}
                   onMouseLeave={() => setHoveredData(null)}
+                  
+                  
               >
                 {data?.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry?.color} />

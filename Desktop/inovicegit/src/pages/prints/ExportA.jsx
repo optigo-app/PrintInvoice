@@ -76,8 +76,9 @@ const ExportA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         findingWt: e?.totals?.finding?.Wt,
                         findingAmount: e?.totals?.finding?.Amount,
                         TotalAmount: e?.TotalAmount,
-                        totalRMValue: (e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount),
-                        totalValueAddition: e?.TotalAmount - (e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount),
+                        totalRMValue: (e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount + e?.totals?.metal?.Amount),
+                        // totalValueAddition: e?.TotalAmount - (e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount),
+                        totalValueAddition: e?.OtherCharges + e?.MakingAmount,
                         perOfVA: (((e?.TotalAmount - (e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount)) * 100) / e?.totals?.metal?.Amount)
                     }
                 });
@@ -97,8 +98,9 @@ const ExportA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 dataArray[findPurPer].total.findingAmount += e?.totals?.finding?.Amount;
                 dataArray[findPurPer].total.TotalAmount += e?.TotalAmount;
 
-                dataArray[findPurPer].total.totalRMValue += (e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount);
-                dataArray[findPurPer].total.totalValueAddition += e?.TotalAmount - (e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount);
+                dataArray[findPurPer].total.totalRMValue += (e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount + e?.totals?.metal?.Amount);
+                // dataArray[findPurPer].total.totalValueAddition += e?.TotalAmount - (e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount + e?.totals?.metal?.Amount);
+                dataArray[findPurPer].total.totalValueAddition += e?.OtherCharges + e?.MakingAmount;
                 dataArray[findPurPer].total.perOfVA += (((e?.TotalAmount - (e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount)) * 100) / e?.totals?.metal?.Amount);
 
             }
@@ -383,7 +385,7 @@ const ExportA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <div className={`${style?.fob} d-flex`}>
                     {console.log(datass)}
                     <p className="fw-bold  w-25 p-1 border-end border-black text-end">{datass?.mainTotal?.total_amount / headerData?.CurrencyExchRate !== 0 && NumberWithCommas(datass?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2)}</p>
-                    <p className="fw-bold w-25 p-1 border-end border-black text-end">{(datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount + datass?.mainTotal?.misc?.Amount) / headerData?.CurrencyExchRate !== 0 && NumberWithCommas(((datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount + datass?.mainTotal?.misc?.Amount)) / headerData?.CurrencyExchRate, 2)}</p>
+                    <p className="fw-bold w-25 p-1 border-end border-black text-end">{(datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount + datass?.mainTotal?.misc?.Amount + datass?.mainTotal?.metal?.Amount) / headerData?.CurrencyExchRate !== 0 && NumberWithCommas(((datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount + datass?.mainTotal?.misc?.Amount + datass?.mainTotal?.metal?.Amount)) / headerData?.CurrencyExchRate, 2)}</p>
                     <p className="fw-bold w-25 p-1 border-end border-black text-end">{((datass?.mainTotal?.total_amount) - (datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount + datass?.mainTotal?.misc?.Amount)) / headerData?.CurrencyExchRate !== 0 && NumberWithCommas(((datass?.mainTotal?.total_amount) - (datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount + datass?.mainTotal?.misc?.Amount)) / headerData?.CurrencyExchRate, 2)}</p>
                     {/* <p className="fw-bold w-25 p-1  text-end">{(datass?.mainTotal?.total_amount) / headerData?.CurrencyExchRate !== 0 && NumberWithCommas(datass?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2)}</p> */}
                     <p className="fw-bold w-25 p-1  text-end"></p>
