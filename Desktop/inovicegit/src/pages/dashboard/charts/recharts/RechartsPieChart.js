@@ -131,7 +131,7 @@ const RechartsPieChart = ({tkn,  fdate, tdate}) => {
                     setHoveredData(data)
                   }}
                   onMouseLeave={() => setHoveredData(null)}
-                  
+                  skipAnimation={false}
                   
               >
                 {data?.map((entry, index) => (

@@ -309,7 +309,6 @@ const AnalyticsDashboard = ({tkn}) => {
                 <label htmlFor='tdate'>To Date</label>
                 <input type="date" id="tdate" value={tdate} onChange={handleTDateChange} />
               </div> */}
-              <div><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green}} size='large' onClick={() => handleApply()}>Apply</Button></div>
             </Box>
 
             <Box className="me-1" style={{minWidth:'200px'}}>
@@ -332,6 +331,8 @@ const AnalyticsDashboard = ({tkn}) => {
                 <option value="mumbai">mumbai</option>
               </select>
             </Box>
+            <div><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green}} size='large' onClick={() => handleApply()}>Apply</Button></div>
+
             </div>
           </Grid>
          
