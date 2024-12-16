@@ -184,22 +184,25 @@ const AnalyticsSupportTracker = ({tkn, fdate, tdate}) => {
   }
 
   useEffect(() => {
-    console.log(apiData[0]?.InStock, apiData[0]?.InWIP , apiData[0]?.NewOrder);
-    
-      const totalOrder = checkNaNVal((apiData[0]?.InStock === NaN ? 0 : apiData[0]?.InStock) + (apiData[0]?.InWIP === NaN ? 0 : apiData[0]?.InWIP) + (apiData[0]?.NewOrder === NaN ? 0 : apiData[0]?.NewOrder));
-      console.log(totalOrder);
-      
-      const inStockPercentage = totalOrder ? ( totalOrder === 0 ? 0 : (checkNaNVal(apiData[0]?.InStock / totalOrder))) * 100 : 0;
-      setTask(Math.round(inStockPercentage));
-    if(totalOrder === NaN || totalOrder === undefined){
-      setTotalOrder(0);
-    }else{
-      setTotalOrder(totalOrder);
-    }
-      setLoader(false);
-  },[apiData]);
+    // Ensure values are checked for NaN
+    const inStock = checkNaNVal(apiData[0]?.InStock);
+    const inWIP = checkNaNVal(apiData[0]?.InWIP);
+    const newOrder = checkNaNVal(apiData[0]?.NewOrder);
+  
+    const totalOrder = inStock + inWIP + newOrder; // Summing the values
+  
+    // Avoid dividing by zero
+    const inStockPercentage = totalOrder > 0 ? (inStock / totalOrder) * 100 : 0;
+    setTask(Math.round(inStockPercentage)); // Set task percentage
+    setTotalOrder(totalOrder); // Set total order value
+  
+    setLoader(false); // Hide loader when data is fetched
+  }, [apiData]);
 
   const checkNaNVal = (val) => {
+    if(isNaN(val)){
+      return 0;
+    }
     if(val === NaN || val === "NaN" || val === -Infinity || val === Infinity){
       return 0
     }else{
@@ -224,10 +227,25 @@ console.log(totalOrder, );
         // }
       />
       {
-        loader ? '' : <CardContent style={{paddingBottom:'45px'}}>
+        loader ? <Box       sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100%', // Full viewport height
+          width: '100%',   // Full width of the container
+          padding: '1rem',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black background
+          position: 'fixed', // Ensure the overlay stays on top of other content
+          top: 0, // Align to the top of the page
+          left: 0, // Align to the left of the page
+          zIndex: 1000, // Ensure it's above other elements
+        }}
+        >
+                <CircularProgress sx={{color:'white'}} />
+              </Box> : <CardContent style={{paddingBottom:'45px'}}>
         <Grid container spacing={6}>
           <Grid item xs={12} sm={5}>
-            { totalOrder === NaN ? '' : <Typography variant='h4'>{totalOrder === NaN ? 0 : checkNaNVal(totalOrder)}</Typography>}
+            { totalOrder === NaN ? '' : <Typography variant='h4'>{totalOrder == NaN ? 0 : checkNaNVal(totalOrder)}</Typography>}
             <Typography sx={{ pb: 3, color: 'text.secondary' }}>Total Orders</Typography>
             {data?.map((item, index) => (
               <Box

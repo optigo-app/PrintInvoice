@@ -313,20 +313,20 @@ const AnalyticsDashboard = ({tkn}) => {
 
             <Box className="me-1" style={{minWidth:'200px'}}>
               <label htmlFor="country">Country</label>
-              <select className='form-control' name="country" id="country" onChange={(e) => countryListHandleChange(e)}>
+              <select className='form-control' value={selectedCountry} name="country" id="country" onChange={(e) => countryListHandleChange(e)}>
                 <option value="" disabled selected>select</option>
                 <option value="ind">USA</option>
               </select>
             </Box>
             <Box className="me-1" style={{minWidth:'200px'}}>
               <label htmlFor="salesman">Salesman</label>
-              <select className='form-control' name="salesman" id="salesman" onChange={(e) => salesmanListHandleChange(e)}>
+              <select className='form-control' name="salesman" value={selectedSales} id="salesman" onChange={(e) => salesmanListHandleChange(e)}>
                 <option value="" disabled selected>select </option>
               </select>
             </Box>
             <Box className="me-1" style={{minWidth:'200px'}}>
             <label htmlFor="office">Office</label>
-              <select className='form-control' name="office" id="office" onChange={(e) => officeListHandleChange(e)}>
+              <select className='form-control' name="office" id="office" value={selectedOffice} onChange={(e) => officeListHandleChange(e)}>
                 <option value="" disabled selected>select </option>
                 <option value="mumbai">mumbai</option>
               </select>

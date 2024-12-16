@@ -61,7 +61,7 @@
    }
  }))
 
- const AnalyticsEarningReports = ({tkn, fdate, tdate}) => {
+ const AnalyticsEarningReports = ({tkn, fdate, tdate, country}) => {
 
    const [apiData, setApiData] = useState([]);
    const [apiData2, setApiData2] = useState(null);
@@ -86,7 +86,7 @@
   
      fetchData(); 
 
-   },[fdate, tdate]);
+   },[fdate, tdate, country]);
 
     const fetchMonthWiseSaleAmountData = async() => {
       try {
