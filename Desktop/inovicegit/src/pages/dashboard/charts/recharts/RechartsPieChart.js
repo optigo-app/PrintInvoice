@@ -82,7 +82,7 @@ const RechartsPieChart = ({tkn,  fdate, tdate}) => {
     return netWtB - netWtA;
   });
   // Step 2: Get the top 10 objects
-  const top10 = sortedData?.slice(0, 10);
+  const top10 = sortedData?.slice(0, 5);
   
   // const data = [
   //   { name: 'R&D', value: 50, color: '#00d4bd' },
@@ -116,7 +116,7 @@ const RechartsPieChart = ({tkn,  fdate, tdate}) => {
   }
 
   return (
-    <Card className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>
+    <Card className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'34.85rem'}}>
       <CardHeader
         title='Top Vendors'
         subheader='Overview of NetWt'
@@ -151,7 +151,7 @@ const RechartsPieChart = ({tkn,  fdate, tdate}) => {
               }}
             >
               <Typography variant='h6' align='center' color='secondary' sx={{fontWeight:'bold'}}>
-                {hoveredData?.name}: {formatAmountKWise(hoveredData?.value)}
+                {hoveredData?.name}: {(hoveredData?.value)} gm
               </Typography>
             </Box>
           )}

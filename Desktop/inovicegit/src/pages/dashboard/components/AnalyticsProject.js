@@ -257,7 +257,7 @@ const AnalyticsProject = ({tkn,  fdate, tdate}) => {
   }
 
   return data ? (
-    <Card className='fs_analytics_l' style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>
+    <Card className='fs_analytics_l' style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'36.45rem'}}>
       <CardHeader
         title='MetalType & MetalColor Wise Sale Amount'
         titleTypographyProps={{ sx: { mb: [2, 0] } }}
