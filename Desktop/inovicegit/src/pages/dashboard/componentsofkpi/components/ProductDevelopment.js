@@ -15,7 +15,7 @@ import { CircularProgress, useMediaQuery, useTheme } from '@mui/material';
 import axios from 'axios';
 import { fetchKPIDashboardData } from '../../GlobalFunctions';
 import { checkNullUndefined } from './global';
-const ProductDevelopment = ({tkn, fdate, tdate, bgColor, PDData}) => {
+const ProductDevelopment = ({tkn, fdate, tdate, bgColor, PDData, PrdDev}) => {
 
   const [kpiPDdata, setKpiPDdata] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -58,7 +58,7 @@ const ProductDevelopment = ({tkn, fdate, tdate, bgColor, PDData}) => {
     //   ]
 
     const renderStats = () => {
-        return PDData?.map((sale, index) => (
+        return PrdDev?.map((sale, index) => (
           <Grid item xs={8} md={8} key={index}>
             <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>

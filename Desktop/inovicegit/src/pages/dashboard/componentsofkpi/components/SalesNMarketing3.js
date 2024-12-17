@@ -11,7 +11,7 @@ import { CircularProgress } from '@mui/material';
 import { checkNullUndefined, makeWordShort } from './global';
 
 //SALES AND MARKETING 2ST BLOCK
-const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3}) => {
+const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3, BCwise}) => {
   const theme = useTheme();
 
   const [apiData, setApiData] = useState([]);
@@ -80,7 +80,7 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3}) => {
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
               <CircularProgress sx={{color:'black'}} />
             </Box> :
-         SM3?.map((item, index) => {
+         BCwise?.map((item, index) => {
           return (
             <Box
               key={index}

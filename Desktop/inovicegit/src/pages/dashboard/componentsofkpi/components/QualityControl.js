@@ -14,7 +14,7 @@ import Icon from '../../@core/components/icon'
 import { CircularProgress, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { checkNullUndefined } from './global';
-const QualityControl = ({tkn, bgColor, tdate, fdate, QCData }) => {
+const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC }) => {
     const theme = useTheme();
     const [qcData, setQCData] = useState([]);
     const kpiMFGFlag = useSelector((state) => state?.kpi?.mfg);
@@ -28,7 +28,7 @@ const QualityControl = ({tkn, bgColor, tdate, fdate, QCData }) => {
       },[QCData]);
 
     const renderStats = () => {
-        return qcData?.map((sale, index) => (
+        return QuaC?.map((sale, index) => (
           <Grid item xs={6} md={6} key={index}>
             <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
               {/* <CustomAvatar skin='light' color={sale.color} sx={{ mr: 4, width: 42, height: 42 }}>

@@ -60,10 +60,153 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
 
     const [pleaseWaitFlag, setPleaseWaitFlag] = useState(false);
 
+    let apiUrl_kpi = '';
+
+    // let url = '';
+    if(hostName?.toLowerCase() === 'zen' || hostName?.toLowerCase() === 'localhost'){
+      // setUrl('http://zen/jo/api-lib/App/KPI_DashBoard');
+      apiUrl_kpi = 'http://zen/jo/api-lib/App/KPI_DashBoard';
+    }else{
+      // setUrl('https://view.optigoapps.com/linkedapp/App/API_MRPBill');
+      apiUrl_kpi = 'https://view.optigoapps.com/linkedapp/App/KPI_DashBoard';
+    }
+
+
+    //separate api call 
+    const [PrdDev, setPrdDev] = useState([]);
+    const [QuaC, setQuaC] = useState([]);
+    const [saleMTs, setSaleMTs] = useState([]);
+    const [BCwise, setBCwise] = useState([]);
+
+    const ProductDevelopmentFetch = async() => {
+      try {
+          const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "ProductDevelopment");
+          if(response){
+            const data3 = [
+              {
+                stats: `${parseFloat(checkNullUndefined(response[0]?.Cnt))} / ${parseFloat(checkNullUndefined(response[0]?.MetalWeight))?.toFixed(3)} gm`,
+                title: 'New Development',
+              },
+              {
+                stats: `${parseFloat(checkNullUndefined((response?.SaleCount / (response[0]?.DesignCnt))))?.toFixed(2)}`,
+                title: 'Repetation Rate',
+              },
+              
+            ]
+            setPrdDev(data3);
+          }
+          
+      } catch (error) {
+        console.log(error);
+        
+      }
+    }
+
+    const QualityControlFetch = async() => {
+      try {
+          const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "QualityControl");
+          if(response){
+            const data2 = [
+              {
+                // stats: parseFloat(checkNullUndefined(obj?.ProductionApiData?.rd[0]?.qc_avg_inward))?.toFixed(2),
+                stats: 0,
+                title: 'Inward',
+              },
+              {
+                stats: parseFloat(checkNullUndefined(response[0]?.JobMoveStockBookCount))?.toFixed(2),
+                title: 'Outward',
+              },
+              {
+                stats: (checkNullUndefined(response[0]?.QACountWithOutClub)),
+                title: 'Total Jobs',
+              },
+              {
+                stats: parseFloat(checkNullUndefined((response[0]?.DaysDiff_QA_To_Stock / (response[0]?.TotalJobCount_QA_To_Stock))))?.toFixed(2),
+                title: 'Avg. Prs. Time',
+              }
+            ]
+            setQuaC(data2);
+          }
+          
+      } catch (error) {
+        console.log(error);
+        
+      }
+    }
+
+    const SalesMarketing_TotalSaleFetch = async() => {
+      try {
+          const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_TotalSale");
+          if(response){
+            const data5 = [
+              {
+              stats: `${parseFloat(checkNullUndefined(response[0]?.NetWt))?.toFixed(3)} gm`,
+              title: 'Total Sale(Net)',
+              },
+             {
+              stats: `${formatAmountKWise(checkNullUndefined(response[0]?.MetalAmount))}`,
+              title: 'Gold Amt',
+              },
+             {
+              stats: `${formatAmountKWise(checkNullUndefined(response[0]?.DiamondAmount))}`,
+              title: 'Diamond Amt',
+            },
+             {
+              stats: `${formatAmountKWise(checkNullUndefined(response[0]?.ColorStoneAmount))}`,
+              title: 'Color Stone Amt',
+            },
+            {
+              stats: `${formatAmountKWise(checkNullUndefined(response[0]?.LabourAmount))}`,
+              title: 'Labour Amt',
+            }
+            ];
+            setSaleMTs(data5);
+          }
+          
+      } catch (error) {
+        console.log(error);
+        
+      }
+    }
+
+    const SalesMarketing_TotalSaleBusinessClassWiseFetch = async() => {
+      try {
+          const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_TotalSaleBusinessClassWise");
+          if(response){
+            let arr = response?.sort((a, b) => b?.Amount - a?.Amount);
+                // const formatedArr = obj?.SalesMarketing_TotalSaleBusinessClassWise?.slice(0, 4);
+                const formatedArr = arr?.slice(0, 4);
+                // const formatedArr2 = obj?.SalesMarketing_TotalSaleBusinessClassWise?.slice(4);
+                const formatedArr2 = arr?.slice(4);
+                const obj_cs = {
+                  CustomerType : "Other",
+                  Amount:0
+                }
+                
+                formatedArr2?.forEach((a) => {
+                  obj_cs.Amount += a?.Amount;
+                })
+                if(obj_cs?.Amount !== 0){
+                  formatedArr.push(obj_cs);
+                }
+                
+                setBCwise(formatedArr);
+          }
+          
+      } catch (error) {
+        console.log(error);
+        
+      }
+    }
+
   
 
     useEffect(() => {
-      callAllApi();
+      // callAllApi();
+      ProductDevelopmentFetch();
+      QualityControlFetch();
+      SalesMarketing_TotalSaleFetch();
+      SalesMarketing_TotalSaleBusinessClassWiseFetch();
     }, []);
 
 
@@ -1009,10 +1152,10 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
             <RawMaterial tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} sv={sv} RMData={RMData} />
         </Grid>
         <Grid item xs={12} md={6} lg={3}>
-            <QualityControl tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} QCData={QCData}  />
+            <QualityControl tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} QCData={QCData} QuaC={QuaC}  />
         </Grid>
         <Grid item xs={12} md={6} lg={3}>
-            <ProductDevelopment tkn={tkn} fdate={fdatef} tdate={tdatef} bgColor={theme?.palette?.customColors?.purple}  PDData={PDData} />
+            <ProductDevelopment tkn={tkn} fdate={fdatef} tdate={tdatef} bgColor={theme?.palette?.customColors?.purple}  PDData={PDData} PrdDev={PrdDev} />
         </Grid></>}
 
         { isMaxWidth12010px && <>
@@ -1024,7 +1167,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         { !isMaxWidth900px && <Grid item xs={12} md={6} lg={6}><HeaderOfCard headerName="PRODUCT DEVELOPMENT" bgColor={'#7d5ae773'} /></Grid>}
         
         <Grid item xs={12} md={6} lg={6}>
-            <QualityControl tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} QCData={QCData}  />
+            <QualityControl tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} QCData={QCData} QuaC={QuaC}  />
         </Grid>
         { isMaxWidth900px && <Grid item xs={12} md={6} lg={6}><HeaderOfCard headerName="PRODUCT DEVELOPMENT" bgColor={'#7d5ae773'} /></Grid>}
         <Grid item xs={12} md={6} lg={6}>
@@ -1034,10 +1177,10 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         
         { !isMaxWidth1700px && <><Grid item xs={12} md={12} lg={12}><HeaderOfCard headerName="SALES & MARKETING" bgColor={'#7d5ae773'} /></Grid>
         <Grid item xs={12} md={6} lg={2}>
-            <SalesNMarketing2 tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  fdate={fdatef} tdate={tdatef} SM2={SM2} />
+            <SalesNMarketing2 tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  fdate={fdatef} tdate={tdatef} SM2={SM2} saleMTs={saleMTs} />
         </Grid>
         <Grid item xs={12} md={6} lg={2}>
-            <SalesNMarketing3 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  fdate={fdatef} tdate={tdatef} SM3={SM3}  />
+            <SalesNMarketing3 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  fdate={fdatef} tdate={tdatef} SM3={SM3} BCwise={BCwise}  />
         </Grid>
         <Grid item xs={12} md={6} lg={8}>
             <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} SM1={SM1} />
@@ -1045,7 +1188,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         
         { isMaxWidth1700px && <><Grid item xs={12} md={12} lg={12}><HeaderOfCard headerName="SALES & MARKETING" bgColor={'#7d5ae773'} /></Grid>
         <Grid item xs={12} md={6} lg={6}>
-            <SalesNMarketing2 tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  fdate={fdatef} tdate={tdatef} SM2={SM2} />
+            <SalesNMarketing2 tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  fdate={fdatef} tdate={tdatef} SM2={SM2} saleMTs={saleMTs} />
         </Grid>
         <Grid item xs={12} md={6} lg={6}>
             <SalesNMarketing3 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  fdate={fdatef} tdate={tdatef} SM3={SM3}  />

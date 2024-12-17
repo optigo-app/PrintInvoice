@@ -10,7 +10,7 @@ import {  fetchKPIDashboardData,  formatAmountKWise } from '../../GlobalFunction
 import { checkNullUndefined } from './global';
 
 //SALES AND MARKETING 1ST BLOCK
-const SalesNMarketing2 = ({tkn, fdate, tdate, bgColor, SM2}) => {
+const SalesNMarketing2 = ({tkn, fdate, tdate, bgColor, SM2, saleMTs}) => {
   const theme = useTheme();
 
   const [apiData, setApiData] = useState([]);
@@ -87,7 +87,7 @@ const SalesNMarketing2 = ({tkn, fdate, tdate, bgColor, SM2}) => {
       }}>
         { loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
               <CircularProgress sx={{color:'black'}} />
-            </Box> : SM2?.slice(0, 5)?.map((item, index) => {
+            </Box> : saleMTs?.slice(0, 5)?.map((item, index) => {
           return (
             <Box
               key={index}
@@ -95,7 +95,7 @@ const SalesNMarketing2 = ({tkn, fdate, tdate, bgColor, SM2}) => {
                 display: 'flex',
                 '& img': { mr: 4 },
                 alignItems: 'center',
-                mb: index !== apiData?.length - 1 ? 2.15 : undefined,
+                mb: index !== saleMTs?.length - 1 ? 2.15 : undefined,
                 pb:0,
               }}
             >
