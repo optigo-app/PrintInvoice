@@ -69,6 +69,7 @@
     "recoil": "^0.7.7",
     "redux-saga": "^1.2.3",
     "sanitize-html": "^2.13.0",
+    "sass": "^1.83.0",
     "to-words": "^3.6.1",
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5"

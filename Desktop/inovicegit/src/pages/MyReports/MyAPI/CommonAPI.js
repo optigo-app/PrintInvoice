@@ -9,8 +9,9 @@ export const CommonAPI = async (body) => {
     const report_api_url = queryParams.get("report_api_url");
     
     // const APIURL = 'http://zen/api/report.aspx'
-    const APIURL = `${atob(report_api_url)}`
 
+    const APIURL = `${atob(report_api_url)}`
+    const api2 = APIURL?.replace("M.asmx/Optigo", "report.aspx");
     try {
         const header = {
             Authorization: `Bearer ${atob(token)}`,
@@ -19,7 +20,7 @@ export const CommonAPI = async (body) => {
             sv: `${atob(sv)}`,
             sp: 'DynamicReport'
         };
-        const response = await axios.post(APIURL, body, { headers: header });
+        const response = await axios.post(api2, body, { headers: header });
         return response?.data;
 
     } catch (error) {

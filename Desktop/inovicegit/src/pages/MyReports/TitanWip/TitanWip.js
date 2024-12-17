@@ -3,13 +3,12 @@
 
 // const TitanWip = () => {
 
-
 //   const APICall = () => {
 //     TitanWipApi()
 //       .then((response) => {
 
 //         console.log('resss', response);
-        
+
 //       })
 //       .catch((err) => console.log(err))
 //       .finally(() => {});
@@ -26,15 +25,13 @@
 
 // export default TitanWip
 
-
 // http://localhost:3001/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&pid=18149&sv=MA==&report_api_url=aHR0cDovL3plbi9hcGkvTS5hc214L09wdGlnbw==&LId=MTU5MzE=&LUId=dWRheUBhZG1pbi5jby5pbg==
-
 
 // http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&pid=18149&sv=MA==&report_api_url=aHR0cDovL3plbi9hcGkvcmVwb3J0LmFzcHg=&LId=MTU5MzE=&LUId=dWRheUBhZG1pbi5jby5pbg== newwwwwwwwwwwww
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
-import "./Testgrid.css";
+import "./Testgrid.scss";
 import DatePicker from "react-datepicker";
 import masterData from "./masterData.json";
 import mainButton from "../assets/Mail_32.png";
@@ -42,6 +39,7 @@ import printButton from "../assets/print.png";
 import gridView from "../assets/GriedView.png";
 import imageView from "../assets/ImageView2.png";
 import "react-datepicker/dist/react-datepicker.css";
+import '../../dashboard/@core/components/pickersComponent/datepickerc.css'
 import {
   Accordion,
   AccordionDetails,
@@ -68,6 +66,7 @@ import { AiFillSetting } from "react-icons/ai";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TitanWipApi } from "../MyAPI/TitanWipApi/TitanWipApi";
+
 
 let popperPlacement = "bottom-start";
 const ItemType = {
@@ -119,10 +118,9 @@ const DraggableColumn = ({
         display: "flex",
         alignItems: "center",
         padding: "8px",
-        border: "1px solid lightgray",
         marginBottom: "15px",
         height: "55px",
-        background: isDragging ? "#e0e0e0" : "rgb(234, 234, 234)",
+        background: isDragging ? "#e0e0e0" : "rgb(243 243 243)",
         borderRadius: "4px",
         cursor: "grab",
         opacity: isDragging ? 0.5 : 1,
@@ -161,7 +159,9 @@ export default function TitanWip() {
   const [openPDate, setOpenPDate] = React.useState(false);
   const [selectedDate, setSelectedDate] = React.useState(null);
   const [selectedRd3Name, setSelectedRd3Name] = React.useState("");
-  
+  const [currentPage, setCurrentPage] = React.useState(0);
+  const [dateFilters, setDateFilters] = React.useState({});
+
   const [masterKeyData, setMasterKeyData] = React.useState();
   const [allColumIdWiseName, setAllColumIdWiseName] = React.useState();
   const [allColumData, setAllColumData] = React.useState();
@@ -187,15 +187,28 @@ export default function TitanWip() {
     APICall();
   }, []);
 
+  // React.useEffect(() => {
+  //   if (allColumData) {
+  //     const initialCheckedColumns = {};
+  //     Object.values(allColumData).forEach((col) => {
+  //       initialCheckedColumns[col.Field] = col.ColumShow;
+  //     });
+  //     setCheckedColumns(initialCheckedColumns);
+  //   }
+  // }, [allColumData]);
+
   React.useEffect(() => {
     if (allColumData) {
       const initialCheckedColumns = {};
-      Object.values(allColumData).forEach((col) => {
-        initialCheckedColumns[col.field] = col.ColumShow;
+      allColumData.forEach((col) => {
+        if (col.ColumShow === true) {
+          initialCheckedColumns[col.Field] = true;
+        }
       });
       setCheckedColumns(initialCheckedColumns);
     }
   }, [allColumData]);
+
 
   React.useEffect(() => {
     if (!allColumData) return;
@@ -222,7 +235,13 @@ export default function TitanWip() {
           ].filter(Boolean),
 
           renderCell: (params) => {
-            if (isPriorityFilter) {
+            if (params.field === "srno") {
+              return (
+                <div>
+                  <span>{params.value}</span> {/* Display Sr# */}
+                </div>
+              );
+            } else if (isPriorityFilter) {
               const matchedPriority = "";
               //  masterData.rd3.find(
               //   (priority) => priority.id === params.row.PriorityId
@@ -256,7 +275,7 @@ export default function TitanWip() {
                 );
               }
             } else if (col.Field === "Status") {
-              const status = params.row.Status || ""; 
+              const status = params.row.Status || "";
               let backgroundColor = "";
               let color = "";
 
@@ -417,15 +436,16 @@ export default function TitanWip() {
     }
   };
 
-  const originalRows = allColumIdWiseName && allRowData 
-  ? allRowData.map((row) => {
-      const formattedRow = {};
-      Object.keys(row).forEach((key) => {
-        formattedRow[allColumIdWiseName[0][key]] = row[key];
-      });
-      return { id: row["1"], ...formattedRow };
-    })
-  : [];
+  const originalRows =
+    allColumIdWiseName && allRowData
+      ? allRowData.map((row) => {
+          const formattedRow = {};
+          Object.keys(row).forEach((key) => {
+            formattedRow[allColumIdWiseName[0][key]] = row[key];
+          });
+          return { id: row["1"], ...formattedRow };
+        })
+      : [];
 
   const [pageSize, setPageSize] = React.useState(10);
   const [filteredRows, setFilteredRows] = React.useState(originalRows);
@@ -436,9 +456,7 @@ export default function TitanWip() {
       const passesFilters = Object.keys(filters).every((filterField) => {
         if (!filters[filterField] || filters[filterField].length === 0)
           return true;
-
         const filterValue = filters[filterField];
-
         if (Array.isArray(filterValue)) {
           return filterValue.includes(row[filterField]);
         }
@@ -481,15 +499,32 @@ export default function TitanWip() {
         }
       }
 
+      const dateColumnFilters = Object.entries(dateFilters);
+      if (passesFilters && dateColumnFilters.length > 0) {
+        for (const [field, { fromDate, toDate }] of dateColumnFilters) {
+          const rowDate = new Date(row[field]);
+          if (fromDate && rowDate < fromDate) return false;
+          if (toDate && rowDate > toDate) return false;
+        }
+      }
+
       if (passesFilters) {
         return Object.values(row).some((value) =>
-          value.toString().toLowerCase().includes(commonSearch.toLowerCase())
+          (value ? value.toString() : "")
+            .toLowerCase()
+            .includes(commonSearch.toLowerCase())
         );
       }
       return false;
     });
-    setFilteredRows(newFilteredRows);
-  }, [filters, originalRows, commonSearch, fromDate, toDate, columns]);
+
+    const updatedRows = newFilteredRows.map((row, index) => ({
+      ...row,
+      srno: index + 1, // Assign serial number based on filtered index
+    }));
+
+    setFilteredRows(updatedRows);
+  }, [filters, originalRows, commonSearch, dateFilters, columns]);
 
   const handleFilterChange = (field, value, filterType) => {
     setFilters((prevFilters) => {
@@ -581,11 +616,11 @@ export default function TitanWip() {
 
   const renderDateFilter = (col) => {
     if (!col.filterTypes || col.filterTypes.length === 0) return null;
-    const filtersToRender = col.filterTypes;
 
-    return filtersToRender.map((filterType) => {
+    return col.filterTypes.map((filterType) => {
       switch (filterType) {
-        case "DateRangeFilter":
+        case "DateRangeFilter": {
+          const { fromDate, toDate } = dateFilters[col.field] || {};
           return (
             <DatePicker
               key={`filter-${col.field}-DateRangeFilter`}
@@ -597,23 +632,25 @@ export default function TitanWip() {
               selected={fromDate}
               startDate={fromDate}
               shouldCloseOnSelect={false}
-              id="date-range-picker-months"
-              onChange={handleOnChangeRange}
+              id={`date-range-picker-${col.field}`}
+              onChange={(dates) => handleOnChangeRange(dates, col.field)}
               customInput={
                 <CustomTextField
                   customBorderColor="rgba(47, 43, 61, 0.2)"
                   borderoutlinedColor="#00CFE8"
                   customTextColor="#2F2B3DC7"
                   customFontSize="0.8125rem"
-                  label="Specific Date Range"
+                  label={`${col?.headerName} Range`}
+                  className="titan_rangeDatePicker"
                 />
               }
               popperPlacement={popperPlacement}
               dateFormat="dd-MM-yyyy"
               placeholderText={"dd-mm-yyyy dd-mm-yyyy"}
-              className="rangeDatePicker"
+              className="titan_rangeDatePicker"
             />
           );
+        }
         default:
           return null;
       }
@@ -673,7 +710,10 @@ export default function TitanWip() {
       switch (filterType) {
         case "RangeFilter":
           return (
-            <div key={`filter-${col.field}-RangeFilter`}>
+            <div
+              key={`filter-${col.field}-RangeFilter`}
+              style={{ margin: "5px 20px" }}
+            >
               <div>
                 <Typography>{col.headerName} :</Typography>
               </div>
@@ -731,7 +771,7 @@ export default function TitanWip() {
             ...new Set(originalRows.map((row) => row[col.field])),
           ];
           return (
-            <div key={col.field}>
+            <div key={col.field} style={{ margin: "5px 10px" }}>
               <Accordion>
                 <AccordionSummary
                   expandIcon={<MdExpandMore />}
@@ -742,7 +782,14 @@ export default function TitanWip() {
                 </AccordionSummary>
                 <AccordionDetails className="gridMetalComboMain">
                   {uniqueValues.map((value) => (
-                    <label key={value}>
+                    <label
+                      key={value}
+                      style={{
+                        display: "flex",
+                        gap: "10px",
+                        marginBlock: "3px",
+                      }}
+                    >
                       <input
                         type="checkbox"
                         value={value}
@@ -755,7 +802,7 @@ export default function TitanWip() {
                           )
                         }
                       />
-                      {value}
+                      <p>{value}</p>
                     </label>
                   ))}
                 </AccordionDetails>
@@ -769,10 +816,17 @@ export default function TitanWip() {
     });
   };
 
-  const handleOnChangeRange = (dates) => {
+  // const handleOnChangeRange = (dates) => {
+  //   const [start, end] = dates;
+  //   setFromDate(start);
+  //   setToDate(end);
+  // };
+  const handleOnChangeRange = (dates, columnField) => {
     const [start, end] = dates;
-    setFromDate(start);
-    setToDate(end);
+    setDateFilters((prev) => ({
+      ...prev,
+      [columnField]: { fromDate: start, toDate: end },
+    }));
   };
 
   const handleClose = () => setOpen(false);
@@ -797,12 +851,10 @@ export default function TitanWip() {
             <div key={col.Field} className="boxViewTotal">
               <div>
                 <p className="boxViewTotalValue">
-                  {col.Field === "jobCount"
-                    ? filteredRows?.reduce(
-                        (sum, row) => sum + (parseInt(row[col.field], 10) || 0),
-                        0
-                      )
-                    : filteredRows?.length}
+                  {filteredRows?.reduce(
+                    (sum, row) => sum + (parseInt(row[col.field], 10) || 0),
+                    0
+                  )}
                 </p>
                 <p className="boxViewTotalTitle">{col.headerName}</p>
               </div>
@@ -847,6 +899,8 @@ export default function TitanWip() {
   const handleClearFilter = () => {
     setFromDate(null);
     setToDate(null);
+    setDateFilters({});
+    setCommonSearch('');
     setFilters({});
   };
 
@@ -908,10 +962,10 @@ export default function TitanWip() {
     setIsChecked(event.target.checked);
   };
 
-
   // console.log('filteredRowsfilteredRows',filteredRows);
-  // console.log('originalRows',originalRows);
-  
+  // console.log('checkedColumns',checkedColumns);
+  // console.log('columns',columns);
+
   const handleSave = () => {
     console.log("Saving data...");
     console.log("Selected Date:", selectedDate);
@@ -966,9 +1020,7 @@ export default function TitanWip() {
           onClose={toggleDrawer(false)}
           className="drawerMain"
         >
-          <p style={{ margin: "20px 20px 0px 20px", fontSize: "25px" }}>
-            Filter
-          </p>
+          <p className="drawer_filter_title">Filter</p>
           {/* {hideColumns
             .filter((col) => col.filterable)
             .map((col) => (
@@ -980,17 +1032,13 @@ export default function TitanWip() {
           {columns
             .filter((col) => col.filterable)
             .map((col) => (
-              <div key={col.field} style={{ margin: "5px 20px" }}>
-                {renderFilterMulti(col)}
-              </div>
+              <div key={col.field}>{renderFilterMulti(col)}</div>
             ))}
 
           {columns
             .filter((col) => col.filterable)
             .map((col) => (
-              <div key={col.field} style={{ margin: "5px 20px" }}>
-                {renderFilterRange(col)}
-              </div>
+              <div key={col.field}>{renderFilterRange(col)}</div>
             ))}
 
           {columns
@@ -1047,98 +1095,6 @@ export default function TitanWip() {
                   {renderDateFilter(col)}
                 </div>
               ))}
-            <div
-              className="date-selector"
-              style={{ display: "flex", gap: "10px" }}
-            >
-              <button
-                className="FiletrBtnOpen"
-                onClick={() => setOpenPDate(!openPDate)}
-              >
-                Set P.Date
-              </button>
-
-              <div
-                className={`transition-container ${
-                  openPDate ? "open" : "closed"
-                }`}
-                style={{
-                  transition: "0.5s ease",
-                  opacity: openPDate ? 1 : 0,
-                  maxHeight: openPDate ? "300px" : "0",
-                  overflow: "hidden",
-                  display: openPDate ? "flex" : "none",
-                  gap: "10px",
-                }}
-              >
-                <DatePicker
-                  selected={selectedDate}
-                  onChange={(date) => setSelectedDate(date)}
-                  dateFormat="dd-MM-yyyy"
-                  customInput={
-                    <CustomTextField
-                      customBorderColor="rgba(47, 43, 61, 0.2)"
-                      borderoutlinedColor="#00CFE8"
-                      customTextColor="#2F2B3DC7"
-                      customFontSize="0.8125rem"
-                      style={{ Width: "100px" }}
-                    />
-                  }
-                  placeholderText="Select Date"
-                />
-
-                <CustomTextField
-                  select
-                  fullWidth
-                  value={filters.someField || ""}
-                  onChange={(e) => handleFilterChange(e.target.value)}
-                  customBorderColor="rgba(47, 43, 61, 0.2)"
-                  borderoutlinedColor="#00CFE8"
-                  customTextColor="#2F2B3DC7"
-                  customFontSize="0.8125rem"
-                  size="small"
-                  className="selectDropDownMain"
-                  variant="filled"
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  {masterData.rd3.map((item) => (
-                    <MenuItem key={item.id} value={item.name}>
-                      {item.name}
-                    </MenuItem>
-                  ))}
-                </CustomTextField>
-
-                <button
-                  onClick={handleSave}
-                  variant="contained"
-                  className="FiletrBtnOpen"
-                  sx={{ marginTop: 2 }}
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-
-            {/* <div style={{ display: "flex" }}>
-              {masterData?.rd3.map((data) => (
-                <abbr title={data?.name}>
-                  <p
-                    key={data.id}
-                    style={{
-                      backgroundColor: data?.colorcode,
-                      cursor: "pointer",
-                      border: selectedColors.includes(data.id)
-                        ? "2px solid black"
-                        : "none",
-                    }}
-                    className="colorFiled"
-                    onClick={() => toggleColorSelection(data.id)} // Handle color click
-                  ></p>
-                </abbr>
-              ))}
-            </div> */}
           </div>
           <div style={{ display: "flex", alignItems: "end", gap: "10px" }}>
             {masterKeyData?.mailButton && (
@@ -1156,28 +1112,6 @@ export default function TitanWip() {
                 onClick={handlePrint}
               />
             )}
-
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              {showImageView ? (
-                <img
-                  src={gridView}
-                  className="imageViewImgGrid"
-                  onClick={handleImg}
-                />
-              ) : (
-                <img
-                  src={imageView}
-                  className="imageViewImg"
-                  onClick={handleImg}
-                />
-              )}
-            </div>
 
             <button onClick={handleClearFilter} className="ClearFilterButton">
               <svg
@@ -1230,58 +1164,26 @@ export default function TitanWip() {
           </div>
         </div>
 
-        <div style={{ height: "calc(100vh - 200px)" }}>
-          {showImageView ? (
-            <div>
-              <img
-                className="imageViewImgage"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVXLW1j3zO3UP6dIu96A3IpZihTe3fVRsm9g&s"
-              />
-              <img
-                className="imageViewImgage"
-                src="https://help.earthsoft.com/ent-data_grid_widget-sample.png"
-              />
-              <img
-                className="imageViewImgage"
-                src="https://i0.wp.com/thewwwmagazine.com/wp-content/uploads/2020/07/Screenshot-2020-07-09-at-7.36.56-PM.png?resize=1404%2C1058&ssl=1"
-              />
-              <img
-                className="imageViewImgage"
-                src="https://docs.devexpress.com/WPF/images/wpf-data-grid.png"
-              />
-              <img
-                className="imageViewImgage"
-                src="https://www.infragistics.com/products/ignite-ui-web-components/web-components/images/general/landing-grid-page.png"
-              />
-              <img
-                className="imageViewImgage"
-                src="https://i0.wp.com/angularscript.com/wp-content/uploads/2020/04/Angular-Data-Grid-For-The-Enterprise-nGrid.png?fit=1245%2C620&ssl=1"
-              />
-              <img
-                className="imageViewImgage"
-                src="https://angularscript.com/wp-content/uploads/2015/12/ng-bootstrap-grid-370x297.jpg"
-              />
-            </div>
-          ) : (
-            <DataGrid
-              rows={filteredRows}
-              columns={columns}
-              pageSize={pageSize}
-              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-              rowsPerPageOptions={[5, 10, 15, 25, 50]}
-              className="simpleGridView"
-              checkboxSelection
-              pagination
-              sx={{
-                "& .MuiDataGrid-menuIcon": {
-                  display: "none",
-                },
-                marginLeft: 2,
-                marginRight: 2,
-                marginBottom: 2,
-              }}
-            />
-          )}
+        <div style={{ height: "calc(100vh - 250px)" }}>
+          <DataGrid
+            rows={filteredRows}
+            columns={columns.filter((col) => checkedColumns[col.field])}
+            pageSize={pageSize}
+            onPageChange={(newPage) => setCurrentPage(newPage)}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            rowsPerPageOptions={[5, 10, 15, 25, 50]}
+            pagination
+            className="simpleGridView"
+            checkboxSelection
+            sx={{
+              "& .MuiDataGrid-menuIcon": {
+                display: "none",
+              },
+              marginLeft: 2,
+              marginRight: 2,
+              marginBottom: 2,
+            }}
+          />
         </div>
       </div>
     </DndProvider>
