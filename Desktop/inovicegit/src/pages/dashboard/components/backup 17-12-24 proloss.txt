@@ -21,7 +21,7 @@ import { hexToRGBA } from '../@core/utils/hex-to-rgba'
 import { useEffect } from 'react';
 import { fetchDashboardData, formatAmount, formatAmountKWise } from '../GlobalFunctions';
 import { useState } from 'react';
-import { Bar } from 'react-chartjs-2'
+
 import "./chartcss/analytics.css"
 
 // const series = [
@@ -224,79 +224,6 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate, CategoryWiseSaleAmountData})
   ]
 
 
-
-  
-  const options2 = {
-    indexAxis: 'y',
-    responsive: true,
-    maintainAspectRatio: false,
-    animation: { duration: 500 },
-    elements: {
-      bar: {
-        borderRadius: {
-          topRight: 15,
-          bottomRight: 15
-        }
-      }
-    },
-    layout: {
-      padding: { top: -4 }
-    },
-    scales: {
-      x: {
-        min: 0,
-        grid: {
-          drawTicks: false,
-          // color: borderColor
-          color: ''
-        },
-        // ticks: { color: labelColor }
-        ticks: { color: theme?.palette?.customColors?.grey }
-      },
-      y: {
-        grid: {
-          display: false,
-          // color: borderColor
-          color: ''
-        },
-        // ticks: { color: labelColor }
-        ticks: { color: theme?.palette?.customColors?.grey }
-      }
-    },
-    plugins: {
-      legend: {
-        align: 'end',
-        position: 'top',
-        // labels: { color: legendColor }
-        labels: { color: '' }
-      }
-    }
-  }
-  const datas = {
-    // labels: ['MON', 'TUE', 'WED ', 'THU', 'FRI'],
-    // labels: ['Chow', 'KK', 'Nancy', 'Pariya', 'SA', 'Tiffany', 'XBO', 'YF'],
-    labels: salesNames,
-    datasets: [
-      {
-        maxBarThickness: 15,
-        label: 'Sales',
-        // backgroundColor: warning,
-        backgroundColor: theme?.palette?.customColors?.red,
-        // borderColor: 'transparent',
-        // data: [1510, 1178, 14934, 2140, 1169, 758, 997, 1086]
-        data: sales
-      },
-      {
-        maxBarThickness: 15,
-        backgroundColor: theme?.palette?.customColors?.green,
-        label: 'Profit',
-        // borderColor: 'transparent',
-        // data: [1300, 1030, 13704, 1793, 962, 728, 837, 894]
-        data: profit
-      }
-    ]
-  }
-
   
 
   return (
@@ -309,7 +236,6 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate, CategoryWiseSaleAmountData})
         //     iconButtonProps={{ size: 'small', sx: { color: 'text.disabled' } }}
         //   />
         // }
-        style={{paddingBottom:'3px'}}
         subheader={
           <Box
             sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', '& svg': { mr: 1, color: 'success.main' } }}
@@ -325,8 +251,7 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate, CategoryWiseSaleAmountData})
         }
       />
       <CardContent>
-        {/* <ReactApexcharts type='bar' height={400} series={series} options={options} /> */}
-        <Bar data={datas} height={150} options={options} />
+        <ReactApexcharts type='bar' height={400} series={series} options={options} />
         {data?.map((item, index) => {
           const avatarColor = index === 0 ? theme.palette.customColors.purple : theme.palette.customColors.grey;
           return (
@@ -344,7 +269,7 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate, CategoryWiseSaleAmountData})
                 skin='light'
                 variant='rounded'
                 // color={avatarColor}
-                sx={{ mr: 4, width: 34, height: 34, color:theme?.palette?.customColors?.grey }}
+                sx={{ mr: 4, width: 34, height: 34, color:avatarColor }}
               >
                 <Icon icon={item.avatarIcon} />
               </CustomAvatar>
@@ -367,7 +292,7 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate, CategoryWiseSaleAmountData})
                 </Box>
                 <Typography
                   sx={{ fontWeight: 500, color: item.amountDiff === 'negative' ? 'error.main' : 'success.main' }}
-                  style={{color: item?.title?.toLowerCase() === 'total profit' ? theme?.palette?.customColors?.green : theme?.palette?.customColors?.red, fontWeight:'bold'}}
+                  style={{color: item?.title?.toLowerCase() === 'total profit' ? theme?.palette?.customColors?.grey : theme?.palette?.customColors?.purple, fontWeight:'bold'}}
                 >
                   {`${item.amountDiff === 'negative' ? '-' : ''}${item.amount}`}
                 </Typography>
