@@ -67,10 +67,48 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
     }, []);
 
 
+    // const setInitialDateRange = (value) => {
+    //   const today = moment();
+    //   let startDate, endDate;
+  
+    //   switch (value) {
+    //     case 'Today':
+    //       startDate = today;
+    //       endDate = today;
+    //       break;
+    //     case 'Yesterday':
+    //       startDate = today.clone().subtract(1, 'day');
+    //       endDate = today;
+    //       break;
+    //     case 'Week':
+    //       startDate = today.clone().subtract(6, 'days');
+    //       endDate = today;
+    //       break;
+    //     case 'Month':
+    //       startDate = today.clone().subtract(1, 'month').add(1, 'day');
+    //       endDate = today;
+    //       break;
+    //     case '6 Months':
+    //       startDate = today.clone().subtract(6, 'months').add(1, 'day');
+    //       endDate = today;
+    //       break;
+    //     case '1 Year':
+    //       startDate = today.clone().subtract(1, 'year').add(1, 'day');
+    //       endDate = today;
+    //       break;
+    //     default:
+    //       startDate = today;
+    //       endDate = today;
+    //   }
+  
+    //   setFDate(startDate.toDate());
+    //   setTDate(endDate.toDate());
+    // };
+
     const setInitialDateRange = (value) => {
       const today = moment();
       let startDate, endDate;
-  
+    
       switch (value) {
         case 'Today':
           startDate = today;
@@ -89,21 +127,30 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           endDate = today;
           break;
         case '6 Months':
-          startDate = today.clone().subtract(6, 'months').add(1, 'day');
-          endDate = today;
-          break;
         case '1 Year':
-          startDate = today.clone().subtract(1, 'year').add(1, 'day');
+          // Get the current financial year's start date
+          const financialYearStart = moment().month(3).date(1); // April 1st of the current year
+          startDate = financialYearStart;
+    
+          // Set the end date to the current date
           endDate = today;
+    
+          if (value === '6 Months') {
+            // For 6 Months, set the start date to 6 months before the current date
+            startDate = today.clone().subtract(6, 'months').startOf('month');
+          }
+    
           break;
         default:
           startDate = today;
           endDate = today;
       }
-  
+    
       setFDate(startDate.toDate());
       setTDate(endDate.toDate());
     };
+    
+
     const handlePrevious = () => {
       if (!fdate || !tdate) return;
   
@@ -759,11 +806,11 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       >
               <CircularProgress sx={{color:'white'}} />
             </Box> : <>
-                    {pleaseWaitFlag && (
+                    {/* {pleaseWaitFlag && (
                         <div className="overlay_kpi">
                           <div className="overlaykpi_content">Please Wait...</div>
                         </div>
-                      )}
+                      )} */}
             {
                 showPopUp && (
                   <Dialog open={showPopUp} onClose={handlePopUpCancel} className='fs_analytics_l'>
@@ -828,10 +875,10 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                   <MenuItem value="" disabled selected>Date Filters</MenuItem>
                   <MenuItem value="Today">Today</MenuItem>
                   <MenuItem value="Yesterday">Yesterday</MenuItem>
-                  <MenuItem value="Week">Week</MenuItem>
-                  <MenuItem value="Month">Month</MenuItem>
-                  <MenuItem value="6 Months">6 Months</MenuItem>
-                  <MenuItem value="1 Year">1 Year</MenuItem>
+                  {/* <MenuItem value="Week">Week</MenuItem> */}
+                  <MenuItem value="Month">This Month</MenuItem>
+                  <MenuItem value="6 Months">This 6 Months</MenuItem>
+                  <MenuItem value="1 Year">This Year</MenuItem>
                 </Select>
                 <Button variant="contained" size='small' sx={{mx:1, backgroundColor : theme?.palette?.customColors?.purple, maxWidth:'50px'}} onClick={handlePrevious}>
                   <ArrowBackIosNewIcon />
@@ -845,6 +892,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                     id='basic-input'
                     popperPlacement={popperPlacement}
                     onChange={handleFDateChange}
+                    disabled
                     dateFormat="dd-MM-yyyy"
                     placeholderText={ "DD-MM-YYYY"}
                     customInput={<CustomInput className='fs_analytics_l' sx={{border:'1px solid #989898', backgroundColor:'white', marginRight:'10px'}}  />}
@@ -858,6 +906,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                     id='basic-input'
                     popperPlacement={popperPlacement}
                     onChange={handleTDateChange}
+                    disabled
                     dateFormat="dd-MM-yyyy"
                     placeholderText={ "DD-MM-YYYY"}
                     customInput={<CustomInput className='fs_analytics_l' sx={{border:'1px solid #989898',  backgroundColor:'white', marginRight:'10px'}}  />}
@@ -888,11 +937,13 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                         },
                       }}
                     >
+                      <MenuItem value="" disabled selected>Date Filters</MenuItem>
                     <MenuItem value="Today">Today</MenuItem>
-                    <MenuItem value="Week">Week</MenuItem>
-                    <MenuItem value="Month">Month</MenuItem>
-                    <MenuItem value="6 Months">6 Months</MenuItem>
-                    <MenuItem value="1 Year">1 Year</MenuItem>
+                  <MenuItem value="Yesterday">Yesterday</MenuItem>
+                  {/* <MenuItem value="Week">Week</MenuItem> */}
+                  <MenuItem value="Month">This Month</MenuItem>
+                  <MenuItem value="6 Months">This 6 Months</MenuItem>
+                  <MenuItem value="1 Year">This Year</MenuItem>
                   </Select>
                   <div className='d-flex'>
                     <Button variant="contained" size='small' sx={{mx:1, backgroundColor : theme?.palette?.customColors?.purple, maxWidth:'50px'}} onClick={handlePrevious}>
@@ -913,6 +964,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                     popperPlacement={popperPlacement}
                     onChange={handleFDateChange}
                     dateFormat="dd-MM-yyyy"
+                    disabled
                     placeholderText={ "DD-MM-YYYY"}
                     customInput={<CustomInput className='fs_analytics_l' size="small" sx={{border:'1px solid #989898', backgroundColor:'white', marginRight:'10px', maxWidth:'120px'}}  />}
                     className='fs_analytics_l'
@@ -927,6 +979,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                     popperPlacement={popperPlacement}
                     onChange={handleTDateChange}
                     dateFormat="dd-MM-yyyy"
+                    disabled
                     placeholderText={ "DD-MM-YYYY"}
                     customInput={<CustomInput className='fs_analytics_l' size="small"  sx={{border:'1px solid #989898',  backgroundColor:'white', marginRight:'10px', maxWidth:'120px'}}  />}
                     className='fs_analytics_l'
