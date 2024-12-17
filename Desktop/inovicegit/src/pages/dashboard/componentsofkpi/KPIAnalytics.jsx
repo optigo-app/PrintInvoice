@@ -58,6 +58,8 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
     
     const [showPopUp, setShowPopUp] = useState(false);
 
+    const [pleaseWaitFlag, setPleaseWaitFlag] = useState(false);
+
   
 
     useEffect(() => {
@@ -216,6 +218,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
     const callAllApi = async() => {
       try {
         setLoading(true);
+        setPleaseWaitFlag(true);
 
         let apiUrl_kpi = '';
 
@@ -319,6 +322,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         }
         setAllApiData(obj);
         setLoading(false);
+        setPleaseWaitFlag(false);
         console.log(obj);
         
               const data = [
@@ -616,12 +620,14 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
               setColumns(tableColumns);
             } catch (error) {
               console.log(error);
+              setPleaseWaitFlag(false);
             }
             
         
       } catch (error) {
         console.log(error);
         setLoading(false);
+        setPleaseWaitFlag(false);
       }
     }
 
@@ -737,7 +743,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
   return (
     <>
     <Grid container spacing={1} sx={{marginBottom:'3rem', padding: isSmallScreen ? '1rem' : '1rem', width:'95%', margin:'2% auto', marginTop:"0px" }}>
-      { loading ? <Box       sx={{
+      { 0 ? <Box       sx={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -753,6 +759,11 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       >
               <CircularProgress sx={{color:'white'}} />
             </Box> : <>
+                    {pleaseWaitFlag && (
+                        <div className="overlay_kpi">
+                          <div className="overlaykpi_content">Please Wait...</div>
+                        </div>
+                      )}
             {
                 showPopUp && (
                   <Dialog open={showPopUp} onClose={handlePopUpCancel} className='fs_analytics_l'>
