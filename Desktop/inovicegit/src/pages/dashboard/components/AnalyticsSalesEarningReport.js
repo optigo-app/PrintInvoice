@@ -34,7 +34,7 @@ import { capitalizeFirstLetter, fetchDashboardData, formatAmount, formatAmountKW
 
 
 
-const AnalyticsSalesEarningReport = ({tkn,  fdate, tdate}) => {
+const AnalyticsSalesEarningReport = ({tkn,  fdate, tdate, CustomerWiseSaleAmountData}) => {
   // ** State
   const [value, setValue] = useState('sales');
 
@@ -48,9 +48,9 @@ const AnalyticsSalesEarningReport = ({tkn,  fdate, tdate}) => {
       try {
 
         // Fetch MonthWiseSaleAmount data
-        let CustomerWiseSaleAmount = await fetchDashboardData(tkn,  fdate, tdate, "CustomerWiseSaleAmount");
-        setApiData(CustomerWiseSaleAmount);
-        setFilteredData(CustomerWiseSaleAmount);
+        // let CustomerWiseSaleAmount = await fetchDashboardData(tkn,  fdate, tdate, "CustomerWiseSaleAmount");
+        setApiData(CustomerWiseSaleAmountData);
+        setFilteredData(CustomerWiseSaleAmountData);
 
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -59,11 +59,12 @@ const AnalyticsSalesEarningReport = ({tkn,  fdate, tdate}) => {
   
     fetchData(); 
 
-  },[fdate, tdate]);
+  // },[fdate, tdate]);
+},[CustomerWiseSaleAmountData]);
 
-  const salesAmt = apiData?.map((e) => e?.SaleAmount);
-  const ProfitAmt = apiData?.map((e) => e?.Profit);
-  const custNames = apiData?.map((e) => capitalizeFirstLetter(e?.Customer));
+  const salesAmt = CustomerWiseSaleAmountData?.map((e) => e?.SaleAmount);
+  const ProfitAmt = CustomerWiseSaleAmountData?.map((e) => e?.Profit);
+  const custNames = CustomerWiseSaleAmountData?.map((e) => capitalizeFirstLetter(e?.Customer));
 
   const tabData = [
     // {

@@ -163,7 +163,7 @@ const columns = [
   // }
 ]
 
-const AnalyticsProject = ({tkn,  fdate, tdate}) => {
+const AnalyticsProject = ({tkn,  fdate, tdate, MetalTypeColorWiseSaleData}) => {
   // ** State
   const [data, setData] = useState([])
   const [filteredData, setFilteredData] = useState([])
@@ -179,10 +179,10 @@ const AnalyticsProject = ({tkn,  fdate, tdate}) => {
       try {
 
         // Fetch MonthWiseSaleAmount data
-        let MetalTypeColorWiseSale = await fetchDashboardData(tkn,  fdate, tdate, "MetalTypeColorWiseSale");
+        // let MetalTypeColorWiseSale = await fetchDashboardData(tkn,  fdate, tdate, "MetalTypeColorWiseSale");
 
-        setApiData(MetalTypeColorWiseSale);
-        setFilteredData(MetalTypeColorWiseSale);
+        setApiData(MetalTypeColorWiseSaleData);
+        setFilteredData(MetalTypeColorWiseSaleData);
 
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -191,7 +191,8 @@ const AnalyticsProject = ({tkn,  fdate, tdate}) => {
   
     fetchData(); 
 
-  },[fdate, tdate]);
+  // },[fdate, tdate]);
+},[MetalTypeColorWiseSaleData]);
 
 
 
@@ -213,7 +214,7 @@ const AnalyticsProject = ({tkn,  fdate, tdate}) => {
 
     setValue(val);
 
-    const filteredData = apiData?.filter((item) => {
+    const filteredData = MetalTypeColorWiseSaleData?.filter((item) => {
       const metalType = item.MetalType?.toLowerCase();  // Make sure both values are lowercase for case-insensitive comparison
       const metalColor = item.MetalColor?.toLowerCase();
       const saleAmt = item.SaleAmount?.toString()?.toLowerCase();

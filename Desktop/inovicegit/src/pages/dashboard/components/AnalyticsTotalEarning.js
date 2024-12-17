@@ -46,7 +46,7 @@ import "./chartcss/analytics.css"
 //   }
 // ]
 
-const AnalyticsTotalEarning = ({tkn,  fdate, tdate}) => {
+const AnalyticsTotalEarning = ({tkn,  fdate, tdate, CategoryWiseSaleAmountData}) => {
   // ** Hook
   const theme = useTheme();
 
@@ -59,9 +59,9 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate}) => {
       try {
 
         // Fetch MonthWiseSaleAmount data
-        const CountryWiseSaleAmount = await fetchDashboardData(tkn,  fdate, tdate, "CategoryWiseSaleAmount");
+        // const CountryWiseSaleAmount = await fetchDashboardData(tkn,  fdate, tdate, "CategoryWiseSaleAmount");
 
-        setApiData(CountryWiseSaleAmount);
+        setApiData(CategoryWiseSaleAmountData);
         
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -70,9 +70,10 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate}) => {
   
     fetchData(); 
 
-  },[fdate, tdate]);
+  // },[fdate, tdate]);
+},[CategoryWiseSaleAmountData]);
 
-  const sortedData = apiData?.sort((a, b) => {
+  const sortedData = CategoryWiseSaleAmountData?.sort((a, b) => {
     const saleAmountA = a?.SaleAmount || 0;  // Default to 0 if SaleAmount is missing
     const saleAmountB = b?.SaleAmount || 0;
     return saleAmountB - saleAmountA;
@@ -255,7 +256,7 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate}) => {
           const avatarColor = index === 0 ? theme.palette.customColors.purple : theme.palette.customColors.grey;
           return (
             <Box
-              // key={index}
+              key={index}
               sx={{
                 display: 'flex',
                 alignItems: 'center',

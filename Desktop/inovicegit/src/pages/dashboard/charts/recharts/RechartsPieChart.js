@@ -46,7 +46,7 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-const RechartsPieChart = ({tkn,  fdate, tdate}) => {
+const RechartsPieChart = ({tkn,  fdate, tdate, VendorWiseNetWtData}) => {
   const [hoveredData, setHoveredData] = useState(null)
 
   const [apiData, setApiData] = useState([]);
@@ -57,8 +57,8 @@ const RechartsPieChart = ({tkn,  fdate, tdate}) => {
       try {
 
         // Fetch MonthWiseSaleAmount data
-        const VendorWiseNetWt = await fetchDashboardData(tkn,  fdate, tdate, "VendorWiseNetWt");
-        setApiData(VendorWiseNetWt);
+        // const VendorWiseNetWt = await fetchDashboardData(tkn,  fdate, tdate, "VendorWiseNetWt");
+        setApiData(VendorWiseNetWtData);
         
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -67,7 +67,8 @@ const RechartsPieChart = ({tkn,  fdate, tdate}) => {
   
     fetchData(); 
 
-  },[fdate, tdate]);
+  // },[fdate, tdate]);
+},[VendorWiseNetWtData]);
 
 
   // const data = [
@@ -76,7 +77,7 @@ const RechartsPieChart = ({tkn,  fdate, tdate}) => {
   //   { name: 'Networking', value: 16, color: '#FFA1A1' },
   //   { name: 'Hiring', value: 50, color: '#826bf8' }
   // ]
-  const sortedData = apiData?.sort((a, b) => {
+  const sortedData = VendorWiseNetWtData?.sort((a, b) => {
     const netWtA = a?.NetWt || 0;  // Default to 0 if SaleAmount is missing
     const netWtB = b?.NetWt || 0;
     return netWtB - netWtA;

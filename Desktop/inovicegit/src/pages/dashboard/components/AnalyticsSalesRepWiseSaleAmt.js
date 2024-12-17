@@ -35,8 +35,8 @@ const AnalyticsSalesRepWiseSaleAmt = props => {
         try {
   
           // Fetch MonthWiseSaleAmount data
-          const ProgressWiseOrder = await fetchDashboardData(props?.tkn, props?.fdate, props?.tdate, "SalesrepWiseSaleAmount");
-          const arr = ProgressWiseOrder?.sort((a, b) => b?.SaleAmount - a?.SaleAmount)?.slice(0, 5);
+          // const ProgressWiseOrder = await fetchDashboardData(props?.tkn, props?.fdate, props?.tdate, "SalesrepWiseSaleAmount");
+          const arr = props?.SalesrepWiseSaleAmount?.sort((a, b) => b?.SaleAmount - a?.SaleAmount)?.slice(0, 5);
 
           setApiData(arr);
           
@@ -47,16 +47,17 @@ const AnalyticsSalesRepWiseSaleAmt = props => {
     
       fetchData(); 
   
-    },[ props?.fdate, props?.tdate]);
+    // },[ props?.fdate, props?.tdate]);
+    },[props?.SalesrepWiseSaleAmount]);
 
     const theme = useTheme();
   // ** Props
 //   const { info, grey, green, yellow, primary, warning, legendColor } = props;
   const { info, grey, green, yellow, primary, warning, legendColor } = props;
 
-  const SalesRepName = apiData?.map((e) => capitalizeFirstLetter(e?.SalesRep));
-  const SaleAmt = apiData?.map((e) => (e?.SaleAmount));
-  const profitAmt = apiData?.map((e) => e?.Profit);
+  const SalesRepName = props?.SalesrepWiseSaleAmount?.map((e) => capitalizeFirstLetter(e?.SalesRep));
+  const SaleAmt = props?.SalesrepWiseSaleAmount?.map((e) => (e?.SaleAmount));
+  const profitAmt = props?.SalesrepWiseSaleAmount?.map((e) => e?.Profit);
 
   const options = {
     responsive: true,

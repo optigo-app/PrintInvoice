@@ -61,7 +61,7 @@ const data = [
   }
 ]
 
-const AnalyticsSalesByCountries = ({tkn,  fdate, tdate}) => {
+const AnalyticsSalesByCountries = ({tkn,  fdate, tdate, countryWiseSale}) => {
   const theme = useTheme();
 
   const [apiData, setApiData] = useState([]);
@@ -72,11 +72,11 @@ const AnalyticsSalesByCountries = ({tkn,  fdate, tdate}) => {
       try {
 
         // Fetch MonthWiseSaleAmount data
-        let CountryWiseSaleAmount = await fetchDashboardData(tkn,  fdate, tdate, "CountryWiseSaleAmount");
+        // let CountryWiseSaleAmount = await fetchDashboardData(tkn,  fdate, tdate, "CountryWiseSaleAmount");
 
         const arr = [];
 
-        CountryWiseSaleAmount?.forEach((e) => {
+        countryWiseSale?.forEach((e) => {
           let obj = cloneDeep(e);
           let findrec = arr?.findIndex((a) => a?.Locker?.toLowerCase() === obj?.Locker?.toLowerCase());
           if(findrec === -1){
@@ -86,9 +86,9 @@ const AnalyticsSalesByCountries = ({tkn,  fdate, tdate}) => {
           }
         })
 
-        CountryWiseSaleAmount = arr;
+        countryWiseSale = arr;
 
-        setApiData(CountryWiseSaleAmount);
+        setApiData(countryWiseSale);
 
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -97,7 +97,8 @@ const AnalyticsSalesByCountries = ({tkn,  fdate, tdate}) => {
   
     fetchData(); 
 
-  },[fdate, tdate]);
+  // },[fdate, tdate]);
+},[countryWiseSale]);
 
   return (
     <Card className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'29.56rem'}}>
@@ -129,7 +130,7 @@ const AnalyticsSalesByCountries = ({tkn,  fdate, tdate}) => {
           background: '#555',
         },
       }}>
-        {apiData?.map((item, index) => {
+        {countryWiseSale?.map((item, index) => {
           return (
             <Box
               key={index}

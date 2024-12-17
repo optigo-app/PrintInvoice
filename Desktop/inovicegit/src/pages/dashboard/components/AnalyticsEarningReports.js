@@ -61,7 +61,7 @@
    }
  }))
 
- const AnalyticsEarningReports = ({tkn, fdate, tdate, country}) => {
+ const AnalyticsEarningReports = ({tkn, fdate, tdate, country, monthWiseSaleData, summaryData}) => {
 
    const [apiData, setApiData] = useState([]);
    const [apiData2, setApiData2] = useState(null);
@@ -71,14 +71,15 @@
      const fetchData = async () => {
        try {
           // Fetch MonthWiseSaleAmount data
-         const monthWiseSaleData = await fetchDashboardData(tkn, fdate, tdate, "MonthWiseSaleAmount");
+        //  const monthWiseSaleData = await fetchDashboardData(tkn, fdate, tdate, "MonthWiseSaleAmount");
          setApiData(monthWiseSaleData);
 
   
           // Fetch Summary data
-         const summaryData = await fetchDashboardData(tkn, fdate, tdate, "Summary");
+        //  const summaryData = await fetchDashboardData(tkn, fdate, tdate, "Summary");
 
-         setApiData2(summaryData.length > 0 ? summaryData[0] : {});
+         setApiData2(summaryData?.length > 0 ? summaryData[0] : {});
+         
        } catch (error) {
          console.error("Error fetching data:", error);
        }
@@ -86,7 +87,8 @@
   
      fetchData(); 
 
-   },[fdate, tdate, country]);
+  //  },[fdate, tdate, country]);
+},[monthWiseSaleData, summaryData]);
 
     const fetchMonthWiseSaleAmountData = async() => {
       try {
@@ -123,8 +125,18 @@
     // ** Hook
    const theme = useTheme();
 
-   const monthCategories = apiData?.map((e) => e?.Month_Name);
-   const amountWise = apiData?.map((e) => e?.SaleAmount || 0);
+  //  const monthCategories = apiData?.map((e) => e?.Month_Name);
+  //  const amountWise = apiData?.map((e) => e?.SaleAmount || 0);
+  //  const series = [{ data: amountWise }]
+  //  const maxSaleAmount = Math.max(...amountWise);
+  //  const colors = amountWise?.map((amount) =>
+  //    amount === maxSaleAmount
+  //      ? hexToRGBA(theme?.palette?.customColors?.purple, 1)  
+  //      : hexToRGBA(theme?.palette?.customColors?.purple, 1)  
+  //     //  : hexToRGBA(theme?.palette?.customColors?.littlelightBgPurple, 0.16)  
+  //  );
+   const monthCategories = monthWiseSaleData?.map((e) => e?.Month_Name);
+   const amountWise = monthWiseSaleData?.map((e) => e?.SaleAmount || 0);
    const series = [{ data: amountWise }]
    const maxSaleAmount = Math.max(...amountWise);
    const colors = amountWise?.map((amount) =>
@@ -319,7 +331,7 @@
    const data = [
      {
        progress: 100,
-       stats: `${formatAmountKWise((apiData2?.SaleAmount || 0))}`,
+       stats: `${formatAmountKWise((summaryData?.SaleAmount || 0))}`,
        title: 'Sales Amount',
        avatarColor: 'primary',
        progressColor: 'primary',
@@ -328,7 +340,7 @@
      },
      {
        progress: 100,
-       stats: `${formatAmountKWise((apiData2?.Profit || 0))}`,
+       stats: `${formatAmountKWise((summaryData?.Profit || 0))}`,
        title: 'Profits Amount',
        avatarColor: 'info',
        progressColor: 'info',
@@ -337,7 +349,7 @@
      },
      {
        progress: 100,
-       stats: `${apiData2?.NoOfCustomer || 0}`,
+       stats: `${summaryData?.NoOfCustomer || 0}`,
        title: 'Customers',
        avatarColor: 'error',
        progressColor: 'error',

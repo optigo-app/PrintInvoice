@@ -25,14 +25,14 @@ import { CircularProgress } from '@mui/material'
 
 
 
-const AnalyticsSupportTracker = ({tkn, fdate, tdate}) => {
+const AnalyticsSupportTracker = ({tkn, fdate, tdate, orderTracker}) => {
 
   const [apiData, setApiData] = useState([]);
   const [totalOrder, setTotalOrder] = useState(0);
   const [task, setTask] = useState(85);
   const [taskLabel, setTaskLabel] = useState('In Stock');
 
-  const [loader, setLoader] = useState(true);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
 
@@ -41,8 +41,8 @@ const AnalyticsSupportTracker = ({tkn, fdate, tdate}) => {
 
         setLoader(true);
         // Fetch MonthWiseSaleAmount data
-        const ProgressWiseOrder = await fetchDashboardData(tkn, fdate, tdate, "ProgressWiseOrder");
-        setApiData(ProgressWiseOrder);
+        // const ProgressWiseOrder = await fetchDashboardData(tkn, fdate, tdate, "ProgressWiseOrder");
+        setApiData(orderTracker);
         
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -52,7 +52,8 @@ const AnalyticsSupportTracker = ({tkn, fdate, tdate}) => {
   
     fetchData(); 
 
-  },[fdate, tdate]);
+  // },[fdate, tdate]);
+},[orderTracker]);
 
 
   // ** Hook
@@ -61,20 +62,20 @@ const AnalyticsSupportTracker = ({tkn, fdate, tdate}) => {
 
   const data = [
     {
-      subtitle: `${apiData[0]?.NewOrder === NaN ? 0 : apiData[0]?.NewOrder}`,
+      subtitle: `${apiData[0]?.NewOrder ? apiData[0]?.NewOrder : 0}`,
       title: 'New Order',
       // avatarIcon: 'tabler:ticket'
       avatarIcon: ''
     },
     {
-      subtitle: `${apiData[0]?.InWIP === NaN ? 0 : apiData[0]?.InWIP}`,
+      subtitle: `${apiData[0]?.InWIP ? apiData[0]?.InWIP : 0}`,
       title: 'In WIP',
       avatarColor: 'warning',
       // avatarIcon: 'tabler:clock'
       avatarIcon: ''
     },
     {
-      subtitle: `${apiData[0]?.InStock === NaN ? 0 : apiData[0]?.InStock}`,
+      subtitle: `${apiData[0]?.InStock ? apiData[0]?.InStock : 0}`,
       avatarColor: 'info',
       title: 'In Stock',
       // avatarIcon: 'tabler:circle-check'
@@ -172,12 +173,12 @@ const AnalyticsSupportTracker = ({tkn, fdate, tdate}) => {
 
   const handleTask = (item) => {
     if(item?.title?.toLowerCase() === 'in stock'){
-      const inStockPercentage = totalOrder ? (apiData[0]?.InStock / totalOrder) * 100 : 0;
+      const inStockPercentage = totalOrder ? (orderTracker[0]?.InStock / totalOrder) * 100 : 0;
       setTask(Math.round(inStockPercentage));
       setTaskLabel('In Stock')
     }
     if(item?.title?.toLowerCase() === 'in wip'){
-      const inWIPPercentage = totalOrder ? (apiData[0]?.InWIP / totalOrder) * 100 : 0;
+      const inWIPPercentage = totalOrder ? (orderTracker[0]?.InWIP / totalOrder) * 100 : 0;
       setTask(Math.round(inWIPPercentage));
       setTaskLabel('In WIP')
     }
@@ -185,9 +186,9 @@ const AnalyticsSupportTracker = ({tkn, fdate, tdate}) => {
 
   useEffect(() => {
     // Ensure values are checked for NaN
-    const inStock = checkNaNVal(apiData[0]?.InStock);
-    const inWIP = checkNaNVal(apiData[0]?.InWIP);
-    const newOrder = checkNaNVal(apiData[0]?.NewOrder);
+    const inStock = checkNaNVal(orderTracker[0]?.InStock);
+    const inWIP = checkNaNVal(orderTracker[0]?.InWIP);
+    const newOrder = checkNaNVal(orderTracker[0]?.NewOrder);
   
     const totalOrder = inStock + inWIP + newOrder; // Summing the values
   
@@ -225,7 +226,7 @@ const AnalyticsSupportTracker = ({tkn, fdate, tdate}) => {
         // }
       />
       {
-        loader ? <Box       sx={{
+        0 ? <Box       sx={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',

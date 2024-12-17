@@ -32,7 +32,7 @@ const radialBarColorsArr = [
    '#EA5455',
 ]
 
-const ApexRadialBarChart = ({tkn,  fdate, tdate}) => {
+const ApexRadialBarChart = ({tkn,  fdate, tdate, CustomerTypeWiseSaleAmountData}) => {
 
   const [apiData, setApiData] = useState([]);
   useEffect(() => {
@@ -40,9 +40,9 @@ const ApexRadialBarChart = ({tkn,  fdate, tdate}) => {
     const fetchData = async () => {
       try {
         // Fetch MonthWiseSaleAmount data
-        const monthWiseSaleData = await fetchDashboardData(tkn,  fdate, tdate, "CustomerTypeWiseSaleAmount");
+        // const monthWiseSaleData = await fetchDashboardData(tkn,  fdate, tdate, "CustomerTypeWiseSaleAmount");
         
-        setApiData(monthWiseSaleData);
+        setApiData(CustomerTypeWiseSaleAmountData);
   
         
       } catch (error) {
@@ -52,10 +52,11 @@ const ApexRadialBarChart = ({tkn,  fdate, tdate}) => {
   
     fetchData(); 
 
-  },[fdate, tdate]);
+  // },[fdate, tdate]);
+},[CustomerTypeWiseSaleAmountData]);
 
   
-  const custTypeWiseArr = apiData?.sort((a, b) => b?.SaleAmount - a?.SaleAmount)
+  const custTypeWiseArr = CustomerTypeWiseSaleAmountData?.sort((a, b) => b?.SaleAmount - a?.SaleAmount)
   const custTypeWise = custTypeWiseArr?.map((e, i) => capitalizeFirstLetter(e?.CustomerType))?.slice(0, 5)
   const amountWise = apiData?.map((e) => e?.SaleAmount || 0)?.sort((a, b) => b - a);
 
@@ -77,7 +78,7 @@ const ApexRadialBarChart = ({tkn,  fdate, tdate}) => {
   const percentageData1 = amountWise.slice(0, 5)
   // const percentageData = percentageData1?.map((e) => Number(e));
 
-  const totalSaleAmount = apiData?.reduce((acc, num) => acc + num?.SaleAmount, 0);
+  const totalSaleAmount = CustomerTypeWiseSaleAmountData?.reduce((acc, num) => acc + num?.SaleAmount, 0);
 
   const percentageData = amountWise?.slice(0, 5)?.map(value => (value / totalSaleAmount) * 100);
   
