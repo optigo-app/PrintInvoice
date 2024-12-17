@@ -211,8 +211,6 @@ const AnalyticsSupportTracker = ({tkn, fdate, tdate}) => {
   }
 
 
-console.log(totalOrder, );
-
   return (
     <Card  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}} className='fs_analytics_l'>
       <CardHeader

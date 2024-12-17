@@ -47,6 +47,7 @@ import DatePicker from 'react-datepicker'
 // ** Custom Component Imports
 import CustomInput from '../@core/components/pickersComponent/PickersCustomInput';
 import "../@core/components/pickersComponent/datepickerc.css";
+import { fetchDashboardData } from '../GlobalFunctions';
 
 const AnalyticsDashboard = ({tkn}) => {
   const [fdate, setFDate] = useState(null);
@@ -62,6 +63,18 @@ const AnalyticsDashboard = ({tkn}) => {
   const [selectedSales, setSelectedSales] = useState();
   const [officeList, setOfficeList] = useState([]);
   const [selectedOffice, setSelectedOffice] = useState();
+
+  //main api data 
+  const [monthWiseSaleApiData, setMonthWiseSaleApiData] = useState([]);
+  const [summryApiData, setSummaryApiData] = useState([]);
+  const [orderTrackerApiData, setOrderTrackerApiData] = useState([]);
+  const [CountryWiseSaleAmount, setCountryWiseSaleAmount] = useState([]);
+  const [CustomerWiseSaleAmount, setCustomerWiseSaleAmount] = useState([]);
+  const [CategoryWiseSaleAmount, setCategoryWiseSaleAmount] = useState([]);
+  const [MetalTypeColorWiseSale, setMetalTypeColorWiseSale] = useState([]);
+  const [CustomerTypeWiseSaleAmount, setCustomerTypeWiseSaleAmount] = useState([]);
+  const [VendorWiseNetWt, setVendorWiseNetWt] = useState([]);
+  const [SalesrepWiseSaleAmount, setSalesrepWiseSaleAmount] = useState([]);
 
 
   const countryListHandleChange = (e) => {
@@ -217,6 +230,65 @@ const AnalyticsDashboard = ({tkn}) => {
       setTDatef('');
     }
   };
+
+
+   useEffect(() => {
+
+     const fetchData = async () => {
+       try {
+
+         const monthWiseSaleData = await fetchDashboardData(tkn, fdatef, tdatef, "MonthWiseSaleAmount");
+         setMonthWiseSaleApiData(monthWiseSaleData);
+         console.log(monthWiseSaleData);
+         
+         const summaryData = await fetchDashboardData(tkn, fdatef, tdatef, "Summary");
+         setSummaryApiData(summaryData.length > 0 ? summaryData[0] : {});
+         console.log(summaryData);
+
+         const ProgressWiseOrder = await fetchDashboardData(tkn, fdatef, tdatef, "ProgressWiseOrder");
+         setOrderTrackerApiData(ProgressWiseOrder);
+         console.log(ProgressWiseOrder);
+
+         const CountryWiseSaleAmount = await fetchDashboardData(tkn, fdatef, tdatef, "CountryWiseSaleAmount");
+         setCountryWiseSaleAmount(CountryWiseSaleAmount);
+         console.log(CountryWiseSaleAmount);
+         
+
+        const customerWiseSaleAmount = await fetchDashboardData(tkn,  fdatef, tdatef, "CustomerWiseSaleAmount");
+        setCustomerWiseSaleAmount(customerWiseSaleAmount);
+        console.log(customerWiseSaleAmount);
+        
+
+        const categoryWiseSaleAmount = await fetchDashboardData(tkn,  fdatef, tdatef, "CategoryWiseSaleAmount");
+        setCategoryWiseSaleAmount(categoryWiseSaleAmount);
+        console.log(categoryWiseSaleAmount);
+        
+
+        const metalTypeColorWiseSale = await fetchDashboardData(tkn,  fdatef, tdatef, "MetalTypeColorWiseSale");
+        setMetalTypeColorWiseSale(metalTypeColorWiseSale);
+        console.log(metalTypeColorWiseSale);
+        
+
+        const customerTypeWiseSaleAmount = await fetchDashboardData(tkn,  fdatef, tdatef, "CustomerTypeWiseSaleAmount");
+        setCustomerTypeWiseSaleAmount(customerTypeWiseSaleAmount);
+        console.log(customerTypeWiseSaleAmount);
+
+        const vendorWiseNetWt = await fetchDashboardData(tkn,  fdatef, tdatef, "VendorWiseNetWt");
+        setVendorWiseNetWt(vendorWiseNetWt);
+        console.log(vendorWiseNetWt);
+
+        const salesrepWiseSaleAmount = await fetchDashboardData(tkn,  fdatef, tdatef, "SalesrepWiseSaleAmount");
+        setSalesrepWiseSaleAmount(salesrepWiseSaleAmount);
+        console.log(salesrepWiseSaleAmount);
+
+       } catch (error) {
+         console.error("Error fetching data:", error);
+       }
+     };
+  
+     fetchData(); 
+
+   },[fdatef, tdatef, selectedCountry, selectedSales, selectedOffice]);
 
 
   return (
