@@ -150,7 +150,6 @@ const AnalyticsDashboard = ({tkn}) => {
   
   // Separate function to fetch data
   const fetchData = async (fdatef, tdatef, country, sales, office) => {
-    console.log(fdatef, tdatef);
     const today = moment();
     const financialYearStart = moment()?.month(3)?.date(1); // April is 3rd month (0-based index)
     const financialYearEnd = moment(financialYearStart)?.add(1, "year")?.subtract(1, "day");

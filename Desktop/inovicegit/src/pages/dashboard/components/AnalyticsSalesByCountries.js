@@ -139,7 +139,7 @@ const AnalyticsSalesByCountries = ({tkn,  fdate, tdate, countryWiseSale}) => {
                 '& img': { mr: 4 },
                 alignItems: 'center',
                 // mb: index !== data.length - 1 ? 4.5 : undefined
-                mb: index !== apiData?.length - 1 ? 2.7 : undefined
+                mb: index !== apiData?.length - 1 ? 2.7 : 2.7
               }}
             >
               {/* <img width={34} height={34} src={item.imgSrc} alt={item.subtitle} /> */}
