@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import style from "../../assets/css/prints/exporta.module.css";
 import "../../assets/css/prints/exporta.css";
-import { NumberWithCommas, apiCall, fixedValues, handlePrint, isObjectEmpty, numberToWord, FooterComponent, checkMsg, } from '../../GlobalFunctions';
+import { NumberWithCommas, apiCall, fixedValues, handlePrint, isObjectEmpty, numberToWord, FooterComponent, checkMsg, formatAmount, } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import lodash, { cloneDeep } from 'lodash';
@@ -78,11 +78,14 @@ const ExportA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         TotalAmount: e?.TotalAmount,
                         totalRMValue: (e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount + e?.totals?.metal?.Amount),
                         // totalValueAddition: e?.TotalAmount - (e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount),
-                        totalValueAddition: e?.OtherCharges + e?.MakingAmount,
-                        perOfVA: (((e?.TotalAmount - (e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount)) * 100) / e?.totals?.metal?.Amount)
+                        totalValueAddition: e?.OtherCharges + e?.MakingAmount + e?.TotalDiamondHandling,
+                        // perOfVA: (((e?.TotalAmount - (e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount)) * 100) / e?.totals?.metal?.Amount)
+                        perOfVA: (((e?.OtherCharges + e?.MakingAmount + e?.TotalDiamondHandling) * 100) / e?.totals?.metal?.Amount)
                     }
                 });
             } else {    
+                console.log(e);
+                
                 dataArray[findPurPer].row.push(e);
                 dataArray[findPurPer].total.grosswt += e?.grosswt;
                 dataArray[findPurPer].total.NetWt += e?.NetWt;
@@ -100,7 +103,7 @@ const ExportA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
                 dataArray[findPurPer].total.totalRMValue += (e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount + e?.totals?.metal?.Amount);
                 // dataArray[findPurPer].total.totalValueAddition += e?.TotalAmount - (e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount + e?.totals?.metal?.Amount);
-                dataArray[findPurPer].total.totalValueAddition += e?.OtherCharges + e?.MakingAmount;
+                dataArray[findPurPer].total.totalValueAddition += e?.OtherCharges + e?.MakingAmount + e?.TotalDiamondHandling;
                 dataArray[findPurPer].total.perOfVA += (((e?.TotalAmount - (e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount)) * 100) / e?.totals?.metal?.Amount);
 
             }
@@ -305,7 +308,7 @@ const ExportA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{ele?.LossWt !== 0 && NumberWithCommas(ele?.LossWt, 3)}</p></div>
                                         <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{ele?.LossPer !== 0 && NumberWithCommas(ele?.LossPer, 2)}</p></div>
                                         <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{ele?.LossWt + ele?.NetWt !== 0 && NumberWithCommas(ele?.LossWt + ele?.NetWt, 3)}</p></div>
-                                        <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{(ele?.metalRate !== undefined && ele?.metalRate !== 0) && NumberWithCommas(ele?.metalRate/headerData?.CurrencyExchRate, 2)}</p></div>
+                                        <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{(ele?.metal_rate !== undefined && ele?.metal_rate !== 0) && NumberWithCommas(ele?.metal_rate / headerData?.CurrencyExchRate, 2)}</p></div>
                                         <div className={`${style?.grs} p-1`}><p className='fw-bold text-end'>{ele?.totals?.metal?.Amount !== 0 && NumberWithCommas(ele?.totals?.metal?.Amount/headerData?.CurrencyExchRate, 2)}</p></div>
                                         {/* <div className={`${style?.grs} p-1`}><p className='fw-bold text-end'>{ele?.totals?.finding?.Amount !== 0 && NumberWithCommas(ele?.totals?.finding?.Amount, 2)}</p></div> */}
                                     </div>
@@ -319,11 +322,13 @@ const ExportA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </div> */}
                                     <div className={`${style?.fob} d-flex fw-bold`}>
                                             <div className='w-25  border-black border-end h-100 p-1 d-flex justify-content-end align-items-center '>{NumberWithCommas((ele?.TotalAmount / headerData?.CurrencyExchRate), 2)}</div>
-                                            <div className='w-25 border-black border-end h-100 p-1 d-flex justify-content-end align-items-center '>{NumberWithCommas(((ele?.totals?.diamonds?.Amount + ele?.totals?.misc?.Amount + ele?.totals?.colorstone?.Amount) / headerData?.CurrencyExchRate), 2)}</div>
-                                            <div className='w-25 border-black border-end h-100 p-1 d-flex justify-content-end align-items-center '>{NumberWithCommas((((ele?.TotalAmount) - (ele?.totals?.diamonds?.Amount + ele?.totals?.misc?.Amount + ele?.totals?.colorstone?.Amount)) / headerData?.CurrencyExchRate), 2)}</div>
-                                            <div className='w-25  h-100 p-1 d-flex justify-content-end align-items-center text-break'>{NumberWithCommas((
+                                            <div className='w-25 border-black border-end h-100 p-1 d-flex justify-content-end align-items-center '>{NumberWithCommas(((ele?.totals?.diamonds?.Amount + ele?.totals?.misc?.Amount + ele?.totals?.colorstone?.Amount + ele?.totals?.metal?.Amount) / headerData?.CurrencyExchRate), 2)}</div>
+                                            {/* <div className='w-25 border-black border-end h-100 p-1 d-flex justify-content-end align-items-center '>{NumberWithCommas((((ele?.TotalAmount) - (ele?.totals?.diamonds?.Amount + ele?.totals?.misc?.Amount + ele?.totals?.colorstone?.Amount)) / headerData?.CurrencyExchRate), 2)}</div> */}
+                                            <div className='w-25 border-black border-end h-100 p-1 d-flex justify-content-end align-items-center '>{(formatAmount(( (ele?.OtherCharges + ele?.MakingAmount + ele?.TotalDiamondHandling) / headerData?.CurrencyExchRate)))}</div>
+                                            <div className='w-25  h-100 p-1 d-flex justify-content-end align-items-center text-break'>{formatAmount((((ele?.OtherCharges + ele?.TotalDiamondHandling + ele?.MakingAmount) * 100)) / ele?.totals?.metal?.Amount)}</div>
+                                            {/* <div className='w-25  h-100 p-1 d-flex justify-content-end align-items-center text-break'>{NumberWithCommas((
                                                 (((((((ele?.TotalAmount) - (ele?.totals?.diamonds?.Amount + ele?.totals?.misc?.Amount + ele?.totals?.colorstone?.Amount)) ) * 100)) / (ele?.totals?.metal?.Amount )) / headerData?.CurrencyExchRate)
-                                                ), 2)}</div>
+                                                ), 2)}</div> */}
                                                                                                                                                                                                                         </div>
                                 </div>
                             })
@@ -354,7 +359,8 @@ const ExportA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <p className="fw-bold w-25 p-1 border-end border-black text-end">{e?.total?.TotalAmount / headerData?.CurrencyExchRate !== 0 && NumberWithCommas(e?.total?.TotalAmount / headerData?.CurrencyExchRate, 2)}</p>
                                 <p className="fw-bold w-25 p-1 border-end border-black text-end">{e?.total?.totalRMValue / headerData?.CurrencyExchRate !== 0 && NumberWithCommas(e?.total?.totalRMValue / headerData?.CurrencyExchRate, 2)}</p>
                                 <p className="fw-bold w-25 p-1 border-end border-black text-end">{e?.total?.totalValueAddition / headerData?.CurrencyExchRate !== 0 && NumberWithCommas(e?.total?.totalValueAddition / headerData?.CurrencyExchRate, 2)}</p>
-                                <p className="fw-bold w-25 p-1 text-end">{e?.total?.perOfVA / headerData?.CurrencyExchRate !== 0 && NumberWithCommas((((e?.total?.perOfVA) / headerData?.CurrencyExchRate) / e?.row?.length), 2)}</p>
+                                {/* <p className="fw-bold w-25 p-1 text-end">{e?.total?.perOfVA / headerData?.CurrencyExchRate !== 0 && NumberWithCommas((((e?.total?.perOfVA) / headerData?.CurrencyExchRate) / e?.row?.length), 2)}</p> */}
+                                <p className="fw-bold w-25 p-1 text-end"></p>
                             </div>
                         </div>
                     </div>
@@ -386,7 +392,8 @@ const ExportA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {console.log(datass)}
                     <p className="fw-bold  w-25 p-1 border-end border-black text-end">{datass?.mainTotal?.total_amount / headerData?.CurrencyExchRate !== 0 && NumberWithCommas(datass?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2)}</p>
                     <p className="fw-bold w-25 p-1 border-end border-black text-end">{(datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount + datass?.mainTotal?.misc?.Amount + datass?.mainTotal?.metal?.Amount) / headerData?.CurrencyExchRate !== 0 && NumberWithCommas(((datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount + datass?.mainTotal?.misc?.Amount + datass?.mainTotal?.metal?.Amount)) / headerData?.CurrencyExchRate, 2)}</p>
-                    <p className="fw-bold w-25 p-1 border-end border-black text-end">{((datass?.mainTotal?.total_amount) - (datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount + datass?.mainTotal?.misc?.Amount)) / headerData?.CurrencyExchRate !== 0 && NumberWithCommas(((datass?.mainTotal?.total_amount) - (datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount + datass?.mainTotal?.misc?.Amount)) / headerData?.CurrencyExchRate, 2)}</p>
+                    {/* <p className="fw-bold w-25 p-1 border-end border-black text-end">{((datass?.mainTotal?.total_amount) - (datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount + datass?.mainTotal?.misc?.Amount)) / headerData?.CurrencyExchRate !== 0 && NumberWithCommas(((datass?.mainTotal?.total_amount) - (datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount + datass?.mainTotal?.misc?.Amount)) / headerData?.CurrencyExchRate, 2)}</p> */}
+                    <p className="fw-bold w-25 p-1 border-end border-black text-end">{formatAmount(datass.mainTotal?.total_diamondHandling + datass?.mainTotal?.total_other + datass?.mainTotal?.total_Making_Amount)}</p>
                     {/* <p className="fw-bold w-25 p-1  text-end">{(datass?.mainTotal?.total_amount) / headerData?.CurrencyExchRate !== 0 && NumberWithCommas(datass?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2)}</p> */}
                     <p className="fw-bold w-25 p-1  text-end"></p>
                 </div>
@@ -394,7 +401,7 @@ const ExportA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             {/* total stone wt */}
             <div className="d-flex justify-content-between pt-2   pb-1">
                 <div className="col-4 d-flex align-items-end px-2">
-                    <p className="fw-bold">Finding imported Vide</p>
+                    <p className="fw-bold"></p>
                 </div>
                 <div className="col-8 d-flex justify-content-end">
                     <div className="col-6 px-2">
