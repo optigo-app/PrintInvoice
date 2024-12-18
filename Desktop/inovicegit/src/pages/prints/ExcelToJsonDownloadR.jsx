@@ -51,10 +51,13 @@ const ExcelToJsonDownloadR = ({ token, invoiceNo, printName, urls, evn, ApiVer }
         let datas = OrganizeDataPrint(
             data?.BillPrint_Json[0],
             data?.BillPrint_Json1,
-            data?.BillPrint_Json2
+            data?.BillPrint_Json2,
+            data?.BillPrint_Json3,
         );
+        setHeader(datas?.header);
         let resultArr = [];
         datas?.resultArray?.forEach((e, i) => {
+            
             let obj = { ...e };
             let diaClr = [...obj?.diamonds, ...obj?.colorstone].flat();
             let findMetal = obj?.metal.findIndex(ele => ele?.IsPrimaryMetal);
@@ -95,7 +98,7 @@ const ExcelToJsonDownloadR = ({ token, invoiceNo, printName, urls, evn, ApiVer }
 
                     issueWeight : ind === 0 ? obj?.ReceivedGrossWt : 0,
                     AfterRepair : ind === 0 ? obj?.RepairedGrossWt : 0,
-                    RepairWeightLoss : ind === 0 ? obj?.LossWt : 0,
+                    RepairWeightLoss : ind === 0 ? obj?.DetachNetWt : 0,
                     RepairGoldAddInProduct : ind === 0 ? obj?.NeWt : 0,
                     ReturnGoldToCaratlaneWeight : ind === 0 ? obj?.DetachNetWt : 0,
                     CertificateNo: ind === 0 ? obj?.CertificateNo : '' , 
@@ -135,7 +138,7 @@ const ExcelToJsonDownloadR = ({ token, invoiceNo, printName, urls, evn, ApiVer }
 
                     issueWeight :  obj?.ReceivedGrossWt ,
                     AfterRepair :  obj?.RepairedGrossWt ,
-                    RepairWeightLoss :  obj?.LossWt ,
+                    RepairWeightLoss :  obj?.DetachNetWt ,
                     RepairGoldAddInProduct :  obj?.NetWt ,
                     ReturnGoldToCaratlaneWeight :  obj?.DetachNetWt ,
                     CertificateNo:  obj?.CertificateNo,
@@ -194,6 +197,8 @@ const ExcelToJsonDownloadR = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                 }
             }
         });
+
+
         let datass = lodash.cloneDeep(datas);
         
 
@@ -319,6 +324,8 @@ const ExcelToJsonDownloadR = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                     </thead>
                     <tbody>
                         {data?.resultArray?.map((e, i) => {
+                            console.log(e);
+                            
                             return (e?.blankLines ?
                                 <tr key={i}>
                                     <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", borderBottom: `${e?.borderBottom && "0.5px solid #000"}`, padding: "1px" }}></td>

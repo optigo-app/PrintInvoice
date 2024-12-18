@@ -659,8 +659,13 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
               },
               {
                 stats: `${(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.LabourAmount))}`,
-                // title: 'Labour Amt (L+DH+S+M)',
-                title: 'Labour Amt',
+                title: 'Labour Amt (L+DH+S+M)',
+                // title: 'Labour Amt',
+              },
+              {
+                stats: `${(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.LabourAmount))}`,
+                title: 'Delivery Charges',
+                // title: 'Labour Amt',
               }
               ];
               setSM2(data5);

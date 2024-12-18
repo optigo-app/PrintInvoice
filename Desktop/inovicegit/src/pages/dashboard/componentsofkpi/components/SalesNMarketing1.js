@@ -20,6 +20,8 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
     const [loading, setLoading] = useState(false);
 
     const [orderModal, setOrderModal] = useState(false);
+    const [popupDetails, setPopUpDetails] = useState([]);
+    const [popUpHeader, setPopUpHeader] = useState('');
 
     // useEffect(() => {
     //         if(fdate && tdate){
@@ -108,24 +110,45 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
       
         if(sale?.title?.toLowerCase() === "total order" && parseFloat(sale?.stats) > 0){
           setOrderModal(true);
+          setPopUpDetails(orderDetails);
+          setPopUpHeader('Order Details');
         }
+        
+        if(sale?.title?.toLowerCase() === "avg. order size" && parseFloat(sale?.stats) > 0){
+          setOrderModal(true);
+          setPopUpDetails(orderDetails);
+          setPopUpHeader('Average Order Details');
+        }
+        
     }
 
     const renderStats = () => {
         return SM1?.map((sale, index) => (
           <Grid item xs={12} sm={6} md={3} key={index} style={{paddingTop:isMaxWidth599px ? 20 : 48}}>
             <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
-       
               { !isMaxWidth599px && <>
               <Box sx={{ display: 'flex', flexDirection:'column' }}>
-                <Typography variant='h6' onClick={() => handleOpenOrderModal(sale)} color={bgColor} style={{textDecoration:` ${(sale?.title === 'Total Order' && parseFloat(sale?.stats) > 0) ? 'underline' : ''}`, cursor: sale?.title === "Total Order" ? "pointer" : "default"}}  >{checkNullUndefined(sale.title)}</Typography>
-                <Typography variant='h5' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}}>{checkNullUndefined(sale.stats)}</Typography>
+                <Typography variant='h6' color={bgColor} >{checkNullUndefined(sale.title)}</Typography>
+                <Typography variant='h5' 
+                onClick={() => handleOpenOrderModal(sale)} 
+                style={{textDecoration:` ${(((sale?.title === 'Total Order' || sale?.title === "Avg. Order Size") && parseFloat(sale?.stats)) > 0) ? 'underline' : ''}`, 
+                cursor: (((sale?.title === "Total Order" || sale?.title === "Avg. Order Size") && parseFloat(sale?.stats)) > 0) ? "pointer" : "default", 
+                color : `${((sale?.title === "Total Order" || sale?.title === "Avg. Order Size") && (parseFloat(sale?.stats) > 0)) ? bgColor : theme?.palette?.grey?.[700]}`
+              }}
+                //  color={((sale?.title === "Total Order") && (sale?.stats > 0)) ? theme?.palette?.customColors?.purple : theme?.palette?.grey?.[700]} 
+                 sx={{fontWeight:'bolder'}}>{checkNullUndefined(sale.stats)}</Typography>
               </Box></>
               }
               { isMaxWidth599px && <>
               <Box sx={{ display: 'flex', justifyContent:'space-between', alignItems:'center', width:'100%' }}>
-                <Typography variant='h6' color={bgColor} onClick={() => handleOpenOrderModal(sale)}  style={{textDecoration:` ${sale?.title === 'Total Order' ? 'underline' : ''}`, cursor: sale?.title === "Total Order" ? "pointer" : "default"}} >{checkNullUndefined(sale.title)}</Typography>
-                <Typography variant='h5' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}}>{checkNullUndefined(sale.stats)}</Typography>
+                <Typography variant='h6' color={bgColor} >{checkNullUndefined(sale.title)}</Typography>
+                <Typography variant='h5' onClick={() => handleOpenOrderModal(sale)}  
+                style={{textDecoration:` ${(((sale?.title === 'Total Order' || sale?.title === "Avg. Order Size") && parseFloat(sale?.stats)) > 0) ? 'underline' : ''}`, 
+                cursor: (((sale?.title === "Total Order" || sale?.title === "Avg. Order Size") && parseFloat(sale?.stats)) > 0) ? "pointer" : "default",
+                color : `${((sale?.title === "Total Order" || sale?.title === "Avg. Order Size") && (parseFloat(sale?.stats) > 0)) ? bgColor : theme?.palette?.grey?.[700]}`
+                }} 
+                // color={ ((sale?.title === "Total Order" && parseFloat(sale?.stats) > 0)) ? theme?.palette?.customColors?.purple : theme?.palette?.grey?.[700]} 
+                sx={{fontWeight:'bolder'}}>{checkNullUndefined(sale.stats)}</Typography>
               </Box></>
               }
             </Box>
@@ -183,7 +206,7 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
                             }}
                             className='fs_analytics_l'
                           >
-                            Order Details
+                            {popUpHeader}
                           </Typography>
                           <Box
                             sx={{

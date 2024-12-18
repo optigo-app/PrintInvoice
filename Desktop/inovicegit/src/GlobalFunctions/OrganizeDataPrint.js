@@ -3,7 +3,7 @@ import { numberToWords } from "number-to-words";
 import { cloneDeep } from 'lodash';
 import { ToWords } from "to-words";
 import { deepClone } from "@mui/x-data-grid/utils/utils";
-export const OrganizeDataPrint = (header2, json1_1, json2_1, invoiceNo, printName, evn) => {
+export const OrganizeDataPrint = (header2, json1_1, json2_1, json3_1, invoiceNo, printName, evn) => {
 
   
 
@@ -11,6 +11,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1, invoiceNo, printNam
   let header = cloneDeep(header2);
   let json1 = cloneDeep(json1_1);
   let json2 = cloneDeep(json2_1);
+  let json3 = cloneDeep(json3_1);
 
   let resultArray = [];
   let jobnodup = [];
@@ -656,6 +657,7 @@ const allTaxes = allTax?.map((e) => {
     header: headerObj,
     json1: json1,
     json2: json2,
+    json3: json3 || []
     // organizeDiamonds: organizeDiamonds,
   };
   return finalObject;

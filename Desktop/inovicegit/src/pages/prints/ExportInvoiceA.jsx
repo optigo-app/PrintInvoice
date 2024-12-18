@@ -428,7 +428,10 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div>Declaration : </div>
         <div className='text-break'>We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct</div>
       </div>
-      <div  className='w-25 d-flex  align-items-end ps-2 fw-bolder justify-content-start '>Authorized Signatory</div>
+      <div className='w-25 ps-2 d-flex flex-column justify-content-between align-items-start fw-bold'>
+        <div>{result?.header?.CompanyFullName}</div>
+        <div>Authorized Signatory</div>
+      </div>
     </div>
     </div>
     <div className='fw-bold ps-1 mt-1'>INVOICE</div>
@@ -509,7 +512,7 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div className='col_t2_7_eia p-1 '></div>
             <div className='col_t2_8_eia p-1'></div>
         </div>}
-        {console.log(metalGoldPurityWise)}
+        
         {
           metalGoldPurityWise?.map((e, i) => {
             return (
@@ -698,7 +701,10 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div>Declaration : </div>
         <div className='text-break'>We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct.</div>
       </div>
-      <div className='w-25 ps-2 d-flex justify-content-start align-items-end'>Authorized Signatory</div>
+      <div className='w-25 ps-2 d-flex flex-column justify-content-between align-items-start fw-bold'>
+        <div>{result?.header?.CompanyFullName}</div>
+        <div>Authorized Signatory</div>
+      </div>
     </div>
   </div> : <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto"> {msg} </p>}</>
     }
