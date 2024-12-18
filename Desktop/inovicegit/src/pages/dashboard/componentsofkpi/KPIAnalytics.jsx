@@ -606,6 +606,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
               {
                 stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketingOrder[0]?.TotalOrder))?.toFixed(3)} gm`,
                 title: 'Total Order',
+                // color: #049bd9;
             },
              {
                 stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketingOrder[0]?.AvgOrderSize))?.toFixed(2)}`,
@@ -637,11 +638,12 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
             }
               ];
               setSM1(data4);
-
+              console.log(obj);
+              
               const data5 = [
                 {
-                stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.NetWt))?.toFixed(3)} gm`,
-                title: 'Total Sale(Net)',
+                stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.Amount))?.toFixed(2)}`,
+                title: 'Total Sale Amt',
                 },
                {
                 stats: `${(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.MetalAmount))}`,
@@ -657,7 +659,8 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
               },
               {
                 stats: `${(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.LabourAmount))}`,
-                title: 'Labour Amt (L+DH+S+M)',
+                // title: 'Labour Amt (L+DH+S+M)',
+                title: 'Labour Amt',
               }
               ];
               setSM2(data5);
