@@ -42,7 +42,7 @@ const renderName = row => {
 
 
 
-const TrainingDataGrid = () => {
+const TrainingDataGrid = ({ex_url}) => {
 
   const [date, setDate] = useState(new Date())
 
@@ -318,6 +318,9 @@ const TrainingDataGrid = () => {
     const fetchData = async () => {
       try {
         let url = '';
+        
+        
+        
         if(window.location.protocol === "http"){
           url = 'http://zen/R50B3/UFS/websitedetailsexcel/training.xlsx';
         }
@@ -326,7 +329,7 @@ const TrainingDataGrid = () => {
         }
         url = "https://cdnfs.optigoapps.com/content-global3/test_traininggrid/training.xlsx";
         
-        const response = await axios.get(url, {
+        const response = await axios.get(ex_url, {
           responseType: 'arraybuffer'
         });
         
