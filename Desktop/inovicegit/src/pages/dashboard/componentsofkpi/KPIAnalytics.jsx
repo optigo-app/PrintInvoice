@@ -322,9 +322,15 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           setFDate(start.subtract(6, 'months').toDate());
           setTDate(end.subtract(6, 'months').toDate());
           break;
+        // case '1 Year':
+        //   setFDate(start.subtract(1, 'year').toDate());
+        //   setTDate(end.subtract(1, 'year').toDate());
+        //   break;
         case '1 Year':
-          setFDate(start.subtract(1, 'year').toDate());
-          setTDate(end.subtract(1, 'year').toDate());
+          // Moving one financial year back
+          const previousFinancialYearStart = moment(fdate).month(3).date(1).subtract(1, 'year');
+          setFDate(previousFinancialYearStart.toDate());
+          setTDate(previousFinancialYearStart.clone().add(1, 'year').toDate());
           break;
         default:
           break;
@@ -357,9 +363,15 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           setFDate(start.add(6, 'months').toDate());
           setTDate(end.add(6, 'months').toDate());
           break;
+        // case '1 Year':
+        //   setFDate(start.add(1, 'year').toDate());
+        //   setTDate(end.add(1, 'year').toDate());
+        //   break;
         case '1 Year':
-          setFDate(start.add(1, 'year').toDate());
-          setTDate(end.add(1, 'year').toDate());
+          // Moving one financial year forward
+          const nextFinancialYearStart = moment(fdate).month(3).date(1).add(1, 'year');
+          setFDate(nextFinancialYearStart.toDate());
+          setTDate(nextFinancialYearStart.clone().add(1, 'year').toDate());
           break;
         default:
           break;
