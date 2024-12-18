@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 
 // ** Icon Imports
-import { CircularProgress, useMediaQuery, useTheme } from '@mui/material';
+import { CircularProgress, Modal, useMediaQuery, useTheme } from '@mui/material';
 import { fetchKPIDashboardData } from '../../GlobalFunctions';
 import { checkNullUndefined } from './global';
 
@@ -19,11 +19,28 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
     const [mainData, setMainData] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    const [orderModal, setOrderModal] = useState(false);
+
     // useEffect(() => {
     //         if(fdate && tdate){
     //           getSalesMarketingData();
     //         }
     // },[fdate, tdate]);
+
+    const orderDetails = [
+      {
+        orderType:"All Order Type",
+        orderValue:152036.327
+      },
+      {
+        orderType:"Urgent Order",
+        orderValue:705.749
+      },
+      {
+        orderType:"Job Work",
+        orderValue:4040.582
+      },
+    ]
 
     const getSalesMarketingData = async() => {
         try {
@@ -83,21 +100,31 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
         }
     }
 
-
+    const handleOpenOrderModal = (sale) => {
+      
+        if(sale?.title?.toLowerCase() === "total order" && parseFloat(sale?.stats) > 0){
+          setOrderModal(true);
+        }
+    }
 
     const renderStats = () => {
         return SM1?.map((sale, index) => (
           <Grid item xs={12} sm={6} md={3} key={index} style={{paddingTop:isMaxWidth599px ? 20 : 48}}>
             <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
        
-              { !isMaxWidth599px && <Box sx={{ display: 'flex', flexDirection:'column' }}>
-                <Typography variant='h6' color={bgColor} >{checkNullUndefined(sale.title)}</Typography>
+              { !isMaxWidth599px && <>
+              {console.log(sale)}
+              <Box sx={{ display: 'flex', flexDirection:'column' }}>
+                <Typography variant='h6' onClick={() => handleOpenOrderModal(sale)} color={bgColor} style={{textDecoration:` ${sale?.title === 'Total Order' ? 'underline' : ''}`, cursor: sale?.title === "Total Order" ? "pointer" : "default"}}  >{checkNullUndefined(sale.title)}</Typography>
                 <Typography variant='h5' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}}>{checkNullUndefined(sale.stats)}</Typography>
-              </Box>}
-              { isMaxWidth599px && <Box sx={{ display: 'flex', justifyContent:'space-between', alignItems:'center', width:'100%' }}>
-                <Typography variant='h6' color={bgColor} >{checkNullUndefined(sale.title)}</Typography>
+              </Box></>
+              }
+              { isMaxWidth599px && <>
+              <Box sx={{ display: 'flex', justifyContent:'space-between', alignItems:'center', width:'100%' }}>
+                <Typography variant='h6' color={bgColor} onClick={() => handleOpenOrderModal(sale)}  style={{textDecoration:` ${sale?.title === 'Total Order' ? 'underline' : ''}`, cursor: sale?.title === "Total Order" ? "pointer" : "default"}} >{checkNullUndefined(sale.title)}</Typography>
                 <Typography variant='h5' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}}>{checkNullUndefined(sale.stats)}</Typography>
-              </Box>}
+              </Box></>
+              }
             </Box>
           </Grid>
         ))
@@ -115,6 +142,37 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
                 >
             <Grid container spacing={6}>
                 {renderStats()}
+                {
+                  orderModal && <Modal 
+                  open={orderModal}
+                  aria-labelledby="parent-modal-title"
+                  aria-describedby="parent-modal-description"
+                  onClose={() => setOrderModal(false)}
+                  >
+                      <Box 
+                                  sx={{
+                                    position: 'absolute',
+                                    top: '50%',
+                                    left: '50%',
+                                    transform: 'translate(-50%, -50%)',
+                                    width: 400,
+                                    bgcolor: 'background.paper',
+                                    border:'none',
+                                    pt: 2,
+                                    px: 4,
+                                    pb: 3,
+                                    borderRadius:'8px'
+                                  }}
+                                  className="boxShadow_hp"
+                                  >
+                                    <h4 className='text-center'>Update Date</h4>
+                                    <div className='d-flex justify-content-center align-items-center pt-2'>
+                                      <input type="date" />
+                                      <button className='btn btn-warning py-1 mx-1' onClick={() => setOrderModal(false)}>Close</button>
+                                    </div>
+                                  </Box>
+                  </Modal>
+                }
             </Grid>
             </CardContent>
             }

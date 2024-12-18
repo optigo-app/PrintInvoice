@@ -11,6 +11,7 @@ import MRPBill from "./MRPBill/MRPBill";
 import AllMaterialWisePrint from "./AllMaterialWisePrint";
 import Dashboard from "./dashboard/Dashboard";
 import TitanWip from "./MyReports/TitanWip/TitanWip";
+import TrainingGridHome from "./TrainingGrid/TrainingGridHome";
 
 const AllDesign = () => {
   
@@ -39,6 +40,8 @@ const AllDesign = () => {
       return <Dashboard />;
     } else if (searchUrl?.includes("pid=18149")){
       return <TitanWip />;
+    } else if (searchUrl?.includes("pid=18152")){
+      return <TrainingGridHome />;
     }
      else {
       return <ErrorPage />;

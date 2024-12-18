@@ -28,7 +28,7 @@ const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC }) => {
       },[QCData]);
 
     const renderStats = () => {
-        return QuaC?.map((sale, index) => (
+        return QCData?.map((sale, index) => (
           <Grid item xs={6} md={6} key={index}>
             <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
               {/* <CustomAvatar skin='light' color={sale.color} sx={{ mr: 4, width: 42, height: 42 }}>

@@ -202,11 +202,12 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
   
 
     useEffect(() => {
-      // callAllApi();
-      ProductDevelopmentFetch();
-      QualityControlFetch();
-      SalesMarketing_TotalSaleFetch();
-      SalesMarketing_TotalSaleBusinessClassWiseFetch();
+      callAllApi();
+      // handleApply();
+      // ProductDevelopmentFetch();
+      // QualityControlFetch();
+      // SalesMarketing_TotalSaleFetch();
+      // SalesMarketing_TotalSaleBusinessClassWiseFetch();
     }, []);
 
 
@@ -536,7 +537,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                       subheading:'Account & HR'
                   },
                   {
-                      heading:'Avg. OrderDue Debtors',
+                      heading:'Avg. Due Debtors',
                       totalValue: parseFloat(checkNullUndefined(checkNullUndefined(obj?.ProductDevelopment[0]?.TotalOverDueDays / obj?.ProductDevelopment[0]?.TotalBillCount)))?.toFixed(2),
                       series:[],
                       subheading:'Account & HR'
@@ -643,20 +644,20 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 title: 'Total Sale(Net)',
                 },
                {
-                stats: `${formatAmountKWise(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.MetalAmount))}`,
+                stats: `${(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.MetalAmount))}`,
                 title: 'Gold Amt',
                 },
                {
-                stats: `${formatAmountKWise(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.DiamondAmount))}`,
+                stats: `${(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.DiamondAmount))}`,
                 title: 'Diamond Amt',
               },
                {
-                stats: `${formatAmountKWise(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.ColorStoneAmount))}`,
+                stats: `${(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.ColorStoneAmount))}`,
                 title: 'Color Stone Amt',
               },
               {
-                stats: `${formatAmountKWise(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.LabourAmount))}`,
-                title: 'Labour Amt',
+                stats: `${(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.LabourAmount))}`,
+                title: 'Labour Amt (L+DH+S+M)',
               }
               ];
               setSM2(data5);
@@ -933,7 +934,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
   return (
     <>
     <Grid container spacing={1} sx={{marginBottom:'3rem', padding: isSmallScreen ? '1rem' : '1rem', width:'95%', margin:'2% auto', marginTop:"0px" }}>
-      { 0 ? <Box       sx={{
+      { loading ? <Box       sx={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -1176,13 +1177,13 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         
         
         { !isMaxWidth1700px && <><Grid item xs={12} md={12} lg={12}><HeaderOfCard headerName="SALES & MARKETING" bgColor={'#7d5ae773'} /></Grid>
-        <Grid item xs={12} md={6} lg={2}>
+        <Grid item xs={12} md={6} lg={3}>
             <SalesNMarketing2 tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  fdate={fdatef} tdate={tdatef} SM2={SM2} saleMTs={saleMTs} />
         </Grid>
         <Grid item xs={12} md={6} lg={2}>
             <SalesNMarketing3 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  fdate={fdatef} tdate={tdatef} SM3={SM3} BCwise={BCwise}  />
         </Grid>
-        <Grid item xs={12} md={6} lg={8}>
+        <Grid item xs={12} md={6} lg={7}>
             <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} SM1={SM1} />
         </Grid></>}
         

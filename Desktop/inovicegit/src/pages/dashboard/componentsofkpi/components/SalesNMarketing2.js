@@ -87,7 +87,7 @@ const SalesNMarketing2 = ({tkn, fdate, tdate, bgColor, SM2, saleMTs}) => {
       }}>
         { loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
               <CircularProgress sx={{color:'black'}} />
-            </Box> : saleMTs?.slice(0, 5)?.map((item, index) => {
+            </Box> : SM2?.slice(0, 5)?.map((item, index) => {
           return (
             <Box
               key={index}
