@@ -40,6 +40,10 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
         orderType:"Job Work",
         orderValue:4040.582
       },
+      {
+        orderType:"Regular Order",
+        orderValue:4040.582
+      },
     ]
 
     const getSalesMarketingData = async() => {
@@ -113,9 +117,8 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
             <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
        
               { !isMaxWidth599px && <>
-              {console.log(sale)}
               <Box sx={{ display: 'flex', flexDirection:'column' }}>
-                <Typography variant='h6' onClick={() => handleOpenOrderModal(sale)} color={bgColor} style={{textDecoration:` ${sale?.title === 'Total Order' ? 'underline' : ''}`, cursor: sale?.title === "Total Order" ? "pointer" : "default"}}  >{checkNullUndefined(sale.title)}</Typography>
+                <Typography variant='h6' onClick={() => handleOpenOrderModal(sale)} color={bgColor} style={{textDecoration:` ${(sale?.title === 'Total Order' && parseFloat(sale?.stats) > 0) ? 'underline' : ''}`, cursor: sale?.title === "Total Order" ? "pointer" : "default"}}  >{checkNullUndefined(sale.title)}</Typography>
                 <Typography variant='h5' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}}>{checkNullUndefined(sale.stats)}</Typography>
               </Box></>
               }
@@ -143,36 +146,132 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
             <Grid container spacing={6}>
                 {renderStats()}
                 {
-                  orderModal && <Modal 
-                  open={orderModal}
-                  aria-labelledby="parent-modal-title"
-                  aria-describedby="parent-modal-description"
-                  onClose={() => setOrderModal(false)}
-                  >
-                      <Box 
+                    orderModal && (
+                      <Modal
+                        open={orderModal}
+                        aria-labelledby="parent-modal-title"
+                        aria-describedby="parent-modal-description"
+                        onClose={() => setOrderModal(false)}
+                      >
+                        <Box
+                          sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            width: 400,
+                            // backgroundColor: 'linear-gradient(135deg, #f3f4f6, #ffffff)',
+                            backgroundColor:'white',
+                            boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.2)',
+                            pt: 4,
+                            px: 5,
+                            pb: 3,
+                            borderRadius: '12px',
+                          }}
+                          className="boxShadow_hp"
+                        >
+                          <Typography
+                            id="parent-modal-title"
+                            variant="h5"
+                            component="h2"
+                            sx={{
+                              textAlign: 'center',
+                              color: '#333',
+                              fontWeight: 'bold',
+                              pb: 2,
+                              borderBottom: '1px solid #ccc',
+                            }}
+                            className='fs_analytics_l'
+                          >
+                            Order Details
+                          </Typography>
+                          <Box
+                            sx={{
+                              mt: 3,
+                              display: 'flex',
+                              flexDirection: 'column',
+                              gap: 2,
+                            }}
+                          >
+                            {orderDetails?.map((e, i) => (
+                              <Box
+                                key={i}
+                                sx={{
+                                  display: 'flex',
+                                  justifyContent: 'space-between',
+                                  alignItems: 'center',
+                                  padding: '10px 15px',
+                                  backgroundColor: '#f9fafb',
+                                  borderRadius: '8px',
+                                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+                                  transition: 'transform 0.2s, box-shadow 0.2s',
+                                  '&:hover': {
+                                    transform: 'scale(1.02)',
+                                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)',
+                                  },
+                                }}
+                              >
+                                <Typography
                                   sx={{
-                                    position: 'absolute',
-                                    top: '50%',
-                                    left: '50%',
-                                    transform: 'translate(-50%, -50%)',
-                                    width: 400,
-                                    bgcolor: 'background.paper',
-                                    border:'none',
-                                    pt: 2,
-                                    px: 4,
-                                    pb: 3,
-                                    borderRadius:'8px'
+                                    fontWeight: '500',
+                                    color: '#555',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '10px',
                                   }}
-                                  className="boxShadow_hp"
-                                  >
-                                    <h4 className='text-center'>Update Date</h4>
-                                    <div className='d-flex justify-content-center align-items-center pt-2'>
-                                      <input type="date" />
-                                      <button className='btn btn-warning py-1 mx-1' onClick={() => setOrderModal(false)}>Close</button>
-                                    </div>
-                                  </Box>
-                  </Modal>
-                }
+                                  className='fs_analytics_l'
+                                >
+                                  {/* Add an icon here */}
+                                  {e?.orderType}
+                                </Typography>
+                                <Typography
+                                  sx={{
+                                    fontWeight: 'bold',
+                                    color: '#222',
+                                  }}
+                                  className='fs_analytics_l'
+                                >
+                                  {e?.orderValue}
+                                </Typography>
+                              </Box>
+                            ))}
+                          </Box>
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              mt: 3,
+                            }}
+                          >
+                            <button
+                              style={{
+                                padding: '10px 20px',
+                                backgroundColor: '#007bff',
+                                color: '#fff',
+                                border: 'none',
+                                borderRadius: '8px',
+                                fontWeight: 'bold',
+                                cursor: 'pointer',
+                                transition: 'background-color 0.3s',
+                                letterSpacing:'1.2px'
+                              }}
+                              className='fs_analytics_l'
+                              onClick={() => setOrderModal(false)}
+                              onMouseOver={(e) =>
+                                (e.target.style.backgroundColor = '#0056b3')
+                              }
+                              onMouseOut={(e) =>
+                                (e.target.style.backgroundColor = '#007bff')
+                              }
+                            >
+                              Close
+                            </button>
+                          </Box>
+                        </Box>
+                      </Modal>
+  )
+}
+
             </Grid>
             </CardContent>
             }
