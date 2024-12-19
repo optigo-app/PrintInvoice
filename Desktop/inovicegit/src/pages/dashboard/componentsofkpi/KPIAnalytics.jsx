@@ -198,7 +198,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         
       }
     }
-
   
 
     useEffect(() => {
@@ -266,10 +265,15 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           startDate = today.clone().subtract(6, 'days');
           endDate = today;
           break;
+        // case 'Month':
+        //   startDate = today.clone().subtract(1, 'month').add(1, 'day');
+        //   endDate = today;
+        //   break;
         case 'Month':
-          startDate = today.clone().subtract(1, 'month').add(1, 'day');
-          endDate = today;
+          startDate = today.clone().startOf('month'); // First day of the current month
+          endDate = today; // Current date
           break;
+
         case '6 Months':
         case '1 Year':
           // Get the current financial year's start date
@@ -314,9 +318,13 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           setFDate(start.subtract(7, 'days').toDate());
           setTDate(end.subtract(7, 'days').toDate());
           break;
+        // case 'Month':
+        //   setFDate(start.subtract(1, 'month').toDate());
+        //   setTDate(end.subtract(1, 'month').toDate());
+        //   break;
         case 'Month':
-          setFDate(start.subtract(1, 'month').toDate());
-          setTDate(end.subtract(1, 'month').toDate());
+          setFDate(start.clone().subtract(1, 'month').startOf('month').toDate()); // First day of the previous month
+          setTDate(end.clone().subtract(1, 'month').endOf('month').toDate()); // Last day of the previous month
           break;
         case '6 Months':
           setFDate(start.subtract(6, 'months').toDate());
@@ -355,9 +363,13 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           setFDate(start.add(7, 'days').toDate());
           setTDate(end.add(7, 'days').toDate());
           break;
+        // case 'Month':
+        //   setFDate(start.add(1, 'month').toDate());
+        //   setTDate(end.add(1, 'month').toDate());
+        //   break;
         case 'Month':
-          setFDate(start.add(1, 'month').toDate());
-          setTDate(end.add(1, 'month').toDate());
+          setFDate(start.clone().add(1, 'month').startOf('month').toDate()); // First day of the next month
+          setTDate(end.clone().add(1, 'month').endOf('month').toDate()); // Last day of the next month
           break;
         case '6 Months':
           setFDate(start.add(6, 'months').toDate());

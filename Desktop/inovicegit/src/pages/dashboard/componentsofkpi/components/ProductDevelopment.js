@@ -58,12 +58,12 @@ const ProductDevelopment = ({tkn, fdate, tdate, bgColor, PDData, PrdDev}) => {
     //   ]
 
     const renderStats = () => {
-        return PrdDev?.map((sale, index) => (
+        return PDData?.map((sale, index) => (
           <Grid item xs={8} md={8} key={index}>
             <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Typography variant='h6' color={bgColor}  >{checkNullUndefined(sale.title)}</Typography>
-                <Typography variant='h5' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}}>{checkNullUndefined(sale.stats)}</Typography>
+                <Typography variant='h5' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder', minWidth:'260px'}}>{checkNullUndefined(sale.stats)}</Typography>
               </Box>
             </Box>
           </Grid>

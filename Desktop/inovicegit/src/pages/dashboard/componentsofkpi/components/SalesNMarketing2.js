@@ -95,7 +95,8 @@ const SalesNMarketing2 = ({tkn, fdate, tdate, bgColor, SM2, saleMTs}) => {
                 display: 'flex',
                 '& img': { mr: 4 },
                 alignItems: 'center',
-                mb: index !== saleMTs?.length - 1 ? 1.89 : undefined,
+                // mb: index !== saleMTs?.length - 1 ? 1.89 : undefined,
+                mb: index !== SM2?.length - 1 ? 1 : undefined,
                 pb:0,
               }}
             >

@@ -351,6 +351,21 @@ const TrainingDataGrid = ({ex_url}) => {
           //   }
           //   return row;
           // });
+
+                    // Convert any Excel serial date numbers manually if necessary
+                    const formattedData = jsonData?.map((row) => {
+                      // Check if any column is a date serial number and convert it to date object
+                      for (let key in row) {
+                        if (row[key] instanceof Date && !isNaN(row[key].getTime())) {
+                          // Convert Excel date serial to JavaScript Date if it's a valid date serial number
+                          row[key] = row[key].toLocaleDateString(); // Or any other format
+                        }
+                      }
+                      return row;
+                    });
+                    console.log(formattedData);
+                    
+
           
           const arr = jsonData?.sort((a, b) => a?.sr - b?.sr);
           // const arr2 = cloneDeep(arr);
