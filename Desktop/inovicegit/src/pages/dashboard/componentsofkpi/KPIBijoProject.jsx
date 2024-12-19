@@ -22,6 +22,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import CloseIcon from '@mui/icons-material/Close';
 import "react-datepicker/dist/react-datepicker.css";
+import AccountHr from './components/AccountHr.js';
 
 const KPIAnalytics = ({tkn, sv, url, hostName}) => {
 
@@ -75,32 +76,35 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
 
 
     //separate api call 
-    const [PrdDev, setPrdDev] = useState([]);
-    const [QuaC, setQuaC] = useState([]);
-    const [saleMTs, setSaleMTs] = useState([]);
-    const [BCwise, setBCwise] = useState([]);
-    const [LWise, setLWise] = useState([]);
-    const [orderCmplt, setOrderCmplt] = useState([]);
-    const [SMOrder, setSMOrder] = useState();
-    const [InventoryRatio, setInventoryRatio] = useState();
-    const [avgCollRatio, setAvgCollRatio] = useState();
+    const [PrdDev, setPrdDev] = useState([]); //product development
+    const [QuaC, setQuaC] = useState([]); //quality control
+    const [saleMTs, setSaleMTs] = useState([]); //sale marketing total sale
+    const [BCwise, setBCwise] = useState([]); //sale marketing total sale business class wise
+    const [LWise, setLWise] = useState([]); //sale marketing total sale location wise
+    const [orderCmplt, setOrderCmplt] = useState([]); //sale marketing order completion
+    const [SMOrder, setSMOrder] = useState(); // sale marketing order
+    const [InventoryRatio, setInventoryRatio] = useState(); // inventory turn over ratio
+    const [avgCollRatio, setAvgCollRatio] = useState(); // avg. collection period
+    
 
     const ProductDevelopmentFetch = async() => {
       try {
           const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "ProductDevelopment");
           if(response){
-            const data3 = [
-              {
-                stats: `${parseFloat(checkNullUndefined(response[0]?.Cnt))} / ${parseFloat(checkNullUndefined(response[0]?.MetalWeight))?.toFixed(3)} gm`,
-                title: 'New Development',
-              },
-              {
-                stats: `${parseFloat(checkNullUndefined((response?.SaleCount / (response[0]?.DesignCnt))))?.toFixed(2)}`,
-                title: 'Repetation Rate',
-              },
+            console.log(response);
+            
+            // const data3 = [
+            //   {
+            //     stats: `${parseFloat(checkNullUndefined(response[0]?.Cnt))} / ${parseFloat(checkNullUndefined(response[0]?.MetalWeight))?.toFixed(3)} gm`,
+            //     title: 'New Development',
+            //   },
+            //   {
+            //     stats: `${parseFloat(checkNullUndefined((response?.SaleCount / (response[0]?.DesignCnt))))?.toFixed(2)}`,
+            //     title: 'Repetation Rate',
+            //   },
               
-            ]
-            setPrdDev(data3);
+            // ]
+            setPrdDev(response[0]);
           }
           
       } catch (error) {
@@ -143,29 +147,32 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       try {
           const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_TotalSale");
           if(response){
-            const data5 = [
-              {
-              stats: `${parseFloat(checkNullUndefined(response[0]?.NetWt))?.toFixed(3)} gm`,
-              title: 'Total Sale(Net)',
-              },
-             {
-              stats: `${formatAmountKWise(checkNullUndefined(response[0]?.MetalAmount))}`,
-              title: 'Gold Amt',
-              },
-             {
-              stats: `${formatAmountKWise(checkNullUndefined(response[0]?.DiamondAmount))}`,
-              title: 'Diamond Amt',
-            },
-             {
-              stats: `${formatAmountKWise(checkNullUndefined(response[0]?.ColorStoneAmount))}`,
-              title: 'Color Stone Amt',
-            },
-            {
-              stats: `${formatAmountKWise(checkNullUndefined(response[0]?.LabourAmount))}`,
-              title: 'Labour Amt',
-            }
-            ];
-            setSaleMTs(data5);
+            console.log(response[0]);
+            
+            // const data5 = [
+            //   {
+            //   stats: `${parseFloat(checkNullUndefined(response[0]?.NetWt))?.toFixed(3)} gm`,
+            //   title: 'Total Sale(Net)',
+            //   },
+            //  {
+            //   stats: `${(checkNullUndefined(response[0]?.MetalAmount))}`,
+            //   title: 'Gold Amt',
+            //   },
+            //  {
+            //   stats: `${(checkNullUndefined(response[0]?.DiamondAmount))}`,
+            //   title: 'Diamond Amt',
+            // },
+            //  {
+            //   stats: `${(checkNullUndefined(response[0]?.ColorStoneAmount))}`,
+            //   title: 'Color Stone Amt',
+            // },
+            // {
+            //   stats: `${(checkNullUndefined(response[0]?.LabourAmount))}`,
+            //   title: 'Labour Amt',
+            // }
+            // ];
+
+            setSaleMTs(response[0]);
           }
           
       } catch (error) {
@@ -231,9 +238,8 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       try {
           const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "AvgCollectionPeriod");
           if(response){
-            console.log(response);
             
-            setAvgCollRatio(response);
+            setAvgCollRatio(response[0]);
           }
           
       } catch (error) {
@@ -267,8 +273,11 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           "Content-Type":"application/json"
         }
         const ITOR_response = await axios.post(apiUrl_kpi, body, headers);
+        console.log(ITOR_response);
         
-        setInventoryRatio(ITOR_response);
+        if(ITOR_response?.data?.Data){
+          setInventoryRatio(ITOR_response?.data?.Data);
+        }
       } catch (error) {
         console.log(error);
         
@@ -277,21 +286,22 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
   
 
     useEffect(() => {
-      callAllApi();
+      // callAllApi();
       // handleApply();
 
       //sales
-      // InventoryTurnOverRatioFetch();
-      // ProductDevelopmentFetch();
-      // AvgCollectionPeriodFetch();
-      // SalesMarketing_TotalSaleFetch();
-      // QualityControlFetch();
-      // SalesMarketing_OrderFetch();
-      // SalesMarketing_OrderCompletionFetch();
-      // SalesMarketing_TotalSaleBusinessClassWiseFetch();
-      // SalesMarketing_TotalSaleLocationWiseFetch();
+      InventoryTurnOverRatioFetch();
+      ProductDevelopmentFetch();
+      AvgCollectionPeriodFetch();
+      SalesMarketing_TotalSaleFetch();
+      QualityControlFetch();
+      SalesMarketing_OrderFetch();
+      SalesMarketing_OrderCompletionFetch();
+      SalesMarketing_TotalSaleBusinessClassWiseFetch();
+      SalesMarketing_TotalSaleLocationWiseFetch();
 
       //mfg
+
 
     }, []);
 
@@ -1259,13 +1269,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                   maxWidth: 300,
                 })),
               ];
-
-                // Remove the column for "-" (if it exists)
-                tableColumns.forEach((e, index) => {
-                  if (e.headerName === "-") {
-                    tableColumns.splice(index, 1);
-                  }
-                });
             
               // Rename NoLocation header if necessary
               tableColumns?.forEach((e) => {
@@ -1402,7 +1405,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
   return (
     <>
     <Grid container spacing={1} sx={{marginBottom:'3rem', padding: isSmallScreen ? '1rem' : '1rem', width:'95%', margin:'2% auto', marginTop:"0px" }}>
-      { loading ? <Box       sx={{
+      { 0 ? <Box       sx={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -1608,12 +1611,14 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
             </Box>
             </Box>}
         <Grid item xs={12}><HeaderOfCard headerName="ACCOUNT & HR" bgColor={'#7d5ae773'} /></Grid>
-            
-            {apiData1?.map((item, index) => (
+        <Grid item xs={12} sm={12} md={12} >
+          <AccountHr tkn={tkn} InventoryRatio={InventoryRatio} saleMTs={saleMTs} PrdDev={PrdDev} avgCollRatio={avgCollRatio} apiData1={apiData1} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} />
+        </Grid>
+            {/* {apiData1?.map((item, index) => (
                 <Grid item xs={12} sm={6} md={4} key={index}>
                     <AccountNHR tkn={tkn} data={item} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} />
                 </Grid>
-            ))}
+            ))} */}
 
         { !isMaxWidth11410px && <><Grid item xs={12} md={4} lg={7}><HeaderOfCard headerName="RAW MATERIAL" bgColor={'#7d5ae773'} /></Grid>
         <Grid item xs={12} md={4} lg={3}><HeaderOfCard headerName="QUALTIY CONTROL" bgColor={'#7d5ae773'} /></Grid>
