@@ -23,6 +23,8 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList}) => {
     const [popupDetails, setPopUpDetails] = useState([]);
     const [popUpHeader, setPopUpHeader] = useState('');
 
+    const [popUpFlag, setPopUpFlag] = useState('');
+
     // useEffect(() => {
     //         if(fdate && tdate){
     //           getSalesMarketingData();
@@ -112,12 +114,14 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList}) => {
           setOrderModal(true);
           setPopUpDetails(popUpList);
           setPopUpHeader('Order Details');
+          setPopUpFlag("order");
         }
         
         if(sale?.title?.toLowerCase() === "avg. order size" && parseFloat(sale?.stats) > 0){
           setOrderModal(true);
-          setPopUpDetails(orderDetails);
+          setPopUpDetails(popUpList);
           setPopUpHeader('Average Order Size Details');
+          setPopUpFlag("orderavgsize");
         }
         
     }
@@ -281,7 +285,10 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList}) => {
                                   }}
                                   className='fs_analytics_l'
                                 >
-                                  {e?.NetWt?.toFixed(3)} gm
+                                  {console.log(popUpFlag)}
+                                  {/* { popUpFlag === "order" ?  `${(e?.NetWt)?.toFixed(3)} gm`}` : `${(e?.NetWt / e?.OrderCnt)?.toFixed(3)}` } */}
+                                  { popUpFlag === "order" && <>{e?.NetWt?.toFixed(3)} gm</>}
+                                  { popUpFlag !== "order" && <>{(e?.NetWt / e?.OrderCnt)?.toFixed(3)} gm</>}
                                 </Typography>
                               </Box>
                             ))}

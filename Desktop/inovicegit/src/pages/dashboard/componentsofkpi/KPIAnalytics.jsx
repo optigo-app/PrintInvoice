@@ -485,10 +485,13 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         }
         const SMO = await axios.post(apiUrl_kpi, body2s, headers2s);
         
+
+        //mfg
+
         // const replacedUrl = ("http://zen/api/M.asmx/Optigo")?.replace("M.asmx/Optigo", "report.aspx");
         const replacedUrl = (url)?.replace("M.asmx/Optigo", "report.aspx");
         const body2 = {
-          "con":"{\"id\":\"\",\"mode\":\"kpidashboard\",\"appuserid\":\"admin@hs.com\"}",
+          "con":"{\"id\":\"\",\"mode\":\"kpidashboard_baggingcompleted\",\"appuserid\":\"admin@hs.com\"}",
           "p":`{\"fdate\":\"${moment(fdate)?.format('MM/DD/YYYY')}\",\"tdate\":\"${moment(tdate)?.format('MM/DD/YYYY')}\"}`,  
           "f":"m-test2.orail.co.in (ConversionDetail)"
         }
@@ -1134,14 +1137,14 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                   <MenuItem value="6 Months">This 6 Months</MenuItem>
                   <MenuItem value="1 Year">This Year</MenuItem>
                   </Select>
-                  <div className='d-flex'>
+                  {/* <div className='d-flex'>
                     <Button variant="contained" size='small' sx={{mx:1, backgroundColor : theme?.palette?.customColors?.purple, maxWidth:'50px'}} onClick={handlePrevious}>
                       <ArrowBackIosNewIcon />
                     </Button>
                     <Button variant="contained" size='small' sx={{mx:1, backgroundColor : theme?.palette?.customColors?.purple, maxWidth:'50px'}} onClick={handleNext}>
                       <ArrowForwardIosIcon />
                     </Button>
-                  </div>
+                  </div> */}
                 </div>
                 <div className='d-flex align-items-end'>
               <div style={{display:'flex'}}>
