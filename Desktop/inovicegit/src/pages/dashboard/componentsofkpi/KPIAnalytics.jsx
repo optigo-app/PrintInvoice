@@ -41,6 +41,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
     const [QCData, setQCData] = useState([]);
     const [PDData, setPDData] = useState([]);
     const [SM1, setSM1] = useState([]);
+    const [popUpList, setPopUpList] = useState();
     const [SM2, setSM2] = useState([]);
     const [SM3, setSM3] = useState([]);
     const [RMData, setRMData] = useState([]);
@@ -460,7 +461,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         const ACP = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "AvgCollectionPeriod");
         const SMTS = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_TotalSale");
         const QC = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "QualityControl");
-        const SMO = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_Order");
+        // const SMO = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_Order");
         const SMOC = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_OrderCompletion");
         const SMTCSBC = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_TotalSaleBusinessClassWise");
         const SMTL = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_TotalSaleLocationWise");
@@ -474,7 +475,15 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           "Content-Type":"application/json"
         }
         const ITOR_response = await axios.post(apiUrl_kpi, body, headers);
-        
+
+        const body2s = JSON.stringify({
+          "Token" : `${tkn}`  
+          ,"ReqData":`[{\"Token\":\"${tkn}\",\"Evt\":\"SalesMarketing_Order\",\"FDate\":\"${moment(fdate)?.format('MM/DD/YYYY')}\",\"TDate\":\"${moment(tdate)?.format('MM/DD/YYYY')}\"}]`
+        });
+        const headers2s = {
+          "Content-Type":"application/json"
+        }
+        const SMO = await axios.post(apiUrl_kpi, body2s, headers2s);
         
         // const replacedUrl = ("http://zen/api/M.asmx/Optigo")?.replace("M.asmx/Optigo", "report.aspx");
         const replacedUrl = (url)?.replace("M.asmx/Optigo", "report.aspx");
@@ -525,7 +534,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           obj.ProductionApiData = mainData;
         }
         if(SMO){
-          obj.SalesMarketingOrder = SMO;
+          obj.SalesMarketingOrder = SMO?.data?.Data;
         }
         if(SMOC){
           obj.SalesMarketing_OrderCompletion = SMOC;
@@ -627,43 +636,45 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                
               ]
               setPDData(data3);
+              
               const data4 = [
               {
-                stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketingOrder[0]?.TotalOrder))?.toFixed(3)} gm`,
+                stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketingOrder?.DT[0]?.TotalOrder))?.toFixed(3)} gm`,
                 title: 'Total Order',
                 // color: #049bd9;
-            },
-             {
-                stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketingOrder[0]?.AvgOrderSize))?.toFixed(2)}`,
+              },
+              {
+                stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketingOrder?.DT[0]?.AvgOrderSize))?.toFixed(2)}`,
                 title: 'Avg. Order Size',
-            },
-             {
+              },
+              {
                 stats: `${((obj?.SalesMarketing_OrderCompletion[0]?.LeadTime))}`,
                 title: 'Lead Time',
-            },
-             {
+              },
+              {
                 stats: `${obj?.SalesMarketing_OrderCompletion[0]?.DelayTime}`,
                 title: 'Delay Time',
-            },
-             {
+              },
+              {
                 stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.AvgLabour))?.toFixed(2)}`,
                 title: 'Avg. Labour',
-            },
-             {
+              },
+              {
                 stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.SaleReturnPer))?.toFixed(2)}`,
                 title: 'Sales Return (%)',
-            },
-             {
-                stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketingOrder[0]?.StockCountWithOutClub))?.toFixed(2)}`,
+              },
+              {
+                stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketingOrder?.DT[0]?.StockCountWithOutClub))?.toFixed(2)}`,
                 title: 'Avg. Stock Book Jobs',
-            },
-             {
+              },
+              {
                 stats: parseFloat(checkNullUndefined(obj?.SalesMarketing_OrderCompletion[0]?.OverDueDebtorsAmount))?.toFixed(2),
                 title: 'Overdue Debtors',
-            }
+              }
               ];
+              const popUpDataList = obj?.SalesMarketingOrder;
               setSM1(data4);
-              console.log(obj);
+              setPopUpList(popUpDataList);
               
               const data5 = [
                 {
@@ -671,24 +682,24 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 title: 'Total Sale Amt',
                 },
                {
-                stats: `${(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.MetalAmount))}`,
+                stats: `${(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.MetalAmount))?.toFixed(2)}`,
                 title: 'Gold Amt',
                 },
                {
-                stats: `${(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.DiamondAmount))}`,
+                stats: `${(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.DiamondAmount))?.toFixed(2)}`,
                 title: 'Diamond Amt',
               },
                {
-                stats: `${(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.ColorStoneAmount))}`,
+                stats: `${(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.ColorStoneAmount))?.toFixed(2)}`,
                 title: 'Color Stone Amt',
               },
               {
-                stats: `${(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.LabourAmount))}`,
+                stats: `${(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.LabourAmount))?.toFixed(2)}`,
                 title: 'Labour Amt (L+DH+S+M)',
                 // title: 'Labour Amt',
               },
               {
-                stats: `${(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.LabourAmount))}`,
+                stats: `${(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.DeliveryCharged))?.toFixed(2)}`,
                 title: 'Delivery Charges',
                 // title: 'Labour Amt',
               }
@@ -1217,7 +1228,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
             <SalesNMarketing3 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  fdate={fdatef} tdate={tdatef} SM3={SM3} BCwise={BCwise}  />
         </Grid>
         <Grid item xs={12} md={6} lg={7}>
-            <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} SM1={SM1} />
+            <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} SM1={SM1} popUpList={popUpList} />
         </Grid></>}
         
         { isMaxWidth1700px && <><Grid item xs={12} md={12} lg={12}><HeaderOfCard headerName="SALES & MARKETING" bgColor={'#7d5ae773'} /></Grid>
@@ -1228,7 +1239,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
             <SalesNMarketing3 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  fdate={fdatef} tdate={tdatef} SM3={SM3}  />
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
-            <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  fdate={fdatef} tdate={tdatef} SM1={SM1} />
+            <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  fdate={fdatef} tdate={tdatef} SM1={SM1} popUpList={popUpList} />
         </Grid></>}
         
         <Grid item xs={12} md={12} lg={12}><HeaderOfCard headerName="MANUFACTURING" bgColor={'#7d5ae773'} /></Grid>

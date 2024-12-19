@@ -7,13 +7,13 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 
 // ** Icon Imports
-import { CircularProgress, Modal, useMediaQuery, useTheme } from '@mui/material';
+import { CircularProgress, Modal, Tooltip, useMediaQuery, useTheme } from '@mui/material';
 import { fetchKPIDashboardData } from '../../GlobalFunctions';
 import { checkNullUndefined } from './global';
-
+import CancelIcon from '@mui/icons-material/Cancel';
 
 //SALES AND MARKETING 3ST BLOCK
-const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
+const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList}) => {
     const theme = useTheme();
     const isMaxWidth599px = useMediaQuery('(max-width:599px)');
     const [mainData, setMainData] = useState([]);
@@ -110,7 +110,7 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
       
         if(sale?.title?.toLowerCase() === "total order" && parseFloat(sale?.stats) > 0){
           setOrderModal(true);
-          setPopUpDetails(orderDetails);
+          setPopUpDetails(popUpList);
           setPopUpHeader('Order Details');
         }
         
@@ -183,6 +183,8 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
                             left: '50%',
                             transform: 'translate(-50%, -50%)',
                             width: 400,
+                            maxHeight:'500px',
+                            overflow:'auto',
                             // backgroundColor: 'linear-gradient(135deg, #f3f4f6, #ffffff)',
                             backgroundColor:'white',
                             boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.2)',
@@ -190,33 +192,56 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
                             px: 5,
                             pb: 3,
                             borderRadius: '12px',
+                            pt:0
                           }}
                           className="boxShadow_hp"
                         >
-                          <Typography
-                            id="parent-modal-title"
-                            variant="h5"
-                            component="h2"
+                          {/* <Box sx={{display:'flex', justifyContent:'space-between', alignItems:'center'}}> */}
+                          <Box 
                             sx={{
-                              textAlign: 'center',
-                              color: '#333',
-                              fontWeight: 'bold',
-                              pb: 2,
-                              borderBottom: '1px solid #ccc',
+                              position: 'sticky',
+                              top: 0,
+                              zIndex: 10, // Ensure it stays above content
+                              backgroundColor: 'white', // To make sure the header stays opaque over the content
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              padding: '0 15px',
+                              paddingTop:'20px',
+                              paddingBottom:'10px',
+                              marginBottom: '16px', // Adds a small gap to content below the sticky header
+                              borderRadius: '12px 12px 0 0',
+                              zIndex:1000
+                              // boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)', // Optional: Adds a small shadow to make it stand out
                             }}
-                            className='fs_analytics_l'
                           >
-                            {popUpHeader}
-                          </Typography>
+                            <span></span>
+                            <Typography
+                              id="parent-modal-title"
+                              variant="h5"
+                              component="h2"
+                              sx={{
+                                textAlign: 'center',
+                                color: '#333',
+                                fontWeight: 'bold',
+                                // pb: 2,
+                                // borderBottom: '1px solid #ccc',
+                              }}
+                              className='fs_analytics_l'
+                            >
+                              {popUpHeader}
+                            </Typography>
+                            <Tooltip title="Close" style={{cursor:'pointer'}} onClick={() => setOrderModal(false)}><CancelIcon /></Tooltip>
+                          </Box>
                           <Box
                             sx={{
                               mt: 3,
                               display: 'flex',
                               flexDirection: 'column',
-                              gap: 2,
+                              gap: "18px",
                             }}
                           >
-                            {orderDetails?.map((e, i) => (
+                            {popupDetails?.DT1?.map((e, i) => (
                               <Box
                                 key={i}
                                 sx={{
@@ -228,6 +253,7 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
                                   borderRadius: '8px',
                                   boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
                                   transition: 'transform 0.2s, box-shadow 0.2s',
+                                  margin: "0px 5px",
                                   '&:hover': {
                                     transform: 'scale(1.02)',
                                     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)',
@@ -245,7 +271,7 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
                                   className='fs_analytics_l'
                                 >
                                   {/* Add an icon here */}
-                                  {e?.orderType}
+                                  {e?.OrderTypeName}
                                 </Typography>
                                 <Typography
                                   sx={{
@@ -254,7 +280,7 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
                                   }}
                                   className='fs_analytics_l'
                                 >
-                                  {e?.orderValue}
+                                  {e?.NetWt?.toFixed(3)} gm
                                 </Typography>
                               </Box>
                             ))}
