@@ -117,7 +117,7 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
         if(sale?.title?.toLowerCase() === "avg. order size" && parseFloat(sale?.stats) > 0){
           setOrderModal(true);
           setPopUpDetails(orderDetails);
-          setPopUpHeader('Average Order Details');
+          setPopUpHeader('Average Order Size Details');
         }
         
     }
