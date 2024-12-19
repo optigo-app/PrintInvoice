@@ -28,6 +28,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme?.breakpoints?.down('sm'));
     const isMaxWidth12010px = useMediaQuery('(max-width:1210px)');
+    const isMaxWidth11410px = useMediaQuery('(max-width:1410px)');
     const isMaxWidth1700px = useMediaQuery('(max-width:1700px)');
     const isMaxWidth900px = useMediaQuery('(max-width:899px)');
     const [popperPlacement, setPopperPlacement] = useState('bottom-start');
@@ -616,7 +617,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
 
               const data3 = [
                 {
-                  stats: `${parseFloat(checkNullUndefined(obj?.ProductDevelopment[0]?.Cnt))} / ${parseFloat(checkNullUndefined(obj?.ProductDevelopment[0]?.MetalWeight))?.toFixed(3)} gm`,
+                  stats: `${parseFloat(checkNullUndefined(obj?.ProductDevelopment[0]?.Cnt))} / ${parseInt(checkNullUndefined(Math.round(obj?.ProductDevelopment[0]?.MetalWeight)))} gm`,
                   title: 'New Development',
                 },
                 {
@@ -1178,20 +1179,20 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 </Grid>
             ))}
 
-        { !isMaxWidth12010px && <><Grid item xs={12} md={4} lg={6}><HeaderOfCard headerName="RAW MATERIAL" bgColor={'#7d5ae773'} /></Grid>
+        { !isMaxWidth11410px && <><Grid item xs={12} md={4} lg={7}><HeaderOfCard headerName="RAW MATERIAL" bgColor={'#7d5ae773'} /></Grid>
         <Grid item xs={12} md={4} lg={3}><HeaderOfCard headerName="QUALTIY CONTROL" bgColor={'#7d5ae773'} /></Grid>
-        <Grid item xs={12} md={4} lg={3}><HeaderOfCard headerName="PRODUCT DEVELOPMENT" bgColor={'#7d5ae773'} /></Grid>
-        <Grid item xs={12} md={6} lg={6}>
+        <Grid item xs={12} md={4} lg={2}><HeaderOfCard headerName="PRODUCT DEVELOPMENT" bgColor={'#7d5ae773'} /></Grid>
+        <Grid item xs={12} md={6} lg={7}>
             <RawMaterial tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} sv={sv} RMData={RMData} />
         </Grid>
         <Grid item xs={12} md={6} lg={3}>
             <QualityControl tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} QCData={QCData} QuaC={QuaC}  />
         </Grid>
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={12} md={6} lg={2}>
             <ProductDevelopment tkn={tkn} fdate={fdatef} tdate={tdatef} bgColor={theme?.palette?.customColors?.purple}  PDData={PDData} PrdDev={PrdDev} />
         </Grid></>}
 
-        { isMaxWidth12010px && <>
+        { isMaxWidth11410px && <>
         <Grid item xs={12} ><HeaderOfCard headerName="RAW MATERIAL" bgColor={'#7d5ae773'} /></Grid>
             <Grid item xs={12} md={12} lg={12}>
                 <RawMaterial tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} sv={sv} RMData={RMData} />
