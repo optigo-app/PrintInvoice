@@ -192,6 +192,7 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList}) => {
                             px: 5,
                             pb: 3,
                             borderRadius: '12px',
+                            outline:'none',
                             pt:0
                           }}
                           className="boxShadow_hp"

@@ -1058,6 +1058,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                       '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
                         borderColor: theme?.palette?.customColors?.purple, // Purple border when focused
                       },
+                      marginRight:'10px'
                     }}
                   >
                   <MenuItem value="" disabled selected>Date Filters</MenuItem>
@@ -1068,9 +1069,9 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                   <MenuItem value="6 Months">This 6 Months</MenuItem>
                   <MenuItem value="1 Year">This Year</MenuItem>
                 </Select>
-                <Button variant="contained" size='small' sx={{mx:1, backgroundColor : theme?.palette?.customColors?.purple, maxWidth:'50px'}} onClick={handlePrevious}>
+                {/* <Button variant="contained" size='small' sx={{mx:1, backgroundColor : theme?.palette?.customColors?.purple, maxWidth:'50px'}} onClick={handlePrevious}>
                   <ArrowBackIosNewIcon />
-                </Button>
+                </Button> */}
                 
               <div style={{display:'flex'}}>
                 <div style={{display:'flex', flexDirection:'column'}}>
@@ -1103,9 +1104,9 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 </div>
               </div>
               <div><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green}} size='large' onClick={() => handleApply()}>Apply</Button></div>
-                <Button variant="contained" size='small' sx={{mx:1, backgroundColor : theme?.palette?.customColors?.purple, maxWidth:'50px'}} onClick={handleNext}>
+                {/* <Button variant="contained" size='small' sx={{mx:1, backgroundColor : theme?.palette?.customColors?.purple, maxWidth:'50px'}} onClick={handleNext}>
                   <ArrowForwardIosIcon />
-                </Button>
+                </Button> */}
             </Box>
             </Box>}
             { isMaxWidth720px && <Box className='fs_analytics_l ' style={{width:'100%', display:'flex', justifyContent:'flex-end'}}> 
