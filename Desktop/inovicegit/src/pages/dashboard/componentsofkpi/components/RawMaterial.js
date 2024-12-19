@@ -108,7 +108,7 @@ const RawMaterial = ({tkn, bgColor, fdate, tdate, RMData}) => {
 
     const renderStats = () => {
         return RMData?.map((sale, index) => (
-          <Grid item xs={6} md={4} key={index}>
+          <Grid item xs={6} md={3} key={index}>
             <Box key={index} sx={{ display: 'flex', alignItems: 'center', pt:0 }}>
            
               <Box sx={{ display: 'flex', flexDirection: 'column', pt:0 }}>

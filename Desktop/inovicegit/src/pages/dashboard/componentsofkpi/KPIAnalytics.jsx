@@ -504,9 +504,80 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       }
       // const prdApi = await axios.post("http://zen/api/report.aspx", body2, { headers: headers2 });
       const prdApi = await axios.post(replacedUrl, body2, { headers: headers2 });
+      const KBC = prdApi?.data?.Data;
       const mainData = prdApi?.data?.Data;
 
+        const body_kpi_2 = {
+          "con":"{\"id\":\"\",\"mode\":\"kpidashboard_rmstock\",\"appuserid\":\"admin@hs.com\"}",
+          "p":`{\"fdate\":\"${moment(fdate)?.format('MM/DD/YYYY')}\",\"tdate\":\"${moment(tdate)?.format('MM/DD/YYYY')}\"}`,  
+          "f":"m-test2.orail.co.in (ConversionDetail)"
+        }
+
+      const headers2_kpi_2 = {
+        Authorization:`Bearer ${tkn}`,
+        YearCode:"e3t6ZW59fXt7MjB9fXt7b3JhaWwyNX19e3tvcmFpbDI1fX0=",
+        version:"v4",
+        sv:sv
+      }
+      // const prdApi = await axios.post("http://zen/api/report.aspx", body2, { headers: headers2 });
+      const kpidashboard_rmstock = await axios.post(replacedUrl, body_kpi_2, { headers: headers2_kpi_2 });
+      const KRS = kpidashboard_rmstock?.data?.Data;
+
+        const body_kpi_3 = {
+          "con":"{\"id\":\"\",\"mode\":\"kpidashboard_qcinward\",\"appuserid\":\"admin@hs.com\"}",
+          "p":`{\"fdate\":\"${moment(fdate)?.format('MM/DD/YYYY')}\",\"tdate\":\"${moment(tdate)?.format('MM/DD/YYYY')}\"}`,  
+          "f":"m-test2.orail.co.in (ConversionDetail)"
+        }
+
+      const headers2_kpi_3 = {
+        Authorization:`Bearer ${tkn}`,
+        YearCode:"e3t6ZW59fXt7MjB9fXt7b3JhaWwyNX19e3tvcmFpbDI1fX0=",
+        version:"v4",
+        sv:sv
+      }
+      // const prdApi = await axios.post("http://zen/api/report.aspx", body2, { headers: headers2 });
+      const kpidashboard_qcinward = await axios.post(replacedUrl, body_kpi_3, { headers: headers2_kpi_3 });
+      const KQC = kpidashboard_qcinward?.data?.Data;
+      
+        const body_kpi_4 = {
+          "con":"{\"id\":\"\",\"mode\":\"kpidashboard_mfg\",\"appuserid\":\"admin@hs.com\"}",
+          "p":`{\"fdate\":\"${moment(fdate)?.format('MM/DD/YYYY')}\",\"tdate\":\"${moment(tdate)?.format('MM/DD/YYYY')}\"}`,  
+          "f":"m-test2.orail.co.in (ConversionDetail)"
+        }
+
+      const headers2_kpi_4 = {
+        Authorization:`Bearer ${tkn}`,
+        YearCode:"e3t6ZW59fXt7MjB9fXt7b3JhaWwyNX19e3tvcmFpbDI1fX0=",
+        version:"v4",
+        sv:sv
+      }
+      // const prdApi = await axios.post("http://zen/api/report.aspx", body2, { headers: headers2 });
+      const kpidashboard_mfg = await axios.post(replacedUrl, body_kpi_4, { headers: headers2_kpi_4 });
+      const KMFG = kpidashboard_mfg?.data?.Data;
+
+        const body_kpi_5 = {
+          "con":"{\"id\":\"\",\"mode\":\"kpidashboard_loss\",\"appuserid\":\"admin@hs.com\"}",
+          "p":`{\"fdate\":\"${moment(fdate)?.format('MM/DD/YYYY')}\",\"tdate\":\"${moment(tdate)?.format('MM/DD/YYYY')}\"}`,  
+          "f":"m-test2.orail.co.in (ConversionDetail)"
+        }
+
+      const headers2_kpi_5 = {
+        Authorization:`Bearer ${tkn}`,
+        YearCode:"e3t6ZW59fXt7MjB9fXt7b3JhaWwyNX19e3tvcmFpbDI1fX0=",
+        version:"v4",
+        sv:sv
+      }
+      // const prdApi = await axios.post("http://zen/api/report.aspx", body2, { headers: headers2 });
+      const kpidashboard_loss = await axios.post(replacedUrl, body_kpi_5, { headers: headers2_kpi_5 });
+      const KL = kpidashboard_loss?.data?.Data;
+        console.log(KL);
+        
         let obj = {
+          kpidashboard_loss:'',
+          kpidashboard_mfg:'',
+          kpidashboard_qcinward:'',
+          kpidashboard_rmstock:'',
+          kpidashboard_baggingcompleted:'',
           ProductDevelopment:'',
           AvgCollectionPeriod:'',
           SalesMarketing_TotalSale:'',
@@ -518,6 +589,26 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           SalesMarketing_TotalSaleBusinessClassWise:'',
           SalesMarketing_TotalSaleLocationWise:''
         }
+
+        //mfg api response
+        if(KBC){
+          obj.kpidashboard_baggingcompleted = KBC?.rd[0];
+        }
+        if(KRS){
+          obj.kpidashboard_rmstock = KRS?.rd[0];
+        }
+        if(KQC){
+          obj.kpidashboard_qcinward = KQC?.rd[0];
+        }
+        if(KMFG){
+          obj.kpidashboard_mfg = KMFG?.rd || [];
+        }
+        if(KL){
+          obj.kpidashboard_loss = KL?.rd[0];
+        }
+
+
+        //sales api response
         if(PD){
           obj.ProductDevelopment = PD;
         }
@@ -548,10 +639,14 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         if(SMTL){
           obj.SalesMarketing_TotalSaleLocationWise = SMTL;
         }
+
+
         setAllApiData(obj);
         setLoading(false);
         setPleaseWaitFlag(false);
         console.log(obj);
+
+
         
               const data = [
                   {
@@ -607,7 +702,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
 
               const data2 = [
                 {
-                  stats: parseFloat(checkNullUndefined(obj?.ProductionApiData?.rd[0]?.qc_avg_inward))?.toFixed(2),
+                  stats: parseFloat(checkNullUndefined(obj?.kpidashboard_qcinward?.qc_avg_inward))?.toFixed(2),
                   title: 'Inward',
              
                 },
@@ -729,38 +824,56 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 
                 setSM3(formatedArr);
               }
-
+              console.log(obj);
+              
               const data6 = [
+                
                 {
                   stats: obj?.ProductionApiData?.rd[0]?.rm_baggingcompleted,
                   title: 'Bagging Completed',
                 },
+
                 {
-                  stats: `${(parseInt((obj?.ProductionApiData?.rd[0]?.rm_avg_proc_time / (60 * 60 * 24)))?.toFixed(0))} Days`,
+                  stats: `${(parseInt((obj?.kpidashboard_baggingcompleted?.rm_avg_proc_time / (60 * 60 * 24)))?.toFixed(0))} Days`,
                   title: 'Avg. Process Time',
                 },
+                
                 {
-                  stats: `${(obj?.ProductionApiData?.rd[0]?.rm_grossloss?.toFixed(3))} gm`,
+                  stats: `${(obj?.kpidashboard_loss?.rm_grossloss?.toFixed(3))} gm`,
                   title: 'Gross Loss',
                 },
                 {
-                  stats: (obj?.ProductionApiData?.rd[0]?.rm_goldstock === null || obj?.ProductionApiData?.rd[0]?.rm_goldstock === undefined) ? 0 : `${((obj?.ProductionApiData?.rd[0]?.rm_goldstock)?.toFixed(2))} Amt`,
+                  stats: '',
+                  title: '',
+                  // wt: `${+(obj?.ProductionApiData?.rm_goldstock_wt === null ? 0.000 : (+(obj?.ProductionApiData?.rm_goldstock_wt)))?.toFixed(3)} gm`
+                  wt: ''
+                },
+                {
+                  stats: (obj?.kpidashboard_rmstock?.rm_goldstock_amt === null || obj?.kpidashboard_rmstock?.rm_goldstock_amt === undefined) ? 0 : `${((obj?.kpidashboard_rmstock?.rm_goldstock_amt)?.toFixed(2))} Amt`,
                   title: 'Gold Stock',
-                  // wt: `${+(obj?.ProductionApiData?.rd[0]?.rm_goldstock_wt === null ? 0.000 : (+(obj?.ProductionApiData?.rd[0]?.rm_goldstock_wt)))?.toFixed(3)} gm`
-                  wt: `${(+(obj?.ProductionApiData?.rd[0]?.rm_goldstock_wt))?.toFixed(3)} gm`
+                  // wt: `${+(obj?.ProductionApiData?.rm_goldstock_wt === null ? 0.000 : (+(obj?.ProductionApiData?.rm_goldstock_wt)))?.toFixed(3)} gm`
+                  wt: `${(+(obj?.kpidashboard_rmstock?.rm_goldstock_wt))?.toFixed(3)} gm`
                 },
+             
                 {
-                  stats: (obj?.ProductionApiData?.rd[0]?.rm_diastock === null || obj?.ProductionApiData?.rd[0]?.rm_diastock === undefined) ? 0 : `${((obj?.ProductionApiData?.rd[0]?.rm_diastock))?.toFixed(2)} Amt`,
+                  stats: (obj?.kpidashboard_rmstock?.rm_diastock_amt === null || obj?.kpidashboard_rmstock?.rm_diastock_amt === undefined) ? 0 : `${((obj?.kpidashboard_rmstock?.rm_diastock_amt))?.toFixed(2)} Amt`,
                   title: 'Diamond Stock',
-                  // wt: `${+(obj?.ProductionApiData?.rd[0]?.rm_diastock_wt === null ? 0.000 : (+(obj?.ProductionApiData?.rd[0]?.rm_diastock_wt)))?.toFixed(3)} ctw`
-                  wt: `${(+(obj?.ProductionApiData?.rd[0]?.rm_diastock_wt))?.toFixed(3)} ctw`
+                  // wt: `${+(obj?.kpidashboard_rmstock?.rm_diastock_wt === null ? 0.000 : (+(obj?.kpidashboard_rmstock?.rm_diastock_wt)))?.toFixed(3)} ctw`
+                  wt: `${(+(obj?.kpidashboard_rmstock?.rm_diastock_wt))?.toFixed(3)} ctw`
                 },
                 {
-                  stats: (obj?.ProductionApiData?.rd[0]?.rm_csstock === null || obj?.ProductionApiData?.rd[0]?.rm_csstock === undefined) ? 0 : `${((obj?.ProductionApiData?.rd[0]?.rm_csstock))?.toFixed(2)} Amt`,
+                  stats: (obj?.kpidashboard_rmstock?.rm_csstock_amt === null || obj?.kpidashboard_rmstock?.rm_csstock_amt === undefined) ? 0 : `${((obj?.kpidashboard_rmstock?.rm_csstock_amt))?.toFixed(2)} Amt`,
                   title: 'Colour Stone Stock',
-                  // wt: obj?.ProductionApiData?.rd[0]?.rm_csstock_wt === null ? 0 : parseInt(checkNullUndefined(obj?.ProductionApiData?.rd[0]?.rm_csstock_wt))?.toFixed(2)
-                  // wt: `${+(obj?.ProductionApiData?.rd[0]?.rm_csstock_wt === null ? 0.000 : (+(obj?.ProductionApiData?.rd[0]?.rm_csstock_wt)))?.toFixed(3)} ctw`
-                  wt: `${(+(obj?.ProductionApiData?.rd[0]?.rm_csstock_wt))?.toFixed(3)} ctw`
+                  // wt: obj?.kpidashboard_rmstock?.rm_csstock_wt === null ? 0 : parseInt(checkNullUndefined(obj?.kpidashboard_rmstock?.rm_csstock_wt))?.toFixed(2)
+                  // wt: `${+(obj?.kpidashboard_rmstock?.rm_csstock_wt === null ? 0.000 : (+(obj?.kpidashboard_rmstock?.rm_csstock_wt)))?.toFixed(3)} ctw`
+                  wt: `${(+(obj?.kpidashboard_rmstock?.rm_csstock_wt))?.toFixed(3)} ctw`
+                },
+                {
+                  stats: (obj?.kpidashboard_rmstock?.rm_miscstock_amt === null || obj?.kpidashboard_rmstock?.rm_miscstock_amt === undefined) ? 0 : `${((obj?.kpidashboard_rmstock?.rm_miscstock_amt))?.toFixed(2)} Amt`,
+                  title: 'Misc Stock',
+                  // wt: obj?.kpidashboard_rmstock?.rm_csstock_wt === null ? 0 : parseInt(checkNullUndefined(obj?.kpidashboard_rmstock?.rm_csstock_wt))?.toFixed(2)
+                  // wt: `${+(obj?.kpidashboard_rmstock?.rm_csstock_wt === null ? 0.000 : (+(obj?.kpidashboard_rmstock?.rm_csstock_wt)))?.toFixed(3)} ctw`
+                  wt: `${(+(obj?.kpidashboard_rmstock?.rm_miscstock_wt))?.toFixed(3)} ctw`
                 }
               ];
               setRMData(data6);
@@ -771,7 +884,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
               
               const combinedData = {};
               const allLocations = new Set();
-              obj?.ProductionApiData?.rd1?.forEach((item) => {
+              obj?.kpidashboard_mfg?.forEach((item) => {
                 const location = item?.manufacturelocationname || "NoLocation";
                 if (!combinedData[location]) {
                   combinedData[location] = {};
