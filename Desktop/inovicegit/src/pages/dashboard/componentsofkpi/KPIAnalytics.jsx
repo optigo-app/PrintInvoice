@@ -767,23 +767,23 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 {
                   stats: (obj?.kpidashboard_rmstock?.rm_goldstock_amt === null || obj?.kpidashboard_rmstock?.rm_goldstock_amt === undefined) ? 0 : `${((obj?.kpidashboard_rmstock?.rm_goldstock_amt)?.toFixed(2))} Amt`,
                   title: 'Gold Stock',
-                  wt: `${(+(obj?.kpidashboard_rmstock?.rm_goldstock_wt))?.toFixed(3)} gm`
+                  wt: `${(+(safeValue(obj?.kpidashboard_rmstock?.rm_goldstock_wt)))?.toFixed(3)} gm`
                 },
              
                 {
                   stats: (obj?.kpidashboard_rmstock?.rm_diastock_amt === null || obj?.kpidashboard_rmstock?.rm_diastock_amt === undefined) ? 0 : `${((obj?.kpidashboard_rmstock?.rm_diastock_amt))?.toFixed(2)} Amt`,
                   title: 'Diamond Stock',
-                  wt: `${(+(obj?.kpidashboard_rmstock?.rm_diastock_wt))?.toFixed(3)} ctw`
+                  wt: `${(+(safeValue(obj?.kpidashboard_rmstock?.rm_diastock_wt)))?.toFixed(3)} ctw`
                 },
                 {
                   stats: (obj?.kpidashboard_rmstock?.rm_csstock_amt === null || obj?.kpidashboard_rmstock?.rm_csstock_amt === undefined) ? 0 : `${((obj?.kpidashboard_rmstock?.rm_csstock_amt))?.toFixed(2)} Amt`,
                   title: 'Colour Stone Stock',
-                  wt: `${(+(obj?.kpidashboard_rmstock?.rm_csstock_wt))?.toFixed(3)} ctw`
+                  wt: `${(+(safeValue(obj?.kpidashboard_rmstock?.rm_csstock_wt)))?.toFixed(3)} ctw`
                 },
                 {
                   stats: (obj?.kpidashboard_rmstock?.rm_miscstock_amt === null || obj?.kpidashboard_rmstock?.rm_miscstock_amt === undefined) ? 0 : `${((obj?.kpidashboard_rmstock?.rm_miscstock_amt))?.toFixed(2)} Amt`,
                   title: 'Misc Stock',
-                  wt: `${(+(obj?.kpidashboard_rmstock?.rm_miscstock_wt))?.toFixed(3)} ctw`
+                  wt: `${(+(safeValue(obj?.kpidashboard_rmstock?.rm_miscstock_wt)))?.toFixed(3)} ctw`
                 }
               ];
               setRMData(data6);
