@@ -15,11 +15,8 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import SalesNMarketing3 from './components/SalesNMarketing3.js';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
 import CustomInput from '../@core/components/pickersComponent/PickersCustomInput';
-import { checkDivByZero, checkIsZero, checkNullUndefined } from './components/global.js';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import {  checkNullUndefined } from './components/global.js';
 import CloseIcon from '@mui/icons-material/Close';
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -27,27 +24,24 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
 
     const [elapsedTime, setElapsedTime] = useState(0);
     const [timer, setTimer] = useState(null);
-      // Start the timer and update every second
-  const startTimer = () => {
+    const startTimer = () => {
     const startTime = Date.now();
-    setTimer(startTime); // Store start time
+    setTimer(startTime);
 
     const interval = setInterval(() => {
       const currentTime = Date.now();
-      setElapsedTime((currentTime - startTime) / 1000); // Update elapsed time in seconds
+      setElapsedTime((currentTime - startTime) / 1000); 
     }, 1000);
 
-    return interval; // Return the interval ID to clear it later
+    return interval; 
   };
 
-  // Function to stop the timer
   const stopTimer = (interval) => {
-    clearInterval(interval); // Stop the interval that updates the elapsed time
+    clearInterval(interval); 
   };
 
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme?.breakpoints?.down('sm'));
-    const isMaxWidth12010px = useMediaQuery('(max-width:1210px)');
     const isMaxWidth11410px = useMediaQuery('(max-width:1410px)');
     const isMaxWidth1700px = useMediaQuery('(max-width:1700px)');
     const isMaxWidth900px = useMediaQuery('(max-width:899px)');
@@ -68,10 +62,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
     const [MFGData, setMFGData] = useState([]);
     const[columns, setColumns] = useState([]);
 
-
-    // const [fdate, setFDate] = useState(moment().format('MM-DD-YYYY'));
-    // const [tdate, setTDate] = useState(moment().format('MM-DD-YYYY'));
-    const [fdate, setFDate] = useState(new Date()); // Store as Date object
+    const [fdate, setFDate] = useState(new Date()); 
     const [tdate, setTDate] = useState(new Date());
 
     const [fdatef, setFDatef] = useState(moment().format('MM-DD-YYYY'));
@@ -87,12 +78,9 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
 
     let apiUrl_kpi = '';
 
-    // let url = '';
     if(hostName?.toLowerCase() === 'zen' || hostName?.toLowerCase() === 'localhost'){
-      // setUrl('http://zen/jo/api-lib/App/KPI_DashBoard');
       apiUrl_kpi = 'http://zen/jo/api-lib/App/KPI_DashBoard';
     }else{
-      // setUrl('https://view.optigoapps.com/linkedapp/App/API_MRPBill');
       apiUrl_kpi = 'https://view.optigoapps.com/linkedapp/App/KPI_DashBoard';
     }
 
@@ -319,44 +307,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
     }, []);
 
 
-    // const setInitialDateRange = (value) => {
-    //   const today = moment();
-    //   let startDate, endDate;
-  
-    //   switch (value) {
-    //     case 'Today':
-    //       startDate = today;
-    //       endDate = today;
-    //       break;
-    //     case 'Yesterday':
-    //       startDate = today.clone().subtract(1, 'day');
-    //       endDate = today;
-    //       break;
-    //     case 'Week':
-    //       startDate = today.clone().subtract(6, 'days');
-    //       endDate = today;
-    //       break;
-    //     case 'Month':
-    //       startDate = today.clone().subtract(1, 'month').add(1, 'day');
-    //       endDate = today;
-    //       break;
-    //     case '6 Months':
-    //       startDate = today.clone().subtract(6, 'months').add(1, 'day');
-    //       endDate = today;
-    //       break;
-    //     case '1 Year':
-    //       startDate = today.clone().subtract(1, 'year').add(1, 'day');
-    //       endDate = today;
-    //       break;
-    //     default:
-    //       startDate = today;
-    //       endDate = today;
-    //   }
-  
-    //   setFDate(startDate.toDate());
-    //   setTDate(endDate.toDate());
-    // };
-
     const setInitialDateRange = (value) => {
       const today = moment();
       let startDate, endDate;
@@ -374,39 +324,27 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           startDate = today.clone().subtract(6, 'days');
           endDate = today;
           break;
-        // case 'Month':
-        //   startDate = today.clone().subtract(1, 'month').add(1, 'day');
-        //   endDate = today;
-        //   break;
         case 'Month':
-          startDate = today.clone().startOf('month'); // First day of the current month
-          endDate = today; // Current date
+          startDate = today.clone().startOf('month'); 
+          endDate = today; 
           break;
-
         case 'Last Month':
-          startDate = today.clone().subtract(1, 'month').startOf('month'); // First day of the last month
-          endDate = today.clone().subtract(1, 'month').endOf('month'); // Last day of the last month
+          startDate = today.clone().subtract(1, 'month').startOf('month'); 
+          endDate = today.clone().subtract(1, 'month').endOf('month'); 
           break;
-
         case 'Quarter':
-          startDate = today.clone().subtract(3, 'months'); // 3 months ago from today
-          endDate = today; // Current date
+          startDate = today.clone().subtract(3, 'months'); 
+          endDate = today; 
           break;
 
         case '6 Months':
         case '1 Year':
-          // Get the current financial year's start date
-          const financialYearStart = moment().month(3).date(1); // April 1st of the current year
+          const financialYearStart = moment().month(3).date(1); 
           startDate = financialYearStart;
-    
-          // Set the end date to the current date
           endDate = today;
-    
           if (value === '6 Months') {
-            // For 6 Months, set the start date to 6 months before the current date
             startDate = today.clone().subtract(6, 'months').startOf('month');
           }
-    
           break;
         default:
           startDate = today;
@@ -421,129 +359,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       setDropdownValue(selectedValue);
       setInitialDateRange(selectedValue);
     };
-
-    // const handlePrevious = () => {
-    //   if (!fdate || !tdate) return;
-  
-    //   const start = moment(fdate);
-    //   const end = moment(tdate);
-  
-    //   switch (dropdownValue) {
-    //     case 'Today':
-    //       setFDate(start.subtract(1, 'day').toDate());
-    //       setTDate(end.subtract(1, 'day').toDate());
-    //       break;
-    //     case 'Yesterday':
-    //       setFDate(start.subtract(1, 'day').toDate());
-    //       setTDate(end.subtract(1, 'day').toDate());
-    //       break;
-    //     case 'Week':
-    //       setFDate(start.subtract(7, 'days').toDate());
-    //       setTDate(end.subtract(7, 'days').toDate());
-    //       break;
-    //     // case 'Month':
-    //     //   setFDate(start.subtract(1, 'month').toDate());
-    //     //   setTDate(end.subtract(1, 'month').toDate());
-    //     //   break;
-    //     case 'Month':
-    //       setFDate(start.clone().subtract(1, 'month').startOf('month').toDate()); // First day of the previous month
-    //       setTDate(end.clone().subtract(1, 'month').endOf('month').toDate()); // Last day of the previous month
-    //       break;
-    //     case '6 Months':
-    //       setFDate(start.subtract(6, 'months').toDate());
-    //       setTDate(end.subtract(6, 'months').toDate());
-    //       break;
-    //     // case '1 Year':
-    //     //   setFDate(start.subtract(1, 'year').toDate());
-    //     //   setTDate(end.subtract(1, 'year').toDate());
-    //     //   break;
-    //     case '1 Year':
-    //       // Moving one financial year back
-    //       const previousFinancialYearStart = moment(fdate).month(3).date(1).subtract(1, 'year');
-    //       setFDate(previousFinancialYearStart.toDate());
-    //       setTDate(previousFinancialYearStart.clone().add(1, 'year').toDate());
-    //       break;
-    //     default:
-    //       break;
-    //   }
-    // };
-    // const handleNext = () => {
-    //   if (!fdate || !tdate) return;
-  
-    //   const start = moment(fdate);
-    //   const end = moment(tdate);
-  
-    //   switch (dropdownValue) {
-    //     case 'Today':
-    //       setFDate(start.add(1, 'day').toDate());
-    //       setTDate(end.add(1, 'day').toDate());
-    //       break;
-    //     case 'Yesterday':
-    //       setFDate(start.add(1, 'day').toDate());
-    //       setTDate(end.add(1, 'day').toDate());
-    //       break;
-    //     case 'Week':
-    //       setFDate(start.add(7, 'days').toDate());
-    //       setTDate(end.add(7, 'days').toDate());
-    //       break;
-    //     // case 'Month':
-    //     //   setFDate(start.add(1, 'month').toDate());
-    //     //   setTDate(end.add(1, 'month').toDate());
-    //     //   break;
-    //     case 'Month':
-    //       setFDate(start.clone().add(1, 'month').startOf('month').toDate()); // First day of the next month
-    //       setTDate(end.clone().add(1, 'month').endOf('month').toDate()); // Last day of the next month
-    //       break;
-    //     case '6 Months':
-    //       setFDate(start.add(6, 'months').toDate());
-    //       setTDate(end.add(6, 'months').toDate());
-    //       break;
-    //     // case '1 Year':
-    //     //   setFDate(start.add(1, 'year').toDate());
-    //     //   setTDate(end.add(1, 'year').toDate());
-    //     //   break;
-    //     case '1 Year':
-    //       // Moving one financial year forward
-    //       const nextFinancialYearStart = moment(fdate).month(3).date(1).add(1, 'year');
-    //       setFDate(nextFinancialYearStart.toDate());
-    //       setTDate(nextFinancialYearStart.clone().add(1, 'year').toDate());
-    //       break;
-    //     default:
-    //       break;
-    //   }
-    // };
-
-    // const autoSetDropdownValue = (start, end) => {
-    //   const startDate = moment(start);
-    //   const endDate = moment(end);
-    //   const diffInDays = endDate.diff(startDate, 'days');
-    
-    //   if (diffInDays === 0) {
-    //     setDropdownValue('Today');
-    //   } else if (diffInDays <= 7) {  // Adjusted to include diffInDays == 1
-    //     setDropdownValue('Week');
-    //   } else if (diffInDays > 7 && diffInDays <= 31) {
-    //     setDropdownValue('Month');
-    //   } else if (diffInDays >= 32 && diffInDays <= 180) {
-    //     setDropdownValue('6 Months');
-    //   } else if (diffInDays >= 181 && diffInDays <= 366) {
-    //     setDropdownValue('1 Year');
-    //   } else {
-    //     setDropdownValue('Custom');
-    //   }
-    // };
-    // const handleFDateChange = (date) => {
-    //   setFDate(date); // Store the actual date
-    //   // autoSetDropdownValue(date, tdate); 
-    // };
-    // const handleTDateChange = (date) => {
-    //   setTDate(date);
-    //   // autoSetDropdownValue(fdate, date)
-    // };
-
-    // useEffect(() => {
-    //   setInitialDateRange(dropdownValue);
-    // }, [dropdownValue]);
 
     const safeValue = (value) => {
       if (
@@ -570,33 +385,18 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
 
         let apiUrl_kpi = '';
 
-        // let url = '';
         if(hostName?.toLowerCase() === 'zen' || hostName?.toLowerCase() === 'localhost'){
-          // setUrl('http://zen/jo/api-lib/App/KPI_DashBoard');
           apiUrl_kpi = 'http://zen/jo/api-lib/App/KPI_DashBoard';
         }else{
-          // setUrl('https://view.optigoapps.com/linkedapp/App/API_MRPBill');
           apiUrl_kpi = 'https://view.optigoapps.com/linkedapp/App/KPI_DashBoard';
         }
-
-
-        // const PD = await fetchKPIDashboardData(tkn, fdatef, tdatef, "ProductDevelopment");
-        // const ACP = await fetchKPIDashboardData(tkn, fdatef, tdatef, "AvgCollectionPeriod");
-        // const SMTS = await fetchKPIDashboardData(tkn, fdatef, tdatef, "SalesMarketing_TotalSale");
-        // const QC = await fetchKPIDashboardData(tkn, fdatef, tdatef, "QualityControl");
-        // const SMO = await fetchKPIDashboardData(tkn, fdatef, tdatef, "SalesMarketing_Order");
-        // const SMOC = await fetchKPIDashboardData(tkn, fdatef, tdatef, "SalesMarketing_OrderCompletion");
-        // const SMTCSBC = await fetchKPIDashboardData(tkn, fdatef, tdatef, "SalesMarketing_TotalSaleBusinessClassWise");
-        // const SMTL = await fetchKPIDashboardData(tkn, fdatef, tdatef, "SalesMarketing_TotalSaleLocationWise");
         const PD = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "ProductDevelopment");
         const ACP = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "AvgCollectionPeriod");
         const SMTS = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_TotalSale");
         const QC = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "QualityControl");
-        // const SMO = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_Order");
         const SMOC = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_OrderCompletion");
         const SMTCSBC = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_TotalSaleBusinessClassWise");
         const SMTL = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_TotalSaleLocationWise");
-        // const url = "http://zen/jo/api-lib/App/KPI_DashBoard";
      
         const body = JSON.stringify({
           "Token" : `${tkn}`  
@@ -618,8 +418,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         
 
         //mfg
-
-        // const replacedUrl = ("http://zen/api/M.asmx/Optigo")?.replace("M.asmx/Optigo", "report.aspx");
         const replacedUrl = (url)?.replace("M.asmx/Optigo", "report.aspx");
         const body2 = {
           "con":"{\"id\":\"\",\"mode\":\"kpidashboard_baggingcompleted\",\"appuserid\":\"admin@hs.com\"}",
@@ -633,7 +431,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         version:"v4",
         sv:sv
       }
-      // const prdApi = await axios.post("http://zen/api/report.aspx", body2, { headers: headers2 });
       const prdApi = await axios.post(replacedUrl, body2, { headers: headers2 });
       const KBC = prdApi?.data?.Data;
       const mainData = prdApi?.data?.Data;
@@ -650,7 +447,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         version:"v4",
         sv:sv
       }
-      // const prdApi = await axios.post("http://zen/api/report.aspx", body2, { headers: headers2 });
       const kpidashboard_rmstock = await axios.post(replacedUrl, body_kpi_2, { headers: headers2_kpi_2 });
       const KRS = kpidashboard_rmstock?.data?.Data;
 
@@ -666,7 +462,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         version:"v4",
         sv:sv
       }
-      // const prdApi = await axios.post("http://zen/api/report.aspx", body2, { headers: headers2 });
       const kpidashboard_qcinward = await axios.post(replacedUrl, body_kpi_3, { headers: headers2_kpi_3 });
       const KQC = kpidashboard_qcinward?.data?.Data;
       
@@ -682,7 +477,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         version:"v4",
         sv:sv
       }
-      // const prdApi = await axios.post("http://zen/api/report.aspx", body2, { headers: headers2 });
       const kpidashboard_mfg = await axios.post(replacedUrl, body_kpi_4, { headers: headers2_kpi_4 });
       const KMFG = kpidashboard_mfg?.data?.Data;
 
@@ -698,7 +492,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         version:"v4",
         sv:sv
       }
-      // const prdApi = await axios.post("http://zen/api/report.aspx", body2, { headers: headers2 });
       const kpidashboard_loss = await axios.post(replacedUrl, body_kpi_5, { headers: headers2_kpi_5 });
       const KL = kpidashboard_loss?.data?.Data;
         
@@ -773,7 +566,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
 
         setAllApiData(obj);
         setLoading(false);
-        // stopTimer();
         stopTimer(interval);
         setPleaseWaitFlag(false);
 
@@ -814,7 +606,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                   {
                       heading:'Avg. Collection Period',
                       totalValue: parseFloat(checkNullUndefined(((obj?.AvgCollectionPeriod[0]?.Sun_Debtor / (obj?.SalesMarketing_TotalSale[0]?.Amount)) * 365)))?.toFixed(2),
-                      // totalValue: (checkNullUndefined((obj?.AvgCollectionPeriod[0]?.Sun_Debtor ) * 365)),
                       series:[],
                       subheading:'Account & HR'
                   },
@@ -870,7 +661,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
               {
                 stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketingOrder?.DT[0]?.TotalOrder))?.toFixed(3)} gm`,
                 title: 'Total Order',
-                // color: #049bd9;
               },
               {
                 stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketingOrder?.DT[0]?.AvgOrderSize))?.toFixed(2)}`,
@@ -925,21 +715,17 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
               {
                 stats: `${(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.LabourAmount))?.toFixed(2)}`,
                 title: 'Labour Amt (L+DH+S+M)',
-                // title: 'Labour Amt',
               },
               {
                 stats: `${(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.DeliveryCharged))?.toFixed(2)}`,
                 title: 'Delivery Charges',
-                // title: 'Labour Amt',
               }
               ];
               setSM2(data5);
 
               if(SMTCSBC){
                 let arr = obj?.SalesMarketing_TotalSaleBusinessClassWise?.sort((a, b) => b?.Amount - a?.Amount);
-                // const formatedArr = obj?.SalesMarketing_TotalSaleBusinessClassWise?.slice(0, 4);
                 const formatedArr = arr?.slice(0, 4);
-                // const formatedArr2 = obj?.SalesMarketing_TotalSaleBusinessClassWise?.slice(4);
                 const formatedArr2 = arr?.slice(4);
                 const obj_cs = {
                   CustomerType : "Other",
@@ -980,247 +766,35 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 {
                   stats: (obj?.kpidashboard_rmstock?.rm_goldstock_amt === null || obj?.kpidashboard_rmstock?.rm_goldstock_amt === undefined) ? 0 : `${((obj?.kpidashboard_rmstock?.rm_goldstock_amt)?.toFixed(2))} Amt`,
                   title: 'Gold Stock',
-                  // wt: `${+(obj?.ProductionApiData?.rm_goldstock_wt === null ? 0.000 : (+(obj?.ProductionApiData?.rm_goldstock_wt)))?.toFixed(3)} gm`
                   wt: `${(+(obj?.kpidashboard_rmstock?.rm_goldstock_wt))?.toFixed(3)} gm`
                 },
              
                 {
                   stats: (obj?.kpidashboard_rmstock?.rm_diastock_amt === null || obj?.kpidashboard_rmstock?.rm_diastock_amt === undefined) ? 0 : `${((obj?.kpidashboard_rmstock?.rm_diastock_amt))?.toFixed(2)} Amt`,
                   title: 'Diamond Stock',
-                  // wt: `${+(obj?.kpidashboard_rmstock?.rm_diastock_wt === null ? 0.000 : (+(obj?.kpidashboard_rmstock?.rm_diastock_wt)))?.toFixed(3)} ctw`
                   wt: `${(+(obj?.kpidashboard_rmstock?.rm_diastock_wt))?.toFixed(3)} ctw`
                 },
                 {
                   stats: (obj?.kpidashboard_rmstock?.rm_csstock_amt === null || obj?.kpidashboard_rmstock?.rm_csstock_amt === undefined) ? 0 : `${((obj?.kpidashboard_rmstock?.rm_csstock_amt))?.toFixed(2)} Amt`,
                   title: 'Colour Stone Stock',
-                  // wt: obj?.kpidashboard_rmstock?.rm_csstock_wt === null ? 0 : parseInt(checkNullUndefined(obj?.kpidashboard_rmstock?.rm_csstock_wt))?.toFixed(2)
-                  // wt: `${+(obj?.kpidashboard_rmstock?.rm_csstock_wt === null ? 0.000 : (+(obj?.kpidashboard_rmstock?.rm_csstock_wt)))?.toFixed(3)} ctw`
                   wt: `${(+(obj?.kpidashboard_rmstock?.rm_csstock_wt))?.toFixed(3)} ctw`
                 },
                 {
                   stats: (obj?.kpidashboard_rmstock?.rm_miscstock_amt === null || obj?.kpidashboard_rmstock?.rm_miscstock_amt === undefined) ? 0 : `${((obj?.kpidashboard_rmstock?.rm_miscstock_amt))?.toFixed(2)} Amt`,
                   title: 'Misc Stock',
-                  // wt: obj?.kpidashboard_rmstock?.rm_csstock_wt === null ? 0 : parseInt(checkNullUndefined(obj?.kpidashboard_rmstock?.rm_csstock_wt))?.toFixed(2)
-                  // wt: `${+(obj?.kpidashboard_rmstock?.rm_csstock_wt === null ? 0.000 : (+(obj?.kpidashboard_rmstock?.rm_csstock_wt)))?.toFixed(3)} ctw`
                   wt: `${(+(obj?.kpidashboard_rmstock?.rm_miscstock_wt))?.toFixed(3)} ctw`
                 }
               ];
               setRMData(data6);
 
-//working code for mfg
-            //   try {
-                
-              
-            //   const combinedData = {};
-            //   const allLocations = new Set();
-            //   obj?.kpidashboard_mfg?.forEach((item) => {
-            //     const location = item?.manufacturelocationname || "NoLocation";
-            //     if (!combinedData[location]) {
-            //       combinedData[location] = {};
-            //     }
-            //     combinedData[location] = {
-            //       ...combinedData[location],
-            //       "Production (gm)": (item?.mfg_production_gms)?.toFixed(3) || 0.000,
-            //       Jobs: (item?.mfg_jobs) || 0.00,
-            //       "Gross Loss (%)": (item?.mfg_grossloss)?.toFixed(3) || 0.000,
-            //       "Rejection (%)": (item?.mfg_rejection)?.toFixed(3) || 0.000,
-            //     };
-            //     allLocations.add(location);
-            //   });
-        
-            //   // Merge API 2 Data
-            //   obj?.SalesMarketing_TotalSaleLocationWise?.forEach((item) => {
-            //     const location = item?.locationname || "NoLocation";
-            //     if (!combinedData[location]) {
-            //       combinedData[location] = {};
-            //     }
-            //     combinedData[location] = {
-            //       ...combinedData[location],
-            //       "Labour Amount": item?.LabourAmount || 0.00,
-            //     };
-            //     allLocations.add(location);
-            //   });
-        
-            //   // Define KPIs
-            //   const kpis = [
-            //     "Production (gm)",
-            //     "Jobs",
-            //     "Labour Amount",
-            //     "Gross Loss (%)",
-            //     "Rejection (%)",
-            //   ];
-        
-            //   // Create Rows for the Table
-            //   // const tableRows = kpis?.map((kpi, index) => {
-            //   //   const row = { id: index + 1, KPI: kpi };
-            //   //   allLocations.forEach((location) => {
-            //   //     row[location] = combinedData[location]?.[kpi] || 0.00;
-            //   //   });
-            //   //   return row;
-            //   // });
-            //   const tableRows = kpis?.map((kpi, index) => {
-            //     const row = { id: index + 1, KPI: kpi };
-            //     allLocations.forEach((location) => {
-            //       // Apply conditional decimal formatting based on KPI name
-            //       if (kpi === "Labour Amount") {
-            //         row[location] = parseFloat(combinedData[location]?.[kpi] || 0.00)?.toFixed(2); // 2 decimals for amount
-            //       } else if (kpi === "Production (gm)" || kpi === "Gross Loss (%)" || kpi === "Rejection (%)") {
-            //         // row[location] = parseInt(combinedData[location]?.[kpi] || 0.000)?.toFixed(3); // 3 decimals for weight/loss
-            //         row[location] = parseFloat(combinedData[location]?.[kpi] || 0.000)?.toFixed(3); // 3 decimals for weight/loss
-            //       } else {
-            //         row[location] = (combinedData[location]?.[kpi] || 0.00);
-            //       }
-            //     });
-            //     return row;
-            //   });
-        
-            //   // Define Columns for the Table
-            //   const tableColumns = [
-            //     { field: "KPI", headerName: "KPI", width: 200 },
-            //     ...Array?.from(allLocations)?.map((location) => ({
-            //       field: location,
-            //       headerName: location,
-            //       flex:1,
-            //       minWidth: 170,
-            //       maxWidth: 300,
-            //     })),
-            //   ];
-        
-              
-            //   tableColumns?.forEach((e) => {
-            //     if (e?.headerName?.toLowerCase() === "nolocation") {
-            //         e.headerName = "OutRight";
-            //     }
-                
-            // });
-            
-            
-              
-            //   setMFGData(tableRows);
-            //   setColumns(tableColumns);
-            // } catch (error) {
-            //   console.log(error);
-            //   setPleaseWaitFlag(false);
-            // }
 
-            console.log("");
-// trial code 1
-            // try {
-            //   const combinedData = {};
-            //   const allLocations = new Set();
-            
-            //   // Merge data from kpidashboard_mfg
-            //   obj?.kpidashboard_mfg?.forEach((item) => {
-            //     const location = item?.manufacturelocationname || "NoLocation";
-                
-            //     if (!combinedData[location]) {
-            //       combinedData[location] = {};
-            //     }
-                
-            //     // If manufacturelocationname is "-", treat it as "NoLocation"
-            //     if (location === "-") {
-            //       combinedData["NoLocation"] = {
-            //         ...combinedData["NoLocation"],
-            //         "Production (gm)": (combinedData["NoLocation"]?.["Production (gm)"] || 0) + (item?.mfg_production_gms || 0),
-            //         Jobs: (combinedData["NoLocation"]?.Jobs || 0) + (item?.mfg_jobs || 0),
-            //         "Gross Loss (%)": (combinedData["NoLocation"]?.["Gross Loss (%)"] || 0) + (item?.mfg_grossloss || 0),
-            //         "Rejection (%)": (combinedData["NoLocation"]?.["Rejection (%)"] || 0) + (item?.mfg_rejection || 0),
-            //       };
-            //     } else {
-            //       combinedData[location] = {
-            //         ...combinedData[location],
-            //         "Production (gm)": (item?.mfg_production_gms)?.toFixed(3) || 0.000,
-            //         Jobs: (item?.mfg_jobs) || 0.00,
-            //         "Gross Loss (%)": (item?.mfg_grossloss)?.toFixed(3) || 0.000,
-            //         "Rejection (%)": (item?.mfg_rejection)?.toFixed(3) || 0.000,
-            //       };
-            //     }
-            
-            //     allLocations.add(location);
-            //   });
-            
-            //   // Merge data from SalesMarketing_TotalSaleLocationWise
-            //   obj?.SalesMarketing_TotalSaleLocationWise?.forEach((item) => {
-            //     const location = item?.locationname || "NoLocation";
-                
-            //     if (!combinedData[location]) {
-            //       combinedData[location] = {};
-            //     }
-                
-            //     // If locationname is "NoLocation", sum the respective fields
-            //     if (location === "NoLocation") {
-            //       combinedData["NoLocation"] = {
-            //         ...combinedData["NoLocation"],
-            //         "Labour Amount": (combinedData["NoLocation"]?.["Labour Amount"] || 0) + (item?.LabourAmount || 0),
-            //       };
-            //     } else {
-            //       combinedData[location] = {
-            //         ...combinedData[location],
-            //         "Labour Amount": item?.LabourAmount || 0.00,
-            //       };
-            //     }
-            
-            //     allLocations.add(location);
-            //   });
-            
-            //   // Define KPIs
-            //   const kpis = [
-            //     "Production (gm)",
-            //     "Jobs",
-            //     "Labour Amount",
-            //     "Gross Loss (%)",
-            //     "Rejection (%)",
-            //   ];
-            
-            //   // Create Rows for the Table
-            //   const tableRows = kpis?.map((kpi, index) => {
-            //     const row = { id: index + 1, KPI: kpi };
-            //     allLocations.forEach((location) => {
-            //       // Apply conditional decimal formatting based on KPI name
-            //       if (kpi === "Labour Amount") {
-            //         row[location] = parseFloat(combinedData[location]?.[kpi] || 0.00)?.toFixed(2); // 2 decimals for amount
-            //       } else if (kpi === "Production (gm)" || kpi === "Gross Loss (%)" || kpi === "Rejection (%)") {
-            //         row[location] = parseFloat(combinedData[location]?.[kpi] || 0.000)?.toFixed(3); // 3 decimals for weight/loss
-            //       } else {
-            //         row[location] = (combinedData[location]?.[kpi] || 0.00);
-            //       }
-            //     });
-            //     return row;
-            //   });
-            
-            //   // Define Columns for the Table
-            //   const tableColumns = [
-            //     { field: "KPI", headerName: "KPI", width: 200 },
-            //     ...Array?.from(allLocations)?.map((location) => ({
-            //       field: location,
-            //       headerName: location,
-            //       flex: 1,
-            //       minWidth: 170,
-            //       maxWidth: 300,
-            //     })),
-            //   ];
-            
-            //   tableColumns?.forEach((e) => {
-            //     if (e?.headerName?.toLowerCase() === "nolocation") {
-            //       e.headerName = "OutRight";
-            //     }
-            //   });
-            
-            //   setMFGData(tableRows);
-            //   setColumns(tableColumns);
-            // } catch (error) {
-            //   console.log(error);
-            //   setPleaseWaitFlag(false);
-            // }
             
             
-            console.log("");
-            // trial code 2
+
             try {
               const combinedData = {};
               const allLocations = new Set();
             
-              // Merge data from kpidashboard_mfg
               obj?.kpidashboard_mfg?.forEach((item) => {
                 const location = item?.manufacturelocationname || "NoLocation";
             
@@ -1228,7 +802,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                   combinedData[location] = {};
                 }
             
-                // If manufacturelocationname is "-", merge with "NoLocation"
                 if (location === "-") {
                   combinedData["NoLocation"] = {
                     ...combinedData["NoLocation"],
@@ -1250,7 +823,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 allLocations.add(location);
               });
             
-              // Merge data from SalesMarketing_TotalSaleLocationWise
               obj?.SalesMarketing_TotalSaleLocationWise?.forEach((item) => {
                 const location = item?.locationname || "NoLocation";
             
@@ -1258,7 +830,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                   combinedData[location] = {};
                 }
             
-                // If locationname is "NoLocation", sum the respective fields
                 if (location === "NoLocation") {
                   combinedData["NoLocation"] = {
                     ...combinedData["NoLocation"],
@@ -1274,7 +845,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 allLocations.add(location);
               });
             
-              // Define KPIs
               const kpis = [
                 "Production (gm)",
                 "Jobs",
@@ -1283,15 +853,13 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 "Rejection (%)",
               ];
             
-              // Create Rows for the Table
               const tableRows = kpis?.map((kpi, index) => {
                 const row = { id: index + 1, KPI: kpi };
                 allLocations.forEach((location) => {
-                  // Apply conditional decimal formatting based on KPI name
                   if (kpi === "Labour Amount") {
-                    row[location] = parseFloat(combinedData[location]?.[kpi] || 0.00)?.toFixed(2); // 2 decimals for amount
+                    row[location] = parseFloat(combinedData[location]?.[kpi] || 0.00)?.toFixed(2);
                   } else if (kpi === "Production (gm)" || kpi === "Gross Loss (%)" || kpi === "Rejection (%)") {
-                    row[location] = parseFloat(combinedData[location]?.[kpi] || 0.000)?.toFixed(3); // 3 decimals for weight/loss
+                    row[location] = parseFloat(combinedData[location]?.[kpi] || 0.000)?.toFixed(3); 
                   } else {
                     row[location] = (combinedData[location]?.[kpi] || 0.00);
                   }
@@ -1299,7 +867,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 return row;
               });
             
-              // Define Columns for the Table
               const tableColumns = [
                 { field: "KPI", headerName: "KPI", width: 200 },
                 ...Array?.from(allLocations)?.map((location) => ({
@@ -1311,14 +878,12 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 })),
               ];
 
-                // Remove the column for "-" (if it exists)
                 tableColumns.forEach((e, index) => {
                   if (e.headerName === "-") {
                     tableColumns.splice(index, 1);
                   }
                 });
             
-              // Rename NoLocation header if necessary
               tableColumns?.forEach((e) => {
                 if (e?.headerName?.toLowerCase() === "nolocation") {
                   e.headerName = "OutRight";
@@ -1337,45 +902,16 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       } catch (error) {
         console.log(error);
         setLoading(false);
-        // stopTimer();
         stopTimer(interval);
         setPleaseWaitFlag(false);
       }
     }
 
-
-      // const handleApply = () => {
-      //   if (fdate) {
-      //     const formattedFDate = moment(fdate)?.format('MM/DD/YYYY');
-      //     setFDatef(formattedFDate);
-      //   }else{
-      //     setFDatef('');
-      //   }
-      //   if (tdate) {
-      //     const formattedTDate = moment(tdate)?.format('MM/DD/YYYY');
-      //     setTDatef(formattedTDate);
-      //   }else{
-      //     setTDatef('');  
-      //   }
-
-      //   const startDate = moment(fdate);
-      //   const endDate = moment(tdate);
-
-      //   const daysCount = endDate?.diff(startDate, 'days') + 1;
-      //   setDaysCount(daysCount);
-      //   callAllApi();
-      // };
       const handleApply = () => {
         const startDate = moment(fdate);
         const endDate = moment(tdate);
         const diffInDays = endDate.diff(startDate, 'days');
 
-        // if((dropdownValue === "6 Months" && diffInDays >= 180) || (dropdownValue === "1 Year" && diffInDays >= 180) ){
-        //   setShowPopUp(true);
-        //   return;
-        // }
-
-        // Handle popup scenarios
           if((dropdownValue === "Today" || dropdownValue === "Yesterday" || dropdownValue === "Week" || dropdownValue === "Month") && (diffInDays <= 180)){
             setShowPopUp(false);
           }else if ((dropdownValue === "Today" || dropdownValue === "Yesterday" || dropdownValue === "Week" || dropdownValue === "Month") && (diffInDays >= 180)){
@@ -1397,10 +933,9 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           const startDate = moment(fdate);
           const endDate = moment(tdate);
       
-          // Validation: Check if startDate is later than endDate
           if (startDate.isAfter(endDate)) {
             alert('Invalid Dates');
-            return; // Exit the function to prevent further execution
+            return;
           }
       
           const daysCount = endDate.diff(startDate, 'days') + 1;
@@ -1424,72 +959,47 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         callAllApi();
       };
       const handlePopUpConfirm = () => {
-        setShowPopUp(false); // Hide the pop-up
-        callAllApi(); // Proceed with the API call after user confirmation
+        setShowPopUp(false); 
+        callAllApi(); 
       };
       
-      // Handle pop-up cancellation
       const handlePopUpCancel = () => {
-        setShowPopUp(false); // Hide the pop-up if user cancels
+        setShowPopUp(false); 
       };
       
 
-      // useEffect(() => {
-      //   if (fdate) {
-      //     const formattedFDate = moment(fdate).format('MM/DD/YYYY');
-      //     setFDatef(formattedFDate);
-      //   } else {
-      //     setFDatef('');
-      //   }
-      // }, [fdate]); // This will run whenever fdate changes
-      
-      // useEffect(() => {
-      //   if (tdate) {
-      //     const formattedTDate = moment(tdate).format('MM/DD/YYYY');
-      //     setTDatef(formattedTDate);
-      //   } else {
-      //     setTDatef('');
-      //   }
-      // }, [tdate]);
 
   if(!loading){
-    console.log("Api calling response time taken in seconds : ",elapsedTime);
+    console.log("Api calling response time taken in seconds : ", Math.round(elapsedTime));
   }
+  
   return (
     <>
-    {/* <p>Time taken: {elapsedTime?.toFixed(2)} seconds</p> */}
     <Grid container spacing={1} sx={{marginBottom:'3rem', padding: isSmallScreen ? '1rem' : '1rem', width:'95%', margin:'2% auto', marginTop:"0px" }}>
       { loading ? <Box       sx={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100vh', // Full viewport height
-        width: '100%',   // Full width of the container
+        height: '100vh',
+        width: '100%',   
         padding: '1rem',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black background
-        position: 'fixed', // Ensure the overlay stays on top of other content
-        top: 0, // Align to the top of the page
-        left: 0, // Align to the left of the page
-        zIndex: 1000, // Ensure it's above other elements
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+        position: 'fixed', 
+        top: 0,
+        left: 0, 
+        zIndex: 1000, 
       }}
       >
               <CircularProgress sx={{color:'white'}} />
             </Box> : <>
-                    {/* {pleaseWaitFlag && (
-                        <div className="overlay_kpi">
-                          <div className="overlaykpi_content">Please Wait...</div>
-                        </div>
-                      )} */}
             {
                 showPopUp && (
                   <Dialog open={showPopUp} onClose={handlePopUpCancel} className='fs_analytics_l'>
-                  {/* <DialogTitle variant='h5' sx={{textAlign:'center', borderBottom:'1px solid #989898'}}>Confirm</DialogTitle> */}
                   <DialogTitle 
                     variant='h5' 
                     sx={{ textAlign: 'center', borderBottom: '1px solid #989898', position: 'relative' }}
                   >
                     Confirm
-                    {/* Close icon on the top-right corner of the dialog title */}
                     <IconButton
                       title='Close'
                       onClick={handlePopUpCancel}
@@ -1498,10 +1008,10 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                         position: 'absolute',
                         right: 8,
                         top: 9,
-                        color: '#000', // Icon color
+                        color: '#000',
                         '&:hover': {
-                          backgroundColor: '#e8e8e8', // Hover background color
-                          color: 'black', // Hover icon color
+                          backgroundColor: '#e8e8e8', 
+                          color: 'black', 
                         },
                       }}
                     >
@@ -1534,10 +1044,10 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                     size='small'
                     sx={{
                       '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: 'gray', // Default border color
+                        borderColor: 'gray', 
                       },
                       '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                        borderColor: theme?.palette?.customColors?.purple, // Purple border when focused
+                        borderColor: theme?.palette?.customColors?.purple,
                       },
                       marginRight:'10px'
                     }}
@@ -1551,9 +1061,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                   <MenuItem value="6 Months">This 6 Months</MenuItem>
                   <MenuItem value="1 Year">This Year</MenuItem>
                 </Select>
-                {/* <Button variant="contained" size='small' sx={{mx:1, backgroundColor : theme?.palette?.customColors?.purple, maxWidth:'50px'}} onClick={handlePrevious}>
-                  <ArrowBackIosNewIcon />
-                </Button> */}
                 
               <div style={{display:'flex'}}>
                 <div style={{display:'flex', flexDirection:'column'}}>
@@ -1562,7 +1069,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                     selected={fdate}
                     id='basic-input'
                     popperPlacement={popperPlacement}
-                    // onChange={handleFDateChange}
                     disabled
                     dateFormat="dd-MM-yyyy"
                     placeholderText={ "DD-MM-YYYY"}
@@ -1576,7 +1082,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                     selected={tdate}
                     id='basic-input'
                     popperPlacement={popperPlacement}
-                    // onChange={handleTDateChange}
                     disabled
                     dateFormat="dd-MM-yyyy"
                     placeholderText={ "DD-MM-YYYY"}
@@ -1586,9 +1091,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 </div>
               </div>
               <div><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green}} size='large' onClick={() => handleApply()}>Apply</Button></div>
-                {/* <Button variant="contained" size='small' sx={{mx:1, backgroundColor : theme?.palette?.customColors?.purple, maxWidth:'50px'}} onClick={handleNext}>
-                  <ArrowForwardIosIcon />
-                </Button> */}
             </Box>
             </Box>}
             { isMaxWidth720px && <Box className='fs_analytics_l ' style={{width:'100%', display:'flex', justifyContent:'flex-end'}}> 
@@ -1601,10 +1103,10 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                       size='small'
                       sx={{
                         '& .MuiOutlinedInput-notchedOutline': {
-                          borderColor: 'gray', // Default border color
+                          borderColor: 'gray', 
                         },
                         '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                          borderColor: theme?.palette?.customColors?.purple, // Purple border when focused
+                          borderColor: theme?.palette?.customColors?.purple, 
                         },
                       }}
                     >
@@ -1617,14 +1119,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                   <MenuItem value="6 Months">This 6 Months</MenuItem>
                   <MenuItem value="1 Year">This Year</MenuItem>
                   </Select>
-                  {/* <div className='d-flex'>
-                    <Button variant="contained" size='small' sx={{mx:1, backgroundColor : theme?.palette?.customColors?.purple, maxWidth:'50px'}} onClick={handlePrevious}>
-                      <ArrowBackIosNewIcon />
-                    </Button>
-                    <Button variant="contained" size='small' sx={{mx:1, backgroundColor : theme?.palette?.customColors?.purple, maxWidth:'50px'}} onClick={handleNext}>
-                      <ArrowForwardIosIcon />
-                    </Button>
-                  </div> */}
                 </div>
                 <div className='d-flex align-items-end'>
               <div style={{display:'flex'}}>
@@ -1634,7 +1128,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                     selected={fdate}
                     id='basic-input'
                     popperPlacement={popperPlacement}
-                    // onChange={handleFDateChange}
                     dateFormat="dd-MM-yyyy"
                     disabled
                     placeholderText={ "DD-MM-YYYY"}
@@ -1649,7 +1142,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                     selected={tdate}
                     id='basic-input'
                     popperPlacement={popperPlacement}
-                    // onChange={handleTDateChange}
                     dateFormat="dd-MM-yyyy"
                     disabled
                     placeholderText={ "DD-MM-YYYY"}
@@ -1661,9 +1153,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
               </div>
               <div><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green}} size='small' onClick={() => handleApply()}>Apply</Button></div>
               </div>
-                {/* <Button variant="contained" size='small' sx={{mx:1, backgroundColor : theme?.palette?.customColors?.purple, maxWidth:'50px'}} onClick={handleNext}>
-                  <ArrowForwardIosIcon />
-                </Button> */}
             </Box>
             </Box>}
         <Grid item xs={12}><HeaderOfCard headerName="ACCOUNT & HR" bgColor={'#7d5ae773'} /></Grid>
