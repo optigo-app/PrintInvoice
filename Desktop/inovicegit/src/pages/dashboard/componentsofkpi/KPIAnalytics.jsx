@@ -511,6 +511,20 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
     //   setInitialDateRange(dropdownValue);
     // }, [dropdownValue]);
 
+    const safeValue = (value) => {
+      if (
+          value === null || 
+          value === undefined || 
+          value === "null" || 
+          value === "undefined" || 
+          value === Infinity || 
+          value === -Infinity || 
+          isNaN(value)
+      ) {
+          return 0;
+      }
+      return value;
+  };
 
     const callAllApi = async() => {
       try {
@@ -650,6 +664,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       // const prdApi = await axios.post("http://zen/api/report.aspx", body2, { headers: headers2 });
       const kpidashboard_loss = await axios.post(replacedUrl, body_kpi_5, { headers: headers2_kpi_5 });
       const KL = kpidashboard_loss?.data?.Data;
+        console.log(KL?.rd[0]);
         
         let obj = {
           kpidashboard_loss:'',
@@ -918,7 +933,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 },
                 
                 {
-                  stats: `${(obj?.kpidashboard_loss?.rm_grossloss?.toFixed(3))} gm`,
+                  stats: `${(safeValue(obj?.kpidashboard_loss?.rm_grossloss)?.toFixed(3))} gm`,
                   title: 'Gross Loss',
                 },
                 {
