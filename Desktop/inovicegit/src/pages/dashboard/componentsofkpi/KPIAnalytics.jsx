@@ -333,7 +333,8 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           endDate = today.clone().subtract(1, 'month').endOf('month'); 
           break;
         case 'Quarter':
-          startDate = today.clone().subtract(3, 'months'); 
+          const startOfQuarter = today.clone().subtract(3, 'months').startOf('month'); 
+          startDate = startOfQuarter.clone().startOf('month'); 
           endDate = today; 
           break;
 
