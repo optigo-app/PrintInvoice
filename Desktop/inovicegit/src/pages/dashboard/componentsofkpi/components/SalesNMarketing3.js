@@ -118,7 +118,7 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3, BCwise}) => {
                     alignItems: 'center',
                    }}
                 >
-                  { item?.CustomerType === undefined ? <Typography variant='h6'>&nbsp;</Typography> : <Typography variant='h6' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}}>{` ${checkNullUndefined((item?.Amount))}`}</Typography>}
+                  { item?.CustomerType === undefined ? <Typography variant='h6'>&nbsp;</Typography> : <Typography variant='h6' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}}>{` ${checkNullUndefined(((item?.Amount)))?.toFixed(2)}`}</Typography>}
                 </Box>
               </Box>
             </Box>
