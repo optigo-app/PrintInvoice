@@ -22,6 +22,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const KPIAnalytics = ({tkn, sv, url, hostName}) => {
 
+
     const [elapsedTime, setElapsedTime] = useState(0);
     const [timer, setTimer] = useState(null);
     const startTimer = () => {
@@ -575,48 +576,48 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
               const data = [
                   {
                       heading:'Fix Asset Laverage Ratio',
-                      totalValue: parseFloat(checkNullUndefined( 
+                      totalValue: safeValue(parseFloat(checkNullUndefined( 
                         ( 
                         ( 
                           ( obj?.SalesMarketing_TotalSale[0]?.LabourAmount / (obj?.InventoryTurnOverRatio?.DT?.[0]?.AvgInventory))
                           / 
                           (obj?.InventoryTurnOverRatio?.DT?.[0]?.NoOfDays)
                          ) * 365)
-                         )),
+                         ))),
                       series:[],
                       subheading:'Account & HR'
                   },
                   {
                       heading:'Revenue Per Employees',
-                      totalValue: parseFloat(checkNullUndefined(((obj?.SalesMarketing_TotalSale[0]?.OnlySaleLabourAmount / (obj?.ProductDevelopment[0]?.RevenueEmployeeCount)))))?.toFixed(2),
+                      totalValue: safeValue(parseFloat(checkNullUndefined(((obj?.SalesMarketing_TotalSale[0]?.OnlySaleLabourAmount / (obj?.ProductDevelopment[0]?.RevenueEmployeeCount)))))?.toFixed(2)),
                       series:[],
                       subheading:'Account & HR'
                   },
                   {
                       heading:'Avg. Due Debtors',
-                      totalValue: parseFloat(checkNullUndefined(checkNullUndefined(obj?.ProductDevelopment[0]?.TotalOverDueDays / obj?.ProductDevelopment[0]?.TotalBillCount)))?.toFixed(2),
+                      totalValue: safeValue(parseFloat(checkNullUndefined(checkNullUndefined(obj?.ProductDevelopment[0]?.TotalOverDueDays / obj?.ProductDevelopment[0]?.TotalBillCount)))?.toFixed(2)),
                       series:[],
                       subheading:'Account & HR'
                   },
                   {
                       heading:'Inventory Turn Over Ratio',
-                      totalValue:parseFloat(checkNullUndefined(obj?.InventoryTurnOverRatio?.DT?.[0]?.InventoryTurnOverRatio))?.toFixed(2),
+                      totalValue:safeValue(parseFloat(checkNullUndefined(obj?.InventoryTurnOverRatio?.DT?.[0]?.InventoryTurnOverRatio))?.toFixed(2)),
                       series:[],
                       subheading:'Account & HR'
                   },
                   {
                       heading:'Avg. Collection Period',
-                      totalValue: parseFloat(checkNullUndefined(((obj?.AvgCollectionPeriod[0]?.Sun_Debtor / (obj?.SalesMarketing_TotalSale[0]?.Amount)) * 365)))?.toFixed(2),
+                      totalValue: safeValue(parseFloat(checkNullUndefined(((obj?.AvgCollectionPeriod[0]?.Sun_Debtor / (obj?.SalesMarketing_TotalSale[0]?.Amount)) * 365)))?.toFixed(2)),
                       series:[],
                       subheading:'Account & HR'
                   },
                   {
                       heading:'Labour vs Exp',
-                      totalValue: parseFloat(checkNullUndefined(((
+                      totalValue: safeValue(parseFloat(checkNullUndefined(((
                         ((obj?.SalesMarketing_TotalSale[0]?.LabourAmount) - 
                         (obj?.InventoryTurnOverRatio?.DT?.[0]?.Direct_Expense + obj?.InventoryTurnOverRatio?.DT1?.[0]?.InDirect_Expense)) / 
                         (obj?.SalesMarketing_TotalSale[0]?.LabourAmount)
-                        ) * 100)))?.toFixed(2),
+                        ) * 100)))?.toFixed(2)),
                       series:[],
                       subheading:'Account & HR'
                   }
@@ -625,21 +626,21 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
 
               const data2 = [
                 {
-                  stats: parseFloat(checkNullUndefined(obj?.kpidashboard_qcinward?.qc_avg_inward))?.toFixed(2),
+                  stats: safeValue(parseFloat(checkNullUndefined(obj?.kpidashboard_qcinward?.qc_avg_inward))?.toFixed(2)),
                   title: 'Inward',
              
                 },
                 {
-                  stats: parseFloat(checkNullUndefined(obj?.QualityControl?.[0]?.JobMoveStockBookCount))?.toFixed(2),
+                  stats: safeValue(parseFloat(checkNullUndefined(obj?.QualityControl?.[0]?.JobMoveStockBookCount))?.toFixed(2)),
                   title: 'Outward',
            
                 },
                 {
-                  stats: (checkNullUndefined(obj?.QualityControl?.[0]?.QACountWithOutClub)),
+                  stats: safeValue(checkNullUndefined(obj?.QualityControl?.[0]?.QACountWithOutClub)),
                   title: 'Total Jobs',
                 },
                 {
-                  stats: parseFloat(checkNullUndefined((obj?.QualityControl?.[0]?.DaysDiff_QA_To_Stock / (obj?.QualityControl?.[0]?.TotalJobCount_QA_To_Stock))))?.toFixed(2),
+                  stats: safeValue(parseFloat(checkNullUndefined((obj?.QualityControl?.[0]?.DaysDiff_QA_To_Stock / (obj?.QualityControl?.[0]?.TotalJobCount_QA_To_Stock))))?.toFixed(2)),
                   title: 'Avg. Prs. Time',
                 }
               ]
@@ -651,7 +652,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                   title: 'New Development',
                 },
                 {
-                  stats: `${parseFloat(checkNullUndefined((obj?.ProductDevelopment[0]?.SaleCount / (obj?.ProductDevelopment[0]?.DesignCnt))))?.toFixed(2)}`,
+                  stats: `${safeValue(parseFloat(checkNullUndefined((obj?.ProductDevelopment[0]?.SaleCount / (obj?.ProductDevelopment[0]?.DesignCnt))))?.toFixed(2))}`,
                   title: 'Repetation Rate',
                 },
                
@@ -660,11 +661,11 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
               
               const data4 = [
               {
-                stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketingOrder?.DT[0]?.TotalOrder))?.toFixed(3)} gm`,
+                stats: `${safeValue(parseFloat(checkNullUndefined(obj?.SalesMarketingOrder?.DT[0]?.TotalOrder))?.toFixed(3))} gm`,
                 title: 'Total Order',
               },
               {
-                stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketingOrder?.DT[0]?.AvgOrderSize))?.toFixed(2)}`,
+                stats: `${safeValue(parseFloat(checkNullUndefined(obj?.SalesMarketingOrder?.DT[0]?.AvgOrderSize))?.toFixed(2))}`,
                 title: 'Avg. Order Size',
               },
               {
@@ -680,7 +681,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 title: 'Avg. Labour',
               },
               {
-                stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.SaleReturnPer))?.toFixed(2)} (%)`,
+                stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.SaleReturnPer))?.toFixed(2)} %`,
                 title: 'Sales Return ',
               },
               {

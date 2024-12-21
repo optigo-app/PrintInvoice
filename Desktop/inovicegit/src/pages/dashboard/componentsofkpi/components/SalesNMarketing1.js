@@ -159,6 +159,20 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList}) => {
           </Grid>
         ))
       }
+      const safeValue = (value) => {
+        if (
+            value === null || 
+            value === undefined || 
+            value === "null" || 
+            value === "undefined" || 
+            value === Infinity || 
+            value === -Infinity || 
+            isNaN(value)
+        ) {
+            return 0;
+        }
+        return value;
+    };
   return (
     <>
        <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'230px'}}>
@@ -285,10 +299,9 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList}) => {
                                   }}
                                   className='fs_analytics_l'
                                 >
-                                  {console.log(popUpFlag)}
                                   {/* { popUpFlag === "order" ?  `${(e?.NetWt)?.toFixed(3)} gm`}` : `${(e?.NetWt / e?.OrderCnt)?.toFixed(3)}` } */}
                                   { popUpFlag === "order" && <>{e?.NetWt?.toFixed(3)} gm</>}
-                                  { popUpFlag !== "order" && <>{(e?.NetWt / e?.OrderCnt)?.toFixed(3)} </>}
+                                  { popUpFlag !== "order" && <>{(safeValue(e?.NetWt / e?.OrderCnt))?.toFixed(2)} </>}
                                 </Typography>
                               </Box>
                             ))}
