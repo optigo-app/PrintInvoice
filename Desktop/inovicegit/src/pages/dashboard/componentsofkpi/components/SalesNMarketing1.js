@@ -186,7 +186,7 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList}) => {
                             top: '50%',
                             left: '50%',
                             transform: 'translate(-50%, -50%)',
-                            width: 400,
+                            width: 550,
                             maxHeight:'500px',
                             overflow:'auto',
                             // backgroundColor: 'linear-gradient(135deg, #f3f4f6, #ffffff)',
@@ -288,7 +288,7 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList}) => {
                                   {console.log(popUpFlag)}
                                   {/* { popUpFlag === "order" ?  `${(e?.NetWt)?.toFixed(3)} gm`}` : `${(e?.NetWt / e?.OrderCnt)?.toFixed(3)}` } */}
                                   { popUpFlag === "order" && <>{e?.NetWt?.toFixed(3)} gm</>}
-                                  { popUpFlag !== "order" && <>{(e?.NetWt / e?.OrderCnt)?.toFixed(3)} gm</>}
+                                  { popUpFlag !== "order" && <>{(e?.NetWt / e?.OrderCnt)?.toFixed(3)} </>}
                                 </Typography>
                               </Box>
                             ))}

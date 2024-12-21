@@ -680,8 +680,8 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 title: 'Avg. Labour',
               },
               {
-                stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.SaleReturnPer))?.toFixed(2)}`,
-                title: 'Sales Return (%)',
+                stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.SaleReturnPer))?.toFixed(2)} (%)`,
+                title: 'Sales Return ',
               },
               {
                 stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketingOrder?.DT[0]?.StockCountWithOutClub))?.toFixed(2)}`,
