@@ -64,6 +64,35 @@ const SalesNMarketing2 = ({tkn, fdate, tdate, bgColor, SM2, saleMTs}) => {
     }
 }
 
+const data5 = [
+  {
+  stats: `${parseFloat(checkNullUndefined(saleMTs?.Amount))?.toFixed(2)}`,
+  title: 'Total Sale Amt',
+  },
+ {
+  stats: `${(checkNullUndefined(saleMTs?.MetalAmount))?.toFixed(2)}`,
+  title: 'Gold Amt',
+  },
+ {
+  stats: `${(checkNullUndefined(saleMTs?.DiamondAmount))?.toFixed(2)}`,
+  title: 'Diamond Amt',
+},
+ {
+  stats: `${(checkNullUndefined(saleMTs?.ColorStoneAmount))?.toFixed(2)}`,
+  title: 'Color Stone Amt',
+},
+{
+  stats: `${(checkNullUndefined(saleMTs?.LabourAmount))?.toFixed(2)}`,
+  title: 'Labour Amt (L+DH+S+M)',
+},
+{
+  stats: `${(checkNullUndefined(saleMTs?.DeliveryCharged))?.toFixed(2)}`,
+  title: 'Delivery Charges',
+}
+];
+
+
+
   return (
     <Card className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'230px'}}>
 
@@ -87,7 +116,7 @@ const SalesNMarketing2 = ({tkn, fdate, tdate, bgColor, SM2, saleMTs}) => {
       }}>
         { loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
               <CircularProgress sx={{color:'black'}} />
-            </Box> : SM2?.map((item, index) => {
+            </Box> : data5?.map((item, index) => {
           return (
             <Box
               key={index}

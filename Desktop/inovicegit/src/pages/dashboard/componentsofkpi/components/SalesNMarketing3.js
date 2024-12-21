@@ -25,10 +25,10 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3, BCwise}) => {
         // const SalesMarketing_TotalSaleBusinessClassWise = await fetchKPIDashboardData(tkn, fdate, tdate, "SalesMarketing_TotalSaleBusinessClassWise");
         const SalesMarketing_TotalSaleBusinessClassWise = 1;
         
-        if(SalesMarketing_TotalSaleBusinessClassWise){
+        if(BCwise){
           setLoading(false);
-          const formatedArr = SalesMarketing_TotalSaleBusinessClassWise?.slice(0, 4);
-          const formatedArr2 = SalesMarketing_TotalSaleBusinessClassWise?.slice(4);
+          const formatedArr = BCwise?.slice(0, 4);
+          const formatedArr2 = BCwise?.slice(4);
           const obj = {
             CustomerType : "Other",
             Amount:0
@@ -49,9 +49,10 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3, BCwise}) => {
       }
     };
   
-    // fetchData(); 
+    fetchData(); 
 
-  },[fdate, tdate]);
+  },[BCwise]);
+  
 
   
   return (
@@ -80,7 +81,7 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3, BCwise}) => {
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
               <CircularProgress sx={{color:'black'}} />
             </Box> :
-         SM3?.map((item, index) => {
+         apiData?.map((item, index) => {
           return (
             <Box
               key={index}

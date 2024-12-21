@@ -14,7 +14,7 @@ import Icon from '../../@core/components/icon'
 import { CircularProgress, useMediaQuery, useTheme } from '@mui/material';
 import axios from 'axios';
 import { fetchKPIDashboardData } from '../../GlobalFunctions';
-import { checkNullUndefined } from './global';
+import { checkNullUndefined, safeValue } from './global';
 const ProductDevelopment = ({tkn, fdate, tdate, bgColor, PDData, PrdDev}) => {
 
   const [kpiPDdata, setKpiPDdata] = useState([]);
@@ -45,20 +45,20 @@ const ProductDevelopment = ({tkn, fdate, tdate, bgColor, PDData, PrdDev}) => {
     }
 }
     const theme = useTheme();
-    // const data = [
-    //     {
-    //       stats: `${checkNullUndefined(kpiPDdata[0]?.Cnt)} / ${checkNullUndefined(kpiPDdata[0]?.MetalWeight?.toFixed(3))} gm`,
-    //       title: 'New Development',
-    //     },
-    //     {
-    //       stats: `${(checkNullUndefined((kpiPDdata[0]?.SaleCount / kpiPDdata[0]?.DesignCnt)?.toFixed(2)))}`,
-    //       title: 'Repetation Rate',
-    //     },
+    const data = [
+      {
+        stats: `${parseFloat(checkNullUndefined(PrdDev?.Cnt))} / ${safeValue(parseInt(checkNullUndefined(Math.round(PrdDev?.MetalWeight))))} gm`,
+        title: 'New Development',
+      },
+      {
+        stats: `${safeValue(parseFloat(checkNullUndefined((PrdDev?.SaleCount / (PrdDev?.DesignCnt))))?.toFixed(2))}`,
+        title: 'Repetation Rate',
+      },
        
-    //   ]
+      ]
 
     const renderStats = () => {
-        return PDData?.map((sale, index) => (
+        return data?.map((sale, index) => (
           <Grid item xs={8} md={8} key={index}>
             <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>

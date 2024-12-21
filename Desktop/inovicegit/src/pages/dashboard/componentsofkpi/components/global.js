@@ -75,3 +75,18 @@ export const makeWordShort = (val) => {
   console.log(error);
 }
 };
+
+export const safeValue = (value) => {
+  if (
+      value === null || 
+      value === undefined || 
+      value === "null" || 
+      value === "undefined" || 
+      value === Infinity || 
+      value === -Infinity || 
+      isNaN(value)
+  ) {
+      return 0;
+  }
+  return value;
+};

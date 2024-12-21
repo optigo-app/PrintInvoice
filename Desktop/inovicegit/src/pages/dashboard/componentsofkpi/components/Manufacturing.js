@@ -63,7 +63,7 @@ const renderName = row => {
 }
 
 
-const Manufacturning = ({tkn, bgColor, fdate, tdate, MFGData, columns}) => {
+const Manufacturning = ({tkn, bgColor, fdate, tdate, MFGData, columns, LWise, mfgTable}) => {
 
   const kpiMFGFlag = useSelector((state) => state?.kpi?.mfg);
   
@@ -457,6 +457,7 @@ const Manufacturning = ({tkn, bgColor, fdate, tdate, MFGData, columns}) => {
       ...newModel
     }))
   }
+console.log(LWise, mfgTable);
 
   return data ? (
     <Card className='fs_analytics_l' style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'206px'}}>

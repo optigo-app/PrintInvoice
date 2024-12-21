@@ -13,7 +13,7 @@ import CustomAvatar from "../../@core/components/icon"
 import Icon from '../../@core/components/icon'
 import { CircularProgress, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { checkNullUndefined } from './global';
+import { checkNullUndefined, safeValue } from './global';
 const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC }) => {
     const theme = useTheme();
     const [qcData, setQCData] = useState([]);
@@ -27,8 +27,31 @@ const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC }) => {
         }
       },[QCData]);
 
+            const data = [
+              {
+                // stats: parseFloat(checkNullUndefined(obj?.ProductionApiData?.rd[0]?.qc_avg_inward))?.toFixed(2),
+                stats: 0,
+                title: 'Inward',
+              },
+              {
+                stats: parseFloat(checkNullUndefined(QuaC?.JobMoveStockBookCount))?.toFixed(2),
+                title: 'Outward',
+              },
+              {
+                stats: (checkNullUndefined(QuaC?.QACountWithOutClub)),
+                title: 'Total Jobs',
+              },
+              {
+                stats: safeValue(parseFloat(checkNullUndefined((QuaC?.DaysDiff_QA_To_Stock / (QuaC?.TotalJobCount_QA_To_Stock))))?.toFixed(2)),
+                title: 'Avg. Prs. Time',
+              }
+            ]
+
+      
+
+
     const renderStats = () => {
-        return QCData?.map((sale, index) => (
+        return data?.map((sale, index) => (
           <Grid item xs={6} md={6} key={index}>
             <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
               {/* <CustomAvatar skin='light' color={sale.color} sx={{ mr: 4, width: 42, height: 42 }}>

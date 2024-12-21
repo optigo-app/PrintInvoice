@@ -4,7 +4,6 @@ import AccountNHR from './AccountNHR'
 import { checkNullUndefined } from './global';
 
 const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData1, bgColor, fdate, tdate }) => {
-    console.log(InventoryRatio, saleMTs, PrdDev, avgCollRatio);
 
     // Check if the necessary props are available
     if (!InventoryRatio || !saleMTs || !PrdDev || !avgCollRatio) {
