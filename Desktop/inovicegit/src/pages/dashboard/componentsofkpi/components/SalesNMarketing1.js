@@ -252,7 +252,7 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList, orderCmplt, SM
  
             { (SMOrderLoader ||  OCLoader) ?
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
-              <CircularProgress sx={{color:'grey'}} />
+              <CircularProgress sx={{color:'lightgrey'}} />
             </Box> :
               <CardContent
                 sx={{ pt: theme => `${theme.spacing(4)} !important`, pb: theme => `${theme.spacing(4)} !important` }}

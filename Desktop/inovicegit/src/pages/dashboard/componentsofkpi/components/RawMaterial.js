@@ -233,7 +233,7 @@ const RawMaterial = ({tkn, bgColor, fdate, tdate, RMData, bgComp, g_loss, rmStoc
     },
     
     {
-      stats: `${(safeValue(g_loss?.rm_grossloss)?.toFixed(3))} gm`,
+      stats: ` ${ g_loss?.rm_grossloss === null ? '-' : (safeValue(g_loss?.rm_grossloss)?.toFixed(3)) && "gm"} `,
       title: 'Gross Loss',
     },
     {
@@ -281,10 +281,10 @@ const RawMaterial = ({tkn, bgColor, fdate, tdate, RMData, bgComp, g_loss, rmStoc
       }
   return (
     <>
-       <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'198px', display:'flex', justifyContent:'center', alignItems:'center'}}>
+       <Card  className={`fs_analytics_l ${(bgLoader || rmStockLoader || lossLoader) ? 'center_kpi' : ''} `}  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'198px'}}>
           
-            {  (lossLoader || rmStockLoader || bgLoader) ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
-              <CircularProgress sx={{color:'grey'}} />
+            {  (bgLoader || rmStockLoader || lossLoader) ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
+              <CircularProgress sx={{color:'lightgrey'}} />
             </Box> :
             <CardContent sx={{ pt: theme => `${theme.spacing(1)} !important`, pb: theme => `${theme.spacing(1)} !important` }} >
             <Grid container spacing={2}>

@@ -79,7 +79,7 @@ const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC, qcInward, inw
             /> */}
         {
           ( QCLoader || inwardLoader) ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
-          <CircularProgress sx={{color:'grey'}} />
+          <CircularProgress sx={{color:'lightgrey'}} />
         </Box> :
           <CardContent
             sx={{ pt: theme => `${theme.spacing(3)} !important`, pb: theme => `${theme.spacing(3)} !important` }}

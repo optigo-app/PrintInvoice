@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import AccountNHR from './AccountNHR'
 import { checkNullUndefined } from './global';
 
-const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData1, bgColor, acrLoader }) => {
+const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData1, bgColor, acrLoader, irLoader, PDLoader }) => {
 
     const theme = useTheme();
 
@@ -17,8 +17,8 @@ const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData
                         <Card   className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'115px', display:'flex', justifyContent:'center', alignItems:'center'}}>
                             {/* <CircularProgress sx={{ display: 'block', margin: 'auto' }} /> */}
                             {/* <Typography variant="h6" align="center">Loading...</Typography> */}
-                        { acrLoader ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
-                                    <CircularProgress sx={{color:'grey'}} />
+                        { ( PDLoader ||  irLoader || acrLoader) ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
+                                    <CircularProgress sx={{color:'lightgrey'}} />
                                     </Box> : <CardContent>
                                 <Box sx={{ gap: 2, display: 'flex', alignItems: 'stretch', justifyContent: 'space-between' }}>
                                 <Box sx={{ gap: 3, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>

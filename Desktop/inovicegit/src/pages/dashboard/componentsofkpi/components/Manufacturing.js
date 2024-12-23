@@ -531,7 +531,7 @@ const Manufacturning = ({tkn, bgColor, LWise, mfgTable, mfgLoader, LWiseLoader})
      }}>
 
       { (mfgLoader || LWiseLoader) ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
-              <CircularProgress sx={{color:'grey'}} />
+              <CircularProgress sx={{color:'lightgrey'}} />
             </Box> : <DataGrid
              rows={MFGData}  // Use the sliced paginated data
              columns={columns}

@@ -74,7 +74,7 @@ const ProductDevelopment = ({tkn, fdate, tdate, bgColor, PDData, PrdDev, PDLoade
     <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'198px', display:'flex', justifyContent:'center', alignItems:'center'}}>
          { PDLoader ?
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
-              <CircularProgress sx={{color:'grey'}} />
+              <CircularProgress sx={{color:'lightgrey'}} />
             </Box> : <CardContent
             sx={{ pt: theme => `${theme.spacing(3)} !important`, pb: theme => `${theme.spacing(3)} !important` }}
             >

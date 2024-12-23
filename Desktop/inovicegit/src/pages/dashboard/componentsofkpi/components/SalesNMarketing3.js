@@ -79,7 +79,7 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3, BCwise, BCwiseLoader
         {
           BCwiseLoader ? 
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', top:`${(230 / 2)}px` }}>
-              <CircularProgress sx={{color:'grey'}} />
+              <CircularProgress sx={{color:'lightgrey'}} />
             </Box> :
          apiData?.map((item, index) => {
           return (

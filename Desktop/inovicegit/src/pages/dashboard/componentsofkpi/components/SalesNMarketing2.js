@@ -115,7 +115,7 @@ const data5 = [
         },
       }}>
         { saleMTsLoader ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
-              <CircularProgress sx={{color:'grey'}} />
+              <CircularProgress sx={{color:'lightgrey'}} />
             </Box> : data5?.map((item, index) => {
           return (
             <Box

@@ -509,12 +509,12 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           endDate = today; 
           break;
 
-        case '6 Months':
-        case '1 Year':
+        case 'This 6 Months':
+        case 'This Year':
           const financialYearStart = moment().month(3).date(1); 
           startDate = financialYearStart;
           endDate = today;
-          if (value === '6 Months') {
+          if (value === 'This 6 Months') {
             startDate = today.clone().subtract(6, 'months').startOf('month');
           }
           break;
@@ -1094,10 +1094,10 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           }else if ((dropdownValue === "Today" || dropdownValue === "Yesterday" || dropdownValue === "Week" || dropdownValue === "Month" || dropdownValue === "Last Month" || dropdownValue === "Quarter") && (diffInDays >= 180)){
             setShowPopUp(true);
             return;
-          }else if ((dropdownValue === "6 Months" || dropdownValue === "1 Year" ) && (diffInDays >= 180)){
+          }else if ((dropdownValue === "This 6 Months" || dropdownValue === "This Year" ) && (diffInDays >= 180)){
             setShowPopUp(true);
             return;
-          }else if ((dropdownValue === "6 Months" || dropdownValue === "1 Year" ) && (diffInDays <= 180)){
+          }else if ((dropdownValue === "This 6 Months" || dropdownValue === "This Year" ) && (diffInDays <= 180)){
             setShowPopUp(false);
           }else{
             setShowPopUp(false);
@@ -1183,11 +1183,15 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
   // if(!loading){
   //   console.log("Api calling response time taken in seconds : ", Math.round(elapsedTime));
   // }
+
+  const filterOptions = [
+    "Today", "Yesterday", "Month", "Last Month", "Quarter", "This 6 Months", "This Year"
+  ];
   
   return (
     <>
     <Grid container spacing={1} sx={{marginBottom:'3rem', padding: isSmallScreen ? '1rem' : '1rem', width:'95%', margin:'2% auto', marginTop:"0px" }}>
-      { loading ? <Box       sx={{
+      { 0 ? <Box       sx={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -1202,7 +1206,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       }}
       >
               <CircularProgress sx={{color:'white'}} />
-              {/* <h1 style={{backgroundColor:'white', color:'black'}}>{conuter}</h1> */}
             </Box> : <>
             {
                 showPopUp && (
@@ -1266,13 +1269,11 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                     className='fs_analytics_l'
                   >
                   <MenuItem value="" disabled selected>Date Filters</MenuItem>
-                  <MenuItem value="Today">Today</MenuItem>
-                  <MenuItem value="Yesterday">Yesterday</MenuItem>
-                  <MenuItem value="Month">This Month</MenuItem>
-                  <MenuItem value="Last Month">Last Month</MenuItem>
-                  <MenuItem value="Quarter">Quarterly (Last 3 Months)</MenuItem>
-                  <MenuItem value="6 Months">This 6 Months</MenuItem>
-                  <MenuItem value="1 Year">This Year</MenuItem>
+                  {
+                    filterOptions?.map((e, i) => {
+                      return <MenuItem value={e} key={i}>{e}</MenuItem>
+                    })
+                  }
                 </Select>
                 
               <div style={{display:'flex'}}>
@@ -1325,13 +1326,11 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                       className='fs_analytics_l'
                     >
                   <MenuItem value="" disabled selected>Date Filters</MenuItem>
-                  <MenuItem value="Today">Today</MenuItem>
-                  <MenuItem value="Yesterday">Yesterday</MenuItem>
-                  <MenuItem value="Month">This Month</MenuItem>
-                  <MenuItem value="Last Month">Last Month</MenuItem>
-                  <MenuItem value="Quarter">Quarterly (Last 3 Months)</MenuItem>
-                  <MenuItem value="6 Months">This 6 Months</MenuItem>
-                  <MenuItem value="1 Year">This Year</MenuItem>
+                  {
+                    filterOptions?.map((e, i) => {
+                      return <MenuItem value={e} key={i}>{e}</MenuItem>
+                    })
+                  }
                   </Select>
                 </div>
                 <div className='d-flex align-items-end'>
@@ -1370,15 +1369,9 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
             </Box>
             </Box>}
         <Grid item xs={12}><HeaderOfCard headerName="ACCOUNT & HR" bgColor={'#7d5ae773'} /></Grid>
-            
-            {/* {apiData1?.map((item, index) => (
-                <Grid item xs={12} sm={6} md={4} key={index}>
-                    <AccountNHR tkn={tkn} data={item} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} />
-                </Grid>
-            ))} */}
 
         <Grid item xs={12} sm={12} md={12} >
-          <AccountHr tkn={tkn} InventoryRatio={InventoryRatio} saleMTs={saleMTs} PrdDev={PrdDev} avgCollRatio={avgCollRatio} apiData1={apiData1} bgColor={theme?.palette?.customColors?.purple} acrLoader={acrLoader} />
+          <AccountHr tkn={tkn} InventoryRatio={InventoryRatio} saleMTs={saleMTs} PrdDev={PrdDev} avgCollRatio={avgCollRatio} apiData1={apiData1} bgColor={theme?.palette?.customColors?.purple} acrLoader={acrLoader} irLoader={irLoader} PDLoader={PDLoader} />
         </Grid>
 
         { !isMaxWidth11410px && <><Grid item xs={12} md={4} lg={7}><HeaderOfCard headerName="RAW MATERIAL" bgColor={'#7d5ae773'} /></Grid>
