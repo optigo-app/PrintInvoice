@@ -1,6 +1,6 @@
 import React from 'react'
-import KPIAnalytics from '../KPINew';
-// import KPIAnalytics from '../KPIAnalytics';
+// import KPIAnalytics from '../KPINew';
+import KPIAnalytics from '../KPIAnalytics';
 // import KPIAnalytics from '../KPIBijoProject';
 import { Provider } from 'react-redux';
 import store from '../redux/store';
