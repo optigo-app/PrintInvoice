@@ -23,6 +23,9 @@
 .fs_analytics_l .MuiTypography-root{
     font-family: "Public Sans Light" !important;
 }
+.fs_analytics_l .MuiButtonBase-root{
+    font-family: "Public Sans Light" !important;
+}
 .fs_analytics_l{
     font-family: "Public Sans Light" !important;
 }

@@ -1247,7 +1247,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                 </Dialog>
                 )
               }
-            { !isMaxWidth720px && <Box className='fs_analytics_l ' style={{width:'100%', display:'flex', justifyContent:'flex-end'}}> 
+            { !isMaxWidth720px && <Box className='fs_analytics_l' style={{width:'100%', display:'flex', justifyContent:'flex-end'}}> 
                 <Box style={{margin:'5px', width:'50%', display:'flex', alignItems:'flex-end'}} className="media_w_100">
                 <Select
                     value={dropdownValue}
@@ -1263,6 +1263,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                       },
                       marginRight:'10px'
                     }}
+                    className='fs_analytics_l'
                   >
                   <MenuItem value="" disabled selected>Date Filters</MenuItem>
                   <MenuItem value="Today">Today</MenuItem>
@@ -1302,7 +1303,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                   />
                 </div>
               </div>
-              <div><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green}} size='large' onClick={() => handleApply()}>Apply</Button></div>
+              <div><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green}} size='large' className='fs_analytics_l' onClick={() => handleApply()}>Apply</Button></div>
             </Box>
             </Box>}
             { isMaxWidth720px && <Box className='fs_analytics_l ' style={{width:'100%', display:'flex', justifyContent:'flex-end'}}> 
@@ -1321,6 +1322,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                           borderColor: theme?.palette?.customColors?.purple, 
                         },
                       }}
+                      className='fs_analytics_l'
                     >
                   <MenuItem value="" disabled selected>Date Filters</MenuItem>
                   <MenuItem value="Today">Today</MenuItem>
@@ -1363,7 +1365,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                   />
                 </div>
               </div>
-              <div><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green}} size='small' onClick={() => handleApply()}>Apply</Button></div>
+              <div><Button variant='contained' className='fs_analytics_l' sx={{backgroundColor:theme?.palette?.customColors?.green}} size='small' onClick={() => handleApply()}>Apply</Button></div>
               </div>
             </Box>
             </Box>}

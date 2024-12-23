@@ -14,7 +14,7 @@ const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData
                     <Grid container spacing={1}>
                  {["Fix Asset Laverage Ratio","Revenue Per Employees","Avg. Due Debtors", "Inventory Turn Over Ratio", "Avg. Collection Period", "Labour vs Exp"]?.map((e, index) => (
                     <Grid item xs={12} sm={6} md={4} key={index}>
-                        <Card   className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'115px'}}>
+                        <Card   className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'115px', display:'flex', justifyContent:'center', alignItems:'center'}}>
                             {/* <CircularProgress sx={{ display: 'block', margin: 'auto' }} /> */}
                             {/* <Typography variant="h6" align="center">Loading...</Typography> */}
                         { acrLoader ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
