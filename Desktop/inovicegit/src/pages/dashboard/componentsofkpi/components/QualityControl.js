@@ -14,7 +14,7 @@ import Icon from '../../@core/components/icon'
 import { CircularProgress, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { checkNullUndefined, safeValue } from './global';
-const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC }) => {
+const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC, qcInward }) => {
     const theme = useTheme();
     const [qcData, setQCData] = useState([]);
     const kpiMFGFlag = useSelector((state) => state?.kpi?.mfg);
@@ -30,7 +30,7 @@ const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC }) => {
             const data = [
               {
                 // stats: parseFloat(checkNullUndefined(obj?.ProductionApiData?.rd[0]?.qc_avg_inward))?.toFixed(2),
-                stats: 0,
+                stats: safeValue(qcInward?.qc_avg_inward),
                 title: 'Inward',
               },
               {

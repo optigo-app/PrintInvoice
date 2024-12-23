@@ -89,6 +89,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
     const [g_loss, setG_Loss] = useState();
     const [rmStock, setRmStock] = useState();
     const [mfgTable, setMfgTable] = useState();
+    const [qcInward, setQcInward] = useState();
     
 
     const ProductDevelopmentFetch = async() => {
@@ -403,6 +404,36 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
             
         }
     }
+    const inwardFetch = async() => {
+      try {
+
+      const replacedUrl = (url)?.replace("M.asmx/Optigo", "report.aspx");
+      
+      const body_kpi_3 = {
+          "con":"{\"id\":\"\",\"mode\":\"kpidashboard_qcinward\",\"appuserid\":\"admin@hs.com\"}",
+          "p":`{\"fdate\":\"${moment(fdate)?.format('MM/DD/YYYY')}\",\"tdate\":\"${moment(tdate)?.format('MM/DD/YYYY')}\"}`,  
+          "f":"m-test2.orail.co.in (ConversionDetail)"
+        }
+
+      const headers2_kpi_3 = {
+        Authorization:`Bearer ${tkn}`,
+        YearCode:"e3t6ZW59fXt7MjB9fXt7b3JhaWwyNX19e3tvcmFpbDI1fX0=",
+        version:"v4",
+        sv:sv
+      }
+      
+      // const prdApi = await axios.post("http://zen/api/report.aspx", body2, { headers: headers2 });
+      const kpidashboard_qcinward = await axios.post(replacedUrl, body_kpi_3, { headers: headers2_kpi_3 });
+      const KQC = kpidashboard_qcinward?.data?.Data;
+      if(KQC?.rd){
+        setQcInward(KQC?.rd[0]);
+      }
+      
+      } catch (error) {
+        console.log(error);
+        
+      }
+    }
   
 
     useEffect(() => {
@@ -425,6 +456,8 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       G_LossFetch();
       RMStockFetch();
       MFGFetch();
+      inwardFetch();
+
     }, []);
 
 
@@ -491,6 +524,16 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           startDate = today.clone().startOf('month'); // First day of the current month
           endDate = today; // Current date
           break;
+        
+          case 'Last Month':
+            startDate = today.clone().subtract(1, 'month').startOf('month'); 
+            endDate = today.clone().subtract(1, 'month').endOf('month'); 
+            break;
+          case 'Quarter':
+            const startOfQuarter = today.clone().subtract(3, 'months').startOf('month'); 
+            startDate = startOfQuarter.clone().startOf('month'); 
+            endDate = today; 
+            break;
 
         case '6 Months':
         case '1 Year':
@@ -1241,18 +1284,12 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         const endDate = moment(tdate);
         const diffInDays = endDate.diff(startDate, 'days');
 
-        // if((dropdownValue === "6 Months" && diffInDays >= 180) || (dropdownValue === "1 Year" && diffInDays >= 180) ){
-        //   setShowPopUp(true);
-        //   return;
-        // }
-
-        // Handle popup scenarios
-          if((dropdownValue === "Today" || dropdownValue === "Yesterday" || dropdownValue === "Week" || dropdownValue === "Month") && (diffInDays <= 180)){
+          if((dropdownValue === "Today" || dropdownValue === "Yesterday" || dropdownValue === "Week" || dropdownValue === "Month" || dropdownValue === "Last Month" || dropdownValue === "Quarter") && (diffInDays <= 180)){
             setShowPopUp(false);
-          }else if ((dropdownValue === "Today" || dropdownValue === "Yesterday" || dropdownValue === "Week" || dropdownValue === "Month") && (diffInDays >= 180)){
+          }else if ((dropdownValue === "Today" || dropdownValue === "Yesterday" || dropdownValue === "Week" || dropdownValue === "Month" || dropdownValue === "Last Month" || dropdownValue === "Quarter") && (diffInDays >= 180)){
             setShowPopUp(true);
             return;
-          }else if ((dropdownValue === "Today" || dropdownValue === "Yesterday" || dropdownValue === "Week" || dropdownValue === "Month") && (diffInDays >= 180)){
+          }else if ((dropdownValue === "Today" || dropdownValue === "Yesterday" || dropdownValue === "Week" || dropdownValue === "Month" || dropdownValue === "Last Month" || dropdownValue === "Quarter") && (diffInDays >= 180)){
             setShowPopUp(true);
             return;
           }else if ((dropdownValue === "6 Months" || dropdownValue === "1 Year" ) && (diffInDays >= 180)){
@@ -1268,10 +1305,9 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           const startDate = moment(fdate);
           const endDate = moment(tdate);
       
-          // Validation: Check if startDate is later than endDate
           if (startDate.isAfter(endDate)) {
             alert('Invalid Dates');
-            return; // Exit the function to prevent further execution
+            return;
           }
       
           const daysCount = endDate.diff(startDate, 'days') + 1;
@@ -1292,11 +1328,45 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           setTDatef('');
         }
       
-        callAllApi();
+        // callAllApi();
+              //sales
+        InventoryTurnOverRatioFetch();
+        ProductDevelopmentFetch();
+        AvgCollectionPeriodFetch();
+        SalesMarketing_TotalSaleFetch();
+        QualityControlFetch();
+        SalesMarketing_OrderFetch();
+        SalesMarketing_OrderCompletionFetch();
+        SalesMarketing_TotalSaleBusinessClassWiseFetch();
+        SalesMarketing_TotalSaleLocationWiseFetch();
+
+        //mfg
+        BaggingCompletedFetch();
+        G_LossFetch();
+        RMStockFetch();
+        MFGFetch();
+        inwardFetch();
       };
       const handlePopUpConfirm = () => {
         setShowPopUp(false); // Hide the pop-up
-        callAllApi(); // Proceed with the API call after user confirmation
+        // callAllApi(); // Proceed with the API call after user confirmation
+                      //sales
+                      InventoryTurnOverRatioFetch();
+                      ProductDevelopmentFetch();
+                      AvgCollectionPeriodFetch();
+                      SalesMarketing_TotalSaleFetch();
+                      QualityControlFetch();
+                      SalesMarketing_OrderFetch();
+                      SalesMarketing_OrderCompletionFetch();
+                      SalesMarketing_TotalSaleBusinessClassWiseFetch();
+                      SalesMarketing_TotalSaleLocationWiseFetch();
+              
+                      //mfg
+                      BaggingCompletedFetch();
+                      G_LossFetch();
+                      RMStockFetch();
+                      MFGFetch();
+                      inwardFetch();
       };
       
       // Handle pop-up cancellation
@@ -1528,7 +1598,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         <Grid item xs={12} md={4} lg={2}><HeaderOfCard headerName="PRODUCT DEVELOPMENT" bgColor={'#7d5ae773'} /></Grid>
         <Grid item xs={12} md={4} lg={7}><HeaderOfCard headerName="RAW MATERIAL" bgColor={'#7d5ae773'} /></Grid>
         <Grid item xs={12} md={6} lg={3}>
-            <QualityControl tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} QCData={QCData} QuaC={QuaC}  />
+            <QualityControl tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} QCData={QCData} QuaC={QuaC} qcInward={qcInward}  />
         </Grid>
         <Grid item xs={12} md={6} lg={2}>
             <ProductDevelopment tkn={tkn} fdate={fdatef} tdate={tdatef} bgColor={theme?.palette?.customColors?.purple}  PDData={PDData} PrdDev={PrdDev} />
@@ -1547,7 +1617,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         { !isMaxWidth900px && <Grid item xs={12} md={6} lg={6}><HeaderOfCard headerName="PRODUCT DEVELOPMENT" bgColor={'#7d5ae773'} /></Grid>}
         
         <Grid item xs={12} md={6} lg={6}>
-            <QualityControl tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} QCData={QCData} QuaC={QuaC}  />
+            <QualityControl tkn={tkn} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} QCData={QCData} QuaC={QuaC} qcInward={qcInward}  />
         </Grid>
         { isMaxWidth900px && <Grid item xs={12} md={6} lg={6}><HeaderOfCard headerName="PRODUCT DEVELOPMENT" bgColor={'#7d5ae773'} /></Grid>}
         <Grid item xs={12} md={6} lg={6}>
