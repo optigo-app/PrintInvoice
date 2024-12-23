@@ -16,7 +16,7 @@ import moment from 'moment';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { checkNullUndefined, safeValue } from './global';
-const RawMaterial = ({tkn, bgColor, fdate, tdate, RMData, bgComp, g_loss, rmStock}) => {
+const RawMaterial = ({tkn, bgColor, fdate, tdate, RMData, bgComp, g_loss, rmStock, lossLoader, rmStockLoader, bgLoader}) => {
     const theme = useTheme();
     const kpiMFGFlag = useSelector((state) => state?.kpi?.mfg);
     const apiCall = useSelector(state => state?.kpi?.apiCall);
@@ -281,14 +281,12 @@ const RawMaterial = ({tkn, bgColor, fdate, tdate, RMData, bgComp, g_loss, rmStoc
       }
   return (
     <>
-       <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'198px'}}>
+       <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'198px', display:'flex', justifyContent:'center', alignItems:'center'}}>
           
-            {  kpiMFGFlag ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
-              <CircularProgress sx={{color:'black'}} />
+            {  (lossLoader || rmStockLoader || bgLoader) ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
+              <CircularProgress sx={{color:'grey'}} />
             </Box> :
-            <CardContent
-                sx={{ pt: theme => `${theme.spacing(1)} !important`, pb: theme => `${theme.spacing(1)} !important` }}
-                >
+            <CardContent sx={{ pt: theme => `${theme.spacing(1)} !important`, pb: theme => `${theme.spacing(1)} !important` }} >
             <Grid container spacing={2}>
                 {renderStats()}
             </Grid>

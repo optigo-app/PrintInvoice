@@ -4,71 +4,14 @@ import { useState, useEffect } from 'react'
 // ** MUI Components
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import Typography from '@mui/material/Typography'
-import CardHeader from '@mui/material/CardHeader'
-import AvatarGroup from '@mui/material/AvatarGroup'
 import { DataGrid } from '@mui/x-data-grid'
-import LinearProgress from '@mui/material/LinearProgress'
 import { CircularProgress } from '@mui/material';
-// ** Custom Component Import
-// import CustomTextField from 'src/@core/components/mui/text-field'
-import CustomTextField from '../../@core/components/mui/text-field'
-
-// ** Third Party Imports
-import axios from 'axios'
-
-// ** Custom Components Imports
-// import OptionsMenu from 'src/@core/components/option-menu'
-import OptionsMenu from '../../@core/components/option-menu'
-// import CustomAvatar from 'src/@core/components/mui/avatar'
-import CustomAvatar from '../../@core/components/mui/avatar'
-
-// ** Utils Import
-// import { getInitials } from 'src/@core/utils/get-initials'
-import { getInitials } from '../../@core/utils/get-initials'
-// import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
-import { hexToRGBA } from '../../@core/utils/hex-to-rgba';
-
-
-
-
-// import profileData from "../json/profile.json";
-// import "./chartcss/analyticsproject.css"
-import imgIcon from "../../images/avatars/1.png";
-import { fetchDashboardData, fetchKPIDashboardData, formatAmount, formatAmountKWise } from '../../GlobalFunctions';
 import "../kpianalytics.css"
 import {  useDispatch, useSelector } from 'react-redux';
-import { handleMfgLoaderFlag } from '../redux/slices/KPILaderFlag';
-import moment from 'moment';
-
-
-// ** renders name column
-const renderName = row => {
-  if (row.avatar) {
-    // return <CustomAvatar src={row.avatar} sx={{ mr: 2.5, width: 38, height: 38 }} />
-    return <CustomAvatar src={imgIcon} sx={{ mr: 2.5, width: 38, height: 38 }} />
-  } else {
-    return (
-      <>
-      {/* <CustomAvatar
-        skin='light'
-        color={row.avatarColor || 'primary'}
-        sx={{ mr: 2.5, width: 38, height: 38, fontSize: theme => theme.typography.body1.fontSize }}
-      >
-        {getInitials(row.name || 'John Doe')}
-      </CustomAvatar> */}
-      </>
-    )
-  }
-}
 
 
 // const Manufacturning = ({tkn, bgColor, fdate, tdate, MFGData, columns, LWise, mfgTable}) => {
-const Manufacturning = ({tkn, bgColor, fdate, tdate,  LWise, mfgTable}) => {
-
-  const kpiMFGFlag = useSelector((state) => state?.kpi?.mfg);
-  
-  const dispatch = useDispatch();
+const Manufacturning = ({tkn, bgColor, LWise, mfgTable, mfgLoader}) => {
 
   // ** State
   const [data, setData] = useState([])
@@ -323,7 +266,7 @@ const Manufacturning = ({tkn, bgColor, fdate, tdate,  LWise, mfgTable}) => {
     },[LWise, mfgTable]);
 
 
-    const formateArray = () => {
+  const formateArray = () => {
       try {
         const combinedData = {};
         const allLocations = new Set();
@@ -433,79 +376,79 @@ const Manufacturning = ({tkn, bgColor, fdate, tdate,  LWise, mfgTable}) => {
         // setPleaseWaitFlag(false);
       }
       
-    }
-
-  const getKPIProductionData = async() => {
-    try {
-
-      const currentTime = moment().format('HH:mm:ss');
-      const body = {
-          "con":"{\"id\":\"\",\"mode\":\"kpidashboard\",\"appuserid\":\"admin@hs.com\"}",
-          "p":`{\"fdate\":\"${fdate}\",\"tdate\":\"${tdate}\"}`,  
-          "f":"m-test2.orail.co.in (ConversionDetail)"
-      }
-      const headers = {
-        Authorization:`Bearer ${tkn}`,
-        YearCode:"e3t6ZW59fXt7MjB9fXt7b3JhaWwyNX19e3tvcmFpbDI1fX0=",
-        version:"v4",
-        sv:0
-      }
-      if(fdate && tdate){
-        dispatch(handleMfgLoaderFlag(true))
-        const response = await axios.post("http://zen/api/report.aspx", body, { headers: headers });
-        if(response?.status === 200){
-            if(response?.data?.Status === '200'){
-              dispatch(handleMfgLoaderFlag(false))
-              // if(response?.data?.Data?.rd?.length > 0){
-
-              //   const apiArr = response?.data?.Data?.rd;
-              //   const data = [
-              //     {
-              //       stats: `${apiArr[0]?.rm_baggingcompleted}`,
-              //       title: 'Bagging Completed',
-              //     },
-              //     {
-              //       stats: `${((apiArr[0]?.rm_avg_proc_time / (60 * 60 * 24))?.toFixed(2))} Days`,
-              //       title: 'Avg. Process Time',
-              //     },
-              //     {
-              //       stats: `${apiArr[0]?.rm_grossloss === null ? '' : apiArr[0]?.rm_grossloss}`,
-              //       title: 'Gross Loss',
-              //     },
-              //     {
-              //       stats: `${apiArr[0]?.rm_goldstock === null ? '' : apiArr[0]?.rm_goldstock}`,
-              //       title: 'Gold Stock',
-              //       wt:`${apiArr[0]?.rm_goldstock_wt === null ? '' : apiArr[0]?.rm_goldstock_wt}`
-              //     },
-              //     {
-              //       stats: `${apiArr[0]?.rm_diastock === null ? '' : apiArr[0]?.rm_diastock}`,
-              //       title: 'Diamond Stock',
-              //       wt:`${apiArr[0]?.rm_diastock_wt === null ? '' : apiArr[0]?.rm_diastock_wt}`
-              //     },
-              //     {
-              //       stats: `${apiArr[0]?.rm_csstock === null ? '' : apiArr[0]?.rm_csstock}`,
-              //       title: 'Colour Stone Stock',
-              //       wt:`${apiArr[0]?.rm_csstock_wt === null ? '' : apiArr[0]?.rm_csstock_wt}`
-              //     }
-              //   ];
-                
-              //   setApiData(data);
-
-              // }
-              if(response?.data?.Data?.rd1){
-                const apiArr2 = response?.data?.Data?.rd1;
-                // setApiMFGData(apiArr2);
-                setApiData(apiArr2);
-              }
-            }
-        }
-      }
-
-
-    } catch (error) {
-      console.log(error);
-    }
   }
+
+  // const getKPIProductionData = async() => {
+  //   try {
+
+  //     const currentTime = moment().format('HH:mm:ss');
+  //     const body = {
+  //         "con":"{\"id\":\"\",\"mode\":\"kpidashboard\",\"appuserid\":\"admin@hs.com\"}",
+  //         "p":`{\"fdate\":\"${fdate}\",\"tdate\":\"${tdate}\"}`,  
+  //         "f":"m-test2.orail.co.in (ConversionDetail)"
+  //     }
+  //     const headers = {
+  //       Authorization:`Bearer ${tkn}`,
+  //       YearCode:"e3t6ZW59fXt7MjB9fXt7b3JhaWwyNX19e3tvcmFpbDI1fX0=",
+  //       version:"v4",
+  //       sv:0
+  //     }
+  //     if(fdate && tdate){
+  //       dispatch(handleMfgLoaderFlag(true))
+  //       const response = await axios.post("http://zen/api/report.aspx", body, { headers: headers });
+  //       if(response?.status === 200){
+  //           if(response?.data?.Status === '200'){
+  //             dispatch(handleMfgLoaderFlag(false))
+  //             // if(response?.data?.Data?.rd?.length > 0){
+
+  //             //   const apiArr = response?.data?.Data?.rd;
+  //             //   const data = [
+  //             //     {
+  //             //       stats: `${apiArr[0]?.rm_baggingcompleted}`,
+  //             //       title: 'Bagging Completed',
+  //             //     },
+  //             //     {
+  //             //       stats: `${((apiArr[0]?.rm_avg_proc_time / (60 * 60 * 24))?.toFixed(2))} Days`,
+  //             //       title: 'Avg. Process Time',
+  //             //     },
+  //             //     {
+  //             //       stats: `${apiArr[0]?.rm_grossloss === null ? '' : apiArr[0]?.rm_grossloss}`,
+  //             //       title: 'Gross Loss',
+  //             //     },
+  //             //     {
+  //             //       stats: `${apiArr[0]?.rm_goldstock === null ? '' : apiArr[0]?.rm_goldstock}`,
+  //             //       title: 'Gold Stock',
+  //             //       wt:`${apiArr[0]?.rm_goldstock_wt === null ? '' : apiArr[0]?.rm_goldstock_wt}`
+  //             //     },
+  //             //     {
+  //             //       stats: `${apiArr[0]?.rm_diastock === null ? '' : apiArr[0]?.rm_diastock}`,
+  //             //       title: 'Diamond Stock',
+  //             //       wt:`${apiArr[0]?.rm_diastock_wt === null ? '' : apiArr[0]?.rm_diastock_wt}`
+  //             //     },
+  //             //     {
+  //             //       stats: `${apiArr[0]?.rm_csstock === null ? '' : apiArr[0]?.rm_csstock}`,
+  //             //       title: 'Colour Stone Stock',
+  //             //       wt:`${apiArr[0]?.rm_csstock_wt === null ? '' : apiArr[0]?.rm_csstock_wt}`
+  //             //     }
+  //             //   ];
+                
+  //             //   setApiData(data);
+
+  //             // }
+  //             if(response?.data?.Data?.rd1){
+  //               const apiArr2 = response?.data?.Data?.rd1;
+  //               // setApiMFGData(apiArr2);
+  //               setApiData(apiArr2);
+  //             }
+  //           }
+  //       }
+  //     }
+
+
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
   
 
 
@@ -515,19 +458,19 @@ const Manufacturning = ({tkn, bgColor, fdate, tdate,  LWise, mfgTable}) => {
   //   getLbrAmtData();
   // },[fdate, tdate]);
 
-  const getLbrAmtData = async() => {
-    try {
-        if(fdate && tdate)      {
-            // const response = await fetchKPIDashboardData(tkn, fdate, tdate, "SalesMarketing_TotalSaleLocationWise");
-            const response = [];
-            if(response){
-              setApiData2(response);
-            }
-        }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // const getLbrAmtData = async() => {
+  //   try {
+  //       if(fdate && tdate)      {
+  //           // const response = await fetchKPIDashboardData(tkn, fdate, tdate, "SalesMarketing_TotalSaleLocationWise");
+  //           const response = [];
+  //           if(response){
+  //             setApiData2(response);
+  //           }
+  //       }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   // Handle pagination directly from local data
   const paginatedData = filteredData?.slice(
@@ -579,69 +522,20 @@ const Manufacturning = ({tkn, bgColor, fdate, tdate,  LWise, mfgTable}) => {
     }))
   }
 
-  return data ? (
-    <Card className='fs_analytics_l' style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'206px'}}>
-      {/* <CardHeader
-        title='Manufacturing'
-        
-        titleTypographyProps={{ sx: { mb: [0, 0] } }}
-        action={<CustomTextField value={value} placeholder='Search' style={{boxShadow:'none', border:'1px solid #e8e8e8'}} onChange={e => handleFilter(e.target.value)} />}
-        sx={{
-          py: 0.5,
-          flexDirection: ['column', 'row'],
-          '& .MuiCardHeader-action': { m: 0 },
-          alignItems: ['flex-start', 'center']
-        }}
-      /> */}
-      {/* <DataGrid
-        // autoHeight
-        // pagination
-        // rows={data}
-        // rowHeight={62}
-        // columns={columns}
-        // checkboxSelection
-        // pageSizeOptions={[5, 10]}
-        // disableRowSelectionOnClick
-        // paginationModel={paginationModel}
-        // onPaginationModelChange={setPaginationModel}
-        // className='fs_analytics_l '
-        autoHeight
-        pagination
-        rows={rowsWithId}
-        rowHeight={78.9}
-        columns={columns}
-        checkboxSelection
-        pageSizeOptions={[5, 10]}
-        paginationMode="client"  // This is now client-side pagination
-        page={paginationModel.page}
-        pageSize={paginationModel.pageSize}
-        onPageChange={handlePageChange}
-        onPageSizeChange={handlePageSizeChange}
-        disableRowSelectionOnClick
-        className='fs_analytics_l'
-      /> */}
+  return  (
+    <Card className='fs_analytics_l' style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'206px', 
 
-      { kpiMFGFlag ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
-              <CircularProgress sx={{color:'black'}} />
+    display: "flex", // Ensure flexbox is applied to the card
+      alignItems: "center", // Center items vertically
+      justifyContent: "center", // Center items horizontally
+     }}>
+
+      { mfgLoader ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
+              <CircularProgress sx={{color:'grey'}} />
             </Box> : <DataGrid
              rows={MFGData}  // Use the sliced paginated data
              columns={columns}
              disableColumnMenu
-            // columns={columns?.map(col => ({
-            //   ...col,
-            //   disableColumnFilter: true,  // Disable the filter icon for each column
-            // }))}
-            //  paginationModel={paginationModel}
-            //  onPaginationModelChange={handlePaginationModelChange}
-            //  pageSizeOptions={[5]}
-            //  pagination
-            //  pageSizeOptions={[5, 10, 15, 20]}
-            //  paginationMode="client"
-            //  page={paginationModel.page}
-            //  pageSize={paginationModel.pageSize}
-            //  onPageChange={handlePageChange}
-            //  onPageSizeChange={handlePageSizeChange}
-            
              disableRowSelectionOnClick
              className="fs_analytics_l onlyDatagrid"
              rowHeight={35}
@@ -668,7 +562,7 @@ const Manufacturning = ({tkn, bgColor, fdate, tdate,  LWise, mfgTable}) => {
             }}
       />}
     </Card>
-  ) : null
+  ) 
 }
 
 export default Manufacturning

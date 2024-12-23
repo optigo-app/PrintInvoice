@@ -15,7 +15,7 @@ import { CircularProgress, useMediaQuery, useTheme } from '@mui/material';
 import axios from 'axios';
 import { fetchKPIDashboardData } from '../../GlobalFunctions';
 import { checkNullUndefined, safeValue } from './global';
-const ProductDevelopment = ({tkn, fdate, tdate, bgColor, PDData, PrdDev}) => {
+const ProductDevelopment = ({tkn, fdate, tdate, bgColor, PDData, PrdDev, PDLoader}) => {
 
   const [kpiPDdata, setKpiPDdata] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -71,10 +71,10 @@ const ProductDevelopment = ({tkn, fdate, tdate, bgColor, PDData, PrdDev}) => {
       }
 
   return (
-    <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'198px'}}>
-         { loading ?
+    <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'198px', display:'flex', justifyContent:'center', alignItems:'center'}}>
+         { PDLoader ?
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
-              <CircularProgress sx={{color:'black'}} />
+              <CircularProgress sx={{color:'grey'}} />
             </Box> : <CardContent
             sx={{ pt: theme => `${theme.spacing(3)} !important`, pb: theme => `${theme.spacing(3)} !important` }}
             >

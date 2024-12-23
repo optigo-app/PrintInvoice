@@ -13,7 +13,7 @@ import { checkNullUndefined } from './global';
 import CancelIcon from '@mui/icons-material/Cancel';
 
 //SALES AND MARKETING 3ST BLOCK
-const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList, orderCmplt, SMOrder}) => {
+const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList, orderCmplt, SMOrder, SMOrderLoader, OCLoader}) => {
   
     const theme = useTheme();
     const isMaxWidth599px = useMediaQuery('(max-width:599px)');
@@ -248,11 +248,11 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList, orderCmplt, SM
     };
   return (
     <>
-       <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'230px'}}>
+       <Card  className={`fs_analytics_l ${(SMOrderLoader || OCLoader) ? 'center_kpi' : ''}`}  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'230px'}}>
  
-            { loading ?
+            { (SMOrderLoader ||  OCLoader) ?
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
-              <CircularProgress sx={{color:'black'}} />
+              <CircularProgress sx={{color:'grey'}} />
             </Box> :
               <CardContent
                 sx={{ pt: theme => `${theme.spacing(4)} !important`, pb: theme => `${theme.spacing(4)} !important` }}

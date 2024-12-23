@@ -10,7 +10,7 @@ import {  fetchKPIDashboardData,  formatAmountKWise } from '../../GlobalFunction
 import { checkNullUndefined } from './global';
 
 //SALES AND MARKETING 1ST BLOCK
-const SalesNMarketing2 = ({tkn, fdate, tdate, bgColor, SM2, saleMTs}) => {
+const SalesNMarketing2 = ({tkn, fdate, tdate, bgColor, SM2, saleMTs, saleMTsLoader}) => {
   const theme = useTheme();
 
   const [apiData, setApiData] = useState([]);
@@ -94,7 +94,7 @@ const data5 = [
 
 
   return (
-    <Card className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'230px'}}>
+    <Card className={`fs_analytics_l ${saleMTsLoader ? 'center_kpi' : ''}`}  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'230px'}}>
 
       <CardContent  sx={{
         maxHeight: '412px',
@@ -114,8 +114,8 @@ const data5 = [
           background: '#555',
         },
       }}>
-        { loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
-              <CircularProgress sx={{color:'black'}} />
+        { saleMTsLoader ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
+              <CircularProgress sx={{color:'grey'}} />
             </Box> : data5?.map((item, index) => {
           return (
             <Box

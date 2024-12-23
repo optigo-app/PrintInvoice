@@ -14,7 +14,7 @@ import Icon from '../../@core/components/icon'
 import { CircularProgress, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { checkNullUndefined, safeValue } from './global';
-const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC, qcInward }) => {
+const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC, qcInward, inwardLoader, QCLoader }) => {
     const theme = useTheme();
     const [qcData, setQCData] = useState([]);
     const kpiMFGFlag = useSelector((state) => state?.kpi?.mfg);
@@ -67,7 +67,7 @@ const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC, qcInward }) =
       }
 
   return (
-    <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'198px'}}>
+    <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'198px', display:'flex', justifyContent:'center', alignItems:'center'}}>
         {/* <CardHeader
             title='Quality Control'
             sx={{ '& .MuiCardHeader-action': { m: 0, alignSelf: 'center' } }}
@@ -78,8 +78,8 @@ const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC, qcInward }) =
             // }
             /> */}
         {
-          kpiMFGFlag ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
-          <CircularProgress sx={{color:'black'}} />
+          ( QCLoader || inwardLoader) ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
+          <CircularProgress sx={{color:'grey'}} />
         </Box> :
           <CardContent
             sx={{ pt: theme => `${theme.spacing(3)} !important`, pb: theme => `${theme.spacing(3)} !important` }}

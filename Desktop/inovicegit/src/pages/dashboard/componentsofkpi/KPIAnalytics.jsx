@@ -39,11 +39,11 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
     }, 1000);
 
     return interval; 
-  };
+    };
 
-  const stopTimer = (interval) => {
-    clearInterval(interval); 
-  };
+    const stopTimer = (interval) => {
+      clearInterval(interval); 
+    };
 
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme?.breakpoints?.down('sm'));
@@ -94,182 +94,133 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
 
         //separate api call 
         const [PrdDev, setPrdDev] = useState([]); //product development
+        const [PDLoader, setPDLoader] = useState(false);
         const [QuaC, setQuaC] = useState([]); //quality control
+        const [QCLoader, setQCLoader] = useState(false);
         const [saleMTs, setSaleMTs] = useState([]); //sale marketing total sale
+        const [saleMTsLoader, setSaleMTsLoader] = useState(false);
         const [BCwise, setBCwise] = useState([]); //sale marketing total sale business class wise
+        const [BCwiseLoader, setBCwiseLoader] = useState(false);
         const [LWise, setLWise] = useState([]); //sale marketing total sale location wise
+        const [LWiseLoader, setLWiseLoader] = useState(false);
         const [orderCmplt, setOrderCmplt] = useState([]); //sale marketing order completion
+        const [OCLoader, setOCLoader] = useState(false);
         const [SMOrder, setSMOrder] = useState(); // sale marketing order
-        const [InventoryRatio, setInventoryRatio] = useState(); // inventory turn over ratio
+        const [SMOrderLoader, setSMOrderLoader] = useState(false);
         const [avgCollRatio, setAvgCollRatio] = useState(); // avg. collection period
+        const [acrLoader, setACRLoader] = useState(false);
+        const [InventoryRatio, setInventoryRatio] = useState(); // inventory turn over ratio
+        const [irLoader, setIRLoader] = useState(false);
     
         const [bgComp, setBgComp] = useState();
+        const [bgLoader, setBGLoader] = useState(false);
         const [g_loss, setG_Loss] = useState();
+        const [lossLoader, setLossLoader] = useState(false);
         const [rmStock, setRmStock] = useState();
+        const [rmStockLoader, setRMStockLoader] = useState(false);
         const [mfgTable, setMfgTable] = useState();
+        const [mfgLoader, setMFGLoader] = useState(false);
         const [qcInward, setQcInward] = useState();
+        const [inwardLoader, setInwardLoader] = useState(false);
 
+    //sales
     const ProductDevelopmentFetch = async() => {
       try {
+        setPDLoader(true);
           const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "ProductDevelopment");
           if(response){
-            
-            // const data3 = [
-            //   {
-            //     stats: `${parseFloat(checkNullUndefined(response[0]?.Cnt))} / ${parseFloat(checkNullUndefined(response[0]?.MetalWeight))?.toFixed(3)} gm`,
-            //     title: 'New Development',
-            //   },
-            //   {
-            //     stats: `${parseFloat(checkNullUndefined((response?.SaleCount / (response[0]?.DesignCnt))))?.toFixed(2)}`,
-            //     title: 'Repetation Rate',
-            //   },
-              
-            // ]
             setPrdDev(response[0]);
+            setPDLoader(false);
+          }else{
+            setPDLoader(false);
           }
           
       } catch (error) {
         console.log(error);
-        
+        setPDLoader(false);
       }
     }
     const QualityControlFetch = async() => {
       try {
+          setQCLoader(true);
           const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "QualityControl");
           if(response){
-            // const data2 = [
-            //   {
-            //     // stats: parseFloat(checkNullUndefined(obj?.ProductionApiData?.rd[0]?.qc_avg_inward))?.toFixed(2),
-            //     stats: 0,
-            //     title: 'Inward',
-            //   },
-            //   {
-            //     stats: parseFloat(checkNullUndefined(response[0]?.JobMoveStockBookCount))?.toFixed(2),
-            //     title: 'Outward',
-            //   },
-            //   {
-            //     stats: (checkNullUndefined(response[0]?.QACountWithOutClub)),
-            //     title: 'Total Jobs',
-            //   },
-            //   {
-            //     stats: parseFloat(checkNullUndefined((response[0]?.DaysDiff_QA_To_Stock / (response[0]?.TotalJobCount_QA_To_Stock))))?.toFixed(2),
-            //     title: 'Avg. Prs. Time',
-            //   }
-            // ]
             setQuaC(response[0]);
+            setQCLoader(false);
+          }else{
+            setQCLoader(false);
           }
           
       } catch (error) {
         console.log(error);
+        setQCLoader(false);
         
       }
     }
     const SalesMarketing_TotalSaleFetch = async() => {
       try {
+          setSaleMTsLoader(true);
           const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_TotalSale");
           if(response){
-            
-            
-            // const data5 = [
-            //   {
-            //   stats: `${parseFloat(checkNullUndefined(response[0]?.NetWt))?.toFixed(3)} gm`,
-            //   title: 'Total Sale(Net)',
-            //   },
-            //  {
-            //   stats: `${(checkNullUndefined(response[0]?.MetalAmount))}`,
-            //   title: 'Gold Amt',
-            //   },
-            //  {
-            //   stats: `${(checkNullUndefined(response[0]?.DiamondAmount))}`,
-            //   title: 'Diamond Amt',
-            // },
-            //  {
-            //   stats: `${(checkNullUndefined(response[0]?.ColorStoneAmount))}`,
-            //   title: 'Color Stone Amt',
-            // },
-            // {
-            //   stats: `${(checkNullUndefined(response[0]?.LabourAmount))}`,
-            //   title: 'Labour Amt',
-            // }
-            // ];
-
             setSaleMTs(response[0]);
+            setSaleMTsLoader(false);
+          }else{
+            setSaleMTsLoader(false);
           }
-          
       } catch (error) {
         console.log(error);
-        
+        setSaleMTsLoader(true);
       }
     }
     const SalesMarketing_TotalSaleBusinessClassWiseFetch = async() => {
       try {
+        setBCwiseLoader(true);
           const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_TotalSaleBusinessClassWise");
           if(response){
-            // let arr = response?.sort((a, b) => b?.Amount - a?.Amount);
-            //     // const formatedArr = obj?.SalesMarketing_TotalSaleBusinessClassWise?.slice(0, 4);
-            //     const formatedArr = arr?.slice(0, 4);
-            //     // const formatedArr2 = obj?.SalesMarketing_TotalSaleBusinessClassWise?.slice(4);
-            //     const formatedArr2 = arr?.slice(4);
-            //     const obj_cs = {
-            //       CustomerType : "Other",
-            //       Amount:0
-            //     }
-                
-            //     formatedArr2?.forEach((a) => {
-            //       obj_cs.Amount += a?.Amount;
-            //     })
-            //     if(obj_cs?.Amount !== 0){
-            //       formatedArr.push(obj_cs);
-            //     }
-                
                 setBCwise(response);
+                setBCwiseLoader(false);
+          }else{
+            setBCwiseLoader(false);
           }
-          
       } catch (error) {
         console.log(error);
-        
+        setBCwiseLoader(false);
       }
     }
     const SalesMarketing_TotalSaleLocationWiseFetch = async() => {
       try {
+        setLWiseLoader(true);
           const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_TotalSaleLocationWise");
           if(response){
                 setLWise(response);
+                setLWiseLoader(false);
+          }else{
+            setSaleMTsLoader(false);
           }
           
       } catch (error) {
         console.log(error);
-        
+        setLWiseLoader(false);
       }
     }
     const SalesMarketing_OrderCompletionFetch = async() => {
       try {
+        setOCLoader(true);
           const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_OrderCompletion");
           if(response){
-            
             setOrderCmplt(response[0]);
+            setOCLoader(false);
+          }else{
+            setOCLoader(false);
           }
-          
       } catch (error) {
         console.log(error);
-        
-      }
-    }
-    const AvgCollectionPeriodFetch = async() => {
-      try {
-          const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "AvgCollectionPeriod");
-          if(response){
-            
-            setAvgCollRatio(response[0]);
-          }
-          
-      } catch (error) {
-        console.log(error);
-        
+        setOCLoader(false);
       }
     }
     const SalesMarketing_OrderFetch = async() => {
       try {
+        setSMOrderLoader(true);
         const body2s = JSON.stringify({
           "Token" : `${tkn}`  
           ,"ReqData":`[{\"Token\":\"${tkn}\",\"Evt\":\"SalesMarketing_Order\",\"FDate\":\"${moment(fdate)?.format('MM/DD/YYYY')}\",\"TDate\":\"${moment(tdate)?.format('MM/DD/YYYY')}\"}]`
@@ -282,15 +233,37 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
             if(SMO?.data?.Data){
                 setSMOrder(SMO?.data?.Data);
                 setPopUpList(SMO?.data?.Data);
+                setSMOrderLoader(false);
+            }else{
+              setSMOrderLoader(false);
             }
+        }else{
+          setSMOrderLoader(false);
         }
       } catch (error) {
         console.log(error);
-        
+        setSMOrderLoader(false);
+      }
+    }
+    const AvgCollectionPeriodFetch = async() => {
+      try {
+        setACRLoader(true);
+          const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "AvgCollectionPeriod");
+          if(response){
+            setAvgCollRatio(response[0]);
+            setACRLoader(false);
+          }else{
+            setACRLoader(false);
+          }
+          
+      } catch (error) {
+        console.log(error);
+        setACRLoader(false);
       }
     }
     const InventoryTurnOverRatioFetch = async() => {
       try {
+        setIRLoader(true);
         const body = JSON.stringify({
           "Token" : `${tkn}`  
           ,"ReqData":`[{\"Token\":\"${tkn}\",\"Evt\":\"InventoryTurnOverRatio\",\"FDate\":\"${moment(fdate)?.format('MM/DD/YYYY')}\",\"TDate\":\"${moment(tdate)?.format('MM/DD/YYYY')}\"}]`
@@ -302,14 +275,19 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         
         if(ITOR_response?.data?.Data){
           setInventoryRatio(ITOR_response?.data?.Data);
+          setIRLoader(false);
+        }else{
+          setACRLoader(false);
         }
       } catch (error) {
         console.log(error);
-        
+        setIRLoader(false);
       }
     }
+    //production
     const BaggingCompletedFetch = async() => {
       try {
+        setBGLoader(true);
       const replacedUrl = (url)?.replace("M.asmx/Optigo", "report.aspx");
       const body2 = {
         "con":"{\"id\":\"\",\"mode\":\"kpidashboard_baggingcompleted\",\"appuserid\":\"admin@hs.com\"}",
@@ -328,16 +306,21 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       if(prdApi?.data?.Status === '200'){
           if(prdApi?.data?.Data?.rd?.length > 0){
               setBgComp(prdApi?.data?.Data?.rd[0])
-              
+              setBGLoader(false);
+          }else{
+            setBGLoader(false);
           }
+      }else{
+        setBGLoader(false);
       }
       } catch (error) {
           console.log(error);
-          
+          setBGLoader(false);
       }
     }
     const G_LossFetch = async() => {
       try {
+        setLossLoader(true);
       const replacedUrl = (url)?.replace("M.asmx/Optigo", "report.aspx");
       const body2 = {
         "con":"{\"id\":\"\",\"mode\":\"kpidashboard_loss\",\"appuserid\":\"admin@hs.com\"}",
@@ -356,16 +339,22 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       if(response?.data?.Status === '200'){
           
           if(response?.data?.Data?.rd?.length > 0){
-              setG_Loss(response?.data?.Data?.rd[0])   
+              setG_Loss(response?.data?.Data?.rd[0]);
+              setLossLoader(false);
+          }else{
+            setLossLoader(false);
           }
+      }else{
+        setLossLoader(false);
       }
       } catch (error) {
           console.log(error);
-          
+          setLossLoader(false);
       }
     }
     const RMStockFetch = async() => {
       try {
+        setRMStockLoader(true);
       const replacedUrl = (url)?.replace("M.asmx/Optigo", "report.aspx");
       const body2 = {
         "con":"{\"id\":\"\",\"mode\":\"kpidashboard_rmstock\",\"appuserid\":\"admin@hs.com\"}",
@@ -382,18 +371,23 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
     // const prdApi = await axios.post("http://zen/api/report.aspx", body2, { headers: headers2 });
     const response = await axios.post(replacedUrl, body2, { headers: headers2 });
       if(response?.data?.Status === '200'){
-          
           if(response?.data?.Data?.rd?.length > 0){
-              setRmStock(response?.data?.Data?.rd[0])   
+              setRmStock(response?.data?.Data?.rd[0]);
+              setRMStockLoader(false);
+          }else{
+            setRMStockLoader(false);
           }
+      }else{
+        setRMStockLoader(false);
       }
       } catch (error) {
           console.log(error);
-          
+          setRMStockLoader(false);
       }
     }
     const MFGFetch = async() => {
       try {
+        setMFGLoader(true);
       const replacedUrl = (url)?.replace("M.asmx/Optigo", "report.aspx");
       const body2 = {
         "con":"{\"id\":\"\",\"mode\":\"kpidashboard_mfg\",\"appuserid\":\"admin@hs.com\"}",
@@ -412,17 +406,22 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       if(response?.data?.Status === '200'){
               
           if(response?.data?.Data?.rd?.length > 0){
-              setMfgTable(response?.data?.Data?.rd)   ;
+              setMfgTable(response?.data?.Data?.rd);
+              setMFGLoader(false);
+          }else{
+            setMFGLoader(false);
           }
+      }else{
+        setMFGLoader(false);
       }
       } catch (error) {
           console.log(error);
-          
+          setMFGLoader(false);
       }
     }
     const inwardFetch = async() => {
       try {
-
+      setInwardLoader(true);
       const replacedUrl = (url)?.replace("M.asmx/Optigo", "report.aspx");
       
       const body_kpi_3 = {
@@ -443,11 +442,13 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       const KQC = kpidashboard_qcinward?.data?.Data;
       if(KQC?.rd){
         setQcInward(KQC?.rd[0]);
+        setInwardLoader(false);
+      }else{
+        setInwardLoader(false);
       }
-      
       } catch (error) {
         console.log(error);
-        
+        setInwardLoader(false);
       }
     }
 
@@ -488,7 +489,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           break;
         case 'Yesterday':
           startDate = today.clone().subtract(1, 'day');
-          endDate = today;
+          endDate = startDate;
           break;
         case 'Week':
           startDate = today.clone().subtract(6, 'days');
@@ -530,7 +531,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       setDropdownValue(selectedValue);
       setInitialDateRange(selectedValue);
     };
-
     const safeValue = (value) => {
       if (
           value === null || 
@@ -544,8 +544,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           return 0;
       }
       return value;
-  };
-
+    };
     const callAllApi = async() => {
       setElapsedTime(0);
       const interval = startTimer();
@@ -1082,8 +1081,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         setPleaseWaitFlag(false);
       }
     }
-
-      const handleApply = () => {
+    const handleApply = () => {
         const startDate = moment(fdate);
         const endDate = moment(tdate);
         const diffInDays = endDate.diff(startDate, 'days');
@@ -1152,9 +1150,8 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       MFGFetch();
       inwardFetch();
 
-      };
-
-      const handlePopUpConfirm = () => {
+    };
+    const handlePopUpConfirm = () => {
         setShowPopUp(false); 
         // callAllApi(); 
 
@@ -1175,11 +1172,10 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       RMStockFetch();
       MFGFetch();
       inwardFetch();
-      };
-      
-      const handlePopUpCancel = () => {
+    };  
+    const handlePopUpCancel = () => {
         setShowPopUp(false); 
-      };
+    };
       
 
 
@@ -1387,57 +1383,57 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         <Grid item xs={12} md={4} lg={3}><HeaderOfCard headerName="QUALTIY CONTROL" bgColor={'#7d5ae773'} /></Grid>
         <Grid item xs={12} md={4} lg={2}><HeaderOfCard headerName="PRODUCT DEVELOPMENT" bgColor={'#7d5ae773'} /></Grid>
         <Grid item xs={12} md={6} lg={7}>
-            <RawMaterial tkn={tkn} bgColor={theme?.palette?.customColors?.purple} RMData={RMData} bgComp={bgComp} g_loss={g_loss} rmStock={rmStock} />
+            <RawMaterial tkn={tkn} bgColor={theme?.palette?.customColors?.purple} RMData={RMData} bgComp={bgComp} g_loss={g_loss} rmStock={rmStock} bgLoader={bgLoader} lossLoader={lossLoader} rmStockLoader={rmStockLoader} />
         </Grid>
         <Grid item xs={12} md={6} lg={3}>
-            <QualityControl tkn={tkn} bgColor={theme?.palette?.customColors?.purple} QCData={QCData} QuaC={QuaC} qcInward={qcInward}  />
+            <QualityControl tkn={tkn} bgColor={theme?.palette?.customColors?.purple} QCData={QCData} QuaC={QuaC} qcInward={qcInward} inwardLoader={inwardLoader} QCLoader={QCLoader} />
         </Grid>
         <Grid item xs={12} md={6} lg={2}>
-            <ProductDevelopment tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  PDData={PDData} PrdDev={PrdDev} />
+            <ProductDevelopment tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  PDData={PDData} PrdDev={PrdDev} PDLoader={PDLoader} />
         </Grid></>}
 
         { isMaxWidth11410px && <>
         <Grid item xs={12} ><HeaderOfCard headerName="RAW MATERIAL" bgColor={'#7d5ae773'} /></Grid>
             <Grid item xs={12} md={12} lg={12}>
-                <RawMaterial tkn={tkn} bgColor={theme?.palette?.customColors?.purple} RMData={RMData} bgComp={bgComp} g_loss={g_loss} rmStock={rmStock} />
+                <RawMaterial tkn={tkn} bgColor={theme?.palette?.customColors?.purple} RMData={RMData} bgComp={bgComp} g_loss={g_loss} rmStock={rmStock} bgLoader={bgLoader} lossLoader={lossLoader} rmStockLoader={rmStockLoader} />
             </Grid>
         <Grid item xs={12} md={6} lg={6}><HeaderOfCard headerName="QUALTIY CONTROL" bgColor={'#7d5ae773'} /></Grid>
         { !isMaxWidth900px && <Grid item xs={12} md={6} lg={6}><HeaderOfCard headerName="PRODUCT DEVELOPMENT" bgColor={'#7d5ae773'} /></Grid>}
         
         <Grid item xs={12} md={6} lg={6}>
-            <QualityControl tkn={tkn} bgColor={theme?.palette?.customColors?.purple} QCData={QCData} QuaC={QuaC} qcInward={qcInward}  />
+            <QualityControl tkn={tkn} bgColor={theme?.palette?.customColors?.purple} QCData={QCData} QuaC={QuaC} qcInward={qcInward} inwardLoader={inwardLoader} QCLoader={QCLoader} />
         </Grid>
         { isMaxWidth900px && <Grid item xs={12} md={6} lg={6}><HeaderOfCard headerName="PRODUCT DEVELOPMENT" bgColor={'#7d5ae773'} /></Grid>}
         <Grid item xs={12} md={6} lg={6}>
-            <ProductDevelopment tkn={tkn} bgColor={theme?.palette?.customColors?.purple} PDData={PDData} PrdDev={PrdDev} />
+            <ProductDevelopment tkn={tkn} bgColor={theme?.palette?.customColors?.purple} PDData={PDData} PrdDev={PrdDev} PDLoader={PDLoader} />
         </Grid></>}
         
         
         { !isMaxWidth1700px && <><Grid item xs={12} md={12} lg={12}><HeaderOfCard headerName="SALES & MARKETING" bgColor={'#7d5ae773'} /></Grid>
         <Grid item xs={12} md={6} lg={3}>
-            <SalesNMarketing2 tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  SM2={SM2} saleMTs={saleMTs} />
+            <SalesNMarketing2 tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  SM2={SM2} saleMTs={saleMTs} saleMTsLoader={saleMTsLoader} />
         </Grid>
         <Grid item xs={12} md={6} lg={2}>
-            <SalesNMarketing3 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  SM3={SM3} BCwise={BCwise}  />
+            <SalesNMarketing3 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  SM3={SM3} BCwise={BCwise} BCwiseLoader={BCwiseLoader}  />
         </Grid>
         <Grid item xs={12} md={6} lg={7}>
-            <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.customColors?.purple} SM1={SM1} orderCmplt={orderCmplt} popUpList={popUpList} SMOrder={SMOrder} />
+            <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.customColors?.purple} SM1={SM1} orderCmplt={orderCmplt} popUpList={popUpList} SMOrder={SMOrder} OCLoader={OCLoader} SMOrderLoader={SMOrderLoader} />
         </Grid></>}
         
         { isMaxWidth1700px && <><Grid item xs={12} md={12} lg={12}><HeaderOfCard headerName="SALES & MARKETING" bgColor={'#7d5ae773'} /></Grid>
         <Grid item xs={12} md={6} lg={6}>
-            <SalesNMarketing2 tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  SM2={SM2} saleMTs={saleMTs} />
+            <SalesNMarketing2 tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  SM2={SM2} saleMTs={saleMTs}  saleMTsLoader={saleMTsLoader} />
         </Grid>
         <Grid item xs={12} md={6} lg={6}>
-            <SalesNMarketing3 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  SM3={SM3} BCwise={BCwise}  />
+            <SalesNMarketing3 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  SM3={SM3} BCwise={BCwise} BCwiseLoader={BCwiseLoader}  />
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
-            <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  SM1={SM1} orderCmplt={orderCmplt} popUpList={popUpList} SMOrder={SMOrder} />
+            <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  SM1={SM1} orderCmplt={orderCmplt} popUpList={popUpList} SMOrder={SMOrder} OCLoader={OCLoader}  SMOrderLoader={SMOrderLoader} />
         </Grid></>}
         
         <Grid item xs={12} md={12} lg={12}><HeaderOfCard headerName="MANUFACTURING" bgColor={'#7d5ae773'} /></Grid>
         <Grid item xs={12} md={12} lg={12}>
-            <Manufacturing tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  MFGData={MFGData} columns={columns} LWise={LWise} mfgTable={mfgTable} />
+            <Manufacturing tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  MFGData={MFGData} columns={columns} LWise={LWise} mfgTable={mfgTable} mfgLoader={mfgLoader} />
         </Grid>
         </>}
     </Grid>

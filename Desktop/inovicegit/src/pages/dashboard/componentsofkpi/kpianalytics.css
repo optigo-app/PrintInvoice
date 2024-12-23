@@ -63,6 +63,13 @@
 
 
 }
+
+
+.center_kpi{
+    display:flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
 /* .fs_analytics_l .MuiDataGrid-columnHeaderTitle{
     font-weight: bold !important;
 }
