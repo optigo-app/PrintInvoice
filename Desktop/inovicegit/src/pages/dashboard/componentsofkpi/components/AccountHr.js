@@ -3,20 +3,23 @@ import React, { useEffect, useState } from 'react'
 import AccountNHR from './AccountNHR'
 import { checkNullUndefined } from './global';
 
-const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData1, bgColor, fdate, tdate }) => {
+const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData1, bgColor, acrLoader }) => {
 
     const theme = useTheme();
 
     // Check if the necessary props are available
-    if (!InventoryRatio || !saleMTs || !PrdDev || !avgCollRatio) {
+    // if (!InventoryRatio || !saleMTs || !PrdDev || !avgCollRatio) {
+    if (acrLoader) {
         return <>
                     <Grid container spacing={1}>
-                {["Fix Asset Laverage Ratio","Revenue Per Employees","Avg. Due Debtors", "Inventory Turn Over Ratio", "Avg. Collection Period", "Labour vs Exp"]?.map((e, index) => (
+                 {["Fix Asset Laverage Ratio","Revenue Per Employees","Avg. Due Debtors", "Inventory Turn Over Ratio", "Avg. Collection Period", "Labour vs Exp"]?.map((e, index) => (
                     <Grid item xs={12} sm={6} md={4} key={index}>
                         <Card   className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'115px'}}>
                             {/* <CircularProgress sx={{ display: 'block', margin: 'auto' }} /> */}
                             {/* <Typography variant="h6" align="center">Loading...</Typography> */}
-                            <CardContent>
+                        { acrLoader ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
+                                    <CircularProgress sx={{color:'grey'}} />
+                                    </Box> : <CardContent>
                                 <Box sx={{ gap: 2, display: 'flex', alignItems: 'stretch', justifyContent: 'space-between' }}>
                                 <Box sx={{ gap: 3, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                                     <div>
@@ -33,7 +36,7 @@ const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData
                                     </div>
                                 </Box>
                                 </Box>
-                            </CardContent>
+                            </CardContent>}
                         </Card>
                     </Grid>
                 ))}
@@ -96,7 +99,7 @@ const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData
             {data?.length ? (
                 data?.map((item, index) => (
                     <Grid item xs={12} sm={6} md={4} key={index}>
-                        <AccountNHR tkn={tkn} data={item} bgColor={bgColor} fdate={fdate} tdate={tdate} />
+                        <AccountNHR tkn={tkn} data={item} bgColor={bgColor}   />
                     </Grid>
                 ))
             ) : (

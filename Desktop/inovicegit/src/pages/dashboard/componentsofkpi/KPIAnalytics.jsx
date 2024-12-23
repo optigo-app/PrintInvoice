@@ -1376,7 +1376,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
             ))} */}
 
         <Grid item xs={12} sm={12} md={12} >
-          <AccountHr tkn={tkn} InventoryRatio={InventoryRatio} saleMTs={saleMTs} PrdDev={PrdDev} avgCollRatio={avgCollRatio} apiData1={apiData1} bgColor={theme?.palette?.customColors?.purple} fdate={fdatef} tdate={tdatef} />
+          <AccountHr tkn={tkn} InventoryRatio={InventoryRatio} saleMTs={saleMTs} PrdDev={PrdDev} avgCollRatio={avgCollRatio} apiData1={apiData1} bgColor={theme?.palette?.customColors?.purple} acrLoader={acrLoader} />
         </Grid>
 
         { !isMaxWidth11410px && <><Grid item xs={12} md={4} lg={7}><HeaderOfCard headerName="RAW MATERIAL" bgColor={'#7d5ae773'} /></Grid>
@@ -1433,7 +1433,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         
         <Grid item xs={12} md={12} lg={12}><HeaderOfCard headerName="MANUFACTURING" bgColor={'#7d5ae773'} /></Grid>
         <Grid item xs={12} md={12} lg={12}>
-            <Manufacturing tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  MFGData={MFGData} columns={columns} LWise={LWise} mfgTable={mfgTable} mfgLoader={mfgLoader} />
+            <Manufacturing tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  MFGData={MFGData} columns={columns} LWise={LWise} mfgTable={mfgTable} mfgLoader={mfgLoader} LWiseLoader={LWiseLoader} />
         </Grid>
         </>}
     </Grid>

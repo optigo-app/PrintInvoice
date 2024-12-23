@@ -11,7 +11,7 @@ import {  useDispatch, useSelector } from 'react-redux';
 
 
 // const Manufacturning = ({tkn, bgColor, fdate, tdate, MFGData, columns, LWise, mfgTable}) => {
-const Manufacturning = ({tkn, bgColor, LWise, mfgTable, mfgLoader}) => {
+const Manufacturning = ({tkn, bgColor, LWise, mfgTable, mfgLoader, LWiseLoader}) => {
 
   // ** State
   const [data, setData] = useState([])
@@ -530,7 +530,7 @@ const Manufacturning = ({tkn, bgColor, LWise, mfgTable, mfgLoader}) => {
       justifyContent: "center", // Center items horizontally
      }}>
 
-      { mfgLoader ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
+      { (mfgLoader || LWiseLoader) ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
               <CircularProgress sx={{color:'grey'}} />
             </Box> : <DataGrid
              rows={MFGData}  // Use the sliced paginated data
