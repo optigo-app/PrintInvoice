@@ -15,8 +15,8 @@ import { CircularProgress, useTheme } from '@mui/material';
 import moment from 'moment';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { checkNullUndefined } from './global';
-const RawMaterial = ({tkn, bgColor, fdate, tdate, RMData}) => {
+import { checkNullUndefined, safeValue } from './global';
+const RawMaterial = ({tkn, bgColor, fdate, tdate, RMData, bgComp, g_loss, rmStock, lossLoader, rmStockLoader, bgLoader}) => {
     const theme = useTheme();
     const kpiMFGFlag = useSelector((state) => state?.kpi?.mfg);
     const apiCall = useSelector(state => state?.kpi?.apiCall);
@@ -24,11 +24,124 @@ const RawMaterial = ({tkn, bgColor, fdate, tdate, RMData}) => {
     const [apiData, setApiData] = useState([]);
     const [rawMaterial, setRawMaterial] = useState([]);
 
-      useEffect(() => { 
+      // useEffect(() => { 
 
-        setRawMaterial(apiData);
+      //   formateArray();
 
-      },[apiData]);
+      // },[apiData]);
+
+
+      // const formateArray = () => {
+      //   try {
+      //     const combinedData = {};
+      //     const allLocations = new Set();
+        
+      //     // Merge data from kpidashboard_mfg
+      //     obj?.kpidashboard_mfg?.forEach((item) => {
+      //       const location = item?.manufacturelocationname || "NoLocation";
+        
+      //       if (!combinedData[location]) {
+      //         combinedData[location] = {};
+      //       }
+        
+      //       // If manufacturelocationname is "-", merge with "NoLocation"
+      //       if (location === "-") {
+      //         combinedData["NoLocation"] = {
+      //           ...combinedData["NoLocation"],
+      //           "Production (gm)": (combinedData["NoLocation"]?.["Production (gm)"] || 0) + (item?.mfg_production_gms || 0),
+      //           Jobs: (combinedData["NoLocation"]?.Jobs || 0) + (item?.mfg_jobs || 0),
+      //           "Gross Loss (%)": (combinedData["NoLocation"]?.["Gross Loss (%)"] || 0) + (item?.mfg_grossloss || 0),
+      //           "Rejection (%)": (combinedData["NoLocation"]?.["Rejection (%)"] || 0) + (item?.mfg_rejection || 0),
+      //         };
+      //       } else {
+      //         combinedData[location] = {
+      //           ...combinedData[location],
+      //           "Production (gm)": (item?.mfg_production_gms)?.toFixed(3) || 0.000,
+      //           Jobs: (item?.mfg_jobs) || 0.00,
+      //           "Gross Loss (%)": (item?.mfg_grossloss)?.toFixed(3) || 0.000,
+      //           "Rejection (%)": (item?.mfg_rejection)?.toFixed(3) || 0.000,
+      //         };
+      //       }
+        
+      //       allLocations.add(location);
+      //     });
+        
+      //     // Merge data from SalesMarketing_TotalSaleLocationWise
+      //     obj?.SalesMarketing_TotalSaleLocationWise?.forEach((item) => {
+      //       const location = item?.locationname || "NoLocation";
+        
+      //       if (!combinedData[location]) {
+      //         combinedData[location] = {};
+      //       }
+        
+      //       // If locationname is "NoLocation", sum the respective fields
+      //       if (location === "NoLocation") {
+      //         combinedData["NoLocation"] = {
+      //           ...combinedData["NoLocation"],
+      //           "Labour Amount": (combinedData["NoLocation"]?.["Labour Amount"] || 0) + (item?.LabourAmount || 0),
+      //         };
+      //       } else {
+      //         combinedData[location] = {
+      //           ...combinedData[location],
+      //           "Labour Amount": item?.LabourAmount || 0.00,
+      //         };
+      //       }
+        
+      //       allLocations.add(location);
+      //     });
+        
+      //     // Define KPIs
+      //     const kpis = [
+      //       "Production (gm)",
+      //       "Jobs",
+      //       "Labour Amount",
+      //       "Gross Loss (%)",
+      //       "Rejection (%)",
+      //     ];
+        
+      //     // Create Rows for the Table
+      //     const tableRows = kpis?.map((kpi, index) => {
+      //       const row = { id: index + 1, KPI: kpi };
+      //       allLocations.forEach((location) => {
+      //         // Apply conditional decimal formatting based on KPI name
+      //         if (kpi === "Labour Amount") {
+      //           row[location] = parseFloat(combinedData[location]?.[kpi] || 0.00)?.toFixed(2); // 2 decimals for amount
+      //         } else if (kpi === "Production (gm)" || kpi === "Gross Loss (%)" || kpi === "Rejection (%)") {
+      //           row[location] = parseFloat(combinedData[location]?.[kpi] || 0.000)?.toFixed(3); // 3 decimals for weight/loss
+      //         } else {
+      //           row[location] = (combinedData[location]?.[kpi] || 0.00);
+      //         }
+      //       });
+      //       return row;
+      //     });
+        
+      //     // Define Columns for the Table
+      //     const tableColumns = [
+      //       { field: "KPI", headerName: "KPI", width: 200 },
+      //       ...Array?.from(allLocations)?.map((location) => ({
+      //         field: location,
+      //         headerName: location,
+      //         flex: 1,
+      //         minWidth: 170,
+      //         maxWidth: 300,
+      //       })),
+      //     ];
+        
+      //     // Rename NoLocation header if necessary
+      //     tableColumns?.forEach((e) => {
+      //       if (e?.headerName?.toLowerCase() === "nolocation") {
+      //         e.headerName = "OutRight";
+      //       }
+      //     });
+        
+      //     setMFGData(tableRows);
+      //     setColumns(tableColumns);
+      //   } catch (error) {
+      //     console.log(error);
+      //     setPleaseWaitFlag(false);
+      //   }
+        
+      // }
 
       // useEffect(() => {
 
@@ -105,10 +218,56 @@ const RawMaterial = ({tkn, bgColor, fdate, tdate, RMData}) => {
         console.log(error);
       }
   }
+  
+
+  const data6 = [
+                
+    {
+      stats: safeValue(bgComp?.rm_baggingcompleted),
+      title: 'Bagging Completed',
+    },
+
+    {
+      stats: `${(parseInt((safeValue(bgComp?.rm_avg_proc_time) / (60 * 60 * 24)))?.toFixed(0))} Days`,
+      title: 'Avg. Process Time',
+    },
+    
+    {
+      stats: ` ${ g_loss?.rm_grossloss === null ? '-' : (safeValue(g_loss?.rm_grossloss)?.toFixed(3)) && "gm"} `,
+      title: 'Gross Loss',
+    },
+    {
+      stats: '',
+      title: '',
+      wt: ''
+    },
+    {
+      stats: (rmStock?.rm_goldstock_amt === null || rmStock?.rm_goldstock_amt === undefined) ? 0 : `${safeValue((rmStock?.rm_goldstock_amt)?.toFixed(2))} Amt`,
+      title: 'Gold Stock',
+      wt: `${(+(safeValue(rmStock?.rm_goldstock_wt)))?.toFixed(3)} gm`
+    },
+ 
+    {
+      stats: (rmStock?.rm_diastock_amt === null || rmStock?.rm_diastock_amt === undefined) ? 0 : `${safeValue((rmStock?.rm_diastock_amt))?.toFixed(2)} Amt`,
+      title: 'Diamond Stock',
+      wt: `${(+(safeValue(rmStock?.rm_diastock_wt)))?.toFixed(3)} ctw`
+    },
+    {
+      stats: (rmStock?.rm_csstock_amt === null || rmStock?.rm_csstock_amt === undefined) ? 0 : `${safeValue((rmStock?.rm_csstock_amt))?.toFixed(2)} Amt`,
+      title: 'Colour Stone Stock',
+      wt: `${(+(safeValue(rmStock?.rm_csstock_wt)))?.toFixed(3)} ctw`
+    },
+    {
+      stats: (rmStock?.rm_miscstock_amt === null || rmStock?.rm_miscstock_amt === undefined) ? 0 : `${safeValue((rmStock?.rm_miscstock_amt))?.toFixed(2)} Amt`,
+      title: 'Misc Stock',
+      wt: `${(+(safeValue(rmStock?.rm_miscstock_wt)))?.toFixed(3)} ctw`
+    }
+  ];
+  
 
     const renderStats = () => {
-        return RMData?.map((sale, index) => (
-          <Grid item xs={6} md={4} key={index}>
+        return data6?.map((sale, index) => (
+          <Grid item xs={12} sm={6} md={3} key={index}>
             <Box key={index} sx={{ display: 'flex', alignItems: 'center', pt:0 }}>
            
               <Box sx={{ display: 'flex', flexDirection: 'column', pt:0 }}>
@@ -122,14 +281,12 @@ const RawMaterial = ({tkn, bgColor, fdate, tdate, RMData}) => {
       }
   return (
     <>
-       <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'198px'}}>
+       <Card  className={`fs_analytics_l ${(bgLoader || rmStockLoader || lossLoader) ? 'center_kpi' : ''} `}  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'198px'}}>
           
-            {  kpiMFGFlag ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
-              <CircularProgress sx={{color:'black'}} />
+            {  (bgLoader || rmStockLoader || lossLoader) ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
+              <CircularProgress sx={{color:'lightgrey'}} />
             </Box> :
-            <CardContent
-                sx={{ pt: theme => `${theme.spacing(1)} !important`, pb: theme => `${theme.spacing(1)} !important` }}
-                >
+            <CardContent sx={{ pt: theme => `${theme.spacing(1)} !important`, pb: theme => `${theme.spacing(1)} !important` }} >
             <Grid container spacing={2}>
                 {renderStats()}
             </Grid>

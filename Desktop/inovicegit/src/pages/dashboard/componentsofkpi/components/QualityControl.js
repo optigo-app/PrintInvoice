@@ -13,8 +13,8 @@ import CustomAvatar from "../../@core/components/icon"
 import Icon from '../../@core/components/icon'
 import { CircularProgress, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { checkNullUndefined } from './global';
-const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC }) => {
+import { checkNullUndefined, safeValue } from './global';
+const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC, qcInward, inwardLoader, QCLoader }) => {
     const theme = useTheme();
     const [qcData, setQCData] = useState([]);
     const kpiMFGFlag = useSelector((state) => state?.kpi?.mfg);
@@ -27,8 +27,31 @@ const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC }) => {
         }
       },[QCData]);
 
+            const data = [
+              {
+                // stats: parseFloat(checkNullUndefined(obj?.ProductionApiData?.rd[0]?.qc_avg_inward))?.toFixed(2),
+                stats: safeValue(qcInward?.qc_avg_inward),
+                title: 'Inward',
+              },
+              {
+                stats: parseFloat(checkNullUndefined(QuaC?.JobMoveStockBookCount))?.toFixed(2),
+                title: 'Outward',
+              },
+              {
+                stats: (checkNullUndefined(QuaC?.QACountWithOutClub)),
+                title: 'Total Jobs',
+              },
+              {
+                stats: safeValue(parseFloat(checkNullUndefined((QuaC?.DaysDiff_QA_To_Stock / (QuaC?.TotalJobCount_QA_To_Stock))))?.toFixed(2)),
+                title: 'Avg. Prs. Time',
+              }
+            ]
+
+      
+
+
     const renderStats = () => {
-        return QCData?.map((sale, index) => (
+        return data?.map((sale, index) => (
           <Grid item xs={6} md={6} key={index}>
             <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
               {/* <CustomAvatar skin='light' color={sale.color} sx={{ mr: 4, width: 42, height: 42 }}>
@@ -44,7 +67,7 @@ const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC }) => {
       }
 
   return (
-    <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'198px'}}>
+    <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'198px', display:'flex', justifyContent:'center', alignItems:'center'}}>
         {/* <CardHeader
             title='Quality Control'
             sx={{ '& .MuiCardHeader-action': { m: 0, alignSelf: 'center' } }}
@@ -55,8 +78,8 @@ const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC }) => {
             // }
             /> */}
         {
-          kpiMFGFlag ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
-          <CircularProgress sx={{color:'black'}} />
+          ( QCLoader || inwardLoader) ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
+          <CircularProgress sx={{color:'lightgrey'}} />
         </Box> :
           <CardContent
             sx={{ pt: theme => `${theme.spacing(3)} !important`, pb: theme => `${theme.spacing(3)} !important` }}

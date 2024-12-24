@@ -11,7 +11,7 @@ import { CircularProgress } from '@mui/material';
 import { checkNullUndefined, makeWordShort } from './global';
 
 //SALES AND MARKETING 2ST BLOCK
-const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3, BCwise}) => {
+const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3, BCwise, BCwiseLoader}) => {
   const theme = useTheme();
 
   const [apiData, setApiData] = useState([]);
@@ -25,10 +25,10 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3, BCwise}) => {
         // const SalesMarketing_TotalSaleBusinessClassWise = await fetchKPIDashboardData(tkn, fdate, tdate, "SalesMarketing_TotalSaleBusinessClassWise");
         const SalesMarketing_TotalSaleBusinessClassWise = 1;
         
-        if(SalesMarketing_TotalSaleBusinessClassWise){
+        if(BCwise){
           setLoading(false);
-          const formatedArr = SalesMarketing_TotalSaleBusinessClassWise?.slice(0, 4);
-          const formatedArr2 = SalesMarketing_TotalSaleBusinessClassWise?.slice(4);
+          const formatedArr = BCwise?.slice(0, 4);
+          const formatedArr2 = BCwise?.slice(4);
           const obj = {
             CustomerType : "Other",
             Amount:0
@@ -49,13 +49,14 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3, BCwise}) => {
       }
     };
   
-    // fetchData(); 
+    fetchData(); 
 
-  },[fdate, tdate]);
+  },[BCwise]);
+  
 
   
   return (
-    <Card className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'230px'}}>
+    <Card className={`fs_analytics_l ${BCwiseLoader ? 'center_kpi' : ''}`}  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'230px', }}>
 
       <CardContent  sx={{
         maxHeight: '412px',
@@ -76,11 +77,11 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3, BCwise}) => {
         },
       }}>
         {
-          loading ? 
-              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-              <CircularProgress sx={{color:'black'}} />
+          BCwiseLoader ? 
+              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', top:`${(230 / 2)}px` }}>
+              <CircularProgress sx={{color:'lightgrey'}} />
             </Box> :
-         SM3?.map((item, index) => {
+         apiData?.map((item, index) => {
           return (
             <Box
               key={index}
@@ -118,7 +119,7 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3, BCwise}) => {
                     alignItems: 'center',
                    }}
                 >
-                  { item?.CustomerType === undefined ? <Typography variant='h6'>&nbsp;</Typography> : <Typography variant='h6' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}}>{` ${checkNullUndefined((item?.Amount))}`}</Typography>}
+                  { item?.CustomerType === undefined ? <Typography variant='h6'>&nbsp;</Typography> : <Typography variant='h6' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}}>{` ${checkNullUndefined(((item?.Amount)))?.toFixed(2)}`}</Typography>}
                 </Box>
               </Box>
             </Box>

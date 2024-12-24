@@ -14,8 +14,8 @@ import Icon from '../../@core/components/icon'
 import { CircularProgress, useMediaQuery, useTheme } from '@mui/material';
 import axios from 'axios';
 import { fetchKPIDashboardData } from '../../GlobalFunctions';
-import { checkNullUndefined } from './global';
-const ProductDevelopment = ({tkn, fdate, tdate, bgColor, PDData, PrdDev}) => {
+import { checkNullUndefined, safeValue } from './global';
+const ProductDevelopment = ({tkn, fdate, tdate, bgColor, PDData, PrdDev, PDLoader}) => {
 
   const [kpiPDdata, setKpiPDdata] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -45,20 +45,20 @@ const ProductDevelopment = ({tkn, fdate, tdate, bgColor, PDData, PrdDev}) => {
     }
 }
     const theme = useTheme();
-    // const data = [
-    //     {
-    //       stats: `${checkNullUndefined(kpiPDdata[0]?.Cnt)} / ${checkNullUndefined(kpiPDdata[0]?.MetalWeight?.toFixed(3))} gm`,
-    //       title: 'New Development',
-    //     },
-    //     {
-    //       stats: `${(checkNullUndefined((kpiPDdata[0]?.SaleCount / kpiPDdata[0]?.DesignCnt)?.toFixed(2)))}`,
-    //       title: 'Repetation Rate',
-    //     },
+    const data = [
+      {
+        stats: `${parseFloat(checkNullUndefined(PrdDev?.Cnt))} / ${safeValue(parseInt(checkNullUndefined(Math.round(PrdDev?.MetalWeight))))} gm`,
+        title: 'New Development',
+      },
+      {
+        stats: `${safeValue(parseFloat(checkNullUndefined((PrdDev?.SaleCount / (PrdDev?.DesignCnt))))?.toFixed(2))}`,
+        title: 'Repetation Rate',
+      },
        
-    //   ]
+      ]
 
     const renderStats = () => {
-        return PDData?.map((sale, index) => (
+        return data?.map((sale, index) => (
           <Grid item xs={8} md={8} key={index}>
             <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -71,10 +71,10 @@ const ProductDevelopment = ({tkn, fdate, tdate, bgColor, PDData, PrdDev}) => {
       }
 
   return (
-    <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'198px'}}>
-         { loading ?
+    <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'198px', display:'flex', justifyContent:'center', alignItems:'center'}}>
+         { PDLoader ?
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
-              <CircularProgress sx={{color:'black'}} />
+              <CircularProgress sx={{color:'lightgrey'}} />
             </Box> : <CardContent
             sx={{ pt: theme => `${theme.spacing(3)} !important`, pb: theme => `${theme.spacing(3)} !important` }}
             >

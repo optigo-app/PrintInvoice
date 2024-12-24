@@ -23,6 +23,9 @@
 .fs_analytics_l .MuiTypography-root{
     font-family: "Public Sans Light" !important;
 }
+.fs_analytics_l .MuiButtonBase-root{
+    font-family: "Public Sans Light" !important;
+}
 .fs_analytics_l{
     font-family: "Public Sans Light" !important;
 }
@@ -62,6 +65,13 @@
     }
 
 
+}
+
+
+.center_kpi{
+    display:flex !important;
+    justify-content: center !important;
+    align-items: center !important;
 }
 /* .fs_analytics_l .MuiDataGrid-columnHeaderTitle{
     font-weight: bold !important;

@@ -73,6 +73,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
+// import { DataGrid } from "@mui/x-data-grid-pro";
 import "./Testgrid.scss";
 import DatePicker from "react-datepicker";
 import mainButton from "../assets/Mail_32.png";
@@ -1154,6 +1155,7 @@ export default function TitanWip() {
               marginRight: 2,
               marginBottom: 2,
             }}
+            
           />
         </div>
       </div>

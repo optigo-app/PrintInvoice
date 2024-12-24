@@ -7,13 +7,14 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 
 // ** Icon Imports
-import { CircularProgress, Modal, useMediaQuery, useTheme } from '@mui/material';
+import { CircularProgress, Modal, Tooltip, useMediaQuery, useTheme } from '@mui/material';
 import { fetchKPIDashboardData } from '../../GlobalFunctions';
 import { checkNullUndefined } from './global';
-
+import CancelIcon from '@mui/icons-material/Cancel';
 
 //SALES AND MARKETING 3ST BLOCK
-const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
+const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList, orderCmplt, SMOrder, SMOrderLoader, OCLoader}) => {
+  
     const theme = useTheme();
     const isMaxWidth599px = useMediaQuery('(max-width:599px)');
     const [mainData, setMainData] = useState([]);
@@ -23,11 +24,50 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
     const [popupDetails, setPopUpDetails] = useState([]);
     const [popUpHeader, setPopUpHeader] = useState('');
 
-    // useEffect(() => {
-    //         if(fdate && tdate){
-    //           getSalesMarketingData();
-    //         }
-    // },[fdate, tdate]);
+    const [popUpFlag, setPopUpFlag] = useState('');
+
+    useEffect(() => {
+
+         const smorderArr = SMOrder?.DT[0];
+
+             const data4 = [
+      {
+        stats: `${safeValue(parseFloat(checkNullUndefined(smorderArr?.TotalOrder))?.toFixed(3))} gm`,
+        title: 'Total Order',
+      },
+      {
+        stats: `${safeValue(parseFloat(checkNullUndefined(smorderArr?.AvgOrderSize))?.toFixed(2))}`,
+        title: 'Avg. Order Size',
+      },
+      {
+        stats: `${((orderCmplt?.LeadTime))}`,
+        title: 'Lead Time',
+      },
+      {
+        stats: `${orderCmplt?.DelayTime}`,
+        title: 'Delay Time',
+      },
+      {
+        stats: `${parseFloat(checkNullUndefined(smorderArr?.AvgLabour))?.toFixed(2)}`,
+        title: 'Avg. Labour',
+      },
+      {
+        stats: `${parseFloat(checkNullUndefined(smorderArr?.SaleReturnPer))?.toFixed(2)} %`,
+        title: 'Sales Return ',
+      },
+      {
+        stats: `${parseFloat(checkNullUndefined(smorderArr?.StockCountWithOutClub))?.toFixed(2)}`,
+        title: 'Avg. Stock Book Jobs',
+      },
+      {
+        stats: parseFloat(checkNullUndefined(orderCmplt?.OverDueDebtorsAmount))?.toFixed(2),
+        title: 'Overdue Debtors',
+      }
+      ];
+
+      setMainData(data4);
+         
+    },[orderCmplt, SMOrder, popUpList]);
 
     const orderDetails = [
       {
@@ -52,52 +92,52 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
         try {
             setLoading(true);
             // const InventoryTurnOverRatio = await fetchKPIDashboardData(tkn, fdate, tdate, "InventoryTurnOverRatio");
-            const InventoryTurnOverRatio = [];
-            // const SalesMarketing_TotalSale = await fetchKPIDashboardData(tkn, fdate, tdate, "SalesMarketing_TotalSale");
-            const SalesMarketing_TotalSale = [];
-            // const SalesMarketing_Order = await fetchKPIDashboardData(tkn, fdate, tdate, "SalesMarketing_Order");
-            const SalesMarketing_Order = [];
-            // const SalesMarketing_OrderCompletion = await fetchKPIDashboardData(tkn, fdate, tdate, "SalesMarketing_OrderCompletion");
-            const SalesMarketing_OrderCompletion = [];
-            if(SalesMarketing_TotalSale || SalesMarketing_Order || SalesMarketing_OrderCompletion){
-                setLoading(false);
-            }
-            const obj = {
-                stats: `${SalesMarketing_Order[0]?.TotalOrder?.toFixed(3)} Gm`,
-                title: 'Total Order',
-            }
-            const obj1 = {
-                stats: `${SalesMarketing_Order[0]?.AvgOrderSize}`,
-                title: 'Avg. Order Size',
-            }
-            const obj2 = {
-                stats: `${SalesMarketing_OrderCompletion[0]?.LeadTime}`,
-                title: 'Lead Time',
-            }
-            const obj3 = {
-                stats: `${SalesMarketing_OrderCompletion[0]?.DelayTime}`,
-                title: 'Delay Time',
-            }
-            const obj4 = {
-                stats: `${SalesMarketing_TotalSale[0]?.AvgLabour}`,
-                title: 'Avg. Labour',
-            }
-            const obj5 = {
-                stats: `${SalesMarketing_TotalSale[0]?.SaleReturnPer === null ? '' : SalesMarketing_TotalSale[0]?.SaleReturnPer}`,
-                title: 'Sales Return (%)',
-            }
-            const obj6 = {
-                stats: `${SalesMarketing_Order[0]?.StockCountWithOutClub}`,
-                title: 'Stock Book Jobs',
-            }
-            const obj7 = {
-                stats: ``,
-                title: 'Overdue Debtors',
-            }
+            // const InventoryTurnOverRatio = [];
+            // // const SalesMarketing_TotalSale = await fetchKPIDashboardData(tkn, fdate, tdate, "SalesMarketing_TotalSale");
+            // const SalesMarketing_TotalSale = [];
+            // // const SalesMarketing_Order = await fetchKPIDashboardData(tkn, fdate, tdate, "SalesMarketing_Order");
+            // const SalesMarketing_Order = [];
+            // // const SalesMarketing_OrderCompletion = await fetchKPIDashboardData(tkn, fdate, tdate, "SalesMarketing_OrderCompletion");
+            // const SalesMarketing_OrderCompletion = [];
+            // if(SalesMarketing_TotalSale || SalesMarketing_Order || SalesMarketing_OrderCompletion){
+            //     setLoading(false);
+            // }
+            // const obj = {
+            //     stats: `${SalesMarketing_Order[0]?.TotalOrder?.toFixed(3)} Gm`,
+            //     title: 'Total Order',
+            // }
+            // const obj1 = {
+            //     stats: `${SalesMarketing_Order[0]?.AvgOrderSize}`,
+            //     title: 'Avg. Order Size',
+            // }
+            // const obj2 = {
+            //     stats: `${SalesMarketing_OrderCompletion[0]?.LeadTime}`,
+            //     title: 'Lead Time',
+            // }
+            // const obj3 = {
+            //     stats: `${SalesMarketing_OrderCompletion[0]?.DelayTime}`,
+            //     title: 'Delay Time',
+            // }
+            // const obj4 = {
+            //     stats: `${SalesMarketing_TotalSale[0]?.AvgLabour}`,
+            //     title: 'Avg. Labour',
+            // }
+            // const obj5 = {
+            //     stats: `${SalesMarketing_TotalSale[0]?.SaleReturnPer === null ? '' : SalesMarketing_TotalSale[0]?.SaleReturnPer}`,
+            //     title: 'Sales Return (%)',
+            // }
+            // const obj6 = {
+            //     stats: `${SalesMarketing_Order[0]?.StockCountWithOutClub}`,
+            //     title: 'Stock Book Jobs',
+            // }
+            // const obj7 = {
+            //     stats: ``,
+            //     title: 'Overdue Debtors',
+            // }
 
-            const arr = [obj, obj1, obj2, obj3, obj4, obj5, obj6, obj7];
+            // const arr = [obj, obj1, obj2, obj3, obj4, obj5, obj6, obj7];
 
-            setMainData(arr);
+            // setMainData(arr);
 
 
         } catch (error) {
@@ -110,20 +150,57 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
       
         if(sale?.title?.toLowerCase() === "total order" && parseFloat(sale?.stats) > 0){
           setOrderModal(true);
-          setPopUpDetails(orderDetails);
+          setPopUpDetails(popUpList);
           setPopUpHeader('Order Details');
+          setPopUpFlag("order");
         }
         
         if(sale?.title?.toLowerCase() === "avg. order size" && parseFloat(sale?.stats) > 0){
           setOrderModal(true);
-          setPopUpDetails(orderDetails);
+          setPopUpDetails(popUpList);
           setPopUpHeader('Average Order Size Details');
+          setPopUpFlag("orderavgsize");
         }
         
     }
 
+    // const data4 = [
+    //   {
+    //     stats: `${safeValue(parseFloat(checkNullUndefined(SMOrder?.DT?.TotalOrder))?.toFixed(3))} gm`,
+    //     title: 'Total Order',
+    //   },
+    //   {
+    //     stats: `${safeValue(parseFloat(checkNullUndefined(SMOrder?.DT?.AvgOrderSize))?.toFixed(2))}`,
+    //     title: 'Avg. Order Size',
+    //   },
+    //   {
+    //     stats: `${((orderCmplt?.LeadTime))}`,
+    //     title: 'Lead Time',
+    //   },
+    //   {
+    //     stats: `${orderCmplt?.DelayTime}`,
+    //     title: 'Delay Time',
+    //   },
+    //   {
+    //     stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.AvgLabour))?.toFixed(2)}`,
+    //     title: 'Avg. Labour',
+    //   },
+    //   {
+    //     stats: `${parseFloat(checkNullUndefined(obj?.SalesMarketing_TotalSale[0]?.SaleReturnPer))?.toFixed(2)} %`,
+    //     title: 'Sales Return ',
+    //   },
+    //   {
+    //     stats: `${parseFloat(checkNullUndefined(SMOrder?.DT?.StockCountWithOutClub))?.toFixed(2)}`,
+    //     title: 'Avg. Stock Book Jobs',
+    //   },
+    //   {
+    //     stats: parseFloat(checkNullUndefined(orderCmplt?.OverDueDebtorsAmount))?.toFixed(2),
+    //     title: 'Overdue Debtors',
+    //   }
+    //   ];
+
     const renderStats = () => {
-        return SM1?.map((sale, index) => (
+        return mainData?.map((sale, index) => (
           <Grid item xs={12} sm={6} md={3} key={index} style={{paddingTop:isMaxWidth599px ? 20 : 48}}>
             <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
               { !isMaxWidth599px && <>
@@ -155,13 +232,27 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
           </Grid>
         ))
       }
+      const safeValue = (value) => {
+        if (
+            value === null || 
+            value === undefined || 
+            value === "null" || 
+            value === "undefined" || 
+            value === Infinity || 
+            value === -Infinity || 
+            isNaN(value)
+        ) {
+            return 0;
+        }
+        return value;
+    };
   return (
     <>
-       <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'230px'}}>
+       <Card  className={`fs_analytics_l ${(SMOrderLoader || OCLoader) ? 'center_kpi' : ''}`}  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'230px'}}>
  
-            { loading ?
+            { (SMOrderLoader ||  OCLoader) ?
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
-              <CircularProgress sx={{color:'black'}} />
+              <CircularProgress sx={{color:'lightgrey'}} />
             </Box> :
               <CardContent
                 sx={{ pt: theme => `${theme.spacing(4)} !important`, pb: theme => `${theme.spacing(4)} !important` }}
@@ -182,7 +273,9 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
                             top: '50%',
                             left: '50%',
                             transform: 'translate(-50%, -50%)',
-                            width: 400,
+                            width: 550,
+                            maxHeight:'500px',
+                            overflow:'auto',
                             // backgroundColor: 'linear-gradient(135deg, #f3f4f6, #ffffff)',
                             backgroundColor:'white',
                             boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.2)',
@@ -190,33 +283,57 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
                             px: 5,
                             pb: 3,
                             borderRadius: '12px',
+                            outline:'none',
+                            pt:0
                           }}
                           className="boxShadow_hp"
                         >
-                          <Typography
-                            id="parent-modal-title"
-                            variant="h5"
-                            component="h2"
+                          {/* <Box sx={{display:'flex', justifyContent:'space-between', alignItems:'center'}}> */}
+                          <Box 
                             sx={{
-                              textAlign: 'center',
-                              color: '#333',
-                              fontWeight: 'bold',
-                              pb: 2,
-                              borderBottom: '1px solid #ccc',
+                              position: 'sticky',
+                              top: 0,
+                              zIndex: 10, // Ensure it stays above content
+                              backgroundColor: 'white', // To make sure the header stays opaque over the content
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              padding: '0 15px',
+                              paddingTop:'20px',
+                              paddingBottom:'10px',
+                              marginBottom: '16px', // Adds a small gap to content below the sticky header
+                              borderRadius: '12px 12px 0 0',
+                              zIndex:1000
+                              // boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)', // Optional: Adds a small shadow to make it stand out
                             }}
-                            className='fs_analytics_l'
                           >
-                            {popUpHeader}
-                          </Typography>
+                            <span></span>
+                            <Typography
+                              id="parent-modal-title"
+                              variant="h5"
+                              component="h2"
+                              sx={{
+                                textAlign: 'center',
+                                color: '#333',
+                                fontWeight: 'bold',
+                                // pb: 2,
+                                // borderBottom: '1px solid #ccc',
+                              }}
+                              className='fs_analytics_l'
+                            >
+                              {popUpHeader}
+                            </Typography>
+                            <Tooltip title="Close" style={{cursor:'pointer'}} onClick={() => setOrderModal(false)}><CancelIcon /></Tooltip>
+                          </Box>
                           <Box
                             sx={{
                               mt: 3,
                               display: 'flex',
                               flexDirection: 'column',
-                              gap: 2,
+                              gap: "18px",
                             }}
                           >
-                            {orderDetails?.map((e, i) => (
+                            {popupDetails?.DT1?.map((e, i) => (
                               <Box
                                 key={i}
                                 sx={{
@@ -228,6 +345,7 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
                                   borderRadius: '8px',
                                   boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
                                   transition: 'transform 0.2s, box-shadow 0.2s',
+                                  margin: "0px 5px",
                                   '&:hover': {
                                     transform: 'scale(1.02)',
                                     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)',
@@ -245,7 +363,7 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
                                   className='fs_analytics_l'
                                 >
                                   {/* Add an icon here */}
-                                  {e?.orderType}
+                                  {e?.OrderTypeName}
                                 </Typography>
                                 <Typography
                                   sx={{
@@ -254,7 +372,9 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1}) => {
                                   }}
                                   className='fs_analytics_l'
                                 >
-                                  {e?.orderValue}
+                                  {/* { popUpFlag === "order" ?  `${(e?.NetWt)?.toFixed(3)} gm`}` : `${(e?.NetWt / e?.OrderCnt)?.toFixed(3)}` } */}
+                                  { popUpFlag === "order" && <>{e?.NetWt?.toFixed(3)} gm</>}
+                                  { popUpFlag !== "order" && <>{(safeValue(e?.NetWt / e?.OrderCnt))?.toFixed(2)} </>}
                                 </Typography>
                               </Box>
                             ))}
