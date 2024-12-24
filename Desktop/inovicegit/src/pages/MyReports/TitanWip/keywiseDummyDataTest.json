@@ -1,4 +1,13 @@
 {
+  "masterKey": {
+    "ExcelExport": true,
+    "PrintButton": false,
+    "mailButton": false,
+    "fullScreenGridButton": false,
+    "imageView": false,
+    "progressFilter": false,
+    "proiorityFilter": true
+  },
   "ColumData": {
     "1": {
       "headerName": "Id",
@@ -161,7 +170,7 @@
       "summary": true,
       "columAscendion": false,
       "columDescending": false,
-      "proiorityFilter": true
+      "proiorityFilter": false
     },
     "7": {
       "headerName": "Age",
@@ -188,7 +197,7 @@
       "columDescending": false,
       "suggestionFilter": false,
       "selectDropdownFilter": false,
-      "proiorityFilter": false
+      "proiorityFilter": true
     },
     "8": {
       "headerName": "hideData",
@@ -243,6 +252,60 @@
       "suggestionFilter": false,
       "selectDropdownFilter": false,
       "proiorityFilter": false
+    },
+    "10": {
+      "headerName": "Action",
+      "field": "Action",
+      "Width": 150,
+      "Align": "center",
+      "hrefLink": "",
+      "ColumShow": true,
+      "ColumFilter": false,
+      "NormalFilter": false,
+      "DateRangeFilter": false,
+      "multiSelection": false,
+      "RangeFilter": false,
+      "ColumNumberSetting": 8,
+      "borderRadius": "5px",
+      "ColumAlign": "left",
+      "ColumTitleCapital": false,
+      "ColumTitleSmall": false,
+      "FontSize": "12px",
+      "color": "white",
+      "backgroundColor": "gray",
+      "summary": true,
+      "columAscendion": false,
+      "columDescending": false,
+      "suggestionFilter": false,
+      "selectDropdownFilter": false,
+      "proiorityFilter": false
+    },
+    "11": {
+      "headerName": "Priority",
+      "field": "Priority",
+      "Width": 150,
+      "Align": "center",
+      "hrefLink": "",
+      "ColumShow": true,
+      "ColumFilter": false,
+      "NormalFilter": false,
+      "DateRangeFilter": false,
+      "multiSelection": false,
+      "RangeFilter": false,
+      "ColumNumberSetting": 8,
+      "borderRadius": "5px",
+      "ColumAlign": "left",
+      "ColumTitleCapital": false,
+      "ColumTitleSmall": false,
+      "FontSize": "12px",
+      "color": "white",
+      "backgroundColor": "gray",
+      "summary": true,
+      "columAscendion": false,
+      "columDescending": false,
+      "suggestionFilter": false,
+      "selectDropdownFilter": false,
+      "proiorityFilter": false
     }
   },
   "IdWiseRowWiseDataheaderName": [
@@ -256,7 +319,9 @@
       "7": "issue_age1",
       "8": "hiddenColum",
       "9": "Status",
-      "10": "PriorityId"
+      "10": "Action",
+      "11": "Priority",
+      "12": "PriorityId"
     }
   ],
   "FinalRowData": [
@@ -270,7 +335,9 @@
       "7": "D-5",
       "8": "hide1",
       "9": "Active",
-      "10": 3
+      "10": 3,
+      "11": "Hight",
+      "12": 3
     },
     {
       "1": 102,
@@ -282,7 +349,10 @@
       "7": "D-5",
       "8": "hide2",
       "9": "Professional",
-      "10": 2
+      "10": 2,
+      "11": "Hight",
+      "12": 5
+
     },
     {
       "1": 103,
@@ -294,7 +364,9 @@
       "7": "D-5",
       "8": "hide3",
       "9": "Active",
-      "10": 8
+      "10": 8,
+      "11": "Hight",
+      "12": 5
     },
     {
       "1": 104,
@@ -306,7 +378,9 @@
       "7": "D-5",
       "8": "hide4",
       "9": "Current",
-      "10": 6
+      "10": 6,
+      "11": "Hight",
+      "12": 4
     },
     {
       "1": 105,
@@ -318,7 +392,9 @@
       "7": "D-5",
       "8": "hide5",
       "9": "Rejected",
-      "10": 5
+      "10": 5,
+      "11": "Hight",
+      "12": 2
     },
     {
       "1": 106,
@@ -330,7 +406,9 @@
       "7": "D-65",
       "8": "hide6",
       "9": "Active",
-      "10": 8
+      "10": 8,
+      "11": "Hight",
+      "12": 4
     },
     {
       "1": 107,
@@ -342,7 +420,9 @@
       "7": "D-78",
       "8": "hide7",
       "9": "Active",
-      "10": 5
+      "10": 5,
+      "11": "Hight",
+      "12": 2
     },
     {
       "1": 108,
@@ -354,7 +434,9 @@
       "7": "D-5566",
       "8": "hide8",
       "9": "Active",
-      "10": 6
+      "10": 6,
+      "11": "Hight",
+      "12": 3
     },
     {
       "1": 109,
@@ -366,7 +448,9 @@
       "7": "D-5",
       "8": "hide9",
       "9": "Active",
-      "10": 2
+      "10": 2,
+      "11": "Hight",
+      "12": 5
     }
   ]
 }

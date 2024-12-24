@@ -1,45 +1,84 @@
-// import React from 'react'
-// import { TitanWipApi } from '../MyAPI/TitanWipApi/TitanWipApi';
+// import * as React from 'react';
+// import Box from '@mui/material/Box';
+// import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
-// const TitanWip = () => {
+// const columns = [
+//   { field: 'id', headerName: 'ID', width: 90 },
+//   {
+//     field: 'firstName',
+//     headerName: 'First name',
+//     width: 150,
+//     editable: true,
+//   },
+//   {
+//     field: 'lastName',
+//     headerName: 'Last name',
+//     width: 150,
+//     editable: true,
+//   },
+//   {
+//     field: 'age',
+//     headerName: 'Age',
+//     type: 'number',
+//     width: 110,
+//     editable: true,
+//   },
+//   {
+//     field: 'fullName',
+//     headerName: 'Full name',
+//     description: 'This column has a value getter and is not sortable.',
+//     sortable: false,
+//     width: 160,
+//     valueGetter: (value, row) => `${row.firstName || ''} ${row.lastName || ''}`,
+//   },
+// ];
 
-//   const APICall = () => {
-//     TitanWipApi()
-//       .then((response) => {
+// const rows = [
+//   { id: 1, lastName: 'Snow', firstName: 'Jon', age: 14 },
+//   { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 31 },
+//   { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 31 },
+//   { id: 4, lastName: 'Stark', firstName: 'Arya', age: 11 },
+//   { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
+//   { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
+//   { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
+//   { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
+//   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+// ];
 
-//         console.log('resss', response);
-
-//       })
-//       .catch((err) => console.log(err))
-//       .finally(() => {});
-//   };
-
-//   React.useEffect(() => {
-//     APICall();
-//   }, []);
-
+// export default function DataGridDemo() {
 //   return (
-//     <div>TitanWip</div>
-//   )
+//     <Box sx={{ height: 400, width: '100%' }}>
+//       <DataGrid
+//         rows={rows}
+//         columns={columns}
+//         initialState={{
+//           pagination: {
+//             paginationModel: {
+//               pageSize: 5,
+//             },
+//           },
+//         }}
+//         pageSizeOptions={[5]}
+//         checkboxSelection
+//         disableRowSelectionOnClick
+//       />
+//     </Box>
+//   );
 // }
 
-// export default TitanWip
+
 
 // http://localhost:3001/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&pid=18149&sv=MA==&report_api_url=aHR0cDovL3plbi9hcGkvTS5hc214L09wdGlnbw==&LId=MTU5MzE=&LUId=dWRheUBhZG1pbi5jby5pbg==
-
 // http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&pid=18149&sv=MA==&report_api_url=aHR0cDovL3plbi9hcGkvcmVwb3J0LmFzcHg=&LId=MTU5MzE=&LUId=dWRheUBhZG1pbi5jby5pbg== newwwwwwwwwwwww
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import "./Testgrid.scss";
 import DatePicker from "react-datepicker";
-import masterData from "./masterData.json";
 import mainButton from "../assets/Mail_32.png";
 import printButton from "../assets/print.png";
-import gridView from "../assets/GriedView.png";
-import imageView from "../assets/ImageView2.png";
 import "react-datepicker/dist/react-datepicker.css";
-import '../../dashboard/@core/components/pickersComponent/datepickerc.css'
+import "../../dashboard/@core/components/pickersComponent/datepickerc.css";
 import {
   Accordion,
   AccordionDetails,
@@ -66,7 +105,6 @@ import { AiFillSetting } from "react-icons/ai";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TitanWipApi } from "../MyAPI/TitanWipApi/TitanWipApi";
-
 
 let popperPlacement = "bottom-start";
 const ItemType = {
@@ -187,16 +225,6 @@ export default function TitanWip() {
     APICall();
   }, []);
 
-  // React.useEffect(() => {
-  //   if (allColumData) {
-  //     const initialCheckedColumns = {};
-  //     Object.values(allColumData).forEach((col) => {
-  //       initialCheckedColumns[col.Field] = col.ColumShow;
-  //     });
-  //     setCheckedColumns(initialCheckedColumns);
-  //   }
-  // }, [allColumData]);
-
   React.useEffect(() => {
     if (allColumData) {
       const initialCheckedColumns = {};
@@ -208,7 +236,6 @@ export default function TitanWip() {
       setCheckedColumns(initialCheckedColumns);
     }
   }, [allColumData]);
-
 
   React.useEffect(() => {
     if (!allColumData) return;
@@ -372,63 +399,7 @@ export default function TitanWip() {
       });
     setColumns(columnData);
   }, [allColumData]);
-
-  // const hideColumns = Object.values(allColumData)
-  //   .filter((col) => !col.ColumShow)
-  //   .map((col) => ({
-  //     field: col.field,
-  //     headerName: col.headerName,
-  //     width: col.Width,
-  //     align: col.ColumAlign || "left",
-  //     headerAlign: col.Align,
-  //     filterable: col.ColumFilter,
-  //     suggestionFilter: col.suggestionFilter,
-  //     hrefLink: col.hrefLink,
-  //     filterTypes: [
-  //       col.NormalFilter && "NormalFilter",
-  //       col.DateRangeFilter && "DateRangeFilter",
-  //       col.MultiSelection && "MultiSelection",
-  //       col.RangeFilter && "RangeFilter",
-  //       col.suggestionFilter && "suggestionFilter",
-  //       col.selectDropdownFilter && "selectDropdownFilter",
-  //     ].filter(Boolean),
-
-  //     renderCell: (params) => {
-  //       if (col.hrefLink) {
-  //         return (
-  //           <a
-  //             target="_blank"
-  //             rel="noopener noreferrer"
-  //             style={{
-  //               color: "blue",
-  //               textDecoration: "underline",
-  //               fontSize: col.FontSize || "inherit",
-  //               padding: "5px 20px",
-  //             }}
-  //             onClick={() => handleCellClick(params)}
-  //           >
-  //             {params.value}
-  //           </a>
-  //         );
-  //       } else {
-  //         return (
-  //           <span
-  //             style={{
-  //               color: col.color || "inherit",
-  //               backgroundColor: col.backgroundColor || "inherit",
-  //               fontSize: col.FontSize || "inherit",
-  //               textTransform: col.ColumTitleCapital ? "uppercase" : "none",
-  //               padding: "5px 20px",
-  //               borderRadius: col.borderRadius,
-  //             }}
-  //           >
-  //             {params.value}
-  //           </span>
-  //         );
-  //       }
-  //     },
-  //   }));
-
+  
   const handleCellClick = (params) => {
     if (params.colDef.hrefLink) {
       setOpen(true);
@@ -900,7 +871,7 @@ export default function TitanWip() {
     setFromDate(null);
     setToDate(null);
     setDateFilters({});
-    setCommonSearch('');
+    setCommonSearch("");
     setFilters({});
   };
 
@@ -1086,8 +1057,24 @@ export default function TitanWip() {
         >
           <div style={{ display: "flex", gap: "10px", alignItems: "end" }}>
             <button onClick={toggleDrawer(true)} className="FiletrBtnOpen">
-              Open Filter
+              Filters
             </button>
+            <button onClick={handleClearFilter} className="ClearFilterButton">
+              <svg
+                stroke="currentColor"
+                fill="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                class="mr-2"
+                height="1em"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M487.976 0H24.028C2.71 0-8.047 25.866 7.058 40.971L192 225.941V432c0 7.831 3.821 15.17 10.237 19.662l80 55.98C298.02 518.69 320 507.493 320 487.98V225.941l184.947-184.97C520.021 25.896 509.338 0 487.976 0z"></path>
+              </svg>
+              Clear Filters
+            </button>
+
             {columns
               .filter((col) => col.filterable)
               .map((col) => (
@@ -1113,21 +1100,13 @@ export default function TitanWip() {
               />
             )}
 
-            <button onClick={handleClearFilter} className="ClearFilterButton">
-              <svg
-                stroke="currentColor"
-                fill="currentColor"
-                stroke-width="0"
-                viewBox="0 0 512 512"
-                class="mr-2"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M487.976 0H24.028C2.71 0-8.047 25.866 7.058 40.971L192 225.941V432c0 7.831 3.821 15.17 10.237 19.662l80 55.98C298.02 518.69 320 507.493 320 487.98V225.941l184.947-184.97C520.021 25.896 509.338 0 487.976 0z"></path>
-              </svg>
-              Clear Filters
-            </button>
+            <CustomTextField
+              type="text"
+              placeholder="Common Search..."
+              value={commonSearch}
+              customBorderColor="rgba(47, 43, 61, 0.2)"
+              onChange={(e) => setCommonSearch(e.target.value)}
+            />
 
             {masterKeyData?.ExcelExport && (
               <button onClick={exportToExcel} className="exportButton">
@@ -1153,14 +1132,6 @@ export default function TitanWip() {
                 FullScreenGrid{" "}
               </button>
             )}
-
-            <CustomTextField
-              type="text"
-              placeholder="Common Search..."
-              value={commonSearch}
-              customBorderColor="rgba(47, 43, 61, 0.2)"
-              onChange={(e) => setCommonSearch(e.target.value)}
-            />
           </div>
         </div>
 
