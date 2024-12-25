@@ -64,6 +64,7 @@ const AnalyticsSalesEarningReport = ({tkn,  fdate, tdate, country, CustomerWiseS
 
   const salesAmt = CustomerWiseSaleAmountData?.map((e) => e?.SaleAmount);
   const ProfitAmt = CustomerWiseSaleAmountData?.map((e) => e?.Profit);
+  // const ProfitAmt = CustomerWiseSaleAmountData?.map((e) => e?.Profit < 0 ? Math.abs(e?.Profit) : e?.Profit);
   const custNames = CustomerWiseSaleAmountData?.map((e) => capitalizeFirstLetter(e?.Customer));
 
   const tabData = [
@@ -185,6 +186,11 @@ const AnalyticsSalesEarningReport = ({tkn,  fdate, tdate, country, CustomerWiseS
     tooltip: { enabled: false },
     dataLabels: {
       offsetY: -15,
+      // formatter: (val, opts) => {
+      //   const index = opts.dataPointIndex;
+      //   const originalValue = CustomerWiseSaleAmountData[index]?.Profit; // Use the original value
+      //   return `${originalValue < 0 ? '-' : ''}${formatAmountKWise(Math.abs(originalValue / +country))}`;
+      // },
       formatter: val => `${formatAmountKWise((val / (+country)))}`,
       style: {
         fontWeight: 500,
