@@ -58,7 +58,7 @@ const AnalyticsDashboard = ({tkn, hostName}) => {
   const theme = useTheme();
 
   const [countryList, setCountryList] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState('1');
+  const [selectedCountry, setSelectedCountry] = useState('7.8');
   const [salesList, setSalesList] = useState([]);
   const [selectedSales, setSelectedSales] = useState('');
   const [officeList, setOfficeList] = useState([]);
@@ -243,7 +243,7 @@ useEffect(() => {
         <Grid container spacing={3}>
           <Grid item xs={12} md={12} lg={12}>
             <div className='d-flex justify-content-start align-items-end w-100'>
-            <Box style={{margin:'5px', width:'22%', display:'flex', alignItems:'flex-end'}}>
+            <Box style={{margin:'5px', width:'22%', display:'flex', alignItems:'flex-end', marginBottom:'0px'}}>
               <div style={{display:'flex'}}>
                 <div style={{display:'flex', flexDirection:'column'}}>
                   <span className='fs_analytics_l'>From Date</span>
@@ -273,15 +273,15 @@ useEffect(() => {
                 </div>
               </div>
             </Box>
-            {/* <Box className="me-1" style={{minWidth:'200px'}}>
+            <Box className="me-1" style={{minWidth:'200px'}}>
               <label htmlFor="country">Country</label>
-              <select className='form-control' value={selectedCountry} name="country" id="country" onChange={(e) => countryListHandleChange(e)}>
+              <select className='form-control kayrafilter' value={selectedCountry}  name="country" id="country" onChange={(e) => countryListHandleChange(e)}>
                 <option value="" disabled selected>select</option>
                 <option value="1">INR</option>
                 <option value="7.8">USA</option>
               </select>
             </Box>
-            <Box className="me-1" style={{minWidth:'200px'}}>
+            {/* <Box className="me-1" style={{minWidth:'200px'}}>
               <label htmlFor="salesman">Salesman</label>
               <select className='form-control' name="salesman" disabled value={selectedSales} id="salesman" onChange={(e) => salesmanListHandleChange(e)}>
                 <option value="" disabled selected>select </option>
@@ -294,7 +294,7 @@ useEffect(() => {
                 <option value="mumbai">mumbai</option>
               </select>
             </Box> */}
-            <div><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green}} size='large' onClick={() => handleApply()}>Apply</Button></div>
+            <div style={{marginBottom:'3px'}}><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green, marginLeft:'10px', padding:'9px 0px'}} size='large' onClick={() => handleApply()}>Apply</Button></div>
             </div>
           </Grid>
          

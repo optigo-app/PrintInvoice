@@ -57,113 +57,9 @@ const renderName = row => {
   }
 }
 
-const columns = [
-  {
-    flex: 0.1,
-    field: 'MetalType',
-    minWidth: 220,
-    headerName: 'METALTYPE  AND  COLOR WISE',
-    renderCell: ({ row }) => {
-      const { MetalType, MetalColor } = row
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {renderName(row)}
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography noWrap sx={{ color: 'text.secondary', fontWeight: 500 }}>
-              {MetalType}
-            </Typography>
-            <Typography noWrap variant='body2' sx={{ color: 'text.disabled', textTransform: 'capitalize' }}>
-              {MetalColor}
-            </Typography>
-          </Box>
-        </Box>
-      )
-    }
-  },
-  {
-    flex: 0.1,
-    minWidth: 105,
-    field: 'SaleAmount',
-    headerName: 'SALE AMOUNT',
-    renderCell: ({ row }) => <Typography sx={{ color: 'text.secondary' }}>{formatAmountKWise(row?.SaleAmount)}</Typography>
-  },
-  {
-    flex: 0.1,
-    field: 'NetWt',
-    minWidth: 120,
-    sortable: false,
-    headerName: 'NETWT',
-    renderCell: ({ row }) => (
-      <Typography sx={{ color: 'text.secondary' }}>{(row?.NetWt)?.toFixed(3)}</Typography>
-      // <AvatarGroup className='pull-up'>
-      //   {row?.avatarGroup?.map((src, index) => (
-      //     // <CustomAvatar key={index} src={src} sx={{ height: 26, width: 26 }} />
-      //     <CustomAvatar key={index} src={imgIcon} sx={{ height: 26, width: 26 }} />
-      //   ))}
-      // </AvatarGroup>
-    )
-  },
-  {
-    flex: 0.1,
-    minWidth: 150,
-    field: 'ProfitPer',
-    headerName: 'PROFIT PERCENTAGE',
-    renderCell: ({ row }) => (
-      <>
-        {/* <LinearProgress
-          style={{color:'#7367F0'}}
-          value={row.ProfitPer}
-          variant='determinate'
-          sx={{
-            mr: 3,
-            height: 8,
-            width: '100%',
-            borderRadius: 8,
-            backgroundColor: 'background.default',
-            '& .MuiLinearProgress-bar': {
-              borderRadius: 8,
-              backgroundColor:'#7367F0'
-            },
-          }}
-        /> */}
-        <Typography sx={{ color: 'text.secondary' }}>{`${row?.ProfitPer}%`}</Typography>
-      </>
-    )
-  },
-  // {
-  //   flex: 0.1,
-  //   minWidth: 100,
-  //   sortable: false,
-  //   field: 'actions',
-  //   headerName: 'ACTIONS',
-  //   renderCell: () => (
-  //     <OptionsMenu
-  //       iconButtonProps={{ size: 'small', sx: { color: 'text.secondary' } }}
-  //       className='fs_analytics_l'
-  //       options={[
-  //         'Details',
-  //         'Archive',
-  //         { divider: true, dividerProps: { sx: { my: theme => `${theme.spacing(2)} !important` } } },
-  //         {
-  //           text: 'Delete',
-  //           menuItemProps: {
-  //             sx: {
-  //               color: 'error.main',
-  //               '&:not(.Mui-focusVisible):hover': {
-  //                 color: 'error.main',
-  //                 // backgroundColor: theme => hexToRGBA(theme.palette.error.main, 0.08)
-  //                 // backgroundColor: theme => hexToRGBA("#28C76F", 0.08)
-  //               }
-  //             }
-  //           }
-  //         }
-  //       ]}
-  //     />
-  //   )
-  // }
-]
 
-const AnalyticsProject = ({tkn,  fdate, tdate, MetalTypeColorWiseSaleData}) => {
+
+const AnalyticsProject = ({tkn,  fdate, tdate, country, MetalTypeColorWiseSaleData}) => {
   // ** State
   const [data, setData] = useState([])
   const [filteredData, setFilteredData] = useState([])
@@ -172,6 +68,112 @@ const AnalyticsProject = ({tkn,  fdate, tdate, MetalTypeColorWiseSaleData}) => {
   const [totalRows, setTotalRows] = useState(0);
 
   const [apiData, setApiData] = useState([]);
+
+  const columns = [
+    {
+      flex: 0.1,
+      field: 'MetalType',
+      minWidth: 220,
+      headerName: 'METALTYPE  AND  COLOR WISE',
+      renderCell: ({ row }) => {
+        const { MetalType, MetalColor } = row
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {renderName(row)}
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography noWrap sx={{ color: 'text.secondary', fontWeight: 500 }}>
+                {MetalType}
+              </Typography>
+              <Typography noWrap variant='body2' sx={{ color: 'text.disabled', textTransform: 'capitalize' }}>
+                {MetalColor}
+              </Typography>
+            </Box>
+          </Box>
+        )
+      }
+    },
+    {
+      flex: 0.1,
+      minWidth: 105,
+      field: 'SaleAmount',
+      headerName: 'SALE AMOUNT',
+      renderCell: ({ row }) => <Typography sx={{ color: 'text.secondary' }}>{formatAmountKWise((row?.SaleAmount / (+country)))}</Typography>
+    },
+    {
+      flex: 0.1,
+      field: 'NetWt',
+      minWidth: 120,
+      sortable: false,
+      headerName: 'NETWT',
+      renderCell: ({ row }) => (
+        <Typography sx={{ color: 'text.secondary' }}>{(row?.NetWt)?.toFixed(3)}</Typography>
+        // <AvatarGroup className='pull-up'>
+        //   {row?.avatarGroup?.map((src, index) => (
+        //     // <CustomAvatar key={index} src={src} sx={{ height: 26, width: 26 }} />
+        //     <CustomAvatar key={index} src={imgIcon} sx={{ height: 26, width: 26 }} />
+        //   ))}
+        // </AvatarGroup>
+      )
+    },
+    {
+      flex: 0.1,
+      minWidth: 150,
+      field: 'ProfitPer',
+      headerName: 'PROFIT PERCENTAGE',
+      renderCell: ({ row }) => (
+        <>
+          {/* <LinearProgress
+            style={{color:'#7367F0'}}
+            value={row.ProfitPer}
+            variant='determinate'
+            sx={{
+              mr: 3,
+              height: 8,
+              width: '100%',
+              borderRadius: 8,
+              backgroundColor: 'background.default',
+              '& .MuiLinearProgress-bar': {
+                borderRadius: 8,
+                backgroundColor:'#7367F0'
+              },
+            }}
+          /> */}
+          <Typography sx={{ color: 'text.secondary' }}>{`${row?.ProfitPer}%`}</Typography>
+        </>
+      )
+    },
+    // {
+    //   flex: 0.1,
+    //   minWidth: 100,
+    //   sortable: false,
+    //   field: 'actions',
+    //   headerName: 'ACTIONS',
+    //   renderCell: () => (
+    //     <OptionsMenu
+    //       iconButtonProps={{ size: 'small', sx: { color: 'text.secondary' } }}
+    //       className='fs_analytics_l'
+    //       options={[
+    //         'Details',
+    //         'Archive',
+    //         { divider: true, dividerProps: { sx: { my: theme => `${theme.spacing(2)} !important` } } },
+    //         {
+    //           text: 'Delete',
+    //           menuItemProps: {
+    //             sx: {
+    //               color: 'error.main',
+    //               '&:not(.Mui-focusVisible):hover': {
+    //                 color: 'error.main',
+    //                 // backgroundColor: theme => hexToRGBA(theme.palette.error.main, 0.08)
+    //                 // backgroundColor: theme => hexToRGBA("#28C76F", 0.08)
+    //               }
+    //             }
+    //           }
+    //         }
+    //       ]}
+    //     />
+    //   )
+    // }
+  ]
 
   useEffect(() => {
 
@@ -192,7 +194,7 @@ const AnalyticsProject = ({tkn,  fdate, tdate, MetalTypeColorWiseSaleData}) => {
     fetchData(); 
 
   // },[fdate, tdate]);
-},[MetalTypeColorWiseSaleData]);
+},[MetalTypeColorWiseSaleData, country]);
 
 
 
@@ -217,7 +219,7 @@ const AnalyticsProject = ({tkn,  fdate, tdate, MetalTypeColorWiseSaleData}) => {
     const filteredData = MetalTypeColorWiseSaleData?.filter((item) => {
       const metalType = item.MetalType?.toLowerCase();  // Make sure both values are lowercase for case-insensitive comparison
       const metalColor = item.MetalColor?.toLowerCase();
-      const saleAmt = item.SaleAmount?.toString()?.toLowerCase();
+      const saleAmt = ((item.SaleAmount))?.toString()?.toLowerCase();
       const netWt = item.NetWt?.toString()?.toLowerCase();
       const profitPer = item.ProfitPer?.toString()?.toLowerCase();
       const searchVal = val?.toLowerCase();

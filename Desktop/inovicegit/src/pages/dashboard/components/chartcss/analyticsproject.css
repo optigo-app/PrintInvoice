@@ -44,3 +44,7 @@
 .kayradashboard .MuiDataGrid-main{
   height: 30rem !important;
 }
+.kayrafilter{
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}

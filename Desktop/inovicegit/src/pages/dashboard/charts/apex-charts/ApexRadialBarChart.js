@@ -32,7 +32,7 @@ const radialBarColorsArr = [
    '#EA5455',
 ]
 
-const ApexRadialBarChart = ({tkn,  fdate, tdate, CustomerTypeWiseSaleAmountData}) => {
+const ApexRadialBarChart = ({tkn,  fdate, tdate, country, CustomerTypeWiseSaleAmountData}) => {
 
   const [apiData, setApiData] = useState([]);
   useEffect(() => {
@@ -58,7 +58,7 @@ const ApexRadialBarChart = ({tkn,  fdate, tdate, CustomerTypeWiseSaleAmountData}
   
   const custTypeWiseArr = CustomerTypeWiseSaleAmountData?.sort((a, b) => b?.SaleAmount - a?.SaleAmount)
   const custTypeWise = custTypeWiseArr?.map((e, i) => capitalizeFirstLetter(e?.CustomerType))?.slice(0, 5)
-  const amountWise = apiData?.map((e) => e?.SaleAmount || 0)?.sort((a, b) => b - a);
+  const amountWise = apiData?.map((e) => (e?.SaleAmount) || 0)?.sort((a, b) => b - a);
 
   const custTypeWiseArrNew = [];
 
@@ -149,7 +149,7 @@ const ApexRadialBarChart = ({tkn,  fdate, tdate, CustomerTypeWiseSaleAmountData}
 
               const saleAmt = ((amt / 100) * totalSaleAmount);
 
-              return (formatAmountKWise((saleAmt)));
+              return (formatAmountKWise(((saleAmt / (+country)))));
             },
           },
           tooltip: {
@@ -157,7 +157,7 @@ const ApexRadialBarChart = ({tkn,  fdate, tdate, CustomerTypeWiseSaleAmountData}
             custom: function ({ seriesIndex, dataPointIndex, w }) {
               // Show Sale Amount in Tooltip
               const saleAmount = amountWise[dataPointIndex];
-              return `<div style="padding: 10px; font-size: 14px;">${custTypeWise[dataPointIndex]}: ${formatAmountKWise(saleAmount)}</div>`;
+              return `<div style="padding: 10px; font-size: 14px;">${custTypeWise[dataPointIndex]}: ${formatAmountKWise((saleAmount / (+country)))}</div>`;
             }
           },
           total: {
@@ -221,7 +221,7 @@ const ApexRadialBarChart = ({tkn,  fdate, tdate, CustomerTypeWiseSaleAmountData}
                     color: 'white !important', // Force text color change
                   },
                 // }} title={`Amount: ${formatAmount(item?.SaleAmount)}`} arrow>
-                }} title={<Typography className='fs_analytics_l'  sx={{color:'white'}}>{`Amount: ${formatAmountKWise(item?.SaleAmount)}`}</Typography>} arrow>
+                }} title={<Typography className='fs_analytics_l'  sx={{color:'white'}}>{`Amount: ${formatAmountKWise((item?.SaleAmount / (+country)))}`}</Typography>} arrow>
                 <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
                   <Icon icon="mdi:circle" fontSize="0.75rem" color={item?.color} />
                   <Typography variant="body2" >{item?.CustomerType?.toUpperCase()}</Typography>

@@ -46,7 +46,7 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-const RechartsPieChart = ({tkn,  fdate, tdate, VendorWiseNetWtData}) => {
+const RechartsPieChart = ({tkn,  fdate, tdate, country, VendorWiseNetWtData}) => {
   const [hoveredData, setHoveredData] = useState(null)
 
   const [apiData, setApiData] = useState([]);
@@ -154,7 +154,7 @@ const RechartsPieChart = ({tkn,  fdate, tdate, VendorWiseNetWtData}) => {
               }}
             >
               <Typography variant='h6' align='center' color='secondary' sx={{fontWeight:'bold'}}>
-                {hoveredData?.name}: {(hoveredData?.value)} gm
+                {hoveredData?.name}: {((hoveredData?.value ))} gm
               </Typography>
             </Box>
           )}
@@ -277,7 +277,7 @@ const RechartsPieChart = ({tkn,  fdate, tdate, VendorWiseNetWtData}) => {
                     color: 'white !important', // Force text color change
                   },
                 // }} title={`Amount: ${formatAmount(item?.value)}`} arrow>
-              }} title={<Typography className='fs_analytics_l'  sx={{color:'white'}}>{`Amount: ${formatAmountKWise(item?.value)}`}</Typography>} arrow>
+              }} title={<Typography className='fs_analytics_l'  sx={{color:'white'}}>{`Amount: ${formatAmountKWise((item?.value / (+country)))}`}</Typography>} arrow>
                 <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
                   <Icon icon="mdi:circle" fontSize="0.75rem" />
                   <Typography variant="body2">{item?.name?.toUpperCase()}</Typography>

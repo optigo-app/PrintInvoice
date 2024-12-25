@@ -74,19 +74,20 @@ const AnalyticsSalesByCountries = ({tkn,  fdate, tdate, country, countryWiseSale
         // Fetch MonthWiseSaleAmount data
         // let CountryWiseSaleAmount = await fetchDashboardData(tkn,  fdate, tdate, "CountryWiseSaleAmount");
 
-        // const arr = [];
+        const arr = [];
 
-        // countryWiseSale?.forEach((e) => {
-        //   let obj = cloneDeep(e);
-        //   let findrec = arr?.findIndex((a) => a?.Locker?.toLowerCase() === obj?.Locker?.toLowerCase());
-        //   if(findrec === -1){
-        //     arr.push(obj);
-        //   }else{
-        //     arr[findrec].SaleAmount += obj?.SaleAmount;
-        //   }
-        // })
+        countryWiseSale?.forEach((e) => {
+          
+          let obj = cloneDeep(e);
+          let findrec = arr?.findIndex((a) => a?.Locker?.toLowerCase() === obj?.Locker?.toLowerCase());
+          if(findrec === -1){
+            arr.push(obj);
+          }else{
+            arr[findrec].SaleAmount += obj?.SaleAmount;
+          }
+        })
 
-        // countryWiseSale = arr;
+        countryWiseSale = arr;
 
         setApiData(countryWiseSale);
 
@@ -130,7 +131,7 @@ const AnalyticsSalesByCountries = ({tkn,  fdate, tdate, country, countryWiseSale
           background: '#555',
         },
       }}>
-        {countryWiseSale?.map((item, index) => {
+        {apiData?.map((item, index) => {
           return (
             <Box
               key={index}

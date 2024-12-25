@@ -87,6 +87,7 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate, country, CategoryWiseSaleAmo
   const salesNames = top10?.map((e) => e?.Category)
   const totalSale = top10?.reduce((acc, num) => acc + num?.SaleAmount, 0);
   const totalProfit = top10?.reduce((acc, num) => acc + num?.Profit, 0);
+  
   const series = [
     { name: 'Sales', data: sales },
     { name: 'Profit', data: negativeArray }
@@ -106,7 +107,7 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate, country, CategoryWiseSaleAmo
     
     dataLabels: {
       // offsetY: [10, 15],
-      formatter: val => `${formatAmountKWise(val)}`,
+      formatter: val => `${formatAmountKWise((val / (+country)))}`,
       style: {
         fontWeight: 500,
         colors: [theme.palette.text.secondary],
