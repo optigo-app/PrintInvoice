@@ -344,7 +344,7 @@
        avatarColor: 'primary',
        progressColor: 'primary',
         // avatarIcon: 'tabler:currency-dollar'
-       avatarIcon: 'tabler:currency-rupee'
+       avatarIcon: `${country === '7.8' ? 'tabler:currency-dollar' : 'tabler:currency-rupee'}`
      },
      {
        progress: 100,
@@ -353,7 +353,7 @@
        avatarColor: 'info',
        progressColor: 'info',
         // avatarIcon: 'tabler:chart-pie-2'
-       avatarIcon: 'tabler:sum'
+       avatarIcon: `${country === '7.8' ? 'tabler:currency-dollar' : 'tabler:currency-rupee'}`
      },
      {
        progress: 100,

@@ -277,8 +277,8 @@ useEffect(() => {
               <label htmlFor="country">Country</label>
               <select className='form-control kayrafilter' value={selectedCountry}  name="country" id="country" onChange={(e) => countryListHandleChange(e)}>
                 <option value="" disabled selected>select</option>
-                <option value="1">INR</option>
                 <option value="7.8">USA</option>
+                <option value="1">INR</option>
               </select>
             </Box>
             {/* <Box className="me-1" style={{minWidth:'200px'}}>

@@ -74,7 +74,7 @@ const AnalyticsProject = ({tkn,  fdate, tdate, country, MetalTypeColorWiseSaleDa
       flex: 0.1,
       field: 'MetalType',
       minWidth: 220,
-      headerName: 'METALTYPE  AND  COLOR WISE',
+      headerName: 'METAL',
       renderCell: ({ row }) => {
         const { MetalType, MetalColor } = row
         return (
@@ -119,7 +119,7 @@ const AnalyticsProject = ({tkn,  fdate, tdate, country, MetalTypeColorWiseSaleDa
       flex: 0.1,
       minWidth: 150,
       field: 'ProfitPer',
-      headerName: 'PROFIT PERCENTAGE',
+      headerName: 'PROFIT (%)',
       renderCell: ({ row }) => (
         <>
           {/* <LinearProgress
@@ -262,7 +262,7 @@ const AnalyticsProject = ({tkn,  fdate, tdate, country, MetalTypeColorWiseSaleDa
   return data ? (
     <Card className='fs_analytics_l' style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'36.45rem', }}>
       <CardHeader
-        title='MetalType & MetalColor Wise Sale Amount'
+        title='Metal Wise Sale Amount'
         titleTypographyProps={{ sx: { mb: [2, 0] } }}
         action={<CustomTextField value={value} placeholder='Search' style={{boxShadow:'none', border:'1px solid #e8e8e8'}} onChange={e => handleFilter(e.target.value)} />}
         sx={{

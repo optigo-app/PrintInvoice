@@ -213,14 +213,14 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate, country, CategoryWiseSaleAmo
       subtitle: '',
       title: 'Total Sales',
       avatarColor: 'primary',
-      avatarIcon: 'tabler:currency-rupee'
+      avatarIcon: `${country === '7.8' ? 'tabler:currency-dollar' : 'tabler:currency-rupee'}`
     },
     {
       amount: formatAmountKWise((totalProfit / (+country))),
       title: 'Total Profit',
       avatarColor: 'secondary',
       subtitle: '',
-      avatarIcon: 'tabler:currency-rupee'
+      avatarIcon: `${country === '7.8' ? 'tabler:currency-dollar' : 'tabler:currency-rupee'}`
     }
   ]
 
