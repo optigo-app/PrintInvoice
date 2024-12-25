@@ -10,15 +10,23 @@ export function formatAmount(amount) {
   }
 
 
-  export const fetchDashboardData = async (token, fdate, tdate, event) => {
+  export const fetchDashboardData = async (token, hostName, fdate, tdate, event) => {
     try {
-      const url = "http://zen/jo/api-lib/App/DashBoard";
+      let apiUrl_kayra = '';
+
+      if(hostName?.toLowerCase() === 'zen' || hostName?.toLowerCase() === 'localhost'){
+        apiUrl_kayra = 'http://zen/jo/api-lib/App/DashBoard';
+      }else{
+        apiUrl_kayra = 'https://view.optigoapps.com/linkedapp/App/DashBoard';
+      }
+
+      // const url = "http://zen/jo/api-lib/App/DashBoard";
       const body = JSON.stringify({
         "Token" : `${token}`  
         ,"ReqData":`[{\"Token\":\"${token}\",\"Evt\":\"${event}\",\"FDate\":\"${fdate}\",\"TDate\":\"${tdate}\"}]`
       });
   
-      const response = await axios.post(url, body);
+      const response = await axios.post(apiUrl_kayra, body);
       if (response?.data?.Status === '200') {
         return response?.data?.Data?.DT?.length > 0 ? response.data.Data.DT : [];
       } else {
@@ -123,7 +131,7 @@ export function formatAmount(amount) {
     } else if (amount >= 1000) {
       formattedAmount = (amount / 1000)?.toFixed(2);     // Use 2 decimal places for Thousand (K)
     } else {
-      formattedAmount = amount?.toString();  // Below 1000, just return the number as-is
+      formattedAmount = amount?.toFixed(2)?.toString();  // Below 1000, just return the number as-is
     }
   
     // Remove trailing zeros (optional)

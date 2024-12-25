@@ -49,7 +49,7 @@ import CustomInput from '../@core/components/pickersComponent/PickersCustomInput
 import "../@core/components/pickersComponent/datepickerc.css";
 import { fetchDashboardData } from '../GlobalFunctions';
 
-const AnalyticsDashboard = ({tkn}) => {
+const AnalyticsDashboard = ({tkn, hostName}) => {
   const [fdate, setFDate] = useState(null);
   const [tdate, setTDate] = useState(null);
   const [fdatef, setFDatef] = useState("");
@@ -58,7 +58,7 @@ const AnalyticsDashboard = ({tkn}) => {
   const theme = useTheme();
 
   const [countryList, setCountryList] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState('1');
   const [salesList, setSalesList] = useState([]);
   const [selectedSales, setSelectedSales] = useState('');
   const [officeList, setOfficeList] = useState([]);
@@ -172,36 +172,37 @@ const AnalyticsDashboard = ({tkn}) => {
 
     
     try {
-      const monthWiseSaleData = await fetchDashboardData(tkn, fdatef, tdatef, "MonthWiseSaleAmount");
+      const monthWiseSaleData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "MonthWiseSaleAmount");
       setMonthWiseSaleApiData(monthWiseSaleData);
   
-      const summaryData = await fetchDashboardData(tkn, fdatef, tdatef, "Summary");
+      const summaryData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "Summary");
       setSummaryApiData(summaryData.length > 0 ? summaryData[0] : {});
   
-      const progressWiseOrder = await fetchDashboardData(tkn, fdatef, tdatef, "ProgressWiseOrder");
+      const progressWiseOrder = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "ProgressWiseOrder");
       setOrderTrackerApiData(progressWiseOrder);
   
-      const countryWiseSaleAmount = await fetchDashboardData(tkn, fdatef, tdatef, "CountryWiseSaleAmount");
+      const countryWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CountryWiseSaleAmount");
       setCountryWiseSaleAmount(countryWiseSaleAmount);
   
-      const customerWiseSaleAmount = await fetchDashboardData(tkn, fdatef, tdatef, "CustomerWiseSaleAmount");
+      const customerWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CustomerWiseSaleAmount");
       setCustomerWiseSaleAmount(customerWiseSaleAmount);
   
-      const categoryWiseSaleAmount = await fetchDashboardData(tkn, fdatef, tdatef, "CategoryWiseSaleAmount");
+      const categoryWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CategoryWiseSaleAmount");
       setCategoryWiseSaleAmount(categoryWiseSaleAmount);
   
-      const metalTypeColorWiseSale = await fetchDashboardData(tkn, fdatef, tdatef, "MetalTypeColorWiseSale");
+      const metalTypeColorWiseSale = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "MetalTypeColorWiseSale");
       setMetalTypeColorWiseSale(metalTypeColorWiseSale);
   
-      const customerTypeWiseSaleAmount = await fetchDashboardData(tkn, fdatef, tdatef, "CustomerTypeWiseSaleAmount");
+      const customerTypeWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CustomerTypeWiseSaleAmount");
       setCustomerTypeWiseSaleAmount(customerTypeWiseSaleAmount);
   
-      const vendorWiseNetWt = await fetchDashboardData(tkn, fdatef, tdatef, "VendorWiseNetWt");
+      const vendorWiseNetWt = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "VendorWiseNetWt");
       setVendorWiseNetWt(vendorWiseNetWt);
   
-      const salesrepWiseSaleAmount = await fetchDashboardData(tkn, fdatef, tdatef, "SalesrepWiseSaleAmount");
+      const salesrepWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "SalesrepWiseSaleAmount");
       setSalesrepWiseSaleAmount(salesrepWiseSaleAmount);
   
+      console.log(salesrepWiseSaleAmount);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -232,6 +233,8 @@ useEffect(() => {
 //     handleApply();
 //   }
 // }, [fdatef, tdatef]);
+
+
 
   return (
     <ApexChartWrapper style={{paddingBottom:'2.5rem', paddingTop:'1rem', width:'95%', margin:'0 auto'}}>
@@ -270,26 +273,27 @@ useEffect(() => {
                 </div>
               </div>
             </Box>
-            <Box className="me-1" style={{minWidth:'200px'}}>
+            {/* <Box className="me-1" style={{minWidth:'200px'}}>
               <label htmlFor="country">Country</label>
               <select className='form-control' value={selectedCountry} name="country" id="country" onChange={(e) => countryListHandleChange(e)}>
                 <option value="" disabled selected>select</option>
-                <option value="ind">USA</option>
+                <option value="1">INR</option>
+                <option value="7.8">USA</option>
               </select>
             </Box>
             <Box className="me-1" style={{minWidth:'200px'}}>
               <label htmlFor="salesman">Salesman</label>
-              <select className='form-control' name="salesman" value={selectedSales} id="salesman" onChange={(e) => salesmanListHandleChange(e)}>
+              <select className='form-control' name="salesman" disabled value={selectedSales} id="salesman" onChange={(e) => salesmanListHandleChange(e)}>
                 <option value="" disabled selected>select </option>
               </select>
             </Box>
             <Box className="me-1" style={{minWidth:'200px'}}>
             <label htmlFor="office">Office</label>
-              <select className='form-control' name="office" id="office" value={selectedOffice} onChange={(e) => officeListHandleChange(e)}>
+              <select className='form-control' name="office" id="office" disabled value={selectedOffice} onChange={(e) => officeListHandleChange(e)}>
                 <option value="" disabled selected>select </option>
                 <option value="mumbai">mumbai</option>
               </select>
-            </Box>
+            </Box> */}
             <div><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green}} size='large' onClick={() => handleApply()}>Apply</Button></div>
             </div>
           </Grid>

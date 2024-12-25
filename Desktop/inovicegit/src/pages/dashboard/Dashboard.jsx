@@ -29,7 +29,7 @@ const Dashboard = () => {
                 width:'100%', 
                 boxSizing:'border-box',
                 backgroundColor:'#F8F7FA',
-                padding:'2rem'}}><AnalyticsDashboard tkn={tkn} /> 
+                padding:'2rem'}}><AnalyticsDashboard tkn={tkn} hostName={hostName} /> 
             </div>}
             { pid === '18146' && <div style={{
                 width:'100%', 

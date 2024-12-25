@@ -61,7 +61,7 @@ const data = [
   }
 ]
 
-const AnalyticsSalesByCountries = ({tkn,  fdate, tdate, countryWiseSale}) => {
+const AnalyticsSalesByCountries = ({tkn,  fdate, tdate, country, countryWiseSale}) => {
   const theme = useTheme();
 
   const [apiData, setApiData] = useState([]);
@@ -74,19 +74,19 @@ const AnalyticsSalesByCountries = ({tkn,  fdate, tdate, countryWiseSale}) => {
         // Fetch MonthWiseSaleAmount data
         // let CountryWiseSaleAmount = await fetchDashboardData(tkn,  fdate, tdate, "CountryWiseSaleAmount");
 
-        const arr = [];
+        // const arr = [];
 
-        countryWiseSale?.forEach((e) => {
-          let obj = cloneDeep(e);
-          let findrec = arr?.findIndex((a) => a?.Locker?.toLowerCase() === obj?.Locker?.toLowerCase());
-          if(findrec === -1){
-            arr.push(obj);
-          }else{
-            arr[findrec].SaleAmount += obj?.SaleAmount;
-          }
-        })
+        // countryWiseSale?.forEach((e) => {
+        //   let obj = cloneDeep(e);
+        //   let findrec = arr?.findIndex((a) => a?.Locker?.toLowerCase() === obj?.Locker?.toLowerCase());
+        //   if(findrec === -1){
+        //     arr.push(obj);
+        //   }else{
+        //     arr[findrec].SaleAmount += obj?.SaleAmount;
+        //   }
+        // })
 
-        countryWiseSale = arr;
+        // countryWiseSale = arr;
 
         setApiData(countryWiseSale);
 
@@ -175,7 +175,7 @@ const AnalyticsSalesByCountries = ({tkn,  fdate, tdate, countryWiseSale}) => {
                     fontSize='1.25rem'
                     icon={item.trend === 'negative' ? 'tabler:chevron-down' : 'tabler:chevron-up'}
                   /> */}
-                  <Typography variant='h6' color={theme?.palette?.customColors?.grey} sx={{fontWeight:'bold'}}>{`${formatAmountKWise(item?.SaleAmount)}`}</Typography>
+                  <Typography variant='h6' color={theme?.palette?.customColors?.grey} sx={{fontWeight:'bold'}}>{`${formatAmountKWise((item?.SaleAmount / (+country)))}`}</Typography>
                 </Box>
               </Box>
             </Box>

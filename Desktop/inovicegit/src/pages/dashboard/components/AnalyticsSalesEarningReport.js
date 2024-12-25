@@ -34,7 +34,7 @@ import { capitalizeFirstLetter, fetchDashboardData, formatAmount, formatAmountKW
 
 
 
-const AnalyticsSalesEarningReport = ({tkn,  fdate, tdate, CustomerWiseSaleAmountData}) => {
+const AnalyticsSalesEarningReport = ({tkn,  fdate, tdate, country, CustomerWiseSaleAmountData}) => {
   // ** State
   const [value, setValue] = useState('sales');
 
@@ -185,7 +185,7 @@ const AnalyticsSalesEarningReport = ({tkn,  fdate, tdate, CustomerWiseSaleAmount
     tooltip: { enabled: false },
     dataLabels: {
       offsetY: -15,
-      formatter: val => `${formatAmountKWise(val)}`,
+      formatter: val => `${formatAmountKWise((val / (+country)))}`,
       style: {
         fontWeight: 500,
         colors: [theme.palette.text.secondary],
@@ -226,7 +226,7 @@ const AnalyticsSalesEarningReport = ({tkn,  fdate, tdate, CustomerWiseSaleAmount
     yaxis: {
       labels: {
         offsetX: -15,
-        formatter: val => `${formatAmountKWise(val)}`,
+        formatter: val => `${formatAmountKWise((val / (+country)))}`,
         style: {
           colors: theme.palette.text.disabled,
           fontFamily: theme.typography.fontFamily,

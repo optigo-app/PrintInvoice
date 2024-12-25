@@ -72,6 +72,14 @@
        try {
           // Fetch MonthWiseSaleAmount data
         //  const monthWiseSaleData = await fetchDashboardData(tkn, fdate, tdate, "MonthWiseSaleAmount");
+        
+        // let arr = monthWiseSaleData?.map((e) => ({
+        //   ...e,
+        //   SaleAmount:(e?.SaleAmount / (+country))
+        // }))
+        // console.log(monthWiseSaleData);
+        
+        //  setApiData(arr);
          setApiData(monthWiseSaleData);
 
   
@@ -263,7 +271,7 @@
     dataLabels: {
       offsetY: -15,
       // formatter: val => `${formatAmount(val)}`,
-      formatter: val => `${formatAmountKWise(val)}`,
+      formatter: val => `${formatAmountKWise((val / (+country)))}`,
       style: {
         fontWeight: 500,
         colors: [theme.palette.text.secondary],
@@ -304,7 +312,7 @@
     yaxis: {
       labels: {
         offsetX: -15,
-        formatter: val => `${formatAmountKWise(val)}`,
+        formatter: val => `${formatAmountKWise(((val / (+country))))}`,
         style: {
           colors: theme.palette.text.disabled,
           fontFamily: theme.typography.fontFamily,
@@ -331,7 +339,7 @@
    const data = [
      {
        progress: 100,
-       stats: `${formatAmountKWise((summaryData?.SaleAmount || 0))}`,
+       stats: `${formatAmountKWise(((summaryData?.SaleAmount / (+country)) || 0))}`,
        title: 'Sales Amount',
        avatarColor: 'primary',
        progressColor: 'primary',
@@ -340,7 +348,7 @@
      },
      {
        progress: 100,
-       stats: `${formatAmountKWise((summaryData?.Profit || 0))}`,
+       stats: `${formatAmountKWise(((summaryData?.Profit / (+country)) || 0))}`,
        title: 'Profits Amount',
        avatarColor: 'info',
        progressColor: 'info',
@@ -349,7 +357,7 @@
      },
      {
        progress: 100,
-       stats: `${summaryData?.NoOfCustomer || 0}`,
+       stats: `${((summaryData?.NoOfCustomer)) || 0}`,
        title: 'Customers',
        avatarColor: 'error',
        progressColor: 'error',

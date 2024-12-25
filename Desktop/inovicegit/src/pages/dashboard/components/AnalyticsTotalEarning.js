@@ -46,7 +46,7 @@ import "./chartcss/analytics.css"
 //   }
 // ]
 
-const AnalyticsTotalEarning = ({tkn,  fdate, tdate, CategoryWiseSaleAmountData}) => {
+const AnalyticsTotalEarning = ({tkn,  fdate, tdate, country, CategoryWiseSaleAmountData}) => {
   // ** Hook
   const theme = useTheme();
 
@@ -81,8 +81,8 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate, CategoryWiseSaleAmountData})
   // Step 2: Get the top 10 objects
   const top10 = sortedData?.slice(0, 10);
 
-  const sales = top10?.map((e) => e?.SaleAmount);
-  const profit = top10?.map((e) => e?.Profit);
+  const sales = top10?.map((e) => (e?.SaleAmount / (+country)));
+  const profit = top10?.map((e) => (e?.Profit / (+country)));
   const negativeArray = profit?.map(value => Math?.abs(value) * -1);
   const salesNames = top10?.map((e) => e?.Category)
   const totalSale = top10?.reduce((acc, num) => acc + num?.SaleAmount, 0);
@@ -166,7 +166,7 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate, CategoryWiseSaleAmountData})
         show: true, // Display Y-axis labels
         formatter: function (value) {
           // return `${value?.toFixed(2)}`; // Format labels as currency (example)
-          return `${formatAmountKWise(value)}`; // Format labels as currency (example)
+          return `${formatAmountKWise((value / (+country)))}`; // Format labels as currency (example)
         }
       }
     },
@@ -208,14 +208,14 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate, CategoryWiseSaleAmountData})
 
   const data = [
     {
-      amount: formatAmountKWise(totalSale),
+      amount: formatAmountKWise((totalSale / (+country))),
       subtitle: '',
       title: 'Total Sales',
       avatarColor: 'primary',
       avatarIcon: 'tabler:currency-rupee'
     },
     {
-      amount: formatAmountKWise(totalProfit),
+      amount: formatAmountKWise((totalProfit / (+country))),
       title: 'Total Profit',
       avatarColor: 'secondary',
       subtitle: '',

@@ -9,7 +9,7 @@ import CustomTextField from '../@core/mui/text-field'
 
 import axios from 'axios'
 // import CustomAvatar from '../@core/components/mui/avatar'
-import { Button, CardContent, Grid, Typography, useTheme } from '@mui/material';
+import { Button, CardContent, Grid, Tooltip, Typography, useTheme } from '@mui/material';
 import * as XLSX from 'xlsx';
 import Sidebar from './Sidebar';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -38,11 +38,40 @@ const renderName = row => {
 }
 
 
+const TrainingTypeArr = [
+  {
+    id:1,
+    field:'new training',
+    label:'New Training'
+  },
+  {
+    id:2,
+    field:'re training',
+    label:'Re Training'
+  },
+  {
+    id:3,
+    field:'ignite',
+    label:'Ignite'
+  },
+];
+const TrainingModeArr = [
+  {
+    id:1,
+    field:'online',
+    label:'Online'
+  },
+  {
+    id:2,
+    field:'onsite',
+    label:'OnSite'
+  },
+  
+];
 
 
 
-
-const TrainingDataGrid = ({ex_url}) => {
+const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
 
   const [date, setDate] = useState(new Date())
 
@@ -58,11 +87,16 @@ const TrainingDataGrid = ({ex_url}) => {
   const [startDateRange, setStartDateRange] = useState(null);
   const [endDateRange, setEndDateRange] = useState(null);
 
-  const handleOnChangeRange = (dates) => {
-    const [start, end] = dates;
-    setStartDateRange(start);
-    setEndDateRange(end);
-  };
+  const [trainingType, setTrainingType] = useState();
+  const [trainingMode, setTrainingMode] = useState();
+
+  const [summaryData, setSummaryData] = useState(null);
+
+  // const handleOnChangeRange = (dates) => {
+  //   const [start, end] = dates;
+  //   setStartDateRange(start);
+  //   setEndDateRange(end);
+  // };
 
 
   const theme = useTheme();
@@ -312,7 +346,9 @@ const TrainingDataGrid = ({ex_url}) => {
         ]
     }
   ]
-
+  useEffect(() => {
+    handleFilter(value); // Apply filter when criteria changes
+  }, [value, trainingType, trainingMode, startDateRange, endDateRange]);
   
   useEffect(() => {
     const fetchData = async () => {
@@ -321,64 +357,69 @@ const TrainingDataGrid = ({ex_url}) => {
         
         
         
-        if(window.location.protocol === "http"){
-          url = 'http://zen/R50B3/UFS/websitedetailsexcel/training.xlsx';
-        }
-        if(window.location.protocol === "http"){
-          url = 'https://cdnfs.optigoapps.com/content-global3/test_traininggrid/training.xlsx';
-        }
-        url = "https://cdnfs.optigoapps.com/content-global3/test_traininggrid/training.xlsx";
+        // if(window.location.protocol === "http"){
+        //   url = 'http://zen/R50B3/UFS/websitedetailsexcel/training.xlsx';
+        // }
+        // if(window.location.protocol === "http"){
+        //   url = 'https://cdnfs.optigoapps.com/content-global3/test_traininggrid/training.xlsx';
+        // }
+        // url = "https://cdnfs.optigoapps.com/content-global3/test_traininggrid/training.xlsx";
+        // url = `http://api.optigoapps.com/ALL/exceltojson.aspx?tkn=${tkn}&sv=${sv}`;
+        // url = `http://api.optigoapps.com/ALL/exceltojson.aspx?tkn=${tkn}&sv=${sv}`;
+        const replacedUrl = (report_api_url)?.replace("M.asmx/Optigo", "exceltojson.aspx");
         
-        const response = await axios.get(ex_url, {
-          responseType: 'arraybuffer'
-        });
+        const response = await axios.get(`${replacedUrl}?tkn=${tkn}&sv=${sv}`);
+        // const response = await axios.get(`http://api.optigoapps.com/ALL/exceltojson.aspx?tkn=ODQ1NjUxMDgwNzU2OTk5MA==&sv=MQ==`);
+        console.log(response);
         
-        if(response?.status === 200){
-          const data = new Uint8Array(response?.data);
-          const workbook = XLSX.read(data, { type: 'array' });
-          const sheetName = workbook?.SheetNames[0];
-          const sheet = workbook?.Sheets[sheetName];
-          const jsonData = XLSX?.utils?.sheet_to_json(sheet);
+        if(response?.data?.Status === "200"){
+          if(response?.data?.Data?.length > 0){
+            let arr = response?.data?.Data?.map((e, i) => ({
+              ...e,
+              id:i
+            }));
+            setApiData(arr);
+            setFilteredData(arr);
+          }
+          console.log(response?.data?.Data);
+          
+          // const data = new Uint8Array(response?.data);
+          // const workbook = XLSX.read(data, { type: 'array' });
+          // const sheetName = workbook?.SheetNames[0];
+          // const sheet = workbook?.Sheets[sheetName];
+          // const jsonData = XLSX?.utils?.sheet_to_json(sheet);
    
           
-          // const formattedData = jsonData?.map((row) => {
-          //   console.log(row);
+          // // const formattedData = jsonData?.map((row) => {
+          // //   console.log(row);
             
-          //   if (row?.Date) {
-          //     const parts = row?.Date?.split('-'); // Split the date '25-10-2024'
-          //     const parsedDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`); // Rearrange to 'YYYY-MM-DD'
-          //     row.Date = parsedDate.toLocaleDateString(); // Format as 'MM/DD/YYYY'
-          //   }
-          //   return row;
-          // });
+          // //   if (row?.Date) {
+          // //     const parts = row?.Date?.split('-'); // Split the date '25-10-2024'
+          // //     const parsedDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`); // Rearrange to 'YYYY-MM-DD'
+          // //     row.Date = parsedDate.toLocaleDateString(); // Format as 'MM/DD/YYYY'
+          // //   }
+          // //   return row;
+          // // });
 
-                    // Convert any Excel serial date numbers manually if necessary
-                    const formattedData = jsonData?.map((row) => {
-                      // Check if any column is a date serial number and convert it to date object
-                      for (let key in row) {
-                        if (row[key] instanceof Date && !isNaN(row[key].getTime())) {
-                          // Convert Excel date serial to JavaScript Date if it's a valid date serial number
-                          row[key] = row[key].toLocaleDateString(); // Or any other format
-                        }
-                      }
-                      return row;
-                    });
-                    console.log(formattedData);
+          //           // Convert any Excel serial date numbers manually if necessary
+          //           const formattedData = jsonData?.map((row) => {
+          //             // Check if any column is a date serial number and convert it to date object
+          //             for (let key in row) {
+          //               if (row[key] instanceof Date && !isNaN(row[key].getTime())) {
+          //                 // Convert Excel date serial to JavaScript Date if it's a valid date serial number
+          //                 row[key] = row[key].toLocaleDateString(); // Or any other format
+          //               }
+          //             }
+          //             return row;
+          //           });
+          //           console.log(formattedData);
                     
 
           
-          const arr = jsonData?.sort((a, b) => a?.sr - b?.sr);
+          // const arr = jsonData?.sort((a, b) => a?.sr - b?.sr);
           // const arr2 = cloneDeep(arr);
 
-          setApiData(arr);
-          
-
-        
-
-          
-          
-          
-          
+          // setApiData(response);
    
 
         }else{
@@ -394,7 +435,7 @@ const TrainingDataGrid = ({ex_url}) => {
 
   useEffect(() => {
 
-    apiData.forEach(row => {
+    apiData?.forEach(row => {
       
       if (row.Date) {
         // row.Date = new Date((row?.Date - 25569) * 86400 * 1000); // Excel serial date to JS date
@@ -431,41 +472,132 @@ const TrainingDataGrid = ({ex_url}) => {
     setFilteredData(apiData);
   },[apiData]);
 
+  useEffect(() => {
+    console.log('hello');
+    
+    let obj = {
+      newTrainig:0,
+      newTrainigTime:0,
+      reTraining:0,
+      reTrainingTime:0,
+      Ignite:0,
+      IgniteTime:0 
+    }
 
-  const handleFilter = val => {
-    setValue(val);
+    filteredData?.forEach((e, i) => {
+      if(e?.TrainingType?.toLowerCase() === "new training"){
+        obj.newTrainig += 1;
+        obj.newTrainigTime += e?.Time;
+      }
+      if(e?.TrainingType?.toLowerCase() === "re training" || e?.TrainingType?.toLowerCase() === "re-training"){
+        obj.reTraining += 1;
+        obj.reTrainingTime += e?.Time;
+      }
+      if(e?.TrainingType?.toLowerCase() === "ignite"){
+        obj.Ignite += 1;
+        obj.IgniteTime += e?.Time;
+      }
+    })
 
-    setPaginationModel({ ...paginationModel, page: 0 }); // Reset to first page on filter change
+    setSummaryData(obj);
 
-    setValue(val);
-
-    const filteredData = data?.filter((item) => {
-      const trainingMode = item?.TrainingMode?.toLowerCase();  // Make sure both values are lowercase for case-insensitive comparison
-      const ticket = item?.Ticket?.toLowerCase();  // Make sure both values are lowercase for case-insensitive comparison
-      const trainingType = item?.TrainingType?.toLowerCase();
-      const time = item?.Time?.toString()?.toLowerCase();
-      const id = item?.id?.toString()?.toLowerCase();
-      const date = item?.Date?.toString()?.toLowerCase();
-      const searchVal = val?.toLowerCase();
-      const Attandees = item?.Attandees?.toLowerCase();
-      const TrainingBy = item?.TrainingBy?.toLowerCase();
-  
-      return (
-        trainingMode?.includes(searchVal) ||
-        Attandees?.includes(searchVal) ||
-        TrainingBy?.includes(searchVal) ||
-        ticket?.includes(searchVal) ||
-        trainingType?.includes(searchVal) ||
-        time?.includes(searchVal) ||
-        date?.includes(searchVal) ||
-        id?.includes(searchVal)  // Check if either MetalType or MetalColor includes the search term
-      );
-    });
     
 
-    setFilteredData(filteredData);
+  },[filteredData])
 
-  }
+
+  // const handleFilter = val => {
+  //   setValue(val);
+
+  //   setPaginationModel({ ...paginationModel, page: 0 }); // Reset to first page on filter change
+
+  //   setValue(val);
+
+  //   const filteredData = data?.filter((item) => {
+  //     const trainingMode = item?.TrainingMode?.toLowerCase();  // Make sure both values are lowercase for case-insensitive comparison
+  //     const ticket = item?.Ticket?.toLowerCase();  // Make sure both values are lowercase for case-insensitive comparison
+  //     const trainingType = item?.TrainingType?.toLowerCase();
+  //     const time = item?.Time?.toString()?.toLowerCase();
+  //     const id = item?.id?.toString()?.toLowerCase();
+  //     const date = item?.Date?.toString()?.toLowerCase();
+  //     const searchVal = val?.toLowerCase();
+  //     const Attandees = item?.Attandees?.toLowerCase();
+  //     const TrainingBy = item?.TrainingBy?.toLowerCase();
+  
+  //     return (
+  //       trainingMode?.includes(searchVal) ||
+  //       Attandees?.includes(searchVal) ||
+  //       TrainingBy?.includes(searchVal) ||
+  //       ticket?.includes(searchVal) ||
+  //       trainingType?.includes(searchVal) ||
+  //       time?.includes(searchVal) ||
+  //       date?.includes(searchVal) ||
+  //       id?.includes(searchVal)  // Check if either MetalType or MetalColor includes the search term
+  //     );
+  //   });
+    
+
+  //   setFilteredData(filteredData);
+
+  // }
+
+  const handleTTypeChange = (e) => {
+    setTrainingType(e.target.value);
+    handleFilter(value); // Trigger filter with the current search value
+  };
+  
+  const handleTModeChange = (e) => {
+    setTrainingMode(e.target.value);
+    handleFilter(value); // Trigger filter with the current search value
+  };
+  
+  const handleOnChangeRange = (dates) => {
+    const [start, end] = dates;
+    setStartDateRange(start);
+    setEndDateRange(end);
+    handleFilter(value); // Trigger filter with the current search value
+  };
+  
+
+  const handleFilter = (searchValue) => {
+    const searchVal = searchValue.toLowerCase();
+    
+    const filteredData = data?.filter((item) => {
+      const trainingMode = item?.TrainingMode?.toLowerCase() || '';
+      const trainingType = item?.TrainingType?.toLowerCase() || '';
+      const date = item?.Date ? new Date(item.Date) : null;
+  
+      // Search filter
+      const isSearchMatch =
+        trainingMode.includes(searchVal) ||
+        trainingType.includes(searchVal) ||
+        item?.Ticket?.toLowerCase()?.includes(searchVal) ||
+        item?.Time?.toString()?.includes(searchVal) ||
+        item?.id?.toString()?.includes(searchVal) ||
+        item?.Attandees?.toLowerCase()?.includes(searchVal) ||
+        item?.TrainingBy?.toLowerCase()?.includes(searchVal);
+  
+      // Training Type filter
+      const isTrainingTypeMatch =
+        !trainingType || trainingType === trainingType.toLowerCase();
+  
+      // Training Mode filter
+      const isTrainingModeMatch =
+        !trainingMode || trainingMode === trainingMode.toLowerCase();
+  
+      // Date range filter
+      const isDateMatch =
+        (!startDateRange || (date && date >= startDateRange)) &&
+        (!endDateRange || (date && date <= endDateRange));
+  
+      // Combine all conditions
+      return isSearchMatch && isTrainingTypeMatch && isTrainingModeMatch && isDateMatch;
+    });
+    console.log(filteredData);
+    
+    setFilteredData(filteredData);
+  };
+  
 
   const popperPlacement = 'bottom-start';
   return data ? (
@@ -499,25 +631,25 @@ const TrainingDataGrid = ({ex_url}) => {
           <Card sx={{ boxShadow: 'none', border: '1px solid #e8e8e8', my: 1, p:1, borderRadius: '8px',  }} className='trainingHead'>
             <Typography variant='h5' className="fs_analytics_l">New Training</Typography>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', p: 1, m:0 }}>
-              <Typography variant="h3" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple }} className="fs_analytics_l">2</Typography>
+              <Typography variant="h3" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple }} className="fs_analytics_l" style={{cursor:'pointer'}}><Tooltip title="Count">{summaryData?.newTrainig}</Tooltip></Typography>
               <Typography variant="h3" sx={{color: theme?.palette?.customColors?.purple}}>/</Typography>
-              <Typography variant="h3" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple }}>3.5</Typography>
+              <Typography variant="h3" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple, cursor:'pointer' }}><Tooltip title="Time">{summaryData?.newTrainigTime}</Tooltip></Typography>
             </Box>
           </Card>           
           <Card sx={{ boxShadow: 'none', border: '1px solid #e8e8e8', my: 1, p:1, borderRadius: '8px',  }} className='trainingHead'>
             <Typography variant='h5' className="fs_analytics_l">Re Training</Typography>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', p: 1, m:0 }}>
-              <Typography variant="h3" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple }}>1</Typography>
+              <Typography variant="h3" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple }} style={{cursor:'pointer'}}><Tooltip title="Count">{summaryData?.reTraining}</Tooltip></Typography>
               <Typography variant="h3" sx={{color: theme?.palette?.customColors?.purple}}>/</Typography>
-              <Typography variant="h3" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple }}>3</Typography>
+              <Typography variant="h3" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple, cursor:'pointer' }}><Tooltip title="Time">{summaryData?.reTrainingTime}</Tooltip></Typography>
             </Box>
           </Card>
           <Card sx={{ boxShadow: 'none', border: '1px solid #e8e8e8', my: 1, p:1, borderRadius: '8px',  }} className='trainingHead'>
             <Typography variant='h5' className="fs_analytics_l">Ignite</Typography>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', p: 1, m:0 }}>
-              <Typography variant="h3" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple }}>2</Typography>
+              <Typography variant="h3" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple }} style={{cursor:'pointer'}}><Tooltip title="Count">{summaryData?.Ignite}</Tooltip></Typography>
               <Typography variant="h3" sx={{color: theme?.palette?.customColors?.purple}}>/</Typography>
-              <Typography variant="h3" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple }}>4</Typography>
+              <Typography variant="h3" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple, cursor:'pointer' }}><Tooltip title="Time">{summaryData?.IgniteTime}</Tooltip></Typography>
             </Box>
           </Card>
         </Box>
@@ -646,15 +778,11 @@ const TrainingDataGrid = ({ex_url}) => {
             <MenuItem className="fs_analytics_l" value="">
               <em>None</em>
             </MenuItem>
-            <MenuItem className="fs_analytics_l" value={10}>
-              Ten
-            </MenuItem>
-            <MenuItem className="fs_analytics_l" value={20}>
-              Twenty
-            </MenuItem>
-            <MenuItem className="fs_analytics_l" value={30}>
-              Thirty
-            </MenuItem>
+            {TrainingTypeArr.map((option) => (
+              <MenuItem key={option.id} value={option.field}>
+                {option.label}
+              </MenuItem>
+            ))}
           </CustomTextField>
         </Grid>
 
@@ -690,15 +818,11 @@ const TrainingDataGrid = ({ex_url}) => {
             <MenuItem className="fs_analytics_l" value="">
               <em>None</em>
             </MenuItem>
-            <MenuItem className="fs_analytics_l" value={10}>
-              Ten
-            </MenuItem>
-            <MenuItem className="fs_analytics_l" value={20}>
-              Twenty
-            </MenuItem>
-            <MenuItem className="fs_analytics_l" value={30}>
-              Thirty
-            </MenuItem>
+            {TrainingModeArr.map((option) => (
+              <MenuItem key={option.id} value={option.field}>
+                {option.label}
+              </MenuItem>
+            ))}
           </CustomTextField>
         </Grid>
 
@@ -707,7 +831,6 @@ const TrainingDataGrid = ({ex_url}) => {
         </Grid>
 
       </Grid>
-      
       <DataGrid
         className='fs_analytics_l'
         pagination

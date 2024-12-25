@@ -93,8 +93,8 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
           // if ((ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 2 || ele?.MasterManagement_DiamondStoneTypeid === 3) && ele?.IsHSCOE === 0) {
           if (
             (ele?.MasterManagement_DiamondStoneTypeid === 1 ||
-              ele?.MasterManagement_DiamondStoneTypeid === 2 ||
-              ele?.MasterManagement_DiamondStoneTypeid === 3) &&
+              ele?.MasterManagement_DiamondStoneTypeid === 2) &&
+              // ele?.MasterManagement_DiamondStoneTypeid === 3) &&
             ele?.IsHSCOE === 0
           ) {
             let findRecord = materials.findIndex(
@@ -479,9 +479,9 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
                     {e?.colorStoneWts !== 0 && (
                       <> |  {NumberWithCommas(e?.colorStoneWts, 3)} Cts</>
                     )}
-                    {e?.miscWts !== 0 && (
+                    {/* {e?.miscWts !== 0 && (
                       <> |  {NumberWithCommas(e?.miscWts, 3)} gms</>
-                    )}
+                    )} */}
                   </p>
                   
                   {e?.materials?.length > 0 &&

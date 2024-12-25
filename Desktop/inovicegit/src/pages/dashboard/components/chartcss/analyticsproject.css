@@ -37,3 +37,10 @@
 .fs_analytics_l .MuiMenuItem-root {
     font-family: "Public Sans" !important;
 }
+
+.kayradashboard .MuiDataGrid-footerContainer{
+  display: none !important;
+}
+.kayradashboard .MuiDataGrid-main{
+  height: 30rem !important;
+}

@@ -6,7 +6,8 @@ import { checkNullUndefined } from './global';
 const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData1, bgColor, acrLoader, irLoader, PDLoader }) => {
 
     const theme = useTheme();
-
+    console.log(InventoryRatio, avgCollRatio, saleMTs);
+    
     // Check if the necessary props are available
     // if (!InventoryRatio || !saleMTs || !PrdDev || !avgCollRatio) {
     if (acrLoader) {
@@ -72,13 +73,14 @@ const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData
         },
         {
             heading: 'Inventory Turn Over Ratio',
-            totalValue: parseFloat(checkNullUndefined(InventoryRatio?.DT?.[0]?.InventoryRatio || 0))?.toFixed(2),
+            totalValue: parseFloat(checkNullUndefined(InventoryRatio?.DT?.[0]?.InventoryTurnOverRatio || 0))?.toFixed(2),
             series: [],
             subheading: 'Account & HR'
         },
         {
             heading: 'Avg. Collection Period',
-            totalValue: parseFloat(checkNullUndefined(((avgCollRatio?.[0]?.Sun_Debtor || 0) / (saleMTs?.Amount || 1)) * 365))?.toFixed(2),
+            // totalValue: parseFloat(checkNullUndefined(((avgCollRatio?.Sun_Debtor || 0) / (saleMTs?.Amount || 1)) * 365))?.toFixed(2),
+            totalValue: parseFloat(checkNullUndefined(((saleMTs?.Amount === 0 ? 0 : ((avgCollRatio?.Sun_Debtor || 0) / (saleMTs?.Amount || 1)))) * 365))?.toFixed(2),
             series: [],
             subheading: 'Account & HR'
         },

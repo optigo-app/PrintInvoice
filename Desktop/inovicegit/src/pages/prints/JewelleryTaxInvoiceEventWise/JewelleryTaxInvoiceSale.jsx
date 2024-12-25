@@ -93,8 +93,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
           // if ((ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 2 || ele?.MasterManagement_DiamondStoneTypeid === 3) && ele?.IsHSCOE === 0) {
           if (
             (ele?.MasterManagement_DiamondStoneTypeid === 1 ||
-              ele?.MasterManagement_DiamondStoneTypeid === 2 ||
-              ele?.MasterManagement_DiamondStoneTypeid === 3) &&
+              ele?.MasterManagement_DiamondStoneTypeid === 2 ) &&
             ele?.IsHSCOE === 0
           ) {
             let findRecord = materials.findIndex(

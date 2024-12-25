@@ -1304,7 +1304,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                   />
                 </div>
               </div>
-              <div><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green}} size='large' className='fs_analytics_l' onClick={() => handleApply()}>Apply</Button></div>
+              <div><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green, padding: "11px 15px"}} size='large' className='fs_analytics_l' onClick={() => handleApply()}>Apply</Button></div>
             </Box>
             </Box>}
             { isMaxWidth720px && <Box className='fs_analytics_l ' style={{width:'100%', display:'flex', justifyContent:'flex-end'}}> 
@@ -1364,7 +1364,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
                   />
                 </div>
               </div>
-              <div><Button variant='contained' className='fs_analytics_l' sx={{backgroundColor:theme?.palette?.customColors?.green}} size='small' onClick={() => handleApply()}>Apply</Button></div>
+              <div><Button variant='contained' className='fs_analytics_l' sx={{backgroundColor:theme?.palette?.customColors?.green, padding: "11px 15px"}} size='large' onClick={() => handleApply()}>Apply</Button></div>
               </div>
             </Box>
             </Box>}
