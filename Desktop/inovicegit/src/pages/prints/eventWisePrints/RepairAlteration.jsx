@@ -6,10 +6,13 @@ import {
   handleImageError,
   handlePrint,
 } from "../../../GlobalFunctions";
+import { OrganizeDataPrint } from "../../../GlobalFunctions/OrganizeDataPrint";
 
 const RepairAlteration = ({ data }) => {
   const [headerComp, setHeaderComp] = useState(null);
   const [headerData, setHeaderData] = useState({});
+  
+  const [result, setResult] = useState(null);
   const [datas, setData] = useState([]);
   const loadData = (data) => {
     setHeaderData(data?.BillPrint_Json[0]);
@@ -62,6 +65,14 @@ const RepairAlteration = ({ data }) => {
 
       resultArr.push(obj);
     });
+    const datas = OrganizeDataPrint(
+      data?.BillPrint_Json[0],
+      data?.BillPrint_Json1,
+      data?.BillPrint_Json2
+    );
+    console.log(datas);
+    setResult(datas);
+    
     setData(resultArr);
   };
 
@@ -258,6 +269,10 @@ const RepairAlteration = ({ data }) => {
           </div>
         );
       })}
+      <div className="p-2 border border-top-0">
+        <span className="mx-2">GrossWt : <span className="fw-bold">{result?.mainTotal?.grosswt?.toFixed(3)}</span></span>
+        <span className="mx-2">NetWt : <span className="fw-bold">{result?.mainTotal?.netwt?.toFixed(3)}</span></span>        
+      </div>
       {/* signature */}
       <div className="p-1 border-start border-end w-100 border-bottom">
         <span className="fw-bold">Remark :</span>&nbsp; {headerData?.Remark}

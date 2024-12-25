@@ -64,6 +64,11 @@
     font-size: 14px;
     line-height: 100%;
 }
+.altreceive_img{
+    height: 75px;
+    width: 75px;
+    object-fit: contain;
+}
 @media print{
     .print_sec_sum4 {
         display: none !important;
@@ -103,5 +108,10 @@
 
         line-height: 12px;
         line-height: 100%;
+    }
+    .altreceive_img{
+        height: 65px;
+        width: 65px;
+        object-fit: contain;
     }
 }

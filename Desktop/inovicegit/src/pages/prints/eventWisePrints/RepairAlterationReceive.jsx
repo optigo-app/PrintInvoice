@@ -7,11 +7,14 @@ import {
   handlePrint,
   taxGenrator,
 } from "../../../GlobalFunctions";
+import { result } from "lodash";
+import { OrganizeDataPrint } from "../../../GlobalFunctions/OrganizeDataPrint";
 
 const RepairAlterationReceive = ({ data }) => {
   const [headerComp, setHeaderComp] = useState(null);
   const [headerData, setHeaderData] = useState({});
   const [datas, setData] = useState([]);
+  const [result, setResult] = useState(null);
   const [total, SetTotal] = useState({
     totalAmount: 0,
     grandTotal: 0,
@@ -186,6 +189,15 @@ const RepairAlterationReceive = ({ data }) => {
       data?.BillPrint_Json[0]?.AddLess;
     setData(resultArr);
     setTax(taxValue);
+
+    const datas = OrganizeDataPrint(
+      data?.BillPrint_Json[0],
+      data?.BillPrint_Json1,
+      data?.BillPrint_Json2
+    );
+    console.log(datas);
+    setResult(datas);
+
   };
 
   useEffect(() => {
@@ -283,8 +295,9 @@ const RepairAlterationReceive = ({ data }) => {
                 <img
                   src={e?.DesignImage}
                   alt=""
-                  className={`${style?.img_manufacture} p-1`}
+                  className={`${style?.img_manufacture} ${style?.altreceive_img} p-1`}
                   onError={handleImageError}
+                  
                 />
               </div>
               <div className="col-7 border-end">
@@ -391,9 +404,15 @@ const RepairAlterationReceive = ({ data }) => {
         })}
         {/* Table Total */}
         <div className="d-flex border-start border-end border-bottom lightGrey">
-          <div className="col-1"></div>
-          <div className="col-9 border-end p-1">
-            <p className="fw-bold">TOTAL</p>
+          <div className="col-1 fw-bold d-flex justify-content-center align-items-center">TOTAL</div>
+          <div className="col-2 border-end p-1">
+            <p className="fw-bold">GrossWt : {result?.mainTotal?.grosswt?.toFixed(3)}</p>
+          </div>
+          <div className="col-2 border-end p-1">
+          <p className="fw-bold">NetWt : {result?.mainTotal?.netwtWithLossWt?.toFixed(3)}</p>
+          </div>
+          <div className="col-5 border-end p-1">
+            <p className="fw-bold"></p>
           </div>
           <div className="col-2 p-1">
             <p className="fw-bold text-end">

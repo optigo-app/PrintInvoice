@@ -197,11 +197,11 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       NetWt:0,
       PureNetWt:0,
       LossWt:0,
-      pureLossWt:0  
+      pureLossWt:0 ,
     }
     met_arr?.forEach((a) => {
       g_Arr_total.NetWt += a?.NetWt;
-      g_Arr_total.PureNetWt += a?.PureNetWt;
+      g_Arr_total.PureNetWt += ((a?.NetWt + a?.LossWt) * a?.Tunch) / 99.5;
       g_Arr_total.LossWt += a?.LossWt;
       // g_Arr_total.pureLossWt += ((a?.LossWt * a?.Tunch) / 100);
       g_Arr_total.pureLossWt += ((a?.LossWt * a?.Tunch) / 99.5);
@@ -220,13 +220,12 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     met_arr2?.forEach((a) => {
       
       wg_Arr_total.NetWt += a?.NetWt;
-      wg_Arr_total.PureNetWt += a?.PureNetWt;
+      wg_Arr_total.PureNetWt += ((a?.NetWt + a?.LossWt) * a?.Tunch) / 99.5;
       wg_Arr_total.LossWt += a?.LossWt;
       // wg_Arr_total.pureLossWt += ((a?.pureLossWt * a?.Tunch) / 100);
       wg_Arr_total.pureLossWt += ((a?.LossWt * a?.Tunch) / 99.5);
       
     })
-    console.log();
     
     setMetalWithoutGoldPurityWiseTotal(wg_Arr_total);
     setMetalWithoutGoldPurityWise(met_arr2);
@@ -536,7 +535,7 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className='col_t2_5_eia p-1 '>{e?.LossWt?.toFixed(3)}</div>
                 <div className='col_t2_6_eia p-1 '>{((e?.LossWt * e?.Tunch)/99.5)?.toFixed(3)}</div>
                 <div className='col_t2_7_eia p-1 '>{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div>
-                <div className='col_t2_8_eia p-1'>{e?.PureNetWt?.toFixed(3)}</div>
+                <div className='col_t2_8_eia p-1'>{(((e?.NetWt + e?.LossWt) * e?.Tunch) / 99.5 )?.toFixed(3)}</div>
             </div> 
             
             )
@@ -550,7 +549,7 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div className='col_t2_5_eia p-1 fw-bold'>{metalGoldPurityWiseTotal?.LossWt?.toFixed(3)}</div>
             <div className='col_t2_6_eia p-1 fw-bold'>{metalGoldPurityWiseTotal?.pureLossWt?.toFixed(3)}</div>
             <div className='col_t2_7_eia p-1 fw-bold'>{(metalGoldPurityWiseTotal?.LossWt + metalGoldPurityWiseTotal?.NetWt)?.toFixed(3)}</div>
-            <div className='col_t2_8_eia p-1 fw-bold'>{metalGoldPurityWiseTotal?.PureNetWt?.toFixed(3)}</div>
+            <div className='col_t2_8_eia p-1 fw-bold'>{((metalGoldPurityWiseTotal?.PureNetWt))?.toFixed(3)}</div>
         </div>}
 
 
@@ -576,7 +575,7 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className='col_t2_5_eia p-1 '>{e?.LossWt?.toFixed(3)}</div>
                 <div className='col_t2_6_eia p-1 '>{((e?.LossWt * e?.Tunch)/99.5)?.toFixed(3)}</div>
                 <div className='col_t2_7_eia p-1 '>{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div>
-                <div className='col_t2_8_eia p-1'>{e?.PureNetWt?.toFixed(3)}</div>
+                <div className='col_t2_8_eia p-1'>{(((e?.NetWt + e?.LossWt) * e?.Tunch)/99.5)?.toFixed(3)}</div>
             </div> 
             
             )
@@ -700,7 +699,8 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       </div>
     </div>
     <div className='border border-black mt-3 p-1 text-break fw-semibold'>
-      Amount Chargeable : {numberToWord((result?.mainTotal?.TotalAmount + result?.header?.FreightCharges))}
+      
+      Amount Chargeable : {numberToWord(((+(result?.mainTotal?.TotalAmount + result?.header?.FreightCharges)?.toFixed(2))))}
     </div>
     <div className='mt-1'>Declaration : <span dangerouslySetInnerHTML={{__html:result?.header?.Declaration}} className='decl_eia'></span></div>
     <div>

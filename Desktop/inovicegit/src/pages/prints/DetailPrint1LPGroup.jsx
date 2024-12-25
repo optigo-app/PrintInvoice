@@ -906,6 +906,9 @@ const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, })
                         )}
                       </div>
                       <div className={`${!image && "pt-2 "}`}>
+                        {e?.CertificateNo !== "" && (
+                          <p className="text-center text-break">Cert:  {e?.CertificateNo}</p>
+                        )}
                         {e?.HUID !== "" && (
                           <p className="text-center">HUID - {e?.HUID}</p>
                         )}
