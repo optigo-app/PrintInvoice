@@ -30,11 +30,11 @@ const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC, qcInward, inw
             const data = [
               {
                 // stats: parseFloat(checkNullUndefined(obj?.ProductionApiData?.rd[0]?.qc_avg_inward))?.toFixed(2),
-                stats: safeValue(qcInward?.qc_avg_inward),
+                stats: `${safeValue(qcInward?.qc_avg_inward)} jobs`,
                 title: 'Inward',
               },
               {
-                stats: parseFloat(checkNullUndefined(QuaC?.JobMoveStockBookCount))?.toFixed(2),
+                stats: ` ${parseFloat(checkNullUndefined(QuaC?.JobMoveStockBookCount))?.toFixed(2)} Jobs`,
                 title: 'Outward',
               },
               {
@@ -42,7 +42,7 @@ const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC, qcInward, inw
                 title: 'Total Jobs',
               },
               {
-                stats: safeValue(parseFloat(checkNullUndefined((QuaC?.DaysDiff_QA_To_Stock / (QuaC?.TotalJobCount_QA_To_Stock))))?.toFixed(2)),
+                stats: `${safeValue(parseFloat(checkNullUndefined((QuaC?.DaysDiff_QA_To_Stock / (QuaC?.TotalJobCount_QA_To_Stock))))?.toFixed(2))} Days`,
                 title: 'Avg. Prs. Time',
               }
             ]

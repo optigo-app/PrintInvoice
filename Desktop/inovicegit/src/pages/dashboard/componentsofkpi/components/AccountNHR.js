@@ -5,6 +5,7 @@ import { useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { checkNullUndefined } from './global';
+import { formatAmount } from '../../GlobalFunctions'
 
 const series = [85]
 
@@ -24,7 +25,16 @@ const AccountNHR = ({tkn, data, bgColor}) => {
             </div>
             <div>
               <Typography variant='h5' sx={{ mb: 0.75, color:theme?.palette?.grey[700], fontWeight:'bolder' }}>
-                {parseFloat(checkNullUndefined(data?.totalValue))?.toFixed(2)}
+             
+                
+                { 
+                data?.heading === "Avg. Collection Period" || data?.heading === "Revenue Per Employees" ? 
+                `₹ ${formatAmount(data?.totalValue)}` 
+                  :
+                 ( data?.heading === "Avg. Due Debtors" || data?.heading === "Labour vs Exp"
+                  ? 
+                  `${parseFloat(checkNullUndefined(data?.totalValue))?.toFixed(2)} %` : parseFloat(checkNullUndefined(data?.totalValue))?.toFixed(2) )
+                 }
               </Typography>
     
             </div>

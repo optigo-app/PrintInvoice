@@ -68,13 +68,13 @@ console.log(theme.palette);
         maxBarThickness: 15,
         label: 'Sold Per Carat',
         // backgroundColor: warning,
-        backgroundColor: theme?.palette?.customColors?.red,
+        backgroundColor: theme?.palette?.customColors?.purple,
         borderColor: 'transparent',
         data: [1510, 1178, 14934, 2140, 1169, 758, 997, 1086]
       },
       {
         maxBarThickness: 15,
-        backgroundColor: theme?.palette?.customColors?.green,
+        backgroundColor: theme?.palette?.customColors?.orange,
         label: 'Cost Per Carat',
         borderColor: 'transparent',
         data: [1300, 1030, 13704, 1793, 962, 728, 837, 894]

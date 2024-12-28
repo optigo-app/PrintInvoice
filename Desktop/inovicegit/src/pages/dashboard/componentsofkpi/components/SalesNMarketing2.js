@@ -6,7 +6,7 @@ import CardContent from '@mui/material/CardContent'
 import { CircularProgress, useTheme } from '@mui/material';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import {  fetchKPIDashboardData,  formatAmountKWise } from '../../GlobalFunctions';
+import {  fetchKPIDashboardData,  formatAmount,  formatAmountKWise } from '../../GlobalFunctions';
 import { checkNullUndefined } from './global';
 
 //SALES AND MARKETING 1ST BLOCK
@@ -66,27 +66,27 @@ const SalesNMarketing2 = ({tkn, fdate, tdate, bgColor, SM2, saleMTs, saleMTsLoad
 
 const data5 = [
   {
-  stats: `${parseFloat(checkNullUndefined(saleMTs?.Amount))?.toFixed(2)}`,
+  stats: `₹ ${formatAmount(parseFloat(checkNullUndefined(saleMTs?.Amount))?.toFixed(2))}`,
   title: 'Total Sale Amt',
   },
  {
-  stats: `${(checkNullUndefined(saleMTs?.MetalAmount))?.toFixed(2)}`,
+  stats: `₹ ${formatAmount((checkNullUndefined(saleMTs?.MetalAmount))?.toFixed(2))}`,
   title: 'Gold Amt',
   },
  {
-  stats: `${(checkNullUndefined(saleMTs?.DiamondAmount))?.toFixed(2)}`,
+  stats: `₹ ${formatAmount((checkNullUndefined(saleMTs?.DiamondAmount))?.toFixed(2))}`,
   title: 'Diamond Amt',
 },
  {
-  stats: `${(checkNullUndefined(saleMTs?.ColorStoneAmount))?.toFixed(2)}`,
+  stats: `₹ ${formatAmount((checkNullUndefined(saleMTs?.ColorStoneAmount))?.toFixed(2))}`,
   title: 'Color Stone Amt',
 },
 {
-  stats: `${(checkNullUndefined(saleMTs?.LabourAmount))?.toFixed(2)}`,
+  stats: `₹ ${formatAmount((checkNullUndefined(saleMTs?.LabourAmount))?.toFixed(2))}`,
   title: 'Labour Amt (L+DH+S+M)',
 },
 {
-  stats: `${(checkNullUndefined(saleMTs?.DeliveryCharged))?.toFixed(2)}`,
+  stats: `₹ ${formatAmount((checkNullUndefined(saleMTs?.DeliveryCharged))?.toFixed(2))}`,
   title: 'Delivery Charges',
 }
 ];

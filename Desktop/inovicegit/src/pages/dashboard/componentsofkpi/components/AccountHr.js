@@ -6,7 +6,6 @@ import { checkNullUndefined } from './global';
 const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData1, bgColor, acrLoader, irLoader, PDLoader }) => {
 
     const theme = useTheme();
-    console.log(InventoryRatio, avgCollRatio, saleMTs);
     
     // Check if the necessary props are available
     // if (!InventoryRatio || !saleMTs || !PrdDev || !avgCollRatio) {
@@ -61,7 +60,7 @@ const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData
         },
         {
             heading: 'Revenue Per Employees',
-            totalValue: parseFloat(checkNullUndefined(((saleMTs?.OnlySaleLabourAmount / (PrdDev?.RevenueEmployeeCount || 1)))))?.toFixed(2),
+            totalValue: (parseFloat(checkNullUndefined(((saleMTs?.OnlySaleLabourAmount / (PrdDev?.RevenueEmployeeCount || 1)))))?.toFixed(2)),
             series: [],
             subheading: 'Account & HR'
         },

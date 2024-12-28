@@ -6,7 +6,7 @@ import CardContent from '@mui/material/CardContent'
 import { useTheme } from '@mui/material';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import {  fetchKPIDashboardData,  formatAmountKWise } from '../../GlobalFunctions';
+import {  fetchKPIDashboardData,  formatAmount,  formatAmountKWise } from '../../GlobalFunctions';
 import { CircularProgress } from '@mui/material';
 import { checkNullUndefined, makeWordShort } from './global';
 
@@ -26,9 +26,10 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3, BCwise, BCwiseLoader
         const SalesMarketing_TotalSaleBusinessClassWise = 1;
         
         if(BCwise){
+
           setLoading(false);
-          const formatedArr = BCwise?.slice(0, 4);
-          const formatedArr2 = BCwise?.slice(4);
+          const formatedArr = BCwise?.sort((a, b) => b?.Amount - a?.Amount)?.slice(0, 5);
+          const formatedArr2 = BCwise?.slice(5);
           const obj = {
             CustomerType : "Other",
             Amount:0
@@ -39,6 +40,8 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3, BCwise, BCwiseLoader
           })
           
           formatedArr.push(obj);
+
+          
           
           setApiData(formatedArr);
           
@@ -90,7 +93,9 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3, BCwise, BCwiseLoader
                 '& img': { mr: 4 },
                 alignItems: 'center',
                 // mb: index !== data.length - 1 ? 4.5 : undefined
-                mb: index !== apiData?.length - 1 ? 2.15 : undefined
+                // mb: index !== apiData?.length - 1 ? 2.15 : undefined
+                mb: index !== apiData?.length - 1 ? 1 : undefined,
+                pb:0,
               }}
             >
 
@@ -119,7 +124,7 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3, BCwise, BCwiseLoader
                     alignItems: 'center',
                    }}
                 >
-                  { item?.CustomerType === undefined ? <Typography variant='h6'>&nbsp;</Typography> : <Typography variant='h6' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}}>{` ${checkNullUndefined(((item?.Amount)))?.toFixed(2)}`}</Typography>}
+                  { item?.CustomerType === undefined ? <Typography variant='h6'>&nbsp;</Typography> : <Typography variant='h6' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}}>{`₹ ${formatAmount(checkNullUndefined(((item?.Amount)))?.toFixed(2))}`}</Typography>}
                 </Box>
               </Box>
             </Box>

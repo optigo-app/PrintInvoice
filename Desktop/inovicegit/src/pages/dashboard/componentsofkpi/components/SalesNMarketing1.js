@@ -8,7 +8,7 @@ import CardContent from '@mui/material/CardContent'
 
 // ** Icon Imports
 import { CircularProgress, Modal, Tooltip, useMediaQuery, useTheme } from '@mui/material';
-import { fetchKPIDashboardData } from '../../GlobalFunctions';
+import { fetchKPIDashboardData, formatAmount } from '../../GlobalFunctions';
 import { checkNullUndefined } from './global';
 import CancelIcon from '@mui/icons-material/Cancel';
 
@@ -40,15 +40,15 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList, orderCmplt, SM
         title: 'Avg. Order Size',
       },
       {
-        stats: `${((orderCmplt?.LeadTime))}`,
+        stats: `${((orderCmplt?.LeadTime))} Days`,
         title: 'Lead Time',
       },
       {
-        stats: `${orderCmplt?.DelayTime}`,
+        stats: `${orderCmplt?.DelayTime} Days`,
         title: 'Delay Time',
       },
       {
-        stats: `${parseFloat(checkNullUndefined(smorderArr?.AvgLabour))?.toFixed(2)}`,
+        stats: `${parseFloat(checkNullUndefined(smorderArr?.AvgLabour))?.toFixed(2)} %`,
         title: 'Avg. Labour',
       },
       {
@@ -60,7 +60,7 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList, orderCmplt, SM
         title: 'Avg. Stock Book Jobs',
       },
       {
-        stats: parseFloat(checkNullUndefined(orderCmplt?.OverDueDebtorsAmount))?.toFixed(2),
+        stats: `₹ ${formatAmount(parseFloat(checkNullUndefined(orderCmplt?.OverDueDebtorsAmount))?.toFixed(2))}`,
         title: 'Overdue Debtors',
       }
       ];
