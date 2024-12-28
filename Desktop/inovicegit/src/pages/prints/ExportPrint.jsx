@@ -21,17 +21,24 @@ const ExportPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         setInvoice(data?.BillPrint_Json[0]?.InvoiceNo);
         setCustomerCode(data?.BillPrint_Json[0]?.Customercode);
 
-        const sortedData = data?.BillPrint_Json1.sort((a, b) => {
-            const nameA = a.SrJobno.toLowerCase();
-            const nameB = b.SrJobno.toLowerCase();
-            if (nameA < nameB) {
-                return -1;
-            }
-            if (nameA > nameB) {
-                return 1;
-            }
-            return 0;
-        });
+        // const sortedData = data?.BillPrint_Json1.sort((a, b) => {
+        //     const nameA = a.SrJobno.toLowerCase();
+        //     const nameB = b.SrJobno.toLowerCase();
+        //     if (nameA < nameB) {
+        //         return -1;
+        //     }
+        //     if (nameA > nameB) {
+        //         return 1;
+        //     }
+        //     return 0;
+        // });
+
+       const sortedData = data?.BillPrint_Json1?.sort((a, b) => {
+            const designNoA = parseInt(((a?.id)?.toString())?.match(/\d+/)[0]);
+            const designNoB = parseInt(((b?.id)?.toString())?.match(/\d+/)[0]);
+            return designNoA - designNoB;
+          });
+          
         setData(sortedData);
     }
 

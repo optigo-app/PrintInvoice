@@ -298,7 +298,7 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="d-flex border border-top-0 border-black ">
                       <div className='p-2 col-6 border-end border-black'>
                           <div className="d-flex justify-content-between">
-                              <p className=" fw-semibold"> Consignee </p>
+                              <p className=" fw-semibold"> Bill To, </p>
                               {/* <p className="text-decoration-underline fw-semibold"> Ref. Person Details </p> */}
                           </div>
                           <p className='headline_fs_eia fw-bold py-1'>{result?.header?.customerfirmname}</p>
@@ -312,6 +312,17 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className='p-2'>
                               <p className="fw-bold">Buyer (if other than consignee)</p>
                           </div>
+                          <div className='p-2 col-12'>
+                          <div className="d-flex justify-content-between">
+                              <p className=" fw-semibold pb-2"> Ship To, </p>
+                          </div>
+
+                          {
+                            result?.header?.address?.map((e, i) => {
+                              return <p className='fw-semibold' key={i}>{e}</p>
+                            })
+                          }
+                      </div>
                       </div>
                       <div></div>
                 </div>
@@ -531,7 +542,8 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className='col_t2_1_eia p-1 '>{e?.MetalTypePurity}</div>
                 <div className='col_t2_2_eia p-1 '>{e?.LossPer}%</div>
                 <div className='col_t2_3_eia p-1 '>{e?.NetWt?.toFixed(3)}</div>
-                <div className='col_t2_4_eia p-1 '>{((e?.PureNetWt) - ((e?.LossWt * e?.Tunch)/99.5))?.toFixed(3)}</div>
+                {/* <div className='col_t2_4_eia p-1 '>{((e?.PureNetWt) - ((e?.LossWt * e?.Tunch)/99.5))?.toFixed(3)}</div> */}
+                <div className='col_t2_4_eia p-1 '>{( (( e?.NetWt * e?.Tunch)/99.5))?.toFixed(3)}</div>
                 <div className='col_t2_5_eia p-1 '>{e?.LossWt?.toFixed(3)}</div>
                 <div className='col_t2_6_eia p-1 '>{((e?.LossWt * e?.Tunch)/99.5)?.toFixed(3)}</div>
                 <div className='col_t2_7_eia p-1 '>{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div>
@@ -636,7 +648,7 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
     </div>
     <div>
-      <div className='border border-black mt-3 px-1'>Note: Insurance By :- FUTURE GENERALI INSURANCE</div>
+      <div className='border border-black mt-3 px-1'>Note: Insurance By :- {result?.header?.insuranceby}</div>
 
       <div className='d-flex border border-top-0  border-black fw-semibold'>
         <div className='col_t3_1_eia'></div>
