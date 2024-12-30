@@ -10,7 +10,8 @@ export function formatAmount(amount) {
   }
 
 
-  export const fetchDashboardData = async (token, hostName, fdate, tdate, event) => {
+  export const fetchDashboardData = async (token, hostName, fdate, tdate, event, sales, office) => {
+      
     try {
       let apiUrl_kayra = '';
 
@@ -23,11 +24,15 @@ export function formatAmount(amount) {
       // const url = "http://zen/jo/api-lib/App/DashBoard";
       const body = JSON.stringify({
         "Token" : `${token}`  
-        ,"ReqData":`[{\"Token\":\"${token}\",\"Evt\":\"${event}\",\"FDate\":\"${fdate}\",\"TDate\":\"${tdate}\"}]`
+        // ,"ReqData":`[{\"Token\":\"${token}\",\"Evt\":\"${event}\",\"FDate\":\"${fdate}\",\"TDate\":\"${tdate}\"}]`
+        // ,"ReqData":`[{\"Token\":\"${token}\",\"Evt\":\"${event}\",\"FDate\":\"${fdate}\",\"TDate\":\"${tdate}\",\"LockerId\":\"${office}\",\"SaleRepId\":\"${sales}\"}]`
+        ,"ReqData":`[{\"Token\":\"${token}\",\"Evt\":\"${event}\",\"FDate\":\"${fdate}\",\"TDate\":\"${tdate}\",\"LockerId\":\"${office}\",\"SaleRepId\":\"${sales}\"}]`
+        // ,"ReqData":"[{\"Token\":\"9065471700535651\",\"LoginId\":\"8\",\"Evt\":\"MonthWiseSaleAmount\",\"LockerId\":\"1\",\"SaleRepId\":\"8\"}]"
       });
   
       const response = await axios.post(apiUrl_kayra, body);
       if (response?.data?.Status === '200') {
+        
         return response?.data?.Data?.DT?.length > 0 ? response.data.Data.DT : [];
       } else {
         return []; // Empty array if no data or status is not 200

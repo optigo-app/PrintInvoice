@@ -6,13 +6,16 @@ import CardContent from '@mui/material/CardContent'
 // ** Third Party Imports
 import { Bar } from 'react-chartjs-2'
 import { Chart, BarElement, CategoryScale, LinearScale, Legend, Tooltip } from 'chart.js';
-import { useTheme } from '@mui/material';
+import { Box, CircularProgress, useTheme } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 Chart.register(BarElement, CategoryScale, LinearScale, Legend, Tooltip);
 
 const SettingPerGram = props => {
   // ** Props
-  const { info, warning, labelColor, borderColor, legendColor } = props
+  const { info, warning, labelColor, borderColor, legendColor } = props;
+
+  const all = useSelector(state => state);
 
   const theme = useTheme();
 
@@ -59,7 +62,6 @@ const SettingPerGram = props => {
       }
     }
   }
-console.log(theme.palette);
   const data = {
     // labels: ['MON', 'TUE', 'WED ', 'THU', 'FRI'],
     labels: ['Chow', 'KK', 'Nancy', 'Pariya', 'SA', 'Tiffany', 'XBO', 'YF'],
@@ -85,9 +87,11 @@ console.log(theme.palette);
   return (
     <Card  className='fs_facd bs_facd' sx={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>
       <CardHeader title='Vendorwise Margin/ct '  />
-      <CardContent>
+      { all?.loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem', minHeight:'440px' }}>
+                                    <CircularProgress sx={{color:'lightgrey'}} />
+                                    </Box> : <CardContent>
         <Bar data={data} height={400} options={options} />
-      </CardContent>
+      </CardContent>}
     </Card>
   )
 }

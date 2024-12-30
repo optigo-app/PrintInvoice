@@ -48,8 +48,10 @@ import DatePicker from 'react-datepicker'
 import CustomInput from '../@core/components/pickersComponent/PickersCustomInput';
 import "../@core/components/pickersComponent/datepickerc.css";
 import { fetchDashboardData } from '../GlobalFunctions';
+import axios from 'axios';
 
-const AnalyticsDashboard = ({tkn, hostName}) => {
+const AnalyticsDashboard = ({tkn, hostName, LId}) => {
+  
   const [fdate, setFDate] = useState(null);
   const [tdate, setTDate] = useState(null);
   const [fdatef, setFDatef] = useState("");
@@ -58,7 +60,7 @@ const AnalyticsDashboard = ({tkn, hostName}) => {
   const theme = useTheme();
 
   const [countryList, setCountryList] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState('7.8');
+  const [selectedCountry, setSelectedCountry] = useState(7.8);
   const [salesList, setSalesList] = useState([]);
   const [selectedSales, setSelectedSales] = useState('');
   const [officeList, setOfficeList] = useState([]);
@@ -88,6 +90,48 @@ const AnalyticsDashboard = ({tkn, hostName}) => {
   }
 
   useEffect(() => {
+    let apiUrl_kayra = '';
+
+    if(hostName?.toLowerCase() === 'zen' || hostName?.toLowerCase() === 'localhost'){
+      apiUrl_kayra = 'http://zen/jo/api-lib/App/DashBoard';
+    }else{
+      apiUrl_kayra = 'https://view.optigoapps.com/linkedapp/App/DashBoard';
+    }
+
+    const fetchDropdownData = async() => {
+      try {
+        const body = {
+          "Token" : `${tkn}`  
+          ,"ReqData":`[{\"Token\":\"${tkn}\",\"LoginId\":\"${LId}\",\"Evt\":\"Master\"}]`
+        }
+    
+        const response = await axios.post(apiUrl_kayra, body);
+        
+        if(response?.data?.Status === '200'){
+          if(response?.data?.Data){
+            if(response?.data?.Data?.DT?.length > 0){
+              setCountryList(response?.data?.Data?.DT);
+            }
+            if(response?.data?.Data?.DT1?.length > 0){
+              setSalesList(response?.data?.Data?.DT1);
+            }
+            if(response?.data?.Data?.DT2?.length > 0){
+              setOfficeList(response?.data?.Data?.DT2);
+            }
+          }
+        }
+        
+      } catch (error) {
+        console.log(error);
+        
+      }
+    }
+
+    fetchDropdownData();
+
+    
+
+    // ========================================================================================
     // Get today's date
     const today = moment();
 
@@ -100,9 +144,9 @@ const AnalyticsDashboard = ({tkn, hostName}) => {
     setTDatef(financialYearStart?.toDate());
     setTDatef(today?.isAfter(financialYearEnd) ? financialYearEnd?.toDate() : today?.toDate());
 
-    // setTimeout(() => {
-    //   handleApply();
-    // },0);
+    setTimeout(() => {
+      handleApply();
+    },0);
   
   }, []);
 
@@ -172,37 +216,36 @@ const AnalyticsDashboard = ({tkn, hostName}) => {
 
     
     try {
-      const monthWiseSaleData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "MonthWiseSaleAmount");
+      const monthWiseSaleData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "MonthWiseSaleAmount", sales, office);
       setMonthWiseSaleApiData(monthWiseSaleData);
   
-      const summaryData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "Summary");
+      const summaryData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "Summary", sales, office);
       setSummaryApiData(summaryData.length > 0 ? summaryData[0] : {});
   
-      const progressWiseOrder = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "ProgressWiseOrder");
+      const progressWiseOrder = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "ProgressWiseOrder", sales, office);
       setOrderTrackerApiData(progressWiseOrder);
   
-      const countryWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CountryWiseSaleAmount");
+      const countryWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CountryWiseSaleAmount", sales, office);
       setCountryWiseSaleAmount(countryWiseSaleAmount);
   
-      const customerWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CustomerWiseSaleAmount");
+      const customerWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CustomerWiseSaleAmount", sales, office);
       setCustomerWiseSaleAmount(customerWiseSaleAmount);
   
-      const categoryWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CategoryWiseSaleAmount");
+      const categoryWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CategoryWiseSaleAmount", sales, office);
       setCategoryWiseSaleAmount(categoryWiseSaleAmount);
   
-      const metalTypeColorWiseSale = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "MetalTypeColorWiseSale");
+      const metalTypeColorWiseSale = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "MetalTypeColorWiseSale", sales, office);
       setMetalTypeColorWiseSale(metalTypeColorWiseSale);
   
-      const customerTypeWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CustomerTypeWiseSaleAmount");
+      const customerTypeWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CustomerTypeWiseSaleAmount", sales, office);
       setCustomerTypeWiseSaleAmount(customerTypeWiseSaleAmount);
   
-      const vendorWiseNetWt = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "VendorWiseNetWt");
+      const vendorWiseNetWt = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "VendorWiseNetWt", sales, office);
       setVendorWiseNetWt(vendorWiseNetWt);
   
-      const salesrepWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "SalesrepWiseSaleAmount");
+      const salesrepWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "SalesrepWiseSaleAmount", sales, office);
       setSalesrepWiseSaleAmount(salesrepWiseSaleAmount);
   
-      console.log(salesrepWiseSaleAmount);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -277,23 +320,37 @@ useEffect(() => {
               <label htmlFor="country">Country</label>
               <select className='form-control kayrafilter' value={selectedCountry}  name="country" id="country" onChange={(e) => countryListHandleChange(e)}>
                 <option value="" disabled selected>select</option>
-                <option value="7.8">USA</option>
-                <option value="1">INR</option>
+                {
+                  countryList?.map((e, i) => {
+                    return <option key={i} value={e?.CurrencyRate}>{e?.Currencycode}</option>
+                  })
+                }
+                {/* <option value="7.8">USA</option>
+                <option value="1">INR</option> */}
               </select>
             </Box>
-            {/* <Box className="me-1" style={{minWidth:'200px'}}>
+            <Box className="me-1" style={{minWidth:'200px'}}>
               <label htmlFor="salesman">Salesman</label>
-              <select className='form-control' name="salesman" disabled value={selectedSales} id="salesman" onChange={(e) => salesmanListHandleChange(e)}>
+              <select className='form-control' name="salesman"  value={selectedSales} id="salesman" onChange={(e) => salesmanListHandleChange(e)}>
                 <option value="" disabled selected>select </option>
+                {
+                  salesList?.map((e, i) => {
+                    return <option key={i} value={e?.SaleRepId}>{e?.CustomerCode}</option>
+                  })
+                }
               </select>
             </Box>
             <Box className="me-1" style={{minWidth:'200px'}}>
             <label htmlFor="office">Office</label>
-              <select className='form-control' name="office" id="office" disabled value={selectedOffice} onChange={(e) => officeListHandleChange(e)}>
+              <select className='form-control' name="office" id="office"  value={selectedOffice} onChange={(e) => officeListHandleChange(e)}>
                 <option value="" disabled selected>select </option>
-                <option value="mumbai">mumbai</option>
+                {
+                  officeList?.map((e, i) => {
+                    return <option key={i} value={e?.LockerId}>{e?.LockerName}</option>
+                  })
+                }
               </select>
-            </Box> */}
+            </Box>
             <div style={{marginBottom:'3px'}}><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green, marginLeft:'10px', padding:'9px 0px'}} size='large' onClick={() => handleApply()}>Apply</Button></div>
             </div>
           </Grid>

@@ -22,6 +22,8 @@ import Icon from '../../@core/components/icon'
 
 // ** Component Import
 import ReactApexcharts from '../../@core/components/react-apexcharts'
+import { useSelector } from 'react-redux'
+import { Box, CircularProgress } from '@mui/material'
 
 const columnColors = {
   bg: '#f8d3ff',
@@ -49,6 +51,9 @@ const series = [
 ]
 
 const InOutDuration = () => {
+
+  const all = useSelector(state => state);
+
   // ** Hook
   const theme = useTheme();
 
@@ -184,9 +189,11 @@ const InOutDuration = () => {
         //   />
         // }
       />
-      <CardContent >
+      { all?.loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem', minHeight:'440px' }}>
+                                    <CircularProgress sx={{color:'lightgrey'}} />
+                                    </Box> : <CardContent >
         <ReactApexcharts type='bar' height={400} options={options} series={series} />
-      </CardContent>
+      </CardContent>}
     </Card>
   )
 }

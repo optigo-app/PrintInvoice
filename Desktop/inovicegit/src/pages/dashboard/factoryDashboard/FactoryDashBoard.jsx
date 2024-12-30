@@ -14,8 +14,14 @@ import SettingPerGram from './components/SettingPerGram';
 import TotalLabour from './components/TotalLabour';
 import VendorWiseSetPGram from './components/VendorWiseSetPGram';
 import WastageWiseLabourPGram from './components/WastageWiseLabourPGram';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchFactoryData } from './redux/slices/FactoryApi';
 
 const FactoryDashBoard = () => {
+
+    const dispatch = useDispatch();
+    const all = useSelector(state => state);
+  
 
     const theme = useTheme();
 
@@ -33,9 +39,11 @@ const FactoryDashBoard = () => {
         setFDate(financialYearStart?.toDate());
         setTDate(today?.isAfter(financialYearEnd) ? financialYearEnd?.toDate() : today?.toDate());
     
-        setTimeout(() => {
-          handleApply();
-        },0);
+        // setTimeout(() => {
+        //   handleApply();
+        // },0);
+
+        // dispatch(fetchFactoryData());
       
       }, []);
     
@@ -63,6 +71,9 @@ const FactoryDashBoard = () => {
         }else{
           setTDatef('');  
         }
+
+        dispatch(fetchFactoryData());
+
       };
     
 

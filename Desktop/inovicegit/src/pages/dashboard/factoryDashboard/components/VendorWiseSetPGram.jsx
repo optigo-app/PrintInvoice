@@ -27,14 +27,18 @@ import ReactApexcharts from '../../@core/components/react-apexcharts'
 // ** Util Import
 // import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
 import { hexToRGBA } from '../../@core/utils/hex-to-rgba'
-import { Tab } from '@mui/material';
+import { CircularProgress, Tab } from '@mui/material';
 import { TabList, TabPanel } from '@mui/lab';
 import { capitalizeFirstLetter, fetchDashboardData, formatAmount, formatAmountKWise } from '../../GlobalFunctions';
+import { useSelector } from 'react-redux'
 
 
 
 
 const VendorWiseSetPGram = ({tkn,  fdate, tdate}) => {
+
+  const all = useSelector(state => state);
+
   // ** State
   const [value, setValue] = useState('Setting');
 
@@ -57,7 +61,7 @@ const VendorWiseSetPGram = ({tkn,  fdate, tdate}) => {
       }
     };
   
-    fetchData(); 
+    // fetchData(); 
 
   },[fdate, tdate]);
 
@@ -240,7 +244,9 @@ const VendorWiseSetPGram = ({tkn,  fdate, tdate}) => {
         //   />
         // }
       />
-      <CardContent sx={{ '& .MuiTabPanel-root': { p: 0, pb:0 } }}>
+      { all?.loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem', minHeight:'394px' }}>
+                                    <CircularProgress sx={{color:'lightgrey'}} />
+                                    </Box> : <CardContent sx={{ '& .MuiTabPanel-root': { p: 0, pb:0 } }}>
         <TabContext value={value}>
           <TabList
             variant='scrollable'
@@ -255,7 +261,7 @@ const VendorWiseSetPGram = ({tkn,  fdate, tdate}) => {
           >
             {renderTabs(value, theme)}
             {/* <Tab
-              disabled
+              disabled  
               value='add'
               label={
                 <Box
@@ -279,7 +285,7 @@ const VendorWiseSetPGram = ({tkn,  fdate, tdate}) => {
           </TabList>
           {renderTabPanels(value, theme, options, colors)}
         </TabContext>
-      </CardContent>
+      </CardContent>}
     </Card>
   )
 }

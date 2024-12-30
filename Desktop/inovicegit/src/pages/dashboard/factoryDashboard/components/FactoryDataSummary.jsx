@@ -8,8 +8,13 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 
 // ** Icon Imports
-import { useTheme } from '@mui/material';
+import { CircularProgress, useTheme } from '@mui/material';
+import { useSelector } from 'react-redux'
 const FactoryDataSummary = ({tkn, bgColor}) => {
+
+    const all = useSelector(state => state);
+  console.log(all);
+  
     const theme = useTheme();
     const data = [
         {
@@ -79,13 +84,15 @@ const FactoryDataSummary = ({tkn, bgColor}) => {
                 //     </Typography>
                 // }
                 /> */}
-            <CardContent
+            { all?.loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem', minHeight:'204px' }}>
+                                    <CircularProgress sx={{color:'lightgrey'}} />
+                                    </Box> : <CardContent
                 sx={{ pt: theme => `${theme.spacing(3)} !important`, pb: theme => `${theme.spacing(3)} !important` }}
                 >
-            <Grid container spacing={6}>
-                {renderStats()}
-            </Grid>
-            </CardContent>
+              <Grid container spacing={6}>
+                  {renderStats()}
+              </Grid>
+            </CardContent>}
         </Card>
     </>
   )

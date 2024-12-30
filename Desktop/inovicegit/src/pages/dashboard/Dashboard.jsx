@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 import KPIAnalytics from './componentsofkpi/KPIAnalytics';
 import FactoryDashBoard from './factoryDashboard/FactoryDashBoard';
 import KPIDashboardHome from './componentsofkpi/components/KPIDashboardHome';
+import FactoryDashboardHome from './factoryDashboard/FactoryDashboardHome';
 const Dashboard = () => {
     let theme = createTheme(customTheme);
     const location = useLocation();
@@ -17,6 +18,8 @@ const Dashboard = () => {
     const pid = (params.get('pid'));
     const sv = atob(params.get('sv'));
     const url = atob(params.get('report_api_url'));
+    const LId = atob(params.get('LId'));
+    
     const hostName = window.location?.hostname?.toLowerCase();
   return (
     <>
@@ -29,20 +32,22 @@ const Dashboard = () => {
                 width:'100%', 
                 boxSizing:'border-box',
                 backgroundColor:'#F8F7FA',
-                padding:'2rem'}}><AnalyticsDashboard tkn={tkn} hostName={hostName} /> 
+                padding:'2rem'}}><AnalyticsDashboard tkn={tkn} hostName={hostName} LId={LId} /> 
             </div>}
             { pid === '18146' && <div style={{
                 width:'100%', 
                 boxSizing:'border-box',
                 backgroundColor:'#F8F7FA',
                 // padding:'2rem', paddingTop:'0px'}}><KPIAnalytics tkn={tkn} />
-                padding:'2rem', paddingTop:'0px'}}><KPIDashboardHome tkn={tkn} sv={sv} url={url} hostName={hostName} />
+                padding:'2rem', paddingTop:'0px'}}><KPIDashboardHome tkn={tkn} sv={sv} url={url} hostName={hostName}  />
             </div>}
             { pid === '18147' && <div style={{
                 width:'100%', 
                 boxSizing:'border-box',
                 backgroundColor:'#F8F7FA',
-                padding:'2rem'}}><FactoryDashBoard tkn={tkn} /> 
+                padding:'2rem'}}>
+                    <FactoryDashboardHome tkn={tkn} />
+                    {/* <FactoryDashBoard tkn={tkn} />  */}
             </div>}
                 {/* // padding:'2rem', paddingTop:'0px'}}><KPIAnalytics tkn={tkn} /> */}
         </div>
