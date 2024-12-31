@@ -37,7 +37,8 @@ import { useSelector } from 'react-redux'
 
 const WastageWiseLabourPGram = ({tkn,  fdate, tdate}) => {
 
-  const all = useSelector(state => state);
+  const { loading, data, error } = useSelector(state => state?.Summary_Purchase);
+  
 
   // ** State
   const [value, setValue] = useState('Wastage');
@@ -46,24 +47,28 @@ const WastageWiseLabourPGram = ({tkn,  fdate, tdate}) => {
   const [apiData, setApiData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
-  useEffect(() => {
 
-    const fetchData = async () => {
-      try {
+  const [vendorNameList, setVendorNameList] = useState([]);
+  const [wastageList, setWastageList] = useState([]);
 
-        // Fetch MonthWiseSaleAmount data
-        let CustomerWiseSaleAmount = await fetchDashboardData(tkn,  fdate, tdate, "CustomerWiseSaleAmount");
-        setApiData(CustomerWiseSaleAmount);
-        setFilteredData(CustomerWiseSaleAmount);
+  // useEffect(() => {
 
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  //   const fetchData = async () => {
+  //     try {
+
+  //       // Fetch MonthWiseSaleAmount data
+  //       let CustomerWiseSaleAmount = await fetchDashboardData(tkn,  fdate, tdate, "CustomerWiseSaleAmount");
+  //       setApiData(CustomerWiseSaleAmount);
+  //       setFilteredData(CustomerWiseSaleAmount);
+
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
   
-    // fetchData(); 
+  //   // fetchData(); 
 
-  },[fdate, tdate]);
+  // },[fdate, tdate]);
 
   
   const custNames = ['TIFFANY', 'XBO', 'SA', 'CHOW', 'YF', 'KK', 'Pariya', 'Nancy']?.map((e) => capitalizeFirstLetter(e));
@@ -76,7 +81,7 @@ const WastageWiseLabourPGram = ({tkn,  fdate, tdate}) => {
   const tabData = [
     {
       type: 'Wastage',
-      series: [{ data: NetWtArr }]
+      series: [{ data: wastageList ?? NetWtArr }]
     },
     // {
     //   type: 'Job Count',
@@ -148,7 +153,7 @@ const WastageWiseLabourPGram = ({tkn,  fdate, tdate}) => {
   }
   // const colors = Array(9).fill(hexToRGBA(theme.palette.primary.main, 0.16))
   // const colors = Array(9)?.fill((theme?.palette?.primary?.main))
-  const colors = Array(8)?.fill((theme?.palette?.customColors?.purple))
+  const colors = Array(10)?.fill((theme?.palette?.customColors?.purple))
 
   const options = {
     chart: {
@@ -197,7 +202,8 @@ const WastageWiseLabourPGram = ({tkn,  fdate, tdate}) => {
       axisTicks: { show: false },
       axisBorder: { color: theme.palette.divider },
       // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-      categories: custNames,
+      // categories: custNames,
+      categories: vendorNameList,
       labels: {
         style: {
           colors: theme.palette.text.disabled,
@@ -232,6 +238,16 @@ const WastageWiseLabourPGram = ({tkn,  fdate, tdate}) => {
     ]
   }
 
+
+  useEffect(() => {
+    if(data?.DT1?.length > 0){
+      let arr = data?.DT1?.slice()?.sort((a,b) => b?.AVG_Wastage - a?.AVG_Wastage)?.slice(0, 10)?.map((e) => e?.Vendor);
+      setVendorNameList(arr);
+      let arr1 = data?.DT1?.slice()?.sort((a, b) => b?.AVG_Wastage - a?.AVG_Wastage)?.slice(0, 10)?.map((e) => e?.AVG_Wastage);
+      setWastageList(arr1);
+    }
+  },[data]);
+
   return (
     <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>
       <CardHeader
@@ -244,7 +260,7 @@ const WastageWiseLabourPGram = ({tkn,  fdate, tdate}) => {
         //   />
         // }
       />
-      { all?.loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem', minHeight:'394px' }}>
+      { loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem', minHeight:'394px' }}>
                                     <CircularProgress sx={{color:'lightgrey'}} />
                                     </Box> : <CardContent sx={{ '& .MuiTabPanel-root': { p: 0, pb:0 } }}>
         <TabContext value={value}>

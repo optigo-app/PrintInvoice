@@ -1,5 +1,5 @@
 // ** React Imports
-import { forwardRef, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
@@ -50,16 +50,19 @@ const series = [
   }
 ]
 
-const InOutDuration = () => {
+const InOutDuration = ( { selectMaterial } ) => {
 
-  const all = useSelector(state => state);
-
+  const { loading, data, error } = useSelector(state => state?.Vendor_In_Out_Duration);
+  console.log(data);
+  
   // ** Hook
   const theme = useTheme();
 
   // ** States
   const [endDate, setEndDate] = useState(null)
-  const [startDate, setStartDate] = useState(null)
+  const [startDate, setStartDate] = useState(null);
+
+  const [vendorNameList, setVendroNameList] = useState([]);
 
   const options = {
     chart: {
@@ -166,6 +169,12 @@ const InOutDuration = () => {
     setEndDate(end)
   }
 
+  useEffect(() => {
+      // if(data?.length > 0){
+        
+      // }
+  },[data]);
+
   return (
     <Card className='fs_facd bs_facd' sx={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>
       <CardHeader
@@ -189,7 +198,7 @@ const InOutDuration = () => {
         //   />
         // }
       />
-      { all?.loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem', minHeight:'440px' }}>
+      { loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem', minHeight:'440px' }}>
                                     <CircularProgress sx={{color:'lightgrey'}} />
                                     </Box> : <CardContent >
         <ReactApexcharts type='bar' height={400} options={options} series={series} />

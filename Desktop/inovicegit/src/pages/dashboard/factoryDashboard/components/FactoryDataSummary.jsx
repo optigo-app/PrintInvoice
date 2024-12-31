@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
@@ -10,57 +10,103 @@ import CardContent from '@mui/material/CardContent'
 // ** Icon Imports
 import { CircularProgress, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux'
-const FactoryDataSummary = ({tkn, bgColor}) => {
+import { formatAmount } from '../../GlobalFunctions'
+const FactoryDataSummary = ({tkn, bgColor, selectMaterial}) => {
 
-    const all = useSelector(state => state);
-  console.log(all);
-  
+    const { loading, data, error } = useSelector(state => state?.Summary_Purchase);
+    const summary_sale = useSelector(state => state?.Summary_Sale);
+
+        
+    const [labelname, setLabelName] = useState('Avg. D.ctw');
+    const [labelvalue, setLabelValue] = useState('');
+
+    const [setPerG, setSetPerG] = useState(0);
+    const [costPerC, setCostPerG] = useState(0);
+    const [soldPerC, setSoldPerC] = useState(0);
+
+    const [DTObj, setDTObj] = useState();
+    const [SSDTObj, setSSDTObj] = useState();
+    
     const theme = useTheme();
-    const data = [
+    const comp_data = [
         {
-          stats: '0.67',
-          title: 'Avg. D.ctw',
+          stats: labelvalue,
+          title: labelname,
         },
         {
-          stats: '21.61',
+          stats: formatAmount(DTObj?.Total_Labour),
           title: 'Total Labour',
         },
         {
-          stats: '8.65',
+          stats: DTObj?.Labour_Per_Gram,
           title: 'Labour Per Gram',
         },
         {
-          stats: '10.50',
+          stats: setPerG,
           title: 'Setting Per Gram',
         },
         {
-          stats: '4.01',
+          stats: DTObj?.AVG_NetWt,
           title: 'Avg. NetWt',
         },
         {
-          stats: '11.842',
+          stats: DTObj?.Total_Unit,
           title: 'Total Unit',
         },
         {
-          stats: '5.07',
+          stats: DTObj?.Gold_Loss?.toFixed(3),
           title: 'Gold Loss',
         },
         {
-          stats: '16.09',
+          stats: SSDTObj?.In_Out_Duration,
           title: 'In/Out Duration',
         },
         {
-          stats: '1543.70',
+          stats: formatAmount(costPerC),
           title: 'Cost Per Carat',
         },
         {
-          stats: '1781.76',
+          stats: formatAmount(soldPerC),
           title: 'Sold Per Carat',
         }
-      ]
+      ];
+
+      useEffect(() => {
+        setLabelName(selectMaterial);
+        let obj = data?.DT[0];
+        setDTObj(obj);
+        let obj2 = summary_sale?.data?.DT[0];
+        setSSDTObj(obj2);
+
+        if(selectMaterial === 1 || selectMaterial === '1'){
+          setLabelName('Avg. D.ctw');
+          setLabelValue(obj?.AVG_D_Ctw);
+          setSetPerG(obj?.Setting_Per_Gram_Diam);
+          setCostPerG(obj?.Cost_Per_Carat_D);
+          setSoldPerC(obj2?.Sold_Per_Carat_D);
+        }
+        if(selectMaterial === 2 || selectMaterial === '2'){
+          setLabelName('Avg. C.ctw');
+          setLabelValue(obj?.AVG_C_Ctw);
+          setSetPerG(obj?.Setting_Per_Gram_CS);
+          setCostPerG(obj?.Cost_Per_Carat_CS);
+          setSoldPerC(obj2?.Sold_Per_Carat_CS);
+        }
+        if(selectMaterial === 3 || selectMaterial === '3'){
+          setLabelName('Avg. M.ctw');
+          setLabelValue(obj?.AVG_M_Ctw);
+          setSetPerG(obj?.Setting_Per_Gram_M);
+          setCostPerG(obj?.Cost_Per_Carat_M);
+          setSoldPerC(obj2?.Sold_Per_Carat_M);
+        }
+
+
+      },[selectMaterial, data]);
+
+
 
     const renderStats = () => {
-        return data.map((sale, index) => (
+        return comp_data?.map((sale, index) => (
           <Grid item xs={6} sm={6} md={2.4} key={index}>
             <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
               
@@ -84,7 +130,7 @@ const FactoryDataSummary = ({tkn, bgColor}) => {
                 //     </Typography>
                 // }
                 /> */}
-            { all?.loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem', minHeight:'204px' }}>
+            { loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem', minHeight:'204px' }}>
                                     <CircularProgress sx={{color:'lightgrey'}} />
                                     </Box> : <CardContent
                 sx={{ pt: theme => `${theme.spacing(3)} !important`, pb: theme => `${theme.spacing(3)} !important` }}

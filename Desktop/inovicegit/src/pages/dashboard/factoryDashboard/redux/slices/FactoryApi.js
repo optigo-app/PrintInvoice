@@ -8,16 +8,34 @@ let url = '';
 if(location?.hostname?.toLowerCase() === "localhost" || location?.hostname?.toLowerCase() === "zen"){
     url = "http://zen/jo/api-lib/App/Factory_DashBoard";
 }else{
-    url = "http://zen/jo/api-lib/App/Factory_DashBoard";
+    url = "https://view.optigoapps.com/linkedapp/App/Factory_DashBoard";
 }
 
 
-export const fetchFactoryData = createAsyncThunk('factory/Summary_Purchase', async() => {
+export const fetchSummary_Purchase = createAsyncThunk('factory/Summary_Purchase', async(obj) => {
+        
         try {
 
             const body = {
-                "Token" : "9065471700535651"  
-                ,"ReqData":"[{\"Token\":\"9065471700535651\",\"Evt\":\"Summary_Purchase\",\"FDate\":\"12/30/2024\",\"TDate\":\"12/30/2024\",\"MetalTypeId\":\"2\",\"CategoryId\":\"1\"}]"
+                "Token" : `${obj?.tkn}`  
+                ,"ReqData":`[{\"Token\":\"${obj?.tkn}\",\"Evt\":\"Summary_Purchase\",\"FDate\":\"${obj?.fdate}\",\"TDate\":\"${obj?.tdate}\",\"MetalTypeId\":\"${obj?.metalType}\",\"CategoryId\":\"${obj?.category}\"}]`
+              }
+
+            const response = await axios.post(url, body);
+            return response;
+
+
+        } catch (error) {
+            console.log(error);
+            throw new Error(error.response ? error.response.data : error.message);
+        }
+});
+
+export const fetchMaster = createAsyncThunk('fetch/Master', async(obj) => {
+        try {
+            const body = {
+                "Token" : `${obj?.tkn}`  
+                ,"ReqData":`[{\"Token\":\"${obj?.tkn}\",\"Evt\":\"Master\"}]`
               }
 
             const response = await axios.post(url, body);
@@ -28,11 +46,11 @@ export const fetchFactoryData = createAsyncThunk('factory/Summary_Purchase', asy
         }
 });
 
-export const fetchMaster = createAsyncThunk('fetch/Master', async() => {
+export const fetchSummary_SaleData = createAsyncThunk('factory/Summary_Sale', async(obj) => {
         try {
             const body = {
-                "Token" : "9065471700535651"  
-                ,"ReqData":"[{\"Token\":\"9065471700535651\",\"Evt\":\"Master\"}]"
+                "Token" : `${obj?.tkn}`  
+                ,"ReqData":`[{\"Token\":\"${obj?.tkn}\",\"Evt\":\"Summary_Sale\",\"FDate\":\"${obj?.fdate}\",\"TDate\":\"${obj?.tdate}\",\"MetalTypeId\":\"${obj?.metalType}\",\"CategoryId\":\"${obj?.category}\"}]`
               }
 
             const response = await axios.post(url, body);
@@ -43,11 +61,11 @@ export const fetchMaster = createAsyncThunk('fetch/Master', async() => {
         }
 });
 
-export const fetchSummary_SaleData = createAsyncThunk('factory/Summary_Sale', async() => {
+export const fetchVendor_Margin_Per_CaratData = createAsyncThunk('factory/Vendor_Margin_Per_Carat', async(obj) => {
         try {
             const body = {
-                "Token" : "9065471700535651"  
-                ,"ReqData":"[{\"Token\":\"9065471700535651\",\"Evt\":\"Summary_Sale\",\"FDate\":\"12/30/2024\",\"TDate\":\"12/30/2024\",\"MetalTypeId\":\"2\",\"CategoryId\":\"1\"}]"
+                "Token" : `${obj?.tkn}`    
+                ,"ReqData":`[{\"Token\":\"${obj?.tkn}\",\"Evt\":\"Vendor_Margin_Per_Carat\",\"FDate\":\"${obj?.fdate}\",\"TDate\":\"${obj?.tdate}\",\"MetalTypeId\":\"${obj?.metalType}\",\"CategoryId\":\"${obj?.category}\"}]`
               }
 
             const response = await axios.post(url, body);
@@ -58,26 +76,11 @@ export const fetchSummary_SaleData = createAsyncThunk('factory/Summary_Sale', as
         }
 });
 
-export const fetchVendor_Margin_Per_CaratData = createAsyncThunk('factory/Vendor_Margin_Per_Carat', async() => {
+export const fetchVendor_In_Out_DurationData = createAsyncThunk('factory/Vendor_In_Out_Duration', async(obj) => {
         try {
             const body = {
-                "Token" : "9065471700535651"  
-                ,"ReqData":"[{\"Token\":\"9065471700535651\",\"Evt\":\"Vendor_Margin_Per_Carat\",\"FDate\":\"12/30/2024\",\"TDate\":\"12/30/2024\",\"MetalTypeId\":\"2\",\"CategoryId\":\"1\"}]"
-              }
-
-            const response = await axios.post(url, body);
-            return response;
-        } catch (error) {
-            console.log(error);
-            throw new Error(error.response ? error.response.data : error.message);
-        }
-});
-
-export const fetchVendor_In_Out_DurationData = createAsyncThunk('factory/Vendor_In_Out_Duration', async() => {
-        try {
-            const body = {
-                "Token" : "9065471700535651"  
-                ,"ReqData":"[{\"Token\":\"9065471700535651\",\"Evt\":\"Vendor_In_Out_Duration\",\"FDate\":\"12/30/2024\",\"TDate\":\"12/30/2024\",\"MetalTypeId\":\"2\",\"CategoryId\":\"1\"}]"
+                "Token" : `${obj?.tkn}`  
+                ,"ReqData":`[{\"Token\":\"${obj?.tkn}\",\"Evt\":\"Vendor_In_Out_Duration\",\"FDate\":\"${obj?.fdate}\",\"TDate\":\"${obj?.tdate}\",\"MetalTypeId\":\"${obj?.metalType}\",\"CategoryId\":\"${obj?.category}\"}]`
               }
 
             const response = await axios.post(url, body);
@@ -120,17 +123,23 @@ export const FactoryApi = createSlice({
   reducers: {},
   extraReducers:(builder) => {
         builder
-        .addCase(fetchFactoryData.pending, (state) => {
+        .addCase(fetchSummary_Purchase.pending, (state) => {
             state.Summary_Purchase.loading = true;
             state.Summary_Purchase.data = null;
             state.Summary_Purchase.error = null;
         })
-        .addCase(fetchFactoryData.fulfilled, (state, action) => {
+        .addCase(fetchSummary_Purchase.fulfilled, (state, action) => {
+            const response = action?.payload;
+        
+            const data = response?.status === 200 && response?.data?.Status === '200'
+                ? response?.data?.Data
+                : { DT: [], DT1: [] };
+        
             state.Summary_Purchase.loading = false;
-            state.Summary_Purchase.data = action.payload;
+            state.Summary_Purchase.data = data;
             state.Summary_Purchase.error = null;
         })
-        .addCase(fetchFactoryData.rejected, (state, action) => {
+        .addCase(fetchSummary_Purchase.rejected, (state, action) => {
             state.Summary_Purchase.loading = false;
             state.Summary_Purchase.data = [];
             state.Summary_Purchase.error = action.error.message;
@@ -142,8 +151,15 @@ export const FactoryApi = createSlice({
             state.Master.error = null;
         })
         .addCase(fetchMaster.fulfilled, (state, action) => {
+            
+            const response = action?.payload;
+        
+            const data = response?.status === 200 && response?.data?.Status === '200'
+                ? response?.data?.Data
+                : { DT: [], DT1: [], DT2: [] };
+        
             state.Master.loading = false;
-            state.Master.data = action?.payload;
+            state.Master.data = data;
             state.Master.error = null;
         })
         .addCase(fetchMaster.rejected, (state, action) => {
@@ -158,8 +174,14 @@ export const FactoryApi = createSlice({
             state.Summary_Sale.error = null;
         })
         .addCase(fetchSummary_SaleData.fulfilled, (state, action) => {
+            const response = action?.payload;
+            
+            const data = response?.status === 200 && response?.data?.Status === '200'
+                ? response?.data?.Data
+                : { DT: [], DT1: [], DT2: [] };
+        
             state.Summary_Sale.loading = false;
-            state.Summary_Sale.data = action?.payload;
+            state.Summary_Sale.data = data;
             state.Summary_Sale.error = null;
         })
         .addCase(fetchSummary_SaleData.rejected, (state, action) => {
@@ -174,8 +196,14 @@ export const FactoryApi = createSlice({
             state.Vendor_Margin_Per_Carat.error = null;
         })
         .addCase(fetchVendor_Margin_Per_CaratData.fulfilled, (state, action) => {
+            const response = action?.payload;
+            
+            const data = response?.status === 200 && response?.data?.Status === '200'
+                ? response?.data?.Data
+                : { DT: [], DT1: [], DT2: [] };
+        
             state.Vendor_Margin_Per_Carat.loading = false;
-            state.Vendor_Margin_Per_Carat.data = action?.payload;
+            state.Vendor_Margin_Per_Carat.data = data;
             state.Vendor_Margin_Per_Carat.error = null;
         })
         .addCase(fetchVendor_Margin_Per_CaratData.rejected, (state, action) => {
@@ -190,8 +218,14 @@ export const FactoryApi = createSlice({
             state.Vendor_In_Out_Duration.error = null;
         })
         .addCase(fetchVendor_In_Out_DurationData.fulfilled, (state, action) => {
+            const response = action?.payload;
+            
+            const data = response?.status === 200 && response?.data?.Status === '200'
+                ? response?.data?.Data
+                : { DT: [], DT1: [], DT2: [] };
+        
             state.Vendor_In_Out_Duration.loading = false;
-            state.Vendor_In_Out_Duration.data = action?.payload;
+            state.Vendor_In_Out_Duration.data = data;
             state.Vendor_In_Out_Duration.error = null;
         })
         .addCase(fetchVendor_In_Out_DurationData.rejected, (state, action) => {
@@ -203,3 +237,31 @@ export const FactoryApi = createSlice({
 })
 
 export default FactoryApi?.reducer;
+
+
+
+        // .addCase(fetchSummary_Purchase.fulfilled, (state, action) => {
+        //     console.log(action?.payload);
+        //     const response = action?.payload;
+        //     if(response?.status === 200){
+        //         if(response?.data?.Status === '200'){
+        //             state.Summary_Purchase.loading = false;
+        //             state.Summary_Purchase.data = response?.data?.Data;
+        //             state.Summary_Purchase.error = null;
+        //             // return response?.data?.Data;
+        //         }
+        //         else{
+        //             state.Summary_Purchase.loading = false;
+        //             state.Summary_Purchase.data = {DT:[], DT1:[]};
+        //             state.Summary_Purchase.error = null;
+        //             // return ;
+        //         }
+        //     }
+        //     else{
+        //             state.Summary_Purchase.loading = false;
+        //             state.Summary_Purchase.data = {DT:[], DT1:[]};
+        //             state.Summary_Purchase.error = null;
+        //         // return { DT:[], DT1:[] };
+        //     }
+            
+        // })

@@ -46,7 +46,7 @@ const Dashboard = () => {
                 boxSizing:'border-box',
                 backgroundColor:'#F8F7FA',
                 padding:'2rem'}}>
-                    <FactoryDashboardHome tkn={tkn} />
+                    <FactoryDashboardHome tkn={tkn} LId={LId} IsEmpLogin={IsEmpLogin} />
                     {/* <FactoryDashBoard tkn={tkn} />  */}
             </div>}
                 {/* // padding:'2rem', paddingTop:'0px'}}><KPIAnalytics tkn={tkn} /> */}

@@ -35,35 +35,42 @@ import { useSelector } from 'react-redux'
 
 
 
-const VendorWiseSetPGram = ({tkn,  fdate, tdate}) => {
+const VendorWiseSetPGram = ({tkn,  fdate, tdate, selectMaterial}) => {
 
-  const all = useSelector(state => state);
-
+  const { loading, data, error } = useSelector(state => state?.Summary_Purchase);
+  console.log(data);
+  
+  
   // ** State
-  const [value, setValue] = useState('Setting');
+  const [value, setValue] = useState('Diamond Setting Cost');
+
+  const [VendorNameList, setVendorNameList] = useState([]);
+  const [diaSetCostList, setDiaSetCostList] = useState([]);
+  const [VendorNameList2, setVendorNameList2] = useState([]);
+  const [csSetCostList, setCSSetCostList] = useState([]);
 
 
   const [apiData, setApiData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    const fetchData = async () => {
-      try {
+  //   const fetchData = async () => {
+  //     try {
 
-        // Fetch MonthWiseSaleAmount data
-        let CustomerWiseSaleAmount = await fetchDashboardData(tkn,  fdate, tdate, "CustomerWiseSaleAmount");
-        setApiData(CustomerWiseSaleAmount);
-        setFilteredData(CustomerWiseSaleAmount);
+  //       // Fetch MonthWiseSaleAmount data
+  //       let CustomerWiseSaleAmount = await fetchDashboardData(tkn,  fdate, tdate, "CustomerWiseSaleAmount");
+  //       setApiData(CustomerWiseSaleAmount);
+  //       setFilteredData(CustomerWiseSaleAmount);
 
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
   
-    // fetchData(); 
+  //   // fetchData(); 
 
-  },[fdate, tdate]);
+  // },[fdate, tdate]);
 
   
   const custNames = ['TIFFANY', 'XBO', 'SA', 'CHOW', 'YF', 'KK', 'Pariya', 'Nancy']?.map((e) => capitalizeFirstLetter(e));
@@ -75,8 +82,12 @@ const VendorWiseSetPGram = ({tkn,  fdate, tdate}) => {
 
   const tabData = [
     {
-      type: 'Setting',
-      series: [{ data: NetWtArr }]
+      type: 'Diamond Setting Cost',
+      series: [{ data: diaSetCostList }]
+    },
+    {
+      type: 'Colorstone Setting Cost',
+      series: [{ data: csSetCostList }]
     },
     // {
     //   type: 'Job Count',
@@ -103,7 +114,7 @@ const VendorWiseSetPGram = ({tkn,  fdate, tdate}) => {
           label={
             <Box
               sx={{
-                width: 100,
+                width: 190,
                 height: 54,
                 borderWidth: 1,
                 display: 'flex',
@@ -126,7 +137,7 @@ const VendorWiseSetPGram = ({tkn,  fdate, tdate}) => {
   }
   
   const renderTabPanels = (value, theme, options, colors) => {
-    return tabData.map((item, index) => {
+    return tabData?.map((item, index) => {
       const max = Math?.max(...item?.series[0]?.data)
       const seriesIndex = item?.series[0]?.data?.indexOf(max)
       const finalColors = colors?.map((color, i) => (seriesIndex === i ? hexToRGBA('#28C76F', 1) : color))
@@ -148,7 +159,7 @@ const VendorWiseSetPGram = ({tkn,  fdate, tdate}) => {
   }
   // const colors = Array(9).fill(hexToRGBA(theme.palette.primary.main, 0.16))
   // const colors = Array(9)?.fill((theme?.palette?.primary?.main))
-  const colors = Array(8)?.fill(('#28C76F'))
+  const colors = Array(10)?.fill(('#28C76F'))
 
   const options = {
     chart: {
@@ -197,7 +208,7 @@ const VendorWiseSetPGram = ({tkn,  fdate, tdate}) => {
       axisTicks: { show: false },
       axisBorder: { color: theme.palette.divider },
       // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-      categories: custNames,
+      categories: (value === 'Diamond Setting Cost' ? VendorNameList : VendorNameList2),
       labels: {
         style: {
           colors: theme.palette.text.disabled,
@@ -232,6 +243,24 @@ const VendorWiseSetPGram = ({tkn,  fdate, tdate}) => {
     ]
   }
 
+  useEffect(() => {
+    if(data?.DT1?.length > 0){
+      // if(selectMaterial === 1 || selectMaterial === '1'){
+      if(value === 'Diamond Setting Cost'){
+        let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.TotalDiaSettingCost - a?.TotalDiaSettingCost)?.slice(0, 10)?.map((e) => capitalizeFirstLetter(e?.Vendor));
+        setVendorNameList(arr0);
+        let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalDiaSettingCost - a?.TotalDiaSettingCost)?.slice(0, 10)?.map((e) => e?.TotalDiaSettingCost);
+        setDiaSetCostList(arr);
+      }
+      if(value === 'Diamond Setting Cost'){
+        let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.TotalCSSettingCost - a?.TotalCSSettingCost)?.slice(0, 10)?.map((e, i) => capitalizeFirstLetter(e?.Vendor));
+        setVendorNameList2(arr0);
+        let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalCSSettingCost - a?.TotalCSSettingCost)?.slice(0, 10)?.map((e) => e?.TotalCSSettingCost);
+        setCSSetCostList(arr);
+      }
+    }
+  },[data, selectMaterial, value])
+
   return (
     <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>
       <CardHeader
@@ -244,7 +273,7 @@ const VendorWiseSetPGram = ({tkn,  fdate, tdate}) => {
         //   />
         // }
       />
-      { all?.loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem', minHeight:'394px' }}>
+      { loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem', minHeight:'394px' }}>
                                     <CircularProgress sx={{color:'lightgrey'}} />
                                     </Box> : <CardContent sx={{ '& .MuiTabPanel-root': { p: 0, pb:0 } }}>
         <TabContext value={value}>
