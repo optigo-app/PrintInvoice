@@ -61,7 +61,7 @@
    }
  }))
 
- const AnalyticsEarningReports = ({tkn, fdate, tdate, country, monthWiseSaleData, summaryData}) => {
+ const AnalyticsEarningReports = ({tkn, fdate, tdate, country, monthWiseSaleData, summaryData, IsEmpLogin}) => {
 
    const [apiData, setApiData] = useState([]);
    const [apiData2, setApiData2] = useState(null);
@@ -336,35 +336,62 @@
     ]
   }
 
-   const data = [
-     {
-       progress: 100,
-       stats: `${formatAmountKWise(((summaryData?.SaleAmount / (+country)) || 0))}`,
-       title: 'Sales Amount',
-       avatarColor: 'primary',
-       progressColor: 'primary',
-        // avatarIcon: 'tabler:currency-dollar'
-       avatarIcon: `${country === '7.8' ? 'tabler:currency-dollar' : 'tabler:currency-rupee'}`
-     },
-     {
-       progress: 100,
-       stats: `${formatAmountKWise(((summaryData?.Profit / (+country)) || 0))}`,
-       title: 'Profits Amount',
-       avatarColor: 'info',
-       progressColor: 'info',
-        // avatarIcon: 'tabler:chart-pie-2'
-       avatarIcon: `${country === '7.8' ? 'tabler:currency-dollar' : 'tabler:currency-rupee'}`
-     },
-     {
-       progress: 100,
-       stats: `${((summaryData?.NoOfCustomer)) || 0}`,
-       title: 'Customers',
-       avatarColor: 'error',
-       progressColor: 'error',
-        // avatarIcon: 'tabler:brand-paypal'
-       avatarIcon: 'tabler:user'
-     }
-   ];
+  //  const data = [
+  //    {
+  //      progress: 100,
+  //      stats: `${formatAmountKWise(((summaryData?.SaleAmount / (+country)) || 0))}`,
+  //      title: 'Sales Amount',
+  //      avatarColor: 'primary',
+  //      progressColor: 'primary',
+  //       // avatarIcon: 'tabler:currency-dollar'
+  //      avatarIcon: `${country === '7.8' ? 'tabler:currency-dollar' : 'tabler:currency-rupee'}`
+  //    },
+  //    IsEmpLogin !== 1 && {
+  //      progress: 100,
+  //      stats: `${formatAmountKWise(((summaryData?.Profit / (+country)) || 0))}`,
+  //      title: 'Profits Amount',
+  //      avatarColor: 'info',
+  //      progressColor: 'info',
+  //       // avatarIcon: 'tabler:chart-pie-2'
+  //      avatarIcon: `${country === '7.8' ? 'tabler:currency-dollar' : 'tabler:currency-rupee'}`
+  //    },
+  //    {
+  //      progress: 100,
+  //      stats: `${((summaryData?.NoOfCustomer)) || 0}`,
+  //      title: 'Customers',
+  //      avatarColor: 'error',
+  //      progressColor: 'error',
+  //       // avatarIcon: 'tabler:brand-paypal'
+  //      avatarIcon: 'tabler:user'
+  //    }
+  //  ];
+  const data = [
+    {
+      progress: 100,
+      stats: `${formatAmountKWise(((summaryData?.SaleAmount / (+country)) || 0))}`,
+      title: 'Sales Amount',
+      avatarColor: 'primary',
+      progressColor: 'primary',
+      avatarIcon: `${country === '7.8' ? 'tabler:currency-dollar' : 'tabler:currency-rupee'}`
+    },
+    ...(IsEmpLogin === 0 ? [{
+      progress: 100,
+      stats: `${formatAmountKWise(((summaryData?.Profit / (+country)) || 0))}`,
+      title: 'Profits Amount',
+      avatarColor: 'info',
+      progressColor: 'info',
+      avatarIcon: `${country === '7.8' ? 'tabler:currency-dollar' : 'tabler:currency-rupee'}`
+    }] : []),
+    {
+      progress: 100,
+      stats: `${((summaryData?.NoOfCustomer)) || 0}`,
+      title: 'Customers',
+      avatarColor: 'error',
+      progressColor: 'error',
+      avatarIcon: 'tabler:user'
+    }
+  ];
+  
 
    return (
      <Card className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>

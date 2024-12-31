@@ -59,7 +59,7 @@ const renderName = row => {
 
 
 
-const AnalyticsProject = ({tkn,  fdate, tdate, country, MetalTypeColorWiseSaleData}) => {
+const AnalyticsProject = ({tkn,  fdate, tdate, country, MetalTypeColorWiseSaleData, IsEmpLogin}) => {
   // ** State
   const [data, setData] = useState([])
   const [filteredData, setFilteredData] = useState([])
@@ -115,33 +115,36 @@ const AnalyticsProject = ({tkn,  fdate, tdate, country, MetalTypeColorWiseSaleDa
         // </AvatarGroup>
       )
     },
-    {
-      flex: 0.1,
-      minWidth: 150,
-      field: 'ProfitPer',
-      headerName: 'PROFIT (%)',
-      renderCell: ({ row }) => (
-        <>
-          {/* <LinearProgress
-            style={{color:'#7367F0'}}
-            value={row.ProfitPer}
-            variant='determinate'
-            sx={{
-              mr: 3,
-              height: 8,
-              width: '100%',
-              borderRadius: 8,
-              backgroundColor: 'background.default',
-              '& .MuiLinearProgress-bar': {
+    ...(
+      IsEmpLogin === 0 ? [
+      {
+        flex: 0.1,
+        minWidth: 150,
+        field: 'ProfitPer',
+        headerName: 'PROFIT (%)',
+        renderCell: ({ row }) => (
+          <>
+            {/* <LinearProgress
+              style={{color:'#7367F0'}}
+              value={row.ProfitPer}
+              variant='determinate'
+              sx={{
+                mr: 3,
+                height: 8,
+                width: '100%',
                 borderRadius: 8,
-                backgroundColor:'#7367F0'
-              },
-            }}
-          /> */}
-          <Typography sx={{ color: 'text.secondary' }}>{`${row?.ProfitPer}%`}</Typography>
-        </>
-      )
-    },
+                backgroundColor: 'background.default',
+                '& .MuiLinearProgress-bar': {
+                  borderRadius: 8,
+                  backgroundColor:'#7367F0'
+                },
+              }}
+            /> */}
+            <Typography sx={{ color: 'text.secondary' }}>{`${row?.ProfitPer}%`}</Typography>
+          </>
+        )
+      }] : []
+    )
     // {
     //   flex: 0.1,
     //   minWidth: 100,
@@ -248,9 +251,8 @@ const AnalyticsProject = ({tkn,  fdate, tdate, country, MetalTypeColorWiseSaleDa
   const handlePageSizeChange = (newPageSize) => {
     setPaginationModel({ ...paginationModel, pageSize: newPageSize })
   };
+  
   const rowsWithId = apiData.map(item => ({ ...item, id: item.SrNo }));
-
-
   
   const handlePaginationModelChange = newModel => {
     setPaginationModel(prevModel => ({

@@ -50,7 +50,7 @@ import "../@core/components/pickersComponent/datepickerc.css";
 import { fetchDashboardData } from '../GlobalFunctions';
 import axios from 'axios';
 
-const AnalyticsDashboard = ({tkn, hostName, LId}) => {
+const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin}) => {
   
   const [fdate, setFDate] = useState(null);
   const [tdate, setTDate] = useState(null);
@@ -106,7 +106,6 @@ const AnalyticsDashboard = ({tkn, hostName, LId}) => {
         }
     
         const response = await axios.post(apiUrl_kayra, body);
-        console.log(response);
         
         if(response?.data?.Status === '200'){
           if(response?.data?.Data){
@@ -357,33 +356,33 @@ useEffect(() => {
           </Grid>
          
           <Grid item xs={12} md={6} lg={9} style={{paddingTop:'25px'}}>
-            <AnalyticsEarningReports tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} monthWiseSaleData={monthWiseSaleApiData} summaryData={summryApiData} />
+            <AnalyticsEarningReports tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} monthWiseSaleData={monthWiseSaleApiData} summaryData={summryApiData} IsEmpLogin={IsEmpLogin} />
           </Grid>
           <Grid item xs={12} md={6} lg={3} style={{paddingTop:'25px'}}>
-            <AnalyticsSupportTracker tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} orderTracker={orderTrackerApiData} />
+            <AnalyticsSupportTracker tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} orderTracker={orderTrackerApiData} IsEmpLogin={IsEmpLogin} />
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3} style={{paddingTop:'25px'}}>
-            <AnalyticsSalesByCountries tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} countryWiseSale={CountryWiseSaleAmount} />
+            <AnalyticsSalesByCountries tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} countryWiseSale={CountryWiseSaleAmount} IsEmpLogin={IsEmpLogin} />
           </Grid>
           <Grid item xs={12} sm={6} md={8} lg={9} style={{paddingTop:'25px'}}>
             {/* <AnalyticsCustomerTypeWise tkn={tkn} /> */}
-            <AnalyticsSalesEarningReport tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} CustomerWiseSaleAmountData={CustomerWiseSaleAmount} />
+            <AnalyticsSalesEarningReport tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} CustomerWiseSaleAmountData={CustomerWiseSaleAmount} IsEmpLogin={IsEmpLogin} />
           </Grid>
           <Grid item xs={12} sm={6} md={6} lg={6}  style={{paddingTop:'25px'}}>
-            <AnalyticsTotalEarning tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} CategoryWiseSaleAmountData={CategoryWiseSaleAmount} />
+            <AnalyticsTotalEarning tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} CategoryWiseSaleAmountData={CategoryWiseSaleAmount} IsEmpLogin={IsEmpLogin} />
             {/* <AnalyticsSalesEarningReport /> */}
           </Grid>
           <Grid item xs={12} sm={6} md={6} lg={6} style={{paddingTop:'25px'}}>
-            <AnalyticsProject tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} MetalTypeColorWiseSaleData={MetalTypeColorWiseSale} />
+            <AnalyticsProject tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} MetalTypeColorWiseSaleData={MetalTypeColorWiseSale} IsEmpLogin={IsEmpLogin} />
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={4} style={{paddingTop:'25px'}}>
-            <ApexRadialBarChart tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} CustomerTypeWiseSaleAmountData={CustomerTypeWiseSaleAmount} />
+            <ApexRadialBarChart tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} CustomerTypeWiseSaleAmountData={CustomerTypeWiseSaleAmount} IsEmpLogin={IsEmpLogin} />
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={4} style={{paddingTop:'25px'}}>
-            <RechartsPieChart tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} VendorWiseNetWtData={VendorWiseNetWt} />
+            <RechartsPieChart tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} VendorWiseNetWtData={VendorWiseNetWt} IsEmpLogin={IsEmpLogin} />
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={4} style={{paddingTop:'25px'}}>
-            <AnalyticsSalesRepWiseSaleAmt tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} SalesrepWiseSaleAmount={SalesrepWiseSaleAmount} />
+            <AnalyticsSalesRepWiseSaleAmt tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} office={selectedOffice} SalesrepWiseSaleAmount={SalesrepWiseSaleAmount} IsEmpLogin={IsEmpLogin} />
           </Grid>
         </Grid>
       </KeenSliderWrapper>

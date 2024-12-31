@@ -34,7 +34,7 @@ import { capitalizeFirstLetter, fetchDashboardData, formatAmount, formatAmountKW
 
 
 
-const AnalyticsSalesEarningReport = ({tkn,  fdate, tdate, country, CustomerWiseSaleAmountData}) => {
+const AnalyticsSalesEarningReport = ({tkn,  fdate, tdate, country, CustomerWiseSaleAmountData, IsEmpLogin}) => {
   // ** State
   const [value, setValue] = useState('sales');
 
@@ -80,12 +80,12 @@ const AnalyticsSalesEarningReport = ({tkn,  fdate, tdate, country, CustomerWiseS
       // series: [{ data: [35, 25, 15, 40, 42, 25, 48, 8, 30] }]
       series: [{ data: salesAmt }]
     },
-    {
+    ...(IsEmpLogin === 0 ? [{
       type: 'profit',
       avatarIcon: 'tabler:currency-dollar',
       // series: [{ data: [10, 22, 27, 33, 42, 32, 27, 22, 8] }]
       series: [{ data: ProfitAmt }]
-    },
+    }] : []),
     // {
     //   type: 'income',
     //   avatarIcon: 'tabler:chart-pie-2',

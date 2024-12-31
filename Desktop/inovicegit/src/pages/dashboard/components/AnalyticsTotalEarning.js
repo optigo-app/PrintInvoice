@@ -46,7 +46,7 @@ import "./chartcss/analytics.css"
 //   }
 // ]
 
-const AnalyticsTotalEarning = ({tkn,  fdate, tdate, country, CategoryWiseSaleAmountData}) => {
+const AnalyticsTotalEarning = ({tkn,  fdate, tdate, country, CategoryWiseSaleAmountData, IsEmpLogin}) => {
   // ** Hook
   const theme = useTheme();
 
@@ -215,13 +215,23 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate, country, CategoryWiseSaleAmo
       avatarColor: 'primary',
       avatarIcon: `${country === '7.8' ? 'tabler:currency-dollar' : 'tabler:currency-rupee'}`
     },
-    {
+    ...(IsEmpLogin === 0 ? 
+    [{
       amount: formatAmountKWise((totalProfit / (+country))),
       title: 'Total Profit',
       avatarColor: 'secondary',
       subtitle: '',
       avatarIcon: `${country === '7.8' ? 'tabler:currency-dollar' : 'tabler:currency-rupee'}`
-    }
+    }] : [
+      {
+        amount: '',
+        title: '',
+        avatarColor: '',
+        subtitle: '',
+        avatarIcon: ``
+      }
+    ]
+  )
   ]
 
 
@@ -287,14 +297,17 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate, country, CategoryWiseSaleAmo
         // data: [1510, 1178, 14934, 2140, 1169, 758, 997, 1086]
         data: sales
       },
-      {
-        maxBarThickness: 15,
-        backgroundColor: theme?.palette?.customColors?.green,
-        label: 'Profit',
-        // borderColor: 'transparent',
-        // data: [1300, 1030, 13704, 1793, 962, 728, 837, 894]
-        data: profit
-      }
+      ...(
+      IsEmpLogin === 0 ?
+        [{
+          maxBarThickness: 15,
+          backgroundColor: theme?.palette?.customColors?.green,
+          label: 'Profit',
+          // borderColor: 'transparent',
+          // data: [1300, 1030, 13704, 1793, 962, 728, 837, 894]
+          data: profit
+        }] : []
+      )
     ]
   }
 
@@ -345,7 +358,7 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate, country, CategoryWiseSaleAmo
                 skin='light'
                 variant='rounded'
                 // color={avatarColor}
-                sx={{ mr: 4, width: 34, height: 34, color:theme?.palette?.customColors?.grey }}
+                sx={{ mr: 4, width: 34, height: 34, color:  theme?.palette?.customColors?.grey, backgroundColor: item?.title === '' ? 'white' : 'rgba(25, 118, 210, 0.16)'  }}
               >
                 <Icon icon={item.avatarIcon} />
               </CustomAvatar>
