@@ -10,7 +10,7 @@ export function formatAmount(amount) {
   }
 
 
-  export const fetchDashboardData = async (token, hostName, fdate, tdate, event, sales, office) => {
+  export const fetchDashboardData = async (token, hostName, fdate, tdate, event, sales, office, LId) => {
       
     try {
       let apiUrl_kayra = '';
@@ -26,7 +26,7 @@ export function formatAmount(amount) {
         "Token" : `${token}`  
         // ,"ReqData":`[{\"Token\":\"${token}\",\"Evt\":\"${event}\",\"FDate\":\"${fdate}\",\"TDate\":\"${tdate}\"}]`
         // ,"ReqData":`[{\"Token\":\"${token}\",\"Evt\":\"${event}\",\"FDate\":\"${fdate}\",\"TDate\":\"${tdate}\",\"LockerId\":\"${office}\",\"SaleRepId\":\"${sales}\"}]`
-        ,"ReqData":`[{\"Token\":\"${token}\",\"Evt\":\"${event}\",\"FDate\":\"${fdate}\",\"TDate\":\"${tdate}\",\"LockerId\":\"${office}\",\"SaleRepId\":\"${sales}\"}]`
+        ,"ReqData":`[{\"Token\":\"${token}\",\"Evt\":\"${event}\",\"LoginId\":\"${LId}\",\"FDate\":\"${fdate}\",\"TDate\":\"${tdate}\",\"LockerId\":\"${office}\",\"SaleRepId\":\"${sales}\"}]`
         // ,"ReqData":"[{\"Token\":\"9065471700535651\",\"LoginId\":\"8\",\"Evt\":\"MonthWiseSaleAmount\",\"LockerId\":\"1\",\"SaleRepId\":\"8\"}]"
       });
   

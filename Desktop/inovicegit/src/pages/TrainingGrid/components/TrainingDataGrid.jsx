@@ -24,17 +24,19 @@ import "react-datepicker/dist/react-datepicker.css";
 import { checkWord } from './global';
 import { parse } from 'date-fns';
 import { cloneDeep } from 'lodash'
+import moment from 'moment'
 
 const renderName = row => {
-  if (row.avatar) {
-    // return <CustomAvatar src={row.avatar} sx={{ mr: 2.5, width: 38, height: 38 }} />
-    return ''
-  } else {
-    return (
-      <>
-      </>
-    )
-  }
+  // if (row.avatar) {
+  //   // return <CustomAvatar src={row.avatar} sx={{ mr: 2.5, width: 38, height: 38 }} />
+  //   return ''
+  // } else {
+  //   return (
+  //     <>
+  //     </>
+  //   )
+  // }
+  
 }
 
 
@@ -104,14 +106,16 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
     setIsSidebarOpen(open)
   }
 
-  const columns = [
-    
+  const columns = [   
     {
       flex: 0.1,
       minWidth: 105,
       field: 'Date',
       headerName: 'DATE',
-      renderCell: ({ row }) => <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'centera' }}><Typography className='fs_analytics_l' sx={{ color: 'text.secondary' }}>{checkWord(row?.Date)}</Typography></Box>
+      // renderCell: ({ row }) => <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'centera' }}><Typography className='fs_analytics_l' sx={{ color: 'text.secondary' }}>{checkWord(row?.Date)}</Typography></Box>
+      renderCell: ({ row }) => <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'centera' }}>
+          <Typography className='fs_analytics_l' sx={{ color: 'text.secondary' }}>{(row?.date)}</Typography>
+        </Box>
     },
     {
       flex: 0.1,
@@ -193,8 +197,7 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
         </>
       )
     },
-  
-      {
+    {
       flex: 0.1,
       minWidth: 100,
       sortable: false,
@@ -370,18 +373,21 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
         
         const response = await axios.get(`${replacedUrl}?tkn=${tkn}&sv=${sv}`);
         // const response = await axios.get(`http://api.optigoapps.com/ALL/exceltojson.aspx?tkn=ODQ1NjUxMDgwNzU2OTk5MA==&sv=MQ==`);
-        console.log(response);
         
         if(response?.data?.Status === "200"){
           if(response?.data?.Data?.length > 0){
-            let arr = response?.data?.Data?.map((e, i) => ({
-              ...e,
-              id:i
-            }));
+            let arr = [];
+            response?.data?.Data?.forEach((e, i) => {
+              let obj = {...e};
+              obj.id = i + 1;
+              obj.date = obj?.Date?.split(" ")[0];
+              // obj.Date = moment(obj?.Date)?.format("DD/MM/YYYY");
+              arr.push(obj);
+            });
+            
             setApiData(arr);
             setFilteredData(arr);
           }
-          console.log(response?.data?.Data);
           
           // const data = new Uint8Array(response?.data);
           // const workbook = XLSX.read(data, { type: 'array' });
@@ -435,15 +441,15 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
 
   useEffect(() => {
 
-    apiData?.forEach(row => {
-      
-      if (row.Date) {
-        // row.Date = new Date((row?.Date - 25569) * 86400 * 1000); // Excel serial date to JS date
-        const formattedDate = new Date(row.Date).toLocaleDateString();
-        row.Date = formattedDate;
-      }
-    });
-      console.log(apiData);
+    // apiData?.forEach(row => {
+    //     console.log(row);
+        
+    //   if (row.Date) {
+    //     // row.Date = new Date((row?.Date - 25569) * 86400 * 1000); // Excel serial date to JS date
+    //     // const formattedDate = new Date(row.Date).toLocaleDateString();
+    //     row.Date = moment(row.Date).format("DD/MM/YYYY");
+    //   }
+    // });
 
     // apiData?.forEach(row => {
     //   if (row?.Date) {
@@ -465,7 +471,6 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
     //   }
     // });
     
-    console.log(apiData);
       
 
     setData(apiData);
@@ -473,7 +478,6 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
   },[apiData]);
 
   useEffect(() => {
-    console.log('hello');
     
     let obj = {
       newTrainig:0,
@@ -565,7 +569,8 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
     const filteredData = data?.filter((item) => {
       const trainingMode = item?.TrainingMode?.toLowerCase() || '';
       const trainingType = item?.TrainingType?.toLowerCase() || '';
-      const date = item?.Date ? new Date(item.Date) : null;
+      // const date = item?.Date ? new Date(item.Date) : null;
+      const date = item?.date ? new Date(item.date) : null;
   
       // Search filter
       const isSearchMatch =
@@ -593,7 +598,6 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
       // Combine all conditions
       return isSearchMatch && isTrainingTypeMatch && isTrainingModeMatch && isDateMatch;
     });
-    console.log(filteredData);
     
     setFilteredData(filteredData);
   };

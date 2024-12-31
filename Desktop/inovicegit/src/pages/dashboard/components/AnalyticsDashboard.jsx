@@ -62,9 +62,9 @@ const AnalyticsDashboard = ({tkn, hostName, LId}) => {
   const [countryList, setCountryList] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(7.8);
   const [salesList, setSalesList] = useState([]);
-  const [selectedSales, setSelectedSales] = useState('');
+  const [selectedSales, setSelectedSales] = useState(0);
   const [officeList, setOfficeList] = useState([]);
-  const [selectedOffice, setSelectedOffice] = useState('');
+  const [selectedOffice, setSelectedOffice] = useState(0);
 
   //main api data 
   const [monthWiseSaleApiData, setMonthWiseSaleApiData] = useState([]);
@@ -106,6 +106,7 @@ const AnalyticsDashboard = ({tkn, hostName, LId}) => {
         }
     
         const response = await axios.post(apiUrl_kayra, body);
+        console.log(response);
         
         if(response?.data?.Status === '200'){
           if(response?.data?.Data){
@@ -216,34 +217,34 @@ const AnalyticsDashboard = ({tkn, hostName, LId}) => {
 
     
     try {
-      const monthWiseSaleData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "MonthWiseSaleAmount", sales, office);
+      const monthWiseSaleData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "MonthWiseSaleAmount", sales, office, LId);
       setMonthWiseSaleApiData(monthWiseSaleData);
   
-      const summaryData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "Summary", sales, office);
+      const summaryData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "Summary", sales, office, LId);
       setSummaryApiData(summaryData.length > 0 ? summaryData[0] : {});
   
-      const progressWiseOrder = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "ProgressWiseOrder", sales, office);
+      const progressWiseOrder = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "ProgressWiseOrder", sales, office, LId);
       setOrderTrackerApiData(progressWiseOrder);
   
-      const countryWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CountryWiseSaleAmount", sales, office);
+      const countryWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CountryWiseSaleAmount", sales, office, LId);
       setCountryWiseSaleAmount(countryWiseSaleAmount);
   
-      const customerWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CustomerWiseSaleAmount", sales, office);
+      const customerWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CustomerWiseSaleAmount", sales, office, LId);
       setCustomerWiseSaleAmount(customerWiseSaleAmount);
   
-      const categoryWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CategoryWiseSaleAmount", sales, office);
+      const categoryWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CategoryWiseSaleAmount", sales, office, LId);
       setCategoryWiseSaleAmount(categoryWiseSaleAmount);
   
-      const metalTypeColorWiseSale = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "MetalTypeColorWiseSale", sales, office);
+      const metalTypeColorWiseSale = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "MetalTypeColorWiseSale", sales, office, LId);
       setMetalTypeColorWiseSale(metalTypeColorWiseSale);
   
-      const customerTypeWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CustomerTypeWiseSaleAmount", sales, office);
+      const customerTypeWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CustomerTypeWiseSaleAmount", sales, office, LId);
       setCustomerTypeWiseSaleAmount(customerTypeWiseSaleAmount);
   
-      const vendorWiseNetWt = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "VendorWiseNetWt", sales, office);
+      const vendorWiseNetWt = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "VendorWiseNetWt", sales, office, LId);
       setVendorWiseNetWt(vendorWiseNetWt);
   
-      const salesrepWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "SalesrepWiseSaleAmount", sales, office);
+      const salesrepWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "SalesrepWiseSaleAmount", sales, office, LId);
       setSalesrepWiseSaleAmount(salesrepWiseSaleAmount);
   
     } catch (error) {
@@ -318,7 +319,7 @@ useEffect(() => {
             </Box>
             <Box className="me-1" style={{minWidth:'200px'}}>
               <label htmlFor="country">Country</label>
-              <select className='form-control kayrafilter' value={selectedCountry}  name="country" id="country" onChange={(e) => countryListHandleChange(e)}>
+              <select className='form-control kayrafilter' value={selectedCountry} disabled={countryList?.length === 0} name="country" id="country" onChange={(e) => countryListHandleChange(e)}>
                 <option value="" disabled selected>select</option>
                 {
                   countryList?.map((e, i) => {
@@ -331,8 +332,8 @@ useEffect(() => {
             </Box>
             <Box className="me-1" style={{minWidth:'200px'}}>
               <label htmlFor="salesman">Salesman</label>
-              <select className='form-control' name="salesman"  value={selectedSales} id="salesman" onChange={(e) => salesmanListHandleChange(e)}>
-                <option value="" disabled selected>select </option>
+              <select className='form-control' name="salesman"  value={selectedSales} disabled={salesList?.length === 0} id="salesman" onChange={(e) => salesmanListHandleChange(e)}>
+                <option value="0"  selected>select </option>
                 {
                   salesList?.map((e, i) => {
                     return <option key={i} value={e?.SaleRepId}>{e?.CustomerCode}</option>
@@ -342,8 +343,8 @@ useEffect(() => {
             </Box>
             <Box className="me-1" style={{minWidth:'200px'}}>
             <label htmlFor="office">Office</label>
-              <select className='form-control' name="office" id="office"  value={selectedOffice} onChange={(e) => officeListHandleChange(e)}>
-                <option value="" disabled selected>select </option>
+              <select className='form-control' name="office" id="office" disabled={officeList?.length === 0} value={selectedOffice} onChange={(e) => officeListHandleChange(e)}>
+                <option value="0"  selected>select </option>
                 {
                   officeList?.map((e, i) => {
                     return <option key={i} value={e?.LockerId}>{e?.LockerName}</option>
