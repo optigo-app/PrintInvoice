@@ -35,35 +35,209 @@ import { useSelector } from 'react-redux'
 
 
 
-const TotalLabour = ({tkn,  fdate, tdate}) => {
+const TotalLabour = ({tkn,  fdate, tdate, selectMaterial}) => {
 
-  const all = useSelector(state => state);
-
+  const { loading, data, error } = useSelector(state => state?.Summary_Purchase);
+    
   // ** State
   const [value, setValue] = useState('Net Wt');
+
+
+
+  const [ vendorWiseNameList, setVendorWiseNameList ] = useState([]);
+  const [ yAxis, setYAxis ] = useState([]);
+  const [label, setlabel] = useState('');
+  const [label2, setlabel2] = useState('');
+  
+  useEffect(() => {
+    if(selectMaterial === 1 || selectMaterial === '1'){
+      setlabel('Dia. Pcs');
+      setlabel2('Dia. Carat');
+    }
+    if(selectMaterial === 2 || selectMaterial === '2'){
+      setlabel('CS. Pcs');
+      setlabel2('CS. Carat');
+    }
+    if(selectMaterial === 3 || selectMaterial === '3'){
+      setlabel('Misc. Pcs');
+      setlabel2('Misc. Gm');
+    }
+    setValue('Net Wt');
+  },[selectMaterial]);
+
+  useEffect(() => {
+    if(data?.DT1?.length > 0){
+
+        if((selectMaterial === 1 || selectMaterial === '1') && value?.toLowerCase() === "net wt"){
+          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.Netwt - a?.Netwt)?.slice(0, 10)?.map(e => e?.Vendor);
+          setVendorWiseNameList(arr0);
+          let arr = data?.DT1?.slice()?.sort((a, b) => b?.Netwt - a?.Netwt)?.slice(0, 10)?.map(e => e?.Netwt);
+          setYAxis(arr);
+        }
+        if((selectMaterial === 1 || selectMaterial === '1') && value?.toLowerCase() === "job count"){
+          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map(e => e?.Vendor);
+          setVendorWiseNameList(arr0);
+          let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map(e => e?.TotalJobCnt);
+          setYAxis(arr);
+        }
+        if((selectMaterial === 1 || selectMaterial === '1') && value?.toLowerCase() === "dia. pcs"){
+          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.DiaPcs - a?.DiaPcs)?.slice(0, 10)?.map(e => e?.Vendor);
+          setVendorWiseNameList(arr0);
+          let arr = data?.DT1?.slice()?.sort((a, b) => b?.DiaPcs - a?.DiaPcs)?.slice(0, 10)?.map(e => e?.DiaPcs);
+          setYAxis(arr);
+        }
+        if((selectMaterial === 1 || selectMaterial === '1') && value?.toLowerCase() === "dia. carat"){
+          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.DiaWt - a?.DiaWt)?.slice(0, 10)?.map(e => e?.Vendor);
+          setVendorWiseNameList(arr0);
+          let arr = data?.DT1?.slice()?.sort((a, b) => b?.DiaWt - a?.DiaWt)?.slice(0, 10)?.map(e => e?.DiaWt);
+          setYAxis(arr);
+        }
+        if((selectMaterial === 2 || selectMaterial === '2') && value?.toLowerCase() === "net wt"){
+          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.Netwt - a?.Netwt)?.slice(0, 10)?.map(e => e?.Vendor);
+          setVendorWiseNameList(arr0);
+          let arr = data?.DT1?.slice()?.sort((a, b) => b?.Netwt - a?.Netwt)?.slice(0, 10)?.map(e => e?.Netwt);
+          setYAxis(arr);
+        }
+        if((selectMaterial === 2 || selectMaterial === '2') && value?.toLowerCase() === "job count"){
+          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map(e => e?.Vendor);
+          setVendorWiseNameList(arr0);
+          let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map(e => e?.TotalJobCnt);
+          setYAxis(arr);
+        }
+        if((selectMaterial === 2 || selectMaterial === '2') && value?.toLowerCase() === "cs. pcs"){
+          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.CSPcs - a?.CSPcs)?.slice(0, 10)?.map(e => e?.Vendor);
+          setVendorWiseNameList(arr0);
+          let arr = data?.DT1?.slice()?.sort((a, b) => b?.CSPcs - a?.CSPcs)?.slice(0, 10)?.map(e => e?.CSPcs);
+          setYAxis(arr);
+        }
+        if((selectMaterial === 2 || selectMaterial === '2') && value?.toLowerCase() === "cs. carat"){
+          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.CSWt - a?.CSWt)?.slice(0, 10)?.map(e => e?.Vendor);
+          setVendorWiseNameList(arr0);
+          let arr = data?.DT1?.slice()?.sort((a, b) => b?.CSWt - a?.CSWt)?.slice(0, 10)?.map(e => e?.CSWt);
+          setYAxis(arr);
+        }
+        if((selectMaterial === 3 || selectMaterial === '3') && value?.toLowerCase() === "net wt"){
+          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.Netwt - a?.Netwt)?.slice(0, 10)?.map(e => e?.Vendor);
+          setVendorWiseNameList(arr0);
+          let arr = data?.DT1?.slice()?.sort((a, b) => b?.Netwt - a?.Netwt)?.slice(0, 10)?.map(e => e?.Netwt);
+          setYAxis(arr);
+        }
+        if((selectMaterial === 3 || selectMaterial === '3') && value?.toLowerCase() === "job count"){
+          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map(e => e?.Vendor);
+          setVendorWiseNameList(arr0);
+          let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map(e => e?.TotalJobCnt);
+          setYAxis(arr);
+        }
+        if((selectMaterial === 3 || selectMaterial === '3') && value?.toLowerCase() === "misc. pcs"){
+          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.MISCPcs - a?.MISCPcs)?.slice(0, 10)?.map(e => e?.Vendor);
+          setVendorWiseNameList(arr0);
+          let arr = data?.DT1?.slice()?.sort((a, b) => b?.MISCPcs - a?.MISCPcs)?.slice(0, 10)?.map(e => e?.MISCPcs);
+          setYAxis(arr);
+        }
+        if((selectMaterial === 3 || selectMaterial === '3') && value?.toLowerCase() === "misc. gm"){
+          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.CSWt - a?.CSWt)?.slice(0, 10)?.map(e => e?.Vendor);
+          setVendorWiseNameList(arr0);
+          let arr = data?.DT1?.slice()?.sort((a, b) => b?.MISCWt - a?.MISCWt)?.slice(0, 10)?.map(e => e?.MISCWt);
+          setYAxis(arr);
+        }
+        
+    }
+  },[selectMaterial, data, value]);
+
+
+  // useEffect(() => {
+  //   if (data?.DT1?.length > 0) {
+  //     let sortedData;
+  //     let vendors;
+  //     let yAxisData;
+  
+  //     const getSortedData = (field) =>
+  //       data?.DT1?.slice()?.sort((a, b) => b[field] - a[field])?.slice(0, 10);
+  
+  //     const setGraphData = (field, vendorField) => {
+  //       sortedData = getSortedData(field);
+  //       vendors = sortedData?.map(e => e[vendorField]);
+  //       yAxisData = sortedData?.map(e => e[field]);
+  //       setVendorWiseNameList(vendors);
+  //       setYAxis(yAxisData);
+  //     };
+  
+  //     if (selectMaterial === 1 || selectMaterial === '1') {
+  //       switch (value?.toLowerCase()) {
+  //         case "net wt":
+  //           setGraphData('Netwt', 'Vendor');
+  //           break;
+  //         case "job count":
+  //           setGraphData('TotalJobCnt', 'Vendor');
+  //           break;
+  //         case "dia. pcs":
+  //           setGraphData('DiaPcs', 'Vendor');
+  //           break;
+  //         case "dia. carat":
+  //           setGraphData('DiaWt', 'Vendor');
+  //           break;
+  //         default:
+  //           break;
+  //       }
+  //     }
+  
+  //     if (selectMaterial === 2 || selectMaterial === '2') {
+  //       switch (value?.toLowerCase()) {
+  //         case "net wt":
+  //           setGraphData('Netwt', 'Vendor');
+  //           break;
+  //         case "job count":
+  //           setGraphData('TotalJobCnt', 'Vendor');
+  //           break;
+  //         case "cs. pcs":
+  //           setGraphData('CSPcs', 'Vendor');
+  //           break;
+  //         case "cs. carat":
+  //           setGraphData('CSWt', 'Vendor');
+  //           break;
+  //         default:
+  //           break;
+  //       }
+  //     }
+  //   }
+  // }, [selectMaterial, data, value]);
+  
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   const [apiData, setApiData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    const fetchData = async () => {
-      try {
+  //   const fetchData = async () => {
+  //     try {
 
-        // Fetch MonthWiseSaleAmount data
-        let CustomerWiseSaleAmount = await fetchDashboardData(tkn,  fdate, tdate, "CustomerWiseSaleAmount");
-        setApiData(CustomerWiseSaleAmount);
-        setFilteredData(CustomerWiseSaleAmount);
+  //       // Fetch MonthWiseSaleAmount data
+  //       let CustomerWiseSaleAmount = await fetchDashboardData(tkn,  fdate, tdate, "CustomerWiseSaleAmount");
+  //       setApiData(CustomerWiseSaleAmount);
+  //       setFilteredData(CustomerWiseSaleAmount);
 
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
   
-    // fetchData(); 
+  //   // fetchData(); 
 
-  },[fdate, tdate]);
+  // },[fdate, tdate]);
+
 
   
   const custNames = ['TIFFANY', 'XBO', 'SA', 'CHOW', 'YF', 'KK', 'Pariya', 'Nancy']?.map((e) => capitalizeFirstLetter(e));
@@ -76,20 +250,28 @@ const TotalLabour = ({tkn,  fdate, tdate}) => {
   const tabData = [
     {
       type: 'Net Wt',
-      series: [{ data: NetWtArr }]
+      series: [{ data: yAxis }]
     },
     {
       type: 'Job Count',
-      series: [{ data: JobCountArr }]
+      series: [{ data: yAxis }]
     },
     {
-      type: 'Dia. Pcs',
-      series: [{ data: DiaPcsArr }]
+      type: `${label}`,
+      series: [{ data: yAxis }]
     },
     {
-      type: 'Dia. Carat',
-      series: [{ data: DiaCaratArr }]
+      type: `${label2}`,
+      series: [{ data: yAxis }]
     },
+    // {
+    //   type: 'CS. Pcs',
+    //   series: [{ data: DiaPcsArr }]
+    // },
+    // {
+    //   type: 'Cs. Carat',
+    //   series: [{ data: DiaCaratArr }]
+    // },
   ]
 
   const renderTabs = (value, theme) => {
@@ -128,11 +310,14 @@ const TotalLabour = ({tkn,  fdate, tdate}) => {
   const renderTabPanels = (value, theme, options, colors) => {
     return tabData.map((item, index) => {
       const max = Math?.max(...item?.series[0]?.data)
+      // const max = Math?.max(...yAxis)
       const seriesIndex = item?.series[0]?.data?.indexOf(max)
+      // const seriesIndex = yAxis?.indexOf(max)
       const finalColors = colors?.map((color, i) => (seriesIndex === i ? hexToRGBA('#FF9F43', 1) : color))
       
       return (
         <TabPanel key={index} value={item?.type} >
+          {/* <ReactApexcharts type='bar' height={300} options={{ ...options, colors: finalColors }} series={item?.series} /> */}
           <ReactApexcharts type='bar' height={300} options={{ ...options, colors: finalColors }} series={item?.series} />
         </TabPanel>
       )
@@ -149,7 +334,7 @@ const TotalLabour = ({tkn,  fdate, tdate}) => {
   // const colors = Array(9).fill(hexToRGBA(theme.palette.primary.main, 0.16))
   // const colors = Array(9)?.fill((theme?.palette?.primary?.main))
 //   const colors = Array(8)?.fill((theme?.palette?.customColors?.purple))
-  const colors = Array(8)?.fill(('#FF9F43'))
+  const colors = Array(10)?.fill(('#FF9F43'))
 
   const options = {
     chart: {
@@ -198,7 +383,8 @@ const TotalLabour = ({tkn,  fdate, tdate}) => {
       axisTicks: { show: false },
       axisBorder: { color: theme.palette.divider },
       // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-      categories: custNames,
+      // categories: custNames,
+      categories: vendorWiseNameList,
       labels: {
         style: {
           colors: theme.palette.text.disabled,
@@ -245,7 +431,7 @@ const TotalLabour = ({tkn,  fdate, tdate}) => {
         //   />
         // }
       />
-      { all?.loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem', minHeight:'394px' }}>
+      { loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem', minHeight:'394px' }}>
                                     <CircularProgress sx={{color:'lightgrey'}} />
                                     </Box> : <CardContent sx={{ '& .MuiTabPanel-root': { p: 0, pb:0 } }}>
         <TabContext value={value}>

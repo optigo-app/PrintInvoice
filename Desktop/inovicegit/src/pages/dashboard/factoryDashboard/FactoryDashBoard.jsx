@@ -352,7 +352,7 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
                 <InOutDuration bgColor={theme?.palette?.customColors?.purple} selectMaterial={selectMaterial} />
             </Grid>
             <Grid item xs={12} sm={12} md={4} >
-                <TotalLabour bgColor={theme?.palette?.customColors?.purple} />
+                <TotalLabour bgColor={theme?.palette?.customColors?.purple} selectMaterial={selectMaterial} />
             </Grid>
             <Grid item xs={12} sm={12} md={4} >
                 <WastageWiseLabourPGram bgColor={theme?.palette?.customColors?.purple} />
