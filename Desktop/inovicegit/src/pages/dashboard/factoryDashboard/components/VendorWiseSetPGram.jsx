@@ -38,7 +38,6 @@ import { useSelector } from 'react-redux'
 const VendorWiseSetPGram = ({tkn,  fdate, tdate, selectMaterial}) => {
 
   const { loading, data, error } = useSelector(state => state?.Summary_Purchase);
-  console.log(data);
   
   
   // ** State

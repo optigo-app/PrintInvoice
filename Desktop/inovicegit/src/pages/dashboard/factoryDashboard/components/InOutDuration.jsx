@@ -31,30 +31,13 @@ const columnColors = {
   series2: '#d2b0ff'
 }
 
-const series = [
-//   {
-//     name: 'Apple',
-//     data: [90, 120, 55, 100, 80, 125, 175, 70, 88]
-//   },
-//   {
-//     name: 'Samsung',
-//     data: [85, 100, 30, 40, 95, 90, 30, 110, 62]
-//   }
-  {
-    name: 'I/O Time',
-    data: [14, 15, 1555, 16, 16, 32, 42, 42]
-  },
-  {
-    name: 'Count',
-    data: [200, 1581, 7953, 289, 7, 367, 42, 779]
-  }
-]
+
 
 const InOutDuration = ( { selectMaterial } ) => {
 
   const { loading, data, error } = useSelector(state => state?.Vendor_In_Out_Duration);
-  console.log(data);
-  
+    console.log(data);
+    
   // ** Hook
   const theme = useTheme();
 
@@ -63,6 +46,8 @@ const InOutDuration = ( { selectMaterial } ) => {
   const [startDate, setStartDate] = useState(null);
 
   const [vendorNameList, setVendroNameList] = useState([]);
+  const [IOTimeList, setIOTimeList] = useState([]);
+  const [countList, setCountList] = useState([]);
 
   const options = {
     chart: {
@@ -170,10 +155,34 @@ const InOutDuration = ( { selectMaterial } ) => {
   }
 
   useEffect(() => {
-      // if(data?.length > 0){
-        
-      // }
+      if(data?.DT?.length > 0){
+          let arr = data?.DT?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map((e) => e?.Vendor);
+          setVendroNameList(arr);
+          let arr2 = data?.DT?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map((e) => e?.AVG_DayDiff);
+          setIOTimeList(arr2);
+          let arr3 = data?.DT?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map((e) => e?.TotalJobCnt);
+          setCountList(arr3);
+      }
   },[data]);
+
+  const series = [
+    //   {
+    //     name: 'Apple',
+    //     data: [90, 120, 55, 100, 80, 125, 175, 70, 88]
+    //   },
+    //   {
+    //     name: 'Samsung',
+    //     data: [85, 100, 30, 40, 95, 90, 30, 110, 62]
+    //   }
+      {
+        name: 'I/O Time',
+        data: IOTimeList ?? [14, 15, 1555, 16, 16, 32, 42, 42]
+      },
+      {
+        name: 'Count',
+        data: countList ?? [200, 1581, 7953, 289, 7, 367, 42, 779]
+      }
+    ]
 
   return (
     <Card className='fs_facd bs_facd' sx={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>
