@@ -124,7 +124,8 @@ const ApexRadialBarChart = ({tkn,  fdate, tdate, country, CustomerTypeWiseSaleAm
     colors: [radialBarColors.series5, radialBarColors.series4,radialBarColors.series3,radialBarColors.series2, radialBarColors.series1],
     plotOptions: {
       radialBar: {
-        hollow: { size: '20%' },
+        // hollow: { size: '20%' },
+        hollow : { size: custTypeWise.length === 1 ? '40%' : '20%' }, 
         track: {
           margin: 15,
           background: hexToRGBA('#F1F0F2', 1),

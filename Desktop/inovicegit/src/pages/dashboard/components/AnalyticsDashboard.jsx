@@ -158,53 +158,98 @@ const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin}) => {
     setTDate(date);
   };
 
-  const handleApply = () => {
-    // Check if the 'from' and 'to' dates are valid
+  // const handleApply = () => {
+  //   // Check if the 'from' and 'to' dates are valid
 
     
 
-    // if (fdate && tdate) {
-      const startDate = moment(fdate);
-      const endDate = moment(tdate);
+  //   // if (fdate && tdate) {
+  //     const startDate = moment(fdate);
+  //     const endDate = moment(tdate);
   
-      // if (!startDate?.isValid() || !endDate?.isValid()) {
-      //   alert('Please select valid dates.');
-      //   return;
-      // }
+  //     // if (!startDate?.isValid() || !endDate?.isValid()) {
+  //     //   alert('Please select valid dates.');
+  //     //   return;
+  //     // }
   
-      // // Check if the end date is before the start date
-      // if (endDate?.isBefore(startDate)) {
-      //   alert('Invalid dates.');
-      //   return;
-      // }
+  //     // // Check if the end date is before the start date
+  //     // if (endDate?.isBefore(startDate)) {
+  //     //   alert('Invalid dates.');
+  //     //   return;
+  //     // }
   
-      // Format the dates and set the state
-      const formattedFDate = startDate?.format('MM/DD/YYYY');
-      const formattedTDate = endDate?.format('MM/DD/YYYY');
-      setFDatef(formattedFDate);
-      setTDatef(formattedTDate);
+  //     // Format the dates and set the state
+  //     const formattedFDate = startDate?.format('MM/DD/YYYY');
+  //     const formattedTDate = endDate?.format('MM/DD/YYYY');
+  //     setFDatef(formattedFDate);
+  //     setTDatef(formattedTDate);
   
-      // Fetch API Data Here
-      fetchData(formattedFDate, formattedTDate, selectedCountry, selectedSales, selectedOffice);
-    // }
-    //  else {
-    //   alert('Please select both From and To dates.');
-    // }
-  };
+  //     // Fetch API Data Here
+  //     fetchData(formattedFDate, formattedTDate, selectedCountry, selectedSales, selectedOffice);
+  //   // }
+  //   //  else {
+  //   //   alert('Please select both From and To dates.');
+  //   // }
+  // };
   
   // Separate function to fetch data
+  
+  const handleApply = () => {
+    // Check if the 'from' and 'to' dates are valid
+  
+    const startDate = moment(fdate);
+    const endDate = moment(tdate);
+  
+    // Format the dates and set the state
+    const formattedFDate = startDate?.format("MM/DD/YYYY");
+    const formattedTDate = endDate?.format("MM/DD/YYYY");
+    setFDatef(formattedFDate);
+    setTDatef(formattedTDate);
+  
+    // Fetch API Data Here
+    fetchData(formattedFDate, formattedTDate, selectedCountry, selectedSales, selectedOffice);
+  };
+
   const fetchData = async (fdatef, tdatef, country, sales, office) => {
-    const today = moment();
-    const financialYearStart = moment()?.month(3)?.date(1); // April is 3rd month (0-based index)
-    const financialYearEnd = moment(financialYearStart)?.add(1, "year")?.subtract(1, "day");
-    if(fdatef === '' || fdatef === "Invalid date"){
-      fdatef = moment(financialYearStart?.toDate())?.format("MM/DD/YYYY");
-    }
-    if(tdatef === '' || tdatef === "Invalid date"){
-      tdatef = today?.isAfter(financialYearEnd) ? moment(financialYearEnd?.toDate())?.format("MM/DD/YYYY") : moment(today?.toDate())?.format("MM/DD/YYYY");
-    }
+  //   const today = moment();
+  //   const financialYearStart = moment()?.month(3)?.date(1); // April is 3rd month (0-based index)
+  //   const financialYearEnd = moment(financialYearStart)?.add(1, "year")?.subtract(1, "day");
+  //   if(fdatef === '' || fdatef === "Invalid date"){
+  //     fdatef = moment(financialYearStart?.toDate())?.format("MM/DD/YYYY");
+  //   }
+  //   if(tdatef === '' || tdatef === "Invalid date"){
+  //     tdatef = today?.isAfter(financialYearEnd) ? moment(financialYearEnd?.toDate())?.format("MM/DD/YYYY") : moment(today?.toDate())?.format("MM/DD/YYYY");
+  //   }
     
-      // Parse the dates to check if tdatef is before fdatef
+  //     // Parse the dates to check if tdatef is before fdatef
+  // const startDate = moment(fdatef, "MM/DD/YYYY");
+  // const endDate = moment(tdatef, "MM/DD/YYYY");
+
+  // // Validate if end date is before start date
+  // if (endDate.isBefore(startDate)) {
+  //   alert("Error: End date cannot be before Start date.");
+  //   return; // Exit the function if validation fails
+  // }
+  const today = moment();
+
+  const currentYear = today.year();
+  const financialYearStart = today.isBefore(moment(`${currentYear}-04-01`))
+    ? moment(`${currentYear - 1}-04-01`)
+    : moment(`${currentYear}-04-01`);
+
+  const financialYearEnd = moment(financialYearStart).add(1, "year").subtract(1, "day");
+
+  // Set default values if dates are empty
+  if (fdatef === "" || fdatef === "Invalid date") {
+    fdatef = moment(financialYearStart.toDate()).format("MM/DD/YYYY");
+  }
+  if (tdatef === "" || tdatef === "Invalid date") {
+    tdatef = today.isAfter(financialYearEnd)
+      ? moment(financialYearEnd.toDate()).format("MM/DD/YYYY")
+      : moment(today.toDate()).format("MM/DD/YYYY");
+  }
+
+  // Parse the dates to check if tdatef is before fdatef
   const startDate = moment(fdatef, "MM/DD/YYYY");
   const endDate = moment(tdatef, "MM/DD/YYYY");
 
@@ -214,7 +259,6 @@ const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin}) => {
     return; // Exit the function if validation fails
   }
 
-    
     try {
       const monthWiseSaleData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "MonthWiseSaleAmount", sales, office, LId);
       setMonthWiseSaleApiData(monthWiseSaleData);
@@ -222,7 +266,7 @@ const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin}) => {
       const summaryData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "Summary", sales, office, LId);
       setSummaryApiData(summaryData.length > 0 ? summaryData[0] : {});
   
-      const progressWiseOrder = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "ProgressWiseOrder", sales, office, LId);
+      const progressWiseOrder = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "ProgressWiseOrder", sales, 0, LId);
       setOrderTrackerApiData(progressWiseOrder);
   
       const countryWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CountryWiseSaleAmount", sales, office, LId);
@@ -252,24 +296,82 @@ const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin}) => {
   };
   
 
+// useEffect(() => {
+//   const today = moment();
+//   const financialYearStart = moment().month(3).date(1); // April 1st (financial year start)
+//   const financialYearEnd = moment(financialYearStart).add(1, "year").subtract(1, "day");
+
+//   // Set the default values for fdate and tdate
+//   const defaultFDate = financialYearStart.toDate();
+//   const defaultTDate = today.isAfter(financialYearEnd) ? financialYearEnd.toDate() : today.toDate();
+
+//   // Set both formatted and actual date states
+//   setFDate(defaultFDate);
+//   setTDate(defaultTDate);
+//   setFDatef(moment(defaultFDate).format("MM/DD/YYYY"));
+//   setTDatef(moment(defaultTDate).format("MM/DD/YYYY"));
+
+//   handleApply();
+
+// }, []);
+// useEffect(() => {
+//   const today = moment();
+
+//   // Financial Year Start: April 1st of the current year
+//   const financialYearStart = moment().month(3).date(1); // April 1st
+//   // Financial Year End: March 31st of the following year
+//   const financialYearEnd = moment(financialYearStart).add(1, "year").subtract(1, "day");
+
+//   // Set the default values for fdate and tdate
+//   const defaultFDate = financialYearStart.toDate();
+//   const defaultTDate = today.isAfter(financialYearEnd) ? financialYearEnd.toDate() : today.toDate();
+
+//   // Set both formatted and actual date states
+//   setFDate(defaultFDate);
+//   setTDate(defaultTDate);
+
+//   // Set formatted dates for display in MM/DD/YYYY format
+//   setFDatef(moment(defaultFDate).format("MM/DD/YYYY"));
+//   setTDatef(moment(defaultTDate).format("MM/DD/YYYY"));
+
+//   // Call the handleApply function
+//   handleApply();
+
+// }, []);
 useEffect(() => {
   const today = moment();
-  const financialYearStart = moment().month(3).date(1); // April 1st (financial year start)
+
+  // Determine the financial year start based on the current year
+  const financialYearStart = moment().month(3).date(1); // April 1st
+
+  // If today's date is before April 1st, adjust the financial year to the previous year
+  if (today.isBefore(financialYearStart)) {
+    financialYearStart.subtract(1, "year"); // Set start date to the previous year's April 1st
+  }
+
+  // Financial Year End: March 31st of the following year
   const financialYearEnd = moment(financialYearStart).add(1, "year").subtract(1, "day");
 
   // Set the default values for fdate and tdate
   const defaultFDate = financialYearStart.toDate();
-  const defaultTDate = today.isAfter(financialYearEnd) ? financialYearEnd.toDate() : today.toDate();
+  const defaultTDate = today.isAfter(financialYearEnd)
+    ? financialYearEnd.toDate()
+    : today.toDate();
 
   // Set both formatted and actual date states
   setFDate(defaultFDate);
-  setTDate(defaultTDate);
+  setTDate(financialYearEnd.toDate());
+
+  // Set formatted dates for display in MM/DD/YYYY format
   setFDatef(moment(defaultFDate).format("MM/DD/YYYY"));
   setTDatef(moment(defaultTDate).format("MM/DD/YYYY"));
 
+  // Call the handleApply function
   handleApply();
 
 }, []);
+
+
 
 // useEffect(() => {
 //   if (fdatef && tdatef) {

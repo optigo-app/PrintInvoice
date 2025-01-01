@@ -87,7 +87,9 @@ const AnalyticsSalesByCountries = ({tkn,  fdate, tdate, country, countryWiseSale
           }
         })
 
-        countryWiseSale = arr;
+
+
+        countryWiseSale = arr?.sort((a, b) => b?.SaleAmount - a?.SaleAmount);
 
         setApiData(countryWiseSale);
 

@@ -14,7 +14,7 @@ Chart.register(BarElement, CategoryScale, LinearScale, Legend, Tooltip);
 
 const SettingPerGram = props => {
   // ** Props
-  const { info, warning, labelColor, borderColor, legendColor, selectMaterial } = props;
+  const { info, warning, labelColor, borderColor, legendColor, selectMaterial, selectCurrency } = props;
 
   const { loading, data, error } = useSelector(state => state?.Vendor_Margin_Per_Carat);
 
@@ -77,7 +77,7 @@ const SettingPerGram = props => {
         backgroundColor: theme?.palette?.customColors?.orange,
         label: 'Cost Per Carat',
         borderColor: 'transparent',
-        data: costPerCarat ?? [1300, 1030, 13704, 1793, 962, 728, 837, 894]
+        data: costPerCarat ?? []
       },
       {
         maxBarThickness: 15,
@@ -85,7 +85,7 @@ const SettingPerGram = props => {
         // backgroundColor: warning,
         backgroundColor: theme?.palette?.customColors?.purple,
         borderColor: 'transparent',
-        data: soldPerCarat ?? [1510, 1178, 14934, 2140, 1169, 758, 997, 1086]
+        data: soldPerCarat ?? []
       },
     ]
   }
@@ -96,24 +96,24 @@ const SettingPerGram = props => {
       if(selectMaterial === 1 || selectMaterial === '1'){
         let arr0 = data?.DT?.slice()?.sort((a, b) => b?.Cost_Per_Carat_D - a?.Cost_Per_Carat_D)?.slice(0, 10)?.map((e) => e?.Vendor);
         setVendorNameList(arr0);
-        let arr = data?.DT?.map((e) => e?.Cost_Per_Carat_D)?.sort((a, b) => b - a)?.slice(0, 10);
-        let arr2 = data?.DT?.map((e) => e?.Sold_Per_Carat_D)?.sort((a, b) => b - a)?.slice(0, 10);
+        let arr = data?.DT?.map((e) => (e?.Cost_Per_Carat_D / selectCurrency))?.sort((a, b) => b - a)?.slice(0, 10);
+        let arr2 = data?.DT?.map((e) => (e?.Sold_Per_Carat_D / selectCurrency))?.sort((a, b) => b - a)?.slice(0, 10);
         setCostperCarat(arr);
         setSoldperCarat(arr2);
       }
       if(selectMaterial === 2 || selectMaterial === '2'){
         let arr0 = data?.DT?.slice()?.sort((a, b) => b?.Cost_Per_Carat_CS - a?.Cost_Per_Carat_CS)?.slice(0, 10)?.map((e) => e?.Vendor);
         setVendorNameList(arr0);
-        let arr = data?.DT?.map((e) => e?.Cost_Per_Carat_CS)?.sort((a, b) => b - a)?.slice(0, 10);
-        let arr2 = data?.DT?.map((e) => e?.Sold_Per_Carat_CS)?.sort((a, b) => b - a)?.slice(0, 10);
+        let arr = data?.DT?.map((e) => (e?.Cost_Per_Carat_CS / selectCurrency))?.sort((a, b) => b - a)?.slice(0, 10);
+        let arr2 = data?.DT?.map((e) => (e?.Sold_Per_Carat_CS / selectCurrency))?.sort((a, b) => b - a)?.slice(0, 10);
         setCostperCarat(arr);
         setSoldperCarat(arr2);
       }
       if(selectMaterial === 3 || selectMaterial === '3'){
         let arr0 = data?.DT?.slice()?.sort((a, b) => b?.Cost_Per_Carat_M - a?.Cost_Per_Carat_M)?.slice(0, 10)?.map((e) => e?.Vendor);
         setVendorNameList(arr0);
-        let arr = data?.DT?.map((e) => e?.Cost_Per_Carat_M)?.sort((a, b) => b - a)?.slice(0, 10);
-        let arr2 = data?.DT?.map((e) => e?.Sold_Per_Carat_M)?.sort((a, b) => b - a)?.slice(0, 10);
+        let arr = data?.DT?.map((e) => (e?.Cost_Per_Carat_M / selectCurrency))?.sort((a, b) => b - a)?.slice(0, 10);
+        let arr2 = data?.DT?.map((e) => (e?.Sold_Per_Carat_M / selectCurrency))?.sort((a, b) => b - a)?.slice(0, 10);
         setCostperCarat(arr);
         setSoldperCarat(arr2);
       }
@@ -122,7 +122,7 @@ const SettingPerGram = props => {
       setSoldperCarat([]);
     }
     
-  },[data, selectMaterial]);
+  },[data, selectMaterial, selectCurrency]);
 
   return (
     <Card  className='fs_facd bs_facd' sx={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>

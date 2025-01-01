@@ -31,7 +31,7 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
     const [popperPlacement, setPopperPlacement] = useState('bottom-start');
 
     const [currencyList, setCurrencyList] = useState([]);
-    const [selectCurrency, setSelectCurrency] = useState(0);
+    const [selectCurrency, setSelectCurrency] = useState(7.8);
     const [metalTypeList, setMetalTypeList] = useState([]);
     const [selectMetalType, setSelectMetalType] = useState(0);
     const [categoryList, setCategoryList] = useState([]);
@@ -92,11 +92,32 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
     
     useEffect(() => {
       const today = moment();
-      const financialYearStart = moment()?.month(3)?.date(1);
-      const financialYearEnd = moment(financialYearStart)?.add(1, "year")?.subtract(1, "day");
     
-      setFDate(financialYearStart?.toDate());
-      setTDate(today?.isAfter(financialYearEnd) ? financialYearEnd?.toDate() : today?.toDate());
+      // Check if today's date is before or after April 1st
+      const currentYear = today.year();
+      const financialYearStart = today.isBefore(moment(`${currentYear}-04-01`))
+        ? moment(`${currentYear - 1}-04-01`)
+        : moment(`${currentYear}-04-01`);
+        
+      const financialYearEnd = moment(financialYearStart).add(1, "year").subtract(1, "day");
+    
+      // If today's date is the start of a financial year, set the end date to the next financial year
+      const endDate = today.isSame(moment(`${currentYear}-04-01`), 'day')
+        ? moment(`${currentYear + 1}-04-01`).subtract(1, "day")
+        : financialYearEnd;
+    
+      setFDate(financialYearStart.toDate());
+      setTDate(endDate.toDate());
+
+        // Parse the dates to check if tdatef is before fdatef
+        // const startDate = moment(fdatef, "MM/DD/YYYY");
+        // const endDate = moment(tdatef, "MM/DD/YYYY");
+
+        // Validate if end date is before start date
+        if (endDate.isBefore(financialYearStart)) {
+          alert("Error: End date cannot be before Start date.");
+          return; // Exit the function if validation fails
+        }
     
       setTimeout(() => {
         handleApply();
@@ -107,9 +128,9 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
         LId,
         IsEmpLogin,
         fdate: moment(financialYearStart).format("MM/DD/YYYY"),
-        tdate: moment(financialYearEnd).format("MM/DD/YYYY"),
-        metalType:selectMetalType,
-        category:selectCategory
+        tdate: moment(endDate).format("MM/DD/YYYY"),
+        metalType: selectMetalType,
+        category: selectCategory,
       };
     
       const dispatchFunctions = [
@@ -120,8 +141,9 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
         fetchVendor_In_Out_DurationData,
       ];
     
-      dispatchFunctions?.forEach(fn => dispatch(fn(commonPayload)));
+      dispatchFunctions.forEach(fn => dispatch(fn(commonPayload)));
     }, []);
+    
     
 
       const handleFDateChange = (date) => {
@@ -199,23 +221,35 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
       //   }
 
       // };
-    
       const handleApply = () => {
-        const formattedFDate = fdate ? moment(fdate)?.format("MM/DD/YYYY") : "";
-        const formattedTDate = tdate ? moment(tdate)?.format("MM/DD/YYYY") : "";
       
-        setFDatef(formattedFDate);
-        setTDatef(formattedTDate);
+        // Convert the dates to moment objects (not formatted strings)
+        const formattedFDate = fdate ? moment(fdate) : null;
+        const formattedTDate = tdate ? moment(tdate) : null;
       
-        if (formattedFDate && formattedTDate) {
+      
+        // Validate if start date is after end date
+        if (formattedFDate && formattedTDate && formattedFDate.isAfter(formattedTDate)) {
+          alert("Error: Start date cannot be after End date.");
+          return; // Exit the function if validation fails
+        }
+      
+        // Format the dates if validation passes
+        const formattedFDateString = formattedFDate?.format("MM/DD/YYYY");
+        const formattedTDateString = formattedTDate?.format("MM/DD/YYYY");
+      
+        setFDatef(formattedFDateString);
+        setTDatef(formattedTDateString);
+      
+        if (formattedFDateString && formattedTDateString) {
           const commonPayload = {
             tkn,
             LId,
             IsEmpLogin,
-            fdate: formattedFDate,
-            tdate: formattedTDate,
-            metalType:selectMetalType,
-            category:selectCategory
+            fdate: formattedFDateString,
+            tdate: formattedTDateString,
+            metalType: selectMetalType,
+            category: selectCategory,
           };
       
           const dispatchFunctions = [
@@ -229,6 +263,7 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
           dispatchFunctions.forEach(fn => dispatch(fn(commonPayload)));
         }
       };
+      
 
       useEffect(() => {
         setCurrencyList(all?.DT)
@@ -340,25 +375,25 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
                     </Card>
             </Grid>
             <Grid item xs={12}  >
-                <FactoryDataSummary bgColor={theme?.palette?.customColors?.purple} selectMaterial={selectMaterial} />
+                <FactoryDataSummary bgColor={theme?.palette?.customColors?.purple} selectMaterial={selectMaterial} selectCurrency={+selectCurrency} />
             </Grid>
             {/* <Grid item xs={4} sm={4} md={4} >
                 <MarginCt bgColor={theme?.palette?.customColors?.purple} />
             </Grid> */}
             <Grid item xs={12} sm={12} md={4} >
-                <SettingPerGram bgColor={theme?.palette?.customColors?.purple} selectMaterial={selectMaterial} />
+                <SettingPerGram bgColor={theme?.palette?.customColors?.purple} selectMaterial={selectMaterial} selectCurrency={+selectCurrency} />
             </Grid>
             <Grid item xs={12} sm={12} md={8} >
-                <InOutDuration bgColor={theme?.palette?.customColors?.purple} selectMaterial={selectMaterial} />
+                <InOutDuration bgColor={theme?.palette?.customColors?.purple} selectMaterial={selectMaterial} selectCurrency={+selectCurrency} />
             </Grid>
             <Grid item xs={12} sm={12} md={4} >
-                <TotalLabour bgColor={theme?.palette?.customColors?.purple} selectMaterial={selectMaterial} />
+                <TotalLabour bgColor={theme?.palette?.customColors?.purple} selectMaterial={selectMaterial} selectCurrency={+selectCurrency} />
             </Grid>
             <Grid item xs={12} sm={12} md={4} >
-                <WastageWiseLabourPGram bgColor={theme?.palette?.customColors?.purple} />
+                <WastageWiseLabourPGram bgColor={theme?.palette?.customColors?.purple} selectCurrency={+selectCurrency} />
             </Grid>
             <Grid item xs={12} sm={12} md={4} >
-                <VendorWiseSetPGram bgColor={theme?.palette?.customColors?.purple} selectMaterial={selectMaterial} />
+                <VendorWiseSetPGram bgColor={theme?.palette?.customColors?.purple} selectMaterial={selectMaterial} selectCurrency={+selectCurrency} />
             </Grid>
             
         </Grid>

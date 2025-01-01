@@ -11,7 +11,8 @@ import CardContent from '@mui/material/CardContent'
 import { CircularProgress, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux'
 import { formatAmount } from '../../GlobalFunctions'
-const FactoryDataSummary = ({tkn, bgColor, selectMaterial}) => {
+import { checkNullUndefined } from '../../componentsofkpi/components/global'
+const FactoryDataSummary = ({tkn, bgColor, selectMaterial, selectCurrency}) => {
 
     const { loading, data, error } = useSelector(state => state?.Summary_Purchase);
     const summary_sale = useSelector(state => state?.Summary_Sale);
@@ -34,7 +35,7 @@ const FactoryDataSummary = ({tkn, bgColor, selectMaterial}) => {
           title: labelname,
         },
         {
-          stats: formatAmount(DTObj?.Total_Labour),
+          stats: checkNullUndefined(formatAmount((DTObj?.Total_Labour / selectCurrency))),
           title: 'Total Labour',
         },
         {
@@ -62,11 +63,11 @@ const FactoryDataSummary = ({tkn, bgColor, selectMaterial}) => {
           title: 'In/Out Duration',
         },
         {
-          stats: formatAmount(costPerC),
+          stats: checkNullUndefined(formatAmount((costPerC / selectCurrency))),
           title: 'Cost Per Carat',
         },
         {
-          stats: formatAmount(soldPerC),
+          stats: checkNullUndefined(formatAmount((soldPerC / selectCurrency))),
           title: 'Sold Per Carat',
         }
       ];

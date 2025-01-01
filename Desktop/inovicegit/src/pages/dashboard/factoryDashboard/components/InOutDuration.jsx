@@ -33,7 +33,7 @@ const columnColors = {
 
 
 
-const InOutDuration = ( { selectMaterial } ) => {
+const InOutDuration = ( ) => {
 
   const { loading, data, error } = useSelector(state => state?.Vendor_In_Out_Duration);
     console.log(data);

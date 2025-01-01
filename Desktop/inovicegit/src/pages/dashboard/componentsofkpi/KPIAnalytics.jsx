@@ -495,7 +495,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           startDate = today.clone().subtract(6, 'days');
           endDate = today;
           break;
-        case 'Month':
+        case 'This Month':
           startDate = today.clone().startOf('month'); 
           endDate = today; 
           break;
@@ -508,16 +508,32 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           startDate = startOfQuarter.clone().startOf('month'); 
           endDate = today; 
           break;
-
         case 'This 6 Months':
-        case 'This Year':
-          const financialYearStart = moment().month(3).date(1); 
-          startDate = financialYearStart;
+          startDate = today.clone().subtract(6, 'months').startOf('month');
           endDate = today;
-          if (value === 'This 6 Months') {
-            startDate = today.clone().subtract(6, 'months').startOf('month');
-          }
           break;
+        // case 'This 6 Months':
+        // case 'This Year':
+        //   const financialYearStart = moment().month(3).date(1); 
+        //   startDate = financialYearStart;
+        //   endDate = today;
+        //   if (value === 'This 6 Months') {
+        //     startDate = today.clone().subtract(6, 'months').startOf('month');
+        //   }
+        //   break;
+        case 'This Year':
+          // Start of the financial year (April 1st of the current year)
+          const currentYear = moment().year(); // Get the current year
+          const financialYearStart = moment().year(currentYear - 1).month(3).date(1); // April 1st of current year
+          startDate = financialYearStart;
+        
+          // End of the financial year (March 31st of the next year)
+          const financialYearEnd = moment().year(currentYear).month(2).date(31); // March 31st of the next year
+          endDate = financialYearEnd;
+          break;
+        
+        
+        
         default:
           startDate = today;
           endDate = today;
@@ -1086,12 +1102,12 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         const endDate = moment(tdate);
         const diffInDays = endDate.diff(startDate, 'days');
 
-          if((dropdownValue === "Today" || dropdownValue === "Yesterday" || dropdownValue === "Week" || dropdownValue === "Month" || dropdownValue === "Last Month" || dropdownValue === "Quarter") && (diffInDays <= 180)){
+          if((dropdownValue === "Today" || dropdownValue === "Yesterday" || dropdownValue === "Week" || dropdownValue === "This Month" || dropdownValue === "Last Month" || dropdownValue === "Quarter") && (diffInDays <= 180)){
             setShowPopUp(false);
-          }else if ((dropdownValue === "Today" || dropdownValue === "Yesterday" || dropdownValue === "Week" || dropdownValue === "Month" || dropdownValue === "Last Month" || dropdownValue === "Quarter") && (diffInDays >= 180)){
+          }else if ((dropdownValue === "Today" || dropdownValue === "Yesterday" || dropdownValue === "Week" || dropdownValue === "This Month" || dropdownValue === "Last Month" || dropdownValue === "Quarter") && (diffInDays >= 180)){
             setShowPopUp(true);
             return;
-          }else if ((dropdownValue === "Today" || dropdownValue === "Yesterday" || dropdownValue === "Week" || dropdownValue === "Month" || dropdownValue === "Last Month" || dropdownValue === "Quarter") && (diffInDays >= 180)){
+          }else if ((dropdownValue === "Today" || dropdownValue === "Yesterday" || dropdownValue === "Week" || dropdownValue === "This Month" || dropdownValue === "Last Month" || dropdownValue === "Quarter") && (diffInDays >= 180)){
             setShowPopUp(true);
             return;
           }else if ((dropdownValue === "This 6 Months" || dropdownValue === "This Year" ) && (diffInDays >= 180)){
@@ -1185,7 +1201,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
   // }
 
   const filterOptions = [
-    "Today", "Yesterday", "Month", "Last Month", "Quarter", "This 6 Months", "This Year"
+    "Today", "Yesterday", "This Month", "Last Month", "Quarter", "This 6 Months", "This Year"
   ];
   
   return (

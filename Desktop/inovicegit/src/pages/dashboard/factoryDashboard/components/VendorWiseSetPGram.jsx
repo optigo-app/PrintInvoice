@@ -35,7 +35,7 @@ import { useSelector } from 'react-redux'
 
 
 
-const VendorWiseSetPGram = ({tkn,  fdate, tdate, selectMaterial}) => {
+const VendorWiseSetPGram = ({tkn,  fdate, tdate, selectMaterial, selectCurrency}) => {
 
   const { loading, data, error } = useSelector(state => state?.Summary_Purchase);
   
@@ -248,17 +248,17 @@ const VendorWiseSetPGram = ({tkn,  fdate, tdate, selectMaterial}) => {
       if(value === 'Diamond Setting Cost'){
         let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.TotalDiaSettingCost - a?.TotalDiaSettingCost)?.slice(0, 10)?.map((e) => capitalizeFirstLetter(e?.Vendor));
         setVendorNameList(arr0);
-        let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalDiaSettingCost - a?.TotalDiaSettingCost)?.slice(0, 10)?.map((e) => e?.TotalDiaSettingCost);
+        let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalDiaSettingCost - a?.TotalDiaSettingCost)?.slice(0, 10)?.map((e) => (e?.TotalDiaSettingCost / selectCurrency));
         setDiaSetCostList(arr);
       }
       if(value === 'Diamond Setting Cost'){
         let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.TotalCSSettingCost - a?.TotalCSSettingCost)?.slice(0, 10)?.map((e, i) => capitalizeFirstLetter(e?.Vendor));
         setVendorNameList2(arr0);
-        let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalCSSettingCost - a?.TotalCSSettingCost)?.slice(0, 10)?.map((e) => e?.TotalCSSettingCost);
+        let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalCSSettingCost - a?.TotalCSSettingCost)?.slice(0, 10)?.map((e) => (e?.TotalCSSettingCost / selectCurrency));
         setCSSetCostList(arr);
       }
     }
-  },[data, selectMaterial, value])
+  },[data, selectMaterial, value, selectCurrency])
 
   return (
     <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>
