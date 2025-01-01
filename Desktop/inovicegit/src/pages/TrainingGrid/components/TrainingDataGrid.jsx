@@ -43,12 +43,12 @@ const renderName = row => {
 const TrainingTypeArr = [
   {
     id:1,
-    field:'new training',
+    field:'newtraining',
     label:'New Training'
   },
   {
     id:2,
-    field:'re training',
+    field:'retraining',
     label:'Re Training'
   },
   {
@@ -350,7 +350,7 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
     }
   ]
   useEffect(() => {
-    handleFilter(value); // Apply filter when criteria changes
+    handleFilter(); // Apply filter when criteria changes
   }, [value, trainingType, trainingMode, startDateRange, endDateRange]);
   
   useEffect(() => {
@@ -381,6 +381,18 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
               let obj = {...e};
               obj.id = i + 1;
               obj.date = obj?.Date?.split(" ")[0];
+              if(obj?.TrainingMode?.toLowerCase() === 'on-site' || obj?.TrainingMode?.toLowerCase() === 'on site' || obj?.TrainingMode?.toLowerCase() === 'onsite'){
+                obj.TrainingMode = 'onsite';
+              }
+              if(obj?.TrainingMode?.toLowerCase() === 'online' || obj?.TrainingMode?.toLowerCase() === 'on line' || obj?.TrainingMode?.toLowerCase() === 'on-line'){
+                obj.TrainingMode = 'online';
+              }
+              if(obj?.TrainingType?.toLowerCase() === 're-training' || obj?.TrainingType?.toLowerCase() === 're training' || obj?.TrainingType?.toLowerCase() === 'retraining'){
+                obj.TrainingType = 'retraining';
+              }
+              if(obj?.TrainingType?.toLowerCase() === 'new-training' || obj?.TrainingType?.toLowerCase() === 'new training' || obj?.TrainingType?.toLowerCase() === 'newtraining'){
+                obj.TrainingType = 'newtraining';
+              }
               // obj.Date = moment(obj?.Date)?.format("DD/MM/YYYY");
               arr.push(obj);
             });
@@ -489,11 +501,11 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
     }
 
     filteredData?.forEach((e, i) => {
-      if(e?.TrainingType?.toLowerCase() === "new training"){
+      if(e?.TrainingType?.toLowerCase() === "newtraining"){
         obj.newTrainig += 1;
         obj.newTrainigTime += e?.Time;
       }
-      if(e?.TrainingType?.toLowerCase() === "re training" || e?.TrainingType?.toLowerCase() === "re-training"){
+      if(e?.TrainingType?.toLowerCase() === "retraining" || e?.TrainingType?.toLowerCase() === "re-training"){
         obj.reTraining += 1;
         obj.reTrainingTime += e?.Time;
       }
@@ -545,56 +557,58 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
 
   // }
 
-  const handleTTypeChange = (e) => {
-    setTrainingType(e.target.value);
-    handleFilter(value); // Trigger filter with the current search value
-  };
-  
-  const handleTModeChange = (e) => {
-    setTrainingMode(e.target.value);
-    handleFilter(value); // Trigger filter with the current search value
-  };
-  
   const handleOnChangeRange = (dates) => {
     const [start, end] = dates;
     setStartDateRange(start);
     setEndDateRange(end);
     handleFilter(value); // Trigger filter with the current search value
   };
-  
 
-  const handleFilter = (searchValue) => {
-    const searchVal = searchValue.toLowerCase();
+  const handleTTypeChange = (e) => {
+    setTrainingType(e.target.value);
+    // handleFilter(value); // Trigger filter with the current search value
+  };
+  
+  const handleTModeChange = (e) => {
+    setTrainingMode(e.target.value);
+    // handleFilter(value); // Trigger filter with the current search value
+  };
+  
+  const handleFilter = () => {
+    const searchVal = value.toLowerCase();
     
     const filteredData = data?.filter((item) => {
-      const trainingMode = item?.TrainingMode?.toLowerCase() || '';
-      const trainingType = item?.TrainingType?.toLowerCase() || '';
+      // const trainingMode = item?.TrainingMode?.toLowerCase() || '';
+      // const trainingType = item?.TrainingType?.toLowerCase() || '';
       // const date = item?.Date ? new Date(item.Date) : null;
-      const date = item?.date ? new Date(item.date) : null;
-  
+      // const date = item?.date ? new Date(item?.date) : null;
+      const date = item?.date ? moment(item.date, 'DD/MM/YYYY') : null;
+      
       // Search filter
       const isSearchMatch =
-        trainingMode.includes(searchVal) ||
-        trainingType.includes(searchVal) ||
+        item?.TrainingMode.includes(searchVal) ||
+        item?.TrainingType.includes(searchVal) ||
         item?.Ticket?.toLowerCase()?.includes(searchVal) ||
         item?.Time?.toString()?.includes(searchVal) ||
         item?.id?.toString()?.includes(searchVal) ||
+        item?.date?.toLowerCase()?.includes(searchVal) ||
         item?.Attandees?.toLowerCase()?.includes(searchVal) ||
         item?.TrainingBy?.toLowerCase()?.includes(searchVal);
-  
-      // Training Type filter
-      const isTrainingTypeMatch =
-        !trainingType || trainingType === trainingType.toLowerCase();
-  
-      // Training Mode filter
-      const isTrainingModeMatch =
-        !trainingMode || trainingMode === trainingMode.toLowerCase();
-  
-      // Date range filter
-      const isDateMatch =
-        (!startDateRange || (date && date >= startDateRange)) &&
-        (!endDateRange || (date && date <= endDateRange));
-  
+      
+        const isTrainingTypeMatch =
+          !trainingType || trainingType === item?.TrainingType?.toLowerCase();
+
+        const isTrainingModeMatch =
+          !trainingMode || trainingMode === item?.TrainingMode?.toLowerCase();
+      
+          
+          const parsedStartDate = startDateRange ? moment(startDateRange, 'DD/MM/YYYY') : null;
+          const parsedEndDate = endDateRange ? moment(endDateRange, 'DD/MM/YYYY') : null;
+              // Date range filter
+    const isDateMatch =
+    (!parsedStartDate || (date && date?.isSameOrAfter(parsedStartDate))) &&
+    (!parsedEndDate || (date && date?.isSameOrBefore(parsedEndDate)));
+          
       // Combine all conditions
       return isSearchMatch && isTrainingTypeMatch && isTrainingModeMatch && isDateMatch;
     });
@@ -602,6 +616,14 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
     setFilteredData(filteredData);
   };
   
+  const handleFilterAll = () => {
+    setTrainingMode('');
+    setTrainingType('');
+    setValue('');
+    setStartDateRange(null);
+    setEndDateRange(null);
+    setFilteredData(apiData);
+  }
 
   const popperPlacement = 'bottom-start';
   return data ? (
@@ -635,25 +657,25 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
           <Card sx={{ boxShadow: 'none', border: '1px solid #e8e8e8', my: 1, p:1, borderRadius: '8px',  }} className='trainingHead'>
             <Typography variant='h5' className="fs_analytics_l">New Training</Typography>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', p: 1, m:0 }}>
-              <Typography variant="h3" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple }} className="fs_analytics_l" style={{cursor:'pointer'}}><Tooltip title="Count">{summaryData?.newTrainig}</Tooltip></Typography>
-              <Typography variant="h3" sx={{color: theme?.palette?.customColors?.purple}}>/</Typography>
-              <Typography variant="h3" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple, cursor:'pointer' }}><Tooltip title="Time">{summaryData?.newTrainigTime}</Tooltip></Typography>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple }} className="fs_analytics_l" style={{cursor:'pointer'}}><Tooltip title="Count">{summaryData?.newTrainig}</Tooltip></Typography>
+              <Typography variant="h4" sx={{color: theme?.palette?.customColors?.purple}}>/</Typography>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple, cursor:'pointer' }}><Tooltip title="Time">{summaryData?.newTrainigTime}</Tooltip></Typography>
             </Box>
           </Card>           
           <Card sx={{ boxShadow: 'none', border: '1px solid #e8e8e8', my: 1, p:1, borderRadius: '8px',  }} className='trainingHead'>
             <Typography variant='h5' className="fs_analytics_l">Re Training</Typography>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', p: 1, m:0 }}>
-              <Typography variant="h3" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple }} style={{cursor:'pointer'}}><Tooltip title="Count">{summaryData?.reTraining}</Tooltip></Typography>
-              <Typography variant="h3" sx={{color: theme?.palette?.customColors?.purple}}>/</Typography>
-              <Typography variant="h3" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple, cursor:'pointer' }}><Tooltip title="Time">{summaryData?.reTrainingTime}</Tooltip></Typography>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple }} style={{cursor:'pointer'}}><Tooltip title="Count">{summaryData?.reTraining}</Tooltip></Typography>
+              <Typography variant="h4" sx={{color: theme?.palette?.customColors?.purple}}>/</Typography>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple, cursor:'pointer' }}><Tooltip title="Time">{summaryData?.reTrainingTime}</Tooltip></Typography>
             </Box>
           </Card>
           <Card sx={{ boxShadow: 'none', border: '1px solid #e8e8e8', my: 1, p:1, borderRadius: '8px',  }} className='trainingHead'>
             <Typography variant='h5' className="fs_analytics_l">Ignite</Typography>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', p: 1, m:0 }}>
-              <Typography variant="h3" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple }} style={{cursor:'pointer'}}><Tooltip title="Count">{summaryData?.Ignite}</Tooltip></Typography>
-              <Typography variant="h3" sx={{color: theme?.palette?.customColors?.purple}}>/</Typography>
-              <Typography variant="h3" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple, cursor:'pointer' }}><Tooltip title="Time">{summaryData?.IgniteTime}</Tooltip></Typography>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple }} style={{cursor:'pointer'}}><Tooltip title="Count">{summaryData?.Ignite}</Tooltip></Typography>
+              <Typography variant="h4" sx={{color: theme?.palette?.customColors?.purple}}>/</Typography>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple, cursor:'pointer' }}><Tooltip title="Time">{summaryData?.IgniteTime}</Tooltip></Typography>
             </Box>
           </Card>
         </Box>
@@ -699,7 +721,7 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
             placeholder="Search"
             label="Search"
             fullWidth
-            onChange={(e) => handleFilter(e.target.value)}
+            onChange={(e) => setValue(e.target.value)}
             variant="outlined"
             size="small"
             className='fs_analytics_l '
@@ -752,10 +774,12 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
 
         <Grid item xs={12} sm={6} md={2.4}>
           <CustomTextField
+           key={trainingType} 
             select
             defaultValue=""
             fullWidth
             label="Training Type"
+            value={trainingType}
             SelectProps={{
               readOnly: false,
               MenuProps: {
@@ -778,6 +802,7 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
             sx={{
               width: '100%',
             }}
+            onChange={(event) => handleTTypeChange(event)}
           >
             <MenuItem className="fs_analytics_l" value="">
               <em>None</em>
@@ -792,10 +817,12 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
 
         <Grid item xs={12} sm={6} md={2.4}>
           <CustomTextField
+            key={trainingMode} 
             select
             defaultValue=""
             fullWidth
             label="Training Mode"
+            value={trainingMode}
             SelectProps={{
               readOnly: false,
               MenuProps: {
@@ -818,6 +845,7 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
             sx={{
               width: '100%',
             }}
+            onChange={(event) => handleTModeChange(event)}
           >
             <MenuItem className="fs_analytics_l" value="">
               <em>None</em>
@@ -831,7 +859,7 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
         </Grid>
 
         <Grid  item xs={12} sm="auto" md={2.4} sx={{ textAlign: { xs: 'center', sm: 'left' }, display:'flex', justifyContent:'center', alignItems:'flex-end', pb:0.3 }}>
-          <Button variant='contained' color="success">All</Button>
+          <Button variant='contained' color="success" onClick={() => handleFilterAll()}>All</Button>
         </Grid>
 
       </Grid>

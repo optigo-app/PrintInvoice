@@ -112,8 +112,8 @@ const FactoryDataSummary = ({tkn, bgColor, selectMaterial, selectCurrency}) => {
             <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
               
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography variant='h5' color={bgColor} sx={{fontWeight:'bolder'}} >{sale.title}</Typography>
-                <Typography variant='h4' color={theme?.palette?.grey?.[700]} >{sale.stats}</Typography>
+                <Typography  color={bgColor} fontSize={"0.8rem"}   >{sale.title}</Typography>
+                <Typography variant='h5' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}} >{sale.stats}</Typography>
               </Box>
             </Box>
           </Grid>
