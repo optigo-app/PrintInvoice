@@ -50,7 +50,7 @@ import "../@core/components/pickersComponent/datepickerc.css";
 import { fetchDashboardData } from '../GlobalFunctions';
 import axios from 'axios';
 
-const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin}) => {
+const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin, IsPower}) => {
   
   const [fdate, setFDate] = useState(null);
   const [tdate, setTDate] = useState(null);
@@ -102,7 +102,7 @@ const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin}) => {
       try {
         const body = {
           "Token" : `${tkn}`  
-          ,"ReqData":`[{\"Token\":\"${tkn}\",\"LoginId\":\"${LId}\",\"Evt\":\"Master\"}]`
+          ,"ReqData":`[{\"Token\":\"${tkn}\",\"LoginId\":\"${LId}\",\"Evt\":\"Master\",\"IsPower\":\"${IsPower}\"}]`
         }
     
         const response = await axios.post(apiUrl_kayra, body);
@@ -144,9 +144,9 @@ const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin}) => {
     setTDatef(financialYearStart?.toDate());
     setTDatef(today?.isAfter(financialYearEnd) ? financialYearEnd?.toDate() : today?.toDate());
 
-    setTimeout(() => {
-      handleApply();
-    },0);
+    // setTimeout(() => {
+    //   handleApply();
+    // },0);
   
   }, []);
 
@@ -260,34 +260,34 @@ const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin}) => {
   }
 
     try {
-      const monthWiseSaleData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "MonthWiseSaleAmount", sales, office, LId);
+      const monthWiseSaleData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "MonthWiseSaleAmount", sales, office, LId, IsPower);
       setMonthWiseSaleApiData(monthWiseSaleData);
   
-      const summaryData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "Summary", sales, office, LId);
+      const summaryData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "Summary", sales, office, LId, IsPower);
       setSummaryApiData(summaryData.length > 0 ? summaryData[0] : {});
   
-      const progressWiseOrder = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "ProgressWiseOrder", sales, 0, LId);
+      const progressWiseOrder = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "ProgressWiseOrder", sales, 0, LId, IsPower);
       setOrderTrackerApiData(progressWiseOrder);
   
-      const countryWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CountryWiseSaleAmount", sales, office, LId);
+      const countryWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CountryWiseSaleAmount", sales, office, LId, IsPower);
       setCountryWiseSaleAmount(countryWiseSaleAmount);
   
-      const customerWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CustomerWiseSaleAmount", sales, office, LId);
+      const customerWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CustomerWiseSaleAmount", sales, office, LId, IsPower);
       setCustomerWiseSaleAmount(customerWiseSaleAmount);
   
-      const categoryWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CategoryWiseSaleAmount", sales, office, LId);
+      const categoryWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CategoryWiseSaleAmount", sales, office, LId, IsPower);
       setCategoryWiseSaleAmount(categoryWiseSaleAmount);
   
-      const metalTypeColorWiseSale = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "MetalTypeColorWiseSale", sales, office, LId);
+      const metalTypeColorWiseSale = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "MetalTypeColorWiseSale", sales, office, LId, IsPower);
       setMetalTypeColorWiseSale(metalTypeColorWiseSale);
   
-      const customerTypeWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CustomerTypeWiseSaleAmount", sales, office, LId);
+      const customerTypeWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CustomerTypeWiseSaleAmount", sales, office, LId, IsPower);
       setCustomerTypeWiseSaleAmount(customerTypeWiseSaleAmount);
   
-      const vendorWiseNetWt = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "VendorWiseNetWt", sales, office, LId);
+      const vendorWiseNetWt = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "VendorWiseNetWt", sales, office, LId, IsPower);
       setVendorWiseNetWt(vendorWiseNetWt);
   
-      const salesrepWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "SalesrepWiseSaleAmount", sales, office, LId);
+      const salesrepWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "SalesrepWiseSaleAmount", sales, office, LId, IsPower);
       setSalesrepWiseSaleAmount(salesrepWiseSaleAmount);
   
     } catch (error) {

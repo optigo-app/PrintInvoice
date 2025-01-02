@@ -20,6 +20,7 @@ const Dashboard = () => {
     const url = atob(params.get('report_api_url'));
     const LId = atob(params.get('LId'));
     const IsEmpLogin = +(params.get('IsEmpLogin'));
+    const IsPower = +(params.get('IsPower'));
     const hostName = window.location?.hostname?.toLowerCase();
   return (
     <>
@@ -32,7 +33,7 @@ const Dashboard = () => {
                 width:'100%', 
                 boxSizing:'border-box',
                 backgroundColor:'#F8F7FA',
-                padding:'2rem'}}><AnalyticsDashboard tkn={tkn} hostName={hostName} LId={LId} IsEmpLogin={IsEmpLogin} /> 
+                padding:'2rem'}}><AnalyticsDashboard tkn={tkn} hostName={hostName} LId={LId} IsEmpLogin={IsEmpLogin} IsPower={IsPower} /> 
             </div>}
             { pid === '18146' && <div style={{
                 width:'100%', 
