@@ -373,11 +373,17 @@ useEffect(() => {
 
 
 
+
+
 // useEffect(() => {
 //   if (fdatef && tdatef) {
 //     handleApply();
 //   }
 // }, [fdatef, tdatef]);
+
+useEffect(() => {
+  setSelectedSales((IsEmpLogin) === 0 ? 0 : (LId));
+}, [IsEmpLogin, LId]);
 
 
 
@@ -421,7 +427,7 @@ useEffect(() => {
             <Box className="me-1" style={{minWidth:'200px'}}>
               <label htmlFor="country">Country</label>
               <select className='form-control kayrafilter' value={selectedCountry} disabled={countryList?.length === 0} name="country" id="country" onChange={(e) => countryListHandleChange(e)}>
-                <option value="" disabled selected>select</option>
+                {/* <option value="" disabled selected>select</option> */}
                 {
                   countryList?.map((e, i) => {
                     return <option key={i} value={e?.CurrencyRate}>{e?.Currencycode}</option>
@@ -434,7 +440,7 @@ useEffect(() => {
             <Box className="me-1" style={{minWidth:'200px'}}>
               <label htmlFor="salesman">Salesman</label>
               <select className='form-control' name="salesman"  value={selectedSales} disabled={salesList?.length === 0} id="salesman" onChange={(e) => salesmanListHandleChange(e)}>
-                <option value="0"  selected>select </option>
+                <option value="0"  >All</option>
                 {
                   salesList?.map((e, i) => {
                     return <option key={i} value={e?.SaleRepId}>{e?.CustomerCode}</option>
