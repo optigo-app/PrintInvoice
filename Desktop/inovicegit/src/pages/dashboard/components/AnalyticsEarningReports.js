@@ -61,7 +61,7 @@
    }
  }))
 
- const AnalyticsEarningReports = ({tkn, fdate, tdate, country, monthWiseSaleData, summaryData, IsEmpLogin}) => {
+ const AnalyticsEarningReports = ({tkn, fdate, tdate, country, countryCodeSymbol, monthWiseSaleData, summaryData, IsEmpLogin}) => {
 
    const [apiData, setApiData] = useState([]);
    const [apiData2, setApiData2] = useState(null);
@@ -373,6 +373,7 @@
       avatarColor: 'primary',
       progressColor: 'primary',
       avatarIcon: `${country === '7.8' ? 'tabler:currency-dollar' : 'tabler:currency-rupee'}`
+      // avatarIcon: countryCodeSymbol
     },
     ...(IsEmpLogin === 0 ? [{
       progress: 100,
@@ -381,6 +382,7 @@
       avatarColor: 'info',
       progressColor: 'info',
       avatarIcon: `${country === '7.8' ? 'tabler:currency-dollar' : 'tabler:currency-rupee'}`
+      // avatarIcon: countryCodeSymbol
     }] : []),
     {
       progress: 100,
@@ -388,7 +390,7 @@
       title: 'Customers',
       avatarColor: 'error',
       progressColor: 'error',
-      avatarIcon: 'tabler:user'
+      avatarIcon: 'tabler:user' 
     }
   ];
   
@@ -422,6 +424,7 @@
                      sx={{ mr: 2, width: 26, height: 26 }}
                    >
                      <Icon fontSize='1.125rem'  icon={item.avatarIcon} />
+                     {/* <div dangerouslySetInnerHTML={{__html:item?.avatarIcon}}></div> */}
                    </CustomAvatar>
                    <Typography variant='h5' className='fs_analytics_l'>{item.title}</Typography>
                  </Box>
