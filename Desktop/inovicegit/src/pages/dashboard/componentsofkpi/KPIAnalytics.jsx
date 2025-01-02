@@ -163,6 +163,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_TotalSale");
           if(response){
             setSaleMTs(response[0]);
+            
             setSaleMTsLoader(false);
           }else{
             setSaleMTsLoader(false);
@@ -1396,8 +1397,8 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         <Grid item xs={12} md={6} lg={7}>
             <RawMaterial tkn={tkn} bgColor={theme?.palette?.customColors?.purple} RMData={RMData} bgComp={bgComp} g_loss={g_loss} rmStock={rmStock} bgLoader={bgLoader} lossLoader={lossLoader} rmStockLoader={rmStockLoader} />
         </Grid>
-        <Grid item xs={12} md={6} lg={3}>
-            <QualityControl tkn={tkn} bgColor={theme?.palette?.customColors?.purple} QCData={QCData} QuaC={QuaC} qcInward={qcInward} inwardLoader={inwardLoader} QCLoader={QCLoader} />
+        <Grid item xs={12} md={6} lg={3} >
+            <QualityControl tkn={tkn} bgColor={theme?.palette?.customColors?.purple} QCData={QCData} QuaC={QuaC} qcInward={qcInward} inwardLoader={inwardLoader} QCLoader={QCLoader} InventoryRatio={InventoryRatio} />
         </Grid>
         <Grid item xs={12} md={6} lg={2}>
             <ProductDevelopment tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  PDData={PDData} PrdDev={PrdDev} PDLoader={PDLoader} />
@@ -1412,7 +1413,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         { !isMaxWidth900px && <Grid item xs={12} md={6} lg={6}><HeaderOfCard headerName="PRODUCT DEVELOPMENT" bgColor={'#7d5ae773'} /></Grid>}
         
         <Grid item xs={12} md={6} lg={6}>
-            <QualityControl tkn={tkn} bgColor={theme?.palette?.customColors?.purple} QCData={QCData} QuaC={QuaC} qcInward={qcInward} inwardLoader={inwardLoader} QCLoader={QCLoader} />
+            <QualityControl tkn={tkn} bgColor={theme?.palette?.customColors?.purple} QCData={QCData} QuaC={QuaC} qcInward={qcInward} inwardLoader={inwardLoader} QCLoader={QCLoader} InventoryRatio={InventoryRatio} />
         </Grid>
         { isMaxWidth900px && <Grid item xs={12} md={6} lg={6}><HeaderOfCard headerName="PRODUCT DEVELOPMENT" bgColor={'#7d5ae773'} /></Grid>}
         <Grid item xs={12} md={6} lg={6}>
@@ -1428,7 +1429,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
             <SalesNMarketing3 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  SM3={SM3} BCwise={BCwise} BCwiseLoader={BCwiseLoader}  />
         </Grid>
         <Grid item xs={12} md={6} lg={7}>
-            <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.customColors?.purple} SM1={SM1} orderCmplt={orderCmplt} popUpList={popUpList} SMOrder={SMOrder} OCLoader={OCLoader} SMOrderLoader={SMOrderLoader} />
+            <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.customColors?.purple} SM1={SM1} orderCmplt={orderCmplt} saleMTs={saleMTs} popUpList={popUpList} SMOrder={SMOrder} OCLoader={OCLoader} SMOrderLoader={SMOrderLoader} />
         </Grid></>}
         
         { isMaxWidth1700px && <><Grid item xs={12} md={12} lg={12}><HeaderOfCard headerName="SALES & MARKETING" bgColor={'#7d5ae773'} /></Grid>
@@ -1439,7 +1440,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
             <SalesNMarketing3 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  SM3={SM3} BCwise={BCwise} BCwiseLoader={BCwiseLoader}  />
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
-            <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  SM1={SM1} orderCmplt={orderCmplt} popUpList={popUpList} SMOrder={SMOrder} OCLoader={OCLoader}  SMOrderLoader={SMOrderLoader} />
+            <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  SM1={SM1} orderCmplt={orderCmplt} saleMTs={saleMTs} popUpList={popUpList} SMOrder={SMOrder} OCLoader={OCLoader}  SMOrderLoader={SMOrderLoader} />
         </Grid></>}
         
         <Grid item xs={12} md={12} lg={12}><HeaderOfCard headerName="MANUFACTURING" bgColor={'#7d5ae773'} /></Grid>

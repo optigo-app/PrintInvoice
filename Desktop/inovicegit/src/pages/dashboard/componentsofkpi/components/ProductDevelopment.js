@@ -76,7 +76,7 @@ const ProductDevelopment = ({tkn, fdate, tdate, bgColor, PDData, PrdDev, PDLoade
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
               <CircularProgress sx={{color:'lightgrey'}} />
             </Box> : <CardContent
-            sx={{ pt: theme => `${theme.spacing(3)} !important`, pb: theme => `${theme.spacing(3)} !important` }}
+            sx={{ pt: theme => `${theme.spacing(0)} !important`, pb: theme => `${theme.spacing(3)} !important` }}
             >
         <Grid container spacing={6}>
           

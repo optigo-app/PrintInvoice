@@ -11,7 +11,7 @@ import CardContent from '@mui/material/CardContent'
 import { CircularProgress, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux'
 import { formatAmount } from '../../GlobalFunctions'
-import { checkNullUndefined } from '../../componentsofkpi/components/global'
+import { checkNullUndefined } from '../../componentsofkpi/components/global';
 const FactoryDataSummary = ({tkn, bgColor, selectMaterial, selectCurrency}) => {
 
     const { loading, data, error } = useSelector(state => state?.Summary_Purchase);
@@ -112,8 +112,8 @@ const FactoryDataSummary = ({tkn, bgColor, selectMaterial, selectCurrency}) => {
             <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
               
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography  color={bgColor} fontSize={"0.8rem"}   >{sale.title}</Typography>
-                <Typography variant='h5' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}} >{sale.stats}</Typography>
+                <Typography variant='h4' color={"#5D5A68"} sx={{fontWeight:'bolder'}} >{sale.stats}</Typography>
+                <Typography  color={theme?.palette?.grey[600]} fontSize={"0.8rem"}   >{sale.title}</Typography>
               </Box>
             </Box>
           </Grid>

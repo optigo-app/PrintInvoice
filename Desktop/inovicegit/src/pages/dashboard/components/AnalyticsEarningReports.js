@@ -372,7 +372,7 @@
       title: 'Sales Amount',
       avatarColor: 'primary',
       progressColor: 'primary',
-      avatarIcon: `${country === '7.8' ? 'tabler:currency-dollar' : 'tabler:currency-rupee'}`
+      avatarIcon: `${country == '7.8' ? 'tabler:currency-dollar' : 'tabler:currency-rupee'}`
       // avatarIcon: countryCodeSymbol
     },
     ...(IsEmpLogin === 0 ? [{
@@ -381,7 +381,7 @@
       title: 'Profits Amount',
       avatarColor: 'info',
       progressColor: 'info',
-      avatarIcon: `${country === '7.8' ? 'tabler:currency-dollar' : 'tabler:currency-rupee'}`
+      avatarIcon: `${country == '7.8' ? 'tabler:currency-dollar' : 'tabler:currency-rupee'}`
       // avatarIcon: countryCodeSymbol
     }] : []),
     {

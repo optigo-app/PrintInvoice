@@ -13,7 +13,7 @@ import { checkNullUndefined } from './global';
 import CancelIcon from '@mui/icons-material/Cancel';
 
 //SALES AND MARKETING 3ST BLOCK
-const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList, orderCmplt, SMOrder, SMOrderLoader, OCLoader}) => {
+const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList, orderCmplt, saleMTs, SMOrder, SMOrderLoader, OCLoader}) => {
   
     const theme = useTheme();
     const isMaxWidth599px = useMediaQuery('(max-width:599px)');
@@ -25,10 +25,10 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList, orderCmplt, SM
     const [popUpHeader, setPopUpHeader] = useState('');
 
     const [popUpFlag, setPopUpFlag] = useState('');
-
+    
     useEffect(() => {
-
-         const smorderArr = SMOrder?.DT[0];
+      
+      const smorderArr = SMOrder?.DT[0];
 
              const data4 = [
       {
@@ -48,11 +48,11 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList, orderCmplt, SM
         title: 'Delay Time',
       },
       {
-        stats: `${parseFloat(checkNullUndefined(smorderArr?.AvgLabour))?.toFixed(2)} %`,
+        stats: `${parseFloat(checkNullUndefined(saleMTs?.AvgLabour))?.toFixed(2)} %`,
         title: 'Avg. Labour',
       },
       {
-        stats: `${parseFloat(checkNullUndefined(smorderArr?.SaleReturnPer))?.toFixed(2)} %`,
+        stats: `${parseFloat(checkNullUndefined(saleMTs?.SaleReturnPer))?.toFixed(2)} %`,
         title: 'Sales Return ',
       },
       {

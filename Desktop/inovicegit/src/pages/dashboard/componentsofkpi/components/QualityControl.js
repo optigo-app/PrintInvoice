@@ -14,7 +14,7 @@ import Icon from '../../@core/components/icon'
 import { CircularProgress, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { checkNullUndefined, safeValue } from './global';
-const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC, qcInward, inwardLoader, QCLoader }) => {
+const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC, qcInward, inwardLoader, QCLoader, InventoryRatio }) => {
     const theme = useTheme();
     const [qcData, setQCData] = useState([]);
     const kpiMFGFlag = useSelector((state) => state?.kpi?.mfg);
@@ -34,11 +34,11 @@ const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC, qcInward, inw
                 title: 'Inward',
               },
               {
-                stats: ` ${parseFloat(checkNullUndefined(QuaC?.JobMoveStockBookCount))?.toFixed(2)} Jobs`,
+                stats: ` ${(checkNullUndefined(QuaC?.JobMoveStockBookCount))} Jobs`,
                 title: 'Outward',
               },
               {
-                stats: (checkNullUndefined(QuaC?.QACountWithOutClub)),
+                stats: (checkNullUndefined(parseInt((QuaC?.QACountWithOutClub / InventoryRatio?.DT[0]?.NoOfDays)))),
                 title: 'Total Jobs',
               },
               {
@@ -52,7 +52,7 @@ const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC, qcInward, inw
 
     const renderStats = () => {
         return data?.map((sale, index) => (
-          <Grid item xs={6} md={6} key={index}>
+          <Grid item xs={6} md={6} key={index} >
             <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
               {/* <CustomAvatar skin='light' color={sale.color} sx={{ mr: 4, width: 42, height: 42 }}>
                 <Icon icon={sale.icon} fontSize='1.5rem' />
@@ -82,9 +82,9 @@ const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC, qcInward, inw
           <CircularProgress sx={{color:'lightgrey'}} />
         </Box> :
           <CardContent
-            sx={{ pt: theme => `${theme.spacing(3)} !important`, pb: theme => `${theme.spacing(3)} !important` }}
+            sx={{ pt: theme => `${theme.spacing(0)} !important`, pb: theme => `${theme.spacing(3)} !important` }}
             >
-        <Grid container spacing={6}>
+        <Grid container spacing={6} >
             {renderStats()}
         </Grid>
         </CardContent>}
