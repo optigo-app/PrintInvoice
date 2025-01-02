@@ -140,7 +140,7 @@ export function formatAmount(amount) {
     }
   
     // Remove trailing zeros (optional)
-    formattedAmount = parseFloat(formattedAmount)?.toString();
+    formattedAmount = parseFloat(formattedAmount)?.toFixed(2)?.toString();
     
     // Append K or M suffix based on magnitude
     if (amount >= 1000000) {

@@ -81,8 +81,8 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate, country, CategoryWiseSaleAmo
   // Step 2: Get the top 10 objects
   const top10 = sortedData?.slice(0, 10);
 
-  const sales = top10?.map((e) => (e?.SaleAmount / (+country)));
-  const profit = top10?.map((e) => (e?.Profit / (+country)));
+  const sales = top10?.map((e) => +((e?.SaleAmount / (+country))?.toFixed(2)));
+  const profit = top10?.map((e) => +((e?.Profit / (+country))?.toFixed(2)));
   const negativeArray = profit?.map(value => Math?.abs(value) * -1);
   const salesNames = top10?.map((e) => e?.Category)
   const totalSale = top10?.reduce((acc, num) => acc + num?.SaleAmount, 0);
@@ -107,6 +107,7 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate, country, CategoryWiseSaleAmo
     
     dataLabels: {
       // offsetY: [10, 15],
+      enabled:true,
       formatter: val => `${formatAmountKWise((val / (+country)))}`,
       style: {
         fontWeight: 500,
@@ -211,14 +212,14 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate, country, CategoryWiseSaleAmo
     {
       amount: formatAmountKWise((totalSale / (+country))),
       subtitle: '',
-      title: 'Total Sales',
+      title: 'Total Sales Amount',
       avatarColor: 'primary',
       avatarIcon: `${country === '7.8' ? 'tabler:currency-dollar' : 'tabler:currency-rupee'}`
     },
     ...(IsEmpLogin === 0 ? 
     [{
       amount: formatAmountKWise((totalProfit / (+country))),
-      title: 'Total Profit',
+      title: 'Total Profit Amount',
       avatarColor: 'secondary',
       subtitle: '',
       avatarIcon: `${country === '7.8' ? 'tabler:currency-dollar' : 'tabler:currency-rupee'}`

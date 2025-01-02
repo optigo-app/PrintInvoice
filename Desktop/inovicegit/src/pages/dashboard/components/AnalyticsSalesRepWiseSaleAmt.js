@@ -56,7 +56,7 @@ const AnalyticsSalesRepWiseSaleAmt = props => {
   const { info, grey, green, yellow, primary, warning, legendColor } = props;
 
   const SalesRepName = props?.SalesrepWiseSaleAmount?.sort((a, b) => b?.SaleAmount - a?.SaleAmount)?.slice(0, 5)?.map((e) => capitalizeFirstLetter(e?.SalesRep));
-  const SaleAmt = props?.SalesrepWiseSaleAmount?.sort((a, b) => b?.SaleAmount - a?.SaleAmount)?.slice(0, 5)?.map((e) => ((e?.SaleAmount / (+props?.country))));
+  const SaleAmt = props?.SalesrepWiseSaleAmount?.sort((a, b) => b?.SaleAmount - a?.SaleAmount)?.slice(0, 5)?.map((e) => +(((e?.SaleAmount / (+props?.country)))?.toFixed(2)));
   const profitAmt = props?.SalesrepWiseSaleAmount?.sort((a, b) => b?.SaleAmount - a?.SaleAmount)?.slice(0, 5)?.map((e) => (e?.Profit / (+props?.country)));
 
   const options = {
