@@ -87,7 +87,7 @@ const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData
             heading: 'Labour vs Exp',
             totalValue: parseFloat(checkNullUndefined((((
                 (saleMTs?.LabourAmount || 0) - 
-                (InventoryRatio?.DT?.[0]?.Direct_Expense || 0) + 
+                (InventoryRatio?.DT?.[0]?.Direct_Expense || 0) - 
                 (InventoryRatio?.DT1?.[0]?.InDirect_Expense || 0)
             ) / (saleMTs?.LabourAmount || 1)) * 100)))?.toFixed(2),
             series: [],

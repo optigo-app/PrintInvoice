@@ -21,6 +21,8 @@ const PackingList3Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
   const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
+  const [secondarySize, setSecondarySize] = useState(false);
+  
   useEffect(() => {
     const sendData = async () => {
       try {
@@ -248,7 +250,12 @@ const PackingList3Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
       setImgFlag(true);
     }
   };
-
+  const handleSize = (e) => {
+    if (secondarySize) setSecondarySize(false);
+    else {
+      setSecondarySize(true);
+    }
+  };
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -259,9 +266,14 @@ const PackingList3Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
             {/* print btn and flag */}
             <div className=' d-flex align-items-center justify-content-end my-5 whole_none_pcl3'>
                 <div className='px-2'>
+                    <input type="checkbox" onChange={handleSize} value={secondarySize} checked={secondarySize} id='size' />
+                    <label htmlFor="size" className='user-select-none mx-1'>Show Secondary Size</label>
+                </div>
+                <div className='px-2'>
                     <input type="checkbox" onChange={handleImgShow} value={imgFlag} checked={imgFlag} id='imgshow' />
                     <label htmlFor="imgshow" className='user-select-none mx-1'>With Image</label>
                 </div>
+                
                 <div>
                     <Button />
                 </div>
@@ -394,7 +406,7 @@ const PackingList3Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                                             return (
                                                 <div className='d-flex w-100' key={ind}>
                                                     <div className='dcol1_pcls start_center_pcls pdl_pcls text-break'>{el?.ShapeName +" "+el?.QualityName+" "+el?.Colorname}</div>
-                                                    <div className='dcol2_pcls start_center_pcls pdl_pcls'>{el?.SizeName}</div>
+                                                    <div className='dcol2_pcls start_center_pcls pdl_pcls'>{ secondarySize ? el?.SecondarySize : el?.SizeName}</div>
                                                     <div className='dcol3_pcls end_pcls pdr_pcls'>{el?.Pcs}</div>
                                                     <div className='dcol4_pcls end_pcls pdr_pcls'>{el?.Wt?.toFixed(3)}</div>
                                                     <div className='dcol5_pcls end_pcls pdr_pcls'>{formatAmount((el?.Rate ))}</div>
@@ -481,7 +493,7 @@ const PackingList3Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                                             return (
                                                 <div className='d-flex w-100' key={ind}>
                                                     <div className='dcol1_pcls start_center_pcls pdl_pcls text-break'>{el?.ShapeName +" "+el?.QualityName+" "+el?.Colorname}</div>
-                                                    <div className='dcol2_pcls start_center_pcls pdl_pcls'>{el?.SizeName}</div>
+                                                    <div className='dcol2_pcls start_center_pcls pdl_pcls'>{ secondarySize ? el?.SecondarySize : el?.SizeName}</div>
                                                     <div className='dcol3_pcls end_pcls pdr_pcls'>{el?.Pcs}</div>
                                                     <div className='dcol4_pcls end_pcls pdr_pcls'>{el?.Wt?.toFixed(3)}</div>
                                                     <div className='dcol5_pcls end_pcls pdr_pcls'>{formatAmount((el?.Rate ))}</div>
@@ -495,7 +507,7 @@ const PackingList3Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                                             return (
                                                 <div className='d-flex w-100' key={ind}>
                                                     <div className='dcol1_pcls start_center_pcls pdl_pcls text-break'>{el?.ShapeName?.length !== 0 && 'M : '}{el?.ShapeName +" "+el?.QualityName}</div>
-                                                    <div className='dcol2_pcls start_center_pcls pdl_pcls'>{el?.SizeName}</div>
+                                                    <div className='dcol2_pcls start_center_pcls pdl_pcls'>{ secondarySize ? el?.SecondarySize : el?.SizeName}</div>
                                                     <div className='dcol3_pcls end_pcls pdr_pcls'>{el?.Pcs}</div>
                                                     <div className='dcol4_pcls end_pcls pdr_pcls'>{el?.Wt?.toFixed(3)}</div>
                                                     <div className='dcol5_pcls end_pcls pdr_pcls'>{formatAmount((el?.Rate ))}</div>

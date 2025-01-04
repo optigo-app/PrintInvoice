@@ -229,8 +229,8 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   
                 </div>
                 {/* sub header */}
-                <div className="d-flex justify-content-between border p-2 lhiv5">
-                  <div className="fsgip5 subdiv1ip5">
+                <div className="d-flex justify-content-between border  lhiv5">
+                  <div className="fsgip5  border-end  p-1" style={{width:'35%'}}>
                     <div>{result?.header?.lblBillTo}</div>
                     <div className="fw-bold cust_fs_invp5">
                       {result?.header?.customerfirmname}
@@ -245,7 +245,16 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div>{result?.header?.vat_cst_pan}</div>
                     <div>{result?.header?.Cust_CST_STATE_No_}</div>
                   </div>
-                  <div className="fsgip5 subdiv2ip5">
+                  <div className="fsgip5  border-end  p-1" style={{width:'35%'}}>
+                    
+                    <div>Ship To,</div>
+                    {
+                      result?.header?.address?.map((e, i ) => {
+                        return <div>{e}</div>
+                      })
+                    }
+                  </div>
+                  <div className="fsgip5  p-1" style={{width:'30%'}}>
                     <div className="d-flex justify-content-start">
                       <div className="w-50 fw-bold">BILL NO</div>
                       <div className="w-50">: {result?.header?.InvoiceNo}</div>
@@ -253,6 +262,14 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="d-flex justify-content-start">
                       <div className="w-50 fw-bold">DATE</div>
                       <div className="w-50">: {result?.header?.EntryDate}</div>
+                    </div>
+                    <div className="d-flex justify-content-start">
+                      <div className="w-50 fw-bold">Due DATE</div>
+                      <div className="w-50">: {result?.header?.DueDate}</div>
+                    </div>
+                    <div className="d-flex justify-content-start">
+                      <div className="w-50 fw-bold">Due Days</div>
+                      <div className="w-50">: {result?.header?.DueDays}</div>
                     </div>
                     <div className="d-flex justify-content-start">
                       <div className="w-50 fw-bold">

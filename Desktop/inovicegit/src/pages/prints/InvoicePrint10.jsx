@@ -564,6 +564,14 @@ const InvoicePrint_10_11 = ({
             <div className="col-6">{headerData?.EntryDate} </div>
           </div>
           <div className="d-flex">
+            <div className="lh-1 fw-bold col-6">DUE DATE</div>
+            <div className="lh-1 col-6">{headerData?.DueDate} </div>
+          </div>
+          <div className="d-flex">
+            <div className="lh-1 fw-bold col-6">DUE DAYS</div>
+            <div className="lh-1 col-6">{headerData?.DueDays} </div>
+          </div>
+          <div className="d-flex">
             <div className="fw-bold col-6">{headerData?.HSN_No_Label}</div>
             <div className="col-6">{headerData?.HSN_No} </div>
           </div>
@@ -646,9 +654,10 @@ const InvoicePrint_10_11 = ({
               Total Pcs : {NumberWithCommas(totalss?.totalPcs, 0)}
             </p>
           </div>
+          {console.log(headerData)
+          }
           <div className={`col-9 ${style?.fsremark_10}`}>
             {mainData?.resultArr?.map((e, i) => {
-              console.log('check',e, );
               return (
                 <div className="d-flex" key={i}>
                   <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-uppercase" >

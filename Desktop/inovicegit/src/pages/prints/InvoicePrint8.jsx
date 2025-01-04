@@ -526,6 +526,7 @@ const InvoicePrint8 = ({
             <div className="lh-1 fw-bold col-6">DATE</div>
             <div className="lh-1 col-6">{headerData?.EntryDate} </div>
           </div>
+
           <div className="d-flex">
             <div className="lh-1 fw-bold col-6">{headerData?.HSN_No_Label}</div>
             <div className="lh-1 col-6">{headerData?.HSN_No} </div>
