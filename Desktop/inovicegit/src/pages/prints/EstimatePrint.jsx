@@ -350,7 +350,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           totalSetttingAmount += ele?.SettingAmount;
           settingRate += ele?.SettingRate;
           if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
-            if (ele?.Supplier === "Customer") {
+            if (ele?.Supplier?.toLowerCase() === "customer" || (ele?.Supplier?.toLowerCase() === "company" && ele?.SettingAmount !== 0)) {
               findingTotal += ele?.Wt;
               finding.push(ele);
               totals.findingWeight += ele?.Wt;
@@ -1070,6 +1070,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const handleImageLoad = () => {
     setImageLoading(false);
   };
+console.log(json2Data);
 
   return (
     <>
@@ -1432,8 +1433,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             e?.finding.map((ele, ind) => {
                               return (
                                 <div className="d-flex" key={ind}>
-                                  <div className="width_40_estimatePrint p_1Estimate">
-                                    <p className="">
+                                  <div className="width_40_estimatePrint p_1Estimate ">
+                                    <p className="text-break">
                                       {ele?.FindingAccessories}
                                     </p>
                                   </div>

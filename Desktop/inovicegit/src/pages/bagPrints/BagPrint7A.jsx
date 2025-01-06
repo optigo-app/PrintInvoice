@@ -40,8 +40,9 @@ const BagPrint7A = ({ queries, headers }) => {
         const allDatas = await GetData(objs);
 
         allDatas?.rd?.forEach((e) => {
-          if(e?.RollOverImage === ""){
-            e.RollOverImage = e?.DesignImage;
+          // if(e?.RollOverImage === ""){
+          if(e?.OrignalRollOverImage === ""){
+            e.OrignalRollOverImage = e?.OrignalDesignImage;
           }
         })
         
@@ -482,11 +483,10 @@ const BagPrint7A = ({ queries, headers }) => {
                                     </div>
                                   </div>
                                   <div className="imgSize7A">
-                                    {" "}
                                     <img
                                       src={
-                                        e?.data?.rd?.DesignImage !== '' 
-                                          ? e?.data?.rd?.DesignImage
+                                        e?.data?.rd?.OrignalDesignImage !== '' 
+                                          ? e?.data?.rd?.OrignalDesignImage
                                           : require("../../assets/img/default.jpg")
                                       }
                                       id="img7A"
@@ -922,15 +922,15 @@ const BagPrint7A = ({ queries, headers }) => {
                             </React.Fragment>
                           );
                         })}
-                        {e?.data?.rd?.RollOverImage === "" ? (
+                        {e?.data?.rd?.OrignalRollOverImage === "" ? (
                           ""
                         ) : (
                           <div className="container7A">
                             <div style={{ padding: "1rem" }}>
                               { imgFlag ? '' : <img
                                 src={
-                                  e?.data?.rd?.RollOverImage !== '' 
-                                          ? e?.data?.rd?.RollOverImage
+                                  e?.data?.rd?.OrignalRollOverImage !== '' 
+                                          ? e?.data?.rd?.OrignalRollOverImage
                                     : require("../../assets/img/default.jpg")
                                 }
                                 alt="materialimage1"
@@ -1077,8 +1077,8 @@ const BagPrint7A = ({ queries, headers }) => {
                               {" "}
                               <img
                                 src={
-                                  e?.data?.rd?.DesignImage !== '' 
-                                          ? e?.data?.rd?.DesignImage
+                                  e?.data?.rd?.OrignalDesignImage !== '' 
+                                          ? e?.data?.rd?.OrignalDesignImage
                                     : require("../../assets/img/default.jpg")
                                 }
                                 id="img7A"
@@ -1333,15 +1333,15 @@ const BagPrint7A = ({ queries, headers }) => {
                           </div>
                         </div>
        
-                        {e?.data?.rd?.RollOverImage === "" ? (
+                        {e?.data?.rd?.OrignalRollOverImage === "" ? (
                                           ""    
                         ) : (
                           <div className="container7A">
                             <div style={{ padding: "1rem" }}>
                               <img
                                 src={
-                                  e?.data?.rd?.RollOverImage !== '' 
-                                          ? e?.data?.rd?.RollOverImage
+                                  e?.data?.rd?.OrignalRollOverImage !== '' 
+                                          ? e?.data?.rd?.OrignalRollOverImage
                                     : require("../../assets/img/default.jpg")
                                 }
                                 loading="eager"
