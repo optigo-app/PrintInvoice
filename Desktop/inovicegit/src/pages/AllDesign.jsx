@@ -44,6 +44,10 @@ const AllDesign = () => {
       return <TitanWip />;
     } else if (searchUrl?.includes("pid=18152")){
       return <TrainingGridHome />;
+    } else if (searchUrl?.includes("pid=18152")){
+      return <TrainingGridHome />;
+    } else if (searchUrl?.includes("pid=18160")){
+      return <QcReport />;
     }
      else {
       return <ErrorPage />;
