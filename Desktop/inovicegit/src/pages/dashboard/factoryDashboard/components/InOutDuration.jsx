@@ -100,7 +100,8 @@ const InOutDuration = ( ) => {
       axisBorder: { show: false },
       axisTicks: { color: theme.palette.divider },
     //   categories: ['7/12', '8/12', '9/12', '10/12', '11/12', '12/12', '13/12', '14/12', '15/12'],
-      categories: ['Pariya', 'KK', 'CHOW', 'Nancy', 'Tiffany', 'SA', 'XBO', 'YF'],
+      // categories: ['Pariya', 'KK', 'CHOW', 'Nancy', 'Tiffany', 'SA', 'XBO', 'YF'],
+      categories: vendorNameList,
       crosshairs: {
         stroke: { color: theme.palette.divider }
       },
@@ -157,6 +158,8 @@ const InOutDuration = ( ) => {
   useEffect(() => {
       if(data?.DT?.length > 0){
           let arr = data?.DT?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map((e) => e?.Vendor);
+          console.log(arr);
+          
           setVendroNameList(arr);
           let arr2 = data?.DT?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map((e) => e?.AVG_DayDiff);
           setIOTimeList(arr2);

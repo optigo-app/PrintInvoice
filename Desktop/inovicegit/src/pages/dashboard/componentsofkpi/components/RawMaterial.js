@@ -16,7 +16,7 @@ import moment from 'moment';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { checkNullUndefined, safeValue } from './global';
-import { formatAmount } from '../../GlobalFunctions'
+import { formatAmount, formatAmountRound } from '../../GlobalFunctions'
 const RawMaterial = ({tkn, bgColor, fdate, tdate, RMData, bgComp, g_loss, rmStock, lossLoader, rmStockLoader, bgLoader}) => {
     const theme = useTheme();
     const kpiMFGFlag = useSelector((state) => state?.kpi?.mfg);
@@ -251,23 +251,23 @@ const RawMaterial = ({tkn, bgColor, fdate, tdate, RMData, bgComp, g_loss, rmStoc
       wt: ''
     },
     {
-      stats: (rmStock?.rm_goldstock_amt === null || rmStock?.rm_goldstock_amt === undefined) ? 0 : ` ₹ ${formatAmount(safeValue((rmStock?.rm_goldstock_amt)?.toFixed(2)))} `,
+      stats: (rmStock?.rm_goldstock_amt === null || rmStock?.rm_goldstock_amt === undefined) ? 0 : ` ₹ ${formatAmountRound(safeValue((rmStock?.rm_goldstock_amt)?.toFixed(2)))} `,
       title: 'Gold Stock',
       wt: `${(+(safeValue(rmStock?.rm_goldstock_wt)))?.toFixed(3)} gm`
     },
  
     {
-      stats: (rmStock?.rm_diastock_amt === null || rmStock?.rm_diastock_amt === undefined) ? 0 : ` ₹ ${formatAmount(safeValue((rmStock?.rm_diastock_amt))?.toFixed(2))}`,
+      stats: (rmStock?.rm_diastock_amt === null || rmStock?.rm_diastock_amt === undefined) ? 0 : ` ₹ ${formatAmountRound(safeValue((rmStock?.rm_diastock_amt))?.toFixed(2))}`,
       title: 'Diamond Stock',
       wt: `${(+(safeValue(rmStock?.rm_diastock_wt)))?.toFixed(3)} ctw`
     },
     {
-      stats: (rmStock?.rm_csstock_amt === null || rmStock?.rm_csstock_amt === undefined) ? 0 : ` ₹ ${formatAmount(safeValue((rmStock?.rm_csstock_amt))?.toFixed(2))}`,
+      stats: (rmStock?.rm_csstock_amt === null || rmStock?.rm_csstock_amt === undefined) ? 0 : ` ₹ ${formatAmountRound(safeValue((rmStock?.rm_csstock_amt))?.toFixed(2))}`,
       title: 'Colour Stone Stock',
       wt: `${(+(safeValue(rmStock?.rm_csstock_wt)))?.toFixed(3)} ctw`
     },
     {
-      stats: (rmStock?.rm_miscstock_amt === null || rmStock?.rm_miscstock_amt === undefined) ? 0 : ` ₹ ${formatAmount(safeValue((rmStock?.rm_miscstock_amt))?.toFixed(2))}`,
+      stats: (rmStock?.rm_miscstock_amt === null || rmStock?.rm_miscstock_amt === undefined) ? 0 : ` ₹ ${formatAmountRound(safeValue((rmStock?.rm_miscstock_amt))?.toFixed(2))}`,
       title: 'Misc Stock',
       wt: `${(+(safeValue(rmStock?.rm_miscstock_wt)))?.toFixed(3)} ctw`
     }

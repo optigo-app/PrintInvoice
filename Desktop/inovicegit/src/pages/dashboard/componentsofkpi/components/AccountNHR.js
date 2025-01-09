@@ -5,7 +5,7 @@ import { useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { checkNullUndefined } from './global';
-import { formatAmount } from '../../GlobalFunctions'
+import { formatAmount, formatAmountRound } from '../../GlobalFunctions'
 
 const series = [85]
 
@@ -28,12 +28,13 @@ const AccountNHR = ({tkn, data, bgColor}) => {
              
                 
                 { 
-                data?.heading === "Avg. Collection Period" || data?.heading === "Revenue Per Employees" ? 
-                `₹ ${formatAmount(data?.totalValue)}` 
+                 data?.heading === "Revenue Per Employees" || data?.heading === "Avg. Due Debtors" ? 
+                `₹ ${formatAmountRound(data?.totalValue)}` 
                   :
-                 ( data?.heading === "Avg. Due Debtors" || data?.heading === "Labour vs Exp"
+                 (  data?.heading === "Labour vs Exp"
                   ? 
-                  `${parseFloat(checkNullUndefined(data?.totalValue))?.toFixed(2)} %` : parseFloat(checkNullUndefined(data?.totalValue))?.toFixed(2) )
+                  `${parseFloat(checkNullUndefined(data?.totalValue))?.toFixed(2)} ` : ( data?.heading === "Avg. Collection Period" ? `${Math.round(parseFloat(checkNullUndefined(data?.totalValue)))} Days` : 
+                  ( (data?.heading?.toLowerCase() === 'fix asset laverage ratio' || data?.heading?.toLowerCase() === 'inventory turn over ratio') ? Math.round(checkNullUndefined(data?.totalValue)) :  parseFloat(checkNullUndefined(data?.totalValue))?.toFixed(2))) )
                  }
               </Typography>
     

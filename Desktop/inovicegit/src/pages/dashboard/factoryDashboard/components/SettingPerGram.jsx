@@ -70,7 +70,7 @@ const SettingPerGram = props => {
   const comp_data = {
     // labels: ['MON', 'TUE', 'WED ', 'THU', 'FRI'],
     // labels: ['Chow', 'KK', 'Nancy', 'Pariya', 'SA', 'Tiffany', 'XBO', 'YF'],
-    labels: vendorNameList ?? ['Chow', 'KK', 'Nancy', 'Pariya', 'SA', 'Tiffany', 'XBO', 'YF'],
+    labels: vendorNameList,
     datasets: [
       {
         maxBarThickness: 15,

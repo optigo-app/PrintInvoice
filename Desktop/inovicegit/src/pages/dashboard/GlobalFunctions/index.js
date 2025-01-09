@@ -8,6 +8,15 @@ export function formatAmount(amount) {
   
     return formattedAmount;
   }
+  export function formatAmountRound(amount) {
+    // Round the amount to the nearest integer
+    const roundedAmount = Math.round(+amount);
+  
+    // Format the rounded amount with commas
+    const formattedAmount = roundedAmount.toLocaleString('en-IN');
+  
+    return formattedAmount;
+  }
 
 
   export const fetchDashboardData = async (token, hostName, fdate, tdate, event, sales, office, LId, IsPower) => {

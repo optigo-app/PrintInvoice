@@ -51,7 +51,7 @@ const ProductDevelopment = ({tkn, fdate, tdate, bgColor, PDData, PrdDev, PDLoade
         title: 'New Development',
       },
       {
-        stats: `${safeValue(parseFloat(checkNullUndefined((PrdDev?.SaleCount / (PrdDev?.DesignCnt))))?.toFixed(2))} %`,
+        stats: `${safeValue(parseFloat(checkNullUndefined((PrdDev?.SaleCount / (PrdDev?.DesignCnt))))?.toFixed(2))} `,
         title: 'Repetation Rate',
       },
        

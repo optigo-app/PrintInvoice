@@ -47,32 +47,32 @@ const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData
     const data = [
         {
             heading: 'Fix Asset Laverage Ratio',
-            totalValue: parseFloat(checkNullUndefined(
+            totalValue: Math.round(parseInt(checkNullUndefined(
                 (
                     (
                         (saleMTs?.LabourAmount / (InventoryRatio?.DT?.[0]?.AvgInventory || 1)) /
                         (InventoryRatio?.DT?.[0]?.NoOfDays || 1)
                     ) * 365
                 )
-            )),
+            )))?.toFixed(0),
             series: [],
             subheading: 'Account & HR'
         },
         {
             heading: 'Revenue Per Employees',
-            totalValue: (parseFloat(checkNullUndefined(((saleMTs?.OnlySaleLabourAmount / (PrdDev?.RevenueEmployeeCount || 1)))))?.toFixed(2)),
+            totalValue: Math.round(parseFloat(checkNullUndefined(((saleMTs?.OnlySaleLabourAmount / (PrdDev?.RevenueEmployeeCount || 1)))))),
             series: [],
             subheading: 'Account & HR'
         },
         {
             heading: 'Avg. Due Debtors',
-            totalValue: parseFloat(checkNullUndefined(checkNullUndefined(PrdDev?.TotalOverDueDays / (PrdDev?.TotalBillCount || 1))))?.toFixed(2),
+            totalValue: Math.round(parseInt(checkNullUndefined(checkNullUndefined(PrdDev?.TotalOverDueDays / (PrdDev?.TotalBillCount || 1))))?.toFixed(2)),
             series: [],
             subheading: 'Account & HR'
         },
         {
             heading: 'Inventory Turn Over Ratio',
-            totalValue: parseFloat(checkNullUndefined(InventoryRatio?.DT?.[0]?.InventoryTurnOverRatio || 0))?.toFixed(2),
+            totalValue: Math.round(checkNullUndefined(InventoryRatio?.DT?.[0]?.InventoryTurnOverRatio || 0)),
             series: [],
             subheading: 'Account & HR'
         },

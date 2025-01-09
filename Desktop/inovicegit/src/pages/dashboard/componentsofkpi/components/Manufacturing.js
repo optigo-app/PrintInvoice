@@ -8,7 +8,7 @@ import { DataGrid } from '@mui/x-data-grid'
 import { CircularProgress } from '@mui/material';
 import "../kpianalytics.css"
 import {  useDispatch, useSelector } from 'react-redux';
-import { formatAmount } from '../../GlobalFunctions';
+import { formatAmount, formatAmountRound } from '../../GlobalFunctions';
 
 
 // const Manufacturning = ({tkn, bgColor, fdate, tdate, MFGData, columns, LWise, mfgTable}) => {
@@ -452,7 +452,7 @@ const Manufacturning = ({tkn, bgColor, LWise, mfgTable, mfgLoader, LWiseLoader})
           allLocations.forEach((location) => {
             // Apply conditional decimal formatting based on KPI name
             if (kpi === "Labour Amount") {
-              row[location] = `₹ ${formatAmount(parseFloat(combinedData[location]?.[kpi] || 0.00)?.toFixed(2))}`; // 2 decimals for amount
+              row[location] = `₹ ${formatAmountRound(parseFloat(combinedData[location]?.[kpi] || 0.00)?.toFixed(2))}`; // 2 decimals for amount
             } else if (kpi === "Production (gm)" || kpi === "Gross Loss (%)" || kpi === "Rejection (%)") {
               row[location] = parseFloat(combinedData[location]?.[kpi] || 0.000)?.toFixed(3); // 3 decimals for weight/loss
             } else {

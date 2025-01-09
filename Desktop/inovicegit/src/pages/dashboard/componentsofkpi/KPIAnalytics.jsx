@@ -1386,7 +1386,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
             </Box>
             </Box>}
         <Grid item xs={12}><HeaderOfCard headerName="ACCOUNT & HR" bgColor={'#7d5ae773'} /></Grid>
-
+                  
         <Grid item xs={12} sm={12} md={12} >
           <AccountHr tkn={tkn} InventoryRatio={InventoryRatio} saleMTs={saleMTs} PrdDev={PrdDev} avgCollRatio={avgCollRatio} apiData1={apiData1} bgColor={theme?.palette?.customColors?.purple} acrLoader={acrLoader} irLoader={irLoader} PDLoader={PDLoader} />
         </Grid>

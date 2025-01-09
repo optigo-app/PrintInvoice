@@ -8,7 +8,7 @@ import CardContent from '@mui/material/CardContent'
 
 // ** Icon Imports
 import { CircularProgress, Modal, Tooltip, useMediaQuery, useTheme } from '@mui/material';
-import { fetchKPIDashboardData, formatAmount } from '../../GlobalFunctions';
+import { fetchKPIDashboardData, formatAmount, formatAmountRound } from '../../GlobalFunctions';
 import { checkNullUndefined } from './global';
 import CancelIcon from '@mui/icons-material/Cancel';
 
@@ -32,11 +32,11 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList, orderCmplt, sa
 
              const data4 = [
       {
-        stats: `${safeValue(parseFloat(checkNullUndefined(smorderArr?.TotalOrder))?.toFixed(3))} gm`,
+        stats: `${safeValue(parseFloat(checkNullUndefined(smorderArr?.TotalOrder))?.toFixed(3))} gms`,
         title: 'Total Order',
       },
       {
-        stats: `${safeValue(parseFloat(checkNullUndefined(smorderArr?.AvgOrderSize))?.toFixed(2))}`,
+        stats: `${safeValue(parseFloat(checkNullUndefined(smorderArr?.AvgOrderSize))?.toFixed(2))} gms`,
         title: 'Avg. Order Size',
       },
       {
@@ -48,7 +48,7 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList, orderCmplt, sa
         title: 'Delay Time',
       },
       {
-        stats: `${parseFloat(checkNullUndefined(saleMTs?.AvgLabour))?.toFixed(2)} %`,
+        stats: `${parseFloat(checkNullUndefined(saleMTs?.AvgLabour))?.toFixed(2)}`,
         title: 'Avg. Labour',
       },
       {
@@ -56,11 +56,11 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList, orderCmplt, sa
         title: 'Sales Return ',
       },
       {
-        stats: `${parseFloat(checkNullUndefined(smorderArr?.StockCountWithOutClub))?.toFixed(2)}`,
+        stats: `${Math.round(checkNullUndefined(smorderArr?.StockCountWithOutClub))?.toFixed(0)} jobs`,
         title: 'Avg. Stock Book Jobs',
       },
       {
-        stats: `₹ ${formatAmount(parseFloat(checkNullUndefined(orderCmplt?.OverDueDebtorsAmount))?.toFixed(2))}`,
+        stats: `₹ ${formatAmountRound(parseFloat(checkNullUndefined(orderCmplt?.OverDueDebtorsAmount))?.toFixed(2))}`,
         title: 'Overdue Debtors',
       }
       ];
