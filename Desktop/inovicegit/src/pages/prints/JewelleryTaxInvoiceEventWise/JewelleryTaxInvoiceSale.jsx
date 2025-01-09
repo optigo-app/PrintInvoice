@@ -294,7 +294,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
             {isImageWorking && (json0Data?.PrintLogo !== "" && 
                       <img src={json0Data?.PrintLogo} alt="" 
                       style={{ height:'75px'}}
-                      className={` ms-auto d-block object-fit-contain ${style?.JTIlogo}`} 
+                      className={` ms-auto d-block object-fit-contain printImgSmall`} 
                       onError={handleImageErrors}  />)}
               {/* <img
                 src={json0Data?.PrintLogo}
@@ -336,7 +336,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
               /> */}
                 {isImageWorking && (json0Data?.PrintLogo !== "" && 
                       <img src={json0Data?.PrintLogo} alt="" 
-                      className={` ms-auto d-block object-fit-contain ${style?.JTIlogo}`} 
+                      className={` ms-auto d-block object-fit-contain printImgSmall`} 
                       style={{ height:'75px'}}
                       onError={handleImageErrors} />)}
             </div>
@@ -387,7 +387,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
 
 
             </div>
-            <div className="col-4 px-2 py-3 pt-4">
+            <div className="col-4 px-2 d-flex flex-column justify-content-center">
               <p className="lh-1 pb-1">
                 Invoice
                 <span className="fw-bold">#: {json0Data?.InvoiceNo}</span> Dated{" "}
@@ -457,19 +457,19 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
             return (
               <div className="d-flex border-start border-end border-bottom no_break border-top" key={i} >
                 <div className="col1_sqm p-1 border-end">
-                  <p className="text-center">{i + 1}</p>
+                  <p className="text-center fs_jti_Sale">{i + 1}</p>
                 </div>
                 <div className={`col2_sqm p-1 border-end position-relative`}>
-                    <p>Job: {e?.SrJobno} </p>
+                    { atob(evn)?.trim()?.toLocaleLowerCase() !== 'quote' && <p className="fs_jti_Sale">Job: {e?.SrJobno} </p>}
                   <p>
-                    Design: <span className="fw-bold text-break">{e?.designno}</span>{" "}
+                    Design: <span className="fw-bold text-break fs_jti_Sale">{e?.designno}</span>{" "}
                   </p>
-                  { e?.Size === '' ? ''  : <p className="text-break">{e?.Size}</p>}
-                  { e?.lineid === '' ? '' : <p className="text-break">{e?.lineid}</p>}
+                  { e?.Size === '' ? ''  : <p className="text-break fs_jti_Sale">{e?.Size}</p>}
+                  { e?.lineid === '' ? '' : <p className="text-break fs_jti_Sale">{e?.lineid}</p>}
                   {/* <div className="text-center w-100 " style={{position: 'absolute', top:'50%' }}><span><span className="fw-normal">QTY :</span> </span><span className="fw-bold">{e?.Quantity}</span></div> */}
                 </div>
                 <div className={`col3_sqm p-1 border-end`}>
-                  <p className="text-break">
+                  <p className="text-break ">
                     
                     {e?.MetalTypePurity} {e?.metalColorCode} |{" "}
                     {NumberWithCommas(e?.grosswt, 3)} gms GW |{" "}
@@ -525,7 +525,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                 </div>
              
                 <div className="col5_sqm p-1">
-                  <p className="text-end">
+                  <p className="text-end fs_jti_Sale">
                     <span
                       dangerouslySetInnerHTML={{
                         __html: json0Data?.Currencysymbol,
@@ -543,11 +543,11 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
             <p className="text-center"></p>
           </div>
           <div className={`${ 'col2_sqm' } p-1 border-end`}>
-            <p className="fw-normal">TOTAL</p>{" "}
+            <p className="fw-normal fs_jti_Sale">TOTAL</p>{" "}
           </div>
          
           <div className="col6_sqm p-1">
-            <p className="text-end fw-bold">
+            <p className="text-end fw-bold fs_jti_Sale">
               <span
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
@@ -569,8 +569,8 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                 <React.Fragment key={i}>
                 {
                   e?.value === 0 ? '' : <div className="d-flex justify-content-between" style={{width:'65%'}} key={i}>
-                  <p key={i} className="remark_fs">{e?.label}: </p>
-                  <p className="remark_fs">
+                  <p key={i} className="remark_fs fs_jti_Sale">{e?.label}: </p>
+                  <p className="remark_fs fs_jti_Sale">
                     {NumberWithCommas(e?.value, 3)} {e?.gm ? "gm" : "cts"}
                   </p>
                 </div>
@@ -583,20 +583,21 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
           <div className="col_r_3 p-1 border-end tax_div_sqm">
             { result?.allTaxesTotal !== 0 && <>{tax.map((e, i) => {
               return (
-                <p key={i}>
+                <p key={i} className="fs_jti_Sale">
                   {e?.name}  @ {e?.per}
                 </p>
               );
             })}
-            { ((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal)) !== 0 && <p>Total</p>}</>}
-            { json0Data?.AddLess !== 0 && <>{json0Data?.AddLess > 0 ? <p>Add</p> : <p>Less</p>}</>}
-            { json0Data?.FreightCharges !== 0 && <p>Delivery Charges</p>}
+            { ((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal)) !== 0 && <p className="fs_jti_Sale">Total</p>}</>}
+            { json0Data?.AddLess !== 0 && <>{json0Data?.AddLess > 0 ? <p className="fs_jti_Sale">Add</p> : <p className="fs_jti_Sale">Less</p>}</>}
+            { json0Data?.FreightCharges !== 0 && <p className="fs_jti_Sale">Delivery Charges</p>}
           </div>
           <div className="col_r_4 p-1 tax_div_sqm2">
             { result?.allTaxesTotal !== 0 && <>{tax?.map((e, i) => {
               return (
-                <p className="text-end fw-bold" key={i}>
+                <p className="text-end fw-bold fs_jti_Sale" key={i}>
                   <span
+
                     dangerouslySetInnerHTML={{
                       __html: json0Data?.Currencysymbol,
                     }}
@@ -605,20 +606,20 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                 </p>
               );
             })}</>}
-            { result?.allTaxesTotal !== 0 && <>{ ((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal)) !== 0 && <p className="text-end fw-bold">
+            { result?.allTaxesTotal !== 0 && <>{ ((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal)) !== 0 && <p className="text-end fw-bold fs_jti_Sale">
               <span
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
               {/* {NumberWithCommas(totalAmount.after, 2)}{" "} */}
               {formatAmount(((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal)))}
             </p>}</>}
-            { json0Data?.AddLess !== 0 && <p className="text-end fw-bold">
+            { json0Data?.AddLess !== 0 && <p className="text-end fw-bold fs_jti_Sale">
               <span
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
               {NumberWithCommas((json0Data?.AddLess / json0Data?.CurrencyExchRate), 2)}{" "}
             </p>}
-            { json0Data?.FreightCharges !== 0 && <p className="text-end fw-bold">
+            { json0Data?.FreightCharges !== 0 && <p className="text-end fw-bold fs_jti_Sale">
               <span
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
@@ -630,10 +631,10 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
         <div className="d-flex border-start border-end border-bottom no_break lightGrey">
           <div className="col-8 p-1"></div>
           <div className="col-2 p-1">
-            <p className="fw-bold">GRAND TOTAL</p>{" "}
+            <p className="fw-bold fs_jti_Sale">GRAND TOTAL</p>{" "}
           </div>
           <div className="col-2 p-1">
-            <p className="text-end fw-bold">
+            <p className="text-end fw-bold fs_jti_Sale">
               <span
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
