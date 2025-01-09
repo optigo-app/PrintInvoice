@@ -327,7 +327,7 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
                         }
                       </select>
                       <select name="metaltype" id="metaltype" className='form-select me-2' value={selectMetalType} onChange={(e) => metaltypeListHandleChange(e)} disabled={metalTypeList?.length === 0} style={{minWidth:'214px'}}>
-                        <option value="0">Select Metaltype</option>
+                        <option value="0">Select MetalType</option>
                         {
                           metalTypeList?.map((e, i) => {
                             return <option value={e?.MetalTypeId} key={i}>{e?.MetalTypePurity}</option>

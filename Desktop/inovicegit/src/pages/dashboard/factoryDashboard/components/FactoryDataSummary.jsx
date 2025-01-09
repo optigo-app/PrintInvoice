@@ -16,7 +16,7 @@ const FactoryDataSummary = ({tkn, bgColor, selectMaterial, selectCurrency}) => {
 
     const { loading, data, error } = useSelector(state => state?.Summary_Purchase);
     const summary_sale = useSelector(state => state?.Summary_Sale);
-
+  
         
     const [labelname, setLabelName] = useState('Avg. D.ctw');
     const [labelvalue, setLabelValue] = useState('');
@@ -102,7 +102,7 @@ const FactoryDataSummary = ({tkn, bgColor, selectMaterial, selectCurrency}) => {
         }
 
 
-      },[selectMaterial, data]);
+      },[selectMaterial, data, summary_sale]);
 
 
 

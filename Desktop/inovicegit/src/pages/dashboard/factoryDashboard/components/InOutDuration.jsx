@@ -36,7 +36,6 @@ const columnColors = {
 const InOutDuration = ( ) => {
 
   const { loading, data, error } = useSelector(state => state?.Vendor_In_Out_Duration);
-    console.log(data);
     
   // ** Hook
   const theme = useTheme();
@@ -158,8 +157,6 @@ const InOutDuration = ( ) => {
   useEffect(() => {
       if(data?.DT?.length > 0){
           let arr = data?.DT?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map((e) => e?.Vendor);
-          console.log(arr);
-          
           setVendroNameList(arr);
           let arr2 = data?.DT?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map((e) => e?.AVG_DayDiff);
           setIOTimeList(arr2);

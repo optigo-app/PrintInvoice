@@ -354,7 +354,8 @@ const TotalLabour = ({tkn,  fdate, tdate, selectMaterial}) => {
     tooltip: { enabled: false },
     dataLabels: {
       offsetY: -15,
-      formatter: val => `${formatAmountKWise(val)}`,
+      // formatter: val => `${formatAmountKWise(val)}`,
+      formatter: val => (value?.toLowerCase() === "job count" || value?.toLowerCase() === "dia. pcs" || value?.toLowerCase() === 'cs. pcs' || value?.toLowerCase() === 'misc. pcs') ? val : `${formatAmountKWise(val)}` ,
       style: {
         fontWeight: 500,
         colors: [theme.palette.text.secondary],
@@ -396,7 +397,8 @@ const TotalLabour = ({tkn,  fdate, tdate, selectMaterial}) => {
     yaxis: {
       labels: {
         offsetX: -15,
-        formatter: val => `${formatAmountKWise(val)}`,
+        // formatter: val => `${formatAmountKWise(val)}`,
+        formatter: val =>  (value?.toLowerCase() === "job count" || value?.toLowerCase() === "dia. pcs" || value?.toLowerCase() === 'cs. pcs' || value?.toLowerCase() === 'misc. pcs') ? val : `${formatAmountKWise(val)}` ,
         style: {
           colors: theme.palette.text.disabled,
           fontFamily: theme.typography.fontFamily,

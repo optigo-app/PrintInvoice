@@ -126,7 +126,7 @@ const SettingPerGram = props => {
 
   return (
     <Card  className='fs_facd bs_facd' sx={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>
-      <CardHeader title='Vendorwise Margin/ct '  />
+      <CardHeader title='Vendorwise Margin/ctw '  />
       { loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem', minHeight:'440px' }}>
                                     <CircularProgress sx={{color:'lightgrey'}} />
                                     </Box> : <CardContent>
