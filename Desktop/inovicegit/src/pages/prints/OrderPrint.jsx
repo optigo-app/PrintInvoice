@@ -1265,6 +1265,7 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           </div>
                           <div>
                             <p className="w-100 ps-1 fw-bold">{e?.MetalColor}</p>
+                            { e?.Size !== '' && <p className="w-100 ps-1 fw-bold">Size : {e?.Size}</p>}
                             { (e?.PromiseDate !== '' && e?.PromiseDate !== null) && <p className="w-100 ps-1 fw-bold">PR Date : {e?.PromiseDate}</p>}
                           </div>
 
