@@ -66,6 +66,12 @@
 }
 @media print{
     .fs_custom_jti   {
-        font-size: 13px;
+        font-size: 12px;
+    }
+    .printImgSmall{
+        height: 65px !important;
+    }
+    .fs_jti_Sale{
+        font-size: 12px !important;
     }
 }

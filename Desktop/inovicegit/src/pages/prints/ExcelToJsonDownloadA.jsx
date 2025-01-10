@@ -20,6 +20,7 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
         let json0Data = data?.BillPrint_Json[0];
         let resultArr = [];
         data?.BillPrint_Json1.forEach((e, i) => {
+            
             const diaInfo = data?.BillPrint_Json2.reduce((total, element) => {
                 if (e?.SrJobno === element?.StockBarcode) {
                     if (element.MasterManagement_DiamondStoneTypeid === 1) {
@@ -36,10 +37,12 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
             let diamonds = '';
             let colorStones = '';
             if (diaInfo?.diaWt !== 0) {
-                diamonds = `With Diamond ${e?.MetalPurity} weight ${NumberWithCommas(e?.NetWt, 3)} grams No of Diamond ${NumberWithCommas(diaInfo?.diaPcs, 0)} Piece Diamond Weight ${NumberWithCommas(diaInfo?.diaWt, 3)} cts`;
+                // diamonds = `With Diamond ${e?.MetalPurity} weight ${NumberWithCommas(e?.NetWt, 3)} grams No of Diamond ${NumberWithCommas(diaInfo?.diaPcs, 0)} Piece Diamond Weight ${NumberWithCommas(diaInfo?.diaWt, 3)} cts`;
+                diamonds = `With   No of Diamond ${NumberWithCommas(diaInfo?.diaPcs, 0)} Piece Diamond Weight ${NumberWithCommas(diaInfo?.diaWt, 3)} cts`;
             }
             if (diaInfo?.csWt !== 0) {
-                colorStones = `With ColorStone ${e?.MetalPurity} weight ${NumberWithCommas(e?.NetWt, 3)} grams No of ColorStone ${NumberWithCommas(diaInfo?.csPcs, 0)} Piece ColorStone Weight ${NumberWithCommas(diaInfo?.csWt, 3)} cts`;
+                // colorStones = `With ColorStone ${e?.MetalPurity} weight ${NumberWithCommas(e?.NetWt, 3)} grams No of ColorStone ${NumberWithCommas(diaInfo?.csPcs, 0)} Piece ColorStone Weight ${NumberWithCommas(diaInfo?.csWt, 3)} cts`;
+                colorStones = `With   No of ColorStone ${NumberWithCommas(diaInfo?.csPcs, 0)} Piece ColorStone Weight ${NumberWithCommas(diaInfo?.csWt, 3)} cts`;
             }
             let obj = {
                 srNo: i,
@@ -47,9 +50,9 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
                 designNo: e?.designno,
                 jewellery: 'Jewellery',
                 goldJewellery: 'Gold Jewellery',
-                description: `${e?.MetalPurity} Jewellery ${e?.Categoryname} ${diamonds} ${colorStones}`,
+                description: `${e?.MetalPurity} Jewellery ${e?.Categoryname} With weight ${NumberWithCommas(e?.NetWt, 3)} grams ${diamonds} ${colorStones}`,
                 pcs: 1,
-                piece: `${e?.Categoryname.includes("ear") ? "Pair" : "Piece"}`,
+                piece: `${e?.Categoryname?.toLowerCase().includes("ear") ? "Pair" : "Piece"}`,
                 hkd: e?.TotalAmount,
                 grossWt: NumberWithCommas(e?.grosswt, 3),
                 gramSymbol: "G",
@@ -139,8 +142,10 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
                     <tbody>
                         {data.length > 0 && data.map((e, i) => {
                             return <tr key={i}>
+
+                      
                                 <td width="100"  style={{ border: '1px solid black', padding: '1px' }} className='text-danger'>  &nbsp;{NumberWithCommas(i + 1, 0)}</td>
-                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.barcode}</td>
+                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>&nbsp;{""+e?.barcode}</td>
                                 <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.designNo}</td>
                                 <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.jewellery}</td>
                                 <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.goldJewellery}</td>
@@ -153,7 +158,7 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
                                 <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger' align='left'>{formatAmount(e?.grossWt, 3)}</td>
                                 <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.gramSymbol}</td>
                                 <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.cn}</td>
-                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.barcode}</td>
+                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>&nbsp;{""+e?.barcode}</td>
                             </tr>
                         })}
 
