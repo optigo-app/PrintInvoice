@@ -43,9 +43,16 @@ export const NumToWord = (TotalAmount) => {
     const decimalWords = (decimalWordsMap[paddedDecimalPart] === undefined ? toWords?.convert(paddedDecimalPart) : decimalWordsMap[paddedDecimalPart]) ;
     
     // Construct the complete amount string with the converted decimal part
-    const amountInWords = `${toWords.convert(Math.floor(totalAmount))} Point ${decimalWords}  `;
+    const amountInWords = `${toWords?.convert(Math?.floor(totalAmount))} Point ${decimalWords}  `;
     // Render the amount in words
     return amountInWords;
 }
 
 export default NumToWord;
+
+export function convertToUppercase(sentence) {
+    return sentence?.toString()?.toUpperCase();
+}
+
+
+

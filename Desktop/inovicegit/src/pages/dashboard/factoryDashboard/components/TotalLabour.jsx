@@ -425,7 +425,7 @@ const TotalLabour = ({tkn,  fdate, tdate, selectMaterial}) => {
     <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>
       <CardHeader
         title='Total Labour'
-        subheader='Labour Wise NetWt, Diamond Pcs/Cts & Job Count'
+        subheader='Labour Wise NetWt, Job Count, Diamond Pcs & Wt'
         // action={
         //   <OptionsMenu
         //     options={['Last Week', 'Last Month', 'Last Year']}

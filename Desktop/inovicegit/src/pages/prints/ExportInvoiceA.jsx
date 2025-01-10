@@ -28,6 +28,8 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [findingArr, setFindingArr] = useState([]);
   const [findingArrTotal, setFindingArrTotal] = useState(null);
 
+  
+
   useEffect(() => {
     const sendData = async () => {
       try {
