@@ -384,7 +384,7 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
               if(obj?.TrainingMode?.toLowerCase() === 'on-site' || obj?.TrainingMode?.toLowerCase() === 'on site' || obj?.TrainingMode?.toLowerCase() === 'onsite'){
                 obj.TrainingMode = 'onsite';
               }
-              if(obj?.TrainingMode?.toLowerCase() === 'online' || obj?.TrainingMode?.toLowerCase() === 'on line' || obj?.TrainingMode?.toLowerCase() === 'on-line'){
+              if(obj?.TrainingMode?.toLowerCase() === 'on-line' || obj?.TrainingMode?.toLowerCase() === 'on line' || obj?.TrainingMode?.toLowerCase() === 'online'){
                 obj.TrainingMode = 'online';
               }
               if(obj?.TrainingType?.toLowerCase() === 're-training' || obj?.TrainingType?.toLowerCase() === 're training' || obj?.TrainingType?.toLowerCase() === 'retraining'){

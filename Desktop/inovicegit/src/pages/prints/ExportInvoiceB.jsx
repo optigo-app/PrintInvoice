@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { apiCall, formatAmount, isObjectEmpty } from "../../GlobalFunctions";
+import { apiCall, formatAmount, handlePrint, isObjectEmpty } from "../../GlobalFunctions";
 import "../../assets/css/prints/exportinvoiceb.css";
 import { OrganizeInvoicePrintData } from "../../GlobalFunctions/OrganizeInvoicePrintData";
 import NumToWord, { convertToUppercase } from "../../GlobalFunctions/NumToWord";
@@ -22,6 +22,8 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
   const [imgFlag, setImgFlag] = useState(true);
   const [po, setPO] = useState('');
+  const [metRate, setMetRate] = useState(0);
+  const [tunch, setTunch] = useState(0);
   const [adCode, setAdCode] = useState('6390405');
 
   useEffect(() => {
@@ -70,6 +72,10 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         if(datas?.resultArray?.length > 0){
             let po = datas?.resultArray[0]?.PO;
             setPO(po)
+            let met_rate = datas?.resultArray[0]?.metal_rate;
+            setMetRate(met_rate);
+            let tunch = datas?.resultArray[0]?.Tunch;
+            setTunch(tunch);
         }
     } catch (error) {
         console.log(error);
@@ -107,12 +113,11 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 />
               </div>
             </div> */}
-            <div>
-              <br />
-              <br />
-              <br />
-              <br />
-              
+            <div className="fivecm_ebi">
+             
+            </div>
+            <div className="d-flex justify-content-end align-items-center pb-3 d_none_eib">
+                <input type="button" className="btn_white blue me-0" value="Print" onClick={(e) => handlePrint(e)} />
             </div>
             <div className="border border-black ">
               <div className="fs_eib fw-bold border-bottom border-black  w-100 text-center">
@@ -289,13 +294,17 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           TERMS OF DELIVERY AND PAYMENT <br />
                           {result?.header?.DueDays} Days
                         </div>
-                        <div className="pb-2 w-100 d-flex justify-content-between align-items-center "><span>BANK : {result?.header?.bankname}</span><span className="pe-1">AD CODE : <input type="text" value={adCode} onChange={handleAdCode} style={{width:'70px'}} /></span></div>
+                        <div className="pb-2 w-100 d-flex justify-content-between align-items-center ">
+                            <span>BANK : {result?.header?.bankname}</span>
+                            <span className="pe-1">AD CODE : <input type="text" max={20} maxLength={20} className="border_remove_eib" style={{width:'80px',  border:'1px solid #e8e8e8'}} /></span></div>
                         <div className="pb-1  w-100">Bank Account Number : {result?.header?.accountnumber}</div>
                         <div className="pb-1  w-100">
                           Address : {
                               result?.header?.bankaddress
                           }
                         </div>
+                        <div>SWIFT CODE : <input type="text" max={20} maxLength={20} style={{width:'80px', border:'1px solid #e8e8e8'}} className="border_remove_eib" /></div>
+                        <div>IFSC CODE : {result?.header?.rtgs_neft_ifsc}</div>
                       </div>
                     </div>
                   </div>
@@ -399,7 +408,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                           <div className="fw-bold fs_eib ">TOTAL NET WT. IN GMS {result?.mainTotal?.NetWt?.toFixed(3)}</div>
                       </div>
-                      <div className="toalDiv_2">Labour : {formatAmount(result?.mainTotal?.MaKingCharge_Unit)}</div>
+                      <div className="toalDiv_2">Labour : {formatAmount(result?.resultArray[0]?.MaKingCharge_Unit)}</div>
                       <div className="toalDiv_3 border border-black">
                           <div className="d-flex align-items-center"><div className="w-50 ps-1 border-end border-black">DIAMOND VALUE</div><div className="w-50 end_ebi pe-1">{formatAmount(result?.mainTotal?.MakingAmount)}</div></div>
                           <div className="d-flex align-items-center"><div className="w-50 ps-1 border-end border-black">MAKING VALUE</div><div className="w-50 end_ebi pe-1">{formatAmount(result?.mainTotal?.diamonds?.Amount)}</div></div>
@@ -410,16 +419,16 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div className="my-2"></div>
                   <div className="fw-bold fs_eib ps-1">
-                    ALL RATE& INVOICE ARE IN US$
+                    ALL RATE& INVOICE ARE IN 
                   </div>
                   <div className="fw-semibold fs_eib ps-1">
-                    Rate of Gold Per Dunce - US$ 2736.50 (GJE PC)
+                    Rate of Gold Per Dounce -  {formatAmount(result?.header?.MetalRate24K * 31)} (GJE PC)
                   </div>
                   <div className="fw-semibold fs_eib ps-1">
-                    Rate Per Gram - 88.42 (0.99%)
+                    Rate Per Gram - {formatAmount(result?.header?.MetalRate24K)} (0.995%)
                   </div>
                   <div className="fw-semibold fs_eib ps-1">
-                    Rate Per Gram - 66.32 (58.33%)
+                    Rate Per Gram - {formatAmount(metRate)} ({tunch?.toFixed(2)}%)
                   </div>
                 </div>
       
@@ -430,9 +439,9 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className="ps-1">Amount Chargeable : {NumToWord((result?.header?.FreightCharges + result?.mainTotal?.MetalAmount + result?.mainTotal?.MakingAmount + result?.mainTotal?.diamonds?.Amount))} (in words)</div>
                 <div className="ps-1">GOLD PURCHASE FROM {result?.header?.Advance_Receipt_No}</div>
                 <div className="d-flex justify-content-between align-items-center px-1">
-                  <div style={{width:'39.33%'}} className="fw-semibol">GJC/GOLD/N/RATE {result?.header?.E_Reference_No}</div>
-                  <div style={{width:'30.33%'}} className="fw-semibol">RATE : {formatAmount(result?.header?.MetalRate24K)}</div>
-                  <div style={{width:'30.33%'}} className="fw-semibol">PER Toz FOR 0.000 FINE GOLD</div>
+                  <div style={{width:'39.33%'}} className="fw-semibold">GJC/GOLD/N/RATE {result?.header?.E_Reference_No}</div>
+                  <div style={{width:'30.33%'}} className="fw-semibold">RATE : {formatAmount(result?.header?.MetalRate24K)}</div>
+                  <div style={{width:'30.33%'}} className="fw-semibold">PER Toz FOR 0.000 FINE GOLD</div>
                 </div>
       
                 <div>
@@ -479,7 +488,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="gcol14_eib center_eib border-end border-black">
                       Diamond
                     </div>
-                    <div className="gcol15_eib center_eib border-end ">Diamond</div>
+                    <div className="gcol15_eib center_eib  ">Diamond</div>
                   </div>
                   <div className="d-flex border border-black border-start-0 border-top-0 border-end-0">
                     <div className="gcol1_eib border-end border-black">Gold</div>
@@ -498,7 +507,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="gcol12_eib border-end border-black">Stone</div>
                     <div className="gcol13_eib border-end border-black">Kedia</div>
                     <div className="gcol14_eib border-end border-black">Diamond</div>
-                    <div className="gcol15_eib border-end ">Diamond</div>
+                    <div className="gcol15_eib ">Diamond</div>
                   </div>
                 </div>
       
@@ -524,11 +533,8 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
       
             </div>
-            <div>
-                    <br />
-                    <br />
-                    <br />
-                    <br />
+            <div className="fivecm_ebi">
+                   
                 </div>
           </div> : <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto"> {msg} </p>
         }
