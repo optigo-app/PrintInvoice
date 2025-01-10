@@ -101,13 +101,13 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     datas.mainTotal.primaryWts = primaryWts;
     datas.resultArray = resultArr;
     datas?.resultArray.sort((a, b) => {
-      var nameA = a?.JewelCodePrefix.toUpperCase() + a?.Category_Prefix.toUpperCase() + a?.srjobno[1].toUpperCase();
-      var nameB = b?.JewelCodePrefix.toUpperCase() + b?.Category_Prefix.toUpperCase() + b?.srjobno[1].toUpperCase();
+      var nameA = a?.JewelCodePrefix?.toUpperCase() + a?.Category_Prefix.toUpperCase() + a?.srjobno[1]?.toUpperCase();
+      var nameB = b?.JewelCodePrefix?.toUpperCase() + b?.Category_Prefix.toUpperCase() + b?.srjobno[1]?.toUpperCase();
 
-      const prefixA = nameA.match(/[A-Za-z]+/)[0];
-      const prefixB = nameB.match(/[A-Za-z]+/)[0];
-      const numericA = parseInt(nameA.match(/\d+/)[0]);
-      const numericB = parseInt(nameB.match(/\d+/)[0]);
+      const prefixA = nameA?.match(/[A-Za-z]+/)?.[0];
+      const prefixB = nameB?.match(/[A-Za-z]+/)?.[0];
+      const numericA = parseInt(nameA?.match(/\d+/)[0]);
+      const numericB = parseInt(nameB?.match(/\d+/)[0]);
 
       // Compare prefixes first
       if (prefixA < prefixB) return -1;

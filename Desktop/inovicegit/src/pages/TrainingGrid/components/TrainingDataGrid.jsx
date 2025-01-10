@@ -137,27 +137,80 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
         )
       }
     },
+    // {
+    //   flex: 0.1,
+    //   minWidth: 105,
+    //   field: 'TrainingMode',
+    //   headerName: 'TRAINING MODE',
+    //   renderCell: ({ row }) => <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'centera' }}>
+    //     <Typography className='fs_analytics_l' sx={{ color: 'text.secondary' }}>{checkWord(row?.TrainingMode)}</Typography></Box>
+    // },
     {
       flex: 0.1,
       minWidth: 105,
       field: 'TrainingMode',
       headerName: 'TRAINING MODE',
-      renderCell: ({ row }) => <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'centera' }}><Typography className='fs_analytics_l' sx={{ color: 'text.secondary' }}>{checkWord(row?.TrainingMode)}</Typography></Box>
+      renderCell: ({ row }) => {
+        // Standardize the TrainingMode for display
+        let displayValue = row?.TrainingMode?.toLowerCase();
+        if (['on-site', 'on site', 'onsite'].includes(displayValue)) {
+          displayValue = 'OnSite';
+        } else if (['on-line', 'on line', 'online'].includes(displayValue)) {
+          displayValue = 'Online';
+        } else {
+          displayValue = row?.TrainingMode; // Fallback to original value if no match
+        }
+  
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Typography className="fs_analytics_l" sx={{ color: 'text.secondary' }}>
+              {displayValue}
+            </Typography>
+          </Box>
+        );
+      },
     },
+    // {
+    //   flex: 0.1,
+    //   field: 'TrainingType',
+    //   minWidth: 120,
+    //   sortable: false,
+    //   headerName: 'TRAINING TYPE',
+    //   renderCell: ({ row }) => (
+    //     <>
+    //     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'centera' }}>
+    //       <Typography className='fs_analytics_l' sx={{ color: 'text.secondary' }}>{checkWord(row?.TrainingType)}</Typography>
+    //     </Box>
+    //     </>
+    //   )
+    // },
     {
       flex: 0.1,
       field: 'TrainingType',
       minWidth: 120,
       sortable: false,
       headerName: 'TRAINING TYPE',
-      renderCell: ({ row }) => (
-        <>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'centera' }}>
-          <Typography className='fs_analytics_l' sx={{ color: 'text.secondary' }}>{checkWord(row?.TrainingType)}</Typography>
-        </Box>
-        </>
-      )
+      renderCell: ({ row }) => {
+        // Standardize the TrainingType for display
+        let displayValue = row?.TrainingType?.toLowerCase();
+        if (['retraining', 're-training', 're training'].includes(displayValue)) {
+          displayValue = 'Re Training';
+        } else if (['newtraining', 'new-training', 'new training'].includes(displayValue)) {
+          displayValue = 'New Training';
+        } else {
+          displayValue = row?.TrainingType; // Fallback to original value if no match
+        }
+    
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Typography className="fs_analytics_l" sx={{ color: 'text.secondary' }}>
+              {displayValue}
+            </Typography>
+          </Box>
+        );
+      },
     },
+    
     {
       flex: 0.1,
       minWidth: 50,
