@@ -12,6 +12,7 @@ import AllMaterialWisePrint from "./AllMaterialWisePrint";
 import Dashboard from "./dashboard/Dashboard";
 import TitanWip from "./MyReports/TitanWip/TitanWip";
 import TrainingGridHome from "./TrainingGrid/TrainingGridHome";
+import MasterForm from "./MyReports/MasterForm/MasterForm";
 
 const AllDesign = () => {
   

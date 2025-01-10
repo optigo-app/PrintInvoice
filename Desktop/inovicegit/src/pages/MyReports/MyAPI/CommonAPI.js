@@ -9,8 +9,8 @@ export const CommonAPI = async (body) => {
     const report_api_url = queryParams.get("report_api_url");
     
     // const APIURL = 'http://zen/api/report.aspx'
-
     const APIURL = `${atob(report_api_url)}`
+    
     const api2 = APIURL?.replace("M.asmx/Optigo", "report.aspx");
     try {
         const header = {

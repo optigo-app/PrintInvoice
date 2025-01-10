@@ -4,6 +4,14 @@
   height: 100vh;
 }
 
+
+.fullscreen-active .MuiModal-root,
+.fullscreen-active .MuiDrawer-root {
+  z-index: 1300; /* or higher if necessary */
+  position: fixed; /* Ensure they stay on top */
+}
+
+
 .summaryBox {
   display: flex;
   flex-wrap: wrap;

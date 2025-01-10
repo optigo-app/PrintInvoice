@@ -175,7 +175,8 @@ const CustomTextField = forwardRef((props, ref) => {
   return (
     <TextFieldStyled
       customBorderColor={props?.customBorderColor ?? "#e8e8e8"}
-      borderoutlinedColor={props?.borderoutlinedColor ?? "#00CFE8"}
+      // borderoutlinedColor={props?.borderoutlinedColor ?? "#00CFE8"}
+      borderoutlinedColor="rgb(115 103 240)"
       customTextColor={props?.customTextColor ?? "#2F2B3DC7"}
       customFontSize={props?.customFontSize ?? "0.8125rem"}
       className={className}
