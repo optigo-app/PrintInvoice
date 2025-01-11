@@ -47,7 +47,7 @@ const ProductDevelopment = ({tkn, fdate, tdate, bgColor, PDData, PrdDev, PDLoade
     const theme = useTheme();
     const data = [
       {
-        stats: `${parseFloat(checkNullUndefined(PrdDev?.Cnt))} Designs / ${safeValue(parseInt(checkNullUndefined(Math.round(PrdDev?.MetalWeight))))} gm`,
+        stats: `${parseFloat(checkNullUndefined(PrdDev?.Cnt))}  / ${safeValue(parseInt(checkNullUndefined(Math.round(PrdDev?.MetalWeight))))} gm`,
         title: 'New Development',
       },
       {

@@ -48,7 +48,7 @@ const RawMaterial = ({tkn, fdate, tdate, bgColor, SM1, popUpList, orderCmplt, sa
         title: 'Delay Time',
       },
       {
-        stats: `${parseFloat(checkNullUndefined(saleMTs?.AvgLabour))?.toFixed(2)}`,
+        stats: `₹ ${formatAmountRound(parseFloat(checkNullUndefined(saleMTs?.AvgLabour))?.toFixed(2))}`,
         title: 'Avg. Labour',
       },
       {
