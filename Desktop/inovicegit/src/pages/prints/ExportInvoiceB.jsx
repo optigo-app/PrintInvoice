@@ -61,7 +61,6 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
-    console.log(datas);
     try {
         if(datas?.resultArray?.length > 0){
             let po = datas?.resultArray[0]?.PO;
@@ -208,7 +207,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       {result?.header?.customercountry}
                     </div>
                     <div className=" ps-3">
-                      TEL : {result?.header?.customermobileno}
+                       TEL : {result?.header?.customermobileno}
                     </div>
                     
                   </div>
@@ -483,7 +482,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="col8_eib d-flex justify-content-end align-items-center pe-1 ">{formatAmount((result?.mainTotal?.MetalAmount / result?.header?.CurrencyExchRate))}</div>
                     </div>
                   </div>
-                  <div className="d-flex p-1 ps-1" style={{width:'85.8%'}}>
+                  <div className="d-flex p-1 ps-1 page_eib" style={{width:'85.8%'}}>
                       <div className="toalDiv_1">
                           <div className="fw-bold fs_eib ">
                               TOTAL GROSS WT. IN GMS {result?.mainTotal?.grosswt?.toFixed(2)}
@@ -506,7 +505,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       
                 </div>
       
-                <div className="border-top border-bottom border-black p-1 text-break">
+                <div className="border-top border-bottom border-black p-1 text-break page_eib">
                   {result?.header?.PrintRemark}
                 </div>
       
@@ -518,8 +517,8 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div style={{width:'30.33%'}} className="fw-semibold">PER Toz FOR 0.999 FINE GOLD</div>
                 </div>
       
-                <div>
-                  <div className="d-flex border border-black border-start-0 border-end-0 fw-semibold">
+                <div className="page_eib">
+                  <div className="d-flex border border-black border-start-0 border-end-0 fw-semibold ">
                     <div className="gcol1_eib center_eib border-end border-black">
                       Gold
                     </div>
@@ -664,7 +663,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                 </div>
       
-                <div className="d-flex justify-content-between align-items-start mt-1 ">
+                <div className="d-flex justify-content-between align-items-start mt-1  page_eib">
                   <div className="w-50 ">
                     <div className="fs_eib ps-4">
                       We Shall file any claim against this invoice under RoDTEP scheme
