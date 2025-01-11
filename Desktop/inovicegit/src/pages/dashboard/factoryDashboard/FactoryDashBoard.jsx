@@ -254,7 +254,7 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
       
           const dispatchFunctions = [
             fetchSummary_Purchase,
-            fetchMaster,
+            // fetchMaster,
             fetchSummary_SaleData,
             fetchVendor_Margin_Per_CaratData,
             fetchVendor_In_Out_DurationData,
@@ -311,7 +311,7 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
                     <Card className='fs_facd bs_facd' sx={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', p:2, minHeight:'100px', display:'flex', alignItems:'flex-end'}}>
                     <div className='d-flex align-items-center'>
                       <select name="currency" id="currency" className='form-select me-2' value={selectMaterial} onChange={(e) => materialListHandleChange(e)} disabled={materialList?.length === 0} style={{minWidth:'214px'}}>
-                        <option value="0">Select Material</option>
+                        {/* <option value="0">Select Material</option> */}
                         {
                           materialList?.map((e, i) => {
                             return <option value={e?.id} key={i}>{e?.name}</option>
@@ -319,7 +319,7 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
                         }
                       </select>
                       <select name="currency" id="currency" className='form-select me-2' value={selectCurrency} onChange={(e) => currencyListHandleChange(e)} disabled={currencyList?.length === 0} style={{minWidth:'214px'}}>
-                        <option value="0">Select Currency</option>
+                        {/* <option value="0">Select Currency</option> */}
                         {
                           currencyList?.map((e, i) => {
                             return <option value={e?.CurrencyRate} key={i}>{e?.Currencycode}</option>
