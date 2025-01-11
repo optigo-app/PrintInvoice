@@ -69,6 +69,28 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       data?.BillPrint_Json2
     );
 
+    let grpArr = [];
+    console.log(datas?.resultArray);
+    
+    datas?.resultArray?.forEach((e) => {
+      console.log(e);
+      
+      let obj = cloneDeep(e);
+      let find_record = grpArr?.findIndex((el) =>  el?.MetalTypePurity === obj?.MetalTypePurity && el?.Categoryname === obj?.Categoryname);
+      if(find_record === -1){
+        grpArr.push(obj);
+      }else{
+        grpArr[find_record].Quantity += obj?.Quantity;
+        grpArr[find_record].grosswt += obj?.grosswt;
+        grpArr[find_record].NetWt += obj?.NetWt;
+        grpArr[find_record].LossWt += obj?.LossWt;
+        grpArr[find_record].TotalAmount += obj?.TotalAmount;
+        grpArr[find_record].totals.diamonds.Wt += obj?.totals?.diamonds?.Wt;
+        grpArr[find_record].totals.colorstone.Wt += obj?.totals?.colorstone?.Wt;
+      }
+    });
+    
+    setMetCatWiseData(grpArr);
 
     let arr = [];
     let arr2 = [];
@@ -170,23 +192,7 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
 
 
-    let grpArr = [];
-    datas?.resultArray?.forEach((e) => {
-      let obj = cloneDeep(e);
-      let find_record = grpArr?.findIndex((el) => obj?.MetalTypePurity === el?.MetalTypePurity && obj?.Categoryname === obj?.Categoryname);
-      if(find_record === -1){
-        grpArr.push(obj);
-      }else{
-        grpArr[find_record].Quantity += obj?.Quantity;
-        grpArr[find_record].grosswt += obj?.grosswt;
-        grpArr[find_record].NetWt += obj?.NetWt;
-        grpArr[find_record].LossWt += obj?.LossWt;
-        grpArr[find_record].TotalAmount += obj?.TotalAmount;
-        grpArr[find_record].totals.diamonds.Wt += obj?.totals?.diamonds?.Wt;
-        grpArr[find_record].totals.colorstone.Wt += obj?.totals?.colorstone?.Wt;
-      }
-    });
-    setMetCatWiseData(grpArr);
+
     setResult(datas);
 
     datas.header.PrintRemark = (datas.header.PrintRemark)?.replace(/<br\s*\/?>/gi, "");

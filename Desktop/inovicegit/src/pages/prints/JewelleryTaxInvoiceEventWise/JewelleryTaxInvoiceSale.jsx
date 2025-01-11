@@ -671,7 +671,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
           </div>
           <div className="col-3 d-flex flex-column justify-content-between p-2 pb-0 pt-1">
             <p>Signature</p>
-            <p className="fw-bold">{json0Data?.CompanyFullName}</p>
+            <p className="fw-bold">{json0Data?.Branch_Description}</p>
           </div>
         </div>
       </div>

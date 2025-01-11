@@ -17,8 +17,8 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [po, setPO] = useState('');
   const [metRate, setMetRate] = useState(0);
   const [tunch, setTunch] = useState(0);
-  const [adCode, setAdCode] = useState('6390405');
   const [metalTypeWise, setMetalTypeWise] = useState([]);
+  const [hsnNo, setHSNno] = useState([]);
 
   useEffect(() => {
     const sendData = async () => {
@@ -95,6 +95,8 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               }
             });
             setMetalTypeWise(metArr);
+            let hsn_no_array = datas?.resultArray?.map((e) => e?.HSNNo);
+            setHSNno([...new Set(hsn_no_array)]);
             
         }
     } catch (error) {
@@ -104,9 +106,8 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setResult(datas);
   };
 
-  const handleAdCode = (e) => {
-    setAdCode(e.target.value);
-  }
+
+console.log(result);
 
   return (
     <>
@@ -146,7 +147,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         result?.header?.CompanyCountry + ", " + result?.header?.CompanyPinCode}
                     </div>
                     <div className=" ps-3">
-                      fname and lname
+                      {result?.header?.DefCustFirstname} {result?.header?.DefCustLastname}
                     </div>
                     <div className=" ps-3">
                       TEL :&nbsp;{result?.header?.CompanyTellNo}
@@ -207,7 +208,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       {result?.header?.customercountry}
                     </div>
                     <div className=" ps-3">
-                       TEL : {result?.header?.customermobileno}
+                       TEL : {result?.header?.CustTelePhone}
                     </div>
                     
                   </div>
@@ -288,7 +289,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <span className=" ps-3 w-20"></span>
                         </p>
                         <p className="fw-normal d-flex justify-content-between align-items-center">
-                          <span>HSN CODE : {result?.header?.HSN_No}</span>
+                          <span>HSN CODE : {hsnNo?.join(",")}</span>
                           <span className=" ps-3"></span>
                         </p>
                       </div>
