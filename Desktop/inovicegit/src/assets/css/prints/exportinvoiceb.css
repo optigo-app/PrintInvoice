@@ -6,12 +6,12 @@
     font-family: calibri;
 }
 .fs_sm_ebi{
-    font-size: 10px;
+    font-size: 9px;
     line-height: 10px;
 }
 .fs_eib{
-    font-size: 12px;
-    line-height: 14px;
+    font-size: 11px;
+    line-height: 13px;
 }
 .cust_head_eib{
     font-size: 15px;
@@ -68,7 +68,7 @@
     width: 5%;   
 }
 .gcol3_eib{
-    width: 15%;   
+    width: 10%;   
 }
 .gcol4_eib{
     width: 5%;   
@@ -77,19 +77,19 @@
     width: 5%;   
 }
 .gcol6_eib{
-    width: 5%;   
+    width: 7%;   
 }
 .gcol7_eib{
-    width: 5%;   
+    width: 7%;   
 }
 .gcol8_eib{
-    width: 5%;   
+    width: 7%;   
 }
 .gcol9_eib{
-    width: 5%;   
+    width: 7%;   
 }
 .gcol10_eib{
-    width: 5%;   
+    width: 7%;   
 }
 .gcol11_eib{
     width: 10%;   
@@ -101,14 +101,17 @@
     width: 5%;   
 }
 .gcol14_eib{
-    width: 10%;   
+    width: 5%;   
 }
 .gcol15_eib{
-    width: 5%;   
+    width: 3%;   
+}
+.gcol16_eib{
+    width: 7%;   
 }
 
 .signBox_eib{
-    min-height: 70px;
+    min-height: 80px;
     box-sizing: border-box;
 }
 
@@ -132,7 +135,14 @@
     justify-content: end;
     align-items: center;
 }
-
+.start_ebi{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+.height_total_eib{
+    height: 28px;
+}
 @media print{
     .d_none_eib{
         display: none !important;
@@ -146,7 +156,10 @@
         line-height: 9px;
     }
     .fivecm_ebi{
-        margin-bottom: 40px;
+        margin-bottom: 140px;
+    }
+    .fivecm_ebi2{
+        margin-bottom: 100px;
     }
     .border_remove_eib{
         border: 0px !important;
