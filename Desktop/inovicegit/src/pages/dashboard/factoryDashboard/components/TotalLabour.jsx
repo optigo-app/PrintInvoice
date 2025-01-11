@@ -48,19 +48,23 @@ const TotalLabour = ({tkn,  fdate, tdate, selectMaterial}) => {
   const [ yAxis, setYAxis ] = useState([]);
   const [label, setlabel] = useState('');
   const [label2, setlabel2] = useState('');
+  const [headLabel, setHeadLabel] = useState('Diamond');
   
   useEffect(() => {
     if(selectMaterial === 1 || selectMaterial === '1'){
       setlabel('Dia. Pcs');
       setlabel2('Dia. Carat');
+      setHeadLabel('Diamond');
     }
     if(selectMaterial === 2 || selectMaterial === '2'){
       setlabel('CS. Pcs');
       setlabel2('CS. Carat');
+      setHeadLabel('Colorstone');
     }
     if(selectMaterial === 3 || selectMaterial === '3'){
       setlabel('Misc. Pcs');
       setlabel2('Misc. Gm');
+      setHeadLabel('Misc')
     }
     setValue('Net Wt');
   },[selectMaterial]);
@@ -425,7 +429,7 @@ const TotalLabour = ({tkn,  fdate, tdate, selectMaterial}) => {
     <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>
       <CardHeader
         title='Total Labour'
-        subheader='Labour Wise NetWt, Job Count, Diamond Pcs & Wt'
+        subheader={`Labour Wise NetWt, Job Count, ${headLabel} Pcs & Wt`}
         // action={
         //   <OptionsMenu
         //     options={['Last Week', 'Last Month', 'Last Year']}
