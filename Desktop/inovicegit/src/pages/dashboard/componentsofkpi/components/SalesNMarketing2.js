@@ -82,12 +82,12 @@ const data5 = [
   title: 'Color Stone Amt',
 },
 {
-  stats: `₹ ${formatAmountRound((checkNullUndefined(saleMTs?.LabourAmount))?.toFixed(2))}`,
-  title: 'Labour Amt (L+DH+S+M)',
+  stats: `₹ ${formatAmountRound((checkNullUndefined((saleMTs?.LabourAmount - saleMTs?.OtherAmount)))?.toFixed(2))}`,
+  title: 'Labour Amt (L+DH+S)',
 },
 {
-  stats: `₹ ${formatAmountRound((checkNullUndefined(saleMTs?.DeliveryCharged))?.toFixed(2))}`,
-  title: 'Delivery Charges',
+  stats: `₹ ${formatAmountRound((checkNullUndefined((saleMTs?.OtherAmount + saleMTs?.DeliveryCharged)))?.toFixed(2))}`,
+  title: 'Other Charges (O + D + M)',
 }
 ];
 
