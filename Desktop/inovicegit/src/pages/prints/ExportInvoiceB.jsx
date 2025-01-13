@@ -421,7 +421,7 @@ console.log(result);
                     {result?.resultArray?.map((e, i) => {
                       return (
                         <div
-                          className="d-flex  border-top fs_eib border-black"
+                          className="d-flex  border-top fs_eib border-black page_eib"
                           key={i}
                         >
                           <div className="col1_eib end_ebi border-end border-black pe-1">
@@ -605,7 +605,7 @@ console.log(result);
                   {
                     metalTypeWise?.map((e, i) => {
                       return (
-                        <div className="d-flex border border-black border-start-0 border-top-0 border-end-0" key={i}>
+                        <div className="d-flex border border-black border-start-0 border-top-0 border-end-0 page_eib" key={i}>
                         <div className="gcol1_eib border-end border-black ps-1">{e?.MetalPurity}</div>
                         <div className="gcol2_eib end_ebi border-end border-black pe-1">{e?.NetWt?.toFixed(3)}</div>
                         <div className="gcol3_eib end_ebi border-end border-black pe-1">{e?.LossWt?.toFixed(3)}</div>
