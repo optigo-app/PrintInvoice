@@ -285,7 +285,7 @@ const RechartsPieChart = ({tkn,  fdate, tdate, country, VendorWiseNetWtData}) =>
               </Tooltip>
          </Box>
   ))}
-</Box>
+        </Box>
       </CardContent>
     </Card>
   )

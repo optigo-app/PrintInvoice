@@ -506,9 +506,12 @@ useEffect(() => {
           <Grid item xs={12} sm={6} md={4} lg={4} style={{paddingTop:'25px'}}>
             <AnalyticsSalesRepWiseSaleAmt tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} countryCodeSymbol={countryCodeSymbol} office={selectedOffice} SalesrepWiseSaleAmount={SalesrepWiseSaleAmount} IsEmpLogin={IsEmpLogin} />
           </Grid>
-          <Grid item xs={12} sm={12} md={12}>
+          {/* <Grid item xs={12} sm={12} md={12}>
               <JobPriceRangeWiseData tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} countryCodeSymbol={countryCodeSymbol} office={selectedOffice} SalesrepWiseSaleAmount={SalesrepWiseSaleAmount} IsEmpLogin={IsEmpLogin} jobWisePriceRangeData={jobWisePriceRangeData} />
-          </Grid>
+          </Grid> */}
+          {/* <Grid item xs={12} sm={12} md={12}>
+              <JobPriceRangeWiseData tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} countryCodeSymbol={countryCodeSymbol} office={selectedOffice} SalesrepWiseSaleAmount={SalesrepWiseSaleAmount} IsEmpLogin={IsEmpLogin} jobWisePriceRangeData={jobWisePriceRangeData} />
+          </Grid> */}
         </Grid>
       </KeenSliderWrapper>
     </ApexChartWrapper>
