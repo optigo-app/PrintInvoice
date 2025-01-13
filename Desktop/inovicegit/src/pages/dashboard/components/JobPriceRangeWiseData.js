@@ -1,4 +1,4 @@
-import { Card, CardHeader } from '@mui/material'
+import { Card, CardHeader, styled } from '@mui/material'
 import React from 'react'
 import ReactApexcharts from '../@core/components/react-apexcharts';
 const JobPriceRangeWiseData = ({tkn,  fdate, tdate, country, MetalTypeColorWiseSaleData, IsEmpLogin, jobWisePriceRangeData}) => {
@@ -30,6 +30,7 @@ const JobPriceRangeWiseData = ({tkn,  fdate, tdate, country, MetalTypeColorWiseS
             },
             toolbar: {
               tools: {
+                download:false,
                 zoom: false, // Disable zoom tool
                 zoomin: false, // Disable zoom-in tool
                 zoomout: false, // Disable zoom-out tool
@@ -45,7 +46,18 @@ const JobPriceRangeWiseData = ({tkn,  fdate, tdate, country, MetalTypeColorWiseS
         },
         xaxis: {
           title: {
-            text: "Timeline",
+            text: "Amount",
+            style:{
+                fontSize:"15px"
+            }
+          },
+        },
+        yaxis: {
+          title: {
+            text: "Jobs",
+            style:{
+                fontSize:"15px"
+            }
           },
         },
         dataLabels: {
@@ -80,7 +92,7 @@ const JobPriceRangeWiseData = ({tkn,  fdate, tdate, country, MetalTypeColorWiseS
     };
 
     const seriesData = jobWisePriceRangeData?.DT1?.sort((a, b) => b?.JobCnt - a?.JobCnt)?.map((item) => ({
-        x: `${item?.JobCnt}`, // Label with Job Count
+        x: ` ${item?.JobCnt}`, // Label with Job Count
         y: [Math.round((+item?.PriceFrom) / (+country)), Math.round((+item?.PriceTo) / (+country))], // Range for y-axis
     }));
 

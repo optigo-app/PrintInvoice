@@ -38,9 +38,3 @@ path.recharts-sector {
 .jobWisePR .apexcharts-title-text{
     color: grey;
 }
-.apexcharts-text .apexcharts-xaxis-title-text .SvgjsText13323{
-    display: none !important;
-}
-.apexcharts-xaxis-title .apexcharts-yaxis-title-inversed {
-    display: none !important;
-}
