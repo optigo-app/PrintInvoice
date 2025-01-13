@@ -74,7 +74,7 @@ export function formatAmount(amount) {
       const response = await axios.post(apiUrl_kayra, body);
       if (response?.data?.Status === '200') {
         
-        return response?.data?.Data?.DT?.length > 0 ? response.data.Data : null;
+        return response?.data?.Data ? response.data.Data : null;
       } else {
         return []; // Empty array if no data or status is not 200
       }

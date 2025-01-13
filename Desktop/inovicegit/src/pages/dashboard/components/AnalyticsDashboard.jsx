@@ -50,6 +50,7 @@ import "../@core/components/pickersComponent/datepickerc.css";
 import { fetchDashboardData, fetchSalesDashboardData } from '../GlobalFunctions';
 import axios from 'axios';
 import JobPriceRangeWiseData from './JobPriceRangeWiseData';
+import PriceRangeWise from './PriceRangeWise';
 
 const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin, IsPower}) => {
   
@@ -276,9 +277,10 @@ const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin, IsPower}) => {
       const summaryData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "Summary", sales, office, LId, IsPower);
 
       const JobWisePriceRangeData = await fetchSalesDashboardData(tkn, hostName, fdatef, tdatef, "Summary", sales, office, LId, IsPower);
+      
       setJobWisePriceRangeData(JobWisePriceRangeData);
       
-      setSummaryApiData(summaryData.length > 0 ? summaryData[0] : {});
+      setSummaryApiData((summaryData).length > 0 ? summaryData[0] : {});
   
       const progressWiseOrder = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "ProgressWiseOrder", sales, 0, LId, IsPower);
       setOrderTrackerApiData(progressWiseOrder);
@@ -506,9 +508,10 @@ useEffect(() => {
           <Grid item xs={12} sm={6} md={4} lg={4} style={{paddingTop:'25px'}}>
             <AnalyticsSalesRepWiseSaleAmt tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} countryCodeSymbol={countryCodeSymbol} office={selectedOffice} SalesrepWiseSaleAmount={SalesrepWiseSaleAmount} IsEmpLogin={IsEmpLogin} />
           </Grid>
-          {/* <Grid item xs={12} sm={12} md={12}>
-              <JobPriceRangeWiseData tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} countryCodeSymbol={countryCodeSymbol} office={selectedOffice} SalesrepWiseSaleAmount={SalesrepWiseSaleAmount} IsEmpLogin={IsEmpLogin} jobWisePriceRangeData={jobWisePriceRangeData} />
-          </Grid> */}
+
+          <Grid item xs={12} sm={12} md={12}>
+              <PriceRangeWise tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} countryCodeSymbol={countryCodeSymbol} office={selectedOffice} SalesrepWiseSaleAmount={SalesrepWiseSaleAmount} IsEmpLogin={IsEmpLogin} jobWisePriceRangeData={jobWisePriceRangeData} />
+          </Grid>
           {/* <Grid item xs={12} sm={12} md={12}>
               <JobPriceRangeWiseData tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} countryCodeSymbol={countryCodeSymbol} office={selectedOffice} SalesrepWiseSaleAmount={SalesrepWiseSaleAmount} IsEmpLogin={IsEmpLogin} jobWisePriceRangeData={jobWisePriceRangeData} />
           </Grid> */}

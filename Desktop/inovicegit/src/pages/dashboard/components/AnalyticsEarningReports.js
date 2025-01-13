@@ -61,7 +61,7 @@
    }
  }))
 
- const AnalyticsEarningReports = ({tkn, fdate, tdate, country, countryCodeSymbol, monthWiseSaleData, summaryData, IsEmpLogin}) => {
+ const AnalyticsEarningReports = ({tkn, fdate, tdate, country, countryCodeSymbol, monthWiseSaleData, summaryData, IsEmpLogin, JobWisePriceRangeData}) => {
 
    const [apiData, setApiData] = useState([]);
    const [apiData2, setApiData2] = useState(null);
