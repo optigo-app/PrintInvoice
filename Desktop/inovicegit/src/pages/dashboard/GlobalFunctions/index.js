@@ -51,6 +51,38 @@ export function formatAmount(amount) {
       return []; // Return empty array on error
     }
   };
+  export const fetchSalesDashboardData = async (token, hostName, fdate, tdate, event, sales, office, LId, IsPower) => {
+      
+    try {
+      let apiUrl_kayra = '';
+
+      if(hostName?.toLowerCase() === 'zen' || hostName?.toLowerCase() === 'localhost'){
+        apiUrl_kayra = 'http://zen/jo/api-lib/App/DashBoard';
+      }else{
+        apiUrl_kayra = 'https://view.optigoapps.com/linkedapp/App/DashBoard';
+      }
+
+      // const url = "http://zen/jo/api-lib/App/DashBoard";
+      const body = JSON.stringify({
+        "Token" : `${token}`  
+        // ,"ReqData":`[{\"Token\":\"${token}\",\"Evt\":\"${event}\",\"FDate\":\"${fdate}\",\"TDate\":\"${tdate}\"}]`
+        // ,"ReqData":`[{\"Token\":\"${token}\",\"Evt\":\"${event}\",\"FDate\":\"${fdate}\",\"TDate\":\"${tdate}\",\"LockerId\":\"${office}\",\"SaleRepId\":\"${sales}\"}]`
+        ,"ReqData":`[{\"Token\":\"${token}\",\"Evt\":\"${event}\",\"LoginId\":\"${LId}\",\"FDate\":\"${fdate}\",\"TDate\":\"${tdate}\",\"LockerId\":\"${office}\",\"SaleRepId\":\"${sales}\",\"IsPower\":\"${IsPower}\"}]`
+        // ,"ReqData":"[{\"Token\":\"9065471700535651\",\"LoginId\":\"8\",\"Evt\":\"MonthWiseSaleAmount\",\"LockerId\":\"1\",\"SaleRepId\":\"8\"}]"
+      });
+  
+      const response = await axios.post(apiUrl_kayra, body);
+      if (response?.data?.Status === '200') {
+        
+        return response?.data?.Data?.DT?.length > 0 ? response.data.Data : null;
+      } else {
+        return []; // Empty array if no data or status is not 200
+      }
+    } catch (error) {
+      console.log("API Error:", error);
+      return []; // Return empty array on error
+    }
+  };
 
   export const fetchKPIDashboardData = async (apiUrl_kpi, token, fdate, tdate, event) => {
     try {
