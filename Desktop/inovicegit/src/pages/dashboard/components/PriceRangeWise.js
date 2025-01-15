@@ -8,7 +8,7 @@ const PriceRangeWise = ({ jobWisePriceRangeData }) => {
 
   useEffect(() => {
     if (jobWisePriceRangeData?.DT1?.length) {
-      const sortedData = jobWisePriceRangeData.DT1.sort((a, b) => b.JobCnt - a.JobCnt);
+      const sortedData = jobWisePriceRangeData.DT1;
 
       const series = [
         {
@@ -17,9 +17,10 @@ const PriceRangeWise = ({ jobWisePriceRangeData }) => {
         }
       ];
 
-      const categories = sortedData.map(e =>
-        e.PriceFrom && e.PriceTo ? `${e.PriceFrom}-${e.PriceTo}` : 'N/A'
+      const categories = sortedData.map(e => 
+        e.PriceFrom && e.PriceTo ? `${e.PriceFrom}-${e.PriceTo}` : 0
       );
+      
 
       setChartData({ series, categories });
     } else {
@@ -28,9 +29,11 @@ const PriceRangeWise = ({ jobWisePriceRangeData }) => {
         categories: ['N/A']
       });
     }
-  }, [jobWisePriceRangeData]);
+    console.log(jobWisePriceRangeData);
+    
+  }, [jobWisePriceRangeData?.DT1]);
 
-  console.log(jobWisePriceRangeData,"jobWisePriceRangeData")
+console.log("checking unnecessary call", jobWisePriceRangeData);
 
   const options = {
     chart: {
@@ -43,7 +46,7 @@ const PriceRangeWise = ({ jobWisePriceRangeData }) => {
       curve: 'smooth',
       width: 2
     },
-    dataLabels: { enabled: false },
+    dataLabels: { enabled: true },
     markers: {
       size: 5,
       colors: ['#5470C6'],
@@ -71,13 +74,15 @@ const PriceRangeWise = ({ jobWisePriceRangeData }) => {
       axisTicks: { show: true, color: theme.palette.divider }
     },
     yaxis: {
-      labels: { style: { colors: theme.palette.text.disabled } }
+      labels: { style: { colors: theme.palette.text.disabled } },
+      
     }
   };
 
   if (!chartData) {
     return <div>Loading chart...</div>;
   }
+  
 
   return (  
     <Card
@@ -94,15 +99,15 @@ const PriceRangeWise = ({ jobWisePriceRangeData }) => {
           alignItems: ['flex-start', 'center']
         }}
       />
-     {chartData && Object?.keys(chartData)?.length > 0 && <ReactApexcharts
+     <ReactApexcharts
         key={JSON.stringify(chartData?.series)} // Force re-render if series changes
         type="line"
-        height={400}
+        height={300}
         options={options}
         series={chartData?.series}
-      />}
+      />
     </Card>
   );
 };
 
-export default memo(PriceRangeWise);
+export default React.memo(PriceRangeWise);

@@ -1,5 +1,4 @@
 // ** MUI Import
-import Grid from '@mui/material/Grid'
 
 // // ** Demo Component Imports
 // import AnalyticsProject from 'src/views/dashboards/analytics/AnalyticsProject'
@@ -16,6 +15,7 @@ import Grid from '@mui/material/Grid'
 // import KeenSliderWrapper from 'src/@core/styles/libs/keen-slider'
 // import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 // import CardStatsWithAreaChart from 'src/@core/components/card-statistics/card-stats-with-area-chart'
+import Grid from '@mui/material/Grid'
 import KeenSliderWrapper from '../@core/styles/libs/keen-slider'
 import ApexChartWrapper from '../@core/styles/libs/react-apexcharts'
 import CardStatsWithAreaChart from '../@core/components/card-statistics/card-stats-with-area-chart'
@@ -274,13 +274,14 @@ const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin, IsPower}) => {
       const monthWiseSaleData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "MonthWiseSaleAmount", sales, office, LId, IsPower);
       setMonthWiseSaleApiData(monthWiseSaleData);
   
-      const summaryData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "Summary", sales, office, LId, IsPower);
+      // const summaryData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "Summary", sales, office, LId, IsPower);
 
       const JobWisePriceRangeData = await fetchSalesDashboardData(tkn, hostName, fdatef, tdatef, "Summary", sales, office, LId, IsPower);
       
       setJobWisePriceRangeData(JobWisePriceRangeData);
       
-      setSummaryApiData((summaryData).length > 0 ? summaryData[0] : {});
+      // setSummaryApiData((summaryData).length > 0 ? summaryData[0] : {});
+      setSummaryApiData((JobWisePriceRangeData?.DT).length > 0 ? JobWisePriceRangeData?.DT?.[0] : {});
   
       const progressWiseOrder = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "ProgressWiseOrder", sales, 0, LId, IsPower);
       setOrderTrackerApiData(progressWiseOrder);
@@ -510,7 +511,7 @@ useEffect(() => {
           </Grid>
 
           <Grid item xs={12} sm={12} md={12}>
-              <PriceRangeWise tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} countryCodeSymbol={countryCodeSymbol} office={selectedOffice} SalesrepWiseSaleAmount={SalesrepWiseSaleAmount} IsEmpLogin={IsEmpLogin} jobWisePriceRangeData={jobWisePriceRangeData} />
+              <PriceRangeWise tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} countryCodeSymbol={countryCodeSymbol} office={selectedOffice}  IsEmpLogin={IsEmpLogin} jobWisePriceRangeData={jobWisePriceRangeData} />
           </Grid>
           {/* <Grid item xs={12} sm={12} md={12}>
               <JobPriceRangeWiseData tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} countryCodeSymbol={countryCodeSymbol} office={selectedOffice} SalesrepWiseSaleAmount={SalesrepWiseSaleAmount} IsEmpLogin={IsEmpLogin} jobWisePriceRangeData={jobWisePriceRangeData} />
