@@ -118,9 +118,9 @@ const Print1PDFWise = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <>
             {loader ? <Loader /> : msg === '' ? <div><div className='container_qp1'>
                 <div className='d_flex_qp1 flex_direction_colum_qp1 main_qp1'>
-                    <div className='d_flex_qp1 print_btn_qp1 mb-4 no-print'>
-                        <div className='printbtn_qp1 print_btn_qp1 br_btn1_smp' onClick={handlePrintwithoutprice}>Print WithOut Price</div>
-                        <div className='printbtn2_qp1 print_btn_qp1 br_btn2_smp' onClick={handlePrintwithprice}>Print With Price</div>
+                    <div className='d_flex_qp1 print_btn_qp1 mb-4 no-print  w-100 d-flex justify-content-end align-items-center'>
+                        {/* <div className='printbtn_qp1 print_btn_qp1 br_btn1_smp' onClick={handlePrintwithoutprice}>Print WithOut Price</div> */}
+                        <div className='printbtn2_qp1 print_btn_qp1 br_btn2_smp ' onClick={handlePrintwithprice}>Print</div>
                     </div>
 
                     <div className="print-container_printq">
