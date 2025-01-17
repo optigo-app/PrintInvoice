@@ -224,6 +224,7 @@ export const SaleReturn = [
 ]
 export const QuotationPrints = [
   {printName: 'print 1', etpType: 'print', componentName: 'Print1'},
+  {printName: 'print 2', etpType: 'print', componentName: 'Print1PDFWise'},
   {printName: 'print (l)', etpType: 'print', componentName: 'QuotePrintLP'},
   {printName: 'print (p)', etpType: 'print', componentName: 'QuotePrintLP' },
   {printName: 'sale order', etpType: 'print', componentName: 'SaleOrder'},

@@ -2,7 +2,7 @@ import React, { useState, useEffect, memo } from 'react';
 import { Card, CardHeader, styled, useTheme } from '@mui/material';
 import ReactApexcharts from '../@core/components/react-apexcharts';
 
-const PriceRangeWise = ({ jobWisePriceRangeData }) => {
+const PriceRangeWise = ({ jobWisePriceRangeData, country }) => {
   const theme = useTheme();
   const [chartData, setChartData] = useState(null);
 
@@ -16,24 +16,28 @@ const PriceRangeWise = ({ jobWisePriceRangeData }) => {
           data: sortedData.map(e => (typeof e.JobCnt === 'number' ? e.JobCnt : 0))
         }
       ];
-
-      const categories = sortedData.map(e => 
-        e.PriceFrom && e.PriceTo ? `${e.PriceFrom}-${e.PriceTo}` : 0
+      const arr = [];
+      sortedData?.forEach((e) => {
+        let obj = {...e};
+        obj.PriceFrom = (obj?.PriceFrom / (+country));
+        obj.PriceTo = (obj?.PriceTo / (+country));
+        arr.push(obj);
+      })
+      const categories = arr.map(e => 
+        e.PriceFrom && e.PriceTo ? `${(e.PriceFrom)?.toFixed(0)}-${(e.PriceTo)?.toFixed(0)}` : ''
       );
       
-
+      
       setChartData({ series, categories });
     } else {
       setChartData({
         series: [{ name: 'Job Count', data: [0] }],
-        categories: ['N/A']
+        categories: ['']
       });
     }
-    console.log(jobWisePriceRangeData);
     
-  }, [jobWisePriceRangeData?.DT1]);
+  }, [jobWisePriceRangeData?.DT1, country]);
 
-console.log("checking unnecessary call", jobWisePriceRangeData);
 
   const options = {
     chart: {
@@ -71,12 +75,26 @@ console.log("checking unnecessary call", jobWisePriceRangeData);
       categories: chartData?.categories || [],
       labels: { style: { colors: theme.palette.text.disabled } },
       axisBorder: { show: true },
-      axisTicks: { show: true, color: theme.palette.divider }
+      axisTicks: { show: true, color: theme.palette.divider },
+      title: {
+        text: "Amount",
+        style:{
+            fontSize:"13px",
+            fontWeight:'normal'
+        }
+      },
     },
     yaxis: {
       labels: { style: { colors: theme.palette.text.disabled } },
-      
-    }
+      title: {
+        text: "Jobs",
+        style:{
+            fontSize:"13px",
+            fontWeight:'normal'
+        }
+      },
+    },
+        
   };
 
   if (!chartData) {

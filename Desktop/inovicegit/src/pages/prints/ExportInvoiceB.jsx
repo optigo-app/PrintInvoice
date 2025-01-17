@@ -95,6 +95,26 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               }
             });
             setMetalTypeWise(metArr);
+
+            let catWise = [] ;
+            datas?.resultArray?.forEach((a) => {
+              let obj = cloneDeep(a);
+              let findrec = catWise?.findIndex((e) => e?.Categoryname === obj?.Categoryname);
+              if(findrec === -1){
+                catWise.push(obj);
+              }else{
+                catWise[findrec].NetWt += obj?.NetWt;
+                catWise[findrec].grosswt += obj?.grosswt;
+                catWise[findrec].Quantity += obj?.Quantity;
+                catWise[findrec].metal_rate = obj?.metal_rate;
+                catWise[findrec].totals.diamonds.Wt += obj?.totals?.diamonds?.Wt;
+                catWise[findrec].totals.diamonds.Pcs += obj?.totals?.diamonds?.Pcs;
+                catWise[findrec].TotalAmount += obj?.TotalAmount;
+              }
+            });
+
+            datas.resultArray = catWise;
+
             let hsn_no_array = datas?.resultArray?.map((e) => e?.HSNNo);
             setHSNno([...new Set(hsn_no_array)]);
             
@@ -107,7 +127,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   };
 
 
-console.log(result);
+
 
   return (
     <>
