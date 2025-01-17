@@ -113,6 +113,7 @@ const Print1PDFWise = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         }, 0);
     };
 
+  console.log("hello");
   
     return (
         <>
@@ -130,7 +131,7 @@ const Print1PDFWise = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             return (
                                 <div className='' key={i}>
                                     <div className='itemdiv_qp1 b_t_qp1 p-0'>
-                                        <div className='d-flex justify-content-center align-items-center py-1 border-bottom border-black fw-bold'>&nbsp;</div>
+                                        <div className='d-flex justify-content-center align-items-center py-1 border-bottom border-black fw-bold'>&nbsp;{ (atob(evn))?.toLowerCase() === "quote" && res?.designno}{ (atob(evn))?.toLowerCase() === "memo" && res?.SrJobno}</div>
                                         <div className='d-flex justify-content-center align-items-start w-100 border-bottom border-black'>
                                         { res?.DesignImage !== '' ? <div className='imgBlock_print2q '>
                                             <a href={`${res?.DesignImage}`} target='_blank'>

@@ -243,6 +243,7 @@ export const QuotationPrints = [
 ]
 export const MemoPrints = [
   {printName: 'print 1', etpType: 'print', componentName: 'Print1SME'},
+  {printName: 'print 2', etpType: 'print', componentName: 'Print1PDFWise'},
   {printName: 'sale order', etpType: 'print', componentName: 'SaleOrderMemo'},
   {printName: 'tax invoice', etpType: 'print', componentName: 'TaxInvoice'},
   {printName: 'jewellery item wise', etpType: 'print', componentName: 'HallmarkItemWisePrint'},
