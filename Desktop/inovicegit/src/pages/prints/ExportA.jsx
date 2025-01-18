@@ -308,7 +308,7 @@ const ExportA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{ele?.LossWt !== 0 && NumberWithCommas(ele?.LossWt, 3)}</p></div>
                                         <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{ele?.LossPer !== 0 && NumberWithCommas(ele?.LossPer, 2)}</p></div>
                                         <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{ele?.LossWt + ele?.NetWt !== 0 && NumberWithCommas(ele?.LossWt + ele?.NetWt, 3)}</p></div>
-                                        <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{(ele?.metal_rate !== undefined && ele?.metal_rate !== 0) && NumberWithCommas(ele?.metal_rate / headerData?.CurrencyExchRate, 2)}</p></div>
+                                        <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{(ele?.metal_rate !== undefined && ele?.metal_rate !== 0) && NumberWithCommas(ele?.metal_rate , 2)}</p></div>
                                         <div className={`${style?.grs} p-1`}><p className='fw-bold text-end'>{ele?.totals?.metal?.Amount !== 0 && NumberWithCommas(ele?.totals?.metal?.Amount/headerData?.CurrencyExchRate, 2)}</p></div>
                                         {/* <div className={`${style?.grs} p-1`}><p className='fw-bold text-end'>{ele?.totals?.finding?.Amount !== 0 && NumberWithCommas(ele?.totals?.finding?.Amount, 2)}</p></div> */}
                                     </div>
