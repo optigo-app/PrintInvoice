@@ -39,7 +39,7 @@ const AllDesign = () => {
     // }
      else if (searchUrl?.includes("pid=18126")) {
       return <MRPBill />;
-    } else if (searchUrl?.includes("pid=18145") || searchUrl?.includes("pid=18146") || searchUrl?.includes("pid=18147")){
+    } else if (searchUrl?.includes("pid=18145") || searchUrl?.includes("pid=18146") || searchUrl?.includes("pid=18147") || searchUrl?.includes("pid=18170") || searchUrl?.includes("pid=18171")){
       return <Dashboard />;
     } else if (searchUrl?.includes("pid=18149")){
       return <TitanWip />;

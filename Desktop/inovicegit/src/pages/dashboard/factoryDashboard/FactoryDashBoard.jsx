@@ -17,7 +17,7 @@ import WastageWiseLabourPGram from './components/WastageWiseLabourPGram';
 import { useDispatch, useSelector } from 'react-redux';
 import {  fetchMaster, fetchSummary_Purchase, fetchSummary_SaleData, fetchVendor_In_Out_DurationData, fetchVendor_Margin_Per_CaratData } from './redux/slices/FactoryApi';
 
-const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
+const FactoryDashBoard = ({ tkn, LId, IsEmpLogin, IFB }) => {
 
     const dispatch = useDispatch();
     const all = useSelector(state => state?.Master?.data);
@@ -36,8 +36,12 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
     const [selectMetalType, setSelectMetalType] = useState(0);
     const [categoryList, setCategoryList] = useState([]);
     const [selectCategory, setSelectCategory] = useState(0);
+    const [branchList, setBranchList] = useState([]);
+    const [selectBranch, setSelectBranch] = useState();
     
     const [selectMaterial, setSelectMaterial] = useState(1);
+
+    const [passAsTkn, setPassAsTkn] = useState(tkn);
 
     // useEffect(() => {
     //     const today = moment();
@@ -122,9 +126,9 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
       setTimeout(() => {
         handleApply();
       }, 0);
-    
+      
       const commonPayload = {
-        tkn,
+        tkn:passAsTkn,
         LId,
         IsEmpLogin,
         fdate: moment(financialYearStart).format("MM/DD/YYYY"),
@@ -243,7 +247,7 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
       
         if (formattedFDateString && formattedTDateString) {
           const commonPayload = {
-            tkn,
+            tkn:passAsTkn,
             LId,
             IsEmpLogin,
             fdate: formattedFDateString,
@@ -269,6 +273,17 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
         setCurrencyList(all?.DT)
         setMetalTypeList(all?.DT1)
         setCategoryList(all?.DT2)
+        setBranchList(all?.DT3);
+        
+        if(all?.DT3?.length > 0){
+          all?.DT3?.forEach((a) => {
+            if(a?.IsHeadOffice === 1){
+              setPassAsTkn(a?.dbUniqueKey);
+            }else{
+              setPassAsTkn(tkn);
+            }
+          })
+        }
       },[all]);
 
       const materialList = [
@@ -299,6 +314,12 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
       const categoryListHandleChange = (e) => {
         setSelectCategory(e.target.value);
       }
+      const branchListHandleChange = (e) => {
+        setSelectBranch(e.target.value);
+        if(IFB === 1){
+          setPassAsTkn(e.target.value);
+        }
+      }
 
   return (
     <div className='facd' style={{width:'95%', margin:'0 auto', paddingBottom:'2rem'}}>
@@ -310,7 +331,11 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
 
                     <Card className='fs_facd bs_facd' sx={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', p:2, minHeight:'100px', display:'flex', alignItems:'flex-end'}}>
                     <div className='d-flex align-items-center'>
-                      <select name="currency" id="currency" className='form-select me-2' value={selectMaterial} onChange={(e) => materialListHandleChange(e)} disabled={materialList?.length === 0} style={{minWidth:'214px'}}>
+                      <select name="currency" id="currency" className='form-select me-2' value={selectMaterial} onChange={(e) => materialListHandleChange(e)} disabled={materialList?.length === 0} 
+                      style={{
+                        minWidth: (branchList?.length > 0 && IFB === 1) ? '180px' : '214px'
+                      }}
+                      >
                         {/* <option value="0">Select Material</option> */}
                         {
                           materialList?.map((e, i) => {
@@ -318,7 +343,11 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
                           })
                         }
                       </select>
-                      <select name="currency" id="currency" className='form-select me-2' value={selectCurrency} onChange={(e) => currencyListHandleChange(e)} disabled={currencyList?.length === 0} style={{minWidth:'214px'}}>
+                      <select name="currency" id="currency" className='form-select me-2' value={selectCurrency} onChange={(e) => currencyListHandleChange(e)} disabled={currencyList?.length === 0} 
+                      style={{
+                        minWidth: (branchList?.length > 0 && IFB === 1) ? '180px' : '214px'
+                      }}
+                        >
                         {/* <option value="0">Select Currency</option> */}
                         {
                           currencyList?.map((e, i) => {
@@ -326,7 +355,11 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
                           })
                         }
                       </select>
-                      <select name="metaltype" id="metaltype" className='form-select me-2' value={selectMetalType} onChange={(e) => metaltypeListHandleChange(e)} disabled={metalTypeList?.length === 0} style={{minWidth:'214px'}}>
+                      <select name="metaltype" id="metaltype" className='form-select me-2' value={selectMetalType} onChange={(e) => metaltypeListHandleChange(e)} disabled={metalTypeList?.length === 0} 
+                      style={{
+                        minWidth: (branchList?.length > 0 && IFB === 1) ? '180px' : '214px'
+                      }}
+                        >
                         <option value="0">Select MetalType</option>
                         {
                           metalTypeList?.map((e, i) => {
@@ -334,7 +367,11 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
                           })
                         }
                       </select>
-                      <select name="category" id="category" className='form-select me-2' value={selectCategory} onChange={(e) => categoryListHandleChange(e)} disabled={categoryList?.length === 0} style={{minWidth:'214px'}}>
+                      <select name="category" id="category" className='form-select me-2' value={selectCategory} onChange={(e) => categoryListHandleChange(e)} disabled={categoryList?.length === 0} 
+                      style={{
+                        minWidth: (branchList?.length > 0 && IFB === 1) ? '180px' : '214px'
+                      }}
+                        >
                         <option value="0">Select Category</option>
                         {
                           categoryList?.map((e, i) => {
@@ -342,6 +379,17 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
                           })
                         }
                       </select>
+                      { (IFB === 1 && branchList?.length > 0) && <select name="branch" id="branch" className='form-select me-2' value={selectBranch} onChange={(e) => branchListHandleChange(e)} disabled={branchList?.length === 0} 
+                      style={{
+                        minWidth: (branchList?.length > 0 && IFB === 1) ? '180px' : '214px'
+                      }}
+                        >
+                        {
+                          branchList?.map((e, i) => {
+                            return <option value={e?.dbUniqueKey} key={i}>{e?.UFCC}</option>
+                          })
+                        }
+                      </select>}
                     </div>
                     <div style={{display:'flex'}}>
                         <div style={{display:'flex', flexDirection:'column'}}>

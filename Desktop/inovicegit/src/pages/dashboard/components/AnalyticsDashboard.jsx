@@ -52,7 +52,7 @@ import axios from 'axios';
 import JobPriceRangeWiseData from './JobPriceRangeWiseData';
 import PriceRangeWise from './PriceRangeWise';
 
-const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin, IsPower}) => {
+const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin, IsPower, IFB}) => {
   
   const [fdate, setFDate] = useState(null);
   const [tdate, setTDate] = useState(null);
@@ -61,6 +61,10 @@ const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin, IsPower}) => {
   const [popperPlacement, setPopperPlacement] = useState('bottom-start');
   const theme = useTheme();
 
+  const [passAsTkn, setPassAsTkn] = useState(tkn);
+
+  
+
   const [countryList, setCountryList] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(7.8);
   const [countryCodeSymbol, setCountryCodeSymbol] = useState("$");
@@ -68,6 +72,8 @@ const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin, IsPower}) => {
   const [selectedSales, setSelectedSales] = useState(0);
   const [officeList, setOfficeList] = useState([]);
   const [selectedOffice, setSelectedOffice] = useState(0);
+  const [branchList, setBranchList] = useState([]);
+  const [selectedBranch, setSelectedBranch] = useState();
 
   //main api data 
   const [monthWiseSaleApiData, setMonthWiseSaleApiData] = useState([]);
@@ -99,6 +105,12 @@ const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin, IsPower}) => {
   const officeListHandleChange = (e) => {
     setSelectedOffice(e.target.value);
   }
+  const branchListHandleChange = (e) => {
+    setSelectedBranch(e.target.value);
+    if(IFB === 1){
+      setPassAsTkn(e.target.value);
+    }
+  }
 
   useEffect(() => {
     let apiUrl_kayra = '';
@@ -112,8 +124,8 @@ const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin, IsPower}) => {
     const fetchDropdownData = async() => {
       try {
         const body = {
-          "Token" : `${tkn}`  
-          ,"ReqData":`[{\"Token\":\"${tkn}\",\"LoginId\":\"${LId}\",\"Evt\":\"Master\",\"IsPower\":\"${IsPower}\"}]`
+          "Token" : `${passAsTkn}`  
+          ,"ReqData":`[{\"Token\":\"${passAsTkn}\",\"LoginId\":\"${LId}\",\"Evt\":\"Master\",\"IsPower\":\"${IsPower}\"}]`
         }
     
         const response = await axios.post(apiUrl_kayra, body);
@@ -128,6 +140,19 @@ const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin, IsPower}) => {
             }
             if(response?.data?.Data?.DT2?.length > 0){
               setOfficeList(response?.data?.Data?.DT2);
+            }
+            if(response?.data?.Data?.DT3?.length > 0){
+              setBranchList(response?.data?.Data?.DT3);
+              response?.data?.Data?.DT3?.forEach((e) => {
+                if(e?.IsHeadOffice === 1){
+                  setSelectedBranch(e?.dbUniqueKey);
+                  if(IFB === 1){
+                    setPassAsTkn(e?.dbUniqueKey);
+                  }else{
+                    setPassAsTkn(tkn);
+                  }
+                }
+              })
             }
           }
         }
@@ -271,40 +296,40 @@ const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin, IsPower}) => {
   }
 
     try {
-      const monthWiseSaleData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "MonthWiseSaleAmount", sales, office, LId, IsPower);
+      const monthWiseSaleData = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "MonthWiseSaleAmount", sales, office, LId, IsPower);
       setMonthWiseSaleApiData(monthWiseSaleData);
   
       // const summaryData = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "Summary", sales, office, LId, IsPower);
 
-      const JobWisePriceRangeData = await fetchSalesDashboardData(tkn, hostName, fdatef, tdatef, "Summary", sales, office, LId, IsPower);
+      const JobWisePriceRangeData = await fetchSalesDashboardData(passAsTkn, hostName, fdatef, tdatef, "Summary", sales, office, LId, IsPower);
       
       setJobWisePriceRangeData(JobWisePriceRangeData);
       
       // setSummaryApiData((summaryData).length > 0 ? summaryData[0] : {});
       setSummaryApiData((JobWisePriceRangeData?.DT).length > 0 ? JobWisePriceRangeData?.DT?.[0] : {});
   
-      const progressWiseOrder = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "ProgressWiseOrder", sales, 0, LId, IsPower);
+      const progressWiseOrder = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "ProgressWiseOrder", sales, 0, LId, IsPower);
       setOrderTrackerApiData(progressWiseOrder);
   
-      const countryWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CountryWiseSaleAmount", sales, office, LId, IsPower);
+      const countryWiseSaleAmount = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "CountryWiseSaleAmount", sales, office, LId, IsPower);
       setCountryWiseSaleAmount(countryWiseSaleAmount);
   
-      const customerWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CustomerWiseSaleAmount", sales, office, LId, IsPower);
+      const customerWiseSaleAmount = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "CustomerWiseSaleAmount", sales, office, LId, IsPower);
       setCustomerWiseSaleAmount(customerWiseSaleAmount);
   
-      const categoryWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CategoryWiseSaleAmount", sales, office, LId, IsPower);
+      const categoryWiseSaleAmount = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "CategoryWiseSaleAmount", sales, office, LId, IsPower);
       setCategoryWiseSaleAmount(categoryWiseSaleAmount);
   
-      const metalTypeColorWiseSale = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "MetalTypeColorWiseSale", sales, office, LId, IsPower);
+      const metalTypeColorWiseSale = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "MetalTypeColorWiseSale", sales, office, LId, IsPower);
       setMetalTypeColorWiseSale(metalTypeColorWiseSale);
   
-      const customerTypeWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "CustomerTypeWiseSaleAmount", sales, office, LId, IsPower);
+      const customerTypeWiseSaleAmount = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "CustomerTypeWiseSaleAmount", sales, office, LId, IsPower);
       setCustomerTypeWiseSaleAmount(customerTypeWiseSaleAmount);
   
-      const vendorWiseNetWt = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "VendorWiseNetWt", sales, office, LId, IsPower);
+      const vendorWiseNetWt = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "VendorWiseNetWt", sales, office, LId, IsPower);
       setVendorWiseNetWt(vendorWiseNetWt);
   
-      const salesrepWiseSaleAmount = await fetchDashboardData(tkn, hostName, fdatef, tdatef, "SalesrepWiseSaleAmount", sales, office, LId, IsPower);
+      const salesrepWiseSaleAmount = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "SalesrepWiseSaleAmount", sales, office, LId, IsPower);
       setSalesrepWiseSaleAmount(salesrepWiseSaleAmount);
   
     } catch (error) {
@@ -476,6 +501,16 @@ useEffect(() => {
                 }
               </select>
             </Box>
+            { (IFB === 1 && branchList?.length > 0) && <Box className="me-1" style={{minWidth:'200px'}}>
+              <label htmlFor="branch">Branch</label>
+              <select className='form-control' name="branch" id="branch" disabled={branchList?.length === 0} value={selectedBranch} onChange={(e) => branchListHandleChange(e)}>
+                {
+                  branchList?.map((e, i) => {
+                    return <option key={i} value={e?.dbUniqueKey}>{e?.UFCC}</option>
+                  })
+                }
+              </select>
+            </Box>}
             <div style={{marginBottom:'3px'}}><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green, marginLeft:'10px', padding:'9px 0px'}} size='large' onClick={() => handleApply()}>Apply</Button></div>
             </div>
           </Grid>
