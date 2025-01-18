@@ -304,7 +304,7 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin }) => {
     <div className='facd' style={{width:'95%', margin:'0 auto', paddingBottom:'2rem'}}>
         <Grid container spacing={2}>
             <Grid item xs={12} md={2}>
-                <Card className='fs_facd bs_facd' sx={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', p:2, minHeight:'100px', display:'flex', alignItems:'center', justifyContent:'center'}}><Typography variant='h3' sx={{fontFamily:"Public Sans Light", color:theme?.palette?.customColors?.purple}}>Factory Dashboard</Typography></Card>
+                <Card className='fs_facd bs_facd' sx={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', p:2, minHeight:'100px', display:'flex', alignItems:'center', justifyContent:'center'}}><Typography variant='h4' sx={{fontFamily:"Public Sans Light", fontWeight:'bold', color:theme?.palette?.customColors?.purple}}>Purchase Dashboard</Typography></Card>
             </Grid>
             <Grid item xs={12} sm={12} md={10}>
 

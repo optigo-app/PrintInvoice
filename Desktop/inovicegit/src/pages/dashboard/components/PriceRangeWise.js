@@ -108,7 +108,7 @@ const PriceRangeWise = ({ jobWisePriceRangeData, country }) => {
       style={{ boxShadow: '0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight: '400px' }}
     >
       <CardHeader
-        title="Jobs Count With Price Range (Line Chart)"
+        title="Price Ranges With Job Count"
         titleTypographyProps={{ sx: { mb: [2, 0] } }}
         sx={{
           py: 2.5,
