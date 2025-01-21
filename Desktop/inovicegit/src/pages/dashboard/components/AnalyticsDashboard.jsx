@@ -427,7 +427,6 @@ useEffect(() => {
   setSelectedSales((IsEmpLogin) === 0 ? 0 : (LId));
 }, [IsEmpLogin, LId]);
 
-console.log(passAsTkn);
 
   return (
     <ApexChartWrapper style={{paddingBottom:'2.5rem', paddingTop:'1rem', width:'95%', margin:'0 auto'}}>

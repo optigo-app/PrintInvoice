@@ -321,6 +321,7 @@ export const excelConditions = [
   { printName: "packing list c", etpType: "excel", componentName: "PackingListCExcel2"},
   { printName: "packing list 2", etpType: "excel", componentName: "ColorIndia"},
   { printName: "memo format a", etpType: "excel", componentName: "ExcelToJsonDownloadA"},
+  { printName: "sale format wt", etpType: "excel", componentName: "SaleFormatWt"},
 ];
 export const alterationArray = [
   {label:"alteration", evname: "RepairAlteration", componentName:'RepairAlteration'},

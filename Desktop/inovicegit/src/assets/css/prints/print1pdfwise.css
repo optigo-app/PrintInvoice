@@ -262,11 +262,15 @@
     justify-content: center;
     align-items: center;
     object-fit: contain;
-    height: 120px;
+    /* height: 120px; */
     width: 100%;
     max-width: 140px;
     padding: 10px;
     box-sizing: border-box;
+}
+.min_h_img_block_pdf_2{
+    min-height: 186px;
+    align-items: center !important;
 }
 
 @media print {
@@ -354,7 +358,7 @@
         justify-content: center;
         align-items: center;
         object-fit: contain;
-        height: 120px;
+        /* height: 120px; */
         max-width: 120px;
         width: 100%;
         padding: 10px;
@@ -367,4 +371,10 @@
     .print-container_printq:last-child {
         page-break-after: auto; 
       }
+
+      .min_h_img_block_pdf_2{
+        max-height: 126px;
+        min-height: 126px;
+        align-items: center !important;
+    }
 }

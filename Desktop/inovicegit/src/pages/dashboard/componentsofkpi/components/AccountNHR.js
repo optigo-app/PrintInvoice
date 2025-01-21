@@ -33,7 +33,7 @@ const AccountNHR = ({tkn, data, bgColor}) => {
                   :
                  (  data?.heading === "Labour vs Exp"
                   ? 
-                  `${parseFloat(checkNullUndefined(data?.totalValue))?.toFixed(2)} ` : ( data?.heading === "Avg. Collection Period" ? `${Math.round(parseFloat(checkNullUndefined(data?.totalValue)))} Days` : 
+                  `${parseFloat(checkNullUndefined(data?.totalValue))?.toFixed(2)} ` : ( (data?.heading === "Avg. Collection Period" || data?.heading === "Avg. Overdue Deb. Days") ? `${Math.round(parseFloat(checkNullUndefined(data?.totalValue)))} Days` : 
                   ( (data?.heading?.toLowerCase() === 'fix asset laverage ratio' || data?.heading?.toLowerCase() === 'inventory turn over ratio') ? Math.round(checkNullUndefined(data?.totalValue)) :  parseFloat(checkNullUndefined(data?.totalValue))?.toFixed(2))) )
                  }
               </Typography>

@@ -132,7 +132,7 @@ const Print1PDFWise = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className='' key={i}>
                                     <div className='itemdiv_qp1 b_t_qp1 p-0'>
                                         <div className='d-flex justify-content-center align-items-center py-1 border-bottom border-black fw-bold'>&nbsp;{ (atob(evn))?.toLowerCase() === "quote" && res?.designno}{ (atob(evn))?.toLowerCase() === "memo" && res?.SrJobno}</div>
-                                        <div className='d-flex justify-content-center align-items-start w-100 border-bottom border-black'>
+                                        <div className='d-flex justify-content-center align-items-start w-100 border-bottom border-black min_h_img_block_pdf_2'>
                                         { res?.DesignImage !== '' ? <div className='imgBlock_print2q '>
                                             <a href={`${res?.DesignImage}`} target='_blank'>
                                                 <img
@@ -144,7 +144,7 @@ const Print1PDFWise = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                     height="100%"
                                                 />
                                             </a>
-                                        </div> :
+                                        </div> : <div className='imgBlock_print2q '>
                                             <img
                                                 src={res?.DesignImage}
                                                 onError={(e) => handleImageError(e)}
@@ -153,6 +153,7 @@ const Print1PDFWise = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                 width={"100%"}
                                                 height="100%"
                                             /> 
+                                            </div>
                                             }
                                         </div>
                                         <div className='d-flex justify-content-center fs_print2q align-items-center border-bottom border-black fw-bold'>{res?.designno}&nbsp;</div>

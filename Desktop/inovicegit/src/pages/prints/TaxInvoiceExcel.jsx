@@ -268,9 +268,9 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             obj.dia_size = e?.diamonds[0] ? e?.diamonds[0]?.SizeName : '';
             obj.dia_pcs = e?.diamonds[0] ? e?.diamonds[0]?.Pcs : '';
             obj.dia_wt = e?.diamonds[0] ? ((e?.diamonds[0]?.Wt)?.toFixed(3)) : '';
-            // obj.dia_rate = e?.diamonds[0] ? (Math.round(((e?.diamonds[0]?.Amount / result?.header?.CurrencyExchRate) / (e?.diamonds[0]?.Wt === 0 ? 1 : e?.diamonds[0]?.Wt)))) : '';
             obj.dia_rate = e?.diamonds[0] ? (Math.round(((e?.diamonds[0]?.Amount / datas?.header?.CurrencyExchRate) / (e?.diamonds[0]?.Wt === 0 ? 1 : e?.diamonds[0]?.Wt)))) : '';
             obj.dia_amt = e?.diamonds[0] ? (e?.diamonds[0]?.Amount) : '';
+            // obj.dia_rate = e?.diamonds[0] ? (Math.round(((e?.diamonds[0]?.Amount / result?.header?.CurrencyExchRate) / (e?.diamonds[0]?.Wt === 0 ? 1 : e?.diamonds[0]?.Wt)))) : '';
 
 
             obj.met_quality = '';

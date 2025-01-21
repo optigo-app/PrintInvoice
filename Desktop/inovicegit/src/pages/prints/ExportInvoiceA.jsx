@@ -670,7 +670,7 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           {/* <div>4.000</div> */}
         </div>
         <div className='col_t3_5_eia'>FOB</div>
-        <div className='col_t3_6_eia'>{formatAmount(result?.mainTotal?.TotalAmount)}</div>
+        <div className='col_t3_6_eia'>{formatAmount((result?.mainTotal?.TotalAmount / result?.header?.CurrencyExchRate))}</div>
       </div>
 
       <div className='d-flex border border-top-0  border-black fw-semibold'>
@@ -685,7 +685,7 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           <div>4.000</div> */}
         </div>
         <div className='col_t3_5_eia'>FRI</div>
-        <div className='col_t3_6_eia'>{formatAmount(result?.header?.FreightCharges)}</div>
+        <div className='col_t3_6_eia'>{formatAmount((result?.header?.FreightCharges / result?.header?.CurrencyExchRate))}</div>
       </div>
 
       <div className='d-flex border border-top-0  border-black fw-semibold'>
@@ -715,7 +715,7 @@ const ExportInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           <div>4.000</div> */}
         </div>
         <div className='col_t3_5_eia'>Total CIF</div>
-        <div className='col_t3_6_eia'>{formatAmount((result?.mainTotal?.TotalAmount + result?.header?.FreightCharges))}</div>
+        <div className='col_t3_6_eia'>{formatAmount(((result?.mainTotal?.TotalAmount / result?.header?.CurrencyExchRate) + (result?.header?.FreightCharges / result?.header?.CurrencyExchRate)))}</div>
       </div>
     </div>
     <div className='border border-black mt-3 p-1 text-break fw-semibold'>

@@ -65,7 +65,7 @@ const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData
             subheading: 'Account & HR'
         },
         {
-            heading: 'Avg. Due Debtors',
+            heading: 'Avg. Overdue Deb. Days',
             totalValue: Math.round(parseInt(checkNullUndefined(checkNullUndefined(PrdDev?.TotalOverDueDays / (PrdDev?.TotalBillCount || 1))))?.toFixed(2)),
             series: [],
             subheading: 'Account & HR'

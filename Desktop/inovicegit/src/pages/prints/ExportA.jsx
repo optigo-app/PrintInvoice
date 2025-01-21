@@ -389,11 +389,11 @@ const ExportA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className={`col-5 p-1`}><p className='fw-bold text-end'>{(datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount) / headerData?.CurrencyExchRate !== 0 && NumberWithCommas((datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount) / headerData?.CurrencyExchRate, 2)}</p></div>
                 </div>
                 <div className={`${style?.fob} d-flex`}>
-                    {console.log(datass)}
                     <p className="fw-bold  w-25 p-1 border-end border-black text-end">{datass?.mainTotal?.total_amount / headerData?.CurrencyExchRate !== 0 && NumberWithCommas(datass?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2)}</p>
                     <p className="fw-bold w-25 p-1 border-end border-black text-end">{(datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount + datass?.mainTotal?.misc?.Amount + datass?.mainTotal?.metal?.Amount) / headerData?.CurrencyExchRate !== 0 && NumberWithCommas(((datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount + datass?.mainTotal?.misc?.Amount + datass?.mainTotal?.metal?.Amount)) / headerData?.CurrencyExchRate, 2)}</p>
                     {/* <p className="fw-bold w-25 p-1 border-end border-black text-end">{((datass?.mainTotal?.total_amount) - (datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount + datass?.mainTotal?.misc?.Amount)) / headerData?.CurrencyExchRate !== 0 && NumberWithCommas(((datass?.mainTotal?.total_amount) - (datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount + datass?.mainTotal?.misc?.Amount)) / headerData?.CurrencyExchRate, 2)}</p> */}
-                    <p className="fw-bold w-25 p-1 border-end border-black text-end">{formatAmount(datass.mainTotal?.total_diamondHandling + datass?.mainTotal?.total_other + datass?.mainTotal?.total_Making_Amount)}</p>
+                    <p className="fw-bold w-25 p-1 border-end border-black text-end">
+                        {formatAmount(datass.mainTotal?.total_diamondHandling + datass?.mainTotal?.total_other + (datass?.mainTotal?.total_Making_Amount / headerData?.CurrencyExchRate))}</p>
                     {/* <p className="fw-bold w-25 p-1  text-end">{(datass?.mainTotal?.total_amount) / headerData?.CurrencyExchRate !== 0 && NumberWithCommas(datass?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2)}</p> */}
                     <p className="fw-bold w-25 p-1  text-end"></p>
                 </div>

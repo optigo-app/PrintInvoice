@@ -285,7 +285,6 @@ const FactoryDashBoard = ({ tkn, LId, IsEmpLogin, IFB }) => {
           })
         }
       },[all]);
-console.log(passAsTkn);
 
       const materialList = [
         {
