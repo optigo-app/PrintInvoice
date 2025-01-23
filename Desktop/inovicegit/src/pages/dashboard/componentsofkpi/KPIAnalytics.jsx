@@ -89,15 +89,13 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       apiUrl_kpi = 'https://view.optigoapps.com/linkedapp/App/KPI_DashBoard';
     }
 
-
-
-
         //separate api call 
         const [PrdDev, setPrdDev] = useState([]); //product development
         const [PDLoader, setPDLoader] = useState(false);
         const [QuaC, setQuaC] = useState([]); //quality control
         const [QCLoader, setQCLoader] = useState(false);
-        const [saleMTs, setSaleMTs] = useState([]); //sale marketing total sale
+        const [saleMTs, setSaleMTs] = useState([]); //sale marketing total sale 1
+        const [saleMTs2, setSaleMTs2] = useState([]); //sale marketing total sale 2
         const [saleMTsLoader, setSaleMTsLoader] = useState(false);
         const [BCwise, setBCwise] = useState([]); //sale marketing total sale business class wise
         const [BCwiseLoader, setBCwiseLoader] = useState(false);
@@ -129,6 +127,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         setPDLoader(true);
           const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "ProductDevelopment");
           if(response){
+            
             setPrdDev(response[0]);
             setPDLoader(false);
           }else{
@@ -160,14 +159,32 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
     const SalesMarketing_TotalSaleFetch = async() => {
       try {
           setSaleMTsLoader(true);
-          const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_TotalSale");
-          if(response){
-            setSaleMTs(response[0]);
-            
-            setSaleMTsLoader(false);
-          }else{
-            setSaleMTsLoader(false);
+          const body2s = JSON.stringify({
+            "Token" : `${tkn}`  
+            ,"ReqData":`[{\"Token\":\"${tkn}\",\"Evt\":\"SalesMarketing_TotalSale\",\"FDate\":\"${moment(fdate)?.format('MM/DD/YYYY')}\",\"TDate\":\"${moment(tdate)?.format('MM/DD/YYYY')}\"}]`
+          });
+          const headers2s = {
+            "Content-Type":"application/json"
           }
+          const response = await axios.post(apiUrl_kpi, body2s, headers2s);
+          if (response?.data?.Status === '200') {
+              setSaleMTs(response?.data?.Data?.DT[0]);
+              setSaleMTs2(response?.data?.Data?.DT1[0]);
+              setSaleMTsLoader(false);
+              // return  {DT:response.data.Data.DT, DT1:response.data.Data.DT1} ;
+          } else {
+              setSaleMTsLoader(false);
+              setSaleMTs([]);
+              setSaleMTs2([]);
+            // return []; // Empty array if no data or status is not 200
+          }          
+          // const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_TotalSale");
+          // if(response){
+          //   setSaleMTs(response[0]);
+          //   setSaleMTsLoader(false);
+          // }else{
+          //   setSaleMTsLoader(false);
+          // }
       } catch (error) {
         console.log(error);
         setSaleMTsLoader(true);
@@ -1099,6 +1116,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       }
     }
     const handleApply = () => {
+
         const startDate = moment(fdate);
         const endDate = moment(tdate);
         const diffInDays = endDate.diff(startDate, 'days');
@@ -1388,7 +1406,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         <Grid item xs={12}><HeaderOfCard headerName="ACCOUNT & HR" bgColor={'#7d5ae773'} /></Grid>
                   
         <Grid item xs={12} sm={12} md={12} >
-          <AccountHr tkn={tkn} InventoryRatio={InventoryRatio} saleMTs={saleMTs} PrdDev={PrdDev} avgCollRatio={avgCollRatio} apiData1={apiData1} bgColor={theme?.palette?.customColors?.purple} acrLoader={acrLoader} irLoader={irLoader} PDLoader={PDLoader} />
+          <AccountHr tkn={tkn} InventoryRatio={InventoryRatio} saleMTs={saleMTs} saleMTs2={saleMTs2} PrdDev={PrdDev} avgCollRatio={avgCollRatio} apiData1={apiData1} bgColor={theme?.palette?.customColors?.purple} acrLoader={acrLoader} irLoader={irLoader} PDLoader={PDLoader} />
         </Grid>
 
         { !isMaxWidth11410px && <><Grid item xs={12} md={4} lg={7}><HeaderOfCard headerName="RAW MATERIAL" bgColor={'#7d5ae773'} /></Grid>
@@ -1423,24 +1441,24 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         
         { !isMaxWidth1700px && <><Grid item xs={12} md={12} lg={12}><HeaderOfCard headerName="SALES & MARKETING" bgColor={'#7d5ae773'} /></Grid>
         <Grid item xs={12} md={6} lg={3}>
-            <SalesNMarketing2 tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  SM2={SM2} saleMTs={saleMTs} saleMTsLoader={saleMTsLoader} />
+            <SalesNMarketing2 tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  SM2={SM2} saleMTs={saleMTs} saleMTs2={saleMTs2} saleMTsLoader={saleMTsLoader} />
         </Grid>
         <Grid item xs={12} md={6} lg={2}>
             <SalesNMarketing3 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  SM3={SM3} BCwise={BCwise} BCwiseLoader={BCwiseLoader}  />
         </Grid>
         <Grid item xs={12} md={6} lg={7}>
-            <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.customColors?.purple} SM1={SM1} orderCmplt={orderCmplt} saleMTs={saleMTs} popUpList={popUpList} SMOrder={SMOrder} OCLoader={OCLoader} SMOrderLoader={SMOrderLoader} />
+            <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.customColors?.purple} SM1={SM1} orderCmplt={orderCmplt} saleMTs={saleMTs} saleMTs2={saleMTs2} popUpList={popUpList} SMOrder={SMOrder} OCLoader={OCLoader} SMOrderLoader={SMOrderLoader} />
         </Grid></>}
         
         { isMaxWidth1700px && <><Grid item xs={12} md={12} lg={12}><HeaderOfCard headerName="SALES & MARKETING" bgColor={'#7d5ae773'} /></Grid>
         <Grid item xs={12} md={6} lg={6}>
-            <SalesNMarketing2 tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  SM2={SM2} saleMTs={saleMTs}  saleMTsLoader={saleMTsLoader} />
+            <SalesNMarketing2 tkn={tkn}  bgColor={theme?.palette?.customColors?.purple}  SM2={SM2} saleMTs={saleMTs} saleMTs2={saleMTs2} saleMTsLoader={saleMTsLoader} />
         </Grid>
         <Grid item xs={12} md={6} lg={6}>
             <SalesNMarketing3 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  SM3={SM3} BCwise={BCwise} BCwiseLoader={BCwiseLoader}  />
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
-            <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  SM1={SM1} orderCmplt={orderCmplt} saleMTs={saleMTs} popUpList={popUpList} SMOrder={SMOrder} OCLoader={OCLoader}  SMOrderLoader={SMOrderLoader} />
+            <SalesNMarketing1 tkn={tkn} bgColor={theme?.palette?.customColors?.purple}  SM1={SM1} orderCmplt={orderCmplt} saleMTs={saleMTs} saleMTs2={saleMTs2} popUpList={popUpList} SMOrder={SMOrder} OCLoader={OCLoader}  SMOrderLoader={SMOrderLoader} />
         </Grid></>}
         
         <Grid item xs={12} md={12} lg={12}><HeaderOfCard headerName="MANUFACTURING" bgColor={'#7d5ae773'} /></Grid>

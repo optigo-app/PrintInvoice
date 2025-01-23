@@ -71,7 +71,7 @@ const data5 = [
   },
  {
   stats: `₹ ${formatAmountRound((checkNullUndefined(saleMTs?.MetalAmount))?.toFixed(2))}`,
-  title: 'Gold Amt',
+  title: 'Metal Amt',
   },
  {
   stats: `₹ ${formatAmountRound((checkNullUndefined(saleMTs?.DiamondAmount))?.toFixed(2))}`,

@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react'
 import AccountNHR from './AccountNHR'
 import { checkNullUndefined } from './global';
 
-const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData1, bgColor, acrLoader, irLoader, PDLoader }) => {
-
+const AccountHr = ({ tkn, InventoryRatio, saleMTs, saleMTs2, PrdDev, avgCollRatio, apiData1, bgColor, acrLoader, irLoader, PDLoader }) => {
+    
     const theme = useTheme();
     
     // Check if the necessary props are available
@@ -47,11 +47,11 @@ const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData
     const data = [
         {
             heading: 'Fix Asset Laverage Ratio',
-            totalValue: Math.round(parseInt(checkNullUndefined(
+            totalValue: (parseFloat(checkNullUndefined(
                 (
                     (
-                        (saleMTs?.LabourAmount / (InventoryRatio?.DT?.[0]?.AvgInventory || 1)) /
-                        (InventoryRatio?.DT?.[0]?.NoOfDays || 1)
+                        ( (InventoryRatio?.DT2?.[0]?.AvgInventory === 0 ? 0 : saleMTs2?.LabourAmount) / (InventoryRatio?.DT2?.[0]?.AvgInventory === 0 ? 1 : InventoryRatio?.DT2?.[0]?.AvgInventory )) /
+                        (InventoryRatio?.DT2?.[0]?.NoOfDays === 0 ? 1 : InventoryRatio?.DT2?.[0]?.NoOfDays)
                     ) * 365
                 )
             )))?.toFixed(0),
@@ -60,13 +60,13 @@ const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData
         },
         {
             heading: 'Revenue Per Employees',
-            totalValue: Math.round(parseFloat(checkNullUndefined(((saleMTs?.OnlySaleLabourAmount / (PrdDev?.RevenueEmployeeCount || 1)))))),
+            totalValue: Math.round(parseFloat(checkNullUndefined(((( PrdDev?.RevenueEmployeeCount === 0 ? 0 : saleMTs?.OnlySaleLabourAmount) / (PrdDev?.RevenueEmployeeCount === 0 ? 1 : PrdDev?.RevenueEmployeeCount )))))),
             series: [],
             subheading: 'Account & HR'
         },
         {
             heading: 'Avg. Overdue Deb. Days',
-            totalValue: Math.round(parseInt(checkNullUndefined(checkNullUndefined(PrdDev?.TotalOverDueDays / (PrdDev?.TotalBillCount || 1))))?.toFixed(2)),
+            totalValue: Math.round(parseInt(checkNullUndefined(checkNullUndefined(( PrdDev?.TotalBillCount === 0 ? 0 : PrdDev?.TotalOverDueDays) / (PrdDev?.TotalBillCount === 0 ? 1 : PrdDev?.TotalBillCount ))))?.toFixed(2)),
             series: [],
             subheading: 'Account & HR'
         },
@@ -77,23 +77,29 @@ const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData
             subheading: 'Account & HR'
         },
         {
-            heading: 'Avg. Collection Period',
             // totalValue: parseFloat(checkNullUndefined(((avgCollRatio?.Sun_Debtor || 0) / (saleMTs?.Amount || 1)) * 365))?.toFixed(2),
-            totalValue: parseFloat(checkNullUndefined(((saleMTs?.Amount === 0 ? 0 : ((avgCollRatio?.Sun_Debtor || 0) / (saleMTs?.Amount || 1)))) * 365))?.toFixed(2),
+            heading: 'Avg. Collection Period',
+            totalValue: parseFloat(checkNullUndefined(((saleMTs?.Amount === 0 ? 0 : ((avgCollRatio?.Sun_Debtor || 0) / (saleMTs?.Amount )))) * 365))?.toFixed(2),
             series: [],
             subheading: 'Account & HR'
         },
+
         {
             heading: 'Labour vs Exp',
-            totalValue: parseFloat(checkNullUndefined((((
-                (saleMTs?.LabourAmount || 0) - 
-                (InventoryRatio?.DT?.[0]?.Direct_Expense || 0) - 
-                (InventoryRatio?.DT1?.[0]?.InDirect_Expense || 0)
-            ) / (saleMTs?.LabourAmount || 1)) * 100)))?.toFixed(2),
+            totalValue: parseFloat(checkNullUndefined((
+            (
+                (
+                ((saleMTs2?.OnlySaleLabourAmount - saleMTs2?.OnlySaleReturnLabourAmount) ) - 
+                ((InventoryRatio?.DT2?.[0]?.Direct_Expense || 0) + (InventoryRatio?.DT3?.[0]?.InDirect_Expense || 0))
+                ) 
+                / 
+                ((saleMTs2?.OnlySaleLabourAmount - saleMTs2?.OnlySaleReturnLabourAmount) || 1)
+            ) * 100)))?.toFixed(2),
             series: [],
             subheading: 'Account & HR'
         }
     ];
+
 
     return (
         <Grid container spacing={1}>
@@ -111,3 +117,25 @@ const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData
 };
 
 export default AccountHr;
+
+
+        // {
+        //     heading: 'Labour vs Exp DT',
+        //     totalValue: parseFloat(checkNullUndefined((((
+        //         (saleMTs?.LabourAmount || 0) - 
+        //         (InventoryRatio?.DT2?.[0]?.Direct_Expense || 0) - 
+        //         (InventoryRatio?.DT3?.[0]?.InDirect_Expense || 0)
+        //     ) / (saleMTs?.LabourAmount || 1)) * 100)))?.toFixed(2),
+        //     series: [],
+        //     subheading: 'Account & HR'
+        // },
+        // {
+        //     heading: 'Labour vs Exp DT1',
+        //     totalValue: parseFloat(checkNullUndefined((((
+        //         (saleMTs2?.LabourAmount || 0) - 
+        //         (InventoryRatio?.DT2?.[0]?.Direct_Expense || 0) - 
+        //         (InventoryRatio?.DT3?.[0]?.InDirect_Expense || 0)
+        //     ) / (saleMTs?.LabourAmount || 1)) * 100)))?.toFixed(2),
+        //     series: [],
+        //     subheading: 'Account & HR'
+        // },

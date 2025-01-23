@@ -39,7 +39,7 @@ const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC, qcInward, inw
               },
               {
                 stats: (checkNullUndefined(parseInt((QuaC?.QACountWithOutClub / InventoryRatio?.DT[0]?.NoOfDays)))),
-                title: 'Total Jobs',
+                title: 'Avg. QA Jobs',
               },
               {
                 stats: `${safeValue(parseFloat(checkNullUndefined((QuaC?.DaysDiff_QA_To_Stock / (QuaC?.TotalJobCount_QA_To_Stock))))?.toFixed(2))} Days`,

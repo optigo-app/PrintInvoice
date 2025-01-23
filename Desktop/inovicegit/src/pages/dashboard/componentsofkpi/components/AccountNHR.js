@@ -25,16 +25,19 @@ const AccountNHR = ({tkn, data, bgColor}) => {
             </div>
             <div>
               <Typography variant='h5' sx={{ mb: 0.75, color:theme?.palette?.grey[700], fontWeight:'bolder' }}>
-             
-                
                 { 
                  data?.heading === "Revenue Per Employees" || data?.heading === "Avg. Due Debtors" ? 
                 `₹ ${formatAmountRound(data?.totalValue)}` 
                   :
                  (  data?.heading === "Labour vs Exp"
                   ? 
-                  `${parseFloat(checkNullUndefined(data?.totalValue))?.toFixed(2)} ` : ( (data?.heading === "Avg. Collection Period" || data?.heading === "Avg. Overdue Deb. Days") ? `${Math.round(parseFloat(checkNullUndefined(data?.totalValue)))} Days` : 
-                  ( (data?.heading?.toLowerCase() === 'fix asset laverage ratio' || data?.heading?.toLowerCase() === 'inventory turn over ratio') ? Math.round(checkNullUndefined(data?.totalValue)) :  parseFloat(checkNullUndefined(data?.totalValue))?.toFixed(2))) )
+                  `${parseFloat(checkNullUndefined(data?.totalValue))?.toFixed(2)} %` : 
+                  ( (data?.heading === "Avg. Collection Period" || data?.heading === "Avg. Overdue Deb. Days") ? 
+                    `${Math.round(parseFloat(checkNullUndefined(data?.totalValue)))} Days` 
+                    : 
+                    ( (data?.heading?.toLowerCase() === 'fix asset laverage ratio' || data?.heading?.toLowerCase() === 'inventory turn over ratio')
+                     ? ( (data?.heading?.toLowerCase() === 'fix asset laverage ratio' || data?.heading?.toLowerCase() === 'inventory turn over ratio') ?  `${Math.round(checkNullUndefined(data?.totalValue))} Days` : Math.round(checkNullUndefined(data?.totalValue))) :
+                      parseFloat(checkNullUndefined(data?.totalValue))?.toFixed(2))) )
                  }
               </Typography>
     

@@ -240,7 +240,7 @@ const RawMaterial = ({tkn, bgColor, fdate, tdate, RMData, bgComp, g_loss, rmStoc
     {
       stats: g_loss?.rm_grossloss === null ? '-' : (
         <>
-          {(safeValue(g_loss?.rm_grossloss)?.toFixed(3))} gm
+          {(safeValue(g_loss?.rm_grossloss)?.toFixed(2))} gm
         </>
       ),
       title: 'Gross Loss',
@@ -253,23 +253,23 @@ const RawMaterial = ({tkn, bgColor, fdate, tdate, RMData, bgComp, g_loss, rmStoc
     {
       stats: (rmStock?.rm_goldstock_amt === null || rmStock?.rm_goldstock_amt === undefined) ? 0 : ` ₹ ${formatAmountRound(safeValue((rmStock?.rm_goldstock_amt)?.toFixed(2)))} `,
       title: 'Gold Stock',
-      wt: `${(+(safeValue(rmStock?.rm_goldstock_wt)))?.toFixed(3)} gm`
+      wt: `${(+(safeValue(rmStock?.rm_goldstock_wt)))?.toFixed(2)} gm`
     },
  
     {
       stats: (rmStock?.rm_diastock_amt === null || rmStock?.rm_diastock_amt === undefined) ? 0 : ` ₹ ${formatAmountRound(safeValue((rmStock?.rm_diastock_amt))?.toFixed(2))}`,
       title: 'Diamond Stock',
-      wt: `${(+(safeValue(rmStock?.rm_diastock_wt)))?.toFixed(3)} ctw`
+      wt: `${(+(safeValue(rmStock?.rm_diastock_wt)))?.toFixed(2)} ctw`
     },
     {
       stats: (rmStock?.rm_csstock_amt === null || rmStock?.rm_csstock_amt === undefined) ? 0 : ` ₹ ${formatAmountRound(safeValue((rmStock?.rm_csstock_amt))?.toFixed(2))}`,
       title: 'Colour Stone Stock',
-      wt: `${(+(safeValue(rmStock?.rm_csstock_wt)))?.toFixed(3)} ctw`
+      wt: `${(+(safeValue(rmStock?.rm_csstock_wt)))?.toFixed(2)} ctw`
     },
     {
       stats: (rmStock?.rm_miscstock_amt === null || rmStock?.rm_miscstock_amt === undefined) ? 0 : ` ₹ ${formatAmountRound(safeValue((rmStock?.rm_miscstock_amt))?.toFixed(2))}`,
       title: 'Misc Stock',
-      wt: `${(+(safeValue(rmStock?.rm_miscstock_wt)))?.toFixed(3)} ctw`
+      wt: `${(+(safeValue(rmStock?.rm_miscstock_wt)))?.toFixed(2)} gm`
     }
   ];
   

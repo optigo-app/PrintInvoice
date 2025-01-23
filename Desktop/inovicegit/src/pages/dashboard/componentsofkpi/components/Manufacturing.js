@@ -10,7 +10,6 @@ import "../kpianalytics.css"
 import {  useDispatch, useSelector } from 'react-redux';
 import { formatAmount, formatAmountRound } from '../../GlobalFunctions';
 
-
 // const Manufacturning = ({tkn, bgColor, fdate, tdate, MFGData, columns, LWise, mfgTable}) => {
 const Manufacturning = ({tkn, bgColor, LWise, mfgTable, mfgLoader, LWiseLoader}) => {
 
@@ -453,8 +452,10 @@ const Manufacturning = ({tkn, bgColor, LWise, mfgTable, mfgLoader, LWiseLoader})
             // Apply conditional decimal formatting based on KPI name
             if (kpi === "Labour Amount") {
               row[location] = `₹ ${formatAmountRound(parseFloat(combinedData[location]?.[kpi] || 0.00)?.toFixed(2))}`; // 2 decimals for amount
-            } else if (kpi === "Production (gm)" || kpi === "Gross Loss (%)" || kpi === "Rejection (%)") {
-              row[location] = parseFloat(combinedData[location]?.[kpi] || 0.000)?.toFixed(3); // 3 decimals for weight/loss
+            } else if (kpi === "Production (gm)" ) {
+              row[location] = Math.round((combinedData[location]?.[kpi] || 0.000)); // 3 decimals for weight/loss
+            } else if (kpi === "Gross Loss (%)" || kpi === "Rejection (%)") {
+              row[location] = `${parseFloat(combinedData[location]?.[kpi] || 0.000)?.toFixed(2)} %`; // 3 decimals for weight/loss
             } else {
               row[location] = (combinedData[location]?.[kpi] || 0.00);
             }

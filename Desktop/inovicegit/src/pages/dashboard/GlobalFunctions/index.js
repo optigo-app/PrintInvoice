@@ -98,7 +98,8 @@ export function formatAmount(amount) {
       const response = await axios.post(url, body, headers);
       
       if (response?.data?.Status === '200') {
-        return  response.data.Data.DT ;
+        return response?.data?.Data?.DT;
+        // return  {DT:response.data.Data.DT, DT1:response.data.Data.DT1} ;
       } else {
         return []; // Empty array if no data or status is not 200
       }
