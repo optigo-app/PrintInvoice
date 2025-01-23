@@ -38,7 +38,7 @@ const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC, qcInward, inw
                 title: 'Outward',
               },
               {
-                stats: (checkNullUndefined(parseInt((QuaC?.QACountWithOutClub / InventoryRatio?.DT[0]?.NoOfDays)))),
+                stats: `${(checkNullUndefined(parseInt((QuaC?.QACountWithOutClub / InventoryRatio?.DT[0]?.NoOfDays))))} Jobs`,
                 title: 'Avg. QA Jobs',
               },
               {
