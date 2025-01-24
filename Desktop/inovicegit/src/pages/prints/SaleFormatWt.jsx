@@ -156,10 +156,10 @@ const SaleFormatWt = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         setResult2(finalArr);
         setResult(datas);
 
-        // setTimeout(() => {
-        //     const button = document.getElementById('test-table-xls-button');
-        //     button.click();
-        //   }, 500);
+        setTimeout(() => {
+            const button = document.getElementById('test-table-xls-button');
+            button.click();
+          }, 500);
 
     }
 
