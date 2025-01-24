@@ -158,7 +158,7 @@ const Print1PDFWise = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         </div>
                                         <div className='d-flex justify-content-center fs_print2q align-items-center border-bottom border-black fw-bold'>{res?.designno}&nbsp;</div>
                                         <div className='d-flex justify-content-center fs_print2q align-items-center border-bottom border-black fw-bold'>{res?.MetalTypePurity} - {res?.MetalColor}</div>
-                                        <div className='d-flex justify-content-center fs_print2q align-items-center border-bottom border-black fw-bold'>Gwt : {res?.grosswt?.toFixed(2)} | Nwt : {res?.NetWt?.toFixed(2)}</div>
+                                        <div className='d-flex justify-content-center fs_print2q align-items-center border-bottom border-black fw-bold'>Gwt : {res?.grosswt?.toFixed(2)} | Nwt : {(res?.NetWt + res?.LossWt)?.toFixed(2)}</div>
                                         <div className='d-flex justify-content-center fs_print2q align-items-center border-bottom border-black fw-bold'>
                                             { res?.totals?.diamonds?.Wt !== 0 && 'DWt :'}{ res?.totals?.diamonds?.Wt !== 0 && res?.totals?.diamonds?.Wt?.toFixed(2)}{res?.totals?.diamonds?.Wt !== 0 && ' | '}
                                             { res?.totals?.colorstone?.Wt !== 0 && 'CSWt :'}{ res?.totals?.colorstone?.Wt !== 0 && res?.totals?.colorstone?.Wt?.toFixed(2)}&nbsp;

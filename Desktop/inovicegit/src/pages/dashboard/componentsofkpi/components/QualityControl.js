@@ -38,11 +38,11 @@ const QualityControl = ({tkn, bgColor, tdate, fdate, QCData, QuaC, qcInward, inw
                 title: 'Outward',
               },
               {
-                stats: `${(checkNullUndefined(parseInt((QuaC?.QACountWithOutClub / InventoryRatio?.DT[0]?.NoOfDays))))} Jobs`,
+                stats: `${(checkNullUndefined(parseInt((( InventoryRatio?.DT[0]?.NoOfDays === 0 ? 0 : QuaC?.QACountWithOutClub) / (InventoryRatio?.DT[0]?.NoOfDays === 0 ? 1 : InventoryRatio?.DT[0]?.NoOfDays)))))} Jobs`,
                 title: 'Avg. QA Jobs',
               },
               {
-                stats: `${safeValue(parseFloat(checkNullUndefined((QuaC?.DaysDiff_QA_To_Stock / (QuaC?.TotalJobCount_QA_To_Stock))))?.toFixed(2))} Days`,
+                stats: `${safeValue(parseFloat(checkNullUndefined((( QuaC?.TotalJobCount_QA_To_Stock === 0 ? 0 : QuaC?.DaysDiff_QA_To_Stock) / (QuaC?.TotalJobCount_QA_To_Stock === 0 ? 1 : QuaC?.TotalJobCount_QA_To_Stock))))?.toFixed(2))} Days`,
                 title: 'Avg. Prs. Time',
               }
             ]
