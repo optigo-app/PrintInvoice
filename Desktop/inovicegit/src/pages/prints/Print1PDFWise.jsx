@@ -136,7 +136,7 @@ const Print1PDFWise = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         { res?.CDNDesignImageOrg !== '' ? <div className='imgBlock_print2q '>
                                             <a href={`${res?.CDNDesignImageOrg}`} target='_blank'>
                                                 <img
-                                                    src={res?.DesignImage}
+                                                    src={res?.CDNDesignImageOrg}
                                                     onError={(e) => handleImageError(e)}
                                                     alt="design"
                                                     className="imgdp10 i_qp1"
