@@ -106,6 +106,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         const [SMOrder, setSMOrder] = useState(); // sale marketing order
         const [SMOrderLoader, setSMOrderLoader] = useState(false);
         const [avgCollRatio, setAvgCollRatio] = useState(); // avg. collection period
+        const [AvgColPeriod, setAvgColPeriod] = useState();
         const [acrLoader, setACRLoader] = useState(false);
         const [InventoryRatio, setInventoryRatio] = useState(); // inventory turn over ratio
         const [irLoader, setIRLoader] = useState(false);
@@ -266,14 +267,30 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
     const AvgCollectionPeriodFetch = async() => {
       try {
         setACRLoader(true);
-          const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "AvgCollectionPeriod");
-          if(response){
-            setAvgCollRatio(response[0]);
-            setACRLoader(false);
-          }else{
-            setACRLoader(false);
+          // const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "AvgCollectionPeriod");
+          // if(response){
+          //   setAvgCollRatio(response[0]);
+          //   setACRLoader(false);
+          // }else{
+          //   setACRLoader(false);
+          // }
+          const body2s = JSON.stringify({
+            "Token" : `${tkn}`  
+            ,"ReqData":`[{\"Token\":\"${tkn}\",\"Evt\":\"AvgCollectionPeriod\",\"FDate\":\"${moment(fdate)?.format('MM/DD/YYYY')}\",\"TDate\":\"${moment(tdate)?.format('MM/DD/YYYY')}\"}]`
+          });
+          const headers2s = {
+            "Content-Type":"application/json"
           }
-          
+          const response = await axios.post(apiUrl_kpi, body2s, headers2s);
+          if (response?.data?.Status === '200') {
+              setAvgCollRatio(response?.data?.Data?.DT[0]);
+              setAvgColPeriod(response?.data?.Data);
+              setACRLoader(false);
+              // return  {DT:response.data.Data.DT, DT1:response.data.Data.DT1} ;
+          } else {
+              setACRLoader(false);
+            // return []; // Empty array if no data or status is not 200
+          } 
       } catch (error) {
         console.log(error);
         setACRLoader(false);
@@ -1406,7 +1423,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         <Grid item xs={12}><HeaderOfCard headerName="ACCOUNT & HR" bgColor={'#7d5ae773'} /></Grid>
                   
         <Grid item xs={12} sm={12} md={12} >
-          <AccountHr tkn={tkn} InventoryRatio={InventoryRatio} saleMTs={saleMTs} saleMTs2={saleMTs2} PrdDev={PrdDev} avgCollRatio={avgCollRatio} apiData1={apiData1} bgColor={theme?.palette?.customColors?.purple} acrLoader={acrLoader} irLoader={irLoader} PDLoader={PDLoader} />
+          <AccountHr tkn={tkn} InventoryRatio={InventoryRatio} AvgColPeriod={AvgColPeriod} saleMTs={saleMTs} saleMTs2={saleMTs2} PrdDev={PrdDev} avgCollRatio={avgCollRatio} apiData1={apiData1} bgColor={theme?.palette?.customColors?.purple} acrLoader={acrLoader} irLoader={irLoader} PDLoader={PDLoader} />
         </Grid>
 
         { !isMaxWidth11410px && <><Grid item xs={12} md={4} lg={7}><HeaderOfCard headerName="RAW MATERIAL" bgColor={'#7d5ae773'} /></Grid>

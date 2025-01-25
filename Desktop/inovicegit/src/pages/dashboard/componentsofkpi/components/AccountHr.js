@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react'
 import AccountNHR from './AccountNHR'
 import { checkNullUndefined } from './global';
 
-const AccountHr = ({ tkn, InventoryRatio, saleMTs, saleMTs2, PrdDev, avgCollRatio, apiData1, bgColor, acrLoader, irLoader, PDLoader }) => {
-    
+const AccountHr = ({ tkn, InventoryRatio, AvgColPeriod, saleMTs, saleMTs2, PrdDev, avgCollRatio, apiData1, bgColor, acrLoader, irLoader, PDLoader }) => {
+        
     const theme = useTheme();
     
     // Check if the necessary props are available
@@ -79,7 +79,13 @@ const AccountHr = ({ tkn, InventoryRatio, saleMTs, saleMTs2, PrdDev, avgCollRati
         {
             // totalValue: parseFloat(checkNullUndefined(((avgCollRatio?.Sun_Debtor || 0) / (saleMTs?.Amount || 1)) * 365))?.toFixed(2),
             heading: 'Avg. Collection Period',
-            totalValue: parseFloat(checkNullUndefined(((saleMTs?.Amount === 0 ? 0 : ((avgCollRatio?.Sun_Debtor || 0) / (saleMTs?.Amount )))) * 365))?.toFixed(2),
+            // totalValue: parseFloat(checkNullUndefined(((saleMTs?.Amount === 0 ? 0 : ((avgCollRatio?.Sun_Debtor || 0) / (saleMTs?.Amount )))) * 365))?.toFixed(2),
+            totalValue: parseFloat(checkNullUndefined(
+                (((((AvgColPeriod?.DT[0]?.Sun_Debtor + AvgColPeriod?.DT1[0]?.Sun_Debtor) / 2)
+                 / 
+                 (AvgColPeriod?.DT2[0]?.SaleAccAmount - AvgColPeriod?.DT2[0]?.SaleReturnAccAmount)
+                )) * 365)
+            )),
             series: [],
             subheading: 'Account & HR'
         },
