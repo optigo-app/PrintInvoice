@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
@@ -6,13 +6,10 @@ import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { CircularProgress, useTheme } from '@mui/material';
-import { useSelector } from 'react-redux';
 import {  safeValue } from './global';
 import { formatAmountRound } from '../../GlobalFunctions'
 const RawMaterial = ({ bgColor, bgComp, g_loss, rmStock, lossLoader, rmStockLoader, bgLoader}) => {
     const theme = useTheme();
-    const kpiMFGFlag = useSelector((state) => state?.kpi?.mfg);
-    const apiCall = useSelector(state => state?.kpi?.apiCall);
   const data6 = [
                 
     {

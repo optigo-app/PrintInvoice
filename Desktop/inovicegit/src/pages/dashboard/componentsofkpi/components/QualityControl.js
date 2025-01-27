@@ -7,14 +7,11 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 
 import { CircularProgress, useTheme } from '@mui/material';
-import { useSelector } from 'react-redux';
 import { checkNullUndefined, safeValue } from './global';
 const QualityControl = ({ bgColor,  QuaC, qcInward, inwardLoader, QCLoader, InventoryRatio }) => {
   
   
     const theme = useTheme();
-    const kpiMFGFlag = useSelector((state) => state?.kpi?.mfg);
-    const apiCall = useSelector(state => state?.kpi?.apiCall);
 
             const data = [
               {
