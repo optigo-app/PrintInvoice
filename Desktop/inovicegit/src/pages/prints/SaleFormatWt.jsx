@@ -51,7 +51,7 @@ const SaleFormatWt = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         );
 
         let finalArr = [];
-
+        
         datas?.resultArray?.forEach((e, i) => {
             let arr = [];
 
@@ -92,7 +92,7 @@ const SaleFormatWt = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.MetalAmount = e?.MetalAmount;
             obj.total_metfindwt = (e?.totals?.metal?.Wt + e?.totals?.finding?.Wt)?.toFixed(3);
             
-
+            
             obj.dia_code = e?.diamonds[0] ? ( e?.diamonds[0]?.MaterialTypeName + " " + e?.diamonds[0]?.ShapeName + "-" + e?.diamonds[0]?.QualityName ) : '';
             obj.dia_size = e?.diamonds[0] ?  ( e?.diamonds[0]?.SecondarySize === '' ? e?.diamonds[0]?.SizeName : e?.diamonds[0]?.SecondarySize) : '';
             obj.dia_SettingName = e?.diamonds[0] ? e?.diamonds[0]?.SettingName : '';
@@ -100,6 +100,10 @@ const SaleFormatWt = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.dia_wt = e?.diamonds[0] ? ((e?.diamonds[0]?.Wt)?.toFixed(3)) : '';
             obj.dia_rate = e?.diamonds[0] ? (Math.round(((e?.diamonds[0]?.Amount / datas?.header?.CurrencyExchRate) / (e?.diamonds[0]?.Wt === 0 ? 1 : e?.diamonds[0]?.Wt)))) : '';
             obj.dia_amt = e?.diamonds[0] ? (e?.diamonds[0]?.Amount) : '';
+
+            obj.findingWt = e?.finding[0] ? (e?.finding[0]?.Wt) : '';
+            obj.findingAmount = e?.finding[0] ? (e?.finding[0]?.SettingAmount) : '';
+            obj.findingRate = e?.finding[0] ? (e?.finding[0]?.SettingRate) : '';
 
             obj.MaKingCharge_Unit = e?.MaKingCharge_Unit;
             obj.MakingAmount = e?.MakingAmount;
@@ -111,11 +115,32 @@ const SaleFormatWt = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.TotalDiamondHandling = e?.TotalDiamondHandling;
             obj.HSNNo = e?.HSNNo;
 
+            obj.showValueFlag = false; // Default to false
+
+            if (e?.SrJobno === e?.GroupJob) {
+                // Case 1: SrJobno is equal to GroupJob
+                obj.showValueFlag = true;
+            } else if (e?.SrJobno !== '' && e?.GroupJob === '') {
+                // Case 2: SrJobno is not empty and GroupJob is empty
+                obj.showValueFlag = true;
+            } else if (e?.SrJobno !== e?.GroupJob && e?.GroupJob !== '') {
+                // Case 3: SrJobno is not equal to GroupJob and GroupJob is not empty
+                obj.showValueFlag = false;
+            } else {
+                // Any other cases can default to hide if necessary
+                obj.showValueFlag = false;
+            }
+
             Array?.from({length : len})?.map((el, ind) => {
 
                 let obj = {};
                 obj.sr2 = ind + 1;
                 obj.srflag = false;
+
+                obj.findingWt = '';
+                obj.findingFlag = false;
+                obj.findingRate = '';
+                obj.findingAmount = '';
 
                                 //diamond
                                 obj.dia_code = '';
@@ -136,6 +161,15 @@ const SaleFormatWt = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     // obj.dia_rate = (Math.round((e?.diamonds[ind + 1]?.Amount / result?.header?.CurrencyExchRate) / (e?.diamonds[ind + 1]?.Wt === 0 ? 1 : e?.diamonds[ind + 1]?.Wt)));
                                     obj.dia_rate = (Math.round((e?.diamonds[ind + 1]?.Amount / datas?.header?.CurrencyExchRate) / (e?.diamonds[ind + 1]?.Wt === 0 ? 1 : e?.diamonds[ind + 1]?.Wt)));
                                     obj.dia_amt = (formatAmount(e?.diamonds[ind + 1]?.Amount));
+                                    obj.dia_SettingName = e?.diamonds[ind + 1]?.SettingName;
+                                }
+
+                                if(e?.finding[ind + 1]){
+                                    obj.findingFlag = true;
+                                    obj.findingWt = (e?.finding[ind + 1]?.Wt);
+                                    obj.findingRate = e?.finding[ind + 1]?.SettingRate;
+                                    obj.findingAmount = e?.finding[ind + 1]?.SettingAmount;
+
                                 }
 
                 arr.push(obj);
@@ -148,11 +182,9 @@ const SaleFormatWt = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             finalArr.push(obj);
 
         })
-        console.log(finalArr);
         
-        console.log(datas);
 
-
+        
         setResult2(finalArr);
         setResult(datas);
 
@@ -169,7 +201,7 @@ const SaleFormatWt = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         loader ? <Loader /> : <>
         {
             msg === '' ? <>
-            <div className='d-none'>
+            <div >
                 <ReactHTMLTableToExcel
                     id="test-table-xls-button"
                     className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5 d-none"
@@ -231,20 +263,20 @@ const SaleFormatWt = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 return <React.Fragment key={i}>
                             <tr>
                                 <td width={60} align='center' style={{verticalAlign:'middle'}}>1</td>
-                                <td width={120} align='center' style={{verticalAlign:'middle'}}>{result?.header?.EntryDate}</td>
+                                <td width={120} align='center' style={{verticalAlign:'middle'}}>{ e?.showValueFlag && result?.header?.EntryDate}</td>
                                 <td width={60} align='center' style={{verticalAlign:'middle'}}>{i+1}</td>
                                 <td width={120} align='center' style={{verticalAlign:'middle'}}>{e?.lineid}</td>
                                 <td width={120} align='center' style={{verticalAlign:'middle'}}>{e?.MFG_DesignNo}</td>
-                                <td width={190} align='center' style={{verticalAlign:'middle'}}>{e?.designno}</td>
-                                <td width={140} align='center' style={{verticalAlign:'middle'}}>{e?.CompanyFullName}</td>
-                                <td width={120} align='center' style={{verticalAlign:'middle'}}>{e?.Categoryname}</td>
-                                <td width={320} align='center' style={{verticalAlign:'middle'}}>{e?.MetalType1}
+                                <td width={190} align='center' style={{verticalAlign:'middle'}}>{ e?.showValueFlag && e?.designno}</td>
+                                <td width={140} align='center' style={{verticalAlign:'middle'}}>{e?.showValueFlag && e?.CompanyFullName}</td>
+                                <td width={120} align='center' style={{verticalAlign:'middle'}}>{ e?.showValueFlag && e?.Categoryname}</td>
+                                <td width={320} align='center' style={{verticalAlign:'middle'}}>{e?.showValueFlag && e?.MetalType1}
                                     {/* {e?.MetalType?.toLowerCase() === "gold" && "GOLD LGD STUDDED JEWELLERY"}
                                     {e?.MetalType?.toLowerCase() === "silver" && "SILVER LGD STUDDED JEWELLERY"}
                                     {(e?.MetalType?.toLowerCase() !== "gold" && e?.MetalType?.toLowerCase() !== "silver" ) 
                                     && `${e?.MetalType} STUDDED JEWELLERY`} */}
                                 </td>
-                                <td width={120} align='center' style={{verticalAlign:'middle'}} >CFP</td>
+                                <td width={120} align='center' style={{verticalAlign:'middle'}} >{ e?.showValueFlag && "CFP"}</td>
                                 <td width={100} align='center' style={{verticalAlign:'middle'}}>{e?.Quantity}</td>
                                 <td width={120} align='center' style={{verticalAlign:'middle'}}>{e?.Size}</td>
                                 <td width={220} align='center' style={{verticalAlign:'middle'}}>
@@ -279,7 +311,8 @@ const SaleFormatWt = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     } */}
                                     {e?.dia_pcs}
                                 </td>
-                                <td width={60} align='center' style={{verticalAlign:'middle'}}>{e?.totals?.diamonds?.Pcs}</td>
+                                
+                                <td width={60} align='center' style={{verticalAlign:'middle'}}>{e?.totals?.totals?.diamonds?.Pcs !== 0 && e?.totals?.totals?.diamonds?.Pcs}</td>
                                 <td width={60} align='center' style={{verticalAlign:'middle'}}>
                                     {/* {
                                         e?.diamonds?.map((e, ind) => {
@@ -288,7 +321,7 @@ const SaleFormatWt = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     } */}
                                     {e?.dia_wt}
                                 </td>
-                                <td width={60} align='center' style={{verticalAlign:'middle'}}>{e?.totals?.diamonds?.Wt?.toFixed(3)}</td>
+                                <td width={60} align='center' style={{verticalAlign:'middle'}}>{e?.totals?.totals?.diamonds?.Wt !== 0 && e?.totals?.totals?.diamonds?.Wt?.toFixed(3)}</td>
                                 <td width={120} align='center' style={{verticalAlign:'middle'}}>
                                     {/* {
                                         e?.diamonds?.map((e, ind) => {
@@ -306,21 +339,22 @@ const SaleFormatWt = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     {e?.dia_amt}
                                 </td>
                                 <td width={120} align='center' style={{verticalAlign:'middle'}}>
-                                    {e?.MetalType2}
+                                    {e?.MetalType2} <br /> 
                                     {/* {e?.MetalType?.toLowerCase() === "gold" && `GD${e?.MetalPurity}`}
                                     {e?.MetalType?.toLowerCase() === "silver" && `SL${e?.MetalPurity}`}
                                     {(e?.MetalType?.toLowerCase() !== "gold" && e?.MetalType?.toLowerCase() !== "silver" ) 
                                     && `${e?.MetalType} ${e?.MetalPurity}`} */}
                                 </td>
                                 <td width={120} align='center' style={{verticalAlign:'middle'}}>
-                                        <span>{ (e?.totals?.totals?.metal?.Wt - e?.totals?.totals?.finding?.Wt)?.toFixed(3)}</span><br />
-                                        { e?.totals?.totals?.finding?.Wt !== 0 && <span>{e?.totals?.totals?.finding?.Wt?.toFixed(3)}</span>}
+                                        { (e?.totals?.totals?.metal?.Wt - e?.totals?.totals?.finding?.Wt) === 0 ? '' : <span>{ (e?.totals?.totals?.metal?.Wt - e?.totals?.totals?.finding?.Wt)?.toFixed(3)}</span>}{ (e?.totals?.totals?.metal?.Wt - e?.totals?.totals?.finding?.Wt) === 0 ? '' : <br />}
+                                        {/* { e?.totals?.totals?.finding?.Wt !== 0 && <span>{e?.totals?.totals?.finding?.Wt?.toFixed(3)}</span>} */}
+                                        <span>{(e?.findingWt === 0 || e?.findingWt === '') ? '' : 'FWt : '} { e?.findingWt}</span>
                                 </td>
                                 <td width={120} align='center' style={{verticalAlign:'middle'}}>{formatAmount(e?.metal_rate)}</td>
                                 <td width={120} align='center' style={{verticalAlign:'middle'}}>{formatAmount(e?.MetalAmount)}</td>
                                 <td width={120} align='center' style={{verticalAlign:'middle'}}>{ (e?.totals?.totals?.metal?.Wt )?.toFixed(3)}</td>
-                                <td width={120} align='center' style={{verticalAlign:'middle'}}>{formatAmount(e?.MaKingCharge_Unit)}</td>
-                                <td width={120} align='center' style={{verticalAlign:'middle'}}>{formatAmount(e?.MakingAmount)}</td>
+                                <td width={120} align='center' style={{verticalAlign:'middle'}}>{ (e?.totals?.totals?.metal?.Wt - e?.totals?.totals?.finding?.Wt) === 0 ? '' : formatAmount(e?.MaKingCharge_Unit)} { (e?.totals?.totals?.metal?.Wt - e?.totals?.totals?.finding?.Wt) === 0 ? '' : <br />} <>  {  formatAmount(e?.findingRate)}</></td>
+                                <td width={120} align='center' style={{verticalAlign:'middle'}}>{ (e?.totals?.totals?.metal?.Wt - e?.totals?.totals?.finding?.Wt) === 0 ? '' : formatAmount(e?.MakingAmount)} { (e?.totals?.totals?.metal?.Wt - e?.totals?.totals?.finding?.Wt) === 0 ? '' : <br />} {formatAmount(e?.findingAmount)}</td>
                                 <td width={120} align='center' style={{verticalAlign:'middle'}}>{formatAmount(( (e?.totals?.totals?.diamonds?.Wt === 0 ? 0 : e?.TotalDiamondHandling) / (e?.totals?.totals?.diamonds?.Wt === 0 ? 1 : e?.totals?.totals?.diamonds?.Wt)))}</td>
                                 <td width={120} align='center' style={{verticalAlign:'middle'}}>{formatAmount(e?.TotalDiamondHandling)}</td>
                                 <td width={120} align='center' style={{verticalAlign:'middle'}}>{e?.Quantity}</td>
@@ -410,13 +444,14 @@ const SaleFormatWt = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             })
                                         } */}
                                     </td>
-                                    <td width={120}>
+                                    <td width={120} align='center'>
                                         {/* {e?.MetalType?.toLowerCase() === "gold" && `GD${e?.MetalPurity}`}
                                         {e?.MetalType?.toLowerCase() === "silver" && `SL${e?.MetalPurity}`}
                                         {(e?.MetalType?.toLowerCase() !== "gold" && e?.MetalType?.toLowerCase() !== "silver" ) 
                                         && `${e?.MetalType} ${e?.MetalPurity}`} */}
                                     </td>
-                                    <td width={120}>
+                                    <td width={120} align='center' style={{verticalAlign:"middle"}}>
+                                         {(el?.findingWt === 0 || el?.findingWt === "") ? '' : 'FWt : '} {el?.findingWt}
                                         {/* <tr>
                                             <td>{ (e?.totals?.metal?.Wt - e?.totals?.finding?.Wt)?.toFixed(3)}</td>
                                         </tr>
@@ -427,8 +462,8 @@ const SaleFormatWt = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <td width={120}></td>
                                     <td width={120}></td>
                                     <td width={120}></td>
-                                    <td width={120}></td>
-                                    <td width={120}></td>
+                                    <td width={120} align='center'>{ el?.findingRate === 0 || el?.findingRate === '' ? '' : formatAmount(el?.findingRate)}</td>
+                                    <td width={120} align='center'>{ el?.findingAmount === 0 || el?.findingAmount === '' ? '' : formatAmount(el?.findingAmount)}</td>
                                     <td width={120}></td>
                                     <td width={120}></td>
                                     <td width={120}></td>
