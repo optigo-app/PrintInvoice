@@ -1,22 +1,18 @@
 import { Box, Card, CardContent, CircularProgress, Grid, Typography, useTheme } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import AccountNHR from './AccountNHR'
 import { checkNullUndefined } from './global';
 
-const AccountHr = ({ tkn, InventoryRatio, AvgColPeriod, saleMTs, saleMTs2, PrdDev, avgCollRatio, apiData1, bgColor, acrLoader, irLoader, PDLoader }) => {
+const AccountHr = ({  InventoryRatio, AvgColPeriod, saleMTs, saleMTs2, PrdDev,  bgColor, acrLoader, irLoader, PDLoader }) => {
         
     const theme = useTheme();
     
-    // Check if the necessary props are available
-    // if (!InventoryRatio || !saleMTs || !PrdDev || !avgCollRatio) {
     if (acrLoader) {
         return <>
                     <Grid container spacing={1}>
                  {["Fix Asset Laverage Ratio","Revenue Per Employees","Avg. Due Debtors", "Inventory Turn Over Ratio", "Avg. Collection Period", "Labour vs Exp"]?.map((e, index) => (
                     <Grid item xs={12} sm={6} md={4} key={index}>
                         <Card   className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'115px', display:'flex', justifyContent:'center', alignItems:'center'}}>
-                            {/* <CircularProgress sx={{ display: 'block', margin: 'auto' }} /> */}
-                            {/* <Typography variant="h6" align="center">Loading...</Typography> */}
                         { ( PDLoader ||  irLoader || acrLoader) ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
                                     <CircularProgress sx={{color:'lightgrey'}} />
                                     </Box> : <CardContent>
@@ -29,7 +25,6 @@ const AccountHr = ({ tkn, InventoryRatio, AvgColPeriod, saleMTs, saleMTs2, PrdDe
                                     </div>
                                     <div>
                                     <Typography variant='h5' sx={{ mb: 0.75, color:theme?.palette?.grey[700], fontWeight:'bolder' }}>
-                                        {/* {parseFloat(checkNullUndefined(data?.totalValue))?.toFixed(2)} */}
                                         0.00
                                     </Typography>
                             
@@ -41,7 +36,7 @@ const AccountHr = ({ tkn, InventoryRatio, AvgColPeriod, saleMTs, saleMTs2, PrdDe
                     </Grid>
                 ))}
             </Grid>
-        </>;  // Or you can use a loader component here
+        </>;  
     }
 
     const data = [
@@ -77,9 +72,7 @@ const AccountHr = ({ tkn, InventoryRatio, AvgColPeriod, saleMTs, saleMTs2, PrdDe
             subheading: 'Account & HR'
         },
         {
-            // totalValue: parseFloat(checkNullUndefined(((avgCollRatio?.Sun_Debtor || 0) / (saleMTs?.Amount || 1)) * 365))?.toFixed(2),
             heading: 'Avg. Collection Period',
-            // totalValue: parseFloat(checkNullUndefined(((saleMTs?.Amount === 0 ? 0 : ((avgCollRatio?.Sun_Debtor || 0) / (saleMTs?.Amount )))) * 365))?.toFixed(2),
             totalValue: parseFloat(checkNullUndefined(
                 (((((AvgColPeriod?.DT[0]?.Sun_Debtor + AvgColPeriod?.DT1[0]?.Sun_Debtor) / 2)
                  / 
@@ -112,7 +105,7 @@ const AccountHr = ({ tkn, InventoryRatio, AvgColPeriod, saleMTs, saleMTs2, PrdDe
             {data?.length ? (
                 data?.map((item, index) => (
                     <Grid item xs={12} sm={6} md={4} key={index}>
-                        <AccountNHR tkn={tkn} data={item} bgColor={bgColor}   />
+                        <AccountNHR  data={item} bgColor={bgColor}   />
                     </Grid>
                 ))
             ) : (
@@ -123,25 +116,3 @@ const AccountHr = ({ tkn, InventoryRatio, AvgColPeriod, saleMTs, saleMTs2, PrdDe
 };
 
 export default AccountHr;
-
-
-        // {
-        //     heading: 'Labour vs Exp DT',
-        //     totalValue: parseFloat(checkNullUndefined((((
-        //         (saleMTs?.LabourAmount || 0) - 
-        //         (InventoryRatio?.DT2?.[0]?.Direct_Expense || 0) - 
-        //         (InventoryRatio?.DT3?.[0]?.InDirect_Expense || 0)
-        //     ) / (saleMTs?.LabourAmount || 1)) * 100)))?.toFixed(2),
-        //     series: [],
-        //     subheading: 'Account & HR'
-        // },
-        // {
-        //     heading: 'Labour vs Exp DT1',
-        //     totalValue: parseFloat(checkNullUndefined((((
-        //         (saleMTs2?.LabourAmount || 0) - 
-        //         (InventoryRatio?.DT2?.[0]?.Direct_Expense || 0) - 
-        //         (InventoryRatio?.DT3?.[0]?.InDirect_Expense || 0)
-        //     ) / (saleMTs?.LabourAmount || 1)) * 100)))?.toFixed(2),
-        //     series: [],
-        //     subheading: 'Account & HR'
-        // },
