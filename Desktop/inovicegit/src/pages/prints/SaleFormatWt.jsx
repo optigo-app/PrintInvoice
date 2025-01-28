@@ -49,7 +49,7 @@ const SaleFormatWt = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           copydata?.BillPrint_Json1,
           copydata?.BillPrint_Json2
         );
-
+            
         let finalArr = [];
         
         datas?.resultArray?.forEach((e, i) => {
@@ -188,10 +188,10 @@ const SaleFormatWt = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         setResult2(finalArr);
         setResult(datas);
 
-        // setTimeout(() => {
-        //     const button = document.getElementById('test-table-xls-button');
-        //     button.click();
-        //   }, 500);
+        setTimeout(() => {
+            const button = document.getElementById('test-table-xls-button');
+            button.click();
+          }, 500);
 
     }
 
