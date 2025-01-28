@@ -188,10 +188,10 @@ const SaleFormatWt = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         setResult2(finalArr);
         setResult(datas);
 
-        setTimeout(() => {
-            const button = document.getElementById('test-table-xls-button');
-            button.click();
-          }, 500);
+        // setTimeout(() => {
+        //     const button = document.getElementById('test-table-xls-button');
+        //     button.click();
+        //   }, 500);
 
     }
 
@@ -348,11 +348,11 @@ const SaleFormatWt = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <td width={120} align='center' style={{verticalAlign:'middle'}}>
                                         { (e?.totals?.totals?.metal?.Wt - e?.totals?.totals?.finding?.Wt) === 0 ? '' : <span>{ (e?.totals?.totals?.metal?.Wt - e?.totals?.totals?.finding?.Wt)?.toFixed(3)}</span>}{ (e?.totals?.totals?.metal?.Wt - e?.totals?.totals?.finding?.Wt) === 0 ? '' : <br />}
                                         {/* { e?.totals?.totals?.finding?.Wt !== 0 && <span>{e?.totals?.totals?.finding?.Wt?.toFixed(3)}</span>} */}
-                                        <span>{(e?.findingWt === 0 || e?.findingWt === '') ? '' : 'FWt : '} { e?.findingWt}</span>
+                                        <span>{(e?.findingWt === 0 || e?.findingWt === '') ? '' : ' '} { e?.findingWt}</span>
                                 </td>
                                 <td width={120} align='center' style={{verticalAlign:'middle'}}>{formatAmount(e?.metal_rate)}</td>
                                 <td width={120} align='center' style={{verticalAlign:'middle'}}>{formatAmount(e?.MetalAmount)}</td>
-                                <td width={120} align='center' style={{verticalAlign:'middle'}}>{ (e?.totals?.totals?.metal?.Wt )?.toFixed(3)}</td>
+                                <td width={120} align='center' style={{verticalAlign:'middle'}}>{(e?.totals?.totals?.metal?.Wt )?.toFixed(3)}</td>
                                 <td width={120} align='center' style={{verticalAlign:'middle'}}>{ (e?.totals?.totals?.metal?.Wt - e?.totals?.totals?.finding?.Wt) === 0 ? '' : formatAmount(e?.MaKingCharge_Unit)} { (e?.totals?.totals?.metal?.Wt - e?.totals?.totals?.finding?.Wt) === 0 ? '' : <br />} <>  {  formatAmount(e?.findingRate)}</></td>
                                 <td width={120} align='center' style={{verticalAlign:'middle'}}>{ (e?.totals?.totals?.metal?.Wt - e?.totals?.totals?.finding?.Wt) === 0 ? '' : formatAmount(e?.MakingAmount)} { (e?.totals?.totals?.metal?.Wt - e?.totals?.totals?.finding?.Wt) === 0 ? '' : <br />} {formatAmount(e?.findingAmount)}</td>
                                 <td width={120} align='center' style={{verticalAlign:'middle'}}>{formatAmount(( (e?.totals?.totals?.diamonds?.Wt === 0 ? 0 : e?.TotalDiamondHandling) / (e?.totals?.totals?.diamonds?.Wt === 0 ? 1 : e?.totals?.totals?.diamonds?.Wt)))}</td>
@@ -451,7 +451,7 @@ const SaleFormatWt = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         && `${e?.MetalType} ${e?.MetalPurity}`} */}
                                     </td>
                                     <td width={120} align='center' style={{verticalAlign:"middle"}}>
-                                         {(el?.findingWt === 0 || el?.findingWt === "") ? '' : 'FWt : '} {el?.findingWt}
+                                         {(el?.findingWt === 0 || el?.findingWt === "0" || el?.findingWt === "") ? '' : ''} {(el?.findingWt)}
                                         {/* <tr>
                                             <td>{ (e?.totals?.metal?.Wt - e?.totals?.finding?.Wt)?.toFixed(3)}</td>
                                         </tr>
