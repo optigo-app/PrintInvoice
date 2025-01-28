@@ -57,7 +57,7 @@ const TaxInvoice5A = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           obj.primaryWt = e?.metal?.reduce((acc, cObj) => cObj?.IsPrimaryMetal === 1 ? acc + cObj?.Wt : acc, 0);
         }
         primaryWts += obj?.primaryWt;
-        obj.srjobno = e?.SrJobno.split("/");
+        obj.srjobno = e?.SrJobno?.split("/");
         resultArr.push(obj);
       } else {
         let findRecord = resultArr.findIndex(
@@ -66,7 +66,7 @@ const TaxInvoice5A = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         );
         if (findRecord === -1) {
           let obj = cloneDeep(e);
-          obj.srjobno = e?.SrJobno.split("/");
+          obj.srjobno = e?.SrJobno?.split("/");
           obj.primaryWt = 0;
           if (obj?.metal?.length <= 1) {
             obj.primaryWt = e?.NetWt + e?.LossWt;
@@ -102,22 +102,45 @@ const TaxInvoice5A = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     });
     datas.mainTotal.primaryWts = primaryWts;
     datas.resultArray = resultArr;
-    datas?.resultArray.sort((a, b) => {
-      var nameA = a?.JewelCodePrefix.toUpperCase() + a?.Category_Prefix.toUpperCase() + a?.srjobno[1].toUpperCase();
-      var nameB = b?.JewelCodePrefix.toUpperCase() + b?.Category_Prefix.toUpperCase() + b?.srjobno[1].toUpperCase();
+    // datas?.resultArray?.sort((a, b) => {
+      
+    //   debugger
+    //   var nameA = a?.JewelCodePrefix?.toUpperCase() + a?.Category_Prefix?.toUpperCase() + a?.srjobno[1]?.toUpperCase();
+    //   var nameB = b?.JewelCodePrefix?.toUpperCase() + b?.Category_Prefix?.toUpperCase() + b?.srjobno[1]?.toUpperCase();
+      
+    //   const prefixA = nameA?.match(/[A-Za-z]+/)[0];
+    //   const prefixB = nameB?.match(/[A-Za-z]+/)[0];
+    //   const numericA = parseInt(nameA?.match(/\d+/)[0]);
+    //   const numericB = parseInt(nameB?.match(/\d+/)[0]);
 
-      const prefixA = nameA.match(/[A-Za-z]+/)[0];
-      const prefixB = nameB.match(/[A-Za-z]+/)[0];
-      const numericA = parseInt(nameA.match(/\d+/)[0]);
-      const numericB = parseInt(nameB.match(/\d+/)[0]);
+    //   // Compare prefixes first
+    //   if (prefixA < prefixB) return -1;
+    //   if (prefixA > prefixB) return 1;
 
+    //   // If prefixes are the same, compare numeric parts
+    //   return numericA - numericB;
+    // });
+    datas?.resultArray?.sort((a, b) => {
+      // Safely access the values, ensuring they exist
+      var nameA = a?.JewelCodePrefix?.toUpperCase() + a?.Category_Prefix?.toUpperCase() + (a?.srjobno[1]?.toUpperCase() || '');
+      var nameB = b?.JewelCodePrefix?.toUpperCase() + b?.Category_Prefix?.toUpperCase() + (b?.srjobno[1]?.toUpperCase() || '');
+    
+      // Safely match the prefixes
+      const prefixA = nameA?.match(/[A-Za-z]+/)?.[0] || ''; // Provide a default value if no match
+      const prefixB = nameB?.match(/[A-Za-z]+/)?.[0] || ''; // Provide a default value if no match
+    
+      // Safely extract numeric parts
+      const numericA = parseInt(nameA?.match(/\d+/)?.[0] || 0); // Provide 0 if no match
+      const numericB = parseInt(nameB?.match(/\d+/)?.[0] || 0); // Provide 0 if no match
+    
       // Compare prefixes first
       if (prefixA < prefixB) return -1;
       if (prefixA > prefixB) return 1;
-
+    
       // If prefixes are the same, compare numeric parts
       return numericA - numericB;
     });
+    
     setData(datas);
   };
 
@@ -259,7 +282,7 @@ const TaxInvoice5A = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
       </div>
       {/* table data */}
-      {data?.resultArray.map((e, i) => {
+      {data?.resultArray?.map((e, i) => {
         return (
           <div className="d-flex border-start border-end border-bottom border-black no_break" key={i}>
             <div className={`${style3?.Sr} border-black border-end`}>
@@ -267,6 +290,7 @@ const TaxInvoice5A = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
             <div className={`${style3?.Jewel} border-end border-black ${style?.word_break}`}>
               <p className="p-1 companyNametp5a2">
+                
                 {e?.JewelCodePrefix}
                 {e?.Category_Prefix?.slice(0, 2)}
                 {e?.srjobno[1]}
@@ -361,7 +385,6 @@ const TaxInvoice5A = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </p>
         </div>
       </div>
-      {console.log(data)}
       {/* In Words */}
       <div className="d-flex border-start border-end border-bottom border-black no_break">
         <div className={`${style?.words} border-end p-1 d-flex justify-content-end flex-column border-black companyNametp5a2`} >
