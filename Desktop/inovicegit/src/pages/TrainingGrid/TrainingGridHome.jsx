@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import TrainingDataGrid from './components/TrainingDataGrid'
 import { ThemeProvider } from '@mui/material'
 import mainTheme from "./@core/theme/theme"
@@ -10,16 +10,6 @@ const TrainingGridHome = () => {
         const tkn = (queryParam.get("tkn"));
         const sv = (queryParam.get("sv"));
 
-        // useEffect(() => {
-        //   const currentUrl = window.location.href;
-        //   console.log('Current URL:', currentUrl); 
-        //   const allowedReferrer = 'http://llocalhost:3000/';
-        //   console.log('Referrer:', document.referrer); // Debugging line
-        //   // if (!document.referrer || !document.referrer.startsWith(allowedReferrer)) {
-        //   //   window.location.href = '/unauthorized';
-        //   // }
-        // }, []);
-
   return (
     <div style={{backgroundColor:'#f8f7fa'}}>
       <ThemeProvider theme={mainTheme}>
@@ -30,3 +20,13 @@ const TrainingGridHome = () => {
 }
 
 export default TrainingGridHome
+
+        // useEffect(() => {
+        //   const currentUrl = window.location.href;
+        //   console.log('Current URL:', currentUrl); 
+        //   const allowedReferrer = 'http://llocalhost:3000/';
+        //   console.log('Referrer:', document.referrer); // Debugging line
+        //   // if (!document.referrer || !document.referrer.startsWith(allowedReferrer)) {
+        //   //   window.location.href = '/unauthorized';
+        //   // }
+        // }, []);

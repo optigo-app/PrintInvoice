@@ -533,6 +533,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div>Account Name:{result?.header?.accountname}</div>
                       <div>Account No. :{result?.header?.accountnumber}</div>
                       <div>RTGS/NEFT IFSC:{result?.header?.rtgs_neft_ifsc}</div>
+                      <div>Routing number:{result?.header?.rtgs_neft_ifsc}</div>
                     </div>
                     <div className="border-end fwi51 p-1 d-flex flex-column justify-content-between">
                       <div>Signature</div>

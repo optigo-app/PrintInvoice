@@ -277,9 +277,9 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        
+        
         let url = '';
-        
-        
         
         // if(window.location.protocol === "http"){
         //   url = 'http://zen/R50B3/UFS/websitedetailsexcel/training.xlsx';
@@ -290,9 +290,12 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
         // url = "https://cdnfs.optigoapps.com/content-global3/test_traininggrid/training.xlsx";
         // url = `http://api.optigoapps.com/ALL/exceltojson.aspx?tkn=${tkn}&sv=${sv}`;
         // url = `http://api.optigoapps.com/ALL/exceltojson.aspx?tkn=${tkn}&sv=${sv}`;
+
+
         const replacedUrl = (report_api_url)?.replace("M.asmx/Optigo", "exceltojson.aspx");
         
         const response = await axios.get(`${replacedUrl}?tkn=${tkn}&sv=${sv}`);
+
         // const response = await axios.get(`http://api.optigoapps.com/ALL/exceltojson.aspx?tkn=ODQ1NjUxMDgwNzU2OTk5MA==&sv=MQ==`);
         
         if(response?.data?.Status === "200"){

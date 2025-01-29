@@ -1,72 +1,9 @@
-export const Sales = [
 
-  {printName: 'detail print 10', etpType: 'print', componentName: 'SalePrint1'},
-  {printName: 'detail print 5', etpType: 'print', componentName: 'SalePrint1'},
-  {printName: 'tax invoice', etpType: 'print', componentName: 'SalePrint1'},
-  {printName: 'estimate print', etpType: 'print', componentName: 'SalePrint1'},
-
-  {printName: 'detail print 6', etpType: 'print', componentName: 'SalePrint2'},
-  {printName: 'detail print 8', etpType: 'print', componentName: 'SalePrint2'},
-
-  {printName: 'detail print c', etpType: 'print', componentName: 'SalePrint3'},
-  {printName: 'detail print k', etpType: 'print', componentName: 'SalePrint3'},
-  {printName: 'detail print r', etpType: 'print', componentName: 'SalePrint3'},
-  {printName: 'detail print1 group(l)', etpType: 'print', componentName: 'SalePrint3'},
-  {printName: 'detail print1 group(p)', etpType: 'print', componentName: 'SalePrint3'},
-
-  {printName: 'detail print s', etpType: 'print', componentName: 'SalePrint4'},
-  {printName: 'detail print 7', etpType: 'print', componentName: 'SalePrint4'},
-
-  {printName: 'detail print 2', etpType: 'print', componentName: 'SalePrint5'},
-  {printName: 'detail print 3', etpType: 'print', componentName: 'SalePrint5'},
-  {printName: 'detail print 4', etpType: 'print', componentName: 'SalePrint5'},
-
-  { printName: 'invoice print 8', etpType: 'print', componentName: 'SalePrint6'},
-  {printName: 'invoice print 8a', etpType: 'print', componentName: 'SalePrint6'},
-  {printName: 'invoice print 10', etpType: 'print', componentName: 'SalePrint6'},
-  {printName: 'invoice print 11', etpType: 'print', componentName: 'SalePrint6'},
-
-  {  printName: 'invoice print', etpType: 'print', componentName: 'SalePrint7'},
-  {printName: 'invoice print 6', etpType: 'print', componentName: 'SalePrint7'},
-  {printName: 'invoice print r', etpType: 'print', componentName: 'SalePrint7'},
-
-  {printName: 'invoice print 5', etpType: 'print', componentName: 'SalePrint8'},
-  {printName: 'invoice print 7', etpType: 'print', componentName: 'SalePrint8'},
-  {printName: 'invoice print 12', etpType: 'print', componentName: 'SalePrint8'},
-  {printName: 'tax invoice print 4', etpType: 'print', componentName: 'SalePrint8'},
-
-  {printName: 'invoice print3', etpType: 'print', componentName: 'SalePrint9'},
-  {printName: 'invoice print4', etpType: 'print', componentName: 'SalePrint9'},
-
-  {printName: 'item wise print', etpType: 'print', componentName: 'SalePrint10'},
-  {printName: 'item wise print1', etpType: 'print', componentName: 'SalePrint10'},
-  {printName: 'item wise print2', etpType: 'print', componentName: 'SalePrint10'},
-
-  {printName: 'jewellery tax invoice', etpType: 'print', componentName: 'SalePrint11'},
-  {printName: 'jewellery tax invoice 1', etpType: 'print', componentName: 'SalePrint11'},
-  {printName: 'jewellery tax invoice 2', etpType: 'print', componentName: 'SalePrint11'},
-  {printName: 'jewellery tax summary', etpType: 'print', componentName: 'SalePrint11'},
-  {printName: 'solitaire tax invoice', etpType: 'print', componentName: 'SalePrint11'},
-
-  {printName: 'labour bill', etpType: 'print', componentName: 'SalePrint12'},
-  {printName: 'labour summary print', etpType: 'print', componentName: 'SalePrint12'},
-  {printName: 'labour summary', etpType: 'print', componentName: 'SalePrint12'},
-  {printName: 'tax invoice 3', etpType: 'print', componentName: 'SalePrint12'},
-
-  {printName: 'misc detail print 1', etpType: 'print', componentName: 'SalePrint13'},
-  {printName: 'misc detail print 2', etpType: 'print', componentName: 'SalePrint13'},
-  {printName: 'estimation print', etpType: 'print', componentName: 'SalePrint13'},
-
-  {printName: 'packing list', etpType: 'print', componentName: 'SalePrint14'},
-  {printName: 'packing list 1', etpType: 'print', componentName: 'SalePrint14'},
-  {printName: 'packing list 2', etpType: 'print', componentName: 'SalePrint14'},
-  {printName: 'packing list 4', etpType: 'print', componentName: 'SalePrint14'},
-  {printName: 'packing list 6', etpType: 'print', componentName: 'SalePrint14'},
-
-]
 export const printConditions = [
   {printName: 'bill sticker', etpType: 'print', componentName: 'BillSticker'},
   {printName: 'customer daily statement', etpType: 'print', componentName: 'CustomerDailyStatement'},
+  {printName: 'daily statement', etpType: 'print', componentName: 'CustomerDailyStatement'},
+  {printName: 'detail print', etpType: 'print', componentName: 'DetailPrint5'},
   {printName: 'detail print1 (l)', etpType: 'print', componentName: 'DetailPrint1'},
   {printName: 'detail print1 (p)', etpType: 'print', componentName: 'DetailPrint1'},
   {printName: 'detail print c', etpType: 'print', componentName: 'DetailPrintC'},
@@ -204,6 +141,8 @@ export const printConditions = [
   {printName: 'tax invoice 6', etpType: 'print', componentName: 'TaxInvoice5'},
 ];
 export const SaleReturn = [
+  {printName: 'detail print', etpType: 'print', componentName: 'DetailPrint5'},
+  {printName: 'invoice print 8', etpType: 'print', componentName: 'InvoicePrint10'},
   {printName: 'estimate print', etpType: 'print', componentName: 'EstimatePrint'},
   {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
   {printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group'},
@@ -220,7 +159,20 @@ export const SaleReturn = [
   {printName: 'invoice print4', etpType: 'print', componentName: 'InvoicePrint4'},
   {printName: 'summary 4', etpType: 'print', componentName: 'Summary4'},
   {printName: 'invoice print 11', etpType: 'print', componentName: 'InvoicePrint11Clone'},
+  {printName: 'packing list 4', etpType: 'print', componentName: 'PackingList4'},
   {printName: 'detail print s', etpType: 'print', componentName: 'DetailPrintS'},
+  {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
+  {printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group'},
+  {printName: 'repair print', etpType: 'print', componentName: 'RepairPrint'},
+  {printName: 'retail print 2', etpType: 'print', componentName: 'RetailPrint2'},
+  {printName: 'retail print 3', etpType: 'print', componentName: 'RetailPrint3'},
+  {printName: 'retail print', etpType: 'print', componentName: 'RetailPrint'},
+  {printName: 'jewellery invoice 2', etpType: 'print', componentName: 'JewelleryInvoice2'},
+  {printName: 'jewellery tax invoice', etpType: 'print', componentName: 'JewelleryTaxInvoice'},
+  {printName: 'summary 2', etpType: 'print', componentName: 'Summary2'},
+  {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrint'},
+  {printName: 'tax invoice 1', etpType: 'print', componentName: 'TaxInvoice1'},
+  {printName: 'tax invoice 5', etpType: 'print', componentName: 'TaxInvoice5'}, 
 ]
 export const QuotationPrints = [
   {printName: 'print 1', etpType: 'print', componentName: 'Print1'},
@@ -240,6 +192,7 @@ export const QuotationPrints = [
   {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
   {printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group'},
   {printName: 'export print', etpType: 'print', componentName: 'ExportPrint'},
+  {printName: 'detail print 7', etpType: 'print', componentName: 'DetailPrint7'},
 ]
 export const MemoPrints = [
   {printName: 'print 1', etpType: 'print', componentName: 'Print1SME'},
@@ -268,6 +221,27 @@ export const MemoPrints = [
   {printName: 'summary 1', etpType: 'print', componentName: 'Summary1'},
   {printName: 'packing list e', etpType: 'print', componentName: 'PackingListE'},
   {printName: 'invoice print 5', etpType: 'print', componentName: 'InvoicePrint5'},
+  {printName: 'detail print 7', etpType: 'print', componentName: 'DetailPrint7'},
+  {printName: 'detail print 9', etpType: 'print', componentName: 'DetailPrint9'},
+  {printName: 'detail print3', etpType: 'print', componentName: 'DetailPrint3'},
+  {printName: 'detail print4', etpType: 'print', componentName: 'DetailPrint4'},
+  {printName: 'jewellery tax invoice', etpType: 'print', componentName: 'JewelleryTaxInvoice'},
+  {printName: 'jewellery tax summary', etpType: 'print', componentName: 'JewelleryTaxSummary'},
+  {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrint'},
+  {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
+  {printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group'},
+  {printName: 'packing list 2', etpType: 'print', componentName: 'PackingList2'},
+  {printName: 'packing list 4', etpType: 'print', componentName: 'PackingList4'},
+  {printName: 'retail print', etpType: 'print', componentName: 'RetailPrint'},
+  {printName: 'retail print 3', etpType: 'print', componentName: 'RetailPrint3'},
+  {printName: 'rough estimate', etpType: 'print', componentName: 'RoughEstimate'},
+  {printName: 'solitaire tax invoice', etpType: 'print', componentName: 'SolitaireTaxInvoice'},
+  {printName: 'solitaire invoice', etpType: 'print', componentName: 'SolitaireTaxInvoice'},
+  {printName: 'summary 11', etpType: 'print', componentName: 'Summary11'},
+  {printName: 'summary 9', etpType: 'print', componentName: 'Summary9'},
+  {printName: 'summary 2', etpType: 'print', componentName: 'Summary2'},
+  {printName: 'tax invoice 5', etpType: 'print', componentName: 'TaxInvoice5'}, 
+  {printName: 'export print', etpType: 'print', componentName: 'ExportPrint'},
 ]
 export const MemoReturnPrints = [ 
   {printName: 'detail print 12', etpType: 'print', componentName: 'DetailPrint12'},
@@ -280,25 +254,42 @@ export const MemoReturnPrints = [
   {printName: 'packing list', etpType: 'print', componentName: 'PackingList'},
   {printName: 'summary 4', etpType: 'print', componentName: 'Summary4'},
   {printName: 'summary 1', etpType: 'print', componentName: 'Summary1'},
+  {printName: 'detail print 7', etpType: 'print', componentName: 'DetailPrint7'},
+  {printName: 'packing list 4', etpType: 'print', componentName: 'PackingList4'},
+  {printName: 'retail print', etpType: 'print', componentName: 'RetailPrint'},
+  {printName: 'retail print 3', etpType: 'print', componentName: 'RetailPrint3'},
+  {printName: 'solitaire tax invoice', etpType: 'print', componentName: 'SolitaireTaxInvoice'},
+  {printName: 'solitaire invoice', etpType: 'print', componentName: 'SolitaireTaxInvoice'},
+  {printName: 'summary 2', etpType: 'print', componentName: 'Summary2'},
+  {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrint'},
+  {printName: 'tax invoice 5', etpType: 'print', componentName: 'TaxInvoice5'}, 
 ]
 export const ShipmentArray = [
   {printName: 'rough estimate', etpType: 'print', componentName: 'Shipment'},
 ]
 export const EstimatePrints = [
+  {printName: 'sale order', etpType: 'print', componentName: 'SaleOrderSale'},
+  {printName: 'detail print 11', etpType: 'print', componentName: 'DetailPrint11'},
   {printName: 'print 1', etpType: 'print', componentName: 'Print1SME'},
-  {printName: 'detail print 12', etpType: 'print', componentName: 'DetailPrint12'},
-  {printName: 'tax invoice', etpType: 'print', componentName: 'TaxInvoice'},
+  {printName: 'detail print 5', etpType: 'print', componentName: 'DetailPrint5'},
+  {printName: 'detail print 7', etpType: 'print', componentName: 'DetailPrint7'},
   {printName: 'export print', etpType: 'print', componentName: 'ExportPrint'},
+  {printName: 'detail print 9', etpType: 'print', componentName: 'DetailPrint9'},
+  {printName: 'estimate print', etpType: 'print', componentName: 'EstimatePrint'},
+  {printName: 'detail print 12', etpType: 'print', componentName: 'DetailPrint12'},
+  {printName: 'detail print4', etpType: 'print', componentName: 'DetailPrint4'},
+  {printName: 'detail print1 (p)', etpType: 'print', componentName: 'DetailPrint1'},
+  {printName: 'jewellery tax invoice', etpType: 'print', componentName: 'JewelleryTaxInvoice'},
+  {printName: 'packing list', etpType: 'print', componentName: 'PackingList'},
   {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
   {printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group'},
-  {printName: 'sale order', etpType: 'print', componentName: 'SaleOrderSale'},
-  {printName: 'packing list', etpType: 'print', componentName: 'PackingList'},
   {printName: 'packing list 1', etpType: 'print', componentName: 'PackingList1'},
-  {printName: 'detail print 11', etpType: 'print', componentName: 'DetailPrint11'},
-  {printName: 'estimate print', etpType: 'print', componentName: 'EstimatePrint'},
+  {printName: 'packing list 4', etpType: 'print', componentName: 'PackingList4'}, 
+  {printName: 'retail print 3', etpType: 'print', componentName: 'RetailPrint3'},
+  {printName: 'summary 11', etpType: 'print', componentName: 'Summary11'},
+  {printName: 'summary 12', etpType: 'print', componentName: 'Summary12'},
   {printName: 'summary 4', etpType: 'print', componentName: 'Summary4'},
-  {printName: 'detail print4', etpType: 'print', componentName: 'DetailPrint4'},
-  {printName: 'detail print 5', etpType: 'print', componentName: 'DetailPrint5'},
+  {printName: 'tax invoice', etpType: 'print', componentName: 'TaxInvoice'},
 ]
 export const HallMarkPrints = [
   {printName: 'jewellery item wise', etpType: 'print', componentName: 'HallmarkItemWisePrint'},
@@ -344,15 +335,86 @@ export const fgPurchase = [
   {printName: 'item wise print2', etpType: 'print', componentName: 'ItemWisePrint'},
   {printName: 'summary 4', etpType: 'print', componentName: 'Summary4'},
   {printName: 'retail print', etpType: 'print', componentName: 'RetailPrint'},
+  {printName: 'summary 2', etpType: 'print', componentName: 'Summary2'},
+  {printName: 'jewellery invoice 2', etpType: 'print', componentName: 'JewelleryInvoice2'},
+  {printName: 'customer daily statement', etpType: 'print', componentName: 'CustomerDailyStatement'},
+  {printName: 'daily statement', etpType: 'print', componentName: 'CustomerDailyStatement'},
 ];
 export const fgPurchaseReturn = [
+  {printName: 'summary 2', etpType: 'print', componentName: 'Summary2'},
+  {printName: 'retail print', etpType: 'print', componentName: 'RetailPrint'},
+  {printName: 'jewellery invoice 2', etpType: 'print', componentName: 'JewelleryInvoice2'},
   {printName: 'item wise print', etpType: 'print', componentName: 'ItemWisePrint'},
   {printName: 'item wise print1', etpType: 'print', componentName: 'ItemWisePrint'},
   {printName: 'item wise print2', etpType: 'print', componentName: 'ItemWisePrint'},
+  {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrint'},
 ];
+// export const Sales = [
 
+//   {printName: 'detail print 10', etpType: 'print', componentName: 'SalePrint1'},
+//   {printName: 'detail print 5', etpType: 'print', componentName: 'SalePrint1'},
+//   {printName: 'tax invoice', etpType: 'print', componentName: 'SalePrint1'},
+//   {printName: 'estimate print', etpType: 'print', componentName: 'SalePrint1'},
 
+//   {printName: 'detail print 6', etpType: 'print', componentName: 'SalePrint2'},
+//   {printName: 'detail print 8', etpType: 'print', componentName: 'SalePrint2'},
 
+//   {printName: 'detail print c', etpType: 'print', componentName: 'SalePrint3'},
+//   {printName: 'detail print k', etpType: 'print', componentName: 'SalePrint3'},
+//   {printName: 'detail print r', etpType: 'print', componentName: 'SalePrint3'},
+//   {printName: 'detail print1 group(l)', etpType: 'print', componentName: 'SalePrint3'},
+//   {printName: 'detail print1 group(p)', etpType: 'print', componentName: 'SalePrint3'},
+
+//   {printName: 'detail print s', etpType: 'print', componentName: 'SalePrint4'},
+//   {printName: 'detail print 7', etpType: 'print', componentName: 'SalePrint4'},
+
+//   {printName: 'detail print 2', etpType: 'print', componentName: 'SalePrint5'},
+//   {printName: 'detail print 3', etpType: 'print', componentName: 'SalePrint5'},
+//   {printName: 'detail print 4', etpType: 'print', componentName: 'SalePrint5'},
+
+//   { printName: 'invoice print 8', etpType: 'print', componentName: 'SalePrint6'},
+//   {printName: 'invoice print 8a', etpType: 'print', componentName: 'SalePrint6'},
+//   {printName: 'invoice print 10', etpType: 'print', componentName: 'SalePrint6'},
+//   {printName: 'invoice print 11', etpType: 'print', componentName: 'SalePrint6'},
+
+//   {  printName: 'invoice print', etpType: 'print', componentName: 'SalePrint7'},
+//   {printName: 'invoice print 6', etpType: 'print', componentName: 'SalePrint7'},
+//   {printName: 'invoice print r', etpType: 'print', componentName: 'SalePrint7'},
+
+//   {printName: 'invoice print 5', etpType: 'print', componentName: 'SalePrint8'},
+//   {printName: 'invoice print 7', etpType: 'print', componentName: 'SalePrint8'},
+//   {printName: 'invoice print 12', etpType: 'print', componentName: 'SalePrint8'},
+//   {printName: 'tax invoice print 4', etpType: 'print', componentName: 'SalePrint8'},
+
+//   {printName: 'invoice print3', etpType: 'print', componentName: 'SalePrint9'},
+//   {printName: 'invoice print4', etpType: 'print', componentName: 'SalePrint9'},
+
+//   {printName: 'item wise print', etpType: 'print', componentName: 'SalePrint10'},
+//   {printName: 'item wise print1', etpType: 'print', componentName: 'SalePrint10'},
+//   {printName: 'item wise print2', etpType: 'print', componentName: 'SalePrint10'},
+
+//   {printName: 'jewellery tax invoice', etpType: 'print', componentName: 'SalePrint11'},
+//   {printName: 'jewellery tax invoice 1', etpType: 'print', componentName: 'SalePrint11'},
+//   {printName: 'jewellery tax invoice 2', etpType: 'print', componentName: 'SalePrint11'},
+//   {printName: 'jewellery tax summary', etpType: 'print', componentName: 'SalePrint11'},
+//   {printName: 'solitaire tax invoice', etpType: 'print', componentName: 'SalePrint11'},
+
+//   {printName: 'labour bill', etpType: 'print', componentName: 'SalePrint12'},
+//   {printName: 'labour summary print', etpType: 'print', componentName: 'SalePrint12'},
+//   {printName: 'labour summary', etpType: 'print', componentName: 'SalePrint12'},
+//   {printName: 'tax invoice 3', etpType: 'print', componentName: 'SalePrint12'},
+
+//   {printName: 'misc detail print 1', etpType: 'print', componentName: 'SalePrint13'},
+//   {printName: 'misc detail print 2', etpType: 'print', componentName: 'SalePrint13'},
+//   {printName: 'estimation print', etpType: 'print', componentName: 'SalePrint13'},
+
+//   {printName: 'packing list', etpType: 'print', componentName: 'SalePrint14'},
+//   {printName: 'packing list 1', etpType: 'print', componentName: 'SalePrint14'},
+//   {printName: 'packing list 2', etpType: 'print', componentName: 'SalePrint14'},
+//   {printName: 'packing list 4', etpType: 'print', componentName: 'SalePrint14'},
+//   {printName: 'packing list 6', etpType: 'print', componentName: 'SalePrint14'},
+
+// ]
 // export const Sales = [
 
 //   {printName: 'detail print 10', etpType: 'print', componentName: 'SalePrint1'},

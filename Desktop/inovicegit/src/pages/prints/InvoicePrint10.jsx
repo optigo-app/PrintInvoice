@@ -1232,6 +1232,9 @@ const InvoicePrint_10_11 = ({
             <div className={style?.fsremark_10}>
               RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}
             </div>
+            { pnm?.toLowerCase() === "invoice print 8" && <div className={style?.fsremark_10}>
+              Routing number: {headerData?.rtgs_neft_ifsc}
+            </div>}
             <div className={style?.fsremark_10}>Enquiry No. </div>
             <div className={style?.fsremark_10}> (E & OE)</div>
           </div>
