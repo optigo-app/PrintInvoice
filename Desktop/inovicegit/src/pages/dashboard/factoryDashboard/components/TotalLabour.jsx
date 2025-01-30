@@ -69,84 +69,86 @@ const TotalLabour = ({tkn,  fdate, tdate, selectMaterial}) => {
     setValue('Net Wt');
   },[selectMaterial]);
 
-  useEffect(() => {
-    if(data?.DT1?.length > 0){
+  // useEffect(() => {
 
-        if((selectMaterial === 1 || selectMaterial === '1') && value?.toLowerCase() === "net wt"){
-          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.Netwt - a?.Netwt)?.slice(0, 10)?.map(e => e?.Vendor);
-          setVendorWiseNameList(arr0);
-          let arr = data?.DT1?.slice()?.sort((a, b) => b?.Netwt - a?.Netwt)?.slice(0, 10)?.map(e => e?.Netwt);
-          setYAxis(arr);
-        }
-        if((selectMaterial === 1 || selectMaterial === '1') && value?.toLowerCase() === "job count"){
-          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map(e => e?.Vendor);
-          setVendorWiseNameList(arr0);
-          let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map(e => e?.TotalJobCnt);
-          setYAxis(arr);
-        }
-        if((selectMaterial === 1 || selectMaterial === '1') && value?.toLowerCase() === "dia. pcs"){
-          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.DiaPcs - a?.DiaPcs)?.slice(0, 10)?.map(e => e?.Vendor);
-          setVendorWiseNameList(arr0);
-          let arr = data?.DT1?.slice()?.sort((a, b) => b?.DiaPcs - a?.DiaPcs)?.slice(0, 10)?.map(e => e?.DiaPcs);
-          setYAxis(arr);
-        }
-        if((selectMaterial === 1 || selectMaterial === '1') && value?.toLowerCase() === "dia. carat"){
-          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.DiaWt - a?.DiaWt)?.slice(0, 10)?.map(e => e?.Vendor);
-          setVendorWiseNameList(arr0);
-          let arr = data?.DT1?.slice()?.sort((a, b) => b?.DiaWt - a?.DiaWt)?.slice(0, 10)?.map(e => e?.DiaWt);
-          setYAxis(arr);
-        }
-        if((selectMaterial === 2 || selectMaterial === '2') && value?.toLowerCase() === "net wt"){
-          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.Netwt - a?.Netwt)?.slice(0, 10)?.map(e => e?.Vendor);
-          setVendorWiseNameList(arr0);
-          let arr = data?.DT1?.slice()?.sort((a, b) => b?.Netwt - a?.Netwt)?.slice(0, 10)?.map(e => e?.Netwt);
-          setYAxis(arr);
-        }
-        if((selectMaterial === 2 || selectMaterial === '2') && value?.toLowerCase() === "job count"){
-          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map(e => e?.Vendor);
-          setVendorWiseNameList(arr0);
-          let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map(e => e?.TotalJobCnt);
-          setYAxis(arr);
-        }
-        if((selectMaterial === 2 || selectMaterial === '2') && value?.toLowerCase() === "cs. pcs"){
-          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.CSPcs - a?.CSPcs)?.slice(0, 10)?.map(e => e?.Vendor);
-          setVendorWiseNameList(arr0);
-          let arr = data?.DT1?.slice()?.sort((a, b) => b?.CSPcs - a?.CSPcs)?.slice(0, 10)?.map(e => e?.CSPcs);
-          setYAxis(arr);
-        }
-        if((selectMaterial === 2 || selectMaterial === '2') && value?.toLowerCase() === "cs. carat"){
-          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.CSWt - a?.CSWt)?.slice(0, 10)?.map(e => e?.Vendor);
-          setVendorWiseNameList(arr0);
-          let arr = data?.DT1?.slice()?.sort((a, b) => b?.CSWt - a?.CSWt)?.slice(0, 10)?.map(e => e?.CSWt);
-          setYAxis(arr);
-        }
-        if((selectMaterial === 3 || selectMaterial === '3') && value?.toLowerCase() === "net wt"){
-          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.Netwt - a?.Netwt)?.slice(0, 10)?.map(e => e?.Vendor);
-          setVendorWiseNameList(arr0);
-          let arr = data?.DT1?.slice()?.sort((a, b) => b?.Netwt - a?.Netwt)?.slice(0, 10)?.map(e => e?.Netwt);
-          setYAxis(arr);
-        }
-        if((selectMaterial === 3 || selectMaterial === '3') && value?.toLowerCase() === "job count"){
-          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map(e => e?.Vendor);
-          setVendorWiseNameList(arr0);
-          let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map(e => e?.TotalJobCnt);
-          setYAxis(arr);
-        }
-        if((selectMaterial === 3 || selectMaterial === '3') && value?.toLowerCase() === "misc. pcs"){
-          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.MISCPcs - a?.MISCPcs)?.slice(0, 10)?.map(e => e?.Vendor);
-          setVendorWiseNameList(arr0);
-          let arr = data?.DT1?.slice()?.sort((a, b) => b?.MISCPcs - a?.MISCPcs)?.slice(0, 10)?.map(e => e?.MISCPcs);
-          setYAxis(arr);
-        }
-        if((selectMaterial === 3 || selectMaterial === '3') && value?.toLowerCase() === "misc. gm"){
-          let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.CSWt - a?.CSWt)?.slice(0, 10)?.map(e => e?.Vendor);
-          setVendorWiseNameList(arr0);
-          let arr = data?.DT1?.slice()?.sort((a, b) => b?.MISCWt - a?.MISCWt)?.slice(0, 10)?.map(e => e?.MISCWt);
-          setYAxis(arr);
-        }
+  //   if(data?.DT1?.length > 0){
+
+  //       if((selectMaterial === 1 || selectMaterial === '1') && value?.toLowerCase() === "net wt"){
+  //         let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.Netwt - a?.Netwt)?.slice(0, 8)?.map(e => e?.Vendor);
+  //         setVendorWiseNameList(arr0);
+  //         let arr = data?.DT1?.slice()?.sort((a, b) => b?.Netwt - a?.Netwt)?.slice(0, 8)?.map(e => e?.Netwt);
+  //         setYAxis(arr);
+  //       }
+  //       if((selectMaterial === 1 || selectMaterial === '1') && value?.toLowerCase() === "job count"){
+  //         let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 8)?.map(e => e?.Vendor);
+  //         setVendorWiseNameList(arr0);
+  //         let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 8)?.map(e => e?.TotalJobCnt);
+  //         setYAxis(arr);
+  //       }
+  //       if((selectMaterial === 1 || selectMaterial === '1') && value?.toLowerCase() === "dia. pcs"){
+  //         let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.DiaPcs - a?.DiaPcs)?.slice(0, 8)?.map(e => e?.Vendor);
+  //         setVendorWiseNameList(arr0);
+  //         let arr = data?.DT1?.slice()?.sort((a, b) => b?.DiaPcs - a?.DiaPcs)?.slice(0, 8)?.map(e => e?.DiaPcs);
+  //         setYAxis(arr);
+  //       }
+  //       if((selectMaterial === 1 || selectMaterial === '1') && value?.toLowerCase() === "dia. carat"){
+  //         let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.DiaWt - a?.DiaWt)?.slice(0, 8)?.map(e => e?.Vendor);
+  //         setVendorWiseNameList(arr0);
+  //         let arr = data?.DT1?.slice()?.sort((a, b) => b?.DiaWt - a?.DiaWt)?.slice(0, 8)?.map(e => e?.DiaWt);
+  //         setYAxis(arr);
+  //       }
+  //       if((selectMaterial === 2 || selectMaterial === '2') && value?.toLowerCase() === "net wt"){
+  //         let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.Netwt - a?.Netwt)?.slice(0, 8)?.map(e => e?.Vendor);
+  //         setVendorWiseNameList(arr0);
+  //         let arr = data?.DT1?.slice()?.sort((a, b) => b?.Netwt - a?.Netwt)?.slice(0, 8)?.map(e => e?.Netwt);
+  //         setYAxis(arr);
+  //       }
+  //       if((selectMaterial === 2 || selectMaterial === '2') && value?.toLowerCase() === "job count"){
+  //         let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 8)?.map(e => e?.Vendor);
+  //         setVendorWiseNameList(arr0);
+  //         let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 8)?.map(e => e?.TotalJobCnt);
+  //         setYAxis(arr);
+  //       }
+  //       if((selectMaterial === 2 || selectMaterial === '2') && value?.toLowerCase() === "cs. pcs"){
+  //         let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.CSPcs - a?.CSPcs)?.slice(0, 8)?.map(e => e?.Vendor);
+  //         setVendorWiseNameList(arr0);
+  //         let arr = data?.DT1?.slice()?.sort((a, b) => b?.CSPcs - a?.CSPcs)?.slice(0, 8)?.map(e => e?.CSPcs);
+  //         setYAxis(arr);
+  //       }
+  //       if((selectMaterial === 2 || selectMaterial === '2') && value?.toLowerCase() === "cs. carat"){
+  //         let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.CSWt - a?.CSWt)?.slice(0, 8)?.map(e => e?.Vendor);
+  //         setVendorWiseNameList(arr0);
+  //         let arr = data?.DT1?.slice()?.sort((a, b) => b?.CSWt - a?.CSWt)?.slice(0, 8)?.map(e => e?.CSWt);
+  //         setYAxis(arr);
+  //       }
+  //       if((selectMaterial === 3 || selectMaterial === '3') && value?.toLowerCase() === "net wt"){
+  //         let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.Netwt - a?.Netwt)?.slice(0, 8)?.map(e => e?.Vendor);
+  //         setVendorWiseNameList(arr0);
+  //         let arr = data?.DT1?.slice()?.sort((a, b) => b?.Netwt - a?.Netwt)?.slice(0, 8)?.map(e => e?.Netwt);
+  //         setYAxis(arr);
+  //       }
+  //       if((selectMaterial === 3 || selectMaterial === '3') && value?.toLowerCase() === "job count"){
+  //         let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 8)?.map(e => e?.Vendor);
+  //         setVendorWiseNameList(arr0);
+  //         let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 8)?.map(e => e?.TotalJobCnt);
+  //         setYAxis(arr);
+  //       }
+  //       if((selectMaterial === 3 || selectMaterial === '3') && value?.toLowerCase() === "misc. pcs"){
+  //         let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.MISCPcs - a?.MISCPcs)?.slice(0, 8)?.map(e => e?.Vendor);
+  //         setVendorWiseNameList(arr0);
+  //         let arr = data?.DT1?.slice()?.sort((a, b) => b?.MISCPcs - a?.MISCPcs)?.slice(0, 8)?.map(e => e?.MISCPcs);
+  //         setYAxis(arr);
+  //       }
+  //       if((selectMaterial === 3 || selectMaterial === '3') && value?.toLowerCase() === "misc. gm"){
+  //         let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.CSWt - a?.CSWt)?.slice(0, 8)?.map(e => e?.Vendor);
+  //         setVendorWiseNameList(arr0);
+  //         let arr = data?.DT1?.slice()?.sort((a, b) => b?.MISCWt - a?.MISCWt)?.slice(0, 8)?.map(e => e?.MISCWt);
+  //         setYAxis(arr);
+  //       }
         
-    }
-  },[selectMaterial, data, value]);
+  //   }
+
+  // },[selectMaterial, data, value]);
 
 
   // useEffect(() => {
@@ -205,6 +207,71 @@ const TotalLabour = ({tkn,  fdate, tdate, selectMaterial}) => {
   //     }
   //   }
   // }, [selectMaterial, data, value]);
+  
+
+  useEffect(() => {
+    const getSortedData = (field, valueField) => {
+      return data?.DT1?.slice()
+        ?.sort((a, b) => b[field] - a[field])
+        ?.slice(0, 8)
+        ?.map(e => e[valueField]);
+    };
+  
+    if (data?.DT1?.length > 0) {
+      let vendorList = [];
+      let yAxisData = [];
+  
+      const materialType = String(selectMaterial);
+      const lowerValue = value?.toLowerCase();
+  
+      if (materialType === '1') {
+        if (lowerValue === "net wt") {
+          vendorList = getSortedData('Netwt', 'Vendor');
+          yAxisData = getSortedData('Netwt', 'Netwt');
+        } else if (lowerValue === "job count") {
+          vendorList = getSortedData('TotalJobCnt', 'Vendor');
+          yAxisData = getSortedData('TotalJobCnt', 'TotalJobCnt');
+        } else if (lowerValue === "dia. pcs") {
+          vendorList = getSortedData('DiaPcs', 'Vendor');
+          yAxisData = getSortedData('DiaPcs', 'DiaPcs');
+        } else if (lowerValue === "dia. carat") {
+          vendorList = getSortedData('DiaWt', 'Vendor');
+          yAxisData = getSortedData('DiaWt', 'DiaWt');
+        }
+      } else if (materialType === '2') {
+        if (lowerValue === "net wt") {
+          vendorList = getSortedData('Netwt', 'Vendor');
+          yAxisData = getSortedData('Netwt', 'Netwt');
+        } else if (lowerValue === "job count") {
+          vendorList = getSortedData('TotalJobCnt', 'Vendor');
+          yAxisData = getSortedData('TotalJobCnt', 'TotalJobCnt');
+        } else if (lowerValue === "cs. pcs") {
+          vendorList = getSortedData('CSPcs', 'Vendor');
+          yAxisData = getSortedData('CSPcs', 'CSPcs');
+        } else if (lowerValue === "cs. carat") {
+          vendorList = getSortedData('CSWt', 'Vendor');
+          yAxisData = getSortedData('CSWt', 'CSWt');
+        }
+      } else if (materialType === '3') {
+        if (lowerValue === "net wt") {
+          vendorList = getSortedData('Netwt', 'Vendor');
+          yAxisData = getSortedData('Netwt', 'Netwt');
+        } else if (lowerValue === "job count") {
+          vendorList = getSortedData('TotalJobCnt', 'Vendor');
+          yAxisData = getSortedData('TotalJobCnt', 'TotalJobCnt');
+        } else if (lowerValue === "misc. pcs") {
+          vendorList = getSortedData('MISCPcs', 'Vendor');
+          yAxisData = getSortedData('MISCPcs', 'MISCPcs');
+        } else if (lowerValue === "misc. gm") {
+          vendorList = getSortedData('MISCWt', 'Vendor');
+          yAxisData = getSortedData('MISCWt', 'MISCWt');
+        }
+      }
+  
+      setVendorWiseNameList(vendorList);
+      setYAxis(yAxisData);
+    }
+  }, [selectMaterial, data, value]);
   
 
 

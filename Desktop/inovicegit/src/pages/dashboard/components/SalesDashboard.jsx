@@ -23,19 +23,19 @@ import CardStatsWithAreaChart from '../@core/components/card-statistics/card-sta
 
 import AnalyticsWebsiteAnalyticsSlider from './AnalyticsWebsiteAnalyticsSlider';
 import AnalyticsOrderVisits from './AnalyticsOrderVisits';
-import AnalyticsEarningReports from './AnalyticsEarningReports';
-import AnalyticsSupportTracker from './AnalyticsSupportTracker';
-import AnalyticsSalesByCountries from './AnalyticsSalesByCountries';
-import AnalyticsTotalEarning from './AnalyticsTotalEarning';
+import Summary from './Summary';
+import OrderTracker from './OrderTracker';
+import SalesByLocation from './SalesByLocation';
+import CategoryWiseSalesProfitAmount from './CategoryWiseSalesProfitAmount';
 import AnalyticsMonthlyCampaignState from './AnalyticsMonthlyCampaignState';
 import AnalyticsSourceVisits from './AnalyticsSourceVisits';
-import AnalyticsProject from './AnalyticsProject';
+import MetalWiseSaleAmount from './MetalWiseSaleAmount';
 import RechartsPieChart from '../charts/recharts/RechartsPieChart';
 import ApexRadialBarChart from '../charts/apex-charts/ApexRadialBarChart';
-import CardStatsVertical from './../@core/components/card-statistics/card-stats-vertical/index';
+import CardStatsVertical from '../@core/components/card-statistics/card-stats-vertical/index';
 import AnalyticsCustomerTypeWise from './AnalyticsCustomerTypeWise';
 import AnalyticsFilters from './AnalyticsFilters';
-import AnalyticsSalesEarningReport from './AnalyticsSalesEarningReport';
+import CustWiseSalesProfitAmount from './CustWiseSalesProfitAmount';
 import AnalyticsSalesRepWiseSaleAmt from './AnalyticsSalesRepWiseSaleAmt';
 import { useEffect, useState } from 'react';
 import { Box, Button, useTheme } from '@mui/material';
@@ -52,7 +52,7 @@ import axios from 'axios';
 import JobPriceRangeWiseData from './JobPriceRangeWiseData';
 import PriceRangeWise from './PriceRangeWise';
 
-const AnalyticsDashboard = ({tkn, hostName, LId, IsEmpLogin, IsPower, IFB}) => {
+const SalesDashboard = ({tkn, hostName, LId, IsEmpLogin, IsPower, IFB}) => {
   
   const [fdate, setFDate] = useState(null);
   const [tdate, setTDate] = useState(null);
@@ -515,24 +515,24 @@ useEffect(() => {
           </Grid>
          
           <Grid item xs={12} md={6} lg={9} style={{paddingTop:'25px'}}>
-            <AnalyticsEarningReports tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} countryCodeSymbol={countryCodeSymbol} salesman={selectedSales} office={selectedOffice} monthWiseSaleData={monthWiseSaleApiData} summaryData={summryApiData} IsEmpLogin={IsEmpLogin} />
+            <Summary tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} countryCodeSymbol={countryCodeSymbol} salesman={selectedSales} office={selectedOffice} monthWiseSaleData={monthWiseSaleApiData} summaryData={summryApiData} IsEmpLogin={IsEmpLogin} />
           </Grid>
           <Grid item xs={12} md={6} lg={3} style={{paddingTop:'25px'}}>
-            <AnalyticsSupportTracker tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} countryCodeSymbol={countryCodeSymbol} salesman={selectedSales} office={selectedOffice} orderTracker={orderTrackerApiData} IsEmpLogin={IsEmpLogin} />
+            <OrderTracker tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} countryCodeSymbol={countryCodeSymbol} salesman={selectedSales} office={selectedOffice} orderTracker={orderTrackerApiData} IsEmpLogin={IsEmpLogin} />
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3} style={{paddingTop:'25px'}}>
-            <AnalyticsSalesByCountries tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} countryCodeSymbol={countryCodeSymbol} salesman={selectedSales} office={selectedOffice} countryWiseSale={CountryWiseSaleAmount} IsEmpLogin={IsEmpLogin} />
+            <SalesByLocation tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} countryCodeSymbol={countryCodeSymbol} salesman={selectedSales} office={selectedOffice} countryWiseSale={CountryWiseSaleAmount} IsEmpLogin={IsEmpLogin} />
           </Grid>
           <Grid item xs={12} sm={6} md={8} lg={9} style={{paddingTop:'25px'}}>
             {/* <AnalyticsCustomerTypeWise tkn={tkn} /> */}
-            <AnalyticsSalesEarningReport tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} countryCodeSymbol={countryCodeSymbol} salesman={selectedSales} office={selectedOffice} CustomerWiseSaleAmountData={CustomerWiseSaleAmount} IsEmpLogin={IsEmpLogin} />
+            <CustWiseSalesProfitAmount tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} countryCodeSymbol={countryCodeSymbol} salesman={selectedSales} office={selectedOffice} CustomerWiseSaleAmountData={CustomerWiseSaleAmount} IsEmpLogin={IsEmpLogin} />
           </Grid>
           <Grid item xs={12} sm={6} md={6} lg={6}  style={{paddingTop:'25px'}}>
-            <AnalyticsTotalEarning tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} countryCodeSymbol={countryCodeSymbol} salesman={selectedSales} office={selectedOffice} CategoryWiseSaleAmountData={CategoryWiseSaleAmount} IsEmpLogin={IsEmpLogin} />
+            <CategoryWiseSalesProfitAmount tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} countryCodeSymbol={countryCodeSymbol} salesman={selectedSales} office={selectedOffice} CategoryWiseSaleAmountData={CategoryWiseSaleAmount} IsEmpLogin={IsEmpLogin} />
             {/* <AnalyticsSalesEarningReport /> */}
           </Grid>
           <Grid item xs={12} sm={6} md={6} lg={6} style={{paddingTop:'25px'}}>
-            <AnalyticsProject tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} countryCodeSymbol={countryCodeSymbol} salesman={selectedSales} office={selectedOffice} MetalTypeColorWiseSaleData={MetalTypeColorWiseSale} IsEmpLogin={IsEmpLogin} />
+            <MetalWiseSaleAmount tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} countryCodeSymbol={countryCodeSymbol} salesman={selectedSales} office={selectedOffice} MetalTypeColorWiseSaleData={MetalTypeColorWiseSale} IsEmpLogin={IsEmpLogin} />
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={4} style={{paddingTop:'25px'}}>
             <ApexRadialBarChart tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} countryCodeSymbol={countryCodeSymbol} office={selectedOffice} CustomerTypeWiseSaleAmountData={CustomerTypeWiseSaleAmount} IsEmpLogin={IsEmpLogin} />
@@ -543,7 +543,6 @@ useEffect(() => {
           <Grid item xs={12} sm={6} md={4} lg={4} style={{paddingTop:'25px'}}>
             <AnalyticsSalesRepWiseSaleAmt tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} countryCodeSymbol={countryCodeSymbol} office={selectedOffice} SalesrepWiseSaleAmount={SalesrepWiseSaleAmount} IsEmpLogin={IsEmpLogin} />
           </Grid>
-
           <Grid item xs={12} sm={12} md={12}>
               <PriceRangeWise tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCountry} salesman={selectedSales} countryCodeSymbol={countryCodeSymbol} office={selectedOffice}  IsEmpLogin={IsEmpLogin} jobWisePriceRangeData={jobWisePriceRangeData} />
           </Grid>
@@ -556,4 +555,4 @@ useEffect(() => {
   )
 }
 
-export default AnalyticsDashboard
+export default SalesDashboard

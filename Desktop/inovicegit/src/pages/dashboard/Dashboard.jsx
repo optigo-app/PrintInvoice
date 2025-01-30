@@ -1,7 +1,7 @@
 import { ThemeProvider, createTheme } from '@mui/material';
 import React, { useState } from 'react'
 import customTheme from "./@core/theme/theme"
-import AnalyticsDashboard from './components/AnalyticsDashboard';
+import SalesDashboard from './components/SalesDashboard';
 import { useLocation } from 'react-router-dom';
 import KPIAnalytics from './componentsofkpi/KPIAnalytics';
 import FactoryDashBoard from './factoryDashboard/FactoryDashBoard';
@@ -34,7 +34,7 @@ const Dashboard = () => {
                 width:'100%', 
                 boxSizing:'border-box',
                 backgroundColor:'#F8F7FA',
-                padding:'2rem'}}><AnalyticsDashboard tkn={tkn} hostName={hostName} LId={LId} IsEmpLogin={IsEmpLogin} IsPower={IsPower} IFB={IFB} /> 
+                padding:'2rem'}}><SalesDashboard tkn={tkn} hostName={hostName} LId={LId} IsEmpLogin={IsEmpLogin} IsPower={IsPower} IFB={IFB} /> 
             </div>}
             { pid === '18146' && <div style={{
                 width:'100%', 
@@ -58,7 +58,8 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Dashboard;
+
 // import { ThemeProvider, createTheme } from '@mui/material';
 // import React, { useState } from 'react'
 // import customTheme from "./@core/theme/theme"

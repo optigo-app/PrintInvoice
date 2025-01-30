@@ -25,7 +25,7 @@ import { CircularProgress } from '@mui/material'
 
 
 
-const AnalyticsSupportTracker = ({tkn, fdate, tdate, orderTracker}) => {
+const OrderTracker = ({tkn, fdate, tdate, orderTracker}) => {
 
   const [apiData, setApiData] = useState([]);
   const [totalOrder, setTotalOrder] = useState(0);
@@ -284,4 +284,4 @@ const AnalyticsSupportTracker = ({tkn, fdate, tdate, orderTracker}) => {
   )
 }
 
-export default AnalyticsSupportTracker
+export default OrderTracker

@@ -59,7 +59,7 @@ const renderName = row => {
 
 
 
-const AnalyticsProject = ({tkn,  fdate, tdate, country, MetalTypeColorWiseSaleData, IsEmpLogin}) => {
+const MetalWiseSaleAmount = ({tkn,  fdate, tdate, country, MetalTypeColorWiseSaleData, IsEmpLogin}) => {
   // ** State
   const [data, setData] = useState([])
   const [filteredData, setFilteredData] = useState([])
@@ -329,4 +329,4 @@ const AnalyticsProject = ({tkn,  fdate, tdate, country, MetalTypeColorWiseSaleDa
   ) : null
 }
 
-export default AnalyticsProject
+export default MetalWiseSaleAmount
