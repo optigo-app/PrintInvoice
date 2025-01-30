@@ -81,7 +81,7 @@ const WastageWiseLabourPGram = ({tkn,  fdate, tdate}) => {
   const tabData = [
     {
       type: 'Wastage',
-      series: [{ data: wastageList ?? NetWtArr }]
+      series: [{ data: wastageList }]
     },
     // {
     //   type: 'Job Count',
@@ -245,8 +245,11 @@ const WastageWiseLabourPGram = ({tkn,  fdate, tdate}) => {
       setVendorNameList(arr);
       let arr1 = data?.DT1?.slice()?.sort((a, b) => b?.AVG_Wastage - a?.AVG_Wastage)?.slice(0, 8)?.map((e) => e?.AVG_Wastage);
       setWastageList(arr1);
+    }else{
+      setVendorNameList([]);
+      setWastageList([]);
     }
-  },[data]);
+  },[data?.DT1]);
 
   return (
     <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>

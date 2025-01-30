@@ -1,7 +1,7 @@
 import { ThemeProvider, createTheme } from '@mui/material';
 import React, { useState } from 'react'
 import customTheme from "./@core/theme/theme"
-import SalesDashboard from './components/SalesDashboard';
+import SalesDashboard from './salesDashboard/SalesDashboard';
 import { useLocation } from 'react-router-dom';
 import KPIAnalytics from './componentsofkpi/KPIAnalytics';
 import FactoryDashBoard from './factoryDashboard/FactoryDashBoard';

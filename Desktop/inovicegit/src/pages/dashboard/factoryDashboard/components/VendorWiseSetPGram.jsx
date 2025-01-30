@@ -244,6 +244,7 @@ const VendorWiseSetPGram = ({tkn,  fdate, tdate, selectMaterial, selectCurrency}
 
   useEffect(() => {
     if(data?.DT1?.length > 0){
+      
       // if(selectMaterial === 1 || selectMaterial === '1'){
       if(value === 'Diamond Setting Cost'){
         let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.TotalDiaSettingCost - a?.TotalDiaSettingCost)?.slice(0, 8)?.map((e) => capitalizeFirstLetter(e?.Vendor));
@@ -258,7 +259,14 @@ const VendorWiseSetPGram = ({tkn,  fdate, tdate, selectMaterial, selectCurrency}
         setCSSetCostList(arr);
       }
     }
-  },[data, selectMaterial, value, selectCurrency])
+    else{
+      setVendorNameList([]);
+      setDiaSetCostList([]);
+      setVendorNameList2([]);
+      setCSSetCostList([]);
+    }
+    
+  },[data?.DT1, selectMaterial, value, selectCurrency])
 
   return (
     <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>
