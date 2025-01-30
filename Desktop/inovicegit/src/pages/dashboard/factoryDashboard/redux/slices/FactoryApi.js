@@ -84,6 +84,7 @@ export const fetchVendor_In_Out_DurationData = createAsyncThunk('factory/Vendor_
               }
 
             const response = await axios.post(url, body);
+            
             return response;
         } catch (error) {
             console.log(error);

@@ -17,7 +17,7 @@ const SettingPerGram = props => {
   const { info, warning, labelColor, borderColor, legendColor, selectMaterial, selectCurrency } = props;
 
   const { loading, data, error } = useSelector(state => state?.Vendor_Margin_Per_Carat);
-
+  
   const [vendorNameList, setVendorNameList] = useState([]);
   const [costPerCarat, setCostperCarat] = useState([]);
   const [soldPerCarat, setSoldperCarat] = useState([]);
@@ -122,7 +122,7 @@ const SettingPerGram = props => {
       setSoldperCarat([]);
     }
     
-  },[data, selectMaterial, selectCurrency]);
+  },[data?.DT, selectMaterial, selectCurrency]);
 
   return (
     <Card  className='fs_facd bs_facd' sx={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>

@@ -162,8 +162,12 @@ const InOutDuration = ( ) => {
           setIOTimeList(arr2);
           let arr3 = data?.DT?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map((e) => e?.TotalJobCnt);
           setCountList(arr3);
+      }else{
+        setVendroNameList([]);
+        setIOTimeList([]);
+        setCountList([]);
       }
-  },[data]);
+  },[data?.DT]);
 
   const series = [
     //   {
