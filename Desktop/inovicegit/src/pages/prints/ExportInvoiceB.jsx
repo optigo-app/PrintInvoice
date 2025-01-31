@@ -20,6 +20,18 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [metalTypeWise, setMetalTypeWise] = useState([]);
   const [hsnNo, setHSNno] = useState([]);
 
+  const [vesselFlightNo, setVesselFlightNo] = useState('');
+  const [preCarraigeBy, setPreCarraigeBy] = useState('');
+  const [ifscInput, setIfscInput] = useState('');
+  const [prod, setProd] = useState('');
+
+  const [rateOfGold, setRateOfGold]  = useState('');
+  const [ratePerGram995, setRatePerGram995]  = useState('');
+  const [ratePerGram76, setRatePerGram76]  = useState('');
+  const [labourVal, setLabourVal] = useState('');
+
+  const [diamondCount, setDiamodCount] = useState('');
+
   useEffect(() => {
     const sendData = async () => {
       try {
@@ -61,8 +73,31 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
+
+    let vfn = datas?.header?.Flight_NO;
+    setVesselFlightNo(vfn);
+    let transporter = datas?.header?.Name_Of_Transporter;
+    setPreCarraigeBy(transporter);
+    let ifsc = datas?.header?.rtgs_neft_ifsc;
+    setIfscInput(ifsc);
+    let prod =  "ONE TIN BOX INDIAN MADE"+ " "+datas?.header?.Product_Type;
+    setProd(prod);
+
+    let metGold = `${formatAmount((datas?.header?.MetalRate24K * 31) / datas?.header?.CurrencyExchRate)}  (GJE PC)`;
+    setRateOfGold(metGold);
+    let metGold2 = `${formatAmount((datas?.header?.MetalRate24K / datas?.header?.CurrencyExchRate))} (0.995%)`;
+    setRatePerGram995(metGold2);
+    let metGold3 = `${formatAmount((datas?.header?.MetalRate24K * 31) / datas?.header?.CurrencyExchRate)}  (GJE PC)`;
+    setRatePerGram76(metGold3);
+    let labourval = ` ${formatAmountRound(datas?.resultArray[0]?.MaKingCharge_Unit)} PG`;
+    setLabourVal(labourval);
+
+    let dc = 0;
     try {
         if(datas?.resultArray?.length > 0){
+
+            
+
             let po = datas?.resultArray[0]?.PO;
             setPO(po)
             let met_rate = datas?.resultArray[0]?.metal_rate;
@@ -98,6 +133,9 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
             let catWise = [] ;
             datas?.resultArray?.forEach((a) => {
+              if(a?.diamonds?.length > 0){
+                dc += 1;
+              }
               let obj = cloneDeep(a);
               let findrec = catWise?.findIndex((e) => e?.Categoryname === obj?.Categoryname);
               if(findrec === -1){
@@ -117,6 +155,8 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
             let hsn_no_array = datas?.resultArray?.map((e) => e?.HSNNo);
             setHSNno([...new Set(hsn_no_array)]);
+
+            setDiamodCount(dc);
             
         }
     } catch (error) {
@@ -230,12 +270,13 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className=" ps-3">
                        TEL : {result?.header?.CustTelePhone}
                     </div>
-                    
+                    {console.log(result?.header)
+                    }
                   </div>
                   <div className="col-6 ">
                     <div className=" ps-1 border-bottom border-black minH_buyers_ebi d-flex flex-column justify-content-between">
                       <div className="fw-bold">{convertToUppercase('Buyer (if other than consignee)')}</div>
-                      <div className="fw-bold">LUT NO : {result?.header?.LUTRAN_NO}</div>
+                      <div className="fw-bold">LUT NO : {result?.header?.LUTRAN_NO} &nbsp; {result?.header?.EntryDate}</div>
                     </div>
                     <div className=" col-12">
                       <div className="border-bottom border-black">
@@ -265,7 +306,8 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="d-flex border-bottom border-black">
                       <div className="col-6  px-1  border-end border-black">
                         <p className="fw-normal pb-2">PRE-CARRIAGE BY </p>
-                        <div className="fw-bold ps-3">{result?.header?.Name_Of_Transporter}</div>
+                        {/* <div className="fw-bold ps-3">{result?.header?.Name_Of_Transporter}</div> */}
+                        <div className="fw-bold ps-3"><input type="text" style={{border:'1px solid #e8e8e8'}} className="border_remove_eib" onChange={(e) => setPreCarraigeBy(e.target.value)} value={preCarraigeBy} /></div>
                       </div>
                       <div className="col-6  px-1 pb-0">
                         <p className="fw-normal">
@@ -276,7 +318,8 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="d-flex border-bottom border-black">
                       <div className="col-6  px-1  border-end border-black">
                         <p className="fw-normal pb-2">VESSEL/FLIGHT NO</p>
-                        <div className="fw-bold ps-3">{result?.header?.Flight_NO}</div>
+                        {/* <div className="fw-bold ps-3">{result?.header?.Flight_NO}</div> */}
+                        <div className="fw-bold ps-3" style={{paddingBottom:'1px'}}>AIR FREIGHT &nbsp;<input type="text" style={{border:'1px solid #e8e8e8'}} className="border_remove_eib" onChange={(e) => setVesselFlightNo(e.target.value)} value={vesselFlightNo} /></div>
                       </div>
                       <div className="col-6  px-1 ">
                         <p className="fw-normal pb-2">PORT OF LOADING</p>
@@ -305,11 +348,13 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <span className=" ps-3">DESCRIPTION OF GOODS</span>
                         </p>
                         <p className="fw-normal d-flex justify-content-between align-items-center">
-                        <span className="pb-0 text-break w-80">ONE TIN BOX INDIAN MADE {result?.header?.Product_Type}</span>
+                        {/* <span className="pb-0 text-break w-80">ONE TIN BOX INDIAN MADE {result?.header?.Product_Type}</span> */}
+                        <span className="pb-0 text-break w-80"><input type="text" style={{border:'1px solid #e8e8e8', minWidth:'200px'}} className="minWInp border_remove_eib" onChange={(e) => setProd(e.target.value)} value={prod} /></span>
                           <span className=" ps-3 w-20"></span>
                         </p>
                         <p className="fw-normal d-flex justify-content-between align-items-center">
-                          <span>HSN CODE : {hsnNo?.join(",")}</span>
+                          {/* <span>HSN CODE : {hsnNo?.join(",")}</span> */}
+                          <span style={{paddingTop:'1px'}}>HSN CODE : <input type="text" onChange={(e) => setHSNno(e.target.value)} value={hsnNo?.join(",")} className="border_remove_eib" style={{border:'1px solid #e8e8e8'}} /></span>
                           <span className=" ps-3"></span>
                         </p>
                       </div>
@@ -334,7 +379,8 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           }
                         </div>
                         <div className="ps-5">SWIFT CODE : <input type="text" max={20} maxLength={20} style={{width:'80px', border:'1px solid #e8e8e8'}} className="border_remove_eib" /></div>
-                        <div className="ps-5">IFSC CODE : {result?.header?.rtgs_neft_ifsc}</div>
+                        <div className="ps-5" style={{paddingTop:'1px'}}>IFSC CODE : <input type="text" max={20} maxLength={20} style={{width:'80px', border:'1px solid #e8e8e8'}} onChange={(e) => setIfscInput(e.target.value)} value={ifscInput} className="border_remove_eib" /></div>
+                        {/* <div className="ps-5">IFSC CODE : {result?.header?.rtgs_neft_ifsc}</div> */}
                       </div>
                     </div>
                   </div>
@@ -343,7 +389,30 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div>
                   <div className="border-black border ms-1 mt-1 fs_eib " style={{width:'85%'}}>
                   <div className="d-flex fw-bold ">
-                      <div className="col1_eib center_eib ">
+                    <div style={{width:'49%'}} className="ps-4">
+                      <div className="px-1">DIAMOND INDIA LIMITED GOLD DETAILS</div>
+                      <div className="d-flex justify-content-between align-items-center px-1 w-50">
+                        <div className="w-50">INV. NO.</div>
+                        <div className="w-50">INV. DT.</div>
+                      </div>
+                      <div className="d-flex justify-content-between align-items-center px-1 w-50">
+                        <div className="w-50"><input type="text" className="border_remove_eib" style={{border:'1px solid #e8e8e8'}} /></div>
+                        <div className="w-50"><input type="text" className="border_remove_eib" style={{border:'1px solid #e8e8e8'}} /></div>
+                      </div>
+                      <div className="d-flex justify-content-between align-items-center px-1 w-50">
+                        <div className="w-50">PURCHASE QTY.</div>
+                        <div className="w-50"><input type="text" className="border_remove_eib" style={{border:'1px solid #e8e8e8'}} /></div>
+                      </div>
+                      {/* <div className="d-flex justify-content-between align-items-center px-1 w-50">
+                        <div className="w-50">USED GOLD QTY.</div>
+                        <div className="w-50"><input type="text" className="border_remove_eib" style={{border:'1px solid #e8e8e8'}} /></div>
+                      </div> */}
+                      {/* <div className="d-flex justify-content-between align-items-center px-1 w-50">
+                        <div className="w-50">BALANCE QTY.</div>
+                        <div className="w-50"><input type="text" className="border_remove_eib" style={{border:'1px solid #e8e8e8'}} /></div>
+                      </div> */}
+                    </div>
+                      {/* <div className="col1_eib center_eib ">
                         
                       </div>
                       <div className="col2_eib center_eib ">
@@ -354,7 +423,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className="col4_eib center_eib ">
                         
-                      </div>
+                      </div> */}
                       <div className="col5_eib center_eib border-end  border-black">
                         
                       </div>
@@ -367,7 +436,13 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="col8_eib ps-1 start_ebi border-bottom border-black">AMOUNT</div>
                     </div>
                     <div className="d-flex fw-bold ">
-                      <div className="col1_eib center_eib ">
+                      <div style={{width:'49%'}} className="ps-4">
+                        <div className="d-flex justify-content-between align-items-center px-1 w-50">
+                          <div className="w-50">USED GOLD QTY.</div>
+                          <div className="w-50"><input type="text" className="border_remove_eib" style={{border:'1px solid #e8e8e8'}} /></div>
+                        </div>
+                      </div>
+                      {/* <div className="col1_eib center_eib ">
                         
                       </div>
                       <div className="col2_eib center_eib ">
@@ -378,7 +453,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className="col4_eib center_eib ">
                         
-                      </div>
+                      </div> */}
                       <div className="col5_eib center_eib border-end border-black">
                         
                       </div>
@@ -391,7 +466,13 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="col8_eib center_eib border-bottom border-black">{result?.header?.CurrencyCode}</div>
                     </div>
                     <div className="d-flex fw-bold border-bottom border-black">
-                      <div className="col1_eib center_eib ">
+                    <div style={{width:'49%'}} className="ps-4">
+                        <div className="d-flex justify-content-between align-items-center px-1 w-50">
+                          <div className="w-50">BALANCE QTY.</div>
+                          <div className="w-50"><input type="text" className="border_remove_eib" style={{border:'1px solid #e8e8e8'}} /></div>
+                        </div>
+                      </div>
+                      {/* <div className="col1_eib center_eib ">
                         
                       </div>
                       <div className="col2_eib center_eib ">
@@ -402,7 +483,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className="col4_eib center_eib ">
                         
-                      </div>
+                      </div> */}
                       <div className="col5_eib center_eib border-end border-black">
                         
                       </div>
@@ -510,28 +591,43 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                           <div className="fw-bold fs_eib ">TOTAL NET WT. IN GMS {result?.mainTotal?.NetWt?.toFixed(2)}</div>
                           <div className="fw-bold fs_eib pt-1">ALL RATE & INVOICE ARE IN {result?.header?.CurrencyCode}</div>
-                          <div className="fw-bold fs_eib ">Rate of Gold Per Ounce :  {formatAmount((result?.header?.MetalRate24K * 31) / result?.header?.CurrencyExchRate)} (GJE PC)</div>
-                          <div className="fw-bold fs_eib ">Rate Per Gram : {formatAmount((result?.header?.MetalRate24K / result?.header?.CurrencyExchRate))} (0.995%)</div>
-                          <div className="fw-bold fs_eib ">Rate Per Gram : {formatAmount((metRate / result?.header?.CurrencyExchRate))} ({tunch?.toFixed(2)}%)</div>
+                          {/* <div className="fw-bold fs_eib ">Rate of Gold Per Ounce :  {formatAmount((result?.header?.MetalRate24K * 31) / result?.header?.CurrencyExchRate)} (GJE PC)</div> */}
+                          <div className="fw-bold fs_eib " style={{paddingTop:'1px'}}>Rate of Gold Per Ounce :  <input type="text" style={{border:'1px solid #e8e8e8'}} className="border_remove_eib" value={rateOfGold} onChange={(e) => setRateOfGold(e.target.value)} /></div>
+                          {/* <div className="fw-bold fs_eib ">Rate Per Gram : {formatAmount((result?.header?.MetalRate24K / result?.header?.CurrencyExchRate))} (0.995%)</div> */}
+                          <div className="fw-bold fs_eib " style={{paddingTop:'1px'}}>Rate Per Gram : <input type="text" style={{border:'1px solid #e8e8e8'}} className="border_remove_eib" value={ratePerGram995} onChange={(e) => setRatePerGram995(e.target.value)} /></div>
+                          {/* <div className="fw-bold fs_eib ">Rate Per Gram : {formatAmount((metRate / result?.header?.CurrencyExchRate))} ({tunch?.toFixed(2)}%)</div> */}
+                          <div className="fw-bold fs_eib " style={{paddingTop:'1px'}}>Rate Per Gram : <input type="text" style={{border:'1px solid #e8e8e8'}} className="border_remove_eib" value={ratePerGram76} onChange={(e) => setRatePerGram76(e.target.value)} /></div>
                       </div>
-                      <div className="toalDiv_2">Labour <span dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span> {formatAmountRound(result?.resultArray[0]?.MaKingCharge_Unit)} PG</div>
+                      {/* <div className="toalDiv_2">Labour <span dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span> {formatAmountRound(result?.resultArray[0]?.MaKingCharge_Unit)} PG</div> */}
+                      <div className="toalDiv_2">Labour <span dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span><input type="text" style={{border:'1px solid #e8e8e8'}} value={labourVal} className="border_remove_eib" onChange={(e) => setLabourVal(e.target.value)} /></div>
                       <div className="toalDiv_3 border border-black">
-                          <div className="d-flex align-items-center"><div className="w-50 ps-1 ">DIAMOND VALUE</div><div className="w-50 end_ebi pe-1">{formatAmount((result?.mainTotal?.diamonds?.Amount / result?.header?.CurrencyExchRate))}</div></div>
-                          <div className="d-flex align-items-center"><div className="w-50 ps-1 ">MAKING VALUE</div><div className="w-50 end_ebi pe-1">{formatAmount((result?.mainTotal?.MakingAmount))}</div></div>
+                          { diamondCount > 0 && <div className="d-flex align-items-center"><div className="w-50 ps-1 ">DIAMOND VALUE</div><div className="w-50 end_ebi pe-1">{formatAmount((result?.mainTotal?.diamonds?.Amount / result?.header?.CurrencyExchRate))}</div></div>}
+                          <div className="d-flex align-items-center"><div className="w-50 ps-1 ">
+                            MAKING VALUE</div>
+                            <div className="w-50 end_ebi pe-1">
+                              {formatAmount(((result?.mainTotal?.MakingAmount / result?.header?.CurrencyExchRate)))}
+                              </div></div>
                           <div className="d-flex align-items-center"><div className="w-50 ps-1 ">FOB {result?.header?.CurrencyCode} </div><div className="w-50 end_ebi pe-1">{formatAmount((result?.mainTotal?.MetalAmount / result?.header?.CurrencyExchRate) + (result?.mainTotal?.diamonds?.Amount / result?.header?.CurrencyExchRate) + result?.mainTotal?.MakingAmount)}</div></div>
-                          <div className="d-flex align-items-center"><div className="w-50 ps-1 ">FRT & INS</div><div className="w-50 end_ebi pe-1">{formatAmount((result?.header?.FreightCharges / result?.header?.CurrencyExchRate))}</div></div>
+                          <div className="d-flex align-items-center"><div className="w-50 ps-1 ">AIR FRT & INS</div><div className="w-50 end_ebi pe-1">{formatAmount((result?.header?.FreightCharges / result?.header?.CurrencyExchRate))}</div></div>
                           <div className="d-flex align-items-center border-top border-black height_total_eib"><div className="w-50 ps-1 d-flex align-items-center h-100 ">Total {result?.header?.Freight_Terms}</div><div className="w-50 end_ebi pe-1 h-100">{formatAmount((result?.mainTotal?.MetalAmount / result?.header?.CurrencyExchRate) + (result?.mainTotal?.diamonds?.Amount / result?.header?.CurrencyExchRate) + result?.mainTotal?.MakingAmount + (result?.header?.FreightCharges / result?.header?.CurrencyExchRate))}</div></div>
                       </div>
                   </div>
-      
+                    
                 </div>
       
                 <div className="border-top border-bottom border-black p-1 text-break page_eib">
                   {result?.header?.PrintRemark}
                 </div>
       
+                <div className=" mt-0 border-black border-bottom p-2 pb-1"><span className="fs_sm_ebi " dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></span></div>
+
                 <div className="ps-1">Amount Chargeable {result?.header?.CurrencyCode} : {NumToWord(((result?.header?.FreightCharges / result?.header?.CurrencyExchRate) + (result?.mainTotal?.MetalAmount / result?.header?.CurrencyExchRate) + result?.mainTotal?.MakingAmount + (result?.mainTotal?.diamonds?.Amount / result?.header?.CurrencyExchRate)))} (in words)</div>
                 <div className="ps-1">GOLD PURCHASE FROM {result?.header?.Advance_Receipt_No}</div>
+                <div className="d-flex justify-content-start align-items-center px-1">
+                  <div className="me-1">Invoice Ref : <input type="text" className="border_remove_eib" style={{minWidth:'200px', border:'1px solid #e8e8e8'}} /></div>
+                  <div className="mx-1">Trade Ref : <input type="text" className="border_remove_eib" style={{minWidth:'200px', border:'1px solid #e8e8e8'}} /></div>
+                  <div className="mx-1">Date : <input type="text" className="border_remove_eib" style={{minWidth:'200px', border:'1px solid #e8e8e8'}} /></div>
+                </div>
                 <div className="d-flex justify-content-between align-items-center px-1">
                   <div style={{width:'39.33%'}} className="fw-semibold"> {result?.header?.E_Reference_No}</div>
                   <div style={{width:'30.33%'}} className="fw-semibold">RATE : {formatAmount((result?.header?.MetalRate24K / result?.header?.CurrencyExchRate))}</div>
@@ -700,8 +796,6 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div className="w-25 ps-1 fs_eib border-start border-black signBox_eib border-top fw-semibold">Signature & Date</div>
                 </div>
-      
-           
       
               </div>
       

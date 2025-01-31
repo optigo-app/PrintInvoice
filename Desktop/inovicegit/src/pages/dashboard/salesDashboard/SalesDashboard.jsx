@@ -466,7 +466,7 @@ useEffect(() => {
               </div>
             </Box>
             <Box className="me-1" style={{minWidth:'200px'}}>
-              <label htmlFor="country">Country</label>
+              <label htmlFor="country">Currency</label>
               <select className='form-control kayrafilter' value={selectedCountry} disabled={countryList?.length === 0} name="country" id="country" onChange={(el) => countryListHandleChange(el)}>
                 {/* <option value="" disabled selected>select</option> */}
                 {

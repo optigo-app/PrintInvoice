@@ -156,7 +156,7 @@
         line-height: 9px;
     }
     .fivecm_ebi{
-        margin-bottom: 120px;
+        margin-bottom: 60px;
     }
     .fivecm_ebi2{
         margin-bottom: 60px;
@@ -173,5 +173,8 @@
     }
     .page_eib{
         page-break-inside: avoid !important;
+    }
+    .minWInp{
+        min-width: 150px !important;
     }
 }
