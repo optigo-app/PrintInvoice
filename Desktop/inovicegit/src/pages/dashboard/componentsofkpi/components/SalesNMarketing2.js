@@ -27,8 +27,8 @@ const data5 = [
   title: 'Color Stone Amt',
 },
 {
-  // stats: `₹ ${formatAmountRound((checkNullUndefined((saleMTs?.LabourAmount - saleMTs?.OtherAmount)))?.toFixed(2))}`,
-  stats: `₹ ${formatAmountRound((checkNullUndefined((saleMTs?.LabourAmount)))?.toFixed(2))}`,
+  stats: `₹ ${formatAmountRound((checkNullUndefined((saleMTs?.LabourAmount - saleMTs?.OtherAmount)))?.toFixed(2))}`,
+  // stats: `₹ ${formatAmountRound((checkNullUndefined((saleMTs?.LabourAmount)))?.toFixed(2))}`,
   title: 'Labour Amt (L+DH+S)',
 },
 {

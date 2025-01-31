@@ -73,12 +73,21 @@ const AccountHr = ({  InventoryRatio, AvgColPeriod, saleMTs, saleMTs2, PrdDev,  
         },
         {
             heading: 'Avg. Collection Period',
+            // totalValue: parseFloat(checkNullUndefined(
+            //     ((((((AvgColPeriod?.DT[0]?.Sun_Debtor ?? 0) + (AvgColPeriod?.DT1[0]?.Sun_Debtor ?? 0)) / 2)
+            //      / 
+            //      (((AvgColPeriod?.DT2[0]?.SaleAccAmount ?? 0) - (AvgColPeriod?.DT2[0]?.SaleReturnAccAmount ?? 0)) === 0 ? 1
+            //       : ((AvgColPeriod?.DT2[0]?.SaleAccAmount ?? 0) - (AvgColPeriod?.DT2[0]?.SaleReturnAccAmount ?? 0)))
+            //     )) * 365)
+            // )),
             totalValue: parseFloat(checkNullUndefined(
-                (((((AvgColPeriod?.DT[0]?.Sun_Debtor + AvgColPeriod?.DT1[0]?.Sun_Debtor) / 2)
-                 / 
-                 (AvgColPeriod?.DT2[0]?.SaleAccAmount - AvgColPeriod?.DT2[0]?.SaleReturnAccAmount)
+                ((((((AvgColPeriod?.DT[0]?.Sun_Debtor ?? 0) + (AvgColPeriod?.DT1[0]?.Sun_Debtor ?? 0)) / 2)
+                / 
+                (((AvgColPeriod?.DT2[0]?.SaleAccAmount ?? 0) - (AvgColPeriod?.DT2[0]?.SaleReturnAccAmount ?? 0)) === 0 ? 1
+                : ((AvgColPeriod?.DT2[0]?.SaleAccAmount ?? 0) - (AvgColPeriod?.DT2[0]?.SaleReturnAccAmount ?? 0)))
                 )) * 365)
-            )),
+            )) || 0,  // If the result is NaN, it will return 0
+            
             series: [],
             subheading: 'Account & HR'
         },

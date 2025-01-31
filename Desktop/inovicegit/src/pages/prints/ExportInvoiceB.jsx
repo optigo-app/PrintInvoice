@@ -504,10 +504,10 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         Description
                       </div>
                       <div className="col3_eib center_eib border-end border-black">
-                        Stone/Pcs
+                        Stone Pcs
                       </div>
                       <div className="col4_eib center_eib border-end border-black">
-                        Stone Wt/Pcs
+                        Stone Wt
                       </div>
                       <div className="col5_eib center_eib border-end border-black">
                         Pcs
