@@ -4,10 +4,9 @@ import { useState } from 'react';
 import { apiCall, checkMsg, formatAmount, handleImageError, isObjectEmpty } from '../../GlobalFunctions';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import Loader from '../../components/Loader';
-import "../../assets/css/prints/print1.css"
+import "../../assets/css/prints/print1pdfwise.css"
 
-// const Print1Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
-const Print1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
+const Print1PDFWise = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     const [result, setResult] = useState(null);
     const [msg, setMsg] = useState("");
     const [loader, setLoader] = useState(true);
@@ -114,28 +113,38 @@ const Print1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         }, 0);
     };
 
+  console.log("hello", result?.resultArray);
   
     return (
         <>
             {loader ? <Loader /> : msg === '' ? <div><div className='container_qp1'>
                 <div className='d_flex_qp1 flex_direction_colum_qp1 main_qp1'>
-                    <div className='d_flex_qp1 print_btn_qp1'>
-                        <div className='printbtn_qp1 print_btn_qp1 br_btn1_smp' onClick={handlePrintwithoutprice}>Print WithOut Price</div>
-                        <div className='printbtn2_qp1 print_btn_qp1 br_btn2_smp' onClick={handlePrintwithprice}>Print With Price</div>
+                    <div className='d_flex_qp1 print_btn_qp1 mb-4 no-print  w-100 d-flex justify-content-end align-items-center'>
+                        {/* <div className='printbtn_qp1 print_btn_qp1 br_btn1_smp' onClick={handlePrintwithoutprice}>Print WithOut Price</div> */}
+                        <div className='printbtn2_qp1 print_btn_qp1 br_btn2_smp ' onClick={handlePrintwithprice}>Print</div>
                     </div>
-                    <div className='d_flex_qp1 pb-1 pt-1 ps-4'>
-                        <div>Quotation# :</div>
-                        <div className='quoteno_qp1 font_bold_qp1'>{result?.header?.InvoiceNo?.toUpperCase()}</div>
-                        <div>Customer :</div>
-                        <div className='quoteno_qp1 font_bold_qp1'>{result?.header?.Customercode}</div>
-                    </div>
-                    <div className='d-flex flex-wrap justify-content-start card_container_qp1'>
+
+                    <div className="print-container_printq">
+
                         {result?.resultArray?.map((res, i) => {
                             
                             return (
-                                <div className='main_div_qp1' key={i}>
-                                    <div className='itemdiv_qp1 b_t_qp1'>
-                                        <div className='text_center_qp1 image_qp1'>
+                                <div className='' key={i}>
+                                    <div className='itemdiv_qp1 b_t_qp1 p-0'>
+                                        <div className='d-flex justify-content-center align-items-center py-1 border-bottom border-black fw-bold'>&nbsp;{ (atob(evn))?.toLowerCase() === "quote" && res?.designno}{ (atob(evn))?.toLowerCase() === "memo" && res?.SrJobno}</div>
+                                        <div className='d-flex justify-content-center align-items-start w-100 border-bottom border-black min_h_img_block_pdf_2'>
+                                        { res?.CDNDesignImageOrg !== '' ? <div className='imgBlock_print2q '>
+                                            <a href={`${res?.CDNDesignImageOrg}`} target='_blank'>
+                                                <img
+                                                    src={res?.CDNDesignImageOrg}
+                                                    onError={(e) => handleImageError(e)}
+                                                    alt="design"
+                                                    className="imgdp10 i_qp1"
+                                                    width={"100%"}
+                                                    height="100%"
+                                                />
+                                            </a>
+                                        </div> : <div className='imgBlock_print2q '>
                                             <img
                                                 src={res?.DesignImage}
                                                 onError={(e) => handleImageError(e)}
@@ -144,63 +153,25 @@ const Print1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                 width={"100%"}
                                                 height="100%"
                                             /> 
+                                            </div>
+                                            }
                                         </div>
-                                        <div className='d_flex_qp1 justify_between_qp1'>
-                                            <div>Sr.No. { i + 1}</div>
-                                            <div>{res?.designno}</div>
+                                        <div className='d-flex justify-content-center fs_print2q align-items-center border-bottom border-black fw-bold'>{res?.designno}&nbsp;</div>
+                                        <div className='d-flex justify-content-center fs_print2q align-items-center border-bottom border-black fw-bold'>{res?.MetalTypePurity} - {res?.MetalColor}</div>
+                                        <div className='d-flex justify-content-center fs_print2q align-items-center border-bottom border-black fw-bold'>Gwt : {res?.grosswt?.toFixed(2)} | Nwt : {(res?.NetWt + res?.LossWt)?.toFixed(2)}</div>
+                                        <div className='d-flex justify-content-center fs_print2q align-items-center border-bottom border-black fw-bold'>
+                                            { res?.totals?.diamonds?.Wt !== 0 && 'DWt :'}{ res?.totals?.diamonds?.Wt !== 0 && res?.totals?.diamonds?.Wt?.toFixed(2)}{res?.totals?.diamonds?.Wt !== 0 && ' | '}
+                                            { res?.totals?.colorstone?.Wt !== 0 && 'CSWt :'}{ res?.totals?.colorstone?.Wt !== 0 && res?.totals?.colorstone?.Wt?.toFixed(2)}&nbsp;
                                         </div>
-                                        <div className={removeclass === false ? "j_h_qp1 d_flex_qp1 font_bold_qp1 main_width_qp1 text_center_qp1" : 'd_flex_qp1 font_bold_qp1 main_width_qp1 text_center_qp1'}>
-                                            <div className='child1_w_qp1'></div>
-                                            <div className='child2_w_qp1'>Wt</div>
-                                            <div className={removeclass === false ? "print_btn_qp1" : ""}><div className='child3_w_qp1 text_end_qp1'>Amount</div></div>
-                                        </div>
-                                        <div>
-                                            <div className={removeclass === false ? "j_qp1 d_flex_qp1 text_end_qp1" : 'd_flex_qp1 text_end_qp1'}>
-                                            <div  className='child1_w_qp1 text_start_qp1'>
-                                                {res?.MetalType} {res?.MetalPurity} &nbsp;
-                                                {(res?.metal_color_code === '' || res?.metal_color_code === undefined) ? res?.MetalColor : res?.metal_color_code}</div>
-                                                {/* {res?.metal?.map((m, ind) => {
-                                                    return (
-                                                        <div key={ind} className='child1_w_qp1 text_start_qp1'>{res?.MetalType} {res?.MetalPurity} {m?.MetalColorCode}</div>
-
-                                                    )
-                                                })} */}
-                                                <div className='child2_w_qp1'>{(res?.NetWt + res?.LossWt)?.toFixed(2)}</div>
-                                                <div className={removeclass === false ? "print_btn_qp1" : ""}><div className='child3_w_qp1'>{formatAmount(((res?.MetalAmount + res?.totals?.finding?.Amount) / result?.header?.CurrencyExchRate))}</div></div>
-                                            </div>
-                                            <div className={removeclass === false ? "j_qp1 d_flex_qp1 text_end_qp1" : 'd_flex_qp1 text_end_qp1'}>
-                                                <div className='child1_w_qp1 text_start_qp1'>Diamond</div>
-                                                <div className='child2_w_qp1'>{res.totals?.diamonds?.Wt?.toFixed(2)}</div>
-                                                <div className={removeclass === false ? "print_btn_qp1" : ""}><div className='child3_w_qp1'>{formatAmount((res?.totals?.diamonds?.Amount / result?.header?.CurrencyExchRate))}</div></div>
-                                            </div>
-                                            <div className={removeclass === false ? "j_qp1 d_flex_qp1 text_end_qp1" : 'd_flex_qp1 text_end_qp1'}>
-                                                <div className='child1_w_qp1 text_start_qp1'>Color Stone</div>
-                                                <div className='child2_w_qp1'>{res.totals?.colorstone?.Wt?.toFixed(2)}</div>
-                                                <div className={removeclass === false ? "print_btn_qp1" : ""}><div className=' child3_w_qp1'>{formatAmount((res?.totals?.colorstone?.Amount / result?.header?.CurrencyExchRate))}</div></div>
-                                            </div>
-                                            <div className='d_flex_qp1 text_end_qp1'>
-                                                <div className='child1_w_qp1 text_start_qp1'>Labour</div>
-                                                <div className='child2_w_qp1'></div>
-                                                <div className='child3_w_qp1'><div className={removeclass === false ? "print_btn_qp1" : ""}>{formatAmount(((res?.MakingAmount + res?.totals?.colorstone?.SettingAmount + res?.totals?.diamonds?.SettingAmount) / result?.header?.CurrencyExchRate))}</div></div>
-                                            </div>
-                                            <div className='d_flex_qp1 text_end_qp1'>
-                                                <div className='child1_w_qp1 text_start_qp1'>Other</div>
-                                                <div className='child2_w_qp1'></div>
-                                                <div className='child3_w_qp1'><div className={removeclass === false ? "print_btn_qp1" : ""}>{formatAmount(((res?.OtherCharges +  res?.TotalDiamondHandling + res?.MiscAmount) / result?.header?.CurrencyExchRate))}</div></div>
-                                            </div>
-                                            <div className='d_flex_qp1 text_end_qp1'>
-                                                <div className='child1_w_qp1 text_start_qp1'>Total</div>
-                                                <div className='child2_w_qp1'></div>
-                                                <div className='child3_w_qp1 font_bold_qp1'><div className={removeclass === false ? "print_btn_qp1" : ""}>{formatAmount((res?.TotalAmount / result?.header?.CurrencyExchRate))}</div></div>
-                                            </div>
-                                        </div>
+                                        <div className='d-flex justify-content-center fs_print2q align-items-center  fw-bold'><span dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span> &nbsp;{formatAmount((res?.TotalAmount / result?.header?.CurrencyExchRate))}</div>
+                                        
                                     </div>
                                 </div>
                             )
                         })}
 
                     </div>
-                    <div className='d_flex_qp1 m_t_qp1 b_t_qp1 pad_l_qp1'>
+                    {/* <div className='d_flex_qp1 m_t_qp1 b_t_qp1 pad_l_qp1'>
                         <div className=''>
                             <div className='d_flex_qp1 br_black_qp1 br_right_remove_qp1'>
                                 <div className='fix_bottom_qp1'>
@@ -290,11 +261,11 @@ const Print1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     </div>
                                 </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div></div> : <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto"> {msg} </p>}
         </>
     )
 }
 
-export default Print1
+export default Print1PDFWise

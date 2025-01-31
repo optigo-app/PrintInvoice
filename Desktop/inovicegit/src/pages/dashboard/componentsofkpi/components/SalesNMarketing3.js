@@ -6,28 +6,23 @@ import CardContent from '@mui/material/CardContent'
 import { useTheme } from '@mui/material';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import {  fetchKPIDashboardData,  formatAmount,  formatAmountKWise, formatAmountRound } from '../../GlobalFunctions';
+import { formatAmountRound } from '../../GlobalFunctions';
 import { CircularProgress } from '@mui/material';
 import { checkNullUndefined, makeWordShort } from './global';
 
 //SALES AND MARKETING 2ST BLOCK
-const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3, BCwise, BCwiseLoader}) => {
+const SalesNMarketing3 = ({ bgColor, BCwise, BCwiseLoader}) => {
   const theme = useTheme();
 
   const [apiData, setApiData] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
 
     const fetchData = async () => {
       try {
-        setLoading(true);
-        // const SalesMarketing_TotalSaleBusinessClassWise = await fetchKPIDashboardData(tkn, fdate, tdate, "SalesMarketing_TotalSaleBusinessClassWise");
-        const SalesMarketing_TotalSaleBusinessClassWise = 1;
         
         if(BCwise){
 
-          setLoading(false);
           const formatedArr = BCwise?.sort((a, b) => b?.Amount - a?.Amount)?.slice(0, 5);
           const formatedArr2 = BCwise?.slice(5);
           const obj = {
@@ -48,7 +43,6 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3, BCwise, BCwiseLoader
         }
         } catch (error) {
         console.error("Error fetching data:", error);
-        setLoading(false);
       }
     };
   
@@ -66,7 +60,7 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3, BCwise, BCwiseLoader
         overflow: 'auto',
         paddingBottom:'0px',
         '&::-webkit-scrollbar': {
-          width: '6px',  // Customize scrollbar width
+          width: '6px',  
         },
         '&::-webkit-scrollbar-track': {
           background: '#f1f1f1',
@@ -92,14 +86,10 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3, BCwise, BCwiseLoader
                 display: 'flex',
                 '& img': { mr: 4 },
                 alignItems: 'center',
-                // mb: index !== data.length - 1 ? 4.5 : undefined
-                // mb: index !== apiData?.length - 1 ? 2.15 : undefined
                 mb: index !== apiData?.length - 1 ? 1 : undefined,
                 pb:0,
               }}
             >
-
-
               <Box
                 sx={{
                   rowGap: 1,
@@ -113,7 +103,6 @@ const SalesNMarketing3 = ({tkn, fdate, tdate, bgColor, SM3, BCwise, BCwiseLoader
                 }}
               >
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                  {/* <Typography variant='h6' color={bgColor} >{ item?.CustomerType === undefined ? '' : ""}{item?.CustomerType?.toLowerCase() === 'manufacturer' ? 'MFG' : checkNullUndefined(item?.CustomerType)}</Typography> */}
                   <Typography variant='h6' color={bgColor} >{makeWordShort(item?.CustomerType) || ''}</Typography>
               
                 </Box>

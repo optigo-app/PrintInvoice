@@ -158,7 +158,7 @@ const VendorWiseSetPGram = ({tkn,  fdate, tdate, selectMaterial, selectCurrency}
   }
   // const colors = Array(9).fill(hexToRGBA(theme.palette.primary.main, 0.16))
   // const colors = Array(9)?.fill((theme?.palette?.primary?.main))
-  const colors = Array(10)?.fill(('#28C76F'))
+  const colors = Array(8)?.fill(('#28C76F'))
 
   const options = {
     chart: {
@@ -244,21 +244,29 @@ const VendorWiseSetPGram = ({tkn,  fdate, tdate, selectMaterial, selectCurrency}
 
   useEffect(() => {
     if(data?.DT1?.length > 0){
+      
       // if(selectMaterial === 1 || selectMaterial === '1'){
       if(value === 'Diamond Setting Cost'){
-        let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.TotalDiaSettingCost - a?.TotalDiaSettingCost)?.slice(0, 10)?.map((e) => capitalizeFirstLetter(e?.Vendor));
+        let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.TotalDiaSettingCost - a?.TotalDiaSettingCost)?.slice(0, 8)?.map((e) => capitalizeFirstLetter(e?.Vendor));
         setVendorNameList(arr0);
-        let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalDiaSettingCost - a?.TotalDiaSettingCost)?.slice(0, 10)?.map((e) => (e?.TotalDiaSettingCost / selectCurrency));
+        let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalDiaSettingCost - a?.TotalDiaSettingCost)?.slice(0, 8)?.map((e) => (e?.TotalDiaSettingCost / selectCurrency));
         setDiaSetCostList(arr);
       }
       if(value === 'Diamond Setting Cost'){
-        let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.TotalCSSettingCost - a?.TotalCSSettingCost)?.slice(0, 10)?.map((e, i) => capitalizeFirstLetter(e?.Vendor));
+        let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.TotalCSSettingCost - a?.TotalCSSettingCost)?.slice(0, 8)?.map((e, i) => capitalizeFirstLetter(e?.Vendor));
         setVendorNameList2(arr0);
-        let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalCSSettingCost - a?.TotalCSSettingCost)?.slice(0, 10)?.map((e) => (e?.TotalCSSettingCost / selectCurrency));
+        let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalCSSettingCost - a?.TotalCSSettingCost)?.slice(0, 8)?.map((e) => (e?.TotalCSSettingCost / selectCurrency));
         setCSSetCostList(arr);
       }
     }
-  },[data, selectMaterial, value, selectCurrency])
+    else{
+      setVendorNameList([]);
+      setDiaSetCostList([]);
+      setVendorNameList2([]);
+      setCSSetCostList([]);
+    }
+    
+  },[data?.DT1, selectMaterial, value, selectCurrency])
 
   return (
     <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>

@@ -81,7 +81,7 @@ const WastageWiseLabourPGram = ({tkn,  fdate, tdate}) => {
   const tabData = [
     {
       type: 'Wastage',
-      series: [{ data: wastageList ?? NetWtArr }]
+      series: [{ data: wastageList }]
     },
     // {
     //   type: 'Job Count',
@@ -153,7 +153,7 @@ const WastageWiseLabourPGram = ({tkn,  fdate, tdate}) => {
   }
   // const colors = Array(9).fill(hexToRGBA(theme.palette.primary.main, 0.16))
   // const colors = Array(9)?.fill((theme?.palette?.primary?.main))
-  const colors = Array(10)?.fill((theme?.palette?.customColors?.purple))
+  const colors = Array(8)?.fill((theme?.palette?.customColors?.purple))
 
   const options = {
     chart: {
@@ -241,12 +241,15 @@ const WastageWiseLabourPGram = ({tkn,  fdate, tdate}) => {
 
   useEffect(() => {
     if(data?.DT1?.length > 0){
-      let arr = data?.DT1?.slice()?.sort((a,b) => b?.AVG_Wastage - a?.AVG_Wastage)?.slice(0, 10)?.map((e) => e?.Vendor);
+      let arr = data?.DT1?.slice()?.sort((a,b) => b?.AVG_Wastage - a?.AVG_Wastage)?.slice(0, 8)?.map((e) => e?.Vendor);
       setVendorNameList(arr);
-      let arr1 = data?.DT1?.slice()?.sort((a, b) => b?.AVG_Wastage - a?.AVG_Wastage)?.slice(0, 10)?.map((e) => e?.AVG_Wastage);
+      let arr1 = data?.DT1?.slice()?.sort((a, b) => b?.AVG_Wastage - a?.AVG_Wastage)?.slice(0, 8)?.map((e) => e?.AVG_Wastage);
       setWastageList(arr1);
+    }else{
+      setVendorNameList([]);
+      setWastageList([]);
     }
-  },[data]);
+  },[data?.DT1]);
 
   return (
     <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>

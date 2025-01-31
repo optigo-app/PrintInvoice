@@ -268,10 +268,9 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             obj.dia_size = e?.diamonds[0] ? e?.diamonds[0]?.SizeName : '';
             obj.dia_pcs = e?.diamonds[0] ? e?.diamonds[0]?.Pcs : '';
             obj.dia_wt = e?.diamonds[0] ? ((e?.diamonds[0]?.Wt)?.toFixed(3)) : '';
-            // obj.dia_rate = e?.diamonds[0] ? (Math.round(((e?.diamonds[0]?.Amount / result?.header?.CurrencyExchRate) / (e?.diamonds[0]?.Wt === 0 ? 1 : e?.diamonds[0]?.Wt)))) : '';
             obj.dia_rate = e?.diamonds[0] ? (Math.round(((e?.diamonds[0]?.Amount / datas?.header?.CurrencyExchRate) / (e?.diamonds[0]?.Wt === 0 ? 1 : e?.diamonds[0]?.Wt)))) : '';
             obj.dia_amt = e?.diamonds[0] ? (e?.diamonds[0]?.Amount) : '';
-
+            // obj.dia_rate = e?.diamonds[0] ? (Math.round(((e?.diamonds[0]?.Amount / result?.header?.CurrencyExchRate) / (e?.diamonds[0]?.Wt === 0 ? 1 : e?.diamonds[0]?.Wt)))) : '';
 
             obj.met_quality = '';
             obj.met_wt = 0;
@@ -281,10 +280,8 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 obj.met_wt = e?.NetWt;
                 // obj.met_rate = findMetal ? (Math.round(((findMetal?.Amount / datas?.header?.CurrencyExchRate)) / e?.NetWt)) : '';
                 obj.met_rate = findMetal ? (Math.round((findMetal?.Rate) )) : '';
-                obj.met_amt = findMetal ? (formatAmount(findMetal?.Amount)) : '';
+                obj.met_amt = findMetal ? ((findMetal?.Amount)) : '';
                 obj.met_quality = findMetal ? (findMetal?.ShapeName + " " + findMetal?.QualityName) : '';
-            
-
             
             obj.cls_code = e?.colorstone[0] ? (` ${e?.colorstone[0]?.MasterManagement_DiamondStoneTypeid === 3 ? 'M:' : ''} ${e?.colorstone[0]?.ShapeName}` + 
               " " + e?.colorstone[0]?.QualityName + 
@@ -294,14 +291,12 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             obj.cls_wt = e?.colorstone[0] ? ((e?.colorstone[0]?.Wt)?.toFixed(3)) : '';
             // obj.cls_rate = e?.colorstone[0] ? (Math.round(((e?.colorstone[0]?.Amount / result?.header?.CurrencyExchRate)) / ( e?.colorstone[0]?.isRateOnPcs === 1 ? (e?.colorstone[0]?.Pcs === 0 ? 1 : e?.colorstone[0]?.Pcs) :  (e?.colorstone[0]?.Wt === 0 ? 1 : e?.colorstone[0]?.Wt)))) : '';
             obj.cls_rate = e?.colorstone[0] ? (Math.round(((e?.colorstone[0]?.Amount / datas?.header?.CurrencyExchRate)) / ( e?.colorstone[0]?.isRateOnPcs === 1 ? (e?.colorstone[0]?.Pcs === 0 ? 1 : e?.colorstone[0]?.Pcs) :  (e?.colorstone[0]?.Wt === 0 ? 1 : e?.colorstone[0]?.Wt)))) : '';
-            obj.cls_amt = e?.colorstone[0] ? (formatAmount(e?.colorstone[0]?.Amount)) : '';
-
+            obj.cls_amt = e?.colorstone[0] ? ((e?.colorstone[0]?.Amount)) : '';
 
             obj.oth_amt = ( e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount);
             obj.labour_rate = e?.MaKingCharge_Unit;
             obj.labour_amt = (e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount);
             obj.total_amount = e?.TotalAmount;
-            
          
             Array?.from({length : len})?.map((el, ind) => {
 
@@ -344,7 +339,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                     obj.dia_wt = ((e?.diamonds[ind + 1]?.Wt)?.toFixed(3));
                     // obj.dia_rate = (Math.round((e?.diamonds[ind + 1]?.Amount / result?.header?.CurrencyExchRate) / (e?.diamonds[ind + 1]?.Wt === 0 ? 1 : e?.diamonds[ind + 1]?.Wt)));
                     obj.dia_rate = (Math.round((e?.diamonds[ind + 1]?.Amount / datas?.header?.CurrencyExchRate) / (e?.diamonds[ind + 1]?.Wt === 0 ? 1 : e?.diamonds[ind + 1]?.Wt)));
-                    obj.dia_amt = (formatAmount(e?.diamonds[ind + 1]?.Amount));
+                    obj.dia_amt = ((e?.diamonds[ind + 1]?.Amount));
                 }
 
                 // colorstone
@@ -365,7 +360,8 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                     obj.cls_wt = ((e?.colorstone[ind + 1]?.Wt)?.toFixed(3));
                     // obj.cls_rate = (Math.round(((e?.colorstone[ind + 1]?.Amount / result?.header?.CurrencyExchRate)) / (e?.colorstone[ind + 1]?.Wt === 0 ? 1 : e?.colorstone[ind + 1]?.Wt)));
                     obj.cls_rate = (Math.round(((e?.colorstone[ind + 1]?.Amount / datas?.header?.CurrencyExchRate)) / (e?.colorstone[ind + 1]?.Wt === 0 ? 1 : e?.colorstone[ind + 1]?.Wt)));
-                    obj.cls_amt = (formatAmount(e?.colorstone[ind + 1]?.Amount));
+                    obj.cls_amt = ((e?.colorstone[ind + 1]?.Amount));
+                    
                 }
 
                 obj.JobRemark = e?.JobRemark;
@@ -401,8 +397,6 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         catewise.sort((a, b) => a.Categoryname.localeCompare(b.Categoryname));
         
         setResult3(catewise)
-
-
 
         let rowArr = [];
 
@@ -539,7 +533,12 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         })
 
         setRowWise(rowArr);
-
+        
+        // for download excel direct
+        setTimeout(() => {
+          const button = document.getElementById('test-table-xls-button');
+          button.click();
+        }, 500);
 
 
         
@@ -577,11 +576,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       // console.log(sentences);
 
 
-        // for download excel direct
-        setTimeout(() => {
-            const button = document.getElementById('test-table-xls-button');
-            button.click();
-          }, 500);
+
 
 
         //loadData end
@@ -599,8 +594,6 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     };
     
 
-    
-   
   return (
     <>
     {
@@ -621,7 +614,6 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             
                         {/* head line */}
                         <tr> <td colSpan={23} style={tableCellStyle}>{result?.header?.PrintHeadLabel}</td> </tr>
-                        
 
                         {/* company header */}
                         <tr > <td style={{fontSize:'18px', fontWeight:'bold', paddingBottom:'5px'}} colSpan={21}>{result?.header?.CompanyFullName}</td> <td colSpan={2}></td> </tr>
@@ -729,7 +721,6 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                         <td width={140} align='left'>&nbsp;{`${e?.dia_size}`}</td>
                                         <td width={90} align='right'>{e?.dia_pcs}</td>
                                         <td width={90} align='right'>{( e?.dia_wt === '' ? '' : (+e?.dia_wt)?.toFixed(3))}</td>
-                                        
                                         <td width={90} align='right'>{( e?.dia_rate === '' ? '' : formatAmount(e?.dia_rate))}</td>
                                         <th align='right' width={90} style={{borderRight:'1px solid #989898'}}>{ e?.dia_amt === '' ? '' : formatAmount(e?.dia_amt)}</th>
                                         <td width={140}  style={{wordBreak:'break-word'}} align='left'>&nbsp;{`${e?.met_quality}`}</td>
@@ -741,7 +732,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                         <td width={90} align='right'>{e?.cls_pcs}</td>
                                         <td width={90} align='right'>{( e?.cls_wt === '' ? '' : ((+e?.cls_wt)?.toFixed(3)))}</td>
                                         <td width={90} align='right'>{( e?.cls_rate === '' ? '' :  formatAmount(e?.cls_rate))}</td>
-                                        <th align='right' width={90} style={{borderRight:'1px solid #989898'}}>{ e?.cls_amt === '' ? '' : formatAmount(e?.cls_amt)}</th>
+                                        <th align='right' width={90} style={{borderRight:'1px solid #989898'}}>{ e?.cls_amt === '' ? '' : (e?.cls_amt)}</th>
                                         <td width={90} align='right' style={{borderRight:'1px solid #989898'}}>{ e?.oth_amt === 0 ? '' : formatAmount(e?.oth_amt)}</td>
                                         <td width={90} align='right' style={{borderRight:'1px solid #989898'}}>{ e?.labour_rate === 0 ? '' :  formatAmount(e?.labour_rate)}</td>
                                         <td width={90} align='right' style={{borderRight:'1px solid #989898'}}>{formatAmount(e?.labour_amt)}</td>
@@ -751,6 +742,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                     
                                     {
                                         e?.matrialArr?.map((val, ind) => {
+                                          
                                             return <tr key={ind}>
                                                 <td width={90} style={{borderRight:'1px solid #989898'}} align='center' >&nbsp;</td>
                                                 <td  colSpan={2} style={{borderRight:'1px solid #989898', verticalAlign:'center'}} align='center'>
@@ -774,7 +766,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                                 <td width={90} align='right'>{val?.clsflag && val?.cls_pcs}</td>
                                                 <td width={90} align='right'>{val?.clsflag && ((+val?.cls_wt))?.toFixed(3)}</td>
                                                 <td width={90} align='right'>{val?.clsflag && ( val?.cls_rate === '' ? '' : formatAmount(val?.cls_rate))}</td>
-                                                <th width={90} style={{borderRight:'1px solid #989898'}} align='right'>{val?.clsflag && formatAmount(val?.cls_amt)}</th>
+                                                <th width={90} style={{borderRight:'1px solid #989898'}} align='right'>{(val?.clsflag ) && formatAmount(val?.cls_amt)}</th>
                                                 <td width={90} style={{borderRight:'1px solid #989898'}}></td>
                                                 <td width={90} style={{borderRight:'1px solid #989898'}}></td>
                                                 <td width={90} style={{borderRight:'1px solid #989898'}}></td>

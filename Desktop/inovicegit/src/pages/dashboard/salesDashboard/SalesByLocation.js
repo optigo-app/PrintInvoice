@@ -61,7 +61,7 @@ const data = [
   }
 ]
 
-const AnalyticsSalesByCountries = ({tkn,  fdate, tdate, country, countryWiseSale}) => {
+const SalesByLocation = ({tkn,  fdate, tdate, country, countryWiseSale}) => {
   const theme = useTheme();
 
   const [apiData, setApiData] = useState([]);
@@ -189,4 +189,4 @@ const AnalyticsSalesByCountries = ({tkn,  fdate, tdate, country, countryWiseSale
   )
 }
 
-export default AnalyticsSalesByCountries
+export default SalesByLocation

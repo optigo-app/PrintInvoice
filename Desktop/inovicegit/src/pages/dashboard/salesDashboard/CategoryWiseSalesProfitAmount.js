@@ -46,7 +46,7 @@ import "./chartcss/analytics.css"
 //   }
 // ]
 
-const AnalyticsTotalEarning = ({tkn,  fdate, tdate, country, CategoryWiseSaleAmountData, IsEmpLogin}) => {
+const CategoryWiseSalesProfitAmount = ({tkn,  fdate, tdate, country, CategoryWiseSaleAmountData, IsEmpLogin}) => {
   // ** Hook
   const theme = useTheme();
 
@@ -395,4 +395,4 @@ const AnalyticsTotalEarning = ({tkn,  fdate, tdate, country, CategoryWiseSaleAmo
   )
 }
 
-export default AnalyticsTotalEarning
+export default CategoryWiseSalesProfitAmount

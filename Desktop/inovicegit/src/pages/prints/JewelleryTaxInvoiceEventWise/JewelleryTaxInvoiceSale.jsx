@@ -454,6 +454,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
         {/* table data */}
         {data?.length > 0 &&
           data?.map((e, i) => {
+            
             return (
               <div className="d-flex border-start border-end border-bottom no_break border-top" key={i} >
                 <div className="col1_sqm p-1 border-end">
@@ -466,6 +467,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                   </p>
                   { e?.Size === '' ? ''  : <p className="text-break fs_jti_Sale">{e?.Size}</p>}
                   { e?.lineid === '' ? '' : <p className="text-break fs_jti_Sale">{e?.lineid}</p>}
+                  { e?.batchnumber === '' ? '' : <p className="text-break fs_jti_Sale"> Batch :  {e?.batchnumber}</p>}
                   {/* <div className="text-center w-100 " style={{position: 'absolute', top:'50%' }}><span><span className="fw-normal">QTY :</span> </span><span className="fw-bold">{e?.Quantity}</span></div> */}
                 </div>
                 <div className={`col3_sqm p-1 border-end`}>
@@ -671,7 +673,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
           </div>
           <div className="col-3 d-flex flex-column justify-content-between p-2 pb-0 pt-1">
             <p>Signature</p>
-            <p className="fw-bold">{json0Data?.CompanyFullName}</p>
+            <p className="fw-bold">{json0Data?.Branch_Description}</p>
           </div>
         </div>
       </div>

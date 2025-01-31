@@ -34,7 +34,7 @@ import { capitalizeFirstLetter, fetchDashboardData, formatAmount, formatAmountKW
 
 
 
-const AnalyticsSalesEarningReport = ({tkn,  fdate, tdate, country, CustomerWiseSaleAmountData, IsEmpLogin}) => {
+const CustWiseSalesProfitAmount = ({tkn,  fdate, tdate, country, CustomerWiseSaleAmountData, IsEmpLogin}) => {
   // ** State
   const [value, setValue] = useState('sales');
 
@@ -311,4 +311,4 @@ const AnalyticsSalesEarningReport = ({tkn,  fdate, tdate, country, CustomerWiseS
   )
 }
 
-export default AnalyticsSalesEarningReport
+export default CustWiseSalesProfitAmount

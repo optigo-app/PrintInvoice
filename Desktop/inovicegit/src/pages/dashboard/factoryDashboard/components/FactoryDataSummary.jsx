@@ -75,27 +75,34 @@ const FactoryDataSummary = ({tkn, bgColor, selectMaterial, selectCurrency}) => {
       useEffect(() => {
         setLabelName(selectMaterial);
         let obj = data?.DT[0];
+        
         setDTObj(obj);
         let obj2 = summary_sale?.data?.DT[0];
         setSSDTObj(obj2);
 
         if(selectMaterial === 1 || selectMaterial === '1'){
           setLabelName('Avg. D.ctw');
-          setLabelValue(obj?.AVG_D_Ctw);
+          // setLabelValue(obj?.AVG_D_Ctw);
+          let dctw = (( obj?.TotalJobCnt === 0 ? 0 : obj?.DiaWt) / (obj?.TotalJobCnt === 0 ? 1 : obj?.TotalJobCnt))?.toFixed(3);
+          setLabelValue(dctw);
           setSetPerG(obj?.Setting_Per_Gram_Diam);
           setCostPerG(obj?.Cost_Per_Carat_D);
           setSoldPerC(obj2?.Sold_Per_Carat_D);
         }
         if(selectMaterial === 2 || selectMaterial === '2'){
+          let csctw = (( obj?.TotalJobCnt === 0 ? 0 : obj?.CSWt) / (obj?.TotalJobCnt === 0 ? 1 : obj?.TotalJobCnt))?.toFixed(3);
           setLabelName('Avg. C.ctw');
-          setLabelValue(obj?.AVG_C_Ctw);
+          // setLabelValue(obj?.AVG_C_Ctw);
+          setLabelValue(csctw);
           setSetPerG(obj?.Setting_Per_Gram_CS);
           setCostPerG(obj?.Cost_Per_Carat_CS);
           setSoldPerC(obj2?.Sold_Per_Carat_CS);
         }
         if(selectMaterial === 3 || selectMaterial === '3'){
+          let miscwt = (( obj?.TotalJobCnt === 0 ? 0 : obj?.MISCWt) / (obj?.TotalJobCnt === 0 ? 1 : obj?.TotalJobCnt))?.toFixed(3);
           setLabelName('Avg. M.ctw');
-          setLabelValue(obj?.AVG_M_Ctw);
+          // setLabelValue(obj?.AVG_M_Ctw);
+          setLabelValue(miscwt);
           setSetPerG(obj?.Setting_Per_Gram_M);
           setCostPerG(obj?.Cost_Per_Carat_M);
           setSoldPerC(obj2?.Sold_Per_Carat_M);

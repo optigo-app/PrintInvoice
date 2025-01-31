@@ -1,7 +1,7 @@
 import { ThemeProvider, createTheme } from '@mui/material';
 import React, { useState } from 'react'
 import customTheme from "./@core/theme/theme"
-import AnalyticsDashboard from './components/AnalyticsDashboard';
+import SalesDashboard from './salesDashboard/SalesDashboard';
 import { useLocation } from 'react-router-dom';
 import KPIAnalytics from './componentsofkpi/KPIAnalytics';
 import FactoryDashBoard from './factoryDashboard/FactoryDashBoard';
@@ -19,6 +19,7 @@ const Dashboard = () => {
     const sv = atob(params.get('sv'));
     const url = atob(params.get('report_api_url'));
     const LId = atob(params.get('LId'));
+    const IFB = +(params.get('IFB'));
     const IsEmpLogin = +(params.get('IsEmpLogin'));
     const IsPower = +(params.get('IsPower'));
     const hostName = window.location?.hostname?.toLowerCase();
@@ -29,11 +30,11 @@ const Dashboard = () => {
             width:'100%',
             maxWidth:'100vw',
         }}>
-            { pid === '18145' && <div style={{
+            { (pid === '18145' || pid === '18171') && <div style={{
                 width:'100%', 
                 boxSizing:'border-box',
                 backgroundColor:'#F8F7FA',
-                padding:'2rem'}}><AnalyticsDashboard tkn={tkn} hostName={hostName} LId={LId} IsEmpLogin={IsEmpLogin} IsPower={IsPower} /> 
+                padding:'2rem'}}><SalesDashboard tkn={tkn} hostName={hostName} LId={LId} IsEmpLogin={IsEmpLogin} IsPower={IsPower} IFB={IFB} /> 
             </div>}
             { pid === '18146' && <div style={{
                 width:'100%', 
@@ -42,12 +43,12 @@ const Dashboard = () => {
                 // padding:'2rem', paddingTop:'0px'}}><KPIAnalytics tkn={tkn} />
                 padding:'2rem', paddingTop:'0px'}}><KPIDashboardHome tkn={tkn} sv={sv} url={url} hostName={hostName}  />
             </div>}
-            { pid === '18147' && <div style={{
+            { (pid === '18147' || pid === '18170') && <div style={{
                 width:'100%', 
                 boxSizing:'border-box',
                 backgroundColor:'#F8F7FA',
                 padding:'2rem'}}>
-                    <FactoryDashboardHome tkn={tkn} LId={LId} IsEmpLogin={IsEmpLogin} />
+                    <FactoryDashboardHome tkn={tkn} LId={LId} IsEmpLogin={IsEmpLogin} IFB={IFB} />
                     {/* <FactoryDashBoard tkn={tkn} />  */}
             </div>}
                 {/* // padding:'2rem', paddingTop:'0px'}}><KPIAnalytics tkn={tkn} /> */}
@@ -57,7 +58,8 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Dashboard;
+
 // import { ThemeProvider, createTheme } from '@mui/material';
 // import React, { useState } from 'react'
 // import customTheme from "./@core/theme/theme"

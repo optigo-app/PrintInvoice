@@ -137,27 +137,80 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
         )
       }
     },
+    // {
+    //   flex: 0.1,
+    //   minWidth: 105,
+    //   field: 'TrainingMode',
+    //   headerName: 'TRAINING MODE',
+    //   renderCell: ({ row }) => <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'centera' }}>
+    //     <Typography className='fs_analytics_l' sx={{ color: 'text.secondary' }}>{checkWord(row?.TrainingMode)}</Typography></Box>
+    // },
     {
       flex: 0.1,
       minWidth: 105,
       field: 'TrainingMode',
       headerName: 'TRAINING MODE',
-      renderCell: ({ row }) => <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'centera' }}><Typography className='fs_analytics_l' sx={{ color: 'text.secondary' }}>{checkWord(row?.TrainingMode)}</Typography></Box>
+      renderCell: ({ row }) => {
+        // Standardize the TrainingMode for display
+        let displayValue = row?.TrainingMode?.toLowerCase();
+        if (['on-site', 'on site', 'onsite'].includes(displayValue)) {
+          displayValue = 'OnSite';
+        } else if (['on-line', 'on line', 'online'].includes(displayValue)) {
+          displayValue = 'Online';
+        } else {
+          displayValue = row?.TrainingMode; // Fallback to original value if no match
+        }
+  
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Typography className="fs_analytics_l" sx={{ color: 'text.secondary' }}>
+              {displayValue}
+            </Typography>
+          </Box>
+        );
+      },
     },
+    // {
+    //   flex: 0.1,
+    //   field: 'TrainingType',
+    //   minWidth: 120,
+    //   sortable: false,
+    //   headerName: 'TRAINING TYPE',
+    //   renderCell: ({ row }) => (
+    //     <>
+    //     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'centera' }}>
+    //       <Typography className='fs_analytics_l' sx={{ color: 'text.secondary' }}>{checkWord(row?.TrainingType)}</Typography>
+    //     </Box>
+    //     </>
+    //   )
+    // },
     {
       flex: 0.1,
       field: 'TrainingType',
       minWidth: 120,
       sortable: false,
       headerName: 'TRAINING TYPE',
-      renderCell: ({ row }) => (
-        <>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'centera' }}>
-          <Typography className='fs_analytics_l' sx={{ color: 'text.secondary' }}>{checkWord(row?.TrainingType)}</Typography>
-        </Box>
-        </>
-      )
+      renderCell: ({ row }) => {
+        // Standardize the TrainingType for display
+        let displayValue = row?.TrainingType?.toLowerCase();
+        if (['retraining', 're-training', 're training'].includes(displayValue)) {
+          displayValue = 'Re Training';
+        } else if (['newtraining', 'new-training', 'new training'].includes(displayValue)) {
+          displayValue = 'New Training';
+        } else {
+          displayValue = row?.TrainingType; // Fallback to original value if no match
+        }
+    
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Typography className="fs_analytics_l" sx={{ color: 'text.secondary' }}>
+              {displayValue}
+            </Typography>
+          </Box>
+        );
+      },
     },
+    
     {
       flex: 0.1,
       minWidth: 50,
@@ -216,139 +269,7 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
       )
     }
   ]
-  const datas = [
-    {
-        "id": 1,
-        "status": 38,
-        "leader": "Eileen",
-        "name": "Website SEO",
-        "date": "10 may 2021",
-        "avatarColor": "success",
-        "avatarGroup": [
-            "/images/avatars/1.png",
-            "/images/avatars/4.png",
-            "/images/avatars/3.png",
-            "/images/avatars/2.png"
-        ]
-    },
-    {
-        "id": 2,
-        "status": 45,
-        "leader": "Owen",
-        "date": "03 Jan 2021",
-        "name": "Social Banners",
-        "avatar": "/images/icons/project-icons/social-label.png",
-        "avatarGroup": [
-            "/images/avatars/5.png",
-            "/images/avatars/6.png"
-        ]
-    },
-    {
-        "id": 3,
-        "status": 92,
-        "leader": "Keith",
-        "date": "12 Aug 2021",
-        "name": "Logo Designs",
-        "avatar": "/images/icons/project-icons/sketch-label.png",
-        "avatarGroup": [
-            "/images/avatars/2.png",
-            "/images/avatars/1.png",
-            "/images/avatars/7.png",
-            "/images/avatars/8.png"
-        ]
-    },
-    {
-        "id": 4,
-        "status": 56,
-        "leader": "Merline",
-        "date": "19 Apr 2021",
-        "name": "IOS App Design",
-        "avatar": "/images/icons/project-icons/sketch-label.png",
-        "avatarGroup": [
-            "/images/avatars/5.png",
-            "/images/avatars/3.png",
-            "/images/avatars/6.png",
-            "/images/avatars/7.png"
-        ]
-    },
-    {
-        "id": 5,
-        "status": 25,
-        "leader": "Harmonia",
-        "date": "08 Apr 2021",
-        "name": "Figma Dashboards",
-        "avatar": "/images/icons/project-icons/figma-label.png",
-        "avatarGroup": [
-            "/images/avatars/7.png",
-            "/images/avatars/6.png",
-            "/images/avatars/8.png"
-        ]
-    },
-    {
-        "id": 6,
-        "status": 36,
-        "leader": "Allyson",
-        "date": "29 Sept 2021",
-        "name": "Crypto Admin",
-        "avatar": "/images/icons/project-icons/html-label.png",
-        "avatarGroup": [
-            "/images/avatars/2.png",
-            "/images/avatars/5.png"
-        ]
-    },
-    {
-        "id": 7,
-        "status": 72,
-        "leader": "Georgie",
-        "date": "20 Mar 2021",
-        "name": "Create Website",
-        "avatar": "/images/icons/project-icons/react-label.png",
-        "avatarGroup": [
-            "/images/avatars/3.png",
-            "/images/avatars/1.png",
-            "/images/avatars/6.png"
-        ]
-    },
-    {
-        "id": 8,
-        "status": 89,
-        "leader": "Fred",
-        "date": "09 Feb 2021",
-        "name": "App Design",
-        "avatar": "/images/icons/project-icons/xd-label.png",
-        "avatarGroup": [
-            "/images/avatars/7.png",
-            "/images/avatars/6.png"
-        ]
-    },
-    {
-        "id": 9,
-        "status": 77,
-        "leader": "Richardo",
-        "date": "17 June 2021",
-        "name": "Angular APIs",
-        "avatar": "/images/icons/project-icons/figma-label.png",
-        "avatarGroup": [
-            "/images/avatars/5.png",
-            "/images/avatars/8.png",
-            "/images/avatars/1.png"
-        ]
-    },
-    {
-        "id": 10,
-        "status": 100,
-        "leader": "Genevra",
-        "date": "06 Oct 2021",
-        "name": "Admin Template",
-        "avatar": "/images/icons/project-icons/vue-label.png",
-        "avatarGroup": [
-            "/images/avatars/2.png",
-            "/images/avatars/3.png",
-            "/images/avatars/4.png",
-            "/images/avatars/5.png"
-        ]
-    }
-  ]
+
   useEffect(() => {
     handleFilter(); // Apply filter when criteria changes
   }, [value, trainingType, trainingMode, startDateRange, endDateRange]);
@@ -356,9 +277,9 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        
+        
         let url = '';
-        
-        
         
         // if(window.location.protocol === "http"){
         //   url = 'http://zen/R50B3/UFS/websitedetailsexcel/training.xlsx';
@@ -369,9 +290,12 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
         // url = "https://cdnfs.optigoapps.com/content-global3/test_traininggrid/training.xlsx";
         // url = `http://api.optigoapps.com/ALL/exceltojson.aspx?tkn=${tkn}&sv=${sv}`;
         // url = `http://api.optigoapps.com/ALL/exceltojson.aspx?tkn=${tkn}&sv=${sv}`;
+
+
         const replacedUrl = (report_api_url)?.replace("M.asmx/Optigo", "exceltojson.aspx");
         
         const response = await axios.get(`${replacedUrl}?tkn=${tkn}&sv=${sv}`);
+
         // const response = await axios.get(`http://api.optigoapps.com/ALL/exceltojson.aspx?tkn=ODQ1NjUxMDgwNzU2OTk5MA==&sv=MQ==`);
         
         if(response?.data?.Status === "200"){
@@ -384,7 +308,7 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
               if(obj?.TrainingMode?.toLowerCase() === 'on-site' || obj?.TrainingMode?.toLowerCase() === 'on site' || obj?.TrainingMode?.toLowerCase() === 'onsite'){
                 obj.TrainingMode = 'onsite';
               }
-              if(obj?.TrainingMode?.toLowerCase() === 'online' || obj?.TrainingMode?.toLowerCase() === 'on line' || obj?.TrainingMode?.toLowerCase() === 'on-line'){
+              if(obj?.TrainingMode?.toLowerCase() === 'on-line' || obj?.TrainingMode?.toLowerCase() === 'on line' || obj?.TrainingMode?.toLowerCase() === 'online'){
                 obj.TrainingMode = 'online';
               }
               if(obj?.TrainingType?.toLowerCase() === 're-training' || obj?.TrainingType?.toLowerCase() === 're training' || obj?.TrainingType?.toLowerCase() === 'retraining'){
@@ -452,39 +376,6 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
   }, []);
 
   useEffect(() => {
-
-    // apiData?.forEach(row => {
-    //     console.log(row);
-        
-    //   if (row.Date) {
-    //     // row.Date = new Date((row?.Date - 25569) * 86400 * 1000); // Excel serial date to JS date
-    //     // const formattedDate = new Date(row.Date).toLocaleDateString();
-    //     row.Date = moment(row.Date).format("DD/MM/YYYY");
-    //   }
-    // });
-
-    // apiData?.forEach(row => {
-    //   if (row?.Date) {
-    //     // Ensure the date is in the correct format (dd/mm/yyyy to yyyy-mm-dd)
-    //     const parts = row?.Date?.split('/');
-    //     if (parts?.length === 3) {
-    //       // Adjusting to yyyy-mm-dd format
-    //       const formattedDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
-          
-    //       // Check if the date is valid
-    //       if (formattedDate instanceof Date && !isNaN(formattedDate)) {
-    //         row.Date = formattedDate.toLocaleDateString();
-    //       } else {
-    //         console.error(`Invalid date: ${row.Date}`);
-    //       }
-    //     } else {
-    //       console.error(`Invalid date format: ${row.Date}`);
-    //     }
-    //   }
-    // });
-    
-      
-
     setData(apiData);
     setFilteredData(apiData);
   },[apiData]);
@@ -500,18 +391,19 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
       IgniteTime:0 
     }
 
-    filteredData?.forEach((e, i) => {
+    filteredData?.forEach((e) => {
+      
       if(e?.TrainingType?.toLowerCase() === "newtraining"){
         obj.newTrainig += 1;
-        obj.newTrainigTime += e?.Time;
+        obj.newTrainigTime += (+e?.Time);
       }
       if(e?.TrainingType?.toLowerCase() === "retraining" || e?.TrainingType?.toLowerCase() === "re-training"){
         obj.reTraining += 1;
-        obj.reTrainingTime += e?.Time;
+        obj.reTrainingTime += (+e?.Time);
       }
       if(e?.TrainingType?.toLowerCase() === "ignite"){
         obj.Ignite += 1;
-        obj.IgniteTime += e?.Time;
+        obj.IgniteTime += (+e?.Time);
       }
     })
 
@@ -659,7 +551,7 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', p: 1, m:0 }}>
               <Typography variant="h4" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple }} className="fs_analytics_l" style={{cursor:'pointer'}}><Tooltip title="Count">{summaryData?.newTrainig}</Tooltip></Typography>
               <Typography variant="h4" sx={{color: theme?.palette?.customColors?.purple}}>/</Typography>
-              <Typography variant="h4" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple, cursor:'pointer' }}><Tooltip title="Time">{summaryData?.newTrainigTime}</Tooltip></Typography>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', color: theme?.palette?.customColors?.purple, cursor:'pointer' }}><Tooltip title="Time">{(summaryData?.newTrainigTime)}</Tooltip></Typography>
             </Box>
           </Card>           
           <Card sx={{ boxShadow: 'none', border: '1px solid #e8e8e8', my: 1, p:1, borderRadius: '8px',  }} className='trainingHead'>
@@ -911,3 +803,136 @@ const TrainingDataGrid = ({ex_url, tkn, sv, report_api_url}) => {
 }
 
 export default TrainingDataGrid;
+const datas = [
+  {
+      "id": 1,
+      "status": 38,
+      "leader": "Eileen",
+      "name": "Website SEO",
+      "date": "10 may 2021",
+      "avatarColor": "success",
+      "avatarGroup": [
+          "/images/avatars/1.png",
+          "/images/avatars/4.png",
+          "/images/avatars/3.png",
+          "/images/avatars/2.png"
+      ]
+  },
+  {
+      "id": 2,
+      "status": 45,
+      "leader": "Owen",
+      "date": "03 Jan 2021",
+      "name": "Social Banners",
+      "avatar": "/images/icons/project-icons/social-label.png",
+      "avatarGroup": [
+          "/images/avatars/5.png",
+          "/images/avatars/6.png"
+      ]
+  },
+  {
+      "id": 3,
+      "status": 92,
+      "leader": "Keith",
+      "date": "12 Aug 2021",
+      "name": "Logo Designs",
+      "avatar": "/images/icons/project-icons/sketch-label.png",
+      "avatarGroup": [
+          "/images/avatars/2.png",
+          "/images/avatars/1.png",
+          "/images/avatars/7.png",
+          "/images/avatars/8.png"
+      ]
+  },
+  {
+      "id": 4,
+      "status": 56,
+      "leader": "Merline",
+      "date": "19 Apr 2021",
+      "name": "IOS App Design",
+      "avatar": "/images/icons/project-icons/sketch-label.png",
+      "avatarGroup": [
+          "/images/avatars/5.png",
+          "/images/avatars/3.png",
+          "/images/avatars/6.png",
+          "/images/avatars/7.png"
+      ]
+  },
+  {
+      "id": 5,
+      "status": 25,
+      "leader": "Harmonia",
+      "date": "08 Apr 2021",
+      "name": "Figma Dashboards",
+      "avatar": "/images/icons/project-icons/figma-label.png",
+      "avatarGroup": [
+          "/images/avatars/7.png",
+          "/images/avatars/6.png",
+          "/images/avatars/8.png"
+      ]
+  },
+  {
+      "id": 6,
+      "status": 36,
+      "leader": "Allyson",
+      "date": "29 Sept 2021",
+      "name": "Crypto Admin",
+      "avatar": "/images/icons/project-icons/html-label.png",
+      "avatarGroup": [
+          "/images/avatars/2.png",
+          "/images/avatars/5.png"
+      ]
+  },
+  {
+      "id": 7,
+      "status": 72,
+      "leader": "Georgie",
+      "date": "20 Mar 2021",
+      "name": "Create Website",
+      "avatar": "/images/icons/project-icons/react-label.png",
+      "avatarGroup": [
+          "/images/avatars/3.png",
+          "/images/avatars/1.png",
+          "/images/avatars/6.png"
+      ]
+  },
+  {
+      "id": 8,
+      "status": 89,
+      "leader": "Fred",
+      "date": "09 Feb 2021",
+      "name": "App Design",
+      "avatar": "/images/icons/project-icons/xd-label.png",
+      "avatarGroup": [
+          "/images/avatars/7.png",
+          "/images/avatars/6.png"
+      ]
+  },
+  {
+      "id": 9,
+      "status": 77,
+      "leader": "Richardo",
+      "date": "17 June 2021",
+      "name": "Angular APIs",
+      "avatar": "/images/icons/project-icons/figma-label.png",
+      "avatarGroup": [
+          "/images/avatars/5.png",
+          "/images/avatars/8.png",
+          "/images/avatars/1.png"
+      ]
+  },
+  {
+      "id": 10,
+      "status": 100,
+      "leader": "Genevra",
+      "date": "06 Oct 2021",
+      "name": "Admin Template",
+      "avatar": "/images/icons/project-icons/vue-label.png",
+      "avatarGroup": [
+          "/images/avatars/2.png",
+          "/images/avatars/3.png",
+          "/images/avatars/4.png",
+          "/images/avatars/5.png"
+      ]
+  }
+]

@@ -28,3 +28,13 @@
 path.recharts-sector {
     outline: none !important;
 }
+
+.fs_analytics_l .apexcharts-title-text{
+    font-family: "Public Sans Light" !important;
+}
+.fs_analytics_l .apexcharts-text .apexcharts-xaxis-title-text {
+    font-family: "Public Sans Light" !important;
+}
+.jobWisePR .apexcharts-title-text{
+    color: grey;
+}

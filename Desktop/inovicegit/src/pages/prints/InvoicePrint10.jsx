@@ -395,7 +395,6 @@ const InvoicePrint_10_11 = ({
       console.log('finalArr',e , e?.metalAmountFinal);
       tot_invp10 += e?.metalAmountFinal;
     })
-    console.log(tot_invp10);
 
 
     setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, });
@@ -654,8 +653,7 @@ const InvoicePrint_10_11 = ({
               Total Pcs : {NumberWithCommas(totalss?.totalPcs, 0)}
             </p>
           </div>
-          {console.log(headerData)
-          }
+   
           <div className={`col-9 ${style?.fsremark_10}`}>
             {mainData?.resultArr?.map((e, i) => {
               return (
@@ -1232,6 +1230,9 @@ const InvoicePrint_10_11 = ({
             <div className={style?.fsremark_10}>
               RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}
             </div>
+            { pnm?.toLowerCase() === "invoice print 8" && <div className={style?.fsremark_10}>
+              Routing number: {headerData?.rtgs_neft_ifsc}
+            </div>}
             <div className={style?.fsremark_10}>Enquiry No. </div>
             <div className={style?.fsremark_10}> (E & OE)</div>
           </div>

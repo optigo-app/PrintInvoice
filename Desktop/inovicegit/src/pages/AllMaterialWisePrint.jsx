@@ -30,7 +30,7 @@ const AllMaterialWisePrint = () => {
   const ImportComponent = async (name) => {
     try {
       // const module = await import(`./bagPrints/${name}`);
-      const module = await import(`./materialSale/MatPurchaseReturn`);
+      const module = await import(`./materialSale/InvoicePrint1`);
       const AnotherComponent = module?.default;
       return <AnotherComponent queries={queries} headers={headers} />;
     } catch (error) {

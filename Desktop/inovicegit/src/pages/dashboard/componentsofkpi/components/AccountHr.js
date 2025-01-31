@@ -1,22 +1,18 @@
 import { Box, Card, CardContent, CircularProgress, Grid, Typography, useTheme } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import AccountNHR from './AccountNHR'
 import { checkNullUndefined } from './global';
 
-const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData1, bgColor, acrLoader, irLoader, PDLoader }) => {
-
+const AccountHr = ({  InventoryRatio, AvgColPeriod, saleMTs, saleMTs2, PrdDev,  bgColor, acrLoader, irLoader, PDLoader }) => {
+        
     const theme = useTheme();
     
-    // Check if the necessary props are available
-    // if (!InventoryRatio || !saleMTs || !PrdDev || !avgCollRatio) {
     if (acrLoader) {
         return <>
                     <Grid container spacing={1}>
                  {["Fix Asset Laverage Ratio","Revenue Per Employees","Avg. Due Debtors", "Inventory Turn Over Ratio", "Avg. Collection Period", "Labour vs Exp"]?.map((e, index) => (
                     <Grid item xs={12} sm={6} md={4} key={index}>
                         <Card   className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'115px', display:'flex', justifyContent:'center', alignItems:'center'}}>
-                            {/* <CircularProgress sx={{ display: 'block', margin: 'auto' }} /> */}
-                            {/* <Typography variant="h6" align="center">Loading...</Typography> */}
                         { ( PDLoader ||  irLoader || acrLoader) ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
                                     <CircularProgress sx={{color:'lightgrey'}} />
                                     </Box> : <CardContent>
@@ -29,7 +25,6 @@ const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData
                                     </div>
                                     <div>
                                     <Typography variant='h5' sx={{ mb: 0.75, color:theme?.palette?.grey[700], fontWeight:'bolder' }}>
-                                        {/* {parseFloat(checkNullUndefined(data?.totalValue))?.toFixed(2)} */}
                                         0.00
                                     </Typography>
                             
@@ -41,17 +36,17 @@ const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData
                     </Grid>
                 ))}
             </Grid>
-        </>;  // Or you can use a loader component here
+        </>;  
     }
 
     const data = [
         {
             heading: 'Fix Asset Laverage Ratio',
-            totalValue: Math.round(parseInt(checkNullUndefined(
+            totalValue: (parseFloat(checkNullUndefined(
                 (
                     (
-                        (saleMTs?.LabourAmount / (InventoryRatio?.DT?.[0]?.AvgInventory || 1)) /
-                        (InventoryRatio?.DT?.[0]?.NoOfDays || 1)
+                        ( (InventoryRatio?.DT2?.[0]?.AvgInventory === 0 ? 0 : saleMTs2?.LabourAmount) / (InventoryRatio?.DT2?.[0]?.AvgInventory === 0 ? 1 : InventoryRatio?.DT2?.[0]?.AvgInventory )) /
+                        (InventoryRatio?.DT2?.[0]?.NoOfDays === 0 ? 1 : InventoryRatio?.DT2?.[0]?.NoOfDays)
                     ) * 365
                 )
             )))?.toFixed(0),
@@ -60,13 +55,13 @@ const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData
         },
         {
             heading: 'Revenue Per Employees',
-            totalValue: Math.round(parseFloat(checkNullUndefined(((saleMTs?.OnlySaleLabourAmount / (PrdDev?.RevenueEmployeeCount || 1)))))),
+            totalValue: Math.round(parseFloat(checkNullUndefined(((( PrdDev?.RevenueEmployeeCount === 0 ? 0 : saleMTs?.OnlySaleLabourAmount) / (PrdDev?.RevenueEmployeeCount === 0 ? 1 : PrdDev?.RevenueEmployeeCount )))))),
             series: [],
             subheading: 'Account & HR'
         },
         {
-            heading: 'Avg. Due Debtors',
-            totalValue: Math.round(parseInt(checkNullUndefined(checkNullUndefined(PrdDev?.TotalOverDueDays / (PrdDev?.TotalBillCount || 1))))?.toFixed(2)),
+            heading: 'Avg. Overdue Deb. Days',
+            totalValue: Math.round(parseInt(checkNullUndefined(checkNullUndefined(( PrdDev?.TotalBillCount === 0 ? 0 : PrdDev?.TotalOverDueDays) / (PrdDev?.TotalBillCount === 0 ? 1 : PrdDev?.TotalBillCount ))))?.toFixed(2)),
             series: [],
             subheading: 'Account & HR'
         },
@@ -78,29 +73,39 @@ const AccountHr = ({ tkn, InventoryRatio, saleMTs, PrdDev, avgCollRatio, apiData
         },
         {
             heading: 'Avg. Collection Period',
-            // totalValue: parseFloat(checkNullUndefined(((avgCollRatio?.Sun_Debtor || 0) / (saleMTs?.Amount || 1)) * 365))?.toFixed(2),
-            totalValue: parseFloat(checkNullUndefined(((saleMTs?.Amount === 0 ? 0 : ((avgCollRatio?.Sun_Debtor || 0) / (saleMTs?.Amount || 1)))) * 365))?.toFixed(2),
+            totalValue: parseFloat(checkNullUndefined(
+                (((((AvgColPeriod?.DT[0]?.Sun_Debtor + AvgColPeriod?.DT1[0]?.Sun_Debtor) / 2)
+                 / 
+                 (AvgColPeriod?.DT2[0]?.SaleAccAmount - AvgColPeriod?.DT2[0]?.SaleReturnAccAmount)
+                )) * 365)
+            )),
             series: [],
             subheading: 'Account & HR'
         },
+
         {
             heading: 'Labour vs Exp',
-            totalValue: parseFloat(checkNullUndefined((((
-                (saleMTs?.LabourAmount || 0) - 
-                (InventoryRatio?.DT?.[0]?.Direct_Expense || 0) - 
-                (InventoryRatio?.DT1?.[0]?.InDirect_Expense || 0)
-            ) / (saleMTs?.LabourAmount || 1)) * 100)))?.toFixed(2),
+            totalValue: parseFloat(checkNullUndefined((
+            (
+                (
+                ((saleMTs2?.OnlySaleLabourAmount - saleMTs2?.OnlySaleReturnLabourAmount) ) - 
+                ((InventoryRatio?.DT2?.[0]?.Direct_Expense || 0) + (InventoryRatio?.DT3?.[0]?.InDirect_Expense || 0))
+                ) 
+                / 
+                ((saleMTs2?.OnlySaleLabourAmount - saleMTs2?.OnlySaleReturnLabourAmount) || 1)
+            ) * 100)))?.toFixed(2),
             series: [],
             subheading: 'Account & HR'
         }
     ];
+
 
     return (
         <Grid container spacing={1}>
             {data?.length ? (
                 data?.map((item, index) => (
                     <Grid item xs={12} sm={6} md={4} key={index}>
-                        <AccountNHR tkn={tkn} data={item} bgColor={bgColor}   />
+                        <AccountNHR  data={item} bgColor={bgColor}   />
                     </Grid>
                 ))
             ) : (
