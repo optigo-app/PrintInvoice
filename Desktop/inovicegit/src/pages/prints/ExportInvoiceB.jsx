@@ -182,7 +182,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div className="d-flex justify-content-end align-items-center pb-3 d_none_eib">
                 <input type="button" className="btn_white blue me-0" value="Print" onClick={(e) => handlePrint(e)} />
             </div>
-            <div className="border border-black ">
+            <div className="border border-black page_eib">
               <div className="fs_eib fw-bold border-bottom border-black  w-100 text-center">
                 INVOICE
               </div>
@@ -319,7 +319,8 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="col-6  px-1  border-end border-black">
                         <p className="fw-normal pb-2">VESSEL/FLIGHT NO</p>
                         {/* <div className="fw-bold ps-3">{result?.header?.Flight_NO}</div> */}
-                        <div className="fw-bold ps-3" style={{paddingBottom:'1px'}}>AIR FREIGHT &nbsp;<input type="text" style={{border:'1px solid #e8e8e8'}} className="border_remove_eib" onChange={(e) => setVesselFlightNo(e.target.value)} value={vesselFlightNo} /></div>
+                        {/* <div className="fw-bold ps-3" style={{paddingBottom:'1px'}}>AIR FREIGHT &nbsp;<input type="text" style={{border:'1px solid #e8e8e8'}} className="border_remove_eib" onChange={(e) => setVesselFlightNo(e.target.value)} value={vesselFlightNo} /></div> */}
+                        <div className="fw-bold ps-3" style={{paddingBottom:'1px'}}>AIR FREIGHT </div>
                       </div>
                       <div className="col-6  px-1 ">
                         <p className="fw-normal pb-2">PORT OF LOADING</p>
@@ -528,10 +529,11 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="col1_eib end_ebi border-end border-black pe-1">
                             {(i + 1)?.toFixed(2)}
                           </div>
-                          <div className="col2_eib  border-end border-black ps-1">
-                            <div>{e?.MetalPurity} {e?.MetalColor} {e?.Categoryname} {e?.Size !== '' && `SIZE : ${e?.Size}`} </div>
-                            <div>VENDOR STYLE NO : {e?.designno}</div>
-                            <div>ITEM NO : {e?.SrJobno}</div>
+                          <div className="col2_eib  border-end border-black ps-1 d-flex justify-content-start align-items-center">
+                            {/* <div>{e?.MetalPurity} {e?.MetalColor} {e?.Categoryname} {e?.Size !== '' && `SIZE : ${e?.Size}`} </div> */}
+                            <div> {e?.Categoryname}  </div>
+                            {/* <div>VENDOR STYLE NO : {e?.designno}</div>
+                            <div>ITEM NO : {e?.SrJobno}</div> */}
                           </div>
                           <div className="col3_eib d-flex justify-content-center align-items-center pe-1 border-end border-black">
                             {e?.totals?.diamonds?.Pcs}

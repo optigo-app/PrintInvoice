@@ -159,7 +159,7 @@
         margin-bottom: 60px;
     }
     .fivecm_ebi2{
-        margin-bottom: 60px;
+        margin-bottom: 0px !important;
     }
     .border_remove_eib{
         border: 0px !important;
