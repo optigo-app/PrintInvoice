@@ -265,9 +265,12 @@ export default function TitanWip() {
 
           renderCell: (params) => {
             if (params.field === "srno") {
+              // const rowIndex = params?.api?.getRowIndex(params.row.id) + 1; // Calculate the Sr#
+              const rowIndex = params.api.getSortedRowIds().indexOf(params.id) + 1
               return (
                 <div>
-                  <span>{params.value}</span> {/* Display Sr# */}
+                  {/* <span>{params.value}</span>  */}
+                  <span>{rowIndex}</span>
                 </div>
               );
             } else if (isPriorityFilter) {
@@ -443,7 +446,6 @@ export default function TitanWip() {
           if (filterField.includes("_max") && filterValue) {
             if (rowValue > parseFloat(filterValue)) return false;
           }
-
           return true;
         }
 
@@ -1121,7 +1123,7 @@ export default function TitanWip() {
               <button onClick={toggleDrawer(true)} className="FiletrBtnOpen">
                 Filters
               </button>
-              
+
               <button onClick={handleClearFilter} className="ClearFilterButton">
                 <svg
                   stroke="currentColor"

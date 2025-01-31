@@ -12,8 +12,6 @@ export const TitanWipApi = async () => {
       "p":`{\"pageid\":\"18149\"}`,  
       "f":"m-test2.orail.co.in (ConversionDetail)"
   }
-  
-
     response = await CommonAPI(body);
   } catch (error) {
     console.error("Error:", error);
