@@ -12,6 +12,7 @@ import AllMaterialWisePrint from "./AllMaterialWisePrint";
 import Dashboard from "./dashboard/Dashboard";
 import TitanWip from "./MyReports/TitanWip/TitanWip";
 import TrainingGridHome from "./TrainingGrid/TrainingGridHome";
+import AllMaterialSaleReturn from "./AllMaterialSaleReturn";
 
 const AllDesign = () => {
   
@@ -53,6 +54,7 @@ const AllDesign = () => {
       { key: "pnm", component: <AllDesignPrint /> },
       { key: "printname", component: <AllDesignBagPrint2 /> },
       { key: "matsale", component: <AllMaterialWisePrint /> },
+      { key: "matreturn", component: <AllMaterialSaleReturn /> },
       { key: "pid=18126", component: <MRPBill /> },
       { key: ["pid=18145", "pid=18146", "pid=18147", "pid=18170", "pid=18171"], component: <Dashboard /> },
       { key: "pid=18149", component: <TitanWip /> },

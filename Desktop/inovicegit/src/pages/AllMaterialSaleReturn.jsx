@@ -5,13 +5,13 @@ import { useEffect } from "react";
 import { useState } from "react";
 // import EngageMat from './bagPrints/jobBagStickers/EngageMat';
 
-const AllMaterialWisePrint = () => {
+const AllMaterialSaleReturn = () => {
   
   const location = useLocation();
   const [importedComponent, setImportedComponent] = useState(null);
-  const queryParams = queryString?.parse(location.search);  
-  const printName = (queryParams?.matsale);
-    
+  const queryParams = queryString?.parse(location.search);
+  const printName = queryParams?.matreturn;
+  
   const queries = {
     YearCode: queryParams.YearCode,
     appuserid: queryParams.appuserid,
@@ -30,11 +30,9 @@ const AllMaterialWisePrint = () => {
     version: queries.version,
   };
   const ImportComponent = async (name) => {
-    console.log(name);
-    
     try {
       // const module = await import(`./bagPrints/${name}`);
-      const module = await import(`./materialSale/${name}`);
+      const module = await import(`./materialSaleReturn/InvoicePrint2`);
       const AnotherComponent = module?.default;
       return <AnotherComponent queries={queries} headers={headers} />;
     } catch (error) {
@@ -42,20 +40,21 @@ const AllMaterialWisePrint = () => {
     }
   };
 
-  const takeMatSalePrints = async () => {
-    let module = await import("../GlobalFunctions/materialSaleConditions");    
-    let conditions = module?.materialSaleConditions;
+  const takeMatSaleReturnPrints = async () => {
+    
+    let module = await import("../GlobalFunctions/materialSaleReturnConditions");
+    let conditions = module?.materialSaleReturnConditions;
     let findPrint = conditions?.find((e) => e?.printName?.toLowerCase() === (atob(printName))?.toLowerCase());
     if (findPrint) {
       const component = await ImportComponent(findPrint?.componentName);
       setImportedComponent(component);
     }
   };
-  useEffect(() => {    
-    takeMatSalePrints();
+  useEffect(() => {
+    takeMatSaleReturnPrints();
   }, []);
   return <div>{importedComponent}</div>;
 };
 
 
-export default AllMaterialWisePrint;
+export default AllMaterialSaleReturn;
