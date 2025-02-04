@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { apiCall, checkMsg, formatAmount, handleImageError, isObjectEmpty } from '../../GlobalFunctions';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import Loader from '../../components/Loader';
-import "../../assets/css/prints/print1pdfwise.css"
+import "../../assets/css/prints/print2.css"
 
-const Print1PDFWise = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
+const Print2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     const [result, setResult] = useState(null);
     const [msg, setMsg] = useState("");
     const [loader, setLoader] = useState(true);
@@ -131,7 +131,7 @@ const Print1PDFWise = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             return (
                                 <div className='' key={i}>
                                     <div className='itemdiv_qp1 b_t_qp1 p-0'>
-                                        <div className='d-flex justify-content-center align-items-center py-1 border-bottom border-black fw-bold'>&nbsp;{ (atob(evn))?.toLowerCase() === "quote" && res?.designno}{ ((atob(evn))?.toLowerCase() === "memo" || (atob(evn))?.toLowerCase() === "product estimate") && res?.SrJobno}</div>
+                                        <div className='d-flex justify-content-center align-items-center py-1 border-bottom border-black fw-bold'>&nbsp;{ (atob(evn))?.toLowerCase() === "quote" && res?.designno}{ ((atob(evn))?.toLowerCase() === "memo" || (atob(evn))?.toLowerCase() === "product estimate" || (atob(evn))?.toLowerCase() === "sale") && res?.SrJobno}</div>
                                         <div className='d-flex justify-content-center align-items-start w-100 border-bottom border-black min_h_img_block_pdf_2'>
                                         { res?.CDNDesignImageOrg !== '' ? <div className='imgBlock_print2q '>
                                             <a href={`${res?.CDNDesignImageOrg}`} target='_blank'>
@@ -268,4 +268,4 @@ const Print1PDFWise = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     )
 }
 
-export default Print1PDFWise
+export default Print2
