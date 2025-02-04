@@ -148,6 +148,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 catWise[findrec].totals.diamonds.Wt += obj?.totals?.diamonds?.Wt;
                 catWise[findrec].totals.diamonds.Pcs += obj?.totals?.diamonds?.Pcs;
                 catWise[findrec].TotalAmount += obj?.TotalAmount;
+                catWise[findrec].MetalAmount += obj?.MetalAmount;
               }
             });
 
