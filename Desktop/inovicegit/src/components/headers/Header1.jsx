@@ -28,9 +28,9 @@ const Header1 = ({ data }) => {
         </div>
         <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100">
           <ImageComponent imageUrl={data?.PrintLogo} styles={logoStyle} />
-          {/* <img src={data?.PrintLogo} alt="" className={style.headerImg} /> */}
         </div>
       </div>
+          {/* <img src={data?.PrintLogo} alt="" className={style.headerImg} /> */}
 
 
       {/* <div className={style.custBlock}>

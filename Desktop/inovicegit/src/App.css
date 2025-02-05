@@ -505,3 +505,15 @@ html .footer_secInvoicePrint8 .target_footer * {
   padding-left: 2px;
 }
 
+.headline_dp5{
+  align-items: center;
+  background-color: rgb(147, 146, 146);
+  color: rgb(255, 255, 255);
+  display: flex;
+  font-weight: 700;
+  height: 30px;
+  justify-content: flex-start;
+  padding: 1rem;
+  width: 100%;
+  font-size: 20px !important;
+}

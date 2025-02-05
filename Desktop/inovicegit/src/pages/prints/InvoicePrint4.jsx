@@ -1060,13 +1060,13 @@ useEffect(() => {
                           {formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.totalMiscAmount + result?.mainTotal?.total_diamondHandling))}</div>
                         </div>
 
-                        <div className="d-flex w-100  border-top-0 border border-bottom-0 invp4_fs_3">
+                        {  result?.mainTotal?.finding?.SettingAmount !== 0 && <div className="d-flex w-100  border-top-0 border border-bottom-0 invp4_fs_3">
                           <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
                           <div style={{width:'30%'}} className="ps-2 invp4_fs">F:LABOUR</div>
                           <div style={{width:'10%'}}></div>
                           {/* <div style={{width:'10%'}}></div> */}
                           <div className="end_invp4_ pe-1 invp4_fs" style={{width:'20%'}}>{formatAmount(result?.mainTotal?.finding?.SettingAmount)}</div>
-                        </div>
+                        </div>}
                         
                         <div className="d-flex w-100  fsinvp3 border-start border-end">
                         <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
