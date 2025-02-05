@@ -1062,7 +1062,7 @@ useEffect(() => {
 
                         <div className="d-flex w-100  border-top-0 border border-bottom-0 invp4_fs_3">
                           <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
-                          <div style={{width:'30%'}} className="ps-2 invp4_fs">F:Labour</div>
+                          <div style={{width:'30%'}} className="ps-2 invp4_fs">F:LABOUR</div>
                           <div style={{width:'10%'}}></div>
                           {/* <div style={{width:'10%'}}></div> */}
                           <div className="end_invp4_ pe-1 invp4_fs" style={{width:'20%'}}>{formatAmount(result?.mainTotal?.finding?.SettingAmount)}</div>
