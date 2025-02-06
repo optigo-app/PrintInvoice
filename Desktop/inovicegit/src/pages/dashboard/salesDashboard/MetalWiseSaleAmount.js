@@ -289,7 +289,7 @@ const MetalWiseSaleAmount = ({tkn,  fdate, tdate, country, MetalTypeColorWiseSal
         autoHeight
         pagination
         rows={rowsWithId}
-        rowHeight={78.9}
+        rowHeight={78.9}s
         columns={columns}
         checkboxSelection
         pageSizeOptions={[5, 10]}

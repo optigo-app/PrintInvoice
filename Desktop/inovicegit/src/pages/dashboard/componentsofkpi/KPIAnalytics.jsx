@@ -134,7 +134,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
               setSaleMTs(response?.data?.Data?.DT[0]);
               setSaleMTs2(response?.data?.Data?.DT1[0]);
               setSaleMTsLoader(false);
-              console.log(response?.data?.Data);
               
               // return  {DT:response.data.Data.DT, DT1:response.data.Data.DT1} ;
           } else {
@@ -407,15 +406,19 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           if(response?.data?.Data?.rd?.length > 0){
               setMfgTable(response?.data?.Data?.rd);
               setMFGLoader(false);
+              
           }else{
             setMFGLoader(false);
+            setMfgTable([]);
           }
       }else{
         setMFGLoader(false);
+        setMfgTable([]);
       }
       } catch (error) {
           console.log(error);
           setMFGLoader(false);
+          setMfgTable([]);
       }
     }
     const inwardFetch = async() => {
@@ -545,6 +548,8 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       setInitialDateRange(selectedValue);
     };
     const handleApply = () => {
+
+      setMfgTable([]);
 
         const startDate = moment(fdate);
         const endDate = moment(tdate);
