@@ -259,7 +259,8 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
   const handleEmail = (e) => {
     setEmailVal(e.target.value);
   }
-
+  console.log(result);
+  
   return loader ? (
     <Loader />
   ) : msg === "" ? (
@@ -489,6 +490,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                   
                   {e?.materials?.length > 0 &&
                     e?.materials?.map((ele, ind) => {
+                      
                       return (
                         <p key={ind} className="text-break">
                          
@@ -503,8 +505,10 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                           {/* )} */}
                           : {NumberWithCommas(ele?.Pcs, 0)} Pcs | {NumberWithCommas(ele?.Wt, 3)} 
                           {ele?.MasterManagement_DiamondStoneTypeid === 3 ? "gms" : "Cts"} | 
-                         {ele?.ShapeName}{ele?.MasterManagement_DiamondStoneTypeid !== 3 && <span className="text-break"> 
-                          {" "} {ele?.Colorname} {ele?.QualityName}</span>}
+                         {ele?.Shape_Code}{ele?.MasterManagement_DiamondStoneTypeid !== 3 && <span className="text-break"> 
+                          {" "} {ele?.Color_Code} {ele?.Quality_Code}</span>}
+                         {/* {ele?.ShapeName}{ele?.MasterManagement_DiamondStoneTypeid !== 3 && <span className="text-break"> 
+                          {" "} {ele?.Colorname} {ele?.QualityName}</span>} */}
                         </p>
                       );
                     })}

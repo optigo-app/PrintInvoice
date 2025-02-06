@@ -549,7 +549,6 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
     };
     const handleApply = () => {
 
-      setMfgTable([]);
 
         const startDate = moment(fdate);
         const endDate = moment(tdate);

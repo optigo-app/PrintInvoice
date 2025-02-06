@@ -9,7 +9,6 @@ import "../kpianalytics.css"
 import {  formatAmountRound } from '../../GlobalFunctions';
 
 const Manufacturning = ({bgColor, LWise, mfgTable, mfgLoader, LWiseLoader}) => {
-console.log(mfgTable);
 
   // ** State
   const [MFGData, setMFGData] = useState([]);
