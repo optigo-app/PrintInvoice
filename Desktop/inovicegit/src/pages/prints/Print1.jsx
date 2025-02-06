@@ -137,7 +137,8 @@ const Print1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     <div className='itemdiv_qp1 b_t_qp1'>
                                         <div className='text_center_qp1 image_qp1'>
                                             <img
-                                                src={res?.DesignImage}
+                                                // src={res?.DesignImage}
+                                                src={res?.CDNDesignImageOrg}
                                                 onError={(e) => handleImageError(e)}
                                                 alt="design"
                                                 className="imgdp10 i_qp1"
