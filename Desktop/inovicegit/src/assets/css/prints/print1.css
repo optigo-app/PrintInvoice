@@ -98,17 +98,26 @@
 }
 
 .image_qp1 {
-    max-height: 190px;
+    /* max-height: 190px;
     max-width: 208px;
-
+    box-sizing: border-box;
+    overflow: hidden; */
     /* max-width: 100%;
     min-width: 100%;
     margin-bottom: 30px; */
+    max-height: 190px;
+    max-width: 208px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .i_qp1{
-    object-fit: contain ;
+    /* object-fit: contain ; */
     height: 190px;
     width: 190px;
+    /* height: 100%;
+    width: 100%; */
 }
 
 .justify_between_qp1 {

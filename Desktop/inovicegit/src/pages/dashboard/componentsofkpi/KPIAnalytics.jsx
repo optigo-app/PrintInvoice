@@ -68,6 +68,10 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         const [AvgColPeriod, setAvgColPeriod] = useState();
         const [acrLoader, setACRLoader] = useState(false);
         const [InventoryRatio, setInventoryRatio] = useState(); // inventory turn over ratio
+        const [InventoryRatioDT, setInventoryRatioDT] = useState(); // inventory turn over ratio
+        const [InventoryRatioDT1, setInventoryRatioDT1] = useState(); // inventory turn over ratio
+        const [InventoryRatioDT2, setInventoryRatioDT2] = useState(); // inventory turn over ratio
+        const [InventoryRatioDT3, setInventoryRatioDT3] = useState(); // inventory turn over ratio
         const [irLoader, setIRLoader] = useState(false);
     
         const [bgComp, setBgComp] = useState();
@@ -273,6 +277,18 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         
         if(ITOR_response?.data?.Data){
           setInventoryRatio(ITOR_response?.data?.Data);
+          if(ITOR_response?.data?.Data?.DT?.length > 0){
+            setInventoryRatioDT(ITOR_response?.data?.Data?.DT[0]);
+          }
+          if(ITOR_response?.data?.Data?.DT1?.length > 0){
+            setInventoryRatioDT1(ITOR_response?.data?.Data?.DT1[0]);
+          }
+          if(ITOR_response?.data?.Data?.DT2?.length > 0){
+            setInventoryRatioDT2(ITOR_response?.data?.Data?.DT2[0]);
+          }
+          if(ITOR_response?.data?.Data?.DT3?.length > 0){
+            setInventoryRatioDT3(ITOR_response?.data?.Data?.DT3[0]);
+          }
           setIRLoader(false);
         }else{
           setACRLoader(false);
@@ -829,7 +845,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         <Grid item xs={12}><HeaderOfCard headerName="ACCOUNT & HR" bgColor={'#7d5ae773'} /></Grid>
                   
         <Grid item xs={12} sm={12} md={12} >
-          <AccountHr  InventoryRatio={InventoryRatio} AvgColPeriod={AvgColPeriod} saleMTs={saleMTs} saleMTs2={saleMTs2} PrdDev={PrdDev}   bgColor={theme?.palette?.customColors?.purple} acrLoader={acrLoader} irLoader={irLoader} PDLoader={PDLoader} />
+          <AccountHr  InventoryRatio={InventoryRatio} InventoryRatioDT={InventoryRatioDT} InventoryRatioDT1={InventoryRatioDT1} InventoryRatioDT2={InventoryRatioDT2} InventoryRatioDT3={InventoryRatioDT3}  AvgColPeriod={AvgColPeriod} saleMTs={saleMTs} saleMTs2={saleMTs2} PrdDev={PrdDev}   bgColor={theme?.palette?.customColors?.purple} acrLoader={acrLoader} irLoader={irLoader} PDLoader={PDLoader} />
         </Grid>
 
         { !isMaxWidth11410px && <><Grid item xs={12} md={4} lg={7}><HeaderOfCard headerName="RAW MATERIAL" bgColor={'#7d5ae773'} /></Grid>
