@@ -212,13 +212,11 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="lhiv5">{result?.header?.CompanyAddress}</div>
                       <div className="lhiv5">{result?.header?.CompanyAddress2}</div>
                       <div className="lhiv5">{result?.header?.CompanyCity}-{result?.header?.CompanyPinCode},{result?.header?.CompanyState}({result?.header?.CompanyCountry})</div>
-                      <div className="lhiv5">T {result?.header?.CompanyTellNo} </div>
                       <div className="lhiv5">{result?.header?.CompanyEmail} {result?.header?.CompanyWebsite}</div>
                       <div className="lhiv5">{result?.header?.Company_VAT_GST_No} | {result?.header?.Company_CST_STATE}-{result?.header?.Company_CST_STATE_No} | PAN-{result?.header?.Pannumber}</div>
                       <div className="lhiv5">CIN - {result?.header?.Com_CINNO}</div>
                       <div className="lhiv5">{result?.header?.Com_GoldDealershipRefNo}</div>
-                      <div className="lhiv5"> TOLL FREE {result?.header?.CompanyTollFreeNo}</div>
-                      
+                      <div className="lhiv5">T {result?.header?.CompanyTellNo} </div>
                     </div>
                     <div className="w-25 d-flex justify-content-end align-items-center">
                     {isImageWorking && (result?.header?.PrintLogo !== "" && 

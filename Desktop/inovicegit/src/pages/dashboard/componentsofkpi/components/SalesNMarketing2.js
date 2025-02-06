@@ -31,10 +31,15 @@ const data5 = [
   stats: `₹ ${formatAmountRound((checkNullUndefined((saleMTs?.LabourAmount)))?.toFixed(2))}`,
   title: 'Labour Amt (L+DH+S)',
 },
+// {
+//   stats: `₹ ${(formatAmountRound((checkNullUndefined((saleMTs?.OtherAmount + saleMTs?.DeliveryCharged)))?.toFixed(2))) === NaN ? 0 : formatAmountRound((checkNullUndefined((saleMTs?.OtherAmount + saleMTs?.DeliveryCharged)))?.toFixed(2))}`,
+//   title: 'Other Charges (O+D+M)',
+// }
 {
-  stats: `₹ ${formatAmountRound((checkNullUndefined((saleMTs?.OtherAmount + saleMTs?.DeliveryCharged)))?.toFixed(2))}`,
+  stats: `₹ ${formatAmountRound(checkNullUndefined(saleMTs?.OtherAmount + saleMTs?.DeliveryCharged) || 0)}`,
   title: 'Other Charges (O+D+M)',
 }
+
 ];
 
   return (

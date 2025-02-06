@@ -479,9 +479,9 @@ const InvoicePrint_10_11 = ({
               {headerData?.CompanyState}({headerData?.CompanyCountry})
             </div>
             {/* <div className={style2.lines}>Tell No: {headerData?.CompanyTellNo}</div> */}
-            <div >
-              T: {headerData?.CompanyTellNo}
-            </div>
+            {/* <div >
+              T {headerData?.CompanyTellNo}
+            </div> */}
             <div >
               {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
             </div>
@@ -490,8 +490,11 @@ const InvoicePrint_10_11 = ({
               {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-
               {headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
             </div>
-            <div>TOLL FREE{" "}
-            {headerData?.CompanyTollFreeNo} </div>
+            <div >
+              T {headerData?.CompanyTellNo}
+            </div>
+            {/* <div>TOLL FREE{" "}
+            {headerData?.CompanyTollFreeNo} </div> */}
           </div>
           <div
             style={{ width: "30%" }}
