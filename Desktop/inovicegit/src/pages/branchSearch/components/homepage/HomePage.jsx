@@ -1,5 +1,5 @@
 import { Box, Button, Card, Chip, Typography, useTheme } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./homepage.css"
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import axios from 'axios';
@@ -94,6 +94,11 @@ const HomePage = ({Token}) => {
         
         
       }
+
+      useEffect(() => {
+        setResult([]);
+        setSearchVal('');
+      },[activeButton]);
 
   return (
     <div className='theme_fs_brs hp_container'>
