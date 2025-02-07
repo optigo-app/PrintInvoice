@@ -36,7 +36,7 @@ const data5 = [
 //   title: 'Other Charges (O+D+M)',
 // }
 {
-  stats: `₹ ${formatAmountRound(checkNullUndefined(saleMTs?.OtherAmount + saleMTs?.DeliveryCharged) || 0)}`,
+  stats: `₹ ${formatAmountRound(checkNullUndefined((saleMTs?.OtherAmount || 0) + (saleMTs?.DeliveryCharged || 0)) || 0)}`,
   title: 'Other Charges (O+D+M)',
 }
 

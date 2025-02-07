@@ -26,7 +26,7 @@ const AccountNHR = ({ data, bgColor}) => {
               <Typography variant='h5' sx={{ mb: 0.75, color:theme?.palette?.grey[700], fontWeight:'bolder' }}>
                 { 
                  data?.heading === "Revenue Per Employees" || data?.heading === "Avg. Due Debtors" ? 
-                `₹ ${formatAmountRound(data?.totalValue)}` 
+                `₹ ${formatAmountRound(checkNullUndefined(data?.totalValue))}` 
                   :
                  (  data?.heading === "Labour vs Exp"
                   ? 

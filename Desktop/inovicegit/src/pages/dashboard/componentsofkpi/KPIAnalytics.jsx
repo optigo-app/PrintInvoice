@@ -53,8 +53,8 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         const [PDLoader, setPDLoader] = useState(false);
         const [QuaC, setQuaC] = useState([]); //quality control
         const [QCLoader, setQCLoader] = useState(false);
-        const [saleMTs, setSaleMTs] = useState([]); //sale marketing total sale 1
-        const [saleMTs2, setSaleMTs2] = useState([]); //sale marketing total sale 2
+        const [saleMTs, setSaleMTs] = useState(); //sale marketing total sale 1
+        const [saleMTs2, setSaleMTs2] = useState(); //sale marketing total sale 2
         const [saleMTsLoader, setSaleMTsLoader] = useState(false);
         const [BCwise, setBCwise] = useState([]); //sale marketing total sale business class wise
         const [BCwiseLoader, setBCwiseLoader] = useState(false);
@@ -135,15 +135,25 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           }
           const response = await axios.post(apiUrl_kpi, body2s, headers2s);
           if (response?.data?.Status === '200') {
+            if(response?.data?.Data?.DT?.length > 0){
               setSaleMTs(response?.data?.Data?.DT[0]);
+            }else{
+              setSaleMTs({});
+            }
+            if(response?.data?.Data?.DT1?.length > 0){
               setSaleMTs2(response?.data?.Data?.DT1[0]);
-              setSaleMTsLoader(false);
+            }else{
+              setSaleMTs2({});
+            }
+            setSaleMTsLoader(false);
+              // setSaleMTs2(response?.data?.Data?.DT1[0] || []);
+              
               
               // return  {DT:response.data.Data.DT, DT1:response.data.Data.DT1} ;
           } else {
               setSaleMTsLoader(false);
-              setSaleMTs([]);
-              setSaleMTs2([]);
+              setSaleMTs({});
+              setSaleMTs2({});
             // return []; // Empty array if no data or status is not 200
           }          
           // const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "SalesMarketing_TotalSale");

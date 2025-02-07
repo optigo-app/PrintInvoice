@@ -50,7 +50,7 @@ const AccountHr = ({  InventoryRatio, InventoryRatioDT, InventoryRatioDT1, Inven
                     //     (InventoryRatio?.DT2?.[0]?.NoOfDays === 0 ? 1 : InventoryRatio?.DT2?.[0]?.NoOfDays)
                     // ) * 365
                     (
-                        (saleMTs2?.LabourAmount / (InventoryRatioDT2?.AvgInventory || 1)) /
+                        ((saleMTs2?.LabourAmount || 0) / (InventoryRatioDT2?.AvgInventory || 1)) /
                         (InventoryRatioDT2?.NoOfDays || 1)
                     ) * 365
                 )
@@ -62,7 +62,7 @@ const AccountHr = ({  InventoryRatio, InventoryRatioDT, InventoryRatioDT1, Inven
             heading: 'Revenue Per Employees',
             // totalValue: Math.round(parseFloat(checkNullUndefined(((( PrdDev?.RevenueEmployeeCount === 0 ? 0 : saleMTs?.OnlySaleLabourAmount) / (PrdDev?.RevenueEmployeeCount === 0 ? 1 : PrdDev?.RevenueEmployeeCount )))))),
             totalValue: Math.round(parseFloat(checkNullUndefined(
-                saleMTs?.OnlySaleLabourAmount / (PrdDev?.RevenueEmployeeCount || 1)
+                (saleMTs?.OnlySaleLabourAmount || 0) / (PrdDev?.RevenueEmployeeCount || 1)
               ))),
             series: [],
             subheading: 'Account & HR'
@@ -70,7 +70,7 @@ const AccountHr = ({  InventoryRatio, InventoryRatioDT, InventoryRatioDT1, Inven
         {
             heading: 'Avg. Overdue Deb. Days',
             // totalValue: Math.round(parseInt(checkNullUndefined(checkNullUndefined(( PrdDev?.TotalBillCount === 0 ? 0 : PrdDev?.TotalOverDueDays) / (PrdDev?.TotalBillCount === 0 ? 1 : PrdDev?.TotalBillCount ))))?.toFixed(2)),
-            totalValue: Math.round(parseInt(checkNullUndefined(PrdDev?.TotalOverDueDays / (PrdDev?.TotalBillCount || 1)))),
+            totalValue: Math.round(parseInt(checkNullUndefined((PrdDev?.TotalOverDueDays || 0) / (PrdDev?.TotalBillCount || 1)))),
             series: [],
             subheading: 'Account & HR'
         },
@@ -121,8 +121,8 @@ const AccountHr = ({  InventoryRatio, InventoryRatioDT, InventoryRatioDT1, Inven
             //     ((saleMTs2?.OnlySaleLabourAmount - saleMTs2?.OnlySaleReturnLabourAmount) || 1)
             // ) * 100)))?.toFixed(2),
             parseFloat(checkNullUndefined(
-                ((saleMTs2?.OnlySaleLabourAmount - saleMTs2?.OnlySaleReturnLabourAmount - (InventoryRatioDT2?.Direct_Expense || 0) - (InventoryRatioDT3?.InDirect_Expense || 0)) /
-                (saleMTs2?.OnlySaleLabourAmount - saleMTs2?.OnlySaleReturnLabourAmount || 1)) * 100
+                (((saleMTs2?.OnlySaleLabourAmount || 0) - (saleMTs2?.OnlySaleReturnLabourAmount || 0) - (InventoryRatioDT2?.Direct_Expense || 0) - (InventoryRatioDT3?.InDirect_Expense || 0)) /
+                (((saleMTs2?.OnlySaleLabourAmount) - (saleMTs2?.OnlySaleReturnLabourAmount)) || 1)) * 100
               ))?.toFixed(2)
               ,
             series: [],

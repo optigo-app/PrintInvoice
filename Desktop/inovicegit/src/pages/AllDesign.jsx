@@ -13,6 +13,7 @@ import Dashboard from "./dashboard/Dashboard";
 import TitanWip from "./MyReports/TitanWip/TitanWip";
 import TrainingGridHome from "./TrainingGrid/TrainingGridHome";
 import AllMaterialSaleReturn from "./AllMaterialSaleReturn";
+import BranchSearchRoot from "./branchSearch/BranchSearchRoot";
 
 const AllDesign = () => {
   
@@ -60,6 +61,7 @@ const AllDesign = () => {
       { key: "pid=18149", component: <TitanWip /> },
       { key: "pid=18152", component: <TrainingGridHome /> },
       { key: "pid=18160", component: <QcReport /> },
+      { key: "pid=18200", component: <BranchSearchRoot /> },
     ];
   
     for (const { key, component } of mappings) {

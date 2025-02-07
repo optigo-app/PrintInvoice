@@ -35,6 +35,10 @@ const customTheme = createTheme({
       lightBgPurple:'#E8E7FD',
       littlelightBgPurple:'#A49CF5',
       lightBgRed:'#FCE4E4',
+      btnThemeColor:'#8863FB',
+      btngrpThemeColor:'#F6F3F9',
+      btnFontThemeColor:"#4F3267",
+      cardBgThemeColor:"#F6F4F9"
 
 
     },

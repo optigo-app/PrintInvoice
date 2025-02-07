@@ -14,7 +14,8 @@ import CancelIcon from '@mui/icons-material/Cancel';
 
 //SALES AND MARKETING 3ST BLOCK
 const RawMaterial = ({bgColor, popUpList, orderCmplt, saleMTs, SMOrder, SMOrderLoader, OCLoader}) => {
-    
+  
+  
     const theme = useTheme();
     const isMaxWidth599px = useMediaQuery('(max-width:599px)');
     const [mainData, setMainData] = useState([]);
@@ -65,7 +66,7 @@ const RawMaterial = ({bgColor, popUpList, orderCmplt, saleMTs, SMOrder, SMOrderL
 
       setMainData(data4);
          
-    },[orderCmplt, SMOrder, popUpList]);
+    },[orderCmplt, SMOrder, popUpList, saleMTs]);
 
     const handleOpenOrderModal = (sale) => {
       
