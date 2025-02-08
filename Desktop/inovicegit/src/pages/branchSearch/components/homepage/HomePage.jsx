@@ -76,122 +76,144 @@ const HomePage = ({Token}) => {
         }
       }
 
-      // const loadData = (dt, dt1, dt2) => {
-
-      //   let resultArray = [];
-
-      //   dt?.forEach((e) => {
-      //     let nestedDetails = [];
-      //     dt1?.forEach((el) => {
-      //       if(e?.BrachName === el?.BrachName){
-      //         nestedDetails.push(el);
-      //       }
-      //     })
-      //     let obj = cloneDeep(e);
-
-      //     obj.branchDetails = nestedDetails;
-      //     resultArray.push(obj);
-      //   });
-
-        
-        
-      //   let result = resultArray?.filter((e) => e?.branchDetails?.length > 0);
-
-
-      //   // result?.forEach(branch => {
-      //   //   // Initialize excludesDesigns as an empty array
-      //   //   branch.excludesDesigns = [];
-        
-      //   //   // Loop over each design in the branchDetails
-      //   //   branch?.branchDetails?.forEach(detail => {
-      //   //     // Check if the designno exists in the availableDesigns array
-      //   //     const isDesignAvailable = dt2?.some(design => design.designno === detail.designno);
-        
-      //   //     // If designno is not in the availableDesigns array, add it to excludesDesigns
-      //   //     if (!isDesignAvailable) {
-      //   //       branch.excludesDesigns.push(detail.designno);
-      //   //     }
-      //   //   });
-      //   // });
-      //   let finalArray = [];
-      //   result?.forEach((branch) => {
-      //     // Initialize excludesDesigns as an empty array
-      //     let obj = {...branch};
-      //     obj.excludesDesigns = [];
-          
-      //     obj?.branchDetails?.forEach((a) => {
-      //       dt2?.forEach((al) => {
-      //         if(a?.designno !== al?.designno && a?.BrachName === obj?.BrachName){
-      //           obj.excludesDesigns.push(al?.designno);
-      //         }
-      //       })
-      //     })
-      //     finalArray.push(obj);
-      //     // Step 5: Loop over each design in the branchDetails
-        
-            
-
-      //       // Step 6: Check if the designno exists in dt2
-      //       // const isDesignAvailable = dt2?.filter((design) => design.designno !== detail.designno);
-      //       // console.log(`Is design ${detail.designno} available:`, isDesignAvailable);  // Log availability check
-
-      //       // console.log(isDesignAvailable);
-            
-
-      //       // Step 7: If designno is not in the availableDesigns array, add it to excludesDesigns
-      //       // if (!isDesignAvailable) {
-      //       //   console.log(`Design ${detail.designno} not available, adding to excludesDesigns`);  // Log when adding to excludesDesigns
-      //       //   branch.excludesDesigns.push(detail.designno);
-      //       // }
-      //     // });
-      //   });
-      
-
-      //   let finalArray2 = [];
-
-      //   finalArray?.forEach((a) => {
-      //     let obj = {...a};
-
-      //     if(a?.excludesDesigns?.length === dt2?.length){
-      //       obj.excludesDesigns = [];
-      //     }
-      //     finalArray2.push(obj);
-      //   })
-        
-      //   setResult(finalArray2);
-        
-        
-      // }
-
       const loadData = (dt, dt1, dt2) => {
 
-        let resultArray = dt?.map((e) => {
-          let nestedDetails = dt1?.filter((el) => el?.BrachName === e?.BrachName);
-          return { ...e, branchDetails: nestedDetails };
-        }).filter((e) => e?.branchDetails?.length > 0);
-      
-        let finalArray = resultArray?.map((branch) => {
-          let obj = { ...branch, excludeDesigns: [] };
+        let resultArray = [];
+
+        dt?.forEach((e) => {
+          let nestedDetails = [];
+          dt1?.forEach((el) => {
+            if(e?.BrachName === el?.BrachName){
+              nestedDetails.push(el);
+            }
+          })
+          let obj = cloneDeep(e);
+
+          obj.branchDetails = nestedDetails;
+          resultArray.push(obj);
+        });
+
+        
+        
+        let result = resultArray?.filter((e) => e?.branchDetails?.length > 0);
+
+        // let finalArray = [];
+
+        // result?.forEach((a, i) => {
+        //   let obj = {...a};
+
+        //   obj.excludeDesigns = [];
+        //   obj?.branchDetails?.forEach((al) => {
+            
+        //     if(al?.BrachName === obj?.BrachName){
+              
+        //         dt2?.forEach((e) => {
+                  
+        //           if(e?.designno !== al?.designno){
+                    
+        //             obj.excludeDesigns.push(e?.designno);
+
+        //           }
+
+        //         })
+
+        //       }
+        //   })
           
-          branch?.branchDetails?.forEach((a) => {
-            dt2?.forEach((al) => {
-              if (a?.designno !== al?.designno && a?.BrachName === obj?.BrachName) {
-                obj.excludeDesigns.push(al?.designno);
-              }
-            });
+        //   finalArray.push(obj);
+
+        // });
+
+        let finalArray = [];
+
+        result?.forEach((a) => {
+          let obj = { ...a };
+
+          obj.excludeDesigns = [];
+
+          // Loop through the available designs (dt2) for each branch
+          dt2?.forEach((e) => {
+            // Check if this design is not present in the current branch's branchDetails
+            const isDesignInBranch = obj?.branchDetails?.some((al) => al?.designno === e?.designno);
+
+            // If the design does not exist in branchDetails, add it to excludeDesigns
+            if (!isDesignInBranch) {
+              obj.excludeDesigns.push(e?.designno);
+            }
           });
-          return obj;
+
+          finalArray.push(obj);
         });
+
+        setResult(finalArray);
+
+
+        
+
+        // result?.forEach((branch) => {
+        //   // Initialize excludesDesigns as an empty array
+        //   let obj = {...branch};
+        //   obj.excludesDesigns = [];
+          
+        //   obj?.branchDetails?.forEach((a) => {
+        //     dt2?.forEach((al) => {
+        //       if(a?.designno !== al?.designno && a?.BrachName === obj?.BrachName){
+        //         obj.excludesDesigns.push(al?.designno);
+        //       }
+        //     })
+        //   })
+        //   finalArray.push(obj);
+  
+        // });
       
-        let finalArray2 = finalArray?.map((a) => {
-          if (a?.excludeDesigns?.length === dt2?.length) {
-            a.excludeDesigns = [];
-          }
-          return a;
-        });
+
+        // let finalArray2 = [];
+
+        // finalArray?.forEach((a) => {
+        //   let obj = {...a};
+
+        //   if(a?.excludesDesigns?.length === dt2?.length){
+        //     obj.excludesDesigns = [];
+        //   }
+        //   finalArray2.push(obj);
+        // })
+        
+        // setResult(finalArray2);
+        
+        
+      }
+
+      // const loadData = (dt, dt1, dt2) => {
+
+      //   let resultArray = dt?.map((e) => {
+      //     let nestedDetails = dt1?.filter((el) => el?.BrachName === e?.BrachName);
+      //     return { ...e, branchDetails: nestedDetails };
+      //   }).filter((e) => e?.branchDetails?.length > 0);
       
-        setResult(finalArray2);
-      };
+      //   let finalArray = resultArray?.map((branch) => {
+      //     let obj = { ...branch, excludeDesigns: [] };
+          
+      //     branch?.branchDetails?.forEach((a) => {
+      //       dt2?.forEach((al) => {
+      //         if ((!al?.designno?.includes(a?.designno)) && a?.BrachName === obj?.BrachName) {
+      //           obj.excludeDesigns.push(al?.designno);
+      //         }
+      //       });
+      //     });
+      //     return obj;
+      //   });
+      
+      //   let finalArray2 = finalArray?.map((a) => {
+      //     if (a?.excludeDesigns?.length === dt2?.length) {
+      //       a.excludeDesigns = [];
+      //     }
+      //     return a;
+      //   });
+      
+      //   setResult(finalArray2);
+      //   console.log(finalArray2, dt2);
+        
+      // };
       
       useEffect(() => {
         setResult([]);
@@ -258,7 +280,7 @@ const HomePage = ({Token}) => {
         </Button>
       </Box>
       <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'100%'}} sx={{my:2}}>
-        <input type="text" className='input_field_hp' placeholder='NCKB002 1/179 DesSet1' value={searchVal} disabled={loader} onChange={(e) => handleSearch(e)} /> 
+        <input type="text" className='input_field_hp' autoFocus placeholder='NCKB002 1/179 DesSet1' value={searchVal} disabled={loader} onChange={(e) => handleSearch(e)} /> 
         <Button variant='contained' 
           onClick={() => handleApply()}
           disabled={loader}
@@ -320,7 +342,7 @@ const HomePage = ({Token}) => {
                             <Typography variant='h6' style={{color:theme?.palette?.customColors?.secondary?.main}}>({el?.TotalDesign})</Typography>
                         </div>
                         <Typography mt={0.5} style={{color:theme?.palette?.customColors?.btnFontThemeColor, marginBottom:'4px', fontWeight:'bolder'}}>
-                          {el?.Metal_Purity_Name} {el?.MetalColorName} {el?.Metal_Type_Name} {el?.DQuality + " - " +el?.DColor}</Typography>
+                          {el?.Metal_Purity_Name} {el?.MetalColorName} {el?.Metal_Type_Name} {el?.DQuality + `${el?.DQuality === '' || el?.DColor === '' ? '' :  "-" }` +el?.DColor}</Typography>
                     </div>
                     <div>
                         <div className='custom_chip_hp'>
