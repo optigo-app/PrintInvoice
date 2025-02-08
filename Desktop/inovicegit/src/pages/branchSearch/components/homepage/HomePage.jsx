@@ -11,7 +11,9 @@ const HomePage = ({Token}) => {
 
     const [searchVal, setSearchVal] = useState('');
     const [result, setResult] = useState([]);
-    const [selectedDesign, setSelectedDesign] = useState([]);
+    const [totalDesignCount, setTotalDesignCount] = useState();
+    const [totalTagDesignCount, setTotalTagDesignCount] = useState();
+    const [totalDesignSetCount, setTotalDesignSetCount] = useState();
 
     const [loader, setLoader] = useState(false);
 
@@ -147,6 +149,31 @@ const HomePage = ({Token}) => {
           finalArray.push(obj);
         });
 
+        let totalDesignCount = 0;
+        let obj = {
+          totalDesignCount : 0,
+          designno : ''
+        }
+        let obj2 = {
+          totalDesignCount : 0,
+          designnoArr : []
+        }
+        finalArray?.forEach((a) => {
+          a?.branchDetails?.forEach((al) => {
+            if(al?.designno){
+              totalDesignCount += 1;
+              obj.totalDesignCount += 1;
+              obj.designno = al?.designno;
+              obj2.totalDesignCount += 1;
+              obj2.designnoArr = dt2?.map((e) => e?.designno);
+            }
+          })
+        })
+        obj2.designnoArr = [...new Set(obj2?.designnoArr)];
+        setTotalDesignCount(totalDesignCount);
+        setTotalTagDesignCount(obj);
+        setTotalDesignSetCount(obj2);
+
         setResult(finalArray);
 
         if(finalArray?.length === 0){
@@ -246,6 +273,14 @@ const HomePage = ({Token}) => {
         setOpen(false);
       };
 
+      const handleKeyDown = (e) => {
+        if(e?.key?.toLowerCase() === "enter"){
+          if(searchVal){
+            fetchData(searchVal);
+          }
+        }
+      }
+
   return (
     <div className='theme_fs_brs hp_container'>
         <Typography align='center' my={1} sx={{color:theme?.palette?.customColors?.btnFontThemeColor}}>Search your design by designno/tagno/designset</Typography>
@@ -286,21 +321,33 @@ const HomePage = ({Token}) => {
         </Button>
       </Box>
       <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'100%'}} sx={{my:2}}>
-        <input type="text" className='input_field_hp' autoFocus ref={ref} placeholder='NCKB002 1/179 DesSet1' value={searchVal} disabled={loader} onChange={(e) => handleSearch(e)} /> 
+        <input type="text" className='input_field_hp' autoFocus ref={ref} placeholder='NCKB002 1/179 DesSet1'
+           value={searchVal} 
+           disabled={loader} 
+           onChange={(e) => handleSearch(e)}
+           onKeyDown={(e) => handleKeyDown(e)}
+            /> 
         <Button variant='contained' 
           onClick={() => handleApply()}
           disabled={loader || (searchVal === '')}
           sx={{backgroundColor:theme?.palette?.customColors?.purple, py:1.2, ml:1, borderRadius:'10px'}}
         >Apply</Button>
       </Box>
-      { activeButton === "DesignSet" &&  <Box sx={{display:'flex', justifyContent:'center', alignItems:'center'}}><Typography sx={{color:theme?.palette?.customColors?.btnFontThemeColor, fontWeight:'600', minWidth:'21rem'}} variant='h5'>Total Set Available: 5</Typography></Box>}
+      { activeButton === "Design" &&  <Box sx={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+          <Typography sx={{color:theme?.palette?.customColors?.btnFontThemeColor, fontWeight:'600', minWidth:'21rem'}} variant='h5'>Total Design Available: {totalDesignCount}</Typography>
+        </Box>}
+      { activeButton === "TagNo" &&  <Box sx={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+          <Typography sx={{color:theme?.palette?.customColors?.btnFontThemeColor, fontWeight:'600', minWidth:'21rem'}} variant='h5'>Total Design Available: {totalTagDesignCount?.totalDesignCount} ({totalTagDesignCount?.designno})</Typography>
+        </Box>}
+      { activeButton === "DesignSet" &&  <Box sx={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+          <Typography sx={{color:theme?.palette?.customColors?.btnFontThemeColor, fontWeight:'600', minWidth:'21rem'}} variant='h5'>Total Set Available: {totalDesignSetCount?.totalDesignCount} ({totalDesignSetCount?.designnoArr?.join(",")})</Typography></Box>}
       <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', width:'100%'}}>
         <Box my={2} sx={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-            { activeButton?.toLowerCase() === "designset" && <Box sx={{display:'flex', justifyContent:'center', alignItems:'center'}} marginRight={12}>
+            {/* { activeButton?.toLowerCase() === "designset" && <Box sx={{display:'flex', justifyContent:'center', alignItems:'center'}} marginRight={12}>
                 <Typography sx={{color:theme?.palette?.customColors?.btnFontThemeColor}} variant='h6'>Selected Design</Typography>
                 <Button variant='contained' sx={{color:theme?.palette?.customColors?.btnFontThemeColor, backgroundColor:theme?.palette?.customColors?.btngrpThemeColor, mx:1}}>LR-125(5)</Button>
                 <Button variant='contained' sx={{color:theme?.palette?.customColors?.btnFontThemeColor, backgroundColor:theme?.palette?.customColors?.btngrpThemeColor, mx:1}}>LR-125(5)</Button>
-            </Box>}
+            </Box>} */}
             {/* { activeButton?.toLowerCase() === "designset" && <Button
                 variant="contained"
                 sx={{
@@ -318,7 +365,7 @@ const HomePage = ({Token}) => {
             </Button>} */}
         </Box>
       </Box>
-      {  <Box sx={{display:'flex', flexWrap:'wrap', justifyContent:"space-around", alignItems:'center'}} mt={1} mb={6}>
+      {  <Box sx={{display:'flex', flexWrap:'wrap', justifyContent:"flex-start", alignItems:'flex-start', padding:"0px 15px"}} mt={1} mb={6}>
       {
        result?.map((e, i) => {
             return <Card sx={{boxShadow: '0 4px 20px rgba(0, 0, 0, 0.00)', border:"1px solid #e8e8e8",borderRadius:'16px', width:"30rem", m:1 }} key={i}  >
