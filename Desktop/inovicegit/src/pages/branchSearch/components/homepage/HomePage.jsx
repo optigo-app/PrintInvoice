@@ -1,5 +1,5 @@
 import { Alert, Box, Button, Card, Chip, Snackbar, Typography, useTheme } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import "./homepage.css"
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import axios from 'axios';
@@ -14,6 +14,8 @@ const HomePage = ({Token}) => {
     const [selectedDesign, setSelectedDesign] = useState([]);
 
     const [loader, setLoader] = useState(false);
+
+    const ref = useRef();
     
     
     const buttonStyles = (buttonName) => ({
@@ -135,7 +137,7 @@ const HomePage = ({Token}) => {
           dt2?.forEach((e) => {
             // Check if this design is not present in the current branch's branchDetails
             const isDesignInBranch = obj?.branchDetails?.some((al) => al?.designno === e?.designno);
-
+            
             // If the design does not exist in branchDetails, add it to excludeDesigns
             if (!isDesignInBranch) {
               obj.excludeDesigns.push(e?.designno);
@@ -147,8 +149,10 @@ const HomePage = ({Token}) => {
 
         setResult(finalArray);
 
-
-        
+        if(finalArray?.length === 0){
+          setMessage("Data Not Present");
+          setOpen(true); 
+        }
 
         // result?.forEach((branch) => {
         //   // Initialize excludesDesigns as an empty array
@@ -225,6 +229,8 @@ const HomePage = ({Token}) => {
           setViewDetailsFlag(false);
         }
 
+        ref.current.focus();
+
       },[activeButton]);
 
       const [open, setOpen] = useState(false);
@@ -280,10 +286,10 @@ const HomePage = ({Token}) => {
         </Button>
       </Box>
       <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'100%'}} sx={{my:2}}>
-        <input type="text" className='input_field_hp' autoFocus placeholder='NCKB002 1/179 DesSet1' value={searchVal} disabled={loader} onChange={(e) => handleSearch(e)} /> 
+        <input type="text" className='input_field_hp' autoFocus ref={ref} placeholder='NCKB002 1/179 DesSet1' value={searchVal} disabled={loader} onChange={(e) => handleSearch(e)} /> 
         <Button variant='contained' 
           onClick={() => handleApply()}
-          disabled={loader}
+          disabled={loader || (searchVal === '')}
           sx={{backgroundColor:theme?.palette?.customColors?.purple, py:1.2, ml:1, borderRadius:'10px'}}
         >Apply</Button>
       </Box>
@@ -314,7 +320,7 @@ const HomePage = ({Token}) => {
       </Box>
       {  <Box sx={{display:'flex', flexWrap:'wrap', justifyContent:"space-around", alignItems:'center'}} mt={1} mb={6}>
       {
-        result?.map((e, i) => {
+       result?.map((e, i) => {
             return <Card sx={{boxShadow: '0 4px 20px rgba(0, 0, 0, 0.00)', border:"1px solid #e8e8e8",borderRadius:'16px', width:"30rem", m:1 }} key={i}  >
             <Typography variant='h5' p={1} my={2} mt={1} ml={1}>{e?.BrachName}</Typography>        
             <Box py={2} px={2}>
@@ -356,7 +362,7 @@ const HomePage = ({Token}) => {
             }
           </Card>
         })
-      }
+       } 
       </Box>}
 
       <Snackbar open={open} autoHideDuration={3000} onClose={handleCloseMSG} anchorOrigin={{
