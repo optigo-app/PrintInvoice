@@ -52,6 +52,8 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
   const [evns, setEvns] = useState(atob(evn).toLowerCase());
 
   const loadData = (data) => {
+    console.log(data);
+    
     let json0Datas = data.BillPrint_Json[0];
     let custDetail = { ...customerDetail };
     if (data.BillPrint_Json[0]?.vat_cst_pan !== "") {
@@ -286,9 +288,11 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
         {json0Data?.IsBranchWiseAddress === 1 ? (
           <div className="d-flex justify-content-between p-2 pb-0">
             <div>
-              <div className="fw-bold"
+              <div className="branchAddress_jti"
                 dangerouslySetInnerHTML={{ __html: json0Data?.Branch_Address }}
               ></div>
+              {console.log(json0Data)}
+              
             </div>
             <div>
               
@@ -307,7 +311,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
         ) : (
           <div className={`${style2.companyDetails}`}>
             <div className={`${style2.companyhead} p-2 pb-0`}>
-              <p className={` fw-bold ${style?.fs_16_jti}`} style21={{ fontWeight: "bold" }}>
+              <p  style21={{ fontWeight: "bold", fontSize:'16px' }}>
                 {json0Data?.CompanyFullName}
               </p>
 
@@ -347,36 +351,36 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
         <div className="no_break">
           <div className="border d-flex justify-content-between">
             <div className="col-7 p-2">
-              <p className="lh-1 pb-1">To, </p>
+              <p className="lh-1 pb-1" style={{fontSize:'13px'}}>To, </p>
               {json0Data?.customerfirmname !== "" && (
-                <p className={`fw-bold lh-1 pb-1 text-break ${style?.fs_16_jti}`} style={{width:'180px'}}>
+                <div className={`fw-bold lh-1 pb-1 text-break ${style?.fs_16_jti}`} style={{width:'180px'}}>
                   {json0Data?.customerfirmname}
-                </p>
+                </div>
               )}
               { !imgFlag && <>
               {json0Data?.customerstreet !== "" && (
-                <p className="lh-1 pb-1 text-break" style={{width:'180px'}}>{json0Data?.customerstreet}</p>
+                <div className="lh-1 pb-1 text-break" style={{width:'180px', fontSize:'13px'}}>{json0Data?.customerstreet}</div>
               )}
               {json0Data?.customerregion !== "" && (
-                <p className="lh-1 pb-1 text-break" style={{width:'180px'}}>{json0Data?.customerregion}</p>
+                <div className="lh-1 pb-1 text-break" style={{width:'180px', fontSize:'13px'}}>{json0Data?.customerregion}</div>
               )}
               {json0Data?.customercity !== "" && (
-                <p className="lh-1 pb-1 text-break" style={{width:'180px'}}>{json0Data?.customercity}</p>
+                <div className="lh-1 pb-1 text-break" style={{width:'180px', fontSize:'13px'}}>{json0Data?.customercity}</div>
               )}
               </>}
               
 
-              { !imgFlag && <p className="lh-1 pb-1 text-break" style={{width:'180px'}}>
+              { !imgFlag && <div className="lh-1 pb-1 text-break" style={{width:'180px', fontSize:'13px'}}>
                 {json0Data?.customerstate}, {json0Data?.customercountry} {json0Data?.customerpincode}
-              </p>}
+              </div>}
               { imgFlag && <input type="text" value={addressVal} style={{height:'17px', width:'200px', outline:'none', border:'none'}} onChange={handleAddress} />}
 
                 
                 { !imgFlag && <>
                   {json0Data?.customermobileno !== "" && (
-                    <p className="lh-1 pb-1">Tel : {json0Data?.customermobileno}</p>
+                    <div className="lh-1 pb-1"style={{fontSize:'13px'}}>Tel : {json0Data?.customermobileno}</div>
                     )}
-                  <p className="lh-1 pb-1">{json0Data?.customeremail1}</p>
+                  <div className="lh-1 pb-1" style={{ fontSize:'13px'}}>{json0Data?.customeremail1}</div>
                 </>}
                 {
                   imgFlag && 
@@ -389,14 +393,14 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
 
             </div>
             <div className="col-4 px-2 d-flex flex-column justify-content-center">
-              <p className="lh-1 pb-1">
+              <p className="lh-1 pb-1" style={{fontSize:'13px'}}>
                 Invoice
-                <span className="fw-bold">#: {json0Data?.InvoiceNo}</span> Dated{" "}
-                <span className="fw-bold">{json0Data?.EntryDate}</span>
+                <span className="fw-bold" style={{fontSize:'13px'}}>#: {json0Data?.InvoiceNo}</span> Dated{" "}
+                <span className="fw-bold" style={{fontSize:'13px'}}>{json0Data?.EntryDate}</span>
               </p>
             {  !imgFlag && <>{customerDetail?.pan !== "" && (
-                <p className="lh-1 pb-1">
-                  PAN<span className="fw-bold">#: {customerDetail?.pan}</span>{" "}
+                <p className="lh-1 pb-1" style={{fontSize:'13px'}}>
+                  PAN<span className="fw-bold" style={{fontSize:'13px'}}>#: {customerDetail?.pan}</span>{" "}
                 </p>
               )}</>}
               {/* {customerDetail?.gst !== "" && (
@@ -413,19 +417,19 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                     )}{" "}
                 </p>
               )} */}
-              { !imgFlag && <p className="lh-1 pb-1"> 
-                   { result?.header?.Cust_VAT_GST_No  !== '' && <><span>GSTIN</span> <span className="fw-bold">{ result?.header?.Cust_VAT_GST_No }</span></>}
-                 { result?.header?.Cust_VAT_GST_No === '' ? '' : ' | '} { result?.header?.Cust_CST_STATE } <span className="fw-bold"> { result?.header?.Cust_CST_STATE_No }</span>
+              { !imgFlag && <p className="lh-1 pb-1" style={{fontSize:'13px'}}  > 
+                   { result?.header?.Cust_VAT_GST_No  !== '' && <><span style={{fontSize:'13px'}}>GSTIN</span> <span className="fw-bold" style={{fontSize:'13px'}}>{ result?.header?.Cust_VAT_GST_No }</span></>}
+                 { result?.header?.Cust_VAT_GST_No === '' ? '' : ' | '} { result?.header?.Cust_CST_STATE } <span className="fw-bold" style={{fontSize:'13px'}}> { result?.header?.Cust_CST_STATE_No }</span>
               </p>}
        
                   { !imgFlag && <>
-                 { json0Data?.DueDays !== 0 && <p className="lh-1 pb-1">
+                 { json0Data?.DueDays !== 0 && <p className="lh-1 pb-1" style={{fontSize:'13px'}}>
                  Terms: {" "}
-                <span className="fw-bold"> {json0Data?.DueDays}</span>
+                <span className="fw-bold" style={{fontSize:'13px'}}> {json0Data?.DueDays}</span>
               </p>}
-                 <p className="lh-1 pb-1">
+                 <p className="lh-1 pb-1" style={{fontSize:'13px'}}>
                 Due Date:{" "}
-                <span className="fw-bold">{json0Data?.DueDate}</span>
+                <span className="fw-bold" style={{fontSize:'13px'}}>{json0Data?.DueDate}</span>
               </p>
                   </>}
               
@@ -458,10 +462,10 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
             
             return (
               <div className="d-flex border-start border-end border-bottom no_break border-top" key={i} >
-                <div className="col1_sqm p-1 border-end">
+                <div className="col1_sqm p-1 border-end" style={{width:'11%'}}>
                   <p className="text-center fs_jti_Sale">{i + 1}</p>
                 </div>
-                <div className={`col2_sqm p-1 border-end position-relative`}>
+                <div className={`col2_sqm p-1 border-end position-relative`} style={{width:'13%'}}>
                     { atob(evn)?.trim()?.toLocaleLowerCase() !== 'quote' && <p className="fs_jti_Sale">Job: {e?.SrJobno} </p>}
                   <p>
                     Design: <span className="fw-bold text-break fs_jti_Sale">{e?.designno}</span>{" "}
@@ -545,10 +549,10 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
           })}
         {/* total */}
         <div className="d-flex border-start border-end border-bottom no_break lightGrey">
-          <div className="col1_sqm p-1 border-end">
+          <div className="col1_sqm p-1 border-end" style={{width:'11%'}}>
             <p className="text-center"></p>
           </div>
-          <div className={`${ 'col2_sqm' } p-1 border-end`}>
+          <div className={`${ 'col2_sqm' } p-1 border-end`} style={{width:'13%'}}>
             <p className="fw-normal fs_jti_Sale">TOTAL</p>{" "}
           </div>
          
@@ -563,13 +567,13 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
         </div>
         {/* Remakrs */}
         <div className="d-flex border-start border-end border-bottom no_break">
-          <div className="col_r_1 p-1 border-end">
+          <div className="col_r_1 p-1 border-end" style={{width:'33%'}}>
             { json0Data?.PrintRemark !== '' &&  <p className="fw-bold text-decoration-underline"> REMARKS</p>}
             <div className={`${style?.lh_dec_JTI}`}
               dangerouslySetInnerHTML={{ __html: json0Data?.PrintRemark }}
             ></div>
           </div>
-          <div className="col_r_2 p-1 border-end">
+          <div className="col_r_2 p-1 border-end" style={{width:'33%'}}>
             {  summary.map((e, i) => {
               return (
                 <React.Fragment key={i}>
@@ -586,7 +590,44 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
             })}
        
           </div>
-          <div className="col_r_3 p-1 border-end tax_div_sqm">
+          <div style={{width:"20%", borderRight:'1px solid #DDDDDD'}}>
+            {
+              result?.allTaxes?.map((e, i) => {
+                return <div className=" d-flex align-items-center justify-content-start ps-1" key={i} style={{fontSize:'14px'}}>{e?.name}({e?.per})</div>
+              })
+            }
+            <div className="d-flex align-items-center justify-content-start ps-1" style={{fontSize:'14px'}}>Total</div>
+          </div>
+          <div style={{width:"14%"}}>
+            {
+              result?.allTaxes?.map((e, i) => {
+                return <div key={i} className="fw-bold d-flex align-items-center justify-content-end pe-1 " style={{fontSize:'14px'}}> <span
+
+                dangerouslySetInnerHTML={{
+                  __html: result?.header?.Currencysymbol,
+                }}
+              ></span>{formatAmount((e?.amountInNumber / result?.header?.CurrencyExchRate))}</div>
+              })
+            }
+            <div  className="fw-bold d-flex align-items-center justify-content-end pe-1 " style={{fontSize:'14px'}}>
+            <span
+              dangerouslySetInnerHTML={{
+                __html: result?.header?.Currencysymbol,
+              }}
+              ></span>
+              {formatAmount((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate))}</div>
+          </div>
+          {/* <div style={{width:'34%'}}>
+            {
+              result?.allTaxes?.map((e, i) => {
+                return <div className="d-flex align-items-center w-100" key={i}>
+                <div style={{width:'60%'}}>{e?.name}</div>
+                <div style={{width:'40%'}}>{e?.amountInNumber}</div>
+              </div>
+              })
+            }
+          </div> */}
+          {/* <div className="col_r_3 p-1 border-end tax_div_sqm">
             { result?.allTaxesTotal !== 0 && <>{tax.map((e, i) => {
               return (
                 <p key={i} className="fs_jti_Sale">
@@ -616,7 +657,6 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
               <span
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
-              {/* {NumberWithCommas(totalAmount.after, 2)}{" "} */}
               {formatAmount(((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal)))}
             </p>}</>}
             { json0Data?.AddLess !== 0 && <p className="text-end fw-bold fs_jti_Sale">
@@ -631,7 +671,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
               ></span>
               {NumberWithCommas((json0Data?.FreightCharges / json0Data?.CurrencyExchRate), 2)}{" "}
             </p>}
-          </div>
+          </div> */}
         </div>
         {/* gran total */}
         <div className="d-flex border-start border-end border-bottom no_break lightGrey">
@@ -663,7 +703,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
         </div>
         {/* bank detail */}
         <div className="border-start border-end border-bottom d-flex no_break">
-          <div className={`col-6 border-end p-2 ${style?.lh_dec_JTI}`}>
+          <div className={`col-4 border-end p-2 ${style?.lh_dec_JTI}`}>
             <p className="fw-bold">Bank Detail</p>
             <p>Bank Name: {json0Data?.bankname}</p>
             <p className="text-break">Branch: {json0Data?.bankaddress}</p>
@@ -671,11 +711,11 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
             <p>Account No. : {json0Data?.accountnumber}</p>
             <p>RTGS/NEFT IFSC: {json0Data?.rtgs_neft_ifsc}</p>
           </div>
-          <div className="col-3 border-end d-flex flex-column justify-content-between p-2 pb-0 pt-1">
+          <div className="col-4 border-end d-flex flex-column justify-content-between p-2 pb-0 pt-1">
             <p>Signature</p>
             <p className="fw-bold">{json0Data?.customerfirmname}</p>
           </div>
-          <div className="col-3 d-flex flex-column justify-content-between p-2 pb-0 pt-1">
+          <div className="col-4 d-flex flex-column justify-content-between p-2 pb-0 pt-1">
             <p>Signature</p>
             <p className="fw-bold">{json0Data?.Branch_Description}</p>
           </div>

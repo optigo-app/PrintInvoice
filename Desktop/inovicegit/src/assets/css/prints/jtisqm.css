@@ -64,6 +64,15 @@
 .remark_fs{
     font-size: 14px;
 }
+
+.branchAddress_jti * {
+    font-size: 12px !important;
+}
+
+.branchAddress_jti table tr:first-child td b {
+    font-size: 16px !important;
+    font-weight: bold !important;
+}
 @media print{
     .fs_custom_jti   {
         font-size: 12px;

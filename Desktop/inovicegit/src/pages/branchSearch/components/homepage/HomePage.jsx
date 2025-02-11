@@ -258,6 +258,10 @@ const HomePage = ({Token}) => {
 
         ref.current.focus();
 
+        setTotalDesignCount();
+        setTotalDesignSetCount();
+        setTotalTagDesignCount();
+
       },[activeButton]);
 
       const [open, setOpen] = useState(false);

@@ -11,10 +11,15 @@ import { CircularProgress, Modal, Tooltip, useMediaQuery, useTheme } from '@mui/
 import { formatAmountRound } from '../../GlobalFunctions';
 import { checkNullUndefined } from './global';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { useSelector } from 'react-redux'
 
 //SALES AND MARKETING 3ST BLOCK
 const RawMaterial = ({bgColor, popUpList, orderCmplt, saleMTs, SMOrder, SMOrderLoader, OCLoader}) => {
   
+    const SaleMarketingOrder = useSelector(state => state?.SaleMarketingOrder);
+    const SaleMarketingOrderComplete = useSelector(state => state?.SaleMarketingOrderComplete);
+    
+    
   
     const theme = useTheme();
     const isMaxWidth599px = useMediaQuery('(max-width:599px)');
@@ -31,11 +36,11 @@ const RawMaterial = ({bgColor, popUpList, orderCmplt, saleMTs, SMOrder, SMOrderL
 
     const data4 = [
       {
-        stats: `${safeValue(parseFloat(checkNullUndefined(smorderArr?.TotalOrder))?.toFixed(3))} gms`,
+        stats: `${safeValue(parseFloat(checkNullUndefined(SaleMarketingOrder?.data?.DT?.TotalOrder))?.toFixed(3))} gms`,
         title: 'Total Order',
       },
       {
-        stats: `${safeValue(parseFloat(checkNullUndefined(smorderArr?.AvgOrderSize))?.toFixed(2))} gms`,
+        stats: `${safeValue(parseFloat(checkNullUndefined(SaleMarketingOrder?.data?.DT?.AvgOrderSize))?.toFixed(2))} gms`,
         title: 'Avg. Order Size',
       },
       {
@@ -55,7 +60,7 @@ const RawMaterial = ({bgColor, popUpList, orderCmplt, saleMTs, SMOrder, SMOrderL
         title: 'Sales Return ',
       },
       {
-        stats: `${Math.round(checkNullUndefined(smorderArr?.StockCountWithOutClub))?.toFixed(0)} jobs`,
+        stats: `${Math.round(checkNullUndefined(SaleMarketingOrder?.data?.DT?.StockCountWithOutClub))?.toFixed(0)} jobs`,
         title: 'Avg. Stock Book Jobs',
       },
       {
@@ -66,7 +71,7 @@ const RawMaterial = ({bgColor, popUpList, orderCmplt, saleMTs, SMOrder, SMOrderL
 
       setMainData(data4);
          
-    },[orderCmplt, SMOrder, popUpList, saleMTs]);
+    },[orderCmplt, SMOrder, popUpList, saleMTs, SaleMarketingOrder?.data]);
 
     const handleOpenOrderModal = (sale) => {
       

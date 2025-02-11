@@ -18,9 +18,23 @@ import CustomInput from '../@core/components/pickersComponent/PickersCustomInput
 import CloseIcon from '@mui/icons-material/Close';
 import "react-datepicker/dist/react-datepicker.css";
 import AccountHr from './components/AccountHr.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { ProductDevelopmentAPI } from './redux/slices/PD.js';
+import { QCAPI } from './redux/slices/QC.js';
+import { ITORAPI } from './redux/slices/InventoryRatio.js';
+import { QCInwardAPI } from './redux/slices/QcInward.js';
+import { AvgCollectionRatioAPI } from './redux/slices/AvgCollectionRatio.js';
+import { SaleMarketingTotalSaleApi } from './redux/slices/SaleMarketingTotalSale.js';
+import { SaleMarketingOrderAPI } from './redux/slices/SaleMarketingOrder.js';
+import { SaleMarketingOrderCompleteApi } from './redux/slices/SaleMarketingOrderComplete.js';
 
 const KPIAnalytics = ({tkn, sv, url, hostName}) => {
     const theme = useTheme();
+
+    const dispatch = useDispatch();
+
+    
+
     const isSmallScreen = useMediaQuery(theme?.breakpoints?.down('sm'));
     const isMaxWidth11410px = useMediaQuery('(max-width:1410px)');
     const isMaxWidth1700px = useMediaQuery('(max-width:1700px)');
@@ -38,6 +52,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
     const isMaxWidth720px = useMediaQuery('(max-width:720px)');
     
     const [showPopUp, setShowPopUp] = useState(false);
+
 
 
     let apiUrl_kpi = '';
@@ -92,7 +107,11 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
     const ProductDevelopmentFetch = async() => {
       try {
         setPDLoader(true);
-          const response = await fetchKPIDashboardData(apiUrl_kpi, tkn, moment(fdate)?.format('MM/DD/YYYY'), moment(tdate)?.format('MM/DD/YYYY'), "ProductDevelopment");
+          const response = await fetchKPIDashboardData(
+            apiUrl_kpi, tkn, 
+            moment(fdate)?.format('MM/DD/YYYY'), 
+            moment(tdate)?.format('MM/DD/YYYY'), 
+            "ProductDevelopment");
           if(response){
             
             setPrdDev(response[0]);
@@ -262,6 +281,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           if (response?.data?.Status === '200') {
               setAvgCollRatio(response?.data?.Data?.DT[0]);
               setAvgColPeriod(response?.data?.Data);
+              
               setACRLoader(false);
               // return  {DT:response.data.Data.DT, DT1:response.data.Data.DT1} ;
           } else {
@@ -483,14 +503,29 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
   
     useEffect(() => {
 
+      let apiUrl_kpi = '';
+      
+    if(hostName?.toLowerCase() === 'zen' || hostName?.toLowerCase() === 'localhost'){
+      apiUrl_kpi = 'http://zen/jo/api-lib/App/KPI_DashBoard';
+    }else{
+      apiUrl_kpi = 'https://view.optigoapps.com/linkedapp/App/KPI_DashBoard';
+    }
+
+      const obj = {
+        apiUrl_kpi:apiUrl_kpi,
+        token:tkn,
+        fdate:moment(fdate)?.format('MM/DD/YYYY'),
+        tdate:moment(tdate)?.format('MM/DD/YYYY'),
+      }
+
       //sales
-      InventoryTurnOverRatioFetch();
-      ProductDevelopmentFetch();
-      AvgCollectionPeriodFetch();
-      SalesMarketing_TotalSaleFetch();
-      QualityControlFetch();
-      SalesMarketing_OrderFetch();
-      SalesMarketing_OrderCompletionFetch();
+      InventoryTurnOverRatioFetch(); //made
+      ProductDevelopmentFetch(); //made
+      AvgCollectionPeriodFetch(); //made
+      SalesMarketing_TotalSaleFetch(); //made
+      QualityControlFetch(); //made
+      SalesMarketing_OrderFetch(); //made
+      SalesMarketing_OrderCompletionFetch(); //made
       SalesMarketing_TotalSaleBusinessClassWiseFetch();
       SalesMarketing_TotalSaleLocationWiseFetch();
 
@@ -499,7 +534,26 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       G_LossFetch();
       RMStockFetch();
       MFGFetch();
-      inwardFetch();
+      inwardFetch(); //made
+      
+      //kpi store api
+      dispatch(ProductDevelopmentAPI(obj));
+      dispatch(QCAPI(obj));
+      dispatch(ITORAPI(obj));
+      dispatch(AvgCollectionRatioAPI(obj));
+      dispatch(SaleMarketingTotalSaleApi(obj));
+      dispatch(SaleMarketingOrderAPI(obj));
+      dispatch(SaleMarketingOrderCompleteApi(obj));
+
+      const obj2 = {
+        url : url,
+        sv:sv,
+        tkn:tkn,
+        fdate:moment(fdate)?.format('MM/DD/YYYY'),
+        tdate:moment(tdate)?.format('MM/DD/YYYY'),
+      }
+      
+      dispatch(QCInwardAPI(obj2));
 
     }, []);
 

@@ -8,19 +8,26 @@ import CardContent from '@mui/material/CardContent'
 
 import { CircularProgress, useTheme } from '@mui/material';
 import { checkNullUndefined, safeValue } from './global';
+import { useSelector } from 'react-redux'
 const QualityControl = ({ bgColor,  QuaC, qcInward, inwardLoader, QCLoader, InventoryRatio }) => {
   
+    const QC = useSelector(state => state?.QC);
+    const InventoryRatio1 = useSelector(state => state?.ITOR);
+    const QcInward = useSelector(state => state?.QcInward);
+    
   
     const theme = useTheme();
 
             const data = [
               {
                 // stats: parseFloat(checkNullUndefined(obj?.ProductionApiData?.rd[0]?.qc_avg_inward))?.toFixed(2),
-                stats: `${safeValue(qcInward?.qc_avg_inward)} jobs`,
+                // stats: `${safeValue(qcInward?.qc_avg_inward)} jobs`,
+                stats: `${safeValue(QcInward?.data?.qc_avg_inward)} jobs`,
                 title: 'Inward',
               },
               {
-                stats: ` ${(checkNullUndefined(QuaC?.JobMoveStockBookCount))} Jobs`,
+                // stats: ` ${(checkNullUndefined(QuaC?.JobMoveStockBookCount))} Jobs`,
+                stats: ` ${(checkNullUndefined(QC?.data?.JobMoveStockBookCount))} Jobs`,
                 title: 'Outward',
               },
               // {
@@ -31,9 +38,13 @@ const QualityControl = ({ bgColor,  QuaC, qcInward, inwardLoader, QCLoader, Inve
                 stats: `${
                   checkNullUndefined
                     (
+                      // parseInt(
+                      //   (((InventoryRatio?.DT[0]?.NoOfDays ?? 0) === 0 ? 0 : QuaC?.QACountWithOutClub) / 
+                      //   ((InventoryRatio?.DT[0]?.NoOfDays ?? 0) === 0 ? 1 : InventoryRatio?.DT[0]?.NoOfDays))
+                      // )
                       parseInt(
-                        (((InventoryRatio?.DT[0]?.NoOfDays ?? 0) === 0 ? 0 : QuaC?.QACountWithOutClub) / 
-                        ((InventoryRatio?.DT[0]?.NoOfDays ?? 0) === 0 ? 1 : InventoryRatio?.DT[0]?.NoOfDays))
+                        (((InventoryRatio1?.data?.DT?.NoOfDays ?? 0) === 0 ? 0 : QC?.data?.QACountWithOutClub) / 
+                        ((InventoryRatio1?.data?.DT?.NoOfDays ?? 0) === 0 ? 1 : InventoryRatio1?.data?.DT?.NoOfDays))
                       )
                  || 0
                 )} Jobs`,
@@ -41,7 +52,8 @@ const QualityControl = ({ bgColor,  QuaC, qcInward, inwardLoader, QCLoader, Inve
               },
                       
               {
-                stats: `${safeValue(parseFloat(checkNullUndefined((( QuaC?.TotalJobCount_QA_To_Stock === 0 ? 0 : QuaC?.DaysDiff_QA_To_Stock) / (QuaC?.TotalJobCount_QA_To_Stock === 0 ? 1 : QuaC?.TotalJobCount_QA_To_Stock))))?.toFixed(2))} Days`,
+                // stats: `${safeValue(parseFloat(checkNullUndefined((( QuaC?.TotalJobCount_QA_To_Stock === 0 ? 0 : QuaC?.DaysDiff_QA_To_Stock) / (QuaC?.TotalJobCount_QA_To_Stock === 0 ? 1 : QuaC?.TotalJobCount_QA_To_Stock))))?.toFixed(2))} Days`,
+                stats: `${safeValue(parseFloat(checkNullUndefined((( QC?.data?.TotalJobCount_QA_To_Stock === 0 ? 0 : QC?.data?.DaysDiff_QA_To_Stock) / (QC?.data?.TotalJobCount_QA_To_Stock === 0 ? 1 : QC?.data?.TotalJobCount_QA_To_Stock))))?.toFixed(2))} Days`,
                 title: 'Avg. Prs. Time',
               }
             ]
@@ -77,7 +89,8 @@ const QualityControl = ({ bgColor,  QuaC, qcInward, inwardLoader, QCLoader, Inve
             // }
             /> */}
         {
-          ( QCLoader || inwardLoader) ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
+          // ( QCLoader || inwardLoader) ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
+          ( QC?.loading || InventoryRatio1?.loading || QcInward?.loading) ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
           <CircularProgress sx={{color:'lightgrey'}} />
         </Box> :
           <CardContent
