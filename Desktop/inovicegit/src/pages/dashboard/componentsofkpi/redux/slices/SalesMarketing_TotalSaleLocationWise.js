@@ -1,23 +1,22 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchKPIDashboardData } from "../../../GlobalFunctions";
 
-export const SaleMarketingOrderCompleteApi = createAsyncThunk("SaleMarketingOrderComplete", async(obj) => {
+export const SalesMarketing_TotalSaleLocationWiseApi = createAsyncThunk("SalesMarketing_TotalSaleLocationWise", async(obj) => {
     try {
-        const response = await fetchKPIDashboardData(obj?.apiUrl_kpi, obj?.token, (obj?.fdate), (obj?.tdate), "SalesMarketing_OrderCompletion");
+        const response = await fetchKPIDashboardData(obj?.apiUrl_kpi, obj?.token, (obj?.fdate), (obj?.tdate), "SalesMarketing_TotalSaleLocationWise");
         
         if(response?.length > 0){
-          return response[0];
+          return response;
         } else{
           return {}
         }
     } catch (error) {
         console.log(error);
-        
     }
 })
 
-export const SaleMarketingOrderComplete = createSlice({
-    name:'SaleMarketingOrderComplete',
+export const SalesMarketing_TotalSaleLocationWise = createSlice({
+    name:'SalesMarketing_TotalSaleLocationWise',
     initialState: {
         loading:false,
         data:null,
@@ -26,19 +25,19 @@ export const SaleMarketingOrderComplete = createSlice({
     reducers:{},
     extraReducers:(builder) => {
         builder.
-            addCase(SaleMarketingOrderCompleteApi.pending, (state) => {
+            addCase(SalesMarketing_TotalSaleLocationWiseApi.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(SaleMarketingOrderCompleteApi.fulfilled, (state, action) => {
+            .addCase(SalesMarketing_TotalSaleLocationWiseApi.fulfilled, (state, action) => {
                 state.loading = false;
                 state.data = action.payload;
                 state.error = null;
             })
-            .addCase(SaleMarketingOrderCompleteApi.rejected, (state, action) => {
+            .addCase(SalesMarketing_TotalSaleLocationWiseApi.rejected, (state, action) => {
                 state.loading = false;
                 state.data = null;
                 state.error = action.error.message;
             });
     }
 })
-export default SaleMarketingOrderComplete.reducer;
+export default SalesMarketing_TotalSaleLocationWise.reducer;

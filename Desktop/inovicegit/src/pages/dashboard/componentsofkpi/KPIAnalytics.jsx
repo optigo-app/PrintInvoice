@@ -27,6 +27,9 @@ import { AvgCollectionRatioAPI } from './redux/slices/AvgCollectionRatio.js';
 import { SaleMarketingTotalSaleApi } from './redux/slices/SaleMarketingTotalSale.js';
 import { SaleMarketingOrderAPI } from './redux/slices/SaleMarketingOrder.js';
 import { SaleMarketingOrderCompleteApi } from './redux/slices/SaleMarketingOrderComplete.js';
+import { SalesMarketing_TotalSaleBusinessClassWiseApi } from './redux/slices/SalesMarketing_TotalSaleBusinessClassWise.js';
+import { SalesMarketing_TotalSaleLocationWiseApi } from './redux/slices/SalesMarketing_TotalSaleLocationWise.js';
+import { mfgTableApi } from './redux/slices/MFGTable.js';
 
 const KPIAnalytics = ({tkn, sv, url, hostName}) => {
     const theme = useTheme();
@@ -526,8 +529,8 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       QualityControlFetch(); //made
       SalesMarketing_OrderFetch(); //made
       SalesMarketing_OrderCompletionFetch(); //made
-      SalesMarketing_TotalSaleBusinessClassWiseFetch();
-      SalesMarketing_TotalSaleLocationWiseFetch();
+      SalesMarketing_TotalSaleBusinessClassWiseFetch(); //made
+      SalesMarketing_TotalSaleLocationWiseFetch(); //made
 
       //mfg
       BaggingCompletedFetch();
@@ -544,6 +547,8 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       dispatch(SaleMarketingTotalSaleApi(obj));
       dispatch(SaleMarketingOrderAPI(obj));
       dispatch(SaleMarketingOrderCompleteApi(obj));
+      dispatch(SalesMarketing_TotalSaleBusinessClassWiseApi(obj));
+      dispatch(SalesMarketing_TotalSaleLocationWiseApi(obj));
 
       const obj2 = {
         url : url,
@@ -554,6 +559,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       }
       
       dispatch(QCInwardAPI(obj2));
+      dispatch(mfgTableApi(obj2));
 
     }, []);
 

@@ -18,6 +18,8 @@ const RawMaterial = ({bgColor, popUpList, orderCmplt, saleMTs, SMOrder, SMOrderL
   
     const SaleMarketingOrder = useSelector(state => state?.SaleMarketingOrder);
     const SaleMarketingOrderComplete = useSelector(state => state?.SaleMarketingOrderComplete);
+    const SaleMarketingTotalSale = useSelector(state => state?.SaleMarketingTotalSale);
+    
     
     
   
@@ -44,19 +46,19 @@ const RawMaterial = ({bgColor, popUpList, orderCmplt, saleMTs, SMOrder, SMOrderL
         title: 'Avg. Order Size',
       },
       {
-        stats: `${((orderCmplt?.LeadTime))} Days`,
+        stats: `${((SaleMarketingOrderComplete?.data?.LeadTime))} Days`,
         title: 'Lead Time',
       },
       {
-        stats: `${orderCmplt?.DelayTime} Days`,
+        stats: `${SaleMarketingOrderComplete?.data?.DelayTime} Days`,
         title: 'Delay Time',
       },
       {
-        stats: `₹ ${formatAmountRound(parseFloat(checkNullUndefined(saleMTs?.AvgLabour))?.toFixed(2))}`,
+        stats: `₹ ${formatAmountRound(parseFloat(checkNullUndefined(SaleMarketingTotalSale?.data?.DT?.AvgLabour))?.toFixed(2))}`,
         title: 'Avg. Labour',
       },
       {
-        stats: `${parseFloat(checkNullUndefined(saleMTs?.SaleReturnPer))?.toFixed(2)} %`,
+        stats: `${parseFloat(checkNullUndefined(SaleMarketingTotalSale?.data?.DT?.SaleReturnPer))?.toFixed(2)} %`,
         title: 'Sales Return ',
       },
       {
@@ -64,14 +66,14 @@ const RawMaterial = ({bgColor, popUpList, orderCmplt, saleMTs, SMOrder, SMOrderL
         title: 'Avg. Stock Book Jobs',
       },
       {
-        stats: `₹ ${formatAmountRound(parseFloat(checkNullUndefined(orderCmplt?.OverDueDebtorsAmount))?.toFixed(2))}`,
+        stats: `₹ ${formatAmountRound(parseFloat(checkNullUndefined(SaleMarketingOrderComplete?.data?.OverDueDebtorsAmount))?.toFixed(2))}`,
         title: 'Overdue Debtors',
       }
       ];
 
       setMainData(data4);
          
-    },[orderCmplt, SMOrder, popUpList, saleMTs, SaleMarketingOrder?.data]);
+    },[orderCmplt, SMOrder, popUpList, saleMTs, SaleMarketingOrder?.data, SaleMarketingOrderComplete?.data, SaleMarketingTotalSale?.data]);
 
     const handleOpenOrderModal = (sale) => {
       

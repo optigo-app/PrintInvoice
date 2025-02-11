@@ -9,51 +9,60 @@ import { useState } from 'react';
 import { formatAmountRound } from '../../GlobalFunctions';
 import { CircularProgress } from '@mui/material';
 import { checkNullUndefined, makeWordShort } from './global';
+import { useSelector } from 'react-redux';
 
 //SALES AND MARKETING 2ST BLOCK
 const SalesNMarketing3 = ({ bgColor, BCwise, BCwiseLoader}) => {
   const theme = useTheme();
 
   const [apiData, setApiData] = useState([]);
+  const [apiData2, setApiData2] = useState([]); 
+  const state = useSelector(state => state?.SalesMarketing_TotalSaleBusinessClassWise);
+  
 
   useEffect(() => {
 
     const fetchData = async () => {
       try {
-        
-        if(BCwise){
-
-          const formatedArr = BCwise?.sort((a, b) => b?.Amount - a?.Amount)?.slice(0, 5);
-          const formatedArr2 = BCwise?.slice(5);
+        if (apiData2?.length > 0) {
+          // Create a shallow copy of the array before sorting and slicing
+          const formatedArr = [...apiData2].sort((a, b) => b?.Amount - a?.Amount).slice(0, 5);
+          const formatedArr2 = [...apiData2].slice(5);
+          
+    
           const obj = {
-            CustomerType : "Other",
-            Amount:0
-          }
-          
-          formatedArr2?.forEach((a) => {
+            CustomerType: "Other",
+            Amount: 0
+          };
+    
+          formatedArr2.forEach((a) => {
             obj.Amount += a?.Amount;
-          })
-          
-          formatedArr.push(obj);
-
-          
-          
-          setApiData(formatedArr);
+          });
+    
+          // Instead of directly mutating the array, create a new array and update state
+          const newData = [...formatedArr, obj];
+    
+          setApiData(newData);
           
         }
-        } catch (error) {
+      } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
+    
   
     fetchData(); 
 
-  },[BCwise]);
+  },[apiData2]);
+
+  useEffect(() => {
+    setApiData2(state?.data);
+  },[state?.data]);
   
 
   
   return (
-    <Card className={`fs_analytics_l ${BCwiseLoader ? 'center_kpi' : ''}`}  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'230px', }}>
+    <Card className={`fs_analytics_l ${state?.loading ? 'center_kpi' : ''}`}  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'230px', }}>
 
       <CardContent  sx={{
         maxHeight: '412px',
@@ -74,7 +83,7 @@ const SalesNMarketing3 = ({ bgColor, BCwise, BCwiseLoader}) => {
         },
       }}>
         {
-          BCwiseLoader ? 
+          state?.loading ? 
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', top:`${(230 / 2)}px` }}>
               <CircularProgress sx={{color:'lightgrey'}} />
             </Box> :

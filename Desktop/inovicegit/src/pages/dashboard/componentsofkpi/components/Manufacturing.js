@@ -7,18 +7,34 @@ import { DataGrid } from '@mui/x-data-grid'
 import { CircularProgress } from '@mui/material';
 import "../kpianalytics.css"
 import {  formatAmountRound } from '../../GlobalFunctions';
+import { useSelector } from 'react-redux';
 
 const Manufacturning = ({bgColor, LWise, mfgTable, mfgLoader, LWiseLoader}) => {
+
+  const state = useSelector(state => state?.SalesMarketing_TotalSaleLocationWise);
+  const state2 = useSelector(state => state);
+  
+console.log(state2);
 
   // ** State
   const [MFGData, setMFGData] = useState([]);
   const[columns, setColumns] = useState([]);
 
+  //clone
+  const [lWise, setLWise] = useState([]);
+  const [mfgTableApi, setMfgTableApi] = useState([]);
+  
     useEffect(() => { 
 
       formateArray();
 
     },[LWise, mfgTable]);
+
+    useEffect(() => { 
+
+      setLWise(state?.data);
+
+    },[state?.data]);
 
 
   const formateArray = () => {

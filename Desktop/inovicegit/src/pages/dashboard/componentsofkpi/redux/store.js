@@ -7,6 +7,9 @@ import AvgCollectionRatio  from "./slices/AvgCollectionRatio";
 import SaleMarketingTotalSale from "./slices/SaleMarketingTotalSale";
 import SaleMarketingOrder from "./slices/SaleMarketingOrder";
 import SaleMarketingOrderComplete from "./slices/SaleMarketingOrderComplete";
+import SalesMarketing_TotalSaleBusinessClassWise from "./slices/SalesMarketing_TotalSaleBusinessClassWise";
+import SalesMarketing_TotalSaleLocationWise from "./slices/SalesMarketing_TotalSaleLocationWise";
+import MFGTable from "./slices/MFGTable";
 
 
 export const store = configureStore({
@@ -18,7 +21,10 @@ export const store = configureStore({
         AvgCollectionRatio:AvgCollectionRatio,
         SaleMarketingTotalSale:SaleMarketingTotalSale,
         SaleMarketingOrder:SaleMarketingOrder,
-        SaleMarketingOrderComplete:SaleMarketingOrderComplete
+        SaleMarketingOrderComplete:SaleMarketingOrderComplete,
+        SalesMarketing_TotalSaleBusinessClassWise:SalesMarketing_TotalSaleBusinessClassWise,
+        SalesMarketing_TotalSaleLocationWise:SalesMarketing_TotalSaleLocationWise,
+        MFGTable:MFGTable
     }
 })
 

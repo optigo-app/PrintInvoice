@@ -52,7 +52,6 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
   const [evns, setEvns] = useState(atob(evn).toLowerCase());
 
   const loadData = (data) => {
-    console.log(data);
     
     let json0Datas = data.BillPrint_Json[0];
     let custDetail = { ...customerDetail };
@@ -93,12 +92,12 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
       let metalColorCode = "";
       data?.BillPrint_Json2.forEach((ele, ind) => {
         if (obj?.SrJobno === ele?.StockBarcode) {
-          // if ((ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 2 || ele?.MasterManagement_DiamondStoneTypeid === 3) && ele?.IsHSCOE === 0) {
-          if (
-            (ele?.MasterManagement_DiamondStoneTypeid === 1 ||
-              ele?.MasterManagement_DiamondStoneTypeid === 2 ) &&
-            ele?.IsHSCOE === 0
-          ) {
+          if (ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 2 || (ele?.MasterManagement_DiamondStoneTypeid === 3 && ele?.IsHSCOE === 0 && ele?.ismiscwtaddingrossweight === 1)) {
+          // if (
+          //   (ele?.MasterManagement_DiamondStoneTypeid === 1 ||
+          //     ele?.MasterManagement_DiamondStoneTypeid === 2 ) &&
+          //   ele?.IsHSCOE === 0
+          // ) {
             let findRecord = materials.findIndex(
               (elem) =>
                 elem?.MasterManagement_DiamondStoneTypeid ===
@@ -191,6 +190,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
     setData(resultArr);
 
   };
+  
   const loadData2 = (data) => {
     const copydata = cloneDeep(data);
 
@@ -261,7 +261,6 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
   const handleEmail = (e) => {
     setEmailVal(e.target.value);
   }
-  console.log(result);
   
   return loader ? (
     <Loader />
@@ -291,7 +290,6 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
               <div className="branchAddress_jti"
                 dangerouslySetInnerHTML={{ __html: json0Data?.Branch_Address }}
               ></div>
-              {console.log(json0Data)}
               
             </div>
             <div>
@@ -351,26 +349,26 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
         <div className="no_break">
           <div className="border d-flex justify-content-between">
             <div className="col-7 p-2">
-              <p className="lh-1 pb-1" style={{fontSize:'13px'}}>To, </p>
+              <p className=" " style={{fontSize:'13px', lineHeight:'15px'}}>To, </p>
               {json0Data?.customerfirmname !== "" && (
-                <div className={`fw-bold lh-1 pb-1 text-break ${style?.fs_16_jti}`} style={{width:'180px'}}>
+                <div className={`fw-bold  text-break ${style?.fs_16_jti}`} style={{width:'180px', fontSize:'16px', lineHeight:'15px'}}>
                   {json0Data?.customerfirmname}
                 </div>
               )}
               { !imgFlag && <>
               {json0Data?.customerstreet !== "" && (
-                <div className="lh-1 pb-1 text-break" style={{width:'180px', fontSize:'13px'}}>{json0Data?.customerstreet}</div>
+                <div className=" text-break" style={{width:'180px', fontSize:'13px', lineHeight:'15px'}}>{json0Data?.customerstreet}</div>
               )}
               {json0Data?.customerregion !== "" && (
-                <div className="lh-1 pb-1 text-break" style={{width:'180px', fontSize:'13px'}}>{json0Data?.customerregion}</div>
+                <div className=" text-break" style={{width:'180px', fontSize:'13px', lineHeight:'15px'}}>{json0Data?.customerregion}</div>
               )}
               {json0Data?.customercity !== "" && (
-                <div className="lh-1 pb-1 text-break" style={{width:'180px', fontSize:'13px'}}>{json0Data?.customercity}</div>
+                <div className=" text-break" style={{width:'180px', fontSize:'13px', lineHeight:'15px'}}>{json0Data?.customercity}</div>
               )}
               </>}
               
 
-              { !imgFlag && <div className="lh-1 pb-1 text-break" style={{width:'180px', fontSize:'13px'}}>
+              { !imgFlag && <div className=" text-break" style={{width:'180px', fontSize:'13px', lineHeight:'15px'}}>
                 {json0Data?.customerstate}, {json0Data?.customercountry} {json0Data?.customerpincode}
               </div>}
               { imgFlag && <input type="text" value={addressVal} style={{height:'17px', width:'200px', outline:'none', border:'none'}} onChange={handleAddress} />}
@@ -378,9 +376,9 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                 
                 { !imgFlag && <>
                   {json0Data?.customermobileno !== "" && (
-                    <div className="lh-1 pb-1"style={{fontSize:'13px'}}>Tel : {json0Data?.customermobileno}</div>
+                    <div className=""style={{fontSize:'13px', lineHeight:'15px'}}>Tel : {json0Data?.customermobileno}</div>
                     )}
-                  <div className="lh-1 pb-1" style={{ fontSize:'13px'}}>{json0Data?.customeremail1}</div>
+                  <div className="" style={{ fontSize:'13px', lineHeight:'15px'}}>{json0Data?.customeremail1}</div>
                 </>}
                 {
                   imgFlag && 
