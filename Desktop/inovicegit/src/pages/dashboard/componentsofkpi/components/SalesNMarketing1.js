@@ -72,6 +72,8 @@ const RawMaterial = ({bgColor, popUpList, orderCmplt, saleMTs, SMOrder, SMOrderL
       ];
 
       setMainData(data4);
+
+      setPopUpDetails(SaleMarketingOrder?.data?.DT1);
          
     },[orderCmplt, SMOrder, popUpList, saleMTs, SaleMarketingOrder?.data, SaleMarketingOrderComplete?.data, SaleMarketingTotalSale?.data]);
 
@@ -79,19 +81,21 @@ const RawMaterial = ({bgColor, popUpList, orderCmplt, saleMTs, SMOrder, SMOrderL
       
         if(sale?.title?.toLowerCase() === "total order" && parseFloat(sale?.stats) > 0){
           setOrderModal(true);
-          setPopUpDetails(popUpList);
+          setPopUpDetails(popupDetails);
           setPopUpHeader('Order Details');
           setPopUpFlag("order");
         }
         
         if(sale?.title?.toLowerCase() === "avg. order size" && parseFloat(sale?.stats) > 0){
           setOrderModal(true);
-          setPopUpDetails(popUpList);
+          setPopUpDetails(popupDetails);
           setPopUpHeader('Average Order Size Details');
           setPopUpFlag("orderavgsize");
         }
         
     }
+    console.log(popupDetails);
+    
   
     const renderStats = () => {
         return mainData?.map((sale, index) => (
@@ -228,7 +232,7 @@ const RawMaterial = ({bgColor, popUpList, orderCmplt, saleMTs, SMOrder, SMOrderL
                               gap: "18px",
                             }}
                           >
-                            {popupDetails?.DT1?.map((e, i) => (
+                            {popupDetails?.map((e, i) => (
                               <Box
                                 key={i}
                                 sx={{
