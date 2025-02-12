@@ -6,29 +6,34 @@ import CardContent from '@mui/material/CardContent'
 import { CircularProgress, useTheme } from '@mui/material';
 import {  formatAmountRound } from '../../GlobalFunctions';
 import { checkNullUndefined } from './global';
+import { useSelector } from 'react-redux';
 //SALES AND MARKETING 1ST BLOCK
 const SalesNMarketing2 = ({ bgColor,  saleMTs, saleMTsLoader}) => {
+
+  const SaleMarketingTotalSale = useSelector(state => state?.SaleMarketingTotalSale);
+  
+
   const theme = useTheme();
 const data5 = [
   {
-  stats: `₹ ${formatAmountRound(parseFloat(checkNullUndefined(saleMTs?.Amount))?.toFixed(2))}`,
+  stats: `₹ ${formatAmountRound(parseFloat(checkNullUndefined(SaleMarketingTotalSale?.data?.DT?.Amount))?.toFixed(2))}`,
   title: 'Total Sale Amt',
   },
  {
-  stats: `₹ ${formatAmountRound((checkNullUndefined(saleMTs?.MetalAmount))?.toFixed(2))}`,
+  stats: `₹ ${formatAmountRound((checkNullUndefined(SaleMarketingTotalSale?.data?.DT?.MetalAmount))?.toFixed(2))}`,
   title: 'Metal Amt',
   },
  {
-  stats: `₹ ${formatAmountRound((checkNullUndefined(saleMTs?.DiamondAmount))?.toFixed(2))}`,
+  stats: `₹ ${formatAmountRound((checkNullUndefined(SaleMarketingTotalSale?.data?.DT?.DiamondAmount))?.toFixed(2))}`,
   title: 'Diamond Amt',
 },
  {
-  stats: `₹ ${formatAmountRound((checkNullUndefined(saleMTs?.ColorStoneAmount))?.toFixed(2))}`,
+  stats: `₹ ${formatAmountRound((checkNullUndefined(SaleMarketingTotalSale?.data?.DT?.ColorStoneAmount))?.toFixed(2))}`,
   title: 'Color Stone Amt',
 },
 {
   // stats: `₹ ${formatAmountRound((checkNullUndefined((saleMTs?.LabourAmount - saleMTs?.OtherAmount)))?.toFixed(2))}`,
-  stats: `₹ ${formatAmountRound((checkNullUndefined((saleMTs?.LabourAmount)))?.toFixed(2))}`,
+  stats: `₹ ${formatAmountRound((checkNullUndefined((SaleMarketingTotalSale?.data?.DT?.LabourAmount)))?.toFixed(2))}`,
   title: 'Labour Amt (L+DH+S)',
 },
 // {
@@ -36,7 +41,7 @@ const data5 = [
 //   title: 'Other Charges (O+D+M)',
 // }
 {
-  stats: `₹ ${formatAmountRound(checkNullUndefined((saleMTs?.OtherAmount || 0) + (saleMTs?.DeliveryCharged || 0)) || 0)}`,
+  stats: `₹ ${formatAmountRound(checkNullUndefined((SaleMarketingTotalSale?.data?.DT?.OtherAmount || 0) + (SaleMarketingTotalSale?.data?.DT?.DeliveryCharged || 0)) || 0)}`,
   title: 'Other Charges (O+D+M)',
 }
 
@@ -63,7 +68,7 @@ const data5 = [
           background: '#555',
         },
       }}>
-        { saleMTsLoader ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
+        { SaleMarketingTotalSale?.loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
               <CircularProgress sx={{color:'lightgrey'}} />
             </Box> : data5?.map((item, index) => {
           return (

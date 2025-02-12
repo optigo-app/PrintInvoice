@@ -351,7 +351,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
             <div className="col-7 p-2">
               <p className=" " style={{fontSize:'13px', lineHeight:'15px'}}>To, </p>
               {json0Data?.customerfirmname !== "" && (
-                <div className={`fw-bold  text-break ${style?.fs_16_jti}`} style={{width:'180px', fontSize:'16px', lineHeight:'15px'}}>
+                <div className={`fw-bold  text-break ${style?.fs_16_jti}`} style={{width:'180px', fontSize:'14px', lineHeight:'15px'}}>
                   {json0Data?.customerfirmname}
                 </div>
               )}
@@ -506,7 +506,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                             </span>
                           {/* )} */}
                           : {NumberWithCommas(ele?.Pcs, 0)} Pcs | {NumberWithCommas(ele?.Wt, 3)} 
-                          {ele?.MasterManagement_DiamondStoneTypeid === 3 ? "gms" : "Cts"} | 
+                          {ele?.MasterManagement_DiamondStoneTypeid === 3 ? "gms" : " Cts"} | 
                          {ele?.Shape_Code}{ele?.MasterManagement_DiamondStoneTypeid !== 3 && <span className="text-break"> 
                           {" "} {ele?.Color_Code} {ele?.Quality_Code}</span>}
                          {/* {ele?.ShapeName}{ele?.MasterManagement_DiamondStoneTypeid !== 3 && <span className="text-break"> 
@@ -595,6 +595,8 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
               })
             }
             <div className="d-flex align-items-center justify-content-start ps-1" style={{fontSize:'14px'}}>Total</div>
+            { result?.header?.AddLess !== 0 && <div className="d-flex align-items-center justify-content-start ps-1" style={{fontSize:'14px'}}>{result?.header?.AddLess > 0 ? "Add" : "Less"}</div>}
+            { result?.header?.FreightCharges !== 0 && <div className="d-flex align-items-center justify-content-start ps-1" style={{fontSize:'14px'}}>Delivery Charges</div>}
           </div>
           <div style={{width:"14%"}}>
             {
@@ -613,7 +615,21 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                 __html: result?.header?.Currencysymbol,
               }}
               ></span>
-              {formatAmount((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate))}</div>
+              {formatAmount((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal) + (result?.header?.AddLess / result?.header?.CurrencyExchRate) + (result?.header?.FreightCharges / result?.header?.CurrencyExchRate))}</div>
+            { result?.header?.AddLess !== 0 && <div  className="fw-bold d-flex align-items-center justify-content-end pe-1 " style={{fontSize:'14px'}}>
+            <span
+              dangerouslySetInnerHTML={{
+                __html: result?.header?.Currencysymbol,
+              }}
+              ></span>
+              {formatAmount((result?.header?.AddLess / result?.header?.CurrencyExchRate))}</div>}
+            { result?.header?.FreightCharges !== 0 && <div  className="fw-bold d-flex align-items-center justify-content-end pe-1 " style={{fontSize:'14px'}}>
+            <span
+              dangerouslySetInnerHTML={{
+                __html: result?.header?.Currencysymbol,
+              }}
+              ></span>
+              {formatAmount((result?.header?.FreightCharges / result?.header?.CurrencyExchRate))}</div>}
           </div>
           {/* <div style={{width:'34%'}}>
             {

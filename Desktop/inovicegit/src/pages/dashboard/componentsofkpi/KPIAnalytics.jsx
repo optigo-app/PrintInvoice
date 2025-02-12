@@ -30,6 +30,7 @@ import { SaleMarketingOrderCompleteApi } from './redux/slices/SaleMarketingOrder
 import { SalesMarketing_TotalSaleBusinessClassWiseApi } from './redux/slices/SalesMarketing_TotalSaleBusinessClassWise.js';
 import { SalesMarketing_TotalSaleLocationWiseApi } from './redux/slices/SalesMarketing_TotalSaleLocationWise.js';
 import { mfgTableApi } from './redux/slices/MFGTable.js';
+import { baggingCompletedApi } from './redux/slices/BaggingCompleted.js';
 
 const KPIAnalytics = ({tkn, sv, url, hostName}) => {
     const theme = useTheme();
@@ -536,7 +537,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       BaggingCompletedFetch();
       G_LossFetch();
       RMStockFetch();
-      MFGFetch();
+      MFGFetch(); //made
       inwardFetch(); //made
       
       //kpi store api
@@ -560,6 +561,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       
       dispatch(QCInwardAPI(obj2));
       dispatch(mfgTableApi(obj2));
+      dispatch(baggingCompletedApi(obj2));
 
     }, []);
 

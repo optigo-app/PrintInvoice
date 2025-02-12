@@ -10,6 +10,7 @@ import SaleMarketingOrderComplete from "./slices/SaleMarketingOrderComplete";
 import SalesMarketing_TotalSaleBusinessClassWise from "./slices/SalesMarketing_TotalSaleBusinessClassWise";
 import SalesMarketing_TotalSaleLocationWise from "./slices/SalesMarketing_TotalSaleLocationWise";
 import MFGTable from "./slices/MFGTable";
+import BaggingCompleted from "./slices/BaggingCompleted";
 
 
 export const store = configureStore({
@@ -24,7 +25,8 @@ export const store = configureStore({
         SaleMarketingOrderComplete:SaleMarketingOrderComplete,
         SalesMarketing_TotalSaleBusinessClassWise:SalesMarketing_TotalSaleBusinessClassWise,
         SalesMarketing_TotalSaleLocationWise:SalesMarketing_TotalSaleLocationWise,
-        MFGTable:MFGTable
+        MFGTable:MFGTable,
+        BaggingCompleted:BaggingCompleted
     }
 })
 

@@ -8,7 +8,12 @@ import CardContent from '@mui/material/CardContent'
 import { CircularProgress, useTheme } from '@mui/material';
 import {  safeValue } from './global';
 import { formatAmountRound } from '../../GlobalFunctions'
+import { useSelector } from 'react-redux'
 const RawMaterial = ({ bgColor, bgComp, g_loss, rmStock, lossLoader, rmStockLoader, bgLoader}) => {
+  const BaggingCompleted = useSelector(state => state?.BaggingCompleted);
+  console.log(BaggingCompleted);
+  
+  
     const theme = useTheme();
   const data6 = [
                 

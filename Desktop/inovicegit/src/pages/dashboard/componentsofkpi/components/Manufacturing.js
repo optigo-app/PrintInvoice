@@ -12,9 +12,8 @@ import { useSelector } from 'react-redux';
 const Manufacturning = ({bgColor, LWise, mfgTable, mfgLoader, LWiseLoader}) => {
 
   const state = useSelector(state => state?.SalesMarketing_TotalSaleLocationWise);
-  const state2 = useSelector(state => state);
+  const state2 = useSelector(state => state?.MFGTable);
   
-console.log(state2);
 
   // ** State
   const [MFGData, setMFGData] = useState([]);
@@ -24,17 +23,23 @@ console.log(state2);
   const [lWise, setLWise] = useState([]);
   const [mfgTableApi, setMfgTableApi] = useState([]);
   
+    // useEffect(() => { 
+
+    //   formateArray();
+
+    // },[LWise, mfgTable]);
     useEffect(() => { 
 
       formateArray();
 
-    },[LWise, mfgTable]);
+    },[lWise, mfgTableApi]);
 
     useEffect(() => { 
 
       setLWise(state?.data);
+      setMfgTableApi(state2?.data);
 
-    },[state?.data]);
+    },[state?.data, state2?.data]);
 
 
   const formateArray = () => {
@@ -43,7 +48,8 @@ console.log(state2);
         const combinedData = {};
         const allLocations = new Set();
     
-          mfgTable?.forEach((item) => {
+          // mfgTable?.forEach((item) => {
+          mfgTableApi?.forEach((item) => {
           const location = item?.manufacturelocationname || "NoLocation";
       
           if (!combinedData[location]) {
@@ -73,7 +79,8 @@ console.log(state2);
         });
       
         // Merge data from SalesMarketing_TotalSaleLocationWise
-          LWise?.forEach((item) => {
+          // LWise?.forEach((item) => {
+            lWise?.forEach((item) => {
           const location = item?.locationname || "NoLocation";
       
           if (!combinedData[location]) {
@@ -166,7 +173,7 @@ console.log(state2);
       justifyContent: "center", // Center items horizontally
      }}>
 
-      { (mfgLoader || LWiseLoader) ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
+      { (state?.loading || state2?.loading) ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
               <CircularProgress sx={{color:'lightgrey'}} />
             </Box> : <DataGrid
              rows={MFGData}  // Use the sliced paginated data
