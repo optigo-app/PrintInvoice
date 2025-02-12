@@ -11,7 +11,8 @@ import SalesMarketing_TotalSaleBusinessClassWise from "./slices/SalesMarketing_T
 import SalesMarketing_TotalSaleLocationWise from "./slices/SalesMarketing_TotalSaleLocationWise";
 import MFGTable from "./slices/MFGTable";
 import BaggingCompleted from "./slices/BaggingCompleted";
-
+import RmStock from "./slices/RmStock";
+import GrossLoss from "./slices/GrossLoss";
 
 export const store = configureStore({
     reducer:{
@@ -26,7 +27,9 @@ export const store = configureStore({
         SalesMarketing_TotalSaleBusinessClassWise:SalesMarketing_TotalSaleBusinessClassWise,
         SalesMarketing_TotalSaleLocationWise:SalesMarketing_TotalSaleLocationWise,
         MFGTable:MFGTable,
-        BaggingCompleted:BaggingCompleted
+        BaggingCompleted:BaggingCompleted,
+        RmStock:RmStock,
+        GrossLoss:GrossLoss
     }
 })
 

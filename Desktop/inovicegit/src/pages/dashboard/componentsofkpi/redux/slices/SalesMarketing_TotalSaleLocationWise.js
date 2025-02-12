@@ -19,7 +19,7 @@ export const SalesMarketing_TotalSaleLocationWise = createSlice({
     name:'SalesMarketing_TotalSaleLocationWise',
     initialState: {
         loading:false,
-        data:null,
+        data:[],
         error:null
     },
     reducers:{},

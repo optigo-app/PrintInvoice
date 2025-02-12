@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const baggingCompletedApi = createAsyncThunk('mfgTableApi', async(obj) => {
+export const GrossLossApi = createAsyncThunk('GrossLossApi', async(obj) => {
     try {
       const replacedUrl = (obj?.url)?.replace("M.asmx/Optigo", "report.aspx");
       const body2 = {
-        "con":"{\"id\":\"\",\"mode\":\"kpidashboard_baggingcompleted\",\"appuserid\":\"admin@hs.com\"}",
+        "con":"{\"id\":\"\",\"mode\":\"kpidashboard_loss\",\"appuserid\":\"admin@hs.com\"}",
         "p":`{\"fdate\":\"${(obj?.fdate)}\",\"tdate\":\"${(obj?.tdate)}\"}`,  
         "f":"m-test2.orail.co.in (ConversionDetail)"
       }
@@ -18,11 +18,11 @@ export const baggingCompletedApi = createAsyncThunk('mfgTableApi', async(obj) =>
     }
     // const prdApi = await axios.post("http://zen/api/report.aspx", body2, { headers: headers2 });
     const response = await axios.post(replacedUrl, body2, { headers: headers2 });
-
+    
       if(response?.data?.Status === '200'){
-        
-        if(response?.data?.Data?.rd?.length > 0){  
-            return (response?.data?.Data?.rd[0]);
+              
+          if(response?.data?.Data?.rd?.length > 0){  
+            return response?.data?.Data?.rd[0];
           }else{
             return {};
           }
@@ -32,8 +32,8 @@ export const baggingCompletedApi = createAsyncThunk('mfgTableApi', async(obj) =>
       }
 });
 
-export const BaggingCompleted = createSlice({
-    name:'BaggingCompleted',
+export const GrossLoss = createSlice({
+    name:'GrossLoss',
     initialState: {
         loading:false,
         data:null,
@@ -42,19 +42,19 @@ export const BaggingCompleted = createSlice({
     reducers:{},
     extraReducers:(builder) => {
         builder.
-            addCase(baggingCompletedApi.pending, (state) => {
+            addCase(GrossLossApi.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(baggingCompletedApi.fulfilled, (state, action) => {
+            .addCase(GrossLossApi.fulfilled, (state, action) => {
                 state.loading = false;
                 state.data = action.payload;
                 state.error = null;
             })
-            .addCase(baggingCompletedApi.rejected, (state, action) => {
+            .addCase(GrossLossApi.rejected, (state, action) => {
                 state.loading = false;
                 state.data = null;
                 state.error = action.error.message;
             });
     }
 })
-export default BaggingCompleted.reducer;
+export default GrossLoss.reducer;

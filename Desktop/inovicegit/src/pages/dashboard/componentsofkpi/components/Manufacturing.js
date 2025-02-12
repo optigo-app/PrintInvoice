@@ -13,7 +13,6 @@ const Manufacturning = ({bgColor, LWise, mfgTable, mfgLoader, LWiseLoader}) => {
 
   const state = useSelector(state => state?.SalesMarketing_TotalSaleLocationWise);
   const state2 = useSelector(state => state?.MFGTable);
-  
 
   // ** State
   const [MFGData, setMFGData] = useState([]);
@@ -28,22 +27,29 @@ const Manufacturning = ({bgColor, LWise, mfgTable, mfgLoader, LWiseLoader}) => {
     //   formateArray();
 
     // },[LWise, mfgTable]);
+
     useEffect(() => { 
-
-      formateArray();
-
+        if(lWise?.length >= 0 || mfgTableApi?.length >=0){
+          formateArray();
+          console.log("hello");
+          
+        }
     },[lWise, mfgTableApi]);
 
     useEffect(() => { 
-
       setLWise(state?.data);
-      setMfgTableApi(state2?.data);
+    },[state?.data]);
 
-    },[state?.data, state2?.data]);
+    useEffect(() => { 
+      setMfgTableApi(state2?.data);
+    }, [state2?.data]);
+    
 
 
   const formateArray = () => {
+    if(lWise?.length >= 0 || mfgTableApi?.length >= 0){
 
+    
       try {
         const combinedData = {};
         const allLocations = new Set();
@@ -100,7 +106,7 @@ const Manufacturning = ({bgColor, LWise, mfgTable, mfgLoader, LWiseLoader}) => {
             };
           }
       
-          allLocations.add(location);
+          allLocations?.add(location);
         });
       
         // Define KPIs
@@ -115,7 +121,7 @@ const Manufacturning = ({bgColor, LWise, mfgTable, mfgLoader, LWiseLoader}) => {
         // Create Rows for the Table
         const tableRows = kpis?.map((kpi, index) => {
           const row = { id: index + 1, KPI: kpi };
-          allLocations.forEach((location) => {
+          allLocations?.forEach((location) => {
             // Apply conditional decimal formatting based on KPI name
             if (kpi === "Labour Amount") {
               row[location] = `₹ ${formatAmountRound(parseFloat(combinedData[location]?.[kpi] || 0.00)?.toFixed(2))}`; // 2 decimals for amount
@@ -143,9 +149,9 @@ const Manufacturning = ({bgColor, LWise, mfgTable, mfgLoader, LWiseLoader}) => {
         ];
 
           // Remove the column for "-" (if it exists)
-          tableColumns.forEach((e, index) => {
+          tableColumns?.forEach((e, index) => {
             if (e.headerName === "-") {
-              tableColumns.splice(index, 1);
+              tableColumns?.splice(index, 1);
             }
           });
       
@@ -161,7 +167,7 @@ const Manufacturning = ({bgColor, LWise, mfgTable, mfgLoader, LWiseLoader}) => {
       } catch (error) {
         console.log(error);
       }
-
+    }
 
   }
 

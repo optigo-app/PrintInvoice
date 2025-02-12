@@ -144,7 +144,8 @@ const RawMaterial = ({bgColor, popUpList, orderCmplt, saleMTs, SMOrder, SMOrderL
   return (
     <>
        <Card  className={`fs_analytics_l ${(SMOrderLoader || OCLoader) ? 'center_kpi' : ''}`}  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'230px'}}>
-            { (SMOrderLoader ||  OCLoader) ?
+            {/* { (SMOrderLoader ||  OCLoader) ? */}
+            { (SaleMarketingOrder?.loading ||  SaleMarketingOrderComplete?.loading || SaleMarketingTotalSale?.loading) ?
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
               <CircularProgress sx={{color:'lightgrey'}} />
             </Box> :
@@ -306,8 +307,8 @@ const RawMaterial = ({bgColor, popUpList, orderCmplt, saleMTs, SMOrder, SMOrderL
                           </Box>
                         </Box>
                       </Modal>
-  )
-}
+                  )
+                }
             </Grid>
             </CardContent>
             }

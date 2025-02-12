@@ -31,6 +31,8 @@ import { SalesMarketing_TotalSaleBusinessClassWiseApi } from './redux/slices/Sal
 import { SalesMarketing_TotalSaleLocationWiseApi } from './redux/slices/SalesMarketing_TotalSaleLocationWise.js';
 import { mfgTableApi } from './redux/slices/MFGTable.js';
 import { baggingCompletedApi } from './redux/slices/BaggingCompleted.js';
+import { RmStockApi } from './redux/slices/RmStock.js';
+import { GrossLossApi } from './redux/slices/GrossLoss.js';
 
 const KPIAnalytics = ({tkn, sv, url, hostName}) => {
     const theme = useTheme();
@@ -523,24 +525,25 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       }
 
       //sales
-      InventoryTurnOverRatioFetch(); //made
-      ProductDevelopmentFetch(); //made
-      AvgCollectionPeriodFetch(); //made
-      SalesMarketing_TotalSaleFetch(); //made
-      QualityControlFetch(); //made
-      SalesMarketing_OrderFetch(); //made
-      SalesMarketing_OrderCompletionFetch(); //made
-      SalesMarketing_TotalSaleBusinessClassWiseFetch(); //made
-      SalesMarketing_TotalSaleLocationWiseFetch(); //made
+      // InventoryTurnOverRatioFetch(); //made
+      // ProductDevelopmentFetch(); //made
+      // AvgCollectionPeriodFetch(); //made
+      // SalesMarketing_TotalSaleFetch(); //made
+      // QualityControlFetch(); //made
+      // SalesMarketing_OrderFetch(); //made
+      // SalesMarketing_OrderCompletionFetch(); //made
+      // SalesMarketing_TotalSaleBusinessClassWiseFetch(); //made
+      // SalesMarketing_TotalSaleLocationWiseFetch(); //made
 
-      //mfg
-      BaggingCompletedFetch();
-      G_LossFetch();
-      RMStockFetch();
-      MFGFetch(); //made
-      inwardFetch(); //made
+      // //mfg
+      // BaggingCompletedFetch(); //made
+      // G_LossFetch(); //made
+      // RMStockFetch(); //made
+      // MFGFetch(); //made
+      // inwardFetch(); //made
       
-      //kpi store api
+      //kpi redux store api
+      //sales
       dispatch(ProductDevelopmentAPI(obj));
       dispatch(QCAPI(obj));
       dispatch(ITORAPI(obj));
@@ -551,6 +554,7 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       dispatch(SalesMarketing_TotalSaleBusinessClassWiseApi(obj));
       dispatch(SalesMarketing_TotalSaleLocationWiseApi(obj));
 
+      //production
       const obj2 = {
         url : url,
         sv:sv,
@@ -562,6 +566,8 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
       dispatch(QCInwardAPI(obj2));
       dispatch(mfgTableApi(obj2));
       dispatch(baggingCompletedApi(obj2));
+      dispatch(RmStockApi(obj2));
+      dispatch(GrossLossApi(obj2));
 
     }, []);
 
@@ -686,45 +692,121 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
           setTDatef('');
         }
       
-      //sales
-      InventoryTurnOverRatioFetch();
-      ProductDevelopmentFetch();
-      AvgCollectionPeriodFetch();
-      SalesMarketing_TotalSaleFetch();
-      QualityControlFetch();
-      SalesMarketing_OrderFetch();
-      SalesMarketing_OrderCompletionFetch();
-      SalesMarketing_TotalSaleBusinessClassWiseFetch();
-      SalesMarketing_TotalSaleLocationWiseFetch();
+      // //sales
+      // InventoryTurnOverRatioFetch();
+      // ProductDevelopmentFetch();
+      // AvgCollectionPeriodFetch();
+      // SalesMarketing_TotalSaleFetch();
+      // QualityControlFetch();
+      // SalesMarketing_OrderFetch();
+      // SalesMarketing_OrderCompletionFetch();
+      // SalesMarketing_TotalSaleBusinessClassWiseFetch();
+      // SalesMarketing_TotalSaleLocationWiseFetch();
 
-      //mfg
-      BaggingCompletedFetch();
-      G_LossFetch();
-      RMStockFetch();
-      MFGFetch();
-      inwardFetch();
+      // //mfg
+      // BaggingCompletedFetch();
+      // G_LossFetch();
+      // RMStockFetch();
+      // MFGFetch();
+      // inwardFetch();
+
+      let apiUrl_kpi = '';
+      
+      if(hostName?.toLowerCase() === 'zen' || hostName?.toLowerCase() === 'localhost'){
+        apiUrl_kpi = 'http://zen/jo/api-lib/App/KPI_DashBoard';
+      }else{
+        apiUrl_kpi = 'https://view.optigoapps.com/linkedapp/App/KPI_DashBoard';
+      }
+  
+        const obj = {
+          apiUrl_kpi:apiUrl_kpi,
+          token:tkn,
+          fdate:moment(fdate)?.format('MM/DD/YYYY'),
+          tdate:moment(tdate)?.format('MM/DD/YYYY'),
+        }
+        const obj2 = {
+          url : url,
+          sv:sv,
+          tkn:tkn,
+          fdate:moment(fdate)?.format('MM/DD/YYYY'),
+          tdate:moment(tdate)?.format('MM/DD/YYYY'),
+        }
+
+        dispatch(ProductDevelopmentAPI(obj));
+        dispatch(QCAPI(obj));
+        dispatch(ITORAPI(obj));
+        dispatch(AvgCollectionRatioAPI(obj));
+        dispatch(SaleMarketingTotalSaleApi(obj));
+        dispatch(SaleMarketingOrderAPI(obj));
+        dispatch(SaleMarketingOrderCompleteApi(obj));
+        dispatch(SalesMarketing_TotalSaleBusinessClassWiseApi(obj));
+        dispatch(SalesMarketing_TotalSaleLocationWiseApi(obj));
+
+        dispatch(QCInwardAPI(obj2));
+        dispatch(mfgTableApi(obj2));
+        dispatch(baggingCompletedApi(obj2));
+        dispatch(RmStockApi(obj2));
+        dispatch(GrossLossApi(obj2));
 
     };
     const handlePopUpConfirm = () => {
         setShowPopUp(false); 
 
-        //sales
-        InventoryTurnOverRatioFetch();
-        ProductDevelopmentFetch();
-        AvgCollectionPeriodFetch();
-        SalesMarketing_TotalSaleFetch();
-        QualityControlFetch();
-        SalesMarketing_OrderFetch();
-        SalesMarketing_OrderCompletionFetch();
-        SalesMarketing_TotalSaleBusinessClassWiseFetch();
-        SalesMarketing_TotalSaleLocationWiseFetch();
+        // //sales
+        // InventoryTurnOverRatioFetch();
+        // ProductDevelopmentFetch();
+        // AvgCollectionPeriodFetch();
+        // SalesMarketing_TotalSaleFetch();
+        // QualityControlFetch();
+        // SalesMarketing_OrderFetch();
+        // SalesMarketing_OrderCompletionFetch();
+        // SalesMarketing_TotalSaleBusinessClassWiseFetch();
+        // SalesMarketing_TotalSaleLocationWiseFetch();
 
-        //mfg
-        BaggingCompletedFetch();
-        G_LossFetch();
-        RMStockFetch();
-        MFGFetch();
-        inwardFetch();
+        // //mfg
+        // BaggingCompletedFetch();
+        // G_LossFetch();
+        // RMStockFetch();
+        // MFGFetch();
+        // inwardFetch();
+
+        let apiUrl_kpi = '';
+      
+        if(hostName?.toLowerCase() === 'zen' || hostName?.toLowerCase() === 'localhost'){
+          apiUrl_kpi = 'http://zen/jo/api-lib/App/KPI_DashBoard';
+        }else{
+          apiUrl_kpi = 'https://view.optigoapps.com/linkedapp/App/KPI_DashBoard';
+        }
+    
+          const obj = {
+            apiUrl_kpi:apiUrl_kpi,
+            token:tkn,
+            fdate:moment(fdate)?.format('MM/DD/YYYY'),
+            tdate:moment(tdate)?.format('MM/DD/YYYY'),
+          }
+          const obj2 = {
+            url : url,
+            sv:sv,
+            tkn:tkn,
+            fdate:moment(fdate)?.format('MM/DD/YYYY'),
+            tdate:moment(tdate)?.format('MM/DD/YYYY'),
+          }
+  
+          dispatch(ProductDevelopmentAPI(obj));
+          dispatch(QCAPI(obj));
+          dispatch(ITORAPI(obj));
+          dispatch(AvgCollectionRatioAPI(obj));
+          dispatch(SaleMarketingTotalSaleApi(obj));
+          dispatch(SaleMarketingOrderAPI(obj));
+          dispatch(SaleMarketingOrderCompleteApi(obj));
+          dispatch(SalesMarketing_TotalSaleBusinessClassWiseApi(obj));
+          dispatch(SalesMarketing_TotalSaleLocationWiseApi(obj));
+  
+          dispatch(QCInwardAPI(obj2));
+          dispatch(mfgTableApi(obj2));
+          dispatch(baggingCompletedApi(obj2));
+          dispatch(RmStockApi(obj2));
+          dispatch(GrossLossApi(obj2));
     };  
     const handlePopUpCancel = () => {
         setShowPopUp(false); 

@@ -18,9 +18,7 @@ export const mfgTableApi = createAsyncThunk('mfgTableApi', async(obj) => {
     }
     // const prdApi = await axios.post("http://zen/api/report.aspx", body2, { headers: headers2 });
     const response = await axios.post(replacedUrl, body2, { headers: headers2 });
-
       if(response?.data?.Status === '200'){
-              
           if(response?.data?.Data?.rd?.length > 0){  
             return response?.data?.Data?.rd;
           }else{
@@ -36,7 +34,7 @@ export const MFGTable = createSlice({
     name:'MFGTable',
     initialState: {
         loading:false,
-        data:null,
+        data:[],
         error:null
     },
     reducers:{},
