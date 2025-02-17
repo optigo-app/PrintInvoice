@@ -29,26 +29,34 @@ const Manufacturning = ({bgColor, LWise, mfgTable, mfgLoader, LWiseLoader}) => {
     // },[LWise, mfgTable]);
 
     useEffect(() => { 
-        if(lWise?.length >= 0 || mfgTableApi?.length >=0){
+        // if(lWise?.length >= 0 || mfgTableApi?.length >=0){
+          if (Array.isArray(lWise) && lWise?.length >= 0 || Array.isArray(mfgTableApi) && mfgTableApi?.length >= 0) {
           formateArray();
-          console.log("hello");
-          
         }
     },[lWise, mfgTableApi]);
 
-    useEffect(() => { 
-      setLWise(state?.data);
-    },[state?.data]);
+    // useEffect(() => { 
+    //   setLWise(state?.data);
+    // },[state?.data]);
 
     useEffect(() => { 
-      setMfgTableApi(state2?.data);
+      setLWise(Array.isArray(state?.data) ? state?.data : []);
+    }, [state?.data]);
+
+    useEffect(() => { 
+      setMfgTableApi(Array.isArray(state2?.data) ? state2?.data : []);
     }, [state2?.data]);
+    
+
+    // useEffect(() => { 
+    //   setMfgTableApi(state2?.data);
+    // }, [state2?.data]);
     
 
 
   const formateArray = () => {
-    if(lWise?.length >= 0 || mfgTableApi?.length >= 0){
-
+    // if(lWise?.length >= 0 || mfgTableApi?.length >= 0){
+      if (Array.isArray(lWise) && lWise?.length > 0 || Array.isArray(mfgTableApi) && mfgTableApi?.length > 0) {
     
       try {
         const combinedData = {};

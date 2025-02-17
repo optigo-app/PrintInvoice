@@ -94,7 +94,6 @@ const RawMaterial = ({bgColor, popUpList, orderCmplt, saleMTs, SMOrder, SMOrderL
         }
         
     }
-    console.log(popupDetails);
     
   
     const renderStats = () => {
