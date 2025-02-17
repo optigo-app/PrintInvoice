@@ -106,18 +106,18 @@ const JewelleryTaxInvoiceSale = ({
       let metalColorCode = "";
       data?.BillPrint_Json2.forEach((ele, ind) => {
         if (obj?.SrJobno === ele?.StockBarcode) {
-          if (
-            ele?.MasterManagement_DiamondStoneTypeid === 1 ||
-            ele?.MasterManagement_DiamondStoneTypeid === 2 ||
-            (ele?.MasterManagement_DiamondStoneTypeid === 3 &&
-              ele?.IsHSCOE === 0 &&
-              ele?.ismiscwtaddingrossweight === 1)
-          ) {
-            // if (
-            //   (ele?.MasterManagement_DiamondStoneTypeid === 1 ||
-            //     ele?.MasterManagement_DiamondStoneTypeid === 2 ) &&
-            //   ele?.IsHSCOE === 0
-            // ) {
+          // if (
+          //   ele?.MasterManagement_DiamondStoneTypeid === 1 ||
+          //   ele?.MasterManagement_DiamondStoneTypeid === 2 ||
+          //   (ele?.MasterManagement_DiamondStoneTypeid === 3 &&
+          //     ele?.IsHSCOE === 0 &&
+          //     ele?.ismiscwtaddingrossweight === 1)
+          // ) {
+            if (
+              (ele?.MasterManagement_DiamondStoneTypeid === 1 ||
+                ele?.MasterManagement_DiamondStoneTypeid === 2 ) &&
+              ele?.IsHSCOE === 0
+            ) {
             let findRecord = materials.findIndex(
               (elem) =>
                 elem?.MasterManagement_DiamondStoneTypeid ===
