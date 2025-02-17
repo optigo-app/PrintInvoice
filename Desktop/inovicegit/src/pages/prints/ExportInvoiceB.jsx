@@ -332,8 +332,8 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                         <div className="fw-bold">
                           LUT NO :
-                          <input type="text" />
-                          {/* {result?.header?.LUTRAN_NO} &nbsp; {result?.header?.EntryDate} */}
+                          {/* <input type="text" /> */}
+                          {result?.header?.LUTRAN_NO} 
                         </div>
                       </div>
                       <div className=" col-12">
@@ -346,8 +346,8 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             {result?.header?.Company_CST_STATE} :{" "}
                             {result?.header?.Company_CST_STATE_No}{" "}
                             {result?.header?.CompanyState} DIST. CODE :
-                            <input type="text" />
-                            {/* ({result?.header?.CompanyCity}) */}
+                            <input type="text" className="border_remove_eib" style={{width:'6%', marginRight:'5px',borderRadius:"4px", marginBottom:'2px', border:'1px solid #BDBDBD'}} />
+                            ({result?.header?.CompanyCity})
                           </div>
                         </div>
                         <div className="d-flex">
