@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const baggingCompletedApi = createAsyncThunk('mfgTableApi', async(obj) => {
+export const baggingCompletedApi = createAsyncThunk('baggingCompletedApi', async(obj) => {
     try {
       const replacedUrl = (obj?.url)?.replace("M.asmx/Optigo", "report.aspx");
       const body2 = {

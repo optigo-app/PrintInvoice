@@ -41,11 +41,11 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
 
     
 
-    const isSmallScreen = useMediaQuery(theme?.breakpoints?.down('sm'));
-    const isMaxWidth11410px = useMediaQuery('(max-width:1410px)');
-    const isMaxWidth1700px = useMediaQuery('(max-width:1700px)');
-    const isMaxWidth900px = useMediaQuery('(max-width:899px)');
-    const [popperPlacement, setPopperPlacement] = useState('bottom-start');
+      const isSmallScreen = useMediaQuery(theme?.breakpoints?.down('sm'));
+      const isMaxWidth11410px = useMediaQuery('(max-width:1410px)');
+      const isMaxWidth1700px = useMediaQuery('(max-width:1700px)');
+      const isMaxWidth900px = useMediaQuery('(max-width:899px)');
+      const [popperPlacement, setPopperPlacement] = useState('bottom-start');
     
     const [fdate, setFDate] = useState(new Date()); 
     const [tdate, setTDate] = useState(new Date());
@@ -615,16 +615,27 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
         //     startDate = today.clone().subtract(6, 'months').startOf('month');
         //   }
         //   break;
+        // case 'This Year':
+        //   // Start of the financial year (April 1st of the current year)
+        //   const currentYear = moment().year(); // Get the current year
+        //   const financialYearStart = moment().year(currentYear - 1).month(3).date(1); // April 1st of current year
+        //   startDate = financialYearStart;
+        
+        //   // End of the financial year (March 31st of the next year)
+        //   const financialYearEnd = moment().year(currentYear).month(2).date(31); // March 31st of the next year
+        //   endDate = financialYearEnd;
+        //   break;
         case 'This Year':
           // Start of the financial year (April 1st of the current year)
           const currentYear = moment().year(); // Get the current year
-          const financialYearStart = moment().year(currentYear - 1).month(3).date(1); // April 1st of current year
+          const financialYearStart = moment().year(currentYear - 1).month(3).date(1); // April 1st of the current year
           startDate = financialYearStart;
         
-          // End of the financial year (March 31st of the next year)
-          const financialYearEnd = moment().year(currentYear).month(2).date(31); // March 31st of the next year
-          endDate = financialYearEnd;
+          // If the current date is the same as the start of the financial year, then endDate will be the current date
+          const financialYearEnd = moment(); // current date
+          endDate = financialYearEnd.isSame(financialYearStart, 'day') ? financialYearStart : financialYearEnd;
           break;
+        
         
         
         

@@ -26,10 +26,17 @@ const SalesNMarketing3 = ({ bgColor, BCwise, BCwiseLoader}) => {
       try {
         if (apiData2?.length > 0) {
           // Create a shallow copy of the array before sorting and slicing
-          const formatedArr = [...apiData2].sort((a, b) => b?.Amount - a?.Amount).slice(0, 5);
-          const formatedArr2 = [...apiData2].slice(5);
+          const formatedArr = [...apiData2]?.sort((a, b) => b?.Amount - a?.Amount)?.slice(0, 5);
+          const formatedArr2 = [...apiData2]?.sort((a, b) => b?.Amount - a?.Amount)?.slice(5);
+
+        //   const sortedData = [...apiData2].sort((a, b) => b?.Amount - a?.Amount);
+        // const formatedArr = sortedData.slice(0, 5);
+        // const formatedArr2 = sortedData.slice(5);
+
+          // const formatedArr = [...apiData2]?.slice(0, 5);
+          // const formatedArr2 = [...apiData2].slice(5);
           
-    
+          
           const obj = {
             CustomerType: "Other",
             Amount: 0
@@ -54,6 +61,31 @@ const SalesNMarketing3 = ({ bgColor, BCwise, BCwiseLoader}) => {
     fetchData(); 
 
   },[apiData2]);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       if (apiData2?.length > 0) {
+  //         // Sort once, then slice for top 5 and the rest
+  //         const sortedData = [...apiData2].sort((a, b) => b?.Amount - a?.Amount);
+  //         const formatedArr = sortedData.slice(0, 5);
+  //         const formatedArr2 = sortedData.slice(5);
+  
+  //         // Calculate the total amount for "Other" category
+  //         const totalAmount = formatedArr2.reduce((sum, item) => sum + item?.Amount, 0);
+  
+  //         // Combine top 5 with "Other" category data
+  //         setApiData([...formatedArr, { CustomerType: "Other", Amount: totalAmount }]);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+  
+  //   fetchData();
+  // }, [apiData2]);
+  
+
 
   useEffect(() => {
     setApiData2(state?.data);

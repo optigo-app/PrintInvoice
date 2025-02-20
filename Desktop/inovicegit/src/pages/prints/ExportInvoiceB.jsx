@@ -33,6 +33,8 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [ratePerGram76, setRatePerGram76] = useState("");
   const [labourVal, setLabourVal] = useState("");
 
+  const [avgLossPer, setAvgLossPer] = useState(0);
+
   const [diamondCount, setDiamodCount] = useState("");
 
   useEffect(() => {
@@ -175,6 +177,17 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     } catch (error) {
       console.log(error);
     }
+
+    //  let lossPerAll =  datas?.json1?.map((e) => e?.LossPer)?.reduce((num, acc) => num + acc, 0);
+    //  console.log(lossPerAll);
+    let lossPerAll = datas?.json1?.map((e) => e?.LossPer)?.filter((x) => x !== undefined)?.reduce((num, acc) => num + acc, 0);
+    console.log(lossPerAll);
+
+    let avgLossPer = (lossPerAll / datas?.json1?.length);
+
+    setAvgLossPer(avgLossPer);
+
+     
 
     setResult(datas);
   };
@@ -321,7 +334,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className=" ps-3">
                         TEL : {result?.header?.CustTelePhone}
                       </div>
-                      {console.log(result?.header)}
+                      {console.log(result)}
                     </div>
                     <div className="col-6 ">
                       <div className=" ps-1 border-bottom border-black minH_buyers_ebi d-flex flex-column justify-content-between">
@@ -1053,7 +1066,8 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         NT WT
                       </div>
                       <div className="gcol3_eib center_eib border-end border-black">
-                        5%
+                        {/* 5% */}
+                        {avgLossPer}%
                       </div>
                       <div className="gcol4_eib center_eib border-end border-black">
                         Wt GMS

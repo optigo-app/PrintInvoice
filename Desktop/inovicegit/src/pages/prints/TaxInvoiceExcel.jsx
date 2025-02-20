@@ -616,7 +616,10 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                         <tr> <td colSpan={23} style={tableCellStyle}>{result?.header?.PrintHeadLabel}</td> </tr>
 
                         {/* company header */}
-                        <tr > <td style={{fontSize:'18px', fontWeight:'bold', paddingBottom:'5px'}} colSpan={21}>{result?.header?.CompanyFullName}</td> <td colSpan={2}></td> </tr>
+                        <tr> 
+                          <td style={{fontSize:'18px', fontWeight:'bold', paddingBottom:'5px'}} colSpan={21}>{result?.header?.CompanyFullName}</td> 
+                          <td colSpan={2}></td> 
+                        </tr>
                         <tr> 
                             <td  colSpan={21}> {result?.header?.CompanyAddress} </td> 
                             <td width={132} style={{ padding:'5px'}} colSpan={2} rowSpan={5}>
@@ -709,6 +712,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                             <th style={{borderBottom:'1px solid #989898', borderRight:'1px solid #989898',  backgroundColor:'#F5F5F5'}}>Amount</th>
                             <th style={{borderBottom:'1px solid #989898', borderRight:'1px solid #989898',  backgroundColor:'#F5F5F5'}}>Amount</th>
                         </tr>
+
                         {
                             result2?.map((e, i) => {
                                 return (<React.Fragment key={i}>
@@ -777,16 +781,20 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                     {/* job wise total */}
                                     <tr>
                                         <td style={{borderRight:'1px solid #989898', borderBottom:'1px solid #989898'}}></td>
-                                        <td style={{borderRight:'1px solid #989898', borderBottom:'1px solid #989898'}} align='center' colSpan={2}>{ e?.values?.CertificateNo === '' ? '' : 'Cert#'}<b>{e?.values?.CertificateNo === '' ? '' : e?.values?.CertificateNo}</b></td>
+                                        <td style={{borderRight:'1px solid #989898', borderBottom:'1px solid #989898'}}
+                                         align='center' colSpan={2}>{ e?.values?.CertificateNo === '' ? '' : 'Cert#'}<b>{e?.values?.CertificateNo === '' ? '' : e?.values?.CertificateNo}</b></td>
                                         {/* <td align='center' ><td></td></td> */}
                                         {/* diamonds */}
                                         <td style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}></td>
                                         <td style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <th align='right' style={{backgroundColor:'#F5F5F5',borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>{e?.values?.totals?.diamonds?.Pcs === 0 ? '' : e?.values?.totals?.diamonds?.Pcs}</th>
-                                        <th align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>{ e?.values?.totals?.diamonds?.Wt === 0 ? '' : (e?.values?.totals?.diamonds?.Wt)?.toFixed(3)}</th>
+                                        <th align='right' style={{backgroundColor:'#F5F5F5',borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>
+                                          {e?.values?.totals?.diamonds?.Pcs === 0 ? '' : e?.values?.totals?.diamonds?.Pcs}</th>
+                                        <th align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>
+                                          { e?.values?.totals?.diamonds?.Wt === 0 ? '' : (e?.values?.totals?.diamonds?.Wt)?.toFixed(3)}</th>
                                         {/* <td>{((e?.values?.totals?.diamonds?.Amount / (e?.values?.totals?.diamonds?.Wt === 0 ? 1 : e?.values?.totals?.diamonds?.Wt)))}</td> */}
                                         <th align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}></th>
-                                        <th align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>{ e?.values?.totals?.diamonds?.Amount === 0 ? '' : formatAmount((e?.values?.totals?.diamonds?.Amount))}</th>
+                                        <th align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>
+                                          { e?.values?.totals?.diamonds?.Amount === 0 ? '' : formatAmount((e?.values?.totals?.diamonds?.Amount))}</th>
                                         <th align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}></th>
                                         {/* <td>{e?.values?.totals?.metal?.IsPrimaryMetal}</td> */}
                                         <th align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>{ e?.met_wt === 0 ? '' : ((e?.met_wt)?.toFixed(3))}</th>
@@ -852,13 +860,20 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                             <th colSpan={3} style={{backgroundColor:'#F5F5F5', borderLeft:'1px solid #989898', borderRight:'1px solid #989898', borderBottom:'1px solid #989898'}}>Summary Detail</th>
                             <th colSpan={3} style={{backgroundColor:'#F5F5F5', borderLeft:'1px solid #989898', borderRight:'1px solid #989898', borderBottom:'1px solid #989898'}}>Remark</th>
                         </tr>
+
                             {
                                 rowWise?.map((e, i) => {
                                     return  <tr key={i}>
                                                 <th align='left' width={100}>{e?.grosswt_name}</th>
-                                                <td align='right' colSpan={2} style={{borderRight:'1px solid #989898'}}>{e?.grosswt_value} {e?.grosswt_value === '' ? '' : `${(e?.grosswt_name === 'STONE WT' || e?.grosswt_name === 'DIAMOND WT') ? 'cts' : 'gms'}`}</td>
-                                                <th align='left' style={{borderTop:`${ i === 7 ? '1px solid #989898' : ''}`, borderBottom:`${ i === 7 ? '1px solid #989898' : ''}`, borderRight:`${ i === 7 ? '1px solid #989898' : ''}`,backgroundColor:`${ i === 7 ? 'rgb(245, 245, 245)' : ''}` }}>{e?.name}</th>
-                                                <td colSpan={2} align='right' style={{borderRight:'1px solid #989898',borderBottom:`${ i === 7 ? '1px solid #989898' : ''}`, borderTop:`${ i === 7 ? '1px solid #989898' : ''}`, backgroundColor:`${ i === 7 ? 'rgb(245, 245, 245)' : ''}`, fontWeight:`${ i === 7 ? 'bold' : ''}`}}>{e?.value}</td>
+                                                <td align='right' colSpan={2} style={{borderRight:'1px solid #989898'}}>
+                                                  {e?.grosswt_value} {e?.grosswt_value === '' ? '' : `${(e?.grosswt_name === 'STONE WT' || e?.grosswt_name === 'DIAMOND WT') ? 'cts' : 'gms'}`}
+                                                </td>
+                                                <th align='left' style={{borderTop:`${ i === 7 ? '1px solid #989898' : ''}`, borderBottom:`${ i === 7 ? '1px solid #989898' : ''}`, borderRight:`${ i === 7 ? '1px solid #989898' : ''}`,backgroundColor:`${ i === 7 ? 'rgb(245, 245, 245)' : ''}` }}>
+                                                  {e?.name}
+                                                </th>
+                                                <td colSpan={2} align='right' style={{borderRight:'1px solid #989898',borderBottom:`${ i === 7 ? '1px solid #989898' : ''}`, borderTop:`${ i === 7 ? '1px solid #989898' : ''}`, backgroundColor:`${ i === 7 ? 'rgb(245, 245, 245)' : ''}`, fontWeight:`${ i === 7 ? 'bold' : ''}`}}>
+                                                  {e?.value}
+                                                </td>
                                                 <th colSpan={2} align='left'>{e?.dia_info_name}</th>
                                                 <td colSpan={2} align='right'>{(e?.dia_info_value)} {e?.dia_info_value === '' ? '' : 'cts'}</td>
                                                 <td colSpan={2} align='left' style={{borderLeft:'1px solid #989898'}}>{e?.sum_info_name}</td>

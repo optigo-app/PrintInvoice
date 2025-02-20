@@ -252,7 +252,7 @@ const VendorWiseSetPGram = ({tkn,  fdate, tdate, selectMaterial, selectCurrency}
         let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalDiaSettingCost - a?.TotalDiaSettingCost)?.slice(0, 8)?.map((e) => (e?.TotalDiaSettingCost / selectCurrency));
         setDiaSetCostList(arr);
       }
-      if(value === 'Diamond Setting Cost'){
+      if(value === 'Colorstone Setting Cost'){
         let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.TotalCSSettingCost - a?.TotalCSSettingCost)?.slice(0, 8)?.map((e, i) => capitalizeFirstLetter(e?.Vendor));
         setVendorNameList2(arr0);
         let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalCSSettingCost - a?.TotalCSSettingCost)?.slice(0, 8)?.map((e) => (e?.TotalCSSettingCost / selectCurrency));

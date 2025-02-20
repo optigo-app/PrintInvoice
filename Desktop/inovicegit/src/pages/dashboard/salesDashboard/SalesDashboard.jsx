@@ -510,7 +510,10 @@ useEffect(() => {
                 }
               </select>
             </Box>}
-            <div style={{marginBottom:'3px'}}><Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green, marginLeft:'10px', padding:'9px 0px'}} size='large' onClick={() => handleApply()}>Apply</Button></div>
+            <div style={{marginBottom:'3px'}}>
+              <Button variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green, marginLeft:'10px', padding:'9px 0px'}} size='large' 
+              onClick={() => handleApply()}>Apply</Button>
+            </div>
             </div>
           </Grid>
          

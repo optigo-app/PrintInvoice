@@ -30,7 +30,7 @@ const FactoryDataSummary = ({tkn, bgColor, selectMaterial, selectCurrency}) => {
     
     const theme = useTheme();
     const comp_data = [
-        {
+        { 
           stats: labelvalue,
           title: labelname,
         },

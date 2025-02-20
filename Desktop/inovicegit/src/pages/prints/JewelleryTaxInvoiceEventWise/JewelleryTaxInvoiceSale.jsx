@@ -25,7 +25,6 @@ const JewelleryTaxInvoiceSale = ({
   evn,
   ApiVer,
 }) => {
-  console.log(evn, atob(evn));
 
   const [loader, setLoader] = useState(true);
 
@@ -291,7 +290,7 @@ const JewelleryTaxInvoiceSale = ({
   };
 
   console.log("resultresult", result);
-  console.log("resultresult ddd", result?.allTaxes[0]?.amountInNumber);
+
 
   let TotalVal = NumberWithCommas(totalAmount.before, 2);
   return loader ? (
@@ -841,13 +840,11 @@ const JewelleryTaxInvoiceSale = ({
           </div>
           <div style={{ width: "20%", borderRight: "1px solid #DDDDDD" }}>
             {result?.allTaxes?.map((e, i) => {
-              {
-                console.log("e?.pere?.per", e?.per);
-              }
+
               return (
-                e?.per !== "0.00%" && (
+                e?.amountInNumber !== 0 &&  (
                   <div
-                    className=" d-flex align-items-center justify-content-start ps-1"
+                    className="d-flex align-items-center justify-content-start ps-1"
                     key={i}
                     style={{ fontSize: "14px" }}
                   >
@@ -857,7 +854,7 @@ const JewelleryTaxInvoiceSale = ({
               );
             })}
 
-            {result?.allTaxes[0]?.amountInNumber !== 0 &&
+            {/* {result?.allTaxes[0]?.amountInNumber !== 0 &&
               result?.allTaxes?.length !== 0 && (
                 <div
                   className="d-flex align-items-center justify-content-start ps-1"
@@ -865,7 +862,7 @@ const JewelleryTaxInvoiceSale = ({
                 >
                   Total
                 </div>
-              )}
+              )} */}
 
             {result?.header?.AddLess !== 0 && (
               <div
@@ -886,9 +883,10 @@ const JewelleryTaxInvoiceSale = ({
           </div>
           <div style={{ width: "14%" }}>
             {result?.allTaxes?.map((e, i) => {
-              if (e?.per !== "0.00%") {
+              // if (e?.per !== "0.00%") {
                 return (
-                  <div key={i}>
+                  <>
+                  { e?.amountInNumber !== 0 && <div key={i}>
                     <div
                       className="fw-bold d-flex align-items-center justify-content-end pe-1 "
                       style={{ fontSize: "14px" }}
@@ -901,8 +899,11 @@ const JewelleryTaxInvoiceSale = ({
                       {e?.amountInNumber?.toFixed(2)}
                     </div>
                   </div>
+                  }
+                  </>
+                  
                 );
-              }
+              // }
               return null;
             })}
 

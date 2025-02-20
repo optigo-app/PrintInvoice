@@ -371,6 +371,7 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                   <div className='lh_decrease'>T {result?.header?.CompanyTellNo} | TOLL FREE {result?.header?.CompanyTollFreeNo}</div>
                   <div className='lh_decrease'>{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</div>
                   { result?.header?.MSME !== '' && <div className='lh_decrease'>MSME : {result?.header?.MSME}</div>}
+                  { result?.header?.Company_VAT_GST_No !== '' && <div className='lh_decrease'>GSTIN : {result?.header?.Company_VAT_GST_No?.split("-")[1]}</div>}
               </div>
               <div className='pe-4'>  {isImageWorking && (result?.header?.PrintLogo !== "" && 
                       <img src={result?.header?.PrintLogo} alt="" 
@@ -535,7 +536,7 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
               {/* footer comapny details */}
               <div className='footer_rti p-1 fsrti pbiarti'>
                 <div className='fw-bold'>COMPANY DETAILS :</div>
-                <div className='lh_decrease'>GSTIN : {result?.header?.Company_VAT_GST_No?.split("-")[1]}</div>
+                { result?.header?.Company_VAT_GST_No !== "" && <div className='lh_decrease'>GSTIN : {result?.header?.Company_VAT_GST_No?.split("-")[1]}</div>}
                 <div className='lh_decrease'>{result?.header?.Company_CST_STATE} : {result?.header?.Company_CST_STATE_No}</div>
                 <div className='lh_decrease'>PAN NO. : {result?.header?.Com_pannumber}</div>
                 <div className='lh_decrease'>Kindly make your payment by the name of  "<b className='fsrti'>{result?.header?.accountname}</b>"</div>
