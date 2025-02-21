@@ -4,6 +4,7 @@ import "./homepage.css"
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import axios from 'axios';
 import { cloneDeep } from 'lodash';
+import { Height } from '@mui/icons-material';
 const HomePage = ({Token}) => {
     const theme = useTheme();
     const [viewDetailsFlag, setViewDetailsFlag] = useState(false);
@@ -14,6 +15,8 @@ const HomePage = ({Token}) => {
     const [totalDesignCount, setTotalDesignCount] = useState();
     const [totalTagDesignCount, setTotalTagDesignCount] = useState();
     const [totalDesignSetCount, setTotalDesignSetCount] = useState();
+
+    const [showFlag, setShowFlag] = useState(false);
 
     const [loader, setLoader] = useState(false);
 
@@ -174,7 +177,15 @@ const HomePage = ({Token}) => {
         setTotalTagDesignCount(obj);
         setTotalDesignSetCount(obj2);
 
+console.log(finalArray);
+
+        if(finalArray?.length > 0){
+          setShowFlag(true);
+        }
+
         setResult(finalArray);
+
+
 
         if(finalArray?.length === 0){
           setMessage("Data Not Present");
@@ -249,6 +260,7 @@ const HomePage = ({Token}) => {
       useEffect(() => {
         setResult([]);
         setSearchVal('');
+        setShowFlag(false);
 
         if(activeButton === "design" || activeButton === "tagno"){
           setViewDetailsFlag(true);
@@ -337,13 +349,13 @@ const HomePage = ({Token}) => {
           sx={{backgroundColor:theme?.palette?.customColors?.purple, py:1.2, ml:1, borderRadius:'10px'}}
         >Apply</Button>
       </Box>
-      { activeButton === "Design" &&  <Box sx={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+      { ( showFlag && activeButton === "Design") &&  <Box sx={{display:'flex', justifyContent:'center', alignItems:'center'}}>
           <Typography sx={{color:theme?.palette?.customColors?.btnFontThemeColor, fontWeight:'600', minWidth:'21rem'}} variant='h5'>Total Design Available: {totalDesignCount}</Typography>
         </Box>}
-      { activeButton === "TagNo" &&  <Box sx={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+      { (showFlag && activeButton === "TagNo") &&  <Box sx={{display:'flex', justifyContent:'center', alignItems:'center'}}>
           <Typography sx={{color:theme?.palette?.customColors?.btnFontThemeColor, fontWeight:'600', minWidth:'21rem'}} variant='h5'>Total Design Available: {totalTagDesignCount?.totalDesignCount} ({totalTagDesignCount?.designno})</Typography>
         </Box>}
-      { activeButton === "DesignSet" &&  <Box sx={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+      { ( showFlag && activeButton === "DesignSet") &&  <Box sx={{display:'flex', justifyContent:'center', alignItems:'center'}}>
           <Typography sx={{color:theme?.palette?.customColors?.btnFontThemeColor, fontWeight:'600', minWidth:'21rem'}} variant='h5'>Total Set Available: {totalDesignSetCount?.totalDesignCount} ({totalDesignSetCount?.designnoArr?.join(",")})</Typography></Box>}
       <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', width:'100%'}}>
         <Box my={2} sx={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
@@ -404,7 +416,7 @@ const HomePage = ({Token}) => {
                     <div>
                         <div className='custom_chip_hp'>
                           <CheckCircleIcon fontSize='xs' color='success' sx={{mr:1}} />
-                          <span style={{color:'grey'}}>SIZE {el?.JewellerySize}</span>&nbsp;-&nbsp; {el?.JewellerySize === '' && 'NOT'} AVAILABLE
+                          <span style={{color:'grey'}}>SIZE {el?.JewellerySize}</span>&nbsp;-&nbsp; {el?.JewellerySize === '' && ''} AVAILABLE
                         </div>
                     </div>
                 </Box>
@@ -416,14 +428,19 @@ const HomePage = ({Token}) => {
        } 
       </Box>}
 
-      <Snackbar open={open} autoHideDuration={3000} onClose={handleCloseMSG} anchorOrigin={{
-          vertical: 'bottom',  // Position it at the top of the screen
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleCloseMSG} 
+        anchorOrigin={{
+          vertical: 'center',  // Position it at the top of the screen
           horizontal: 'center',  // Align it horizontally to the center
-          bottom:30,
         }}
         sx={{
-          marginBottom:'100px'
-        }}>
+          position: 'absolute',  // Ensure it's positioned absolutely in relation to the screen
+          top: '50%',  // Center vertically
+          left: '50%',  // Center horizontally
+          transform: 'translate(-50%, -50%)',  // Adjust positioning to perfectly center
+          marginBottom:'50%'
+        }}
+        >
         <Alert onClose={handleCloseMSG} severity="error" sx={{ width: '100%' }}>
           {message}
         </Alert>
