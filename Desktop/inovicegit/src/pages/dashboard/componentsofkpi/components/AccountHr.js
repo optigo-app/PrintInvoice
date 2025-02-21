@@ -12,10 +12,11 @@ const AccountHr = ({  InventoryRatio, InventoryRatioDT, InventoryRatioDT1, Inven
     const ITOR = useSelector(state => state?.ITOR);
     const PD = useSelector(state => state?.PD);
     const SaleMarketingTotalSale = useSelector(state => state?.SaleMarketingTotalSale);
+    console.log(AvgCollectionRatio);
     
     
     // if (acrLoader) {
-    if (AvgCollectionRatio?.loading) {
+    if (AvgCollectionRatio?.loading || ITOR?.loading || PD?.loading || SaleMarketingTotalSale?.loading) {
         return <>
                     <Grid container spacing={1}>
                  {["Fix Asset Laverage Ratio","Revenue Per Employees","Avg. Due Debtors", "Inventory Turn Over Ratio", "Avg. Collection Period", "Labour vs Exp"]?.map((e, index) => (
@@ -117,11 +118,14 @@ const AccountHr = ({  InventoryRatio, InventoryRatioDT, InventoryRatioDT1, Inven
                 //     (AvgColPeriod?.DT2[0]?.SaleAccAmount ?? 0) - (AvgColPeriod?.DT2[0]?.SaleReturnAccAmount ?? 0) || 1
                 //   ) * 365
                 (
-                    ((AvgCollectionRatio?.DT?.Sun_Debtor ?? 0) + (AvgCollectionRatio?.DT1?.Sun_Debtor ?? 0)) / 2
-                  ) / 
+                    (
+                    (
+                        (AvgCollectionRatio?.DT?.Sun_Debtor ?? 0) + (AvgCollectionRatio?.DT1?.Sun_Debtor ?? 0)
+                    ) / 2) / 
                   (
                     (AvgCollectionRatio?.DT2?.SaleAccAmount ?? 0) - (AvgCollectionRatio?.DT2?.SaleReturnAccAmount ?? 0) || 1
                   ) * 365
+                )
                   
             )) || 0,  // If the result is NaN, it will return 0
             
@@ -152,6 +156,7 @@ const AccountHr = ({  InventoryRatio, InventoryRatioDT, InventoryRatioDT1, Inven
     ];
 
 
+console.log(data);
 
     return (
         <Grid container spacing={1}>

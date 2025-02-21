@@ -35,7 +35,7 @@ const AccountNHR = ({ data, bgColor}) => {
                     `${Math.round(parseFloat(checkNullUndefined(data?.totalValue)))} Days` 
                     : 
                     ( (data?.heading?.toLowerCase() === 'fix asset laverage ratio' || data?.heading?.toLowerCase() === 'inventory turn over ratio')
-                     ? ( (data?.heading?.toLowerCase() === 'fix asset laverage ratio' || data?.heading?.toLowerCase() === 'inventory turn over ratio') ?  `${Math.round(checkNullUndefined(data?.totalValue))} Days` : Math.round(checkNullUndefined(data?.totalValue))) :
+                     ? ( (data?.heading?.toLowerCase() === 'fix asset laverage ratio' || data?.heading?.toLowerCase() === 'inventory turn over ratio') ?  `${Math.round(checkNullUndefined(data?.totalValue))} Times` : Math.round(checkNullUndefined(data?.totalValue))) :
                       parseFloat(checkNullUndefined(data?.totalValue))?.toFixed(2))) )
                  }
               </Typography>

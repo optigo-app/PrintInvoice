@@ -181,9 +181,10 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     //  let lossPerAll =  datas?.json1?.map((e) => e?.LossPer)?.reduce((num, acc) => num + acc, 0);
     //  console.log(lossPerAll);
     let lossPerAll = datas?.json1?.map((e) => e?.LossPer)?.filter((x) => x !== undefined)?.reduce((num, acc) => num + acc, 0);
-    console.log(lossPerAll);
 
     let avgLossPer = (lossPerAll / datas?.json1?.length);
+
+    // let lossper = ((avgLossPer * datas?.mainTotal?.NetWt) / 100);
 
     setAvgLossPer(avgLossPer);
 
@@ -1067,7 +1068,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className="gcol3_eib center_eib border-end border-black">
                         {/* 5% */}
-                        {avgLossPer}%
+                        {(avgLossPer)?.toFixed(2)}%
                       </div>
                       <div className="gcol4_eib center_eib border-end border-black">
                         Wt GMS
@@ -1161,6 +1162,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                           <div className="gcol3_eib end_ebi border-end border-black pe-1">
                             {e?.LossWt?.toFixed(3)}
+                            {/* {((avgLossPer * result?.mainTotal?.NetWt) / 100)?.toFixed(3)} */}
                           </div>
                           <div className="gcol4_eib end_ebi border-end border-black pe-1">
                             {(e?.NetWt + e?.LossWt)?.toFixed(3)}
