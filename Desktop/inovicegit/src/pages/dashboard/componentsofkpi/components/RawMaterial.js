@@ -17,25 +17,31 @@ const RawMaterial = ({ bgColor, bgComp, g_loss, rmStock, lossLoader, rmStockLoad
   const [apiData, setApiData] = useState([]);
 
     const theme = useTheme();
+    
 
     useEffect(() => {
       const data6 = [
                 
         {
-          stats: `${safeValue(BaggingCompleted?.data?.rm_baggingcompleted)} jobs`,
+          stats: `${safeValue(BaggingCompleted?.data?.rm_baggingcompleted)} ${BaggingCompleted?.data?.rm_baggingcompleted == 0 || BaggingCompleted?.data?.rm_baggingcompleted == 1 ? 'Job' : 'Jobs'}`,
           title: 'Bagging Completed',
         },
     
         {
-          stats: `${(parseInt((safeValue(BaggingCompleted?.data?.rm_avg_proc_time) / (60 * 60 * 24)))?.toFixed(0))} Days`,
+          stats: `${(parseInt((safeValue(BaggingCompleted?.data?.rm_avg_proc_time) / (60 * 60 * 24)))?.toFixed(0))} ${(parseInt((safeValue(BaggingCompleted?.data?.rm_avg_proc_time) / (60 * 60 * 24)))?.toFixed(0)) == 0 || (parseInt((safeValue(BaggingCompleted?.data?.rm_avg_proc_time) / (60 * 60 * 24)))?.toFixed(0)) == 1 ? 'Day' : 'Days'} `,
           title: 'Avg. Process Time',
         },
         {
-          stats: GrossLoss?.data?.rm_grossloss === null ? '-' : (
-            <>
-              {(safeValue(GrossLoss?.data?.rm_grossloss)?.toFixed(2))} gm
-            </>
-          ),
+          stats: <>{
+            GrossLoss?.loading ? "Please Wait..." : GrossLoss?.data?.rm_grossloss === null ? '-' : (
+          //   GrossLoss?.loading ? <><Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10px', padding:'0.1rem',  }}>
+          //   <CircularProgress sx={{color:'black', width:'10px', height:'10px'}} size="medium" />
+          // </Box></> : GrossLoss?.data?.rm_grossloss === null ? '-' : (
+              <>
+                {(safeValue(GrossLoss?.data?.rm_grossloss)?.toFixed(2))} gm
+              </>
+            )
+          }</>,
           title: 'Gross Loss',
         },
         {
@@ -122,8 +128,11 @@ const RawMaterial = ({ bgColor, bgComp, g_loss, rmStock, lossLoader, rmStockLoad
            
               <Box sx={{ display: 'flex', flexDirection: 'column', pt:0 }}>
                 <Typography variant='h6' color={bgColor}  >{sale.title}</Typography>
-                <Typography variant='h5' color={theme?.palette?.grey?.[700]}  sx={{fontWeight:'bolder'}} >{((sale.stats))}</Typography>
-                { sale.wt === undefined ? <div>&nbsp;</div> : <Typography variant='h5' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}} >{((sale.wt))} </Typography>}
+                <Typography variant='h5' color={theme?.palette?.grey?.[700]}  sx={{fontWeight:'bolder'}} >
+                  {((sale.stats))}
+                </Typography>
+                { sale.wt === undefined ? <div>&nbsp;</div> : 
+                <Typography variant='h5' color={theme?.palette?.grey?.[700]} sx={{fontWeight:'bolder'}} >{((sale.wt))} </Typography>}
               </Box>
             </Box>
           </Grid>
@@ -131,9 +140,9 @@ const RawMaterial = ({ bgColor, bgComp, g_loss, rmStock, lossLoader, rmStockLoad
     }
     return (
       <>
-        <Card  className={`fs_analytics_l ${(bgLoader || rmStockLoader || lossLoader) ? 'center_kpi' : ''} `}  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'198px'}}>
+        <Card  className={`fs_analytics_l ${(bgLoader || rmStockLoader) ? 'center_kpi' : ''} `}  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'198px'}}>
             
-              {  (BaggingCompleted?.loading || RmStock?.loading || GrossLoss?.loading) ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
+              {  (BaggingCompleted?.loading || RmStock?.loading) ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem',  }}>
                 <CircularProgress sx={{color:'lightgrey'}} />
               </Box> :
               <CardContent sx={{ pt: theme => `${theme.spacing(1)} !important`, pb: theme => `${theme.spacing(1)} !important` }} >
