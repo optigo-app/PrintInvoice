@@ -12,7 +12,7 @@ const AccountHr = ({  InventoryRatio, InventoryRatioDT, InventoryRatioDT1, Inven
     const ITOR = useSelector(state => state?.ITOR);
     const PD = useSelector(state => state?.PD);
     const SaleMarketingTotalSale = useSelector(state => state?.SaleMarketingTotalSale);
-    console.log(AvgCollectionRatio);
+
     
     
     // if (acrLoader) {
@@ -120,10 +120,10 @@ const AccountHr = ({  InventoryRatio, InventoryRatioDT, InventoryRatioDT1, Inven
                 (
                     (
                     (
-                        (AvgCollectionRatio?.DT?.Sun_Debtor ?? 0) + (AvgCollectionRatio?.DT1?.Sun_Debtor ?? 0)
+                        (AvgCollectionRatio?.data?.DT?.Sun_Debtor ?? 0) + (AvgCollectionRatio?.data?.DT1?.Sun_Debtor ?? 0)
                     ) / 2) / 
                   (
-                    (AvgCollectionRatio?.DT2?.SaleAccAmount ?? 0) - (AvgCollectionRatio?.DT2?.SaleReturnAccAmount ?? 0) || 1
+                    (AvgCollectionRatio?.data?.DT2?.SaleAccAmount ?? 0) - (AvgCollectionRatio?.data?.DT2?.SaleReturnAccAmount ?? 0) || 1
                   ) * 365
                 )
                   
@@ -132,7 +132,6 @@ const AccountHr = ({  InventoryRatio, InventoryRatioDT, InventoryRatioDT1, Inven
             series: [],
             subheading: 'Account & HR'
         },
-
         {
             heading: 'Labour vs Exp',
             totalValue: 
@@ -156,7 +155,6 @@ const AccountHr = ({  InventoryRatio, InventoryRatioDT, InventoryRatioDT1, Inven
     ];
 
 
-console.log(data);
 
     return (
         <Grid container spacing={1}>

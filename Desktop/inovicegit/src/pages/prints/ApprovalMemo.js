@@ -1,6 +1,6 @@
 // http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=Sk1JLzE4LzIwMjU=&evn=bWVtbw==&pnm=QXBwcm92YWwgTWVtbw==&up=aHR0cDovL3plbi9qby9hcGktbGliL0FwcC9TYWxlQmlsbF9Kc29u&ctv=NzE=&ifid=DetailPrint12&pid=undefined
 // JMI/18/2025
-
+// 1205 doc.
 import React, { useEffect, useState } from "react";
 import "../../assets/css/prints/ApprovalMemo.scss";
 import { apiCall, isObjectEmpty } from "../../GlobalFunctions";
@@ -54,7 +54,7 @@ function ApprovalMemo({ token, invoiceNo, printName, urls, evn, ApiVer }) {
     );
     setResult(datas);
   };
-  console.log("ress", result?.resultArray);
+  console.log("ress", result);
   return (
     <>
       {loader ? (
@@ -80,7 +80,7 @@ function ApprovalMemo({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                   </button>
                 </div>
                 <div>
-                  <p style={{ fontSize: "12px" }}>
+                  <p style={{ fontSize: "16px" }}>
                     <b>{result?.header?.CompanyFullName}</b>
                   </p>
                   <p style={{ fontSize: "12px" }}>
@@ -93,7 +93,7 @@ function ApprovalMemo({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                     main ring road Surat - 605001 */}
                     </b>
                   </p>
-                  <p style={{ fontSize: "12px", textDecoration: "underline" }}>
+                  <p style={{ fontSize: "18px", textDecoration: "underline" }}>
                     <b>{result?.header?.PrintHeadLabel}</b>
                   </p>
                 </div>
@@ -102,20 +102,33 @@ function ApprovalMemo({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                     <div className="topmainSection_main">
                       <div className="topBox1">
                         <p className="topBox_p">Bill To,</p>
-                        <p className="topBox_p">
+                        <p className="topBox_p" style={{ fontSize: "14px" }}>
                           <b>{result?.header?.customerfirmname}</b>
                         </p>
                         <p className="topBox_p">
-                          {" "}
-                          {result?.header?.customerpincode}{" "}
+                          {result?.header?.customerAddress1}
+                        </p>
+                        <p className="topBox_p">
+                          {result?.header?.customerAddress2}
+                        </p>
+                        <p className="topBox_p">
+                          {result?.header?.customercity} --
+                          {result?.header?.PinCode}{" "}
                         </p>
                         <p className="topBox_p">
                           {result?.header?.customeremail1}
                         </p>
+                        <p className="topBox_p">
+                          {result?.header?.vat_cst_pan}
+                        </p>
+                        {result?.header?.Cust_CST_STATE_No != "" && <p className="topBox_p">
+                          {result?.header?.Cust_CST_STATE}-
+                          {result?.header?.Cust_CST_STATE_No}
+                        </p>}
                       </div>
                       <div className="topBox2">
                         <p className="topBox_p"> Ship To,</p>
-                        <p className="topBox_p">
+                        <p className="topBox_p" style={{ fontSize: "14px" }}>
                           <b>{result?.header?.customerfirmname}</b>
                         </p>
                         {result?.header?.address?.map((line, index) => (
@@ -204,12 +217,33 @@ function ApprovalMemo({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                           })}
                         </div>
                       </div>
+                    </div>
 
-                      <div style={{ padding: "4px" }}>
-                        <p className="memo1_title_secondBox_bottom_desc">
-                          Terms & Conditions :
+                    {result?.header?.PrintRemark != "" && (
+                      <div
+                        className="second_main_box_div"
+                        style={{ padding: "5px" }}
+                      >
+                        <p className="appvol_ramark_title">Remark :</p>
+                        <p style={{ display: "flex" }}>
+                          {result?.header?.PrintRemark}
                         </p>
-                        <p
+                      </div>
+                    )}
+                    <div
+                      className="second_main_box_div"
+                      style={{ padding: "4px" }}
+                    >
+                      <p className="memo1_title_secondBox_bottom_desc">
+                        Terms & Conditions :
+                      </p>
+                      <div
+                        className="memo1_secondBox_bottom_desc"
+                        dangerouslySetInnerHTML={{
+                          __html: result?.header?.Declaration,
+                        }}
+                      ></div>
+                      {/* <p
                           className="memo1_secondBox_bottom_desc"
                           dangerouslySetInnerHTML={{
                             __html: result?.header?.Declaration?.replace()
@@ -219,8 +253,7 @@ function ApprovalMemo({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                               .replace(/3\./g, "<br>3.")
                               .replace(/4\./g, "<br>4."),
                           }}
-                        ></p>
-                      </div>
+                        ></p> */}
                     </div>
                     <div className="memo1_bottomSection_main">
                       <div className="memo1_bottomSection_main_Box1">

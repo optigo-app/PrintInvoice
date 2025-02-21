@@ -1070,7 +1070,6 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const handleImageLoad = () => {
     setImageLoading(false);
   };
-console.log(json2Data);
 
   return (
     <>
@@ -1249,7 +1248,7 @@ console.log(json2Data);
             {/* <div className="border-end border-start border-black"> */}
             <div>
               {json2Data.length > 0 &&
-                json2Data.map((e, i) => {
+                json2Data?.map((e, i) => {
                   return (
                     <div
                       className={`d-flex border-bottom recordEstimatePrint overflow-hidden word_break_estimatePrint`}
@@ -1293,6 +1292,11 @@ console.log(json2Data);
                           {e?.PO !== "" && (
                             <p className="fw-bold text-center">
                               PO:<span className="fw-bold">{e?.PO}</span>
+                            </p>
+                          )}
+                          {e?.lineid !== "" && (
+                            <p className="fw-bold text-center">
+                              Id:<span className="fw-bold">{e?.lineid}</span>
                             </p>
                           )}
                           <div className="d-flex justify-content-between"></div>
