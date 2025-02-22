@@ -1,3 +1,4 @@
+// my last invoice print Export Invoice B
 import React, { useEffect, useState } from "react";
 import {
   apiCall,
@@ -773,8 +774,8 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="col2_eib ps-1 border-end border-black">
                           TOTAL
                         </div>
-                        <div className="col3_eib center_eib border-end border-black"></div>
-                        <div className="col4_eib center_eib border-end border-black"></div>
+                        {/* <div className="col3_eib center_eib border-end border-black"></div> */}
+                        {/* <div className="col4_eib center_eib border-end border-black"></div> */}
                         <div className="col5_eib d-flex justify-content-center align-items-center pe-1 border-end border-black">
                           {result?.mainTotal?.Quantity}
                         </div>

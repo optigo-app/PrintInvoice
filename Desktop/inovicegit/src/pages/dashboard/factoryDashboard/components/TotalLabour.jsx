@@ -36,8 +36,9 @@ import { useSelector } from 'react-redux'
 
 
 const TotalLabour = ({tkn,  fdate, tdate, selectMaterial}) => {
-
+  
   const { loading, data, error } = useSelector(state => state?.Summary_Purchase);
+  // console.log(data);
   
   // ** State
   const [value, setValue] = useState('Net Wt');
@@ -51,6 +52,7 @@ const TotalLabour = ({tkn,  fdate, tdate, selectMaterial}) => {
   const [headLabel, setHeadLabel] = useState('Diamond');
   
 
+  console.log(yAxis);
   
 
   useEffect(() => {

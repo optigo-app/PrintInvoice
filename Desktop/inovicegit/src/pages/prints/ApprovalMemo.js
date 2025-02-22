@@ -209,6 +209,7 @@ function ApprovalMemo({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                   {data.designno}
                                 </p>
                                 <p className="memo1_second_box_top_title_colm3">
+                                  {data?.Category_Prefix}
                                   {data?.JewelCodePrefix}
                                   {data.SrJobno}
                                 </p>
