@@ -8,6 +8,7 @@
     font-size: 12px;
     max-width: 1200px;
     width: 100%;
+    margin-bottom: 60px;
   }
 
   .topBox_px_B {
@@ -332,7 +333,7 @@
     border: 0.5px solid #bdbdbd;
     margin-top: 5px;
     font-size: 11px !important;
-    
+
     .paking3a_second_box_Title {
       display: flex;
       margin: 0px;
@@ -619,6 +620,7 @@
         .paking3a__bottomSection_Box1_subBox1_summury {
           display: flex;
           justify-content: space-between;
+          line-height: 13px;
         }
       }
       .paking3a__bottomSection_Box1_subBox2 {
@@ -668,6 +670,7 @@
     display: flex;
     justify-content: space-between;
     gap: 50px;
+    line-height: 11px;
   }
 
   .invoice_print_btn {
@@ -684,10 +687,25 @@
     padding-right: 2px !important;
   }
   @media print {
+    .paking_top_button_none {
+      display: none !important;
+    }
+
+    .paking_list3_header_main{
+      font-size: 10px !important;
+      line-height: 12px !important;
+    }
     .topBox_px_B {
       font-size: 10px !important;
     }
 
+    .paking3a_second_box_top_title {
+      font-size: 7px !important;
+    }
+
+    .paking3a_table_Data_box {
+      font-size: 7px !important;
+    }
     .packingListDemo_main_App {
       font-size: 7px !important;
     }

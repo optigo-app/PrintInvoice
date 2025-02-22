@@ -106,7 +106,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
         <>
           {msg === "" ? (
             <div className="packingListDemo_main_App">
-              <div style={{ marginTop: "20px" }}>
+              <div className="paking_top_button_none" style={{ marginBlock: "20px", display: 'flex', justifyContent: 'flex-end' }}>
                 <button
                   className="btn_white blue"
                   id="printbtn"
@@ -125,7 +125,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                 </p>
               </div>
 
-              <div>
+              <div className="paking_list3_header_main">
                 <div
                   style={{
                     display: "flex",
@@ -134,7 +134,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                   }}
                 >
                   <div>
-                    <p className="topBox_px_B" style={{ display: "flex" }}>
+                    <p className="topBox_px_B" style={{ display: "flex" , paddingBlock: '2px', fontSize: '16px' }}>
                       <b>{result?.header?.CompanyFullName}</b>
                     </p>
                     <p style={{ display: "flex" }}>
@@ -944,7 +944,6 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
 
                 <div
                   style={{
-                    padding: "4px",
                     display: "flex",
                     justifyContent: "flex-end",
                   }}
