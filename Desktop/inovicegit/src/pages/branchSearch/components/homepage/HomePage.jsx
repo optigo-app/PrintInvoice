@@ -69,6 +69,7 @@ const HomePage = ({Token}) => {
             }
 
           const response = await axios.post(apiUrl, body);
+          
           if(response?.data?.Status === "200"){
             setLoader(false);
             loadData((response?.data?.Data?.DT || []), (response?.data?.Data?.DT1 || []), (response?.data?.Data?.DT2 || []));
@@ -177,7 +178,6 @@ const HomePage = ({Token}) => {
         setTotalTagDesignCount(obj);
         setTotalDesignSetCount(obj2);
 
-console.log(finalArray);
 
         if(finalArray?.length > 0){
           setShowFlag(true);
@@ -185,7 +185,8 @@ console.log(finalArray);
 
         setResult(finalArray);
 
-
+        console.log(finalArray);
+        
 
         if(finalArray?.length === 0){
           setMessage("Data Not Present");
@@ -299,7 +300,7 @@ console.log(finalArray);
 
   return (
     <div className='theme_fs_brs hp_container'>
-        <Typography align='center' my={1} sx={{color:theme?.palette?.customColors?.btnFontThemeColor}}>Search your design by designno/tagno/designset</Typography>
+        <Typography align='center'  sx={{color:theme?.palette?.customColors?.btnFontThemeColor, py:1}}>Search your design by designno / tagno / designset</Typography>
       
       <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', }}>
         <Button
@@ -337,7 +338,14 @@ console.log(finalArray);
         </Button>
       </Box>
       <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'100%'}} sx={{my:2}}>
-        <input type="text" className='input_field_hp' autoFocus ref={ref} placeholder='NCKB002 1/179 DesSet1'
+        <input type="text" className='input_field_hp' autoFocus ref={ref} 
+        placeholder={
+          activeButton === "Design" ? "NCKB002" :
+          activeButton === "TagNo" ? "1/179" :
+          activeButton === "DesignSet" ? "DesSet1" :
+          "" // Default placeholder if no conditions are met
+        }
+        
            value={searchVal} 
            disabled={loader} 
            onChange={(e) => handleSearch(e)}
@@ -438,10 +446,12 @@ console.log(finalArray);
           top: '50%',  // Center vertically
           left: '50%',  // Center horizontally
           transform: 'translate(-50%, -50%)',  // Adjust positioning to perfectly center
-          marginBottom:'50%'
+          marginBottom:'50%',
+          fontWeight:'bold',
         }}
+        
         >
-        <Alert onClose={handleCloseMSG} severity="error" sx={{ width: '100%' }}>
+        <Alert onClose={handleCloseMSG} severity="error" sx={{ width: '100%', fontSize:'1rem', fontWeight:'bold' }}>
           {message}
         </Alert>
       </Snackbar>

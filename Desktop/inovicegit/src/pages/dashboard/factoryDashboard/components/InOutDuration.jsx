@@ -108,6 +108,13 @@ const InOutDuration = ( ) => {
         style: { colors: theme.palette.text.disabled }
       }
     },
+    tooltip: {
+      y: {
+        formatter: function (val, { dataPointIndex }) {
+          return `${val}  <span style="font-weight: normal;">Count: <strong>${countList[dataPointIndex] || 0}</strong></span>`;
+        }
+      }
+    },  
     responsive: [
       {
         breakpoint: 600,
@@ -182,10 +189,10 @@ const InOutDuration = ( ) => {
         name: 'I/O Time',
         data: IOTimeList ?? [14, 15, 1555, 16, 16, 32, 42, 42]
       },
-      {
-        name: 'Count',
-        data: countList ?? [200, 1581, 7953, 289, 7, 367, 42, 779]
-      }
+      // {
+      //   name: 'Count',
+      //   data: countList ?? [200, 1581, 7953, 289, 7, 367, 42, 779]
+      // }
     ]
 
   return (

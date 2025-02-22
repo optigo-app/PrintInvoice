@@ -39,7 +39,6 @@ const TotalLabour = ({tkn,  fdate, tdate, selectMaterial}) => {
 
   const { loading, data, error } = useSelector(state => state?.Summary_Purchase);
   
-    
   // ** State
   const [value, setValue] = useState('Net Wt');
 

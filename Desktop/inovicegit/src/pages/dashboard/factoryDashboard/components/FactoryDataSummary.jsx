@@ -29,21 +29,24 @@ const FactoryDataSummary = ({tkn, bgColor, selectMaterial, selectCurrency}) => {
     const [SSDTObj, setSSDTObj] = useState();
     
     const theme = useTheme();
+
+    
+
     const comp_data = [
         { 
           stats: labelvalue,
           title: labelname,
         },
         {
-          stats: checkNullUndefined(formatAmount((DTObj?.Total_Labour / selectCurrency))),
+          stats: checkNullUndefined(formatAmount(((DTObj?.Total_Labour / selectCurrency) / DTObj?.Netwt))),
           title: 'Total Labour',
         },
         {
-          stats: DTObj?.Labour_Per_Gram,
+          stats: (formatAmount(DTObj?.Labour_Per_Gram / selectCurrency)),
           title: 'Labour Per Gram',
         },
         {
-          stats: setPerG,
+          stats: (formatAmount(setPerG / selectCurrency)),
           title: 'Setting Per Gram',
         },
         {

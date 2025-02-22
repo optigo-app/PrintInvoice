@@ -38,6 +38,7 @@ import { useSelector } from 'react-redux'
 const VendorWiseSetPGram = ({tkn,  fdate, tdate, selectMaterial, selectCurrency}) => {
 
   const { loading, data, error } = useSelector(state => state?.Summary_Purchase);
+  console.log(data);
   
   
   // ** State
@@ -247,15 +248,15 @@ const VendorWiseSetPGram = ({tkn,  fdate, tdate, selectMaterial, selectCurrency}
       
       // if(selectMaterial === 1 || selectMaterial === '1'){
       if(value === 'Diamond Setting Cost'){
-        let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.TotalDiaSettingCost - a?.TotalDiaSettingCost)?.slice(0, 8)?.map((e) => capitalizeFirstLetter(e?.Vendor));
+        let arr0 = data?.DT1?.slice()?.sort((a, b) => ((b?.TotalDiaSettingCost / selectCurrency) / b?.Netwt) - ((a?.TotalDiaSettingCost / selectCurrency) / a?.Netwt))?.slice(0, 8)?.map((e) => capitalizeFirstLetter(e?.Vendor));
         setVendorNameList(arr0);
-        let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalDiaSettingCost - a?.TotalDiaSettingCost)?.slice(0, 8)?.map((e) => (e?.TotalDiaSettingCost / selectCurrency));
+        let arr = data?.DT1?.slice()?.sort((a, b) => ((b?.TotalDiaSettingCost / selectCurrency) / b?.Netwt) - ((a?.TotalDiaSettingCost / selectCurrency) / a?.Netwt))?.slice(0, 8)?.map((e) => ((e?.TotalDiaSettingCost / selectCurrency) / e?.Netwt));
         setDiaSetCostList(arr);
       }
       if(value === 'Colorstone Setting Cost'){
-        let arr0 = data?.DT1?.slice()?.sort((a, b) => b?.TotalCSSettingCost - a?.TotalCSSettingCost)?.slice(0, 8)?.map((e, i) => capitalizeFirstLetter(e?.Vendor));
+        let arr0 = data?.DT1?.slice()?.sort((a, b) => ((b?.TotalCSSettingCost / selectCurrency) / b?.Netwt) - ((a?.TotalCSSettingCost / selectCurrency) / a?.Netwt))?.slice(0, 8)?.map((e, i) => capitalizeFirstLetter(e?.Vendor));
         setVendorNameList2(arr0);
-        let arr = data?.DT1?.slice()?.sort((a, b) => b?.TotalCSSettingCost - a?.TotalCSSettingCost)?.slice(0, 8)?.map((e) => (e?.TotalCSSettingCost / selectCurrency));
+        let arr = data?.DT1?.slice()?.sort((a, b) => ((b?.TotalCSSettingCost / selectCurrency) / b?.Netwt) - ((a?.TotalCSSettingCost / selectCurrency ) / a?.Netwt))?.slice(0, 8)?.map((e) => ((e?.TotalCSSettingCost / selectCurrency) / e?.Netwt));
         setCSSetCostList(arr);
       }
     }

@@ -207,12 +207,15 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       //product summary wise start
       let miscs = [];
       let colorstones = [];
+      let dias = [];
       // eslint-disable-next-line array-callback-return
       datas.json2.map((ele, ind) => {
         if (ele?.ShapeName === "Stamping" || ele?.ShapeName === "Hallmark") {
         } else {
           if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
             colorstones.push(ele);
+          } else if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+            dias.push(ele);
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
             miscs.push(ele);
           }
@@ -221,6 +224,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       let miscs_filter = [];
       let colrStone_filter = [];
+      let dias_filter = [];
 
       // eslint-disable-next-line array-callback-return
       miscs?.map((ele, ind) => {
@@ -260,8 +264,28 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         }
       });
 
-      let arrnew = [...colrStone_filter, ...miscs_filter].flat();
+      dias?.map((ele, ind) => {
+        let findcs = dias_filter?.findIndex(
+          (elem, index) =>
+            elem?.ShapeName === ele?.ShapeName && elem?.Rate === ele?.Rate
+        );
+        if (findcs === -1) {
+          let objj = { ...ele };
+          objj.wtWeight = ele?.Wt;
+          objj.pcPcs = ele?.Pcs;
+          objj.AmtAmount = ele?.Amount;
+          dias_filter.push(objj);
+        } else {
+          dias_filter[findcs].wtWeight += ele?.Wt;
+          dias_filter[findcs].pcPcs += ele?.Pcs;
+          dias_filter[findcs].AmtAmount += ele?.Amount;
+        }
+      });
 
+
+
+      let arrnew = [...dias_filter?.sort?.((a, b) => a.ShapeName.localeCompare(b.ShapeName)), ...colrStone_filter?.sort((a, b) => a.ShapeName.localeCompare(b.ShapeName)), ...miscs_filter?.sort((a, b) => a.ShapeName.localeCompare(b.ShapeName))]?.flat();
+      
       let misc_sum_total = {
         Pcs: 0,
         pcPcs: 0,
@@ -279,7 +303,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         misc_sum_total.Wt += e?.Wt;
         misc_sum_total.Pcs += e?.Pcs;
         misc_sum_total.Amount += e?.Amount;
-        if (e?.MasterManagement_DiamondStoneTypeid === 2) {
+        if (e?.MasterManagement_DiamondStoneTypeid === 2 || e?.MasterManagement_DiamondStoneTypeid === 1) {
           misc_sum_total.wtWeight_Ctw += e?.wtWeight;
         } else {
           misc_sum_total.wtWeight_gm += e?.wtWeight;
@@ -288,7 +312,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         misc_sum_total.AmtAmount += e?.AmtAmount;
       });
 
-      arrnew.sort((a, b) => a.ShapeName.localeCompare(b.ShapeName));
+      // arrnew.sort((a, b) => a.ShapeName.localeCompare(b.ShapeName));
       //product summary wise stop
       setMiscWise(arrnew);
       setMiscWise_total(misc_sum_total);
@@ -348,6 +372,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             // arr = [];
           }
         }
+
         // let arr2 = [];
         // arr?.forEach((a) => {
         //   if(a?.IsHSCOE !== 0){
@@ -1239,7 +1264,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div style={{ height: "16px" }}></div>
                   <div className="summary_container_dp7_misc_table hcompdp7 fsgdp7">
                     <div className="summary_container_dp7_misc_title">
-                      MISC SUMMARY
+                     DIAMOND / MISC SUMMARY
                     </div>
 
                     <div className="summary_container_dp7_misc_head w-100 fw-bold fsgdp7">
@@ -1261,10 +1286,11 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                     {miscWise?.length > 0 &&
                       miscWise?.map((e, i) => {
+                        
                         return (
                           <div className="summary_container_dp7_misc_body fsgdp7" key={i} >
                             <div className="summary_container_dp7_misc_head_col_1 dp7cen1">
-                              {e?.ShapeName}
+                               { e?.MasterManagement_DiamondStoneTypeid === 1 && 'D :' }{e?.MasterManagement_DiamondStoneTypeid === 2 && "C :"} {e?.ShapeName}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_2 dp7cen2">
                               {e?.pcPcs}
@@ -1273,7 +1299,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.Rate?.toFixed(2)}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_4 dp7cen2">
-                              {e?.MasterManagement_DiamondStoneTypeid === 2
+                              {e?.MasterManagement_DiamondStoneTypeid === 2 || e?.MasterManagement_DiamondStoneTypeid === 1
                                 ? `${e?.wtWeight?.toFixed(3)} Ctw`
                                 : `${e?.wtWeight?.toFixed(3)} gm`}
                             </div>

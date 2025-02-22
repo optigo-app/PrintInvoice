@@ -255,7 +255,7 @@ const WastageWiseLabourPGram = ({tkn,  fdate, tdate}) => {
     <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>
       <CardHeader
         title='Labour / Gm'
-        subheader='Wastage wise'
+        subheader='Vendor wise'
         // action={
         //   <OptionsMenu
         //     options={['Last Week', 'Last Month', 'Last Year']}
