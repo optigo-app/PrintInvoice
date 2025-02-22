@@ -900,7 +900,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                         </p>
                         <p
                           className="paking3a_col3_sub_div_more_sub6"
-                          style={{ width: "37%" }}
+                          style={{ width: "37%" , display: 'flex', justifyContent: 'flex-end'}}
                         >
                           <b>
                             {" "}
