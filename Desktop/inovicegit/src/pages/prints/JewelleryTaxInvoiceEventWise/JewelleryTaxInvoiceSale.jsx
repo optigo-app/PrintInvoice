@@ -655,7 +655,7 @@ const JewelleryTaxInvoiceSale = ({
                 </div>
                 <div
                   className={`col2_sqm p-1 border-end position-relative`}
-                  style={{ width: "13%" }}
+                  style={{ width: "14%" }}
                 >
                   {atob(evn)?.trim()?.toLocaleLowerCase() !== "quote" && (
                     <p className="fs_13px_jti" style={{fontSize:'14px'}}>Job: {e?.SrJobno} </p>
@@ -789,7 +789,7 @@ const JewelleryTaxInvoiceSale = ({
           </div>
           <div
             className={`${"col2_sqm"} p-1 border-end`}
-            style={{ width: "13%" }}
+            style={{ width: "14%" }}
           >
             <p className="fw-normal " style={{fontSize:'14px'}}>TOTAL</p>{" "}
           </div>
@@ -1047,7 +1047,7 @@ const JewelleryTaxInvoiceSale = ({
           ** THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US
           IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF
           TRANSACTIONS{" "}
-        </p>
+        </p>  
         {/* remark */}
         <div className="border px-2 no_break">
           <div
