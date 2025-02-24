@@ -353,23 +353,23 @@ const JewelleryTaxInvoiceSale = ({
             </div>
           </div>
         ) : (
-          <div className={`${style2.companyDetails}`}>
-            <div className={`${style2.companyhead} p-2 pb-0`}>
-              <p style21={{ fontWeight: "bold", fontSize: "16px" }}>
+          <div className={`${style2.companyDetails}`} >
+            <div className={` p-2 `} style={{width:'85%', display:'flex', flexDirection:'column'}}>
+              <p style={{ fontWeight: "bold", fontSize: "16px" }}>
                 {json0Data?.CompanyFullName}
               </p>
 
-              <p className={style.lines}>{json0Data?.CompanyAddress}</p>
-              <p className={style.lines}>{json0Data?.CompanyAddress2}</p>
-              <p className={style.lines}>
+              <p style={{lineHeight:'14px'}} className={style.lines}>{json0Data?.CompanyAddress}</p>
+              <p style={{lineHeight:'14px'}} className={style.lines}>{json0Data?.CompanyAddress2}</p>
+              <p style={{lineHeight:'14px'}} className={style.lines}>
                 {json0Data?.CompanyCity} - {json0Data?.CompanyPinCode},
                 {json0Data?.CompanyState}({json0Data?.CompanyCountry})
               </p>
-              <p className={style.lines}>Tell No: {json0Data?.CompanyTellNo}</p>
-              <p className={style.lines}>
+              <p style={{lineHeight:'14px'}} className={style.lines}>T {json0Data?.CompanyTellNo}</p>
+              <p style={{lineHeight:'14px'}} className={style.lines}>
                 {json0Data?.CompanyEmail} | {json0Data?.CompanyWebsite}
               </p>
-              <p className={style.lines}>
+              <p style={{lineHeight:'14px'}} className={style.lines}>
                 {json0Data?.Company_VAT_GST_No} | {json0Data?.Company_CST_STATE}
                 - {json0Data?.Company_CST_STATE_No} | PAN -{" "}
                 {json0Data?.Pannumber}
@@ -651,35 +651,35 @@ const JewelleryTaxInvoiceSale = ({
                   className="col1_sqm p-1 border-end"
                   style={{ width: "11%" }}
                 >
-                  <p className="text-center fs_jti_Sale">{i + 1}</p>
+                  <p className="text-center fs_13px_jti" style={{fontSize:'14px'}}>{i + 1}</p>
                 </div>
                 <div
                   className={`col2_sqm p-1 border-end position-relative`}
                   style={{ width: "13%" }}
                 >
                   {atob(evn)?.trim()?.toLocaleLowerCase() !== "quote" && (
-                    <p className="fs_jti_Sale">Job: {e?.SrJobno} </p>
+                    <p className="fs_13px_jti" style={{fontSize:'14px'}}>Job: {e?.SrJobno} </p>
                   )}
                   <p>
                     Design:{" "}
-                    <span className="fw-bold text-break fs_jti_Sale">
+                    <span className="fw-bold text-break fs_13px_jti" style={{fontSize:'14px'}}>
                       {e?.designno}
                     </span>{" "}
                   </p>
                   {e?.Size === "" ? (
                     ""
                   ) : (
-                    <p className="text-break fs_jti_Sale">{e?.Size}</p>
+                    <p className="text-break fs_13px_jti" style={{fontSize:'14px'}}>{e?.Size}</p>
                   )}
                   {e?.lineid === "" ? (
                     ""
                   ) : (
-                    <p className="text-break fs_jti_Sale">{e?.lineid}</p>
+                    <p className="text-break fs_13px_jti" style={{fontSize:'14px'}}>{e?.lineid}</p>
                   )}
                   {e?.batchnumber === "" ? (
                     ""
                   ) : (
-                    <p className="text-break fs_jti_Sale">
+                    <p className="text-break fs_13px_jti" style={{fontSize:'14px'}}>
                       {" "}
                       Batch : {e?.batchnumber}
                     </p>
@@ -687,7 +687,7 @@ const JewelleryTaxInvoiceSale = ({
                   {/* <div className="text-center w-100 " style={{position: 'absolute', top:'50%' }}><span><span className="fw-normal">QTY :</span> </span><span className="fw-bold">{e?.Quantity}</span></div> */}
                 </div>
                 <div className={`col3_sqm p-1 border-end`}>
-                  <p className="text-break ">
+                  <p className="text-break " style={{fontSize:'12px'}}>
                     {e?.MetalTypePurity} {e?.metalColorCode} |{" "}
                     {NumberWithCommas(e?.grosswt, 3)} gms GW |{" "}
                     {NumberWithCommas(e?.NetWt, 3)} gms NW
@@ -718,7 +718,7 @@ const JewelleryTaxInvoiceSale = ({
                     e?.materials?.map((ele, ind) => {
                       return (
                         <p key={ind} className="text-break">
-                          <span className="text-break">
+                          <span className="text-break " style={{fontSize:'12px'}}>
                             {ele?.MasterManagement_DiamondStoneTypeid === 1 &&
                               (ele?.IsCenterStone === 1
                                 ? "CenterStone"
@@ -735,7 +735,7 @@ const JewelleryTaxInvoiceSale = ({
                             : " Cts"}{" "}
                           |{ele?.Shape_Code}
                           {ele?.MasterManagement_DiamondStoneTypeid !== 3 && (
-                            <span className="text-break">
+                            <span className="text-break" style={{fontSize:'12px'}}>
                               {" "}
                               {ele?.Color_Code} {ele?.Quality_Code}
                             </span>
@@ -749,10 +749,10 @@ const JewelleryTaxInvoiceSale = ({
                     <>
                       {atob(evn) !== "memo" && (
                         <div>
-                          <p className="text-decoration-underline fw-bold">
+                          <p className="text-decoration-underline fw-bold" style={{fontSize:'12px'}}>
                             REMARKS{" "}
                           </p>
-                          <p>{e?.JobRemark}</p>
+                          <p style={{fontSize:'12px'}}>{e?.JobRemark}</p>
                         </div>
                       )}
                     </>
@@ -770,7 +770,7 @@ const JewelleryTaxInvoiceSale = ({
                 </div>
 
                 <div className="col5_sqm p-1">
-                  <p className="text-end fs_jti_Sale">
+                  <p className="text-end fs_13px_jti" style={{fontSize:'14px'}}>
                     <span
                       dangerouslySetInnerHTML={{
                         __html: json0Data?.Currencysymbol,
@@ -791,11 +791,11 @@ const JewelleryTaxInvoiceSale = ({
             className={`${"col2_sqm"} p-1 border-end`}
             style={{ width: "13%" }}
           >
-            <p className="fw-normal fs_jti_Sale">TOTAL</p>{" "}
+            <p className="fw-normal " style={{fontSize:'14px'}}>TOTAL</p>{" "}
           </div>
 
           <div className="col6_sqm p-1">
-            <p className="text-end fw-bold fs_jti_Sale">
+            <p className="text-end fw-bold " style={{fontSize:'14px'}}>
               <span
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
@@ -1020,10 +1020,10 @@ const JewelleryTaxInvoiceSale = ({
         <div className="d-flex border-start border-end border-bottom no_break lightGrey">
           <div className="col-8 p-1"></div>
           <div className="col-2 p-1">
-            <p className="fw-bold fs_jti_Sale">GRAND TOTAL</p>{" "}
+            <p className="fw-bold " style={{fontSize:'14px'}}>GRAND TOTAL</p>{" "}
           </div>
           <div className="col-2 p-1">
-            <p className="text-end fw-bold fs_jti_Sale">
+            <p className="text-end fw-bold " style={{fontSize:'14px'}}>
               <span
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
@@ -1041,7 +1041,8 @@ const JewelleryTaxInvoiceSale = ({
         </div>
         {/* computer generated */}
         <p
-          className={`py-2 ${style.generated} no_break text-secondary  static_line_sqm`}
+          className={`py-2 ${style.generated} no_break   static_line_sqm`}
+          style={{color:"#808080"}}
         >
           ** THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US
           IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF
@@ -1056,20 +1057,20 @@ const JewelleryTaxInvoiceSale = ({
         {/* bank detail */}
         <div className="border-start border-end border-bottom d-flex no_break">
           <div className={`col-4 border-end p-2 ${style?.lh_dec_JTI}`}>
-            <p className="fw-bold">Bank Detail</p>
-            <p>Bank Name: {json0Data?.bankname}</p>
-            <p className="text-break">Branch: {json0Data?.bankaddress}</p>
-            <p>Account Name: {json0Data?.accountname}</p>
-            <p>Account No. : {json0Data?.accountnumber}</p>
-            <p>RTGS/NEFT IFSC: {json0Data?.rtgs_neft_ifsc}</p>
+            <p className="fw-bold fs_11px_jti" style={{fontSize:'13px'}}>Bank Detail</p>
+            <p className="fs_11px_jti" style={{fontSize:'13px'}}>Bank Name: {json0Data?.bankname}</p>
+            <p  style={{fontSize:'13px'}} className="fs_11px_jti text-break">Branch: {json0Data?.bankaddress}</p>
+            <p className="fs_11px_jti" style={{fontSize:'13px'}}>Account Name: {json0Data?.accountname}</p>
+            <p className="fs_11px_jti" style={{fontSize:'13px'}}>Account No. : {json0Data?.accountnumber}</p>
+            <p className="fs_11px_jti" style={{fontSize:'13px'}}>RTGS/NEFT IFSC: {json0Data?.rtgs_neft_ifsc}</p>
           </div>
-          <div className="col-4 border-end d-flex flex-column justify-content-between p-2 pb-0 pt-1">
-            <p>Signature</p>
-            <p className="fw-bold">{json0Data?.customerfirmname}</p>
+          <div className="col-4 border-end d-flex flex-column justify-content-between " style={{padding:'5px'}}>
+            <p className="fs_11px_jti" style={{fontSize:'13px'}}>Signature</p>
+            <p style={{fontSize:'13px', lineHeight:'10px'}} className="fs_11px_jti fw-bold">{json0Data?.customerfirmname}</p>
           </div>
-          <div className="col-4 d-flex flex-column justify-content-between p-2 pb-0 pt-1">
-            <p>Signature</p>
-            <p className="fw-bold">{json0Data?.Branch_Description}</p>
+          <div className="col-4 d-flex flex-column justify-content-between  " style={{padding:'5px'}}>
+            <p className="fs_11px_jti" style={{fontSize:'13px'}}>Signature</p>
+            <p style={{fontSize:'13px', lineHeight:'10px'}} className="fw-bold fs_11px_jti">{json0Data?.Branch_Description}</p>
             {/* <p className="fw-bold">{json0Data?.CompanyFullName}</p> */}
           </div>
         </div>

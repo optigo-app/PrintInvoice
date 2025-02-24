@@ -13,10 +13,10 @@
 
 
 .col1_sqm{
-    width: 12%;
+    width: 11%;
 }
 .col2_sqm{
-    width: 12%;
+    width: 13%;
 }
 .col3_sqm{
     width: 49%;
@@ -83,5 +83,11 @@
     }
     .fs_jti_Sale{
         font-size: 12px !important;
+    }
+    .fs_13px_jti{
+        font-size: 13px !important;
+    }
+    .fs_11px_jti{
+        font-size: 11px !important;
     }
 }
