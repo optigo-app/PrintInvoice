@@ -1296,7 +1296,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           )}
                           {e?.lineid !== "" && (
                             <p className="fw-bold text-center">
-                              Id:<span className="fw-bold">{e?.lineid}</span>
+                              Line Id:<span className="fw-bold">{e?.lineid}</span>
                             </p>
                           )}
                           <div className="d-flex justify-content-between"></div>
