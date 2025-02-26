@@ -352,7 +352,7 @@ const JewelleryTaxInvoiceSale = ({
             </div>
           </div>
         ) : (
-          <div className={`${style2.companyDetails}`}>
+          <div className={`${style2.companyDetails} jewel_top_main_class`}>
             <div
               className={` p-2 `}
               style={{ width: "85%", display: "flex", flexDirection: "column" }}
@@ -361,41 +361,23 @@ const JewelleryTaxInvoiceSale = ({
                 {json0Data?.CompanyFullName}
               </p>
 
-              <p
-                style={{ lineHeight: "12px", fontSize: "13px" }}
-                className={style.lines}
-              >
+              <p className="jewel_top_main_address">
                 {json0Data?.CompanyAddress}
               </p>
-              <p
-                style={{ lineHeight: "12px", fontSize: "13px" }}
-                className={style.lines}
-              >
+              <p className="jewel_top_main_address">
                 {json0Data?.CompanyAddress2}
               </p>
-              <p
-                style={{ lineHeight: "12px", fontSize: "13px" }}
-                className={style.lines}
-              >
+              <p className="jewel_top_main_address">
                 {json0Data?.CompanyCity} - {json0Data?.CompanyPinCode},
                 {json0Data?.CompanyState}({json0Data?.CompanyCountry})
               </p>
-              <p
-                style={{ lineHeight: "12px", fontSize: "13px" }}
-                className={style.lines}
-              >
+              <p className="jewel_top_main_address">
                 T {json0Data?.CompanyTellNo}
               </p>
-              <p
-                style={{ lineHeight: "12px", fontSize: "13px" }}
-                className={style.lines}
-              >
+              <p className="jewel_top_main_address">
                 {json0Data?.CompanyEmail} | {json0Data?.CompanyWebsite}
               </p>
-              <p
-                style={{ lineHeight: "12px", fontSize: "13px" }}
-                className={style.lines}
-              >
+              <p className="jewel_top_main_address_last">
                 {json0Data?.Company_VAT_GST_No} | {json0Data?.Company_CST_STATE}
                 - {json0Data?.Company_CST_STATE_No} | PAN -{" "}
                 {json0Data?.Pannumber}
@@ -423,7 +405,7 @@ const JewelleryTaxInvoiceSale = ({
           </div>
         )}
         {/* sub header */}
-        <div className="no_break" style={{marginTop: '8px'}}>
+        <div className="no_break" style={{ marginTop: "-2px" }}>
           <div className="border d-flex justify-content-between">
             <div
               className="col-6 jewel_top_customer_add_print"
@@ -437,7 +419,7 @@ const JewelleryTaxInvoiceSale = ({
                   className={`fw-bold  text-break ${style?.fs_16_jti}`}
                   style={{
                     width: "180px",
-                    fontSize: "13px",
+                    fontSize: "12.8px",
                     lineHeight: "13px",
                   }}
                 >
@@ -650,23 +632,27 @@ const JewelleryTaxInvoiceSale = ({
           style={{ backgroundColor: "#F2F2F2" }}
         >
           <div className=" col1_sqm p-1 border-end">
-            <p className="fw-bold center_jti_content fs_custom_jti">SR NO</p>
+            <p className="fw-bold center_jti_content fs_custom_jti jewel_top_box_title">
+              SR NO
+            </p>
           </div>
           <div className={` p-1 col2_sqm border-end`}>
-            <p className="fw-bold center_jti_content fs_custom_jti">
+            <p className="fw-bold center_jti_content fs_custom_jti jewel_top_box_title">
               ITEM CODE
             </p>
           </div>
           <div className={`${""} col3_sqm p-1 border-end`}>
-            <p className="fw-bold center_jti_content fs_custom_jti">
+            <p className="fw-bold center_jti_content fs_custom_jti jewel_top_box_title">
               DESCRIPTION
             </p>
           </div>
           <div className={` ${""} col4_sqm p-1 border-end  `}>
-            <p className="fw-bold center_jti_content fs_custom_jti">IMAGE</p>
+            <p className="fw-bold center_jti_content fs_custom_jti jewel_top_box_title">
+              IMAGE
+            </p>
           </div>
           <div className=" col5_sqm p-1">
-            <p className="fw-bold center_jti_content fs_custom_jti">
+            <p className="fw-bold center_jti_content fs_custom_jti jewel_top_box_title">
               AMOUNT ({json0Data?.CurrencyCode})
             </p>
           </div>
@@ -828,7 +814,7 @@ const JewelleryTaxInvoiceSale = ({
                 </div>
                 <div
                   className={`${"col4_sqm"} p-1 border-end d-flex justify-content-center align-items-center`}
-                  style={{borderLeft: '1px solid #dee2e6'}}
+                  style={{ borderLeft: "1px solid #dee2e6" }}
                 >
                   <img
                     src={e?.DesignImage}
@@ -842,9 +828,10 @@ const JewelleryTaxInvoiceSale = ({
                 <div className="col5_sqm p-1">
                   <p
                     className="text-end fs_13px_jti"
-                    style={{ fontSize: "14px" }}
+                    style={{ fontSize: "13px" }}
                   >
                     <span
+                      style={{ fontSize: "13px" }}
                       dangerouslySetInnerHTML={{
                         __html: json0Data?.Currencysymbol,
                       }}
@@ -864,14 +851,15 @@ const JewelleryTaxInvoiceSale = ({
             className={`${"col2_sqm"} p-1 border-end jewel_totalFinal`}
             style={{ width: "14%" }}
           >
-            <p className="fw-normal " style={{ fontSize: "14px" }}>
+            <p className="fw-normal " style={{ fontSize: "13.5px" }}>
               TOTAL
             </p>{" "}
           </div>
 
           <div className="col6_sqm p-1">
-            <p className="text-end fw-bold " style={{ fontSize: "14px" }}>
+            <p className="text-end fw-bold " style={{ fontSize: "12.7px" }}>
               <span
+                style={{ fontSize: "13px" }}
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>{" "}
               {NumberWithCommas(totalAmount.before, 2)}{" "}
@@ -920,7 +908,7 @@ const JewelleryTaxInvoiceSale = ({
                   <div
                     className="d-flex align-items-center justify-content-start ps-1"
                     key={i}
-                    style={{ fontSize: "15px" }}
+                    style={{ fontSize: "12.8px", height: "25px" }}
                   >
                     {e?.name} @ ({e?.per})
                   </div>
@@ -932,7 +920,7 @@ const JewelleryTaxInvoiceSale = ({
               result?.allTaxes?.length !== 0 && (
                 <div
                   className="d-flex align-items-center justify-content-start ps-1"
-                  style={{ fontSize: "15px" }}
+                  style={{ fontSize: "12.8px", height: "25px" }}
                 >
                   Total
                 </div>
@@ -941,7 +929,7 @@ const JewelleryTaxInvoiceSale = ({
             {result?.header?.AddLess !== 0 && (
               <div
                 className="d-flex align-items-center justify-content-start ps-1"
-                style={{ fontSize: "15px" }}
+                style={{ fontSize: "12.8px", height: "25px" }}
               >
                 {result?.header?.AddLess > 0 ? "Add" : "Less"}
               </div>
@@ -949,7 +937,7 @@ const JewelleryTaxInvoiceSale = ({
             {result?.header?.FreightCharges !== 0 && (
               <div
                 className="d-flex align-items-center justify-content-start ps-1"
-                style={{ fontSize: "15px" }}
+                style={{ fontSize: "12.8px", height: "25px" }}
               >
                 Delivery Charges
               </div>
@@ -964,9 +952,10 @@ const JewelleryTaxInvoiceSale = ({
                     <div key={i}>
                       <div
                         className="fw-bold d-flex align-items-center justify-content-end pe-1 "
-                        style={{ fontSize: "14px", gap: "2px" }}
+                        style={{ fontSize: "12.5px", gap: "2px" , height: '25px'}}
                       >
                         <span
+                          style={{ fontSize: "13px" }}
                           dangerouslySetInnerHTML={{
                             __html: result?.header?.Currencysymbol,
                           }}
@@ -985,10 +974,11 @@ const JewelleryTaxInvoiceSale = ({
               result?.allTaxes?.length !== 0 && (
                 <div
                   className="fw-bold d-flex align-items-center justify-content-end pe-1 aaaaaa"
-                  style={{ fontSize: "14px", gap: "2px" }}
+                  style={{ fontSize: "12.5px", gap: "2px" , height: '25px'}}
                 >
                   {" "}
                   <span
+                    style={{ fontSize: "12.5px" }}
                     dangerouslySetInnerHTML={{
                       __html: result?.header?.Currencysymbol,
                     }}
@@ -1007,9 +997,10 @@ const JewelleryTaxInvoiceSale = ({
             {result?.header?.AddLess !== 0 && (
               <div
                 className="fw-bold d-flex align-items-center justify-content-end pe-1 "
-                style={{ fontSize: "14px", gap: "2px" }}
+                style={{ fontSize: "12.5px", gap: "2px" }}
               >
                 <span
+                  style={{ fontSize: "12.5px" }}
                   dangerouslySetInnerHTML={{
                     __html: result?.header?.Currencysymbol,
                   }}
@@ -1022,9 +1013,10 @@ const JewelleryTaxInvoiceSale = ({
             {result?.header?.FreightCharges !== 0 && (
               <div
                 className="fw-bold d-flex align-items-center justify-content-end pe-1 "
-                style={{ fontSize: "14px", gap: "2px" }}
+                style={{ fontSize: "12.5px", gap: "2px" }}
               >
                 <span
+                  style={{ fontSize: "12.5px" }}
                   dangerouslySetInnerHTML={{
                     __html: result?.header?.Currencysymbol,
                   }}
@@ -1096,13 +1088,14 @@ const JewelleryTaxInvoiceSale = ({
         <div className="d-flex border-start border-end border-bottom no_break lightGrey">
           <div className="col-8 p-1"></div>
           <div className="col-2 p-1">
-            <p className="fw-bold " style={{ fontSize: "14px" }}>
+            <p className="fw-bold " style={{ fontSize: "13px" }}>
               GRAND TOTAL
             </p>{" "}
           </div>
           <div className="col-2 p-1">
-            <p className="text-end fw-bold " style={{ fontSize: "14px" }}>
+            <p className="text-end fw-bold " style={{ fontSize: "13px" }}>
               <span
+                style={{ fontSize: "13px" }}
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
               {/* {NumberWithCommas(totalAmount.grand, 2)}{" "} */}{" "}
@@ -1125,8 +1118,9 @@ const JewelleryTaxInvoiceSale = ({
           IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF
           TRANSACTIONS{" "}
         </p>
-        <div className="border px-2 no_break" style={{ fontSize: "13px" }}>
+        <div className="border px-2 no_break ">
           <div
+            className="jewel_box_infor_summury"
             dangerouslySetInnerHTML={{ __html: json0Data?.Declaration }}
           ></div>
         </div>

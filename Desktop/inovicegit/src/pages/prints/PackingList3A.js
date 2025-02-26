@@ -106,7 +106,14 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
         <>
           {msg === "" ? (
             <div className="packingListDemo_main_App">
-              <div className="paking_top_button_none" style={{ marginBlock: "20px", display: 'flex', justifyContent: 'flex-end' }}>
+              <div
+                className="paking_top_button_none"
+                style={{
+                  marginBlock: "20px",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}
+              >
                 <button
                   className="btn_white blue"
                   id="printbtn"
@@ -134,7 +141,14 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                   }}
                 >
                   <div>
-                    <p className="topBox_px_B" style={{ display: "flex" , paddingBlock: '2px', fontSize: '16px' }}>
+                    <p
+                      className="topBox_px_B"
+                      style={{
+                        display: "flex",
+                        paddingBlock: "2px",
+                        fontSize: "16px",
+                      }}
+                    >
                       <b>{result?.header?.CompanyFullName}</b>
                     </p>
                     <p style={{ display: "flex" }}>
@@ -150,9 +164,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                       {result?.header?.CompanyCountry})
                     </p>
                     <p style={{ display: "flex" }}>
-                      T {result?.header?.CompanyTellNo} | TOLL FREE{" "}
-                      {result?.header?.CompanyTollFreeNo} | TOLL FREE{" "}
-                      {result?.header?.CompanyTollFreeNo}
+                      T {result?.header?.CompanyTellNo}
                     </p>
                     <p style={{ display: "flex" }}>
                       {result?.header?.CompanyEmail} |{" "}
@@ -194,11 +206,13 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                       {result?.header?.customerAddress1}{" "}
                     </p>
                     <p className="topBox_p">
-                      {result?.header?.customerAddress2}
+                      {result?.header?.customerAddress3}
                     </p>
+                    {/* <p className="topBox_p">
+                      {result?.header?.customerAddress2}
+                    </p> */}
                     <p className="topBox_p">
-                      {result?.header?.customercity}
-                      {result?.header?.PinCode}
+                      {result?.header?.customercity}-{result?.header?.PinCode}
                     </p>
                     <p className="topBox_p">{result?.header?.customeremail1}</p>
                     <p className="topBox_p">{result?.header?.vat_cst_pan}</p>
@@ -366,7 +380,10 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                             {data?.diamonds?.map((e, i) => {
                               return (
                                 <div className="paking3a_col3_sub_div" key={i}>
-                                  <p className="paking3a_col3_sub_div_more_sub1" style={{lineHeight: '11px'}}>
+                                  <p
+                                    className="paking3a_col3_sub_div_more_sub1"
+                                    style={{ lineHeight: "11px" }}
+                                  >
                                     {e?.ShapeName} {e?.QualityName}{" "}
                                     {e?.Colorname}
                                   </p>
@@ -518,6 +535,36 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                 </div>
                               );
                             })}
+
+                            <div className="paking3a_col4_sub_div">
+                              <p
+                                className="paking3a_col4_sub_div_finalValus"
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "flex-start",
+                                }}
+                              >
+                                Loss
+                              </p>
+                              <p className="paking3a_col4_sub_div_finalValus">
+                                {data?.LossPer?.toFixed(3)}
+                              </p>
+                              <p className="paking3a_col4_sub_div_finalValus">
+                                {data?.LossWt}
+                              </p>
+                              <p className="paking3a_col4_sub_div_finalValus">
+                                {data?.metal_rate}
+                              </p>
+                              <p
+                                className="paking3a_col4_sub_div_finalValus_amount"
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "flex-end",
+                                }}
+                              >
+                                <b>{data?.LossAmt}</b>
+                              </p>
+                            </div>
                           </div>
                           <div
                             className="paking3a_col4_sub_div_value"
@@ -900,7 +947,11 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                         </p>
                         <p
                           className="paking3a_col3_sub_div_more_sub6"
-                          style={{ width: "37%" , display: 'flex', justifyContent: 'flex-end'}}
+                          style={{
+                            width: "37%",
+                            display: "flex",
+                            justifyContent: "flex-end",
+                          }}
                         >
                           <b>
                             {" "}

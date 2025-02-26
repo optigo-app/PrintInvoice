@@ -44,7 +44,7 @@
 }
 
 .static_line_sqm {
-  font-size: 9px;
+  font-size: 8.5px;
 }
 .tax_div_sqm {
   height: 114px;
@@ -109,6 +109,21 @@
     padding-bottom: 1px !important;
   }
 
+  .jewel_top_main_address{
+    line-height: 11px !important;
+    font-size: 11.5px !important;
+  }
+
+  .jewel_top_main_address_last{
+    line-height: 11px !important;
+    font-size: 11px !important;
+    margin-top: 1px !important;
+  }
+
+  .jewel_top_main_class{
+    margin-top: 18px !important;
+  }
+
   .fs_custom_jti {
     font-size: 12px;
   }
@@ -123,9 +138,17 @@
     font-size: 12px !important;
   }
   .fs_13px_jti {
-    font-size: 13px !important;
+    font-size: 12.5px !important;
   }
   .fs_11px_jti {
     font-size: 11px !important;
+  }
+  
+  .jewel_box_infor_summury{
+    font-size: 8px !important;
+  }
+
+  .jewel_top_box_title{
+    font-size: 13px !important;
   }
 }
