@@ -1,3 +1,4 @@
+// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=U0syMDY1MjAyNCA=&evn=c2FsZQ==&pnm=amV3ZWxsZXJ5IHRheCBpbnZvaWNl&up=aHR0cDovL3plbi9qby9hcGktbGliL0FwcC9TYWxlQmlsbF9Kc29u&ctv=NzE=&ifid=PackingList3&pid=undefined
 //code of version 66
 import React, { useEffect, useState } from "react";
 import {
@@ -356,27 +357,45 @@ const JewelleryTaxInvoiceSale = ({
               className={` p-2 `}
               style={{ width: "85%", display: "flex", flexDirection: "column" }}
             >
-              <p style={{ fontWeight: "bold", fontSize: "16px" }}>
+              <p style={{ fontWeight: "bold", fontSize: "14.5px" }}>
                 {json0Data?.CompanyFullName}
               </p>
 
-              <p style={{ lineHeight: "14px" }} className={style.lines}>
+              <p
+                style={{ lineHeight: "12px", fontSize: "13px" }}
+                className={style.lines}
+              >
                 {json0Data?.CompanyAddress}
               </p>
-              <p style={{ lineHeight: "14px" }} className={style.lines}>
+              <p
+                style={{ lineHeight: "12px", fontSize: "13px" }}
+                className={style.lines}
+              >
                 {json0Data?.CompanyAddress2}
               </p>
-              <p style={{ lineHeight: "14px" }} className={style.lines}>
+              <p
+                style={{ lineHeight: "12px", fontSize: "13px" }}
+                className={style.lines}
+              >
                 {json0Data?.CompanyCity} - {json0Data?.CompanyPinCode},
                 {json0Data?.CompanyState}({json0Data?.CompanyCountry})
               </p>
-              <p style={{ lineHeight: "14px" }} className={style.lines}>
+              <p
+                style={{ lineHeight: "12px", fontSize: "13px" }}
+                className={style.lines}
+              >
                 T {json0Data?.CompanyTellNo}
               </p>
-              <p style={{ lineHeight: "14px" }} className={style.lines}>
+              <p
+                style={{ lineHeight: "12px", fontSize: "13px" }}
+                className={style.lines}
+              >
                 {json0Data?.CompanyEmail} | {json0Data?.CompanyWebsite}
               </p>
-              <p style={{ lineHeight: "14px" }} className={style.lines}>
+              <p
+                style={{ lineHeight: "12px", fontSize: "13px" }}
+                className={style.lines}
+              >
                 {json0Data?.Company_VAT_GST_No} | {json0Data?.Company_CST_STATE}
                 - {json0Data?.Company_CST_STATE_No} | PAN -{" "}
                 {json0Data?.Pannumber}
@@ -404,10 +423,13 @@ const JewelleryTaxInvoiceSale = ({
           </div>
         )}
         {/* sub header */}
-        <div className="no_break">
+        <div className="no_break" style={{marginTop: '8px'}}>
           <div className="border d-flex justify-content-between">
-            <div className="col-6 p-2">
-              <p className=" " style={{ fontSize: "13px", lineHeight: "15px" }}>
+            <div
+              className="col-6 jewel_top_customer_add_print"
+              style={{ padding: "2px 0px 0px 7px" }}
+            >
+              <p className=" " style={{ fontSize: "11px", lineHeight: "15px" }}>
                 To,{" "}
               </p>
               {json0Data?.customerfirmname !== "" && (
@@ -415,8 +437,8 @@ const JewelleryTaxInvoiceSale = ({
                   className={`fw-bold  text-break ${style?.fs_16_jti}`}
                   style={{
                     width: "180px",
-                    fontSize: "14px",
-                    lineHeight: "15px",
+                    fontSize: "13px",
+                    lineHeight: "13px",
                   }}
                 >
                   {json0Data?.customerfirmname}
@@ -429,8 +451,8 @@ const JewelleryTaxInvoiceSale = ({
                       className=" text-break"
                       style={{
                         width: "180px",
-                        fontSize: "13px",
-                        lineHeight: "15px",
+                        fontSize: "11.1px",
+                        lineHeight: "13px",
                       }}
                     >
                       {json0Data?.customerstreet}
@@ -441,8 +463,8 @@ const JewelleryTaxInvoiceSale = ({
                       className=" text-break"
                       style={{
                         width: "180px",
-                        fontSize: "13px",
-                        lineHeight: "15px",
+                        fontSize: "12px",
+                        lineHeight: "13px",
                       }}
                     >
                       {json0Data?.customerregion}
@@ -453,8 +475,8 @@ const JewelleryTaxInvoiceSale = ({
                       className=" text-break"
                       style={{
                         width: "180px",
-                        fontSize: "13px",
-                        lineHeight: "15px",
+                        fontSize: "11.1px",
+                        lineHeight: "13px",
                       }}
                     >
                       {json0Data?.customercity}
@@ -468,8 +490,8 @@ const JewelleryTaxInvoiceSale = ({
                   className=" text-break"
                   style={{
                     width: "180px",
-                    fontSize: "13px",
-                    lineHeight: "15px",
+                    fontSize: "11.1px",
+                    lineHeight: "13px",
                   }}
                 >
                   {json0Data?.customerstate}, {json0Data?.customercountry}{" "}
@@ -495,14 +517,14 @@ const JewelleryTaxInvoiceSale = ({
                   {json0Data?.customermobileno !== "" && (
                     <div
                       className=""
-                      style={{ fontSize: "13px", lineHeight: "15px" }}
+                      style={{ fontSize: "11.1px", lineHeight: "15px" }}
                     >
                       Tel : {json0Data?.customermobileno}
                     </div>
                   )}
                   <div
                     className=""
-                    style={{ fontSize: "13px", lineHeight: "15px" }}
+                    style={{ fontSize: "11.1px", lineHeight: "15px" }}
                   >
                     {json0Data?.customeremail1}
                   </div>
@@ -539,23 +561,26 @@ const JewelleryTaxInvoiceSale = ({
                 </>
               )}
             </div>
-            <div className="col-5 px-2 d-flex flex-column justify-content-center jewel_top_right_infor">
-              <p className="lh-1 pb-1" style={{ fontSize: "13px" }}>
+            <div
+              className="px-2 d-flex flex-column justify-content-center jewel_top_right_infor"
+              style={{ marginRight: "30px" }}
+            >
+              <p className="lh-1 pb-1 jewel_top_right_add">
                 {atob(evn) === "memo" && "Memo"} Invoice
-                <span className="fw-bold" style={{ fontSize: "13px" }}>
+                <span className="fw-bold jewel_top_right_add">
                   #: {json0Data?.InvoiceNo}
                 </span>{" "}
                 Dated{" "}
-                <span className="fw-bold" style={{ fontSize: "13px" }}>
+                <span className="fw-bold jewel_top_right_add">
                   {json0Data?.EntryDate}
                 </span>
               </p>
               {!imgFlag && (
                 <>
                   {customerDetail?.pan !== "" && (
-                    <p className="lh-1 pb-1" style={{ fontSize: "13px" }}>
+                    <p className="lh-1 pb-1 jewel_top_right_add">
                       PAN
-                      <span className="fw-bold" style={{ fontSize: "13px" }}>
+                      <span className="fw-bold jewel_top_right_add">
                         #: {customerDetail?.pan}
                       </span>{" "}
                     </p>
@@ -577,18 +602,18 @@ const JewelleryTaxInvoiceSale = ({
                 </p>
               )} */}
               {!imgFlag && (
-                <p className="lh-1 pb-1" style={{ fontSize: "13px" }}>
+                <p className="lh-1 pb-1 jewel_top_right_add">
                   {result?.header?.Cust_VAT_GST_No !== "" && (
                     <>
-                      <span style={{ fontSize: "13px" }}>GSTIN</span>{" "}
-                      <span className="fw-bold" style={{ fontSize: "13px" }}>
+                      <span className="jewel_top_right_add">GSTIN</span>{" "}
+                      <span className="fw-bold jewel_top_right_add">
                         {result?.header?.Cust_VAT_GST_No}
                       </span>
                     </>
                   )}
                   {result?.header?.Cust_VAT_GST_No === "" ? "" : " | "}{" "}
                   {result?.header?.Cust_CST_STATE}{" "}
-                  <span className="fw-bold" style={{ fontSize: "13px" }}>
+                  <span className="fw-bold jewel_top_right_add">
                     {" "}
                     {result?.header?.Cust_CST_STATE_No}
                   </span>
@@ -598,18 +623,18 @@ const JewelleryTaxInvoiceSale = ({
               {!imgFlag && (
                 <>
                   {json0Data?.DueDays !== 0 && (
-                    <p className="lh-1 pb-1" style={{ fontSize: "13px" }}>
+                    <p className="lh-1 pb-1 jewel_top_right_add">
                       Terms:{" "}
-                      <span className="fw-bold" style={{ fontSize: "13px" }}>
+                      <span className="fw-bold jewel_top_right_add">
                         {" "}
                         {json0Data?.DueDays}
                       </span>
                     </p>
                   )}
                   {atob(evn) !== "memo" && (
-                    <p className="lh-1 pb-1" style={{ fontSize: "13px" }}>
+                    <p className="lh-1 pb-1 jewel_top_right_add">
                       Due Date:{" "}
-                      <span className="fw-bold" style={{ fontSize: "13px" }}>
+                      <span className="fw-bold jewel_top_right_add">
                         {json0Data?.DueDate}
                       </span>
                     </p>
@@ -653,6 +678,7 @@ const JewelleryTaxInvoiceSale = ({
               <div
                 className="d-flex border-start border-end border-bottom no_break border-top"
                 key={i}
+                style={{ marginBottom: " 4px" }}
               >
                 <div
                   className="col1_sqm p-1 border-end"
@@ -717,10 +743,9 @@ const JewelleryTaxInvoiceSale = ({
                   {/* <div className="text-center w-100 " style={{position: 'absolute', top:'50%' }}><span><span className="fw-normal">QTY :</span> </span><span className="fw-bold">{e?.Quantity}</span></div> */}
                 </div>
                 <div
-                  className={`col3_sqm p-1 border-end jewelery_description_height`}
-                  // style={{ height: "113px" }}
+                  className={`col3_sqm p-1 border-end jewelery_description_height border_right_none`}
                 >
-                  <p className="text-break " style={{ fontSize: "12px" }}>
+                  <p className="text-break text_break_value ">
                     {e?.MetalTypePurity} {e?.metalColorCode} |{" "}
                     {NumberWithCommas(e?.grosswt, 3)} gms GW |{" "}
                     {NumberWithCommas(e?.NetWt, 3)} gms NW
@@ -750,11 +775,11 @@ const JewelleryTaxInvoiceSale = ({
                   {e?.materials?.length > 0 &&
                     e?.materials?.map((ele, ind) => {
                       return (
-                        <p key={ind} className="text-break">
-                          <span
-                            className="text-break "
-                            style={{ fontSize: "12px" }}
-                          >
+                        <p
+                          key={ind}
+                          className="text-break text_break_value_sub"
+                        >
+                          <span className="text-break ">
                             {ele?.MasterManagement_DiamondStoneTypeid === 1 &&
                               (ele?.IsCenterStone === 1
                                 ? "CenterStone"
@@ -764,21 +789,22 @@ const JewelleryTaxInvoiceSale = ({
                             {ele?.MasterManagement_DiamondStoneTypeid === 3 &&
                               "Misc"}
                           </span>
-                          {/* )} */}: {NumberWithCommas(ele?.Pcs, 0)} Pcs |{" "}
-                          {NumberWithCommas(ele?.Wt, 3)}
-                          {ele?.MasterManagement_DiamondStoneTypeid === 3
-                            ? "gms"
-                            : " Cts"}{" "}
-                          |{ele?.Shape_Code}
-                          {ele?.MasterManagement_DiamondStoneTypeid !== 3 && (
-                            <span
-                              className="text-break"
-                              style={{ fontSize: "12px" }}
-                            >
-                              {" "}
-                              {ele?.Color_Code} {ele?.Quality_Code}
-                            </span>
-                          )}
+                          :
+                          <span style={{ fontSize: "10.5px" }}>
+                            {" "}
+                            {NumberWithCommas(ele?.Pcs, 0)} Pcs |{" "}
+                            {NumberWithCommas(ele?.Wt, 3)}
+                            {ele?.MasterManagement_DiamondStoneTypeid === 3
+                              ? "gms"
+                              : " Cts"}{" "}
+                            |{ele?.Shape_Code}
+                            {ele?.MasterManagement_DiamondStoneTypeid !== 3 && (
+                              <span style={{ fontSize: "10.5px" }}>
+                                {" "}
+                                {ele?.Color_Code} {ele?.Quality_Code}
+                              </span>
+                            )}
+                          </span>
                           {/* {ele?.ShapeName}{ele?.MasterManagement_DiamondStoneTypeid !== 3 && <span className="text-break"> 
                           {" "} {ele?.Colorname} {ele?.QualityName}</span>} */}
                         </p>
@@ -802,11 +828,13 @@ const JewelleryTaxInvoiceSale = ({
                 </div>
                 <div
                   className={`${"col4_sqm"} p-1 border-end d-flex justify-content-center align-items-center`}
+                  style={{borderLeft: '1px solid #dee2e6'}}
                 >
                   <img
                     src={e?.DesignImage}
                     alt=""
-                    className={`d-block mx-auto ${style?.image} `}
+                    className={`d-block mx-auto jewel_design_images`}
+                    style={{ height: "100px", width: "100px" }}
                     onError={handleImageError}
                   />
                 </div>
@@ -870,7 +898,7 @@ const JewelleryTaxInvoiceSale = ({
                   ) : (
                     <div
                       className="d-flex justify-content-between"
-                      style={{ width: "65%" }}
+                      style={{ width: "58%" }}
                       key={i}
                     >
                       <p key={i} className="remark_fs fs_jti_Sale">
@@ -890,7 +918,6 @@ const JewelleryTaxInvoiceSale = ({
               return (
                 e?.amountInNumber !== 0 && (
                   <div
-
                     className="d-flex align-items-center justify-content-start ps-1"
                     key={i}
                     style={{ fontSize: "15px" }}
@@ -937,7 +964,7 @@ const JewelleryTaxInvoiceSale = ({
                     <div key={i}>
                       <div
                         className="fw-bold d-flex align-items-center justify-content-end pe-1 "
-                        style={{ fontSize: "14px", gap: '2px' }}
+                        style={{ fontSize: "14px", gap: "2px" }}
                       >
                         <span
                           dangerouslySetInnerHTML={{
@@ -958,7 +985,7 @@ const JewelleryTaxInvoiceSale = ({
               result?.allTaxes?.length !== 0 && (
                 <div
                   className="fw-bold d-flex align-items-center justify-content-end pe-1 aaaaaa"
-                  style={{ fontSize: "14px" , gap: '2px' }}
+                  style={{ fontSize: "14px", gap: "2px" }}
                 >
                   {" "}
                   <span
@@ -980,7 +1007,7 @@ const JewelleryTaxInvoiceSale = ({
             {result?.header?.AddLess !== 0 && (
               <div
                 className="fw-bold d-flex align-items-center justify-content-end pe-1 "
-                style={{ fontSize: "14px", gap: '2px' }}
+                style={{ fontSize: "14px", gap: "2px" }}
               >
                 <span
                   dangerouslySetInnerHTML={{
@@ -995,7 +1022,7 @@ const JewelleryTaxInvoiceSale = ({
             {result?.header?.FreightCharges !== 0 && (
               <div
                 className="fw-bold d-flex align-items-center justify-content-end pe-1 "
-                style={{ fontSize: "14px" , gap:'2px'}}
+                style={{ fontSize: "14px", gap: "2px" }}
               >
                 <span
                   dangerouslySetInnerHTML={{
@@ -1078,8 +1105,7 @@ const JewelleryTaxInvoiceSale = ({
               <span
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
-              {/* {NumberWithCommas(totalAmount.grand, 2)}{" "} */}
-              {" "}
+              {/* {NumberWithCommas(totalAmount.grand, 2)}{" "} */}{" "}
               {formatAmount(
                 result?.mainTotal?.total_amount /
                   result?.header?.CurrencyExchRate +
@@ -1093,20 +1119,23 @@ const JewelleryTaxInvoiceSale = ({
         </div>
         <p
           className={`py-2 ${style.generated} no_break   static_line_sqm`}
-          style={{ color: "#808080" }}
+          style={{ color: "rgb(161 159 159)" }}
         >
           ** THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US
           IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF
           TRANSACTIONS{" "}
         </p>
-        <div className="border px-2 no_break" style={{fontSize: '13px'}}>
+        <div className="border px-2 no_break" style={{ fontSize: "13px" }}>
           <div
             dangerouslySetInnerHTML={{ __html: json0Data?.Declaration }}
           ></div>
         </div>
         {/* bank detail */}
         <div className="border-start border-end border-bottom d-flex no_break">
-          <div className={`col-4 border-end p-2 ${style?.lh_dec_JTI}`}>
+          <div
+            className={`col-4 border-end p-2 ${style?.lh_dec_JTI}`}
+            style={{ width: "42%" }}
+          >
             <p className="fw-bold fs_11px_jti" style={{ fontSize: "13px" }}>
               Bank Detail
             </p>
@@ -1128,7 +1157,7 @@ const JewelleryTaxInvoiceSale = ({
           </div>
           <div
             className="col-4 border-end d-flex flex-column justify-content-between "
-            style={{ padding: "5px" }}
+            style={{ padding: "5px", width: "29%" }}
           >
             <p className="fs_11px_jti" style={{ fontSize: "13px" }}>
               Signature
@@ -1142,7 +1171,7 @@ const JewelleryTaxInvoiceSale = ({
           </div>
           <div
             className="col-4 d-flex flex-column justify-content-between  "
-            style={{ padding: "5px" }}
+            style={{ padding: "5px", width: "29%" }}
           >
             <p className="fs_11px_jti" style={{ fontSize: "13px" }}>
               Signature

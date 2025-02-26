@@ -1070,7 +1070,9 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const handleImageLoad = () => {
     setImageLoading(false);
   };
-
+  
+  console.log('ressssss', json1Data);
+  
   return (
     <>
       {loader ? (
@@ -1300,12 +1302,12 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             </p>
                           )}
                           <div className="d-flex justify-content-between"></div>
-                          <p className="text-center">
+                          {json1Data?.IsShowTunchInPrint === 1 && <p className="text-center">
                             Tunch :{" "}
                             <span className="fw-bold">
                               {NumberWithCommas(e?.Tunch, 3)}
                             </span>{" "}
-                          </p>
+                          </p>}
                           <p className="text-center">
                             <span className="fw-bold">
                               {fixedValues(e?.grosswt, 3)} gm
