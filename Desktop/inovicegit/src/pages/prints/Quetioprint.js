@@ -317,7 +317,10 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
         <>
           {msg === "" ? (
             <div className="qut1_print_main_div pb-5 mb-5">
-              <div style={{ marginBlock: "20px" }} className="d-flex justify-content-end w-100">
+              <div
+                style={{ marginBlock: "20px" }}
+                className="d-flex justify-content-end w-100"
+              >
                 <button
                   className="btn_white blue"
                   id="printbtn"
@@ -329,7 +332,9 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
               </div>
               <div className="qut1_main_header">
                 <p style={{ margin: "0px", color: "white" }}>
-                  {result?.header?.PrintHeadLabel}QUOTATION
+                  {result?.header?.PrintHeadLabel !== ""
+                    ? result?.header?.PrintHeadLabel
+                    : "QUOTATION"}
                 </p>
               </div>
               <div
@@ -425,7 +430,7 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                 </div>
                 <div className="qut1_address_box3">
                   <p className="qut1_address_box_p">
-                    <b style={{ width: "100px", display: "flex" }}>BILL NO</b>{" "}
+                    <b style={{ width: "100px", display: "flex" }}>QUOTE NO </b>{" "}
                     {result?.header?.InvoiceNo}
                   </p>
                   <p className="qut1_address_box_p">
@@ -503,7 +508,10 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                       </p>
                     </div>
                     <div className="qut1_table_header_col5_subheader">
-                      <p className="qut1_table_header_col5_subheader_1">
+                      <p
+                        className="qut1_table_header_col5_subheader_1"
+                        style={{ width: "40%" }}
+                      >
                         {" "}
                         Code
                       </p>
@@ -579,8 +587,10 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                             </div>
                             <div>
                               {data?.HUID && `HUID-${data?.HUID}`}
-                              PO:-{data?.PO}
-                              {data?.Size && `Size : ${data?.Size}`}
+                              {data?.PO !== "" && `PO:-${data?.PO}`} <br />G Wt{" "}
+                              {data?.grosswt?.toFixed(3)} gm <br/>
+                              {data?.Size !== "-" && `Size : ${data?.Size}`}
+                              <br />
                               {/* {data?.lineid}
                                   Tunch:{data?.Tunch}
                                   {data?.grosswt} gm Gross */}
@@ -632,25 +642,35 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                               })}
                             </div>
                             <div
-                              className="qut1_table_header_col3_subheader"
+                              className="qut1_table_header_col3_subheader qut1_table_total_assign_height"
                               style={{
                                 backgroundColor: "#f5f5f5",
                               }}
                             >
                               <p className="qut1_table_header_col3_subheader_1 qut1_table_header_col3_totalValues"></p>
                               <p className="qut1_table_header_col3_subheader_2 qut1_table_header_col3_totalValues"></p>
-                              <p className="qut1_table_header_col3_subheader_3 qut1_table_header_col3_totalValues"></p>
+                              <p className="qut1_table_header_col3_subheader_3 qut1_table_header_col3_totalValues">
+                                <b>
+                                  {data?.totals?.diamonds?.Pcs !== 0 &&
+                                    data?.totals?.diamonds?.Pcs}
+                                </b>
+                              </p>
                               <p className="qut1_table_header_col3_subheader_4 qut1_table_header_col3_totalValues">
-                                <b>{data?.totals?.diamonds?.Wt}</b>
+                                <b>
+                                  {data?.totals?.diamonds?.Wt !== 0 &&
+                                    data?.totals?.diamonds?.Wt}
+                                </b>
                               </p>
                               <p className="qut1_table_header_col3_subheader_5 qut1_table_header_col3_totalValues"></p>
                               <p className="qut1_table_header_col3_subheader_6 qut1_table_header_col3_totalValues">
                                 <b>
-                                  {" "}
-                                  {(
-                                    result?.mainTotal?.diamonds?.Amount /
-                                    result?.header?.CurrencyExchRate
-                                  )?.toFixed(2)}
+                                  {data?.totals?.diamonds?.Amount /
+                                    result?.header?.CurrencyExchRate !==
+                                    0 &&
+                                    (
+                                      data?.totals?.diamonds?.Amount /
+                                      result?.header?.CurrencyExchRate
+                                    )?.toFixed(2)}
                                 </b>
                               </p>
                             </div>
@@ -669,28 +689,39 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                 {(data?.NetWt + data?.LossWt)?.toFixed(2)}
                               </p>
                               <p className="qut1_table_header_col4_subheader_data">
-                                {data?.metal_rate /
-                                  result?.header?.CurrencyExchRate}
-                              </p>
-                              <p className="qut1_table_header_col4_subheader_data">
                                 {(
-                                  data?.MetalAmount /
+                                  data?.metal_rate /
                                   result?.header?.CurrencyExchRate
                                 )?.toFixed(2)}
+                              </p>
+                              <p className="qut1_table_header_col4_subheader_data">
+                                <b>
+                                  {(
+                                    data?.MetalAmount /
+                                    result?.header?.CurrencyExchRate
+                                  )?.toFixed(2)}
+                                </b>
                                 {/* result?.header?.CurrencyExchRate} */}
                               </p>
                             </div>
-                            <div className="qut1_table_header_col4_subheader">
+                            <div className="qut1_table_header_col4_subheader qut1_table_total_assign_height">
                               <p className="qut1_table_header_col4_subheader_data_total"></p>
                               <p className="qut1_table_header_col4_subheader_data_total">
-                                <b>{data?.grosswt} </b>
+                                <b>{data?.grosswt?.toFixed(2)} </b>
                               </p>
                               <p className="qut1_table_header_col4_subheader_data_total">
-                                <b>{data?.NetWt + data?.LossWt} </b>
+                                <b>
+                                  {(data?.NetWt + data?.LossWt)?.toFixed(2)}{" "}
+                                </b>
                               </p>
                               <p className="qut1_table_header_col4_subheader_data_total"></p>
                               <p className="qut1_table_header_col4_subheader_data_total">
-                                <b>{data?.MetalAmount} </b>
+                                <b>
+                                  {(
+                                    data?.totals?.metal?.Amount /
+                                    result?.header?.CurrencyExchRate
+                                  )?.toFixed(2)}{" "}
+                                </b>
                               </p>
                             </div>
                           </div>
@@ -709,7 +740,10 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                     className="qut1_table_header_col5_subheader"
                                     key={i}
                                   >
-                                    <p className="qut1_table_header_col5_subheader_1">
+                                    <p
+                                      className="qut1_table_header_col5_subheader_1"
+                                      style={{ width: "40%" }}
+                                    >
                                       {e?.ShapeName} {e?.QualityName}{" "}
                                       {e?.Colorname}
                                     </p>
@@ -736,7 +770,7 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                               })}
                             </div>
                             <div
-                              className="qut1_table_header_col5_subheader"
+                              className="qut1_table_header_col5_subheader qut1_table_total_assign_height"
                               style={{ backgroundColor: "#f5f5f5" }}
                             >
                               <p className="qut1_table_header_col5_subheader_1 qut1_table_header_col5_totalValues"></p>
@@ -745,25 +779,34 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                 <b>
                                   {" "}
                                   {data?.totals?.colorstone?.Pcs +
-                                    data?.totals?.misc?.Pcs}
+                                    data?.totals?.misc?.Pcs !==
+                                    0 &&
+                                    data?.totals?.colorstone?.Pcs +
+                                      data?.totals?.misc?.Pcs}
                                 </b>
                               </p>
                               <p className="qut1_table_header_col5_subheader_4 qut1_table_header_col5_totalValues">
                                 <b>
                                   {" "}
                                   {data?.totals?.colorstone?.Wt +
-                                    data?.totals?.misc?.Wt}
+                                    data?.totals?.misc?.Wt !==
+                                    0 &&
+                                    data?.totals?.colorstone?.Wt +
+                                      data?.totals?.misc?.Wt}
                                 </b>
                               </p>
                               <p className="qut1_table_header_col5_subheader_5 qut1_table_header_col5_totalValues"></p>
                               <p className="qut1_table_header_col5_subheader_6 qut1_table_header_col5_totalValues">
                                 <b>
                                   {" "}
-                                  {(
-                                    (data?.totals?.colorstone?.Amount +
-                                      data?.totals?.misc?.Amount) /
-                                    result?.header?.CurrencyExchRate
-                                  )?.toFixed(2)}
+                                  {data?.totals?.colorstone?.Amount +
+                                    data?.totals?.misc?.Amount !==
+                                    0 &&
+                                    (
+                                      (data?.totals?.colorstone?.Amount +
+                                        data?.totals?.misc?.Amount) /
+                                      result?.header?.CurrencyExchRate
+                                    )?.toFixed(2)}
                                 </b>
                               </p>
                             </div>
@@ -789,6 +832,7 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                 backgroundColor: "#f5f5f5",
                                 borderTop: "1px solid #bdbdbd",
                               }}
+                              className="qut1_table_total_assign_height"
                             >
                               <p>
                                 <b>
@@ -826,6 +870,7 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                 display: "flex",
                                 borderTop: "1px solid #bdbdbd",
                               }}
+                              className="qut1_table_total_assign_height"
                             >
                               <p
                                 className="qut1_table_header_col7_subheader_1"
@@ -858,6 +903,7 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                 width: "100%",
                                 borderTop: "1px solid #bdbdbd",
                               }}
+                              className="qut1_table_total_assign_height"
                             >
                               <b>
                                 {(
@@ -975,7 +1021,7 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                         <b>{result?.mainTotal?.colorstone?.Pcs}</b>
                       </p>
                       <p className="qut1_table_header_col5_subheader_4">
-                        <b> {result?.mainTotal?.colorstone?.Wt?.toFixed(3)}</b>
+                        <b> {result?.mainTotal?.colorstone?.Wt?.toFixed(2)}</b>
                       </p>
                       <p className="qut1_table_header_col5_subheader_5"></p>
                       <p className="qut1_table_header_col5_subheader_6">

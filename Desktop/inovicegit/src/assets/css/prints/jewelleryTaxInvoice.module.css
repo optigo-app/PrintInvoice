@@ -1,7 +1,14 @@
-.containerJewellery * {
+/* .containerJewellery * {
     font-size: 12px;
     font-family: Calibri;
+} */
+
+.containerJewellery * {
+    font-size: 12px;
+    font-family: Calibri, Arial, sans-serif !important;
 }
+
+
 .containerJewelleryMaxWidth{
     max-width: 836px !important;
     box-sizing: border-box;
