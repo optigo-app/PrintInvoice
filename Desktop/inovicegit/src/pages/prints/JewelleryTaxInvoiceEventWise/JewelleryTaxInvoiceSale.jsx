@@ -1,3 +1,5 @@
+
+
 // http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=U0syMDY1MjAyNCA=&evn=c2FsZQ==&pnm=amV3ZWxsZXJ5IHRheCBpbnZvaWNl&up=aHR0cDovL3plbi9qby9hcGktbGliL0FwcC9TYWxlQmlsbF9Kc29u&ctv=NzE=&ifid=PackingList3&pid=undefined
 //code of version 66
 import React, { useEffect, useState } from "react";
@@ -294,11 +296,13 @@ const JewelleryTaxInvoiceSale = ({
 
   let TotalVal = NumberWithCommas(totalAmount.before, 2);
   // const json0DataNew =  "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"font-size: 12px; font-family: calibri;\"><tbody><tr><td style=\"font-size: 16px; padding: 5px 0px 0px;\"><b>Kayra Creation Limited</b></td></tr><tr><td style=\"padding: 0px;\">408, 4th floor, Heng Ngai Jewellery Ctr</td></tr><tr><td style=\"padding: 0px;\">4 Hok Yuen St, Hunghom,Kowloon-999077,(Hong Kong</td></tr><tr><td style=\"padding: 0px;\">T +852-52482000</td></tr><tr><td style=\"padding: 0px;\">sale@kayracreation.com | www.kayracreation.com</td></tr></tbody></table>";
+  console.log("json0Data?.Branch_Address", json0Data?.Branch_Address);
 
   return loader ? (
     <Loader />
   ) : msg === "" ? (
     <>
+
       <div
         className={`container  pad_60_allPrint ${style?.containerJewellery} ${style?.containerJewelleryMaxWidth} jewelleryinvoiceContain`}
       >
@@ -330,7 +334,7 @@ const JewelleryTaxInvoiceSale = ({
         {/* { json0Data?.PrintHeadLabel !== '' && <div className={`${style?.headLabelJTI_quote}`}>{json0Data?.PrintHeadLabel}</div>} */}
         {/* header */}
         {json0Data?.IsBranchWiseAddress === 1 ? (
-        // {1 === 1 ? (
+          // {1 === 1 ? (
           <div className="d-flex justify-content-between p-2 jewel_top_main_class_second ">
             <div>
               <div
@@ -349,7 +353,6 @@ const JewelleryTaxInvoiceSale = ({
                   onError={handleImageErrors}
                 />
               )}
-
 
               {/* <img
                 src={json0Data?.PrintLogo}
@@ -371,17 +374,29 @@ const JewelleryTaxInvoiceSale = ({
               <p className="jewel_top_main_address">
                 {json0Data?.CompanyAddress}
               </p>
-              <p className="jewel_top_main_address" style={{marginTop: '1px'}}>
+              <p
+                className="jewel_top_main_address"
+                style={{ marginTop: "1px" }}
+              >
                 {json0Data?.CompanyAddress2}
               </p>
-              <p className="jewel_top_main_address" style={{marginTop: '1px'}}>
+              <p
+                className="jewel_top_main_address"
+                style={{ marginTop: "1px" }}
+              >
                 {json0Data?.CompanyCity} - {json0Data?.CompanyPinCode},
                 {json0Data?.CompanyState}({json0Data?.CompanyCountry})
               </p>
-              <p className="jewel_top_main_address" style={{marginTop: '1px'}}>
+              <p
+                className="jewel_top_main_address"
+                style={{ marginTop: "1px" }}
+              >
                 T {json0Data?.CompanyTellNo}
               </p>
-              <p className="jewel_top_main_address" style={{marginTop: '1px'}}>
+              <p
+                className="jewel_top_main_address"
+                style={{ marginTop: "1px" }}
+              >
                 {json0Data?.CompanyEmail} | {json0Data?.CompanyWebsite}
               </p>
               <p className="jewel_top_main_address_last">
@@ -413,7 +428,7 @@ const JewelleryTaxInvoiceSale = ({
         )}
         {/* sub header */}
         <div className="no_break jewel_tax_invoice_setting">
-          <div className="border d-flex justify-content-between">
+          <div className="border d-flex justify-content-between bottomBorderSetting">
             <div
               className="col-6 jewel_top_customer_add_print"
               style={{ padding: "2px 0px 0px 7px" }}
@@ -636,30 +651,65 @@ const JewelleryTaxInvoiceSale = ({
         {/* table header */}
         <div
           className="d-flex border  no_break table_sqm"
-          style={{ backgroundColor: "#F2F2F2" , height: '25px' }}
+          style={{ backgroundColor: "#F2F2F2", height: "25px" }}
         >
           <div className=" col1_sqm border-end">
-            <p className="fw-bold center_jti_content fs_custom_jti jewel_top_box_title">
+            <p
+              className="fw-bold center_jti_content fs_custom_jti jewel_top_box_title top_table_name_class"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               SR NO
             </p>
           </div>
           <div className={` col2_sqm border-end`}>
-            <p className="fw-bold center_jti_content fs_custom_jti jewel_top_box_title">
+            <p
+              className="fw-bold center_jti_content fs_custom_jti jewel_top_box_title top_table_name_class"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               ITEM CODE
             </p>
           </div>
           <div className={`${""} col3_sqm border-end`}>
-            <p className="fw-bold center_jti_content fs_custom_jti jewel_top_box_title">
+            <p
+              className="fw-bold center_jti_content fs_custom_jti jewel_top_box_title top_table_name_class"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               DESCRIPTION
             </p>
           </div>
           <div className={` ${""} col4_sqm border-end  `}>
-            <p className="fw-bold center_jti_content fs_custom_jti jewel_top_box_title">
+            <p
+              className="fw-bold center_jti_content fs_custom_jti jewel_top_box_title top_table_name_class"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               IMAGE
             </p>
           </div>
           <div className=" col5_sqm">
-            <p className="fw-bold center_jti_content fs_custom_jti jewel_top_box_title">
+            <p
+              className="fw-bold center_jti_content fs_custom_jti jewel_top_box_title top_table_name_class"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               AMOUNT ({json0Data?.CurrencyCode})
             </p>
           </div>
@@ -798,7 +848,7 @@ const JewelleryTaxInvoiceSale = ({
                               </span>
                             )}
                           </span>
-                          {/* {ele?.ShapeName}{ele?.MasterManagement_DiamondStoneTypeid !== 3 && <span className="text-break"> 
+                          {/* {ele?.ShapeName}{ele?.MasterManagement_DiamondStoneTypeid !== 3 && <span className="text-break">
                           {" "} {ele?.Colorname} {ele?.QualityName}</span>} */}
                         </p>
                       );
@@ -850,7 +900,7 @@ const JewelleryTaxInvoiceSale = ({
             );
           })}
         {/* total */}
-        <div className="d-flex border-start border-end border-bottom no_break lightGrey">
+        <div className="d-flex border-start border-end border-bottom no_break lightGrey total_height_show_jewel">
           <div className="col1_sqm border-end" style={{ width: "11%" }}>
             <p className="text-center"></p>
           </div>
@@ -858,13 +908,19 @@ const JewelleryTaxInvoiceSale = ({
             className={`${"col2_sqm"} border-end jewel_totalFinal`}
             style={{ width: "14%" }}
           >
-            <p className="fw-normal " style={{ fontSize: "12.5px" , padding: '0px 4px' }}>
+            <p
+              className="fw-normal "
+              style={{ fontSize: "12.5px",display:'flex', alignItems: 'center',  padding: "2px 4px" }}
+            >
               TOTAL
             </p>{" "}
           </div>
 
           <div className="col6_sqm ">
-            <p className="text-end fw-bold " style={{ fontSize: "12.7px" , padding: '0px 4px'  }}>
+            <p
+              className="text-end fw-bold "
+              style={{ fontSize: "12.7px", padding: "0px 4px" }}
+            >
               <span
                 style={{ fontSize: "13px" }}
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
@@ -884,7 +940,7 @@ const JewelleryTaxInvoiceSale = ({
               dangerouslySetInnerHTML={{ __html: json0Data?.PrintRemark }}
             ></div>
           </div>
-          <div className="col_r_2 p-1 border-end" style={{ width: "33%" }}>
+          <div className="col_r_2 p-1 border-end" style={{ width: "33%", minHeight: '95px' }}>
             {summary.map((e, i) => {
               return (
                 <React.Fragment key={i}>
@@ -959,7 +1015,11 @@ const JewelleryTaxInvoiceSale = ({
                     <div key={i}>
                       <div
                         className="fw-bold d-flex align-items-center justify-content-end pe-1 "
-                        style={{ fontSize: "12.5px", gap: "2px" , height: '25px'}}
+                        style={{
+                          fontSize: "12.5px",
+                          gap: "2px",
+                          height: "25px",
+                        }}
                       >
                         <span
                           style={{ fontSize: "13px" }}
@@ -981,7 +1041,7 @@ const JewelleryTaxInvoiceSale = ({
               result?.allTaxes?.length !== 0 && (
                 <div
                   className="fw-bold d-flex align-items-center justify-content-end pe-1 aaaaaa"
-                  style={{ fontSize: "12.5px", gap: "2px" , height: '25px'}}
+                  style={{ fontSize: "12.5px", gap: "2px", height: "25px" }}
                 >
                   {" "}
                   <span
@@ -1095,12 +1155,18 @@ const JewelleryTaxInvoiceSale = ({
         <div className="d-flex border-start border-end border-bottom no_break lightGrey">
           <div className="col-8"></div>
           <div className="col-2">
-            <p className="fw-bold " style={{ fontSize: "12.8px", padding: '2px' }}>
+            <p
+              className="fw-bold "
+              style={{ fontSize: "12.8px", padding: "2px" }}
+            >
               GRAND TOTAL
             </p>{" "}
           </div>
           <div className="col-2">
-            <p className="text-end fw-bold " style={{ fontSize: "13px" , padding: '2px' }}>
+            <p
+              className="text-end fw-bold "
+              style={{ fontSize: "13px", padding: "2px" }}
+            >
               <span
                 style={{ fontSize: "13px" }}
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
@@ -1149,9 +1215,19 @@ const JewelleryTaxInvoiceSale = ({
             <p className="fs_11px_jti" style={{ fontSize: "13px" }}>
               Account Name: {json0Data?.accountname}
             </p>
-            <p className="fs_11px_jti" style={{ fontSize: "13px" }}>
+            {/* <p className="fs_11px_jti" style={{ fontSize: "13px" }}>
               Account No. : {json0Data?.accountnumber}
-            </p>
+            </p> */}
+            <p
+              className="fs_11px_jti"
+              style={{ fontSize: "13px" }}
+              dangerouslySetInnerHTML={{
+                __html: `Account No.: ${json0Data?.accountnumber?.replace(
+                  "HKD A/C No :",
+                  "<br />HKD A/C No:"
+                )}`,
+              }}
+            ></p>
             <p className="fs_11px_jti" style={{ fontSize: "13px" }}>
               RTGS/NEFT IFSC: {json0Data?.rtgs_neft_ifsc}
             </p>
@@ -1187,6 +1263,7 @@ const JewelleryTaxInvoiceSale = ({
           </div>
         </div>
       </div>
+
     </>
   ) : (
     <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">

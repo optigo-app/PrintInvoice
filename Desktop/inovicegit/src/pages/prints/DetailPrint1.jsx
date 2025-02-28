@@ -563,6 +563,10 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   calculatedData.push(other);
 
+
+  console.log('finalDfinalD', finalD);
+
+  
   return (
     <>
       {loader ? (
@@ -842,6 +846,9 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                         <div className={`${!image && "pt-2 "}`}>
 
+                        {e?.CertificateNo !== "" && (
+                            <p className="text-center">Certification no. - {e?.CertificateNo}</p>
+                          )}
                           {e?.HUID !== "" && (
                             <p className="text-center">HUID - {e?.HUID}</p>
                           )}

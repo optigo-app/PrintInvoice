@@ -74,9 +74,18 @@
   font-weight: bold !important;
 }
 
-.branchAddress_jti table td {
+.branchAddress_jti div, .branchAddress_jti span {
   display: block;
-  margin-bottom: 2px !important;
+  margin-bottom: 2.2px !important;
+}
+
+.branchAddress_jti div, .branchAddress_jti b {
+  display: block;
+  margin-bottom: 2.2px !important;
+}
+
+.bottomBorderSetting{
+  border-bottom: none !important;
 }
 
 
@@ -90,6 +99,10 @@
 
 .border_right_none{
   border-right: none !important;
+}
+
+.total_height_show_jewel{
+  height: 22px !important;
 }
 @media print {
 
@@ -170,4 +183,10 @@
   .jewel_top_box_title{
     font-size: 13px !important;
   }
+
+  .top_table_name_class{
+    margin-top: 2px !important;
+  }
+
+ 
 }

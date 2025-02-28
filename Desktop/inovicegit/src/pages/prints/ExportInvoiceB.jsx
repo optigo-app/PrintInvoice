@@ -561,8 +561,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
                   <div>
                     <div
-                      className="border-black border ms-1 mt-1 fs_eib "
-                      style={{ width: "85%" }}
+                      className="border-black border ms-1 mt-1 mr-1 fs_eib "
                     >
                       <div className="d-flex fw-bold ">
                         <div style={{ width: "49%" }} className="ps-4">
@@ -620,7 +619,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="col4_eib center_eib ">
                         
                       </div> */}
-                        <div className="col5_eib center_eib border-end  border-black"></div>
+                        {/* <div className="col5_eib center_eib border-end  border-black"></div>
                         <div className="col6_eib ps-1 start_ebi border-end border-bottom border-black">
                           QUANTITY
                         </div>
@@ -629,7 +628,7 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                         <div className="col8_eib ps-1 start_ebi border-bottom border-black">
                           AMOUNT
-                        </div>
+                        </div> */}
                       </div>
                       <div className="d-flex fw-bold ">
                         <div style={{ width: "49%" }} className="ps-4">
@@ -656,14 +655,14 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="col4_eib center_eib ">
                         
                       </div> */}
-                        <div className="col5_eib center_eib border-end border-black"></div>
+                        {/* <div className="col5_eib center_eib border-end border-black"></div>
                         <div className="col6_eib center_eib border-end  border-bottom border-black">
                           In Pcs
                         </div>
                         <div className="col7_eib center_eib border-end  border-bottom border-black"></div>
                         <div className="col8_eib center_eib border-bottom border-black">
                           {result?.header?.CurrencyCode}
-                        </div>
+                        </div> */}
                       </div>
                       <div className="d-flex fw-bold border-bottom border-black">
                         <div style={{ width: "49%" }} className="ps-4">
@@ -690,10 +689,10 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="col4_eib center_eib ">
                         
                       </div> */}
-                        <div className="col5_eib center_eib border-end border-black"></div>
+                        {/* <div className="col5_eib center_eib border-end border-black"></div>
                         <div className="col6_eib center_eib border-end border-black"></div>
                         <div className="col7_eib center_eib border-end border-black"></div>
-                        <div className="col8_eib center_eib ">&nbsp;</div>
+                        <div className="col8_eib center_eib ">&nbsp;</div> */}
                       </div>
                       <div className="d-flex fw-bold ">
                         <div className="col1_eib center_eib border-end border-black">
@@ -791,7 +790,6 @@ const ExportInvoiceB = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                     <div
                       className="d-flex p-1 ps-1 page_eib"
-                      style={{ width: "85.8%" }}
                     >
                       <div className="toalDiv_1">
                         <div className="fw-bold fs_eib ">
