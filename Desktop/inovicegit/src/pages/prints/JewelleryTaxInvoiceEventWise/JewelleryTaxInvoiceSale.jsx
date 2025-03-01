@@ -1,5 +1,3 @@
-
-
 // http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=U0syMDY1MjAyNCA=&evn=c2FsZQ==&pnm=amV3ZWxsZXJ5IHRheCBpbnZvaWNl&up=aHR0cDovL3plbi9qby9hcGktbGliL0FwcC9TYWxlQmlsbF9Kc29u&ctv=NzE=&ifid=PackingList3&pid=undefined
 //code of version 66
 import React, { useEffect, useState } from "react";
@@ -251,8 +249,6 @@ const JewelleryTaxInvoiceSale = ({
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
             loadData(data?.Data);
-            console.log(data?.Data);
-
             loadData2(data?.Data);
             setLoader(false);
           } else {
@@ -261,9 +257,7 @@ const JewelleryTaxInvoiceSale = ({
           }
         } else {
           setLoader(false);
-          // setMsg(data?.Message);
           const err = checkMsg(data?.Message);
-          console.log(data?.Message);
           setMsg(err);
         }
       } catch (error) {
@@ -291,18 +285,14 @@ const JewelleryTaxInvoiceSale = ({
     setEmailVal(e.target.value);
   };
 
-  console.log("resultresult", result);
-  console.log("json0Data", json0Data);
+  console.log("data", data);
 
   let TotalVal = NumberWithCommas(totalAmount.before, 2);
-  // const json0DataNew =  "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"font-size: 12px; font-family: calibri;\"><tbody><tr><td style=\"font-size: 16px; padding: 5px 0px 0px;\"><b>Kayra Creation Limited</b></td></tr><tr><td style=\"padding: 0px;\">408, 4th floor, Heng Ngai Jewellery Ctr</td></tr><tr><td style=\"padding: 0px;\">4 Hok Yuen St, Hunghom,Kowloon-999077,(Hong Kong</td></tr><tr><td style=\"padding: 0px;\">T +852-52482000</td></tr><tr><td style=\"padding: 0px;\">sale@kayracreation.com | www.kayracreation.com</td></tr></tbody></table>";
-  console.log("json0Data?.Branch_Address", json0Data?.Branch_Address);
 
   return loader ? (
     <Loader />
   ) : msg === "" ? (
     <>
-
       <div
         className={`container  pad_60_allPrint ${style?.containerJewellery} ${style?.containerJewelleryMaxWidth} jewelleryinvoiceContain`}
       >
@@ -717,6 +707,23 @@ const JewelleryTaxInvoiceSale = ({
         {/* table data */}
         {data?.length > 0 &&
           data?.map((e, i) => {
+            const groupedMaterials = e?.materials?.reduce((acc, ele) => {
+              const key = `${ele?.Shape_Code}-${ele?.Color_Code}-${ele?.Quality_Code}`;
+              if (acc[key]) {
+                acc[key].Pcs += ele?.Pcs;
+                acc[key].Wt += ele?.Wt;
+              } else {
+                acc[key] = {
+                  ...ele,
+                  Pcs: ele?.Pcs,
+                  Wt: ele?.Wt,
+                };
+              }
+              return acc;
+            }, {});
+
+            const mergedMaterials = Object.values(groupedMaterials);
+
             return (
               <div
                 className="d-flex border-start border-end border-bottom no_break border-top"
@@ -815,7 +822,7 @@ const JewelleryTaxInvoiceSale = ({
                     )}
                   </p>
 
-                  {e?.materials?.length > 0 &&
+                  {/* {e?.materials?.length > 0 &&
                     e?.materials?.map((ele, ind) => {
                       return (
                         <p
@@ -848,11 +855,43 @@ const JewelleryTaxInvoiceSale = ({
                               </span>
                             )}
                           </span>
-                          {/* {ele?.ShapeName}{ele?.MasterManagement_DiamondStoneTypeid !== 3 && <span className="text-break">
-                          {" "} {ele?.Colorname} {ele?.QualityName}</span>} */}
                         </p>
                       );
-                    })}
+                    })} */}
+
+                  <div key={i}>
+                    {mergedMaterials?.map((ele, ind) => (
+                      <p key={ind} className="text-break text_break_value_sub">
+                        <span className="text-break">
+                          {ele?.MasterManagement_DiamondStoneTypeid === 1 &&
+                            (ele?.IsCenterStone === 1
+                              ? "CenterStone"
+                              : "Diamond")}
+                          {ele?.MasterManagement_DiamondStoneTypeid === 2 &&
+                            "Colorstone"}
+                          {ele?.MasterManagement_DiamondStoneTypeid === 3 &&
+                            "Misc"}
+                        </span>
+                        :
+                        <span style={{ fontSize: "10.5px" }}>
+                          {" "}
+                          {NumberWithCommas(ele?.Pcs, 0)} Pcs |{" "}
+                          {NumberWithCommas(ele?.Wt, 3)}
+                          {ele?.MasterManagement_DiamondStoneTypeid === 3
+                            ? " gms"
+                            : " Cts"}{" "}
+                          | {ele?.Shape_Code}
+                          {ele?.MasterManagement_DiamondStoneTypeid !== 3 && (
+                            <span style={{ fontSize: "10.5px" }}>
+                              {" "}
+                              {ele?.Color_Code} {ele?.Quality_Code}
+                            </span>
+                          )}
+                        </span>
+                      </p>
+                    ))}
+                  </div>
+
                   {e?.JobRemark !== "" && (
                     <>
                       {atob(evn) !== "memo" && (
@@ -910,7 +949,12 @@ const JewelleryTaxInvoiceSale = ({
           >
             <p
               className="fw-normal "
-              style={{ fontSize: "12.5px",display:'flex', alignItems: 'center',  padding: "2px 4px" }}
+              style={{
+                fontSize: "12.5px",
+                display: "flex",
+                alignItems: "center",
+                padding: "2px 4px",
+              }}
             >
               TOTAL
             </p>{" "}
@@ -940,7 +984,10 @@ const JewelleryTaxInvoiceSale = ({
               dangerouslySetInnerHTML={{ __html: json0Data?.PrintRemark }}
             ></div>
           </div>
-          <div className="col_r_2 p-1 border-end" style={{ width: "33%", minHeight: '95px' }}>
+          <div
+            className="col_r_2 p-1 border-end"
+            style={{ width: "33%", minHeight: "95px" }}
+          >
             {summary.map((e, i) => {
               return (
                 <React.Fragment key={i}>
@@ -949,7 +996,7 @@ const JewelleryTaxInvoiceSale = ({
                   ) : (
                     <div
                       className="d-flex justify-content-between"
-                      style={{ width: "58%" }}
+                      style={{ width: "70%" }}
                       key={i}
                     >
                       <p key={i} className="remark_fs fs_jti_Sale">
@@ -1263,7 +1310,6 @@ const JewelleryTaxInvoiceSale = ({
           </div>
         </div>
       </div>
-
     </>
   ) : (
     <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">

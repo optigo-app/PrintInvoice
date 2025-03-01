@@ -94,7 +94,7 @@
 }
 
 .jewelery_description_height {
-  height: 113px;
+  min-height: 113px;
 }
 
 .border_right_none{
@@ -111,7 +111,7 @@
   }
 
   .jewelery_description_height {
-    height: 50px !important;
+    min-height: 50px !important;
 
     .text_break_value {
       font-size: 10px !important;

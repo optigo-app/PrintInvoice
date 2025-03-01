@@ -141,6 +141,7 @@ export const printConditions = [
   {printName: 'tax invoice 5a', etpType: 'print', componentName: 'TaxInvoice5A'},
   {printName: 'tax invoice 6', etpType: 'print', componentName: 'TaxInvoice5'},
   {printName: 'print 2', etpType: 'print', componentName: 'Print2'},
+  {printName: 'Invoice Print D', etpType: 'print', componentName: 'InvoicePrintD'},
 ];
 export const SaleReturn = [
   {printName: 'detail print', etpType: 'print', componentName: 'DetailPrint5'},
