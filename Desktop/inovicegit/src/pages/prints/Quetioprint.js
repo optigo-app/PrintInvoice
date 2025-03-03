@@ -588,7 +588,7 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                             <div>
                               {data?.HUID && `HUID-${data?.HUID}`}
                               {data?.PO !== "" && `PO:-${data?.PO}`} <br />G Wt{" "}
-                              {data?.grosswt?.toFixed(3)} gm <br/>
+                              {data?.grosswt?.toFixed(3)} gm <br />
                               {data?.Size !== "-" && `Size : ${data?.Size}`}
                               <br />
                               {/* {data?.lineid}
@@ -676,33 +676,70 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                             </div>
                           </div>
                           <div className="Qut1_table_Data_col4">
-                            <div className="qut1_table_header_col4_subheader">
-                              <p className="qut1_table_header_col4_subheader_data">
-                                {" "}
-                                {data?.MetalType}
-                                {data?.MetalPurity}
-                              </p>
-                              <p className="qut1_table_header_col4_subheader_data">
-                                {data?.grosswt?.toFixed(2)}
-                              </p>
-                              <p className="qut1_table_header_col4_subheader_data">
-                                {(data?.NetWt + data?.LossWt)?.toFixed(2)}
-                              </p>
-                              <p className="qut1_table_header_col4_subheader_data">
-                                {(
-                                  data?.metal_rate /
-                                  result?.header?.CurrencyExchRate
-                                )?.toFixed(2)}
-                              </p>
-                              <p className="qut1_table_header_col4_subheader_data">
-                                <b>
-                                  {(
-                                    data?.MetalAmount /
-                                    result?.header?.CurrencyExchRate
-                                  )?.toFixed(2)}
-                                </b>
-                                {/* result?.header?.CurrencyExchRate} */}
-                              </p>
+                            <div>
+                              {data?.metal?.map((e, i) => {
+                                return (
+                                  <div
+                                    className="qut1_table_header_col4_subheader"
+                                    key={i}
+                                  >
+                                    <p className="qut1_table_header_col4_subheader_data" style={{width: '25%', display: 'flex', justifyContent: 'flex-start'}}>
+                                      {e?.ShapeName} {e?.QualityName}
+                                    </p>
+                                    <p className="qut1_table_header_col4_subheader_data">
+                                      {e?.Wt?.toFixed(2)}
+                                    </p>
+                                    <p className="qut1_table_header_col4_subheader_data">
+                                      {e?.RMwt?.toFixed(2)}
+                                    </p>
+                                    <p className="qut1_table_header_col4_subheader_data">
+                                      {e?.Rate?.toFixed(2)}
+                                    </p>
+                                    <p className="qut1_table_header_col4_subheader_data">
+                                      <b>
+                                        {(
+                                          data?.MetalAmount /
+                                          result?.header?.CurrencyExchRate
+                                        )?.toFixed(2)}
+                                      </b>
+                                      {/* result?.header?.CurrencyExchRate} */}
+                                    </p>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                            <div>
+                              {data?.finding?.map((e, i) => {
+                                return (
+                                  <div
+                                    className="qut1_table_header_col4_subheader"
+                                    key={i}
+                                  >
+                                    <p className="qut1_table_header_col4_subheader_data">
+                                      {e?.ShapeName +
+                                        " " +
+                                        e?.QualityName +
+                                        " " +
+                                        e?.FindingTypename +
+                                        " " +
+                                        e?.FindingAccessories}
+                                    </p>
+                                    <p className="qut1_table_header_col4_subheader_data">
+                                      {e?.grosswt?.toFixed(2)}
+                                    </p>
+                                    <p className="qut1_table_header_col4_subheader_data">
+                                      {e?.RMwt?.toFixed(2)}
+                                    </p>
+                                    <p className="qut1_table_header_col4_subheader_data">
+                                      {e?.Rate?.toFixed(2)}
+                                    </p>
+                                    <p className="qut1_table_header_col4_subheader_data">
+                                      <b>{e?.Amount?.toFixed(2)}</b>
+                                      {/* result?.header?.CurrencyExchRate} */}
+                                    </p>
+                                  </div>
+                                );
+                              })}
                             </div>
                             <div className="qut1_table_header_col4_subheader qut1_table_total_assign_height">
                               <p className="qut1_table_header_col4_subheader_data_total"></p>
@@ -1099,6 +1136,7 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                             <b>GOLD IN 24KT </b>
                           </p>
                           <p>{result?.mainTotal?.PureNetWt?.toFixed(2)} gm</p>
+                          {/* {(result?.mainTotal?.PureNetWt - notGoldMetalWtTotal)?.toFixed(3)} gm */}
                         </div>
                         <div className="paking3__bottomSection_Box1_subBox1_summury">
                           <p>

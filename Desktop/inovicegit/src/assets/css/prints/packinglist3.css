@@ -298,6 +298,10 @@
     .fs_14_pcls{
         font-size: 10px;
     }
+
+    .pakinglist_31_botom_total{
+        min-height: 0px !important;
+    }
     .fs_header_pcls{
         font-size: 9px;
     }

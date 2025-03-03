@@ -449,7 +449,7 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     sendData();
   }, []);
 
-  console.log("result..", headerData);
+  console.log("result..", mainData);
 
   return (
     <React.Fragment>
@@ -537,17 +537,18 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 )} */}
 
                 <div className="invoice_top_cust_address_main">
-                  <div
-                    className="col-4 border-end"
-                    style={{ margin: "3px" }}
-                  >
+                  <div className="col-4 border-end" style={{ margin: "3px" }}>
                     <p>{headerData?.lblBillTo}</p>
                     <p className={`fw-bold pe-2 lh-1 ${style?.font_14}`}>
                       {headerData?.customerfirmname}
                     </p>
                     <p className="lh-1">{headerData?.customerAddress1}</p>
                     <p className="lh-1">{headerData?.customerAddress2}</p>
-                    <p className="lh-1"> {headerData?.customercity1} </p>
+                    <p className="lh-1">
+                      {" "}
+                      {headerData?.customercity1}
+                      {headerData?.customerpincode}{" "}
+                    </p>
                     <p className="lh-1">{headerData?.customeremail1}</p>
                     <p className="lh-1">{headerData?.vat_cst_pan}</p>
                     <p className="lh-1">
@@ -556,10 +557,7 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       {headerData?.Cust_CST_STATE_No}{" "}
                     </p>
                   </div>
-                  <div
-                    className="col-4 border-end"
-                    style={{ margin: "3px" }}
-                  >
+                  <div className="col-4 border-end" style={{ margin: "3px" }}>
                     <p className="lh-1">Ship To,</p>
                     <p className={`fw-bold lh-1 ${style?.font_14}`}>
                       {headerData?.customerfirmname}
@@ -572,10 +570,7 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       );
                     })}
                   </div>
-                  <div
-                    className="col-4"
-                    style={{ margin: "3px" }}
-                  >
+                  <div className="col-4" style={{ margin: "3px" }}>
                     <div className="d-flex">
                       <div className="lh-1 fw-bold col-6">BILL NO</div>
                       <div className="lh-1 col-6">{headerData?.InvoiceNo} </div>
@@ -937,6 +932,48 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
                       {mainData?.otherCharges?.map((e, i) => {
                         return (
+                          <>
+                            {e?.label === "HANDLING" &&
+                            (e?.value === 0 || e?.value === "0.00") ? (
+                              ""
+                            ) : (
+                              <div
+                                className="invoi_table_data_sub_main"
+                                key={i}
+                              >
+                                <div className="invoi_table_data_col2">
+                                  <p>{e?.label}</p>
+                                </div>
+                                <div className="invoi_table_data_col3">
+                                  <p></p>
+                                </div>
+                                <div className="invoi_table_data_col4">
+                                  <p></p>
+                                </div>
+                                <div className="invoi_table_data_col5">
+                                  <p></p>
+                                </div>
+                                <div className="invoi_table_data_col6">
+                                  <p></p>
+                                </div>
+                                <div className="invoi_table_data_col7">
+                                  <p></p>
+                                </div>
+                                <div className="invoi_table_data_col8">
+                                  {e?.label == "Certification_google.com" ? (
+                                    <p>{NumberWithCommas(e?.Amount, 2)}</p>
+                                  ) : (
+                                    <p>{NumberWithCommas(e?.value, 2)}</p>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+                          </>
+                        );
+                      })}
+
+                      {/* {mainData?.otherCharges?.map((e, i) => {
+                        return (
                           <div className="invoi_table_data_sub_main" key={i}>
                             <div className="invoi_table_data_col2">
                               <p>{e?.label}</p>
@@ -961,7 +998,7 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             </div>
                           </div>
                         );
-                      })}
+                      })} */}
                     </div>
                   </div>
                   {/* total */}
@@ -1016,8 +1053,9 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   </div>
                   {/* taxes */}
                   <div className="invoicd_total_summury_main">
-                    <div className="col-8 border-end"></div>
-                    <div className="col-4 px-1">
+                    <div className="col-9 border-end"></div>
+                    <div className="col-3 px-1">
+                    {console.log("totalss", totalss)}
                       {totalss?.discount !== 0 && (
                         <>
                           <div className="d-flex justify-content-between">
@@ -1026,6 +1064,19 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           </div>
                         </>
                       )}
+                      <div className="d-flex justify-content-between">
+                        <p className="fw-bold"> Total Amount </p>
+                        <p className="fw-bold">
+                          {" "}
+                          {/* + mainData?.header?.FreightCharges */}
+                          {NumberWithCommas(
+                            mainDatas?.mainTotal?.total_amount /
+                              headerData?.CurrencyExchRate,
+                            2
+                          )}
+                        </p>
+                        {/* <p className="fw-bold"> {NumberWithCommas(totalss?.total-totalss?.discount, 2)}</p> */}
+                      </div>
                       {mainDatas?.allTaxes?.map((e, i) => {
                         return (
                           <div
@@ -1051,6 +1102,11 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           </p>
                         </div>
                       )}
+
+                      <div className="d-flex justify-content-between">
+                        <p>{mainDatas?.header?.ModeOfDel}</p>
+                        <p>{(mainDatas?.header?.FreightCharges)?.toFixed(2)}</p>
+                      </div>
                     </div>
                   </div>
                   <div
@@ -1119,12 +1175,10 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       style={{
                         width: "40%",
                         borderRight: "1px solid #e8e8e8",
-                        margin: '5px'
+                        margin: "5px",
                       }}
                     >
-                      <div
-                        className="invoicd_footer_main_class_box1"
-                      >
+                      <div className="invoicd_footer_main_class_box1">
                         Bank Detail
                       </div>
                       <div className="invoicd_footer_main_class_box2">
@@ -1142,8 +1196,13 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <div className="invoicd_footer_main_class_box2">
                         RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}
                       </div>
-                      <div className="invoicd_footer_main_class_box2">Enquiry No. </div>
-                      <div className="invoicd_footer_main_class_box2"> (E & OE)</div>
+                      <div className="invoicd_footer_main_class_box2">
+                        Enquiry No.{" "}
+                      </div>
+                      <div className="invoicd_footer_main_class_box2">
+                        {" "}
+                        (E & OE)
+                      </div>
                     </div>
                     <div
                       className={`${footerStyle.block2f3} ${style?.footers}`}
