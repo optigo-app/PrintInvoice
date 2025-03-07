@@ -8,7 +8,7 @@ import QcReport from "./pages/qcreport/QcReport";
 
 
 function App() {
-  console.log("router")
+  
   return (
     <>
        <RouterProvider router={router}/>
