@@ -14,6 +14,7 @@ function App() {
        <RouterProvider router={router}/>
        {/* <BrowserRouter>
        <Routes>
+       <Routes>
         <Route path={`/`} element={<AllDesign />} />
         <Route path={`/R50B3/RBIP/`} element={<AllDesign />} />
         <Route path={`/R50B3/RBIP/qcreport`} element={<QcReport />} />
