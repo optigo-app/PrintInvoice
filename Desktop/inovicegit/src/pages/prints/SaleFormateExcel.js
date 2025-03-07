@@ -936,7 +936,6 @@ const SaleFormateExcel = ({
     // handleDownloadExcel();
     // const button = document.getElementById('test-table-xls-button');
     // button.click();
-    // button.click();
   }
 
   return (
