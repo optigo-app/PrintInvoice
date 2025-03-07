@@ -65,6 +65,9 @@ export const printConditions = [
   {printName: 'jewellery invoice 3', etpType: 'print', componentName: 'JewelleryInvoice3'},
   {printName: 'jewellery item wise', etpType: 'print', componentName: 'HallmarkItemWisePrint'},
   {printName: 'jewellery retail invoice c', etpType: 'print', componentName: 'JewelleryRetailInvoicePrintc'},
+
+  {printName: 'jewellery tax invoice b2b', etpType: 'print', componentName: 'JewelleryTaxInvoiceAB2B'},   
+  
   {printName: 'jewellery tax invoice', etpType: 'print', componentName: 'JewelleryTaxInvoice'},
   {printName: 'jewellery tax invoice 1', etpType: 'print', componentName: 'JewelleryTaxInvoice1'},
   {printName: 'jewellery tax invoice 2', etpType: 'print', componentName: 'JewelleryTaxInvoice2'},
@@ -309,6 +312,7 @@ export const HallMarkPrints = [
   {printName: 'jewellery item wise', etpType: 'print', componentName: 'HallmarkItemWisePrint'},
 ]
 export const excelConditions = [
+
   { printName: "detail print 11", etpType: "excel", componentName: "DetailPrint11Excel"},
   { printName: "image zip file", etpType: "excel", componentName: "ImageExportExcel"},
   // { printName: "packing list c", etpType: "excel", componentName: "PackingListCExcel"},
@@ -327,7 +331,12 @@ export const excelConditions = [
   { printName: "packing list 2", etpType: "excel", componentName: "ColorIndia"},
   { printName: "memo format a", etpType: "excel", componentName: "ExcelToJsonDownloadA"},
   { printName: "sale format wt", etpType: "excel", componentName: "SaleFormatWt"},
+  
+  { printName: "sale cs grup format", etpType: "excel", componentName: "SaleCsGrupFormatExcel"}, // jenis....
+  { printName: "sale format", etpType: "excel", componentName: "SaleFormateExcel"}, // jenis.....
+  { printName: "packing list", etpType: "excel", componentName: "PackingListFormateExcel"}, // jenis.....
 ];
+
 export const alterationArray = [
   {label:"alteration", evname: "RepairAlteration", componentName:'RepairAlteration'},
   {label:"alteration receive", evname: "RepairAlterationReceive", componentName: 'RepairAlterationReceive'},
@@ -364,6 +373,7 @@ export const fgPurchaseReturn = [
   {printName: 'item wise print2', etpType: 'print', componentName: 'ItemWisePrint'},
   {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrint'},
 ];
+
 
 // export const Sales = [
 

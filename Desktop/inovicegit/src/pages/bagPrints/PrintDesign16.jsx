@@ -193,9 +193,12 @@ const PrintDesign16 = ({ queries, headers }) => {
   }, [data]);
 
   const handlePrint = (e) => {
-    e.preventDefault();
-    window.print();
+    // e.preventDefault();
+    // window.print();
   };
+
+  console.log('datadatadata', data);
+  
   return (
     <div>
       {data?.length === 0 ? (

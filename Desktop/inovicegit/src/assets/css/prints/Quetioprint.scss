@@ -55,7 +55,7 @@
     .Qut1_table_header_maindiv {
       display: flex;
       border-bottom: 1px solid #bdbdbd;
-
+      background-color: #F5F5F5;
       .qut1_table_header_col_title {
         display: flex;
         margin: 0px;
@@ -469,7 +469,7 @@
     .paking3__bottomSection_Box2 {
       width: 50%;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
 
       .paking3__bottomSection_Box2_subBox1 {
         width: 80%;
@@ -478,7 +478,7 @@
 
       .paking3__bottomSection_Box2_subBox2 {
         // min-height: 150px;
-        width: 48%;
+        width: 22%;
         border: 1px solid #bdbdbd;
         display: flex;
         justify-content: center;
@@ -512,7 +512,7 @@
     display: flex;
     justify-content: space-between;
     padding-inline: 2px;
-    height: 16px;
+    line-height: 16px;
   }
 
   @media print {
@@ -536,5 +536,28 @@
     .qut1_table_total_assign_height{
       height: 13px !important;
     }
+
+
+
+    .paking3__bottomSection_main {
+  
+      .paking3__bottomSection_Box1 {
+        width: 70% !important;
+    
+      }
+
+      .qut_summury_total_box_div {
+        line-height: 10px !important;
+      }
+
+      .paking3__bottomSection_Box2 {
+        width: 30% !important;
+
+        .paking3__bottomSection_Box2_subBox2 {
+          width: 50% !important;
+        }
+      }
+    }
+  
   }
 }

@@ -384,6 +384,9 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
+
+  console.log("resultresult", result);
+
   return (
     <>
       {loader ? (
@@ -440,7 +443,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
                 <div>T {result?.header?.CompanyTellNo}</div>
                 <div>
-                  {result?.header?.CompanyEmail} |{" "}+
+                  {result?.header?.CompanyEmail} | +
                   {result?.header?.CompanyWebsite}
                 </div>
                 <div>
@@ -1634,7 +1637,9 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="w-50 fw-bold">GOLD</div>
                       <div className="w-50 end_dp10">
                         {formatAmount(
-                          result?.mainTotal?.metal?.Amount - notGoldMetalTotal
+                          (result?.mainTotal?.metal?.Amount -
+                            notGoldMetalTotal) /
+                            result?.header?.CurrencyExchRate
                         )}
                       </div>
                     </div>
@@ -1707,9 +1712,9 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className="w-50 end_dp10">
                         {formatAmount(
-                        result?.header?.AddLess /
-                          result?.header?.CurrencyExchRate
-                      )}
+                          result?.header?.AddLess /
+                            result?.header?.CurrencyExchRate
+                        )}
                       </div>
                     </div>
                   </div>
@@ -1754,7 +1759,13 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     );
                   })}
                 </div>
-                <div className="d-flex justify-content-between px-1 bg_dp10 h_bd10 bt_dp10 bb_dp10" style={{borderRight: '1px solid #BDBDBD', borderLeft : '1px solid #BDBDBD'}}>
+                <div
+                  className="d-flex justify-content-between px-1 bg_dp10 h_bd10 bt_dp10 bb_dp10"
+                  style={{
+                    borderRight: "1px solid #BDBDBD",
+                    borderLeft: "1px solid #BDBDBD",
+                  }}
+                >
                   <div className="fw-bold w-50 h14_dp10"></div>
                   <div className="w-50"></div>
                 </div>

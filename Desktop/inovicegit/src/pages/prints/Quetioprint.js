@@ -1,4 +1,4 @@
-// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=UVQyODE1Mw==&evn=UXVvdGU=&pnm=cHJpbnQgcXVvdGF0aW9u&up=aHR0cDovL3plbi9qby9hcGktbGliL0FwcC9TYWxlQmlsbF9Kc29u&ctv=NzE=&ifid=PackingList3&pid=undefined
+//http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=UVQyODE1Mw==&evn=UXVvdGU=&pnm=cHJpbnQgcXVvdGF0aW9u&up=aHR0cDovL3plbi9qby9hcGktbGliL0FwcC9TYWxlQmlsbF9Kc29u&ctv=NzE=&ifid=PackingList3&pid=undefined
 import React, { useEffect, useState } from "react";
 import "../../assets/css/prints/Quetioprint.scss";
 import {
@@ -278,6 +278,8 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
       }
     });
 
+    console.log("datas", datas);
+
     setResult(datas);
   };
 
@@ -370,10 +372,12 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                     {result?.header?.CompanyWebsite}
                   </p>
                   <p style={{ display: "flex" }}>
-                    {result?.header?.Company_VAT_GST_No}|{" "}
-                    {result?.header?.Company_CST_STATE}-
-                    {result?.header?.Company_CST_STATE_No} | PAN-
-                    {result?.header?.Com_pannumber}
+                    {result?.header?.Company_VAT_GST_No !== "" &&
+                      `${result?.header?.Company_VAT_GST_No} |`}{" "}
+                    {result?.header?.Company_CST_STATE_No != "" &&
+                      `${result?.header?.Company_CST_STATE} - ${result?.header?.Company_CST_STATE_No} |`}
+                    {result?.header?.Com_pannumber != "" &&
+                      `PAN-${result?.header?.Com_pannumber}`}
                   </p>
                 </div>
                 <div>
@@ -683,19 +687,52 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                     className="qut1_table_header_col4_subheader"
                                     key={i}
                                   >
-                                    <p className="qut1_table_header_col4_subheader_data" style={{width: '25%', display: 'flex', justifyContent: 'flex-start'}}>
+                                    <p
+                                      className="qut1_table_header_col4_subheader_data"
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "flex-start",
+                                      }}
+                                    >
                                       {e?.ShapeName} {e?.QualityName}
                                     </p>
-                                    <p className="qut1_table_header_col4_subheader_data">
-                                      {e?.Wt?.toFixed(2)}
+                                    <p
+                                      className="qut1_table_header_col4_subheader_data"
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                      }}
+                                    >
+                                      {data?.grosswt?.toFixed(2)}
                                     </p>
-                                    <p className="qut1_table_header_col4_subheader_data">
+                                    <p
+                                      className="qut1_table_header_col4_subheader_data"
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                      }}
+                                    >
                                       {e?.RMwt?.toFixed(2)}
                                     </p>
-                                    <p className="qut1_table_header_col4_subheader_data">
-                                      {e?.Rate?.toFixed(2)}
+                                    <p
+                                      className="qut1_table_header_col4_subheader_data"
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                      }}
+                                    >
+                                      {(
+                                        e?.Rate /
+                                        result?.header?.CurrencyExchRate
+                                      )?.toFixed(2)}
                                     </p>
-                                    <p className="qut1_table_header_col4_subheader_data">
+                                    <p
+                                      className="qut1_table_header_col4_subheader_data"
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                      }}
+                                    >
                                       <b>
                                         {(
                                           data?.MetalAmount /
@@ -724,16 +761,43 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                         " " +
                                         e?.FindingAccessories}
                                     </p>
-                                    <p className="qut1_table_header_col4_subheader_data">
+                                    <p
+                                      className="qut1_table_header_col4_subheader_data"
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                      }}
+                                    >
                                       {e?.grosswt?.toFixed(2)}
                                     </p>
-                                    <p className="qut1_table_header_col4_subheader_data">
+                                    <p
+                                      className="qut1_table_header_col4_subheader_data"
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                      }}
+                                    >
                                       {e?.RMwt?.toFixed(2)}
                                     </p>
-                                    <p className="qut1_table_header_col4_subheader_data">
-                                      {e?.Rate?.toFixed(2)}
+                                    <p
+                                      className="qut1_table_header_col4_subheader_data"
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                      }}
+                                    >
+                                      {(
+                                        e?.Rate /
+                                        result?.header?.CurrencyExchRate
+                                      )?.toFixed(2)}
                                     </p>
-                                    <p className="qut1_table_header_col4_subheader_data">
+                                    <p
+                                      className="qut1_table_header_col4_subheader_data"
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                      }}
+                                    >
                                       <b>{e?.Amount?.toFixed(2)}</b>
                                       {/* result?.header?.CurrencyExchRate} */}
                                     </p>
@@ -779,10 +843,17 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                   >
                                     <p
                                       className="qut1_table_header_col5_subheader_1"
-                                      style={{ width: "40%" }}
+                                      style={{
+                                        width: "40%",
+                                        display: "flex",
+                                        justifyContent: "flex-start",
+                                      }}
                                     >
-                                      {e?.ShapeName} {e?.QualityName}{" "}
-                                      {e?.Colorname}
+                                      {e?.ShapeName +
+                                        " " +
+                                        e?.QualityName +
+                                        " " +
+                                        e?.Colorname}
                                     </p>
                                     <p className="qut1_table_header_col5_subheader_2">
                                       {e?.SizeName}
@@ -810,7 +881,10 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                               className="qut1_table_header_col5_subheader qut1_table_total_assign_height"
                               style={{ backgroundColor: "#f5f5f5" }}
                             >
-                              <p className="qut1_table_header_col5_subheader_1 qut1_table_header_col5_totalValues"></p>
+                              <p
+                                className="qut1_table_header_col5_subheader_1 qut1_table_header_col5_totalValues"
+                                style={{ width: "40%" }}
+                              ></p>
                               <p className="qut1_table_header_col5_subheader_2 qut1_table_header_col5_totalValues"></p>
                               <p className="qut1_table_header_col5_subheader_3 qut1_table_header_col5_totalValues">
                                 <b>
@@ -828,8 +902,10 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                   {data?.totals?.colorstone?.Wt +
                                     data?.totals?.misc?.Wt !==
                                     0 &&
-                                    data?.totals?.colorstone?.Wt +
-                                      data?.totals?.misc?.Wt}
+                                    (
+                                      data?.totals?.colorstone?.Wt +
+                                      data?.totals?.misc?.Wt
+                                    )?.toFixed(3)}
                                 </b>
                               </p>
                               <p className="qut1_table_header_col5_subheader_5 qut1_table_header_col5_totalValues"></p>
@@ -856,7 +932,7 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                               justifyContent: "space-between",
                             }}
                           >
-                            <div>
+                            <div style={{display: 'flex', justifyContent: 'flex-end'}}>
                               <p>
                                 {(
                                   data?.MiscAmount /
@@ -868,6 +944,8 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                               style={{
                                 backgroundColor: "#f5f5f5",
                                 borderTop: "1px solid #bdbdbd",
+                                display: 'flex',
+                                justifyContent: 'flex-end'
                               }}
                               className="qut1_table_total_assign_height"
                             >
@@ -891,10 +969,10 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                             }}
                           >
                             <div style={{ display: "flex" }}>
-                              <p className="qut1_table_header_col7_subheader_1">
+                              <p className="qut1_table_header_col7_subheader_1" style={{display: 'flex', justifyContent :'flex-end' , marginRight: '2px'}}>
                                 {data?.MaKingCharge_Unit?.toFixed(2)}
                               </p>
-                              <p className="qut1_table_header_col7_subheader_1">
+                              <p className="qut1_table_header_col7_subheader_1" style={{display: 'flex', justifyContent :'flex-end' , marginRight: '2px'}}>
                                 {(
                                   data?.MakingAmount /
                                   result?.header?.CurrencyExchRate
@@ -913,7 +991,7 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                 className="qut1_table_header_col7_subheader_1"
                                 style={{ borderRight: "1px solid #bdbdbd" }}
                               ></p>
-                              <p className="qut1_table_header_col7_subheader_last">
+                              <p className="qut1_table_header_col7_subheader_last" style={{display: 'flex', justifyContent: 'flex-end'}}>
                                 {data?.MakingAmount?.toFixed(2)}
                               </p>
                             </div>
@@ -1393,18 +1471,8 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                   </div>
                 </div>
                 <div className="paking3__bottomSection_Box2">
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      width: "50%",
-                    }}
-                  >
-                    <div className="paking3__bottomSection_Box2_subBox2">
-                      <p style={{ display: "flex", margin: "0px" }}>
-                        Created By
-                      </p>
-                    </div>
+                  <div className="paking3__bottomSection_Box2_subBox2">
+                    <p style={{ display: "flex", margin: "0px" }}>Created By</p>
                   </div>
                 </div>
               </div>
