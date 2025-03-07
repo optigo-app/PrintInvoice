@@ -1,0 +1,371 @@
+.h1_sum4 {
+    line-height: 120%;
+    font-size: 20px;
+    font-size: Calibri !important;
+}
+.fs_S4{
+    font-size: Calibri !important;
+}
+
+.address_sum4>p {
+    margin-bottom: 0;
+    font-size: Calibri !important;
+
+}
+
+.address_para_sum4 {
+    line-height: 120%;
+    font-size: 13.5px;
+}
+
+.logo_sec_sum4>img {
+    max-width: 130px;
+}
+
+.header_section_sum4 {
+    border-bottom: 2px solid #C3C3C3;
+}
+
+.invoice_text_sum4>h2 {
+    font-size: 17px;
+    line-height: 120%;
+    font-weight: 400;
+}
+
+.invoice_text_sum4>h2>span {
+    font-weight: 700;
+}
+
+.address_line_sum4>p {
+    font-size: 12px;
+    line-height: 14px;
+}
+
+.address_line_sum4>h3 {
+    font-weight: 700;
+    line-height: 120%;
+    font-size: 14px;
+}
+
+.address_lines_sum4>p {
+    line-height: 120%;
+    font-size: 15px;
+}
+
+.address_lines_sum4>p>span {
+    font-weight: 700;
+}
+
+.sum4_table div {
+    line-height: 120%;
+    font-size: 12px;
+}
+
+.sum12_table div, .sum12_table * {
+    line-height: 120% !important;
+    font-size: 11px !important;
+}
+
+.sr_sum4 {
+    /* min-width: 40.5px;
+    width: 40.5px; */
+    min-width: 5%;
+    width: 5%;
+}
+
+.design_sum4 {
+    min-width: 10%;
+    width: 10%;
+    /* min-width: 95px; */
+    /* width: 95px; */
+}
+
+.design_sum12{
+    min-width: 20%;
+    width: 20%;
+}
+
+.remark_sum4 {
+    min-width: 10%;
+    width: 10%;
+    /* min-width: 115px;
+    width: 115px; */
+}
+
+.dia_wt_ctw_sum4,
+.dia_rate_sum4,
+.dia_amt_sum4,
+.cs_wt_sum4,
+.cs_rate_sum4,
+.cs_amt_sum4,
+.gold_fine_sum4 {
+    /* min-width: 55px;
+    width: 55px; */
+    min-width: 6%;
+    width: 6%;
+}
+
+.g_wt_sum4,
+.nwt_sum4,
+.gold_amt_sum4 {
+    min-width: 6.01%;
+    width: 6.01%;
+    /* min-width: 65px;
+    width: 65px; */
+}
+
+.other_sum4,
+.other_amt_sum4 {
+    /* min-width: 60px;
+    width: 60px; */
+    min-width: 6%;
+    width: 6%;
+}
+
+.amount_sum_4 {
+    min-width: 9%;
+    width: 9%;
+}
+
+.sum4_table img {
+    max-width: 60px;
+    width: 60px;
+}
+
+.total_sum4 {
+    /* width: 135.5px; */
+    width: 15%;
+    min-width: 15%;
+}
+
+.total_sum12 {
+    /* width: 135.5px; */
+    width: 25%;
+    min-width: 25%;
+}
+
+.bg_total_sum4 {
+    background: #F2F2F2;
+    min-height: 23px;
+}
+
+.summary_detail_sum4 {
+    height: fit-content;
+    width: 40%;
+    min-width: 40%;
+    margin-right: 0.5%;
+}
+
+.cgst_sum4 {
+    /* width: 479px; */
+    width: 59.5%;
+    min-width: 59.5%;
+}
+
+.total_sec_sum4>div {
+    line-height: 120%;
+    font-size: 14px;
+}
+
+.summary_detail_sum4>div {
+    line-height: 120%;
+    font-size: 15px;
+}
+
+.gold_24kt_sum4 div,
+.cgst_sum4 div {
+    line-height: 120%;
+    font-size: 12px;
+    line-height: 100%;
+}
+
+.font_16_sum4 {
+    line-height: 120%;
+    font-size: 16px;
+}
+
+.font_15_sum4 {
+    line-height: 120%;
+    font-size: 15px;
+}
+
+.font_13_sum4 {
+    line-height: 120%;
+    font-size: 13px;
+}
+
+
+.metal_type_sum4 {
+    /* width: 80px;
+    min-width: 80px; */
+    width: 20%;
+    min-width: 20%;
+}
+
+.dia_wt_sum4,
+.GWt_sum4,
+.net_wt_sum4,
+.fine_wt_sum4 {
+    /* width: 74px;
+    min-width: 74px; */
+    width: 15%;
+    min-width: 15%;
+}
+
+.gold_amount_sum4 {
+    /* width: 100px;
+    min-width: 100px; */
+    width: 20%;
+    min-width: 20%;
+}
+
+.cgst_sum4>div>div {
+    text-align: center;
+}
+
+.sgst_sec_sum4 {
+    /* width: 723px; */
+    width: 80%;
+    min-width: 80%;
+    margin-right: 0.5%;
+}
+
+.sgst_part_sum4 {
+    /* width: 250px; */
+    width: 19.5%;
+    min-width: 19.5%;
+}
+
+.sgst_sec_sum4>div:first-child {
+    line-height: 120%;
+    font-size: 15px;
+}
+
+.amazon_sum4 {
+    width: 181px;
+}
+
+.amazon_text_sum4 {
+    width: max-content;
+    padding-right: 10px;
+}
+
+.amazon_number_sum4 {
+    width: max-content;
+}
+
+.width_315_sum4 {
+    width: 315px;
+}
+
+.width_295_sum4 {
+    width: 295px;
+}
+
+.remark_list_sum4>li {
+    line-height: 130%;
+    line-height: 120%;
+    font-size: 15px;
+}
+
+.height_65_sum4 {
+    height: 65px;
+}
+
+.total_sgst_text_sum4 {
+    width: 80%;
+    min-width: 80%;
+    margin-right: 0.5%;
+}
+
+.total_sgst_number_sum4 {
+    /* width: 250px; */
+    width: 19.5%;
+    min-width: 19.5%;
+}
+
+.total_sgst_sum4 p {
+    line-height: 120%;
+    font-size: 14px;
+}
+
+.metalTypeSum4,
+.netWtSum4,
+.tunchSum4,
+.pureWtSum4 {
+    /* width: 137.45px; */
+    width: 14%;
+    min-width: 14%;
+}
+
+.GwtSum4 {
+    /* width: 115.05px; */
+    width: 14%;
+    min-width: 14%;
+}
+
+.goldPriceSum4 {
+    width: 14%;
+    min-width: 14%;
+}
+
+.goldAmtSum4 {
+    width: 16%;
+    min-width: 16%;
+}
+
+.height34Sum4 {
+    height: 34px;
+}
+
+.diamondTypeSum4 {
+    width: 55%;
+    min-width: 55%;
+    margin-right: 0.5;
+}
+
+.csTypeSum4 {
+    /* width: 445px; */
+    width: 44.5%;
+    min-width: 44.5%;
+}
+
+.DiamondTypeSum4,
+.DiamondPriceSum4,
+.DiamondDiscountSum4,
+.DiamondAmountSum4 {
+    width: 22%;
+    min-width: 22%;
+}
+
+.DiamondCtwSum4 {
+    min-width: 12%;
+}
+
+.cstypeTextSum4 {
+    /* width: 110.7px; */
+    min-width: 25%;
+    width: 25%;
+}
+
+.sum4_table p{
+    line-height: 130%;
+}
+
+@media print {
+    .no_break {
+        page-break-inside: avoid;
+    }
+    .pno_break {
+        page-break-before: always;
+    }
+    .print_sec_sum4 {
+        display: none !important;
+    }
+
+    .sum4_table>div,
+    .note_sec_sum4,
+    .remarks_sum4 {
+        page-break-inside: avoid;
+    }
+}
