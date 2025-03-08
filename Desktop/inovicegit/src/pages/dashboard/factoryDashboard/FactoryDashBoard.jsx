@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import "./factoryDashboard.css";
+import "./factoryDashboard.scss";
 import { Box, Button, Card, Grid, Typography, useTheme } from '@mui/material';
 import moment from 'moment';
 

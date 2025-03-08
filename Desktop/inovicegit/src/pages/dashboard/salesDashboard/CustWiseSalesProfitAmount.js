@@ -1,10 +1,4 @@
-// ** React Imports
 import { useEffect, useState } from 'react'
-
-// ** MUI Imports
-// import Tab from '@mui/material/Tab'
-// import TabList from '@mui/lab/TabList'
-// import TabPanel from '@mui/lab/TabPanel'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import Avatar from '@mui/material/Avatar'
@@ -13,42 +7,20 @@ import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { useTheme } from '@mui/material/styles'
-
-// ** Custom Components Import
-// import Icon from 'src/@core/components/icon'
-// import OptionsMenu from 'src/@core/components/option-menu'
-// import CustomAvatar from 'src/@core/components/mui/avatar'
-// import ReactApexcharts from 'src/@core/components/react-apexcharts'
-import Icon from '../@core/components/option-menu'
-import OptionsMenu from '../@core/components/option-menu'
-
 import ReactApexcharts from '../@core/components/react-apexcharts'
-
-// ** Util Import
-// import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
 import { hexToRGBA } from '../@core/utils/hex-to-rgba'
 import { Tab } from '@mui/material';
 import { TabList, TabPanel } from '@mui/lab';
 import { capitalizeFirstLetter, fetchDashboardData, formatAmount, formatAmountKWise } from '../GlobalFunctions';
 
-
-
-
-const CustWiseSalesProfitAmount = ({tkn,  fdate, tdate, country, CustomerWiseSaleAmountData, IsEmpLogin}) => {
-  // ** State
+const CustWiseSalesProfitAmount = ({ tkn, fdate, tdate, country, CustomerWiseSaleAmountData, IsEmpLogin }) => {
   const [value, setValue] = useState('sales');
-
-
   const [apiData, setApiData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
-
     const fetchData = async () => {
       try {
-
-        // Fetch MonthWiseSaleAmount data
-        // let CustomerWiseSaleAmount = await fetchDashboardData(tkn,  fdate, tdate, "CustomerWiseSaleAmount");
         setApiData(CustomerWiseSaleAmountData);
         setFilteredData(CustomerWiseSaleAmountData);
 
@@ -56,48 +28,30 @@ const CustWiseSalesProfitAmount = ({tkn,  fdate, tdate, country, CustomerWiseSal
         console.error("Error fetching data:", error);
       }
     };
-  
-    fetchData(); 
-
-  // },[fdate, tdate]);
-},[CustomerWiseSaleAmountData]);
+    fetchData();
+  }, [CustomerWiseSaleAmountData]);
 
   const salesAmt = CustomerWiseSaleAmountData?.map((e) => e?.SaleAmount);
   const ProfitAmt = CustomerWiseSaleAmountData?.map((e) => e?.Profit);
-  // const ProfitAmt = CustomerWiseSaleAmountData?.map((e) => e?.Profit < 0 ? Math.abs(e?.Profit) : e?.Profit);
   const custNames = CustomerWiseSaleAmountData?.map((e) => capitalizeFirstLetter(e?.Customer));
 
   const tabData = [
-    // {
-    //   type: 'orders',
-    //   avatarIcon: 'tabler:shopping-cart',
-    //   series: [{ data: [28, 10, 45, 38, 15, 30, 35, 28, 8] }]
-    // },
     {
       type: 'sales',
-      // avatarIcon: 'tabler:chart-bar',
       avatarIcon: 'tabler:chart-bar',
-      // series: [{ data: [35, 25, 15, 40, 42, 25, 48, 8, 30] }]
       series: [{ data: salesAmt }]
     },
     ...(IsEmpLogin === 0 ? [{
       type: 'profit',
       avatarIcon: 'tabler:currency-dollar',
-      // series: [{ data: [10, 22, 27, 33, 42, 32, 27, 22, 8] }]
       series: [{ data: ProfitAmt }]
     }] : []),
-    // {
-    //   type: 'income',
-    //   avatarIcon: 'tabler:chart-pie-2',
-    //   series: [{ data: [5, 9, 12, 18, 20, 25, 30, 36, 48] }]
-    // }
   ]
 
   const renderTabs = (value, theme) => {
     return tabData?.map((item, index) => {
-      // const RenderAvatar = item.type === value ? CustomAvatar : Avatar
       const RenderAvatar = item.type === value ? Avatar : Avatar
-  
+
       return (
         <Tab
           key={index}
@@ -117,20 +71,6 @@ const CustWiseSalesProfitAmount = ({tkn,  fdate, tdate, country, CustomerWiseSal
                 borderColor: item.type === value ? theme?.palette?.customColors?.purple : theme?.palette?.divider
               }}
             >
-              {/* <RenderAvatar
-                variant='rounded'
-                {...(item.type === value && { skin: 'light' })}
-                sx={{ mb: 2, width: 34, height: 34, ...(item.type !== value && { backgroundColor: 'action.selected' }) }}
-              >
-                <Icon icon={item.avatarIcon} />
-              </RenderAvatar> */}
-              {/* <Avatar
-                variant='rounded'
-                {...(item.type === value && { skin: 'light' })}
-                sx={{ mb: 2, width: 34, height: 34, ...(item?.type !== value && { backgroundColor: 'action.selected' }) }}
-              >
-                <Icon icon={item?.avatarIcon} />
-              </Avatar> */}
               <Typography sx={{ fontWeight: 500, color: 'text.secondary', textTransform: 'capitalize' }}>
                 {item.type}
               </Typography>
@@ -140,15 +80,13 @@ const CustWiseSalesProfitAmount = ({tkn,  fdate, tdate, country, CustomerWiseSal
       )
     })
   }
-  
+
   const renderTabPanels = (value, theme, options, colors) => {
     return tabData.map((item, index) => {
       const max = Math?.max(...item?.series[0]?.data)
       const seriesIndex = item?.series[0]?.data?.indexOf(max)
-      // const finalColors = colors?.map((color, i) => (seriesIndex === i ? hexToRGBA(theme?.palette?.primary?.main, 1) : color))
       const finalColors = colors?.map((color, i) => (seriesIndex === i ? hexToRGBA(theme?.palette?.customColors?.purple, 1) : color))
-      // const finalColors = colors.map((color, i) => (seriesIndex === i ? (theme?.palette?.primary?.main) : color))
-      
+
       return (
         <TabPanel key={index} value={item?.type} >
           <ReactApexcharts type='bar' height={300} options={{ ...options, colors: finalColors }} series={item?.series} />
@@ -156,7 +94,7 @@ const CustWiseSalesProfitAmount = ({tkn,  fdate, tdate, country, CustomerWiseSal
       )
     })
   }
-  
+
 
   // ** Hook
   const theme = useTheme()
@@ -164,8 +102,6 @@ const CustWiseSalesProfitAmount = ({tkn,  fdate, tdate, country, CustomerWiseSal
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
-  // const colors = Array(9).fill(hexToRGBA(theme.palette.primary.main, 0.16))
-  // const colors = Array(9)?.fill((theme?.palette?.primary?.main))
   const colors = Array(10)?.fill((theme?.palette?.customColors?.purple))
 
   const options = {
@@ -173,6 +109,7 @@ const CustWiseSalesProfitAmount = ({tkn,  fdate, tdate, country, CustomerWiseSal
       parentHeightOffset: 0,
       toolbar: { show: false }
     },
+
     plotOptions: {
       bar: {
         borderRadius: 6,
@@ -182,15 +119,31 @@ const CustWiseSalesProfitAmount = ({tkn,  fdate, tdate, country, CustomerWiseSal
         dataLabels: { position: 'top' }
       }
     },
-    legend: { show: false },
-    tooltip: { enabled: false },
+    legend: {
+      show: false
+    },
+
+    tooltip: {
+      enabled: true,
+      shared: false,
+      intersect: false,
+      custom: ({ seriesIndex, dataPointIndex, w }) => {
+        const customerName = w.globals.labels[dataPointIndex];
+        const value = w.globals.series[seriesIndex][dataPointIndex];
+        return `
+          <div style="padding: 8px;">
+        <span style="font-size: 14px; color: #333; display: block; margin-bottom: 5px;">
+          <b>${customerName}</b>
+        </span>
+        <hr style="margin: 5px 0; border: 0; border-top: 1px solid #e0e0e0;">
+        <span style="font-size: 12px; color: #888;">Sale Amt: </span>
+        <span style="font-size: 12px; color: #333;"><b>${formatAmountKWise(value)}</b></span>
+      </div>
+        `;
+      }
+    },
     dataLabels: {
       offsetY: -15,
-      // formatter: (val, opts) => {
-      //   const index = opts.dataPointIndex;
-      //   const originalValue = CustomerWiseSaleAmountData[index]?.Profit; // Use the original value
-      //   return `${originalValue < 0 ? '-' : ''}${formatAmountKWise(Math.abs(originalValue / +country))}`;
-      // },
       formatter: val => `${formatAmountKWise((val / (+country)))}`,
       style: {
         fontWeight: 500,
@@ -198,28 +151,9 @@ const CustWiseSalesProfitAmount = ({tkn,  fdate, tdate, country, CustomerWiseSal
         fontSize: theme.typography.body1.fontSize
       }
     },
-    colors,
-    states: {
-      hover: {
-        filter: { type: 'none' }
-      },
-      active: {
-        filter: { type: 'none' }
-      }
-    },
-    grid: {
-      show: false,
-      padding: {
-        top: 20,
-        left: -5,
-        right: -8,
-        bottom: -12
-      }
-    },
     xaxis: {
       axisTicks: { show: false },
       axisBorder: { color: theme.palette.divider },
-      // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
       categories: custNames,
       labels: {
         style: {
@@ -252,22 +186,16 @@ const CustWiseSalesProfitAmount = ({tkn,  fdate, tdate, country, CustomerWiseSal
           }
         }
       }
-    ]
-  }
+    ],
+  };
 
   return (
-    <Card  className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>
+    <Card className='fs_analytics_l' style={{ boxShadow: '0px 4px 18px 0px rgba(47, 43, 61, 0.1)' }}>
       <CardHeader
         title='Top Customers'
         subheader='Sale Amount and Profit Amount'
-        // action={
-        //   <OptionsMenu
-        //     options={['Last Week', 'Last Month', 'Last Year']}
-        //     iconButtonProps={{ size: 'small', sx: { color: 'text.disabled' } }}
-        //   />
-        // }
       />
-      <CardContent sx={{ '& .MuiTabPanel-root': { p: 0, pb:0 } }}>
+      <CardContent sx={{ '& .MuiTabPanel-root': { p: 0, pb: 0 } }}>
         <TabContext value={value}>
           <TabList
             variant='scrollable'
@@ -281,28 +209,6 @@ const CustWiseSalesProfitAmount = ({tkn,  fdate, tdate, country, CustomerWiseSal
             }}
           >
             {renderTabs(value, theme)}
-            {/* <Tab
-              disabled
-              value='add'
-              label={
-                <Box
-                  sx={{
-                    width: 110,
-                    height: 94,
-                    display: 'flex',
-                    alignItems: 'center',
-                    borderRadius: '10px',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    border: `1px dashed ${theme.palette.divider}`
-                  }}
-                >
-                  <Avatar variant='rounded' sx={{ width: 34, height: 34, backgroundColor: 'action.selected' }}>
-                    <Icon icon='tabler:plus' />
-                  </Avatar>
-                </Box>
-              }
-            /> */}
           </TabList>
           {renderTabPanels(value, theme, options, colors)}
         </TabContext>
