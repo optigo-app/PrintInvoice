@@ -140,6 +140,12 @@ const OrderTracker = ({ tkn, fdate, tdate, orderTracker }) => {
 
 
   const handleTask = (item) => {
+    if (item?.title?.toLowerCase() === "new order") {
+      const isNewOrderkPercentage = totalOrder ? (orderTracker[0]?.NewOrder / totalOrder) * 100 : 0;
+      console.log('isNewOrderkPercentage: ', isNewOrderkPercentage);
+      setTask(Math.round(isNewOrderkPercentage));
+      setTaskLabel('In New')
+    }
     if (item?.title?.toLowerCase() === 'in stock') {
       const inStockPercentage = totalOrder ? (orderTracker[0]?.InStock / totalOrder) * 100 : 0;
       setTask(Math.round(inStockPercentage));
@@ -269,7 +275,7 @@ const OrderTracker = ({ tkn, fdate, tdate, orderTracker }) => {
               ))}
             </Grid>
             <Grid item xs={12} sm={7} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <ReactApexcharts type='radialBar' width={325} height={350} options={options} series={[task]} />
+              <ReactApexcharts type='radialBar' width={280} height={280} options={options} series={[task]} />
             </Grid>
           </Grid>
         </CardContent>
