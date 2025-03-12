@@ -48,86 +48,84 @@ const InOutDuration = ( ) => {
   const [IOTimeList, setIOTimeList] = useState([]);
   const [countList, setCountList] = useState([]);
 
-  const options = {
-    chart: {
-      offsetX: -10,
-      stacked: true,
-      parentHeightOffset: 0,
-      toolbar: { show: false }
-    },
-    fill: { opacity: 1 },
-    dataLabels: { enabled: false },
-    colors: [columnColors.series1, columnColors.series2],
-    legend: {
-      position: 'top',
-      horizontalAlign: 'left',
-      labels: { colors: theme.palette.text.secondary },
-      markers: {
-        offsetY: 1,
-        offsetX: -3
+    const options = {
+      chart: {
+        offsetX: -10,
+        stacked: true,
+        parentHeightOffset: 0,
+        toolbar: { show: false }
       },
-      itemMargin: {
-        vertical: 3,
-        horizontal: 10
-      }
-    },
-    stroke: {
-      show: true,
-      colors: ['transparent']
-    },
-    plotOptions: {
-      bar: {
-        columnWidth: '20%',
-        colors: {
-          backgroundBarRadius: 10,
-          backgroundBarColors: [columnColors.bg, columnColors.bg, columnColors.bg, columnColors.bg, columnColors.bg]
+      fill: { opacity: 1 },
+      dataLabels: { enabled: false },
+      colors: [columnColors.series1, columnColors.series2],
+      legend: {
+        position: 'top',
+        horizontalAlign: 'left',
+        labels: { colors: theme.palette.text.secondary },
+        markers: {
+          offsetY: 1,
+          offsetX: -3
+        },
+        itemMargin: {
+          vertical: 3,
+          horizontal: 10
         }
-      }
-    },
-    grid: {
-      borderColor: theme.palette.divider,
+      },
+      stroke: {
+        show: true,
+        colors: ['transparent']
+      },
+      plotOptions: {
+        bar: {
+          columnWidth: '20%',
+          colors: {
+            backgroundBarRadius: 10,
+            backgroundBarColors: [columnColors.bg, columnColors.bg, columnColors.bg, columnColors.bg, columnColors.bg]
+          }
+        }
+      },
+      grid: {
+        borderColor: theme.palette.divider,
+        xaxis: {
+          lines: { show: true }
+        }
+      },
+      yaxis: {
+        labels: {
+          style: { colors: theme.palette.text.disabled }
+        }
+      },
       xaxis: {
-        lines: { show: true }
-      }
-    },
-    yaxis: {
-      labels: {
-        style: { colors: theme.palette.text.disabled }
-      }
-    },
-    xaxis: {
-      axisBorder: { show: false },
-      axisTicks: { color: theme.palette.divider },
-    //   categories: ['7/12', '8/12', '9/12', '10/12', '11/12', '12/12', '13/12', '14/12', '15/12'],
-      // categories: ['Pariya', 'KK', 'CHOW', 'Nancy', 'Tiffany', 'SA', 'XBO', 'YF'],
-      categories: vendorNameList,
-      crosshairs: {
-        stroke: { color: theme.palette.divider }
-      },
-      labels: {
-        style: { colors: theme.palette.text.disabled }
-      }
-    },
-    tooltip: {
-      y: {
-        formatter: function (val, { dataPointIndex }) {
-          return `${val}  <span style="font-weight: normal;">Count: <strong>${countList[dataPointIndex] || 0}</strong></span>`;
+        axisBorder: { show: false },
+        axisTicks: { color: theme.palette.divider },
+        categories: vendorNameList,
+        crosshairs: {
+          stroke: { color: theme.palette.divider }
+        },
+        labels: {
+          style: { colors: theme.palette.text.disabled }
         }
-      }
-    },  
-    responsive: [
-      {
-        breakpoint: 600,
-        options: {
-          plotOptions: {
-            bar: {
-              columnWidth: '35%'
+      },
+      tooltip: {
+        y: {
+          formatter: function (val, { dataPointIndex }) {
+            return `${val}  <span style="font-weight: normal;">Count: <strong>${countList[dataPointIndex] || 0}</strong></span>`;
+          }
+        }
+      },  
+      responsive: [
+        {
+          breakpoint: 600,
+          options: {
+            plotOptions: {
+              bar: {
+                columnWidth: '35%'
+              }
             }
           }
         }
-      }
-    ]
-  }
+      ]
+    }
 
   const CustomInput = forwardRef((props, ref) => {
     const startDate = props.start !== null ? format(props.start, 'MM/dd/yyyy') : ''

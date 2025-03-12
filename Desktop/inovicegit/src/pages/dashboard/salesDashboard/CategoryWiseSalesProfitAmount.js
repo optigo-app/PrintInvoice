@@ -19,6 +19,8 @@ import "./chartcss/analytics.css";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const CategoryWiseSalesProfitAmount = ({ tkn, fdate, tdate, country, CategoryWiseSaleAmountData, IsEmpLogin }) => {
+  console.log('CategoryWiseSaleAmountData: ', CategoryWiseSaleAmountData);
+  console.log('country: ', country);
   const theme = useTheme();
   const [apiData, setApiData] = useState([]);
 

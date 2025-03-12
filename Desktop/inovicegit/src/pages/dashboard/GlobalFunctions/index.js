@@ -1,13 +1,12 @@
 import axios from "axios";
 
-export function formatAmount(amount) {
-    const formattedAmount = parseFloat(+amount).toLocaleString('en-IN', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-  
-    return formattedAmount;
+export function formatAmount(amount, round = false) {
+  if (round) {
+    return Math.round(amount).toLocaleString('en-IN');
+  } else {
+    return Number(amount).toFixed(2).toLocaleString('en-IN');
   }
+}
   export function formatAmountRound(amount) {
     // Round the amount to the nearest integer
     const roundedAmount = Math.round(+amount);
@@ -19,69 +18,94 @@ export function formatAmount(amount) {
   }
 
 
-  export const fetchDashboardData = async (token, hostName, fdate, tdate, event, sales, office, LId, IsPower) => {
-      
+  export const fetchDashboardData = async (token, hostName, fdate, tdate, event, sales, office, customer, country, LId, IsPower) => {
     try {
       let apiUrl_kayra = '';
-
-      if(hostName?.toLowerCase() === 'zen' || hostName?.toLowerCase() === 'localhost'){
+  
+      if (hostName?.toLowerCase() === 'zen' || hostName?.toLowerCase() === 'localhost') {
         apiUrl_kayra = 'http://zen/jo/api-lib/App/DashBoard';
-      }else{
+      } else {
         apiUrl_kayra = 'https://view.optigoapps.com/linkedapp/App/DashBoard';
       }
-
-      // const url = "http://zen/jo/api-lib/App/DashBoard";
-      const body = JSON.stringify({
-        "Token" : `${token}`  
-        // ,"ReqData":`[{\"Token\":\"${token}\",\"Evt\":\"${event}\",\"FDate\":\"${fdate}\",\"TDate\":\"${tdate}\"}]`
-        // ,"ReqData":`[{\"Token\":\"${token}\",\"Evt\":\"${event}\",\"FDate\":\"${fdate}\",\"TDate\":\"${tdate}\",\"LockerId\":\"${office}\",\"SaleRepId\":\"${sales}\"}]`
-        ,"ReqData":`[{\"Token\":\"${token}\",\"Evt\":\"${event}\",\"LoginId\":\"${LId}\",\"FDate\":\"${fdate}\",\"TDate\":\"${tdate}\",\"LockerId\":\"${office}\",\"SaleRepId\":\"${sales}\",\"IsPower\":\"${IsPower}\"}]`
-        // ,"ReqData":"[{\"Token\":\"9065471700535651\",\"LoginId\":\"8\",\"Evt\":\"MonthWiseSaleAmount\",\"LockerId\":\"1\",\"SaleRepId\":\"8\"}]"
+  
+      const requestData = [
+        {
+          Token: token,
+          Evt: event,
+          LoginId: LId,
+          FDate: fdate,
+          TDate: tdate,
+          LockerId: office,
+          SaleRepId: sales,
+          CountryName: country,
+          CustomerId: customer,
+          IsPower: IsPower,
+        },
+      ];
+  
+      const body = {
+        Token: token,
+        ReqData: JSON.stringify(requestData), // Correctly stringifying the array
+      };
+  
+      const response = await axios.post(apiUrl_kayra, body, {
+        headers: { 'Content-Type': 'application/json' },
       });
   
-      const response = await axios.post(apiUrl_kayra, body);
       if (response?.data?.Status === '200') {
-        
         return response?.data?.Data?.DT?.length > 0 ? response.data.Data.DT : [];
       } else {
         return []; // Empty array if no data or status is not 200
       }
     } catch (error) {
-      console.log("API Error:", error);
+      console.log('API Error:', error);
       return []; // Return empty array on error
     }
   };
-  export const fetchSalesDashboardData = async (token, hostName, fdate, tdate, event, sales, office, LId, IsPower) => {
-      
-    try {
-      let apiUrl_kayra = '';
 
-      if(hostName?.toLowerCase() === 'zen' || hostName?.toLowerCase() === 'localhost'){
-        apiUrl_kayra = 'http://zen/jo/api-lib/App/DashBoard';
-      }else{
-        apiUrl_kayra = 'https://view.optigoapps.com/linkedapp/App/DashBoard';
-      }
+  export const fetchSalesDashboardData = async (token, hostName, fdate, tdate, event, sales, office, customer, country, LId, IsPower ) => {
+  try {
+    let apiUrl_kayra = '';
 
-      // const url = "http://zen/jo/api-lib/App/DashBoard";
-      const body = JSON.stringify({
-        "Token" : `${token}`  
-        // ,"ReqData":`[{\"Token\":\"${token}\",\"Evt\":\"${event}\",\"FDate\":\"${fdate}\",\"TDate\":\"${tdate}\"}]`
-        // ,"ReqData":`[{\"Token\":\"${token}\",\"Evt\":\"${event}\",\"FDate\":\"${fdate}\",\"TDate\":\"${tdate}\",\"LockerId\":\"${office}\",\"SaleRepId\":\"${sales}\"}]`
-        ,"ReqData":`[{\"Token\":\"${token}\",\"Evt\":\"${event}\",\"LoginId\":\"${LId}\",\"FDate\":\"${fdate}\",\"TDate\":\"${tdate}\",\"LockerId\":\"${office}\",\"SaleRepId\":\"${sales}\",\"IsPower\":\"${IsPower}\"}]`
-        // ,"ReqData":"[{\"Token\":\"9065471700535651\",\"LoginId\":\"8\",\"Evt\":\"MonthWiseSaleAmount\",\"LockerId\":\"1\",\"SaleRepId\":\"8\"}]"
-      });
-  
-      const response = await axios.post(apiUrl_kayra, body);
-      if (response?.data?.Status === '200') {
-        
-        return response?.data?.Data ? response.data.Data : null;
-      } else {
-        return []; // Empty array if no data or status is not 200
-      }
-    } catch (error) {
-      console.log("API Error:", error);
-      return []; // Return empty array on error
+    if (hostName?.toLowerCase() === 'zen' || hostName?.toLowerCase() === 'localhost') {
+      apiUrl_kayra = 'http://zen/jo/api-lib/App/DashBoard';
+    } else {
+      apiUrl_kayra = 'https://view.optigoapps.com/linkedapp/App/DashBoard';
     }
+
+    const requestData = [
+      {
+        Token: token,
+        Evt: event,
+        LoginId: LId,
+        FDate: fdate,
+        TDate: tdate,
+        LockerId: office,
+        SaleRepId: sales,
+        CountryName: country,
+        CustomerId: customer,
+        IsPower: IsPower,
+      },
+    ];
+
+    const body = {
+      Token: token,
+      ReqData: JSON.stringify(requestData), // Correctly stringifying the array
+    };
+
+    const response = await axios.post(apiUrl_kayra, body, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (response?.data?.Status === '200') {
+      return response?.data?.Data ? response.data.Data : null;
+    } else {
+      return []; // Empty array if no data or status is not 200
+    }
+  } catch (error) {
+    console.log('API Error:', error);
+    return []; // Return empty array on error
+  }
   };
 
   export const fetchKPIDashboardData = async (apiUrl_kpi, token, fdate, tdate, event) => {

@@ -26,6 +26,7 @@ const FactoryDataSummary = ({tkn, bgColor, selectMaterial, selectCurrency}) => {
     const [soldPerC, setSoldPerC] = useState(0);
 
     const [DTObj, setDTObj] = useState();
+    console.log('DTObj: ', DTObj);
     const [SSDTObj, setSSDTObj] = useState();
     
     const theme = useTheme();
@@ -38,7 +39,7 @@ const FactoryDataSummary = ({tkn, bgColor, selectMaterial, selectCurrency}) => {
           title: labelname,
         },
         {
-          stats: checkNullUndefined(formatAmount(((DTObj?.Total_Labour / selectCurrency) / DTObj?.Netwt))),
+          stats: checkNullUndefined(formatAmount(((DTObj?.Total_Labour / DTObj?.Netwt) / selectCurrency))),
           title: 'Total Labour',
         },
         {
@@ -57,8 +58,12 @@ const FactoryDataSummary = ({tkn, bgColor, selectMaterial, selectCurrency}) => {
           stats: DTObj?.Total_Unit,
           title: 'Total Unit',
         },
+        // {
+        //   stats: DTObj?.Gold_Loss?.toFixed(3),
+        //   title: 'Gold Loss',
+        // },
         {
-          stats: DTObj?.Gold_Loss?.toFixed(3),
+          stats: DTObj?.TotalWastageLossAmount?.toFixed(2),
           title: 'Gold Loss',
         },
         {
