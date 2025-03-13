@@ -12,7 +12,7 @@ import {
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import Loader from "../../components/Loader";
 import { ToWords } from "to-words";
-import "../../assets/css/prints/detailPrint12.css";
+import "../../assets/css/prints/detailprint12.css";
 import { NumToWord } from "./../../GlobalFunctions/NumToWord";
 import { cloneDeep } from "lodash";
 

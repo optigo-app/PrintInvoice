@@ -1,4 +1,5 @@
-// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=U0syMTI2MjAyNA==&evn=c2FsZQ==&pnm=c2FsZSBmb3JtYXQ=&up=aHR0cDovL3plbi9qby9hcGktbGliL0FwcC9TYWxlQmlsbF9Kc29u&ctv=NzE=&ifid=PackingList3&pid=undefined&etp=ZXhjZWw=
+
+// http://localhost:3001/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=U0syMTM4MjAyNA==&evn=c2FsZQ==&pnm=c2FsZSBmb3JtYXQ=&up=aHR0cDovL3plbi9qby9hcGktbGliL0FwcC9TYWxlQmlsbF9Kc29u&ctv=NzE=&ifid=PackingList3&pid=undefined&etp=ZXhjZWw=
 import React, { useEffect, useState } from "react";
 import {
   apiCall,
@@ -839,7 +840,6 @@ const SaleFormateExcel = ({
         SubCategory: item.SubCategoryname || "",
         ProductType: item?.Product_Type,
         Component: "",
-  
         Material: subData.MasterManagement_DiamondStoneTypeName || "",
         Type: "",
         Shape: subData.ShapeName || "",
@@ -849,31 +849,27 @@ const SaleFormateExcel = ({
         Setting: subData.SettingName || "",
         Pcs: subData.Pcs || "",
         Weight: subData.Wt || 0,
-  
         PriceRatio: item.MetalPriceRatio || "",
         Supplier: subData.Supplier || "",
-
-        
-        AddInGrossWt: subData.AddInGrossWt || "",
-        RateOnPcs: subData.isRateOnPcs || "",
+        AddInGrossWt: subData.ismiscwtaddingrossweight || 0,
+        RateOnPcs: subData.isRateOnPcs || 0,
         SaleMarkup: subData.SaleMarkup || "",
         SalesMarkupIn: subData.SalesMarkupIn || "",
         IsOnPcs: subData.IsOnPcs || "",
         IsSampleLineJob: subData.IsSampleLineJob || 0,
-        PurchaseWastage: subData.PurchaseWastage || 0,
-        SaleWastage: subData.SaleWastage || 0,
-        Location: subData.Location || "",
+        PurchaseWastage: subData.Wastage || 0,
+        SaleWastage: subData.Wastage || 0,
+        Location: subData.Locker || "",
         GroupJob: subData.GroupJob || "",
         SalesLabour: subData.SalesLabour || 0,
         SalesLabourOn: subData.SalesLabourOn || "",
-        SaleRate: subData.Rate || "",
-        SaleAmount: subData.MetalAmount || "",
+        SaleRate: subData.Rate || 0,
+        SaleAmount: subData.Amount || 0,
         OldTag: subData.OldTag || "",
         PurchaseMRP: subData.PurchaseMRP || 0,
         SaleMRP: subData.SaleMRP || 0,
-      })) || []  // Ensure no undefined values are added
+      })) || []
     );
-  
     console.log('excelData', excelData);
     
     // const excelData = result?.resultArray.map((item) => {
