@@ -137,7 +137,7 @@ const CustWiseSalesProfitAmount = ({ tkn, fdate, tdate, country, CustomerWiseSal
         </span>
         <hr style="margin: 5px 0; border: 0; border-top: 1px solid #e0e0e0;">
         <span style="font-size: 12px; color: #888;">Sale Amt: </span>
-        <span style="font-size: 12px; color: #333;"><b>${formatAmountKWise(value)}</b></span>
+        <span style="font-size: 12px; color: #333;"><b>${formatAmountKWise(value / (+country))}</b></span>
       </div>
         `;
       }

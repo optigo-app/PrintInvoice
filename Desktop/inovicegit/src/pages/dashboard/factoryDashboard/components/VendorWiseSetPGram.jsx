@@ -115,7 +115,7 @@ const VendorWiseSetPGram = ({tkn,  fdate, tdate, selectMaterial, selectCurrency}
             <Box
               sx={{
                 width: 190,
-                height: 54,
+                height: 34,
                 borderWidth: 1,
                 display: 'flex',
                 alignItems: 'center',

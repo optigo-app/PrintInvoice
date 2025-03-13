@@ -33,10 +33,10 @@ const columnColors = {
 
 
 
-const InOutDuration = ( ) => {
+const InOutDuration = () => {
 
   const { loading, data, error } = useSelector(state => state?.Vendor_In_Out_Duration);
-    
+
   // ** Hook
   const theme = useTheme();
 
@@ -98,8 +98,6 @@ const InOutDuration = ( ) => {
     xaxis: {
       axisBorder: { show: false },
       axisTicks: { color: theme.palette.divider },
-    //   categories: ['7/12', '8/12', '9/12', '10/12', '11/12', '12/12', '13/12', '14/12', '15/12'],
-      // categories: ['Pariya', 'KK', 'CHOW', 'Nancy', 'Tiffany', 'SA', 'XBO', 'YF'],
       categories: vendorNameList,
       crosshairs: {
         stroke: { color: theme.palette.divider }
@@ -114,7 +112,7 @@ const InOutDuration = ( ) => {
           return `${val}  <span style="font-weight: normal;">Count: <strong>${countList[dataPointIndex] || 0}</strong></span>`;
         }
       }
-    },  
+    },
     responsive: [
       {
         breakpoint: 600,
@@ -162,19 +160,19 @@ const InOutDuration = ( ) => {
   }
 
   useEffect(() => {
-      if(data?.DT?.length > 0){
-          let arr = data?.DT?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map((e) => e?.Vendor);
-          setVendroNameList(arr);
-          let arr2 = data?.DT?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map((e) => e?.AVG_DayDiff);
-          setIOTimeList(arr2);
-          let arr3 = data?.DT?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map((e) => e?.TotalJobCnt);
-          setCountList(arr3);
-      }else{
-        setVendroNameList([]);
-        setIOTimeList([]);
-        setCountList([]);
-      }
-  },[data?.DT]);
+    if (data?.DT?.length > 0) {
+      let arr = data?.DT?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map((e) => e?.Vendor);
+      setVendroNameList(arr);
+      let arr2 = data?.DT?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map((e) => e?.AVG_DayDiff);
+      setIOTimeList(arr2);
+      let arr3 = data?.DT?.slice()?.sort((a, b) => b?.TotalJobCnt - a?.TotalJobCnt)?.slice(0, 10)?.map((e) => e?.TotalJobCnt);
+      setCountList(arr3);
+    } else {
+      setVendroNameList([]);
+      setIOTimeList([]);
+      setCountList([]);
+    }
+  }, [data?.DT]);
 
   const series = [
     //   {
@@ -185,18 +183,18 @@ const InOutDuration = ( ) => {
     //     name: 'Samsung',
     //     data: [85, 100, 30, 40, 95, 90, 30, 110, 62]
     //   }
-      {
-        name: 'I/O Time',
-        data: IOTimeList ?? [14, 15, 1555, 16, 16, 32, 42, 42]
-      },
-      // {
-      //   name: 'Count',
-      //   data: countList ?? [200, 1581, 7953, 289, 7, 367, 42, 779]
-      // }
-    ]
+    {
+      name: 'I/O Time',
+      data: IOTimeList ?? [14, 15, 1555, 16, 16, 32, 42, 42]
+    },
+    // {
+    //   name: 'Count',
+    //   data: countList ?? [200, 1581, 7953, 289, 7, 367, 42, 779]
+    // }
+  ]
 
   return (
-    <Card className='fs_facd bs_facd' sx={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)'}}>
+    <Card className='fs_facd bs_facd' sx={{ boxShadow: '0px 4px 18px 0px rgba(47, 43, 61, 0.1)' }}>
       <CardHeader
         title='In/Out Duration ( Vendorwise Sold )'
         sx={{
@@ -205,23 +203,23 @@ const InOutDuration = ( ) => {
           '& .MuiCardHeader-action': { mb: 0 },
           '& .MuiCardHeader-content': { mb: [2, 0] },
         }}
-        // action={
-        //   <DatePicker
-        //     selectsRange
-        //     endDate={endDate}
-        //     selected={startDate}
-        //     id='apexchart-column'
-        //     startDate={startDate}
-        //     onChange={handleOnChange}
-        //     placeholderText='Click to select a date'
-        //     customInput={<CustomInput start={startDate} end={endDate} />}
-        //   />
-        // }
+      // action={
+      //   <DatePicker
+      //     selectsRange
+      //     endDate={endDate}
+      //     selected={startDate}
+      //     id='apexchart-column'
+      //     startDate={startDate}
+      //     onChange={handleOnChange}
+      //     placeholderText='Click to select a date'
+      //     customInput={<CustomInput start={startDate} end={endDate} />}
+      //   />
+      // }
       />
-      { loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding:'1rem', minHeight:'440px' }}>
-                                    <CircularProgress sx={{color:'lightgrey'}} />
-                                    </Box> : <CardContent >
-        <ReactApexcharts type='bar' height={400} options={options} series={series} />
+      {loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', padding: '1rem', minHeight: '440px' }}>
+        <CircularProgress sx={{ color: 'lightgrey' }} />
+      </Box> : <CardContent >
+        <ReactApexcharts type='bar' height={443} options={options} series={series} />
       </CardContent>}
     </Card>
   )

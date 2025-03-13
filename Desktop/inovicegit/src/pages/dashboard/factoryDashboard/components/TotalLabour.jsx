@@ -9,7 +9,7 @@ import { CircularProgress } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { formatAmountKWise } from '../../GlobalFunctions';
 
-const TotalLabour = ({ selectMaterial }) => {
+const TotalLabour = ({ selectMaterial, selectCurrency }) => {
   const { loading, data } = useSelector(state => state?.Summary_Purchase);
   const [vendorWiseNameList, setVendorWiseNameList] = useState([]);
   const [yAxis, setYAxis] = useState([]);
@@ -120,7 +120,7 @@ const TotalLabour = ({ selectMaterial }) => {
     },
     dataLabels: {
       offsetY: -15,
-      formatter: val => `${formatAmountKWise(val)}`,
+      formatter: val => `${formatAmountKWise((val) / +selectCurrency)}`,
       style: {
         fontWeight: 500,
         colors: [theme.palette.text.secondary],
@@ -189,7 +189,7 @@ const TotalLabour = ({ selectMaterial }) => {
         </Box>
       ) : (
         <CardContent>
-          <ReactApexcharts type='bar' height={355} options={options} series={[{ data: yAxis }]} />
+          <ReactApexcharts type='bar' height={350} options={options} series={[{ data: yAxis }]} />
         </CardContent>
       )}
     </Card>

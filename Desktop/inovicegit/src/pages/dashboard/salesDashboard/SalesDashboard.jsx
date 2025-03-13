@@ -79,15 +79,18 @@ const SalesDashboard = ({ tkn, hostName, LId, IsEmpLogin, IsPower, IFB }) => {
     setSelectedCountry(event.target.value);
   };
 
-  const customerListHandleChange = (event) => {
-    let value = event.target.value
-    setSelectedCustomer(value);
-    const matchCountSelect = countryList?.find((el) => el?.CountryName === value);
-    const salesRep = customerList?.find((el) => el?.CustomerCode === value);
-    const salesRepId = salesRep?.SaleRepId;
-    console.log('salesRepId: ', salesRepId);
-    const matchSalesRep = salesList?.find((el) => el?.SaleRepId === salesRepId);
-    setSelectedSales(matchSalesRep?.SaleRepId);
+  const customerListHandleChange = (customerId) => {
+    if (!customerId) {
+      setSelectedCustomer('');
+      setSelectedSales('');
+      return;
+    }
+    const customer = customerList?.find((el) => el?.CustomerId === customerId);
+    if (!customer) return;
+
+    setSelectedCustomer(customer.CustomerId);
+    const matchSalesRep = salesList?.find((el) => el?.SaleRepId === customer?.SaleRepId);
+    setSelectedSales(matchSalesRep?.SaleRepId || '');
   };
 
 
@@ -171,10 +174,10 @@ const SalesDashboard = ({ tkn, hostName, LId, IsEmpLogin, IsPower, IFB }) => {
     const formattedTDate = endDate?.format("MM/DD/YYYY");
     setFDatef(formattedFDate);
     setTDatef(formattedTDate);
-    fetchData(formattedFDate, formattedTDate, selectedCurrency, selectedSales, selectedOffice);
+    fetchData(formattedFDate, formattedTDate, selectedCurrency, selectedSales, selectedOffice, selectedCustomer, selectedCountry);
   };
 
-  const fetchData = async (fdatef, tdatef, country, sales, office) => {
+  const fetchData = async (fdatef, tdatef, currency, sales, office, customer, country) => {
     const today = moment();
     const currentYear = today.year();
     const financialYearStart = today.isBefore(moment(`${currentYear}-04-01`))
@@ -198,37 +201,37 @@ const SalesDashboard = ({ tkn, hostName, LId, IsEmpLogin, IsPower, IFB }) => {
     }
 
     try {
-      const monthWiseSaleData = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "MonthWiseSaleAmount", sales, office, LId, IsPower);
+      const monthWiseSaleData = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "MonthWiseSaleAmount", sales, office, customer, country, LId, IsPower);
       setMonthWiseSaleApiData(monthWiseSaleData);
 
-      const JobWisePriceRangeData = await fetchSalesDashboardData(passAsTkn, hostName, fdatef, tdatef, "Summary", sales, office, LId, IsPower);
+      const JobWisePriceRangeData = await fetchSalesDashboardData(passAsTkn, hostName, fdatef, tdatef, "Summary", sales, office, customer, country, LId, IsPower);
 
       setJobWisePriceRangeData(JobWisePriceRangeData);
 
       setSummaryApiData((JobWisePriceRangeData?.DT).length > 0 ? JobWisePriceRangeData?.DT?.[0] : {});
 
-      const progressWiseOrder = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "ProgressWiseOrder", sales, 0, LId, IsPower);
+      const progressWiseOrder = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "ProgressWiseOrder", sales, 0, customer, country, LId, IsPower);
       setOrderTrackerApiData(progressWiseOrder);
 
-      const countryWiseSaleAmount = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "CountryWiseSaleAmount", sales, office, LId, IsPower);
+      const countryWiseSaleAmount = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "CountryWiseSaleAmount", sales, office, customer, country, LId, IsPower);
       setCountryWiseSaleAmount(countryWiseSaleAmount);
 
-      const customerWiseSaleAmount = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "CustomerWiseSaleAmount", sales, office, LId, IsPower);
+      const customerWiseSaleAmount = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "CustomerWiseSaleAmount", sales, office, customer, country, LId, IsPower);
       setCustomerWiseSaleAmount(customerWiseSaleAmount);
 
-      const categoryWiseSaleAmount = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "CategoryWiseSaleAmount", sales, office, LId, IsPower);
+      const categoryWiseSaleAmount = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "CategoryWiseSaleAmount", sales, office, customer, country, LId, IsPower);
       setCategoryWiseSaleAmount(categoryWiseSaleAmount);
 
-      const metalTypeColorWiseSale = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "MetalTypeColorWiseSale", sales, office, LId, IsPower);
+      const metalTypeColorWiseSale = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "MetalTypeColorWiseSale", sales, office, customer, country, LId, IsPower);
       setMetalTypeColorWiseSale(metalTypeColorWiseSale);
 
-      const customerTypeWiseSaleAmount = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "CustomerTypeWiseSaleAmount", sales, office, LId, IsPower);
+      const customerTypeWiseSaleAmount = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "CustomerTypeWiseSaleAmount", sales, office, customer, country, LId, IsPower);
       setCustomerTypeWiseSaleAmount(customerTypeWiseSaleAmount);
 
-      const vendorWiseNetWt = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "VendorWiseNetWt", sales, office, LId, IsPower);
+      const vendorWiseNetWt = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "VendorWiseNetWt", sales, office, customer, country, LId, IsPower);
       setVendorWiseNetWt(vendorWiseNetWt);
 
-      const salesrepWiseSaleAmount = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "SalesrepWiseSaleAmount", sales, office, LId, IsPower);
+      const salesrepWiseSaleAmount = await fetchDashboardData(passAsTkn, hostName, fdatef, tdatef, "SalesrepWiseSaleAmount", sales, office, customer, country, LId, IsPower);
       setSalesrepWiseSaleAmount(salesrepWiseSaleAmount);
 
     } catch (error) {
@@ -348,7 +351,7 @@ const SalesDashboard = ({ tkn, hostName, LId, IsEmpLogin, IsPower, IFB }) => {
                     value={options.find((opt) => opt.value === value) || null}
                     onChange={(event, newValue) => onChange({ target: { value: newValue?.value || '' } })}
                     renderInput={(params) => <TextField sx={AutoCompleteStyles} {...params} placeholder={`Select ${label}`} variant="outlined" />}
-                    disableClearable={disableClearable} // Apply only for currency
+                    disableClearable={disableClearable}
                   />
                 </Box>
               ))}
@@ -382,13 +385,15 @@ const SalesDashboard = ({ tkn, hostName, LId, IsEmpLogin, IsPower, IFB }) => {
             <Box className='d-flex justify-start align-items-center mt-2' sx={{ width: '22.2%' }}>
               <label style={{ width: '80%' }}>Search by Customer Code</label>
               <Autocomplete
-                size='small'
+                size="small"
                 sx={{ minWidth: '200px' }}
-                options={formatOptions(customerList, 'CustomerCode', 'CustomerCode')}
+                options={formatOptions(customerList, 'CustomerId', 'CustomerCode')} // Use CustomerId for value
                 getOptionLabel={(option) => option.label}
-                value={formatOptions(customerList, 'CustomerCode', 'CustomerCode').find((opt) => opt.value === selectedCustomer) || null}
-                onChange={(event, newValue) => customerListHandleChange({ target: { value: newValue?.value || '' } })}
-                renderInput={(params) => <TextField sx={AutoCompleteStyles} {...params} placeholder="Search Customer" variant="outlined" />}
+                value={formatOptions(customerList, 'CustomerId', 'CustomerCode').find((opt) => opt.value === selectedCustomer) || null}
+                onChange={(event, newValue) => customerListHandleChange(newValue?.value || '')}
+                renderInput={(params) => (
+                  <TextField sx={AutoCompleteStyles} {...params} placeholder="Search Customer" variant="outlined" />
+                )}
               />
             </Box>
           </Grid>
