@@ -80,13 +80,17 @@ const SalesDashboard = ({ tkn, hostName, LId, IsEmpLogin, IsPower, IFB }) => {
   };
 
   const customerListHandleChange = (customerId) => {
+    if (!customerId) {
+      setSelectedCustomer('');
+      setSelectedSales('');
+      return;
+    }
     const customer = customerList?.find((el) => el?.CustomerId === customerId);
     if (!customer) return;
 
     setSelectedCustomer(customer.CustomerId);
-
     const matchSalesRep = salesList?.find((el) => el?.SaleRepId === customer?.SaleRepId);
-    setSelectedSales(matchSalesRep?.SaleRepId || ''); // Handle cases where SalesRepId is not found
+    setSelectedSales(matchSalesRep?.SaleRepId || '');
   };
 
 

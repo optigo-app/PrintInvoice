@@ -195,7 +195,7 @@ const OrderTracker = ({ tkn, fdate, tdate, country, orderTracker }) => {
     setTask((inStockPercentage)?.toFixed(2));
     setTaskLabel('In Stock');
     setTotalOrder({
-      wt: totalWt,
+      wt: totalWt,                                                                                                                                                                                                                                                                                                           
       wts: formatAmountRound(totalWt),
       pcs: totalPcs
     });
@@ -231,7 +231,7 @@ const OrderTracker = ({ tkn, fdate, tdate, country, orderTracker }) => {
   return (
     <Card style={{ boxShadow: '0px 4px 18px 0px rgba(47, 43, 61, 0.1)' }} className='fs_analytics_l'>
       <CardHeader
-        sx={{ pb: 2, mb: 0 }}
+        sx={{ pb: 2, mb: 0, height: '95px' }}
         title='Order Tracker'
         subheader='Order Progress & Stock Status'
       />
@@ -283,7 +283,7 @@ const OrderTracker = ({ tkn, fdate, tdate, country, orderTracker }) => {
                             fontSize: '12px',
                             display: 'inline-flex',
                             alignItems: 'center',
-                            justifyContent: 'center',
+                            justifyContent: 'center', 
                             animation: `${heartBeat} 1.5s ease-in-out infinite`,
                           }}
                         >
@@ -309,7 +309,7 @@ const OrderTracker = ({ tkn, fdate, tdate, country, orderTracker }) => {
               ))}
             </Grid>
             <Grid item xs={12} sm={7} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <ReactApexcharts type='radialBar' width={280} height={280} options={options} series={[task]} />
+              <ReactApexcharts type='radialBar' width={290} height={290} options={options} series={[task]} />
             </Grid>
           </Grid>
         </CardContent>
