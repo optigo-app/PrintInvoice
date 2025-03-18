@@ -6,9 +6,11 @@ import {
   formatAmount,
   handleImageError,
   isObjectEmpty,
+  NumberWithCommas,
 } from "../../GlobalFunctions";
 import { OrganizeInvoicePrintData } from "../../GlobalFunctions/OrganizeInvoicePrintData";
 import Loader from "../../components/Loader";
+import { cloneDeep } from "lodash";
 
 function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
   const [result, setResult] = useState(null);
@@ -16,6 +18,9 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
   const [loader, setLoader] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
   const [total, setTotal] = useState([]);
+  const [headerData, setHeaderData] = useState({});
+  const [brokarage, setBrokarage] = useState([]);
+  const [discount, setDiscount] = useState(0);
 
   useEffect(() => {
     const sendData = async () => {
@@ -47,50 +52,247 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
     };
     sendData();
   }, []);
-
   const loadData = (data) => {
+    setHeaderData(data?.BillPrint_Json[0]);
+
+    let Discount = data?.BillPrint_Json1.reduce(
+      (sum, item) => sum + item.DiscountAmt,
+      0
+    );
+    setDiscount(Discount);
+
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
+
     const datas = OrganizeInvoicePrintData(
       data?.BillPrint_Json[0],
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
 
+    datas.header.PrintRemark = datas.header.PrintRemark?.replace(
+      /<br\s*\/?>/gi,
+      ""
+    );
+
+    let finalArr = [];
+
+    datas?.resultArray?.forEach((a) => {
+      if (a?.GroupJob === "") {
+        finalArr.push(a);
+      } else {
+        let b = cloneDeep(a);
+        let find_record = finalArr.findIndex(
+          (el) => el?.GroupJob === b?.GroupJob
+        );
+        if (find_record === -1) {
+          finalArr.push(b);
+        } else {
+          if (
+            finalArr[find_record]?.GroupJob !== finalArr[find_record]?.SrJobno
+          ) {
+            finalArr[find_record].designno = b?.designno;
+            finalArr[find_record].HUID = b?.HUID;
+          }
+
+          finalArr[find_record].grosswt += b?.grosswt;
+          finalArr[find_record].NetWt += b?.NetWt;
+          finalArr[find_record].LossWt += b?.LossWt;
+          finalArr[find_record].TotalAmount += b?.TotalAmount;
+          finalArr[find_record].DiscountAmt += b?.DiscountAmt;
+          finalArr[find_record].UnitCost += b?.UnitCost;
+          finalArr[find_record].MakingAmount += b?.MakingAmount;
+          finalArr[find_record].OtherCharges += b?.OtherCharges;
+          finalArr[find_record].TotalDiamondHandling += b?.TotalDiamondHandling;
+          finalArr[find_record].Quantity += b?.Quantity;
+          finalArr[find_record].Wastage += b?.Wastage;
+
+          finalArr[find_record].diamonds = [
+            ...finalArr[find_record]?.diamonds,
+            ...b?.diamonds,
+          ]?.flat();
+          finalArr[find_record].colorstone = [
+            ...finalArr[find_record]?.colorstone,
+            ...b?.colorstone,
+          ]?.flat();
+          finalArr[find_record].metal = [
+            ...finalArr[find_record]?.metal,
+            ...b?.metal,
+          ]?.flat();
+          finalArr[find_record].misc = [
+            ...finalArr[find_record]?.misc,
+            ...b?.misc,
+          ]?.flat();
+          finalArr[find_record].misc_0List = [
+            ...finalArr[find_record]?.misc_0List,
+            ...b?.misc_0List,
+          ]?.flat();
+          finalArr[find_record].finding = [
+            ...finalArr[find_record]?.finding,
+            ...b?.finding,
+          ]?.flat();
+          finalArr[find_record].other_details_array = [
+            ...finalArr[find_record]?.other_details_array,
+            ...b?.other_details_array,
+          ]?.flat();
+
+          finalArr[find_record].other_details_array_amount +=
+            b?.other_details_array_amount;
+
+          finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
+          finalArr[find_record].totals.diamonds.Pcs += b?.totals?.diamonds?.Pcs;
+          finalArr[find_record].totals.diamonds.Amount +=
+            b?.totals?.diamonds?.Amount;
+          finalArr[find_record].totals.diamonds.SettingAmount +=
+            b?.totals?.diamonds?.SettingAmount;
+
+          finalArr[find_record].totals.finding.Wt += b?.totals?.finding?.Wt;
+          finalArr[find_record].totals.finding.Rate = b?.totals?.finding?.Rate;
+          finalArr[find_record].totals.finding.Pcs += b?.totals?.finding?.Pcs;
+          finalArr[find_record].totals.finding.Amount +=
+            b?.totals?.finding?.Amount;
+          finalArr[find_record].totals.finding.SettingAmount +=
+            b?.totals?.finding?.SettingAmount;
+
+          finalArr[find_record].totals.colorstone.Wt +=
+            b?.totals?.colorstone?.Wt;
+          finalArr[find_record].totals.colorstone.Pcs +=
+            b?.totals?.colorstone?.Pcs;
+          finalArr[find_record].totals.colorstone.Amount +=
+            b?.totals?.colorstone?.Amount;
+          finalArr[find_record].totals.colorstone.SettingAmount +=
+            b?.totals?.colorstone?.SettingAmount;
+
+          finalArr[find_record].totals.misc.Wt += b?.totals?.misc?.Wt;
+          finalArr[find_record].totals.misc.Pcs += b?.totals?.misc?.Pcs;
+          finalArr[find_record].totals.misc.Amount += b?.totals?.misc?.Amount;
+          finalArr[find_record].totals.misc.SettingAmount +=
+            b?.totals?.misc?.SettingAmount;
+
+          finalArr[find_record].totals.misc.IsHSCODE_0_amount +=
+            b?.totals?.misc?.IsHSCODE_0_amount;
+          finalArr[find_record].totals.misc.IsHSCODE_0_pcs +=
+            b?.totals?.misc?.IsHSCODE_0_pcs;
+          finalArr[find_record].totals.misc.IsHSCODE_0_wt +=
+            b?.totals?.misc?.IsHSCODE_0_wt;
+
+          finalArr[find_record].totals.metal.Amount += b?.totals?.metal?.Amount;
+          finalArr[find_record].totals.metal.Wt += b?.totals?.metal?.Wt;
+          finalArr[find_record].totals.metal.Pcs += b?.totals?.metal?.Pcs;
+
+          finalArr[find_record].totals.metal.IsNotPrimaryMetalAmount +=
+            b?.totals?.metal?.IsNotPrimaryMetalAmount;
+          finalArr[find_record].totals.metal.IsNotPrimaryMetalPcs +=
+            b?.totals?.metal?.IsNotPrimaryMetalPcs;
+          finalArr[find_record].totals.metal.IsNotPrimaryMetalSettingAmount +=
+            b?.totals?.metal?.IsNotPrimaryMetalSettingAmount;
+          finalArr[find_record].totals.metal.IsNotPrimaryMetalWt +=
+            b?.totals?.metal?.IsNotPrimaryMetalWt;
+
+          finalArr[find_record].totals.metal.IsPrimaryMetalAmount +=
+            b?.totals?.metal?.IsPrimaryMetalAmount;
+          finalArr[find_record].totals.metal.IsPrimaryMetalPcs +=
+            b?.totals?.metal?.IsPrimaryMetalPcs;
+          finalArr[find_record].totals.metal.IsPrimaryMetalSettingAmount +=
+            b?.totals?.metal?.IsPrimaryMetalSettingAmount;
+          finalArr[find_record].totals.metal.IsPrimaryMetalWt +=
+            b?.totals?.metal?.IsPrimaryMetalWt;
+        }
+      }
+    });
+
+    datas.resultArray = finalArr;
+
+    let darr = [];
+    let darr2 = [];
+    let darr3 = [];
+    let darr4 = [];
+
+    datas?.resultArray?.forEach((e) => {
+      let met2 = [];
+      e?.metal?.forEach((a) => {
+        if (e?.GroupJob !== "") {
+          let obj = { ...a };
+          obj.GroupJob = e?.GroupJob;
+          met2?.push(obj);
+        }
+      });
+
+      let met3 = [];
+      met2?.forEach((a) => {
+        let findrec = met3?.findIndex(
+          (el) => el?.StockBarcode === el?.GroupJob
+        );
+        if (findrec === -1) {
+          met3?.push(a);
+        } else {
+          met3[findrec].Wt += a?.Wt;
+        }
+      });
+
+      if (e?.GroupJob === "") {
+        return;
+      } else {
+        e.metal = met3;
+      }
+    });
+
+    datas?.json2?.forEach((el) => {
+      if (el?.MasterManagement_DiamondStoneTypeid === 1) {
+        if (el?.ShapeName?.toLowerCase() === "rnd") {
+          darr.push(el);
+        } else {
+          darr2.push(el);
+        }
+      }
+    });
+
     setResult(datas);
-    let metalData = [];
-    let shapeMetalData = [];
-
-    datas?.json2?.map((data) => {
-      if (data?.MasterManagement_DiamondStoneTypeid == 4) {
-        metalData?.push(data);
+    darr?.forEach((a) => {
+      let aobj = cloneDeep(a);
+      let findrec = darr3?.findIndex(
+        (al) =>
+          al?.ShapeName === aobj?.ShapeName &&
+          al?.Colorname === aobj?.Colorname &&
+          al?.QualityName === aobj?.QualityName
+      );
+      if (findrec === -1) {
+        darr3.push(aobj);
+      } else {
+        darr3[findrec].Wt += a?.Wt;
+        darr3[findrec].Pcs += a?.Pcs;
       }
     });
 
-    let silverObj = {
-      name: "SILVER",
-      amount: 0,
+    let obj_ = {
+      ShapeName: "OTHERS",
+      QualityName: "",
+      Colorname: "",
+      Wt: 0,
+      Pcs: 0,
     };
-
-    let goldObj = {
-      name: "GOLD",
-      amount: 0,
-    };
-
-    metalData?.map((data) => {
-      if (data?.ShapeName === "GOLD") {
-        goldObj.amount += data?.Amount;
-      }
-
-      if (data?.ShapeName === "SILVER") {
-        silverObj.amount += data?.Amount;
-        // shapeMetalData?.push(data);
-      }
+    darr2?.forEach((a) => {
+      obj_.Wt += a?.Wt;
+      obj_.Pcs += a?.Pcs;
     });
+    darr4 = [...darr3, obj_];
 
-    shapeMetalData?.push(goldObj);
-    shapeMetalData?.push(silverObj);
-    setTotal(shapeMetalData);
+    // setDiamondArr(darr4);
+
+    // let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
+    // setMetShpWise(met_shp_arr);
+    // let tot_met = 0;
+    // let tot_met_wt = 0;
+    // met_shp_arr?.forEach((e, i) => {
+    //   tot_met += e?.Amount;
+    //   tot_met_wt += e?.metalfinewt;
+    // });
+    // setNotGoldMetalTotal(tot_met);
+    // setNotGoldMetalWtTotal(tot_met_wt);
+
+    let brokr = data?.BillPrint_Json[0]?.Brokerage.split("@-@");
+    brokr = brokr.map((ele) => ele?.split("#-#"));
+    setBrokarage(brokr);
   };
 
   const handleImageErrors = () => {
@@ -171,10 +373,12 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                       {result?.header?.CompanyWebsite}
                     </p>
                     <p style={{ display: "flex" }}>
-                      {result?.header?.Company_VAT_GST_No}|{" "}
-                      {result?.header?.Company_CST_STATE}-
-                      {result?.header?.Company_CST_STATE_No} | PAN-
-                      {result?.header?.Com_pannumber}
+                      {result?.header?.Company_VAT_GST_No &&
+                        `${result?.header?.Company_VAT_GST_No} | `}
+                      {result?.header?.Company_CST_STATE_No &&
+                        `${result?.header?.Company_CST_STATE_No} - `}
+                      {result?.header?.Com_pannumber &&
+                        `PAN- ${result?.header?.Com_pannumber}`}
                     </p>
                   </div>
                   <div>
@@ -204,6 +408,10 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                     <p className="topBox_p">
                       {" "}
                       {result?.header?.customerAddress1}{" "}
+                    </p>
+                    <p className="topBox_p">
+                      {" "}
+                      {result?.header?.customerAddress2}{" "}
                     </p>
                     <p className="topBox_p">
                       {result?.header?.customerAddress3}
@@ -359,6 +567,13 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                             />
                           </div>
                           <div>
+                            {data?.CertificateNo && (
+                              <>
+                                Certificate# : <b>{data?.CertificateNo}</b>
+                              </>
+                            )}
+                          </div>
+                          <div>
                             HUID : <b>{data?.HUID}</b>
                             <br />
                             <b> PO:- {data?.PO}</b>
@@ -366,6 +581,13 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                             Tunch: <b>{data?.Tunch?.toFixed(3)}</b>
                             <br />
                             <b> {data?.grosswt?.toFixed(3)} gm</b> Gross
+                          </div>
+                          <div>
+                            {data?.Size && (
+                              <>
+                                Size# : <b>{data?.Size}</b>
+                              </>
+                            )}
                           </div>
                         </div>
                         <div
@@ -567,6 +789,21 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                 <b>{data?.LossAmt?.toFixed(2)}</b>
                               </p>
                             </div>
+
+                            {data?.JobRemark !== "" && (
+                              <div
+                                className=""
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  alignItems: "flex-start",
+                                  marginTop: "20px",
+                                }}
+                              >
+                                <p>Remark:</p>
+                                <p className="fw-bold">{data?.JobRemark}</p>
+                              </div>
+                            )}
                           </div>
                           <div
                             className="paking3a_col4_sub_div_value"
@@ -621,7 +858,11 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                       justifyContent: "flex-start",
                                     }}
                                   >
-                                    {e?.ShapeName +" "+e?.QualityName+" "+e?.Colorname}
+                                    {e?.ShapeName +
+                                      " " +
+                                      e?.QualityName +
+                                      " " +
+                                      e?.Colorname}
                                   </p>
                                   <p className="paking3a_col5_sub_div_finalValus">
                                     {e?.SizeName}
@@ -630,7 +871,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                     {e?.Pcs}
                                   </p>
                                   <p className="paking3a_col5_sub_div_finalValus">
-                                    {(e?.Wt / 5)?.toFixed(3)} 
+                                    {(e?.Wt / 5)?.toFixed(3)}
                                   </p>
                                   <p className="paking3a_col5_sub_div_finalValus">
                                     {e?.Rate?.toFixed(2)}
@@ -643,8 +884,10 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                     }}
                                   >
                                     <b>
-                                      {(e?.Amount /
-                                        result?.header?.CurrencyExchRate)?.toFixed(2)}
+                                      {(
+                                        e?.Amount /
+                                        result?.header?.CurrencyExchRate
+                                      )?.toFixed(2)}
                                     </b>
                                   </p>
                                 </div>
@@ -669,7 +912,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                     {e?.Pcs}
                                   </p>
                                   <p className="paking3a_col5_sub_div_finalValus">
-                                    {e?.Wt} 
+                                    {e?.Wt}
                                   </p>
                                   <p className="paking3a_col5_sub_div_finalValus">
                                     {e?.Rate?.toFixed(2)}
@@ -730,8 +973,10 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                             >
                               <b>
                                 {" "}
-                                {(data?.totals?.colorstone?.Wt +
-                                  data?.totals?.misc?.Wt)?.toFixed(2)}
+                                {(
+                                  data?.totals?.colorstone?.Wt +
+                                  data?.totals?.misc?.Wt
+                                )?.toFixed(2)}
                               </b>
                             </p>
                             <p
@@ -818,7 +1063,10 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                           }}
                         >
                           <p className="paking3a_second_box_Title paking3a_end">
-                            {formatAmount(data?.TotalAmount)}
+                            {formatAmount(
+                              data?.TotalAmount /
+                                result?.header?.CurrencyExchRate
+                            )}
                           </p>
 
                           <p
@@ -829,7 +1077,10 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                               borderTop: "1px solid #bdbdbd",
                             }}
                           >
-                            {formatAmount(data?.TotalAmount)}
+                            {formatAmount(
+                              data?.TotalAmount /
+                                result?.header?.CurrencyExchRate
+                            )}
                           </p>
                         </div>
                       </div>
@@ -938,7 +1189,10 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                             width: "12%",
                           }}
                         >
-                          <b>{result?.mainTotal?.colorstone?.Pcs}</b>
+                          <b>
+                            {result?.mainTotal?.colorstone?.Pcs +
+                              result?.mainTotal?.misc?.Pcs}
+                          </b>
                         </p>
                         <p
                           className="paking3a_col3_sub_div_more_sub4"
@@ -964,9 +1218,10 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                           <b>
                             {" "}
                             {(
-                              result?.mainTotal?.colorstone?.Amount /
+                              (result?.mainTotal?.colorstone?.Amount +
+                                result?.mainTotal?.misc?.Amount) /
                               result?.header?.CurrencyExchRate
-                            )?.toFixed(3)}
+                            )?.toFixed(2)}
                           </b>
                         </p>
                       </div>
@@ -1009,9 +1264,18 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                   className="paking3a_total_avoid"
                 >
                   <div>
+                    {discount !== 0 && (
+                      <div className="paking3a_total_div">
+                        <p>Total Discount</p>
+                        {formatAmount(discount)}
+                      </div>
+                    )}
                     <div className="paking3a_total_div">
                       <p>Total Amount</p>
-                      {formatAmount(result?.mainTotal?.TotalAmount)}
+                      {formatAmount(
+                        result?.mainTotal?.TotalAmount /
+                          result?.header?.CurrencyExchRate
+                      )}
                     </div>
                     {result?.allTaxes?.map((data, index) => {
                       return (
@@ -1019,7 +1283,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                           <p>
                             {data?.name} @ {data?.per}
                           </p>
-                          {data?.amountInNumber}
+                          {data?.amountInNumber?.toFixed(2)}
                         </div>
                       );
                     })}
@@ -1254,7 +1518,24 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                     >
                       <b>OTHER DETAILS</b>
                     </p>
-                    <div
+                    <div>
+                      {brokarage.map((e, i) => {
+                        return (
+                          <div
+                            className="d-flex justify-content-between px-1"
+                            key={i}
+                          >
+                            <p className="fw-bold">{e[0]} </p>
+                            <p>{e[1] && NumberWithCommas(e[1], 2)}</p>
+                          </div>
+                        );
+                      })}
+                      <div className="d-flex justify-content-between px-1">
+                        <p className="fw-bold">RATE IN 24KT </p>
+                        <p>{NumberWithCommas(headerData?.MetalRate24K, 2)}</p>
+                      </div>
+                    </div>
+                    {/* <div
                       style={{
                         display: "flex",
                         justifyContent: "space-between",
@@ -1263,7 +1544,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                     >
                       <p>RATE IN 24KT</p>
                       <p>7800.00</p>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="paking3a__bottomSection_Box2_subBox2">
                     <p
@@ -1280,7 +1561,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                         padding: "2px",
                       }}
                     >
-                      <p>{result?.header?.Remark}</p>
+                      <p>{result?.header?.PrintRemark}</p>
                     </div>
                   </div>
                   <div className="paking3a__bottomSection_Box2_subBox3">

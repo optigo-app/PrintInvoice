@@ -180,13 +180,7 @@ const PackingList3Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         }else{
           e.metal = met3;
         }
-
-        
-
-  
-
       });
-
 
       datas?.json2?.forEach((el) => {
         if(el?.MasterManagement_DiamondStoneTypeid === 1){
@@ -199,9 +193,7 @@ const PackingList3Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         }
       })
 
-
       setResult(datas);
-
       darr?.forEach((a) => {
         let aobj = cloneDeep(a);
         let findrec = darr3?.findIndex((al) => al?.ShapeName === aobj?.ShapeName && al?.Colorname === aobj?.Colorname && al?.QualityName === aobj?.QualityName)

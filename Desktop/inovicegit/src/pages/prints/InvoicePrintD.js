@@ -449,7 +449,7 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     sendData();
   }, []);
 
-  console.log("result..", mainData);
+  console.log("headerData..", headerData);
 
   return (
     <React.Fragment>
@@ -546,8 +546,8 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <p className="lh-1">{headerData?.customerAddress2}</p>
                     <p className="lh-1">
                       {" "}
-                      {headerData?.customercity1}
-                      {headerData?.customerpincode}{" "}
+                      {headerData?.customercity1}-
+                      {headerData?.PinCode}{" "}
                     </p>
                     <p className="lh-1">{headerData?.customeremail1}</p>
                     <p className="lh-1">{headerData?.vat_cst_pan}</p>

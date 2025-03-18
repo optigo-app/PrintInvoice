@@ -839,7 +839,8 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
           </div>
           {/* {e?.DiscountAmt !== 0 && <div className="d-flex border-start border-end border-bottom"> */}
-          {e?.DiscountAmt !== 0 && <div className="d-flex" style={{borderLeft:'1px solid black', borderRight:'1px solid black', borderBottom:'1px solid #e8e8e8'}}>
+          {e?.DiscountAmt !== 0 && 
+          <div className="d-flex" style={{borderLeft:'1px solid black', borderRight:'1px solid black', borderBottom:'1px solid #e8e8e8'}}>
             <div
               className={`${style?.sr} pad_1 border-end d-flex align-items-center justify-content-center`}
             >
