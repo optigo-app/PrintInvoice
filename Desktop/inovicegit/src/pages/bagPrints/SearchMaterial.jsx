@@ -160,8 +160,30 @@ const SearchMaterial = ({ queries, headers }) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   console.log("data", data);
+
+  const entityMap = {
+    "@nbsp;": " ",  // Space
+    "@ate;": "@",
+    "@hash;": "#",
+    "@dl;": "$",
+    "@per;": "%",
+    "@amp;": "&",
+    "@pls;": "+",
+    "@eqlt;": "=",
+    "@bs;": "[ ]",
+    "@bo;": "|",
+    "@lt;": "<",
+    "@gt;": ">",
+    "@quest;": "?",
+    "@quot;": '"',
+    "@#39;": "'",
+  };
+  
+  const formattedDescription = data?.Description?.replace(
+    /@nbsp;|@ate;|@hash;|@dl;|@per;|@amp;|@pls;|@eqlt;|@bs;|@bo;|@lt;|@gt;|@quest;|@quot;|@#39;/g,
+    (match) => entityMap[match] || match
+  );
 
   return (
     <>
@@ -198,13 +220,18 @@ const SearchMaterial = ({ queries, headers }) => {
                     {data?.Colorname}
                   </div>
                   <div>{data?.job}</div>
-                  <div className="d-flex align-items-center" style={{gap: '10px'}}>
+                  <div
+                    className="d-flex align-items-center"
+                    style={{ gap: "10px" }}
+                  >
                     <div>
                       {" "}
                       {data?.Wt !== "" && `${data?.Wt}`}
                       {data?.price !== 0 && `/${data?.price}`}
                     </div>
-                    <div> {data?.Description}</div>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: formattedDescription }}
+                    />
                   </div>
                   {data?.SizeName !== "" && <div>{data?.SizeName}</div>}
                 </div>

@@ -929,7 +929,7 @@ const SaleFormateExcel = ({
   console.log("resultresult", result);
 
   if (result) {
-    // handleDownloadExcel();
+    handleDownloadExcel();
     // const button = document.getElementById('test-table-xls-button');
     // button.click();
   }

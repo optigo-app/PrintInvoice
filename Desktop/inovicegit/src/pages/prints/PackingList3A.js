@@ -1248,7 +1248,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                     <div className="paking3a_col7">
                       <p className="paking3a_second_box_Title paking3a_end">
                         {formatAmount(
-                          result?.mainTotal?.TotalAmount /
+                          (result?.mainTotal?.TotalAmount + discount) /
                             result?.header?.CurrencyExchRate
                         )}
                       </p>

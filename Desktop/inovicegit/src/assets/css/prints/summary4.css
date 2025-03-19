@@ -92,6 +92,7 @@
     width: 115px; */
 }
 
+ 
 .dia_wt_ctw_sum4,
 .dia_rate_sum4,
 .dia_amt_sum4,
@@ -101,7 +102,7 @@
 .gold_fine_sum4 {
     /* min-width: 55px;
     width: 55px; */
-    min-width: 6%;
+    min-width: 5%;
     width: 6%;
 }
 

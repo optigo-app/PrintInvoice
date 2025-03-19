@@ -282,6 +282,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       obj_.Wt += a?.Wt;
       obj_.Pcs += a?.Pcs;
     });
+    
     darr4 = [...darr3, obj_];
 
     setDiamondArr(darr4);
