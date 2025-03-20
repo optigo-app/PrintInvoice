@@ -622,7 +622,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   </div>
                   {makingColumShow && (
                     <div className="p-1 border-end text-center cs_amt_sum4 flex-column d-flex align-items-center justify-content-center fw-bold">
-                      MAKING
+                      Making
                     </div>
                   )}
                   <div className="p-1 border-end text-center gold_fine_sum4 flex-column d-flex align-items-center justify-content-center fw-bold">
