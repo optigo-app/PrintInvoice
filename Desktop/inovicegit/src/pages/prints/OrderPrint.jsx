@@ -22,7 +22,7 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [image, setImage] = useState(true);
   const [json1Data, setJson1Data] = useState({});
   const [json2Data, setJson2Data] = useState([]);
-  console.log('json2Data: ', json2Data);  
+  console.log('json2Data: ', json2Data);
   const [otherCharges, setOtherCharges] = useState(0);
   const [imageLoading, setImageLoading] = useState(true);
   const [msg, setMsg] = useState("");
@@ -472,7 +472,7 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       // totals.finalMetalsTotal.weight += metalsTotal.Wt;
       resultArr.push(obj);
     });
-    
+
     setOtherCharges(othAmt);
     setMiscTotal(miscstotals);
     setColorStoneTotal(colorStoness);
@@ -532,7 +532,7 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     });
 
     console.log('totalstotals', totals);
-    
+
 
     setDiamondDetail(diamondDetailList2);
     setTotal(totals);
@@ -582,7 +582,7 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           ].flat();
           diamonds.forEach((elem, ind) => {
             let obj = cloneDeep(elem);
-            
+
             let findDiamonds = blankDiamondArr.findIndex(
               (elee, indd) =>
                 elee?.ShapeName === obj?.ShapeName &&
@@ -656,7 +656,7 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 elee?.QualityName === elem?.QualityName &&
                 elee?.Rate === elem?.Rate &&
                 elee?.MasterManagement_DiamondStoneTypeid ===
-                  elem?.MasterManagement_DiamondStoneTypeid &&
+                elem?.MasterManagement_DiamondStoneTypeid &&
                 elee?.SizeName === elem?.SizeName
             );
             if (findMiscs === -1) {
@@ -707,7 +707,7 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 elee?.QualityName === elem?.QualityName &&
                 elee?.Rate === elem?.Rate &&
                 elee?.MasterManagement_DiamondStoneTypeid ===
-                  elem?.MasterManagement_DiamondStoneTypeid &&
+                elem?.MasterManagement_DiamondStoneTypeid &&
                 elee?.SizeName === elem?.SizeName
             );
             if (findFinding === -1) {
@@ -741,7 +741,7 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 elee?.QualityName === elem?.QualityName &&
                 elee?.Rate === elem?.Rate &&
                 elee?.MasterManagement_DiamondStoneTypeid ===
-                  elem?.MasterManagement_DiamondStoneTypeid &&
+                elem?.MasterManagement_DiamondStoneTypeid &&
                 elee?.SizeName === elem?.SizeName
             );
             if (findFinding === -1) {
@@ -1135,7 +1135,7 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const now = new Date();
     const options = { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
     return now.toLocaleString('en-GB', options).replace(',', '');
-}
+  }
 
   return (
     <>
@@ -1390,10 +1390,9 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             })}
                         </div>
                         <div
-                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top border_color_estimates ${
-                            e?.diamonds.length === 0 &&
+                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top border_color_estimates ${e?.diamonds.length === 0 &&
                             "border-top height_28_5_estimatePrint border_color_estimates"
-                          }`}
+                            }`}
                         >
                           <div className="width20EstimatePrint p_1Estimate">
                             <p className="fw-bold"></p>
@@ -1508,10 +1507,9 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           )}
                         </div>
                         <div
-                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top border_color_estimates ${
-                            e?.metals.length === 0 &&
+                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top border_color_estimates ${e?.metals.length === 0 &&
                             "border-top height_28_5_estimatePrint"
-                          }`}
+                            }`}
                         >
                           <div className="width200EstimatePrint p_1Estimate">
                             <p></p>
@@ -1632,28 +1630,28 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <p className="text-end fw-bold">
                               {(e?.colorStones?.length > 0 ||
                                 e?.mics.length > 0) && (
-                                <>
-                                  {NumberWithCommas(
-                                    e?.colorStonesTotal?.pcs +
+                                  <>
+                                    {NumberWithCommas(
+                                      e?.colorStonesTotal?.pcs +
                                       e?.miscsTotal?.pcs,
-                                    0
-                                  )}
-                                </>
-                              )}
+                                      0
+                                    )}
+                                  </>
+                                )}
                             </p>
                           </div>
                           <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
                             <p className="text-end fw-bold">
                               {(e?.colorStones.length > 0 ||
                                 e?.mics.length > 0) && (
-                                <>
-                                  {fixedValues(
-                                    e?.colorStonesTotal?.weight +
+                                  <>
+                                    {fixedValues(
+                                      e?.colorStonesTotal?.weight +
                                       e?.miscsTotal?.weight,
-                                    3
-                                  )}
-                                </>
-                              )}
+                                      3
+                                    )}
+                                  </>
+                                )}
                             </p>
                           </div>
                           <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
@@ -1665,7 +1663,7 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <>
                                   {NumberWithCommas(
                                     e?.colorStonesTotal?.amount +
-                                      e?.miscsTotal?.amount,
+                                    e?.miscsTotal?.amount,
                                     2
                                   )}
                                 </>
@@ -1746,7 +1744,7 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     return (
                                       <p key={ind}>
                                         {NumberWithCommas(+ele?.label, 2) !==
-                                        "NaN"
+                                          "NaN"
                                           ? NumberWithCommas(+ele?.label, 2)
                                           : ele?.label}
                                       </p>
@@ -1823,25 +1821,36 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <p>Total Discount</p>
                     </div>
                   )}
-                  <div className="text-end">
-                    <p>Bill Amount</p>
-                  </div>
-
-                  <div className="text-end">
-                    <p>Exchange Value</p>
-                  </div>
-                  <div className="text-end">
-                    <p>Cash</p>
-                  </div>
-                  <div className="text-end">
-                    <p>Bank</p>
-                  </div>
-                  <div className="text-end">
-                    <p>Advance</p>
-                  </div>
-                  <div className="text-end">
-                    <p>Add</p>
-                  </div>
+                  {total?.finalAmount !== 0 && (
+                    <div className="text-end">
+                      <p>Bill Amount</p>
+                    </div>
+                  )}
+                  {total?.exchange !== 0 && (
+                    <div className="text-end">
+                      <p>Exchange Value</p>
+                    </div>
+                  )}
+                  {total?.Cash !== 0 && (
+                    <div className="text-end">
+                      <p>Cash</p>
+                    </div>
+                  )}
+                  {total?.Bank !== 0 && (
+                    <div className="text-end">
+                      <p>Bank</p>
+                    </div>
+                  )}
+                  {total?.Advance !== 0 && (
+                    <div className="text-end">
+                      <p>Advance</p>
+                    </div>
+                  )}
+                  {total?.AddLess !== 0 && (
+                    <div className="text-end">
+                      <p>Add</p>
+                    </div>
+                  )}
                   {total.previeligeCardDisocunt !== 0 && (
                     <div className="text-end">
                       <p>Privilege Card Discount </p>
@@ -1870,26 +1879,37 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <p>{NumberWithCommas(total?.discountAmt, 2)}</p>
                     </div>
                   )}
-                  <div className="text-end">
-                    <p>{NumberWithCommas(total?.finalAmount, 2)}</p>
-                  </div>
+                  {total?.finalAmount !== 0 && (
+                    <div className="text-end">
+                      <p>{NumberWithCommas(total?.finalAmount, 2)}</p>
+                    </div>
+                  )}
 
-                  <div className="text-end">
-                    <p>{NumberWithCommas(total?.exchange, 2)}</p>
-                  </div>
-
-                  <div className="text-end">
-                    <p>{NumberWithCommas(total?.Cash, 2)}</p>
-                  </div>
-                  <div className="text-end">
-                    <p>{NumberWithCommas(total?.Bank, 2)}</p>
-                  </div>
-                  <div className="text-end">
-                    <p>{NumberWithCommas(total?.Advance, 2)}</p>
-                  </div>
-                  <div className="text-end">
-                    <p>{NumberWithCommas(total?.AddLess, 2)}</p>
-                  </div>
+                  {total?.exchange !== 0 && (
+                    <div className="text-end">
+                      <p>{NumberWithCommas(total?.exchange, 2)}</p>
+                    </div>
+                  )}
+                  {total?.Cash !== 0 && (
+                    <div className="text-end">
+                      <p>{NumberWithCommas(total?.Cash, 2)}</p>
+                    </div>
+                  )}
+                  {total?.Bank !== 0 && (
+                    <div className="text-end">
+                      <p>{NumberWithCommas(total?.Bank, 2)}</p>
+                    </div>
+                  )}
+                  {total?.Advance !== 0 && (
+                    <div className="text-end">
+                      <p>{NumberWithCommas(total?.Advance, 2)}</p>
+                    </div>
+                  )}
+                  {total?.AddLess !== 0 && (
+                    <div className="text-end">
+                      <p>{NumberWithCommas(total?.AddLess, 2)}</p>
+                    </div>
+                  )}
 
                   {total?.discountAmt !== 0 && (
                     <div className="text-end">
