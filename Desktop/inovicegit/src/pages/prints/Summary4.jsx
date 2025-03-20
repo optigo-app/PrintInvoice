@@ -435,7 +435,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       {loader ? (
         <Loader />
       ) : msg === "" ? (
-        <div className="zoom1_5_summary12 container max_width_container fs_S4 pt-4 pad_60_allPrint summury4_padding_top ">
+        <div className="summary-print-4 zoom1_5_summary12 container max_width_container fs_S4 pt-4 pad_60_allPrint summury4_padding_top ">
           <div className="d-flex justify-content-end align-items-center fs_S4 print_sec_sum4 ">
             <div className="form-check pe-3">
               <input
@@ -509,11 +509,21 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {billPrintJson?.CompanyEmail} |{" "}
                     {billPrintJson?.CompanyWebsite}{" "}
                   </p>
-                  <p className="address_para_sum4 lh-1 pb-1">
+                  {/* <p className="address_para_sum4 lh-1 pb-1">
                     {billPrintJson?.Company_VAT_GST_No} |{" "}
                     {billPrintJson?.Cust_CST_STATE}-
                     {billPrintJson?.Company_CST_STATE_No} | PAN-EDJHF236D{" "}
-                  </p>
+                  </p> */}
+                  {billPrintJson?.Pannumber != "" &&
+                    <p className="address_para_sum4 lh-1 pb-1">PAN-{billPrintJson?.Pannumber}</p>
+                  }
+                  {(billPrintJson?.CINNO || billPrintJson?.MSME) && (
+                    <p className="address_para_sum4 lh-1 pb-1">
+                      {billPrintJson?.CINNO && `CIN-${billPrintJson.CINNO}`}
+                      {billPrintJson?.CINNO && billPrintJson?.MSME && " | "}
+                      {billPrintJson?.MSME && `MSME-${billPrintJson.MSME}`}
+                    </p>
+                  )}
                 </div>
                 <div className="logo_sec_sum4">
                   {/* <img src={billPrintJson?.PrintLogo} alt="Logo" /> */}
@@ -533,7 +543,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <div className="invoice_text_sum4">
                   <h2>
                     {" "}
-                    INVOICE# : <span>{billPrintJson?.InvoiceNo}</span>
+                    APPROVAL INVOICE# : <span>{billPrintJson?.InvoiceNo}</span>
                   </h2>
                 </div>
                 <div className="invoice_text_sum4">
@@ -560,7 +570,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <div className="address_lines_sum4">
                   <p>
                     {" "}
-                    Gold Rate: <span>{billPrintJson?.MetalRate24K}</span>
+                    Gold Rate: <span>{(billPrintJson?.MetalRate24K)?.toFixed(2)}</span>
                   </p>
                 </div>
               </div>
@@ -612,11 +622,11 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   </div>
                   {makingColumShow && (
                     <div className="p-1 border-end text-center cs_amt_sum4 flex-column d-flex align-items-center justify-content-center fw-bold">
-                      Making
+                      MAKING
                     </div>
                   )}
                   <div className="p-1 border-end text-center gold_fine_sum4 flex-column d-flex align-items-center justify-content-center fw-bold">
-                    <p style={{wordBreak: 'keep-all'}}>GOLD FINE(gm)</p>
+                    <p style={{ wordBreak: 'keep-all' }}>GOLD FINE(gm)</p>
                   </div>
                   <div className="p-1 border-end text-center gold_amt_sum4 flex-column d-flex align-items-center justify-content-center fw-bold">
                     <div>GOLD </div>
@@ -635,10 +645,10 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           <p> {e?.SrNo} </p>{" "}
                         </div>
                         <div className="p-1 design_sum4 border-end">
-                          <p className="fw-bold">
-                            {" "}
-                            {e?.SrJobno} - {e?.Categoryname}{" "}
-                          </p>
+                          <p className="fw-bold">{e?.SrJobno} - </p>
+                          {e?.Categoryname && (
+                            <p className="fw-bold">{e?.Categoryname}</p>
+                          )}
                           {image && (
                             <img
                               src={e?.DesignImage}
@@ -1084,19 +1094,21 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       dangerouslySetInnerHTML={{
                         __html: billPrintJson?.Declaration,
                       }}
-                      className="pt-3 summury4_notes_text"
+                      className="summury4_notes_text"
                     />
                   }
                 </div>
-               {billPrintJson?.PrintRemark !== "" && <div className="remarks_sum4">
-                  <p className="fw-bold font_16_sum4">REMARKS : </p>
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: billPrintJson?.PrintRemark,
-                    }}
-                  ></div>
-                </div>}
-                <p className="fw-bold pb-1 font_15_sum4">TERMS INCLUDED :</p>
+                {billPrintJson?.PrintRemark !== "" &&
+                  <div className="d-flex align-items-center gap-1 remarks_sum4 mb-2">
+                    <p className="fw-bold font_14_sum4 ">REMARKS : </p>
+                    <p
+                      className="font_14_sum4"
+                      dangerouslySetInnerHTML={{
+                        __html: billPrintJson?.PrintRemark,
+                      }}
+                    ></p>
+                  </div>}
+                <p className="fw-bold pb-1 font_14_sum4">TERMS INCLUDED :</p>
                 <div className="d-flex border mb-2">
                   <div className="w-50 border-end height_65_sum4 d-flex justify-content-center align-items-end border-end">
                     <p className="fw-bold font_15_sum4">
@@ -1104,7 +1116,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </p>
                   </div>
                   <div className="w-50 height_65_sum4 d-flex justify-content-center align-items-end">
-                    <p className="fw-bold font_15_sum4">for,Orail Design</p>
+                    <p className="fw-bold font_15_sum4">{billPrintJson?.companyname}</p>
                   </div>
                 </div>
                 {summary && (
