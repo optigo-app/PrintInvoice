@@ -1,3 +1,4 @@
+// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=SlMvNzUvMjAtMjU=&evn=c2FsZQ==&pnm=U3VtbWFyeSA0&up=aHR0cDovL3plbi9qby9hcGktbGliL0FwcC9TYWxlQmlsbF9Kc29u&ctv=NzE=&ifid=Summary4&pid=undefined
 import React, { useEffect, useState } from "react";
 import "../../assets/css/prints/summary4.css";
 import {
@@ -434,8 +435,8 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       {loader ? (
         <Loader />
       ) : msg === "" ? (
-        <div className="zoom1_5_summary12 container max_width_container fs_S4 pt-4 pad_60_allPrint ">
-          <div className="d-flex justify-content-end align-items-center fs_S4 print_sec_sum4">
+        <div className="zoom1_5_summary12 container max_width_container fs_S4 pt-4 pad_60_allPrint summury4_padding_top ">
+          <div className="d-flex justify-content-end align-items-center fs_S4 print_sec_sum4 ">
             <div className="form-check pe-3">
               <input
                 className="form-check-input border-dark"
@@ -481,7 +482,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               />
             </div>
           </div>
-          <div className="pt-4">
+          <div className="pt-4 summury4_main_div summury4_padding_top">
             {header && (
               <div className="d-flex header_section_sum4 justify-content-between align-items-center pb-2 fs_S4">
                 <div className="address_sum4">
@@ -615,9 +616,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                   )}
                   <div className="p-1 border-end text-center gold_fine_sum4 flex-column d-flex align-items-center justify-content-center fw-bold">
-                    <div>GOLD </div>
-                    <div>FINE</div>
-                    <div>(gm)</div>
+                    <p style={{wordBreak: 'keep-all'}}>GOLD FINE(gm)</p>
                   </div>
                   <div className="p-1 border-end text-center gold_amt_sum4 flex-column d-flex align-items-center justify-content-center fw-bold">
                     <div>GOLD </div>
@@ -1085,19 +1084,19 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       dangerouslySetInnerHTML={{
                         __html: billPrintJson?.Declaration,
                       }}
-                      className="pt-3"
+                      className="pt-3 summury4_notes_text"
                     />
                   }
                 </div>
-                <div className="remarks_sum4">
+               {billPrintJson?.PrintRemark !== "" && <div className="remarks_sum4">
                   <p className="fw-bold font_16_sum4">REMARKS : </p>
                   <div
                     dangerouslySetInnerHTML={{
                       __html: billPrintJson?.PrintRemark,
                     }}
                   ></div>
-                </div>
-                <p className="fw-bold pb-1">TERMS INCLUDED :</p>
+                </div>}
+                <p className="fw-bold pb-1 font_15_sum4">TERMS INCLUDED :</p>
                 <div className="d-flex border mb-2">
                   <div className="w-50 border-end height_65_sum4 d-flex justify-content-center align-items-end border-end">
                     <p className="fw-bold font_15_sum4">
