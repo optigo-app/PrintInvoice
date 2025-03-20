@@ -22,6 +22,7 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [image, setImage] = useState(true);
   const [json1Data, setJson1Data] = useState({});
   const [json2Data, setJson2Data] = useState([]);
+  console.log('json2Data: ', json2Data);  
   const [otherCharges, setOtherCharges] = useState(0);
   const [imageLoading, setImageLoading] = useState(true);
   const [msg, setMsg] = useState("");
@@ -134,7 +135,6 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   //   }
   // };
 
-  console.log("totaltotal", total);
 
   const caiculateMaterial = (data) => {
     let diamondDetailsss = [];
@@ -1131,7 +1131,11 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     setImageLoading(false);
   };
 
-  console.log("json2Datajson2Data", json2Data);
+  function formatDateTime() {
+    const now = new Date();
+    const options = { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+    return now.toLocaleString('en-GB', options).replace(',', '');
+}
 
   return (
     <>
@@ -2191,6 +2195,7 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
               </div>
             </div>
+            <p style={{ fontSize: '9px', color: '#999999' }}>Printed on : {formatDateTime()}</p>
           </div>
         </div>
       ) : (
@@ -2198,6 +2203,7 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           {msg}
         </p>
       )}
+
     </>
   );
 };
