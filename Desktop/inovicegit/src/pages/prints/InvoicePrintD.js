@@ -179,7 +179,7 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         (e?.MetalDiaWt -
           (e?.totals?.finding?.Wt * e?.LossPer) / 100 +
           e?.totals?.finding?.Wt) *
-          primaryMetalRAte +
+        primaryMetalRAte +
         secondaryMetalAmount;
 
       // labour.primaryWt += primaryWt;
@@ -552,9 +552,13 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <p className="lh-1">{headerData?.customeremail1}</p>
                     <p className="lh-1">{headerData?.vat_cst_pan}</p>
                     <p className="lh-1">
-                      {" "}
-                      {headerData?.Cust_CST_STATE}-
-                      {headerData?.Cust_CST_STATE_No}{" "}
+                      {headerData?.Cust_CST_STATE && headerData?.Cust_CST_STATE_No ? (
+                        <>
+                          {headerData?.Cust_CST_STATE} - {headerData?.Cust_CST_STATE_No}
+                        </>
+                      ) : (
+                        headerData?.Cust_CST_STATE || headerData?.Cust_CST_STATE_No || ""
+                      )}
                     </p>
                   </div>
                   <div className="col-4 border-end" style={{ margin: "3px" }}>
@@ -746,27 +750,27 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                               <p>
                                 {e?.isRateOnPcs === 0
                                   ? e?.Wt !== 0 && (
-                                      <>
-                                        {NumberWithCommas(
-                                          e?.Amount /
-                                            e?.Wt /
-                                            headerData?.CurrencyExchRate,
-                                          2
-                                        )}{" "}
-                                        / Wt
-                                      </>
-                                    )
+                                    <>
+                                      {NumberWithCommas(
+                                        e?.Amount /
+                                        e?.Wt /
+                                        headerData?.CurrencyExchRate,
+                                        2
+                                      )}{" "}
+                                      / Wt
+                                    </>
+                                  )
                                   : e?.Pcs !== 0 && (
-                                      <>
-                                        {NumberWithCommas(
-                                          e?.Amount /
-                                            e?.Pcs /
-                                            headerData?.CurrencyExchRate,
-                                          2
-                                        )}{" "}
-                                        / Pcs
-                                      </>
-                                    )}
+                                    <>
+                                      {NumberWithCommas(
+                                        e?.Amount /
+                                        e?.Pcs /
+                                        headerData?.CurrencyExchRate,
+                                        2
+                                      )}{" "}
+                                      / Pcs
+                                    </>
+                                  )}
                               </p>
                             </div>
                             <div className="invoi_table_data_col8">
@@ -802,27 +806,27 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                               <p>
                                 {e?.isRateOnPcs === 0
                                   ? e?.Wt !== 0 && (
-                                      <>
-                                        {NumberWithCommas(
-                                          e?.Amount /
-                                            e?.Wt /
-                                            headerData?.CurrencyExchRate,
-                                          2
-                                        )}{" "}
-                                        / Wt
-                                      </>
-                                    )
+                                    <>
+                                      {NumberWithCommas(
+                                        e?.Amount /
+                                        e?.Wt /
+                                        headerData?.CurrencyExchRate,
+                                        2
+                                      )}{" "}
+                                      / Wt
+                                    </>
+                                  )
                                   : e?.Pcs !== 0 && (
-                                      <>
-                                        {NumberWithCommas(
-                                          e?.Amount /
-                                            e?.Pcs /
-                                            headerData?.CurrencyExchRate,
-                                          2
-                                        )}{" "}
-                                        / Pcs
-                                      </>
-                                    )}
+                                    <>
+                                      {NumberWithCommas(
+                                        e?.Amount /
+                                        e?.Pcs /
+                                        headerData?.CurrencyExchRate,
+                                        2
+                                      )}{" "}
+                                      / Pcs
+                                    </>
+                                  )}
                               </p>
                             </div>
                             <div className="invoi_table_data_col8">
@@ -858,27 +862,27 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                               <p>
                                 {e?.isRateOnPcs === 0
                                   ? e?.Wt !== 0 && (
-                                      <>
-                                        {NumberWithCommas(
-                                          e?.Amount /
-                                            e?.Wt /
-                                            headerData?.CurrencyExchRate,
-                                          2
-                                        )}{" "}
-                                        / Wt
-                                      </>
-                                    )
+                                    <>
+                                      {NumberWithCommas(
+                                        e?.Amount /
+                                        e?.Wt /
+                                        headerData?.CurrencyExchRate,
+                                        2
+                                      )}{" "}
+                                      / Wt
+                                    </>
+                                  )
                                   : e?.Pcs !== 0 && (
-                                      <>
-                                        {NumberWithCommas(
-                                          e?.Amount /
-                                            e?.Pcs /
-                                            headerData?.CurrencyExchRate,
-                                          2
-                                        )}{" "}
-                                        / Pcs
-                                      </>
-                                    )}
+                                    <>
+                                      {NumberWithCommas(
+                                        e?.Amount /
+                                        e?.Pcs /
+                                        headerData?.CurrencyExchRate,
+                                        2
+                                      )}{" "}
+                                      / Pcs
+                                    </>
+                                  )}
                               </p>
                             </div>
                             <div className="invoi_table_data_col8">
@@ -913,8 +917,8 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             {mainData?.labour?.primaryWt !== 0 &&
                               NumberWithCommas(
                                 mainData?.labour?.makingAmount /
-                                  mainData?.labour?.primaryWt /
-                                  headerData?.CurrencyExchRate,
+                                mainData?.labour?.primaryWt /
+                                headerData?.CurrencyExchRate,
                                 2
                               )}
                           </p>
@@ -923,7 +927,7 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           <p>
                             {NumberWithCommas(
                               mainData?.labour?.totalAmount /
-                                headerData?.CurrencyExchRate,
+                              headerData?.CurrencyExchRate,
                               2
                             )}
                           </p>
@@ -934,7 +938,7 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         return (
                           <>
                             {e?.label === "HANDLING" &&
-                            (e?.value === 0 || e?.value === "0.00") ? (
+                              (e?.value === 0 || e?.value === "0.00") ? (
                               ""
                             ) : (
                               <div
@@ -1055,7 +1059,7 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   <div className="invoicd_total_summury_main">
                     <div className="col-9 border-end"></div>
                     <div className="col-3 px-1">
-                    {console.log("totalss", totalss)}
+                      {console.log("totalss", totalss)}
                       {totalss?.discount !== 0 && (
                         <>
                           <div className="d-flex justify-content-between">
@@ -1066,12 +1070,19 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       )}
                       <div className="d-flex justify-content-between">
                         <p className="fw-bold"> Total Amount </p>
-                        <p className="fw-bold">
-                          {" "}
-                          {/* + mainData?.header?.FreightCharges */}
+                        {/* with normal charges */}
+                        {/* <p className="fw-bold">
                           {NumberWithCommas(
                             mainDatas?.mainTotal?.total_amount /
-                              headerData?.CurrencyExchRate,
+                            headerData?.CurrencyExchRate,
+                            2
+                          )}
+                        </p> */}
+                        {/* with courior charges */}
+                        <p className="fw-bold">
+                          {NumberWithCommas(
+                            ((mainDatas?.mainTotal?.total_amount || 0) / (headerData?.CurrencyExchRate || 1)) +
+                            (mainDatas?.header?.FreightCharges ? mainDatas?.header?.FreightCharges : 0),
                             2
                           )}
                         </p>
@@ -1096,7 +1107,7 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           <p>
                             {NumberWithCommas(
                               headerData?.AddLess /
-                                headerData?.CurrencyExchRate,
+                              headerData?.CurrencyExchRate,
                               2
                             )}
                           </p>
@@ -1123,15 +1134,15 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         {toWords.convert(
                           +fixedValues(
                             mainDatas?.mainTotal?.total_amount /
-                              headerData?.CurrencyExchRate +
-                              mainDatas?.allTaxes?.reduce(
-                                (acc, cObj) =>
-                                  acc +
-                                  +cObj?.amount * headerData?.CurrencyExchRate,
-                                0
-                              ) +
-                              headerData?.AddLess +
-                              headerData?.FreightCharges,
+                            headerData?.CurrencyExchRate +
+                            mainDatas?.allTaxes?.reduce(
+                              (acc, cObj) =>
+                                acc +
+                                +cObj?.amount * headerData?.CurrencyExchRate,
+                              0
+                            ) +
+                            headerData?.AddLess +
+                            headerData?.FreightCharges,
                             2
                           )
                         )}{" "}
@@ -1143,13 +1154,13 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <p className="text-end fw-bold">
                         {NumberWithCommas(
                           mainDatas?.mainTotal?.total_amount /
-                            headerData?.CurrencyExchRate +
-                            mainDatas?.allTaxes?.reduce(
-                              (acc, cObj) => acc + +cObj?.amount,
-                              0
-                            ) +
-                            headerData?.AddLess +
-                            headerData?.FreightCharges,
+                          headerData?.CurrencyExchRate +
+                          mainDatas?.allTaxes?.reduce(
+                            (acc, cObj) => acc + +cObj?.amount,
+                            0
+                          ) +
+                          headerData?.AddLess +
+                          headerData?.FreightCharges,
                           2
                         )}
                       </p>
