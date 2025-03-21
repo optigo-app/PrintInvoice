@@ -70,6 +70,7 @@
   .paking3a_table_Data_box {
     display: flex;
     border-bottom: 1px solid #bdbdbd;
+    line-height: 1.2;
 
     .paking3a_tabledata_col1 {
       width: 2%;
@@ -103,6 +104,7 @@
       .paking3a_col3_sub_div {
         display: flex;
         padding-inline: 1px;
+        line-height: 1.2;
       }
 
       .paking3a_col3_sub_div_mainTotal {
@@ -111,21 +113,26 @@
         .paking3a_col3_sub_div_mainTotal_sub1 {
           width: 20%;
         }
+
         .paking3a_col3_sub_div_mainTotal_sub2 {
           width: 17%;
         }
+
         .paking3a_col3_sub_div_mainTotal_sub3 {
           width: 12%;
         }
+
         .paking3a_col3_sub_div_mainTotal_sub4 {
           width: 18%;
           display: flex;
           justify-content: flex-end;
         }
+
         .paking3a_col3_sub_div_mainTotal_sub6 {
           width: 37%;
         }
       }
+
       .paking3a_col3_sub_divValues {
         display: flex;
         padding-inline: 2px;
@@ -133,20 +140,27 @@
       }
 
       .paking3a_col3_sub_div_more_sub1 {
+        word-break: break-word;
+        text-align: left;
         width: 21%;
       }
+
       .paking3a_col3_sub_div_more_sub2 {
         width: 16%;
       }
+
       .paking3a_col3_sub_div_more_sub3 {
         width: 12%;
       }
+
       .paking3a_col3_sub_div_more_sub4 {
         width: 14%;
       }
+
       .paking3a_col3_sub_div_more_sub5 {
         width: 16%;
       }
+
       .paking3a_col3_sub_div_more_sub6 {
         width: 21%;
         border: none;
@@ -155,18 +169,25 @@
       .paking3a_col3_sub_div_totalValue {
         display: flex;
         background-color: #f5f5f5;
+
         .paking3a_col3_sub_div_more_sub1 {
           width: 20%;
+          word-break: break-word;
+          text-align: left;
         }
+
         .paking3a_col3_sub_div_more_sub2 {
           width: 17%;
         }
+
         .paking3a_col3_sub_div_more_sub3 {
           width: 12%;
         }
+
         .paking3a_col3_sub_div_more_sub4 {
           width: 14%;
         }
+
         .paking3a_col3_sub_div_more_sub6 {
           width: 37%;
           border: none;
@@ -183,6 +204,7 @@
 
       .paking3a_col4_sub_div {
         display: flex;
+        line-height: 1.2;
       }
 
       .paking3a_col4_sub_div_value {
@@ -200,12 +222,15 @@
       .paking3a_col4_sub_div_finalValus_total1 {
         width: 20%;
       }
+
       .paking3a_col4_sub_div_finalValus_total2 {
         width: 17%;
       }
+
       .paking3a_col4_sub_div_finalValus_total3 {
         width: 18%;
       }
+
       .paking3a_col4_sub_div_finalValus_total4 {
         width: 45%;
       }
@@ -214,6 +239,7 @@
     .paking3a_tabledata_col5 {
       width: 23%;
       border-right: 1px solid #bdbdbd;
+
       .paking3a_col5_sub_div_finalValus {
         width: 20%;
         display: flex;
@@ -223,21 +249,28 @@
 
       .paking3a_col5_sub_div {
         display: flex;
+        line-height: 1.2;
+
         .paking3a_col3_sub_div_more_sub1 {
           width: 20%;
         }
+
         .paking3a_col3_sub_div_more_sub2 {
           width: 17%;
         }
+
         .paking3a_col3_sub_div_more_sub3 {
           width: 12%;
         }
+
         .paking3a_col3_sub_div_more_sub4 {
           width: 14%;
         }
+
         .paking3a_col3_sub_div_more_sub5 {
           width: 16%;
         }
+
         .paking3a_col3_sub_div_more_sub6 {
           width: 21%;
           border: none;
@@ -247,6 +280,7 @@
       .paking3a_col3_sub_div {
         display: flex;
         padding-inline: 1px;
+
         p {
           display: flex;
           margin: 0px;
@@ -258,18 +292,23 @@
         .paking3a_col3_sub_div_more_sub1 {
           width: 20%;
         }
+
         .paking3a_col3_sub_div_more_sub2 {
           width: 17%;
         }
+
         .paking3a_col3_sub_div_more_sub3 {
           width: 12%;
         }
+
         .paking3a_col3_sub_div_more_sub4 {
           width: 14%;
         }
+
         .paking3a_col3_sub_div_more_sub5 {
           width: 16%;
         }
+
         .paking3a_col3_sub_div_more_sub6 {
           width: 21%;
           border: none;
@@ -280,6 +319,7 @@
     .paking3a_tabledata_col6 {
       width: 15%;
       border-right: 1px solid #bdbdbd;
+
       .paking3a_col6_totalData {
         width: 33.33%;
         display: flex;
@@ -287,11 +327,17 @@
         font-weight: bold;
         justify-content: center;
       }
+
       .paking3a_col6_sub_div_finalValus {
         width: 33.33%;
-        display: flex;
+        // display: flex;
         margin: 0px;
-        justify-content: center;
+        padding-inline: 2px;
+      }
+
+      .paking3a_col6_sub_div_otherDetails {
+        padding-inline: 2px;
+        line-height: 1.2;
       }
     }
 
@@ -366,6 +412,7 @@
       justify-content: center;
       align-items: center;
     }
+
     .paking3a_col2_values {
       width: 10%;
       border-right: 1px solid #bdbdbd;
@@ -385,6 +432,7 @@
         padding-inline: 1px;
         font-weight: bold;
       }
+
       .paking3a_col3_sub_divValues {
         display: flex;
         padding-inline: 2px;
@@ -395,22 +443,27 @@
         border-right: 1px solid #bdbdbd;
         width: 20%;
       }
+
       .paking3a_col3_sub_div_more_sub2 {
         border-right: 1px solid #bdbdbd;
         width: 17%;
       }
+
       .paking3a_col3_sub_div_more_sub3 {
         border-right: 1px solid #bdbdbd;
         width: 12%;
       }
+
       .paking3a_col3_sub_div_more_sub4 {
         border-right: 1px solid #bdbdbd;
         width: 14%;
       }
+
       .paking3a_col3_sub_div_more_sub5 {
         border-right: 1px solid #bdbdbd;
         width: 16%;
       }
+
       .paking3a_col3_sub_div_more_sub6 {
         width: 21%;
         border: none;
@@ -419,18 +472,23 @@
       .paking3a_col3_sub_div_data_sub1 {
         width: 20%;
       }
+
       .paking3a_col3_sub_div_data_sub2 {
         width: 17%;
       }
+
       .paking3a_col3_sub_div_data_sub3 {
         width: 12%;
       }
+
       .paking3a_col3_sub_div_data_sub4 {
         width: 14%;
       }
+
       .paking3a_col3_sub_div_data_sub5 {
         width: 16%;
       }
+
       .paking3a_col3_sub_div_data_sub6 {
         width: 21%;
         border: none;
@@ -439,21 +497,27 @@
       .paking3a_col3_sub_div_totalValue {
         display: flex;
         background-color: #f5f5f5;
+
         .paking3a_col3_sub_div_more_sub1 {
           width: 20%;
         }
+
         .paking3a_col3_sub_div_more_sub2 {
           width: 17%;
         }
+
         .paking3a_col3_sub_div_more_sub3 {
           width: 12%;
         }
+
         .paking3a_col3_sub_div_more_sub4 {
           width: 14%;
         }
+
         .paking3a_col3_sub_div_more_sub5 {
           width: 16%;
         }
+
         .paking3a_col3_sub_div_more_sub6 {
           width: 21%;
           border: none;
@@ -476,6 +540,7 @@
         justify-content: center;
         border-right: 1px solid #bdbdbd;
       }
+
       .paking3a_col4_sub_div_p_last {
         width: 20%;
         display: flex;
@@ -483,6 +548,7 @@
         font-weight: bold;
         justify-content: center;
       }
+
       .paking3a_col4_sub_div_finalValus {
         width: 20%;
         display: flex;
@@ -503,6 +569,7 @@
     .paking3a_col5 {
       width: 23%;
       border-right: 1px solid #bdbdbd;
+
       .paking3a_col5_sub_div_finalValus {
         width: 20%;
         display: flex;
@@ -512,21 +579,27 @@
 
       .paking3a_col5_sub_div {
         display: flex;
+
         .paking3a_col3_sub_div_more_sub1 {
           width: 20%;
         }
+
         .paking3a_col3_sub_div_more_sub2 {
           width: 17%;
         }
+
         .paking3a_col3_sub_div_more_sub3 {
           width: 12%;
         }
+
         .paking3a_col3_sub_div_more_sub4 {
           width: 14%;
         }
+
         .paking3a_col3_sub_div_more_sub5 {
           width: 16%;
         }
+
         .paking3a_col3_sub_div_more_sub6 {
           width: 21%;
           border: none;
@@ -536,6 +609,7 @@
       .paking3a_col3_sub_div {
         display: flex;
         padding-inline: 1px;
+
         p {
           display: flex;
           margin: 0px;
@@ -547,18 +621,23 @@
         .paking3a_col3_sub_div_more_sub1 {
           width: 20%;
         }
+
         .paking3a_col3_sub_div_more_sub2 {
           width: 17%;
         }
+
         .paking3a_col3_sub_div_more_sub3 {
           width: 12%;
         }
+
         .paking3a_col3_sub_div_more_sub4 {
           width: 14%;
         }
+
         .paking3a_col3_sub_div_more_sub5 {
           width: 16%;
         }
+
         .paking3a_col3_sub_div_more_sub6 {
           width: 21%;
           border: none;
@@ -569,6 +648,7 @@
     .paking3a_col6 {
       width: 15%;
       border-right: 1px solid #bdbdbd;
+
       .paking3a_col6_sub_div_p {
         width: 33.33%;
         display: flex;
@@ -577,6 +657,7 @@
         justify-content: center;
         border-right: 1px solid #bdbdbd;
       }
+
       .paking3a_col6_sub_div_p_last {
         width: 33.34%;
         display: flex;
@@ -584,6 +665,7 @@
         font-weight: bold;
         justify-content: center;
       }
+
       .paking3a_col6_sub_div_finalValus {
         width: 33.33%;
         display: flex;
@@ -591,8 +673,10 @@
         justify-content: center;
       }
     }
+
     .paking3a_col6_sub_div {
       display: flex;
+      line-height: 1.2;
     }
 
     .paking3a_col7 {
@@ -618,17 +702,20 @@
       .paking3a__bottomSection_Box1_subBox1 {
         width: 70%;
         border: 0.5px solid #bdbdbd;
+
         .paking3a__bottomSection_Box1_subBox1_summury {
           display: flex;
           justify-content: space-between;
           line-height: 13px;
         }
       }
+
       .paking3a__bottomSection_Box1_subBox2 {
         width: 30%;
         border: 0.5px solid #bdbdbd;
       }
     }
+
     .paking3a__bottomSection_Box2 {
       width: 55%;
       display: flex;
@@ -656,6 +743,7 @@
           justify-content: center;
           align-items: end;
         }
+
         .paking3a__bottomSection_Box2_subBox3_2 {
           border: 1px solid #bdbdbd;
           width: 50%;
@@ -687,15 +775,17 @@
     align-items: center !important;
     padding-right: 2px !important;
   }
+
   @media print {
     .paking_top_button_none {
       display: none !important;
     }
 
-    .paking_list3_header_main{
+    .paking_list3_header_main {
       font-size: 10px !important;
       line-height: 12px !important;
     }
+
     .topBox_px_B {
       font-size: 10px !important;
     }
@@ -707,6 +797,7 @@
     .paking3a_table_Data_box {
       font-size: 7px !important;
     }
+
     .packingListDemo_main_App {
       font-size: 7px !important;
     }
@@ -718,10 +809,12 @@
     .paking3a_total_avoid {
       page-break-inside: avoid !important;
     }
+
     .paking3a_design_img {
       height: 60px !important;
       width: 60px !important;
     }
+
     .paking3a__bottomSection_main {
       page-break-inside: avoid !important;
     }
