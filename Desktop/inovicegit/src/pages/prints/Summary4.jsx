@@ -663,7 +663,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           {e?.CertificateNo !== "" && (
                             <p>
                               <span className="fw-bold">IGI-</span>
-                              <span className="fw-bold">
+                              <span>
                                 {" "}
                                 {e?.CertificateNo}
                               </span>
@@ -710,7 +710,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         </div>
                         <div className="p-1 nwt_sum4 border-end text-end ">
                           {" "}
-                          <p> {fixedValues(e?.MetalDiaWt, 3)} </p>{" "}
+                          <p> {fixedValues(e?.NetWt, 3)} </p>{" "}
                         </div>
                         <div className="p-1 other_amt_sum4 border-end text-end ">
                           {" "}
@@ -842,8 +842,8 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       Summary Detail
                     </div>
                     <div className="d-flex flex-wrap">
-                      {summaryDetail.length > 0 &&
-                        summaryDetail.map((elem, ind) => {
+                      {summaryDetail?.length > 0 &&
+                        summaryDetail?.map((elem, ind) => {
                           return (
                             <div
                               className="amazon_sum4 d-flex ps-2 pb-2"
