@@ -393,10 +393,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             {headerData?.CompanyState}({headerData?.CompanyCountry})
           </div>
           {/* <div className={style2?.lines}>Tell No: {headerData?.CompanyTellNo}</div> */}
-          <div className={`${style?.fs_header_dp9} ${style?.addressFont}`}>
-            T {headerData?.CompanyTellNo} 
-            {/* | TOLL FREE{" "} {headerData?.CompanyTollFreeNo} */}
-          </div>
+        
           <div className={`${style?.fs_header_dp9} ${style?.addressFont}`}>
             {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
           </div>
@@ -404,6 +401,10 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             {/* {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber} */}
             {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-
             {headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
+          </div>
+          <div className={`${style?.fs_header_dp9} ${style?.addressFont}`}>
+            T {headerData?.CompanyTellNo} 
+            {/* | TOLL FREE{" "} {headerData?.CompanyTollFreeNo} */}
           </div>
         </div>
         <div
