@@ -236,6 +236,7 @@
   /* width: 723px; */
   width: 80%;
   min-width: 80%;
+  min-height: 108px;
   margin-right: 0.5%;
 }
 
@@ -371,6 +372,12 @@
     font-size: 9px !important;
   }
 
+  .bg_total_sum4 {
+    display: flex;
+    align-items: end;
+    min-height: 15px !important; 
+  }
+
   .summury4_notes_text {
     font-size: 8px !important;
   }
@@ -397,12 +404,16 @@
   }
 
   .sum4_table div {
-    font-size: 7.5px !important;
+    font-size: 8px !important;
   }
 
   .sum4_table img {
     max-width: 45px !important;
     width: 45px !important;
+  }
+
+  .height34Sum4 {
+    height: 20px;
   }
 
   .invoice_text_sum4>h2 {
