@@ -14,6 +14,7 @@ import {
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
+import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 
 const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [jsonData, setJsonData] = useState({});
@@ -43,7 +44,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [image, setimage] = useState(true);
   const [summary, setSummary] = useState(true);
   const [metalType, setMetaltype] = useState([]);
-
+  const [result, setResult] = useState(null);
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
   const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
@@ -186,7 +187,10 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     resultObj.afterTaxAmt = resultObj.afterTaxAmt?.toFixed(2);
     resultObj.amount = resultObj.amount?.toFixed(2);
 
-    let totalMakingAmount = arr.reduce((sum, item) => sum + (item.MakingAmount || 0), 0);
+    let totalMakingAmount = arr.reduce(
+      (sum, item) => sum + (item.MakingAmount || 0),
+      0
+    );
     resultObj.MakingAmount = totalMakingAmount.toFixed(2);
     setTotal(resultObj);
   };
@@ -378,6 +382,150 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     lastDiamondTableFunc(2, datas?.BillPrint_Json2, json1Arr);
   };
 
+
+  function loadData2(data) {
+    let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
+    data.BillPrint_Json[0].address = address;
+
+    const datas = OrganizeDataPrint(
+      data?.BillPrint_Json[0],
+      data?.BillPrint_Json1,
+      data?.BillPrint_Json2
+    );
+
+    let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
+      
+    setMetShpWise(met_shp_arr);
+    let tot_met = 0;
+    let tot_met_wt = 0;
+    met_shp_arr?.forEach((e, i) => {
+      tot_met += e?.Amount;
+      tot_met_wt += e?.metalfinewt;
+    })    
+    setNotGoldMetalTotal(tot_met);
+    setNotGoldMetalWtTotal(tot_met_wt);
+
+    let diaObj = {
+      ShapeName: "OTHERS",
+      wtWt: 0,
+      wtWts: 0,
+      pcPcs: 0,
+      pcPcss: 0,
+      rRate: 0,
+      rRates: 0,
+      amtAmount: 0,
+      amtAmounts: 0,
+    };
+
+    let diaonlyrndarr1 = [];
+    let diaonlyrndarr2 = [];
+    let diaonlyrndarr3 = [];
+    let diaonlyrndarr4 = [];
+    let diarndotherarr5 = [];
+    let diaonlyrndarr6 = [];
+    datas?.json2?.forEach((e) => {
+      if (e?.MasterManagement_DiamondStoneTypeid === 1) {
+        if (e.ShapeName?.toLowerCase() === "rnd") {
+          diaonlyrndarr1.push(e);
+        } else {
+          diaonlyrndarr2.push(e);
+        }
+      }
+    });
+
+    diaonlyrndarr1.forEach((e) => {
+      let findRecord = diaonlyrndarr3.findIndex(
+        (a) =>
+          e?.StockBarcode === a?.StockBarcode &&
+          e?.ShapeName === a?.ShapeName &&
+          e?.QualityName === a?.QualityName &&
+          e?.Colorname === a?.Colorname
+      );
+
+      if (findRecord === -1) {
+        let obj = { ...e };
+        obj.wtWt = e?.Wt;
+        obj.pcPcs = e?.Pcs;
+        obj.rRate = e?.Rate;
+        obj.amtAmount = e?.Amount;
+        diaonlyrndarr3.push(obj);
+      } else {
+        diaonlyrndarr3[findRecord].wtWt += e?.Wt;
+        diaonlyrndarr3[findRecord].pcPcs += e?.Pcs;
+        diaonlyrndarr3[findRecord].rRate += e?.Rate;
+        diaonlyrndarr3[findRecord].amtAmount += e?.Amount;
+      }
+    });
+
+    diaonlyrndarr2.forEach((e) => {
+      let findRecord = diaonlyrndarr4.findIndex(
+        (a) =>
+          e?.StockBarcode === a?.StockBarcode &&
+          e?.ShapeName === a?.ShapeName &&
+          e?.QualityName === a?.QualityName &&
+          e?.Colorname === a?.Colorname
+      );
+
+      if (findRecord === -1) {
+        let obj = { ...e };
+        obj.wtWt = e?.Wt;
+        obj.wtWts = e?.Wt;
+        obj.pcPcs = e?.Pcs;
+        obj.pcPcss = e?.Pcs;
+        obj.rRate = e?.Rate;
+        obj.rRates = e?.Rate;
+        obj.amtAmount = e?.Amount;
+        obj.amtAmounts = e?.Amount;
+        diaonlyrndarr4.push(obj);
+      } else {
+        diaonlyrndarr4[findRecord].wtWt += e?.Wt;
+        diaonlyrndarr4[findRecord].wtWts += e?.Wt;
+        diaonlyrndarr4[findRecord].pcPcs += e?.Pcs;
+        diaonlyrndarr4[findRecord].pcPcss += e?.Pcs;
+        diaonlyrndarr4[findRecord].rRate += e?.Rate;
+        diaonlyrndarr4[findRecord].rRates += e?.Rate;
+        diaonlyrndarr4[findRecord].amtAmount += e?.Amount;
+        diaonlyrndarr4[findRecord].amtAmounts += e?.Amount;
+      }
+    });
+
+    diaonlyrndarr4.forEach((e) => {
+      diaObj.wtWt += e?.wtWt;
+      diaObj.wtWts += e?.wtWts;
+      diaObj.pcPcs += e?.pcPcs;
+      diaObj.pcPcss += e?.pcPcss;
+      diaObj.rRate += e?.rRate;
+      diaObj.rRates += e?.rRates;
+      diaObj.amtAmount += e?.amtAmount;
+      diaObj.amtAmounts += e?.amtAmounts;
+    });
+    
+    diaonlyrndarr3?.forEach((e) => {
+      let find_record = diaonlyrndarr6?.findIndex(
+        (a) =>
+          e?.ShapeName === a?.ShapeName &&
+          e?.QualityName === a?.QualityName &&
+          e?.Colorname === a?.Colorname
+      );
+      if (find_record === -1) {
+        let obj = { ...e };
+        obj.wtWts = e?.wtWt;
+        obj.pcPcss = e?.pcPcs;
+        obj.rRates = e?.rRate;
+        obj.amtAmounts = e?.amtAmount;
+        diaonlyrndarr6.push(obj);
+      }else{
+        diaonlyrndarr6[find_record].wtWts += e?.wtWt;
+        diaonlyrndarr6[find_record].pcPcss += e?.pcPcs;
+        diaonlyrndarr6[find_record].rRates += e?.rRate;
+        diaonlyrndarr6[find_record].amtAmounts += e?.amtAmount;
+      }
+    });
+
+    diarndotherarr5 = [...diaonlyrndarr6, diaObj];
+    setResult(datas);
+  }
+
   useEffect(() => {
     const sendData = async () => {
       try {
@@ -393,6 +541,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
             loadData(data?.Data);
+            loadData2(data?.Data);
             setLoader(false);
           } else {
             setLoader(false);
@@ -428,7 +577,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     }
   };
 
-  console.log("total", total);
+  console.log("result", result);
 
   return (
     <>
@@ -444,7 +593,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 checked={makingColumShow}
                 onChange={(e) => handleChange(e, "making")}
               />
-              <label className="form-check-label pt-1">Making</label>
+              <label className="form-check-label pt-1">Labour</label>
             </div>
             <div className="form-check pe-3">
               <input
@@ -514,9 +663,11 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {billPrintJson?.Cust_CST_STATE}-
                     {billPrintJson?.Company_CST_STATE_No} | PAN-EDJHF236D{" "}
                   </p> */}
-                  {billPrintJson?.Pannumber != "" &&
-                    <p className="address_para_sum4 lh-1 pb-1">PAN-{billPrintJson?.Pannumber}</p>
-                  }
+                  {billPrintJson?.Pannumber != "" && (
+                    <p className="address_para_sum4 lh-1 pb-1">
+                      PAN-{billPrintJson?.Pannumber}
+                    </p>
+                  )}
                   {(billPrintJson?.CINNO || billPrintJson?.MSME) && (
                     <p className="address_para_sum4 lh-1 pb-1">
                       {billPrintJson?.CINNO && `CIN-${billPrintJson.CINNO}`}
@@ -570,7 +721,8 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <div className="address_lines_sum4">
                   <p>
                     {" "}
-                    Gold Rate: <span>{(billPrintJson?.MetalRate24K)?.toFixed(2)}</span>
+                    Gold Rate:{" "}
+                    <span>{billPrintJson?.MetalRate24K?.toFixed(2)}</span>
                   </p>
                 </div>
               </div>
@@ -585,7 +737,10 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   <div className="p-1 border-end align-middle text-center remark_sum4 fw-bold">
                     Remark
                   </div>
-                  <div className="p-1 border-end align-middle text-center dia_wt_ctw_sum4 fw-bold" style={{ wordBreak: 'break-word' }}>
+                  <div
+                    className="p-1 border-end align-middle text-center dia_wt_ctw_sum4 fw-bold"
+                    style={{ wordBreak: "break-word" }}
+                  >
                     DIA WT (ctw)
                   </div>
                   <div className="p-1 border-end text-center dia_rate_sum4 flex-column d-flex align-items-center justify-content-center fw-bold">
@@ -621,17 +776,54 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div>AMT</div>
                   </div>
                   {makingColumShow && (
-                    <div className="p-1 border-end text-center cs_amt_sum4 flex-column d-flex align-items-center justify-content-center fw-bold">
-                      Making
+                    <div
+                      className=" border-end text-center cs_amt_sum4 flex-column d-flex align-items-center justify-content-center fw-bold"
+                      style={{ width: "9%" }}
+                    >
+                      <div className="border-bottom" style={{ width: "100%" }}>
+                        <p>Labour</p>
+                      </div>
+                      <div className="d-flex justify-content-between align-items-center h-50 bt_dp10  w-100">
+                        <div
+                          className="w-50 h-100 centerdp10 bright_dp10 border-right"
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRight: "1px solid #dee2e6",
+                          }}
+                        >
+                          Rate
+                        </div>
+                        <div
+                          className="w-50 h-100 centerdp10"
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          Amount
+                        </div>
+                      </div>
                     </div>
                   )}
                   <div className="p-1 border-end text-center gold_fine_sum4 flex-column d-flex align-items-center justify-content-center fw-bold">
-                    <p style={{ wordBreak: 'keep-all' }}>GOLD FINE(gm)</p>
+                    <p style={{ wordBreak: "keep-all" }}>GOLD FINE(gm)</p>
                   </div>
                   <div className="p-1 border-end text-center gold_amt_sum4 flex-column d-flex align-items-center justify-content-center fw-bold">
                     <div>GOLD </div>
                     <div>AMT</div>
                   </div>
+                  {/* <div className="col7dp10">
+                    <div className="h-50 centerdp10 fw-bold w-100">Labour</div>
+                    <div className="d-flex justify-content-between align-items-center h-50 bt_dp10  w-100">
+                      <div className="w-50 h-100 centerdp10 bright_dp10">
+                        Rate
+                      </div>
+                      <div className="w-50 h-100 centerdp10">Amount</div>
+                    </div>
+                  </div> */}
                   <div className="p-1 pe-2 border-end align-middle text-center amount_sum_4 fw-bold">
                     AMOUNT
                   </div>
@@ -659,14 +851,16 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           <p className="fw-bold">{e?.MetalTypePurity}</p>{" "}
                         </div>
                         <div className="p-1 remark_sum4 border-end">
-                          {e?.HUID !== "" && <p> <strong>HUID</strong> - {e?.HUID}</p>}
+                          {e?.HUID !== "" && (
+                            <p>
+                              {" "}
+                              <strong>HUID</strong> - {e?.HUID}
+                            </p>
+                          )}
                           {e?.CertificateNo !== "" && (
                             <p>
                               <span className="fw-bold">IGI-</span>
-                              <span>
-                                {" "}
-                                {e?.CertificateNo}
-                              </span>
+                              <span> {e?.CertificateNo}</span>
                             </p>
                           )}
                           <p>{e?.CertRemark} </p>
@@ -754,9 +948,26 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         </div>
 
                         {makingColumShow && (
-                          <div className="p-1 cs_rate_sum4 border-end text-end ">
-                            {formatAmount(e?.MakingAmount)}
+                          <div
+                            className="p-1 cs_rate_sum4 border-end text-end "
+                            style={{ width: "9%" }}
+                          >
+                            <div className="d-flex">
+                              <div className="w-50 end_dp10 pr_dp10">
+                                {formatAmount(e?.MaKingCharge_Unit)}
+                              </div>
+                              <div className="w-50 end_dp10  pr_dp10">
+                                {formatAmount(
+                                  e?.MakingAmount +
+                                    e?.TotalDiaSetcost +
+                                    e?.TotalCsSetcost
+                                )}
+                              </div>
+                            </div>
                           </div>
+                          // <div className="p-1 cs_rate_sum4 border-end text-end ">
+                          //   {formatAmount(e?.MakingAmount)}
+                          // </div>
                         )}
 
                         <div className="p-1 gold_fine_sum4 border-end text-end ">
@@ -818,9 +1029,15 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <p> {NumberWithCommas(total.csAmt, 2)} </p>{" "}
                   </div>
                   {makingColumShow && (
-                    <div className="p-1 cs_amt_sum4 border-end text-end  bg_total_sum4 fw-bold">
+                    <div className="p-1 cs_amt_sum4 border-end text-end  bg_total_sum4 fw-bold" style={{width: '9%'}}>
                       {" "}
-                      <p> {NumberWithCommas(total.MakingAmount, 2)} </p>{" "}
+                      <p>
+                        {formatAmount(
+                          result?.mainTotal?.total_labour?.labour_amount +
+                          result?.mainTotal?.total_TotalDiaSetcost +
+                          result?.mainTotal?.total_TotalCsSetcost
+                        )}
+                      </p>{" "}
                     </div>
                   )}
                   <div className="p-1 gold_fine_sum4 border-end text-end  bg_total_sum4 fw-bold">
@@ -850,7 +1067,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                               key={ind}
                             >
                               <div className="amazon_text_sum4 pe-1">
-                                {elem.name}  :
+                                {elem.name} :
                               </div>
                               <div className="fw-bold amazon_number_sum4">
                                 {elem.value}
@@ -1098,7 +1315,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     />
                   }
                 </div>
-                {billPrintJson?.PrintRemark !== "" &&
+                {billPrintJson?.PrintRemark !== "" && (
                   <div className="d-flex align-items-center gap-1 remarks_sum4 mb-2">
                     <p className="fw-bold font_14_sum4 ">REMARKS : </p>
                     <p
@@ -1107,7 +1324,8 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         __html: billPrintJson?.PrintRemark,
                       }}
                     ></p>
-                  </div>}
+                  </div>
+                )}
                 <p className="fw-bold pb-1 font_14_sum4">TERMS INCLUDED :</p>
                 <div className="d-flex border mb-2">
                   <div className="w-50 border-end height_65_sum4 d-flex justify-content-center align-items-end border-end">
@@ -1116,7 +1334,9 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </p>
                   </div>
                   <div className="w-50 height_65_sum4 d-flex justify-content-center align-items-end">
-                    <p className="fw-bold font_15_sum4">for,{billPrintJson?.companyname}</p>
+                    <p className="fw-bold font_15_sum4">
+                      for,{billPrintJson?.companyname}
+                    </p>
                   </div>
                 </div>
                 {summary && (

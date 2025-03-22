@@ -15,7 +15,6 @@ import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseA
 
 function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
   const [result, setResult] = useState(null);
-  console.log('ddddresult: ', result);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
@@ -57,6 +56,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
     };
     sendData();
   }, []);
+  
   const loadData = (data) => {
     setHeaderData(data?.BillPrint_Json[0]);
 
@@ -75,16 +75,15 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
       data?.BillPrint_Json2
     );
 
-    
     let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
-      
+
     setMetShpWise(met_shp_arr);
     let tot_met = 0;
     let tot_met_wt = 0;
     met_shp_arr?.forEach((e, i) => {
       tot_met += e?.Amount;
       tot_met_wt += e?.metalfinewt;
-    })    
+    });
     setNotGoldMetalTotal(tot_met);
     setNotGoldMetalWtTotal(tot_met_wt);
 
@@ -96,7 +95,6 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
     let finalArr = [];
 
     datas?.resultArray?.forEach((a) => {
-      debugger
       if (a?.GroupJob === "") {
         finalArr.push(a);
       } else {
@@ -134,7 +132,10 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
             ...finalArr[find_record]?.colorstone,
             ...b?.colorstone,
           ]?.flat();
-          finalArr[find_record].metal = [...finalArr[find_record]?.metal, ...b?.metal]?.flat();
+          finalArr[find_record].metal = [
+            ...finalArr[find_record]?.metal,
+            ...b?.metal,
+          ]?.flat();
           finalArr[find_record].misc = [
             ...finalArr[find_record]?.misc,
             ...b?.misc,
@@ -149,7 +150,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
           ]?.flat();
           finalArr[find_record].other_details_array = [
             ...finalArr[find_record]?.other_details_array,
-            ...b?.other_details_array
+            ...b?.other_details_array,
           ].flat();
 
           finalArr[find_record].other_details_array_amount +=
@@ -229,7 +230,14 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
       let dia2 = [];
 
       e?.diamonds?.forEach((el) => {
-        let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.SizeName === el?.SizeName && a?.Rate === el?.Rate)
+        let findrec = dia2?.findIndex(
+          (a) =>
+            a?.ShapeName === el?.ShapeName &&
+            a?.QualityName === el?.QualityName &&
+            a?.Colorname === el?.Colorname &&
+            a?.SizeName === el?.SizeName &&
+            a?.Rate === el?.Rate
+        );
         let ell = cloneDeep(el);
         if (findrec === -1) {
           dia2.push(ell);
@@ -239,15 +247,22 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
           dia2[findrec].Amount += ell?.Amount;
           dia2[findrec].Rate += ell?.Rate;
         }
-
-      })
-      e.diamonds = dia2
+      });
+      e.diamonds = dia2;
 
       //diamond
       let clr2 = [];
 
       e?.colorstone?.forEach((el) => {
-        let findrec = clr2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.SizeName === el?.SizeName && a?.Rate === el?.Rate && a?.isRateOnPcs === el?.isRateOnPcs)
+        let findrec = clr2?.findIndex(
+          (a) =>
+            a?.ShapeName === el?.ShapeName &&
+            a?.QualityName === el?.QualityName &&
+            a?.Colorname === el?.Colorname &&
+            a?.SizeName === el?.SizeName &&
+            a?.Rate === el?.Rate &&
+            a?.isRateOnPcs === el?.isRateOnPcs
+        );
         let ell = cloneDeep(el);
         if (findrec === -1) {
           clr2.push(ell);
@@ -257,8 +272,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
           clr2[findrec].Amount += ell?.Amount;
           clr2[findrec].Rate += ell?.Rate;
         }
-
-      })
+      });
       e.colorstone = clr2;
 
       //misc
@@ -267,34 +281,36 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
         if (el?.IsHSCOE === 0) {
           misc0?.push(el);
         }
-      })
+      });
 
       e.misc = misc0;
 
       let met2 = [];
       e?.metal?.forEach((a) => {
-        if(e?.GroupJob !== ''){
-          let obj = {...a};
+        if (e?.GroupJob !== "") {
+          let obj = { ...a };
           obj.GroupJob = e?.GroupJob;
           met2?.push(obj);
         }
-      })
+      });
 
       let met3 = [];
       met2?.forEach((a) => {
-        let findrec = met3?.findIndex((el) => (el?.StockBarcode === el?.GroupJob))
-        if(findrec === -1){
+        let findrec = met3?.findIndex(
+          (el) => el?.StockBarcode === el?.GroupJob
+        );
+        if (findrec === -1) {
           met3?.push(a);
-        }else{
+        } else {
           met3[findrec].Wt += a?.Wt;
         }
-      })
-      if(e?.GroupJob === ''){
-        return 
-      }else{
+      });
+      if (e?.GroupJob === "") {
+        return;
+      } else {
         e.metal = met3;
       }
-    })
+    });
 
     // datas?.resultArray?.forEach((e) => {
     //   let met2 = [];
@@ -387,9 +403,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
     setIsImageWorking(false);
   };
 
-
-
-  console.log("ress", result);
+  console.log("result", result);
   return (
     <div className="packList_3a_main">
       {loader ? (
@@ -640,7 +654,11 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                 flexDirection: "column",
                               }}
                             >
-                              <p>{data?.GroupJob != "" ? data?.GroupJob : data?.SrJobno}</p>
+                              <p>
+                                {data?.GroupJob != ""
+                                  ? data?.GroupJob
+                                  : data?.SrJobno}
+                              </p>
                               <p>{data?.MetalColor}</p>
                             </div>
                           </div>
@@ -718,7 +736,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                     {e?.Pcs}
                                   </p>
                                   <p className="paking3a_col3_sub_div_more_sub4">
-                                    {e?.Wt}
+                                    {e?.Wt?.toFixed(3)}
                                   </p>
                                   <p className="paking3a_col3_sub_div_more_sub5">
                                     {e?.Rate?.toFixed(2)}
@@ -786,31 +804,33 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                           </div>
                         </div>
                         <div className="paking3a_tabledata_col4">
-                          {/* <div className="paking3a_col4_sub_div">
-                            <p className="paking3a_col4_sub_div_finalValus">
+                          <div className="paking3a_col4_sub_div">
+                            <p className="paking3a_col4_sub_div_finalValus" style={{display: 'flex', justifyContent: 'flex-start'}}>
                               {" "}
                               {data?.MetalType}
                               {data?.MetalPurity}
                             </p>
                             <p className="paking3a_col4_sub_div_finalValus">
-                              {data?.grosswt}
+                              {(data?.grosswt)?.toFixed(3)}
                             </p>
                             <p className="paking3a_col4_sub_div_finalValus">
-                              {data?.NetWt + data?.LossWt}
+                              {/* {(data?.NetWt + data?.LossWt)?.toFixed(3)} */}
+                              {(data?.NetWt)?.toFixed(3)}
+                              {/* {(data?.LossWt)?.toFixed(3)} */}
                             </p>
                             <p className="paking3a_col4_sub_div_finalValus">
-                              {data?.metal_rate}
+                              {(data?.metal_rate)?.toFixed(2)}
                             </p>
-                            <p className="paking3a_col4_sub_div_finalValus_amount">
+                            <p className="paking3a_col4_sub_div_finalValus_amount" style={{width: '20%', display: 'flex', justifyContent: 'flex-end'}}>
                               <b> {data?.MetalAmount}</b>
                             </p>
-                          </div> */}
+                          </div>
                           <div
                             style={{
                               width: "100%",
                             }}
                           >
-                            {data?.metal?.map((data2, index) => {
+                            {/* {data?.metal?.map((data2, index) => {
                               return (
                                 <div
                                   className="paking3a_col4_sub_div"
@@ -847,7 +867,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                   </p>
                                 </div>
                               );
-                            })}
+                            })} */}
 
                             <div className="paking3a_col4_sub_div">
                               <p
@@ -860,7 +880,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                 Loss
                               </p>
                               <p className="paking3a_col4_sub_div_finalValus">
-                                {data?.LossPer?.toFixed(3)}
+                                {data?.LossPer?.toFixed(3)} %
                               </p>
                               <p className="paking3a_col4_sub_div_finalValus">
                                 {data?.LossWt?.toFixed(3)}
@@ -907,7 +927,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                 justifyContent: "flex-end",
                               }}
                             >
-                              <b>{data?.grosswt?.toFixed(2)}</b>
+                              <b>{data?.grosswt?.toFixed(3)}</b>
                             </p>
                             <p
                               className="paking3a_col4_sub_div_finalValus_total3"
@@ -946,6 +966,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                     style={{
                                       display: "flex",
                                       justifyContent: "flex-start",
+                                      textAlign: 'left'
                                     }}
                                   >
                                     {e?.ShapeName +
@@ -1002,10 +1023,10 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                     {e?.Pcs}
                                   </p>
                                   <p className="paking3a_col5_sub_div_finalValus">
-                                    {e?.Wt}
+                                    {e?.Wt.toFixed(3)}
                                   </p>
                                   <p className="paking3a_col5_sub_div_finalValus">
-                                    {e?.Rate?.toFixed(2)}
+                                    {e?.Rate?.toFixed(3)}
                                   </p>
                                   <p
                                     className="paking3a_col5_sub_div_finalValus"
@@ -1045,7 +1066,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                               style={{
                                 width: "12%",
                                 display: "flex",
-                                justifyContent: "flex-end",
+                                justifyContent: "center",
                               }}
                             >
                               <b>
@@ -1066,7 +1087,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                 {(
                                   data?.totals?.colorstone?.Wt +
                                   data?.totals?.misc?.Wt
-                                )?.toFixed(2)}
+                                )?.toFixed(3)}
                               </b>
                             </p>
                             <p
@@ -1098,7 +1119,9 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                           <div>
                             <div className="paking3a_col6_sub_div">
                               <div className="d-flex justify-content-between w-100">
-                                <p className="paking3a_col6_sub_div_finalValus text-left">Labour</p>
+                                <p className="paking3a_col6_sub_div_finalValus text-left">
+                                  Labour
+                                </p>
                                 <p className="paking3a_col6_sub_div_finalValus text-right">
                                   {data?.MaKingCharge_Unit?.toFixed(2)}
                                 </p>
@@ -1110,22 +1133,44 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
 
                             <div className="paking3a_col6_sub_div_otherDetails">
                               {(() => {
-                                const mergedData = data?.other_details_array?.reduce((acc, ele) => {
-                                  const existing = acc.find(item => item.label === ele.label);
+                                const mergedData =
+                                  data?.other_details_array?.reduce(
+                                    (acc, ele) => {
+                                      const existing = acc.find(
+                                        (item) => item.label === ele.label
+                                      );
 
-                                  if (existing) {
-                                    existing.value = (parseFloat(existing.value) + parseFloat(ele.value)).toFixed(2); // Merge values
-                                  } else {
-                                    acc.push({ ...ele, value: parseFloat(ele.value).toFixed(2) }); // Ensure numeric format
-                                  }
+                                      if (existing) {
+                                        existing.value = (
+                                          parseFloat(existing.value) +
+                                          parseFloat(ele.value)
+                                        ).toFixed(2); // Merge values
+                                      } else {
+                                        acc.push({
+                                          ...ele,
+                                          value: parseFloat(ele.value).toFixed(
+                                            2
+                                          ),
+                                        }); // Ensure numeric format
+                                      }
 
-                                  return acc;
-                                }, []);
+                                      return acc;
+                                    },
+                                    []
+                                  );
 
                                 return mergedData?.map((ele, ind) => (
-                                  <div className="d-flex justify-content-between" key={ind}>
-                                    <p className="pe-1 col-8 text-start">{ele?.label}</p>
-                                    <p style={{ wordBreak: "break-all" }} className="col-4 text-end">
+                                  <div
+                                    className="d-flex justify-content-between"
+                                    key={ind}
+                                  >
+                                    <p className="pe-1 col-8 text-start">
+                                      {ele?.label}
+                                    </p>
+                                    <p
+                                      style={{ wordBreak: "break-all" }}
+                                      className="col-4 text-end"
+                                    >
                                       {NumberWithCommas(+ele?.value, 2)}
                                     </p>
                                   </div>
@@ -1133,18 +1178,20 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                               })()}
                               <div className="d-flex justify-between">
                                 <p>Setting</p>
-                                <p>{formatAmount(
-                                  (data?.totals?.diamonds?.SettingAmount +
-                                    data?.totals?.colorstone?.SettingAmount) /
-                                  result?.header?.CurrencyExchRate
-                                )}</p>
+                                <p>
+                                  {formatAmount(
+                                    (data?.totals?.diamonds?.SettingAmount +
+                                      data?.totals?.colorstone?.SettingAmount) /
+                                      result?.header?.CurrencyExchRate
+                                  )}
+                                </p>
                               </div>
-                              {data?.TotalDiamondHandling != 0 &&
+                              {data?.TotalDiamondHandling != 0 && (
                                 <div className="d-flex justify-between">
                                   <p>Handling</p>
                                   <p>{data?.TotalDiamondHandling}</p>
                                 </div>
-                              }
+                              )}
                             </div>
                           </div>
                           <div
@@ -1163,8 +1210,12 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                 justifyContent: "flex-end",
                               }}
                             >
-                              {formatAmount(data?.MakingAmount + data?.other_details_array_amount + data?.TotalDiamondHandling + data?.totals?.diamonds?.SettingAmount +
-                                data?.totals?.colorstone?.SettingAmount
+                              {formatAmount(
+                                data?.MakingAmount +
+                                  data?.other_details_array_amount +
+                                  data?.TotalDiamondHandling +
+                                  data?.totals?.diamonds?.SettingAmount +
+                                  data?.totals?.colorstone?.SettingAmount
                               )}
                             </p>
                           </div>
@@ -1180,7 +1231,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                           <p className="paking3a_second_box_Title paking3a_end">
                             {formatAmount(
                               data?.TotalAmount /
-                              result?.header?.CurrencyExchRate
+                                result?.header?.CurrencyExchRate
                             )}
                           </p>
 
@@ -1194,7 +1245,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                           >
                             {formatAmount(
                               data?.TotalAmount /
-                              result?.header?.CurrencyExchRate
+                                result?.header?.CurrencyExchRate
                             )}
                           </p>
                         </div>
@@ -1253,7 +1304,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                             justifyContent: "flex-end",
                           }}
                         >
-                          <b>{result?.mainTotal?.grosswt?.toFixed(2)}</b>
+                          <b>{result?.mainTotal?.grosswt?.toFixed(3)}</b>
                         </p>
                         <p
                           className="paking3a_col4_sub_div_finalValus_total3"
@@ -1280,7 +1331,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                             {" "}
                             {formatAmount(
                               result?.mainTotal?.metal?.Amount /
-                              result?.header?.CurrencyExchRate
+                                result?.header?.CurrencyExchRate
                             )}
                           </b>
                         </p>
@@ -1355,7 +1406,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                         >
                           {formatAmount(
                             result?.mainTotal?.MakingAmount /
-                            result?.header?.CurrencyExchRate
+                              result?.header?.CurrencyExchRate
                           )}
                         </p>
                       </div>
@@ -1364,7 +1415,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                       <p className="paking3a_second_box_Title paking3a_end">
                         {formatAmount(
                           (result?.mainTotal?.TotalAmount + discount) /
-                          result?.header?.CurrencyExchRate
+                            result?.header?.CurrencyExchRate
                         )}
                       </p>
                     </div>
@@ -1389,7 +1440,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                       <p>Total Amount</p>
                       {formatAmount(
                         result?.mainTotal?.TotalAmount /
-                        result?.header?.CurrencyExchRate
+                          result?.header?.CurrencyExchRate
                       )}
                     </div>
                     {result?.allTaxes?.map((data, index) => {
@@ -1417,7 +1468,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                           result?.header?.AddLess +
                           result?.header?.FreightCharges +
                           result?.allTaxesTotal) /
-                        result?.header?.CurrencyExchRate
+                          result?.header?.CurrencyExchRate
                       )}
                     </div>
                   </div>
@@ -1520,7 +1571,12 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                           <p>
                             <b>GOLD </b>
                           </p>
-                          <p>{formatAmount(((result?.mainTotal?.MetalAmount) / result?.header?.CurrencyExchRate))}</p>
+                          <p>
+                            {formatAmount(
+                              result?.mainTotal?.MetalAmount /
+                                result?.header?.CurrencyExchRate
+                            )}
+                          </p>
                         </div>
                         {/* <div className="paking3a__bottomSection_Box1_subBox1_summury">
                           <p>
@@ -1536,7 +1592,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                             {" "}
                             {formatAmount(
                               result?.mainTotal?.diamonds?.Amount /
-                              result?.header?.CurrencyExchRate
+                                result?.header?.CurrencyExchRate
                             )}
                           </p>
                         </div>
@@ -1547,7 +1603,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                           <p>
                             {formatAmount(
                               result?.mainTotal?.colorstone?.Amount /
-                              result?.header?.CurrencyExchRate
+                                result?.header?.CurrencyExchRate
                             )}
                           </p>
                         </div>
@@ -1558,7 +1614,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                           <p>
                             {formatAmount(
                               result?.mainTotal?.misc?.IsHSCODE_0_amount /
-                              result?.header?.CurrencyExchRate
+                                result?.header?.CurrencyExchRate
                             )}
                           </p>
                         </div>
@@ -1571,7 +1627,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                               (result?.mainTotal?.MakingAmount +
                                 result?.mainTotal?.diamonds?.SettingAmount +
                                 result?.mainTotal?.colorstone?.SettingAmount) /
-                              result?.header?.CurrencyExchRate
+                                result?.header?.CurrencyExchRate
                             )}
                           </p>
                         </div>

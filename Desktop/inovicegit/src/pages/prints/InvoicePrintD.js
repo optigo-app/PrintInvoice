@@ -212,6 +212,7 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         );
         if (findRecord === -1) {
           resultArr?.push(obj);
+          console.log('obj', obj);
         } else {
           resultArr[findRecord].grosswt += obj?.grosswt;
           resultArr[findRecord].NetWt += obj?.NetWt;
@@ -313,8 +314,12 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       });
     });
 
+    
+
     let finalsArr = [];
     let mainJobs = {};
+    
+    console.log('resultArr', resultArr);
     
     resultArr.forEach((item) => {
       if (item.SrJobno === item.GroupJob && item.GroupJob !== "") {
@@ -333,6 +338,7 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       obj.finalMetalWt = finalMetalWt;
       obj.finalRate = finalRate;
 
+      
       if (e.GroupJob in mainJobs && e.SrJobno !== e.GroupJob) {
         let mainJobIndex = finalsArr.findIndex(
           (job) => job.SrJobno === e.GroupJob
@@ -389,6 +395,7 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       obj.Amount = obj?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate;
       newArr?.push(obj);
     });
+    
     otherCharges?.forEach((e, i) => {
       let obj = cloneDeep(e);
       obj.value = +obj?.value;
