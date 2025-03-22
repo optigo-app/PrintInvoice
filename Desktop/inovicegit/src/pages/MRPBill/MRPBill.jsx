@@ -177,7 +177,7 @@ const MRPBill = () => {
       const fetchData = async (mode, setData, args) => {
         const body = JSON.stringify({
           Token: token,
-          ReqData: `[{"Token":"${token}","Mode":"${mode}"}]`,
+          ReqData: `[{"Token":"${token}","Mode":"${mode}", "luid":"${luid ?? ""}"}]`,
         });
         const response = await axios.post(url, body);
         if (response?.status === 200 && response?.data?.Status === '200') {
@@ -323,10 +323,10 @@ const MRPBill = () => {
 
 
       try {
-        // const url = "http://zen/jo/api-lib/App/API_MRPBill";
+        // const url = "http://zen/jo/api-lib/App/API_MRPBill"; 
         const body = JSON.stringify({
             Token : `${atob(tkn)}`,
-            ReqData:`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"GetJobDeatil\",\"STB\":\"${jobnoVal}\",\"LockerId\":\"${lockerId}\",\"CustomerId\":\"${custId}\"}]`
+            ReqData:`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"GetJobDeatil\",\"STB\":\"${jobnoVal}\",\"LockerId\":\"${lockerId}\",\"CustomerId\":\"${custId}\" ,\"luid\":\"${luid ?? ""}\"}]`
         })
         setIsLoading(true);
         const response = await axios.post(url, body);
@@ -666,7 +666,7 @@ const MRPBill = () => {
         })
         
         const body = {
-          "Token" : `${atob(tkn)}`,"ReqData":`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"BookId\":\"${bookId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"${lid}\",\"userid\":\"${luid}\",\"date\":\"${formatedDate}\",\"remark\":\"${formatedRemark}\",\"BillDetail\":${JSON.stringify(bill_detail)}}]`
+          "Token" : `${atob(tkn)}`,"ReqData":`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"BookId\":\"${bookId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"${lid}\",\"userid\":\"${luid}\",\"date\":\"${formatedDate}\",\"remark\":\"${formatedRemark}\",\"BillDetail\":${JSON.stringify(bill_detail)},\"luid\":\"${luid ?? ""}\"}]`
         }
         try {
         // let live_url = 'https://view.optigoapps.com/linkedapp/App/API_MRPBill';
@@ -986,7 +986,7 @@ const handleScanJob = async() => {
     const url = "http://zen/jo/api-lib/App/API_MRPBill";
     const body = JSON.stringify({
         Token : `${atob(tkn)}`,
-        ReqData:`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"GetJobDeatil\",\"STB\":\"${scannedValue}\",\"LockerId\":\"${lockerId}\",\"CustomerId\":\"${custId}\"}]`
+        ReqData:`[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"GetJobDeatil\",\"STB\":\"${scannedValue}\",\"LockerId\":\"${lockerId}\",\"CustomerId\":\"${custId}\ ,\"luid\":\"${luid ?? ""}\""}]`
     })
     setIsLoading(true);
     const response = await axios.post(url, body);
