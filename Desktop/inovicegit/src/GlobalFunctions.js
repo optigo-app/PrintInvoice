@@ -17,12 +17,16 @@ import EInvoiceHeader from "./components/headers/EInvoiceHeader";
 export const handlePrint = (e) => {
   window.print();
 };
+
 //handle image if api image not coming
 export const handleImageError = (e) => {
   e.target.src = img;
 };
+
 export const handleGlobalImgError = (e, img) => {
-  e.target.src = img;
+  if(img){
+    e.target.src = img;
+  }
 };
 //sentence words first char capital function
 export const CapitalizeWords = (text) => {

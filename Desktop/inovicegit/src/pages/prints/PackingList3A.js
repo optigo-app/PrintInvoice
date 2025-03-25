@@ -56,7 +56,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
     };
     sendData();
   }, []);
-  
+
   const loadData = (data) => {
     setHeaderData(data?.BillPrint_Json[0]);
 
@@ -595,7 +595,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                     <div className="paking3a_col4_sub_div">
                       <p className="paking3a_col4_sub_div_p"> Quality</p>
                       <p className="paking3a_col4_sub_div_p">Gwt</p>
-                      <p className="paking3a_col4_sub_div_p">N + L</p>
+                      <p className="paking3a_col4_sub_div_p">Net Wt</p>
                       <p className="paking3a_col4_sub_div_p">Rate</p>
                       <p className="paking3a_col4_sub_div_p_last">Amount</p>
                     </div>
@@ -804,19 +804,17 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                           </div>
                         </div>
                         <div className="paking3a_tabledata_col4">
-                          <div className="paking3a_col4_sub_div">
+                          {/* <div className="paking3a_col4_sub_div">
                             <p className="paking3a_col4_sub_div_finalValus" style={{display: 'flex', justifyContent: 'flex-start'}}>
-                              {" "}
                               {data?.MetalType}
+                              {" "}
                               {data?.MetalPurity}
                             </p>
                             <p className="paking3a_col4_sub_div_finalValus">
                               {(data?.grosswt)?.toFixed(3)}
                             </p>
                             <p className="paking3a_col4_sub_div_finalValus">
-                              {/* {(data?.NetWt + data?.LossWt)?.toFixed(3)} */}
                               {(data?.NetWt)?.toFixed(3)}
-                              {/* {(data?.LossWt)?.toFixed(3)} */}
                             </p>
                             <p className="paking3a_col4_sub_div_finalValus">
                               {(data?.metal_rate)?.toFixed(2)}
@@ -824,13 +822,13 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                             <p className="paking3a_col4_sub_div_finalValus_amount" style={{width: '20%', display: 'flex', justifyContent: 'flex-end'}}>
                               <b> {data?.MetalAmount}</b>
                             </p>
-                          </div>
+                          </div> */}
                           <div
                             style={{
                               width: "100%",
                             }}
                           >
-                            {/* {data?.metal?.map((data2, index) => {
+                            {data?.metal?.map((data2, index) => {
                               return (
                                 <div
                                   className="paking3a_col4_sub_div"
@@ -841,6 +839,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                     style={{
                                       display: "flex",
                                       justifyContent: "flex-start",
+                                      textAlign: "left",
                                     }}
                                   >
                                     {" "}
@@ -850,7 +849,8 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                     {index == 0 && data?.grosswt?.toFixed(2)}
                                   </p>
                                   <p className="paking3a_col4_sub_div_finalValus">
-                                    {(data2?.Wt + data?.LossWt)?.toFixed(3)}
+                                    {/* {(data2?.Wt + data?.LossWt)?.toFixed(3)} */}
+                                    {data2?.Wt?.toFixed(3)}
                                   </p>
                                   <p className="paking3a_col4_sub_div_finalValus">
                                     {data2?.Rate?.toFixed(2)}
@@ -867,9 +867,9 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                   </p>
                                 </div>
                               );
-                            })} */}
+                            })}
 
-                            <div className="paking3a_col4_sub_div">
+                            {/* <div className="paking3a_col4_sub_div">
                               <p
                                 className="paking3a_col4_sub_div_finalValus"
                                 style={{
@@ -898,7 +898,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                               >
                                 <b>{data?.LossAmt?.toFixed(2)}</b>
                               </p>
-                            </div>
+                            </div> */}
 
                             {data?.JobRemark !== "" && (
                               <div
@@ -966,7 +966,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                     style={{
                                       display: "flex",
                                       justifyContent: "flex-start",
-                                      textAlign: 'left'
+                                      textAlign: "left",
                                     }}
                                   >
                                     {e?.ShapeName +
@@ -1026,7 +1026,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                     {e?.Wt.toFixed(3)}
                                   </p>
                                   <p className="paking3a_col5_sub_div_finalValus">
-                                    {e?.Rate?.toFixed(3)}
+                                    {e?.Rate?.toFixed(2)}
                                   </p>
                                   <p
                                     className="paking3a_col5_sub_div_finalValus"
@@ -1445,12 +1445,16 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                     </div>
                     {result?.allTaxes?.map((data, index) => {
                       return (
-                        <div className="paking3a_total_div" key={index}>
-                          <p>
-                            {data?.name} @ {data?.per}
-                          </p>
-                          {data?.amountInNumber?.toFixed(2)}
-                        </div>
+                        <>
+                          {data?.amountInNumber !== 0 && (
+                            <div className="paking3a_total_div" key={index}>
+                              <p>
+                                {data?.name} @ {data?.per}
+                              </p>
+                              {data?.amountInNumber?.toFixed(2)}
+                            </div>
+                          )}
+                        </>
                       );
                     })}
                     <div className="paking3a_total_div">
@@ -1462,14 +1466,19 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                       {result?.header?.FreightCharges?.toFixed(2)}
                     </div>
                     <div className="paking3a_total_div">
-                      <p>Final Amount</p>
-                      {formatAmount(
-                        (result?.mainTotal?.TotalAmount +
-                          result?.header?.AddLess +
-                          result?.header?.FreightCharges +
-                          result?.allTaxesTotal) /
-                          result?.header?.CurrencyExchRate
-                      )}
+                      <p>
+                        <b>Final Amount</b>
+                      </p>
+                      <b>
+                        {" "}
+                        {formatAmount(
+                          (result?.mainTotal?.TotalAmount +
+                            result?.header?.AddLess +
+                            result?.header?.FreightCharges +
+                            result?.allTaxesTotal) /
+                            result?.header?.CurrencyExchRate
+                        )}
+                      </b>
                     </div>
                   </div>
                 </div>
@@ -1502,12 +1511,20 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                           </p>
                           <p>{result?.mainTotal?.PureNetWt} gm</p>
                         </div>
-                        {/* <div className="paking3a__bottomSection_Box1_subBox1_summury">
+                        <div className="paking3a__bottomSection_Box1_subBox1_summury">
                           <p>
                             <b>SILVER</b>
                           </p>
-                          <p>{result?.mainTotal?.PureNetWt} gm</p>
-                        </div> */}
+                          <p>
+                          {/* {result?.resultArray?.map((j1, i) => {
+                                            return (
+                                                <div>{(j1?.NetWt + j1?.LossWt).toFixed(3)}</div>
+                                            )
+                                        })} */}
+                                        {result?.mainTotal?.PureNetWt} gm
+                                        </p>
+
+                        </div>
                         <div className="paking3a__bottomSection_Box1_subBox1_summury">
                           <p>
                             <b>GROSS WT</b>
@@ -1578,12 +1595,12 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                             )}
                           </p>
                         </div>
-                        {/* <div className="paking3a__bottomSection_Box1_subBox1_summury">
+                        <div className="paking3a__bottomSection_Box1_subBox1_summury">
                           <p>
                             <b>SILVER</b>
                           </p>
                           <p>{total[1]?.amount?.toFixed(2)}</p>
-                        </div> */}
+                        </div>
                         <div className="paking3a__bottomSection_Box1_subBox1_summury">
                           <p>
                             <b>DIAMOND</b>
