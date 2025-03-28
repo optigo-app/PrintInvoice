@@ -16,7 +16,6 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
     let resultArray = [];
 
     let mainTotal = {
-        
         grosswt:0,
         NetWt:0,
         convertednetwt:0,
@@ -561,7 +560,6 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
         resultArray.push(obj);
 
     })
-
 
     let allTax = taxGenrator(header, mainTotal?.TotalAmount);
 

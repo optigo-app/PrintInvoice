@@ -285,8 +285,21 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       obj.diamondsRate = diamondsRate;
       obj.colorStoneRate = colorStoneRate;
       obj.totalAmount = totalAmount;
+      obj.SettingAmount = e?.SettingAmount;
+      obj.SettingRate = e?.SettingRate;
       json1Arr.push(obj);
     });
+
+    if (json1Arr.length > 0) {
+      json1Arr[0].SettingAmount = json1Arr[0].SettingAmount ?? 0;
+      json1Arr[0].SettingRate = json1Arr[0].SettingRate ?? 0;
+      datas?.BillPrint_Json2.forEach((e) => {
+        if (e?.MasterManagement_DiamondStoneTypeid === 5) {
+          json1Arr[0].SettingAmount += e.SettingAmount || 0;
+          json1Arr[0].SettingRate += e.SettingRate || 0;
+        }
+      });
+    }
 
     let met_shp_arr = MetalShapeNameWiseArr(datas?.BillPrint_Json2);
 
@@ -382,7 +395,6 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     lastDiamondTableFunc(2, datas?.BillPrint_Json2, json1Arr);
   };
 
-
   function loadData2(data) {
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
@@ -394,14 +406,14 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     );
 
     let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
-      
+
     setMetShpWise(met_shp_arr);
     let tot_met = 0;
     let tot_met_wt = 0;
     met_shp_arr?.forEach((e, i) => {
       tot_met += e?.Amount;
       tot_met_wt += e?.metalfinewt;
-    })    
+    });
     setNotGoldMetalTotal(tot_met);
     setNotGoldMetalWtTotal(tot_met_wt);
 
@@ -499,7 +511,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       diaObj.amtAmount += e?.amtAmount;
       diaObj.amtAmounts += e?.amtAmounts;
     });
-    
+
     diaonlyrndarr3?.forEach((e) => {
       let find_record = diaonlyrndarr6?.findIndex(
         (a) =>
@@ -514,7 +526,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         obj.rRates = e?.rRate;
         obj.amtAmounts = e?.amtAmount;
         diaonlyrndarr6.push(obj);
-      }else{
+      } else {
         diaonlyrndarr6[find_record].wtWts += e?.wtWt;
         diaonlyrndarr6[find_record].pcPcss += e?.pcPcs;
         diaonlyrndarr6[find_record].rRates += e?.rRate;
@@ -551,7 +563,6 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           setLoader(false);
           // setMsg(data?.Message);
           const err = checkMsg(data?.Message);
-          console.log(data?.Message);
           setMsg(err);
         }
       } catch (error) {
@@ -577,7 +588,10 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     }
   };
 
-  console.log("result", result);
+  const totalSettingAmount = BillPrintJson1.reduce(
+    (sum, item) => sum + (item.SettingAmount || 0),
+    0
+  );
 
   return (
     <>
@@ -778,7 +792,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   {makingColumShow && (
                     <div
                       className=" border-end text-center cs_amt_sum4 flex-column d-flex align-items-center justify-content-center fw-bold"
-                      style={{ width: "9%" }}
+                      style={{ width: "13%" }}
                     >
                       <div className="border-bottom" style={{ width: "100%" }}>
                         <p>Labour</p>
@@ -949,19 +963,35 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
                         {makingColumShow && (
                           <div
-                            className="p-1 cs_rate_sum4 border-end text-end "
-                            style={{ width: "9%" }}
+                            className="cs_rate_sum4 border-end text-end "
+                            style={{ width: "13%" }}
                           >
                             <div className="d-flex">
-                              <div className="w-50 end_dp10 pr_dp10">
-                                {formatAmount(e?.MaKingCharge_Unit)}
+                              <div
+                                className="w-40 end_dp10 pr_dp10 gap-2"
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                }}
+                              >
+                                <p>{formatAmount(e?.MaKingCharge_Unit)}</p>
+                                <p>{e?.SettingRate?.toFixed(2)}</p>
                               </div>
-                              <div className="w-50 end_dp10  pr_dp10">
-                                {formatAmount(
-                                  e?.MakingAmount +
-                                    e?.TotalDiaSetcost +
-                                    e?.TotalCsSetcost
-                                )}
+                              <div
+                                className="w-60 end_dp10 pr_dp10 gap-2"
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                }}
+                              >
+                                <p>
+                                  {formatAmount(
+                                    e?.MakingAmount +
+                                      e?.TotalDiaSetcost +
+                                      e?.TotalCsSetcost
+                                  )}
+                                </p>
+                                <p>{e?.SettingAmount?.toFixed(2)}</p>
                               </div>
                             </div>
                           </div>
@@ -972,7 +1002,12 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
                         <div className="p-1 gold_fine_sum4 border-end text-end ">
                           {" "}
-                          <p> {fixedValues(e?.convertednetwt, 3)} </p>{" "}
+                          <p>
+                            {" "}
+                            {billPrintJson?.MetalRate24K == 0
+                              ? fixedValues(e?.convertednetwt, 3)
+                              : "0.000"}{" "}
+                          </p>{" "}
                         </div>
                         <div className="p-1 gold_amt_sum4 border-end text-end ">
                           {" "}
@@ -985,14 +1020,21 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     );
                   })}
                 <div className="total_sec_sum4 d-flex border-bottom mb-1">
-                  <div className="p-1 ps-2 total_sum4 border-start border-end bg_total_sum4 fw-bold text-center">
+                  <div
+                    className="p-1 ps-2 total_sum4 border-start border-end bg_total_sum4 fw-bold text-center"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
                     Total
                   </div>
                   <div className="p-1 remark_sum4 border-end text-end bg_total_sum4 fw-bold remark_sum4">
                     {" "}
                     <p> </p>{" "}
                   </div>
-                  <div className="p-1 dia_wt_ctw_sum4 border-end text-end bg_total_sum4 fw-bold ">
+                  <div className="p-1 dia_wt_ctw_sum4 border-end text-end bg_total_sum4 fw-bold " style={{display: 'flex', justifyContent :'flex-end'}}>
                     {" "}
                     <p> {fixedValues(total.diaWt, 3)} </p>{" "}
                   </div>
@@ -1000,23 +1042,23 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {" "}
                     <p> </p>{" "}
                   </div>
-                  <div className="p-1 dia_amt_sum4 border-end text-end bg_total_sum4 fw-bold ">
+                  <div className="p-1 dia_amt_sum4 border-end text-end bg_total_sum4 fw-bold " style={{display: 'flex', justifyContent :'flex-end'}}>
                     {" "}
                     <p> {NumberWithCommas(total.diaAmt, 2)} </p>{" "}
                   </div>
-                  <div className="p-1 g_wt_sum4 border-end text-end bg_total_sum4 fw-bold ">
+                  <div className="p-1 g_wt_sum4 border-end text-end bg_total_sum4 fw-bold " style={{display: 'flex', justifyContent :'flex-end'}}>
                     {" "}
                     <p> {fixedValues(total.gwt, 3)} </p>{" "}
                   </div>
-                  <div className="p-1 nwt_sum4 border-end text-end bg_total_sum4 fw-bold ">
+                  <div className="p-1 nwt_sum4 border-end text-end bg_total_sum4 fw-bold " style={{display: 'flex', justifyContent :'flex-end'}}>
                     {" "}
                     <p> {fixedValues(total.nwt, 3)} </p>{" "}
                   </div>
-                  <div className="p-1 other_amt_sum4 border-end text-end  bg_total_sum4 fw-bold">
+                  <div className="p-1 other_amt_sum4 border-end text-end  bg_total_sum4 fw-bold" style={{width :'7%', display: 'flex', justifyContent :'flex-end'}}>
                     {" "}
                     <p> {NumberWithCommas(total.otherAmt, 2)} </p>{" "}
                   </div>
-                  <div className="p-1 cs_wt_sum4 border-end text-end bg_total_sum4 fw-bold ">
+                  <div className="p-1 cs_wt_sum4 border-end text-end bg_total_sum4 fw-bold " style={{display: 'flex', justifyContent :'flex-end'}}>
                     {" "}
                     <p> {fixedValues(total.csWt, 3)} </p>{" "}
                   </div>
@@ -1024,31 +1066,39 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {" "}
                     <p> </p>{" "}
                   </div>
-                  <div className="p-1 cs_amt_sum4 border-end text-end  bg_total_sum4 fw-bold">
+                  <div className="p-1 cs_amt_sum4 border-end text-end  bg_total_sum4 fw-bold" style={{display: 'flex', justifyContent :'flex-end'}}>
                     {" "}
                     <p> {NumberWithCommas(total.csAmt, 2)} </p>{" "}
                   </div>
                   {makingColumShow && (
-                    <div className="p-1 cs_amt_sum4 border-end text-end  bg_total_sum4 fw-bold" style={{width: '9%'}}>
+                    <div
+                      className="p-1 cs_amt_sum4 border-end text-end  bg_total_sum4 fw-bold"
+                      style={{ width: "13%",  display: 'flex', justifyContent :'flex-end'}}
+                    >
                       {" "}
                       <p>
                         {formatAmount(
                           result?.mainTotal?.total_labour?.labour_amount +
-                          result?.mainTotal?.total_TotalDiaSetcost +
-                          result?.mainTotal?.total_TotalCsSetcost
+                            result?.mainTotal?.total_TotalDiaSetcost +
+                            result?.mainTotal?.total_TotalCsSetcost +
+                            totalSettingAmount
                         )}
                       </p>{" "}
                     </div>
                   )}
-                  <div className="p-1 gold_fine_sum4 border-end text-end  bg_total_sum4 fw-bold">
+                  <div className="p-1 gold_fine_sum4 border-end text-end  bg_total_sum4 fw-bold" style={{display: 'flex', justifyContent :'flex-end'}}>
                     {" "}
-                    <p> {fixedValues(total.goldFine, 3)} </p>{" "}
+                    <p>
+                      {billPrintJson?.MetalRate24K == 0
+                        ? fixedValues(total.goldFine, 3)
+                        : "0.000"}
+                    </p>{" "}
                   </div>
-                  <div className="p-1 gold_amt_sum4 border-end text-end  bg_total_sum4 fw-bold">
+                  <div className="p-1 gold_amt_sum4 border-end text-end  bg_total_sum4 fw-bold" style={{display: 'flex', justifyContent :'flex-end'}}>
                     {" "}
                     <p> {NumberWithCommas(total.goldAmt, 2)} </p>{" "}
                   </div>
-                  <div className="p-1 pe-2 amount_sum_4 border-end text-end bg_total_sum4 fw-bold">
+                  <div className="p-1 pe-2 amount_sum_4 border-end text-end bg_total_sum4 fw-bold" style={{display: 'flex', justifyContent :'flex-end'}}>
                     {" "}
                     <p> {NumberWithCommas(total.amount, 2)} </p>{" "}
                   </div>
@@ -1115,7 +1165,17 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 <div className="total_sgst_sum4 mt-1 w-100 border bg_total_sum4 mb-1  d-flex">
                   <div className="total_sgst_text_sum4">
-                    <p className="text-end fw-bold pe-2">TOTAL</p>
+                    <p
+                      className="fw-bold summury4_total_font"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "flex-end",
+                        height: "100%",
+                      }}
+                    >
+                      TOTAL
+                    </p>
                   </div>
                   <div className="total_sgst_number_sum4">
                     <div className="d-flex justify-content-between">
@@ -1127,7 +1187,9 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className="d-flex justify-content-between">
                       <p className="ps-2">Gold in 24K :</p>
                       <p className="pe-2 fw-bold">
-                        {fixedValues(totalSummary?.gold24Kt, 3)}
+                        {billPrintJson?.MetalRate24K == 0
+                          ? fixedValues(totalSummary?.gold24Kt, 3)
+                          : "0.000"}{" "}
                       </p>
                     </div>
                   </div>

@@ -212,7 +212,6 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         );
         if (findRecord === -1) {
           resultArr?.push(obj);
-          console.log('obj', obj);
         } else {
           resultArr[findRecord].grosswt += obj?.grosswt;
           resultArr[findRecord].NetWt += obj?.NetWt;
@@ -319,7 +318,6 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     let finalsArr = [];
     let mainJobs = {};
     
-    console.log('resultArr', resultArr);
     
     resultArr.forEach((item) => {
       if (item.SrJobno === item.GroupJob && item.GroupJob !== "") {
@@ -334,6 +332,7 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         e?.totals?.finding?.Wt +
         e?.secondMetalWt;
       let finalRate = e?.latestAmount / e?.netWtFinal;
+      // let finalRate = e?.latestAmount / e?.netWtFinal;
       let obj = cloneDeep(e);
       obj.finalMetalWt = finalMetalWt;
       obj.finalRate = finalRate;
@@ -343,12 +342,10 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         let mainJobIndex = finalsArr.findIndex(
           (job) => job.SrJobno === e.GroupJob
         );
-
         if (mainJobIndex !== -1) {
           finalsArr[mainJobIndex].grosswt =
             (finalsArr[mainJobIndex].grosswt || 0) + e.grosswt;
         }
-
         obj.grosswt = "";
       }
       finalsArr.push(obj);
@@ -479,6 +476,8 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     };
     sendData();
   }, []);
+
+  console.log('mainData ', mainData);
   return (
     <React.Fragment>
       {loader ? (

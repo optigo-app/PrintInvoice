@@ -151,7 +151,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
           finalArr[find_record].other_details_array = [
             ...finalArr[find_record]?.other_details_array,
             ...b?.other_details_array,
-          ].flat();
+          ]?.flat();
 
           finalArr[find_record].other_details_array_amount +=
             b?.other_details_array_amount;
@@ -1084,10 +1084,17 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                             >
                               <b>
                                 {" "}
-                                {(
+                                {/* {(
                                   data?.totals?.colorstone?.Wt +
                                   data?.totals?.misc?.Wt
-                                )?.toFixed(3)}
+                                )?.toFixed(3)} */}
+                                {data?.totals?.misc?.IsHSCODE_0_wt +
+                                  data?.totals?.colorstone?.Wt !==
+                                  0 &&
+                                  (
+                                    data?.totals?.colorstone?.Wt +
+                                    data?.totals?.misc?.IsHSCODE_0_wt
+                                  )?.toFixed(3)}
                               </b>
                             </p>
                             <p
@@ -1351,7 +1358,7 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                           className="paking3a_col3_sub_div_more_sub3"
                           style={{
                             display: "flex",
-                            justifyContent: "flex-end",
+                            justifyContent: "center",
                             width: "12%",
                           }}
                         >
@@ -1516,14 +1523,13 @@ function PackingList3A({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                             <b>SILVER</b>
                           </p>
                           <p>
-                          {/* {result?.resultArray?.map((j1, i) => {
+                            {/* {result?.resultArray?.map((j1, i) => {
                                             return (
                                                 <div>{(j1?.NetWt + j1?.LossWt).toFixed(3)}</div>
                                             )
                                         })} */}
-                                        {result?.mainTotal?.PureNetWt} gm
-                                        </p>
-
+                            {result?.mainTotal?.PureNetWt} gm
+                          </p>
                         </div>
                         <div className="paking3a__bottomSection_Box1_subBox1_summury">
                           <p>
