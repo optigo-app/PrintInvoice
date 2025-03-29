@@ -23,7 +23,7 @@
 }
 
 .logo_sec_sum4>img {
-  max-width: 130px;
+  max-width: 150px;
 }
 
 .header_section_sum4 {
@@ -74,35 +74,41 @@
 .sr_sum4 {
   /* min-width: 40.5px;
     width: 40.5px; */
-  min-width: 4%;
-  width: 4%;
+  min-width: 3%;
+  width: 3%;
 }
 
 .design_sum4 {
-  min-width: 10%;
-  width: 10%;
+  min-width: 8.5%;
+  width: 8.5%;
   /* min-width: 95px; */
   /* width: 95px; */
 }
+.design_name_show{
+  word-break: break-word;
+}
+
 
 .design_sum12 {
   min-width: 20%;
   width: 20%;
 }
 
-.remark_sum4 {
+.remark_sum4_new{
   min-width: 6%;
   width: 6%;
+}
+
+.remark_sum4 {
+  min-width: 10%;
+  width: 10%;
   /* min-width: 115px;
     width: 115px; */
 }
 
-.dia_wt_ctw_sum4,
 .dia_rate_sum4,
-.dia_amt_sum4,
 .cs_wt_sum4,
 .cs_rate_sum4,
-.cs_amt_sum4,
 .gold_fine_sum4 {
   /* min-width: 55px;
     width: 55px; */
@@ -112,13 +118,32 @@
   justify-content: flex-end; */
 }
 
-.g_wt_sum4,
-.nwt_sum4,
+.dia_amt_sum4{
+  min-width: 7%;
+  width: 7%;
+}
+
+.cs_amt_sum4_new{
+  min-width: 7%;
+  width: 7%;
+}
+
+
+.dia_wt_ctw_sum4{
+  min-width: 5.5%;
+  width: 5.5%;
+}
+
 .gold_amt_sum4 {
-  min-width: 8.01%;
+  min-width: 7.01%;
   width: 6.01%;
   /* min-width: 65px;
     width: 65px; */
+}
+.g_wt_sum4,
+.nwt_sum4{
+  min-width: 6%;
+  width: 6.01%;
 }
 
 .other_sum4,
@@ -128,10 +153,13 @@
   min-width: 6%;
   width: 7%;
 }
+.word_break_setting{
+  word-break: break-word !important;
+}
 
 .amount_sum_4 {
-  min-width: 7%;
-  width: 7%;
+  min-width: 9%;
+  width: 8%;
 }
 
 .sum4_table img {
@@ -141,8 +169,8 @@
 
 .total_sum4 {
   /* width: 135.5px; */
-  width: 14%;
-  min-width: 14%;
+  width: 11.5%;
+  min-width: 11.5%;
 }
 
 .total_sum12 {
@@ -158,15 +186,14 @@
 
 .summary_detail_sum4 {
   height: fit-content;
-  width: 40%;
-  min-width: 40%;
+  width: 52%;
   margin-right: 0.5%;
 }
 
 .cgst_sum4 {
   /* width: 479px; */
-  width: 59.5%;
-  min-width: 59.5%;
+  width: 47.5%;
+  min-width: 47.5%;
 }
 
 .total_sec_sum4>div {
@@ -238,7 +265,7 @@
   /* width: 723px; */
   width: 80%;
   min-width: 80%;
-  min-height: 108px;
+  min-height: 80px;
   margin-right: 0.5%;
 }
 
@@ -364,14 +391,29 @@
   line-height: 130%;
 }
 
+.font_alignment_Setting{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Summary_Detail_title{
+  font-size: 15px !important;
+background: #f2f2f2;
+}
+
 @media print {
   .font_15_sum4 {
     line-height: 90%;
-    font-size: 9px !important;
+    font-size: 11px !important;
   }
   .font_14_sum4 {
     line-height: 90%;
-    font-size: 9px !important;
+    font-size: 10.5px !important;
+  }
+
+  .other_summury_font div{
+    font-size: 11px !important;
   }
 
   .bg_total_sum4 {
@@ -410,7 +452,29 @@
   }
 
   .sum4_table div {
-    font-size: 8px !important;
+    font-size: 9px !important;
+  }
+
+  .total_sgst_number_sum4{
+    font-size: 10.5px !important;
+    display: flex;
+    flex-direction: column;
+    gap: 3px !important;
+  }
+
+  .show_summury_title{
+    display: flex !important;
+    justify-content: center !important;
+    align-items: start !important;
+    margin-bottom: 10px !important;
+  }
+
+  .summary_detail_sum4 div{
+    font-size: 12px !important;
+  }
+
+  .cgst_sum4 div{
+    font-size: 11px !important;
   }
 
   .sum4_table img {
@@ -422,14 +486,22 @@
     height: 20px;
   }
 
+  .address_lines_sum4>p{
+    font-size: 11px !important;
+  }
+
+  .Summary_Detail_title{
+    font-size: 25px !important;
+  }
+
   .invoice_text_sum4>h2 {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 100%;
     font-weight: 400;
   }
 
   .address_para_sum4 {
-    font-size: 9px !important;
+    font-size: 10px !important;
     line-height: 90% !important;
   }
 
