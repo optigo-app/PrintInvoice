@@ -116,13 +116,18 @@
 }
 
 @media print{
+
+    .packinhList1_top_line{
+        font-size: 9px !important;
+    }
+
     .container{
         max-width: 100%;
         zoom: unset;
     }
 
     .container * {
-        font-size: 8px;
+        font-size: 9px;
     }
 
     .min_height{
@@ -130,7 +135,7 @@
         /* height: 10px; */
     }
     .font_14 *{
-        font-size: 14px;
+        font-size: 12px;
     }
     
     .font_12{
