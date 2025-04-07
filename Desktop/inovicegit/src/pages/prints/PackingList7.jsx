@@ -746,8 +746,8 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     {el?.Wt?.toFixed(3)}
                                   </div>
                                   <div className="theadsubcol1_dp10_pcl7 text-end end_dp10_pcl7 pr_dp10_pcl7" style={{width:'16.66%'}} >
-                                    {/* {formatAmount(el?.Rate)} */}
-                                    {formatAmount(((el?.Amount / result?.header?.CurrencyExchRate) / (el?.Wt)))}
+                                    {formatAmount(el?.Rate)}
+                                    {/* {formatAmount(((el?.Amount / result?.header?.CurrencyExchRate) / (el?.Wt)))} */}
                                   </div>
                                   <div className="theadsubcol1_dp10_pcl7 fw-bold end_dp10_pcl7 pr_dp10_pcl7" style={{ width: "22.66%" }} >
                                     {formatAmount((el?.Amount / result?.header?.CurrencyExchRate))}

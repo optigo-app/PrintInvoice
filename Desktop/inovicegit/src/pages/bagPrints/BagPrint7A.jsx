@@ -21,7 +21,7 @@ const BagPrint7A = ({ queries, headers }) => {
 
   const resultString = GetUniquejob(queryParams?.str_srjobno);
   const chunkSize7 = 22;
-  
+
   useEffect(() => {
     if (Object.keys(queryParams)?.length !== 0) {
       atob(queryParams?.imagepath);
@@ -41,13 +41,12 @@ const BagPrint7A = ({ queries, headers }) => {
 
         allDatas?.rd?.forEach((e) => {
           // if(e?.RollOverImage === ""){
-          if(e?.OrignalRollOverImage === ""){
+          if (e?.OrignalRollOverImage === "") {
             e.OrignalRollOverImage = e?.OrignalDesignImage;
           }
-        })
-        
+        });
+
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
-        
 
         // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
@@ -256,8 +255,11 @@ const BagPrint7A = ({ queries, headers }) => {
           let mainArr2 = arr?.concat(finalDiaArr, finalClsArr, finalMiscArr);
           let metalqualitycolor = a?.rd?.tunch + " " + a?.rd?.MetalColorCo;
           a.rd.metalqualitycolor = metalqualitycolor;
-          
-          let original_img = (a?.rd?.ThumbImagePath)?.replace("Red_Thumb", "Red_Original");
+
+          let original_img = a?.rd?.ThumbImagePath?.replace(
+            "Red_Thumb",
+            "Red_Original"
+          );
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
           // let img = imagePath + a?.rd?.ThumbImagePath;
@@ -300,12 +302,11 @@ const BagPrint7A = ({ queries, headers }) => {
 
   const handleImageError2 = (e, jobno) => {
     e.target.src = img;
-    
-    if(e?.type === "error"){
+
+    if (e?.type === "error") {
       setImageFlag(true);
     }
-  }
-
+  };
 
   return (
     <>
@@ -336,7 +337,6 @@ const BagPrint7A = ({ queries, headers }) => {
             )}
             {data?.length > 0 &&
               data?.map((e, ins) => {
-                
                 return (
                   <React.Fragment key={ins}>
                     {e?.additional?.pages?.length > 0 ? (
@@ -403,7 +403,9 @@ const BagPrint7A = ({ queries, headers }) => {
                                         </div>
                                         <div className="d-flex align-items-center">
                                           <div>Sales Rep : &nbsp;</div>
-                                          <div className="fw-bold">{e?.data?.rd?.SalesrepCode}</div>
+                                          <div className="fw-bold">
+                                            {e?.data?.rd?.SalesrepCode}
+                                          </div>
                                         </div>
                                         <div className="pe-1 fw-bold">
                                           (
@@ -485,7 +487,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                   <div className="imgSize7A">
                                     <img
                                       src={
-                                        e?.data?.rd?.OrignalDesignImage !== '' 
+                                        e?.data?.rd?.OrignalDesignImage !== ""
                                           ? e?.data?.rd?.OrignalDesignImage
                                           : require("../../assets/img/default.jpg")
                                       }
@@ -927,17 +929,23 @@ const BagPrint7A = ({ queries, headers }) => {
                         ) : (
                           <div className="container7A">
                             <div style={{ padding: "1rem" }}>
-                              { imgFlag ? '' : <img
-                                src={
-                                  e?.data?.rd?.OrignalRollOverImage !== '' 
-                                          ? e?.data?.rd?.OrignalRollOverImage
-                                    : require("../../assets/img/default.jpg")
-                                }
-                                alt="materialimage1"
-                                onError={(e) => { handleImageError(e) }}
-                                // onError={(el) => handleImageError2(el, e?.data?.rd?.serialjobno)}
-                                id="img7ABig"
-                              />}
+                              {imgFlag ? (
+                                ""
+                              ) : (
+                                <img
+                                  src={
+                                    e?.data?.rd?.OrignalRollOverImage !== ""
+                                      ? e?.data?.rd?.OrignalRollOverImage
+                                      : require("../../assets/img/default.jpg")
+                                  }
+                                  alt="materialimage1"
+                                  onError={(e) => {
+                                    handleImageError(e);
+                                  }}
+                                  // onError={(el) => handleImageError2(el, e?.data?.rd?.serialjobno)}
+                                  id="img7ABig"
+                                />
+                              )}
                             </div>
                           </div>
                         )}
@@ -999,7 +1007,9 @@ const BagPrint7A = ({ queries, headers }) => {
                                   </div>
                                   <div className="d-flex align-items-center">
                                     <div>Sales Rep : &nbsp;</div>
-                                    <div className="fw-bold">{e?.data?.rd?.SalesrepCode}</div>
+                                    <div className="fw-bold">
+                                      {e?.data?.rd?.SalesrepCode}
+                                    </div>
                                   </div>
                                   <div className="pe-1 fw-bold">
                                     ({e?.data?.rd?.IsSplits_Quotation_Quantity})
@@ -1077,8 +1087,8 @@ const BagPrint7A = ({ queries, headers }) => {
                               {" "}
                               <img
                                 src={
-                                  e?.data?.rd?.OrignalDesignImage !== '' 
-                                          ? e?.data?.rd?.OrignalDesignImage
+                                  e?.data?.rd?.OrignalDesignImage !== ""
+                                    ? e?.data?.rd?.OrignalDesignImage
                                     : require("../../assets/img/default.jpg")
                                 }
                                 id="img7A"
@@ -1332,22 +1342,21 @@ const BagPrint7A = ({ queries, headers }) => {
                             </div>
                           </div>
                         </div>
-       
+
                         {e?.data?.rd?.OrignalRollOverImage === "" ? (
-                                          ""    
+                          ""
                         ) : (
                           <div className="container7A">
                             <div style={{ padding: "1rem" }}>
                               <img
                                 src={
-                                  e?.data?.rd?.OrignalRollOverImage !== '' 
-                                          ? e?.data?.rd?.OrignalRollOverImage
+                                  e?.data?.rd?.OrignalRollOverImage !== ""
+                                    ? e?.data?.rd?.OrignalRollOverImage
                                     : require("../../assets/img/default.jpg")
                                 }
                                 loading="eager"
                                 alt="materialimage 2"
                                 id="img7ABig"
-                                
                               />
                             </div>
                           </div>
@@ -1365,9 +1374,6 @@ const BagPrint7A = ({ queries, headers }) => {
 };
 
 export default BagPrint7A;
-
-
-
 
 // import queryString from "query-string";
 // import React, { useEffect, useState } from "react";
@@ -1616,7 +1622,7 @@ export default BagPrint7A;
 //           let mainArr2 = arr?.concat(finalDiaArr, finalClsArr, finalMiscArr);
 //           let metalqualitycolor = a?.rd?.tunch + " " + a?.rd?.MetalColorCo;
 //           a.rd.metalqualitycolor = metalqualitycolor;
-          
+
 //           let original_img = (a?.rd?.ThumbImagePath)?.replace("Red_Thumb", "Red_Original");
 //           let imagePath = queryParams?.imagepath;
 //           imagePath = atob(queryParams?.imagepath);
@@ -2676,10 +2682,10 @@ export default BagPrint7A;
 //                             </div>
 //                           </div>
 //                         </div>
-       
+
 //                         {e?.data?.rd?.ThumbImagePath === "" ? (
 //                                           console.log(e?.data?.rd?.ThumbImagePath)
-                          
+
 //                         ) : (
 //                           <div className="container7A">
 //                             <div style={{ padding: "1rem" }}>

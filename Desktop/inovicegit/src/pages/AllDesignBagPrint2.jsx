@@ -43,6 +43,7 @@ const AllDesignBagPrint2 = () => {
     let module = await import("../GlobalFunctions/BagPrintImport");
     let conditions = module?.bagPrintConditions;
     let findBagPrint = conditions?.find((e) => e?.printName === printName);
+    console.log('findBagPrintfindBagPrint', findBagPrint);
     if (findBagPrint) {
       const component = await ImportComponent(findBagPrint?.componentName);
       setImportedComponent(component);

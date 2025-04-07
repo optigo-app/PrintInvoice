@@ -699,7 +699,10 @@ const InvoicePrintD = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       </p>
                     </div>
                     <div className="invod_table_data_sideBar">
-                      {mainData?.resultArr?.map((e, i) => {
+                        {mainData?.resultArr
+                          ?.slice() // Create a shallow copy to avoid mutating original
+                          ?.sort((a, b) => (b?.netWtFinal || 0) - (a?.netWtFinal || 0))
+                          ?.map((e, i) => {
                         return (
                           <div className="invoi_table_data_sub_main" key={i}>
                             <div className="invoi_table_data_col2">
