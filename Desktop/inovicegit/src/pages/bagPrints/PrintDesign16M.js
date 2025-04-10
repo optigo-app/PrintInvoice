@@ -563,7 +563,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                         fontSize: "11.5px",
                                       }}
                                     >
-                                      ACTUAL
+                                      ESTIMATE
                                     </div>
                                     <div
                                       className="border_right2 border_bottom display"
@@ -871,6 +871,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                                 fontSize: "1.8520833333",
                                                 paddingLeft: "0.79375mm",
                                                 height: "3.7041666667mm",
+                                                borderRight: "0px",
                                               }}
                                             ></div>
                                           </div>
@@ -1027,8 +1028,18 @@ const PrintDesign16M = ({ queries, headers }) => {
                                   <div
                                     className="dept7A fs7A"
                                     style={{
-                                      width: "21%",
+                                      width: "20%",
                                       borderRight: "2px solid  rgb(39, 38, 38)",
+                                      paddingLeft: "0.79375mm",
+                                    }}
+                                  >
+                                  </div>
+                                  <div
+                                    className="dept7A fs7A"
+                                    style={{
+                                      width: "20%",
+                                      borderRight: "2px solid  rgb(39, 38, 38)",
+                                      paddingLeft: "0.79375mm",
                                     }}
                                   >
                                     Chaki Post
@@ -1038,6 +1049,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                     style={{
                                       width: "20%",
                                       borderRight: "2px solid  rgb(39, 38, 38)",
+                                      paddingLeft: "0.79375mm",
                                     }}
                                   >
                                     Taar
@@ -1047,6 +1059,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                     style={{
                                       width: "25%",
                                       borderRight: "2px solid  rgb(39, 38, 38)",
+                                      paddingLeft: "0.79375mm",
                                     }}
                                   >
                                     Extra Metal
@@ -1054,16 +1067,14 @@ const PrintDesign16M = ({ queries, headers }) => {
                                   <div
                                     className="dept7A fs7A"
                                     style={{
-                                      width: "20%",
+                                      width: "15%",
                                       borderRight: "2px solid  rgb(39, 38, 38)",
+                                      paddingLeft: "0.79375mm",
+                                      borderRight: "0px",
                                     }}
                                   >
                                     Other
                                   </div>
-                                  <div
-                                    className="dept7A fs7A"
-                                    style={{ borderRight: "0px" }}
-                                  ></div>
                                 </div>
                                 <div
                                   className="tableHead7B"
@@ -1078,7 +1089,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                   <div
                                     className="dept7A"
                                     style={{
-                                      width: "20.8%",
+                                      width: "20%",
                                       borderRight: "2px solid  rgb(39, 38, 38)",
                                       fontSize: "11px",
                                       fontWeight: 'normal',
@@ -1088,7 +1099,15 @@ const PrintDesign16M = ({ queries, headers }) => {
                                   <div
                                     className="dept7A"
                                     style={{
-                                      width: "20%",
+                                      width: "19.9%",
+                                      borderRight: "2px solid  rgb(39, 38, 38)",
+                                      fontSize: "11px",
+                                    }}
+                                  ></div>
+                                  <div
+                                    className="dept7A"
+                                    style={{
+                                      width: "19.9%",
                                       borderRight: "2px solid  rgb(39, 38, 38)",
                                       fontSize: "11px",
                                     }}
@@ -1103,15 +1122,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                   ></div>
                                   <div
                                     className="dept7A"
-                                    style={{
-                                      width: "20%",
-                                      borderRight: "2px solid  rgb(39, 38, 38)",
-                                      fontSize: "11px",
-                                    }}
-                                  ></div>
-                                  <div
-                                    className="dept7A"
-                                    style={{ borderRight: "0px" }}
+                                    style={{ width: "15%", borderRight: "0px" }}
                                   ></div>
                                 </div>
                                 <div
@@ -1127,7 +1138,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                   <div
                                     className="dept7A"
                                     style={{
-                                      width: "20.8%",
+                                      width: "20%",
                                       borderRight: "2px solid  rgb(39, 38, 38)",
                                       fontSize: "11px",
                                       fontWeight: 'normal',
@@ -1137,7 +1148,15 @@ const PrintDesign16M = ({ queries, headers }) => {
                                   <div
                                     className="dept7A"
                                     style={{
-                                      width: "20%",
+                                      width: "19.9%",
+                                      borderRight: "2px solid  rgb(39, 38, 38)",
+                                      fontSize: "11px",
+                                    }}
+                                  ></div>
+                                  <div
+                                    className="dept7A"
+                                    style={{
+                                      width: "19.9%",
                                       borderRight: "2px solid  rgb(39, 38, 38)",
                                       fontSize: "11px",
                                     }}
@@ -1152,15 +1171,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                   ></div>
                                   <div
                                     className="dept7A"
-                                    style={{
-                                      width: "20%",
-                                      borderRight: "2px solid  rgb(39, 38, 38)",
-                                      fontSize: "11px",
-                                    }}
-                                  ></div>
-                                  <div
-                                    className="dept7A"
-                                    style={{ borderRight: "0px" }}
+                                    style={{ width: "15%", borderRight: "0px" }}
                                   ></div>
                                 </div>
 
@@ -1547,7 +1558,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                         fontSize: "11px",
                                       }}
                                     >
-                                      ACTUAL
+                                      ESTIMATE
                                     </div>
                                     <div
                                       className="border_right2 border_bottom display"
@@ -2160,7 +2171,16 @@ const PrintDesign16M = ({ queries, headers }) => {
                                     <div
                                       className="dept7A fs7A"
                                       style={{
-                                        width: "21%",
+                                        width: "20%",
+                                        borderRight: "2px solid  rgb(39, 38, 38)",
+                                        paddingLeft: "0.79375mm",
+                                      }}
+                                    >
+                                    </div>
+                                    <div
+                                      className="dept7A fs7A"
+                                      style={{
+                                        width: "20%",
                                         borderRight: "2px solid  rgb(39, 38, 38)",
                                         paddingLeft: "0.79375mm",
                                       }}
@@ -2190,17 +2210,14 @@ const PrintDesign16M = ({ queries, headers }) => {
                                     <div
                                       className="dept7A fs7A"
                                       style={{
-                                        width: "20%",
+                                        width: "15%",
                                         borderRight: "2px solid  rgb(39, 38, 38)",
                                         paddingLeft: "0.79375mm",
+                                        borderRight: "0px",
                                       }}
                                     >
                                       Other
                                     </div>
-                                    <div
-                                      className="dept7A fs7A"
-                                      style={{ borderRight: "0px" }}
-                                    ></div>
                                   </div>
                                   <div
                                     className="tableHead7B"
@@ -2215,7 +2232,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                     <div
                                       className="dept7A"
                                       style={{
-                                        width: "20.8%",
+                                        width: "20%",
                                         borderRight: "2px solid  rgb(39, 38, 38)",
                                         fontSize: "11px",
                                         fontWeight: 'normal',
@@ -2225,9 +2242,19 @@ const PrintDesign16M = ({ queries, headers }) => {
                                     <div
                                       className="dept7A"
                                       style={{
-                                        width: "20%",
+                                        width: "19.9%",
                                         borderRight: "2px solid  rgb(39, 38, 38)",
                                         fontSize: "11px",
+                                        paddingLeft: "0.79375mm",
+                                      }}
+                                    ></div>
+                                    <div
+                                      className="dept7A"
+                                      style={{
+                                        width: "19.9%",
+                                        borderRight: "2px solid  rgb(39, 38, 38)",
+                                        fontSize: "11px",
+                                        paddingLeft: "0.79375mm",
                                       }}
                                     ></div>
                                     <div
@@ -2236,19 +2263,12 @@ const PrintDesign16M = ({ queries, headers }) => {
                                         width: "25%",
                                         borderRight: "2px solid  rgb(39, 38, 38)",
                                         fontSize: "11px",
+                                        paddingLeft: "0.79375mm",
                                       }}
                                     ></div>
                                     <div
                                       className="dept7A"
-                                      style={{
-                                        width: "20%",
-                                        borderRight: "2px solid  rgb(39, 38, 38)",
-                                        fontSize: "11px",
-                                      }}
-                                    ></div>
-                                    <div
-                                      className="dept7A"
-                                      style={{ borderRight: "0px" }}
+                                      style={{ width: "15%", borderRight: "0px" }}
                                     ></div>
                                   </div>
                                   <div
@@ -2264,7 +2284,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                     <div
                                       className="dept7A"
                                       style={{
-                                        width: "20.8%",
+                                        width: "20%",
                                         borderRight: "2px solid  rgb(39, 38, 38)",
                                         fontSize: "11px",
                                         fontWeight: 'normal',
@@ -2274,7 +2294,15 @@ const PrintDesign16M = ({ queries, headers }) => {
                                     <div
                                       className="dept7A"
                                       style={{
-                                        width: "20%",
+                                        width: "19.9%",
+                                        borderRight: "2px solid  rgb(39, 38, 38)",
+                                        fontSize: "11px",
+                                      }}
+                                    ></div>
+                                    <div
+                                      className="dept7A"
+                                      style={{
+                                        width: "19.9%",
                                         borderRight: "2px solid  rgb(39, 38, 38)",
                                         fontSize: "11px",
                                       }}
@@ -2289,15 +2317,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                     ></div>
                                     <div
                                       className="dept7A"
-                                      style={{
-                                        width: "20%",
-                                        borderRight: "2px solid  rgb(39, 38, 38)",
-                                        fontSize: "11px",
-                                      }}
-                                    ></div>
-                                    <div
-                                      className="dept7A"
-                                      style={{ borderRight: "0px" }}
+                                      style={{ width: "15%", borderRight: "0px" }}
                                     ></div>
                                   </div>
 
