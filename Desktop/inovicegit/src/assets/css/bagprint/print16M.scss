@@ -1636,10 +1636,13 @@ table {
   margin: 2.6458333333mm;
 } */
 
+.bag_footerM :first-child{
+  width: 12% !important;
+}
 
 .bag_2 .bag_footerM>.bag_td {
   box-sizing: border-box;
-  width: 11.11%;
+  width: 11%;
   /* max-width: 41.73875px;
   min-width: 41.7375px; */
 }
