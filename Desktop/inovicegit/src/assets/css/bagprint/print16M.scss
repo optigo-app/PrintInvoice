@@ -58,6 +58,10 @@ p.w_33.bold,
   border-right: 1px solid #989898;
   height: 23px;
   // border: 0.2px solid rgb(39, 38, 38);
+
+  .dept7A{
+    font-size: 13px;
+  }
 }
 
 
@@ -1632,10 +1636,13 @@ table {
   margin: 2.6458333333mm;
 } */
 
+.bag_footerM :first-child{
+  width: 12% !important;
+}
 
 .bag_2 .bag_footerM>.bag_td {
   box-sizing: border-box;
-  width: 11.11%;
+  width: 11%;
   /* max-width: 41.73875px;
   min-width: 41.7375px; */
 }

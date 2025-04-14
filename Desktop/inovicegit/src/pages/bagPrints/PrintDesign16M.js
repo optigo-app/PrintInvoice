@@ -190,7 +190,7 @@ const PrintDesign16M = ({ queries, headers }) => {
   //   }
   // }, [data]);
 
-  const handlePrint = (e) => {};
+  const handlePrint = (e) => { };
 
   console.log("datadatadata", data);
 
@@ -262,7 +262,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                           {e?.data?.rd?.orderDatef !==
                                             "01Jan00" &&
                                             e?.data?.rd?.orderDatef !==
-                                              "01Jan1900" &&
+                                            "01Jan1900" &&
                                             e?.data?.rd?.orderDatef}
                                         </span>
                                       </div>
@@ -272,7 +272,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                           {e?.data?.rd?.promiseDatef !==
                                             "01Jan00" &&
                                             e?.data?.rd?.promiseDatef !==
-                                              "01Jan1900" &&
+                                            "01Jan1900" &&
                                             `DUE: ${e?.data?.rd?.promiseDatef}`}
                                         </span>
                                       </div>
@@ -563,7 +563,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                         fontSize: "11.5px",
                                       }}
                                     >
-                                      ACTUAL
+                                      ESTIMATE
                                     </div>
                                     <div
                                       className="border_right2 border_bottom display"
@@ -585,15 +585,15 @@ const PrintDesign16M = ({ queries, headers }) => {
                                     >
                                       {e?.data?.rd?.serialjobno !==
                                         undefined && (
-                                        <>
-                                          {e?.data?.rd?.serialjobno !==
-                                            undefined && (
-                                            <BarcodeGenerator
-                                              data={e?.data?.rd?.serialjobno}
-                                            />
-                                          )}
-                                        </>
-                                      )}
+                                          <>
+                                            {e?.data?.rd?.serialjobno !==
+                                              undefined && (
+                                                <BarcodeGenerator
+                                                  data={e?.data?.rd?.serialjobno}
+                                                />
+                                              )}
+                                          </>
+                                        )}
                                     </div>
                                   </div>
                                   {Array.from(
@@ -871,6 +871,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                                 fontSize: "1.8520833333",
                                                 paddingLeft: "0.79375mm",
                                                 height: "3.7041666667mm",
+                                                borderRight: "0px",
                                               }}
                                             ></div>
                                           </div>
@@ -878,43 +879,145 @@ const PrintDesign16M = ({ queries, headers }) => {
                                       }
                                     })
                                   }
-                                </div>
-
-                                <div className="bag_footerM d_flex last_line">
-                                  <div
-                                    className="border_right2 border_bottom border_top bag_td line_clamp_2"
-                                    style={{
-                                      paddingLeft: "0.79375mm",
-                                      height: "7mm",
-                                      width: "94mm",
-                                      fontSize: "10px",
-                                      minWidth: "100%",
-                                      color: "red",
-                                      lineHeight: "9.5px",
-                                    }}
-                                  >
-                                    ENTRY
+                                  <div className="d-flex border_bottom">
+                                    <div
+                                      className="border_right bag_td"
+                                      style={{
+                                        fontSize: "11px",
+                                        paddingLeft: "0.79375mm",
+                                        height: "3.7041666667mm",
+                                        width: "12%"
+                                      }}
+                                    >
+                                      ENTRY
+                                    </div>
+                                    <div
+                                      className="border_right bag_td"
+                                      style={{
+                                        width: "11%",
+                                        height: "3.7041666667mm",
+                                      }}
+                                    >
+                                    </div>
+                                    <div
+                                      className="border_right bag_td"
+                                      style={{
+                                        width: "11%",
+                                        height: "3.7041666667mm",
+                                      }}
+                                    >
+                                    </div>
+                                    <div
+                                      className="border_right bag_td"
+                                      style={{
+                                        width: "11%",
+                                        height: "3.7041666667mm",
+                                      }}
+                                    >
+                                    </div>
+                                    <div
+                                      className="border_right bag_td"
+                                      style={{
+                                        width: "11%",
+                                        height: "3.7041666667mm",
+                                      }}
+                                    >
+                                    </div>
+                                    <div
+                                      className="border_right bag_td"
+                                      style={{
+                                        width: "11%",
+                                        height: "3.7041666667mm",
+                                      }}
+                                    >
+                                    </div>
+                                    <div
+                                      className="border_right bag_td"
+                                      style={{
+                                        width: "11%",
+                                        height: "3.7041666667mm",
+                                      }}
+                                    >
+                                    </div>
+                                    <div
+                                      className="border_right bag_td"
+                                      style={{
+                                        width: "11%",
+                                        height: "3.7041666667mm",
+                                      }}
+                                    >
+                                    </div>
+                                  </div>
+                                  <div className="d-flex border_bottom">
+                                    <div
+                                      className="border_right bag_td"
+                                      style={{
+                                        fontSize: "11px",
+                                        paddingLeft: "0.79375mm",
+                                        height: "3.7041666667mm",
+                                        width: "12%"
+                                      }}
+                                    >
+                                      QC
+                                    </div>
+                                    <div
+                                      className="border_right bag_td"
+                                      style={{
+                                        width: "11%",
+                                        height: "3.7041666667mm",
+                                      }}
+                                    >
+                                    </div>
+                                    <div
+                                      className="border_right bag_td"
+                                      style={{
+                                        width: "11%",
+                                        height: "3.7041666667mm",
+                                      }}
+                                    >
+                                    </div>
+                                    <div
+                                      className="border_right bag_td"
+                                      style={{
+                                        width: "11%",
+                                        height: "3.7041666667mm",
+                                      }}
+                                    >
+                                    </div>
+                                    <div
+                                      className="border_right bag_td"
+                                      style={{
+                                        width: "11%",
+                                        height: "3.7041666667mm",
+                                      }}
+                                    >
+                                    </div>
+                                    <div
+                                      className="border_right bag_td"
+                                      style={{
+                                        width: "11%",
+                                        height: "3.7041666667mm",
+                                      }}
+                                    >
+                                    </div>
+                                    <div
+                                      className="border_right bag_td"
+                                      style={{
+                                        width: "11%",
+                                        height: "3.7041666667mm",
+                                      }}
+                                    >
+                                    </div>
+                                    <div
+                                      className="border_right bag_td"
+                                      style={{
+                                        width: "11%",
+                                        height: "3.7041666667mm",
+                                      }}
+                                    >
+                                    </div>
                                   </div>
                                 </div>
-                                <div className="bag_footerM d_flex last_line">
-                                  <div
-                                    className="border_right2 border_bottom bag_td line_clamp_2"
-                                    style={{
-                                      paddingLeft: "0.79375mm",
-                                      height: "7mm",
-                                      width: "94mm",
-                                      fontSize: "10px",
-                                      minWidth: "100%",
-                                      color: "red",
-                                      lineHeight: "9.5px",
-                                      borderBottom:
-                                        "2px solid  rgb(39, 38, 38)",
-                                    }}
-                                  >
-                                    QC
-                                  </div>
-                                </div>
-
                                 <div
                                   className="tableHead7B_16m"
                                   style={{
@@ -925,8 +1028,18 @@ const PrintDesign16M = ({ queries, headers }) => {
                                   <div
                                     className="dept7A fs7A"
                                     style={{
-                                      width: "21%",
+                                      width: "20%",
                                       borderRight: "2px solid  rgb(39, 38, 38)",
+                                      paddingLeft: "0.79375mm",
+                                    }}
+                                  >
+                                  </div>
+                                  <div
+                                    className="dept7A fs7A"
+                                    style={{
+                                      width: "20%",
+                                      borderRight: "2px solid  rgb(39, 38, 38)",
+                                      paddingLeft: "0.79375mm",
                                     }}
                                   >
                                     Chaki Post
@@ -936,6 +1049,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                     style={{
                                       width: "20%",
                                       borderRight: "2px solid  rgb(39, 38, 38)",
+                                      paddingLeft: "0.79375mm",
                                     }}
                                   >
                                     Taar
@@ -945,6 +1059,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                     style={{
                                       width: "25%",
                                       borderRight: "2px solid  rgb(39, 38, 38)",
+                                      paddingLeft: "0.79375mm",
                                     }}
                                   >
                                     Extra Metal
@@ -952,38 +1067,49 @@ const PrintDesign16M = ({ queries, headers }) => {
                                   <div
                                     className="dept7A fs7A"
                                     style={{
-                                      width: "20%",
+                                      width: "15%",
                                       borderRight: "2px solid  rgb(39, 38, 38)",
+                                      paddingLeft: "0.79375mm",
+                                      borderRight: "0px",
                                     }}
                                   >
                                     Other
                                   </div>
-                                  <div
-                                    className="dept7A fs7A"
-                                    style={{ borderRight: "0px" }}
-                                  ></div>
                                 </div>
                                 <div
                                   className="tableHead7B"
                                   style={{
                                     fontWeight: "bold",
-                                    height: "16px",
+                                    height: "13px",
                                     borderBottom: "1px solid  rgb(39, 38, 38)",
                                     display: "flex",
+                                    height: "3.7041666667mm",
                                   }}
                                 >
                                   <div
                                     className="dept7A"
                                     style={{
-                                      width: "20.8%",
+                                      width: "20%",
                                       borderRight: "2px solid  rgb(39, 38, 38)",
+                                      fontSize: "11px",
+                                      fontWeight: 'normal',
+                                      paddingLeft: "0.79375mm",
+                                    }}
+                                  >ISSUE</div>
+                                  <div
+                                    className="dept7A"
+                                    style={{
+                                      width: "19.9%",
+                                      borderRight: "2px solid  rgb(39, 38, 38)",
+                                      fontSize: "11px",
                                     }}
                                   ></div>
                                   <div
                                     className="dept7A"
                                     style={{
-                                      width: "20%",
+                                      width: "19.9%",
                                       borderRight: "2px solid  rgb(39, 38, 38)",
+                                      fontSize: "11px",
                                     }}
                                   ></div>
                                   <div
@@ -991,18 +1117,61 @@ const PrintDesign16M = ({ queries, headers }) => {
                                     style={{
                                       width: "25%",
                                       borderRight: "2px solid  rgb(39, 38, 38)",
+                                      fontSize: "11px",
                                     }}
                                   ></div>
+                                  <div
+                                    className="dept7A"
+                                    style={{ width: "15%", borderRight: "0px" }}
+                                  ></div>
+                                </div>
+                                <div
+                                  className="tableHead7B"
+                                  style={{
+                                    fontWeight: "bold",
+                                    height: "11px",
+                                    borderBottom: "1px solid  rgb(39, 38, 38)",
+                                    display: "flex",
+                                    height: "3.7041666667mm",
+                                  }}
+                                >
                                   <div
                                     className="dept7A"
                                     style={{
                                       width: "20%",
                                       borderRight: "2px solid  rgb(39, 38, 38)",
+                                      fontSize: "11px",
+                                      fontWeight: 'normal',
+                                      paddingLeft: "0.79375mm",
+                                    }}
+                                  >RETURN</div>
+                                  <div
+                                    className="dept7A"
+                                    style={{
+                                      width: "19.9%",
+                                      borderRight: "2px solid  rgb(39, 38, 38)",
+                                      fontSize: "11px",
                                     }}
                                   ></div>
                                   <div
                                     className="dept7A"
-                                    style={{ borderRight: "0px" }}
+                                    style={{
+                                      width: "19.9%",
+                                      borderRight: "2px solid  rgb(39, 38, 38)",
+                                      fontSize: "11px",
+                                    }}
+                                  ></div>
+                                  <div
+                                    className="dept7A"
+                                    style={{
+                                      width: "25%",
+                                      borderRight: "2px solid  rgb(39, 38, 38)",
+                                      fontSize: "11px",
+                                    }}
+                                  ></div>
+                                  <div
+                                    className="dept7A"
+                                    style={{ width: "15%", borderRight: "0px" }}
                                   ></div>
                                 </div>
 
@@ -1085,7 +1254,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                             {e?.data?.rd?.orderDatef !==
                                               "01Jan00" &&
                                               e?.data?.rd?.orderDatef !==
-                                                "01Jan1900" &&
+                                              "01Jan1900" &&
                                               e?.data?.rd?.orderDatef}
                                           </span>
                                         </div>
@@ -1095,7 +1264,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                             {e?.data?.rd?.promiseDatef !==
                                               "01Jan00" &&
                                               e?.data?.rd?.promiseDatef !==
-                                                "01Jan1900" &&
+                                              "01Jan1900" &&
                                               `DUE: ${e?.data?.rd?.promiseDatef}`}
                                           </span>
                                         </div>
@@ -1121,10 +1290,9 @@ const PrintDesign16M = ({ queries, headers }) => {
                                           >
                                             {e?.data?.rd
                                               ?.IsSplits_Quotation_Quantity ===
-                                            0
-                                              ? `${
-                                                  e?.data?.rd?.Designcode1
-                                                }(${1}PCS)`
+                                              0
+                                              ? `${e?.data?.rd?.Designcode1
+                                              }(${1}PCS)`
                                               : `${e?.data?.rd?.Designcode1}(${e?.data?.rd?.IsSplits_Quotation_Quantity} PCS)`}
                                           </span>
                                           <span
@@ -1226,12 +1394,12 @@ const PrintDesign16M = ({ queries, headers }) => {
                                           >
                                             <b>
                                               {e?.data?.rd?.Quotation_SKUNo ===
-                                              ""
+                                                ""
                                                 ? 0
                                                 : e?.data?.rd?.Quotation_SKUNo?.slice(
-                                                    0,
-                                                    7
-                                                  )}
+                                                  0,
+                                                  7
+                                                )}
                                             </b>
                                           </div>
                                         </div>
@@ -1390,7 +1558,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                         fontSize: "11px",
                                       }}
                                     >
-                                      ACTUAL
+                                      ESTIMATE
                                     </div>
                                     <div
                                       className="border_right2 border_bottom display"
@@ -1411,10 +1579,10 @@ const PrintDesign16M = ({ queries, headers }) => {
                                     >
                                       {e?.data?.rd1[0]?.SerialJobno !==
                                         undefined && (
-                                        <BarcodeGenerator
-                                          data={e?.data?.rd1[0]?.SerialJobno}
-                                        />
-                                      )}
+                                          <BarcodeGenerator
+                                            data={e?.data?.rd1[0]?.SerialJobno}
+                                          />
+                                        )}
                                     </div>
                                   </div>
 
@@ -1422,11 +1590,10 @@ const PrintDesign16M = ({ queries, headers }) => {
                                     return (
                                       <div className="d_flex" key={i}>
                                         <div
-                                          className={`border_right border_bottom display ${
-                                            e?.Shapename?.length > 15
-                                              ? "line_height_fontSmall"
-                                              : ""
-                                          }`}
+                                          className={`border_right border_bottom display ${e?.Shapename?.length > 15
+                                            ? "line_height_fontSmall"
+                                            : ""
+                                            }`}
                                           style={{
                                             width: "17.853583333mm",
                                             fontWeight:
@@ -1450,11 +1617,10 @@ const PrintDesign16M = ({ queries, headers }) => {
                                         </div>
 
                                         <div
-                                          className={`border_right border_bottom display ${
-                                            e?.Quality?.length > 10
-                                              ? "line_height_fontSmall"
-                                              : ""
-                                          }`}
+                                          className={`border_right border_bottom display ${e?.Quality?.length > 10
+                                            ? "line_height_fontSmall"
+                                            : ""
+                                            }`}
                                           style={{
                                             width: "45.0015px",
                                             fontWeight: "bold",
@@ -1472,11 +1638,10 @@ const PrintDesign16M = ({ queries, headers }) => {
                                         </div>
 
                                         <div
-                                          className={`border_right border_bottom display ${
-                                            e?.MetalColor?.length > 10
-                                              ? "line_height_fontSmall"
-                                              : ""
-                                          }`}
+                                          className={`border_right border_bottom display ${e?.MetalColor?.length > 10
+                                            ? "line_height_fontSmall"
+                                            : ""
+                                            }`}
                                           style={{
                                             width: "11.0015mm",
                                             fontWeight: "bold",
@@ -1491,11 +1656,10 @@ const PrintDesign16M = ({ queries, headers }) => {
                                         </div>
 
                                         <div
-                                          className={`border_right border_bottom display ${
-                                            e?.Sizename?.length > 15
-                                              ? "line_height_fontSmall"
-                                              : ""
-                                          }`}
+                                          className={`border_right border_bottom display ${e?.Sizename?.length > 15
+                                            ? "line_height_fontSmall"
+                                            : ""
+                                            }`}
                                           style={{
                                             width: "15.880666667mm",
                                             fontWeight: "bold",
@@ -1512,11 +1676,10 @@ const PrintDesign16M = ({ queries, headers }) => {
                                         </div>
 
                                         <div
-                                          className={`border_right border_bottom display ${
-                                            e?.ActualPcs?.length > 7
-                                              ? "line_height_fontSmall"
-                                              : ""
-                                          } wtnewclasscol16`}
+                                          className={`border_right border_bottom display ${e?.ActualPcs?.length > 7
+                                            ? "line_height_fontSmall"
+                                            : ""
+                                            } wtnewclasscol16`}
                                         >
                                           {e?.Shapename === "Total" ? (
                                             <b
@@ -1535,11 +1698,10 @@ const PrintDesign16M = ({ queries, headers }) => {
                                         </div>
 
                                         <div
-                                          className={`border_right border_bottom display ${
-                                            e?.ActualWeight?.length > 7
-                                              ? "line_height_fontSmall"
-                                              : ""
-                                          } newclasscol16`}
+                                          className={`border_right border_bottom display ${e?.ActualWeight?.length > 7
+                                            ? "line_height_fontSmall"
+                                            : ""
+                                            } newclasscol16`}
                                         >
                                           {e?.Shapename === "Total" ? (
                                             <b
@@ -1559,11 +1721,10 @@ const PrintDesign16M = ({ queries, headers }) => {
                                         </div>
 
                                         <div
-                                          className={`border_right2 border_bottom display ${
-                                            e?.Sizename?.length > 12
-                                              ? "line_height_fontSmall"
-                                              : ""
-                                          }`}
+                                          className={`border_right2 border_bottom display ${e?.Sizename?.length > 12
+                                            ? "line_height_fontSmall"
+                                            : ""
+                                            }`}
                                           style={{
                                             width: "11.7952mm",
                                             fontWeight: "bold",
@@ -1658,94 +1819,94 @@ const PrintDesign16M = ({ queries, headers }) => {
                                           fontWeight: "900",
                                         }}
                                       ></div>
-                                     <div
-                                      className="border_top2 border_right border_bottom bag_td "
-                                      style={{
-                                        paddingLeft: "0.79375mm",
-                                        height: "3.7041666667mm",
-                                        fontSize: "10px",
-                                        fontWeight: "900",
-                                      }}
-                                    >
-                                      FILLING
-                                    </div>
-                                    <div
-                                      className="border_top2 border_right border_bottom bag_td "
-                                      style={{
-                                        paddingLeft: "0.79375mm",
-                                        height: "3.7041666667mm",
-                                        fontSize: "10px",
-                                        fontWeight: "900",
-                                      }}
-                                    >
-                                      LASER
-                                    </div>
-                                    <div
-                                      className="border_top2 border_right border_bottom bag_td "
-                                      style={{
-                                        paddingLeft: "0.79375mm",
-                                        height: "3.7041666667mm",
-                                        fontSize: "10px",
-                                        fontWeight: "900",
-                                      }}
-                                    >
-                                      PRE P.
-                                    </div>
-                                    <div
-                                      className="border_top2 border_right border_bottom bag_td "
-                                      style={{
-                                        paddingLeft: "0.79375mm",
-                                        height: "3.7041666667mm",
-                                        fontSize: "10px",
-                                        fontWeight: "900",
-                                      }}
-                                    >
-                                      SET.
-                                    </div>
-                                    <div
-                                      className="border_top2 border_right border_bottom bag_td "
-                                      style={{
-                                        paddingLeft: "0.79375mm",
-                                        height: "3.7041666667mm",
-                                        fontSize: "10px",
-                                        fontWeight: "900",
-                                      }}
-                                    >
-                                      LASER
-                                    </div>
-                                    <div
-                                      className="border_top2 border_right border_bottom bag_td "
-                                      style={{
-                                        paddingLeft: "0.79375mm",
-                                        height: "3.7041666667mm",
-                                        fontSize: "10px",
-                                        fontWeight: "900",
-                                      }}
-                                    >
-                                      F.P.
-                                    </div>
-                                    <div
-                                      className="border_top2 border_right border_bottom bag_td "
-                                      style={{
-                                        paddingLeft: "0.79375mm",
-                                        height: "3.7041666667mm",
-                                        fontSize: "10px",
-                                        fontWeight: "900",
-                                      }}
-                                    >
-                                      RHD-QC
-                                    </div>
-                                    <div
-                                      className="border_top2 border_bottom bag_td "
-                                      style={{
-                                        paddingLeft: "0.79375mm",
-                                        fontSize: "10px",
-                                        height: "3.7041666667mm",
-                                        fontWeight: "900",
-                                      }}
-                                    >
-                                      FG
-                                    </div>
+                                      <div
+                                        className="border_top2 border_right border_bottom bag_td "
+                                        style={{
+                                          paddingLeft: "0.79375mm",
+                                          height: "3.7041666667mm",
+                                          fontSize: "10px",
+                                          fontWeight: "900",
+                                        }}
+                                      >
+                                        FILLING
+                                      </div>
+                                      <div
+                                        className="border_top2 border_right border_bottom bag_td "
+                                        style={{
+                                          paddingLeft: "0.79375mm",
+                                          height: "3.7041666667mm",
+                                          fontSize: "10px",
+                                          fontWeight: "900",
+                                        }}
+                                      >
+                                        LASER
+                                      </div>
+                                      <div
+                                        className="border_top2 border_right border_bottom bag_td "
+                                        style={{
+                                          paddingLeft: "0.79375mm",
+                                          height: "3.7041666667mm",
+                                          fontSize: "10px",
+                                          fontWeight: "900",
+                                        }}
+                                      >
+                                        PRE P.
+                                      </div>
+                                      <div
+                                        className="border_top2 border_right border_bottom bag_td "
+                                        style={{
+                                          paddingLeft: "0.79375mm",
+                                          height: "3.7041666667mm",
+                                          fontSize: "10px",
+                                          fontWeight: "900",
+                                        }}
+                                      >
+                                        SET.
+                                      </div>
+                                      <div
+                                        className="border_top2 border_right border_bottom bag_td "
+                                        style={{
+                                          paddingLeft: "0.79375mm",
+                                          height: "3.7041666667mm",
+                                          fontSize: "10px",
+                                          fontWeight: "900",
+                                        }}
+                                      >
+                                        LASER
+                                      </div>
+                                      <div
+                                        className="border_top2 border_right border_bottom bag_td "
+                                        style={{
+                                          paddingLeft: "0.79375mm",
+                                          height: "3.7041666667mm",
+                                          fontSize: "10px",
+                                          fontWeight: "900",
+                                        }}
+                                      >
+                                        F.P.
+                                      </div>
+                                      <div
+                                        className="border_top2 border_right border_bottom bag_td "
+                                        style={{
+                                          paddingLeft: "0.79375mm",
+                                          height: "3.7041666667mm",
+                                          fontSize: "10px",
+                                          fontWeight: "900",
+                                        }}
+                                      >
+                                        RHD-QC
+                                      </div>
+                                      <div
+                                        className="border_top2 border_bottom bag_td "
+                                        style={{
+                                          paddingLeft: "0.79375mm",
+                                          fontSize: "10px",
+                                          height: "3.7041666667mm",
+                                          fontWeight: "900",
+                                        }}
+                                      >
+                                        FG
+                                      </div>
                                     </div>
                                     {
                                       // eslint-disable-next-line array-callback-return
@@ -1757,235 +1918,408 @@ const PrintDesign16M = ({ queries, headers }) => {
                                         ) {
                                           return (
                                             <div
-                                            className="bag_footerM d_flex last_line"
-                                            key={i}
-                                          >
-                                            <div
-                                              className="border_right border_bottom bag_td"
-                                              style={{
-                                                paddingLeft: "0.79375mm",
-                                                height: "3.7041666667mm",
-                                                fontSize: "11px",
-                                              }}
+                                              className="bag_footerM d_flex last_line"
+                                              key={i}
                                             >
-                                              {e["0"] === "0" ? "" : e["0"]}
+                                              <div
+                                                className="border_right border_bottom bag_td"
+                                                style={{
+                                                  paddingLeft: "0.79375mm",
+                                                  height: "3.7041666667mm",
+                                                  fontSize: "11px",
+                                                }}
+                                              >
+                                                {e["0"] === "0" ? "" : e["0"]}
+                                              </div>
+                                              <div
+                                                className="border_right border_bottom bag_td"
+                                                style={{
+                                                  paddingLeft: "0.79375mm",
+                                                  height: "3.7041666667mm",
+                                                  fontSize: "1.8520833333",
+                                                }}
+                                              >
+                                                {e["GRAND"] === "0"
+                                                  ? ""
+                                                  : e["GRAND"]}
+                                              </div>
+                                              <div
+                                                className="border_right border_bottom bag_td"
+                                                style={{
+                                                  paddingLeft: "0.79375mm",
+                                                  height: "3.7041666667mm",
+                                                  fontSize: "1.8520833333",
+                                                }}
+                                              >
+                                                {e["FILLING"] === "0"
+                                                  ? ""
+                                                  : e["FILLING"]}
+                                              </div>
+                                              <div
+                                                className="border_right border_bottom bag_td"
+                                                style={{
+                                                  paddingLeft: "0.79375mm",
+                                                  height: "3.7041666667mm",
+                                                  fontSize: "1.8520833333",
+                                                }}
+                                              >
+                                                {e["EPD"] === "0" ? "" : e["EPD"]}
+                                              </div>
+                                              <div
+                                                className="border_right border_bottom bag_td"
+                                                style={{
+                                                  paddingLeft: "0.79375mm",
+                                                  height: "3.7041666667mm",
+                                                  fontSize: "1.8520833333",
+                                                }}
+                                              >
+                                                {e["P.P"] === "0" ? "" : e["P.P"]}
+                                              </div>
+                                              <div
+                                                className="border_right border_bottom bag_td"
+                                                style={{
+                                                  paddingLeft: "0.79375mm",
+                                                  height: "3.7041666667mm",
+                                                  fontSize: "1.8520833333",
+                                                }}
+                                              >
+                                                {e["SET"] === "0" ? "" : e["SET"]}
+                                              </div>
+                                              <div
+                                                className="border_right border_bottom bag_td"
+                                                style={{
+                                                  paddingLeft: "0.79375mm",
+                                                  height: "3.7041666667mm",
+                                                  fontSize: "1.8520833333",
+                                                }}
+                                              >
+                                                {e["F.P"] === "0" ? "" : e["F.P"]}
+                                              </div>
+                                              <div
+                                                className="border_right border_bottom bag_td"
+                                                style={{
+                                                  fontSize: "1.8520833333",
+                                                  paddingLeft: "0.79375mm",
+                                                  height: "3.7041666667mm",
+                                                }}
+                                              >
+                                                {e["RHD-QC"] === "0"
+                                                  ? ""
+                                                  : e["RHD-QC"]}
+                                              </div>
+                                              <div
+                                                className="border_bottom bag_td"
+                                                style={{
+                                                  fontSize: "1.8520833333",
+                                                  paddingLeft: "0.79375mm",
+                                                  height: "3.7041666667mm",
+                                                  borderRight: "0px solid",
+                                                }}
+                                              ></div>
                                             </div>
-                                            <div
-                                              className="border_right border_bottom bag_td"
-                                              style={{
-                                                paddingLeft: "0.79375mm",
-                                                height: "3.7041666667mm",
-                                                fontSize: "1.8520833333",
-                                              }}
-                                            >
-                                              {e["GRAND"] === "0"
-                                                ? ""
-                                                : e["GRAND"]}
-                                            </div>
-                                            <div
-                                              className="border_right border_bottom bag_td"
-                                              style={{
-                                                paddingLeft: "0.79375mm",
-                                                height: "3.7041666667mm",
-                                                fontSize: "1.8520833333",
-                                              }}
-                                            >
-                                              {e["FILLING"] === "0"
-                                                ? ""
-                                                : e["FILLING"]}
-                                            </div>
-                                            <div
-                                              className="border_right border_bottom bag_td"
-                                              style={{
-                                                paddingLeft: "0.79375mm",
-                                                height: "3.7041666667mm",
-                                                fontSize: "1.8520833333",
-                                              }}
-                                            >
-                                              {e["EPD"] === "0" ? "" : e["EPD"]}
-                                            </div>
-                                            <div
-                                              className="border_right border_bottom bag_td"
-                                              style={{
-                                                paddingLeft: "0.79375mm",
-                                                height: "3.7041666667mm",
-                                                fontSize: "1.8520833333",
-                                              }}
-                                            >
-                                              {e["P.P"] === "0" ? "" : e["P.P"]}
-                                            </div>
-                                            <div
-                                              className="border_right border_bottom bag_td"
-                                              style={{
-                                                paddingLeft: "0.79375mm",
-                                                height: "3.7041666667mm",
-                                                fontSize: "1.8520833333",
-                                              }}
-                                            >
-                                              {e["SET"] === "0" ? "" : e["SET"]}
-                                            </div>
-                                            <div
-                                              className="border_right border_bottom bag_td"
-                                              style={{
-                                                paddingLeft: "0.79375mm",
-                                                height: "3.7041666667mm",
-                                                fontSize: "1.8520833333",
-                                              }}
-                                            >
-                                              {e["F.P"] === "0" ? "" : e["F.P"]}
-                                            </div>
-                                            <div
-                                              className="border_right border_bottom bag_td"
-                                              style={{
-                                                fontSize: "1.8520833333",
-                                                paddingLeft: "0.79375mm",
-                                                height: "3.7041666667mm",
-                                              }}
-                                            >
-                                              {e["RHD-QC"] === "0"
-                                                ? ""
-                                                : e["RHD-QC"]}
-                                            </div>
-                                            <div
-                                              className="border_bottom bag_td"
-                                              style={{
-                                                fontSize: "1.8520833333",
-                                                paddingLeft: "0.79375mm",
-                                                height: "3.7041666667mm",
-                                              }}
-                                            ></div>
-                                          </div>
                                           );
                                         }
                                       })
                                     }
+                                    <div className="d-flex border_bottom">
+                                      <div
+                                        className="border_right bag_td"
+                                        style={{
+                                          fontSize: "11px",
+                                          paddingLeft: "0.79375mm",
+                                          height: "3.7041666667mm",
+                                          width: "12%"
+                                        }}
+                                      >
+                                        ENTRY
+                                      </div>
+                                      <div
+                                        className="border_right bag_td"
+                                        style={{
+                                          width: "11%",
+                                          height: "3.7041666667mm",
+                                        }}
+                                      >
+                                      </div>
+                                      <div
+                                        className="border_right bag_td"
+                                        style={{
+                                          width: "11%",
+                                          height: "3.7041666667mm",
+                                        }}
+                                      >
+                                      </div>
+                                      <div
+                                        className="border_right bag_td"
+                                        style={{
+                                          width: "11%",
+                                          height: "3.7041666667mm",
+                                        }}
+                                      >
+                                      </div>
+                                      <div
+                                        className="border_right bag_td"
+                                        style={{
+                                          width: "11%",
+                                          height: "3.7041666667mm",
+                                        }}
+                                      >
+                                      </div>
+                                      <div
+                                        className="border_right bag_td"
+                                        style={{
+                                          width: "11%",
+                                          height: "3.7041666667mm",
+                                        }}
+                                      >
+                                      </div>
+                                      <div
+                                        className="border_right bag_td"
+                                        style={{
+                                          width: "11%",
+                                          height: "3.7041666667mm",
+                                        }}
+                                      >
+                                      </div>
+                                      <div
+                                        className="border_right bag_td"
+                                        style={{
+                                          width: "11%",
+                                          height: "3.7041666667mm",
+                                        }}
+                                      >
+                                      </div>
+                                    </div>
+                                    <div className="d-flex border_bottom">
+                                      <div
+                                        className="border_right bag_td"
+                                        style={{
+                                          fontSize: "11px",
+                                          paddingLeft: "0.79375mm",
+                                          height: "3.7041666667mm",
+                                          width: "12%"
+                                        }}
+                                      >
+                                        QC
+                                      </div>
+                                      <div
+                                        className="border_right bag_td"
+                                        style={{
+                                          width: "11%",
+                                          height: "3.7041666667mm",
+                                        }}
+                                      >
+                                      </div>
+                                      <div
+                                        className="border_right bag_td"
+                                        style={{
+                                          width: "11%",
+                                          height: "3.7041666667mm",
+                                        }}
+                                      >
+                                      </div>
+                                      <div
+                                        className="border_right bag_td"
+                                        style={{
+                                          width: "11%",
+                                          height: "3.7041666667mm",
+                                        }}
+                                      >
+                                      </div>
+                                      <div
+                                        className="border_right bag_td"
+                                        style={{
+                                          width: "11%",
+                                          height: "3.7041666667mm",
+                                        }}
+                                      >
+                                      </div>
+                                      <div
+                                        className="border_right bag_td"
+                                        style={{
+                                          width: "11%",
+                                          height: "3.7041666667mm",
+                                        }}
+                                      >
+                                      </div>
+                                      <div
+                                        className="border_right bag_td"
+                                        style={{
+                                          width: "11%",
+                                          height: "3.7041666667mm",
+                                        }}
+                                      >
+                                      </div>
+                                      <div
+                                        className="border_right bag_td"
+                                        style={{
+                                          width: "11%",
+                                          height: "3.7041666667mm",
+                                        }}
+                                      >
+                                      </div>
+                                    </div>
                                   </div>
 
-                                  <div className="bag_footerM d_flex last_line">
                                   <div
-                                    className="border_right2 border_bottom border_top bag_td line_clamp_2"
+                                    className="tableHead7B_16m"
                                     style={{
-                                      paddingLeft: "0.79375mm",
-                                      height: "7mm",
-                                      width: "94mm",
-                                      fontSize: "10px",
-                                      minWidth: "100%",
-                                      color: "red",
-                                      lineHeight: "9.5px",
+                                      fontWeight: "bold",
+                                      height: "23px",
                                     }}
                                   >
-                                    ENTRY
+                                    <div
+                                      className="dept7A fs7A"
+                                      style={{
+                                        width: "20%",
+                                        borderRight: "2px solid  rgb(39, 38, 38)",
+                                        paddingLeft: "0.79375mm",
+                                      }}
+                                    >
+                                    </div>
+                                    <div
+                                      className="dept7A fs7A"
+                                      style={{
+                                        width: "20%",
+                                        borderRight: "2px solid  rgb(39, 38, 38)",
+                                        paddingLeft: "0.79375mm",
+                                      }}
+                                    >
+                                      Chaki Post
+                                    </div>
+                                    <div
+                                      className="dept7A fs7A"
+                                      style={{
+                                        width: "20%",
+                                        borderRight: "2px solid  rgb(39, 38, 38)",
+                                        paddingLeft: "0.79375mm",
+                                      }}
+                                    >
+                                      Taar
+                                    </div>
+                                    <div
+                                      className="dept7A fs7A"
+                                      style={{
+                                        width: "25%",
+                                        borderRight: "2px solid  rgb(39, 38, 38)",
+                                        paddingLeft: "0.79375mm",
+                                      }}
+                                    >
+                                      Extra Metal
+                                    </div>
+                                    <div
+                                      className="dept7A fs7A"
+                                      style={{
+                                        width: "15%",
+                                        borderRight: "2px solid  rgb(39, 38, 38)",
+                                        paddingLeft: "0.79375mm",
+                                        borderRight: "0px",
+                                      }}
+                                    >
+                                      Other
+                                    </div>
                                   </div>
-                                </div>
-                                <div className="bag_footerM d_flex last_line">
                                   <div
-                                    className="border_right2 border_bottom bag_td line_clamp_2"
+                                    className="tableHead7B"
                                     style={{
-                                      paddingLeft: "0.79375mm",
-                                      height: "7mm",
-                                      width: "94mm",
-                                      fontSize: "10px",
-                                      minWidth: "100%",
-                                      color: "red",
-                                      lineHeight: "9.5px",
-                                      borderBottom:
-                                        "2px solid  rgb(39, 38, 38)",
+                                      fontWeight: "bold",
+                                      height: "13px",
+                                      borderBottom: "1px solid  rgb(39, 38, 38)",
+                                      display: "flex",
+                                      height: "3.7041666667mm",
                                     }}
                                   >
-                                    QC
+                                    <div
+                                      className="dept7A"
+                                      style={{
+                                        width: "20%",
+                                        borderRight: "2px solid  rgb(39, 38, 38)",
+                                        fontSize: "11px",
+                                        fontWeight: 'normal',
+                                        paddingLeft: "0.79375mm",
+                                      }}
+                                    >ISSUE</div>
+                                    <div
+                                      className="dept7A"
+                                      style={{
+                                        width: "19.9%",
+                                        borderRight: "2px solid  rgb(39, 38, 38)",
+                                        fontSize: "11px",
+                                        paddingLeft: "0.79375mm",
+                                      }}
+                                    ></div>
+                                    <div
+                                      className="dept7A"
+                                      style={{
+                                        width: "19.9%",
+                                        borderRight: "2px solid  rgb(39, 38, 38)",
+                                        fontSize: "11px",
+                                        paddingLeft: "0.79375mm",
+                                      }}
+                                    ></div>
+                                    <div
+                                      className="dept7A"
+                                      style={{
+                                        width: "25%",
+                                        borderRight: "2px solid  rgb(39, 38, 38)",
+                                        fontSize: "11px",
+                                        paddingLeft: "0.79375mm",
+                                      }}
+                                    ></div>
+                                    <div
+                                      className="dept7A"
+                                      style={{ width: "15%", borderRight: "0px" }}
+                                    ></div>
                                   </div>
-                                </div>
-
-                                <div
-                                  className="tableHead7B_16m"
-                                  style={{
-                                    fontWeight: "bold",
-                                    height: "23px",
-                                  }}
-                                >
                                   <div
-                                    className="dept7A fs7A"
+                                    className="tableHead7B"
                                     style={{
-                                      width: "21%",
-                                      borderRight: "2px solid  rgb(39, 38, 38)",
+                                      fontWeight: "bold",
+                                      height: "11px",
+                                      borderBottom: "1px solid  rgb(39, 38, 38)",
+                                      display: "flex",
+                                      height: "3.7041666667mm",
                                     }}
                                   >
-                                    Chaki Post
+                                    <div
+                                      className="dept7A"
+                                      style={{
+                                        width: "20%",
+                                        borderRight: "2px solid  rgb(39, 38, 38)",
+                                        fontSize: "11px",
+                                        fontWeight: 'normal',
+                                        paddingLeft: "0.79375mm",
+                                      }}
+                                    >RETURN</div>
+                                    <div
+                                      className="dept7A"
+                                      style={{
+                                        width: "19.9%",
+                                        borderRight: "2px solid  rgb(39, 38, 38)",
+                                        fontSize: "11px",
+                                      }}
+                                    ></div>
+                                    <div
+                                      className="dept7A"
+                                      style={{
+                                        width: "19.9%",
+                                        borderRight: "2px solid  rgb(39, 38, 38)",
+                                        fontSize: "11px",
+                                      }}
+                                    ></div>
+                                    <div
+                                      className="dept7A"
+                                      style={{
+                                        width: "25%",
+                                        borderRight: "2px solid  rgb(39, 38, 38)",
+                                        fontSize: "11px",
+                                      }}
+                                    ></div>
+                                    <div
+                                      className="dept7A"
+                                      style={{ width: "15%", borderRight: "0px" }}
+                                    ></div>
                                   </div>
-                                  <div
-                                    className="dept7A fs7A"
-                                    style={{
-                                      width: "20%",
-                                      borderRight: "2px solid  rgb(39, 38, 38)",
-                                    }}
-                                  >
-                                    Taar
-                                  </div>
-                                  <div
-                                    className="dept7A fs7A"
-                                    style={{
-                                      width: "25%",
-                                      borderRight: "2px solid  rgb(39, 38, 38)",
-                                    }}
-                                  >
-                                    Extra Metal
-                                  </div>
-                                  <div
-                                    className="dept7A fs7A"
-                                    style={{
-                                      width: "20%",
-                                      borderRight: "2px solid  rgb(39, 38, 38)",
-                                    }}
-                                  >
-                                    Other
-                                  </div>
-                                  <div
-                                    className="dept7A fs7A"
-                                    style={{ borderRight: "0px" }}
-                                  ></div>
-                                </div>
-                                <div
-                                  className="tableHead7B"
-                                  style={{
-                                    fontWeight: "bold",
-                                    height: "16px",
-                                    borderBottom: "1px solid  rgb(39, 38, 38)",
-                                    display: "flex",
-                                  }}
-                                >
-                                  <div
-                                    className="dept7A"
-                                    style={{
-                                      width: "20.8%",
-                                      borderRight: "2px solid  rgb(39, 38, 38)",
-                                    }}
-                                  ></div>
-                                  <div
-                                    className="dept7A"
-                                    style={{
-                                      width: "20%",
-                                      borderRight: "2px solid  rgb(39, 38, 38)",
-                                    }}
-                                  ></div>
-                                  <div
-                                    className="dept7A"
-                                    style={{
-                                      width: "25%",
-                                      borderRight: "2px solid  rgb(39, 38, 38)",
-                                    }}
-                                  ></div>
-                                  <div
-                                    className="dept7A"
-                                    style={{
-                                      width: "20%",
-                                      borderRight: "2px solid  rgb(39, 38, 38)",
-                                    }}
-                                  ></div>
-                                  <div
-                                    className="dept7A"
-                                    style={{ borderRight: "0px" }}
-                                  ></div>
-                                </div>
 
                                   <div className="thikborder">
                                     <div className="bag_footerM d_flex last_line">
@@ -2002,7 +2336,7 @@ const PrintDesign16M = ({ queries, headers }) => {
                                           lineHeight: "9.5px",
                                         }}
                                       >
-                                      RHODIUM INS. :
+                                        RHODIUM INS. :
                                       </div>
                                     </div>
                                     <div className="bag_footerM d_flex last_line">
