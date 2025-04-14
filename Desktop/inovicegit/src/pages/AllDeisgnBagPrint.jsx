@@ -26,6 +26,7 @@ import BagPrint20A from './bagPrints/BagPrint20A';
 import Jobbagsticker from './bagPrints/Jobbagsticker';
 import Jobbagsticker3 from './bagPrints/Jobbagsticker3';
 import PrintDesign16M from './bagPrints/PrintDesign16M';
+import PrintDesign16A from './bagPrints/PrintDesign16A';
 // import EngageMat from './bagPrints/jobBagStickers/EngageMat';
 
 const AllDesignBagPrint = () => {
@@ -71,6 +72,7 @@ const AllDesignBagPrint = () => {
 
       {printName === "bagprint16" && <PrintDesign16 queries={queries} headers={headers} />}
       {printName === "bagprint16M" && <PrintDesign16M queries={queries} headers={headers} />}
+      {printName === "bagprint16A" && <PrintDesign16A queries={queries} headers={headers} />}
 
 
       {printName === "bagprint17" && <PrintDesign17 queries={queries} headers={headers} />}
