@@ -1,3 +1,4 @@
+// http://localhost:3002/?imagepath=aHR0cDovL3plbi9SNTBCMy9VRlMvb3JhaWwyNVROQlZEMExPMlVGUFJaNFlIL0Rlc2lnbl9JbWFnZS8=&printname=BagPrint16A&str_srjobno=1/280410&appuserid=jenis@eg.com&custid=18538&version=V5&YearCode=e3t6ZW59fXt7MjB9fXt7b3JhaWwyNX19e3tvcmFpbDI1fX0=&report_api_url=aHR0cDovL3plbi9hcGkvTS5hc214L09wdGlnbw==&start_page=1&report_sv=0&ifid=BagPrint16A&pid=undefined
 import React, { useEffect, useState } from "react";
 import printData from "../../assets/json/print_2.json";
 import { useLocation } from "react-router-dom";
