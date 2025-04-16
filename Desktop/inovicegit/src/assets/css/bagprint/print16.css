@@ -1984,6 +1984,16 @@ table {
     word-break: break-all;
     font-size: 13px !important;
   }
+  .partybg16A{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px;
+    height: 16px;
+    font-weight: bold;
+    word-break: break-all;
+    font-size: 11.5px !important;
+  }
   .lh16bg{
     line-height: 8px;
   }

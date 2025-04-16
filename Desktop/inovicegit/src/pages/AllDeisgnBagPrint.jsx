@@ -3,6 +3,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import PrintDesign17 from './bagPrints/PrintDesign17';
 import PrintDesign16 from './bagPrints/PrintDesign16';
+import PrintDesign16A from './bagPrints/PrintDesign16A';
 import BagPrint15A from "./bagPrints/BagPrint15A";
 import BagPrint14A from './bagPrints/BagPrint14A';
 import BagPrint1A from './bagPrints/BagPrint1A';
@@ -71,6 +72,7 @@ const AllDesignBagPrint = () => {
 
       {printName === "bagprint16" && <PrintDesign16 queries={queries} headers={headers} />}
       {printName === "bagprint16M" && <PrintDesign16M queries={queries} headers={headers} />}
+      {printName === "bagprint16A" && <PrintDesign16A queries={queries} headers={headers} />}
 
 
       {printName === "bagprint17" && <PrintDesign17 queries={queries} headers={headers} />}
