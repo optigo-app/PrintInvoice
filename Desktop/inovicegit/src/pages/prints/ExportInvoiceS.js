@@ -1,8 +1,10 @@
+// http://localhost:3001/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=SlMvMTg0LzIwLTI1&evn=c2FsZQ==&pnm=RXhwb3J0IEludm9pY2UgUw==&up=aHR0cDovL3plbi9qby9hcGktbGliL0FwcC9TYWxlQmlsbF9Kc29u&ctv=NzE=&ifid=ExportInvoiceA&pid=undefined
 import React, { useEffect, useState } from "react";
 import "../../assets/css/prints/exportinvoices.css";
 import {
   apiCall,
   checkMsg,
+  fixedValues,
   formatAmount,
   handlePrint,
   isObjectEmpty,
@@ -13,11 +15,13 @@ import { OrganizeInvoicePrintData } from "../../GlobalFunctions/OrganizeInvoiceP
 import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
 import style from "../../assets/css/prints/exportPrint1.module.css";
+import { ToWords } from "to-words";
 const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [data, setData] = useState([]);
+  const toWords = new ToWords();
   const [metalValue, setMetalValue] = useState({
     ShapeName: "",
     QualityName: "",
@@ -597,8 +601,8 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="col_8_eia border-end border-black p-1">
                           {formatAmount(
                             e?.TotalAmount /
-                            result?.header?.CurrencyExchRate /
-                            e?.Quantity
+                              result?.header?.CurrencyExchRate /
+                              e?.Quantity
                           )}
                         </div>
                         <div className="col_9_eia p-1">
@@ -625,7 +629,7 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              <div className="fw-bold ps-1 mt-1">INVOICE</div>
+              {/* <div className="fw-bold ps-1 mt-1">INVOICE</div>
               <div className="d-flex border border-black">
                 <div className="p-2 col-6 border-end border-black">
                   <div className="d-flex justify-content-between">
@@ -633,7 +637,6 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       {" "}
                       Exporter:{" "}
                     </p>
-                    {/* <p className="text-decoration-underline"> Ref. Person Details </p> */}
                   </div>
                   <p className="headline_fs_eia fw-bold py-1">
                     {result?.header?.CompanyFullName}
@@ -667,14 +670,6 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           {result?.header?.InvoiceNo}{" "}
                         </div>
                       </div>
-                      {/* <div className="d-flex">
-                                      <p className='pe-2 fw-semibold'>Invoice Dt :</p>
-                                      <p className='fw-bold'>{result?.header?.EntryDate}</p>
-                                  </div> */}
-                      {/* <div className="d-flex">
-                                      <p className='pe-2 fw-semibold'>EDF No. :</p>
-                                      <p className='fw-bold'></p>
-                                  </div> */}
                     </div>
                     <div className="col-6 d-flex flex-column justify-content-between align-items-center p-2">
                       <p className="text-uppercase fw-semibold w-100">
@@ -691,8 +686,8 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <p className="fw-normal">EDF No. </p>
                   </div>
                 </div>
-              </div>
-              <div className={` w-100  h-100 mt-3`}>
+              </div> */}
+              {/* <div className={` w-100  h-100 mt-3`}>
                 <div className=" border border-top border-black p-1 text-start">
                   <p className="fw-normal">
                     <span className="fw-bold">Marks & Nos. Container </span>
@@ -707,10 +702,7 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     Jewellery
                   </p>
                 </div>
-                {/* <div className=" p-1 text-center">
-                                  <p className="fw-semibold">QUANTITY 2</p>
-                              </div> */}
-              </div>
+              </div> */}
               <div
                 className={`d-flex  border-black border-bottom border-start border-end mt-2 border-top ${style.rowExport1}`}
               >
@@ -747,17 +739,14 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div
                   className={`${style.RateExport1}  border-black border-end`}
                 >
-                  <p className="text-center fw-bold">Rate In Gm / Per Piece / Pair</p>
+                  <p className="text-center fw-bold">
+                    Rate In Gm / Per Pice / Pair
+                  </p>
                 </div>
                 <div className={`${style.AmountExport1} `}>
                   <p className="text-center fw-bold">
                     Amount ({result?.header?.CurrencyCode}
-                    <sapn
-                      dangerouslySetInnerHTML={{
-                        __html: result?.header?.Currencysymbol || '',
-                      }}
-                    />)
-
+                    {result?.header?.Currencysymbol})
                   </p>
                 </div>
               </div>
@@ -994,7 +983,7 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 )}
 
-                {/* {findingArr?.length > 0 && (
+                {findingArr?.length > 0 && (
                   <div className="d-flex border border-black border-top-0 fw-semibold">
                     <div className="col_t2_1_eia p-1 fw-bold">Accessories</div>
                     <div className="col_t2_2_eia p-1 "></div>
@@ -1005,9 +994,9 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="col_t2_7_eia p-1 "></div>
                     <div className="col_t2_8_eia p-1"></div>
                   </div>
-                )} */}
+                )}
 
-                {/* {findingArr?.map((a, ind) => {
+                {findingArr?.map((a, ind) => {
                   return (
                     <div
                       className="d-flex border-start border-black  border-start border-end fw-semibold"
@@ -1027,8 +1016,8 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="col_t2_8_eia p-1"></div>
                     </div>
                   );
-                })} */}
-                {/* {findingArr?.length > 0 && (
+                })}
+                {findingArr?.length > 0 && (
                   <div className="d-flex border border-black border-top-0 fw-semibold">
                     <div className="col_t2_1_eia p-1 fw-bold">Total</div>
                     <div className="col_t2_2_eia p-1 "></div>
@@ -1041,10 +1030,10 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="col_t2_7_eia p-1 "></div>
                     <div className="col_t2_8_eia p-1"></div>
                   </div>
-                )} */}
+                )}
               </div>
 
-              <div>
+              <div className="border border-black" style={{marginTop: '7px', padding: '5px'}}>
                 <div style={{ display: "flex", gap: "10px" }}>
                   <p>Ex. Rate : </p>
                   <div style={{ display: "flex", gap: "5px" }}>
@@ -1057,31 +1046,63 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div style={{ display: "flex", gap: "5px" }}>
                     {" "}
                     <p>{result?.header?.CurrencyCode}</p>
-                    <p><sapn
-                      dangerouslySetInnerHTML={{
-                        __html: result?.header?.Currencysymbol || '',
-                      }}
-                    /></p>
+                    <p>{result?.header?.Currencysymbol}</p>
+                  </div>
+                  <div style={{ minWidth: "100px" }}>
+                    {formatAmount(result?.mainTotal?.TotalAmount)}
+                  </div>
+                  <div>
+                    <p>
+                      Rs.
+                      <span style={{ marginLeft: "5px" }}>
+                        {formatAmount(
+                          result?.mainTotal?.TotalAmount *
+                            result?.header?.CurrencyExchRate
+                        )}
+                      </span>
+                    </p>
                   </div>
                 </div>
                 <div style={{ display: "flex", gap: "10px" }}>
-                  <p>C.F.R. </p>
+                  <p>C.F.R : </p>
                   <div style={{ display: "flex", gap: "5px" }}>
                     {" "}
                     <p>{result?.header?.CurrencyCode}</p>
-                    <p><sapn
-                      dangerouslySetInnerHTML={{
-                        __html: result?.header?.Currencysymbol || '',
-                      }}
-                    /></p>
+                    <p>{result?.header?.Currencysymbol}</p>
+                  </div>
+                  <div style={{ minWidth: "100px" }}>
+                    <p> {formatAmount(result?.header?.FreightCharges)}</p>
+                  </div>
+                  <div>
+                    <p>
+                      Rs.
+                      <span style={{ marginLeft: "5px" }}>
+                        {formatAmount(
+                          result?.header?.FreightCharges /
+                            result?.header?.CurrencyExchRate
+                        )}
+                      </span>
+                    </p>
                   </div>
                 </div>
                 <div>
-                  <p>Total</p>
-                  <p>HoneCurrunsy</p>
+                  <div style={{ display: "flex", gap: "5px" }}>
+                    <p>Total</p>
+                    <p>{result?.header?.CurrencyCode}</p>
+                  </div>
+                  <div></div>
                 </div>
                 <div>
-                  <p>amaount in word</p>
+                  <p>
+                    {" "}
+                    {toWords.convert(
+                      +fixedValues(
+                        result?.mainTotal?.TotalAmount *
+                          result?.header?.CurrencyExchRate,
+                        2
+                      )
+                    )}{" "}
+                  </p>
                 </div>
               </div>
 
@@ -1105,7 +1126,7 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="col_t3_6_eia">
                     {formatAmount(
                       result?.mainTotal?.TotalAmount /
-                      result?.header?.CurrencyExchRate
+                        result?.header?.CurrencyExchRate
                     )}
                   </div>
                 </div>
@@ -1125,7 +1146,7 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="col_t3_6_eia">
                     {formatAmount(
                       result?.header?.FreightCharges /
-                      result?.header?.CurrencyExchRate
+                        result?.header?.CurrencyExchRate
                     )}
                   </div>
                 </div>
@@ -1162,9 +1183,9 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="col_t3_6_eia">
                     {formatAmount(
                       result?.mainTotal?.TotalAmount /
-                      result?.header?.CurrencyExchRate +
-                      result?.header?.FreightCharges /
-                      result?.header?.CurrencyExchRate
+                        result?.header?.CurrencyExchRate +
+                        result?.header?.FreightCharges /
+                          result?.header?.CurrencyExchRate
                     )}
                   </div>
                 </div>
