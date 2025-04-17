@@ -19,6 +19,7 @@ const DesignsetPackinglist = ({ urls, token, invoiceNo, printName, evn, ApiVer }
   const [dynamicList2, setDynamicList2] = useState([]);
   const [mainTotal, setMainTotal] = useState({});
   const [result, setResult] = useState(null);
+  console.log('result: ', result);
   const [totalgrosswt, setTotalgrosswt] = useState(0);
   const [totalnetlosswt, setTotalnetlosswt] = useState(0);
   // eslint-disable-next-line no-unused-vars
@@ -112,40 +113,33 @@ const DesignsetPackinglist = ({ urls, token, invoiceNo, printName, evn, ApiVer }
     })
 
     let finalArr = [];
+    const seenDesignSetNos = new Set();
     datas?.resultArray?.forEach((e) => {
       let obj = { ...e };
       let discountOn = [];
       if (e?.IsCriteriabasedAmount === 1) {
-        if (e?.IsMetalAmount === 1) {
-          discountOn.push('Metal')
-        }
-        if (e?.IsDiamondAmount === 1) {
-          discountOn.push('Diamond')
-        }
-        if (e?.IsStoneAmount === 1) {
-          discountOn.push('Stone')
-        }
-        if (e?.IsMiscAmount === 1) {
-          discountOn.push('Misc')
-        }
-        if (e?.IsLabourAmount === 1) {
-          discountOn.push('Labour')
-        }
-        if (e?.IsSolitaireAmount === 1) {
-          discountOn.push('Solitaire')
-        }
+        if (e?.IsMetalAmount === 1) discountOn.push("Metal");
+        if (e?.IsDiamondAmount === 1) discountOn.push("Diamond");
+        if (e?.IsStoneAmount === 1) discountOn.push("Stone");
+        if (e?.IsMiscAmount === 1) discountOn.push("Misc");
+        if (e?.IsLabourAmount === 1) discountOn.push("Labour");
+        if (e?.IsSolitaireAmount === 1) discountOn.push("Solitaire");
       } else {
-        if (e?.Discount !== 0) {
-          discountOn.push('Total Amount')
-        }
+        if (e?.Discount !== 0) discountOn.push("Total Amount");
       }
 
       obj.discountOn = discountOn;
-      obj.str_discountOn = discountOn?.join(', ');
-      obj.str_discountOn = obj?.str_discountOn + " Amount";
+      obj.str_discountOn = discountOn.join(", ") + " Amount";
+
+      if (seenDesignSetNos.has(e.DesignSetNo)) {
+        obj.DesigSetImage = "";
+      } else {
+        seenDesignSetNos.add(e.DesignSetNo);
+      }
 
       finalArr.push(obj);
-    })
+    });
+
     datas.resultArray = finalArr;
 
     datas.resultArray?.sort((a, b) => {
@@ -160,6 +154,8 @@ const DesignsetPackinglist = ({ urls, token, invoiceNo, printName, evn, ApiVer }
       // If both Categoryname and SrJobno are the same, return 0
       return 0;
     });
+
+    console.log('datas: ', datas);
 
     setResult(datas);
     setLoader(false);
@@ -323,7 +319,7 @@ const DesignsetPackinglist = ({ urls, token, invoiceNo, printName, evn, ApiVer }
                                 </div>
                                 <div className="pcltbr1c2 fspcl">
                                   <div className="designimgpcl fspcl">
-                                    <img src={e?.DesignImage} alt="packinglist" id="designimgpclid" onError={(e) => handleImageError(e)} />
+                                    <img src={e?.DesigSetImage} alt="packinglist" id="designimgpclid" onError={(e) => handleImageError(e)} />
                                   </div>
                                   {/* <div className="fspcl">{e?.CertificateNo}</div> */}
                                   {e?.HUID === "" ? ("") : (<div className="fspcl text-break"> HUID - {e?.HUID} </div>)}
