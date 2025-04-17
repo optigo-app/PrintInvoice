@@ -321,9 +321,6 @@ const DesignsetPackinglist = ({ urls, token, invoiceNo, printName, evn, ApiVer }
                                   <div className="designimgpcl fspcl">
                                     <img src={e?.DesigSetImage} alt="packinglist" id="designimgpclid" onError={(e) => handleImageError(e)} />
                                   </div>
-                                  {/* <div className="fspcl">{e?.CertificateNo}</div> */}
-                                  {e?.HUID === "" ? ("") : (<div className="fspcl text-break"> HUID - {e?.HUID} </div>)}
-                                  <div className="fspcl text-break text-center w-100">{e?.lineid}</div>
                                 </div>
                                 {/* diamond */}
                                 <div className="pcltbr1c3 fspcl">
