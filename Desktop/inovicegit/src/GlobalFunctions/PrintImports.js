@@ -83,6 +83,7 @@ export const printConditions = [
   // {printName: 'print (p)', etpType: 'print', componentName: 'QuotePrintLP', evName: 'quote'},
   {printName: 'print 1', etpType: 'print', componentName: 'Print1SME'},
   {printName: 'packing list', etpType: 'print', componentName: 'PackingList'},
+  {printName: 'Designset Packinglist', etpType: 'print', componentName: 'DesignsetPackinglist'},
   {printName: 'packing list 1', etpType: 'print', componentName: 'PackingList1'},
   {printName: 'packing list 2', etpType: 'print', componentName: 'PackingList2'},
 

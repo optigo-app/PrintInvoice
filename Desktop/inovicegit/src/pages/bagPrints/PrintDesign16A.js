@@ -182,17 +182,17 @@ const PrintDesign16A = ({ queries, headers }) => {
     e.target.src = require("../../assets/img/default.jpg");
   };
 
-  //   useEffect(() => {
-  //     if (data?.length !== 0) {
-  //       if(data?.length === 1 && data[0] === 'Data Not Present' ){
-  //           return
-  //       }else{
-  //         setTimeout(() => {
-  //           window.print();
-  //         }, 5000);
-  //       }
-  //     }
-  //   }, [data]);
+    useEffect(() => {
+      if (data?.length !== 0) {
+        if(data?.length === 1 && data[0] === 'Data Not Present' ){
+            return
+        }else{
+          setTimeout(() => {
+            window.print();
+          }, 5000);
+        }
+      }
+    }, [data]);
 
   const handlePrint = (e) => {
     // e.preventDefault();
@@ -500,7 +500,7 @@ const PrintDesign16A = ({ queries, headers }) => {
                               </div>
 
                               <div
-                                style={{ height: "130px" }}
+                                style={{ height:'139px', border:'none', borderBottom: "0px solid" }}
                                 className="text_start position_relative thikborder"
                               >
                                 <div>
@@ -955,7 +955,7 @@ const PrintDesign16A = ({ queries, headers }) => {
                                 style={{
                                   justifyContent: "space-between",
                                   borderBottom: "2px solid",
-                                  borderTop: "0.5291666667mm solid #000",
+                                  borderTop: "0.5291666667mm solid #000", 
                                   borderRight: "0.2645833333mm solid #000",
                                 }}
                                 className="d_flex"
@@ -965,6 +965,7 @@ const PrintDesign16A = ({ queries, headers }) => {
                                     className="thikborder"
                                     style={{
                                       background: `${e?.data?.rd?.prioritycolorcode}`,
+                                      borderRight: "0.2645833333mm solid #000",
                                     }}
                                   >
                                     {/* <div className="bg16oldjob">
@@ -1082,7 +1083,7 @@ const PrintDesign16A = ({ queries, headers }) => {
                                   </div>
                                   <div
                                     className="thikborder"
-                                    style={{ borderBottom: "0px solid" }}
+                                    style={{ borderBottom: "0px solid", borderRight:'none' }}
                                   >
                                     <div className="header_16">
                                       <div className="jobInfo16">
@@ -1215,7 +1216,7 @@ const PrintDesign16A = ({ queries, headers }) => {
                                   </div>
                                 </div>
                                 <div
-                                  style={{ borderBottom: "0px solid" }}
+                                  style={{height:'139px', border:'none', borderBottom: "0px solid" }}
                                   className="text_start position_relative thikborder"
                                 >
                                   <div>
@@ -1627,7 +1628,7 @@ const PrintDesign16A = ({ queries, headers }) => {
                                       style={{
                                         paddingLeft: "0.79375mm",
                                         fontSize: "10px",
-                                        height: "3.7041666667mm",
+                                        height: "3.7041666667mm", 
                                         fontWeight: "900",
                                       }}
                                     >

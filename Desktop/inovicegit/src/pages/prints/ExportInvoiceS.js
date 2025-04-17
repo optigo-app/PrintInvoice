@@ -530,7 +530,7 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div> */}
                   </div>
                 </div>
-                <div className={` w-100  h-100`}>
+                {/* <div className={` w-100  h-100`}>
                   <div className=" border border-top-0 border-black p-1 text-start">
                     <p className="fw-normal">
                       <span className="fw-bold">Marks & Nos. Container </span>
@@ -545,9 +545,6 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       Plain Jewellery
                     </p>
                   </div>
-                  {/* <div className=" p-1 text-center">
-                                              <p className="fw-semibold">QUANTITY 2</p>
-                                          </div> */}
                 </div>
                 <div>
                   <div className="d-flex fw-bold border border-black mt-1">
@@ -627,7 +624,7 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div>{result?.header?.CompanyFullName}</div>
                     <div>Authorized Signatory</div>
                   </div>
-                </div>
+                </div> */}
               </div>
               {/* <div className="fw-bold ps-1 mt-1">INVOICE</div>
               <div className="d-flex border border-black">
@@ -1083,16 +1080,16 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     /></p>
                   </div>
                   <div style={{ minWidth: "100px" }}>
-                    <p> {formatAmount(result?.header?.FreightCharges)}</p>
+                    <p>{formatAmount(
+                      result?.header?.FreightCharges /
+                      result?.header?.CurrencyExchRate
+                    )}</p>
                   </div>
                   <div>
                     <p>
                       Rs.
                       <span style={{ marginLeft: "5px" }}>
-                        {formatAmount(
-                          result?.header?.FreightCharges /
-                          result?.header?.CurrencyExchRate
-                        )}
+                        {formatAmount(result?.header?.FreightCharges)}
                       </span>
                     </p>
                   </div>
