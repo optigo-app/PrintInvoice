@@ -786,7 +786,7 @@ const JewelleryTaxInvoiceSale = ({
                       {e?.lineid}
                     </p>
                   )}
-                  {e?.batchnumber === "" ? (
+                  {/* {e?.batchnumber === "" ? (
                     ""
                   ) : (
                     <p
@@ -796,7 +796,7 @@ const JewelleryTaxInvoiceSale = ({
                       {" "}
                       Batch : {e?.batchnumber}
                     </p>
-                  )}
+                  )} */}
                   {/* <div className="text-center w-100 " style={{position: 'absolute', top:'50%' }}><span><span className="fw-normal">QTY :</span> </span><span className="fw-bold">{e?.Quantity}</span></div> */}
                 </div>
                 <div
