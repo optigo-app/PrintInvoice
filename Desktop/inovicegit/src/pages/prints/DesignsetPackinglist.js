@@ -600,10 +600,10 @@ const DesignsetPackinglist = ({ urls, token, invoiceNo, printName, evn, ApiVer }
                                   <div className="lopclcol d-flex flex-column justify-content-between h-100  fspcl pt-1 ">
                                     <div className="d-flex flex-column justify-content-between h-100">
                                       <div className="end_pcl_new end_p_pcl_new">
-                                        {e?.MaKingCharge_Unit !== 0 && formatAmount(e?.MaKingCharge_Unit)}
+                                        {e?.MaKingCharge_Unit !== 0 ? formatAmount(e?.MaKingCharge_Unit) : "\u00A0"}
                                       </div>
                                       <div className="fw-bold end_p_pcl_new bg_pcl br_top_pcl end_pcl_new">
-                                        {e?.MaKingCharge_Unit !== 0 && formatAmount(e?.MaKingCharge_Unit)}
+                                        {e?.MaKingCharge_Unit !== 0 ? formatAmount(e?.MaKingCharge_Unit) : "\u00A0"}
                                       </div>
                                     </div>
                                   </div>
@@ -717,15 +717,15 @@ const DesignsetPackinglist = ({ urls, token, invoiceNo, printName, evn, ApiVer }
                             <b className="fspcl"></b>
                           </div>
                           <div className="diapcltotrowtb">
-                            <div className="dcolsthpcl" style={{width:'27%', backgroundColor: '#F5F5F5 !important' }} ></div>
-                            <div className="dcolsthpcl" style={{width:'27%',  backgroundColor: '#F5F5F5 !important' }} ></div>
+                            <div className="dcolsthpcl" style={{ width: '27%', backgroundColor: '#F5F5F5 !important' }} ></div>
+                            <div className="dcolsthpcl" style={{ width: '27%', backgroundColor: '#F5F5F5 !important' }} ></div>
                             <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-import { value } from './ExportDeclarationForm';
-items-center end_p_pcl_new" style={{width:'22%'}}>
+items-center end_p_pcl_new" style={{ width: '22%' }}>
                               {result?.mainTotal?.diamonds?.Wt !== 0 && result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
                             </div>
                             {/* <div className="dcolsthpcl" style={{ width: "22%" }} ></div> */}
-                            <div className="dcolsthpcl" style={{width:'27%',borderRight:'none' }} ></div>
-                            <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{width:'22%', borderRight:'none'}}>
+                            <div className="dcolsthpcl" style={{ width: '27%', borderRight: 'none' }} ></div>
+                            <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ width: '22%', borderRight: 'none' }}>
                               {result?.mainTotal?.diamonds?.Amount !== 0 && formatAmount(((result?.mainTotal?.diamonds?.Amount) / (result?.header?.CurrencyExchRate)))}
                             </div>
                           </div>
@@ -737,7 +737,11 @@ items-center end_p_pcl_new" style={{width:'22%'}}>
                             <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ width: "18%" }} >
                               {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
                               {/* {(result?.mainTotal?.metal?.IsPrimaryMetal + result?.mainTotal?.lossWt)?.toFixed(3)} */}
-                              {(result?.mainTotal?.metal?.IsPrimaryMetal)?.toFixed(3)}
+                              {netWtflag &&
+                                <>
+                                  {(result?.mainTotal?.metal?.IsPrimaryMetal)?.toFixed(3)}
+                                </>
+                              }
                             </div>
                             {/* <div className="dcolsthpcl" style={{ width: "20%" }} ></div> */}
                             <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", width: "42%", }} >
