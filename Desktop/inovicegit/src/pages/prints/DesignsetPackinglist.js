@@ -724,10 +724,10 @@ items-center end_p_pcl_new" style={{width:'22%'}}>
                               {result?.mainTotal?.diamonds?.Wt !== 0 && result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
                             </div>
                             {/* <div className="dcolsthpcl" style={{ width: "22%" }} ></div> */}
+                            <div className="dcolsthpcl" style={{width:'27%',borderRight:'none' }} ></div>
                             <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{width:'22%', borderRight:'none'}}>
                               {result?.mainTotal?.diamonds?.Amount !== 0 && formatAmount(((result?.mainTotal?.diamonds?.Amount) / (result?.header?.CurrencyExchRate)))}
                             </div>
-                            <div className="dcolsthpcl" style={{width:'27%',borderRight:'none' }} ></div>
                           </div>
                           <div className="diapcltotrowtb">
                             <div className="dcolsthpcl" style={{ width: "22%" }} ></div>
