@@ -18,9 +18,11 @@ import style from "../../assets/css/prints/exportPrint1.module.css";
 import { ToWords } from "to-words";
 const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
+  console.log('result: ', result);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [data, setData] = useState([]);
+  console.log('data: ', data);
   const toWords = new ToWords();
   const [metalValue, setMetalValue] = useState({
     ShapeName: "",
@@ -780,7 +782,7 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div
                         className={`${style.QuantityPcsExport1}  border-black border-end`}
                       >
-                        <p className="">{e?.quantityPcs} Pcs</p>
+                        <p className="">{e?.Quantity} Pcs</p>
                       </div>
                       <div
                         className={`${style.HSNCODEExport1}  border-black border-end`}
@@ -798,7 +800,7 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         className={`${style.RateExport1}  border-black border-end`}
                       >
                         <p className="text-end ">
-                          {NumberWithCommas(e?.TotalAmount / e?.quantityPcs, 2)}
+                          {NumberWithCommas(e?.TotalAmount / e?.Quantity, 2)}
                         </p>
                       </div>
                       <div className={`${style.AmountExport1} `}>
