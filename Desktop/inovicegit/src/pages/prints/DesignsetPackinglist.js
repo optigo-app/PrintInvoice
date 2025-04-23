@@ -431,7 +431,11 @@ const DesignsetPackinglist = ({ urls, token, invoiceNo, printName, evn, ApiVer }
                                               {e?.grosswt?.toFixed(3)}
                                             </div>
                                             <div className="dcolsthpcl end_pcl_new end_p_pcl_new fspcl p_2_pcl" style={{ width: "18%" }} >
-                                              {(e?.totals?.metal?.IsPrimaryMetal)?.toFixed(3)}
+                                              {netWtflag &&
+                                                <>
+                                                  {(e?.totals?.metal?.IsPrimaryMetal)?.toFixed(3)}
+                                                </>
+                                              }
                                             </div>
                                             <div className="dcolsthpcl fspcl p_2_pcl" style={{ width: "20%" }} >
                                               {
@@ -461,7 +465,7 @@ const DesignsetPackinglist = ({ urls, token, invoiceNo, printName, evn, ApiVer }
                                         <div className=" fspcl text-break br_top_pcl text-break bg_pcl fw-bold end_pcl_new end_p_pcl_new w-100" >
                                           <div className="be_1_pcl end_pcl_new end_p_pcl_new fspcl " style={{ width: "22%" }}>&nbsp;</div>
                                           <div className="be_1_pcl end_pcl_new end_p_pcl_new fspcl " style={{ width: "18%" }}>{e?.grosswt?.toFixed(3)}</div>
-                                          <div className="be_1_pcl end_pcl_new end_p_pcl_new fspcl " style={{ width: "18%" }}> {(e?.totals?.metal?.IsPrimaryMetal)?.toFixed(3)}</div>
+                                          <div className="be_1_pcl end_pcl_new end_p_pcl_new fspcl " style={{ width: "18%" }}> {netWtflag ? (e?.totals?.metal?.IsPrimaryMetal)?.toFixed(3) : '\u00A0'}</div>
                                           <div className="be_1_pcl end_pcl_new end_p_pcl_new fspcl " style={{ width: "20%" }}>&nbsp;</div>
                                           <div className="end_pcl_new end_p_pcl_new fspcl " style={{ width: "22%" }}>{formatAmount((e?.totals?.metal?.IsPrimaryMetal_Amount / result?.header?.CurrencyExchRate))}</div>
                                         </div>
