@@ -701,7 +701,7 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
               </div> */}
               <div
-                className={`d-flex  border-black border-bottom border-start border-end mt-2 border-top ${style.rowExport1}`}
+                className={`plist d-flex  border-black border-bottom border-start border-end mt-2 border-top ${style.rowExport1}`}
               >
                 <div
                   className={`${style.srNoExport1}  border-black border-end`}
@@ -809,7 +809,7 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                   );
                 })}
-              <div className="mt-3">
+              <div className="Pdata mt-3">
                 <div className="d-flex border border-black fw-semibold">
                   <div className="col_t2_1_eia p-1 ">RM KT</div>
                   <div className="col_t2_2_eia p-1 ">Loss %</div>
@@ -1034,7 +1034,7 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 )} */}
               </div>
 
-              <div className="border border-black" style={{ marginTop: '7px', padding: '5px' }}>
+              <div className="ptotal border border-black" style={{ marginTop: '7px', padding: '5px' }}>
                 <div style={{ display: "flex", gap: "10px" }}>
                   <p>Ex. Rate : </p>
                   <div style={{ display: "flex", gap: "5px" }}>
@@ -1115,7 +1115,7 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
               </div>
 
-              <div>
+              <div className="pother">
                 <div className="border border-black mt-3 px-1">
                   Note: Insurance By :- {result?.header?.insuranceby}
                 </div>
@@ -1209,7 +1209,7 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="col_t3_6_eia"></div>
                 </div>
               </div>
-              <div className="border border-black mt-3 p-1 text-break fw-semibold">
+              <div className="pAinword border border-black mt-3 p-1 text-break fw-semibold">
                 Amount Chargeable :{" "}
                 {numberToWord(
                   +(
@@ -1218,7 +1218,7 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   )?.toFixed(2)
                 )}
               </div>
-              <div className="mt-1">
+              <div className="pdecla mt-1">
                 Declaration :{" "}
                 <span
                   dangerouslySetInnerHTML={{
@@ -1231,7 +1231,7 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 {/* <div>Declaration : </div>
       <div className='text-break'>We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct.</div> */}
               </div>
-              <div className="d-flex minHeight_sign_eia border border-black">
+              <div className="pManual d-flex minHeight_sign_eia border border-black">
                 <div className="w-75 border-end border-black d-flex justify-content-end ps-1 align-items-start flex-column">
                   <div>Declaration : </div>
                   <div className="text-break">
