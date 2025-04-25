@@ -269,6 +269,7 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     data?.BillPrint_Json1.forEach((e, i) => {
       let PrimaryWt = 0;
       let findingWt = 0;
+      let quantity = e?.Quantity || 1;
       data?.BillPrint_Json2?.forEach((ele, ind) => {
         if (ele?.StockBarcode === e?.SrJobno) {
           if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
@@ -293,11 +294,13 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         obj.findingWt = findingWt;
         obj.pureWt = pureWt;
         obj.quantityPcs = 1;
+        obj.Quantity = quantity;
         NewArr.push(obj);
       } else {
         NewArr[findIndex].grosswt += e?.grosswt;
         NewArr[findIndex].TotalAmount += e?.TotalAmount;
         NewArr[findIndex].quantityPcs += 1;
+        NewArr[findIndex].Quantity += quantity;
       }
     });
     NewArr.sort((a, b) => {
@@ -309,7 +312,7 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       if (a.designno > b.designno) return 1;
       return 0; // If both are equal
     });
-    setData(NewArr);
+      setData(NewArr);
   };
 
   console.log("resultresult", result);
