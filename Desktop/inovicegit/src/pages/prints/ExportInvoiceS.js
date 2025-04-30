@@ -94,7 +94,7 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     );
 
     let grpArr = [];
-    console.log(datas?.resultArray);
+    console.log("--->>>", datas?.resultArray);
 
     datas?.resultArray?.forEach((e) => {
       console.log(e);
@@ -312,7 +312,7 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       if (a.designno > b.designno) return 1;
       return 0; // If both are equal
     });
-      setData(NewArr);
+    setData(NewArr);
   };
 
   console.log("resultresult", result);
@@ -803,12 +803,12 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         className={`${style.RateExport1}  border-black border-end`}
                       >
                         <p className="text-end ">
-                          {NumberWithCommas(e?.TotalAmount / e?.Quantity, 2)}
+                          {formatAmount((((e?.TotalAmount / result?.header?.CurrencyExchRate) / e?.Quantity)))}
                         </p>
                       </div>
                       <div className={`${style.AmountExport1} `}>
                         <p className="text-end">
-                          {NumberWithCommas(e?.TotalAmount, 2)}
+                          {formatAmount((e?.TotalAmount / result?.header?.CurrencyExchRate))}
                         </p>
                       </div>
                     </div>
@@ -1059,15 +1059,14 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     /></p>
                   </div>
                   <div style={{ minWidth: "100px" }}>
-                    {formatAmount(result?.mainTotal?.TotalAmount)}
+                    {formatAmount((result?.mainTotal?.TotalAmount / result?.header?.CurrencyExchRate))}
                   </div>
                   <div>
                     <p>
                       Rs.
                       <span style={{ marginLeft: "5px" }}>
                         {formatAmount(
-                          result?.mainTotal?.TotalAmount *
-                          result?.header?.CurrencyExchRate
+                          result?.mainTotal?.TotalAmount
                         )}
                       </span>
                     </p>
