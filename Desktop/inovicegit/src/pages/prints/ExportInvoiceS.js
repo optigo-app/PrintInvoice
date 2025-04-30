@@ -1105,12 +1105,15 @@ const ExportInvoiceS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div></div>
                 </div>
+
                 <div>
                   <p>
                     {" "}
                     {toWords.convert(
                       +fixedValues(
-                        result?.mainTotal?.TotalAmount *
+                        result?.mainTotal?.TotalAmount /
+                        result?.header?.CurrencyExchRate +
+                        result?.header?.FreightCharges /
                         result?.header?.CurrencyExchRate,
                         2
                       )
