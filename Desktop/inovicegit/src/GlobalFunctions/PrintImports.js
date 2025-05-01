@@ -167,6 +167,7 @@ export const SaleReturn = [
   {printName: 'packing list', etpType: 'print', componentName: 'PackingList'},
   {printName: 'summary 1', etpType: 'print', componentName: 'Summary1'},
   {printName: 'invoice print', etpType: 'print', componentName: 'InvoicePrint'},
+  {printName: 'detail print 12', etpType: 'print', componentName: 'DetailPrint12'},
   {printName: 'invoice print4', etpType: 'print', componentName: 'InvoicePrint4'},
   {printName: 'summary 4', etpType: 'print', componentName: 'Summary4'},
   {printName: 'invoice print 11', etpType: 'print', componentName: 'InvoicePrint11Clone'},
