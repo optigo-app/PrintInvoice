@@ -57,8 +57,8 @@ const HomePage = ({Token}) => {
         try {
           setLoader(true);
           let apiUrl = '';
-          if(window.location?.hostname?.toLowerCase() === 'zen' || window.location?.hostname?.toLowerCase() === 'localhost'){
-            apiUrl = "http://zen/jo/api-lib/App/BranchProductSearch";
+          if(window.location?.hostname?.toLowerCase() === 'zen' || window.location?.hostname?.toLowerCase() === 'nzen' || window.location?.hostname?.toLowerCase() === 'localhost'){
+            apiUrl = "http://nzen/jo/api-lib/App/BranchProductSearch";
           }else{
             apiUrl = "https://view.optigoapps.com/linkedapp/App/BranchProductSearch";
           }

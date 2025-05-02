@@ -5,8 +5,8 @@ const location = window.location;
 
 let url = '';
 
-if(location?.hostname?.toLowerCase() === "localhost" || location?.hostname?.toLowerCase() === "zen"){
-    url = "http://zen/jo/api-lib/App/Factory_DashBoard";
+if(location?.hostname?.toLowerCase() === "localhost" || location?.hostname?.toLowerCase() === "zen" || location?.hostname?.toLowerCase() === "nzen"){
+    url = "http://nzen/jo/api-lib/App/Factory_DashBoard";
 }else{
     url = "https://view.optigoapps.com/linkedapp/App/Factory_DashBoard";
 }

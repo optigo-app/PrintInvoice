@@ -63,8 +63,8 @@ const KPIAnalytics = ({tkn, sv, url, hostName}) => {
 
     let apiUrl_kpi = '';
 
-    if(hostName?.toLowerCase() === 'zen' || hostName?.toLowerCase() === 'localhost'){
-      apiUrl_kpi = 'http://zen/jo/api-lib/App/KPI_DashBoard';
+    if(hostName?.toLowerCase() === 'zen' || hostName?.toLowerCase() === 'nzen' || hostName?.toLowerCase() === 'localhost'){
+      apiUrl_kpi = 'http://nzen/jo/api-lib/App/KPI_DashBoard';
     }else{
       apiUrl_kpi = 'https://view.optigoapps.com/linkedapp/App/KPI_DashBoard';
     }

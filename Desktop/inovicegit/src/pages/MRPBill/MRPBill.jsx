@@ -156,9 +156,9 @@ const MRPBill = () => {
   //api calling for dropdowns
   useEffect(() => {
     let url = '';
-    if(window.location?.hostname?.toLowerCase() === 'zen' || window.location?.hostname?.toLowerCase() === 'localhost'){
-      setUrl('http://zen/jo/api-lib/App/API_MRPBill');
-      url = 'http://zen/jo/api-lib/App/API_MRPBill';
+    if(window.location?.hostname?.toLowerCase() === 'zen' || window.location?.hostname?.toLowerCase() === 'nzen' || window.location?.hostname?.toLowerCase() === 'localhost'){
+      setUrl('http://nzen/jo/api-lib/App/API_MRPBill');
+      url = 'http://nzen/jo/api-lib/App/API_MRPBill';
     }else{
       setUrl('https://view.optigoapps.com/linkedapp/App/API_MRPBill');
       url = 'https://view.optigoapps.com/linkedapp/App/API_MRPBill';
