@@ -105,10 +105,10 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
 
     return (
         <>{loader ? <Loader /> : msg === "" ?
-            <div className=''>
+            <div className='d-none'>
                 <ReactHTMLTableToExcel
                     id="test-table-xls-button"
-                    className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5"
+                    className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5 d-none"
                     table="table-to-xls"
                     filename={`${atob(printName)}${header?.InvoiceNo}_${Date.now()}`}
                     sheet="tablexls"
