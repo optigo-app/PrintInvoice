@@ -246,7 +246,6 @@ const JewelleryTaxInvoiceSale = ({
       after: afterTotal,
       grand: grandTotal,
     };
-
     resultArr?.sort((a, b) => {
       const designNoA = parseInt(a?.id?.toString()?.match(/\d+/)[0]);
       const designNoB = parseInt(b?.id?.toString()?.match(/\d+/)[0]);

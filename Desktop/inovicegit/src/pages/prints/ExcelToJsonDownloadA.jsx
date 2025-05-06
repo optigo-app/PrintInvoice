@@ -45,6 +45,7 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
                 colorStones = `With   No of ColorStone ${NumberWithCommas(diaInfo?.csPcs, 0)} Piece ColorStone Weight ${NumberWithCommas(diaInfo?.csWt, 3)} cts`;
             }
             let obj = {
+                id: e?.id,
                 srNo: i,
                 barcode: e?.SrJobno,
                 designNo: e?.designno,
@@ -60,6 +61,12 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
             };
             resultArr.push(obj);
         });
+        resultArr?.sort((a, b) => {
+            const designNoA = parseInt(a?.id?.toString()?.match(/\d+/)[0]);
+            const designNoB = parseInt(b?.id?.toString()?.match(/\d+/)[0]);
+            return designNoA - designNoB;
+        });
+        console.log('resultArr: ', resultArr);
         setData(resultArr);
         setHeader(json0Data);
         setTimeout(() => {
@@ -98,10 +105,10 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
 
     return (
         <>{loader ? <Loader /> : msg === "" ?
-            <div className='d-none'>
+            <div className=''>
                 <ReactHTMLTableToExcel
                     id="test-table-xls-button"
-                    className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5 d-none"
+                    className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5"
                     table="table-to-xls"
                     filename={`${atob(printName)}${header?.InvoiceNo}_${Date.now()}`}
                     sheet="tablexls"
