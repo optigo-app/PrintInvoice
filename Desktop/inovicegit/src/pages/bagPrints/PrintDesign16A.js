@@ -195,8 +195,15 @@ const PrintDesign16A = ({ queries, headers }) => {
     }, [data]);
 
   const handlePrint = (e) => {
-    // e.preventDefault();
-    // window.print();
+    if (data?.length !== 0) {
+      if(data?.length === 1 && data[0] === 'Data Not Present' ){
+          return
+      }else{
+        setTimeout(() => {
+          window.print();
+        }, 500);
+      }
+    }
   };
 
   console.log('datadatadata', data);

@@ -35,9 +35,9 @@ const PrintDesign16 = ({ queries, headers }) => {
 
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
         // eslint-disable-next-line array-callback-return
-        if(datas?.length === 0){
+        if (datas?.length === 0) {
           setData(['Data Not Present'])
-        }else{
+        } else {
           datas?.map((a) => {
             let length = 0;
             let clr = {
@@ -76,7 +76,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                 clrpcs = clrpcs + e?.ActualPcs;
               }
             });
-  
+
             if (diamondData?.length > 0) {
               let diamondDataObject = {
                 ActualPcs: diamondPcs,
@@ -137,7 +137,7 @@ const PrintDesign16 = ({ queries, headers }) => {
             for (let i = 0; i < originlData?.length; i += chunkSize) {
               let len = 15 - originlData?.slice(i, i + chunkSize)?.length;
               count++;
-  
+
               if (count % 5 === 0) {
               }
               chData?.push({
@@ -164,16 +164,16 @@ const PrintDesign16 = ({ queries, headers }) => {
               },
             });
           });
-        setData(responseData);
+          setData(responseData);
 
         }
-     
+
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleImageError = (e) => {
@@ -182,9 +182,9 @@ const PrintDesign16 = ({ queries, headers }) => {
 
   useEffect(() => {
     if (data?.length !== 0) {
-      if(data?.length === 1 && data[0] === 'Data Not Present' ){
-          return
-      }else{
+      if (data?.length === 1 && data[0] === 'Data Not Present') {
+        return
+      } else {
         setTimeout(() => {
           window.print();
         }, 5000);
@@ -193,12 +193,19 @@ const PrintDesign16 = ({ queries, headers }) => {
   }, [data]);
 
   const handlePrint = (e) => {
-    // e.preventDefault();
-    // window.print();
+    if (data?.length !== 0) {
+      if (data?.length === 1 && data[0] === 'Data Not Present') {
+        return
+      } else {
+        setTimeout(() => {
+          window.print();
+        }, 500);
+      }
+    }
   };
 
   console.log('datadatadata', data);
-  
+
   return (
     <div>
       {data?.length === 0 ? (
@@ -226,15 +233,15 @@ const PrintDesign16 = ({ queries, headers }) => {
                     ></div>
                   )
               )}
-              
-              { (data?.length === 1 && data[0] === 'Data Not Present') ? <div className="mt-4 w-100 text-center fs-4 fw-bold text-danger">Data Not Present</div> :  data?.map((e, i) => {
+
+              {(data?.length === 1 && data[0] === 'Data Not Present') ? <div className="mt-4 w-100 text-center fs-4 fw-bold text-danger">Data Not Present</div> : data?.map((e, i) => {
 
                 if (e?.additional?.chdata?.length === 0) {
                   return (
                     <React.Fragment key={`bagprint16${i}`}>
                       <div
                         className="container_2 ml_8mm mb_2 mt_2 pt_2 bag_2"
-                        
+
                       >
                         <div className="print_2 ">
                           <div className="border_collapse print_design_2">
@@ -255,26 +262,26 @@ const PrintDesign16 = ({ queries, headers }) => {
                                     borderRight: "1px solid black",
                                   }}
                                 >
-                                  
-                                    <div className="bg16oldjob">
-                                      <div className="bg16oldlh7">
-                                        
-                                        {e?.data?.rd?.serialjobno}
-                                      </div>
-                                      <div className="bg16oldlh7">
-                                        <span className="bg16oldlh7">ORD:</span>
-                                        
-                                        <span className="bg16oldlh7">{(e?.data?.rd?.orderDatef !== "01Jan00" && e?.data?.rd?.orderDatef !== "01Jan1900") && e?.data?.rd?.orderDatef}</span>
-                                      </div>
-                                      <div style={{color:"red"}}>
-                                        <span className="bg16oldlh7"></span>
-                                        <span className="bg16oldlh7">{(e?.data?.rd?.promiseDatef !== "01Jan00" &&e?.data?.rd?.promiseDatef !== "01Jan1900") && `DUE: ${e?.data?.rd?.promiseDatef}`}</span>
-                                      </div>
+
+                                  <div className="bg16oldjob">
+                                    <div className="bg16oldlh7">
+
+                                      {e?.data?.rd?.serialjobno}
                                     </div>
-                                    <div className="partybg16">
-                                      <div className="d-flex"><div className="lh16bg">PARTY: </div><div className="lh16bg">{e?.data?.rd?.CustomerCode}</div></div>
-                                      <div>{e?.data?.rd?.MetalType + " " + e?.data?.rd?.MetalColor}</div>
+                                    <div className="bg16oldlh7">
+                                      <span className="bg16oldlh7">ORD:</span>
+
+                                      <span className="bg16oldlh7">{(e?.data?.rd?.orderDatef !== "01Jan00" && e?.data?.rd?.orderDatef !== "01Jan1900") && e?.data?.rd?.orderDatef}</span>
                                     </div>
+                                    <div style={{ color: "red" }}>
+                                      <span className="bg16oldlh7"></span>
+                                      <span className="bg16oldlh7">{(e?.data?.rd?.promiseDatef !== "01Jan00" && e?.data?.rd?.promiseDatef !== "01Jan1900") && `DUE: ${e?.data?.rd?.promiseDatef}`}</span>
+                                    </div>
+                                  </div>
+                                  <div className="partybg16">
+                                    <div className="d-flex"><div className="lh16bg">PARTY: </div><div className="lh16bg">{e?.data?.rd?.CustomerCode}</div></div>
+                                    <div>{e?.data?.rd?.MetalType + " " + e?.data?.rd?.MetalColor}</div>
+                                  </div>
                                   <div className="d_flex print_2_head">
                                     <div className="text_start  pl_3">
                                       DGN:
@@ -282,16 +289,15 @@ const PrintDesign16 = ({ queries, headers }) => {
                                         style={{
                                           fontWeight: "700",
                                           fontSize: "2.8mm",
-                                          lineHeight:"8px"
+                                          lineHeight: "8px"
                                         }}
                                       >
-                                        
-                                         {/* {e?.data?.rd?.Designcode1}{e?.data?.rd?.IsSplits_Quotation_Quantity} Pcs */}
+
+                                        {/* {e?.data?.rd?.Designcode1}{e?.data?.rd?.IsSplits_Quotation_Quantity} Pcs */}
                                         {e?.data?.rd?.IsSplits_Quotation_Quantity === 0
-                                            ? `${
-                                                e?.data?.rd?.Designcode1
-                                              }(${e?.data?.rd?.IsSplits_Quotation_Quantity}PCS)`
-                                            : `${e?.data?.rd?.Designcode1}(${e?.data?.rd?.IsSplits_Quotation_Quantity} PCS)`}
+                                          ? `${e?.data?.rd?.Designcode1
+                                          }(${e?.data?.rd?.IsSplits_Quotation_Quantity}PCS)`
+                                          : `${e?.data?.rd?.Designcode1}(${e?.data?.rd?.IsSplits_Quotation_Quantity} PCS)`}
                                       </span>
                                       <span
                                         style={{ fontWeight: "normal" }}
@@ -305,7 +311,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       }}
                                     >
                                       ORD NO:-{" "}
-                                      <span style={{ fontWeight: "700", lineHeight:"7px" }}>
+                                      <span style={{ fontWeight: "700", lineHeight: "7px" }}>
                                         {e?.data?.rd?.OrderNo}
                                       </span>
                                     </div>
@@ -358,7 +364,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                     </div>
                                     <div className="jobInfo16">
                                       <div className="net16A">
-                                        
+
                                         <b>
                                           {(+e?.data?.rd?.netwt)?.toFixed(3)}
                                           {/* {(+e?.data?.rd?.MetalWeight)?.toFixed(3)?.slice(0, 8)} */}
@@ -470,8 +476,8 @@ const PrintDesign16 = ({ queries, headers }) => {
                                 <div>
                                   <img
                                     src={
-                                      e?.data?.rd?.DesignImage !== '' 
-                                          ? e?.data?.rd?.DesignImage
+                                      e?.data?.rd?.DesignImage !== ''
+                                        ? e?.data?.rd?.DesignImage
                                         : require("../../assets/img/default.jpg")
                                     }
                                     alt=""
@@ -569,10 +575,10 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       <>
                                         {e?.data?.rd?.serialjobno !==
                                           undefined && (
-                                          <BarcodeGenerator
-                                            data={e?.data?.rd?.serialjobno}
-                                          />
-                                        )}
+                                            <BarcodeGenerator
+                                              data={e?.data?.rd?.serialjobno}
+                                            />
+                                          )}
                                       </>
                                     )}
                                   </div>
@@ -737,107 +743,107 @@ const PrintDesign16 = ({ queries, headers }) => {
                                   </div>
                                 </div>
                                 {
-                                  
-                                // eslint-disable-next-line array-callback-return
-                                printData[2]?.map((e, i) => {
-                                  if (
-                                    e["0"] !== "DGN INS:" &&
-                                    e["0"] !== "PRD INS:" &&
-                                    e["0"] !== "CUST INS:"
-                                  ) {
-                                    return (
-                                      <div
-                                        className="bag_footer d_flex last_line"
-                                        key={i}
-                                      >
+
+                                  // eslint-disable-next-line array-callback-return
+                                  printData[2]?.map((e, i) => {
+                                    if (
+                                      e["0"] !== "DGN INS:" &&
+                                      e["0"] !== "PRD INS:" &&
+                                      e["0"] !== "CUST INS:"
+                                    ) {
+                                      return (
                                         <div
-                                          className="border_right border_bottom bag_td"
-                                          style={{
-                                            paddingLeft: "0.79375mm",
-                                            height: "3.7041666667mm",
-                                            fontSize: "11px",
-                                          }}
+                                          className="bag_footer d_flex last_line"
+                                          key={i}
                                         >
-                                          {e["0"] === "0" ? "" : e["0"]}
+                                          <div
+                                            className="border_right border_bottom bag_td"
+                                            style={{
+                                              paddingLeft: "0.79375mm",
+                                              height: "3.7041666667mm",
+                                              fontSize: "11px",
+                                            }}
+                                          >
+                                            {e["0"] === "0" ? "" : e["0"]}
+                                          </div>
+                                          <div
+                                            className="border_right border_bottom bag_td"
+                                            style={{
+                                              paddingLeft: "0.79375mm",
+                                              height: "3.7041666667mm",
+                                              fontSize: "1.8520833333",
+                                            }}
+                                          >
+                                            {e["GRAND"] === "0" ? "" : e["GRAND"]}
+                                          </div>
+                                          <div
+                                            className="border_right border_bottom bag_td"
+                                            style={{
+                                              paddingLeft: "0.79375mm",
+                                              height: "3.7041666667mm",
+                                              fontSize: "1.8520833333",
+                                            }}
+                                          >
+                                            {e["FILLING"] === "0"
+                                              ? ""
+                                              : e["FILLING"]}
+                                          </div>
+                                          <div
+                                            className="border_right border_bottom bag_td"
+                                            style={{
+                                              paddingLeft: "0.79375mm",
+                                              height: "3.7041666667mm",
+                                              fontSize: "1.8520833333",
+                                            }}
+                                          >
+                                            {e["EPD"] === "0" ? "" : e["EPD"]}
+                                          </div>
+                                          <div
+                                            className="border_right border_bottom bag_td"
+                                            style={{
+                                              paddingLeft: "0.79375mm",
+                                              height: "3.7041666667mm",
+                                              fontSize: "1.8520833333",
+                                            }}
+                                          >
+                                            {e["P.P"] === "0" ? "" : e["P.P"]}
+                                          </div>
+                                          <div
+                                            className="border_right border_bottom bag_td"
+                                            style={{
+                                              paddingLeft: "0.79375mm",
+                                              height: "3.7041666667mm",
+                                              fontSize: "1.8520833333",
+                                            }}
+                                          >
+                                            {e["SET"] === "0" ? "" : e["SET"]}
+                                          </div>
+                                          <div
+                                            className="border_right border_bottom bag_td"
+                                            style={{
+                                              paddingLeft: "0.79375mm",
+                                              height: "3.7041666667mm",
+                                              fontSize: "1.8520833333",
+                                            }}
+                                          >
+                                            {e["F.P"] === "0" ? "" : e["F.P"]}
+                                          </div>
+                                          <div
+                                            className="border_bottom bag_td"
+                                            style={{
+                                              fontSize: "1.8520833333",
+                                              paddingLeft: "0.79375mm",
+                                              height: "3.7041666667mm",
+                                            }}
+                                          >
+                                            {e["RHD-QC"] === "0"
+                                              ? ""
+                                              : e["RHD-QC"]}
+                                          </div>
                                         </div>
-                                        <div
-                                          className="border_right border_bottom bag_td"
-                                          style={{
-                                            paddingLeft: "0.79375mm",
-                                            height: "3.7041666667mm",
-                                            fontSize: "1.8520833333",
-                                          }}
-                                        >
-                                          {e["GRAND"] === "0" ? "" : e["GRAND"]}
-                                        </div>
-                                        <div
-                                          className="border_right border_bottom bag_td"
-                                          style={{
-                                            paddingLeft: "0.79375mm",
-                                            height: "3.7041666667mm",
-                                            fontSize: "1.8520833333",
-                                          }}
-                                        >
-                                          {e["FILLING"] === "0"
-                                            ? ""
-                                            : e["FILLING"]}
-                                        </div>
-                                        <div
-                                          className="border_right border_bottom bag_td"
-                                          style={{
-                                            paddingLeft: "0.79375mm",
-                                            height: "3.7041666667mm",
-                                            fontSize: "1.8520833333",
-                                          }}
-                                        >
-                                          {e["EPD"] === "0" ? "" : e["EPD"]}
-                                        </div>
-                                        <div
-                                          className="border_right border_bottom bag_td"
-                                          style={{
-                                            paddingLeft: "0.79375mm",
-                                            height: "3.7041666667mm",
-                                            fontSize: "1.8520833333",
-                                          }}
-                                        >
-                                          {e["P.P"] === "0" ? "" : e["P.P"]}
-                                        </div>
-                                        <div
-                                          className="border_right border_bottom bag_td"
-                                          style={{
-                                            paddingLeft: "0.79375mm",
-                                            height: "3.7041666667mm",
-                                            fontSize: "1.8520833333",
-                                          }}
-                                        >
-                                          {e["SET"] === "0" ? "" : e["SET"]}
-                                        </div>
-                                        <div
-                                          className="border_right border_bottom bag_td"
-                                          style={{
-                                            paddingLeft: "0.79375mm",
-                                            height: "3.7041666667mm",
-                                            fontSize: "1.8520833333",
-                                          }}
-                                        >
-                                          {e["F.P"] === "0" ? "" : e["F.P"]}
-                                        </div>
-                                        <div
-                                          className="border_bottom bag_td"
-                                          style={{
-                                            fontSize: "1.8520833333",
-                                            paddingLeft: "0.79375mm",
-                                            height: "3.7041666667mm",
-                                          }}
-                                        >
-                                          {e["RHD-QC"] === "0"
-                                            ? ""
-                                            : e["RHD-QC"]}
-                                        </div>
-                                      </div>
-                                    );
-                                  }
-                                })}
+                                      );
+                                    }
+                                  })}
                               </div>
                               <div style={{ borderTop: "0px solid" }}>
                                 <div className="bag_footer d_flex last_line">
@@ -911,7 +917,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                       <React.Fragment key={index}>
                         <div
                           className="container_2 ml_8mm mb_2 mt_2 pt_2 bag_2"
-                          
+
                         >
                           <div className="print_2 ">
                             <div className="border_collapse print_design_2">
@@ -931,7 +937,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       background: `${e?.data?.rd?.prioritycolorcode}`,
                                     }}
                                   >
-                                    
+
                                     <div className="bg16oldjob">
                                       <div className="bg16oldlh7">
                                         {e?.data?.rd?.serialjobno}
@@ -940,7 +946,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                         <span className="bg16oldlh7">ORD:</span>
                                         <span className="bg16oldlh7">{(e?.data?.rd?.orderDatef !== "01Jan00" && e?.data?.rd?.orderDatef !== "01Jan1900") && e?.data?.rd?.orderDatef}</span>
                                       </div>
-                                      <div style={{color:"red"}}>
+                                      <div style={{ color: "red" }}>
                                         <span className="bg16oldlh7"></span>
                                         <span className="bg16oldlh7">{(e?.data?.rd?.promiseDatef !== "01Jan00" && e?.data?.rd?.promiseDatef !== "01Jan1900") && `DUE: ${e?.data?.rd?.promiseDatef}`}</span>
                                       </div>
@@ -959,9 +965,8 @@ const PrintDesign16 = ({ queries, headers }) => {
                                           }}
                                         >
                                           {e?.data?.rd?.IsSplits_Quotation_Quantity === 0
-                                            ? `${
-                                                e?.data?.rd?.Designcode1
-                                              }(${1}PCS)`
+                                            ? `${e?.data?.rd?.Designcode1
+                                            }(${1}PCS)`
                                             : `${e?.data?.rd?.Designcode1}(${e?.data?.rd?.IsSplits_Quotation_Quantity} PCS)`}
                                         </span>
                                         <span
@@ -976,7 +981,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                         }}
                                       >
                                         ORD NO:-{" "}
-                                        <span style={{ fontWeight: "normal", lineHeight:"8px" }}>
+                                        <span style={{ fontWeight: "normal", lineHeight: "8px" }}>
                                           {e?.data?.rd?.OrderNo}
                                         </span>
                                       </div>
@@ -1033,7 +1038,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                         <div className="net16A">
                                           <b>
                                             {(+e?.data?.rd?.netwt)
-                                            // {(+e?.data?.rd?.MetalWeight)
+                                              // {(+e?.data?.rd?.MetalWeight)
                                               ?.toFixed(3)
                                               ?.slice(0, 8)}
                                           </b>
@@ -1060,9 +1065,9 @@ const PrintDesign16 = ({ queries, headers }) => {
                                             {e?.data?.rd?.Quotation_SKUNo === ""
                                               ? 0
                                               : e?.data?.rd?.Quotation_SKUNo?.slice(
-                                                  0,
-                                                  7
-                                                )}
+                                                0,
+                                                7
+                                              )}
                                           </b>
                                         </div>
                                       </div>
@@ -1135,7 +1140,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                               ? ""
                                               : e?.data?.rd?.createby}
                                           </b>
-                                          
+
                                         </div>
                                       </div>
                                     </div>
@@ -1243,10 +1248,10 @@ const PrintDesign16 = ({ queries, headers }) => {
                                   >
                                     {e?.data?.rd1[0]?.SerialJobno !==
                                       undefined && (
-                                      <BarcodeGenerator
-                                        data={e?.data?.rd1[0]?.SerialJobno}
-                                      />
-                                    )}
+                                        <BarcodeGenerator
+                                          data={e?.data?.rd1[0]?.SerialJobno}
+                                        />
+                                      )}
                                   </div>
                                 </div>
 
@@ -1254,11 +1259,10 @@ const PrintDesign16 = ({ queries, headers }) => {
                                   return (
                                     <div className="d_flex" key={i}>
                                       <div
-                                        className={`border_right border_bottom display ${
-                                          e?.Shapename?.length > 15
+                                        className={`border_right border_bottom display ${e?.Shapename?.length > 15
                                             ? "line_height_fontSmall"
                                             : ""
-                                        }`}
+                                          }`}
                                         style={{
                                           width: "17.853583333mm",
                                           fontWeight:
@@ -1282,11 +1286,10 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       </div>
 
                                       <div
-                                        className={`border_right border_bottom display ${
-                                          e?.Quality?.length > 10
+                                        className={`border_right border_bottom display ${e?.Quality?.length > 10
                                             ? "line_height_fontSmall"
                                             : ""
-                                        }`}
+                                          }`}
                                         style={{
                                           width: "45.0015px",
                                           fontWeight: "bold",
@@ -1304,11 +1307,10 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       </div>
 
                                       <div
-                                        className={`border_right border_bottom display ${
-                                          e?.MetalColor?.length > 10
+                                        className={`border_right border_bottom display ${e?.MetalColor?.length > 10
                                             ? "line_height_fontSmall"
                                             : ""
-                                        }`}
+                                          }`}
                                         style={{
                                           width: "11.0015mm",
                                           fontWeight: "bold",
@@ -1323,11 +1325,10 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       </div>
 
                                       <div
-                                        className={`border_right border_bottom display ${
-                                          e?.Sizename?.length > 15
+                                        className={`border_right border_bottom display ${e?.Sizename?.length > 15
                                             ? "line_height_fontSmall"
                                             : ""
-                                        }`}
+                                          }`}
                                         style={{
                                           width: "15.880666667mm",
                                           fontWeight: "bold",
@@ -1344,11 +1345,10 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       </div>
 
                                       <div
-                                        className={`border_right border_bottom display ${
-                                          e?.ActualPcs?.length > 7
+                                        className={`border_right border_bottom display ${e?.ActualPcs?.length > 7
                                             ? "line_height_fontSmall"
                                             : ""
-                                        } wtnewclasscol16`}
+                                          } wtnewclasscol16`}
                                       >
                                         {e?.Shapename === "Total" ? (
                                           <b
@@ -1367,11 +1367,10 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       </div>
 
                                       <div
-                                        className={`border_right border_bottom display ${
-                                          e?.ActualWeight?.length > 7
+                                        className={`border_right border_bottom display ${e?.ActualWeight?.length > 7
                                             ? "line_height_fontSmall"
                                             : ""
-                                        } newclasscol16`}
+                                          } newclasscol16`}
                                       >
                                         {e?.Shapename === "Total" ? (
                                           <b
@@ -1391,11 +1390,10 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       </div>
 
                                       <div
-                                        className={`border_right2 border_bottom display ${
-                                          e?.Sizename?.length > 12
+                                        className={`border_right2 border_bottom display ${e?.Sizename?.length > 12
                                             ? "line_height_fontSmall"
                                             : ""
-                                        }`}
+                                          }`}
                                         style={{
                                           width: "11.7952mm",
                                           fontWeight: "bold",
@@ -1570,109 +1568,109 @@ const PrintDesign16 = ({ queries, headers }) => {
                                   </div>
                                   {
 
-                                  // eslint-disable-next-line array-callback-return
-                                  printData[2]?.map((e, i) => {
-                                    if (
-                                      e["0"] !== "DGN INS:" &&
-                                      e["0"] !== "PRD INS:" &&
-                                      e["0"] !== "CUST INS:"
-                                    ) {
-                                      return (
-                                        <div
-                                          className="bag_footer d_flex last_line"
-                                          key={i}
-                                        >
+                                    // eslint-disable-next-line array-callback-return
+                                    printData[2]?.map((e, i) => {
+                                      if (
+                                        e["0"] !== "DGN INS:" &&
+                                        e["0"] !== "PRD INS:" &&
+                                        e["0"] !== "CUST INS:"
+                                      ) {
+                                        return (
                                           <div
-                                            className="border_right border_bottom bag_td"
-                                            style={{
-                                              paddingLeft: "0.79375mm",
-                                              height: "3.7041666667mm",
-                                              fontSize: "10px",
-                                            }}
+                                            className="bag_footer d_flex last_line"
+                                            key={i}
                                           >
-                                            {e["0"] === "0" ? "" : e["0"]}
+                                            <div
+                                              className="border_right border_bottom bag_td"
+                                              style={{
+                                                paddingLeft: "0.79375mm",
+                                                height: "3.7041666667mm",
+                                                fontSize: "10px",
+                                              }}
+                                            >
+                                              {e["0"] === "0" ? "" : e["0"]}
+                                            </div>
+                                            <div
+                                              className="border_right border_bottom bag_td"
+                                              style={{
+                                                paddingLeft: "0.79375mm",
+                                                height: "3.7041666667mm",
+                                                fontSize: "10px",
+                                              }}
+                                            >
+                                              {e["GRAND"] === "0"
+                                                ? ""
+                                                : e["GRAND"]}
+                                            </div>
+                                            <div
+                                              className="border_right border_bottom bag_td"
+                                              style={{
+                                                paddingLeft: "0.79375mm",
+                                                height: "3.7041666667mm",
+                                                fontSize: "10px",
+                                              }}
+                                            >
+                                              {e["FILLING"] === "0"
+                                                ? ""
+                                                : e["FILLING"]}
+                                            </div>
+                                            <div
+                                              className="border_right border_bottom bag_td"
+                                              style={{
+                                                paddingLeft: "0.79375mm",
+                                                height: "3.7041666667mm",
+                                                fontSize: "10px",
+                                              }}
+                                            >
+                                              {e["EPD"] === "0" ? "" : e["EPD"]}
+                                            </div>
+                                            <div
+                                              className="border_right border_bottom bag_td"
+                                              style={{
+                                                paddingLeft: "0.79375mm",
+                                                height: "3.7041666667mm",
+                                                fontSize: "10px",
+                                              }}
+                                            >
+                                              {e["P.P"] === "0" ? "" : e["P.P"]}
+                                            </div>
+                                            <div
+                                              className="border_right border_bottom bag_td"
+                                              style={{
+                                                paddingLeft: "0.79375mm",
+                                                height: "3.7041666667mm",
+                                                fontSize: "10px",
+                                              }}
+                                            >
+                                              {e["SET"] === "0" ? "" : e["SET"]}
+                                            </div>
+                                            <div
+                                              className="border_right border_bottom bag_td"
+                                              style={{
+                                                paddingLeft: "0.79375mm",
+                                                height: "3.7041666667mm",
+                                                fontSize: "10px",
+                                              }}
+                                            >
+                                              {e["F.P"] === "0" ? "" : e["F.P"]}
+                                            </div>
+                                            <div
+                                              className="border_bottom bag_td"
+                                              style={{
+                                                fontSize: "10px",
+                                                paddingLeft: "0.79375mm",
+                                                height: "3.7041666667mm",
+                                                borderRight: "0px solid",
+                                              }}
+                                            >
+                                              {e["RHD-QC"] === "0"
+                                                ? ""
+                                                : e["RHD-QC"]}
+                                            </div>
                                           </div>
-                                          <div
-                                            className="border_right border_bottom bag_td"
-                                            style={{
-                                              paddingLeft: "0.79375mm",
-                                              height: "3.7041666667mm",
-                                              fontSize: "10px",
-                                            }}
-                                          >
-                                            {e["GRAND"] === "0"
-                                              ? ""
-                                              : e["GRAND"]}
-                                          </div>
-                                          <div
-                                            className="border_right border_bottom bag_td"
-                                            style={{
-                                              paddingLeft: "0.79375mm",
-                                              height: "3.7041666667mm",
-                                              fontSize: "10px",
-                                            }}
-                                          >
-                                            {e["FILLING"] === "0"
-                                              ? ""
-                                              : e["FILLING"]}
-                                          </div>
-                                          <div
-                                            className="border_right border_bottom bag_td"
-                                            style={{
-                                              paddingLeft: "0.79375mm",
-                                              height: "3.7041666667mm",
-                                              fontSize: "10px",
-                                            }}
-                                          >
-                                            {e["EPD"] === "0" ? "" : e["EPD"]}
-                                          </div>
-                                          <div
-                                            className="border_right border_bottom bag_td"
-                                            style={{
-                                              paddingLeft: "0.79375mm",
-                                              height: "3.7041666667mm",
-                                              fontSize: "10px",
-                                            }}
-                                          >
-                                            {e["P.P"] === "0" ? "" : e["P.P"]}
-                                          </div>
-                                          <div
-                                            className="border_right border_bottom bag_td"
-                                            style={{
-                                              paddingLeft: "0.79375mm",
-                                              height: "3.7041666667mm",
-                                              fontSize: "10px",
-                                            }}
-                                          >
-                                            {e["SET"] === "0" ? "" : e["SET"]}
-                                          </div>
-                                          <div
-                                            className="border_right border_bottom bag_td"
-                                            style={{
-                                              paddingLeft: "0.79375mm",
-                                              height: "3.7041666667mm",
-                                              fontSize: "10px",
-                                            }}
-                                          >
-                                            {e["F.P"] === "0" ? "" : e["F.P"]}
-                                          </div>
-                                          <div
-                                            className="border_bottom bag_td"
-                                            style={{
-                                              fontSize: "10px",
-                                              paddingLeft: "0.79375mm",
-                                              height: "3.7041666667mm",
-                                              borderRight: "0px solid",
-                                            }}
-                                          >
-                                            {e["RHD-QC"] === "0"
-                                              ? ""
-                                              : e["RHD-QC"]}
-                                          </div>
-                                        </div>
-                                      );
-                                    }
-                                  })}
+                                        );
+                                      }
+                                    })}
                                 </div>
                                 <div className="thikborder">
                                   <div className="bag_footer d_flex last_line">
@@ -1712,7 +1710,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       PRD INS:{" "}
                                       {/* {" " + checkInstruction(e?.data?.rd?.ProductInstruction)} */}
                                       {e?.data?.rd?.ProductInstruction?.length >
-                                      0
+                                        0
                                         ? e?.data?.rd?.ProductInstruction
                                         : ""}
                                     </div>

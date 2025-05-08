@@ -178,19 +178,29 @@ const PrintDesign16M = ({ queries, headers }) => {
     e.target.src = require("../../assets/img/default.jpg");
   };
 
-  // useEffect(() => {
-  //   if (data?.length !== 0) {
-  //     if(data?.length === 1 && data[0] === 'Data Not Present' ){
-  //         return
-  //     }else{
-  //       setTimeout(() => {
-  //         window.print();
-  //       }, 5000);
-  //     }
-  //   }
-  // }, [data]);
+  useEffect(() => {
+    if (data?.length !== 0) {
+      if (data?.length === 1 && data[0] === 'Data Not Present') {
+        return
+      } else {
+        setTimeout(() => {
+          window.print();
+        }, 5000);
+      }
+    }
+  }, [data]);
 
-  const handlePrint = (e) => { };
+  const handlePrint = (e) => {
+    if (data?.length !== 0) {
+      if (data?.length === 1 && data[0] === 'Data Not Present') {
+        return
+      } else {
+        setTimeout(() => {
+          window.print();
+        }, 500);
+      }
+    }
+  };
 
   console.log("datadatadata", data);
 
