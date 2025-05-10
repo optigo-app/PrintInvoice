@@ -309,20 +309,20 @@ const PackingListFormateExcel = ({
 
       obj.dia_code = e?.diamonds[0]
         ? e?.diamonds[0]?.ShapeName +
-          " " +
-          e?.diamonds[0]?.QualityName +
-          " " +
-          e?.diamonds[0]?.Colorname
+        " " +
+        e?.diamonds[0]?.QualityName +
+        " " +
+        e?.diamonds[0]?.Colorname
         : "";
       obj.dia_size = e?.diamonds[0] ? e?.diamonds[0]?.SizeName : "";
       obj.dia_pcs = e?.diamonds[0] ? e?.diamonds[0]?.Pcs : "";
       obj.dia_wt = e?.diamonds[0] ? e?.diamonds[0]?.Wt?.toFixed(3) : "";
       obj.dia_rate = e?.diamonds[0]
         ? Math.round(
-            e?.diamonds[0]?.Amount /
-              datas?.header?.CurrencyExchRate /
-              (e?.diamonds[0]?.Wt === 0 ? 1 : e?.diamonds[0]?.Wt)
-          )
+          e?.diamonds[0]?.Amount /
+          datas?.header?.CurrencyExchRate /
+          (e?.diamonds[0]?.Wt === 0 ? 1 : e?.diamonds[0]?.Wt)
+        )
         : "";
       obj.dia_amt = e?.diamonds[0] ? e?.diamonds[0]?.Amount : "";
       // obj.dia_rate = e?.diamonds[0] ? (Math.round(((e?.diamonds[0]?.Amount / result?.header?.CurrencyExchRate) / (e?.diamonds[0]?.Wt === 0 ? 1 : e?.diamonds[0]?.Wt)))) : '';
@@ -341,15 +341,14 @@ const PackingListFormateExcel = ({
         : "";
 
       obj.cls_code = e?.colorstone[0]
-        ? ` ${
-            e?.colorstone[0]?.MasterManagement_DiamondStoneTypeid === 3
-              ? "M:"
-              : ""
-          } ${e?.colorstone[0]?.ShapeName}` +
-          " " +
-          e?.colorstone[0]?.QualityName +
-          " " +
-          e?.colorstone[0]?.Colorname
+        ? ` ${e?.colorstone[0]?.MasterManagement_DiamondStoneTypeid === 3
+          ? "M:"
+          : ""
+        } ${e?.colorstone[0]?.ShapeName}` +
+        " " +
+        e?.colorstone[0]?.QualityName +
+        " " +
+        e?.colorstone[0]?.Colorname
         : "";
       obj.cls_size = e?.colorstone[0] ? e?.colorstone[0]?.SizeName : "";
       obj.cls_pcs = e?.colorstone[0] ? e?.colorstone[0]?.Pcs : "";
@@ -357,16 +356,16 @@ const PackingListFormateExcel = ({
       // obj.cls_rate = e?.colorstone[0] ? (Math.round(((e?.colorstone[0]?.Amount / result?.header?.CurrencyExchRate)) / ( e?.colorstone[0]?.isRateOnPcs === 1 ? (e?.colorstone[0]?.Pcs === 0 ? 1 : e?.colorstone[0]?.Pcs) :  (e?.colorstone[0]?.Wt === 0 ? 1 : e?.colorstone[0]?.Wt)))) : '';
       obj.cls_rate = e?.colorstone[0]
         ? Math.round(
-            e?.colorstone[0]?.Amount /
-              datas?.header?.CurrencyExchRate /
-              (e?.colorstone[0]?.isRateOnPcs === 1
-                ? e?.colorstone[0]?.Pcs === 0
-                  ? 1
-                  : e?.colorstone[0]?.Pcs
-                : e?.colorstone[0]?.Wt === 0
-                ? 1
-                : e?.colorstone[0]?.Wt)
-          )
+          e?.colorstone[0]?.Amount /
+          datas?.header?.CurrencyExchRate /
+          (e?.colorstone[0]?.isRateOnPcs === 1
+            ? e?.colorstone[0]?.Pcs === 0
+              ? 1
+              : e?.colorstone[0]?.Pcs
+            : e?.colorstone[0]?.Wt === 0
+              ? 1
+              : e?.colorstone[0]?.Wt)
+        )
         : "";
       obj.cls_amt = e?.colorstone[0] ? e?.colorstone[0]?.Amount : "";
 
@@ -424,8 +423,8 @@ const PackingListFormateExcel = ({
           // obj.dia_rate = (Math.round((e?.diamonds[ind + 1]?.Amount / result?.header?.CurrencyExchRate) / (e?.diamonds[ind + 1]?.Wt === 0 ? 1 : e?.diamonds[ind + 1]?.Wt)));
           obj.dia_rate = Math.round(
             e?.diamonds[ind + 1]?.Amount /
-              datas?.header?.CurrencyExchRate /
-              (e?.diamonds[ind + 1]?.Wt === 0 ? 1 : e?.diamonds[ind + 1]?.Wt)
+            datas?.header?.CurrencyExchRate /
+            (e?.diamonds[ind + 1]?.Wt === 0 ? 1 : e?.diamonds[ind + 1]?.Wt)
           );
           obj.dia_amt = e?.diamonds[ind + 1]?.Amount;
         }
@@ -442,10 +441,9 @@ const PackingListFormateExcel = ({
         if (e?.colorstone[ind + 1]) {
           obj.clsflag = true;
           obj.cls_code =
-            `${
-              e?.colorstone[ind + 1]?.MasterManagement_DiamondStoneTypeid === 3
-                ? "M:"
-                : ""
+            `${e?.colorstone[ind + 1]?.MasterManagement_DiamondStoneTypeid === 3
+              ? "M:"
+              : ""
             }  ${e?.colorstone[ind + 1]?.ShapeName}` +
             " " +
             e?.colorstone[ind + 1]?.QualityName +
@@ -457,10 +455,10 @@ const PackingListFormateExcel = ({
           // obj.cls_rate = (Math.round(((e?.colorstone[ind + 1]?.Amount / result?.header?.CurrencyExchRate)) / (e?.colorstone[ind + 1]?.Wt === 0 ? 1 : e?.colorstone[ind + 1]?.Wt)));
           obj.cls_rate = Math.round(
             e?.colorstone[ind + 1]?.Amount /
-              datas?.header?.CurrencyExchRate /
-              (e?.colorstone[ind + 1]?.Wt === 0
-                ? 1
-                : e?.colorstone[ind + 1]?.Wt)
+            datas?.header?.CurrencyExchRate /
+            (e?.colorstone[ind + 1]?.Wt === 0
+              ? 1
+              : e?.colorstone[ind + 1]?.Wt)
           );
           obj.cls_amt = e?.colorstone[ind + 1]?.Amount;
         }
@@ -511,16 +509,16 @@ const PackingListFormateExcel = ({
     rowObj.dia_info_name =
       diarndotherarr5[0] !== undefined
         ? diarndotherarr5[0]?.ShapeName +
-          " " +
-          diarndotherarr5[0]?.QualityName +
-          " " +
-          diarndotherarr5[0]?.Colorname
+        " " +
+        diarndotherarr5[0]?.QualityName +
+        " " +
+        diarndotherarr5[0]?.Colorname
         : "";
     rowObj.dia_info_value =
       diarndotherarr5[0] !== undefined
         ? diarndotherarr5[0]?.pcPcss +
-          " / " +
-          diarndotherarr5[0]?.wtWts?.toFixed(3)
+        " / " +
+        diarndotherarr5[0]?.wtWts?.toFixed(3)
         : "";
     rowObj.sum_info_name =
       catewise[0] === undefined ? "" : catewise[0]?.Categoryname;
@@ -538,16 +536,16 @@ const PackingListFormateExcel = ({
       diarndotherarr5[1] === undefined
         ? ""
         : diarndotherarr5[1]?.ShapeName +
-          " " +
-          diarndotherarr5[1]?.QualityName +
-          " " +
-          diarndotherarr5[1]?.Colorname;
+        " " +
+        diarndotherarr5[1]?.QualityName +
+        " " +
+        diarndotherarr5[1]?.Colorname;
     rowObj1.dia_info_value =
       diarndotherarr5[1] === undefined
         ? ""
         : diarndotherarr5[1]?.pcPcss +
-          " / " +
-          diarndotherarr5[1]?.wtWts?.toFixed(3);
+        " / " +
+        diarndotherarr5[1]?.wtWts?.toFixed(3);
     // rowObj1.dia_info_name = ((diarndotherarr5[1]?.ShapeName !== undefined ? diarndotherarr5[1]?.ShapeName : "") + " " +
     // ((diarndotherarr5[1]?.QualityName) === undefined ? '' : diarndotherarr5[1]?.QualityName) + " " + (diarndotherarr5[1]?.Colorname === undefined) ? '' : diarndotherarr5[1]?.Colorname)
     // rowObj1.dia_info_value = ((diarndotherarr5[1]?.pcPcss === undefined ? '' : diarndotherarr5[1]?.Colorname ) + " / " + ( diarndotherarr5[1]?.wtWts === undefined ? '' : (diarndotherarr5[1]?.wtWts)?.toFixed(3)))
@@ -560,28 +558,27 @@ const PackingListFormateExcel = ({
 
     let rowObj2 = {};
     rowObj2.grosswt_name = "DIAMOND WT";
-    rowObj2.grosswt_value = `${
-      datas?.mainTotal?.diamonds?.Pcs
-    } / ${datas?.mainTotal?.diamonds?.Wt?.toFixed(3)}`;
+    rowObj2.grosswt_value = `${datas?.mainTotal?.diamonds?.Pcs
+      } / ${datas?.mainTotal?.diamonds?.Wt?.toFixed(3)}`;
     rowObj2.name = "CST";
     rowObj2.value = formatAmount(
       datas?.mainTotal?.colorstone?.Amount +
-        datas?.mainTotal?.misc?.onlyIsHSCODE0_Amount
+      datas?.mainTotal?.misc?.onlyIsHSCODE0_Amount
     );
     rowObj2.dia_info_name =
       diarndotherarr5[2] === undefined
         ? ""
         : diarndotherarr5[2]?.ShapeName +
-          " " +
-          diarndotherarr5[2]?.QualityName +
-          " " +
-          diarndotherarr5[2]?.Colorname;
+        " " +
+        diarndotherarr5[2]?.QualityName +
+        " " +
+        diarndotherarr5[2]?.Colorname;
     rowObj2.dia_info_value =
       diarndotherarr5[2] === undefined
         ? ""
         : diarndotherarr5[2]?.pcPcss +
-          " / " +
-          diarndotherarr5[2]?.wtWts?.toFixed(3);
+        " / " +
+        diarndotherarr5[2]?.wtWts?.toFixed(3);
     rowObj2.sum_info_name =
       catewise[2] === undefined ? "" : catewise[2]?.Categoryname;
     rowObj2.sum_info_value =
@@ -591,29 +588,28 @@ const PackingListFormateExcel = ({
 
     let rowObj3 = {};
     rowObj3.grosswt_name = "STONE WT";
-    rowObj3.grosswt_value = `${
-      datas?.mainTotal?.colorstone?.Pcs
-    } / ${datas?.mainTotal?.colorstone?.Wt?.toFixed(3)}`;
+    rowObj3.grosswt_value = `${datas?.mainTotal?.colorstone?.Pcs
+      } / ${datas?.mainTotal?.colorstone?.Wt?.toFixed(3)}`;
     rowObj3.name = "MAKING";
     rowObj3.value = formatAmount(
       datas?.mainTotal?.total_Making_Amount +
-        datas?.mainTotal?.diamonds?.SettingAmount +
-        datas?.mainTotal?.colorstone?.SettingAmount
+      datas?.mainTotal?.diamonds?.SettingAmount +
+      datas?.mainTotal?.colorstone?.SettingAmount
     );
     rowObj3.dia_info_name =
       diarndotherarr5[3] === undefined
         ? ""
         : diarndotherarr5[3]?.ShapeName +
-          " " +
-          diarndotherarr5[3]?.QualityName +
-          " " +
-          diarndotherarr5[3]?.Colorname;
+        " " +
+        diarndotherarr5[3]?.QualityName +
+        " " +
+        diarndotherarr5[3]?.Colorname;
     rowObj3.dia_info_value =
       diarndotherarr5[3] === undefined
         ? ""
         : diarndotherarr5[3]?.pcPcss +
-          " / " +
-          diarndotherarr5[3]?.wtWts?.toFixed(3);
+        " / " +
+        diarndotherarr5[3]?.wtWts?.toFixed(3);
     rowObj3.sum_info_name =
       catewise[3] === undefined ? "" : catewise[3]?.Categoryname;
     rowObj3.sum_info_value =
@@ -627,23 +623,23 @@ const PackingListFormateExcel = ({
     rowObj4.name = "OTHER";
     rowObj4.value = formatAmount(
       datas?.mainTotal?.total_other +
-        datas?.mainTotal?.totalMiscAmount +
-        datas?.mainTotal?.total_diamondHandling
+      datas?.mainTotal?.totalMiscAmount +
+      datas?.mainTotal?.total_diamondHandling
     );
     rowObj4.dia_info_name =
       diarndotherarr5[4] === undefined
         ? ""
         : diarndotherarr5[4]?.ShapeName +
-          " " +
-          diarndotherarr5[4]?.QualityName +
-          " " +
-          diarndotherarr5[4]?.Colorname;
+        " " +
+        diarndotherarr5[4]?.QualityName +
+        " " +
+        diarndotherarr5[4]?.Colorname;
     rowObj4.dia_info_value =
       diarndotherarr5[4] === undefined
         ? ""
         : diarndotherarr5[4]?.pcPcss +
-          " / " +
-          diarndotherarr5[4]?.wtWts?.toFixed(3);
+        " / " +
+        diarndotherarr5[4]?.wtWts?.toFixed(3);
     rowObj4.sum_info_name =
       catewise[4] === undefined ? "" : catewise[4]?.Categoryname;
     rowObj4.sum_info_value =
@@ -662,16 +658,16 @@ const PackingListFormateExcel = ({
       diarndotherarr5[5] === undefined
         ? ""
         : diarndotherarr5[5]?.ShapeName +
-          " " +
-          diarndotherarr5[5]?.QualityName +
-          " " +
-          diarndotherarr5[5]?.Colorname;
+        " " +
+        diarndotherarr5[5]?.QualityName +
+        " " +
+        diarndotherarr5[5]?.Colorname;
     rowObj5.dia_info_value =
       diarndotherarr5[5] === undefined
         ? ""
         : diarndotherarr5[5]?.pcPcss +
-          " / " +
-          diarndotherarr5[5]?.wtWts?.toFixed(3);
+        " / " +
+        diarndotherarr5[5]?.wtWts?.toFixed(3);
     rowObj5.sum_info_name =
       catewise[5] === undefined ? "" : catewise[5]?.Categoryname;
     rowObj5.sum_info_value =
@@ -688,16 +684,16 @@ const PackingListFormateExcel = ({
       diarndotherarr5[6] === undefined
         ? ""
         : diarndotherarr5[6]?.ShapeName +
-          " " +
-          diarndotherarr5[6]?.QualityName +
-          " " +
-          diarndotherarr5[6]?.Colorname;
+        " " +
+        diarndotherarr5[6]?.QualityName +
+        " " +
+        diarndotherarr5[6]?.Colorname;
     rowObj6.dia_info_value =
       diarndotherarr5[6] === undefined
         ? ""
         : diarndotherarr5[6]?.pcPcss +
-          " / " +
-          diarndotherarr5[6]?.wtWts?.toFixed(3);
+        " / " +
+        diarndotherarr5[6]?.wtWts?.toFixed(3);
     rowObj6.sum_info_name =
       catewise[6] === undefined ? "" : catewise[6]?.Categoryname;
     rowObj6.sum_info_value =
@@ -711,23 +707,23 @@ const PackingListFormateExcel = ({
     rowObj7.name = "TOTAL";
     rowObj7.value = formatAmount(
       datas?.mainTotal.total_amount +
-        datas?.header?.AddLess +
-        datas?.allTaxesTotal * datas?.header?.CurrencyExchRate
+      datas?.header?.AddLess +
+      datas?.allTaxesTotal * datas?.header?.CurrencyExchRate
     );
     rowObj7.dia_info_name =
       diarndotherarr5[7] === undefined
         ? ""
         : diarndotherarr5[7]?.ShapeName +
-          " " +
-          diarndotherarr5[7]?.QualityName +
-          " " +
-          diarndotherarr5[7]?.Colorname;
+        " " +
+        diarndotherarr5[7]?.QualityName +
+        " " +
+        diarndotherarr5[7]?.Colorname;
     rowObj7.dia_info_value =
       diarndotherarr5[7] === undefined
         ? ""
         : diarndotherarr5[7]?.pcPcss +
-          " / " +
-          diarndotherarr5[7]?.wtWts?.toFixed(3);
+        " / " +
+        diarndotherarr5[7]?.wtWts?.toFixed(3);
     rowObj7.sum_info_name =
       catewise[7] === undefined ? "" : catewise[7]?.Categoryname;
     rowObj7.sum_info_value =
@@ -755,17 +751,17 @@ const PackingListFormateExcel = ({
         rowObjs.dia_info_name =
           diarndotherarr5[i] !== undefined
             ? diarndotherarr5[i]?.ShapeName +
-              " " +
-              diarndotherarr5[i]?.QualityName +
-              " " +
-              diarndotherarr5[i]?.Colorname
+            " " +
+            diarndotherarr5[i]?.QualityName +
+            " " +
+            diarndotherarr5[i]?.Colorname
             : "";
         rowObjs.dia_info_value =
           diarndotherarr5[i] === undefined
             ? ""
             : diarndotherarr5[i]?.pcPcss +
-              " / " +
-              diarndotherarr5[i]?.wtWts?.toFixed(3);
+            " / " +
+            diarndotherarr5[i]?.wtWts?.toFixed(3);
         rowObjs.sum_info_name =
           catewise[i] !== undefined ? catewise[i]?.Categoryname : "";
         rowObjs.sum_info_value =
@@ -916,9 +912,8 @@ const PackingListFormateExcel = ({
                   id="test-table-xls-button"
                   className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5 d-none"
                   table="table-to-xls"
-                  filename={`TaxInvoice_${
-                    result?.header?.InvoiceNo
-                  }_${Date.now()}`}
+                  filename={`TaxInvoice_${result?.header?.InvoiceNo
+                    }_${Date.now()}`}
                   sheet="tablexls"
                   buttonText="Download as XLS"
                 />
@@ -1031,8 +1026,8 @@ const PackingListFormateExcel = ({
                   </tr>
                   {result?.resultArray?.map((data, index) => {
 
-                    console.log('data?.diamondsdata?.diamonds',data?.diamonds);
-                    
+                    console.log('data?.diamondsdata?.diamonds', data?.diamonds);
+
                     return (
                       <tr key={index}>
                         <td>{data?.SrNo}</td>

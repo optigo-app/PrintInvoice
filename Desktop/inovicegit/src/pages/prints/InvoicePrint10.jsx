@@ -59,6 +59,7 @@ const InvoicePrint_10_11 = ({
     resultArr: [],
     findings: [],
     diamonds: [],
+    masterTypeNameWiseDiamonds: [],
     colorStones: [],
     miscs: [],
     otherCharges: [],
@@ -70,6 +71,7 @@ const InvoicePrint_10_11 = ({
     total: 0,
     discount: 0,
     totalPcs: 0,
+    totalAmount: 0,
   });
 
   const loadData = (data) => {
@@ -112,6 +114,9 @@ const InvoicePrint_10_11 = ({
     let totalPcss = [];
     let jobWiseLabourCalc = 0;
     let jobWiseMinusFindigWt = 0;
+    let totalSumAmount = 0;
+    let diamondGroupedArray = [];
+
     datas?.resultArray?.map((e, i) => {
       let obj = cloneDeep(e);
       let findingWt = 0;
@@ -162,6 +167,7 @@ const InvoicePrint_10_11 = ({
       let count = 0;
       let secondMetalWt = 0;
       let netWtFinal = e?.NetWt + e?.LossWt - findingsWt;
+
 
       diamondHandling += e?.TotalDiamondHandling;
       e?.metal?.forEach((ele, ind) => {
@@ -223,6 +229,28 @@ const InvoicePrint_10_11 = ({
 
       jobWiseLabourCalc += (e?.MetalDiaWt - findingWt) * e?.MaKingCharge_Unit;
       jobWiseMinusFindigWt += e?.MetalDiaWt - findingWt;
+
+
+      e?.diamonds?.forEach((ele) => {
+        debugger
+        diamondTotal += ele?.Amount || 0;
+
+        const existing = diamondGroupedArray.find(item => item.MaterialTypeName === ele.MaterialTypeName);
+
+        if (existing) {
+          existing.Pcs += ele.Pcs || 0;
+          existing.Wt += ele.Wt || 0;
+          existing.Amount += ele.Amount || 0;
+        } else {
+          diamondGroupedArray.push({
+            ...ele,
+            Pcs: ele.Pcs || 0,
+            Wt: ele.Wt || 0,
+            Amount: ele.Amount || 0,
+            Rate: ele?.Rate || 0,
+          });
+        }
+      });
 
       e?.diamonds?.forEach((ele, ind) => {
         let findDiamond = diamonds?.findIndex(
@@ -305,6 +333,7 @@ const InvoicePrint_10_11 = ({
     });
     let finalsArr = [];
     resultArr?.forEach((e, i) => {
+      debugger
       let finalMetalWt =
         e?.MetalDiaWt -
         (e?.totals?.finding?.Wt * e?.LossPer) / 100 +
@@ -315,6 +344,7 @@ const InvoicePrint_10_11 = ({
       let obj = cloneDeep(e);
       obj.finalMetalWt = finalMetalWt;
       obj.finalRate = finalRate;
+      totalSumAmount = e?.TotalAmount
       finalsArr?.push(obj);
     });
     let totalPcs = totalPcss?.reduce((acc, cObj) => acc + cObj?.value, 0);
@@ -390,19 +420,23 @@ const InvoicePrint_10_11 = ({
     });
 
 
+
+
     let tot_invp10 = 0;
     finalsArr?.forEach((e, i) => {
-      console.log('finalArr',e , e?.metalAmountFinal);
+      console.log('finalArr', e, e?.metalAmountFinal);
       tot_invp10 += e?.metalAmountFinal;
     })
 
 
-    setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, });
+
+    setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, totalAmount: totalSumAmount });
     setMainData({
       ...mainData,
       resultArr: finalsArr,
       findings: findings,
       diamonds: diamonds,
+      masterTypeNameWiseDiamonds: diamondGroupedArray,
       colorStones: colorStones,
       miscs: miscs,
       otherCharges: newArr,
@@ -436,8 +470,8 @@ const InvoicePrint_10_11 = ({
           setLoader(false);
           // setMsg(data?.Message);
           const err = checkMsg(data?.Message);
-                    console.log(data?.Message);
-                    setMsg(err);
+          console.log(data?.Message);
+          setMsg(err);
         }
       } catch (error) {
         console.error(error);
@@ -502,7 +536,7 @@ const InvoicePrint_10_11 = ({
           >
             {isImageWorking && headerData?.PrintLogo !== "" && (
               <img
-                src={headerData?.PrintLogo }
+                src={headerData?.PrintLogo}
                 alt=""
                 className="w-100 h-auto ms-auto d-block object-fit-contain"
                 style={{ maxWidth: "97px" }}
@@ -519,7 +553,7 @@ const InvoicePrint_10_11 = ({
         <div className={`mb-1 ${style?.font_15}`}>
           <div className={`d-flex justify-content-between border p-2 pb-1 `}>
             <div className={`barcodeinvp10_11`}>
-              <BarcodePrintGenerator data={headerData?.VenCode}  />
+              <BarcodePrintGenerator data={headerData?.VenCode} />
               <p className="fw-bold text-center">{headerData?.VenCode}</p>
             </div>
             <div className={`barcodeinvp10_11`}>
@@ -585,7 +619,7 @@ const InvoicePrint_10_11 = ({
             <div className="fw-bold col-6">PLACE OF SUPPLY</div>
             <div className="col-6">{headerData?.customerstate} </div>
           </div>
-          { headerData?.DueDays !== 0 && <div className="d-flex">
+          {headerData?.DueDays !== 0 && <div className="d-flex">
             <div className="fw-bold col-6">TERMS</div>
             <div className="col-6">{headerData?.DueDays} </div>
           </div>}
@@ -656,7 +690,7 @@ const InvoicePrint_10_11 = ({
               Total Pcs : {NumberWithCommas(totalss?.totalPcs, 0)}
             </p>
           </div>
-   
+
           <div className={`col-9 ${style?.fsremark_10}`}>
             {mainData?.resultArr?.map((e, i) => {
               return (
@@ -684,7 +718,7 @@ const InvoicePrint_10_11 = ({
                   </div>
                   <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end" >
                     {/* <p> {NumberWithCommas( e?.latestAmount, 2 )} </p> */}
-                    <p> {NumberWithCommas( (e?.metalAmountFinal / headerData?.CurrencyExchRate), 2 )} </p>
+                    <p> {NumberWithCommas((e?.metalAmountFinal / headerData?.CurrencyExchRate), 2)} </p>
                   </div>
                 </div>
               );
@@ -736,14 +770,15 @@ const InvoicePrint_10_11 = ({
                 </div>
               );
             })}
-            {mainData?.diamonds?.map((e, i) => {
+
+            {mainData?.masterTypeNameWiseDiamonds?.map((e, i) => {
               return (
                 <div className="d-flex" key={i}>
                   <div
                     style={{ minWidth: "17%", width: "17%" }}
                     className="px-1 text-uppercase"
                   >
-                    <p>{e?.MasterManagement_DiamondStoneTypeName}</p>
+                    <p>{e?.MaterialTypeName == "" ? e?.MasterManagement_DiamondStoneTypeName : e?.MaterialTypeName}</p>
                   </div>
                   <div
                     style={{ minWidth: "14.5%", width: "14.5%" }}
@@ -813,6 +848,7 @@ const InvoicePrint_10_11 = ({
                 </div>
               );
             })}
+
             {mainData?.colorStones?.map((e, i) => {
               return (
                 <div className="d-flex" key={i}>
@@ -1028,7 +1064,7 @@ const InvoicePrint_10_11 = ({
 
             {mainData?.otherCharges?.map((e, i) => {
               return (<>
-                { e?.label === 'HANDLING' && (e?.value === 0 || e?.value === '0.00') ? '' : <div className={`d-flex ${style?.fsremark_10}`} key={i}>
+                {e?.label === 'HANDLING' && (e?.value === 0 || e?.value === '0.00') ? '' : <div className={`d-flex ${style?.fsremark_10}`} key={i}>
                   <div
                     style={{ minWidth: "17%", width: "17%" }}
                     className=" px-1 text-uppercase"
@@ -1069,10 +1105,10 @@ const InvoicePrint_10_11 = ({
                     style={{ minWidth: "15%", width: "15%" }}
                     className=" px-1 text-end"
                   >
-                    <p>{ e?.value === undefined ? '0.00' : NumberWithCommas(e?.value, 2)}</p>
+                    <p>{e?.value === undefined ? '0.00' : NumberWithCommas(e?.value, 2)}</p>
                   </div>
                 </div>}
-                </>
+              </>
               );
             })}
           </div>
@@ -1103,7 +1139,7 @@ const InvoicePrint_10_11 = ({
               </div>
               <div className="col-2 px-1">
                 <p className={`${style?.min_height_21} text-end fw-bold`}>
-                  {/* {NumberWithCommas((totalss?.total), 2)} */}
+                  {NumberWithCommas((totalss?.totalAmount), 2)}
                 </p>
               </div>
             </div>
@@ -1205,7 +1241,7 @@ const InvoicePrint_10_11 = ({
           dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}
         ></div>
         <p className={`p-1 no_break ${style?.fsremark_10}`}>
-          <span className="fw-bold"> REMARKS :</span> <span dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></span> 
+          <span className="fw-bold"> REMARKS :</span> <span dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></span>
         </p>
         {/* {footer} */}
         <div
@@ -1215,7 +1251,7 @@ const InvoicePrint_10_11 = ({
             className={`${footerStyle.block1f3} ${style?.footers}`}
             style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
           >
-            <div className={style?.fsremark_10}  style={{ fontWeight: "bold" }}>
+            <div className={style?.fsremark_10} style={{ fontWeight: "bold" }}>
               Bank Detail
             </div>
             <div className={style?.fsremark_10}>
@@ -1233,7 +1269,7 @@ const InvoicePrint_10_11 = ({
             <div className={style?.fsremark_10}>
               RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}
             </div>
-            { pnm?.toLowerCase() === "invoice print 8" && <div className={style?.fsremark_10}>
+            {pnm?.toLowerCase() === "invoice print 8" && <div className={style?.fsremark_10}>
               Routing number: {headerData?.rtgs_neft_ifsc}
             </div>}
             <div className={style?.fsremark_10}>Enquiry No. </div>
