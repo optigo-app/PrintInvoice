@@ -195,6 +195,14 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
         whiteSpace: 'normal',
     }
 
+
+    if (result) {
+        setTimeout(() => {
+            const button = document.getElementById('test-table-xls-button');
+            button.click();
+          }, 500);
+      }
+
     return (
         <>
             {loader ? (
