@@ -72,8 +72,10 @@ const InvoicePrint_10_11 = ({
     discount: 0,
     totalPcs: 0,
     totalAmount: 0,
+    totalAmountithouttax: 0,
   });
-
+  
+  console.log('totalss: ', totalss);
   const loadData = (data) => {
     let head = HeaderComponent("1", data?.BillPrint_Json[0]);
     setHeader(head);
@@ -114,7 +116,6 @@ const InvoicePrint_10_11 = ({
     let totalPcss = [];
     let jobWiseLabourCalc = 0;
     let jobWiseMinusFindigWt = 0;
-    let totalSumAmount = 0;
     let diamondGroupedArray = [];
 
     datas?.resultArray?.map((e, i) => {
@@ -138,6 +139,7 @@ const InvoicePrint_10_11 = ({
           findingsWt += ele?.Wt;
           findings?.push(obb);
           total2.total += obb?.Amount;
+          total2.totalAmountithouttax += obb?.Amount;
         }
         if (ele?.Supplier?.toLowerCase() === "customer") {
           findingWt += ele?.Wt;
@@ -184,6 +186,7 @@ const InvoicePrint_10_11 = ({
       });
       let latestAmount = (((e?.MetalDiaWt - findingsWt) * primaryMetalRAte) + secondaryMetalAmount);
       total2.total += latestAmount;
+      total2.totalAmountithouttax += latestAmount;
       let finalMetalAmount = (e?.MetalDiaWt - (e?.totals?.finding?.Wt * e?.LossPer) / 100 + e?.totals?.finding?.Wt) * primaryMetalRAte + secondaryMetalAmount;
 
       // labour.primaryWt += primaryWt;
@@ -232,39 +235,41 @@ const InvoicePrint_10_11 = ({
 
 
       e?.diamonds?.forEach((ele) => {
-        debugger
-        diamondTotal += ele?.Amount || 0;
-
-        const existing = diamondGroupedArray.find(item => item.MaterialTypeName === ele.MaterialTypeName);
-
-        if (existing) {
-          existing.Pcs += ele.Pcs || 0;
-          existing.Wt += ele.Wt || 0;
-          existing.Amount += ele.Amount || 0;
+        const amount = ele?.Amount || 0;
+        const pcs = ele?.Pcs || 0;
+        const wt = ele?.Wt || 0;
+        const rate = ele?.Rate || 0;
+      
+        // 1. Update overall total only once
+        diamondTotal += amount;
+      
+        // 2. Group by MaterialTypeName
+        const existingMaterial = diamondGroupedArray.find(item => item.MaterialTypeName === ele.MaterialTypeName);
+        if (existingMaterial) {
+          existingMaterial.Pcs += pcs;
+          existingMaterial.Wt += wt;
+          existingMaterial.Amount += amount;
         } else {
           diamondGroupedArray.push({
             ...ele,
-            Pcs: ele.Pcs || 0,
-            Wt: ele.Wt || 0,
-            Amount: ele.Amount || 0,
-            Rate: ele?.Rate || 0,
+            Pcs: pcs,
+            Wt: wt,
+            Amount: amount,
+            Rate: rate,
           });
         }
-      });
-
-      e?.diamonds?.forEach((ele, ind) => {
-        let findDiamond = diamonds?.findIndex(
-          (elem, index) => elem?.isRateOnPcs === ele?.isRateOnPcs
-        );
-        diamondTotal += ele?.Amount;
-        if (findDiamond === -1) {
-          diamonds?.push(ele);
+      
+        // 3. Group by isRateOnPcs
+        const existingRateGroupIndex = diamonds?.findIndex(item => item?.isRateOnPcs === ele?.isRateOnPcs);
+        if (existingRateGroupIndex === -1) {
+          diamonds?.push({ ...ele });
         } else {
-          diamonds[findDiamond].Wt += ele?.Wt;
-          diamonds[findDiamond].Pcs += ele?.Pcs;
-          diamonds[findDiamond].Amount += ele?.Amount;
+          diamonds[existingRateGroupIndex].Pcs += pcs;
+          diamonds[existingRateGroupIndex].Wt += wt;
+          diamonds[existingRateGroupIndex].Amount += amount;
         }
       });
+      
 
       e?.colorstone?.forEach((ele, ind) => {
         // total2.total += (ele?.Amount );
@@ -323,6 +328,7 @@ const InvoicePrint_10_11 = ({
           (elem, index) => elem?.label === ele?.label
         );
         total2.total += +ele?.value;
+        total2.totalAmountithouttax += +ele?.value;
         if (findOther === -1) {
           otherCharges?.push(ele);
         } else {
@@ -339,17 +345,26 @@ const InvoicePrint_10_11 = ({
         (e?.totals?.finding?.Wt * e?.LossPer) / 100 +
         e?.totals?.finding?.Wt +
         e?.secondMetalWt;
-      // let finalRate = e?.latestAmount / e?.netWtFinal;
+        // let finalRate = e?.latestAmount / e?.netWtFinal;
       let finalRate = e?.metalAmountFinal / e?.netWtFinal;
       let obj = cloneDeep(e);
       obj.finalMetalWt = finalMetalWt;
       obj.finalRate = finalRate;
-      totalSumAmount = e?.TotalAmount
       finalsArr?.push(obj);
     });
     let totalPcs = totalPcss?.reduce((acc, cObj) => acc + cObj?.value, 0);
     // total2.total += labour?.totalAmount
     total2.total +=
+      diamondTotal / data?.BillPrint_Json[0]?.CurrencyExchRate +
+      colorStone1Total1 / data?.BillPrint_Json[0]?.CurrencyExchRate +
+      colorStone2Total2 / data?.BillPrint_Json[0]?.CurrencyExchRate +
+      misc1Total1 / data?.BillPrint_Json[0]?.CurrencyExchRate +
+      misc2Total2 / data?.BillPrint_Json[0]?.CurrencyExchRate +
+      labour?.totalAmount / data?.BillPrint_Json[0]?.CurrencyExchRate +
+      diamondHandling / data?.BillPrint_Json[0]?.CurrencyExchRate;
+
+      debugger
+      total2.totalAmountithouttax +=
       diamondTotal / data?.BillPrint_Json[0]?.CurrencyExchRate +
       colorStone1Total1 / data?.BillPrint_Json[0]?.CurrencyExchRate +
       colorStone2Total2 / data?.BillPrint_Json[0]?.CurrencyExchRate +
@@ -430,7 +445,7 @@ const InvoicePrint_10_11 = ({
 
 
 
-    setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, totalAmount: totalSumAmount });
+    setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, totalAmount: total2?.totalAmountithouttax });
     setMainData({
       ...mainData,
       resultArr: finalsArr,
@@ -483,6 +498,8 @@ const InvoicePrint_10_11 = ({
   const handleChange = (e) => {
     setInpDesc(e.target.value);
   }
+
+  console.log('mainData', mainData);
 
 
   return loader ? (

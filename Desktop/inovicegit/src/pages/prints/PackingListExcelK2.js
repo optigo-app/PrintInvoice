@@ -171,6 +171,10 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
 
         setCategoryNameWise(cateWise);
         setResult(datas);
+        setTimeout(() => {
+            const button = document.getElementById('test-table-xls-button');
+            button.click();
+        }, 0);
     }
 
     console.log('result: ', result);
@@ -210,7 +214,7 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                             <div className="container max_width_container pad_60_allPrint mt-4">
                                 <ReactHTMLTableToExcel
                                     id="test-table-xls-button"
-                                    className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5"
+                                    className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5  d-none"
                                     table="table-to-xls"
                                     filename={`DetailPrint11_${result?.header?.InvoiceNo}_${Date.now()}`}
                                     sheet="tablexls"
