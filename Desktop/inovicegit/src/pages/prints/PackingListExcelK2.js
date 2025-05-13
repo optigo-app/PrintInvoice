@@ -66,8 +66,8 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
         const docsString = data?.BillPrint_Json[0]?.DocumentDetail;
         const docArr = docsString?.split("#@#");
         const documentDetail = docArr?.map(doc => {
-          const [key, value] = doc.split("#-#");
-          return { key, value };
+            const [key, value] = doc.split("#-#");
+            return { key, value };
         });
         setDocumentDetail(documentDetail);
 
@@ -171,10 +171,6 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
 
         setCategoryNameWise(cateWise);
         setResult(datas);
-        setTimeout(() => {
-            const button = document.getElementById('test-table-xls-button');
-            button.click();
-        }, 0);
     }
 
     console.log('result: ', result);
@@ -196,12 +192,21 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
         whiteSpace: 'normal',
     }
 
-    if (result) {
-        setTimeout(() => {
-            const button = document.getElementById('test-table-xls-button');
-            button.click();
-          }, 500);
-      }
+    const cellMainTotalStyle = {
+        border: '1px solid black',
+        padding: '2px',
+        textAlign: 'center',
+        wordBreak: 'break-word',
+        whiteSpace: 'normal',
+      };
+      
+
+    // if (result) {
+    //     setTimeout(() => {
+    //         const button = document.getElementById('test-table-xls-button');
+    //         button.click();
+    //       }, 500);
+    //   }
 
     return (
         <>
@@ -214,10 +219,10 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                             <div className="container max_width_container pad_60_allPrint mt-4">
                                 <ReactHTMLTableToExcel
                                     id="test-table-xls-button"
-                                    className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5  d-none"
+                                    className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5"
                                     table="table-to-xls"
-                                    filename={`DetailPrint11_${result?.header?.InvoiceNo}_${Date.now()}`}
-                                    sheet="tablexls"
+                                    filename={`Packinglist_k2_${result?.header?.InvoiceNo}_${Date.now()}`}
+                                    sheet={`Packinglist_k2_${result?.header?.InvoiceNo}`}
                                     buttonText="Download as XLS" />
                                 <table id="table-to-xls">
                                     <tbody>
@@ -336,62 +341,34 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                                 <td style={{ ...cellBodyStyle }}>{formatAmount(item?.TotalAmount.toFixed(2))}</td>
                                             </tr>
                                         ))}
+                                        {/* Row for values */}
                                         <tr>
                                             <td colSpan={7} />
-                                            <td
-                                                style={{
-                                                    border: '1px solid black',
-                                                    padding: '2px',
-                                                    textAlign: 'center',
-                                                    wordBreak: 'break-word',
-                                                    whiteSpace: 'normal'
-                                                }}
-                                            >
-                                                {(result?.mainTotal?.diamonds?.Wt)?.toFixed(2)}
-                                                <br />
-                                                CARATS
+                                            <td style={{...cellMainTotalStyle, borderBottom:'none'}}>
+                                                {(result?.mainTotal?.diamonds?.Wt ?? 0).toFixed(2)}
                                             </td>
-                                            <td
-                                                style={{
-                                                    border: '1px solid black',
-                                                    padding: '2px',
-                                                    textAlign: 'center',
-                                                    wordBreak: 'break-word',
-                                                    whiteSpace: 'normal'
-                                                }}
-                                            >
-                                                {(result?.mainTotal?.colorstone?.Wt)?.toFixed(2)}
-                                                <br />
-                                                CARATS
+                                            <td style={{...cellMainTotalStyle, borderBottom:'none'}}>
+                                                {(result?.mainTotal?.colorstone?.Wt ?? 0).toFixed(2)}
                                             </td>
-                                            <td />
-                                            <td
-                                                style={{
-                                                    border: '1px solid black',
-                                                    padding: '2px',
-                                                    textAlign: 'center',
-                                                    wordBreak: 'break-word',
-                                                    whiteSpace: 'normal'
-                                                }}
-                                            >
-                                                {(result?.mainTotal?.metal?.Wt)?.toFixed(2)}
-                                                <br />
-                                                GRAMS
+                                            <td /> {/* keep if needed */}
+                                            <td style={{...cellMainTotalStyle, borderBottom:'none'}}>
+                                                {(result?.mainTotal?.metal?.Wt ?? 0).toFixed(2)}
                                             </td>
-                                            <td
-                                                style={{
-                                                    border: '1px solid black',
-                                                    padding: '2px',
-                                                    textAlign: 'center',
-                                                    wordBreak: 'break-word',
-                                                    whiteSpace: 'normal'
-                                                }}
-                                            >
-                                                {(result?.mainTotal?.total_amount)?.toFixed(2)}
-                                                <br />
-                                                {result?.header?.CurrencyCode}
+                                            <td style={{...cellMainTotalStyle, borderBottom:'none'}}>
+                                                {(result?.mainTotal?.total_amount ?? 0).toFixed(2)}
                                             </td>
                                         </tr>
+
+                                        {/* Row for units */}
+                                        <tr>
+                                            <td colSpan={7} />
+                                            <td style={{...cellMainTotalStyle, borderTop:'none'}}>CARATS</td>
+                                            <td style={{...cellMainTotalStyle, borderTop:'none'}}>CARATS</td>
+                                            <td />
+                                            <td style={{...cellMainTotalStyle, borderTop:'none'}}>GRAMS</td>
+                                            <td style={{...cellMainTotalStyle, borderTop:'none'}}>{result?.header?.CurrencyCode ?? ''}</td>
+                                        </tr>
+
                                         <tr>
                                             <td />
                                             <td colSpan={10} style={{ textTransform: 'upperCase' }}>Total Value : {result?.header?.CurrencyCode}{". "}{toWords.convert(result?.mainTotal?.total_amount)}</td>
