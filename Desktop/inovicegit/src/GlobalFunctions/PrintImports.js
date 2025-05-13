@@ -315,8 +315,8 @@ export const HallMarkPrints = [
   {printName: 'jewellery item wise', etpType: 'print', componentName: 'HallmarkItemWisePrint'},
 ]
 export const excelConditions = [
-
   { printName: "detail print 11", etpType: "excel", componentName: "DetailPrint11Excel"},
+  { printName: "detail print 11 l", etpType: "excel", componentName: "DetailPrint11LExcel"},
   { printName: "image zip file", etpType: "excel", componentName: "ImageExportExcel"},
   // { printName: "packing list c", etpType: "excel", componentName: "PackingListCExcel"},
   { printName: "packing list km", etpType: "excel", componentName: "PackingListJsonToExcel"},
