@@ -205,8 +205,8 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
         setTimeout(() => {
             const button = document.getElementById('test-table-xls-button');
             button.click();
-          }, 500);
-      }
+        }, 500);
+    }
 
     return (
         <>
@@ -311,7 +311,8 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                                 <td style={{
                                                     ...cellBodyStyle,
                                                     width: '80px'
-                                                }}>{item.SrJobno} ({item.Counter_Tray})</td>
+                                                }}>{item.SrJobno}</td> 
+                                                {/* ({item.Counter_Tray}) */}
                                                 <td
                                                     style={{
                                                         border: '1px solid black',
