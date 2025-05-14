@@ -198,8 +198,8 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
         textAlign: 'center',
         wordBreak: 'break-word',
         whiteSpace: 'normal',
-      };
-      
+    };
+
 
     if (result) {
         setTimeout(() => {
@@ -308,7 +308,10 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                                 <td />
                                                 <td style={{ ...cellBodyStyle }}>{item.SrNo}</td>
                                                 <td style={{ ...cellBodyStyle }}>{item.designno}</td>
-                                                <td style={{ ...cellBodyStyle }}>{item.SrJobno}</td>
+                                                <td style={{
+                                                    ...cellBodyStyle,
+                                                    width: '80px'
+                                                }}>{item.SrJobno} ({item.Counter_Tray})</td>
                                                 <td
                                                     style={{
                                                         border: '1px solid black',
@@ -344,17 +347,17 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                         {/* Row for values */}
                                         <tr>
                                             <td colSpan={7} />
-                                            <td style={{...cellMainTotalStyle, borderBottom:'none'}}>
+                                            <td style={{ ...cellMainTotalStyle, borderBottom: 'none' }}>
                                                 {(result?.mainTotal?.diamonds?.Wt ?? 0).toFixed(2)}
                                             </td>
-                                            <td style={{...cellMainTotalStyle, borderBottom:'none'}}>
+                                            <td style={{ ...cellMainTotalStyle, borderBottom: 'none' }}>
                                                 {(result?.mainTotal?.colorstone?.Wt ?? 0).toFixed(2)}
                                             </td>
                                             <td /> {/* keep if needed */}
-                                            <td style={{...cellMainTotalStyle, borderBottom:'none'}}>
+                                            <td style={{ ...cellMainTotalStyle, borderBottom: 'none' }}>
                                                 {(result?.mainTotal?.metal?.Wt ?? 0).toFixed(2)}
                                             </td>
-                                            <td style={{...cellMainTotalStyle, borderBottom:'none'}}>
+                                            <td style={{ ...cellMainTotalStyle, borderBottom: 'none' }}>
                                                 {(result?.mainTotal?.total_amount ?? 0).toFixed(2)}
                                             </td>
                                         </tr>
@@ -362,11 +365,11 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                         {/* Row for units */}
                                         <tr>
                                             <td colSpan={7} />
-                                            <td style={{...cellMainTotalStyle, borderTop:'none'}}>CARATS</td>
-                                            <td style={{...cellMainTotalStyle, borderTop:'none'}}>CARATS</td>
+                                            <td style={{ ...cellMainTotalStyle, borderTop: 'none' }}>CARATS</td>
+                                            <td style={{ ...cellMainTotalStyle, borderTop: 'none' }}>CARATS</td>
                                             <td />
-                                            <td style={{...cellMainTotalStyle, borderTop:'none'}}>GRAMS</td>
-                                            <td style={{...cellMainTotalStyle, borderTop:'none'}}>{result?.header?.CurrencyCode ?? ''}</td>
+                                            <td style={{ ...cellMainTotalStyle, borderTop: 'none' }}>GRAMS</td>
+                                            <td style={{ ...cellMainTotalStyle, borderTop: 'none' }}>{result?.header?.CurrencyCode ?? ''}</td>
                                         </tr>
 
                                         <tr>

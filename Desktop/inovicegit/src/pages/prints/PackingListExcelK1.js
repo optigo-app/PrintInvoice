@@ -309,7 +309,10 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                                 <td />
                                                 <td style={{ ...cellBodyStyle }}>{item.SrNo}</td>
                                                 <td style={{ ...cellBodyStyle }}>{item.designno}</td>
-                                                <td style={{ ...cellBodyStyle }}>{item.SrJobno}</td>
+                                                <td style={{
+                                                    ...cellBodyStyle,
+                                                    width: '80px'
+                                                }}>{item.SrJobno} ({item.Counter_Tray})</td>
                                                 <td style={{ ...cellBodyStyle }}>{item.Categoryname}</td>
                                                 <td style={{ ...cellBodyStyle }}>{item?.ColornameMax} {item?.QualityNameMax}</td>
                                                 <td style={{ ...cellBodyStyle }}>{(item?.diamondTotalWt)?.toFixed(3)}</td>
