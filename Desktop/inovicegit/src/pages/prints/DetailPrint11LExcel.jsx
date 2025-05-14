@@ -14,7 +14,10 @@ import {
 import Loader from "../../components/Loader";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import defaultImg from "../../assets/img/default.jpg";
-const DetailPrint11Excel = ({
+import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
+import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
+import cloneDeep from "lodash/cloneDeep";
+const DetailPrint11LExcel = ({
   urls,
   token,
   invoiceNo,
@@ -53,9 +56,7 @@ const DetailPrint11Excel = ({
     grossWt: 0,
   });
   const [len, totalLen] = useState(0);
-
   const [goldTotal, setGoldTotal] = useState([]);
-
   const [totalArr, setTotalArr] = useState([]);
   const [isImageWorking, setIsImageWorking] = useState(true);
 
@@ -64,7 +65,6 @@ const DetailPrint11Excel = ({
   };
 
   const [excelData, setExcelData] = useState([]);
-
   const [bankDetail, setBankDetail] = useState([]);
 
   const loadData = (data) => {
@@ -538,11 +538,12 @@ const DetailPrint11Excel = ({
 
     setBankDetail(bankArr);
 
-    setTimeout(() => {
-      const button = document.getElementById("test-table-xls-button");
-      button.click();
-    }, 2000);
+    // setTimeout(() => {
+    //   const button = document.getElementById("test-table-xls-button");
+    //   button.click();
+    // }, 2000);
   };
+
   useEffect(() => {
     const sendData = async () => {
       try {
@@ -577,14 +578,507 @@ const DetailPrint11Excel = ({
     sendData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // new.........................................................
+  const [result, setResult] = useState(null);
+  const [diamondWise, setDiamondWise] = useState([]);
+  const [imgFlag, setImgFlag] = useState(true);
+  const [imgFlag2, setImgFlag2] = useState(true);
+  const evname = atob(evn);
+  const [MetShpWise, setMetShpWise] = useState([]);
+  const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
+  const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
+
+  useEffect(() => {
+    const sendData = async () => {
+      try {
+        const data = await apiCall(
+          token,
+          invoiceNo,
+          printName,
+          urls,
+          evn,
+          ApiVer
+        );
+
+        if (data?.Status === "200") {
+          let isEmpty = isObjectEmpty(data?.Data);
+          if (!isEmpty) {
+            loadDataSecond(data?.Data);
+            setLoader(false);
+          } else {
+            setLoader(false);
+            setMsg("Data Not Found");
+          }
+        } else {
+          setLoader(false);
+          // setMsg(data?.Message);
+          const err = checkMsg(data?.Message);
+          console.log(data?.Message);
+          setMsg(err);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    sendData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function loadDataSecond(data) {
+    let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
+    data.BillPrint_Json[0].address = address;
+
+    const datas = OrganizeDataPrint(
+      data?.BillPrint_Json[0],
+      data?.BillPrint_Json1,
+      data?.BillPrint_Json2
+    );
+
+    let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
+
+    setMetShpWise(met_shp_arr);
+    let tot_met = 0;
+    let tot_met_wt = 0;
+    met_shp_arr?.forEach((e, i) => {
+      tot_met += e?.Amount;
+      tot_met_wt += e?.metalfinewt;
+    });
+    setNotGoldMetalTotal(tot_met);
+    setNotGoldMetalWtTotal(tot_met_wt);
+
+    //grouping of jobs and isGroupJob is 1
+
+    let finalArr = [];
+
+    datas?.resultArray?.forEach((a) => {
+      if (a?.GroupJob === "") {
+        finalArr.push(a);
+      } else {
+        let b = cloneDeep(a);
+        let find_record = finalArr.findIndex(
+          (el) => el?.GroupJob === b?.GroupJob
+        );
+        if (find_record === -1) {
+          finalArr.push(b);
+        } else {
+          if (
+            finalArr[find_record]?.GroupJob !== finalArr[find_record]?.SrJobno
+          ) {
+            finalArr[find_record].designno = b?.designno;
+            finalArr[find_record].HUID = b?.HUID;
+          }
+          finalArr[find_record].grosswt += b?.grosswt;
+          finalArr[find_record].NetWt += b?.NetWt;
+          finalArr[find_record].LossWt += b?.LossWt;
+          finalArr[find_record].TotalAmount += b?.TotalAmount;
+          finalArr[find_record].DiscountAmt += b?.DiscountAmt;
+          finalArr[find_record].UnitCost += b?.UnitCost;
+          finalArr[find_record].MakingAmount += b?.MakingAmount;
+          finalArr[find_record].OtherCharges += b?.OtherCharges;
+          finalArr[find_record].TotalDiamondHandling += b?.TotalDiamondHandling;
+          finalArr[find_record].Quantity += b?.Quantity;
+          finalArr[find_record].Wastage += b?.Wastage;
+          finalArr[find_record].totals.metal.IsPrimaryMetal +=
+            b?.totals?.metal?.IsPrimaryMetal;
+          finalArr[find_record].totals.metal.Wt += b?.totals?.metal?.Wt;
+          finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
+          // finalArr[find_record].diamonds_d = [...finalArr[find_record]?.diamonds ,...b?.diamonds]?.flat();
+          finalArr[find_record].diamonds = [
+            ...finalArr[find_record]?.diamonds,
+            ...b?.diamonds,
+          ]?.flat();
+          // finalArr[find_record].colorstone_d = [...finalArr[find_record]?.colorstone ,...b?.colorstone]?.flat();
+          finalArr[find_record].colorstone = [
+            ...finalArr[find_record]?.colorstone,
+            ...b?.colorstone,
+          ]?.flat();
+          // finalArr[find_record].metal_d = [...finalArr[find_record]?.metal ,...b?.metal]?.flat();
+          finalArr[find_record].metal = [
+            ...finalArr[find_record]?.metal,
+            ...b?.metal,
+          ]?.flat();
+          finalArr[find_record].misc = [
+            ...finalArr[find_record]?.misc,
+            ...b?.misc,
+          ]?.flat();
+          finalArr[find_record].finding = [
+            ...finalArr[find_record]?.finding,
+            ...b?.finding,
+          ]?.flat();
+
+          finalArr[find_record].totals.finding.Wt += b?.totals?.finding?.Wt;
+          finalArr[find_record].totals.finding.Pcs += b?.totals?.finding?.Pcs;
+          finalArr[find_record].totals.finding.Amount +=
+            b?.totals?.finding?.Amount;
+
+          // finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
+          finalArr[find_record].totals.diamonds.Pcs += b?.totals?.diamonds?.Pcs;
+          finalArr[find_record].totals.diamonds.Amount +=
+            b?.totals?.diamonds?.Amount;
+
+          finalArr[find_record].totals.colorstone.Wt +=
+            b?.totals?.colorstone?.Wt;
+          finalArr[find_record].totals.colorstone.Pcs +=
+            b?.totals?.colorstone?.Pcs;
+          finalArr[find_record].totals.colorstone.Amount +=
+            b?.totals?.colorstone?.Amount;
+
+          finalArr[find_record].totals.misc.Wt += b?.totals?.misc?.Wt;
+          finalArr[find_record].totals.misc.allservwt +=
+            b?.totals?.misc?.allservwt;
+          finalArr[find_record].totals.misc.Pcs += b?.totals?.misc?.Pcs;
+          finalArr[find_record].totals.misc.Amount += b?.totals?.misc?.Amount;
+
+          finalArr[find_record].totals.metal.Amount += b?.totals?.metal?.Amount;
+          finalArr[find_record].totals.metal.IsPrimaryMetal +=
+            b?.totals?.metal?.IsPrimaryMetal;
+          finalArr[find_record].totals.metal.IsPrimaryMetal_Amount +=
+            b?.totals?.metal?.IsPrimaryMetal_Amount;
+
+          finalArr[find_record].totals.misc.withouthscode1_2_pcs +=
+            b?.totals?.misc?.withouthscode1_2_pcs;
+          finalArr[find_record].totals.misc.withouthscode1_2_wt +=
+            b?.totals?.misc?.withouthscode1_2_wt;
+          finalArr[find_record].totals.misc.onlyHSCODE3_amt +=
+            b?.totals?.misc?.onlyHSCODE3_amt;
+          finalArr[find_record].totals.misc.onlyIsHSCODE0_Wt +=
+            b?.totals?.misc?.onlyIsHSCODE0_Wt;
+          finalArr[find_record].totals.misc.onlyIsHSCODE0_Pcs +=
+            b?.totals?.misc?.onlyIsHSCODE0_Pcs;
+          finalArr[find_record].totals.misc.onlyIsHSCODE0_Amount +=
+            b?.totals?.misc?.onlyIsHSCODE0_Amount;
+          // finalArr[find_record].misc_d = [...finalArr[find_record]?.misc ,...b?.misc]?.flat();
+        }
+      }
+    });
+
+    datas.resultArray = finalArr;
+
+    //after groupjob
+    datas?.resultArray?.forEach((e) => {
+      //diamond
+      let dia2 = [];
+
+      e?.diamonds?.forEach((el) => {
+        // let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.GroupName === el?.GroupName)
+        let findrec = dia2?.findIndex(
+          (a) =>
+            a?.ShapeName === el?.ShapeName &&
+            a?.QualityName === el?.QualityName &&
+            a?.Colorname === el?.Colorname &&
+            a?.SizeName === el?.SizeName &&
+            a?.Rate === el?.Rate
+        );
+        let ell = cloneDeep(el);
+        if (findrec === -1) {
+          dia2.push(ell);
+        } else {
+          dia2[findrec].Wt += ell?.Wt;
+          dia2[findrec].Pcs += ell?.Pcs;
+          dia2[findrec].Amount += ell?.Amount;
+          dia2[findrec].Rate += ell?.Rate;
+          // if(dia2[findrec]?.SizeName !== ell?.SizeName){
+          //   // dia2[findrec].SizeName = 'Mix'
+          //   dia2[findrec].SizeName = ell?.GroupName;
+          // }
+        }
+      });
+      e.diamonds = dia2;
+
+      //diamond
+      let clr2 = [];
+
+      e?.colorstone?.forEach((el) => {
+        // let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.GroupName === el?.GroupName)
+        let findrec = clr2?.findIndex(
+          (a) =>
+            a?.ShapeName === el?.ShapeName &&
+            a?.QualityName === el?.QualityName &&
+            a?.Colorname === el?.Colorname &&
+            a?.SizeName === el?.SizeName &&
+            a?.Rate === el?.Rate &&
+            a?.isRateOnPcs === el?.isRateOnPcs
+        );
+        let ell = cloneDeep(el);
+        if (findrec === -1) {
+          clr2.push(ell);
+        } else {
+          clr2[findrec].Wt += ell?.Wt;
+          clr2[findrec].Pcs += ell?.Pcs;
+          clr2[findrec].Amount += ell?.Amount;
+          clr2[findrec].Rate += ell?.Rate;
+          // if(dia2[findrec]?.SizeName !== ell?.SizeName){
+          //   // dia2[findrec].SizeName = 'Mix'
+          //   dia2[findrec].SizeName = ell?.GroupName;
+          // }
+        }
+      });
+      e.colorstone = clr2;
+
+      //colorstone
+      // let clr_rop0 = []; //wt
+      // let clr_rop1 = []; //pcs
+
+      // e?.colorstone?.forEach((el) => {
+      //   if(el?.isRateOnPcs === 0){
+      //     clr_rop0?.push(el)
+      //   }else{
+      //     clr_rop1?.push(el)
+      //   }
+      // })
+      // let clr2 = [];
+      // let clr2_2 = [];
+      // let clr_all = [];
+
+      // clr_rop0?.forEach((el) => {
+      //   let findrec = clr2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname)
+      //   if(findrec === -1){
+      //     clr2.push(el);
+      //   }else{
+      //       clr2[findrec].Wt += el?.Wt;
+      //       clr2[findrec].Pcs += el?.Pcs;
+      //       clr2[findrec].Amount += el?.Amount;
+      //       clr2[findrec].Rate += el?.Rate;
+      //       if(clr2[findrec]?.SizeName !== el?.SizeName){
+      //         clr2[findrec].SizeName = 'Mix'
+      //       }
+      //   }
+
+      // });
+
+      // clr_rop0 = clr2;
+
+      // // clr_all.push(clr_rop0)
+
+      // clr_rop1?.forEach((el) => {
+      //   let findrec = clr2_2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname)
+      //   if(findrec === -1){
+      //     clr2_2.push(el);
+      //   }else{
+      //       clr2_2[findrec].Wt += el?.Wt;
+      //       clr2_2[findrec].Pcs += el?.Pcs;
+      //       clr2_2[findrec].Amount += el?.Amount;
+      //       clr2_2[findrec].Rate += el?.Rate;
+      //       if(clr2_2[findrec]?.SizeName !== el?.SizeName){
+      //         clr2_2[findrec].SizeName = 'Mix'
+      //       }
+      //   }
+
+      // });
+
+      // clr_rop1 = clr2_2;
+
+      // clr_all.push(clr_rop0)
+      // clr_all.push(clr_rop1)
+
+      // e.colorstone = [...clr_all]?.flat();
+
+      //misc
+      let misc0 = [];
+      e?.misc?.forEach((el) => {
+        if (el?.IsHSCOE === 0) {
+          misc0?.push(el);
+        }
+      });
+
+      e.misc = misc0;
+
+      let met2 = [];
+      e?.metal?.forEach((a) => {
+        if (e?.GroupJob !== "") {
+          let obj = { ...a };
+          obj.GroupJob = e?.GroupJob;
+          met2?.push(obj);
+        }
+      });
+
+      let met3 = [];
+      met2?.forEach((a) => {
+        let findrec = met3?.findIndex(
+          (el) => el?.StockBarcode === el?.GroupJob
+        );
+        if (findrec === -1) {
+          met3?.push(a);
+        } else {
+          met3[findrec].Wt += a?.Wt;
+        }
+      });
+      if (e?.GroupJob === "") {
+        return;
+      } else {
+        e.metal = met3;
+      }
+    });
+
+    let diaObj = {
+      ShapeName: "OTHERS",
+      wtWt: 0,
+      wtWts: 0,
+      pcPcs: 0,
+      pcPcss: 0,
+      rRate: 0,
+      rRates: 0,
+      amtAmount: 0,
+      amtAmounts: 0,
+    };
+
+    let diaonlyrndarr1 = [];
+    let diaonlyrndarr2 = [];
+    let diaonlyrndarr3 = [];
+    let diaonlyrndarr4 = [];
+    let diarndotherarr5 = [];
+    let diaonlyrndarr6 = [];
+    datas?.json2?.forEach((e) => {
+      if (e?.MasterManagement_DiamondStoneTypeid === 1) {
+        if (e.ShapeName?.toLowerCase() === "rnd") {
+          diaonlyrndarr1.push(e);
+        } else {
+          diaonlyrndarr2.push(e);
+        }
+      }
+    });
+
+    diaonlyrndarr1?.forEach((e) => {
+      let findRecord = diaonlyrndarr3.findIndex(
+        (a) =>
+          e?.StockBarcode === a?.StockBarcode &&
+          e?.ShapeName === a?.ShapeName &&
+          e?.QualityName === a?.QualityName &&
+          e?.Colorname === a?.Colorname
+      );
+
+      if (findRecord === -1) {
+        let obj = { ...e };
+        obj.wtWt = e?.Wt;
+        obj.pcPcs = e?.Pcs;
+        obj.rRate = e?.Rate;
+        obj.amtAmount = e?.Amount;
+        diaonlyrndarr3.push(obj);
+      } else {
+        diaonlyrndarr3[findRecord].wtWt += e?.Wt;
+        diaonlyrndarr3[findRecord].pcPcs += e?.Pcs;
+        diaonlyrndarr3[findRecord].rRate += e?.Rate;
+        diaonlyrndarr3[findRecord].amtAmount += e?.Amount;
+      }
+    });
+
+    diaonlyrndarr2?.forEach((e) => {
+      let findRecord = diaonlyrndarr4.findIndex(
+        (a) =>
+          e?.StockBarcode === a?.StockBarcode &&
+          e?.ShapeName === a?.ShapeName &&
+          e?.QualityName === a?.QualityName &&
+          e?.Colorname === a?.Colorname
+      );
+
+      if (findRecord === -1) {
+        let obj = { ...e };
+        obj.wtWt = e?.Wt;
+        obj.wtWts = e?.Wt;
+        obj.pcPcs = e?.Pcs;
+        obj.pcPcss = e?.Pcs;
+        obj.rRate = e?.Rate;
+        obj.rRates = e?.Rate;
+        obj.amtAmount = e?.Amount;
+        obj.amtAmounts = e?.Amount;
+        diaonlyrndarr4.push(obj);
+      } else {
+        diaonlyrndarr4[findRecord].wtWt += e?.Wt;
+        diaonlyrndarr4[findRecord].wtWts += e?.Wt;
+        diaonlyrndarr4[findRecord].pcPcs += e?.Pcs;
+        diaonlyrndarr4[findRecord].pcPcss += e?.Pcs;
+        diaonlyrndarr4[findRecord].rRate += e?.Rate;
+        diaonlyrndarr4[findRecord].rRates += e?.Rate;
+        diaonlyrndarr4[findRecord].amtAmount += e?.Amount;
+        diaonlyrndarr4[findRecord].amtAmounts += e?.Amount;
+      }
+    });
+
+    diaonlyrndarr4?.forEach((e) => {
+      diaObj.wtWt += e?.wtWt;
+      diaObj.wtWts += e?.wtWts;
+      diaObj.pcPcs += e?.pcPcs;
+      diaObj.pcPcss += e?.pcPcss;
+      diaObj.rRate += e?.rRate;
+      diaObj.rRates += e?.rRates;
+      diaObj.amtAmount += e?.amtAmount;
+      diaObj.amtAmounts += e?.amtAmounts;
+    });
+
+    diaonlyrndarr3?.forEach((e) => {
+      let find_record = diaonlyrndarr6?.findIndex(
+        (a) =>
+          e?.ShapeName === a?.ShapeName &&
+          e?.QualityName === a?.QualityName &&
+          e?.Colorname === a?.Colorname
+      );
+      if (find_record === -1) {
+        let obj = { ...e };
+        obj.wtWts = e?.wtWt;
+        obj.pcPcss = e?.pcPcs;
+        obj.rRates = e?.rRate;
+        obj.amtAmounts = e?.amtAmount;
+        diaonlyrndarr6.push(obj);
+      } else {
+        diaonlyrndarr6[find_record].wtWts += e?.wtWt;
+        diaonlyrndarr6[find_record].pcPcss += e?.pcPcs;
+        diaonlyrndarr6[find_record].rRates += e?.rRate;
+        diaonlyrndarr6[find_record].amtAmounts += e?.amtAmount;
+      }
+    });
+
+    diarndotherarr5 = [...diaonlyrndarr6, diaObj];
+    const sortedData = diarndotherarr5?.sort(customSort);
+    // setDiamonds(sortedData);
+    setDiamondWise(sortedData);
+
+    setResult(datas);
+  }
+
+  const handleCheckbox = () => {
+    if (imgFlag) {
+      setImgFlag(false);
+    } else {
+      setImgFlag(true);
+    }
+  };
+  const handleCheckbox2 = () => {
+    if (imgFlag2) {
+      setImgFlag2(false);
+    } else {
+      setImgFlag2(true);
+    }
+  };
+
+  const customSort = (a, b) => {
+    if (a?.ShapeName === "OTHER" && b?.ShapeName !== "OTHER") {
+      return 1; // "OTHER" comes after any other ShapeName
+    } else if (a?.ShapeName !== "OTHER" && b?.ShapeName === "OTHER") {
+      return -1; // Any other ShapeName comes before "OTHER"
+    } else {
+      // If ShapeNames are equal, compare by QualityName
+      if (a?.QualityName < b?.QualityName) {
+        return -1;
+      } else if (a?.QualityName > b?.QualityName) {
+        return 1;
+      } else {
+        // If QualityNames are equal, compare by Colorname
+        return a?.Colorname?.localeCompare(b?.Colorname);
+      }
+    }
+  };
+
+  console.log("resultresultresult", result);
+
   return loader ? (
     <Loader />
   ) : msg === "" ? (
     <>
-      <div className="container max_width_container pad_60_allPrint mt-4 d-none">
+      <div className="container max_width_container pad_60_allPrint mt-4">
         <ReactHTMLTableToExcel
           id="test-table-xls-button"
-          className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5 d-none"
+          className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5"
           table="table-to-xls"
           filename={`DetailPrint11_${json0Data?.InvoiceNo}_${Date.now()}`}
           sheet="tablexls"
@@ -597,7 +1091,7 @@ const DetailPrint11Excel = ({
             <tr>
               <td width={45}></td>
               <td
-                colSpan={6}
+                colSpan={4}
                 style={{
                   borderLeft: "1px solid black",
                   borderTop: "1px solid black",
@@ -606,12 +1100,6 @@ const DetailPrint11Excel = ({
               >
                 {json0Data?.CompanyFullName}
               </td>
-              <td style={{ borderTop: "1px solid black", padding: "1px" }}></td>
-              <td style={{ borderTop: "1px solid black", padding: "1px" }}></td>
-              <td style={{ borderTop: "1px solid black", padding: "1px" }}></td>
-              <td style={{ borderTop: "1px solid black", padding: "1px" }}></td>
-              <td style={{ borderTop: "1px solid black", padding: "1px" }}></td>
-              <td style={{ borderTop: "1px solid black", padding: "1px" }}></td>
               <td style={{ borderTop: "1px solid black", padding: "1px" }}></td>
               <td style={{ borderTop: "1px solid black", padding: "1px" }}></td>
               <td style={{ borderTop: "1px solid black", padding: "1px" }}></td>
@@ -639,7 +1127,7 @@ const DetailPrint11Excel = ({
             <tr>
               <td></td>
               <td
-                colSpan={6}
+                colSpan={4}
                 style={{ borderLeft: "1px solid black", padding: "1px" }}
               >
                 {json0Data?.CompanyAddress}
@@ -647,12 +1135,6 @@ const DetailPrint11Excel = ({
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
               <td
                 style={{ borderRight: "1px solid black", padding: "1px" }}
               ></td>
@@ -660,7 +1142,7 @@ const DetailPrint11Excel = ({
             <tr>
               <td></td>
               <td
-                colSpan={6}
+                colSpan={4}
                 style={{ borderLeft: "1px solid black", padding: "1px" }}
               >
                 {json0Data?.CompanyAddress2}
@@ -668,12 +1150,6 @@ const DetailPrint11Excel = ({
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
               <td
                 style={{ borderRight: "1px solid black", padding: "1px" }}
               ></td>
@@ -681,7 +1157,7 @@ const DetailPrint11Excel = ({
             <tr>
               <td></td>
               <td
-                colSpan={6}
+                colSpan={4}
                 style={{ borderLeft: "1px solid black", padding: "1px" }}
               >
                 {json0Data?.CompanyCity} {json0Data?.CompanyPinCode}{" "}
@@ -690,12 +1166,6 @@ const DetailPrint11Excel = ({
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
               <td
                 style={{ borderRight: "1px solid black", padding: "1px" }}
               ></td>
@@ -703,7 +1173,7 @@ const DetailPrint11Excel = ({
             <tr>
               <td></td>
               <td
-                colSpan={6}
+                colSpan={4}
                 style={{ borderLeft: "1px solid black", padding: "1px" }}
               >
                 {json0Data?.CompanyEmail} | {json0Data?.CompanyWebsite}
@@ -711,12 +1181,6 @@ const DetailPrint11Excel = ({
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
               <td
                 style={{ borderRight: "1px solid black", padding: "1px" }}
               ></td>
@@ -724,7 +1188,7 @@ const DetailPrint11Excel = ({
             <tr>
               <td></td>
               <td
-                colSpan={6}
+                colSpan={4}
                 style={{
                   borderLeft: "1px solid black",
                   borderBottom: "1px solid black",
@@ -744,24 +1208,6 @@ const DetailPrint11Excel = ({
                 style={{ borderBottom: "1px solid black", padding: "1px" }}
               ></td>
               <td
-                style={{ borderBottom: "1px solid black", padding: "1px" }}
-              ></td>
-              <td
-                style={{ borderBottom: "1px solid black", padding: "1px" }}
-              ></td>
-              <td
-                style={{ borderBottom: "1px solid black", padding: "1px" }}
-              ></td>
-              <td
-                style={{ borderBottom: "1px solid black", padding: "1px" }}
-              ></td>
-              <td
-                style={{ borderBottom: "1px solid black", padding: "1px" }}
-              ></td>
-              <td
-                style={{ borderBottom: "1px solid black", padding: "1px" }}
-              ></td>
-              <td
                 style={{
                   borderRight: "1px solid black",
                   borderBottom: "1px solid black",
@@ -769,6 +1215,7 @@ const DetailPrint11Excel = ({
                 }}
               ></td>
             </tr>
+
             {/* company address and logo */}
             <tr>
               <td></td>
@@ -779,13 +1226,7 @@ const DetailPrint11Excel = ({
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
               <td
-                colSpan={4}
                 style={{ borderRight: "1px solid black", padding: "1px" }}
                 className="d-block"
                 align="right"
@@ -803,20 +1244,12 @@ const DetailPrint11Excel = ({
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
               <td
-                colSpan={4}
                 style={{ borderRight: "1px solid black", padding: "1px" }}
                 className="d-block"
                 align="right"
                 width={150}
-              >
-                invoice#:{json0Data?.InvoiceNo}{" "}
-              </td>
+              ></td>
             </tr>
             <tr>
               <td></td>
@@ -829,23 +1262,12 @@ const DetailPrint11Excel = ({
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
               <td
-                colSpan={4}
                 style={{ borderRight: "1px solid black", padding: "1px" }}
                 className="d-block"
                 align="right"
                 width={150}
-              >
-                GSTIN:{" "}
-                {json0Data?.Cust_VAT_GST_No !== "" &&
-                  `${json0Data?.Cust_VAT_GST_No} | `}{" "}
-                {json0Data?.Cust_CST_STATE} {json0Data?.Cust_CST_STATE_No}
-              </td>
+              ></td>
             </tr>
             <tr>
               <td></td>
@@ -858,20 +1280,12 @@ const DetailPrint11Excel = ({
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
               <td
-                colSpan={4}
                 style={{ borderRight: "1px solid black", padding: "1px" }}
                 className="d-block"
                 align="right"
                 width={150}
-              >
-                Terms: {json0Data?.DueDays} Days
-              </td>
+              ></td>
             </tr>
             <tr>
               <td></td>
@@ -884,20 +1298,12 @@ const DetailPrint11Excel = ({
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
               <td
-                colSpan={4}
                 style={{ borderRight: "1px solid black", padding: "1px" }}
                 className="d-block"
                 align="right"
                 width={150}
-              >
-                Due Date: {json0Data?.DueDate}
-              </td>
+              ></td>
             </tr>
             {json0Data?.customerAddress3 !== "" && (
               <tr>
@@ -911,13 +1317,7 @@ const DetailPrint11Excel = ({
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
                 <td
-                  colSpan={4}
                   style={{ borderRight: "1px solid black", padding: "1px" }}
                   className="d-block"
                   align="right"
@@ -937,13 +1337,7 @@ const DetailPrint11Excel = ({
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
               <td
-                colSpan={4}
                 style={{ borderRight: "1px solid black", padding: "1px" }}
                 className="d-block"
                 align="right"
@@ -961,13 +1355,7 @@ const DetailPrint11Excel = ({
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
               <td
-                colSpan={4}
                 style={{ borderRight: "1px solid black", padding: "1px" }}
                 className="d-block"
                 align="right"
@@ -986,16 +1374,23 @@ const DetailPrint11Excel = ({
               >
                 {json0Data?.customeremail1}
               </td>
-              <td style={{ borderBottom: `1px solid #000` }}></td>
-              <td style={{ borderBottom: `1px solid #000` }}></td>
-              <td style={{ borderBottom: `1px solid #000` }}></td>
-              <td style={{ borderBottom: `1px solid #000` }}></td>
-              <td style={{ borderBottom: `1px solid #000` }}></td>
-              <td style={{ borderBottom: `1px solid #000` }}></td>
-              <td style={{ borderBottom: `1px solid #000` }}></td>
-              <td style={{ borderBottom: `1px solid #000` }}></td>
+
               <td
-                colSpan={4}
+                style={{
+                  borderBottom: "1px solid black",
+                }}
+              ></td>
+              <td
+                style={{
+                  borderBottom: "1px solid black",
+                }}
+              ></td>
+              <td
+                style={{
+                  borderBottom: "1px solid black",
+                }}
+              ></td>
+              <td
                 style={{
                   borderRight: "1px solid black",
                   borderBottom: "1px solid black",
@@ -1006,6 +1401,7 @@ const DetailPrint11Excel = ({
                 width={150}
               ></td>
             </tr>
+
             {/* table header */}
             <tr></tr>
             <tr>
@@ -1013,7 +1409,7 @@ const DetailPrint11Excel = ({
               <td
                 rowSpan={2}
                 style={{
-                  border: "1px solid #000",
+                  border: "0.5px solid #000",
                   padding: "1px",
                   verticalAlign: "middle",
                   textAlign: "center",
@@ -1025,9 +1421,9 @@ const DetailPrint11Excel = ({
               <td
                 rowSpan={2}
                 style={{
-                  borderTop: "1px solid #000",
-                  borderRight: "1px solid #000",
-                  borderBottom: "1px solid #000",
+                  borderTop: "0.5px  solid #000",
+                  borderRight: "0.5px  solid #000",
+                  borderBottom: "0.5px  solid #000",
                   padding: "1px",
                   verticalAlign: "middle",
                   textAlign: "center",
@@ -1037,725 +1433,230 @@ const DetailPrint11Excel = ({
                 <b>Design Detail</b>
               </td>
               <td
-                colSpan={9}
+                colSpan={5}
                 style={{
-                  borderTop: "1px solid #000",
-                  borderRight: "1px solid #000",
-                  borderBottom: "1px solid #000",
+                  borderTop: "0.5px solid #000",
+                  borderRight: "0.5px solid #000",
+                  borderBottom: "0.5px solid #000",
                   padding: "1px",
                   verticalAlign: "middle",
                 }}
                 align="center"
               >
-                <b>Diamond & Stone Detail</b>
+                <b>Product Name - Sub Category</b>
               </td>
               <td
                 rowSpan={2}
-                colSpan={2}
                 style={{
-                  borderTop: "1px solid #000",
-                  borderRight: "1px solid #000",
-                  borderBottom: "1px solid #000",
+                  borderTop: "0.5px solid #000",
+                  borderRight: "0.5px solid #000",
                   padding: "1px",
+                  borderBottom: "0.5px solid #000",
                   verticalAlign: "middle",
                   textAlign: "center",
                 }}
                 align="center"
               >
-                <b>Gold</b>
-              </td>
-              <td
-                colSpan={2}
-                style={{
-                  borderTop: "1px solid #000",
-                  borderRight: "1px solid #000",
-                  padding: "1px",
-                  verticalAlign: "middle",
-                }}
-                align="center"
-              >
-                <b>Labour</b>
-              </td>
-              <td
-                rowSpan={2}
-                style={{
-                  borderTop: "1px solid #000",
-                  borderRight: "1px solid #000",
-                  padding: "1px",
-                  borderBottom: "1px solid #000",
-                  verticalAlign: "middle",
-                  textAlign: "center",
-                }}
-                align="center"
-              >
-                <b>Total Jewellery Amount</b>
+                <b>Total Jewellery</b>
               </td>
             </tr>
             <tr>
               <td></td>
-              {/* <td style={{ borderLeft: "1px solid #000", borderRight: "1px solid #000", borderTop: "1px solid #000", padding: "1px", borderBottom: "1px solid #000" }} align='center' ></td> */}
-              {/* <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px", borderBottom: "1px solid #000" }} align='center'></td> */}
               <td
                 style={{
-                  borderTop: "1px solid #000",
-                  borderRight: "1px solid #000",
-                  borderBottom: "1px solid #000",
+                  borderTop: "0.5px solid #000",
+                  borderRight: "0.5px solid #000",
+                  borderBottom: "0.5px solid #000",
+                  padding: "1px",
+                  verticalAlign: "middle",
+                }}
+              ></td>
+              <td
+                style={{
+                  borderTop: "0.5px solid #000",
+                  borderRight: "0.5px solid #000",
+                  borderBottom: "0.5px solid #000",
                   padding: "1px",
                   verticalAlign: "middle",
                 }}
                 align="center"
               >
-                <b>Shape</b>
+                <b>Size</b>
               </td>
               <td
                 style={{
-                  borderTop: "1px solid #000",
-                  borderRight: "1px solid #000",
-                  borderBottom: "1px solid #000",
+                  borderTop: "0.5px solid #000",
+                  borderRight: "0.5px  solid #000",
+                  borderBottom: "0.5px  solid #000",
                   padding: "1px",
                   verticalAlign: "middle",
                 }}
                 align="center"
               >
-                <b>Size (mm)</b>
+                <b>Wt</b>
               </td>
               <td
                 style={{
-                  borderTop: "1px solid #000",
-                  borderRight: "1px solid #000",
-                  borderBottom: "1px solid #000",
+                  borderTop: "0.5px  solid #000",
+                  borderRight: "0.5px  solid #000",
+                  borderBottom: "0.5px  solid #000",
                   padding: "1px",
                   verticalAlign: "middle",
                 }}
                 align="center"
               >
-                <b>Pcs</b>
+                <b>Price</b>
               </td>
               <td
                 style={{
-                  borderTop: "1px solid #000",
-                  borderRight: "1px solid #000",
-                  borderBottom: "1px solid #000",
+                  borderTop: "0.5px  solid #000",
+                  borderRight: "0.5px  solid #000",
+                  borderBottom: "0.5px  solid #000",
                   padding: "1px",
                   verticalAlign: "middle",
                 }}
                 align="center"
               >
-                <b>DIA WT.</b>
+                <b>Amount</b>
               </td>
-              <td
-                style={{
-                  borderTop: "1px solid #000",
-                  borderRight: "1px solid #000",
-                  borderBottom: "1px solid #000",
-                  padding: "1px",
-                  verticalAlign: "middle",
-                }}
-                align="center"
-              >
-                <b>Price / cts</b>
-              </td>
-              <td
-                style={{
-                  borderTop: "1px solid #000",
-                  borderRight: "1px solid #000",
-                  borderBottom: "1px solid #000",
-                  padding: "1px",
-                  verticalAlign: "middle",
-                }}
-                align="center"
-              >
-                <b>Dia Amount</b>
-              </td>
-              <td
-                style={{
-                  borderTop: "1px solid #000",
-                  borderRight: "1px solid #000",
-                  borderBottom: "1px solid #000",
-                  padding: "1px",
-                  verticalAlign: "middle",
-                }}
-                align="center"
-              >
-                <b>Setting Type</b>
-              </td>
-              <td
-                style={{
-                  borderTop: "1px solid #000",
-                  borderRight: "1px solid #000",
-                  borderBottom: "1px solid #000",
-                  padding: "1px",
-                  verticalAlign: "middle",
-                }}
-                align="center"
-              >
-                <b>Setting Price (Currency)</b>
-              </td>
-              <td
-                style={{
-                  borderTop: "1px solid #000",
-                  borderRight: "1px solid #000",
-                  borderBottom: "1px solid #000",
-                  padding: "1px",
-                  verticalAlign: "middle",
-                }}
-                align="center"
-              >
-                <b>Total Amount (Currency)</b>
-              </td>
-              {/* <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px", borderBottom: "1px solid #000" }} align='center'></td>
-              <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px", borderBottom: "1px solid #000" }} align='center'></td> */}
-              <td
-                style={{
-                  borderTop: "1px solid #000",
-                  borderRight: "1px solid #000",
-                  padding: "1px",
-                  borderBottom: "1px solid #000",
-                  verticalAlign: "middle",
-                }}
-                align="center"
-              >
-                <b>Other Charges</b>
-              </td>
-              <td
-                style={{
-                  borderTop: "1px solid #000",
-                  borderRight: "1px solid #000",
-                  padding: "1px",
-                  borderBottom: "1px solid #000",
-                  verticalAlign: "middle",
-                }}
-                align="center"
-              >
-                <b>Labour Amount</b>
-              </td>
-              {/* <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px", borderBottom: "1px solid #000" }} align='center'><b>Total Jewellery Amount</b></td> */}
             </tr>
+
             {/* table data */}
-            {excelData.length > 0 &&
-              excelData.map((e, i) => {
-                return (
-                  <tr key={i}>
+            {result?.resultArray?.map((e, i) => {
+              return (
+                <React.Fragment key={i}>
+                  <tr>
                     <td></td>
                     <td
                       width={90}
                       style={{
-                        borderLeft: "1px solid #000",
-                        borderRight: "1px solid #000",
+                        borderLeft: "0.5px solid #000",
+                        borderRight: "0.5px solid #000",
                         padding: "1px",
-                        borderBottom: `${e?.totalLine && `1px solid`}`,
-                        borderTop: `${e?.totalLine && `1px solid`}`,
+                        borderBottom: `${e?.totalLine && `0.5px solid`}`,
+                        borderTop: `${e?.totalLine && `0.5px solid`}`,
                         verticalAlign: "middle",
                       }}
                       align="center"
                     >
-                      {e?.srNo}
+                      {i + 1}
                     </td>
                     <td
                       width={200}
                       style={{
-                        borderRight: "1px solid #000",
+                        borderRight: "0.5px solid #000",
                         padding: "1px",
-                        borderBottom: `${e?.totalLine && `1px solid`}`,
-                        borderTop: `${e?.totalLine && `1px solid`}`,
+                        borderBottom: `${e?.totalLine && `0.5px solid`}`,
+                        borderTop: `${e?.totalLine && `0.5px solid`}`,
                         verticalAlign: "middle",
                       }}
                     >
-                      {e?.SrJobno !== "" && (
-                        <>
-                          <span> {e?.designNo}</span>{" "}
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                          <span
-                            style={{
-                              marginLeft: "5px",
-                              position: "relative",
-                              left: "10px",
-                            }}
-                          >
-                            {e?.SrJobno}
-                          </span>
-                        </>
+                      {e?.designno && <span>{e.designno}</span>}
+                      {e?.SrJobno && (
+                        <span style={{ marginLeft: "10px" }}>{e.SrJobno}</span>
                       )}
-                      {e?.isImg && (
+                      {e?.CDNDesignImage && (
                         <img
-                          src={e?.img}
+                          src={e.CDNDesignImage}
                           alt=""
                           onError={(eve) =>
                             handleGlobalImgError(eve, json0Data?.DefImage)
                           }
-                          width={150}
-                          height={80}
+                          width={75}
+                          height={40}
                           style={{ paddingLeft: "10px", objectFit: "contain" }}
                         />
                       )}
-                      {e?.metalColor !== "" && e?.metalColor}{" "}
-                      {e?.tunch !== "" &&
-                        `Tunch: ${NumberWithCommas(e?.tunch, 3)}`}
-                      {e?.grossWt !== "" &&
-                        `${fixedValues(e?.grossWt, 3)} gm Gross`}
-                      {e?.size !== "" && <>Size {e?.size}</>}
-                      {e?.huid !== "" && <>HUID: {e?.huid}</>}
-                    </td>
-                    <td
-                      width={90}
-                      style={{
-                        borderRight: "1px solid #000",
-                        padding: "1px",
-                        borderBottom: `${e?.totalLine && `1px solid`}`,
-                        borderTop: `${e?.totalLine && `1px solid`}`,
-                        verticalAlign: "middle",
-                      }}
-                      align={`${e?.diamondShape === "Total" && "center"}`}
-                    >
-                      &nbsp;
-                      {e?.diamondShape === "Total" ? (
-                        <b>{e?.diamondShape}</b>
-                      ) : (
-                        e?.diamondShape
-                      )}
-                    </td>
-                    <td
-                      width={90}
-                      style={{
-                        borderRight: "1px solid #000",
-                        padding: "1px",
-                        borderBottom: `${e?.totalLine && `1px solid`}`,
-                        borderTop: `${e?.totalLine && `1px solid`}`,
-                        verticalAlign: "middle",
-                      }}
-                      align={`${e?.diamondShape === "Total" && "center"}`}
-                    >
-                      &nbsp;
-                      {e?.diamondShape === "Total" ? (
-                        <b>{e?.diamondSize}</b>
-                      ) : (
-                        e?.diamondSize
-                      )}
-                    </td>
-                    <td
-                      width={90}
-                      style={{
-                        borderRight: "1px solid #000",
-                        padding: "1px",
-                        borderBottom: `${e?.totalLine && `1px solid`}`,
-                        borderTop: `${e?.totalLine && `1px solid`}`,
-                        verticalAlign: "middle",
-                      }}
-                      align="right"
-                    >
-                      &nbsp;
-                      {e?.diamondShape === "Total" ? (
-                        <b>{e?.diamondPcs}</b>
-                      ) : (
-                        e?.diamondPcs
-                      )}
-                    </td>
-                    <td
-                      width={90}
-                      style={{
-                        borderRight: "1px solid #000",
-                        padding: "1px",
-                        borderBottom: `${e?.totalLine && `1px solid`}`,
-                        borderTop: `${e?.totalLine && `1px solid`}`,
-                        verticalAlign: "middle",
-                      }}
-                      align={`right`}
-                    >
-                      &nbsp;
-                      {e?.diamondWt !== "" &&
-                        (e?.diamondShape === "Total" ? (
-                          <b>{NumberWithCommas(e?.diamondWt, 3)}</b>
-                        ) : (
-                          NumberWithCommas(e?.diamondWt, 3)
-                        ))}
-                    </td>
-                    <td
-                      width={90}
-                      style={{
-                        borderRight: "1px solid #000",
-                        padding: "1px",
-                        borderBottom: `${e?.totalLine && `1px solid`}`,
-                        borderTop: `${e?.totalLine && `1px solid`}`,
-                        verticalAlign: "middle",
-                      }}
-                      align={`${
-                        e?.diamondShape === "Total" ? "center" : "right"
-                      }`}
-                    >
-                      &nbsp;
-                      {e?.diamondShape === "Total" ? (
-                        <b>{e?.diamondRate}</b>
-                      ) : (
-                        e?.diamondRate
-                      )}
-                    </td>
-                    <td
-                      width={90}
-                      style={{
-                        borderRight: "1px solid #000",
-                        padding: "1px",
-                        borderBottom: `${e?.totalLine && `1px solid`}`,
-                        borderTop: `${e?.totalLine && `1px solid`}`,
-                        verticalAlign: "middle",
-                      }}
-                      align="right"
-                    >
-                      &nbsp;
-                      {e?.diamondAmount !== "" &&
-                        (e?.diamondShape === "Total" ? (
-                          <b>{NumberWithCommas(e?.diamondAmount, 2)} </b>
-                        ) : (
-                          NumberWithCommas(e?.diamondAmount, 2)
-                        ))}
-                    </td>
-                    <td
-                      width={90}
-                      style={{
-                        borderRight: "1px solid #000",
-                        padding: "1px",
-                        borderBottom: `${e?.totalLine && `1px solid`}`,
-                        borderTop: `${e?.totalLine && `1px solid`}`,
-                        verticalAlign: "middle",
-                      }}
-                      align="center"
-                    >
-                      &nbsp;
-                      {e?.diamondShape === "Total" ? (
-                        <b>{e?.diamondSettingType}</b>
-                      ) : (
-                        e?.diamondSettingType
-                      )}
-                    </td>
-                    <td
-                      width={90}
-                      style={{
-                        borderRight: "1px solid #000",
-                        padding: "1px",
-                        borderBottom: `${e?.totalLine && `1px solid`}`,
-                        borderTop: `${e?.totalLine && `1px solid`}`,
-                        verticalAlign: "middle",
-                      }}
-                      align={`${
-                        e?.diamondShape === "Total" ? "center" : "right"
-                      }`}
-                    >
-                      &nbsp;
-                      {e?.diamondShape === "Total" ? (
-                        <b>{e?.diamondSettingRate}</b>
-                      ) : (
-                        e?.diamondSettingRate
-                      )}
-                    </td>
-                    <td
-                      width={90}
-                      style={{
-                        borderRight: "1px solid #000",
-                        padding: "1px",
-                        borderBottom: `${e?.totalLine && `1px solid`}`,
-                        borderTop: `${e?.totalLine && `1px solid`}`,
-                        verticalAlign: "middle",
-                      }}
-                      align="right"
-                    >
-                      &nbsp;
-                      {e?.diamondSettingAmount !== "" &&
-                        (e?.diamondShape === "Total" ? (
-                          <b>{NumberWithCommas(e?.diamondSettingAmount, 2)}</b>
-                        ) : (
-                          NumberWithCommas(e?.diamondSettingAmount, 2)
-                        ))}
-                    </td>
-                    <td
-                      width={150}
-                      style={{
-                        borderRight: "1px solid #000",
-                        padding: "1px",
-                        borderBottom: `${e?.totalLine && `1px solid`}`,
-                        borderTop: `${e?.totalLine && `1px solid`}`,
-                        verticalAlign: "middle",
-                      }}
-                      align={`${e?.goldLabel === "Total Gold" && `center`}`}
-                    >
-                      &nbsp;<b>{e?.goldLabel} </b>
-                    </td>
-                    <td
-                      width={90}
-                      style={{
-                        borderRight: "1px solid #000",
-                        padding: "1px",
-                        borderBottom: `${e?.totalLine && `1px solid`}`,
-                        borderTop: `${e?.totalLine && `1px solid`}`,
-                        verticalAlign: "middle",
-                      }}
-                      align={`${
-                        e?.diamondShape === "Total" ? "right" : "center"
-                      }`}
-                    >
-                      &nbsp;
-                      {e?.diamondShape === "Total" ? (
-                        <b>{e?.goldValue}</b>
-                      ) : (
-                        e?.goldValue
-                      )}
-                    </td>
-                    <td
-                      width={90}
-                      style={{
-                        borderRight: "1px solid #000",
-                        padding: "1px",
-                        borderBottom: `${e?.totalLine && `1px solid`}`,
-                        borderTop: `${e?.totalLine && `1px solid`}`,
-                        verticalAlign: "middle",
-                      }}
-                      align={`${
-                        e?.otherChanges === "Total Labour" ? "center" : "right"
-                      }`}
-                    >
-                      &nbsp;
-                      {e?.otherChanges !== "" &&
-                        (e?.diamondShape === "Total" ? (
-                          <b>{e?.otherChanges}</b>
-                        ) : (
-                          <>{e?.otherChanges}</>
-                        ))}
-                    </td>
-                    <td
-                      width={90}
-                      style={{
-                        borderRight: "1px solid #000",
-                        padding: "1px",
-                        borderBottom: `${e?.totalLine && `1px solid`}`,
-                        borderTop: `${e?.totalLine && `1px solid`}`,
-                        verticalAlign: "middle",
-                      }}
-                      align="right"
-                    >
-                      &nbsp;
-                      {e?.diamondShape === "Total" ? (
-                        <b>{e?.labourAmount} </b>
-                      ) : (
-                        e?.labourAmount
-                      )}
-                    </td>
-                    <td
-                      width={90}
-                      style={{
-                        borderRight: "1px solid #000",
-                        padding: "1px",
-                        borderBottom: `${e?.totalLine && `1px solid`}`,
-                        borderTop: `${e?.totalLine && `1px solid`}`,
-                        verticalAlign: "middle",
-                      }}
-                      align="right"
-                    >
-                      &nbsp;
-                      {e?.diamondShape === "Total" ? (
-                        <b>{e?.totalAmount}</b>
-                      ) : (
-                        e?.totalAmount
-                      )}
+                      {e?.grosswt && ` ${fixedValues(e.grosswt, 3)} gm Gross`}
+                      {e?.size && <> Size {e.size}</>}
                     </td>
                   </tr>
-                );
-              })}
+
+                  {/* Diamond Detail Rows */}
+                  {(e.diamonds || []).map((d, ind) => (
+                    <tr key={`diamond-${i}-${ind}`}>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>Diamond Detail</td>
+                      <td>{d.SizeName}</td>
+                      <td>{d.Wt}</td>
+                      <td>{d.Price}</td>
+                      <td>{d.Amount}</td>
+                      <td>{e?.totals?.diamonds?.Amount}</td>
+                    </tr>
+                  ))}
+
+                  {(e.metal || []).map((d, ind) => (
+                    <tr key={`diamond-${i}-${ind}`}>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>Gold Making</td>
+                      <td>{d.SizeName}</td>
+                      <td>{d.Wt}</td>
+                      <td>{d.Price}</td>
+                      <td>{d.Amount}</td>
+                      <td style={{ borderRight: "0.5px solid #000" }}>
+                        {e?.totals?.diamonds?.Amount}
+                      </td>
+                    </tr>
+                  ))}
+
+                  {/* Other Charges Rows */}
+                  {(e.other_details || []).map((d, ind) => (
+                    <tr key={`other-${i}-${ind}`}>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>{ind === 0 ? "Other Charges" : ""}</td>
+                      <td>{d.label}</td>
+                      <td>{d.value}</td>
+                      <td>{d.value}</td>
+                      <td>{d.value}</td>
+                      <td
+                        style={{
+                          borderRight: "0.5px solid #000",
+                        }}
+                      >
+                        {/* Show total in last column only on last row */}
+                        {ind === e.other_details.length - 1
+                          ? e?.OtherCharges
+                          : ""}
+                      </td>
+                    </tr>
+                  ))}
+                </React.Fragment>
+              );
+            })}
+
             {/* table total */}
             <tr>
               <td></td>
               <td
-                colSpan={2}
-                width={290}
-                style={{
-                  border: "1px solid #000",
-                  padding: "1px",
-                  verticalAlign: "middle",
-                }}
-                align="center"
-              >
-                <b>Total</b>{" "}
-              </td>
-              <td
                 width={90}
+                colSpan={7}
                 style={{
-                  borderRight: "1px solid #000",
+                  border: "0.5px solid #000",
                   padding: "1px",
-                  borderBottom: `1px solid`,
-                  borderTop: `1px solid`,
-                  verticalAlign: "middle",
-                }}
-                align="center"
-              ></td>
-              <td
-                width={90}
-                style={{
-                  borderRight: "1px solid #000",
-                  padding: "1px",
-                  borderBottom: `1px solid`,
-                  borderTop: `1px solid`,
-                  verticalAlign: "middle",
-                }}
-                align="center"
-              >
-                <b>No of Pieces</b>
-              </td>
-              <td
-                width={90}
-                style={{
-                  borderRight: "1px solid #000",
-                  padding: "1px",
-                  borderBottom: `1px solid`,
-                  borderTop: `1px solid`,
                   verticalAlign: "middle",
                 }}
                 align="right"
               >
-                <b>&nbsp;{NumberWithCommas(total?.pcs, 0)}</b>
+                Total Amt
               </td>
               <td
                 width={90}
                 style={{
-                  borderRight: "1px solid #000",
+                  border: "0.5px solid #000",
                   padding: "1px",
-                  borderBottom: `1px solid`,
-                  borderTop: `1px solid`,
-                  verticalAlign: "middle",
-                }}
-                align="right"
-              >
-                <b>&nbsp;{fixedValues(total?.diaWt, 3)}</b>
-              </td>
-              <td
-                width={90}
-                style={{
-                  borderRight: "1px solid #000",
-                  padding: "1px",
-                  borderBottom: `1px solid`,
-                  borderTop: `1px solid`,
-                  verticalAlign: "middle",
-                }}
-                align="center"
-              >
-                <b>Diamond total</b>
-              </td>
-              <td
-                width={90}
-                style={{
-                  borderRight: "1px solid #000",
-                  padding: "1px",
-                  borderBottom: `1px solid`,
-                  borderTop: `1px solid`,
-                  verticalAlign: "middle",
-                }}
-                align="right"
-              >
-                <b>&nbsp;{NumberWithCommas(total?.diaAmount, 2)}</b>
-              </td>
-              <td
-                width={90}
-                style={{
-                  borderRight: "1px solid #000",
-                  padding: "1px",
-                  borderBottom: `1px solid`,
-                  borderTop: `1px solid`,
-                  verticalAlign: "middle",
-                }}
-                align="center"
-              ></td>
-              <td
-                width={90}
-                style={{
-                  borderRight: "1px solid #000",
-                  padding: "1px",
-                  borderBottom: `1px solid`,
-                  borderTop: `1px solid`,
-                  verticalAlign: "middle",
-                }}
-                align="center"
-              >
-                <b>Setting Total (Currency)</b>
-              </td>
-              <td
-                width={90}
-                style={{
-                  borderRight: "1px solid #000",
-                  padding: "1px",
-                  borderBottom: `1px solid`,
-                  borderTop: `1px solid`,
-                  verticalAlign: "middle",
-                }}
-                align="right"
-              >
-                <b>&nbsp;{NumberWithCommas(total?.totalAmount, 2)}</b>
-              </td>
-              <td
-                width={150}
-                style={{
-                  borderRight: "1px solid #000",
-                  padding: "1px",
-                  borderBottom: `1px solid`,
-                  borderTop: `1px solid`,
-                  verticalAlign: "middle",
-                }}
-                align="center"
-              >
-                <b>Total Gold</b>
-              </td>
-              <td
-                width={90}
-                style={{
-                  borderRight: "1px solid #000",
-                  padding: "1px",
-                  borderBottom: `1px solid`,
-                  borderTop: `1px solid`,
-                  verticalAlign: "middle",
-                }}
-                align="right"
-              >
-                <b>&nbsp;{fixedValues(total?.totalGold, 2)}</b>
-              </td>
-              <td
-                width={90}
-                style={{
-                  borderRight: "1px solid #000",
-                  padding: "1px",
-                  borderBottom: `1px solid`,
-                  borderTop: `1px solid`,
-                  verticalAlign: "middle",
-                }}
-                align="center"
-              >
-                <b>Total Labour</b>
-              </td>
-              <td
-                width={90}
-                style={{
-                  borderRight: "1px solid #000",
-                  padding: "1px",
-                  borderBottom: `1px solid`,
-                  borderTop: `1px solid`,
-                  verticalAlign: "middle",
-                }}
-                align="right"
-              >
-                <b>&nbsp;{NumberWithCommas(total?.totalLabour, 2)}</b>
-              </td>
-              <td
-                width={90}
-                style={{
-                  borderRight: "1px solid #000",
-                  padding: "1px",
-                  borderBottom: `1px solid`,
-                  borderTop: `1px solid`,
                   verticalAlign: "middle",
                 }}
                 align="right"
               >
                 <b>
                   &nbsp;
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: json0Data?.Currencysymbol,
-                    }}
-                  ></span>
+                  <span>{result?.header?.CurrencyCode}</span>
                   {NumberWithCommas(total?.totalJewelleryAmount, 2)}
                 </b>
               </td>
@@ -1767,13 +1668,13 @@ const DetailPrint11Excel = ({
                     <td></td>
                     {i === 0 && (
                       <td
-                        colSpan={4}
+                        colSpan={3}
                         rowSpan={len}
                         width={560}
                         style={{
-                          borderBottom: "1px solid #000",
-                          borderLeft: "1px solid #000",
-                          borderRight: "1px solid #000",
+                          borderBottom: "0.5px solid #000",
+                          borderLeft: "0.5px solid #000",
+                          borderRight: "0.5px solid #000",
                           padding: "1px",
                           verticalAlign: "middle",
                         }}
@@ -1793,10 +1694,9 @@ const DetailPrint11Excel = ({
                       </td>
                     )}
                     <td
-                      colSpan={4}
                       style={{
-                        borderBottom: i === len - 1 && "1px solid #000",
-                        borderRight: "1px solid #000",
+                        borderBottom: i === len - 1 && "0.5px solid #000",
+                        borderRight: "0.5px solid #000",
                         padding: "1px",
                         verticalAlign: "middle",
                       }}
@@ -1804,29 +1704,7 @@ const DetailPrint11Excel = ({
                       <b></b>{" "}
                     </td>
                     <td
-                      colSpan={2}
-                      style={{
-                        borderBottom: i === len - 1 && "1px solid #000",
-                        padding: "1px",
-                        verticalAlign: "middle",
-                      }}
-                    >
-                      {goldTotal[i] && goldTotal[i]?.label}
-                    </td>
-                    <td
-                      colSpan={2}
-                      style={{
-                        borderBottom: i === len - 1 && "1px solid #000",
-                        borderRight: "1px solid #000",
-                        padding: "1px",
-                        verticalAlign: "middle",
-                      }}
-                      align="right"
-                    >
-                      {goldTotal[i] && goldTotal[i]?.value}
-                    </td>
-                    <td
-                      colSpan={2}
+                      colSpan={3}
                       style={{
                         borderBottom: i === len - 1 && "1px solid #000",
                         borderRight: "1px solid #000",
@@ -1837,7 +1715,6 @@ const DetailPrint11Excel = ({
                       {totalArr[i] && totalArr[i]?.label}{" "}
                     </td>
                     <td
-                      colSpan={2}
                       style={{
                         borderBottom: i === len - 1 && "1px solid #000",
                         borderRight: "1px solid #000",
@@ -1851,13 +1728,7 @@ const DetailPrint11Excel = ({
                       <b>
                         {totalArr[i] && (
                           <>
-                            {
-                              <span
-                                dangerouslySetInnerHTML={{
-                                  __html: json0Data?.Currencysymbol,
-                                }}
-                              ></span>
-                            }
+                            {<span>{result?.header?.CurrencyCode}</span>}
                             {totalArr[i]?.label === "Add" && (
                               <span> {totalArr[i]?.value}</span>
                             )}
@@ -1878,11 +1749,11 @@ const DetailPrint11Excel = ({
             <tr>
               <td></td>
               <td
-                colSpan={14}
+                colSpan={7}
                 style={{
-                  borderLeft: "1px solid",
-                  borderRight: "1px solid",
-                  borderBottom: "1px solid",
+                  borderLeft: "0.5px solid",
+                  borderRight: "0.5px solid",
+                  borderBottom: "0.5px solid",
                   verticalAlign: "middle",
                 }}
                 align="right"
@@ -1890,21 +1761,16 @@ const DetailPrint11Excel = ({
                 <b>Grand Total</b>{" "}
               </td>
               <td
-                colSpan={2}
                 style={{
-                  borderRight: "1px solid",
-                  borderBottom: "1px solid",
+                  borderRight: "0.5px solid",
+                  borderBottom: "0.5px solid",
                   verticalAlign: "middle",
                 }}
                 align="right"
               >
                 &nbsp;
                 <b style={{ color: "#000" }}>
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: json0Data?.Currencysymbol,
-                    }}
-                  ></span>
+                  <span>{result?.header?.CurrencyCode}</span>{" "}
                   {fixedValues(total?.grandTotal, 2)}
                 </b>
               </td>
@@ -1917,41 +1783,15 @@ const DetailPrint11Excel = ({
                     <td
                       colSpan={8}
                       style={{
-                        borderLeft: "1px solid",
-                        borderRight: "1px solid",
+                        borderLeft: "0.5px solid",
+                        borderRight: "0.5px solid",
                         borderBottom: `${
-                          i === bankDetail.length - 1 && "1px solid"
+                          i === bankDetail.length - 1 && "0.5px solid"
                         }`,
                         verticalAlign: "middle",
                       }}
                     >
                       {e?.label} {e?.value}
-                    </td>
-                    <td
-                      colSpan={4}
-                      style={{
-                        borderRight: "1px solid",
-                        borderBottom: `${
-                          i === bankDetail.length - 1 && "1px solid"
-                        }`,
-                        verticalAlign: "middle",
-                      }}
-                    >
-                      {i === 0 && json0Data?.CompanyFullName}{" "}
-                      {i === bankDetail.length - 1 && "Signature"}
-                    </td>
-                    <td
-                      colSpan={4}
-                      style={{
-                        borderRight: "1px solid",
-                        borderBottom: `${
-                          i === bankDetail.length - 1 && "1px solid"
-                        }`,
-                        verticalAlign: "middle",
-                      }}
-                    >
-                      {i === 0 && json0Data?.customerfirmname}{" "}
-                      {i === bankDetail.length - 1 && "Signature"}
                     </td>
                   </tr>
                 );
@@ -1967,4 +1807,4 @@ const DetailPrint11Excel = ({
   );
 };
 
-export default DetailPrint11Excel;
+export default DetailPrint11LExcel;
