@@ -194,7 +194,6 @@ const PrintDesign17 = ({ queries, headers }) => {
                                         {(e?.data?.rd?.referenceno === null && e?.data?.rd?.referenceno === '' ) ? '' : `(${e?.data?.rd?.referenceno})`}
                                       </span> : '' 
                                     }
-                                    
                                   </p>
                                   <p className="fontsize17">
                                     {e?.data?.rd?.["Designcode"]}

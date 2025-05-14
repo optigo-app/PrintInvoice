@@ -542,10 +542,10 @@ const DetailPrint11LExcel = ({
 
     setBankDetail(bankArr);
 
-    setTimeout(() => {
-      const button = document.getElementById("test-table-xls-button");
-      button.click();
-    }, 2000);
+    // setTimeout(() => {
+    //   const button = document.getElementById("test-table-xls-button");
+    //   button.click();
+    // }, 2000);
   };
 
   useEffect(() => {
@@ -1092,7 +1092,7 @@ const DetailPrint11LExcel = ({
       amtval: 50,
     },
     {
-      label: "Shipping Charges",
+      label: "Others",
       value: "50.00",
       amtval: 50,
     },
@@ -1616,9 +1616,9 @@ const DetailPrint11LExcel = ({
                     {e.diamonds?.length > 0 ? (
                       <>
                         <td>Diamond Detail</td>
-                        <td>{e.diamonds[0].SizeName}</td>
+                        <td>{e.diamonds[0].GroupName}</td>
                         <td>{e.diamonds[0].Wt}</td>
-                        <td>{e.diamonds[0].Price}</td>
+                        <td>{e.diamonds[0].Rate}</td>
                         <td>{e.diamonds[0].Amount}</td>
                         <td style={{ borderRight: "0.5px solid #000" }}>
                           {e?.totals?.diamonds?.Amount}
@@ -1634,22 +1634,29 @@ const DetailPrint11LExcel = ({
                   {e.diamonds?.slice(1).map((d, ind) => (
                     <tr key={`diamond-${i}-${ind}`}>
                       <td>Diamond Detail</td>
-                      <td>{d.SizeName}</td>
+                      <td>{d.GroupName}</td>
                       <td>{d.Wt}</td>
-                      <td>{d.Price}</td>
+                      <td>{d.Rate}</td>
                       <td>{d.Amount}</td>
                       <td style={{ borderRight: "0.5px solid #000" }}></td>
                     </tr>
                   ))}
 
-                  {e.metal?.length > 0 && (
+                  {/* {e.metal?.length > 0 && (
                     <>
                       <tr>
                         <td></td>
-                        <td>Gold Making</td>
-                        <td>{e.metal[0].SizeName}</td>
-                        <td>{e.metal[0].Wt}</td>
-                        <td>{e.metal[0].Price}</td>
+                        <td>Gold & Making</td>
+                        <td>
+                          {e.metal[0].ShapeName} {e.metal[0].QualityName}
+                        </td>
+                        <td>
+                          {" "}
+                          {e?.IsPrimaryMetal === 1
+                            ? (e?.metal?.[0]?.Wt - e?.LossWt)?.toFixed(3)
+                            : e?.metal?.[0]?.Wt?.toFixed(3)}
+                        </td>
+                        <td>{e.metal[0].Rate}</td>
                         <td>{e.metal[0].Amount}</td>
                         <td style={{ borderRight: "0.5px solid #000" }}>
                           {e?.totals?.metal?.Amount}
@@ -1660,15 +1667,57 @@ const DetailPrint11LExcel = ({
                           <td></td>
                           <td>Gold & Making</td>
                           <td>{d.SizeName}</td>
-                          <td>{d.Wt}</td>
-                          <td>{d.Price}</td>
+                          <td>
+                            {" "}
+                            {e?.IsPrimaryMetal === 1
+                              ? (e?.metal?.[0]?.Wt - d?.LossWt)?.toFixed(3)
+                              : e?.metal?.[0]?.Wt?.toFixed(3)}
+                          </td>
+                          <td>{d.Rate}</td>
+                          <td>{d.Amount}</td>
+                          <td style={{ borderRight: "0.5px solid #000" }}></td>
+                        </tr>
+                      ))}
+                    </>
+                  )} */}
+                  {e.metal?.length > 0 && (
+                    <>
+                      <tr>
+                        <td></td>
+                        <td>Gold & Making</td>
+                        <td>
+                          {e.metal[0].ShapeName} {e.metal[0].QualityName}
+                        </td>
+                        <td>
+                          {" "}
+                          {e?.IsPrimaryMetal === 1
+                            ? (e?.metal?.[0]?.Wt - e?.LossWt)?.toFixed(3)
+                            : e?.metal?.[0]?.Wt?.toFixed(3)}
+                        </td>
+                        <td>{e.metal[0].Rate}</td>
+                        <td>{e.metal[0].Amount}</td>
+                        <td style={{ borderRight: "0.5px solid #000" }}>
+                          {e?.totals?.metal?.Amount}
+                        </td>
+                      </tr>
+                      {e.metal.slice(1).map((d, ind) => (
+                        <tr key={`metal-${i}-${ind}`}>
+                          <td></td>
+                          <td>Gold & Making</td>
+                          <td>{d.SizeName}</td>
+                          <td>
+                            {" "}
+                            {e?.IsPrimaryMetal === 1
+                              ? (e?.metal?.[0]?.Wt - d?.LossWt)?.toFixed(3)
+                              : e?.metal?.[0]?.Wt?.toFixed(3)}
+                          </td>
+                          <td>{d.Rate}</td>
                           <td>{d.Amount}</td>
                           <td style={{ borderRight: "0.5px solid #000" }}></td>
                         </tr>
                       ))}
                     </>
                   )}
-
                   {e.other_details?.length > 0 && (
                     <>
                       <tr>

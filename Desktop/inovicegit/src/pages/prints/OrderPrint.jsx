@@ -1137,6 +1137,8 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     return now.toLocaleString('en-GB', options).replace(',', '');
   }
 
+  console.log('json2Datajson2Data' , json2Data);
+  
   return (
     <>
       {loader ? (
@@ -1461,7 +1463,7 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   </div>
                                   <div className="width_40_estimatePrint p_1Estimate">
                                     <p className="text-end ">
-                                      {NumberWithCommas(ele?.MetalAmount, 2)}
+                                      {NumberWithCommas(ele?.Amount, 2)}
                                     </p>
                                   </div>
                                 </div>
