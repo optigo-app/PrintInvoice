@@ -1,3 +1,5 @@
+// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=Yi1ib29rMjQ=&evn=U2FsZQ==&pnm=RGV0YWlsIFByaW50IDExIEw=&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&etp=ZXhjZWw=&ctv=NzE=
+
 import React, { useState, useEffect } from "react";
 import {
   NumberWithCommas,
@@ -484,10 +486,12 @@ const DetailPrint11LExcel = ({
     });
     // golds?.gold14k && goldArr.unshift({ label: "GOLD 14K: ", value: `${fixedValues(summaries?.gold14k, 3)} gm` });
     let totalArr = [];
+
     totalArr.push({
-      label: "Total",
+      label: "Discount",
       value: NumberWithCommas(totals?.totalJewelleryAmount, 2),
     });
+
     taxValue.forEach((e, i) => {
       let obj = { ...e };
       totalArr.push({
@@ -1071,6 +1075,36 @@ const DetailPrint11LExcel = ({
 
   console.log("resultresultresult", result);
 
+  const ShowOtherStaticData = [
+    {
+      label: "HallMark",
+      value: "50.00",
+      amtval: 50,
+    },
+    {
+      label: "IGL/SGL",
+      value: "50.00",
+      amtval: 50,
+    },
+    {
+      label: "CS",
+      value: "50.00",
+      amtval: 50,
+    },
+    {
+      label: "Others",
+      value: "50.00",
+      amtval: 50,
+    },
+  ];
+
+  if (result?.resultArray) {
+    result.resultArray = result.resultArray.map((item) => ({
+      ...item,
+      other_details: ShowOtherStaticData,
+    }));
+  }
+
   return loader ? (
     <Loader />
   ) : msg === "" ? (
@@ -1523,32 +1557,33 @@ const DetailPrint11LExcel = ({
 
             {/* table data */}
             {result?.resultArray?.map((e, i) => {
+              const diamondCount = e.diamonds?.length || 0;
+              const metalCount = e.metal?.length || 0;
+              const otherCount = e.other_details?.length || 0;
+
+              const totalRowSpan = diamondCount + metalCount + otherCount || 1;
+
               return (
                 <React.Fragment key={i}>
+                  {/* First row with diamond if exists */}
                   <tr>
                     <td></td>
                     <td
                       width={90}
-                      style={{
-                        borderLeft: "0.5px solid #000",
-                        borderRight: "0.5px solid #000",
-                        padding: "1px",
-                        borderBottom: `${e?.totalLine && `0.5px solid`}`,
-                        borderTop: `${e?.totalLine && `0.5px solid`}`,
-                        verticalAlign: "middle",
-                      }}
+                      rowSpan={totalRowSpan}
+                      style={{ border: "0.5px solid #000", padding: "1px" }}
                       align="center"
                     >
                       {i + 1}
                     </td>
                     <td
                       width={200}
+                      rowSpan={totalRowSpan}
                       style={{
                         borderRight: "0.5px solid #000",
+                        borderBottom: "0.5px solid #000",
                         padding: "1px",
-                        borderBottom: `${e?.totalLine && `0.5px solid`}`,
-                        borderTop: `${e?.totalLine && `0.5px solid`}`,
-                        verticalAlign: "middle",
+                        verticalAlign: "top",
                       }}
                     >
                       {e?.designno && <span>{e.designno}</span>}
@@ -1556,76 +1591,212 @@ const DetailPrint11LExcel = ({
                         <span style={{ marginLeft: "10px" }}>{e.SrJobno}</span>
                       )}
                       {e?.CDNDesignImage && (
-                        <img
-                          src={e.CDNDesignImage}
-                          alt=""
-                          onError={(eve) =>
-                            handleGlobalImgError(eve, json0Data?.DefImage)
-                          }
-                          width={75}
-                          height={40}
-                          style={{ paddingLeft: "10px", objectFit: "contain" }}
-                        />
+                        <div style={{ marginTop: 4 }}>
+                          <img
+                            src={e.CDNDesignImage}
+                            alt=""
+                            onError={(eve) =>
+                              handleGlobalImgError(eve, json0Data?.DefImage)
+                            }
+                            width={75}
+                            height={40}
+                            style={{
+                              paddingLeft: "10px",
+                              objectFit: "contain",
+                            }}
+                          />
+                        </div>
                       )}
-                      {e?.grosswt && ` ${fixedValues(e.grosswt, 3)} gm Gross`}
-                      {e?.size && <> Size {e.size}</>}
+                      <div>
+                        {e?.grosswt && ` ${fixedValues(e.grosswt, 3)} gm Gross`}
+                        {e?.size && <> Size {e.size}</>}
+                      </div>
                     </td>
+
+                    {e.diamonds?.length > 0 ? (
+                      <>
+                        <td>Diamond Detail</td>
+                        <td>{e.diamonds[0].GroupName}</td>
+                        <td>{e.diamonds[0].Wt}</td>
+                        <td>{e.diamonds[0].Rate}</td>
+                        <td>{e.diamonds[0].Amount}</td>
+                        <td style={{ borderRight: "0.5px solid #000" }}>
+                          {e?.totals?.diamonds?.Amount}
+                        </td>
+                      </>
+                    ) : (
+                      <>
+                        <td colSpan={6}></td>
+                      </>
+                    )}
                   </tr>
 
-                  {/* Diamond Detail Rows */}
-                  {(e.diamonds || []).map((d, ind) => (
+                  {e.diamonds?.slice(1).map((d, ind) => (
                     <tr key={`diamond-${i}-${ind}`}>
-                      <td></td>
-                      <td></td>
-                      <td></td>
                       <td>Diamond Detail</td>
-                      <td>{d.SizeName}</td>
+                      <td>{d.GroupName}</td>
                       <td>{d.Wt}</td>
-                      <td>{d.Price}</td>
+                      <td>{d.Rate}</td>
                       <td>{d.Amount}</td>
-                      <td>{e?.totals?.diamonds?.Amount}</td>
+                      <td style={{ borderRight: "0.5px solid #000" }}></td>
                     </tr>
                   ))}
 
-                  {(e.metal || []).map((d, ind) => (
-                    <tr key={`diamond-${i}-${ind}`}>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td>Gold Making</td>
-                      <td>{d.SizeName}</td>
-                      <td>{d.Wt}</td>
-                      <td>{d.Price}</td>
-                      <td>{d.Amount}</td>
-                      <td style={{ borderRight: "0.5px solid #000" }}>
-                        {e?.totals?.diamonds?.Amount}
-                      </td>
-                    </tr>
-                  ))}
+                  {/* {e.metal?.length > 0 && (
+                    <>
+                      <tr>
+                        <td></td>
+                        <td>Gold & Making</td>
+                        <td>
+                          {e.metal[0].ShapeName} {e.metal[0].QualityName}
+                        </td>
+                        <td>
+                          {" "}
+                          {e?.IsPrimaryMetal === 1
+                            ? (e?.metal?.[0]?.Wt - e?.LossWt)?.toFixed(3)
+                            : e?.metal?.[0]?.Wt?.toFixed(3)}
+                        </td>
+                        <td>{e.metal[0].Rate}</td>
+                        <td>{e.metal[0].Amount}</td>
+                        <td style={{ borderRight: "0.5px solid #000" }}>
+                          {e?.totals?.metal?.Amount}
+                        </td>
+                      </tr>
+                      {e.metal.slice(1).map((d, ind) => (
+                        <tr key={`metal-${i}-${ind}`}>
+                          <td></td>
+                          <td>Gold & Making</td>
+                          <td>{d.SizeName}</td>
+                          <td>
+                            {" "}
+                            {e?.IsPrimaryMetal === 1
+                              ? (e?.metal?.[0]?.Wt - d?.LossWt)?.toFixed(3)
+                              : e?.metal?.[0]?.Wt?.toFixed(3)}
+                          </td>
+                          <td>{d.Rate}</td>
+                          <td>{d.Amount}</td>
+                          <td style={{ borderRight: "0.5px solid #000" }}></td>
+                        </tr>
+                      ))}
+                    </>
+                  )} */}
+                  {e.metal?.length > 0 && (
+                    <>
+                      <tr>
+                        <td></td>
+                        <td>Gold & Making</td>
+                        <td>
+                          {e.metal[0].ShapeName} {e.metal[0].QualityName}
+                        </td>
+                        <td>
+                          {" "}
+                          {e?.IsPrimaryMetal === 1
+                            ? (e?.metal?.[0]?.Wt - e?.LossWt)?.toFixed(3)
+                            : e?.metal?.[0]?.Wt?.toFixed(3)}
+                        </td>
+                        <td>{e.metal[0].Rate}</td>
+                        <td>{e.metal[0].Amount}</td>
+                        <td style={{ borderRight: "0.5px solid #000" }}>
+                          {e?.totals?.metal?.Amount}
+                        </td>
+                      </tr>
+                      {e.metal.slice(1).map((d, ind) => (
+                        <tr key={`metal-${i}-${ind}`}>
+                          <td></td>
+                          <td>Gold & Making</td>
+                          <td>{d.SizeName}</td>
+                          <td>
+                            {" "}
+                            {e?.IsPrimaryMetal === 1
+                              ? (e?.metal?.[0]?.Wt - d?.LossWt)?.toFixed(3)
+                              : e?.metal?.[0]?.Wt?.toFixed(3)}
+                          </td>
+                          <td>{d.Rate}</td>
+                          <td>{d.Amount}</td>
+                          <td style={{ borderRight: "0.5px solid #000" }}></td>
+                        </tr>
+                      ))}
+                    </>
+                  )}
+                  {e.other_details?.length > 0 && (
+                    <>
+                      <tr>
+                        <td></td>
+                        <td>Other Charges</td>
+                        <td>{e.other_details[0].label}</td>
+                        <td>{e.other_details[0].value}</td>
+                        <td>{e.other_details[0].value}</td>
+                        <td>{e.other_details[0].value}</td>
+                        <td style={{ borderRight: "0.5px solid #000" }}>
+                          {e?.OtherCharges}
+                        </td>
+                      </tr>
 
-                  {/* Other Charges Rows */}
-                  {(e.other_details || []).map((d, ind) => (
-                    <tr key={`other-${i}-${ind}`}>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td>{ind === 0 ? "Other Charges" : ""}</td>
-                      <td>{d.label}</td>
-                      <td>{d.value}</td>
-                      <td>{d.value}</td>
-                      <td>{d.value}</td>
-                      <td
-                        style={{
-                          borderRight: "0.5px solid #000",
-                        }}
-                      >
-                        {/* Show total in last column only on last row */}
-                        {ind === e.other_details.length - 1
-                          ? e?.OtherCharges
-                          : ""}
-                      </td>
-                    </tr>
-                  ))}
+                      {e.other_details.slice(1).map((d, ind, arr) => {
+                        const isLast = ind === arr.length - 1;
+                        return (
+                          <tr key={`other-${i}-${ind}`}>
+                            <td></td>
+                            <td
+                              style={{
+                                ...(isLast && {
+                                  borderBottom: "0.5px solid #000",
+                                }),
+                              }}
+                            ></td>
+                            <td
+                              style={{
+                                ...(isLast && {
+                                  borderBottom: "0.5px solid #000",
+                                }),
+                              }}
+                            >
+                              {d.label}
+                            </td>
+                            <td
+                              style={{
+                                ...(isLast && {
+                                  borderBottom: "0.5px solid #000",
+                                }),
+                              }}
+                            >
+                              {d.label === "CS"
+                                ? e.totals?.colorstone?.Wt
+                                : d.value}
+                            </td>
+                            <td
+                              style={{
+                                ...(isLast && {
+                                  borderBottom: "0.5px solid #000",
+                                }),
+                              }}
+                            >
+                              {d.label === "CS" ? "" : d.value}
+                            </td>
+                            <td
+                              style={{
+                                ...(isLast && {
+                                  borderBottom: "0.5px solid #000",
+                                }),
+                              }}
+                            >
+                              {d.label === "CS"
+                                ? e.totals?.colorstone?.Amount
+                                : d.value}
+                            </td>
+                            <td
+                              style={{
+                                borderRight: "0.5px solid #000",
+                                ...(isLast && {
+                                  borderBottom: "0.5px solid #000",
+                                }),
+                              }}
+                            ></td>
+                          </tr>
+                        );
+                      })}
+                    </>
+                  )}
                 </React.Fragment>
               );
             })}
