@@ -22,8 +22,8 @@ export function formatAmount(amount, round = false) {
     try {
       let apiUrl_kayra = '';
   
-      if (hostName?.toLowerCase() === 'zen' || hostName?.toLowerCase() === 'localhost') {
-        apiUrl_kayra = 'http://zen/jo/api-lib/App/DashBoard';
+      if (hostName?.toLowerCase() === 'zen' || hostName?.toLowerCase() === 'nzen' || hostName?.toLowerCase() === 'localhost') {
+        apiUrl_kayra = 'http://nzen/jo/api-lib/App/DashBoard';
       } else {
         apiUrl_kayra = 'https://view.optigoapps.com/linkedapp/App/DashBoard';
       }
@@ -67,8 +67,8 @@ export function formatAmount(amount, round = false) {
   try {
     let apiUrl_kayra = '';
 
-    if (hostName?.toLowerCase() === 'zen' || hostName?.toLowerCase() === 'localhost') {
-      apiUrl_kayra = 'http://zen/jo/api-lib/App/DashBoard';
+    if (hostName?.toLowerCase() === 'nzen' || hostName?.toLowerCase() === 'localhost') {
+      apiUrl_kayra = 'http://nzen/jo/api-lib/App/DashBoard';
     } else {
       apiUrl_kayra = 'https://view.optigoapps.com/linkedapp/App/DashBoard';
     }

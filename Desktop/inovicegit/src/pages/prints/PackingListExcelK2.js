@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import {
     apiCall,
     checkMsg,
+    fixedValues,
     formatAmount,
     handleImageError,
     handlePrint,
@@ -205,8 +206,8 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
         setTimeout(() => {
             const button = document.getElementById('test-table-xls-button');
             button.click();
-          }, 500);
-      }
+        }, 500);
+    }
 
     return (
         <>
@@ -311,7 +312,8 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                                 <td style={{
                                                     ...cellBodyStyle,
                                                     width: '80px'
-                                                }}>{item.SrJobno} ({item.Counter_Tray})</td>
+                                                }}>{item.SrJobno}</td> 
+                                                {/* ({item.Counter_Tray}) */}
                                                 <td
                                                     style={{
                                                         border: '1px solid black',
@@ -341,7 +343,7 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                                 <td style={{ ...cellBodyStyle }}>{(item?.colorStoneTotalWt)?.toFixed(3)}</td>
                                                 <td style={{ ...cellBodyStyle }}>{item.MetalPurity}</td>
                                                 <td style={{ ...cellBodyStyle }}>{item.NetWt}</td>
-                                                <td style={{ ...cellBodyStyle }}>{formatAmount(item?.TotalAmount.toFixed(2))}</td>
+                                                <td style={{ ...cellBodyStyle }}>{formatAmount((item?.TotalAmount / result?.header?.CurrencyExchRate).toFixed(2))}</td>
                                             </tr>
                                         ))}
                                         {/* Row for values */}
@@ -358,7 +360,7 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                                 {(result?.mainTotal?.metal?.Wt ?? 0).toFixed(2)}
                                             </td>
                                             <td style={{ ...cellMainTotalStyle, borderBottom: 'none' }}>
-                                                {(result?.mainTotal?.total_amount ?? 0).toFixed(2)}
+                                            {((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate))?.toFixed(2)}
                                             </td>
                                         </tr>
 
@@ -374,7 +376,7 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
 
                                         <tr>
                                             <td />
-                                            <td colSpan={10} style={{ textTransform: 'upperCase' }}>Total Value : {result?.header?.CurrencyCode}{". "}{toWords.convert(result?.mainTotal?.total_amount)}</td>
+                                            <td colSpan={10} style={{ textTransform: 'upperCase' }}>Total Value : {result?.header?.CurrencyCode}{". "}{toWords?.convert(+fixedValues((result?.mainTotal?.total_amount ) / result?.header?.CurrencyExchRate, 2))}</td>
                                         </tr>
                                         {result?.mainCusTotal?.metalPurityWiseData?.map((item, idx) => (
                                             <React.Fragment key={idx}>

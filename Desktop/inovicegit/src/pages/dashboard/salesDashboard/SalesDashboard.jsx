@@ -399,7 +399,7 @@ const SalesDashboard = ({ tkn, hostName, LId, IsEmpLogin, IsPower, IFB }) => {
           </Grid>
 
           <Grid item xs={12} md={6} lg={9} style={{ paddingTop: '25px' }}>
-            <Summary tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCurrency} countryCodeSymbol={countryCodeSymbol} salesman={selectedSales} office={selectedOffice} monthWiseSaleData={monthWiseSaleApiData} summaryData={summryApiData} IsEmpLogin={IsEmpLogin} />
+            <Summary tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCurrency} countryCodeSymbol={countryCodeSymbol} salesman={selectedSales} office={selectedOffice} monthWiseSaleData={monthWiseSaleApiData} jobWisePriceRangeData={jobWisePriceRangeData} summaryData={summryApiData} IsEmpLogin={IsEmpLogin} />
           </Grid>
           <Grid item xs={12} md={6} lg={3} style={{ paddingTop: '25px' }}>
             <OrderTracker tkn={tkn} fdate={fdatef} tdate={tdatef} country={selectedCurrency} countryCodeSymbol={countryCodeSymbol} salesman={selectedSales} office={selectedOffice} orderTracker={orderTrackerApiData} IsEmpLogin={IsEmpLogin} />
