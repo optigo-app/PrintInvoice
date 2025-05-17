@@ -308,7 +308,7 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                         {result?.resultArray.map((item, idx) => (
                                             <tr key={idx}>
                                                 <td />
-                                                <td style={{ ...cellBodyStyle }}>{item.SrNo}</td>
+                                                <td style={{ ...cellBodyStyle }}>{idx+1}</td>
                                                 <td style={{ ...cellBodyStyle }}>{item.designno}</td>
                                                 <td style={{
                                                     ...cellBodyStyle,
