@@ -312,7 +312,7 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                                 <td style={{
                                                     ...cellBodyStyle,
                                                     width: '80px'
-                                                }}>{item.SrJobno}</td> 
+                                                }}>{item.SrJobno}{item.Counter_Tray !== "" && (item.Counter_Tray)}</td> 
                                                 {/* ({item.Counter_Tray}) */}
                                                 <td
                                                     style={{

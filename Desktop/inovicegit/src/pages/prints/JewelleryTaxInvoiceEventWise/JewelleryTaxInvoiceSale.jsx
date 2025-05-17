@@ -88,6 +88,7 @@ const JewelleryTaxInvoiceSale = ({
   const [summary, setSummary] = useState([]);
   const [summary2, setSummary2] = useState([]);
   const [imgFlag, setImgFlag] = useState(false);
+  const [showBoxNo, setShowBoxNo] = useState(false);
   const [isImageWorking, setIsImageWorking] = useState(true);
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -325,6 +326,13 @@ const JewelleryTaxInvoiceSale = ({
     }
   };
 
+  const handleShowBoxNo = (e) => {
+    if (showBoxNo) setShowBoxNo(false);
+    else {
+      setShowBoxNo(true);
+    }
+  };
+
   const handleAddress = (e) => {
     setAddressVal(e.target.value);
   };
@@ -353,6 +361,19 @@ const JewelleryTaxInvoiceSale = ({
           <div className="px-2">
             <input
               type="checkbox"
+              onChange={handleShowBoxNo}
+              value={showBoxNo}
+              checked={showBoxNo}
+              id="imgshow"
+            />
+            <label htmlFor="imgshow" className="user-select-none mx-1">
+               Box No.
+            </label>
+          </div>
+
+          <div className="px-2">
+            <input
+              type="checkbox"
               onChange={handleImgShow}
               value={imgFlag}
               checked={imgFlag}
@@ -362,6 +383,7 @@ const JewelleryTaxInvoiceSale = ({
               Header
             </label>
           </div>
+
           <div className="form-check ps-3 ">
             <input
               type="button"
@@ -785,6 +807,15 @@ const JewelleryTaxInvoiceSale = ({
                       {e?.lineid}
                     </p>
                   )}
+
+                  {showBoxNo && (
+                    <span
+                      className="fw-bold text-break fs_13px_jti"
+                      style={{ fontSize: "14px" }}
+                    >
+                      {e?.Counter_Tray}
+                    </span>
+                  )}
                   {/* {e?.batchnumber === "" ? (
                     ""
                   ) : (
@@ -1001,11 +1032,11 @@ const JewelleryTaxInvoiceSale = ({
                     ""
                   ) : (
                     <div
-                      className="d-flex justify-content-between"
+                      className="d-flex"
                       style={{ width: "70%" }}
                       key={i}
                     >
-                      <p key={i} className="remark_fs fs_jti_Sale">
+                      <p key={i} className="remark_fs fs_jti_Sale" style={{minWidth: '60%'}}>
                         {e?.label}:{" "}
                       </p>
                       <p className="remark_fs fs_jti_Sale">
