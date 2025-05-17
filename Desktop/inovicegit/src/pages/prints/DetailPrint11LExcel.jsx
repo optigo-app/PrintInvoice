@@ -7,6 +7,7 @@ import {
   checkImageExists,
   checkMsg,
   fixedValues,
+  formatAmount,
   handleGlobalImgError,
   handleImageError,
   handlePrint,
@@ -1061,72 +1062,74 @@ const DetailPrint11LExcel = ({
   };
 
   console.log("resultresultresult final ", result);
-  const ShowOtherStaticData = [
-    { label: "HallMark", value: "50.00", amtval: 50 },
-    { label: "IGL/SGL", value: "50.00", amtval: 50 },
-    { label: "CS", value: "50.00", amtval: 50 },
-    { label: "Others", value: "50.00", amtval: 50 },
-  ];
 
-  if (result?.resultArray) {
+  if (result?.resultArray && !result.resultArray[0]?.__isTransformed) {
+    console.log("Transforming resultArray only once");
+
     result.resultArray = result.resultArray.map((item, index) => {
       const originalOtherDetails = item.other_details || [];
-
       const existingHallmark = originalOtherDetails.find(
         (d) => d.label?.trim().toLowerCase() === "hallmark charges"
       );
-
-      const CertificationCharge = originalOtherDetails.find(
+      const certificationCharge = originalOtherDetails.find(
         (d) => d.label?.trim().toLowerCase() === "certification charge"
       );
 
-      console.log(
-        "CertificationChargeCertificationCharge",
-        CertificationCharge
-      );
+      const updatedOtherDetails = [
+        {
+          label: "HallMark",
+          value: existingHallmark?.value ?? "",
+          amtval: existingHallmark?.amtval ?? "",
+        },
+        {
+          label: "IGL/SGL",
+          value: certificationCharge?.value ?? "",
+          amtval: certificationCharge?.amtval ?? "",
+        },
+        {
+          label: "CS",
+          value: "",
+          amtval: "",
+        },
+        {
+          label: "Others",
+          value: item?.OtherCharges
+            ? parseFloat(item.OtherCharges).toFixed(2)
+            : "",
+          amtval: item?.OtherCharges ? parseFloat(item.OtherCharges) : "",
+        },
+      ];
 
-      if (existingHallmark || CertificationCharge) {
-        const updatedOtherDetails = ShowOtherStaticData.map((staticItem) => {
-          if (staticItem.label?.trim().toLowerCase() === "hallmark") {
-            return {
-              ...staticItem,
-              value: existingHallmark.value,
-              amtval: existingHallmark.amtval,
-            };
-          }
+      console.log(`Row ${index} updatedOtherDetails:`, updatedOtherDetails);
 
-          if (staticItem.label?.trim().toLowerCase() === "igl/sgl") {
-            return {
-              ...staticItem,
-              value: CertificationCharge.value,
-              amtval: CertificationCharge.amtval,
-            };
-          }
-
-          if (
-            staticItem.label?.trim().toLowerCase() === "others" &&
-            item?.OtherCharges
-          ) {
-            return {
-              ...staticItem,
-              value: parseFloat(item.OtherCharges).toFixed(2),
-              amtval: parseFloat(item.OtherCharges),
-            };
-          }
-
-          return staticItem;
-        });
-
-        return {
-          ...item,
-          other_details: updatedOtherDetails,
-        };
-      }
-
-      return item;
+      return {
+        ...item,
+        other_details: updatedOtherDetails,
+        __isTransformed: true, // add flag
+      };
     });
   }
 
+  const grandTotal = result?.resultArray?.reduce((sum, e) => {
+    const metalAmt = Number(e.totals?.metal?.Amount) || 0;
+    const makingAmt = Number(e.MakingAmount) || 0;
+    const diamondAmt = Number(e.totals?.diamonds?.Amount) || 0;
+    const csAmt = Number(e.totals?.colorstone?.Amount) || 0;
+    const other0 = parseFloat(e.other_details?.[0]?.value || 0);
+    console.log(
+      "sum---------",
+      sum,
+      metalAmt,
+      makingAmt,
+      diamondAmt,
+      csAmt,
+      other0,
+      sum + metalAmt + makingAmt + diamondAmt + csAmt + other0
+    );
+    return sum + metalAmt + makingAmt + diamondAmt + csAmt + other0;
+  }, 0);
+
+  console.log("totalArrtotalArr", totalArr, totalArr[0]?.value);
   return loader ? (
     <Loader />
   ) : msg === "" ? (
@@ -1585,7 +1588,7 @@ const DetailPrint11LExcel = ({
                     <td></td>
                     <td
                       width={90}
-                      rowSpan={7}
+                      rowSpan={6 + e?.diamonds?.length}
                       style={{ border: "0.5px solid #000", padding: "1px" }}
                       align="center"
                     >
@@ -1593,7 +1596,7 @@ const DetailPrint11LExcel = ({
                     </td>
                     <td
                       width={200}
-                      rowSpan={7}
+                      rowSpan={6 + e?.diamonds?.length}
                       style={{
                         borderRight: "0.5px solid #000",
                         borderBottom: "0.5px solid #000",
@@ -1606,19 +1609,22 @@ const DetailPrint11LExcel = ({
                         <span style={{ marginLeft: "10px" }}>{e.SrJobno}</span>
                       )}
                       {e?.CDNDesignImage && (
-                        <div style={{ marginTop: 4 }}>
+                        <div
+                          style={{
+                            marginTop: 4,
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
                           <img
                             src={e.CDNDesignImage}
                             alt=""
                             onError={(eve) =>
                               handleGlobalImgError(eve, json0Data?.DefImage)
                             }
-                            width={75}
-                            height={40}
-                            style={{
-                              paddingLeft: "10px",
-                              objectFit: "contain",
-                            }}
+                            width="160"
+                            height="160"
+                            style={{ display: "block", margin: "0 auto" }}
                           />
                         </div>
                       )}
@@ -1628,65 +1634,81 @@ const DetailPrint11LExcel = ({
                       </div>
                     </td>
 
-                    <td>Diamond Detail</td>
-                    <td>{e.diamonds[0]?.GroupName}</td>
+                    <td rowSpan={e?.diamonds?.length}>Diamond Detail</td>
+                    <td>{e.diamonds[0]?.SizeName}</td>
                     <td>{e.diamonds[0]?.Wt}</td>
                     <td>{e.diamonds[0]?.Rate}</td>
                     <td>{e.diamonds[0]?.Amount}</td>
-                    <td style={{ borderRight: "0.5px solid #000" }}>
+                    <td
+                      rowSpan={e?.diamonds?.length}
+                      style={{ borderRight: "0.5px solid #000" }}
+                    >
                       {e?.totals?.diamonds?.Amount}
                     </td>
                   </tr>
 
+                  {e?.diamonds?.slice(1).map((d, ind) => (
+                    <tr key={`metal-${i}-${ind}`}>
+                      <td></td>
+                      <td>{d.SizeName}</td>
+                      <td>{d.Wt}</td>
+                      <td>{d.Rate}</td>
+                      <td>{d.Amount}</td>
+                      <td></td>
+                    </tr>
+                  ))}
+
                   <tr>
                     <td></td>
-                    <td>Gold & Making</td>
-                    <td>
+                    <td style={{ borderTop: "0.5px solid #000" }}>
+                      Gold & Making
+                    </td>
+                    <td style={{ borderTop: "0.5px solid #000" }}>
                       {e.metal[0].ShapeName} {e.metal[0].QualityName}
                     </td>
-                    <td>
+                    <td style={{ borderTop: "0.5px solid #000" }}>
                       {" "}
                       {e?.IsPrimaryMetal === 1
                         ? (e?.metal?.[0]?.Wt - e?.LossWt)?.toFixed(3)
                         : e?.metal?.[0]?.Wt?.toFixed(3)}
                     </td>
-                    <td>{e.metal[0].Rate}</td>
-                    <td>{e.metal[0].Amount}</td>
-                    <td style={{ borderRight: "0.5px solid #000" }}>
-                      {e?.totals?.metal?.Amount}
+                    <td style={{ borderTop: "0.5px solid #000" }}>
+                      {e.metal[0].Rate}
+                    </td>
+                    <td style={{ borderTop: "0.5px solid #000" }}>
+                      {e.metal[0].Amount}
+                    </td>
+                    <td
+                      rowSpan={2}
+                      style={{
+                        borderRight: "0.5px solid #000",
+                        borderBottom: "0.5px solid #000",
+                        borderTop: "0.5px solid #000",
+                      }}
+                    >
+                      {e?.totals?.metal?.Amount + e?.MakingAmount}
                     </td>
                   </tr>
 
                   <tr>
                     <td></td>
-                    <td></td>
-                    <td>Making</td>
-                    <td>making val 1</td>
-                    <td>making val 2</td>
-                    <td>making val 3</td>
-                    <td style={{ borderRight: "0.5px solid #000" }}></td>
+                    <td style={{ borderBottom: "0.5px solid #000" }}></td>
+                    <td style={{ borderBottom: "0.5px solid #000" }}>Making</td>
+                    <td style={{ borderBottom: "0.5px solid #000" }}>
+                      {e?.MakingChargeOnid == 3 ? e?.grosswt : e?.NetWt}
+                    </td>
+                    <td style={{ borderBottom: "0.5px solid #000" }}>
+                      {e?.MaKingCharge_Unit}
+                    </td>
+                    <td style={{ borderBottom: "0.5px solid #000" }}>
+                      {" "}
+                      {formatAmount(
+                        e?.MakingAmount / result?.header?.CurrencyExchRate
+                      )}
+                    </td>
                   </tr>
 
-                  {/* {e.metal.slice(1).map((d, ind) => (
-                    <tr key={`metal-${i}-${ind}`}>
-                      <td></td>
-                      <td>Gold & Making</td>
-                      <td>
-                        {d.ShapeName} {d.QualityName}
-                      </td>
-                      <td>
-                        {" "}
-                        {e?.IsPrimaryMetal === 1
-                          ? (e?.metal?.[0]?.Wt - d?.LossWt)?.toFixed(3)
-                          : e?.metal?.[0]?.Wt?.toFixed(3)}
-                      </td>
-                      <td>{d.Rate}</td>
-                      <td>{d.Amount}</td>
-                      <td style={{ borderRight: "0.5px solid #000" }}></td>
-                    </tr>
-                  ))} */}
-
-                 <tr>
+                  <tr>
                     <td></td>
                     <td>Other Charges</td>
                     <td>{e?.other_details[0]?.label}</td>
@@ -1765,6 +1787,10 @@ const DetailPrint11LExcel = ({
                           >
                             {d.label === "CS"
                               ? e.totals?.colorstone?.Amount
+                              : d.label === "Others"
+                              ? d.value -
+                                (parseFloat(e?.other_details?.[0]?.value || 0) +
+                                  parseFloat(e?.other_details?.[1]?.value || 0))
                               : d.value}
                           </td>
                           <td
@@ -1822,9 +1848,7 @@ const DetailPrint11LExcel = ({
                         verticalAlign: "middle",
                       }}
                       align="right"
-                    >
-                      <b>&nbsp;{NumberWithCommas(total?.pcs, 0)}</b>
-                    </td>
+                    ></td>
                     <td
                       width={90}
                       style={{
@@ -1835,9 +1859,7 @@ const DetailPrint11LExcel = ({
                         verticalAlign: "middle",
                       }}
                       align="right"
-                    >
-                      <b>&nbsp;{fixedValues(total?.diaWt, 3)}</b>
-                    </td>
+                    ></td>
                     <td
                       width={90}
                       style={{
@@ -1848,9 +1870,7 @@ const DetailPrint11LExcel = ({
                         verticalAlign: "middle",
                       }}
                       align="center"
-                    >
-                      <b>Diamond total</b>
-                    </td>
+                    ></td>
                     <td
                       width={90}
                       style={{
@@ -1862,14 +1882,18 @@ const DetailPrint11LExcel = ({
                       }}
                       align="right"
                     >
-                      <b>&nbsp;{NumberWithCommas(total?.diaAmount, 2)}</b>
+                      <b>
+                        {(parseFloat(e?.totals?.metal?.Amount) || 0) +
+                          (parseFloat(e?.MakingAmount) || 0) +
+                          (parseFloat(e?.totals?.diamonds?.Amount) || 0) +
+                          (parseFloat(e?.totals?.colorstone?.Amount) || 0) +
+                          (parseFloat(e?.other_details?.[0]?.value) || 0)}
+                      </b>
                     </td>
                   </tr>
                 </React.Fragment>
               );
             })}
-
-       
 
             {/* table total */}
             <tr>
@@ -1897,11 +1921,15 @@ const DetailPrint11LExcel = ({
               >
                 <b>
                   &nbsp;
-                  <span>{result?.header?.CurrencyCode}</span>
-                  {NumberWithCommas(total?.totalJewelleryAmount, 2)}
+                  <span>
+                    {result?.header?.CurrencyCode}
+                    {"  "}
+                  </span>
+                  {grandTotal.toFixed(2)}
                 </b>
               </td>
             </tr>
+
             {len > 0 &&
               Array.from({ length: len }).map((e, i) => {
                 return (
@@ -1969,7 +1997,7 @@ const DetailPrint11LExcel = ({
                       <b>
                         {totalArr[i] && (
                           <>
-                            {<span>{result?.header?.CurrencyCode}</span>}
+                            {<span>{result?.header?.CurrencyCode} </span>}
                             {totalArr[i]?.label === "Add" && (
                               <span> {totalArr[i]?.value}</span>
                             )}
@@ -1987,6 +2015,7 @@ const DetailPrint11LExcel = ({
                   </tr>
                 );
               })}
+
             <tr>
               <td></td>
               <td
@@ -2012,10 +2041,16 @@ const DetailPrint11LExcel = ({
                 &nbsp;
                 <b style={{ color: "#000" }}>
                   <span>{result?.header?.CurrencyCode}</span>{" "}
-                  {fixedValues(total?.grandTotal, 2)}
+                  {(
+                    (grandTotal || 0) +
+                    (parseFloat(totalArr[1]?.value) || 0) +
+                    (parseFloat(totalArr[2]?.value) || 0) -
+                    (parseFloat(totalArr[0]?.value) || 0)
+                  ).toFixed(2)}
                 </b>
               </td>
             </tr>
+
             {bankDetail.length > 0 &&
               bankDetail.map((e, i) => {
                 return (
