@@ -53,29 +53,28 @@ export default function ShipmentTagOptigo() {
 
       {/* Mid section */}
       <div className="mid-section">
-        <div className="mid-left">
-          <div className="row" style={{ borderBottom: "1px solid" }}>
+        <div className="secondOPart1">
+          <div style={{ borderBottom: "1px solid" }}>
             <p>Date:</p> <span className="label">02 May 2025</span>
           </div>
-          <div className="row" style={{ borderBottom: "1px solid" }}>
+          <div style={{ borderBottom: "1px solid" }}>
             <p> Delivery By:</p>
             <span className="label">DTDC International Courier</span>
           </div>
-          <div className="row">
+          <div>
             <p> Shipment:</p> <span className="label">DTDC15545RR</span>
           </div>
         </div>
-        <div className="mid-center">
+        <div className="secondOPart2">
           <div className="order-no">
-            <strong>Order No.</strong>
-            <br />
-            12345678912
+            <p style={{fontSize: '12px', margin: '0px'}}>Order No.</p>
+            <strong>12345678912</strong>
           </div>
         </div>
-        <div className="mid-right">
+        <div className="secondOPart3">
           <QRCode
             size={256}
-            style={{ height: "100px", width: "100px" }}
+            style={{ height: "140px", width: "140px" }}
             value={1245555588}
             viewBox={`0 0 256 256`}
           />
@@ -87,9 +86,11 @@ export default function ShipmentTagOptigo() {
 
       {/* Footer */}
       <div className="footer">
-        <h4>Introducing SCAVU: A Smarter Way to Connect Buyers & Sellers!</h4>
+        <h4>
+          📩 Introducing SCAVU: A Smarter Way to Connect Buyers & Sellers!
+        </h4>
         <p>
-          Say goodbye to manual data entry – with SCAVU go for Seamless Data
+          Say goodbye to manual data entry | with SCAVU go for Seamless Data
           Exchange.
         </p>
         <div style={{ display: "flex" }}>
@@ -106,11 +107,22 @@ export default function ShipmentTagOptigo() {
               Optigo‑SCAVU
             </div>
           </div>
-          <ul>
-            <li>Automatic PO & invoice imports</li>
-            <li>Reduced manual errors & delays</li>
+
+          <ul className="customList" style={{ fontSize: "12px" }}>
+            <span>
+              [Secure Cloud Access for Virtual Union] Optigo ERP now offers
+              real‑time EDI integration, making processes automated, accurate,
+              and effortless. Upgrade your ERP for enhanced supply‑chain
+              efficiency.
+            </span>
+
+            <li>Automatic POs &amp; invoice imports</li>
+            <li>Reduced manual errors &amp; delays</li>
             <li>Transparent, real‑time collaboration</li>
-            <li>Significant time and cost savings daily</li>
+            <li>
+              Significant time and cost savings daily 🚀 Scan this QR code and
+              find more about and join free Optigo‑SCAVU.
+            </li>
           </ul>
         </div>
       </div>
