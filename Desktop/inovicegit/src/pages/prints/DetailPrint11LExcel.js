@@ -543,10 +543,10 @@ const DetailPrint11LExcel = ({
     ];
 
     setBankDetail(bankArr);
-    // setTimeout(() => {
-    //   const button = document.getElementById("test-table-xls-button");
-    //   button.click();
-    // }, 2000);
+    setTimeout(() => {
+      const button = document.getElementById("test-table-xls-button");
+      button.click();
+    }, 2000);
   };
 
   useEffect(() => {
@@ -1099,8 +1099,6 @@ const DetailPrint11LExcel = ({
         },
       ];
 
-      console.log(`Row ${index} updatedOtherDetails:`, updatedOtherDetails);
-
       return {
         ...item,
         other_details: updatedOtherDetails,
@@ -1116,21 +1114,9 @@ const DetailPrint11LExcel = ({
     const csAmt = Number(e.totals?.colorstone?.Amount) || 0;
     const other0 = parseFloat(e.other_details?.[0]?.value || 0);
     const other1 = parseFloat(e.other_details?.[1]?.value || 0);
-    console.log(
-      "sum---------",
-      sum,
-      metalAmt,
-      makingAmt,
-      diamondAmt,
-      csAmt,
-      other0,
-      other1,
-      sum + metalAmt + makingAmt + diamondAmt + csAmt + other0 + other1
-    );
     return sum + metalAmt + makingAmt + diamondAmt + csAmt + other0 + other1;
   }, 0);
 
-  console.log("totalArrtotalArr", totalArr, totalArr[0]?.value);
   return loader ? (
     <Loader />
   ) : msg === "" ? (
@@ -1147,7 +1133,6 @@ const DetailPrint11LExcel = ({
         <table id="table-to-xls">
           <tbody>
             <tr></tr>
-            {/* company address and logo */}
             <tr>
               <td width={45}></td>
               <td
