@@ -1780,7 +1780,7 @@ const DetailPrint11LExcel = ({
                         : e?.other_details[0]?.value}
                     </td>
                     <td style={{ borderRight: "0.5px solid #000" }}>
-                      {e.other_details[0]?.value}
+                      {e.other_details[0]?.value == "" ? 0 : e.other_details[0]?.value}
                     </td>
                     <td style={{ borderRight: "0.5px solid #000" }}>
                       {e?.OtherCharges + e.totals?.colorstone?.Amount}
