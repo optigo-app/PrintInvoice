@@ -543,10 +543,10 @@ const DetailPrint11LExcel = ({
     ];
 
     setBankDetail(bankArr);
-    setTimeout(() => {
-      const button = document.getElementById("test-table-xls-button");
-      button.click();
-    }, 2000);
+    // setTimeout(() => {
+    //   const button = document.getElementById("test-table-xls-button");
+    //   button.click();
+    // }, 2000);
   };
 
   useEffect(() => {
@@ -1115,6 +1115,7 @@ const DetailPrint11LExcel = ({
     const diamondAmt = Number(e.totals?.diamonds?.Amount) || 0;
     const csAmt = Number(e.totals?.colorstone?.Amount) || 0;
     const other0 = parseFloat(e.other_details?.[0]?.value || 0);
+    const other1 = parseFloat(e.other_details?.[1]?.value || 0);
     console.log(
       "sum---------",
       sum,
@@ -1123,9 +1124,10 @@ const DetailPrint11LExcel = ({
       diamondAmt,
       csAmt,
       other0,
-      sum + metalAmt + makingAmt + diamondAmt + csAmt + other0
+      other1,
+      sum + metalAmt + makingAmt + diamondAmt + csAmt + other0 + other1
     );
-    return sum + metalAmt + makingAmt + diamondAmt + csAmt + other0;
+    return sum + metalAmt + makingAmt + diamondAmt + csAmt + other0 + other1;
   }, 0);
 
   console.log("totalArrtotalArr", totalArr, totalArr[0]?.value);
@@ -1723,7 +1725,7 @@ const DetailPrint11LExcel = ({
                     </td>
                     <td>{e.other_details[0]?.value}</td>
                     <td style={{ borderRight: "0.5px solid #000" }}>
-                      {e?.OtherCharges}
+                      {e?.OtherCharges + e.totals?.colorstone?.Amount}
                     </td>
 
                     {e?.other_details?.slice(1).map((d, ind, arr) => {
@@ -1886,7 +1888,8 @@ const DetailPrint11LExcel = ({
                           (parseFloat(e?.MakingAmount) || 0) +
                           (parseFloat(e?.totals?.diamonds?.Amount) || 0) +
                           (parseFloat(e?.totals?.colorstone?.Amount) || 0) +
-                          (parseFloat(e?.other_details?.[0]?.value) || 0)}
+                          (parseFloat(e?.other_details?.[0]?.value) || 0) +
+                          (parseFloat(e?.other_details?.[1]?.value) || 0)}
                       </b>
                     </td>
                   </tr>
