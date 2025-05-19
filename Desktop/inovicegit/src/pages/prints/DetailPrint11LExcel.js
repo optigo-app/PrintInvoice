@@ -1912,7 +1912,7 @@ const DetailPrint11LExcel = ({
                     {result?.header?.CurrencyCode}
                     {"  "}
                   </span>
-                  {grandTotal.toFixed(2)}
+                  {grandTotal?.toFixed(2)}
                 </b>
               </td>
             </tr>
