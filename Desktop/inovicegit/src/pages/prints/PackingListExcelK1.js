@@ -67,8 +67,8 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
         const docsString = data?.BillPrint_Json[0]?.DocumentDetail;
         const docArr = docsString?.split("#@#");
         const documentDetail = docArr?.map(doc => {
-          const [key, value] = doc.split("#-#");
-          return { key, value };
+            const [key, value] = doc.split("#-#");
+            return { key, value };
         });
         setDocumentDetail(documentDetail);
 
@@ -164,6 +164,12 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
             }
         });
 
+        datas.resultArray.sort((a, b) => {
+            const designNoA = parseInt(a?.id?.toString()?.match(/\d+/)[0]);
+            const designNoB = parseInt(b?.id?.toString()?.match(/\d+/)[0]);
+            return designNoA - designNoB;
+        });
+
         // ✅ Set to datas.maintotal
         datas.mainCusTotal = {
             ...datas.maintotal,
@@ -202,14 +208,14 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
         textAlign: 'center',
         wordBreak: 'break-word',
         whiteSpace: 'normal',
-      };
+    };
 
-    if (result) {
-        setTimeout(() => {
-            const button = document.getElementById('test-table-xls-button');
-            button.click();
-          }, 500);
-      }
+    // if (result) {
+    //     setTimeout(() => {
+    //         const button = document.getElementById('test-table-xls-button');
+    //         button.click();
+    //       }, 500);
+    //   }
 
     return (
         <>
@@ -308,7 +314,7 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                         {result?.resultArray.map((item, idx) => (
                                             <tr key={idx}>
                                                 <td />
-                                                <td style={{ ...cellBodyStyle }}>{idx+1}</td>
+                                                <td style={{ ...cellBodyStyle }}>{idx + 1}</td>
                                                 <td style={{ ...cellBodyStyle }}>{item.designno}</td>
                                                 <td style={{
                                                     ...cellBodyStyle,
@@ -323,19 +329,19 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                                 <td style={{ ...cellBodyStyle }}>{formatAmount((item?.TotalAmount / result?.header?.CurrencyExchRate).toFixed(2))}</td>
                                             </tr>
                                         ))}
-                                       <tr>
+                                        <tr>
                                             <td colSpan={6} />
-                                            <td style={{...cellMainTotalStyle, borderBottom:'none'}}>
+                                            <td style={{ ...cellMainTotalStyle, borderBottom: 'none' }}>
                                                 {(result?.mainTotal?.diamonds?.Wt ?? 0).toFixed(2)}
                                             </td>
-                                            <td style={{...cellMainTotalStyle, borderBottom:'none'}}>
+                                            <td style={{ ...cellMainTotalStyle, borderBottom: 'none' }}>
                                                 {(result?.mainTotal?.colorstone?.Wt ?? 0).toFixed(2)}
                                             </td>
                                             <td /> {/* keep if needed */}
-                                            <td style={{...cellMainTotalStyle, borderBottom:'none'}}>
+                                            <td style={{ ...cellMainTotalStyle, borderBottom: 'none' }}>
                                                 {(result?.mainTotal?.metal?.Wt ?? 0).toFixed(2)}
                                             </td>
-                                            <td style={{...cellMainTotalStyle, borderBottom:'none'}}>
+                                            <td style={{ ...cellMainTotalStyle, borderBottom: 'none' }}>
                                                 {((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate))?.toFixed(2)}
                                             </td>
                                         </tr>
@@ -343,15 +349,15 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                         {/* Row for units */}
                                         <tr>
                                             <td colSpan={6} />
-                                            <td style={{...cellMainTotalStyle, borderTop:'none'}}>CARATS</td>
-                                            <td style={{...cellMainTotalStyle, borderTop:'none'}}>CARATS</td>
+                                            <td style={{ ...cellMainTotalStyle, borderTop: 'none' }}>CARATS</td>
+                                            <td style={{ ...cellMainTotalStyle, borderTop: 'none' }}>CARATS</td>
                                             <td />
-                                            <td style={{...cellMainTotalStyle, borderTop:'none'}}>GRAMS</td>
-                                            <td style={{...cellMainTotalStyle, borderTop:'none'}}>{result?.header?.CurrencyCode ?? ''}</td>
+                                            <td style={{ ...cellMainTotalStyle, borderTop: 'none' }}>GRAMS</td>
+                                            <td style={{ ...cellMainTotalStyle, borderTop: 'none' }}>{result?.header?.CurrencyCode ?? ''}</td>
                                         </tr>
                                         <tr>
-                                            <td /> 
-                                            <td colSpan={10} style={{ textTransform: 'upperCase' }}>Total Value : {result?.header?.CurrencyCode}{". "}{toWords?.convert(+fixedValues((result?.mainTotal?.total_amount ) / result?.header?.CurrencyExchRate, 2))}</td>
+                                            <td />
+                                            <td colSpan={10} style={{ textTransform: 'upperCase' }}>Total Value : {result?.header?.CurrencyCode}{". "}{toWords?.convert(+fixedValues((result?.mainTotal?.total_amount) / result?.header?.CurrencyExchRate, 2))}</td>
                                         </tr>
                                         {result?.mainCusTotal?.metalPurityWiseData?.map((item, idx) => (
                                             <React.Fragment key={idx}>

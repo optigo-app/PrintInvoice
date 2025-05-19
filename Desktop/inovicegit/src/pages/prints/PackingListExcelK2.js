@@ -164,6 +164,12 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
             }
         });
 
+        datas.resultArray.sort((a, b) => {
+            const designNoA = parseInt(a?.id?.toString()?.match(/\d+/)[0]);
+            const designNoB = parseInt(b?.id?.toString()?.match(/\d+/)[0]);
+            return designNoA - designNoB;
+        });
+
         // ✅ Set to datas.maintotal
         datas.mainCusTotal = {
             ...datas.maintotal,
