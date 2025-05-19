@@ -1,5 +1,4 @@
-// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=Yi1ib29rMjQ=&evn=U2FsZQ==&pnm=RGV0YWlsIFByaW50IDExIEw=&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&etp=ZXhjZWw=&ctv=NzE=
-
+// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=Yi1ib29rMzA=&evn=U2FsZQ==&pnm=RGV0YWlsIFByaW50IDExIEw=&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&etp=ZXhjZWw=&ctv=NzE=
 import React, { useState, useEffect, useRef } from "react";
 import {
   NumberWithCommas,
@@ -1652,10 +1651,10 @@ const DetailPrint11LExcel = ({
                   {e?.diamonds?.slice(1).map((d, ind) => (
                     <tr key={`metal-${i}-${ind}`}>
                       <td></td>
-                      <td>{d.SizeName}</td>
-                      <td>{d.Wt}</td>
-                      <td>{d.Rate}</td>
-                      <td>{d.Amount}</td>
+                      <td style={{ borderRight: "0.5px solid #000" }}>{d.SizeName}</td>
+                      <td style={{ borderRight: "0.5px solid #000" }}>{d.Wt}</td>
+                      <td style={{ borderRight: "0.5px solid #000" }}>{d.Rate}</td>
+                      <td style={{ borderRight: "0.5px solid #000" }}>{d.Amount}</td>
                       <td></td>
                     </tr>
                   ))}
