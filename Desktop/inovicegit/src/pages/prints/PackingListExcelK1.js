@@ -210,12 +210,12 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
         whiteSpace: 'normal',
     };
 
-    // if (result) {
-    //     setTimeout(() => {
-    //         const button = document.getElementById('test-table-xls-button');
-    //         button.click();
-    //       }, 500);
-    //   }
+    if (result) {
+        setTimeout(() => {
+            const button = document.getElementById('test-table-xls-button');
+            button.click();
+          }, 500);
+      }
 
     return (
         <>
@@ -319,7 +319,7 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                                 <td style={{
                                                     ...cellBodyStyle,
                                                     width: '80px'
-                                                }}>-{item.SrJobno}{item.Counter_Tray !== "" && (item.Counter_Tray)}</td>
+                                                }}>'{item.SrJobno}{item.Counter_Tray !== "" && (item.Counter_Tray)}</td>
                                                 <td style={{ ...cellBodyStyle }}>{item.Categoryname}</td>
                                                 <td style={{ ...cellBodyStyle }}>{item?.ColornameMax} {item?.QualityNameMax}</td>
                                                 <td style={{ ...cellBodyStyle }}>{(item?.diamondTotalWt)?.toFixed(3)}</td>
