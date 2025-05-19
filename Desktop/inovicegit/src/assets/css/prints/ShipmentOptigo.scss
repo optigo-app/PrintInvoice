@@ -1,7 +1,7 @@
 .invoice-container {
-  width: 1200px;
-  height: 1200px;
-  padding: 24px;
+  width: 600px;
+  height: 600px;
+  padding: 10px;
   font-family: Arial, sans-serif;
   border: 1px solid #000;
   box-sizing: border-box;
@@ -14,14 +14,14 @@
     display: flex;
     justify-content: space-between;
 
-    .party {
+    .party1 {
       display: flex;
-      max-width: 45%;
+      width: 60%;
 
       &.from {
         .logo {
           width: 100px;
-          height: auto;
+          height: 100px;
           margin-right: 16px;
         }
       }
@@ -34,6 +34,36 @@
           display: block;
           margin-bottom: 6px;
         }
+        p {
+          font-size: 12px;
+        }
+      }
+    }
+
+    .party2 {
+      display: flex;
+      width: 40%;
+
+      &.from {
+        .logo {
+          width: 100px;
+          height: 100px;
+          margin-right: 16px;
+        }
+      }
+
+      .address-block {
+        font-size: 16px;
+        line-height: 1.5;
+        padding: 0px 10px;
+
+        strong {
+          display: block;
+          margin-bottom: 6px;
+        }
+        p {
+          font-size: 12px;
+        }
       }
     }
   }
@@ -41,7 +71,7 @@
   .divider {
     border: none;
     border-top: 2px solid #000;
-    margin: 16px 0;
+    margin: 5px 0;
   }
 
   .mid-section {
@@ -49,6 +79,7 @@
     justify-content: space-between;
     align-items: flex-start;
     flex: 1;
+    padding: 0px 10px;
 
     .mid-left,
     .mid-center,
@@ -59,17 +90,26 @@
     .mid-left {
       .row {
         margin-bottom: 12px;
-        font-size: 16px;
+        font-size: 14px;
+        display: flex;
+        flex-direction: column;
 
+        p {
+          padding: 0px;
+        }
         .label {
           display: inline-block;
-          width: 120px;
           font-weight: bold;
+          padding: 0px;
         }
       }
     }
 
     .mid-center {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      height: 100%;
       text-align: center;
 
       .order-no {
@@ -79,6 +119,9 @@
     }
 
     .mid-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       text-align: center;
 
       .qr-code {
@@ -87,23 +130,26 @@
       }
 
       .qr-caption {
-        margin-top: 8px;
-        font-size: 14px;
+        margin-top: 5px !important;
+        font-size: 9px;
+        font-weight: 600;
       }
     }
   }
 
   .footer {
-    margin-top: 16px;
+    margin-top: 10px;
     font-size: 16px;
 
     h4 {
-      margin: 0 0 8px;
-      font-size: 20px;
+      margin: 0 0 0px 60px !important;
+      font-size: 14px;
+      font-weight: 600;
     }
 
     p {
-      margin: 0 0 12px;
+      margin: 0 0 15px 60px !important;
+      font-size: 14px;
     }
 
     ul {
@@ -118,6 +164,7 @@
     .footer-qr {
       display: flex;
       align-items: center;
+      flex-direction: column;
 
       .small-qr {
         width: 100px;
