@@ -1557,7 +1557,7 @@ const DetailPrint11LExcel = ({
                     <td></td>
                     <td
                       width={90}
-                      rowSpan={6 + e?.diamonds?.length}
+                      rowSpan={6 + (e?.diamonds?.length == 0 ? 1 : e?.diamonds?.length)}
                       style={{ border: "0.5px solid #000", padding: "1px" }}
                       align="center"
                     >
@@ -1565,7 +1565,7 @@ const DetailPrint11LExcel = ({
                     </td>
                     <td
                       width={200}
-                      rowSpan={6 + e?.diamonds?.length}
+                      rowSpan={6 + (e?.diamonds?.length == 0 ? 1 : e?.diamonds?.length)}
                       style={{
                         borderRight: "0.5px solid #000",
                         borderBottom: "0.5px solid #000",
@@ -1574,8 +1574,9 @@ const DetailPrint11LExcel = ({
                       }}
                     >
                       {e?.designno && <span>{e.designno}</span>}
+                      <span style={{opacity: '0px', color: 'white', backgroundColor: 'transparent'}}>1111111111</span>
                       {e?.SrJobno && (
-                        <span style={{ marginLeft: "10px" }}>{e.SrJobno}</span>
+                        <span>{e.SrJobno}</span>
                       )}
                       {e?.CDNDesignImage && (
                         <div
@@ -1604,7 +1605,7 @@ const DetailPrint11LExcel = ({
                     </td>
 
                     <td
-                      rowSpan={e?.diamonds?.length}
+                      rowSpan={e?.diamonds?.length == 0 ? 1 : e?.diamonds?.length}
                       style={{
                         borderRight: "0.5px solid #000",
                       }}
@@ -1641,7 +1642,7 @@ const DetailPrint11LExcel = ({
                       {e.diamonds[0]?.Amount}
                     </td>
                     <td
-                      rowSpan={e?.diamonds?.length}
+                      rowSpan={e?.diamonds?.length == 0 ? 1 : e?.diamonds?.length}
                       style={{ borderRight: "0.5px solid #000" }}
                     >
                       {e?.totals?.diamonds?.Amount}
@@ -1785,7 +1786,6 @@ const DetailPrint11LExcel = ({
                     <td style={{ borderRight: "0.5px solid #000" }}>
                       {e?.OtherCharges + e.totals?.colorstone?.Amount}
                     </td>
-
                     {e?.other_details?.slice(1).map((d, ind, arr) => {
                       const isLast = ind === arr.length - 1;
                       return (
