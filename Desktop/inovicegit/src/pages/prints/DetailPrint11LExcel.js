@@ -31,7 +31,7 @@ const DetailPrint11LExcel = ({
   const [json0Data, setJson0Data] = useState({});
   const [json1Data, setJson1Data] = useState([]);
   const [taxes, setTaxes] = useState([]);
-  const printedRef = useRef(false);   
+  const printedRef = useRef(false);
   // const [diamondSize, setDiamondSize] = useState(true);
   // const [image, setImage] = useState(true);
   // const [setting, setSetting] = useState(true);
@@ -544,12 +544,11 @@ const DetailPrint11LExcel = ({
 
     setBankDetail(bankArr);
 
-    if (!printedRef.current) {        // only if we’ve never printed
-      printedRef.current = true;      // lock it
+    if (!printedRef.current) {
+      // only if we’ve never printed
+      printedRef.current = true; // lock it
       setTimeout(() => {
-        document
-          .getElementById("test-table-xls-button")
-          ?.click();                 // optional chaining avoids null crash
+        document.getElementById("test-table-xls-button")?.click(); // optional chaining avoids null crash
       }, 2000);
     }
   };
@@ -1098,7 +1097,7 @@ const DetailPrint11LExcel = ({
     return sum + metalAmt + makingAmt + diamondAmt + csAmt + other0 + other1;
   }, 0);
 
-
+  console.log("resultresult", result);
 
   return loader ? (
     <Loader />
@@ -1269,15 +1268,15 @@ const DetailPrint11LExcel = ({
               >
                 {json0Data?.lblBillTo}
               </td>
-              <td></td>
-              <td></td>
-              <td></td>
               <td
+                colSpan={4}
                 style={{ borderRight: "1px solid black", padding: "1px" }}
                 className="d-block"
                 align="right"
                 width={150}
-              ></td>
+              >
+                invoice#:{json0Data?.InvoiceNo}{" "}
+              </td>
             </tr>
             <tr>
               <td></td>
@@ -1287,15 +1286,18 @@ const DetailPrint11LExcel = ({
               >
                 {json0Data?.customerfirmname}
               </td>
-              <td></td>
-              <td></td>
-              <td></td>
               <td
+                colSpan={4}
                 style={{ borderRight: "1px solid black", padding: "1px" }}
                 className="d-block"
                 align="right"
                 width={150}
-              ></td>
+              >
+                GSTIN:{" "}
+                {json0Data?.Cust_VAT_GST_No !== "" &&
+                  `${json0Data?.Cust_VAT_GST_No} | `}{" "}
+                {json0Data?.Cust_CST_STATE} {json0Data?.Cust_CST_STATE_No}
+              </td>
             </tr>
             <tr>
               <td></td>
@@ -1305,15 +1307,15 @@ const DetailPrint11LExcel = ({
               >
                 {json0Data?.customerAddress1}
               </td>
-              <td></td>
-              <td></td>
-              <td></td>
               <td
+                colSpan={4}
                 style={{ borderRight: "1px solid black", padding: "1px" }}
                 className="d-block"
                 align="right"
                 width={150}
-              ></td>
+              >
+                Terms: {json0Data?.DueDays} Days
+              </td>
             </tr>
             <tr>
               <td></td>
@@ -1323,15 +1325,15 @@ const DetailPrint11LExcel = ({
               >
                 {json0Data?.customerAddress2}
               </td>
-              <td></td>
-              <td></td>
-              <td></td>
               <td
+                colSpan={4}
                 style={{ borderRight: "1px solid black", padding: "1px" }}
                 className="d-block"
                 align="right"
                 width={150}
-              ></td>
+              >
+                Due Date: {json0Data?.DueDate}
+              </td>
             </tr>
             {json0Data?.customerAddress3 !== "" && (
               <tr>
@@ -1557,7 +1559,9 @@ const DetailPrint11LExcel = ({
                     <td></td>
                     <td
                       width={90}
-                      rowSpan={6 + (e?.diamonds?.length == 0 ? 1 : e?.diamonds?.length)}
+                      rowSpan={
+                        6 + (e?.diamonds?.length == 0 ? 1 : e?.diamonds?.length)
+                      }
                       style={{ border: "0.5px solid #000", padding: "1px" }}
                       align="center"
                     >
@@ -1565,7 +1569,9 @@ const DetailPrint11LExcel = ({
                     </td>
                     <td
                       width={200}
-                      rowSpan={6 + (e?.diamonds?.length == 0 ? 1 : e?.diamonds?.length)}
+                      rowSpan={
+                        6 + (e?.diamonds?.length == 0 ? 1 : e?.diamonds?.length)
+                      }
                       style={{
                         borderRight: "0.5px solid #000",
                         borderBottom: "0.5px solid #000",
@@ -1574,16 +1580,21 @@ const DetailPrint11LExcel = ({
                       }}
                     >
                       {e?.designno && <span>{e.designno}</span>}
-                      <span style={{opacity: '0px', color: 'white', backgroundColor: 'transparent'}}>1111111111</span>
-                      {e?.SrJobno && (
-                        <span>{e.SrJobno}</span>
-                      )}
+                      <span
+                        style={{
+                          opacity: "0px",
+                          color: "white",
+                          backgroundColor: "transparent",
+                        }}
+                      >
+                        1111111111
+                      </span>
+                      {e?.SrJobno && <span>{e.SrJobno}</span>}
                       {e?.CDNDesignImage && (
                         <div
                           style={{
-                            marginTop: 4,
-                            display: "flex",
-                            justifyContent: "center",
+                            marginTop: 3,
+                            marginRight: 2,
                           }}
                         >
                           <img
@@ -1605,7 +1616,9 @@ const DetailPrint11LExcel = ({
                     </td>
 
                     <td
-                      rowSpan={e?.diamonds?.length == 0 ? 1 : e?.diamonds?.length}
+                      rowSpan={
+                        e?.diamonds?.length == 0 ? 1 : e?.diamonds?.length
+                      }
                       style={{
                         borderRight: "0.5px solid #000",
                       }}
@@ -1642,7 +1655,9 @@ const DetailPrint11LExcel = ({
                       {e.diamonds[0]?.Amount}
                     </td>
                     <td
-                      rowSpan={e?.diamonds?.length == 0 ? 1 : e?.diamonds?.length}
+                      rowSpan={
+                        e?.diamonds?.length == 0 ? 1 : e?.diamonds?.length
+                      }
                       style={{ borderRight: "0.5px solid #000" }}
                     >
                       {e?.totals?.diamonds?.Amount}
@@ -1652,10 +1667,18 @@ const DetailPrint11LExcel = ({
                   {e?.diamonds?.slice(1).map((d, ind) => (
                     <tr key={`metal-${i}-${ind}`}>
                       <td></td>
-                      <td style={{ borderRight: "0.5px solid #000" }}>{d.SizeName}</td>
-                      <td style={{ borderRight: "0.5px solid #000" }}>{d.Wt}</td>
-                      <td style={{ borderRight: "0.5px solid #000" }}>{d.Rate}</td>
-                      <td style={{ borderRight: "0.5px solid #000" }}>{d.Amount}</td>
+                      <td style={{ borderRight: "0.5px solid #000" }}>
+                        {d.SizeName}
+                      </td>
+                      <td style={{ borderRight: "0.5px solid #000" }}>
+                        {d.Wt}
+                      </td>
+                      <td style={{ borderRight: "0.5px solid #000" }}>
+                        {d.Rate}
+                      </td>
+                      <td style={{ borderRight: "0.5px solid #000" }}>
+                        {d.Amount}
+                      </td>
                       <td></td>
                     </tr>
                   ))}
@@ -1685,9 +1708,10 @@ const DetailPrint11LExcel = ({
                       }}
                     >
                       {" "}
-                      {e?.IsPrimaryMetal === 1
+                      {/* {e?.IsPrimaryMetal === 1
                         ? (e?.metal?.[0]?.Wt - e?.LossWt)?.toFixed(3)
-                        : e?.metal?.[0]?.Wt?.toFixed(3)}
+                        : e?.metal?.[0]?.Wt?.toFixed(3)} */}
+                      {e?.totals?.metal?.Wt}
                     </td>
                     <td
                       style={{
@@ -1695,7 +1719,8 @@ const DetailPrint11LExcel = ({
                         borderRight: "0.5px solid #000",
                       }}
                     >
-                      {e.metal[0].Rate}
+                      {/* {e.metal[0].Rate} */}
+                      {e?.totals?.metal?.Rate}
                     </td>
                     <td
                       style={{
@@ -1703,7 +1728,8 @@ const DetailPrint11LExcel = ({
                         borderRight: "0.5px solid #000",
                       }}
                     >
-                      {e.metal[0].Amount}
+                      {/* {e.metal[0].Amount} */}
+                      {e?.totals?.metal?.Amount}
                     </td>
                     <td
                       rowSpan={2}
@@ -1781,7 +1807,9 @@ const DetailPrint11LExcel = ({
                         : e?.other_details[0]?.value}
                     </td>
                     <td style={{ borderRight: "0.5px solid #000" }}>
-                      {e.other_details[0]?.value == "" ? 0 : e.other_details[0]?.value}
+                      {e.other_details[0]?.value == ""
+                        ? 0
+                        : e.other_details[0]?.value}
                     </td>
                     <td style={{ borderRight: "0.5px solid #000" }}>
                       {e?.OtherCharges + e.totals?.colorstone?.Amount}
