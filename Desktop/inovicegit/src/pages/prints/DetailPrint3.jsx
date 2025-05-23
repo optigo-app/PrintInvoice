@@ -152,9 +152,9 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       value={withPcs}
                       checked={withPcs}
                       onChange={(e) => handleWithPcs(e)}
-                      id="imgshowdp3"
+                      id="imgshowdp35"
                     />
-                    <label htmlFor="imgshowdp3" style={{ fontSize: "13px" }}>
+                    <label htmlFor="imgshowdp35" style={{ fontSize: "13px" }}>
                       {" "}
                       <div className="pb-2">With Pcs </div>
                     </label>
@@ -166,9 +166,9 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       value={withRate}
                       checked={withRate}
                       onChange={(e) => handleWithRate(e)}
-                      id="imgshowdp3"
+                      id="imgshowdp36"
                     />
-                    <label htmlFor="imgshowdp3" style={{ fontSize: "13px" }}>
+                    <label htmlFor="imgshowdp36" style={{ fontSize: "13px" }}>
                       {" "}
                       <div className="pb-2">With Rate </div>
                     </label>
@@ -612,7 +612,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <div
                                     className="end_dp3"
                                     style={{
-                                      width: withRate ? "30%" : "50%",
+                                      width: withRate ? "35%" : "50%",
                                     }}
                                   >
                                     {(
@@ -623,7 +623,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <div
                                     className="end_dp3"
                                     style={{
-                                      width: withRate ? "20%" : "25%",
+                                      width: withRate ? "15%" : "25%",
                                     }}
                                   >
                                     {e?.totals?.metal?.IsPrimaryMetal?.toFixed(

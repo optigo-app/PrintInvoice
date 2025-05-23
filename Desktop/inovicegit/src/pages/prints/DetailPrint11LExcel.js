@@ -1096,7 +1096,7 @@ const DetailPrint11LExcel = ({
     return sum + metalAmt + makingAmt + diamondAmt + csAmt + other0;
   }, 0);
 
-  console.log("resultresult", result);
+  console.log("totalArr", totalArr);
 
   return loader ? (
     <Loader />
@@ -2143,7 +2143,10 @@ const DetailPrint11LExcel = ({
                   {(
                     (grandTotal || 0) +
                     (parseFloat(totalArr[1]?.value) || 0) +
-                    (parseFloat(totalArr[2]?.value) || 0) -
+                    (parseFloat(totalArr[2]?.value) || 0) +
+                    (totalArr[3]?.label === "Add"
+                      ? parseFloat(totalArr[3]?.value) || 0
+                      : -(parseFloat(totalArr[3]?.value) || 0)) -
                     (parseFloat(totalArr[0]?.value) || 0)
                   ).toFixed(2)}
                 </b>
