@@ -261,21 +261,48 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="col4_dp3 border-secondary border-end">
                       <div className="center_dp3 h-50 w-100">Metal</div>
                       <div className="d-flex h-50 w-100 border-secondary border-top">
-                        <div className="center_dp3 w-25 border-secondary border-end">
+                        <div
+                          className="center_dp3 border-secondary border-end"
+                          style={{
+                            width: withRate ? "20%" : "25%",
+                          }}
+                        >
                           Quality
                         </div>
-                        <div className="center_dp3 w-25 border-secondary border-end">
+                        <div
+                          className="center_dp3 border-secondary border-end"
+                          style={{
+                            width: withRate ? "17%" : "25%",
+                          }}
+                        >
                           Wt(M+D)
                         </div>
-                        <div className="center_dp3 w-25 border-secondary border-end">
+                        <div
+                          className="center_dp3 border-secondary border-end"
+                          style={{
+                            width: withRate ? "15%" : "25%",
+                          }}
+                        >
                           N+L
                         </div>
                         {withRate && (
-                          <div className="center_dp3 w-25 border-secondary border-end">
+                          <div
+                            className="center_dp3 border-secondary border-end"
+                            style={{
+                              width: "25%",
+                            }}
+                          >
                             Rate
                           </div>
                         )}
-                        <div className="center_dp3 w-25">Amount</div>
+                        <div
+                          className="center_dp3"
+                          style={{
+                            width: "25%",
+                          }}
+                        >
+                          Amount
+                        </div>
                       </div>
                     </div>
                     <div className="col5_dp3 border-secondary border-end">
@@ -390,16 +417,22 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                       {el?.IsPrimaryMetal === 1 ? (
                                         <div className="d-flex border-secondary border-bottom">
                                           <div
-                                            className="w-25 start_dp3"
+                                            className="start_dp3"
                                             style={{
                                               wordBreak: "break-word",
                                               lineHeight: "11px",
+                                              width: withRate ? "20%" : "25%",
                                             }}
                                           >
                                             {e?.MetalTypePurity}
                                           </div>
                                           {/* <div className="w-25 end_dp3">{e?.grosswt?.toFixed(3)}</div> */}
-                                          <div className="w-25 end_dp3">
+                                          <div
+                                            className="end_dp3"
+                                            style={{
+                                              width: withRate ? "15%" : "25%",
+                                            }}
+                                          >
                                             {(
                                               e?.totals?.diamonds?.Wt / 5 +
                                               e?.NetWt
@@ -407,17 +440,32 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                           </div>
                                           {/* <div className="w-25 end_dp3">{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div> */}
                                           {/* <div className="w-25 end_dp3">{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div> */}
-                                          <div className="w-25 end_dp3">
+                                          <div
+                                            style={{
+                                              width: withRate ? "15%" : "25%",
+                                            }}
+                                            className=" end_dp3"
+                                          >
                                             {e?.totals?.metal?.IsPrimaryMetal?.toFixed(
                                               3
                                             )}
                                           </div>
                                           {withRate && (
-                                            <div className="w-25 end_dp3">
+                                            <div
+                                              className=" end_dp3"
+                                              style={{
+                                                width: "25%",
+                                              }}
+                                            >
                                               {formatAmount(el?.Rate)}
                                             </div>
                                           )}
-                                          <div className="w-25 end_dp3 fw-bold">
+                                          <div
+                                            className="end_dp3 fw-bold"
+                                            style={{
+                                              width: "25%",
+                                            }}
+                                          >
                                             {formatAmount(el?.Amount)}
                                           </div>
                                         </div>
@@ -561,22 +609,33 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className="col4_dp3 border-secondary border-end">
                               <div>
                                 <div className="d-flex w-100">
-                                  {/* <div className="w-25 start_dp3"></div> */}
-                                  <div className="w-50 end_dp3">
+                                  <div
+                                    className="end_dp3"
+                                    style={{
+                                      width: withRate ? "30%" : "50%",
+                                    }}
+                                  >
                                     {(
                                       e?.totals?.diamonds?.Wt / 5 +
                                       e?.NetWt
                                     )?.toFixed(3)}
                                   </div>
-                                  {/* <div className="w-25 end_dp3">{e?.NetWt?.toFixed(3)}</div> */}
-                                  <div className="w-25 end_dp3">
+                                  <div
+                                    className="end_dp3"
+                                    style={{
+                                      width: withRate ? "20%" : "25%",
+                                    }}
+                                  >
                                     {e?.totals?.metal?.IsPrimaryMetal?.toFixed(
                                       3
                                     )}
                                   </div>
-                                  {/* <div className="w-25 end_dp3">{e?.totals?.metal?.Wt?.toFixed(3) === '0.000' ? '' : e?.totals?.metal?.Wt?.toFixed(3)}</div> */}
-                                  {/* <div className="w-25 end_dp3">{e?.totals?.metal?.Wt?.toFixed(3) === '0.000' ? '' : e?.totals?.metal?.Wt?.toFixed(3)}</div> */}
-                                  <div className="w-25 end_dp3">
+                                  <div
+                                    className="end_dp3"
+                                    style={{
+                                      width: withRate ? "50%" : "25%",
+                                    }}
+                                  >
                                     {e?.totals?.metal?.IsPrimaryMetal_Amount ===
                                     0.0
                                       ? ""
@@ -689,7 +748,9 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="col3_dp3 border-secondary border-end">
                       <div>
                         <div className="d-flex">
-                          <div className="col_w_dp3 start_dp3"></div>
+                          <div className="col_w_dp3 start_dp3">
+                            {withPcs && result?.mainTotal?.diamonds?.Pcs}
+                          </div>
                           <div className="col_w_dp3 end_dp3">
                             {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
                           </div>
@@ -710,7 +771,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               3
                             )}
                           </div>
-                          <div className="w_27_dp3 end_dp3">
+                          <div className="end_dp3" style={{width: withRate ? "77%" : "27%"}}>
                             {formatAmount(
                               result?.mainTotal?.metal?.IsPrimaryMetal_Amount
                             )}
@@ -721,7 +782,9 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="col5_dp3 border-secondary border-end">
                       <div>
                         <div className="d-flex">
-                          <div className="col_w_dp3 start_dp3"></div>
+                          <div className="col_w_dp3 start_dp3">
+                            {withPcs && result?.mainTotal?.colorstone?.Pcs}
+                          </div>
                           <div className="col_w_dp3 end_dp3">
                             {result?.mainTotal?.colorstone?.Wt?.toFixed(3)}
                           </div>

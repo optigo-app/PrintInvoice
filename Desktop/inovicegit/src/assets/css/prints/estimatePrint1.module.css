@@ -1,5 +1,5 @@
 .estimate1Container *:not(.remark *){
-    font-size: 14px;
+    font-size: 16px;
     word-break: normal;
     font-family: Calibri;
 }
@@ -34,6 +34,7 @@
     .print_sec_sum4{
         display: none !important;
     }
+    
     .estimate1Container .font_12, .estimate1Container .font_12 *{
         font-size: 9px;
     }
@@ -41,4 +42,9 @@
     .estimate1Container{
         padding-top: 150px;
     }
+
+    .estimateprint_top_label{
+        padding: 0px !important;
+    }
+
 }

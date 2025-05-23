@@ -1092,9 +1092,8 @@ const DetailPrint11LExcel = ({
     const makingAmt = Number(e.MakingAmount) || 0;
     const diamondAmt = Number(e.totals?.diamonds?.Amount) || 0;
     const csAmt = Number(e.totals?.colorstone?.Amount) || 0;
-    const other0 = parseFloat(e.other_details?.[0]?.value || 0);
-    const other1 = parseFloat(e.other_details?.[1]?.value || 0);
-    return sum + metalAmt + makingAmt + diamondAmt + csAmt + other0 + other1;
+    const other0 = parseFloat(e.OtherCharges || 0);
+    return sum + metalAmt + makingAmt + diamondAmt + csAmt + other0;
   }, 0);
 
   console.log("resultresult", result);
@@ -1266,7 +1265,7 @@ const DetailPrint11LExcel = ({
                 colSpan={4}
                 style={{ borderLeft: "1px solid black", padding: "1px" }}
               >
-                {json0Data?.lblBillTo}
+                Issue To
               </td>
               <td
                 colSpan={4}
@@ -1975,12 +1974,19 @@ const DetailPrint11LExcel = ({
                       align="right"
                     >
                       <b>
+                        {console.log(
+                          "total........",
+                          parseFloat(e?.totals?.metal?.Amount) || 0,
+                          parseFloat(e?.MakingAmount) || 0,
+                          parseFloat(e?.totals?.diamonds?.Amount) || 0,
+                          parseFloat(e?.totals?.colorstone?.Amount) || 0,
+                          parseFloat(e?.OtherCharges) || 0
+                        )}
                         {(parseFloat(e?.totals?.metal?.Amount) || 0) +
                           (parseFloat(e?.MakingAmount) || 0) +
                           (parseFloat(e?.totals?.diamonds?.Amount) || 0) +
                           (parseFloat(e?.totals?.colorstone?.Amount) || 0) +
-                          (parseFloat(e?.other_details?.[0]?.value) || 0) +
-                          (parseFloat(e?.other_details?.[1]?.value) || 0)}
+                          (parseFloat(e?.OtherCharges) || 0)}
                       </b>
                     </td>
                   </tr>
