@@ -479,7 +479,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               )}
             </div>
 
-            <div className="col-5 p-2">
+            <div className="col-5 p-1">
               <div className="d-flex">
                 <p className="fw-bold col-6">INVOICE NO </p>
                 <p className="col-6">{json0Data?.InvoiceNo}</p>{" "}
@@ -490,7 +490,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
               {document.map((e, i) => {
                 return (
-                  <div key={i} className="d-flex ">
+                  <div key={i} className="d-flex">
                     <p className="fw-bold col-6">{e?.label} </p>
                     <p className="col-6">{e?.value}</p>{" "}
                   </div>
@@ -550,6 +550,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
             </div>
           </div>
+          
           {/* table data */}
           {data.map((e, i) => {
             return (
@@ -1252,7 +1253,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           <div
             className={`border-start border-bottom border-end d-flex no_break ${style?.font_12}`}
           >
-            <div className="col-4 p-2 border-end">
+            <div className="col-4 p-1 border-end">
               <p className="fw-bold">Bank Detail</p>
               <p>Bank Name:{json0Data?.bankname}</p>
               <p>Branch: {json0Data?.bankaddress}</p>
@@ -1260,11 +1261,11 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <p>Account No. : {json0Data?.accountnumber}</p>
               <p>RTGS/NEFT IFSC: {json0Data?.rtgs_neft_ifsc}</p>
             </div>
-            <div className="col-4 d-flex flex-column justify-content-between p-2 border-end">
+            <div className="col-4 d-flex flex-column justify-content-between p-1 border-end">
               <p>Signature</p>
               <p className="fw-bold">{json0Data?.customerfirmname}</p>
             </div>
-            <div className="col-4 d-flex flex-column justify-content-between p-2">
+            <div className="col-4 d-flex flex-column justify-content-between p-1">
               <p>Signature</p>
               <p className="fw-bold">{json0Data?.CompanyFullName}</p>
             </div>
