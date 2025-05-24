@@ -1509,6 +1509,7 @@ const DetailPrint11LExcel = ({
                   verticalAlign: "middle",
                 }}
                 align="center"
+                width={90}
               >
                 <b>Size</b>
               </td>
@@ -1561,7 +1562,11 @@ const DetailPrint11LExcel = ({
                       rowSpan={
                         6 + (e?.diamonds?.length == 0 ? 1 : e?.diamonds?.length)
                       }
-                      style={{ border: "1px solid #000", padding: "1px" }}
+                      style={{
+                        border: "1px solid #000",
+                        padding: "1px",
+                        verticalAlign: "middle",
+                      }}
                       align="center"
                     >
                       {i + 1}
@@ -1620,7 +1625,9 @@ const DetailPrint11LExcel = ({
                       }
                       style={{
                         borderRight: "1px solid #000",
+                        verticalAlign: "middle",
                       }}
+                      align="center"
                     >
                       Diamond Detail
                     </td>
@@ -1628,6 +1635,7 @@ const DetailPrint11LExcel = ({
                     <td
                       style={{
                         borderRight: "1px solid #000",
+                        verticalAlign: "middle",
                       }}
                     >
                       {e.diamonds[0]?.SizeName}
@@ -1635,6 +1643,7 @@ const DetailPrint11LExcel = ({
                     <td
                       style={{
                         borderRight: "1px solid #000",
+                        verticalAlign: "middle",
                       }}
                     >
                       {e.diamonds[0]?.Wt}
@@ -1642,6 +1651,7 @@ const DetailPrint11LExcel = ({
                     <td
                       style={{
                         borderRight: "1px solid #000",
+                        verticalAlign: "middle",
                       }}
                     >
                       {e.diamonds[0]?.Rate}
@@ -1649,6 +1659,7 @@ const DetailPrint11LExcel = ({
                     <td
                       style={{
                         borderRight: "1px solid #000",
+                        verticalAlign: "middle",
                       }}
                     >
                       {e.diamonds[0]?.Amount}
@@ -1657,7 +1668,10 @@ const DetailPrint11LExcel = ({
                       rowSpan={
                         e?.diamonds?.length == 0 ? 1 : e?.diamonds?.length
                       }
-                      style={{ borderRight: "1px solid #000" }}
+                      style={{
+                        borderRight: "1px solid #000",
+                        verticalAlign: "middle",
+                      }}
                     >
                       {e?.totals?.diamonds?.Amount}
                     </td>
@@ -1669,9 +1683,7 @@ const DetailPrint11LExcel = ({
                       <td style={{ borderRight: "1px solid #000" }}>
                         {d.SizeName}
                       </td>
-                      <td style={{ borderRight: "1px solid #000" }}>
-                        {d.Wt}
-                      </td>
+                      <td style={{ borderRight: "1px solid #000" }}>{d.Wt}</td>
                       <td style={{ borderRight: "1px solid #000" }}>
                         {d.Rate}
                       </td>
@@ -1688,7 +1700,11 @@ const DetailPrint11LExcel = ({
                       style={{
                         borderTop: "1px solid #000",
                         borderRight: "1px solid #000",
+                        borderBottom: "1px solid #000",
+                        verticalAlign: "middle",
                       }}
+                      rowSpan={2}
+                      align="center"
                     >
                       Gold & Making
                     </td>
@@ -1736,6 +1752,7 @@ const DetailPrint11LExcel = ({
                         borderRight: "1px solid #000",
                         borderBottom: "1px solid #000",
                         borderTop: "1px solid #000",
+                        verticalAlign: "middle",
                       }}
                     >
                       {e?.totals?.metal?.Amount + e?.MakingAmount}
@@ -1744,12 +1761,6 @@ const DetailPrint11LExcel = ({
 
                   <tr>
                     <td></td>
-                    <td
-                      style={{
-                        borderBottom: "1px solid #000",
-                        borderRight: "1px solid #000",
-                      }}
-                    ></td>
                     <td
                       style={{
                         borderBottom: "1px solid #000",
@@ -1789,7 +1800,14 @@ const DetailPrint11LExcel = ({
 
                   <tr>
                     <td></td>
-                    <td style={{ borderRight: "1px solid #000" }}>
+                    <td
+                      align="center"
+                      rowSpan={4}
+                      style={{
+                        borderRight: "1px solid #000",
+                        verticalAlign: "middle",
+                      }}
+                    >
                       Other Charges
                     </td>
                     <td style={{ borderRight: "1px solid #000" }}>
@@ -1810,20 +1828,25 @@ const DetailPrint11LExcel = ({
                         ? 0
                         : e.other_details[0]?.value}
                     </td>
-                    <td rowSpan={4} style={{ borderRight: "1px solid #000" }}>
+                    <td
+                      rowSpan={4}
+                      style={{
+                        borderRight: "1px solid #000",
+                        verticalAlign: "middle",
+                      }}
+                    >
                       {e?.OtherCharges + e.totals?.colorstone?.Amount}
                     </td>
                     {e?.other_details?.slice(1).map((d, ind, arr) => {
                       const isLast = ind === arr.length - 1;
                       return (
                         <tr key={`other-${i}-${ind}`}>
-                          <td></td>
                           <td
                             style={{
                               borderRight: "1px solid #000",
-                              ...(isLast && {
-                                borderBottom: "1px solid #000",
-                              }),
+                              // ...(isLast && {
+                              //   borderBottom: "1px solid #000",
+                              // }),
                             }}
                           ></td>
                           <td
@@ -1879,10 +1902,14 @@ const DetailPrint11LExcel = ({
                             {d.label === "CS"
                               ? e.totals?.colorstone?.Amount
                               : d.label === "Others"
-                              ? d.value -
-                                (parseFloat(e?.other_details?.[0]?.value || 0) +
-                                  parseFloat(e?.other_details?.[1]?.value || 0))
-                              : d.value}
+                              ? (d.value || 0) -
+                                  (parseFloat(
+                                    e?.other_details?.[0]?.value || 0
+                                  ) +
+                                    parseFloat(
+                                      e?.other_details?.[1]?.value || 0
+                                    )) || 0
+                              : d.value || 0}
                           </td>
                         </tr>
                       );
