@@ -14,26 +14,40 @@ import { TabList, TabPanel } from '@mui/lab';
 import { capitalizeFirstLetter, fetchDashboardData, formatAmount, formatAmountKWise } from '../GlobalFunctions';
 
 const CustWiseSalesProfitAmount = ({ tkn, fdate, tdate, country, CustomerWiseSaleAmountData, IsEmpLogin }) => {
+  console.log('CustomerWiseSaleAmountData: ', CustomerWiseSaleAmountData);
+  const theme = useTheme()
   const [value, setValue] = useState('sales');
   const [apiData, setApiData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
+  console.log('apiData: ', apiData);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setApiData(CustomerWiseSaleAmountData);
-        setFilteredData(CustomerWiseSaleAmountData);
-
+        const transformedData = CustomerWiseSaleAmountData?.map(item => {
+          const adjustedCost = (item.CurrentCost || 0) * 0.7;
+          const adjustedProfit = (item.SaleAmount || 0) - adjustedCost;
+  
+          return {
+            CustomerDisplay: `${item.Customer} (${item.CompanyName})`,
+            ...item,
+            AdjustedProfit: adjustedProfit
+          };
+        });
+  
+        setApiData(transformedData);
+  
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
+  
     fetchData();
   }, [CustomerWiseSaleAmountData]);
+  
 
-  const salesAmt = CustomerWiseSaleAmountData?.map((e) => e?.SaleAmount);
-  const ProfitAmt = CustomerWiseSaleAmountData?.map((e) => e?.Profit);
-  const custNames = CustomerWiseSaleAmountData?.map((e) => capitalizeFirstLetter(e?.Customer));
+  const salesAmt = apiData?.map((e) => e?.SaleAmount);
+  const ProfitAmt = apiData?.map((e) => e?.AdjustedProfit);
+  const custNames = apiData?.map((e) => capitalizeFirstLetter(e?.CustomerDisplay));
 
   const tabData = [
     {
@@ -94,10 +108,6 @@ const CustWiseSalesProfitAmount = ({ tkn, fdate, tdate, country, CustomerWiseSal
       )
     })
   }
-
-
-  // ** Hook
-  const theme = useTheme()
 
   const handleChange = (event, newValue) => {
     setValue(newValue)

@@ -27,7 +27,17 @@ const CategoryWiseSalesProfitAmount = ({ tkn, fdate, tdate, country, CategoryWis
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setApiData(CategoryWiseSaleAmountData);
+        const transformedData = CategoryWiseSaleAmountData?.map(item => {
+          const adjustedCost = (item.CurrentCost || 0) * 0.7;
+          const adjustedProfit = (item.SaleAmount || 0) - adjustedCost;
+  
+          return {
+            CustomerDisplay: `${item.Customer} (${item.CompanyName})`,
+            ...item,
+            AdjustedProfit: adjustedProfit
+          };
+        });
+        setApiData(transformedData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -35,7 +45,7 @@ const CategoryWiseSalesProfitAmount = ({ tkn, fdate, tdate, country, CategoryWis
     fetchData();
   }, [CategoryWiseSaleAmountData]);
 
-  const sortedData = CategoryWiseSaleAmountData?.sort((a, b) => {
+  const sortedData = apiData?.sort((a, b) => {
     const saleAmountA = a?.SaleAmount || 0;
     const saleAmountB = b?.SaleAmount || 0;
     return saleAmountB - saleAmountA;
@@ -43,7 +53,7 @@ const CategoryWiseSalesProfitAmount = ({ tkn, fdate, tdate, country, CategoryWis
   const top10 = sortedData?.slice(0, 10);
 
   const sales = top10?.map((e) => +((e?.SaleAmount / (+country))?.toFixed(2)));
-  const profit = top10?.map((e) => +((e?.Profit / (+country))?.toFixed(2)));
+  const profit = top10?.map((e) => +(e?.AdjustedProfit));
   const quantities = top10?.map((e) => e?.Quantity || 0); // Get quantity for each item
   const negativeArray = profit?.map(value => Math?.abs(value) * -1);
   const salesNames = top10?.map((e) => e?.Category)

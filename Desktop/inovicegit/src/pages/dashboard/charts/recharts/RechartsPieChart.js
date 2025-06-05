@@ -47,6 +47,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 const RechartsPieChart = ({tkn,  fdate, tdate, country, VendorWiseNetWtData}) => {
+  console.log('VendorWiseNetWtData: ', VendorWiseNetWtData);
   const [hoveredData, setHoveredData] = useState(null)
 
   const [apiData, setApiData] = useState([]);
@@ -55,9 +56,6 @@ const RechartsPieChart = ({tkn,  fdate, tdate, country, VendorWiseNetWtData}) =>
 
     const fetchData = async () => {
       try {
-
-        // Fetch MonthWiseSaleAmount data
-        // const VendorWiseNetWt = await fetchDashboardData(tkn,  fdate, tdate, "VendorWiseNetWt");
         setApiData(VendorWiseNetWtData);
         
       } catch (error) {
@@ -66,62 +64,30 @@ const RechartsPieChart = ({tkn,  fdate, tdate, country, VendorWiseNetWtData}) =>
     };
   
     fetchData(); 
-
-  // },[fdate, tdate]);
 },[VendorWiseNetWtData]);
 
-
-  // const data = [
-  //   { name: 'R&D', value: 50, color: '#00d4bd' },
-  //   { name: 'Operational', value: 85, color: '#ffe700' },
-  //   { name: 'Networking', value: 16, color: '#FFA1A1' },
-  //   { name: 'Hiring', value: 50, color: '#826bf8' }
-  // ]
   const sortedData = VendorWiseNetWtData?.sort((a, b) => {
-    const netWtA = a?.NetWt || 0;  // Default to 0 if SaleAmount is missing
+    const netWtA = a?.NetWt || 0; 
     const netWtB = b?.NetWt || 0;
     return netWtB - netWtA;
   });
-  // Step 2: Get the top 10 objects
   const top10 = sortedData?.slice(0, 5);
   
-  // const data = [
-  //   { name: 'R&D', value: 50, color: '#00d4bd' },
-  //   { name: 'Operational', value: 85, color: '#ffe700' },
-  //   { name: 'Networking', value: 16, color: '#FFA1A1' },
-  //   { name: 'Hiring', value: 50, color: '#826bf8' },
-  //   { name: 'Hiring', value: 50, color: '#EA5455' },
-  //   { name: 'Hiring', value: 50, color: '#B9E9CF' },
-  //   { name: 'Hiring', value: 50, color: '#FF9F43' },
-  //   { name: 'Hiring', value: 50, color: '#A8AAAE' },
-  //   { name: 'Hiring', value: 50, color: '#2196F3' },
-  //   { name: 'Hiring', value: 50, color: '#F50057' },
-  // ]
+
   const colors = ["#00d4bd", "#ffe700", "#FFA1A1", "#826bf8", "#EA5455","#B9E9CF", "#FF9F43","#A8AAAE","#2196F3","#F50057"]
 
   const data = top10?.map((item, index) => ({
-    name: item?.Vendor,
+    name: item?.CompanyName,
     value: item?.NetWt || 0,
-    color: colors[index] // Dynamically generate colors
+    color: colors[index] 
   }))
 
-  const handleMouseEnter = (obj) => {
-    console.log(obj);
-
-    return (
-     <div>
-        <Tooltip title="Delete">{obj?.value}</Tooltip>
-     </div> 
-    )
-
-  }
 
   return (
     <Card className='fs_analytics_l'  style={{boxShadow:'0px 4px 18px 0px rgba(47, 43, 61, 0.1)', minHeight:'34.85rem'}}>
       <CardHeader
         title='Top Vendors'
         subheader='Overview of NetWt'
-        // subheaderTypographyProps={{ sx: { color: theme => `${theme.palette.text.disabled} !important` } }}
       />
       <CardContent>
         <Box sx={{ height: 350,  position:'relative' }}>
@@ -139,7 +105,6 @@ const RechartsPieChart = ({tkn,  fdate, tdate, country, VendorWiseNetWtData}) =>
                   <Cell key={`cell-${index}`} fill={entry?.color} />
                 ))}
               </Pie>
-              {/* <Tooltip content={<CustomTooltip />} /> */}
             </PieChart>
           </ResponsiveContainer>
           {hoveredData && (
@@ -159,100 +124,6 @@ const RechartsPieChart = ({tkn,  fdate, tdate, country, VendorWiseNetWtData}) =>
             </Box>
           )}
         </Box>
-        {/* <Box sx={{ display: 'flex', flexWrap: 'wrap', mb: 1, justifyContent: 'center' }}>
-          <Box
-            sx={{
-              mr: 5,
-              display: 'flex',
-              alignItems: 'center',
-              '& svg': { mr: 1, color: '#00d4bd' }
-            }}
-          >
-            <Icon icon='mdi:circle' fontSize='0.75rem' />
-            <Typography variant='body2'>R&D</Typography>
-          </Box>
-          <Box
-            sx={{
-              mr: 5,
-              display: 'flex',
-              alignItems: 'center',
-              '& svg': { mr: 1, color: '#00d4bd' }
-            }}
-          >
-            <Icon icon='mdi:circle' fontSize='0.75rem' />
-            <Typography variant='body2'>R&D</Typography>
-          </Box>
-          <Box
-            sx={{
-              mr: 5,
-              display: 'flex',
-              alignItems: 'center',
-              '& svg': { mr: 1, color: '#00d4bd' }
-            }}
-          >
-            <Icon icon='mdi:circle' fontSize='0.75rem' />
-            <Typography variant='body2'>R&D</Typography>
-          </Box>
-          <Box
-            sx={{
-              mr: 5,
-              display: 'flex',
-              alignItems: 'center',
-              '& svg': { mr: 1, color: '#00d4bd' }
-            }}
-          >
-            <Icon icon='mdi:circle' fontSize='0.75rem' />
-            <Typography variant='body2'>R&D</Typography>
-          </Box>
-          <Box
-            sx={{
-              mr: 5,
-              display: 'flex',
-              alignItems: 'center',
-              '& svg': { mr: 1, color: '#00d4bd' }
-            }}
-          >
-            <Icon icon='mdi:circle' fontSize='0.75rem' />
-            <Typography variant='body2'>R&D</Typography>
-          </Box>
-          <Box
-            sx={{
-              mr: 5,
-              display: 'flex',
-              alignItems: 'center',
-              '& svg': { mr: 1, color: '#00d4bd' }
-            }}
-          >
-            <Icon icon='mdi:circle' fontSize='0.75rem' />
-            <Typography variant='body2'>R&D</Typography>
-          </Box>
-          <Box
-            sx={{
-              mr: 5,
-              display: 'flex',
-              alignItems: 'center',
-              '& svg': { mr: 1, color: '#ffe700' }
-            }}
-          >
-            <Icon icon='mdi:circle' fontSize='0.75rem' />
-            <Typography variant='body2'>Operational</Typography>
-          </Box>
-          <Box
-            sx={{
-              mr: 5,
-              display: 'flex',
-              alignItems: 'center',
-              '& svg': { mr: 1, color: '#FFA1A1' }
-            }}
-          >
-            <Icon icon='mdi:circle' fontSize='0.75rem' />
-            <Typography variant='body2'>Networking</Typography>
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 1, color: '#826bf8' } }}>
-            <Icon icon='mdi:circle' fontSize='0.75rem' />
-            <Typography variant='body2'>Hiring</Typography>
-          </Box>
-        </Box> */}
         <Box sx={{ display: 'flex', flexWrap: 'wrap', mb: 2, mt:1.5, justifyContent: 'center' }}>
             {data?.map((item, index) => (
               <Box
@@ -264,19 +135,13 @@ const RechartsPieChart = ({tkn,  fdate, tdate, country, VendorWiseNetWtData}) =>
                   '& svg': { mr: 1, color: item?.color }
                 }}
               >
-            {/* <Icon icon='mdi:circle' fontSize='0.75rem' />
-            <Typography variant='body2' sx={{
-              cursor:'pointer',
-              
-            }} onMouseEnter={() => handleMouseEnter(item)}>{item?.name?.toUpperCase()}</Typography> */}
               <Tooltip sx={{
                   '& .MuiTooltip-tooltip': {
-                    fontSize: '16px !important', // Force the font size change
-                    fontWeight: 'bold !important', // Force bold text
-                    backgroundColor: '#1976d2 !important', // Force background color change
-                    color: 'white !important', // Force text color change
+                    fontSize: '16px !important', 
+                    fontWeight: 'bold !important',
+                    backgroundColor: '#1976d2 !important', 
+                    color: 'white !important', 
                   },
-                // }} title={`Amount: ${formatAmount(item?.value)}`} arrow>
               }} title={<Typography className='fs_analytics_l'  sx={{color:'white'}}>{`NetWt: ${((item?.value))} gm`}</Typography>} arrow>
                 <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
                   <Icon icon="mdi:circle" fontSize="0.75rem" />
