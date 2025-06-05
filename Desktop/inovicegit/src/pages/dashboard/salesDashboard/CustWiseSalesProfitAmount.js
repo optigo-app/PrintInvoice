@@ -47,7 +47,7 @@ const CustWiseSalesProfitAmount = ({ tkn, fdate, tdate, country, CustomerWiseSal
 
   const salesAmt = apiData?.map((e) => e?.SaleAmount);
   const ProfitAmt = apiData?.map((e) => e?.AdjustedProfit);
-  const custNames = apiData?.map((e) => capitalizeFirstLetter(e?.CustomerDisplay));
+  const custNames = apiData?.map((e) => capitalizeFirstLetter(e?.CompanyName));
 
   const tabData = [
     {
