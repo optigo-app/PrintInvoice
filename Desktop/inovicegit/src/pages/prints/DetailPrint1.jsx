@@ -825,8 +825,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <p className="p-1 text-center paddingLeftDetailPrint1 paddingRightDetailPrint1">{NumberWithCommas(i + 1, 0)}</p>
                       </div>
                       <div className="designDetalPrint1 border-end  p-1 border-bottom paddingLeftDetailPrint1 paddingRightDetailPrint1">
-                        <div className="d-flex justify-content-between">
-                          <div className="col">
+                        <div className="d-flex">
+                          <div>
                             <p>{e?.designno}</p>
                           </div>
                           <div className="col d-flex flex-column align-items-end">

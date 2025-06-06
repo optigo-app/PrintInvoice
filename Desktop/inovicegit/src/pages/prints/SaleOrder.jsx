@@ -570,13 +570,6 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               >
                 DESCRIPTION
               </th>
-              {checkBox?.amount && (
-                <th
-                  className={`${style?.unitPrice} p-1 text-center lightGrey_table  border`}
-                >
-                  Size
-                </th>
-              )}
               <th
                 className={`${style?.quantity} p-1 text-center lightGrey_table  border`}
               >
@@ -627,7 +620,11 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </p>
                   </td>
                   <td
-                    className={`${style?.description} p-1 border-end border-start border-bottom `}
+                    className={` ${
+                      checkBox?.amount
+                        ? style?.descriptionWithoutAmaount
+                        : style?.description
+                    } p-1 border-end border-start border-bottom `}
                   >
                     <p>
                       <span className="fw-bold">{e?.MetalType}: </span>{" "}
@@ -693,13 +690,6 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </p>
                     )}
                   </td>
-                  {checkBox?.amount && (
-                    <td
-                      className={`${style?.unitPrice} p-1 border-end border-start border-bottom text-end`}
-                    >
-                      <p>{e?.Size}</p>
-                    </td>
-                  )}
                   <td
                     className={`${style?.quantity} p-1 border-end border-start border-bottom `}
                   >
@@ -763,14 +753,6 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               >
                 {" "}
               </td>
-              {checkBox?.amount && (
-                <td
-                  className={`${style?.quantity} p-1 border-end border-start border-bottom lightGrey_table`}
-                >
-                  {" "}
-                  <p className="text-end fw-bold"> {total?.size}</p>{" "}
-                </td>
-              )}
               <td
                 className={`${style?.quantity} p-1 border-end border-start border-bottom lightGrey_table`}
               >
