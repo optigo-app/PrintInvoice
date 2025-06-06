@@ -51,6 +51,7 @@ const CategoryWiseSalesProfitAmount = ({ tkn, fdate, tdate, country, CategoryWis
     return saleAmountB - saleAmountA;
   });
   const top10 = sortedData?.slice(0, 10);
+  console.log('top10: ', top10);
 
   const sales = top10?.map((e) => +((e?.SaleAmount / (+country))?.toFixed(2)));
   const profit = top10?.map((e) => +(e?.AdjustedProfit));
@@ -58,7 +59,8 @@ const CategoryWiseSalesProfitAmount = ({ tkn, fdate, tdate, country, CategoryWis
   const negativeArray = profit?.map(value => Math?.abs(value) * -1);
   const salesNames = top10?.map((e) => e?.Category)
   const totalSale = top10?.reduce((acc, num) => acc + num?.SaleAmount, 0);
-  const totalProfit = top10?.reduce((acc, num) => acc + num?.Profit, 0);
+  const totalProfit = top10?.reduce((acc, num) => acc + num?.AdjustedProfit, 0);
+  console.log('totalProfit: ', totalProfit);
 
   const datas = {
     labels: salesNames,
