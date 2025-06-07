@@ -500,6 +500,7 @@ table {
 
 .print_design_2_head_new{
   width: 100%;
+  height: 100%;
 }
 
 /* .print_design_2_head{
@@ -1001,7 +1002,6 @@ p.w_33.bold,
 .print_2 {
   box-sizing: border-box;
   border: 0.5291666667mm solid #000;
-  border-bottom: 0;
   border-radius:1.3229166667mm;
   overflow: hidden;
   height: 90mm;
@@ -1570,13 +1570,12 @@ table {
 
 .bag_design_2 .container_2:nth-child(even) {
   box-sizing: border-box;
-  margin-left: 4mm;
+  margin-left: 0px;
 }
 
 .bag_design_2 .container_2 {
   box-sizing: border-box;
   margin-bottom: 0mm;
-  margin-top: 5mm;
 }
 
 .mb_2 {
@@ -1641,13 +1640,13 @@ table {
 .barcode_sticker {
   box-sizing: border-box;
   display: block;
-  height: 5.5291666667mm !important;
+  height: 7mm !important;
   margin: 0 auto;
   max-width: 140.79375mm;
   object-fit: cover;
   position: absolute;
   right: 30% !important;
-  top: 0px !important;
+  top: 3px !important;
   transform: translate(0) rotate(180deg) !important;
   width:39.275mm !important;
   z-index: 1;
@@ -1785,7 +1784,6 @@ table {
 
 .header_16{
   display: flex;
-  justify-content: space-between;
   word-break: break-all;
   line-height: 7px;
 }
@@ -1795,17 +1793,20 @@ table {
   justify-content: space-between;
   flex-direction: column;
   align-items: center;
+  width: 25%;
 }
 .net16A{
-  padding-top: 2px;
-  padding-left: 2px;
-  padding-bottom: 2px;
   border-right: 1px solid;
   border-bottom: 1px solid;
   height: 14px;
-  width: 54px;
+  width: 100%;
   line-height: 8px;
-  font-size: 10.5px;
+  font-size: 12px;
+  height: 18%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding-left: 5px;
 }
 .header_16_a{
   width: 60.5px;
@@ -1840,23 +1841,22 @@ table {
   width: 123px !important;
   height: 127px !important;
 }
-/* @media print {
 
+/* @media print {
   .select_box,
   .print_btn,
   head,
   a[href]:after {
     display: none;
   }
-} */
-
+}*/
 
 .container_margin_left {
   margin-left: 20.79375mm;
 }
 
 .ml_8mm {
-  margin-left: 8mm;
+  margin-left: 0mm;
 }
 
 .blue {
@@ -1959,7 +1959,6 @@ table {
     align-items: center;
     padding: 1px;
     font-weight: bold;
-    width: 228px !important;
     font-size: 13px !important;
     border-bottom: 1px solid ;
   }
@@ -1969,7 +1968,7 @@ table {
 
   .partybg16_new{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 2px;
     height: 20px;
