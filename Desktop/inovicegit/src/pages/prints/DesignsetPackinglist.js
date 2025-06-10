@@ -141,6 +141,23 @@ const DesignsetPackinglist = ({
 
     let finalArr = [];
     const seenDesignSetNos = new Set();
+
+  //   datas.resultArray?.sort((a, b) => {
+  //     if (a.Categoryname < b.Categoryname) return -1;
+  //     if (a.Categoryname > b.Categoryname) return 1;
+  //     if (a.SrJobno < b.SrJobno) return -1;
+  //     if (a.SrJobno > b.SrJobno) return 1;
+  //     return 0;
+ 
+  //  })
+
+    // id wise sorting
+    datas.resultArray?.sort((a, b) => {
+      if (a.id < b.id) return -1;
+      if (a.id > b.id) return 1;
+      return 0;
+    });
+
     datas?.resultArray?.forEach((e) => {
       let obj = { ...e };
       let discountOn = [];
@@ -156,8 +173,9 @@ const DesignsetPackinglist = ({
       }
 
       obj.discountOn = discountOn;
-      obj.str_discountOn = discountOn.join(", ") + " Amount";
+      obj.str_discountOn = discountOn.join(", ") + "Amount";
 
+      // design set image show logic
       if (seenDesignSetNos.has(e.DesignSetNo)) {
         obj.DesigSetImage = "";
       } else {
@@ -169,18 +187,6 @@ const DesignsetPackinglist = ({
 
     datas.resultArray = finalArr;
 
-    datas.resultArray?.sort((a, b) => {
-      // First, compare based on Categoryname
-      if (a.Categoryname < b.Categoryname) return -1;
-      if (a.Categoryname > b.Categoryname) return 1;
-
-      // If Categoryname is the same, compare based on SrJobno
-      if (a.SrJobno < b.SrJobno) return -1;
-      if (a.SrJobno > b.SrJobno) return 1;
-
-      // If both Categoryname and SrJobno are the same, return 0
-      return 0;
-    });
 
     console.log("datas: ", datas);
 
