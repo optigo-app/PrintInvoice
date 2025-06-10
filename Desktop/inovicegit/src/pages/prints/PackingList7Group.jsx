@@ -509,6 +509,7 @@ const PackingList7Group = ({
       setImgFlag(true);
     }
   };
+
   const handleCheckbox2 = () => {
     if (imgFlag2) {
       setImgFlag2(false);
@@ -538,6 +539,7 @@ const PackingList7Group = ({
       }
     }
   };
+
   return (
     <>
       {loader ? (
@@ -712,20 +714,22 @@ const PackingList7Group = ({
                       <div className="h-50 centerdp10_pcl7 fw-bold w-100">
                         Design Details
                       </div>
-                      <div className="d-flex  align-items-center h-50 bt_dp10_pcl7 w-100">
-                        <div
-                          className=" h-100 centerdp10_pcl7 bright_dp10_pcl7"
-                          style={{ width: "50%" }}
-                        >
-                          Design
+                      {imgFlag && (
+                        <div className="d-flex  align-items-center h-50 bt_dp10_pcl7 w-100">
+                          <div
+                            className=" h-100 centerdp10_pcl7 bright_dp10_pcl7"
+                            style={{ width: "50%" }}
+                          >
+                            Design
+                          </div>
+                          <div
+                            className="centerdp10_pcl7 h-100"
+                            style={{ width: "50%" }}
+                          >
+                            Item
+                          </div>
                         </div>
-                        <div
-                          className="centerdp10_pcl7 h-100"
-                          style={{ width: "50%" }}
-                        >
-                          Item
-                        </div>
-                      </div>
+                      )}
                     </div>
                     <div className="col3dp10_pcl7">
                       <div className="h-50 centerdp10_pcl7 fw-bold w-100">
@@ -882,19 +886,16 @@ const PackingList7Group = ({
                               {/* {e?.SrNo} */}
                               {i + 1}
                             </div>
-                            <div
-                              className="tbcol2dp10_pcl7 d-flex justify-content-between"
-                              style={{ height: "100%" }}
-                            >
-                              <div
-                                className=""
-                                style={{
-                                  borderRight: "1px solid #BDBDBD",
-                                  width: "50%",
-                                  height: "100%",
-                                }}
-                              >
-                                {imgFlag ? (
+                            <div className="tbcol2dp10_pcl7 d-flex justify-content-between">
+                              {imgFlag && (
+                                <div
+                                  className=""
+                                  style={{
+                                    borderRight: "1px solid #BDBDBD",
+                                    width: "50%",
+                                    height: "100%",
+                                  }}
+                                >
                                   <div
                                     className="w-100 d-flex justify-content-center align-items-start fsgdp10_pcl7"
                                     style={{ minHeight: "80px" }}
@@ -906,11 +907,9 @@ const PackingList7Group = ({
                                       className="imgdp10_pcl7"
                                     />
                                   </div>
-                                ) : (
-                                  ""
-                                )}
-                              </div>
-                              <div style={{ width: "50%" }}>
+                                </div>
+                              )}
+                              <div style={{ width:imgFlag ?  "50%" : "100%" }}>
                                 <div className=" centerdp10_pcl7 fsgdp10_pcl7">
                                   {e?.designno}&nbsp;
                                 </div>
@@ -1010,10 +1009,11 @@ const PackingList7Group = ({
                                       className="theadsubcol1_dp10_pcl7 fw-bold end_dp10_pcl7 pr_dp10_pcl7"
                                       style={{ width: "23.66%" }}
                                     >
-                                      {(
+                                      {formatAmount(
                                         el?.Amount /
-                                        result?.header?.CurrencyExchRate
-                                      )?.toFixed(0)}
+                                          result?.header?.CurrencyExchRate,
+                                        0 // 👈 no decimal places
+                                      )}
                                     </div>
                                   </div>
                                 );
@@ -1197,10 +1197,11 @@ const PackingList7Group = ({
                                       )?.toFixed(0)}
                                     </div>
                                     <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 fw-bold pr_dp10_pcl7">
-                                      {(
+                                      {formatAmount(
                                         el?.Amount /
-                                        result?.header?.CurrencyExchRate
-                                      )?.toFixed(0)}
+                                          result?.header?.CurrencyExchRate,
+                                        0
+                                      )}
                                     </div>
                                   </div>
                                 );
@@ -1248,10 +1249,11 @@ const PackingList7Group = ({
                                       )?.toFixed(0)}
                                     </div>
                                     <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 fw-bold pr_dp10_pcl7">
-                                      {(
+                                      {formatAmount(
                                         el?.Amount /
-                                        result?.header?.CurrencyExchRate
-                                      )?.toFixed(0)}
+                                          result?.header?.CurrencyExchRate,
+                                        0
+                                      )}
                                     </div>
                                   </div>
                                 );
@@ -1277,10 +1279,11 @@ const PackingList7Group = ({
                                       style={{ width: "33.33%" }}
                                       className="pr_dp10_pcl7 text-end fsgdp10_pcl7"
                                     >
-                                      {(
+                                      {formatAmount(
                                         e?.MakingAmount /
-                                        result?.header?.CurrencyExchRate
-                                      )?.toFixed(0)}
+                                          result?.header?.CurrencyExchRate,
+                                        0
+                                      )}
                                     </div>
                                   </div>
                                 )}
@@ -1306,7 +1309,8 @@ const PackingList7Group = ({
                                     >
                                       {formatAmount(
                                         e?.totals?.finding?.SettingAmount /
-                                          result?.header?.CurrencyExchRate
+                                          result?.header?.CurrencyExchRate,
+                                        0
                                       )}
                                     </div>
                                   </div>
@@ -1331,7 +1335,7 @@ const PackingList7Group = ({
                                         style={{ width: "33.33%" }}
                                         className="pr_dp10_pcl7 text-end fsgdp10_pcl7"
                                       >
-                                        {formatAmount(el?.amtval)}
+                                        {formatAmount(el?.amtval, 0)}
                                       </div>
                                     </div>
                                   );
@@ -1348,7 +1352,8 @@ const PackingList7Group = ({
                                         (e?.totals?.diamonds?.SettingAmount +
                                           e?.totals?.colorstone
                                             ?.SettingAmount) /
-                                          result?.header?.CurrencyExchRate
+                                          result?.header?.CurrencyExchRate,
+                                        0
                                       )}
                                     </div>
                                   </div>
@@ -1361,7 +1366,8 @@ const PackingList7Group = ({
                                     <div className="w-50 pr_dp10_pcl7 text-end fsgdp10_pcl7">
                                       {formatAmount(
                                         e?.TotalDiamondHandling /
-                                          result?.header?.CurrencyExchRate
+                                          result?.header?.CurrencyExchRate,
+                                        0
                                       )}
                                     </div>
                                   </div>
@@ -1380,7 +1386,9 @@ const PackingList7Group = ({
                                           {e?.IsHSCOE === 3 &&
                                             formatAmount(
                                               e?.Amount /
-                                                result?.header?.CurrencyExchRate
+                                                result?.header
+                                                  ?.CurrencyExchRate,
+                                              0
                                             )}
                                         </div>
                                       )}
@@ -1390,7 +1398,6 @@ const PackingList7Group = ({
                               </div>
                             </div>
                             <div className="tbcol8dp10_pcl7 end_dp10_pcl7 fw-bold  pr_dp10_pcl7 border-start pad_top_pcl7 ">
-                              {/* {formatAmount((e?.TotalAmount + e?.DiscountAmt))} */}
                               {formatAmount(
                                 e?.UnitCost / result?.header?.CurrencyExchRate
                               )}
@@ -1400,15 +1407,14 @@ const PackingList7Group = ({
                             <div className="col1dp10_pcl7 "></div>
                             <div
                               style={{
-                                width: "6.2%",
-                                borderRight: "1px solid #BDBDBD",
+                                width: "6.3%",
+                                borderRight: imgFlag && "1px solid #BDBDBD",
                               }}
                             ></div>
                             <div
                               className="border-end-0 "
-                              style={{ width: "6.3%" }}
+                              style={{ width: "6.2%" }}
                             ></div>
-                            {/* <div className="centerdp10_pcl7 " style={{ width: "12.1%", borderTop:'1px solid white' }} >  </div> */}
                             <div
                               className="col3dp10_pcl7 d-flex align-items-center bl_dp10_pcl7 bt_dp10_pcl7"
                               style={{ backgroundColor: "#F5F5F5" }}
@@ -1446,20 +1452,10 @@ const PackingList7Group = ({
                                 {e?.totals?.diamonds?.Amount !== 0 &&
                                   formatAmount(
                                     e?.totals?.diamonds?.Amount /
-                                      result?.header?.CurrencyExchRate
+                                      result?.header?.CurrencyExchRate,
+                                    0
                                   )}
                               </div>
-                              {/* <div className="theadsubcol1_dp10_pcl7"></div>
-                      <div className="theadsubcol1_dp10_pcl7"></div>
-                      <div className="theadsubcol1_dp10_pcl7 centerdp10_pcl7" style={{width:'11.66%'}}>
-                        { e?.totals?.diamonds?.Pcs !== 0 && e?.totals?.diamonds?.Pcs}
-                      </div>
-                      <div className="theadsubcol1_dp10_pcl7 " style={{width:'17.66%'}}>
-                        { e?.totals?.diamonds?.Wt !== 0 && e?.totals?.diamonds?.Wt?.toFixed(3)}
-                      </div>
-                      <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7" style={{ width: "33.332%" }} >
-                        { e?.totals?.diamonds?.Amount !== 0 && formatAmount((e?.totals?.diamonds?.Amount / result?.header?.CurrencyExchRate))}
-                      </div> */}
                             </div>
                             <div
                               className="col4dp10_pcl7 d-flex align-items-center bt_dp10_pcl7"
@@ -1470,22 +1466,15 @@ const PackingList7Group = ({
                                 className="theadsubcol2_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7"
                                 style={{ width: "42%" }}
                               >
-                                {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
-                                {/* {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)} */}
                                 {e?.grosswt?.toFixed(3)}
                               </div>
                               <div className="theadsubcol2_dp10_pcl7 pr_dp10_pcl7 end_dp10_pcl7">
-                                {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
-                                {/* {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)} */}
-                                {/* {  ((e?.totals?.metal?.IsPrimaryMetal + e?.LossWt)?.toFixed(3))} */}
                                 {e?.totals?.metal?.Wt?.toFixed(3)}
                               </div>
-                              {/* <div className="theadsubcol2_dp10"></div> */}
                               <div
                                 className="theadsubcol2_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7"
                                 style={{ width: "43%" }}
                               >
-                                {/* {formatAmount(result?.mainTotal?.metal?.IsPrimaryMetal_Amount)} */}
                                 {formatAmount(
                                   e?.totals?.metal?.Amount /
                                     result?.header?.CurrencyExchRate
@@ -1499,7 +1488,6 @@ const PackingList7Group = ({
                               <div className="theadsubcol1_dp10_pcl7"></div>
                               <div className="theadsubcol1_dp10_pcl7"></div>
                               <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
-                                {/* {result?.mainTotal?.colorstone?.Pcs} */}
                                 {e?.totals?.colorstone?.Pcs +
                                   e?.totals?.misc?.onlyIsHSCODE0_Pcs !==
                                   0 &&
@@ -1528,7 +1516,8 @@ const PackingList7Group = ({
                                   formatAmount(
                                     (e?.totals?.colorstone?.Amount +
                                       e?.totals?.misc?.onlyIsHSCODE0_Amount) /
-                                      result?.header?.CurrencyExchRate
+                                      result?.header?.CurrencyExchRate,
+                                    0
                                   )}
                               </div>
                             </div>
@@ -1552,7 +1541,8 @@ const PackingList7Group = ({
                                     e?.TotalCsSetcost +
                                     e?.TotalDiaSetcost +
                                     e?.totals?.finding?.SettingAmount) /
-                                    result?.header?.CurrencyExchRate
+                                    result?.header?.CurrencyExchRate,
+                                  0
                                 )}
                               </div>
                             </div>
@@ -1579,7 +1569,7 @@ const PackingList7Group = ({
                     >
                       <div
                         className="centerdp10_pcl7 brR_dp10_pcl7"
-                        style={{ width: "10%" }}
+                        style={{ width: "14%" }}
                       >
                         {" "}
                         Total{" "}
@@ -1611,7 +1601,8 @@ const PackingList7Group = ({
                         >
                           {formatAmount(
                             result?.mainTotal?.diamonds?.Amount /
-                              result?.header?.CurrencyExchRate
+                              result?.header?.CurrencyExchRate,
+                            0
                           )}
                         </div>
                       </div>
@@ -1656,7 +1647,8 @@ const PackingList7Group = ({
                           {formatAmount(
                             (result?.mainTotal?.colorstone?.Amount +
                               result?.mainTotal?.misc?.onlyIsHSCODE0_Amount) /
-                              result?.header?.CurrencyExchRate
+                              result?.header?.CurrencyExchRate,
+                            0
                           )}
                         </div>
                       </div>
@@ -1672,7 +1664,8 @@ const PackingList7Group = ({
                             result?.mainTotal?.total_TotalCsSetcost +
                             result?.mainTotal?.finding?.SettingAmount +
                             result?.mainTotal?.total_other_charges) /
-                            result?.header?.CurrencyExchRate
+                            result?.header?.CurrencyExchRate,
+                          0
                         )}
                       </div>
                       <div className="col8dp10_pcl7 end_dp10_pcl7  d-flex align-items-center pr_dp10_pcl7 border-start border-black">
@@ -1935,14 +1928,13 @@ const PackingList7Group = ({
                               })}
                             </div>
                           </div>
-
-                          <div className="text-start pt-3 ps-1 fs_5_pcl7">
+                        </div>
+                            <div className="text-start ps-1 fs_5_pcl7">
                             No. Of Items :{" "}
                             <span className="fw-bold">
                               {result?.resultArray?.length}
                             </span>
                           </div>
-                        </div>
                       </div>
 
                       <div
@@ -2039,7 +2031,7 @@ const PackingList7Group = ({
                 </div>
                 {/* summary */}
                 <div>
-                   {result?.header?.PrintRemark === "" ? (
+                  {result?.header?.PrintRemark === "" ? (
                     <div style={{ width: "15%" }}></div>
                   ) : (
                     <div className="remark_sum_dp10_pcl7 fsgdp10_pcl7">
@@ -2056,10 +2048,16 @@ const PackingList7Group = ({
                   )}
                 </div>
                 <div className="d-flex justify-content-between mt-1">
-                  <div className=" ball_dp10_pcl7 d-flex justify-content-center align-items-end pb-1 " style={{minHeight: '50px' , width: '50%'}}>
+                  <div
+                    className=" ball_dp10_pcl7 d-flex justify-content-center align-items-end pb-1 "
+                    style={{ minHeight: "50px", width: "50%" }}
+                  >
                     <i>Created By</i>
                   </div>
-                  <div className=" ball_dp10_pcl7 d-flex justify-content-center align-items-end pb-1" style={{minHeight: '50px', width: '50%'}}>
+                  <div
+                    className=" ball_dp10_pcl7 d-flex justify-content-center align-items-end pb-1"
+                    style={{ minHeight: "50px", width: "50%" }}
+                  >
                     <i>Checked By</i>
                   </div>
                 </div>

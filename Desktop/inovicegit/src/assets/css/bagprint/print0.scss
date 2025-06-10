@@ -917,7 +917,7 @@ p.w_33.bold,
 } */
 
 .container_2 {
-  width: 95mm;
+  width: 99mm;
   box-sizing: border-box;
   /* height: 130mm; */
 }
@@ -1925,7 +1925,7 @@ table {
 }
 
 .bg16oldjob_new {
-  height: 16px;
+  height: 50%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1962,9 +1962,14 @@ table {
 .lh16bg {
   line-height: 8px;
 }
+
 @media print {
   @page {
-    margin: 0 20px !important; /* Remove default browser margin */
+    margin: 30px 20px 30px 25px !important; 
+  }
+
+  .top_two_all{
+    page-break-after: avoid !important;
   }
 
   .container_2.ml_8mm.mb_2.mt_2.pt_2.bag_2:nth-child(4n + 1) {
@@ -1977,6 +1982,7 @@ table {
     border-collapse: collapse !important;
   }
 }
+
 @media (orientation: portrait) {
   body {
     flex-direction: column !important;

@@ -1,3 +1,4 @@
+// http://localhost:3001/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=c2t1LzExODEvMjAyNQ==&evn=b3JkZXJz&pnm=U2FsZSBPcmRlcg==&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&ctv=NzE=&ifid=SaleOrder&pid=undefined
 import React, { useEffect, useState } from "react";
 import style from "../../assets/css/prints/saleorder.module.css";
 import {
@@ -800,7 +801,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       </div>
       {/* taxes */}
       <div className="border-start border-end border-bottom d-flex no_break">
-        {!checkBox?.summury && (
+        {!checkBox?.summury && (  
           <div className={`${style?.gold18k} border-end`}>
             <p className="fw-semibold text-center border-bottom py-1 lightGrey">
               SUMMARY
@@ -852,7 +853,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
         )}
         {!checkBox?.amount && (
-          <div className={`${style?.grandTotal} p-1 border-end`}>
+          <div className={`${style?.grandTotal} p-1 border-end`} style={{width: checkBox?.summury && "87%"}}>
             {tax.map((e, i) => {
               return (
                 <p key={i} className="text-end">
@@ -906,7 +907,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div className="border-start border-end border-bottom d-flex lightGrey no_break">
           <div className={`${style?.gold18k} p-1 border-end d-flex`}>
             <div className="col-6 border-end"></div>
-            <div className="col-6 d-flex justify-content-between">
+            {!checkBox?.summury && <div className="col-6 d-flex justify-content-between">
               <p className="fw-bold">TOTAL</p>
               <p className="fw-bold">
                 {" "}
@@ -918,7 +919,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 {/* {NumberWithCommas(total?.UnitCost, 2)} */}
                 {NumberWithCommas(total?.grandTotal, 2)}
               </p>
-            </div>
+            </div>}
           </div>
           <div className={`${style?.remarks} p-1 fw-bold border-end`}></div>
           <div className={`${style?.grandTotal} p-1 border-end`}>

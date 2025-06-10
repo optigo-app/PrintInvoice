@@ -241,7 +241,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                 data?.map((e, i) => {
                   // if (e?.additional?.chdata?.length === 0) {
                     return (
-                      <React.Fragment key={`bagprint16${i}`}>
+                      <React.Fragment key={`bagprint16${i}`} className="top_two_all">
                         <div className="container_2 ml_8mm mb_2  pt_2 bag_2">
                           <div className="print_2 ">
                             <div
@@ -353,14 +353,14 @@ const PrintDesign0 = ({ queries, headers }) => {
                                         <div
                                           className="net16A"
                                           style={{ borderBottom: "0px" }}
-                                        ></div>
+                                        ><b>Broadness</b></div>
                                       </div>
                                       <div className="jobInfo16">
                                         <div
                                           className="net16A"
                                           style={{ borderRight: "0px" }}
                                         >
-                                          <b>{e?.data?.rd?.promisedate}</b>
+                                          <b>{e?.data?.rd?.deliveryBatchDate}</b>
                                         </div>
                                         <div
                                           className="net16A"
@@ -396,12 +396,12 @@ const PrintDesign0 = ({ queries, headers }) => {
                                 style={{
                                   height: "10%",
                                   display: "flex",
-                                  alignItems: "start",
+                                  alignItems: "center",
                                   gap: "5px",
                                 }}
                               >
                                 <p style={{ fontSize: "12px", margin: 0 }}>
-                                  Remarks:
+                                  Remark:
                                 </p>
                                 <p
                                   style={{
@@ -422,7 +422,7 @@ const PrintDesign0 = ({ queries, headers }) => {
 
                               <div
                                 style={{ height: "30%" }}
-                                className="bag_footer_border_remove border_right"
+                                className="bag_footer_border_remove"
                               >
                                 <div style={{ height: "70%" }}>
                                   <div
@@ -698,7 +698,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                         <div
                                           className="net16A"
                                           style={{ borderBottom: "0px" }}
-                                        ></div>
+                                        ><b>Broadness</b></div>
                                       </div>
                                       <div className="jobInfo16">
                                         <div
@@ -741,12 +741,12 @@ const PrintDesign0 = ({ queries, headers }) => {
                                 style={{
                                   height: "10%",
                                   display: "flex",
-                                  alignItems: "start",
+                                  alignItems: "center",
                                   gap: "5px",
                                 }}
                               >
                                 <p style={{ fontSize: "12px", margin: 0 }}>
-                                  Remarks:
+                                  Remark:
                                 </p>
                                 <p
                                   style={{
@@ -767,7 +767,7 @@ const PrintDesign0 = ({ queries, headers }) => {
 
                               <div
                                 style={{ height: "30%" }}
-                                className="bag_footer_border_remove border_right"
+                                className="bag_footer_border_remove"
                               >
                                 <div style={{ height: "70%" }}>
                                   <div
