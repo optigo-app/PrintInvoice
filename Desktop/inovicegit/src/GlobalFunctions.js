@@ -477,14 +477,25 @@ export const checkImageExistss = (url, callback) => {
   };
   img.src = url;
 }
-export function formatAmount(amount) {
-  const formattedAmount = parseFloat(+amount).toLocaleString('en-IN', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
 
-  return formattedAmount;
+export function formatAmount(amount, precision = 2) {
+  const parsed = parseFloat(+amount);
+  if (isNaN(parsed)) return '0';
+
+  return parsed.toLocaleString('en-IN', {
+    minimumFractionDigits: precision,
+    maximumFractionDigits: precision,
+  });
 }
+
+// export function formatAmount(amount) {
+//   const formattedAmount = parseFloat(+amount).toLocaleString('en-IN', {
+//     minimumFractionDigits: 2,
+//     maximumFractionDigits: 2,
+//   });
+
+//   return formattedAmount;
+// }
 export function formatWeight(wt) {
   const formattedAmount = parseFloat(+wt).toLocaleString('en-IN', {
     minimumFractionDigits: 3,

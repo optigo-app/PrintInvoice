@@ -27,6 +27,11 @@
   min-width: 36%;
 }
 
+.descriptionWithoutAmaount {
+  width: 63%;
+  min-width: 63%;
+}
+
 .unitPrice {
   width: 13%;
   min-width: 13%;

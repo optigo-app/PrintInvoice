@@ -144,6 +144,8 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setJson0Data(data?.BillPrint_Json[0]);
     setJson1Data2(data?.BillPrint_Json2);
     setLoader(false);
+    let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
+    data.BillPrint_Json[0].address = address;
     let datas = OrganizeDataPrint(
       data?.BillPrint_Json[0],
       data?.BillPrint_Json1,
@@ -591,7 +593,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   calculatedData.push(other);
 
-  console.log("finalDfinalDfinalD",  json0Data , finalD);
+  console.log("finalDfinalDfinalD", json0Data, finalD);
 
   const styles = `
     @media print {
@@ -671,9 +673,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   top: "-10px",
                 }}
               >
-                <p>
-                  {checkBoxNew}
-                </p>
+                <p>{checkBoxNew}</p>
               </div>
               <div
                 className="col-6"
@@ -681,7 +681,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   width: "100%",
                   display: "flex",
                   justifyContent: "center",
-                  marginTop:'10px'
+                  marginTop: "10px",
                 }}
               >
                 {isImageWorking && json0Data?.PrintLogo !== "" && (
@@ -694,7 +694,9 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   />
                 )}
               </div>
-              <p style={{ textAlign: "center" }}><b>TAX INVOICE</b></p>
+              <p style={{ textAlign: "center" }}>
+                <b>TAX INVOICE</b>
+              </p>
             </div>
             <div
               style={{
@@ -704,7 +706,9 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               }}
             >
               <div style={{ width: "50%" }}>
-                <p className="lhDetailPrint1 "><b>Bill To,</b></p>
+                <p className="lhDetailPrint1 ">
+                  <b>Bill To,</b>
+                </p>
                 <div className="header_top_content_main_class">
                   <p className="Header_top_title_name">Name </p>
                   <p className="Header_top_title_value_name">
@@ -767,7 +771,9 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </p>
                   </div>
                   <div className="header_top_content_main_class">
-                    <p className="Header_top_title_name"><b>HSN Code</b></p>
+                    <p className="Header_top_title_name">
+                      <b>HSN Code</b>
+                    </p>
                     <p className="Header_top_title_value_name">
                       {json0Data?.HSN_No}
                     </p>
@@ -782,7 +788,9 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
             <div style={{ padding: "0px 5px" }}>
               <div style={{ marginTop: "10px" }}>
-                <p className="lhDetailPrint1"><b>Ship To,</b></p>
+                <p className="lhDetailPrint1">
+                  <b>Ship To,</b>
+                </p>
                 <div className="header_top_content_main_class">
                   <p className="Header_top_title_name">Name </p>
                   <p className="Header_top_title_value_name">
@@ -792,6 +800,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className="header_top_content_main_class">
                   <p className="Header_top_title_name">Address </p>
                   <p className="Header_top_title_value_name">
+                    {/* {json0Data?.customercity} , {json0Data?.customerstate}{" "} */}
                     <br />
                     {json0Data?.customercity} , {json0Data?.customerstate}{" "}
                   </p>
@@ -802,7 +811,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {json0Data?.customerstate}
                   </p>
                 </div>
-                  <div className="header_top_content_main_class">
+                <div className="header_top_content_main_class">
                   <p className="Header_top_title_name">PAN No. </p>
                   <p className="Header_top_title_value_name">
                     {finalD?.header?.CustPanno}
@@ -813,7 +822,11 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   style={{ minHeight: "40px" }}
                 >
                   <p className="Header_top_title_name">GST No. </p>
-                  <p className="Header_top_title_value_name"></p>
+                  <p className="Header_top_title_value_name">
+                    {finalD?.header?.address?.map((e, i) => {
+                      return <div key={i}>{e}</div>;
+                    })}
+                  </p>
                 </div>
               </div>
             </div>
@@ -891,11 +904,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               )}
 
               {/* data */}
-              <div
-                style={{
-                  minHeight: "230px",
-                }}
-              >
+              <div>
                 {finalD?.resultArray?.map((e, i) => {
                   return (
                     <div
@@ -980,7 +989,10 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </p>
                           </div>
                         </div>
-                        <div className="designDetalPrint8" style={{padding: '.25rem 10px'}}>
+                        <div
+                          className="designDetalPrint8"
+                          style={{ padding: ".25rem 10px" }}
+                        >
                           <div className="d-flex justify-content-between">
                             <p style={{ width: "100%", textAlign: "right" }}>
                               {formatAmount(e?.TotalAmount)}
@@ -1138,24 +1150,24 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     paddingBlock: "5px",
                   }}
                 >
-                  <div className="col-6 p-1">
-                    <p><b>Banking & GST information:</b></p>
+                  <div className="col-6 p-1 w-100">
+                    <p>
+                      <b>Banking & GST information:</b>
+                    </p>
                     <div style={{ display: "flex" }}>
-                      <p style={{  minWidth: "150px" }}>
-                        Baneficiary name :
-                      </p>
+                      <p style={{ minWidth: "150px" }}>Baneficiary name :</p>
                       <p>{json0Data?.customerfirmname}</p>
                     </div>
                     <div style={{ display: "flex" }}>
-                      <p style={{  minWidth: "150px" }}>
+                      <p style={{ minWidth: "150px" }}>
                         Baneficiary bank name & address:
                       </p>
-                      <p>{json0Data?.bankname} , {json0Data?.bankaddress}</p>
+                      <p>
+                        {json0Data?.bankname} , {json0Data?.bankaddress}
+                      </p>
                     </div>
                     <div style={{ display: "flex" }}>
-                      <p style={{  minWidth: "150px" }}>
-                        Account Name :
-                      </p>
+                      <p style={{ minWidth: "150px" }}>Account Name :</p>
                       <p>{json0Data?.accountname}</p>
                     </div>
                     <div style={{ display: "flex" }}>
@@ -1165,13 +1177,25 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <p>{json0Data?.accountnumber}</p>
                     </div>
                     <div style={{ display: "flex" }}>
-                      <p style={{  minWidth: "150px" }}>
+                      <p style={{ minWidth: "150px" }}>
                         Baneficiary Bank IFSC Code :
                       </p>
                       <p>{json0Data?.rtgs_neft_ifsc}</p>
                     </div>
                     <div style={{ display: "flex" }}>
-                      <p style={{  minWidth: "150px" }}>
+                      <p style={{ minWidth: "150px" }}>
+                        Baneficiary Bank MICR Code :
+                      </p>
+                      <p></p>
+                    </div>
+                    <div style={{ display: "flex" }}>
+                      <p style={{ minWidth: "150px" }}>
+                        Baneficiary Bank SWIFT Code :
+                      </p>
+                      <p></p>
+                    </div>
+                    <div style={{ display: "flex" }}>
+                      <p style={{ minWidth: "150px" }}>
                         Baneficiary GST Number :
                       </p>
                       <p>{json0Data?.Company_VAT_GST_No}</p>
@@ -1199,7 +1223,11 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       justifyContent: "space-between",
                     }}
                   >
-                    <p><b style={{fontSize: '11px'}}>For, Aryamond Luxury Products Private Limited</b></p>
+                    <p>
+                      <b style={{ fontSize: "11px" }}>
+                        For, Aryamond Luxury Products Private Limited
+                      </b>
+                    </p>
                     <p>
                       <b
                         style={{
