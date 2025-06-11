@@ -360,7 +360,9 @@ const PrintDesign0 = ({ queries, headers }) => {
                                           className="net16A"
                                           style={{ borderRight: "0px" }}
                                         >
-                                          <b>{e?.data?.rd?.deliveryBatchDate}</b>
+                                          {/* <b>{e?.data?.rd?.promisedate == '01 Jan 1900' ? "" : e?.data?.rd?.promisedate }</b> */}
+                                          <b>{new Date(e?.data?.rd?.promisedate).toDateString() === 'Mon Jan 01 1900' ? '' : e.data.rd.promisedate}</b>
+
                                         </div>
                                         <div
                                           className="net16A"
@@ -705,7 +707,8 @@ const PrintDesign0 = ({ queries, headers }) => {
                                           className="net16A"
                                           style={{ borderRight: "0px" }}
                                         >
-                                          <b>{e?.data?.rd?.promisedate}</b>
+                                          {/* <b>{e?.data?.rd?.promisedate}</b> */}
+                                          <b>{new Date(e?.data?.rd?.promisedate).toDateString() === 'Mon Jan 01 1900' ? '' : e.data.rd.promisedate}</b>
                                         </div>
                                         <div
                                           className="net16A"

@@ -615,40 +615,32 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className="subheaderdp10_pcl7">
                   <div className="subdiv1dp10_pcl7 border-end fsgdp10_pcl7_2 border-start ">
                     <div className="px-1">{result?.header?.lblBillTo}</div>
-                    <div className="px-1 fw-bold fsgdp10_pcl7_3">
-                      {result?.header?.customerfirmname}
-                    </div>
-                    <div className="px-1">
+                    <div className="px-1 fsgdp10_pcl7_3">
+                      <b>{result?.header?.customerfirmname}</b>{" "}
                       {result?.header?.customerAddress2}
-                    </div>
-                    <div className="px-1">
                       {result?.header?.customerAddress1}
-                    </div>
-                    <div className="px-1">
                       {result?.header?.customerAddress3}
-                    </div>
-                    <div className="px-1">
                       {result?.header?.customercity1}-{result?.header?.PinCode}
                     </div>
-                    <div className="px-1">{result?.header?.customeremail1}</div>
-                    <div className="px-1">{result?.header?.vat_cst_pan}</div>
                     <div className="px-1">
+                      {result?.header?.customeremail1}{" "}
+                      {result?.header?.vat_cst_pan}
                       {result?.header?.Cust_CST_STATE}-
                       {result?.header?.Cust_CST_STATE_No}
                     </div>
                   </div>
                   <div className="subdiv2dp10_pcl7 border-end fsgdp10_pcl7_2">
                     <div className="px-1">Ship To,</div>
-                    <div className="px-1 fsgdp10_pcl7_3 fw-bold">
-                      {result?.header?.customerfirmname}
+                    <div className="px-1 fsgdp10_pcl7_3">
+                      <b>{result?.header?.customerfirmname}</b>
+                      {result?.header?.address?.map((e, i) => {
+                        return (
+                          <div className="px-1" key={i}>
+                            {e}
+                          </div>
+                        );
+                      })}
                     </div>
-                    {result?.header?.address?.map((e, i) => {
-                      return (
-                        <div className="px-1" key={i}>
-                          {e}
-                        </div>
-                      );
-                    })}
                   </div>
                   <div className="subdiv3dp10_pcl7 fsgdp10_pcl7_2 border-end">
                     <div className="d-flex justify-content-start px-1">
@@ -1693,7 +1685,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           display: "flex",
                           gap: "5px",
                           paddingTop: "20px",
-                          borderRightL: '1px solid'
+                          borderRight: "1px solid",
                         }}
                       >
                         <div className="d-flex flex-column sumdp10_pcl7">
