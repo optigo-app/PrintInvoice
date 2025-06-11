@@ -599,6 +599,13 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     @media print {
       @page {
         size: A4;
+
+            @bottom-right {
+          content: "Page " counter(page) " of " counter(pages);
+          font-family: Arial, sans-serif;
+          font-size: 10pt;
+          color: #666;
+        }
       }
       .no-print {
         display: none !important;
@@ -607,6 +614,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       .footerForThe_print {
         page-break-inside: avoid;
       }
+      
     }
   `;
 
@@ -702,10 +710,10 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               style={{
                 display: "flex",
                 justifyContent: "space-between",
-                padding: "0px 5px",
+                padding: "10px 5px 10px 5px",
               }}
             >
-              <div style={{ width: "50%" }}>
+              <div style={{ width: "40%" }}>
                 <p className="lhDetailPrint1 ">
                   <b>Bill To,</b>
                 </p>
@@ -726,6 +734,11 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </p>
                 </div>
                 <div className="header_top_content_main_class">
+                  <p className="Header_top_title_name">State Code </p>
+                  <p className="Header_top_title_value_name">
+                  </p>
+                </div>
+                  <div className="header_top_content_main_class">
                   <p className="Header_top_title_name">Contact No. </p>
                   <p className="Header_top_title_value_name">
                     {finalD?.header?.customermobileno1}
@@ -750,18 +763,56 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </p>
                 </div>
               </div>
+
+              <div style={{ padding: "0px 5px" , width:'35%'}}>
+                <div>
+                  <p className="lhDetailPrint1">
+                    <b>Ship To,</b>
+                  </p>
+                  <div className="header_top_content_main_class">
+                    <p className="Header_top_title_value_name">
+                      {json0Data?.CustName}
+                    </p>
+                  </div>
+                  <div className="header_top_content_main_class">
+                    <p className="Header_top_title_value_name">
+                      {json0Data?.customercity} , {json0Data?.customerstate}{" "}
+                    </p>
+                  </div>
+                  <div className="header_top_content_main_class">
+                    <p className="Header_top_title_value_name">
+                      {json0Data?.customerstate}
+                    </p>
+                  </div>
+                  <div className="header_top_content_main_class">
+                    <p className="Header_top_title_value_name">
+                      {finalD?.header?.CustPanno}
+                    </p>
+                  </div>
+                  <div
+                    className="header_top_content_main_class"
+                    style={{ minHeight: "40px" }}
+                  >
+                    <p className="Header_top_title_value_name">
+                      {finalD?.header?.address?.map((e, i) => {
+                        return <div key={i}>{e}</div>;
+                      })}
+                    </p>
+                  </div>
+                </div>
+              </div>
               <div
                 style={{
-                  width: "50%",
+                  width: "30%",
                   display: "flex",
                   justifyContent: "flex-end",
                 }}
               >
-                <div style={{ width: "40%" }}>
+                <div>
                   <div className="header_top_content_main_class">
                     <p className="Header_top_title_name">Invoice No.</p>
                     <p className="Header_top_title_value_name">
-                      {json0Data?.InvoiceNo}
+                      <b>{json0Data?.InvoiceNo}</b>
                     </p>
                   </div>
                   <div className="header_top_content_main_class">
@@ -772,7 +823,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div className="header_top_content_main_class">
                     <p className="Header_top_title_name">
-                      <b>HSN Code</b>
+                      HSN Code
                     </p>
                     <p className="Header_top_title_value_name">
                       {json0Data?.HSN_No}
@@ -782,51 +833,6 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <p className="Header_top_title_name">Location Code </p>
                     <p className="Header_top_title_value_name">2001</p>
                   </div>
-                </div>
-              </div>
-            </div>
-
-            <div style={{ padding: "0px 5px" }}>
-              <div style={{ marginTop: "10px" }}>
-                <p className="lhDetailPrint1">
-                  <b>Ship To,</b>
-                </p>
-                <div className="header_top_content_main_class">
-                  <p className="Header_top_title_name">Name </p>
-                  <p className="Header_top_title_value_name">
-                    {json0Data?.CustName}
-                  </p>
-                </div>
-                <div className="header_top_content_main_class">
-                  <p className="Header_top_title_name">Address </p>
-                  <p className="Header_top_title_value_name">
-                    {/* {json0Data?.customercity} , {json0Data?.customerstate}{" "} */}
-                    <br />
-                    {json0Data?.customercity} , {json0Data?.customerstate}{" "}
-                  </p>
-                </div>
-                <div className="header_top_content_main_class">
-                  <p className="Header_top_title_name">Place Of Supply </p>
-                  <p className="Header_top_title_value_name">
-                    {json0Data?.customerstate}
-                  </p>
-                </div>
-                <div className="header_top_content_main_class">
-                  <p className="Header_top_title_name">PAN No. </p>
-                  <p className="Header_top_title_value_name">
-                    {finalD?.header?.CustPanno}
-                  </p>
-                </div>
-                <div
-                  className="header_top_content_main_class"
-                  style={{ minHeight: "40px" }}
-                >
-                  <p className="Header_top_title_name">GST No. </p>
-                  <p className="Header_top_title_value_name">
-                    {finalD?.header?.address?.map((e, i) => {
-                      return <div key={i}>{e}</div>;
-                    })}
-                  </p>
                 </div>
               </div>
             </div>
@@ -938,8 +944,8 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 alt=""
                                 onError={handleImageError}
                                 style={{
-                                  height: "90px",
-                                  width: "90px",
+                                  height: "80px",
+                                  width: "80px",
                                 }}
                               />
                             )}
@@ -1155,12 +1161,12 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <b>Banking & GST information:</b>
                     </p>
                     <div style={{ display: "flex" }}>
-                      <p style={{ minWidth: "150px" }}>Baneficiary name :</p>
+                      <p style={{ minWidth: "150px" }}>Baneficiary Name :</p>
                       <p>{json0Data?.customerfirmname}</p>
                     </div>
                     <div style={{ display: "flex" }}>
                       <p style={{ minWidth: "150px" }}>
-                        Baneficiary bank name & address:
+                        Baneficiary Bank Name & Address:
                       </p>
                       <p>
                         {json0Data?.bankname} , {json0Data?.bankaddress}
@@ -1225,7 +1231,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   >
                     <p>
                       <b style={{ fontSize: "11px" }}>
-                        For, Aryamond Luxury Products Private Limited
+                        For Aryamond Luxury Products Private Limited
                       </b>
                     </p>
                     <p>
@@ -1236,7 +1242,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           justifyContent: "flex-end",
                         }}
                       >
-                        Athorized Signature
+                        Authorized Signature
                       </b>
                     </p>
                   </div>
@@ -1248,7 +1254,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div
                       className="footerForThe_print"
                       style={{
-                        borderTop: "1px solid black",
+                        // borderTop: "1px solid black",
                         paddingTop: "10px",
                         position: "relative",
                       }}
