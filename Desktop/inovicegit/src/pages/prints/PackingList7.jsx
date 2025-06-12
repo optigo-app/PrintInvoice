@@ -1002,7 +1002,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                       }}
                                     >
                                       {" "}
-                                      HUID -{" "}
+                                      HUID :{" "}
                                       <span className="fw-bold">
                                         {e?.HUID}
                                       </span>{" "}
@@ -1696,7 +1696,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     >
                       <div
                         className="centerdp10_pcl7 brR_dp10_pcl7"
-                        style={{ width: "14%" }}
+                        style={{ width: "14.8%" }}
                       >
                         {" "}
                         Total{" "}

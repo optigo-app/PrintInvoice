@@ -1627,7 +1627,7 @@ const PackingList7Group = ({
                     >
                       <div
                         className="centerdp10_pcl7 brR_dp10_pcl7"
-                        style={{ width: "14%" }}
+                        style={{ width: "14.8%" }}
                       >
                         {" "}
                         Total{" "}

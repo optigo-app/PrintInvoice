@@ -142,7 +142,7 @@
 
 /* table head columns */
 .col1dp10_pcl7{
-    width: 1.4%;
+    width: 2.2%;
     height: 100%;
     border-right:1px solid #BDBDBD;
 }
@@ -201,7 +201,7 @@
     border-right: 1px solid black;
 }
 .tbcol1dp10_pcl7{
-    width: 1.4%;;
+    width: 2.2%;;
     border-right:1px solid #BDBDBD;
     /* padding-top: 10px; */
 }
@@ -263,10 +263,10 @@
 
 /* summary */
 .sumdp10_pcl7{
-    width: 33%;
+    width: 40%;
 }
 .dia_sum_dp10_pcl7{
-    width: 16%;
+    width: 20%;
 }
 .oth_sum_dp10_pcl7{
     width: 15%;
