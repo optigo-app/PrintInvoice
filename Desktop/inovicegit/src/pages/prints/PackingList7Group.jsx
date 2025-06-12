@@ -8,6 +8,7 @@ import {
   handleImageError,
   handlePrint,
   isObjectEmpty,
+  NumberWithCommas,
 } from "../../GlobalFunctions";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import "../../assets/css/prints/packinglist7Grup.scss";
@@ -34,6 +35,7 @@ const PackingList7Group = ({
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
   const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
+  const [diamondDetails, setDiamondDetails] = useState([]);
 
   useEffect(() => {
     const sendData = async () => {
@@ -96,7 +98,6 @@ const PackingList7Group = ({
     //grouping of jobs and isGroupJob is 1
 
     let finalArr = [];
-
     datas?.resultArray?.forEach((a) => {
       if (a?.GroupJob === "") {
         finalArr.push(a);
@@ -205,29 +206,6 @@ const PackingList7Group = ({
     datas?.resultArray?.forEach((e) => {
       //diamond
       let dia2 = [];
-
-      // e?.diamonds?.forEach((el) => {
-      //   let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.GroupName === el?.GroupName)
-      //   // let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname )
-      //   let ell = cloneDeep(el);
-      //   if(findrec === -1){
-      //     dia2.push(ell);
-      //   }else{
-      //       dia2[findrec].Wt += ell?.Wt;
-      //       dia2[findrec].Pcs += ell?.Pcs;
-      //       dia2[findrec].Amount += ell?.Amount;
-      //       dia2[findrec].Rate += ell?.Rate;
-      //       if(dia2[findrec]?.SizeName !== ell?.SizeName){
-      //         // dia2[findrec].SizeName = 'Mix'
-      //         if(ell?.GroupName === ''){
-      //           dia2[findrec].SizeName = ell?.SizeName;
-      //         }else{
-      //           dia2[findrec].SizeName = ell?.GroupName;
-      //         }
-      //       }
-      //   }
-
-      // })
       let dia1_ = [];
       let dia2_ = [];
       e?.diamonds?.forEach((el) => {
@@ -282,65 +260,6 @@ const PackingList7Group = ({
 
       e.diamonds = dia2;
 
-      //colorstone
-      // let clr_rop0 = []; //wt
-      // let clr_rop1 = []; //pcs
-
-      // e?.colorstone?.forEach((el) => {
-      //   if(el?.isRateOnPcs === 0){
-      //     clr_rop0?.push(el)
-      //   }else{
-      //     clr_rop1?.push(el)
-      //   }
-      // })
-      // let clr2 = [];
-      // let clr2_2 = [];
-      // let clr_all = [];
-
-      // clr_rop0?.forEach((el) => {
-      //   let findrec = clr2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname)
-      //   if(findrec === -1){
-      //     clr2.push(el);
-      //   }else{
-      //       clr2[findrec].Wt += el?.Wt;
-      //       clr2[findrec].Pcs += el?.Pcs;
-      //       clr2[findrec].Amount += el?.Amount;
-      //       clr2[findrec].Rate += el?.Rate;
-      //       if(clr2[findrec]?.SizeName !== el?.SizeName){
-      //         clr2[findrec].SizeName = 'Mix'
-      //       }
-      //   }
-
-      // });
-
-      // clr_rop0 = clr2;
-
-      // // clr_all.push(clr_rop0)
-
-      // clr_rop1?.forEach((el) => {
-      //   let findrec = clr2_2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname)
-      //   if(findrec === -1){
-      //     clr2_2.push(el);
-      //   }else{
-      //       clr2_2[findrec].Wt += el?.Wt;
-      //       clr2_2[findrec].Pcs += el?.Pcs;
-      //       clr2_2[findrec].Amount += el?.Amount;
-      //       clr2_2[findrec].Rate += el?.Rate;
-      //       if(clr2_2[findrec]?.SizeName !== el?.SizeName){
-      //         clr2_2[findrec].SizeName = 'Mix'
-      //       }
-      //   }
-
-      // });
-
-      // clr_rop1 = clr2_2;
-
-      // clr_all.push(clr_rop0)
-      // clr_all.push(clr_rop1)
-
-      // e.colorstone = [...clr_all]?.flat();
-
-      //misc
       let misc0 = [];
       e?.misc?.forEach((el) => {
         if (el?.IsHSCOE === 0) {
@@ -494,11 +413,89 @@ const PackingList7Group = ({
       }
     });
 
+    let diamondDetail = [];
+    data?.BillPrint_Json2?.forEach((e, i) => {
+      if (e?.MasterManagement_DiamondStoneTypeid === 1) {
+        let findDiamond = diamondDetail?.findIndex(
+          (ele, ind) =>
+            ele?.ShapeName === e?.ShapeName &&
+            ele?.QualityName === e?.QualityName &&
+            ele?.Colorname === e?.Colorname
+        );
+        if (findDiamond === -1) {
+          diamondDetail.push(e);
+        } else {
+          diamondDetail[findDiamond].Pcs += e?.Pcs;
+          diamondDetail[findDiamond].Wt += e?.Wt;
+          diamondDetail[findDiamond].Amount += e?.Amount;
+        }
+      }
+    });
+    let findRND = [];
+    let remaingDia = [];
+    diamondDetail?.forEach((ele, ind) => {
+      if (ele?.ShapeName === "RND") {
+        findRND.push(ele);
+      } else {
+        remaingDia.push(ele);
+      }
+    });
+
+    let resultArr = [];
+    findRND.sort((a, b) => {
+      if (a.ShapeName !== b.ShapeName) {
+        return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
+      } else if (a.QualityName !== b.QualityName) {
+        return a.QualityName.localeCompare(b.QualityName); // If ShapeName is same, sort by QualityName
+      } else {
+        return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
+      }
+    });
+
+    remaingDia.sort((a, b) => {
+      if (a.ShapeName !== b.ShapeName) {
+        return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
+      } else if (a.QualityName !== b.QualityName) {
+        return a.QualityName.localeCompare(b.QualityName); // If ShapeName is same, sort by QualityName
+      } else {
+        return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
+      }
+    });
+    if (findRND?.length > 6) {
+      let arr = findRND.slice(0, 6);
+      let anotherArr = [...findRND.slice(6), remaingDia].flat();
+      let obj = { ...anotherArr[0] };
+      anotherArr?.reduce((acc, cobj) => {
+        obj.Pcs += cobj?.Pcs;
+        obj.Wt += cobj?.Wt;
+        obj.Amount += cobj?.Amount;
+      }, obj);
+      obj.ShapeName = "OTHER";
+      resultArr = [...arr, obj].flat();
+    } else {
+      let arr = [...findRND].flat();
+      let smallArr = [...remaingDia.slice(0, 6 - findRND?.length)].flat();
+      let largeArr = [...remaingDia.slice(6 - findRND?.length)].flat();
+      let finalArr = [...arr, ...smallArr].flat();
+
+      let obj = { ...largeArr[0] };
+      obj.Pcs = 0;
+      obj.Wt = 0;
+      obj.Amount = 0;
+      largeArr?.reduce((acc, cobj) => {
+        obj.Pcs += cobj?.Pcs;
+        obj.Wt += cobj?.Wt;
+        obj.Amount += cobj?.Amount;
+      }, obj);
+      obj.ShapeName = "OTHER";
+      resultArr = [...finalArr, obj].flat();
+    }
+
+    setDiamondDetails(resultArr);
+
     diarndotherarr5 = [...diaonlyrndarr6, diaObj];
     const sortedData = diarndotherarr5?.sort(customSort);
-    // setDiamonds(sortedData);
     setDiamondWise(sortedData);
-
     setResult(datas);
   }
 
@@ -648,13 +645,22 @@ const PackingList7Group = ({
                 <div className="subheaderdp10_pcl7">
                   <div className="subdiv1dp10_pcl7 border-end fsgdp10_pcl7_2 border-start ">
                     <div className="px-1">{result?.header?.lblBillTo}</div>
-                    <div className="px-1 fsgdp10_pcl7_3">
-                      <b>{result?.header?.customerfirmname}</b>,{" "}
-                      {result?.header?.customerAddress2}{" "}
-                      {result?.header?.customerAddress1}{" "}
-                      {result?.header?.customerAddress3}{" "}
-                      {result?.header?.customercity1}-{result?.header?.PinCode}
+                    <div
+                      className="px-1 fsgdp10_pcl7_3"
+                      style={{ whiteSpace: "normal", wordBreak: "break-word" }}
+                    >
+                      <b>{result?.header?.customerfirmname}</b>
+                      {result?.header?.customerAddress2 &&
+                        `, ${result.header.customerAddress2}`}
+                      {result?.header?.customerAddress1 &&
+                        ` ${result.header.customerAddress1}`}
+                      {result?.header?.customerAddress3 &&
+                        ` ${result.header.customerAddress3}`}
+                      {result?.header?.customercity1 &&
+                        ` ${result.header.customercity1}`}
+                      {result?.header?.PinCode && ` - ${result.header.PinCode}`}
                     </div>
+
                     <div className="px-1"></div>
                     <div className="px-1">
                       {result?.header?.customeremail1}{" "}
@@ -909,19 +915,41 @@ const PackingList7Group = ({
                                   </div>
                                 </div>
                               )}
-                              <div style={{ width:imgFlag ?  "50%" : "100%" }}>
-                                <div className=" centerdp10_pcl7 fsgdp10_pcl7">
-                                  {e?.designno}&nbsp;
-                                </div>
-
-                                <div className="centerdp10_pcl7 fsgdp10_pcl7">
+                              <div style={{ width: imgFlag ? "50%" : "100%" }}>
+                                   <div
+                                  className="centerdp10_pcl7 fsgdp10_pcl7"
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center",
+                                  }}
+                                >
                                   {atob(evn)?.toLowerCase() === "quote"
                                     ? ""
                                     : e?.SrJobno}
                                 </div>
+                                <div
+                                  className=" centerdp10_pcl7 fsgdp10_pcl7"
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center",
+                                  }}
+                                >
+                                  {e?.designno}&nbsp;
+                                </div>
+
+                             
                                 <div>
                                   {e?.CertificateNo !== "" && (
-                                    <div className="centerdp10_pcl7 fsgdp10_pcl7 text-break d-flex flex-wrap ps-1">
+                                    <div
+                                      className="centerdp10_pcl7 fsgdp10_pcl7 text-break d-flex flex-wrap ps-1"
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
+                                      }}
+                                    >
                                       <span>Certificate# :</span>{" "}
                                       <span className="fw-bold">
                                         {e?.CertificateNo}
@@ -929,9 +957,16 @@ const PackingList7Group = ({
                                     </div>
                                   )}
                                   {e?.HUID !== "" ? (
-                                    <div className="centerdp10_pcl7 fsgdp10_pcl7 text-break ps-1">
+                                    <div
+                                      className="centerdp10_pcl7 fsgdp10_pcl7 text-break ps-1"
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
+                                      }}
+                                    >
                                       {" "}
-                                      HUID -{" "}
+                                      HUID:{" "}
                                       <span className="fw-bold">
                                         {e?.HUID}
                                       </span>{" "}
@@ -942,18 +977,40 @@ const PackingList7Group = ({
                                   {e?.PO === "" ? (
                                     ""
                                   ) : (
-                                    <div className="centerdp10_pcl7 fw-bold fsgdp10 text-break ps-1">
-                                      PO: {e?.PO}
+                                    <div
+                                      className="centerdp10_pcl7 fw-bold fsgdp10 text-break ps-1"
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
+                                      }}
+                                    >
+                                      PO:
+                                      <span>{e?.PO}</span>
                                     </div>
                                   )}
                                   {e?.lineid === "" ? (
                                     ""
                                   ) : (
-                                    <div className="centerdp10_pcl7 fsgdp10 text-break ps-1">
-                                      L- {e?.lineid}
+                                    <div
+                                      className="centerdp10_pcl7 fsgdp10 text-break ps-1"
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
+                                      }}
+                                    >
+                                      L: <span>{e?.lineid}</span>
                                     </div>
                                   )}
-                                  <div className="centerdp10_pcl7">
+                                  <div
+                                    className="centerdp10_pcl7"
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      justifyContent: "center",
+                                    }}
+                                  >
                                     {e?.Size === "" ? "" : `Size : ${e?.Size}`}
                                   </div>
                                 </div>
@@ -1300,7 +1357,8 @@ const PackingList7Group = ({
                                       className="pr_dp10_pcl7 text-end fsgdp10_pcl7"
                                     >
                                       {formatAmount(
-                                        e?.totals?.finding?.SettingRate
+                                        e?.totals?.finding?.SettingRate,
+                                        0
                                       )}
                                     </div>
                                     <div
@@ -1618,7 +1676,7 @@ const PackingList7Group = ({
                         {/* <div className="theadsubcol2_dp10"></div> */}
                         <div
                           className="theadsubcol2_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7"
-                          style={{ width: "45%" }}
+                          style={{ width: "42%" }}
                         >
                           {formatAmount(
                             result?.mainTotal?.metal?.Amount /
@@ -1798,7 +1856,8 @@ const PackingList7Group = ({
                                 <div className="w-50 end_dp10_pcl7">
                                   {formatAmount(
                                     result?.mainTotal?.diamonds?.Amount /
-                                      result?.header?.CurrencyExchRate
+                                      result?.header?.CurrencyExchRate,
+                                    0
                                   )}
                                 </div>
                               </div>
@@ -1807,7 +1866,8 @@ const PackingList7Group = ({
                                 <div className="w-50 end_dp10_pcl7">
                                   {formatAmount(
                                     result?.mainTotal?.colorstone?.Amount /
-                                      result?.header?.CurrencyExchRate
+                                      result?.header?.CurrencyExchRate,
+                                    0
                                   )}
                                 </div>
                               </div>
@@ -1817,7 +1877,8 @@ const PackingList7Group = ({
                                   {formatAmount(
                                     result?.mainTotal?.misc
                                       ?.onlyIsHSCODE0_Amount /
-                                      result?.header?.CurrencyExchRate
+                                      result?.header?.CurrencyExchRate,
+                                    0
                                   )}
                                 </div>
                               </div>
@@ -1832,7 +1893,8 @@ const PackingList7Group = ({
                                         ?.labour_amount +
                                       result?.mainTotal?.total_TotalDiaSetcost +
                                       result?.mainTotal?.total_TotalCsSetcost) /
-                                      result?.header?.CurrencyExchRate
+                                      result?.header?.CurrencyExchRate,
+                                    0
                                   )}
                                 </div>
                               </div>
@@ -1841,7 +1903,8 @@ const PackingList7Group = ({
                                 <div className="w-50 end_dp10_pcl7">
                                   {formatAmount(
                                     result?.mainTotal?.total_other_charges +
-                                      result?.mainTotal?.total_diamondHandling
+                                      result?.mainTotal?.total_diamondHandling,
+                                    0
                                   )}
                                 </div>
                               </div>
@@ -1876,11 +1939,11 @@ const PackingList7Group = ({
                             </div>
                           </div>
                         </div>
-                        <div className="dia_sum_dp10_pcl7 d-flex flex-column  fsgdp10_pcl7">
+                        <div className="dia_sum_dp10_pcl7 d-flex flex-column  fsgdp10_pcl7 border-start border-end">
                           <div className="h_bd10_pcl7 centerdp10_pcl7 bg_dp10_pcl7 fw-bold ball_dp10_pcl7">
                             Diamond Detail
                           </div>
-                          {diamondWise?.map((e, i) => {
+                          {/* {diamondWise?.map((e, i) => {
                             return (
                               <div
                                 className="d-flex justify-content-between px-1 ball_dp10_pcl7 border-top-0 border-bottom-0 fsgdp10_pcl7"
@@ -1894,7 +1957,19 @@ const PackingList7Group = ({
                                 </div>
                               </div>
                             );
-                          })}
+                          })} */}
+                             <div className="d-flex flex-column justify-content-start h-100">
+                                              {diamondDetails?.map((e, i) => {
+                                                return e?.Wt !== undefined && <React.Fragment key={i}>
+                                                  <div className={`d-flex justify-content-between px-1 pb-1  align-items-center ${i === 0 && "pt-1"}`}>
+                                                    <p className="fw-bold">{e?.ShapeName === "OTHER" ? e?.ShapeName : <>{e?.ShapeName} {e?.QualityName} {e?.Colorname}</>}</p>
+                                                    <p>
+                                                      {NumberWithCommas(e?.Pcs, 0)}/{NumberWithCommas(e?.Wt, 3)} Cts
+                                                    </p>
+                                                  </div>
+                                                </React.Fragment>
+                                              })}
+                                            </div>
                           <div className="d-flex justify-content-between px-1 bg_dp10_pcl7 h_bd10_pcl7  ball_dp10_pcl7">
                             <div className="fw-bold w-50 h14_dp10_pcl7"></div>
                             <div className="w-50"></div>
@@ -1929,12 +2004,12 @@ const PackingList7Group = ({
                             </div>
                           </div>
                         </div>
-                            <div className="text-start ps-1 fs_5_pcl7">
-                            No. Of Items :{" "}
-                            <span className="fw-bold">
-                              {result?.resultArray?.length}
-                            </span>
-                          </div>
+                        <div className="text-start ps-1 fs_5_pcl7">
+                          No. Of Items :{" "}
+                          <span className="fw-bold">
+                            {result?.resultArray?.length}
+                          </span>
+                        </div>
                       </div>
 
                       <div
@@ -2029,7 +2104,6 @@ const PackingList7Group = ({
                     </div>
                   </div>
                 </div>
-                {/* summary */}
                 <div>
                   {result?.header?.PrintRemark === "" ? (
                     <div style={{ width: "15%" }}></div>
@@ -2096,7 +2170,7 @@ export default PackingList7Group;
 //   isObjectEmpty,
 // } from "../../GlobalFunctions";
 // import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
-// import "../../assets/css/prints/packinglist7.css";
+// import "../../assets/css/prints/packinglist7Grup.scss";
 // import Loader from "../../components/Loader";
 // import { cloneDeep } from "lodash";
 // import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
@@ -2582,9 +2656,7 @@ export default PackingList7Group;
 
 //     diarndotherarr5 = [...diaonlyrndarr6, diaObj];
 //     const sortedData = diarndotherarr5?.sort(customSort);
-//     // setDiamonds(sortedData);
 //     setDiamondWise(sortedData);
-
 //     setResult(datas);
 //   }
 
@@ -2595,6 +2667,7 @@ export default PackingList7Group;
 //       setImgFlag(true);
 //     }
 //   };
+
 //   const handleCheckbox2 = () => {
 //     if (imgFlag2) {
 //       setImgFlag2(false);
@@ -2624,6 +2697,7 @@ export default PackingList7Group;
 //       }
 //     }
 //   };
+
 //   return (
 //     <>
 //       {loader ? (
@@ -2732,40 +2806,42 @@ export default PackingList7Group;
 //                 <div className="subheaderdp10_pcl7">
 //                   <div className="subdiv1dp10_pcl7 border-end fsgdp10_pcl7_2 border-start ">
 //                     <div className="px-1">{result?.header?.lblBillTo}</div>
-//                     <div className="px-1 fw-bold fsgdp10_pcl7_3">
-//                       {result?.header?.customerfirmname}
+//                     <div
+//                       className="px-1 fsgdp10_pcl7_3"
+//                       style={{ whiteSpace: "normal", wordBreak: "break-word" }}
+//                     >
+//                       <b>{result?.header?.customerfirmname}</b>
+//                       {result?.header?.customerAddress2 &&
+//                         `, ${result.header.customerAddress2}`}
+//                       {result?.header?.customerAddress1 &&
+//                         ` ${result.header.customerAddress1}`}
+//                       {result?.header?.customerAddress3 &&
+//                         ` ${result.header.customerAddress3}`}
+//                       {result?.header?.customercity1 &&
+//                         ` ${result.header.customercity1}`}
+//                       {result?.header?.PinCode && ` - ${result.header.PinCode}`}
 //                     </div>
+
+//                     <div className="px-1"></div>
 //                     <div className="px-1">
-//                       {result?.header?.customerAddress2}
-//                     </div>
-//                     <div className="px-1">
-//                       {result?.header?.customerAddress1}
-//                     </div>
-//                     <div className="px-1">
-//                       {result?.header?.customerAddress3}
-//                     </div>
-//                     <div className="px-1">
-//                       {result?.header?.customercity1}-{result?.header?.PinCode}
-//                     </div>
-//                     <div className="px-1">{result?.header?.customeremail1}</div>
-//                     <div className="px-1">{result?.header?.vat_cst_pan}</div>
-//                     <div className="px-1">
+//                       {result?.header?.customeremail1}{" "}
+//                       {result?.header?.vat_cst_pan}{" "}
 //                       {result?.header?.Cust_CST_STATE}-
 //                       {result?.header?.Cust_CST_STATE_No}
 //                     </div>
 //                   </div>
 //                   <div className="subdiv2dp10_pcl7 border-end fsgdp10_pcl7_2">
 //                     <div className="px-1">Ship To,</div>
-//                     <div className="px-1 fsgdp10_pcl7_3 fw-bold">
-//                       {result?.header?.customerfirmname}
+//                     <div className="px-1 fsgdp10_pcl7_3">
+//                       <b>{result?.header?.customerfirmname}</b>
+//                       {result?.header?.address?.map((e, i) => {
+//                         return (
+//                           <div className="px-1" key={i}>
+//                             {e}
+//                           </div>
+//                         );
+//                       })}
 //                     </div>
-//                     {result?.header?.address?.map((e, i) => {
-//                       return (
-//                         <div className="px-1" key={i}>
-//                           {e}
-//                         </div>
-//                       );
-//                     })}
 //                   </div>
 //                   <div className="subdiv3dp10_pcl7 fsgdp10_pcl7_2 border-end">
 //                     <div className="d-flex justify-content-start px-1">
@@ -2798,8 +2874,29 @@ export default PackingList7Group;
 //                     style={{ backgroundColor: "#F5F5F5" }}
 //                   >
 //                     <div className="col1dp10_pcl7 centerdp10_pcl7 ">Sr</div>
-//                     <div className="col2dp10_pcl7 centerdp10_pcl7  fw-bold">
-//                       Design
+//                     <div
+//                       className="col2dp10_pcl7 centerdp10_pcl7  fw-bold"
+//                       style={{ display: "flex", flexDirection: "column" }}
+//                     >
+//                       <div className="h-50 centerdp10_pcl7 fw-bold w-100">
+//                         Design Details
+//                       </div>
+//                       {imgFlag && (
+//                         <div className="d-flex  align-items-center h-50 bt_dp10_pcl7 w-100">
+//                           <div
+//                             className=" h-100 centerdp10_pcl7 bright_dp10_pcl7"
+//                             style={{ width: "50%" }}
+//                           >
+//                             Design
+//                           </div>
+//                           <div
+//                             className="centerdp10_pcl7 h-100"
+//                             style={{ width: "50%" }}
+//                           >
+//                             Item
+//                           </div>
+//                         </div>
+//                       )}
 //                     </div>
 //                     <div className="col3dp10_pcl7">
 //                       <div className="h-50 centerdp10_pcl7 fw-bold w-100">
@@ -2956,70 +3053,126 @@ export default PackingList7Group;
 //                               {/* {e?.SrNo} */}
 //                               {i + 1}
 //                             </div>
-//                             <div className="tbcol2dp10_pcl7 d-flex flex-column justify-content-between">
-//                               <div className="d-flex justify-content-between px-1 flex-wrap pad_top_pcl7">
-//                                 <div className="fsgdp10_pcl7">
+//                             <div className="tbcol2dp10_pcl7 d-flex justify-content-between">
+//                               {imgFlag && (
+//                                 <div
+//                                   className=""
+//                                   style={{
+//                                     borderRight: "1px solid #BDBDBD",
+//                                     width: "50%",
+//                                     height: "100%",
+//                                   }}
+//                                 >
+//                                   <div
+//                                     className="w-100 d-flex justify-content-center align-items-start fsgdp10_pcl7"
+//                                     style={{ minHeight: "80px" }}
+//                                   >
+//                                     <img
+//                                       src={e?.CDNDesignImage}
+//                                       onError={(e) => handleImageError(e)}
+//                                       alt="design"
+//                                       className="imgdp10_pcl7"
+//                                     />
+//                                   </div>
+//                                 </div>
+//                               )}
+//                               <div style={{ width: imgFlag ? "50%" : "100%" }}>
+//                                 <div
+//                                   className=" centerdp10_pcl7 fsgdp10_pcl7"
+//                                   style={{
+//                                     display: "flex",
+//                                     flexDirection: "column",
+//                                     justifyContent: "center",
+//                                   }}
+//                                 >
 //                                   {e?.designno}&nbsp;
 //                                 </div>
 
-//                                 <div className="fsgdp10_pcl7">
+//                                 <div
+//                                   className="centerdp10_pcl7 fsgdp10_pcl7"
+//                                   style={{
+//                                     display: "flex",
+//                                     flexDirection: "column",
+//                                     justifyContent: "center",
+//                                   }}
+//                                 >
 //                                   {atob(evn)?.toLowerCase() === "quote"
 //                                     ? ""
 //                                     : e?.SrJobno}
 //                                 </div>
-//                               </div>
-
-//                               {imgFlag ? (
-//                                 <div
-//                                   className="w-100 d-flex justify-content-center align-items-start fsgdp10_pcl7"
-//                                   style={{ minHeight: "80px" }}
-//                                 >
-//                                   <img
-//                                     src={e?.CDNDesignImage}
-//                                     onError={(e) => handleImageError(e)}
-//                                     alt="design"
-//                                     className="imgdp10_pcl7"
-//                                   />
-//                                 </div>
-//                               ) : (
-//                                 ""
-//                               )}
-//                               <div>
-//                                 {e?.CertificateNo !== "" && (
-//                                   <div className="centerdp10_pcl7 fsgdp10_pcl7 text-break d-flex flex-wrap ps-1">
-//                                     <span>Certificate# :</span>{" "}
-//                                     <span className="fw-bold">
-//                                       {e?.CertificateNo}
-//                                     </span>
+//                                 <div>
+//                                   {e?.CertificateNo !== "" && (
+//                                     <div
+//                                       className="centerdp10_pcl7 fsgdp10_pcl7 text-break d-flex flex-wrap ps-1"
+//                                       style={{
+//                                         display: "flex",
+//                                         flexDirection: "column",
+//                                         justifyContent: "center",
+//                                       }}
+//                                     >
+//                                       <span>Certificate# :</span>{" "}
+//                                       <span className="fw-bold">
+//                                         {e?.CertificateNo}
+//                                       </span>
+//                                     </div>
+//                                   )}
+//                                   {e?.HUID !== "" ? (
+//                                     <div
+//                                       className="centerdp10_pcl7 fsgdp10_pcl7 text-break ps-1"
+//                                       style={{
+//                                         display: "flex",
+//                                         flexDirection: "column",
+//                                         justifyContent: "center",
+//                                       }}
+//                                     >
+//                                       {" "}
+//                                       HUID:{" "}
+//                                       <span className="fw-bold">
+//                                         {e?.HUID}
+//                                       </span>{" "}
+//                                     </div>
+//                                   ) : (
+//                                     ""
+//                                   )}
+//                                   {e?.PO === "" ? (
+//                                     ""
+//                                   ) : (
+//                                     <div
+//                                       className="centerdp10_pcl7 fw-bold fsgdp10 text-break ps-1"
+//                                       style={{
+//                                         display: "flex",
+//                                         flexDirection: "column",
+//                                         justifyContent: "center",
+//                                       }}
+//                                     >
+//                                       PO:
+//                                       <span>{e?.PO}</span>
+//                                     </div>
+//                                   )}
+//                                   {e?.lineid === "" ? (
+//                                     ""
+//                                   ) : (
+//                                     <div
+//                                       className="centerdp10_pcl7 fsgdp10 text-break ps-1"
+//                                       style={{
+//                                         display: "flex",
+//                                         flexDirection: "column",
+//                                         justifyContent: "center",
+//                                       }}
+//                                     >
+//                                       L: <span>{e?.lineid}</span>
+//                                     </div>
+//                                   )}
+//                                   <div
+//                                     className="centerdp10_pcl7"
+//                                     style={{
+//                                       display: "flex",
+//                                       flexDirection: "column",
+//                                       justifyContent: "center",
+//                                     }}
+//                                   >
+//                                     {e?.Size === "" ? "" : `Size : ${e?.Size}`}
 //                                   </div>
-//                                 )}
-//                                 {e?.HUID !== "" ? (
-//                                   <div className="centerdp10_pcl7 fsgdp10_pcl7 text-break ps-1">
-//                                     {" "}
-//                                     HUID -{" "}
-//                                     <span className="fw-bold">
-//                                       {e?.HUID}
-//                                     </span>{" "}
-//                                   </div>
-//                                 ) : (
-//                                   ""
-//                                 )}
-//                                 {e?.PO === "" ? (
-//                                   ""
-//                                 ) : (
-//                                   <div className="centerdp10_pcl7 fw-bold fsgdp10 text-break ps-1">
-//                                     PO: {e?.PO}
-//                                   </div>
-//                                 )}
-//                                 {e?.lineid === "" ? (
-//                                   ""
-//                                 ) : (
-//                                   <div className="centerdp10_pcl7 fsgdp10 text-break ps-1">
-//                                     L- {e?.lineid}
-//                                   </div>
-//                                 )}
-//                                 <div className="centerdp10_pcl7">
-//                                   {e?.Size === "" ? "" : `Size : ${e?.Size}`}
 //                                 </div>
 //                               </div>
 //                             </div>
@@ -3063,11 +3216,11 @@ export default PackingList7Group;
 //                                       style={{ width: "15.66%" }}
 //                                     >
 //                                       {/* {formatAmount(el?.Rate)} */}
-//                                       {formatAmount(
+//                                       {(
 //                                         el?.Amount /
-//                                           result?.header?.CurrencyExchRate /
-//                                           el?.Wt
-//                                       )}
+//                                         result?.header?.CurrencyExchRate /
+//                                         el?.Wt
+//                                       )?.toFixed(0)}
 //                                     </div>
 //                                     <div
 //                                       className="theadsubcol1_dp10_pcl7 fw-bold end_dp10_pcl7 pr_dp10_pcl7"
@@ -3075,7 +3228,8 @@ export default PackingList7Group;
 //                                     >
 //                                       {formatAmount(
 //                                         el?.Amount /
-//                                           result?.header?.CurrencyExchRate
+//                                           result?.header?.CurrencyExchRate,
+//                                         0 // 👈 no decimal places
 //                                       )}
 //                                     </div>
 //                                   </div>
@@ -3247,22 +3401,23 @@ export default PackingList7Group;
 //                                     </div>
 //                                     <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
 //                                       {/* {el?.Rate?.toFixed(2)} */}
-//                                       {formatAmount(
+//                                       {(
 //                                         el?.Amount /
-//                                           result?.header?.CurrencyExchRate /
-//                                           (el?.isRateOnPcs === 0
-//                                             ? el?.Wt === 0
-//                                               ? 1
-//                                               : el?.Wt
-//                                             : el?.Pcs === 0
+//                                         result?.header?.CurrencyExchRate /
+//                                         (el?.isRateOnPcs === 0
+//                                           ? el?.Wt === 0
 //                                             ? 1
-//                                             : el?.Pcs)
-//                                       )}
+//                                             : el?.Wt
+//                                           : el?.Pcs === 0
+//                                           ? 1
+//                                           : el?.Pcs)
+//                                       )?.toFixed(0)}
 //                                     </div>
 //                                     <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 fw-bold pr_dp10_pcl7">
 //                                       {formatAmount(
 //                                         el?.Amount /
-//                                           result?.header?.CurrencyExchRate
+//                                           result?.header?.CurrencyExchRate,
+//                                         0
 //                                       )}
 //                                     </div>
 //                                   </div>
@@ -3298,41 +3453,31 @@ export default PackingList7Group;
 //                                     </div>
 //                                     <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
 //                                       {/* {el?.Rate?.toFixed(2)} */}
-//                                       {formatAmount(
+//                                       {(
 //                                         el?.Amount /
-//                                           result?.header?.CurrencyExchRate /
-//                                           (el?.isRateOnPcs === 0
-//                                             ? el?.Wt === 0
-//                                               ? 1
-//                                               : el?.Wt
-//                                             : el?.Pcs === 0
+//                                         result?.header?.CurrencyExchRate /
+//                                         (el?.isRateOnPcs === 0
+//                                           ? el?.Wt === 0
 //                                             ? 1
-//                                             : el?.Pcs)
-//                                       )}
+//                                             : el?.Wt
+//                                           : el?.Pcs === 0
+//                                           ? 1
+//                                           : el?.Pcs)
+//                                       )?.toFixed(0)}
 //                                     </div>
 //                                     <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 fw-bold pr_dp10_pcl7">
 //                                       {formatAmount(
 //                                         el?.Amount /
-//                                           result?.header?.CurrencyExchRate
+//                                           result?.header?.CurrencyExchRate,
+//                                         0
 //                                       )}
 //                                     </div>
 //                                   </div>
 //                                 );
 //                               })}
 //                             </div>
-//                             {/* <div className="tbcol6dp10_pcl7 end_dp10_pcl7 p-1 pr_dp10_pcl7">
-//                             {formatAmount(
-//                               e?.OtherCharges +
-//                                 e?.MiscAmount +
-//                                 e?.TotalDiamondHandling
-//                             )}
-//                           </div> */}
 //                             <div className="tbcol7dp10_pcl7 border-end border-black">
 //                               <div className="d-flex flex-column pad_top_pcl7">
-//                                 {/* <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
-//                                 {formatAmount(e?.MaKingCharge_Unit)}
-//                               </div> */}
-
 //                                 {e?.MakingAmount !== 0 && (
 //                                   <div className="d-flex align-items-center w-100 fsgdp10_pcl7">
 //                                     <div
@@ -3345,7 +3490,7 @@ export default PackingList7Group;
 //                                       style={{ width: "33.33%" }}
 //                                       className="pr_dp10_pcl7 text-end fsgdp10_pcl7"
 //                                     >
-//                                       {formatAmount(e?.MaKingCharge_Unit)}
+//                                       {e?.MaKingCharge_Unit?.toFixed(0)}
 //                                     </div>
 //                                     <div
 //                                       style={{ width: "33.33%" }}
@@ -3353,7 +3498,8 @@ export default PackingList7Group;
 //                                     >
 //                                       {formatAmount(
 //                                         e?.MakingAmount /
-//                                           result?.header?.CurrencyExchRate
+//                                           result?.header?.CurrencyExchRate,
+//                                         0
 //                                       )}
 //                                     </div>
 //                                   </div>
@@ -3371,7 +3517,8 @@ export default PackingList7Group;
 //                                       className="pr_dp10_pcl7 text-end fsgdp10_pcl7"
 //                                     >
 //                                       {formatAmount(
-//                                         e?.totals?.finding?.SettingRate
+//                                         e?.totals?.finding?.SettingRate,
+//                                         0
 //                                       )}
 //                                     </div>
 //                                     <div
@@ -3380,7 +3527,8 @@ export default PackingList7Group;
 //                                     >
 //                                       {formatAmount(
 //                                         e?.totals?.finding?.SettingAmount /
-//                                           result?.header?.CurrencyExchRate
+//                                           result?.header?.CurrencyExchRate,
+//                                         0
 //                                       )}
 //                                     </div>
 //                                   </div>
@@ -3405,7 +3553,7 @@ export default PackingList7Group;
 //                                         style={{ width: "33.33%" }}
 //                                         className="pr_dp10_pcl7 text-end fsgdp10_pcl7"
 //                                       >
-//                                         {formatAmount(el?.amtval)}
+//                                         {formatAmount(el?.amtval, 0)}
 //                                       </div>
 //                                     </div>
 //                                   );
@@ -3422,7 +3570,8 @@ export default PackingList7Group;
 //                                         (e?.totals?.diamonds?.SettingAmount +
 //                                           e?.totals?.colorstone
 //                                             ?.SettingAmount) /
-//                                           result?.header?.CurrencyExchRate
+//                                           result?.header?.CurrencyExchRate,
+//                                         0
 //                                       )}
 //                                     </div>
 //                                   </div>
@@ -3435,7 +3584,8 @@ export default PackingList7Group;
 //                                     <div className="w-50 pr_dp10_pcl7 text-end fsgdp10_pcl7">
 //                                       {formatAmount(
 //                                         e?.TotalDiamondHandling /
-//                                           result?.header?.CurrencyExchRate
+//                                           result?.header?.CurrencyExchRate,
+//                                         0
 //                                       )}
 //                                     </div>
 //                                   </div>
@@ -3454,21 +3604,18 @@ export default PackingList7Group;
 //                                           {e?.IsHSCOE === 3 &&
 //                                             formatAmount(
 //                                               e?.Amount /
-//                                                 result?.header?.CurrencyExchRate
+//                                                 result?.header
+//                                                   ?.CurrencyExchRate,
+//                                               0
 //                                             )}
 //                                         </div>
 //                                       )}
 //                                     </div>
 //                                   );
 //                                 })}
-
-//                                 {/* <div className="w-100 end_dp10_pcl7  pr_dp10_pcl7">
-//                                 {formatAmount( ((e?.MakingAmount + e?.totals?.finding?.SettingAmount + e?.TotalDiaSetcost + e?.TotalCsSetcost) / result?.header?.CurrencyExchRate) )}
-//                               </div> */}
 //                               </div>
 //                             </div>
 //                             <div className="tbcol8dp10_pcl7 end_dp10_pcl7 fw-bold  pr_dp10_pcl7 border-start pad_top_pcl7 ">
-//                               {/* {formatAmount((e?.TotalAmount + e?.DiscountAmt))} */}
 //                               {formatAmount(
 //                                 e?.UnitCost / result?.header?.CurrencyExchRate
 //                               )}
@@ -3476,8 +3623,16 @@ export default PackingList7Group;
 //                           </div>
 //                           <div className="d-flex grandtotaldp10_pcl7 brb_dp10_pcl7  tbrowdp10_pcl7 border-top-0 bb_dp10_pcl7">
 //                             <div className="col1dp10_pcl7 "></div>
-//                             <div className="col2dp10_pcl7 border-end-0 "></div>
-//                             {/* <div className="centerdp10_pcl7 " style={{ width: "12.1%", borderTop:'1px solid white' }} >  </div> */}
+//                             <div
+//                               style={{
+//                                 width: "6.3%",
+//                                 borderRight: imgFlag && "1px solid #BDBDBD",
+//                               }}
+//                             ></div>
+//                             <div
+//                               className="border-end-0 "
+//                               style={{ width: "6.2%" }}
+//                             ></div>
 //                             <div
 //                               className="col3dp10_pcl7 d-flex align-items-center bl_dp10_pcl7 bt_dp10_pcl7"
 //                               style={{ backgroundColor: "#F5F5F5" }}
@@ -3515,20 +3670,10 @@ export default PackingList7Group;
 //                                 {e?.totals?.diamonds?.Amount !== 0 &&
 //                                   formatAmount(
 //                                     e?.totals?.diamonds?.Amount /
-//                                       result?.header?.CurrencyExchRate
+//                                       result?.header?.CurrencyExchRate,
+//                                     0
 //                                   )}
 //                               </div>
-//                               {/* <div className="theadsubcol1_dp10_pcl7"></div>
-//                       <div className="theadsubcol1_dp10_pcl7"></div>
-//                       <div className="theadsubcol1_dp10_pcl7 centerdp10_pcl7" style={{width:'11.66%'}}>
-//                         { e?.totals?.diamonds?.Pcs !== 0 && e?.totals?.diamonds?.Pcs}
-//                       </div>
-//                       <div className="theadsubcol1_dp10_pcl7 " style={{width:'17.66%'}}>
-//                         { e?.totals?.diamonds?.Wt !== 0 && e?.totals?.diamonds?.Wt?.toFixed(3)}
-//                       </div>
-//                       <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7" style={{ width: "33.332%" }} >
-//                         { e?.totals?.diamonds?.Amount !== 0 && formatAmount((e?.totals?.diamonds?.Amount / result?.header?.CurrencyExchRate))}
-//                       </div> */}
 //                             </div>
 //                             <div
 //                               className="col4dp10_pcl7 d-flex align-items-center bt_dp10_pcl7"
@@ -3539,22 +3684,15 @@ export default PackingList7Group;
 //                                 className="theadsubcol2_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7"
 //                                 style={{ width: "42%" }}
 //                               >
-//                                 {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
-//                                 {/* {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)} */}
 //                                 {e?.grosswt?.toFixed(3)}
 //                               </div>
 //                               <div className="theadsubcol2_dp10_pcl7 pr_dp10_pcl7 end_dp10_pcl7">
-//                                 {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
-//                                 {/* {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)} */}
-//                                 {/* {  ((e?.totals?.metal?.IsPrimaryMetal + e?.LossWt)?.toFixed(3))} */}
 //                                 {e?.totals?.metal?.Wt?.toFixed(3)}
 //                               </div>
-//                               {/* <div className="theadsubcol2_dp10"></div> */}
 //                               <div
 //                                 className="theadsubcol2_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7"
 //                                 style={{ width: "43%" }}
 //                               >
-//                                 {/* {formatAmount(result?.mainTotal?.metal?.IsPrimaryMetal_Amount)} */}
 //                                 {formatAmount(
 //                                   e?.totals?.metal?.Amount /
 //                                     result?.header?.CurrencyExchRate
@@ -3568,7 +3706,6 @@ export default PackingList7Group;
 //                               <div className="theadsubcol1_dp10_pcl7"></div>
 //                               <div className="theadsubcol1_dp10_pcl7"></div>
 //                               <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
-//                                 {/* {result?.mainTotal?.colorstone?.Pcs} */}
 //                                 {e?.totals?.colorstone?.Pcs +
 //                                   e?.totals?.misc?.onlyIsHSCODE0_Pcs !==
 //                                   0 &&
@@ -3597,7 +3734,8 @@ export default PackingList7Group;
 //                                   formatAmount(
 //                                     (e?.totals?.colorstone?.Amount +
 //                                       e?.totals?.misc?.onlyIsHSCODE0_Amount) /
-//                                       result?.header?.CurrencyExchRate
+//                                       result?.header?.CurrencyExchRate,
+//                                     0
 //                                   )}
 //                               </div>
 //                             </div>
@@ -3621,7 +3759,8 @@ export default PackingList7Group;
 //                                     e?.TotalCsSetcost +
 //                                     e?.TotalDiaSetcost +
 //                                     e?.totals?.finding?.SettingAmount) /
-//                                     result?.header?.CurrencyExchRate
+//                                     result?.header?.CurrencyExchRate,
+//                                   0
 //                                 )}
 //                               </div>
 //                             </div>
@@ -3648,7 +3787,7 @@ export default PackingList7Group;
 //                     >
 //                       <div
 //                         className="centerdp10_pcl7 brR_dp10_pcl7"
-//                         style={{ width: "10%" }}
+//                         style={{ width: "14%" }}
 //                       >
 //                         {" "}
 //                         Total{" "}
@@ -3680,7 +3819,8 @@ export default PackingList7Group;
 //                         >
 //                           {formatAmount(
 //                             result?.mainTotal?.diamonds?.Amount /
-//                               result?.header?.CurrencyExchRate
+//                               result?.header?.CurrencyExchRate,
+//                             0
 //                           )}
 //                         </div>
 //                       </div>
@@ -3696,7 +3836,7 @@ export default PackingList7Group;
 //                         {/* <div className="theadsubcol2_dp10"></div> */}
 //                         <div
 //                           className="theadsubcol2_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7"
-//                           style={{ width: "45%" }}
+//                           style={{ width: "42%" }}
 //                         >
 //                           {formatAmount(
 //                             result?.mainTotal?.metal?.Amount /
@@ -3725,7 +3865,8 @@ export default PackingList7Group;
 //                           {formatAmount(
 //                             (result?.mainTotal?.colorstone?.Amount +
 //                               result?.mainTotal?.misc?.onlyIsHSCODE0_Amount) /
-//                               result?.header?.CurrencyExchRate
+//                               result?.header?.CurrencyExchRate,
+//                             0
 //                           )}
 //                         </div>
 //                       </div>
@@ -3741,7 +3882,8 @@ export default PackingList7Group;
 //                             result?.mainTotal?.total_TotalCsSetcost +
 //                             result?.mainTotal?.finding?.SettingAmount +
 //                             result?.mainTotal?.total_other_charges) /
-//                             result?.header?.CurrencyExchRate
+//                             result?.header?.CurrencyExchRate,
+//                           0
 //                         )}
 //                       </div>
 //                       <div className="col8dp10_pcl7 end_dp10_pcl7  d-flex align-items-center pr_dp10_pcl7 border-start border-black">
@@ -3753,81 +3895,340 @@ export default PackingList7Group;
 //                     </div>
 
 //                     {/* final total */}
-//                     <div className="d-flex justify-content-end align-items-start brb_dp10_pcl7 tbrowdp10_pcl7 border-bottom border-black">
+//                     <div className="d-flex brb_dp10_pcl7 tbrowdp10_pcl7 border-bottom border-black">
 //                       <div
-//                         className="text-start pt-3 ps-1 fs_5_pcl7"
-//                         style={{ width: "83%" }}
+//                         style={{
+//                           width: "83%",
+//                           display: "flex",
+//                           gap: "5px",
+//                           marginTop: "20px",
+//                         }}
 //                       >
-//                         No. Of Items :{" "}
-//                         <span className="fw-bold">
-//                           {result?.resultArray?.length}
-//                         </span>
-//                       </div>
-//                       <div
-//                         className="border-start border-black"
-//                         style={{ width: "17%", borderTop: "0px solid black" }}
-//                       >
-//                         {result?.mainTotal?.total_discount_amount !== 0 && (
-//                           <div className="d-flex justify-content-between fs_5_pcl7">
-//                             <div className="w-50 end_dp10_pcl7">
-//                               Total Discount
+//                         <div className="d-flex flex-column sumdp10_pcl7">
+//                           <div className="fw-bold bg_dp10_pcl7 w-100 centerdp10_pcl7  ball_dp10_pcl7">
+//                             SUMMARY
+//                           </div>
+//                           <div className="d-flex w-100 fsgdp10_pcl7">
+//                             <div className="w-50 bright_dp10_pcl7  bl_dp10_pcl7">
+//                               <div className="d-flex justify-content-between px-1">
+//                                 <div className="w-50 fw-bold">GOLD IN 24KT</div>
+//                                 <div className="w-50 end_dp10_pcl7 pe-1">
+//                                   {(
+//                                     result?.mainTotal?.total_purenetwt -
+//                                     notGoldMetalWtTotal
+//                                   )?.toFixed(3)}{" "}
+//                                   gm
+//                                 </div>
+//                               </div>
+//                               {MetShpWise?.map((e, i) => {
+//                                 return (
+//                                   <div
+//                                     className="d-flex justify-content-between px-1"
+//                                     key={i}
+//                                   >
+//                                     <div className="w-50 fw-bold">
+//                                       {e?.ShapeName}
+//                                     </div>
+//                                     <div className="w-50 end_dp10_pcl7 pe-1">
+//                                       {e?.metalfinewt?.toFixed(3)} gm
+//                                     </div>
+//                                   </div>
+//                                 );
+//                               })}
+//                               <div className="d-flex justify-content-between px-1">
+//                                 <div className="w-50 fw-bold">GROSS WT</div>
+//                                 <div className="w-50 end_dp10_pcl7 pe-1">
+//                                   {result?.mainTotal?.grosswt?.toFixed(3)} gm
+//                                 </div>
+//                               </div>
+//                               <div className="d-flex justify-content-between px-1">
+//                                 <div className="w-50 fw-bold">NET WT</div>
+//                                 <div className="w-50 end_dp10_pcl7 pe-1">
+//                                   {result?.mainTotal?.metal?.Wt?.toFixed(3)} gm
+//                                 </div>
+//                               </div>
+//                               <div className="d-flex justify-content-between px-1">
+//                                 <div className="w-50 fw-bold">LOSS WT</div>
+//                                 <div className="w-50 end_dp10_pcl7 pe-1">
+//                                   {result?.mainTotal?.lossWt?.toFixed(3)} gm
+//                                 </div>
+//                               </div>
+//                               <div className="d-flex justify-content-between px-1">
+//                                 <div className="w-50 fw-bold">DIAMOND WT</div>
+//                                 <div className="w-50 end_dp10_pcl7 pe-1">
+//                                   {result?.mainTotal?.diamonds?.Pcs} /{" "}
+//                                   {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}{" "}
+//                                   cts
+//                                 </div>
+//                               </div>
+//                               <div className="d-flex justify-content-between px-1">
+//                                 <div className="w-50 fw-bold">STONE WT</div>
+//                                 <div className="w-50 end_dp10_pcl7 pe-1">
+//                                   {result?.mainTotal?.colorstone?.Pcs} /{" "}
+//                                   {result?.mainTotal?.colorstone?.Wt?.toFixed(
+//                                     3
+//                                   )}{" "}
+//                                   cts
+//                                 </div>
+//                               </div>
+//                               <div className="d-flex justify-content-between px-1">
+//                                 <div className="w-50 fw-bold">MISC WT</div>
+//                                 <div className="w-50 end_dp10_pcl7 pe-1">
+//                                   {result?.mainTotal?.misc?.onlyIsHSCODE0_Pcs} /{" "}
+//                                   {result?.mainTotal?.misc?.onlyIsHSCODE0_Wt?.toFixed(
+//                                     3
+//                                   )}{" "}
+//                                   gm
+//                                 </div>
+//                               </div>
 //                             </div>
-//                             <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
-//                               {formatAmount(
-//                                 result?.mainTotal?.total_discount_amount /
-//                                   result?.header?.CurrencyExchRate
-//                               )}
+//                             <div className="w-50 bright_dp10_pcl7 ">
+//                               <div className="d-flex justify-content-between px-1">
+//                                 <div className="w-50 fw-bold">GOLD</div>
+//                                 <div className="w-50 end_dp10_pcl7">
+//                                   {formatAmount(
+//                                     (result?.mainTotal?.metal?.Amount -
+//                                       notGoldMetalTotal) /
+//                                       result?.header?.CurrencyExchRate
+//                                   )}
+//                                 </div>
+//                               </div>
+//                               {MetShpWise?.map((e, i) => {
+//                                 return (
+//                                   <div
+//                                     className="d-flex justify-content-between px-1"
+//                                     key={i}
+//                                   >
+//                                     <div className="w-50 fw-bold">
+//                                       {e?.ShapeName}
+//                                     </div>
+//                                     <div className="w-50 end_dp10_pcl7">
+//                                       {formatAmount(
+//                                         e?.Amount /
+//                                           result?.header?.CurrencyExchRate
+//                                       )}
+//                                     </div>
+//                                   </div>
+//                                 );
+//                               })}
+//                               <div className="d-flex justify-content-between px-1">
+//                                 <div className="w-50 fw-bold">DIAMOND</div>
+//                                 <div className="w-50 end_dp10_pcl7">
+//                                   {formatAmount(
+//                                     result?.mainTotal?.diamonds?.Amount /
+//                                       result?.header?.CurrencyExchRate,
+//                                     0
+//                                   )}
+//                                 </div>
+//                               </div>
+//                               <div className="d-flex justify-content-between px-1">
+//                                 <div className="w-50 fw-bold">CST</div>
+//                                 <div className="w-50 end_dp10_pcl7">
+//                                   {formatAmount(
+//                                     result?.mainTotal?.colorstone?.Amount /
+//                                       result?.header?.CurrencyExchRate,
+//                                     0
+//                                   )}
+//                                 </div>
+//                               </div>
+//                               <div className="d-flex justify-content-between px-1">
+//                                 <div className="w-50 fw-bold">MISC</div>
+//                                 <div className="w-50 end_dp10_pcl7">
+//                                   {formatAmount(
+//                                     result?.mainTotal?.misc
+//                                       ?.onlyIsHSCODE0_Amount /
+//                                       result?.header?.CurrencyExchRate,
+//                                     0
+//                                   )}
+//                                 </div>
+//                               </div>
+//                               <div className="d-flex justify-content-between px-1">
+//                                 <div className="w-50 fw-bold">MAKING </div>
+//                                 <div className="w-50 end_dp10_pcl7">
+//                                   {formatAmount(
+//                                     (result?.mainTotal?.misc?.isHSCODE123_amt +
+//                                       result?.mainTotal?.finding
+//                                         ?.SettingAmount +
+//                                       result?.mainTotal?.total_labour
+//                                         ?.labour_amount +
+//                                       result?.mainTotal?.total_TotalDiaSetcost +
+//                                       result?.mainTotal?.total_TotalCsSetcost) /
+//                                       result?.header?.CurrencyExchRate,
+//                                     0
+//                                   )}
+//                                 </div>
+//                               </div>
+//                               <div className="d-flex justify-content-between px-1">
+//                                 <div className="w-50 fw-bold">OTHER </div>
+//                                 <div className="w-50 end_dp10_pcl7">
+//                                   {formatAmount(
+//                                     result?.mainTotal?.total_other_charges +
+//                                       result?.mainTotal?.total_diamondHandling,
+//                                     0
+//                                   )}
+//                                 </div>
+//                               </div>
+//                               <div className="d-flex justify-content-between px-1">
+//                                 <div className="w-50 fw-bold">
+//                                   {result?.header?.AddLess > 0 ? "ADD" : "LESS"}
+//                                 </div>
+//                                 <div className="w-50 end_dp10_pcl7">
+//                                   {formatAmount(
+//                                     result?.header?.AddLess /
+//                                       result?.header?.CurrencyExchRate
+//                                   )}
+//                                 </div>
+//                               </div>
 //                             </div>
 //                           </div>
-//                         )}
-//                         <div className="d-flex justify-content-between fs_5_pcl7">
-//                           <div className="w-50 end_dp10_pcl7">Total Amount</div>
-//                           <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
-//                             {formatAmount(
-//                               result?.mainTotal?.total_amount /
-//                                 result?.header?.CurrencyExchRate
-//                             )}
+//                           <div className="bg_dp10_pcl7 h_bd10_pcl7 ball_dp10_pcl7 d-flex fsgdp10_pcl7 ">
+//                             <div className="w-50 h-100"></div>
+//                             <div className="w-50 h-100 d-flex align-items-center bl_dp10_pcl7">
+//                               <div className="fw-bold w-50 px-1">TOTAL</div>
+//                               <div className="w-50 end_dp10_pcl7 px-1">
+//                                 {formatAmount(
+//                                   result?.mainTotal?.total_amount /
+//                                     result?.header?.CurrencyExchRate +
+//                                     result?.allTaxesTotal +
+//                                     result?.header?.FreightCharges /
+//                                       result?.header?.CurrencyExchRate +
+//                                     result?.header?.AddLess /
+//                                       result?.header?.CurrencyExchRate
+//                                 )}
+//                               </div>
+//                             </div>
 //                           </div>
 //                         </div>
-//                         <div>
-//                           {result?.allTaxes?.map((e, i) => {
+//                         <div className="dia_sum_dp10_pcl7 d-flex flex-column  fsgdp10_pcl7">
+//                           <div className="h_bd10_pcl7 centerdp10_pcl7 bg_dp10_pcl7 fw-bold ball_dp10_pcl7">
+//                             Diamond Detail
+//                           </div>
+//                           {diamondWise?.map((e, i) => {
 //                             return (
 //                               <div
-//                                 className="d-flex justify-content-between fs_5_pcl7"
+//                                 className="d-flex justify-content-between px-1 ball_dp10_pcl7 border-top-0 border-bottom-0 fsgdp10_pcl7"
 //                                 key={i}
 //                               >
-//                                 <div className="w-50 end_dp10_pcl7">
-//                                   {" "}
-//                                   {e?.name} {e?.per}{" "}
+//                                 <div className="fw-bold w-50">
+//                                   {e?.ShapeName} {e?.QualityName} {e?.Colorname}
 //                                 </div>
-//                                 <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
-//                                   {" "}
-//                                   {formatAmount(e?.amountInNumber)}{" "}
+//                                 <div className="w-50 end_dp10_pcl7">
+//                                   {e?.pcPcss} / {e?.wtWts?.toFixed(3)} cts
 //                                 </div>
 //                               </div>
 //                             );
 //                           })}
+//                           <div className="d-flex justify-content-between px-1 bg_dp10_pcl7 h_bd10_pcl7  ball_dp10_pcl7">
+//                             <div className="fw-bold w-50 h14_dp10_pcl7"></div>
+//                             <div className="w-50"></div>
+//                           </div>
+//                         </div>
+//                         <div className="oth_sum_dp10_pcl7 fsgdp10_pcl7">
+//                           <div className="h_bd10 centerdp10_pcl7 bg_dp10_pcl7 fw-bold ball_dp10_pcl7">
+//                             OTHER DETAILS
+//                           </div>
+//                           <div className="d-flex flex-column justify-content-between w-100 px-1 ball_dp10_pcl7 border-top-0 p-1  fw-bold">
+//                             <div className="d-flex">
+//                               <div className="w-50 fw-bold start_dp10_pcl7 fsgdp10_pcl7">
+//                                 RATE IN 24KT
+//                               </div>
+//                               <div className="w-50 end_dp10_pcl7 fsgdp10_pcl7">
+//                                 {result?.header?.MetalRate24K?.toFixed(2)}
+//                               </div>
+//                             </div>
+//                             <div>
+//                               {result?.header?.BrokerageDetails?.map((e, i) => {
+//                                 return (
+//                                   <div className="d-flex fsgdp10_pcl7" key={i}>
+//                                     <div className="w-50 fw-bold start_dp10_pcl7">
+//                                       {e?.label}
+//                                     </div>
+//                                     <div className="w-50 end_dp10_pcl7">
+//                                       {e?.value}
+//                                     </div>
+//                                   </div>
+//                                 );
+//                               })}
+//                             </div>
+//                           </div>
+//                         </div>
+//                         <div className="text-start ps-1 fs_5_pcl7">
+//                           No. Of Items :{" "}
+//                           <span className="fw-bold">
+//                             {result?.resultArray?.length}
+//                           </span>
+//                         </div>
+//                       </div>
+
+//                       <div
+//                         className="border-start border-black"
+//                         style={{ width: "17%", borderTop: "0px solid black" }}
+//                       >
+//                         <div>
+//                           {result?.mainTotal?.total_discount_amount !== 0 && (
+//                             <div className="d-flex justify-content-between fs_5_pcl7">
+//                               <div className="w-50 end_dp10_pcl7">
+//                                 Total Discount
+//                               </div>
+//                               <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
+//                                 {formatAmount(
+//                                   result?.mainTotal?.total_discount_amount /
+//                                     result?.header?.CurrencyExchRate
+//                                 )}
+//                               </div>
+//                             </div>
+//                           )}
 //                           <div className="d-flex justify-content-between fs_5_pcl7">
 //                             <div className="w-50 end_dp10_pcl7">
-//                               {result?.header?.AddLess > 0 ? "Add" : "Less"}
+//                               Total Amount
 //                             </div>
 //                             <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
 //                               {formatAmount(
-//                                 result?.header?.AddLess /
+//                                 result?.mainTotal?.total_amount /
 //                                   result?.header?.CurrencyExchRate
 //                               )}
 //                             </div>
 //                           </div>
-//                         </div>
-//                         <div className="d-flex justify-content-between fs_5_pcl7">
-//                           <div className="w-50 end_dp10_pcl7">
-//                             {result?.header?.ModeOfDel}
+//                           <div>
+//                             {result?.allTaxes?.map((e, i) => {
+//                               return (
+//                                 <div
+//                                   className="d-flex justify-content-between fs_5_pcl7"
+//                                   key={i}
+//                                 >
+//                                   <div className="w-50 end_dp10_pcl7">
+//                                     {" "}
+//                                     {e?.name} {e?.per}{" "}
+//                                   </div>
+//                                   <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
+//                                     {" "}
+//                                     {formatAmount(e?.amountInNumber)}{" "}
+//                                   </div>
+//                                 </div>
+//                               );
+//                             })}
+//                             <div className="d-flex justify-content-between fs_5_pcl7">
+//                               <div className="w-50 end_dp10_pcl7">
+//                                 {result?.header?.AddLess > 0 ? "Add" : "Less"}
+//                               </div>
+//                               <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
+//                                 {formatAmount(
+//                                   result?.header?.AddLess /
+//                                     result?.header?.CurrencyExchRate
+//                                 )}
+//                               </div>
+//                             </div>
 //                           </div>
-//                           <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
-//                             {formatAmount(
-//                               result?.header?.FreightCharges /
-//                                 result?.header?.CurrencyExchRate
-//                             )}
+//                           <div className="d-flex justify-content-between fs_5_pcl7">
+//                             <div className="w-50 end_dp10_pcl7">
+//                               {result?.header?.ModeOfDel}
+//                             </div>
+//                             <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
+//                               {formatAmount(
+//                                 result?.header?.FreightCharges /
+//                                   result?.header?.CurrencyExchRate
+//                               )}
+//                             </div>
 //                           </div>
 //                         </div>
 //                         <div
@@ -3851,239 +4252,7 @@ export default PackingList7Group;
 //                     </div>
 //                   </div>
 //                 </div>
-//                 {/* summary */}
-//                 <div className="d-flex justify-content-between mt-1 summarydp10_pcl7">
-//                   <div className="d-flex flex-column sumdp10_pcl7">
-//                     <div className="fw-bold bg_dp10_pcl7 w-100 centerdp10_pcl7  ball_dp10_pcl7">
-//                       SUMMARY
-//                     </div>
-//                     <div className="d-flex w-100 fsgdp10_pcl7">
-//                       <div className="w-50 bright_dp10_pcl7  bl_dp10_pcl7">
-//                         <div className="d-flex justify-content-between px-1">
-//                           <div className="w-50 fw-bold">GOLD IN 24KT</div>
-//                           <div className="w-50 end_dp10_pcl7 pe-1">
-//                             {(
-//                               result?.mainTotal?.total_purenetwt -
-//                               notGoldMetalWtTotal
-//                             )?.toFixed(3)}{" "}
-//                             gm
-//                           </div>
-//                         </div>
-//                         {MetShpWise?.map((e, i) => {
-//                           return (
-//                             <div
-//                               className="d-flex justify-content-between px-1"
-//                               key={i}
-//                             >
-//                               <div className="w-50 fw-bold">{e?.ShapeName}</div>
-//                               <div className="w-50 end_dp10_pcl7 pe-1">
-//                                 {e?.metalfinewt?.toFixed(3)} gm
-//                               </div>
-//                             </div>
-//                           );
-//                         })}
-//                         <div className="d-flex justify-content-between px-1">
-//                           <div className="w-50 fw-bold">GROSS WT</div>
-//                           <div className="w-50 end_dp10_pcl7 pe-1">
-//                             {result?.mainTotal?.grosswt?.toFixed(3)} gm
-//                           </div>
-//                         </div>
-//                         <div className="d-flex justify-content-between px-1">
-//                           <div className="w-50 fw-bold">NET WT</div>
-//                           <div className="w-50 end_dp10_pcl7 pe-1">
-//                             {result?.mainTotal?.metal?.Wt?.toFixed(3)} gm
-//                           </div>
-//                         </div>
-//                         <div className="d-flex justify-content-between px-1">
-//                           <div className="w-50 fw-bold">LOSS WT</div>
-//                           <div className="w-50 end_dp10_pcl7 pe-1">
-//                             {result?.mainTotal?.lossWt?.toFixed(3)} gm
-//                           </div>
-//                         </div>
-//                         <div className="d-flex justify-content-between px-1">
-//                           <div className="w-50 fw-bold">DIAMOND WT</div>
-//                           <div className="w-50 end_dp10_pcl7 pe-1">
-//                             {result?.mainTotal?.diamonds?.Pcs} /{" "}
-//                             {result?.mainTotal?.diamonds?.Wt?.toFixed(3)} cts
-//                           </div>
-//                         </div>
-//                         <div className="d-flex justify-content-between px-1">
-//                           <div className="w-50 fw-bold">STONE WT</div>
-//                           <div className="w-50 end_dp10_pcl7 pe-1">
-//                             {result?.mainTotal?.colorstone?.Pcs} /{" "}
-//                             {result?.mainTotal?.colorstone?.Wt?.toFixed(3)} cts
-//                           </div>
-//                         </div>
-//                         <div className="d-flex justify-content-between px-1">
-//                           <div className="w-50 fw-bold">MISC WT</div>
-//                           <div className="w-50 end_dp10_pcl7 pe-1">
-//                             {result?.mainTotal?.misc?.onlyIsHSCODE0_Pcs} /{" "}
-//                             {result?.mainTotal?.misc?.onlyIsHSCODE0_Wt?.toFixed(
-//                               3
-//                             )}{" "}
-//                             gm
-//                           </div>
-//                         </div>
-//                       </div>
-//                       <div className="w-50 bright_dp10_pcl7 ">
-//                         <div className="d-flex justify-content-between px-1">
-//                           <div className="w-50 fw-bold">GOLD</div>
-//                           <div className="w-50 end_dp10_pcl7">
-//                             {formatAmount(
-//                               (result?.mainTotal?.metal?.Amount -
-//                                 notGoldMetalTotal) /
-//                                 result?.header?.CurrencyExchRate
-//                             )}
-//                           </div>
-//                         </div>
-//                         {MetShpWise?.map((e, i) => {
-//                           return (
-//                             <div
-//                               className="d-flex justify-content-between px-1"
-//                               key={i}
-//                             >
-//                               <div className="w-50 fw-bold">{e?.ShapeName}</div>
-//                               <div className="w-50 end_dp10_pcl7">
-//                                 {formatAmount(
-//                                   e?.Amount / result?.header?.CurrencyExchRate
-//                                 )}
-//                               </div>
-//                             </div>
-//                           );
-//                         })}
-//                         <div className="d-flex justify-content-between px-1">
-//                           <div className="w-50 fw-bold">DIAMOND</div>
-//                           <div className="w-50 end_dp10_pcl7">
-//                             {formatAmount(
-//                               result?.mainTotal?.diamonds?.Amount /
-//                                 result?.header?.CurrencyExchRate
-//                             )}
-//                           </div>
-//                         </div>
-//                         <div className="d-flex justify-content-between px-1">
-//                           <div className="w-50 fw-bold">CST</div>
-//                           <div className="w-50 end_dp10_pcl7">
-//                             {formatAmount(
-//                               result?.mainTotal?.colorstone?.Amount /
-//                                 result?.header?.CurrencyExchRate
-//                             )}
-//                           </div>
-//                         </div>
-//                         <div className="d-flex justify-content-between px-1">
-//                           <div className="w-50 fw-bold">MISC</div>
-//                           <div className="w-50 end_dp10_pcl7">
-//                             {formatAmount(
-//                               result?.mainTotal?.misc?.onlyIsHSCODE0_Amount /
-//                                 result?.header?.CurrencyExchRate
-//                             )}
-//                           </div>
-//                         </div>
-//                         <div className="d-flex justify-content-between px-1">
-//                           <div className="w-50 fw-bold">MAKING </div>
-//                           <div className="w-50 end_dp10_pcl7">
-//                             {formatAmount(
-//                               (result?.mainTotal?.misc?.isHSCODE123_amt +
-//                                 result?.mainTotal?.finding?.SettingAmount +
-//                                 result?.mainTotal?.total_labour?.labour_amount +
-//                                 result?.mainTotal?.total_TotalDiaSetcost +
-//                                 result?.mainTotal?.total_TotalCsSetcost) /
-//                                 result?.header?.CurrencyExchRate
-//                             )}
-//                           </div>
-//                         </div>
-//                         <div className="d-flex justify-content-between px-1">
-//                           <div className="w-50 fw-bold">OTHER </div>
-//                           <div className="w-50 end_dp10_pcl7">
-//                             {formatAmount(
-//                               result?.mainTotal?.total_other_charges +
-//                                 result?.mainTotal?.total_diamondHandling
-//                             )}
-//                           </div>
-//                         </div>
-//                         <div className="d-flex justify-content-between px-1">
-//                           <div className="w-50 fw-bold">
-//                             {result?.header?.AddLess > 0 ? "ADD" : "LESS"}
-//                           </div>
-//                           <div className="w-50 end_dp10_pcl7">
-//                             {formatAmount(
-//                               result?.header?.AddLess /
-//                                 result?.header?.CurrencyExchRate
-//                             )}
-//                           </div>
-//                         </div>
-//                       </div>
-//                     </div>
-//                     <div className="bg_dp10_pcl7 h_bd10_pcl7 ball_dp10_pcl7 d-flex fsgdp10_pcl7 ">
-//                       <div className="w-50 h-100"></div>
-//                       <div className="w-50 h-100 d-flex align-items-center bl_dp10_pcl7">
-//                         <div className="fw-bold w-50 px-1">TOTAL</div>
-//                         <div className="w-50 end_dp10_pcl7 px-1">
-//                           {formatAmount(
-//                             result?.mainTotal?.total_amount /
-//                               result?.header?.CurrencyExchRate +
-//                               result?.allTaxesTotal +
-//                               result?.header?.FreightCharges /
-//                                 result?.header?.CurrencyExchRate +
-//                               result?.header?.AddLess /
-//                                 result?.header?.CurrencyExchRate
-//                           )}
-//                         </div>
-//                       </div>
-//                     </div>
-//                   </div>
-//                   <div className="dia_sum_dp10_pcl7 d-flex flex-column  fsgdp10_pcl7">
-//                     <div className="h_bd10_pcl7 centerdp10_pcl7 bg_dp10_pcl7 fw-bold ball_dp10_pcl7">
-//                       Diamond Detail
-//                     </div>
-//                     {diamondWise?.map((e, i) => {
-//                       return (
-//                         <div
-//                           className="d-flex justify-content-between px-1 ball_dp10_pcl7 border-top-0 border-bottom-0 fsgdp10_pcl7"
-//                           key={i}
-//                         >
-//                           <div className="fw-bold w-50">
-//                             {e?.ShapeName} {e?.QualityName} {e?.Colorname}
-//                           </div>
-//                           <div className="w-50 end_dp10_pcl7">
-//                             {e?.pcPcss} / {e?.wtWts?.toFixed(3)} cts
-//                           </div>
-//                         </div>
-//                       );
-//                     })}
-//                     <div className="d-flex justify-content-between px-1 bg_dp10_pcl7 h_bd10_pcl7  ball_dp10_pcl7">
-//                       <div className="fw-bold w-50 h14_dp10_pcl7"></div>
-//                       <div className="w-50"></div>
-//                     </div>
-//                   </div>
-//                   <div className="oth_sum_dp10_pcl7 fsgdp10_pcl7">
-//                     <div className="h_bd10 centerdp10_pcl7 bg_dp10_pcl7 fw-bold ball_dp10_pcl7">
-//                       OTHER DETAILS
-//                     </div>
-//                     <div className="d-flex flex-column justify-content-between w-100 px-1 ball_dp10_pcl7 border-top-0 p-1  fw-bold">
-//                       <div className="d-flex">
-//                         <div className="w-50 fw-bold start_dp10_pcl7 fsgdp10_pcl7">
-//                           RATE IN 24KT
-//                         </div>
-//                         <div className="w-50 end_dp10_pcl7 fsgdp10_pcl7">
-//                           {result?.header?.MetalRate24K?.toFixed(2)}
-//                         </div>
-//                       </div>
-//                       <div>
-//                         {result?.header?.BrokerageDetails?.map((e, i) => {
-//                           return (
-//                             <div className="d-flex fsgdp10_pcl7" key={i}>
-//                               <div className="w-50 fw-bold start_dp10_pcl7">
-//                                 {e?.label}
-//                               </div>
-//                               <div className="w-50 end_dp10_pcl7">
-//                                 {e?.value}
-//                               </div>
-//                             </div>
-//                           );
-//                         })}
-//                       </div>
-//                     </div>
-//                   </div>
+//                 <div>
 //                   {result?.header?.PrintRemark === "" ? (
 //                     <div style={{ width: "15%" }}></div>
 //                   ) : (
@@ -4099,10 +4268,18 @@ export default PackingList7Group;
 //                       ></div>
 //                     </div>
 //                   )}
-//                   <div className="check_dp10_pcl7 ball_dp10_pcl7 d-flex justify-content-center align-items-end pb-1 fsgdp10_pcl7">
+//                 </div>
+//                 <div className="d-flex justify-content-between mt-1">
+//                   <div
+//                     className=" ball_dp10_pcl7 d-flex justify-content-center align-items-end pb-1 "
+//                     style={{ minHeight: "50px", width: "50%" }}
+//                   >
 //                     <i>Created By</i>
 //                   </div>
-//                   <div className="check_dp10_pcl7 ball_dp10_pcl7 d-flex justify-content-center align-items-end pb-1 fsgdp10_pcl7">
+//                   <div
+//                     className=" ball_dp10_pcl7 d-flex justify-content-center align-items-end pb-1"
+//                     style={{ minHeight: "50px", width: "50%" }}
+//                   >
 //                     <i>Checked By</i>
 //                   </div>
 //                 </div>

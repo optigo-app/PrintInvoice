@@ -8,6 +8,7 @@ import {
   handleImageError,
   handlePrint,
   isObjectEmpty,
+  NumberWithCommas,
 } from "../../GlobalFunctions";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import "../../assets/css/prints/packinglist7.css";
@@ -27,6 +28,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
   const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
+  const [diamondDetails, setDiamondDetails] = useState([]);
 
   useEffect(() => {
     const sendData = async () => {
@@ -467,6 +469,86 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       }
     });
 
+    let diamondDetail = [];
+    data?.BillPrint_Json2?.forEach((e, i) => {
+      if (e?.MasterManagement_DiamondStoneTypeid === 1) {
+        let findDiamond = diamondDetail?.findIndex(
+          (ele, ind) =>
+            ele?.ShapeName === e?.ShapeName &&
+            ele?.QualityName === e?.QualityName &&
+            ele?.Colorname === e?.Colorname
+        );
+        if (findDiamond === -1) {
+          diamondDetail.push(e);
+        } else {
+          diamondDetail[findDiamond].Pcs += e?.Pcs;
+          diamondDetail[findDiamond].Wt += e?.Wt;
+          diamondDetail[findDiamond].Amount += e?.Amount;
+        }
+      }
+    });
+    let findRND = [];
+    let remaingDia = [];
+    diamondDetail?.forEach((ele, ind) => {
+      if (ele?.ShapeName === "RND") {
+        findRND.push(ele);
+      } else {
+        remaingDia.push(ele);
+      }
+    });
+
+    let resultArr = [];
+    findRND.sort((a, b) => {
+      if (a.ShapeName !== b.ShapeName) {
+        return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
+      } else if (a.QualityName !== b.QualityName) {
+        return a.QualityName.localeCompare(b.QualityName); // If ShapeName is same, sort by QualityName
+      } else {
+        return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
+      }
+    });
+
+    remaingDia.sort((a, b) => {
+      if (a.ShapeName !== b.ShapeName) {
+        return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
+      } else if (a.QualityName !== b.QualityName) {
+        return a.QualityName.localeCompare(b.QualityName); // If ShapeName is same, sort by QualityName
+      } else {
+        return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
+      }
+    });
+    if (findRND?.length > 6) {
+      let arr = findRND.slice(0, 6);
+      let anotherArr = [...findRND.slice(6), remaingDia].flat();
+      let obj = { ...anotherArr[0] };
+      anotherArr?.reduce((acc, cobj) => {
+        obj.Pcs += cobj?.Pcs;
+        obj.Wt += cobj?.Wt;
+        obj.Amount += cobj?.Amount;
+      }, obj);
+      obj.ShapeName = "OTHER";
+      resultArr = [...arr, obj].flat();
+    } else {
+      let arr = [...findRND].flat();
+      let smallArr = [...remaingDia.slice(0, 6 - findRND?.length)].flat();
+      let largeArr = [...remaingDia.slice(6 - findRND?.length)].flat();
+      let finalArr = [...arr, ...smallArr].flat();
+
+      let obj = { ...largeArr[0] };
+      obj.Pcs = 0;
+      obj.Wt = 0;
+      obj.Amount = 0;
+      largeArr?.reduce((acc, cobj) => {
+        obj.Pcs += cobj?.Pcs;
+        obj.Wt += cobj?.Wt;
+        obj.Amount += cobj?.Amount;
+      }, obj);
+      obj.ShapeName = "OTHER";
+      resultArr = [...finalArr, obj].flat();
+    }
+
+    setDiamondDetails(resultArr);
+
     diarndotherarr5 = [...diaonlyrndarr6, diaObj];
     const sortedData = diarndotherarr5?.sort(customSort);
     // setDiamonds(sortedData);
@@ -615,12 +697,20 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className="subheaderdp10_pcl7">
                   <div className="subdiv1dp10_pcl7 border-end fsgdp10_pcl7_2 border-start ">
                     <div className="px-1">{result?.header?.lblBillTo}</div>
-                    <div className="px-1 fsgdp10_pcl7_3">
-                      <b>{result?.header?.customerfirmname}</b>{" "}
-                      {result?.header?.customerAddress2}
-                      {result?.header?.customerAddress1}
-                      {result?.header?.customerAddress3}
-                      {result?.header?.customercity1}-{result?.header?.PinCode}
+                    <div
+                      className="px-1 fsgdp10_pcl7_3"
+                      style={{ whiteSpace: "normal", wordBreak: "break-word" }}
+                    >
+                      <b>{result?.header?.customerfirmname}</b>
+                      {result?.header?.customerAddress2 &&
+                        `, ${result.header.customerAddress2}`}
+                      {result?.header?.customerAddress1 &&
+                        ` ${result.header.customerAddress1}`}
+                      {result?.header?.customerAddress3 &&
+                        ` ${result.header.customerAddress3}`}
+                      {result?.header?.customercity1 &&
+                        ` ${result.header.customercity1}`}
+                      {result?.header?.PinCode && ` - ${result.header.PinCode}`}
                     </div>
                     <div className="px-1">
                       {result?.header?.customeremail1}{" "}
@@ -877,18 +967,25 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
                               )}
                               <div style={{ width: imgFlag ? "50%" : "100%" }}>
-                                <div className=" centerdp10_pcl7 fsgdp10_pcl7">
-                                  {e?.designno}&nbsp;
-                                </div>
-
                                 <div className="centerdp10_pcl7 fsgdp10_pcl7">
                                   {atob(evn)?.toLowerCase() === "quote"
                                     ? ""
                                     : e?.SrJobno}
                                 </div>
+                                <div className=" centerdp10_pcl7 fsgdp10_pcl7">
+                                  {e?.designno}&nbsp;
+                                </div>
+
                                 <div>
                                   {e?.CertificateNo !== "" && (
-                                    <div className="centerdp10_pcl7 fsgdp10_pcl7 text-break d-flex flex-wrap ps-1">
+                                    <div
+                                      className="centerdp10_pcl7 fsgdp10_pcl7 text-break d-flex flex-wrap ps-1"
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
+                                      }}
+                                    >
                                       <span>Certificate# :</span>{" "}
                                       <span className="fw-bold">
                                         {e?.CertificateNo}
@@ -896,7 +993,14 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     </div>
                                   )}
                                   {e?.HUID !== "" ? (
-                                    <div className="centerdp10_pcl7 fsgdp10_pcl7 text-break ps-1">
+                                    <div
+                                      className="centerdp10_pcl7 fsgdp10_pcl7 text-break ps-1"
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
+                                      }}
+                                    >
                                       {" "}
                                       HUID -{" "}
                                       <span className="fw-bold">
@@ -909,18 +1013,39 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   {e?.PO === "" ? (
                                     ""
                                   ) : (
-                                    <div className="centerdp10_pcl7 fw-bold fsgdp10 text-break ps-1">
-                                      PO: {e?.PO}
+                                    <div
+                                      className="centerdp10_pcl7 fw-bold fsgdp10 text-break ps-1"
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
+                                      }}
+                                    >
+                                      PO: <span>{e?.PO}</span>
                                     </div>
                                   )}
                                   {e?.lineid === "" ? (
                                     ""
                                   ) : (
-                                    <div className="centerdp10_pcl7 fsgdp10 text-break ps-1">
-                                      L- {e?.lineid}
+                                    <div
+                                      className="centerdp10_pcl7 fsgdp10 text-break ps-1"
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
+                                      }}
+                                    >
+                                      L: <span>{e?.lineid}</span>
                                     </div>
                                   )}
-                                  <div className="centerdp10_pcl7">
+                                  <div
+                                    className="centerdp10_pcl7"
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      justifyContent: "center",
+                                    }}
+                                  >
                                     {e?.Size === "" ? "" : `Size : ${e?.Size}`}
                                   </div>
                                 </div>
@@ -1620,7 +1745,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {/* <div className="theadsubcol2_dp10"></div> */}
                         <div
                           className="theadsubcol2_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7"
-                          style={{ width: "45%" }}
+                          style={{ width: "42%" }}
                         >
                           {formatAmount(
                             result?.mainTotal?.metal?.Amount /
@@ -1800,7 +1925,8 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className="w-50 end_dp10_pcl7">
                                   {formatAmount(
                                     result?.mainTotal?.diamonds?.Amount /
-                                      result?.header?.CurrencyExchRate
+                                      result?.header?.CurrencyExchRate,
+                                    0
                                   )}
                                 </div>
                               </div>
@@ -1809,7 +1935,8 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className="w-50 end_dp10_pcl7">
                                   {formatAmount(
                                     result?.mainTotal?.colorstone?.Amount /
-                                      result?.header?.CurrencyExchRate
+                                      result?.header?.CurrencyExchRate,
+                                    0
                                   )}
                                 </div>
                               </div>
@@ -1819,7 +1946,8 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   {formatAmount(
                                     result?.mainTotal?.misc
                                       ?.onlyIsHSCODE0_Amount /
-                                      result?.header?.CurrencyExchRate
+                                      result?.header?.CurrencyExchRate,
+                                    0
                                   )}
                                 </div>
                               </div>
@@ -1834,7 +1962,8 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         ?.labour_amount +
                                       result?.mainTotal?.total_TotalDiaSetcost +
                                       result?.mainTotal?.total_TotalCsSetcost) /
-                                      result?.header?.CurrencyExchRate
+                                      result?.header?.CurrencyExchRate,
+                                    0
                                   )}
                                 </div>
                               </div>
@@ -1843,7 +1972,8 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className="w-50 end_dp10_pcl7">
                                   {formatAmount(
                                     result?.mainTotal?.total_other_charges +
-                                      result?.mainTotal?.total_diamondHandling
+                                      result?.mainTotal?.total_diamondHandling,
+                                    0
                                   )}
                                 </div>
                               </div>
@@ -1878,11 +2008,11 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                           </div>
                         </div>
-                        <div className="dia_sum_dp10_pcl7 d-flex flex-column  fsgdp10_pcl7">
+                        <div className="dia_sum_dp10_pcl7 d-flex flex-column  fsgdp10_pcl7  border-start border-end">
                           <div className="h_bd10_pcl7 centerdp10_pcl7 bg_dp10_pcl7 fw-bold ball_dp10_pcl7">
                             Diamond Detail
                           </div>
-                          {diamondWise?.map((e, i) => {
+                          {/* {diamondWise?.map((e, i) => {
                             return (
                               <div
                                 className="d-flex justify-content-between px-1 ball_dp10_pcl7 border-top-0 border-bottom-0 fsgdp10_pcl7"
@@ -1896,7 +2026,37 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
                               </div>
                             );
-                          })}
+                          })} */}
+                          <div className="d-flex flex-column justify-content-start h-100">
+                            {diamondDetails?.map((e, i) => {
+                              return (
+                                e?.Wt !== undefined && (
+                                  <React.Fragment key={i}>
+                                    <div
+                                      className={`d-flex justify-content-between px-1 pb-1  align-items-center ${
+                                        i === 0 && "pt-1"
+                                      }`}
+                                    >
+                                      <p className="fw-bold">
+                                        {e?.ShapeName === "OTHER" ? (
+                                          e?.ShapeName
+                                        ) : (
+                                          <>
+                                            {e?.ShapeName} {e?.QualityName}{" "}
+                                            {e?.Colorname}
+                                          </>
+                                        )}
+                                      </p>
+                                      <p>
+                                        {NumberWithCommas(e?.Pcs, 0)}/
+                                        {NumberWithCommas(e?.Wt, 3)} Cts
+                                      </p>
+                                    </div>
+                                  </React.Fragment>
+                                )
+                              );
+                            })}
+                          </div>
                           <div className="d-flex justify-content-between px-1 bg_dp10_pcl7 h_bd10_pcl7  ball_dp10_pcl7">
                             <div className="fw-bold w-50 h14_dp10_pcl7"></div>
                             <div className="w-50"></div>

@@ -1160,11 +1160,11 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <p>
                       <b>Banking & GST information:</b>
                     </p>
-                    <div style={{ display: "flex" }}>
+                    <div style={{ display: "flex" , lineHeight: '10px' }}>
                       <p style={{ minWidth: "150px" }}>Baneficiary Name :</p>
                       <p>{json0Data?.customerfirmname}</p>
                     </div>
-                    <div style={{ display: "flex" }}>
+                    <div style={{ display: "flex" , lineHeight: '10px'}}>
                       <p style={{ minWidth: "150px" }}>
                         Baneficiary Bank Name & Address:
                       </p>
@@ -1172,35 +1172,35 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {json0Data?.bankname} , {json0Data?.bankaddress}
                       </p>
                     </div>
-                    <div style={{ display: "flex" }}>
+                    <div style={{ display: "flex" , lineHeight: '10px'}}>
                       <p style={{ minWidth: "150px" }}>Account Name :</p>
                       <p>{json0Data?.accountname}</p>
                     </div>
-                    <div style={{ display: "flex" }}>
+                    <div style={{ display: "flex", lineHeight: '10px' }}>
                       <p style={{ minWidth: "150px" }}>
                         Baneficiary Account Number :
                       </p>
                       <p>{json0Data?.accountnumber}</p>
                     </div>
-                    <div style={{ display: "flex" }}>
+                    <div style={{ display: "flex" , lineHeight: '10px'}}>
                       <p style={{ minWidth: "150px" }}>
                         Baneficiary Bank IFSC Code :
                       </p>
                       <p>{json0Data?.rtgs_neft_ifsc}</p>
                     </div>
-                    <div style={{ display: "flex" }}>
+                    <div style={{ display: "flex", lineHeight: '10px' }}>
                       <p style={{ minWidth: "150px" }}>
                         Baneficiary Bank MICR Code :
                       </p>
                       <p></p>
                     </div>
-                    <div style={{ display: "flex" }}>
+                    <div style={{ display: "flex", lineHeight: '10px' }}>
                       <p style={{ minWidth: "150px" }}>
                         Baneficiary Bank SWIFT Code :
                       </p>
                       <p></p>
                     </div>
-                    <div style={{ display: "flex" }}>
+                    <div style={{ display: "flex", lineHeight: '10px' }}>
                       <p style={{ minWidth: "150px" }}>
                         Baneficiary GST Number :
                       </p>
