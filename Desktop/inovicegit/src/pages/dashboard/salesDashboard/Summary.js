@@ -27,7 +27,7 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
 }))
 
 const AnalyticsEarningReports = ({ tkn, fdate, tdate, country, countryCodeSymbol, monthWiseSaleData, jobWisePriceRangeData, summaryData, IsEmpLogin, JobWisePriceRangeData }) => {
-
+  const theme = useTheme();
   const [apiData, setApiData] = useState([]);
   const [apiData2, setApiData2] = useState(null);
   const [prAmount, setPrAmount] = useState(0);
@@ -50,41 +50,6 @@ const AnalyticsEarningReports = ({ tkn, fdate, tdate, country, countryCodeSymbol
 
     fetchData();
   }, [monthWiseSaleData, summaryData]);
-
-  const fetchMonthWiseSaleAmountData = async () => {
-    try {
-      const url = "http:zen/jo/api-lib/App/DashBoard";
-      const body = JSON.stringify({
-        "Token": "9065471700535651"
-        , "ReqData": "[{\"Token\":\"9065471700535651\",\"Evt\":\"MonthWiseSaleAmount\"}]"
-      });
-      const body2 = JSON.stringify({
-        "Token": "9065471700535651"
-        , "ReqData": "[{\"Token\":\"9065471700535651\",\"Evt\":\"Summary\"}]"
-      });
-      const response = await axios.post(url, body);
-      if (response?.data?.Status === '200') {
-        if (response?.data?.Data?.DT?.length > 0) {
-          setApiData(response?.data?.Data?.DT)
-        } else {
-          setApiData([]);
-        }
-      }
-      const response2 = await axios.post(url, body2);
-      if (response2?.data?.Status === '200') {
-        if (response2?.data?.Data?.DT?.length > 0) {
-          setApiData2(response2?.data?.Data?.DT[0])
-        } else {
-          setApiData([]);
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  // ** Hook
-  const theme = useTheme();
 
   const monthCategories = monthWiseSaleData?.map((e) => e?.Month_Name);
   const amountWise = monthWiseSaleData?.map((e) => e?.SaleAmount || 0);
@@ -142,7 +107,6 @@ const AnalyticsEarningReports = ({ tkn, fdate, tdate, country, countryCodeSymbol
     xaxis: {
       axisTicks: { show: false },
       axisBorder: { color: theme.palette.divider },
-      // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
       categories: monthCategories,
       labels: {
         style: {
