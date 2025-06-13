@@ -1216,6 +1216,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     justifyContent: "space-between",
                     padding: "5px",
                   }}
+                  className="bottomo_section_for_print"
                 >
                   <div style={{ display: "flex", alignItems: "flex-end" }}>
                     <p>
