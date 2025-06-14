@@ -77,7 +77,7 @@ const RechartsPieChart = ({tkn,  fdate, tdate, country, VendorWiseNetWtData}) =>
   const colors = ["#00d4bd", "#ffe700", "#FFA1A1", "#826bf8", "#EA5455","#B9E9CF", "#FF9F43","#A8AAAE","#2196F3","#F50057"]
 
   const data = top10?.map((item, index) => ({
-    name: item?.CompanyName,
+    name: item?.Vendor,
     value: item?.NetWt || 0,
     color: colors[index] 
   }))
