@@ -724,21 +724,39 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </p>
                 </div>
                 <div className="header_top_content_main_class">
-                  <p className="Header_top_title_name">Address </p>
-                  <p className="Header_top_title_value_name">
-                    {json0Data?.customerAddress2} ,{" "}
-                    {json0Data?.customerAddress1} ,{json0Data?.customerAddress3}{" "}
-                    <br />
-                    {json0Data?.customercity1} , {json0Data?.State}{" "}
-                    {json0Data?.customerpincode}
+                  <p className="Header_top_title_name">Address</p>
+                  <p
+                    className="Header_top_title_value_name"
+                    style={{
+                      whiteSpace: "pre-wrap",
+                      wordWrap: "break-word",
+                      overflowWrap: "break-word",
+                    }}
+                  >
+                    <span>
+                      <span>{json0Data?.customerAddress1}</span>
+                      {json0Data?.customerAddress2 && (
+                        <span>{json0Data.customerAddress2}, </span>
+                      )}
+                      {json0Data?.customerAddress3 && (
+                        <span style={{wordBreak: 'auto-phrase'}}>{json0Data.customerAddress3} </span>
+                      )}
+                      {json0Data?.customercity1 && (
+                        <span style={{wordBreak: 'auto-phrase'}}>{json0Data.customercity1}, </span>
+                      )}
+                      {json0Data?.State && <span>{json0Data.State} </span>}
+                      {json0Data?.customerpincode && (
+                        <span>{json0Data.customerpincode}</span>
+                      )}
+                    </span>
                   </p>
                 </div>
+
                 <div className="header_top_content_main_class">
                   <p className="Header_top_title_name">State Code </p>
-                  <p className="Header_top_title_value_name">
-                  </p>
+                  <p className="Header_top_title_value_name"></p>
                 </div>
-                  <div className="header_top_content_main_class">
+                <div className="header_top_content_main_class">
                   <p className="Header_top_title_name">Contact No. </p>
                   <p className="Header_top_title_value_name">
                     {finalD?.header?.customermobileno1}
@@ -764,7 +782,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
               </div>
 
-              <div style={{ padding: "0px 5px" , width:'35%'}}>
+              <div style={{ padding: "0px 5px", width: "35%" }}>
                 <div>
                   <p className="lhDetailPrint1">
                     <b>Ship To,</b>
@@ -822,9 +840,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </p>
                   </div>
                   <div className="header_top_content_main_class">
-                    <p className="Header_top_title_name">
-                      HSN Code
-                    </p>
+                    <p className="Header_top_title_name">HSN Code</p>
                     <p className="Header_top_title_value_name">
                       {json0Data?.HSN_No}
                     </p>
@@ -839,42 +855,70 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
             {/* table header*/}
             <table style={{ width: "100%" }}>
-              {finalD?.resultArray?.length > 6 ? (
-                <thead>
-                  <div
-                    style={{
-                      borderTop: "1px solid black",
-                      borderBottom: "1px solid black",
-                    }}
-                    className="d-flex w-100 recordDetailPrint1 detailPrint1L_font_11"
-                  >
-                    <div className="designDetalPrint1 d-flex justify-content-center align-items-center flex-column">
-                      <p className="fw-bold">Sr No.</p>
-                    </div>
-                    <div className="designDetalPrint2 d-flex justify-content-center align-items-center">
-                      <p className="fw-bold p-1">Item Code</p>
-                    </div>
-                    <div className="designDetalPrint3 d-flex justify-content-center align-items-center">
-                      <p className="fw-bold p-1">Description</p>
-                    </div>
-                    <div className="designDetalPrint4 d-flex justify-content-center align-items-center">
-                      <p className="fw-bold p-1">Qty</p>
-                    </div>
-                    <div className="designDetalPrint5 d-flex justify-content-center align-items-center">
-                      <p className="fw-bold p-1">Price/Pcs (INR)</p>
-                    </div>
-                    <div className="designDetalPrint6  d-flex justify-content-center align-items-center">
-                      <p className="fw-bold p-1">Amount (INR)</p>
-                    </div>
-                    <div className="designDetalPrint7 d-flex justify-content-center align-items-center">
-                      <p className="fw-bold p-1">Discount (INR)</p>
-                    </div>
-                    <div className="designDetalPrint8 d-flex justify-content-center align-items-center">
-                      <p className="fw-bold p-1">Total Amount (INR)</p>
-                    </div>
+              {/* {finalD?.resultArray?.length > 6 ? ( */}
+              <thead>
+                <div
+                  style={{
+                    borderTop: "1px solid black",
+                    borderBottom: "1px solid black",
+                  }}
+                  className="d-flex w-100 recordDetailPrint1 detailPrint1L_font_11"
+                >
+                  <div className="designDetalPrint1 d-flex justify-content-center align-items-center flex-column">
+                    <p className="fw-bold" style={{ fontSize: "11px" }}>
+                      Sr No.
+                    </p>
                   </div>
-                </thead>
-              ) : (
+                  <div className="designDetalPrint2 d-flex justify-content-center align-items-center">
+                    <p className="fw-bold p-1" style={{ fontSize: "11px" }}>
+                      Item Code
+                    </p>
+                  </div>
+                  <div className="designDetalPrint3 d-flex justify-content-center align-items-center">
+                    <p className="fw-bold p-1" style={{ fontSize: "11px" }}>
+                      Description
+                    </p>
+                  </div>
+                  <div className="designDetalPrint4 d-flex justify-content-center align-items-center">
+                    <p className="fw-bold p-1" style={{ fontSize: "11px" }}>
+                      Qty
+                    </p>
+                  </div>
+                  <div
+                    className="designDetalPrint5 d-flex justify-content-left align-items-center"
+                    style={{ display: "flex", justifyContent: "flex-end" }}
+                  >
+                    <p className="fw-bold p-1" style={{ fontSize: "11px" }}>
+                      Price/Pcs (INR)
+                    </p>
+                  </div>
+                  <div
+                    className="designDetalPrint6  d-flex justify-content-left align-items-center"
+                    style={{ display: "flex", justifyContent: "flex-end" }}
+                  >
+                    <p className="fw-bold p-1" style={{ fontSize: "11px" }}>
+                      Amount (INR)
+                    </p>
+                  </div>
+                  <div
+                    className="designDetalPrint7 d-flex justify-content-left align-items-center"
+                    style={{ display: "flex", justifyContent: "flex-end" }}
+                  >
+                    <p className="fw-bold p-1" style={{ fontSize: "11px" }}>
+                      Discount (INR)
+                    </p>
+                  </div>
+                  <div
+                    className="designDetalPrint8 d-flex justify-content-left align-items-center"
+                    style={{ display: "flex", justifyContent: "flex-end" }}
+                  >
+                    <p className="fw-bold p-1" style={{ fontSize: "11px" }}>
+                      Total Amount (INR)
+                    </p>
+                  </div>
+                </div>
+              </thead>
+              {/* ) : (
                 <div
                   style={{
                     borderTop: "1px solid black",
@@ -907,10 +951,14 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <p className="fw-bold p-1">Total Amount (INR)</p>
                   </div>
                 </div>
-              )}
+              )} */}
 
               {/* data */}
-              <div>
+              <div
+                style={{
+                  minHeight: "300px",
+                }}
+              >
                 {finalD?.resultArray?.map((e, i) => {
                   return (
                     <div
@@ -956,10 +1004,18 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="d-flex justify-content-between">
                             <p>
                               {e?.BrandName} {e?.SubCategoryname}{" "}
-                              {e?.MetalPurity} {e?.MetalColor} , Line ID :{" "}
-                              {e?.lineid} , Cert# : {e?.CertificateNo} , Tcw-
-                              {e?.totals?.diamonds?.Wt +
-                                e?.totals?.colorstone?.Wt}
+                              {e?.MetalPurity} {e?.MetalColor}
+                              {e?.lineid ? `, Line ID: ${e.lineid}` : ""}
+                              {e?.CertificateNo
+                                ? `, Cert#: ${e.CertificateNo}`
+                                : ""}
+                              {e?.totals?.diamonds?.Wt ||
+                              e?.totals?.colorstone?.Wt
+                                ? `, Tcw- ${(
+                                    (e?.totals?.diamonds?.Wt || 0) +
+                                    (e?.totals?.colorstone?.Wt || 0)
+                                  ).toFixed(3)}`
+                                : ""}
                             </p>
                           </div>
                         </div>
@@ -1153,57 +1209,45 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   style={{
                     borderTop: "1px solid green",
                     borderBottom: "1px solid green",
-                    paddingBlock: "5px",
+                    paddingBottom: "5px",
                   }}
                 >
                   <div className="col-6 p-1 w-100">
                     <p>
                       <b>Banking & GST information:</b>
                     </p>
-                    <div style={{ display: "flex" , lineHeight: '10px' }}>
-                      <p style={{ minWidth: "150px" }}>Baneficiary Name :</p>
+                    <div style={{ display: "flex", lineHeight: "11px" }}>
+                      <p style={{ minWidth: "120px" }}>Baneficiary Name :</p>
                       <p>{json0Data?.customerfirmname}</p>
                     </div>
-                    <div style={{ display: "flex" , lineHeight: '10px'}}>
-                      <p style={{ minWidth: "150px" }}>
-                        Baneficiary Bank Name & Address:
-                      </p>
+                    <div style={{ display: "flex", lineHeight: "11px" }}>
+                      <p style={{ minWidth: "120px" }}>Bank Name & Address:</p>
                       <p>
                         {json0Data?.bankname} , {json0Data?.bankaddress}
                       </p>
                     </div>
-                    <div style={{ display: "flex" , lineHeight: '10px'}}>
-                      <p style={{ minWidth: "150px" }}>Account Name :</p>
+                    <div style={{ display: "flex", lineHeight: "11px" }}>
+                      <p style={{ minWidth: "120px" }}>Account Name :</p>
                       <p>{json0Data?.accountname}</p>
                     </div>
-                    <div style={{ display: "flex", lineHeight: '10px' }}>
-                      <p style={{ minWidth: "150px" }}>
-                        Baneficiary Account Number :
-                      </p>
+                    <div style={{ display: "flex", lineHeight: "11px" }}>
+                      <p style={{ minWidth: "120px" }}>Account Number :</p>
                       <p>{json0Data?.accountnumber}</p>
                     </div>
-                    <div style={{ display: "flex" , lineHeight: '10px'}}>
-                      <p style={{ minWidth: "150px" }}>
-                        Baneficiary Bank IFSC Code :
-                      </p>
+                    <div style={{ display: "flex", lineHeight: "11px" }}>
+                      <p style={{ minWidth: "120px" }}>Bank IFSC Code :</p>
                       <p>{json0Data?.rtgs_neft_ifsc}</p>
                     </div>
-                    <div style={{ display: "flex", lineHeight: '10px' }}>
-                      <p style={{ minWidth: "150px" }}>
-                        Baneficiary Bank MICR Code :
-                      </p>
+                    <div style={{ display: "flex", lineHeight: "11px" }}>
+                      <p style={{ minWidth: "120px" }}>Bank MICR Code :</p>
                       <p></p>
                     </div>
-                    <div style={{ display: "flex", lineHeight: '10px' }}>
-                      <p style={{ minWidth: "150px" }}>
-                        Baneficiary Bank SWIFT Code :
-                      </p>
+                    <div style={{ display: "flex", lineHeight: "11px" }}>
+                      <p style={{ minWidth: "120px" }}>Bank SWIFT Code :</p>
                       <p></p>
                     </div>
-                    <div style={{ display: "flex", lineHeight: '10px' }}>
-                      <p style={{ minWidth: "150px" }}>
-                        Baneficiary GST Number :
-                      </p>
+                    <div style={{ display: "flex", lineHeight: "11px" }}>
+                      <p style={{ minWidth: "120px" }}>GST Number :</p>
                       <p>{json0Data?.Company_VAT_GST_No}</p>
                     </div>
                   </div>

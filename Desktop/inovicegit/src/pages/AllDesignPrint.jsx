@@ -187,7 +187,6 @@ const AllDesignPrint = () => {
           />
         </Helmet>
       )}
-    
     </>
   );
 };

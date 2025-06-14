@@ -1,8 +1,40 @@
+@font-face {
+  font-family: "Montserrat", sans-serif;
+  src: url("../../../assets/fonts/calibri-font-family/calibri-regular.ttf")
+    format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Montserrat", sans-serif;
+  src: url("../../../assets/fonts/calibri-font-family/calibri-bold.ttf")
+    format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Montserrat", sans-serif;
+  src: url("../../../assets/fonts/calibri-font-family/calibri-italic.ttf")
+    format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Montserrat", sans-serif;
+  src: url("../../../assets/fonts/calibri-font-family/calibri-bold-italic.ttf")
+    format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
+
 .containerDetailPrint1 {
   /* max-width: 297mm !important; */
   max-width: 1200px !important;
   padding: 0 5px !important;
-  font-family: Calibri;
+  font-family: "Montserrat", sans-serif;
 }
 
 .page_break {
@@ -17,7 +49,7 @@
   background-color: #939292;
 }
 
-.tax_inoivea_declartion p{
+.tax_inoivea_declartion p {
   background-color: transparent !important;
 }
 
@@ -238,6 +270,14 @@
   }
 }
 
+.tax_invoice_main_allPrint {
+  margin-bottom: 100px;
+  //   -webkit-print-color-adjust: exact; /* For WebKit browsers */
+  //   background-image: url('../../../assets/img/watermark.png');
+  //   background-repeat: no-repeat;
+  //   background-position: center;
+}
+
 @media print {
   //   .footerForThe_print {
   //   position: fixed;
@@ -251,6 +291,13 @@
   //   font-weight: bold;
   // }
 
+  .tax_invoice_main_allPrint {
+    margin-bottom: 0px !important;
+    //   -webkit-print-color-adjust: exact; /* For WebKit browsers */
+    //   background-image: url('../../../assets/img/watermark.png');
+    //   background-repeat: no-repeat;
+    //   background-position: center;
+  }
   .footerForThe_print {
     display: flex !important;
     justify-content: center !important;
@@ -273,15 +320,8 @@
 
   .myToalaSection {
     margin-top: auto; /* Push to bottom of page */
-    page-break-inside: avoid; 
+    page-break-inside: avoid;
   }
-
-  // .tax_invoice_main_allPrint {
-  //   -webkit-print-color-adjust: exact; /* For WebKit browsers */
-  //   background-image: url('../../../assets/img/watermark.png');
-  //   background-repeat: no-repeat;
-  //   background-position: center;
-  // }
 
   .containerDetailPrint1 {
     zoom: unset;
@@ -307,7 +347,7 @@
     display: none !important;
   }
 
-  .bottomo_section_for_print{
-    border-bottom: 0px;
+  .bottomo_section_for_print {
+    border-bottom: 0px solid !important;
   }
 }
