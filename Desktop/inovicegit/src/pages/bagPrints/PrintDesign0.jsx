@@ -418,7 +418,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                     maxHeight: "2.4em", // 2 lines * line-height
                                   }}
                                 >
-                                  {e?.data?.rd?.ProductInstruction}
+                                  {e?.data?.rd?.ProductInstruction1}
                                 </p>
                               </div>
 
@@ -764,7 +764,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                     maxHeight: "2.4em", // 2 lines * line-height
                                   }}
                                 >
-                                  {e?.data?.rd?.ProductInstruction}
+                                  {e?.data?.rd?.ProductInstruction1}
                                 </p>
                               </div>
 
