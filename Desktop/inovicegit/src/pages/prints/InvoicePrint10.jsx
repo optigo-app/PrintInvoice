@@ -339,7 +339,6 @@ const InvoicePrint_10_11 = ({
     });
     let finalsArr = [];
     resultArr?.forEach((e, i) => {
-      debugger
       let finalMetalWt =
         e?.MetalDiaWt -
         (e?.totals?.finding?.Wt * e?.LossPer) / 100 +
@@ -363,7 +362,6 @@ const InvoicePrint_10_11 = ({
       labour?.totalAmount / data?.BillPrint_Json[0]?.CurrencyExchRate +
       diamondHandling / data?.BillPrint_Json[0]?.CurrencyExchRate;
 
-      debugger
       total2.totalAmountithouttax +=
       diamondTotal / data?.BillPrint_Json[0]?.CurrencyExchRate +
       colorStone1Total1 / data?.BillPrint_Json[0]?.CurrencyExchRate +

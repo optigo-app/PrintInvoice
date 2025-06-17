@@ -269,7 +269,6 @@ export default SettingPerGram;
 //         position: 'top',
 //         labels: { color: legendColor },
 //         onClick: (e, legendItem, chart) => {
-//           debugger;
 //           const index = legendItem.datasetIndex;
 //           const datasetKey = index === 1 ? 'costPerCarat' : 'soldPerCarat';
 
