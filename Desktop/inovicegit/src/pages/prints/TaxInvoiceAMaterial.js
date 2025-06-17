@@ -90,19 +90,225 @@ const TaxInvoiceAMaterial = ({
     sendData();
   }, []);
 
+  //  const organizeDataSample = (hr, ar1, ar2) => {
+  //     let resultArr = [];
+  //     let totals = {
+  //       diamondPcs: 0,
+  //       diamondWt: 0,
+  //       diamondAmount: 0,
+  //       metalWt: 0,
+  //       metalNL: 0,
+  //       metalAmount: 0,
+  //       colorStonePcs: 0,
+  //       colorStoneWt: 0,
+  //       colorStoneAmount: 0,
+  //       totalAmount: 0,
+  //       discountTotalAmount: 0,
+  //       sgstAmount: 0,
+  //       cgstAmount: 0,
+  //       withoutDiscountTotalAmount: 0,
+  //       withDiscountTaxAmount: 0,
+  //       labourAmount: 0,
+  //       netWt: 0,
+  //     };
+
+  //     let summary = {
+  //       gold24Kt: 0,
+  //       grossWt: 0,
+  //       gDWt: 0,
+  //       netWt: 0,
+  //       diamondWt: 0,
+  //       diamondpcs: 0,
+  //       stoneWt: 0,
+  //       stonePcs: 0,
+  //       metalAmount: 0,
+  //       diamondAmount: 0,
+  //       colorStoneAmount: 0,
+  //       makingAmount: 0,
+  //       otherCharges: 0,
+  //       addLess: 0,
+  //       total: 0,
+  //     };
+
+  //     // eslint-disable-next-line array-callback-return
+  //     ar1?.map((e) => {
+  //       let metalWt = 0;
+  //       if (detailtPrintR || detailtPrintL || detailtPrintp) {
+  //         summary.gold24Kt = summary.gold24Kt + e?.PureNetWt;
+  //       }
+  //       if (detailPrintK) {
+  //         summary.gold24Kt += e.PureNetWt;
+  //       }
+  //       let totalAmounts = e?.DiscountAmt + e?.TotalAmount;
+  //       let OtherAmountDetail = otherAmountDetail(e?.OtherAmtDetail);
+  //       let totalOther =
+  //         e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling;
+  //       totals.labourAmount +=
+  //         e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost;
+  //       let obj = { ...e };
+  //       obj.OtherAmountDetail = OtherAmountDetail;
+  //       obj.totalOther = totalOther;
+  //       obj.SettingAmount = 0;
+  //       let diamondArr = [];
+  //       let metalArr = [];
+  //       let colorStoneArr = [];
+  //       let otherMisc = e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling;
+  //       let primaryMetalWt = 0;
+  //       let diamondsTotal = {
+  //         Pcs: 0,
+  //         Wt: 0,
+  //         Amount: 0,
+  //         RMwt: 0,
+  //       };
+  //       let metalTotal = {
+  //         Pcs: 0,
+  //         Wt: 0,
+  //         Amount: 0,
+  //       };
+  //       let colorStonesTotal = {
+  //         Pcs: 0,
+  //         Wt: 0,
+  //         Amount: 0,
+  //       };
+  //       let discountTotalAmount = 0;
+
+  //       // eslint-disable-next-line array-callback-return
+  //       ar2?.map((el) => {
+  //         if (e?.SrJobno === el?.StockBarcode) {
+  //           if (el?.MasterManagement_DiamondStoneTypeid === 1) {
+  //             diamondArr.push(el);
+  //             diamondsTotal.Pcs += el?.Pcs;
+  //             diamondsTotal.Wt += el?.Wt;
+  //             diamondsTotal.Amount += el?.Amount;
+  //             diamondsTotal.RMwt += el?.RMwt;
+  //             totals.diamondPcs += el?.Pcs;
+  //             totals.diamondWt += el?.Wt;
+  //             totals.diamondAmount += el?.Amount;
+  //             summary.diamondWt += el?.Wt;
+  //             summary.diamondpcs += el?.Pcs;
+  //             summary.diamondAmount += el?.Amount;
+  //             metalWt += el?.Wt;
+  //           }
+  //           if (el?.MasterManagement_DiamondStoneTypeid === 4) {
+  //             metalArr.push(el);
+  //             metalTotal.Pcs += el?.Pcs;
+  //             metalTotal.Wt += el?.Wt;
+  //             metalTotal.Amount += el?.Amount;
+  //             if (!detailtPrintR) {
+  //               if (!detailPrintK) {
+  //                 summary.gold24Kt += el?.FineWt;
+  //               }
+  //             }
+  //             if (el?.IsPrimaryMetal === 1) {
+  //               primaryMetalWt += el?.Wt;
+  //             }
+  //             // totals.metalWt += el?.Wt;
+  //             totals.metalAmount += el?.Amount;
+  //             summary.metalAmount += el?.Amount;
+  //           }
+  //           if (el?.MasterManagement_DiamondStoneTypeid === 2) {
+  //             colorStoneArr.push(el);
+  //             colorStonesTotal.Pcs += el?.Pcs;
+  //             colorStonesTotal.Wt += el?.Wt;
+  //             colorStonesTotal.Amount += el?.Amount;
+  //             totals.colorStonePcs += el?.Pcs;
+  //             totals.colorStoneWt += el?.Wt;
+  //             totals.colorStoneAmount += el?.Amount;
+  //             summary.stoneWt += el?.Wt;
+  //             summary.stonePcs += el?.Pcs;
+  //             summary.colorStoneAmount += el?.Amount;
+  //           }
+  //           obj.SettingAmount += el?.SettingAmount;
+  //           summary.makingAmount += el?.SettingAmount;
+  //         }
+  //       });
+
+  //       metalWt = metalWt / 5 + e?.NetWt;
+  //       totals.metalWt += metalWt;
+  //       // totals.metalWt += e?.DiamondCTWwithLoss / 5;
+  //       metalTotal.Wt = metalWt;
+  //       // discountTotalAmount = e?.TotalAmount - e?.DiscountAmt;
+  //       discountTotalAmount = e?.TotalAmount;
+  //       summary.grossWt += e?.grosswt;
+  //       summary.gDWt += e?.MetalDiaWt + e?.DiamondCTWwithLoss / 5;
+  //       summary.netWt += e?.NetWt;
+  //       summary.makingAmount += e?.MakingAmount;
+  //       // summary.otherCharges += e?.OtherCharges;
+  //       summary.otherCharges += totalOther;
+  //       obj.diamonds = diamondArr;
+  //       obj.primaryMetalWt = primaryMetalWt;
+  //       obj.metals = metalArr;
+  //       obj.colorStones = colorStoneArr;
+  //       obj.diamondsTotal = diamondsTotal;
+  //       obj.metalTotal = metalTotal;
+  //       obj.colorStonesTotal = colorStonesTotal;
+  //       obj.discountTotalAmount = discountTotalAmount;
+  //       obj.totalAmounts = totalAmounts;
+  //       obj.otherMisc = otherMisc;
+  //       if (obj.metals[0]) {
+  //         obj.metals[0].Wt = metalWt;
+  //       }
+  //       totals.totalAmount += e?.TotalAmount;
+  //       totals.discountTotalAmount += obj?.DiscountAmt;
+  //       totals.withoutDiscountTotalAmount += e?.TotalAmount;
+  //       totals.netWt += e?.NetWt + e?.LossWt;
+  //       resultArr.push(obj);
+  //       // setDiamondDetails(diamondDetails);
+  //     });
+  //     summary.addLess = hr?.AddLess;
+  //     summary.total =
+  //       summary?.metalAmount +
+  //       summary?.diamondAmount +
+  //       summary?.colorStoneAmount +
+  //       summary?.makingAmount +
+  //       summary?.otherCharges +
+  //       summary?.addLess;
+  //     totals.cgstAmount = (totals?.withoutDiscountTotalAmount * hr?.CGST) / 100;
+  //     totals.sgstAmount = (totals?.withoutDiscountTotalAmount * hr?.SGST) / 100;
+  //     let taxValue = taxGenrator(hr, totals?.totalAmount);
+  //     setTaxes(taxValue);
+  //     taxValue?.length > 0 &&
+  //       taxValue.forEach((e, i) => {
+  //         totals.withDiscountTaxAmount += +e?.amount;
+  //       });
+  //     totals.withDiscountTaxAmount +=
+  //       hr?.AddLess + totals?.totalAmount - hr?.Privilege_discount;
+  //     setSummary(summary);
+  //     setTotal(totals);
+  //     return resultArr;
+  //   };
+
   console.log("finalDfinalDfinalD", json0Data, finalD);
 
+  const summary = Array.isArray(finalD)
+    ? finalD.reduce(
+        (acc, item) => {
+          acc.totalPieces += item.pieces || 0;
+          acc.totalWeight += item.Weight || 0;
+          acc.totalAmount += item.TotalAmount || 0;
+          return acc;
+        },
+        {
+          totalPieces: 0,
+          totalWeight: 0,
+          totalAmount: 0,
+        }
+      )
+    : {
+        totalPieces: 0,
+        totalWeight: 0,
+        totalAmount: 0,
+      };
 
-  const summary = finalD?.reduce((acc, item) => {
-  acc.totalPieces += item.pieces;
-  acc.totalWeight += item.Weight;
-  acc.totalAmount += item.TotalAmount;
-  return acc;
-}, {
-  totalPieces: 0,
-  totalWeight: 0,
-  totalAmount: 0
-});
+  let TotalCGSTAmount = 0;
+  let TotalSGSTAmount = 0;
+  let TotalIGSTAmount = 0;
+
+  finalD.forEach((item) => {
+    TotalCGSTAmount += item.CGSTAmount || 0;
+    TotalSGSTAmount += item.SGSTAmount || 0;
+    TotalIGSTAmount += item.IGSTAmount || 0;
+  });
 
   const styles = `
     @media print {
@@ -267,7 +473,9 @@ const TaxInvoiceAMaterial = ({
 
                 <div className="header_top_content_main_class">
                   <p className="Header_top_title_name">State Code </p>
-                  <p className="Header_top_title_value_name"></p>
+                  <p className="Header_top_title_value_name">
+                    {json0Data?.Cust_CST_STATE_No}
+                  </p>
                 </div>
                 <div className="header_top_content_main_class">
                   <p className="Header_top_title_name">Contact No. </p>
@@ -302,7 +510,7 @@ const TaxInvoiceAMaterial = ({
                   </p>
                   <div className="header_top_content_main_class">
                     <p className="Header_top_title_value_name">
-                      {json0Data?.customerfirmname}
+                      {json0Data?.CustName}
                     </p>
                   </div>
                   <div className="header_top_content_main_class">
@@ -313,7 +521,7 @@ const TaxInvoiceAMaterial = ({
                       {/* {json0Data?.Printlable} , {json0Data?.customerstate}{" "} */}
                     </p>
                   </div>
-                  <div className="header_top_content_main_class">
+                  {/* <div className="header_top_content_main_class">
                     <p className="Header_top_title_value_name">
                       {json0Data?.customerstate}
                     </p>
@@ -332,7 +540,7 @@ const TaxInvoiceAMaterial = ({
                         return <div key={i}>{e}</div>;
                       })}
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div
@@ -395,7 +603,11 @@ const TaxInvoiceAMaterial = ({
                   </div>
                   <div
                     className="designDetalPrint4 d-flex align-items-center"
-                    style={{ width: "10%" , display: 'flex', justifyContent: 'flex-end'}}
+                    style={{
+                      width: "10%",
+                      display: "flex",
+                      justifyContent: "flex-end",
+                    }}
                   >
                     <p className="fw-bold p-1" style={{ fontSize: "11px" }}>
                       Qty (pcs)
@@ -477,15 +689,19 @@ const TaxInvoiceAMaterial = ({
                           <div className="d-flex justify-content-between">
                             <p>
                               Diamond 2 Lab Grown {e?.MaterialTypeName}{" "}
-                              {e?.MetalPurity} {e?.shape}/{e?.quality}/
-                              {e?.color}
+                              {e?.MetalPurity} {e?.Shape_Code}/{e?.Quality_Code}
+                              /{e?.Color_Code}
                               {e?.LotNo ? `, Cert#: ${e.LotNo}` : ""}
                             </p>
                           </div>
                         </div>
                         <div
                           className="designDetalPrint4   p-1 "
-                          style={{ width: "10%", display:'flex', justifyContent: 'flex-end' }}
+                          style={{
+                            width: "10%",
+                            display: "flex",
+                            justifyContent: "flex-end",
+                          }}
                         >
                           <div className="d-flex justify-content-between">
                             <p style={{ width: "100%", textAlign: "center" }}>
@@ -493,12 +709,10 @@ const TaxInvoiceAMaterial = ({
                             </p>
                           </div>
                         </div>
-                        <div
-                          className="designDetalPrint5   p-1 "
-                        >
+                        <div className="designDetalPrint5   p-1 ">
                           <div className="d-flex justify-content-between">
                             <p style={{ width: "100%", textAlign: "right" }}>
-                              {(e?.Weight)?.toFixed(3)}
+                              {e?.Weight?.toFixed(3)}
                             </p>
                           </div>
                         </div>
@@ -581,13 +795,11 @@ const TaxInvoiceAMaterial = ({
                           paddingRight: "10px",
                         }}
                       >
-                        <p style={{ width: "12%" }}>
+                        <p style={{ width: "22%" }}>
                           <b>{summary?.totalPieces}</b>
                         </p>
-                        <p style={{ width: "50%" }}>
-                          <b>
-                            {(summary?.totalWeight)?.toFixed(3)} ctw
-                          </b>
+                        <p style={{ width: "60%" }}>
+                          <b>{summary?.totalWeight?.toFixed(3)}</b>
                         </p>
                         <p
                           style={{
@@ -627,31 +839,52 @@ const TaxInvoiceAMaterial = ({
                     >
                       <p>Taxable Value</p>
                       <p>
-                        <b>{formatAmount(finalD?.mainTotal?.total_amount)}</b>
+                        <b>{formatAmount(summary?.totalAmount)}</b>
                       </p>
                     </div>
-                    {finalD?.allTaxes?.map((e, i) => {
-                      return (
-                        <div
-                          style={{
-                            display: "flex",
-                            borderBottom: "1px solid green",
-                            justifyContent: "space-between",
-                            paddingRight: "10px",
-                          }}
-                          key={i}
-                        >
-                          <p>
-                            {" "}
-                            {e?.name} {e?.per}{" "}
-                          </p>
-                          <p>
-                            {" "}
-                            <b>{formatAmount(e?.amountInNumber)}</b>{" "}
-                          </p>
-                        </div>
-                      );
-                    })}
+
+                    <div
+                      style={{
+                        display: "flex",
+                        borderBottom: "1px solid green",
+                        justifyContent: "space-between",
+                        paddingRight: "10px",
+                      }}
+                    >
+                      <p>CGST</p>
+                      <p>
+                        <b>{formatAmount(TotalCGSTAmount)}</b>
+                      </p>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        borderBottom: "1px solid green",
+                        justifyContent: "space-between",
+                        paddingRight: "10px",
+                      }}
+                    >
+                      <p>SGST</p>
+                      <p>
+                        <b>{formatAmount(TotalSGSTAmount)}</b>
+                      </p>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        borderBottom: "1px solid green",
+                        justifyContent: "space-between",
+                        paddingRight: "10px",
+                      }}
+                    >
+                      <p>IGST</p>
+                      <p>
+                        <b>{formatAmount(TotalIGSTAmount)}</b>
+                      </p>
+                    </div>
+
                     <div
                       style={{
                         display: "flex",
@@ -664,11 +897,10 @@ const TaxInvoiceAMaterial = ({
                         <b>
                           {" "}
                           {formatAmount(
-                            finalD?.mainTotal?.total_amount /
-                              finalD?.header?.CurrencyExchRate +
-                              finalD?.allTaxesTotal +
-                              finalD?.header?.FreightCharges /
-                                finalD?.header?.CurrencyExchRate
+                            summary?.totalAmount +
+                              TotalCGSTAmount +
+                              TotalSGSTAmount +
+                              TotalIGSTAmount
                           )}
                         </b>
                       </p>

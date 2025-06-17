@@ -754,7 +754,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
                 <div className="header_top_content_main_class">
                   <p className="Header_top_title_name">State Code </p>
-                  <p className="Header_top_title_value_name"></p>
+                  <p className="Header_top_title_value_name">{finalD?.header?.Cust_CST_STATE_No}</p>
                 </div>
                 <div className="header_top_content_main_class">
                   <p className="Header_top_title_name">Contact No. </p>
@@ -792,12 +792,12 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       {json0Data?.CustName}
                     </p>
                   </div>
-                  <div className="header_top_content_main_class">
+                  {/* <div className="header_top_content_main_class">
                     <p className="Header_top_title_value_name">
                       {json0Data?.customercity} , {json0Data?.customerstate}{" "}
                     </p>
-                  </div>
-                  <div className="header_top_content_main_class">
+                  </div> */}
+                  {/* <div className="header_top_content_main_class">
                     <p className="Header_top_title_value_name">
                       {json0Data?.customerstate}
                     </p>
@@ -806,7 +806,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <p className="Header_top_title_value_name">
                       {finalD?.header?.CustPanno}
                     </p>
-                  </div>
+                  </div> */}
                   <div
                     className="header_top_content_main_class"
                     style={{ minHeight: "40px" }}
