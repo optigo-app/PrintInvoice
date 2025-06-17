@@ -287,6 +287,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    border-right: 0.5px solid #989898;
+}
+
+.dPricetheadpcl {
+    width: 5.5%;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .lbhthpcl {
@@ -334,6 +343,9 @@
 .tablebodypcl {
     width: 100%;
     /* max-width: 1200px !important; */
+}
+.tablebodypcl > div:last-child {
+    border-bottom: none I !important;
 }
 
 .pcltablecontent {
@@ -496,6 +508,13 @@
     width: 5.5%;
     border-right: 0.5px solid #989898;
 }
+.pcltbr1c8 {
+    display: flex;
+    align-items: flex-start;
+    /* min-height: 110px; */
+    width: 5.5%;
+    border-right: 0.5px solid #989898;
+}
 
 .summaryalignpcl {
     width: 50%;
@@ -563,6 +582,10 @@
         content: "";
         display: block;
         /* border-top: 0.5px solid #989898; */
+    }
+
+    .tbodyrowpcltot, .tablebodypcl   {
+        border-top: 1px solid #000 !important;
     }
 
     .print_sec_sum4 {
