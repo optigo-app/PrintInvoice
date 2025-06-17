@@ -361,7 +361,8 @@ export const ordersArray = [
 ];
 export const MaterialSale = [
   {printName: 'invoice print', etpType: 'print', componentName: 'InvoicePrintShwinit'},
-  {printName: 'material sale print', etpType: 'print', componentName: 'MaterialSalePrint'}
+  {printName: 'material sale print', etpType: 'print', componentName: 'MaterialSalePrint'},
+  {printName: 'tax invoice a', etpType: 'print', componentName: 'TaxInvoiceAMaterial'}
 ]
 export const fgPurchase = [
   {printName: 'item wise print', etpType: 'print', componentName: 'ItemWisePrint'},
