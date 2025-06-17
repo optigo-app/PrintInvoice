@@ -304,11 +304,17 @@ const TaxInvoiceAMaterial = ({
   let TotalSGSTAmount = 0;
   let TotalIGSTAmount = 0;
 
-  finalD.forEach((item) => {
-    TotalCGSTAmount += item.CGSTAmount || 0;
-    TotalSGSTAmount += item.SGSTAmount || 0;
-    TotalIGSTAmount += item.IGSTAmount || 0;
-  });
+  if (Array.isArray(finalD)) {
+    finalD.forEach((item) => {
+      TotalCGSTAmount += Number(item.CGSTAmount) || 0;
+      TotalSGSTAmount += Number(item.SGSTAmount) || 0;
+      TotalIGSTAmount += Number(item.IGSTAmount) || 0;
+    });
+
+    console.log("TotalCGSTAmount:", TotalCGSTAmount);
+    console.log("TotalSGSTAmount:", TotalSGSTAmount);
+    console.log("TotalIGSTAmount:", TotalIGSTAmount);
+  }
 
   const styles = `
     @media print {
