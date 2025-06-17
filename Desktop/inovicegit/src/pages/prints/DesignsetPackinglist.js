@@ -1558,7 +1558,7 @@ items-center end_p_pcl_new"
                     </table>
                   </div>
 
-                  <div className="tablebodypcl  border-start border-end border-bottom border-black">
+                  <div className="tablebodypcl lastTotalDiv border-start border-end border-bottom border-black">
                     <div className="totdispcl">
                       <div className="summaryalignpcl fspcl">
                         Total Discount
