@@ -21,27 +21,14 @@ const DesignsetPackinglist = ({
   evn,
   ApiVer,
 }) => {
-  const [headerData, setHeaderData] = useState({});
-  const [dynamicList1, setDynamicList1] = useState([]);
-  const [dynamicList2, setDynamicList2] = useState([]);
-  const [mainTotal, setMainTotal] = useState({});
   const [result, setResult] = useState(null);
+  const [data, setData] = useState(null)
   console.log("result: ", result);
-  const [totalgrosswt, setTotalgrosswt] = useState(0);
-  const [totalnetlosswt, setTotalnetlosswt] = useState(0);
-  // eslint-disable-next-line no-unused-vars
-  const [totalLabourAmount, setTotalLabourAmount] = useState(0);
-  const [totalOtherAmount, setTotalOtherAmount] = useState(0);
-  // eslint-disable-next-line no-unused-vars
   const [responsejson, setResponsejson] = useState("");
-  const [taxtotal, setTaxTotal] = useState([]);
-  const [grandtot, setGrandTot] = useState([]);
   const [misc_other, setMisc_Other] = useState([]);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
-
   const [isImageWorking, setIsImageWorking] = useState(true);
-
   const [diaQlty, setDiaQlty] = useState(false);
   const [netWtflag, setNetWtflag] = useState(false);
   const [sizeFlag, setSizeFlag] = useState(false);
@@ -73,7 +60,6 @@ const DesignsetPackinglist = ({
           }
         } else {
           setLoader(false);
-          // setMsg(data?.Message);
           const err = checkMsg(data?.Message);
           console.log(data?.Message);
           setMsg(err);
@@ -83,116 +69,131 @@ const DesignsetPackinglist = ({
       }
     };
     sendData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadData = (data) => {
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
+
     const datas = OrganizeDataPrint(
       data?.BillPrint_Json[0],
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
 
-    datas?.resultArray?.forEach((e) => {
-      let dia = [];
-      e?.diamonds?.forEach((el) => {
-        let obj = cloneDeep(el);
-        let findrec = dia?.findIndex(
-          (a) =>
-            a?.ShapeName === el?.ShapeName &&
-            a?.SizeName === el?.SizeName &&
-            a?.QualityName === el?.QualityName &&
-            a?.Colorname === el?.Colorname &&
-            a?.Rate === el?.Rate
-        );
-        if (findrec === -1) {
-          dia.push(obj);
-        } else {
-          dia[findrec].Wt += obj?.Wt;
-          dia[findrec].Pcs += obj?.Pcs;
-          dia[findrec].Amount += obj?.Amount;
-        }
-      });
-      e.diamonds = dia;
+    datas?.resultArray?.sort((a, b) => a.id - b.id);
 
-      let clr = [];
-      e?.colorstone?.forEach((el) => {
-        let obj = cloneDeep(el);
-        let findrec = clr?.findIndex(
-          (a) =>
-            a?.ShapeName === el?.ShapeName &&
-            a?.SizeName === el?.SizeName &&
-            a?.QualityName === el?.QualityName &&
-            a?.Colorname === el?.Colorname &&
-            a?.Rate === el?.Rate
-        );
-        if (findrec === -1) {
-          clr.push(obj);
-        } else {
-          clr[findrec].Wt += obj?.Wt;
-          clr[findrec].Pcs += obj?.Pcs;
-          clr[findrec].Amount += obj?.Amount;
-        }
-      });
-      e.colorstone = clr;
-    });
+    const designSetAmountMap = {};
+    const designSetDesignNoSeen = new Set();
+    const designSetDesignNoCount = {};
+    const lastOfRepeatedDesignInSet = new Map();
+    const lastDesignSetIndexMap = {};
+    const firstDesignSetIndexMap = {};
 
-    let finalArr = [];
-    const seenDesignSetNos = new Set();
+    // Step 1: Calculate total of unique designno per DesignSetNo and track last occurrences
+    datas.resultArray?.forEach((e, idx) => {
+      const setKey = e.DesignSetNo;
+      const designKey = `${e.DesignSetNo}__${e.designno}`;
 
-  //   datas.resultArray?.sort((a, b) => {
-  //     if (a.Categoryname < b.Categoryname) return -1;
-  //     if (a.Categoryname > b.Categoryname) return 1;
-  //     if (a.SrJobno < b.SrJobno) return -1;
-  //     if (a.SrJobno > b.SrJobno) return 1;
-  //     return 0;
- 
-  //  })
-
-    // id wise sorting
-    datas.resultArray?.sort((a, b) => {
-      if (a.id < b.id) return -1;
-      if (a.id > b.id) return 1;
-      return 0;
-    });
-
-    datas?.resultArray?.forEach((e) => {
-      let obj = { ...e };
-      let discountOn = [];
-      if (e?.IsCriteriabasedAmount === 1) {
-        if (e?.IsMetalAmount === 1) discountOn.push("Metal");
-        if (e?.IsDiamondAmount === 1) discountOn.push("Diamond");
-        if (e?.IsStoneAmount === 1) discountOn.push("Stone");
-        if (e?.IsMiscAmount === 1) discountOn.push("Misc");
-        if (e?.IsLabourAmount === 1) discountOn.push("Labour");
-        if (e?.IsSolitaireAmount === 1) discountOn.push("Solitaire");
-      } else {
-        if (e?.Discount !== 0) discountOn.push("Total Amount");
+      // Track first index of DesignSetNo
+      if (firstDesignSetIndexMap[setKey] === undefined) {
+        firstDesignSetIndexMap[setKey] = idx;
       }
 
-      obj.discountOn = discountOn;
-      obj.str_discountOn = discountOn.join(", ") + "Amount";
+      // Unique designno amount per DesignSetNo
+      if (!designSetDesignNoSeen.has(designKey)) {
+        designSetDesignNoSeen.add(designKey);
+        designSetAmountMap[setKey] = (designSetAmountMap[setKey] || 0) + (e.TotalAmount || 0);
+      }
 
-      // design set image show logic
-      if (seenDesignSetNos.has(e.DesignSetNo)) {
+      // Count occurrences and track last index
+      designSetDesignNoCount[designKey] = (designSetDesignNoCount[designKey] || 0) + 1;
+      lastDesignSetIndexMap[setKey] = idx;
+
+      if (designSetDesignNoCount[designKey] > 1) {
+        lastOfRepeatedDesignInSet.set(designKey, idx);
+      }
+    });
+
+    const shownFirstSet = new Set();
+
+    const finalArr = datas.resultArray.map((e, idx) => {
+      const obj = { ...e };
+      const designKey = `${e.DesignSetNo}__${e.designno}`;
+      const setKey = e.DesignSetNo;
+      const isRepeated = designSetDesignNoCount[designKey] > 1;
+      const isLastRepeat = lastOfRepeatedDesignInSet.get(designKey) === idx;
+      const isFirstDesignSet = !shownFirstSet.has(setKey);
+      const isFirstSetIndex = firstDesignSetIndexMap[setKey] === idx;
+
+      // Set designSetTotalAmount
+      if (isFirstDesignSet) {
+        obj.designSetTotalAmount = designSetAmountMap[setKey];
+        shownFirstSet.add(setKey);
+      } else if (isRepeated && isLastRepeat) {
+        obj.designSetTotalAmount = e.TotalAmount;
+      } else {
+        obj.designSetTotalAmount = "";
+      }
+
+      // Set DesigSetImage only if not first row overall and first for set
+      if (isFirstSetIndex) {
+        obj.DesigSetImage = e.DesigSetImage;
+      } else {
         obj.DesigSetImage = "";
-      } else {
-        seenDesignSetNos.add(e.DesignSetNo);
       }
 
-      finalArr.push(obj);
+      return obj;
     });
 
     datas.resultArray = finalArr;
-
-
-    console.log("datas: ", datas);
-
     setResult(datas);
+    setData(datas);
     setLoader(false);
   };
+
+
+  useEffect(() => {
+    if (diaQlty) {
+      const updated = cloneDeep(result);
+
+      updated.resultArray.forEach((e) => {
+        // Merge duplicate diamonds
+        const diaMap = new Map();
+        e?.diamonds?.forEach((el) => {
+          const key = el?.QualityName;
+          if (!diaMap.has(key)) {
+            diaMap.set(key, cloneDeep(el));
+          } else {
+            const existing = diaMap.get(key);
+            existing.Wt += el.Wt;
+            existing.Pcs += el.Pcs;
+            existing.Amount += el.Amount;
+          }
+        });
+        e.diamonds = Array.from(diaMap.values());
+
+        // Merge duplicate colorstones
+        const clrMap = new Map();
+        e?.colorstone?.forEach((el) => {
+          const key = `${el.ShapeName}|${el.SizeName}|${el.QualityName}|${el.Colorname}|${el.Rate}`;
+          if (!clrMap.has(key)) {
+            clrMap.set(key, cloneDeep(el));
+          } else {
+            const existing = clrMap.get(key);
+            existing.Wt += el.Wt;
+            existing.Pcs += el.Pcs;
+            existing.Amount += el.Amount;
+          }
+        });
+        e.colorstone = Array.from(clrMap.values());
+      });
+
+      setResult(updated);
+    }else{
+      setResult(data)
+    }
+  }, [diaQlty]);
 
   const checkDiaQlty = () => {
     if (diaQlty) {
@@ -513,6 +514,10 @@ const DesignsetPackinglist = ({
                                 {" "}
                                 Price{" "}
                               </div>
+                              <div className="dPricetheadpcl fwboldpcl fspcl">
+                                {" "}
+                                Amount{" "}
+                              </div>
                             </div>
                           </td>
                         </tr>
@@ -524,19 +529,19 @@ const DesignsetPackinglist = ({
                           <tr key={i}>
                             {/* <td> */}
                             <div
-                              className="tablebodypcl border-start border-end border-bottom border-black border-top-0"
+                              className="tablebodypcl border-end border-black border-top-0"
                               style={{ marginTop: "-2px" }}
                             >
-                              <div className="tbodyrowpcl">
-                                <div className="pcltbr1c1 fspcl"> {i + 1} </div>
-                                <div className="pcltbr1c2 fspcl">
+                              <div className="tbodyrowpcl border-start border-black">
+                                <div className="pcltbr1c1 fspcl border-bottom border-black"> {i + 1} </div>
+                                <div className="pcltbr1c2 fspcl border-bottom border-black">
                                   <div className="fspcl w-100  text-break left_pcl_new pd_top_pcl">
                                     {" "}
                                     {atob(evn)?.toLowerCase() === "quote"
                                       ? e?.designno
                                       : e?.JewelCodePrefix?.slice(0, 2) +
-                                        e?.Category_Prefix?.slice(0, 2) +
-                                        e?.SrJobno?.split("/")[1]}{" "}
+                                      e?.Category_Prefix?.slice(0, 2) +
+                                      e?.SrJobno?.split("/")[1]}{" "}
                                   </div>
                                   <div className="designimgpcl fspcl">
                                     <img
@@ -559,7 +564,7 @@ const DesignsetPackinglist = ({
                                     {e?.lineid}
                                   </div>
                                 </div>
-                                <div className="pcltbr1c2 fspcl">
+                                <div className="pcltbr1c2 fspcl border-bottom border-black">
                                   <div className="designimgpcl fspcl">
                                     <img
                                       src={e?.DesigSetImage}
@@ -570,7 +575,7 @@ const DesignsetPackinglist = ({
                                   </div>
                                 </div>
                                 {/* diamond */}
-                                <div className="pcltbr1c3 fspcl">
+                                <div className="pcltbr1c3 fspcl border-bottom border-black">
                                   <div
                                     className="dcolsthpcl fspcl pt-1"
                                     style={{ width: "27%" }}
@@ -695,8 +700,8 @@ const DesignsetPackinglist = ({
                                                 {" "}
                                                 {formatAmount(
                                                   ele?.Amount /
-                                                    result?.header
-                                                      ?.CurrencyExchRate
+                                                  result?.header
+                                                    ?.CurrencyExchRate
                                                 )}{" "}
                                               </div>
                                             );
@@ -706,7 +711,7 @@ const DesignsetPackinglist = ({
                                       <div className=" fspcl text-break br_top_pcl text-break bg_pcl fw-bold end_pcl_new end_p_pcl_new">
                                         {formatAmount(
                                           e?.totals?.diamonds?.Amount /
-                                            result?.header?.CurrencyExchRate
+                                          result?.header?.CurrencyExchRate
                                         )}
                                       </div>
                                     </div>
@@ -714,7 +719,7 @@ const DesignsetPackinglist = ({
                                 </div>
                                 {/* metal */}
 
-                                <div className="pcltbr1c3 fspcl d-flex flex-column justify-content-start">
+                                <div className="pcltbr1c3 fspcl d-flex flex-column justify-content-start border-bottom border-black">
                                   {e?.JobRemark !== "" ? (
                                     <>
                                       <div className="w-100 d-flex flex-column justify-content-between h-100">
@@ -809,8 +814,8 @@ const DesignsetPackinglist = ({
                                                       {" "}
                                                       {formatAmount(
                                                         ele?.Amount /
-                                                          result?.header
-                                                            ?.CurrencyExchRate
+                                                        result?.header
+                                                          ?.CurrencyExchRate
                                                       )}{" "}
                                                     </div>
                                                   );
@@ -846,8 +851,8 @@ const DesignsetPackinglist = ({
                                             {" "}
                                             {netWtflag
                                               ? e?.totals?.metal?.IsPrimaryMetal?.toFixed(
-                                                  3
-                                                )
+                                                3
+                                              )
                                               : "\u00A0"}
                                           </div>
                                           <div
@@ -863,7 +868,7 @@ const DesignsetPackinglist = ({
                                             {formatAmount(
                                               e?.totals?.metal
                                                 ?.IsPrimaryMetal_Amount /
-                                                result?.header?.CurrencyExchRate
+                                              result?.header?.CurrencyExchRate
                                             )}
                                           </div>
                                         </div>
@@ -888,8 +893,8 @@ const DesignsetPackinglist = ({
                                                     {ele?.IsPrimaryMetal ===
                                                       1 &&
                                                       ele?.ShapeName +
-                                                        " " +
-                                                        ele?.QualityName}{" "}
+                                                      " " +
+                                                      ele?.QualityName}{" "}
                                                   </div>
                                                 );
                                               })
@@ -929,8 +934,8 @@ const DesignsetPackinglist = ({
                                           <div className="w-100 end_pcl_new end_p_pcl_new bg_pcl br_top_pcl fw-bold">
                                             {netWtflag
                                               ? e?.totals?.metal?.IsPrimaryMetal?.toFixed(
-                                                  3
-                                                )
+                                                3
+                                              )
                                               : "\u00A0"}
                                           </div>
                                         </div>
@@ -984,8 +989,8 @@ const DesignsetPackinglist = ({
                                                     ele?.Amount !== 0 &&
                                                     formatAmount(
                                                       ele?.Amount /
-                                                        result?.header
-                                                          ?.CurrencyExchRate
+                                                      result?.header
+                                                        ?.CurrencyExchRate
                                                     )}{" "}
                                                 </div>
                                               );
@@ -996,7 +1001,7 @@ const DesignsetPackinglist = ({
                                           {formatAmount(
                                             e?.totals?.metal
                                               ?.IsPrimaryMetal_Amount /
-                                              result?.header?.CurrencyExchRate
+                                            result?.header?.CurrencyExchRate
                                           )}{" "}
                                         </div>
                                       </div>
@@ -1005,7 +1010,7 @@ const DesignsetPackinglist = ({
                                 </div>
 
                                 {/* colorstone */}
-                                <div className="pcltbr1c5 fspcl">
+                                <div className="pcltbr1c5 fspcl border-bottom border-black">
                                   <div
                                     className="shpthcolspcl fspcl pt-1 d-flex justify-contnet-between flex-column h-100"
                                     style={{ width: "27%" }}
@@ -1104,8 +1109,8 @@ const DesignsetPackinglist = ({
                                               {" "}
                                               {formatAmount(
                                                 ele?.Amount /
-                                                  result?.header
-                                                    ?.CurrencyExchRate
+                                                result?.header
+                                                  ?.CurrencyExchRate
                                               )}{" "}
                                             </div>
                                           );
@@ -1118,7 +1123,7 @@ const DesignsetPackinglist = ({
                                       ) : (
                                         formatAmount(
                                           e?.totals?.colorstone?.Amount /
-                                            result?.header?.CurrencyExchRate
+                                          result?.header?.CurrencyExchRate
                                         )
                                       )}
                                     </div>
@@ -1126,7 +1131,7 @@ const DesignsetPackinglist = ({
                                 </div>
 
                                 {/* labour */}
-                                <div className="pcltbr1c6 fspcl ">
+                                <div className="pcltbr1c6 fspcl border-bottom border-black">
                                   <div className="lopclcol d-flex flex-column justify-content-between h-100  fspcl pt-1 ">
                                     <div className="d-flex flex-column justify-content-between h-100">
                                       <div className="end_pcl_new end_p_pcl_new">
@@ -1154,25 +1159,25 @@ const DesignsetPackinglist = ({
                                           (e?.MakingAmount +
                                             e?.TotalCsSetcost +
                                             e?.TotalDiaSetcost) /
-                                            result?.header?.CurrencyExchRate
+                                          result?.header?.CurrencyExchRate
                                         )}
                                     </div>
                                     <div className="end_pcl_new end_p_pcl_new br_top_pcl bg_pcl fw-bold">
                                       {e?.MakingAmount +
                                         e?.TotalCsSetcost +
                                         e?.TotalDiaSetcost ===
-                                      0 ? (
+                                        0 ? (
                                         <div>&nbsp;</div>
                                       ) : (
                                         e?.MakingAmount +
-                                          e?.TotalCsSetcost +
-                                          e?.TotalDiaSetcost !==
-                                          0 &&
+                                        e?.TotalCsSetcost +
+                                        e?.TotalDiaSetcost !==
+                                        0 &&
                                         formatAmount(
                                           (e?.MakingAmount +
                                             e?.TotalCsSetcost +
                                             e?.TotalDiaSetcost) /
-                                            result?.header?.CurrencyExchRate
+                                          result?.header?.CurrencyExchRate
                                         )
                                       )}
                                     </div>
@@ -1180,7 +1185,7 @@ const DesignsetPackinglist = ({
                                 </div>
 
                                 {/* othercharge */}
-                                <div className="pcltbr1c6 fspcl">
+                                <div className="pcltbr1c6 fspcl border-bottom border-black">
                                   <div className="lopclcol fspcl pt-1 d-flex flex-column justify-content-between h-100 ">
                                     <div>
                                       <div className="left_pcl_new2">
@@ -1215,8 +1220,8 @@ const DesignsetPackinglist = ({
                                               {el?.Amount === 0
                                                 ? ""
                                                 : el?.IsHSCOE === 3
-                                                ? el?.ShapeName?.split("_")[1]
-                                                : el?.ShapeName}
+                                                  ? el?.ShapeName?.split("_")[1]
+                                                  : el?.ShapeName}
                                             </div>
                                           ) : (
                                             ""
@@ -1239,18 +1244,18 @@ const DesignsetPackinglist = ({
                                             ?.onlyIsHSCODE0_Amount === 0
                                             ? ""
                                             : formatAmount(
-                                                e?.totals?.misc
-                                                  ?.onlyIsHSCODE0_Amount /
-                                                  result?.header
-                                                    ?.CurrencyExchRate
-                                              )}
+                                              e?.totals?.misc
+                                                ?.onlyIsHSCODE0_Amount /
+                                              result?.header
+                                                ?.CurrencyExchRate
+                                            )}
                                         </div>
                                         <div>
                                           {e?.TotalDiamondHandling === 0
                                             ? ""
                                             : formatAmount(
-                                                e?.TotalDiamondHandling
-                                              )}
+                                              e?.TotalDiamondHandling
+                                            )}
                                         </div>
                                         <div>
                                           {e?.other_details?.map((el, i) => {
@@ -1268,10 +1273,10 @@ const DesignsetPackinglist = ({
                                                 {el?.Amount === 0
                                                   ? ""
                                                   : formatAmount(
-                                                      el?.Amount /
-                                                        result?.header
-                                                          ?.CurrencyExchRate
-                                                    )}
+                                                    el?.Amount /
+                                                    result?.header
+                                                      ?.CurrencyExchRate
+                                                  )}
                                               </div>
                                             ) : (
                                               ""
@@ -1282,17 +1287,17 @@ const DesignsetPackinglist = ({
                                     </div>
                                     <div className="bg_pcl end_pcl_new end_p_pcl_new br_top_pcl fw-bold">
                                       {e?.other_details?.length === 0 &&
-                                      e?.misc?.length === 0 &&
-                                      e?.TotalDiamondHandling === 0 &&
-                                      e?.totals?.misc?.onlyIsHSCODE0_Amount ===
+                                        e?.misc?.length === 0 &&
+                                        e?.TotalDiamondHandling === 0 &&
+                                        e?.totals?.misc?.onlyIsHSCODE0_Amount ===
                                         0 ? (
                                         <div>&nbsp;</div>
                                       ) : (
                                         formatAmount(
                                           e?.other_details_arr_total_amount +
-                                            e?.totals?.misc?.Amount /
-                                              result?.header?.CurrencyExchRate +
-                                            e?.TotalDiamondHandling
+                                          e?.totals?.misc?.Amount /
+                                          result?.header?.CurrencyExchRate +
+                                          e?.TotalDiamondHandling
                                         )
                                       )}
                                     </div>
@@ -1300,27 +1305,39 @@ const DesignsetPackinglist = ({
                                 </div>
                                 {/* price */}
                                 <div
-                                  className="pcltbr1c7 fwboldpcl fspcl pt-1"
-                                  style={{ borderRight: "0px" }}
+                                  className="pcltbr1c7 fwboldpcl fspcl pt-1 border-bottom border-black"
                                 >
-                                  <div className="d-flex flex-column justify-content-between h-100  w-100">
+                                  <div className="d-flex flex-column justify-content-between h-100  w-100 border-bottom">
                                     <div className="end_pcl_new end_p_pcl_new">
                                       {formatAmount(
                                         e?.UnitCost /
-                                          result?.header?.CurrencyExchRate
+                                        result?.header?.CurrencyExchRate
                                       )}
                                     </div>
                                     <div className="bg_pcl br_top_pcl end_pcl_new end_p_pcl_new">
                                       {formatAmount(
-                                        e?.UnitCost /
-                                          result?.header?.CurrencyExchRate
+                                        e?.TotalAmount /
+                                        result?.header?.CurrencyExchRate
                                       )}
                                     </div>
                                   </div>
                                 </div>
+                                <div
+                                  className="pcltbr1c8 fwboldpcl fspcl pt-1 pr-0.5"
+                                  style={{
+                                    borderRight: "0px",
+                                    justifyContent: "end",
+                                    borderTop: e?.designSetTotalAmount ? "1px solid #000" : "none",
+                                  }}
+                                >
+                                  {e?.designSetTotalAmount
+                                    ? Number(e.designSetTotalAmount / (result?.header?.CurrencyExchRate || 1)).toFixed(2)
+                                    : ""}
+                                </div>
+
                               </div>
 
-                              {e?.DiscountAmt === 0 ? (
+                              {/* {e?.DiscountAmt === 0 ? (
                                 ""
                               ) : (
                                 <div
@@ -1338,9 +1355,8 @@ const DesignsetPackinglist = ({
                                         "-"
                                       ) : (
                                         <span className="text-break">
-                                          {`${formatAmount(e?.Discount)} % On ${
-                                            e?.str_discountOn
-                                          }`}
+                                          {`${formatAmount(e?.Discount)} % On ${e?.str_discountOn
+                                            }`}
                                         </span>
                                       )}{" "}
                                     </div>
@@ -1353,7 +1369,7 @@ const DesignsetPackinglist = ({
                                     >
                                       {formatAmount(
                                         e?.DiscountAmt /
-                                          result?.header?.CurrencyExchRate
+                                        result?.header?.CurrencyExchRate
                                       )}
                                     </div>
                                   </div>
@@ -1364,11 +1380,11 @@ const DesignsetPackinglist = ({
                                   >
                                     {formatAmount(
                                       e?.TotalAmount /
-                                        result?.header?.CurrencyExchRate
+                                      result?.header?.CurrencyExchRate
                                     )}
                                   </div>
                                 </div>
-                              )}
+                              )} */}
                             </div>
                             {/* </td> */}
                           </tr>
@@ -1419,7 +1435,7 @@ items-center end_p_pcl_new"
                               {result?.mainTotal?.diamonds?.Amount !== 0 &&
                                 formatAmount(
                                   result?.mainTotal?.diamonds?.Amount /
-                                    result?.header?.CurrencyExchRate
+                                  result?.header?.CurrencyExchRate
                                 )}
                             </div>
                           </div>
@@ -1458,7 +1474,7 @@ items-center end_p_pcl_new"
                                 formatAmount(
                                   result?.mainTotal.metal
                                     ?.IsPrimaryMetal_Amount /
-                                    result?.header?.CurrencyExchRate
+                                  result?.header?.CurrencyExchRate
                                 )}
                             </div>
                           </div>
@@ -1482,7 +1498,7 @@ items-center end_p_pcl_new"
                               {result?.mainTotal.colorstone?.Amount !== 0 &&
                                 formatAmount(
                                   result?.mainTotal.colorstone?.Amount /
-                                    result?.header?.CurrencyExchRate
+                                  result?.header?.CurrencyExchRate
                                 )}
                             </div>
                           </div>
@@ -1500,7 +1516,7 @@ items-center end_p_pcl_new"
                                   (result?.mainTotal?.total_Making_Amount +
                                     result?.mainTotal?.total_TotalDiaSetcost +
                                     result?.mainTotal?.total_TotalCsSetcost) /
-                                    result?.header?.CurrencyExchRate
+                                  result?.header?.CurrencyExchRate
                                 )}
                             </div>
                           </div>
@@ -1518,17 +1534,21 @@ items-center end_p_pcl_new"
                                   (result?.mainTotal?.total_other +
                                     result?.mainTotal?.total_diamondHandling +
                                     result?.mainTotal?.totalMiscAmount) /
-                                    result?.header?.CurrencyExchRate
+                                  result?.header?.CurrencyExchRate
                                 )}
                             </div>
                           </div>
                           <div
                             className="prpcltotrowtb  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new"
-                            style={{ borderRight: "0px" }}
+                          >
+                          </div>
+                          <div
+                            className="prpcltotrowtb  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new"
+                            style={{ borderRight: "0px", borderTop: '1px solid #000' }}
                           >
                             {formatAmount(
                               result?.mainTotal?.total_amount /
-                                result?.header?.CurrencyExchRate
+                              result?.header?.CurrencyExchRate
                             )}
                           </div>
                         </div>
@@ -1546,7 +1566,7 @@ items-center end_p_pcl_new"
                       <div className="fspcl w-50 d-flex justify-content-end align-items-center ">
                         {formatAmount(
                           result?.mainTotal?.total_discount_amount /
-                            result?.header?.CurrencyExchRate
+                          result?.header?.CurrencyExchRate
                         )}
                       </div>
                     </div>
@@ -1575,7 +1595,7 @@ items-center end_p_pcl_new"
                         <div className="fspcl">
                           {formatAmount(
                             result?.header?.FreightCharges /
-                              result?.header?.CurrencyExchRate
+                            result?.header?.CurrencyExchRate
                           )}
                         </div>
                       </div>
@@ -1587,7 +1607,7 @@ items-center end_p_pcl_new"
                       <div className="fspcl">
                         {formatAmount(
                           result?.header?.AddLess /
-                            result?.header?.CurrencyExchRate
+                          result?.header?.CurrencyExchRate
                         )}
                       </div>
                     </div>
@@ -1597,10 +1617,10 @@ items-center end_p_pcl_new"
                         {formatAmount(
                           (result?.mainTotal?.total_amount +
                             result?.header?.AddLess) /
-                            result?.header?.CurrencyExchRate +
-                            result?.allTaxesTotal +
-                            result?.header?.FreightCharges /
-                              result?.header?.CurrencyExchRate
+                          result?.header?.CurrencyExchRate +
+                          result?.allTaxesTotal +
+                          result?.header?.FreightCharges /
+                          result?.header?.CurrencyExchRate
                         )}
                       </div>
                     </div>

@@ -104,7 +104,6 @@ const TaxInvoice5A = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     datas.resultArray = resultArr;
     // datas?.resultArray?.sort((a, b) => {
       
-    //   debugger
     //   var nameA = a?.JewelCodePrefix?.toUpperCase() + a?.Category_Prefix?.toUpperCase() + a?.srjobno[1]?.toUpperCase();
     //   var nameB = b?.JewelCodePrefix?.toUpperCase() + b?.Category_Prefix?.toUpperCase() + b?.srjobno[1]?.toUpperCase();
       
