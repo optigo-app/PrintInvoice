@@ -333,7 +333,7 @@ const DesignsetPackinglist = ({
                     <table>
                       <thead>
                         <tr>
-                          <td>
+                          <td >
                             <div className="pcltablehead border-start border-end border-bottom border-black ">
                               <div
                                 className="srnopclthead centerpcl fwboldpcl srfslhpcl fspcl"
