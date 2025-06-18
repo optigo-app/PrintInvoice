@@ -31,6 +31,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
   const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
+  const [evtName, setEvtName] = useState(atob(evn).toLowerCase());
   // eslint-disable-next-line no-unused-vars
   const [detailtPrintR, setdetailtPrintR] = useState(
     atob(printName).toLowerCase() === "detail print r" ? true : false
@@ -125,6 +126,12 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     "Triplicate for Supplier",
     "Duplicate for Transporter",
     "Original for Recipient",
+  ];
+
+  const optionsMemo = [
+    "Original for Consignee",
+    "Duplicate for Transporter",
+    "Triplicate for Consignor",
   ];
 
   // eslint-disable-next-line no-unused-vars
@@ -637,30 +644,38 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           >
             <div className="print_watermark_element"></div>
             <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 pt-4">
-              {/* <div className="form-check d-flex align-items-center detailPrint1L_font_13">
-                <input
-                  className="border-dark me-2"
-                  type="checkbox"
-                  checked={checkBox?.image}
-                  onChange={(e) => handleChange(e)}
-                  name="image"
-                />
-                <label className="pt-1">With Image</label>
-              </div> */}
-              {options?.map((labelText, index) => (
-                <div
-                  key={index}
-                  className="form-check d-flex align-items-center detailPrint1L_font_13"
-                >
-                  <input
-                    className="border-dark me-2"
-                    type="checkbox"
-                    checked={checkBoxNew === labelText}
-                    onChange={() => handleChangeNew(labelText)}
-                  />
-                  <label className="pt-1">{labelText}</label>
-                </div>
-              ))}
+              {evtName === "sale" &&
+                options?.map((labelText, index) => (
+                  <div
+                    key={index}
+                    className="form-check d-flex align-items-center detailPrint1L_font_13"
+                  >
+                    <input
+                      className="border-dark me-2"
+                      type="checkbox"
+                      checked={checkBoxNew === labelText}
+                      onChange={() => handleChangeNew(labelText)}
+                    />
+                    <label className="pt-1">{labelText}</label>
+                  </div>
+                ))}
+
+              {evtName === "memo" &&
+                optionsMemo?.map((labelText, index) => (
+                  <div
+                    key={index}
+                    className="form-check d-flex align-items-center detailPrint1L_font_13"
+                  >
+                    <input
+                      className="border-dark me-2"
+                      type="checkbox"
+                      checked={checkBoxNew === labelText}
+                      onChange={() => handleChangeNew(labelText)}
+                    />
+                    <label className="pt-1">{labelText}</label>
+                  </div>
+                ))}
+
               <div className="form-check detailPrint1L_font_14">
                 <input
                   type="button"
@@ -703,7 +718,11 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 )}
               </div>
               <p style={{ textAlign: "center" }}>
-                <b>TAX INVOICE</b>
+                {evtName === "memo" ? (
+                  <b> Delivery Challan</b>
+                ) : (
+                  <b>TAX INVOICE</b>
+                )}
               </p>
             </div>
             <div
@@ -735,14 +754,16 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   >
                     <span>
                       <span>{json0Data?.customerAddress1}</span>
-                      {json0Data?.customerAddress2 && (
+                      {/* {json0Data?.customerAddress2 && (
                         <span>{json0Data.customerAddress2}, </span>
                       )}
                       {json0Data?.customerAddress3 && (
                         <span style={{wordBreak: 'auto-phrase'}}>{json0Data.customerAddress3} </span>
-                      )}
+                      )} */}
                       {json0Data?.customercity1 && (
-                        <span style={{wordBreak: 'auto-phrase'}}>{json0Data.customercity1}, </span>
+                        <span style={{ wordBreak: "auto-phrase" }}>
+                          {json0Data.customercity1},{" "}
+                        </span>
                       )}
                       {json0Data?.State && <span>{json0Data.State} </span>}
                       {json0Data?.customerpincode && (
@@ -754,7 +775,9 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
                 <div className="header_top_content_main_class">
                   <p className="Header_top_title_name">State Code </p>
-                  <p className="Header_top_title_value_name">{finalD?.header?.Cust_CST_STATE_No}</p>
+                  <p className="Header_top_title_value_name">
+                    {finalD?.header?.Cust_CST_STATE_No}
+                  </p>
                 </div>
                 <div className="header_top_content_main_class">
                   <p className="Header_top_title_name">Contact No. </p>

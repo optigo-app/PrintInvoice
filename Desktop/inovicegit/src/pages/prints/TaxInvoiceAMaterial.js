@@ -36,6 +36,7 @@ const TaxInvoiceAMaterial = ({
   const [checkBoxNew, setCheckBoxNew] = useState("Triplicate for Supplier");
   const [finalD, setFinalD] = useState({});
   const [custAddress, setCustAddress] = useState([]);
+  const [taxAmont , setTaxAmount] = useState();
   const [isImageWorking, setIsImageWorking] = useState(true);
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -71,6 +72,8 @@ const TaxInvoiceAMaterial = ({
 
             setJson0Data(data?.Data?.MaterialBill_Json[0]);
             setFinalD(data?.Data?.MaterialBill_Json1);
+            setTaxAmount(data?.Data?.MaterialBill_Json2[0]);
+            
             setLoader(false);
           } else {
             setLoader(false);
@@ -278,7 +281,7 @@ const TaxInvoiceAMaterial = ({
   //     return resultArr;
   //   };
 
-  console.log("finalDfinalDfinalD", json0Data, finalD);
+  console.log("finalDfinalDfinalD", taxAmont ,json0Data, finalD);
 
   const summary = Array.isArray(finalD)
     ? finalD.reduce(
@@ -464,14 +467,14 @@ const TaxInvoiceAMaterial = ({
                           {json0Data.customerAddress3}{" "}
                         </span>
                       )}
-                      {json0Data?.customercity1 && (
+                      {json0Data?.customercity && (
                         <span style={{ wordBreak: "auto-phrase" }}>
-                          {json0Data.customercity1},{" "}
+                          {json0Data.customercity},{" "}
                         </span>
                       )}
                       {json0Data?.State && <span>{json0Data.State} </span>}
-                      {json0Data?.customerpincode && (
-                        <span>{json0Data.customerpincode}</span>
+                      {json0Data?.PinCode && (
+                        <span>{json0Data.PinCode}</span>
                       )}
                     </span>
                   </p>
@@ -672,7 +675,7 @@ const TaxInvoiceAMaterial = ({
               {/* data */}
               <div
                 style={{
-                  minHeight: "300px",
+                  minHeight: "250px",
                 }}
               >
                 {finalD?.map((e, i) => {
@@ -793,11 +796,11 @@ const TaxInvoiceAMaterial = ({
                         paddingBlock: "5px",
                       }}
                     >
-                      <p style={{ width: "22%" }}>Sub Total</p>
+                      <p style={{ width: "24%" }}>Sub Total</p>
                       <div
                         style={{
                           display: "flex",
-                          width: "78%",
+                          width: "76%",
                           paddingRight: "10px",
                         }}
                       >
@@ -859,7 +862,7 @@ const TaxInvoiceAMaterial = ({
                     >
                       <p>CGST</p>
                       <p>
-                        <b>{formatAmount(TotalCGSTAmount)}</b>
+                        <b>{formatAmount(taxAmont?.tax1Amount)}</b>
                       </p>
                     </div>
 
@@ -873,7 +876,7 @@ const TaxInvoiceAMaterial = ({
                     >
                       <p>SGST</p>
                       <p>
-                        <b>{formatAmount(TotalSGSTAmount)}</b>
+                        <b>{formatAmount(taxAmont?.tax2Amount)}</b>
                       </p>
                     </div>
 
@@ -887,7 +890,7 @@ const TaxInvoiceAMaterial = ({
                     >
                       <p>IGST</p>
                       <p>
-                        <b>{formatAmount(TotalIGSTAmount)}</b>
+                        <b>{formatAmount(taxAmont?.tax3Amount)}</b>
                       </p>
                     </div>
 
@@ -904,9 +907,9 @@ const TaxInvoiceAMaterial = ({
                           {" "}
                           {formatAmount(
                             summary?.totalAmount +
-                              TotalCGSTAmount +
-                              TotalSGSTAmount +
-                              TotalIGSTAmount
+                              taxAmont?.tax1Amount +
+                              taxAmont?.tax2Amount +
+                              taxAmont?.tax3Amount
                           )}
                         </b>
                       </p>
