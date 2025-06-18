@@ -119,24 +119,28 @@ const DesignsetPackinglist = ({
 
     const finalArr = datas.resultArray.map((e, idx) => {
       const obj = { ...e };
-      const designKey = `${e.DesignSetNo}__${e.designno}`;
       const setKey = e.DesignSetNo;
+      const designKey = `${setKey}__${e.designno}`;
+
       const isRepeated = designSetDesignNoCount[designKey] > 1;
       const isLastRepeat = lastOfRepeatedDesignInSet.get(designKey) === idx;
       const isFirstDesignSet = !shownFirstSet.has(setKey);
       const isFirstSetIndex = firstDesignSetIndexMap[setKey] === idx;
 
-      // Set designSetTotalAmount
-      if (isFirstDesignSet) {
-        obj.designSetTotalAmount = designSetAmountMap[setKey];
-        shownFirstSet.add(setKey);
-      } else if (isRepeated && isLastRepeat) {
+      if (setKey === 0 || setKey === "0") {
+        // Directly show the TotalAmount for non-grouped design
         obj.designSetTotalAmount = e.TotalAmount;
       } else {
-        obj.designSetTotalAmount = "";
+        if (isFirstDesignSet) {
+          obj.designSetTotalAmount = designSetAmountMap[setKey];
+          shownFirstSet.add(setKey);
+        } else if (isRepeated && isLastRepeat) {
+          obj.designSetTotalAmount = e.TotalAmount;
+        } else {
+          obj.designSetTotalAmount = "";
+        }
       }
 
-      // Set DesigSetImage only if not first row overall and first for set
       if (isFirstSetIndex) {
         obj.DesigSetImage = e.DesigSetImage;
       } else {
@@ -190,7 +194,7 @@ const DesignsetPackinglist = ({
       });
 
       setResult(updated);
-    }else{
+    } else {
       setResult(data)
     }
   }, [diaQlty]);
