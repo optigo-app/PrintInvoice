@@ -208,7 +208,7 @@
     height: 30px;
     text-align: center;
     width: 2%;
-    border-right: 0.5px solid #989898;
+    border-right: 0.5px solid black;
     font-size: 13px;
     line-height: 12px;
 }
@@ -217,7 +217,8 @@
     width: 7%;
     height: 30px;
     text-align: center;
-    border-right: 0.5px solid #989898;
+    // border-right: 0.5px solid #989898;
+    border-right: 0.5px solid black;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -229,7 +230,7 @@
     display: flex;
     flex-direction: column;
     height: 30px;
-    border-right: 0.5px solid #989898;
+    border-right: 0.5px solid black;
 }
 
 .diamhpclcol {
@@ -244,7 +245,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 0.5px solid #989898;
+    border-bottom: 0.5px solid black;
 }
 
 .shptheadpcl {
@@ -253,7 +254,7 @@
     width: 16.5%;
     display: flex;
     flex-direction: column;
-    border-right: 0.5px solid #989898;
+    border-right: 0.5px solid black;
 }
 
 .shpcolpcl {
@@ -278,7 +279,7 @@
 .lotheadpcl {
     height: 30px;
     width: 9.5%;
-    border-right: 0.5px solid #989898;
+    border-right: 0.5px solid black;
 }
 
 .pricetheadpcl {
@@ -287,7 +288,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-right: 0.5px solid #989898;
+    border-right: 0.5px solid black;
 }
 
 .dPricetheadpcl {
@@ -376,7 +377,7 @@
     align-items: center;
     height: 15px;
     width: 2%;
-    border-right: 0.5px solid #989898;
+    border-right: 0.5px solid black;
 }
 
 .jwlpcltotrowtb {
@@ -385,7 +386,7 @@
     align-items: center;
     height: 15px;
     width: 7%;
-    border-right: 0.5px solid #989898;
+    border-right: 0.5px solid black;
 }
 
 .diapcltotrowtb {
@@ -395,7 +396,7 @@
     height: 14px;
     width: 22%;
     // width: 24%;
-    border-right: 0.5px solid #989898;
+    border-right:0.5px solid black;
     background-color: #F5F5F5 !important;
 
 }
@@ -406,7 +407,7 @@
     align-items: center;
     height: 14px;
     width: 16.5%;
-    border-right: 0.5px solid #989898;
+    border-right: 0.5px solid black;
     background-color: #F5F5F5 !important;
 }
 
@@ -416,7 +417,7 @@
     align-items: center;
     height: 14px;
     width: 9.5%;
-    border-right: 0.5px solid #989898;
+    border-right: 0.5px solid black;
     background-color: #F5F5F5 !important;
 }
 
@@ -425,7 +426,7 @@
     align-items: center;
     height: 14px;
     width: 5.5%;
-    border-right: 0.5px solid #989898;
+    border-right: 0.5px solid black;
     background-color: #F5F5F5 !important;
 }
 
