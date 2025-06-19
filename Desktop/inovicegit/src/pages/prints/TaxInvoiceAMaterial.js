@@ -507,7 +507,7 @@ const TaxInvoiceAMaterial = ({
                 <div className="header_top_content_main_class">
                   <p className="Header_top_title_name">GST No. </p>
                   <p className="Header_top_title_value_name">
-                    {json0Data?.Cust_VAT_GST}
+                    {json0Data?.Cust_VAT_GST_No}
                   </p>
                 </div>
               </div>
@@ -860,7 +860,7 @@ const TaxInvoiceAMaterial = ({
                         paddingRight: "10px",
                       }}
                     >
-                      <p>CGST</p>
+                      <p>CGST {taxAmont?.tax1_value?.toFixed(2)}%</p>
                       <p>
                         <b>{formatAmount(taxAmont?.tax1Amount)}</b>
                       </p>
@@ -874,7 +874,7 @@ const TaxInvoiceAMaterial = ({
                         paddingRight: "10px",
                       }}
                     >
-                      <p>SGST</p>
+                      <p>SGST {taxAmont?.tax2_value?.toFixed(2)}%</p>
                       <p>
                         <b>{formatAmount(taxAmont?.tax2Amount)}</b>
                       </p>
@@ -888,7 +888,7 @@ const TaxInvoiceAMaterial = ({
                         paddingRight: "10px",
                       }}
                     >
-                      <p>IGST</p>
+                      <p>IGST {taxAmont?.tax3_value?.toFixed(2)}%</p>
                       <p>
                         <b>{formatAmount(taxAmont?.tax3Amount)}</b>
                       </p>

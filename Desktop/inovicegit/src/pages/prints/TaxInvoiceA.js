@@ -625,6 +625,17 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     }
   `;
 
+  const expectedTaxes = [ "CGST", "SGST", "IGST"];
+
+  const taxList = expectedTaxes?.map((taxName) => {
+    const taxData = finalD?.allTaxes?.find((e) => e.name === taxName);
+    return {
+      name: taxName,
+      per: taxData?.per || "",
+      amountInNumber: taxData?.amountInNumber || 0,
+    };
+  });
+
   return (
     <>
       {loader ? (
@@ -754,10 +765,10 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   >
                     <span>
                       <span>{json0Data?.customerAddress1}</span>
-                       {json0Data?.customerAddress2 && (
+                      {json0Data?.customerAddress2 && (
                         <span>{json0Data.customerAddress2}, </span>
                       )}
-                     {/* {json0Data?.customerAddress3 && (
+                      {/* {json0Data?.customerAddress3 && (
                         <span style={{wordBreak: 'auto-phrase'}}>{json0Data.customerAddress3} </span>
                       )} */}
                       {json0Data?.customercity1 && (
@@ -765,7 +776,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           {json0Data.customercity1},{" "}
                         </span>
                       )}
-                      <br/>
+                      <br />
                       {json0Data?.State && <span>{json0Data.State} </span>}
                       {json0Data?.customerpincode && (
                         <span>{json0Data.customerpincode}</span>
@@ -1173,7 +1184,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <b>{formatAmount(finalD?.mainTotal?.total_amount)}</b>
                       </p>
                     </div>
-                    {finalD?.allTaxes?.map((e, i) => {
+                    {taxList?.map((e, i) => {
                       return (
                         <div
                           style={{
