@@ -198,6 +198,7 @@ const MRPBill = () => {
     }, 50);
   };
 
+
   useEffect(() => {
     const total = jobList?.reduce((sum, item) => sum + (Number(item.FinalPrice) || 0), 0);
     setTotalAmount(total);
@@ -680,11 +681,12 @@ const MRPBill = () => {
           const response = await axios.post(url, body);
           if (response?.status === 200 && response?.data?.Status === '200') {
             setBillNo(response?.data?.Data?.DT[0]?.BillNo);
-            setPrintUrl(atob(response?.data?.Data?.DT[0]?.PrintUrl)); 
+            setPrintUrl(atob(response?.data?.Data?.DT[0]?.PrintUrl));
             setBillSavedFlag(true);
             setTimeout(() => {
               setDisableInp(true);
             }, 0)
+            setRoundValue('');
             setIsLoading(false);
           } else {
             toast.error("Some Error Occured");
@@ -848,6 +850,7 @@ const MRPBill = () => {
 
   //continue button logic
   const handleContinue = () => {
+    debugger
     setEditTableFlag(true); // Disable fields
     setScanOff(true);
     setTimeout(() => {
@@ -858,9 +861,12 @@ const MRPBill = () => {
     setNoJobAdd(true);
     setDisableInp(true);
     setDateRemarkFlag(true);
-
     setDeleteFlag(false);
-
+    if (roundValue != 0 || roundValue != '') {
+      setPendingNote(false);
+    } else {
+      setPendingNote(true);
+    }
   };
 
   //back button logic
@@ -870,6 +876,7 @@ const MRPBill = () => {
     setScanFlag(false);
     setNoJobAdd(false);
     setJobnoVal('');
+    setPendingNote(true);
     setDisableInp(false);
     inputRef.current.focus();
     setTimeout(() => {

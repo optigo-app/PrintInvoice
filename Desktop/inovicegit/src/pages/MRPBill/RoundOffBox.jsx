@@ -13,10 +13,12 @@ const RoundOffBox = ({
     roundUpTotalAmount,
     roundType,
     roundValue,
+    pendingNote = true,
     onToggleChange,
     onValueChange,
     onRoundup,
 }) => {
+    console.log('pendingNote: ', pendingNote);
     return (
         <Box
             sx={{
@@ -117,6 +119,22 @@ const RoundOffBox = ({
                     {roundUpTotalAmount ? roundUpTotalAmount : totalAmount}
                 </Typography>
             </Box>
+            {pendingNote == true && (
+                <Typography fontSize={12} color="error" sx={{ mt: 1 }}>
+                    <strong>Round Off Pending.</strong>{" "}
+                    <span
+                        style={{
+                            textDecoration: "underline",
+                            cursor: "pointer",
+                            fontWeight: 500,
+                        }}
+                        onClick={onRoundup}
+                    >
+                        Click on Roundup
+                    </span>{" "}
+                    to apply round off.
+                </Typography>
+            )}
         </Box>
     );
 };
