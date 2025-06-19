@@ -517,11 +517,11 @@ const TaxInvoiceAMaterial = ({
                   <p className="lhDetailPrint1">
                     <b>Ship To,</b>
                   </p>
-                  <div className="header_top_content_main_class">
+                  {/* <div className="header_top_content_main_class">
                     <p className="Header_top_title_value_name">
                       {json0Data?.CustName}
                     </p>
-                  </div>
+                  </div> */}
                   <div className="header_top_content_main_class">
                     <p className="Header_top_title_value_name">
                       {custAddress?.map((e, i) => {
@@ -967,11 +967,11 @@ const TaxInvoiceAMaterial = ({
                     </div>
                     <div style={{ display: "flex", lineHeight: "11px" }}>
                       <p style={{ minWidth: "120px" }}>Bank MICR Code :</p>
-                      <p></p>
+                      <p>110229007</p>
                     </div>
                     <div style={{ display: "flex", lineHeight: "11px" }}>
                       <p style={{ minWidth: "120px" }}>Bank SWIFT Code :</p>
-                      <p></p>
+                      <p>ICICINBBCTS</p>
                     </div>
                     <div style={{ display: "flex", lineHeight: "11px" }}>
                       <p style={{ minWidth: "120px" }}>GST Number :</p>

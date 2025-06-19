@@ -136,6 +136,7 @@ const DesignsetPackinglist = ({
           shownFirstSet.add(setKey);
         } else if (isRepeated && isLastRepeat) {
           obj.designSetTotalAmount = e.TotalAmount;
+          obj.isLast = true;
         } else {
           obj.designSetTotalAmount = "";
         }
@@ -206,6 +207,7 @@ const DesignsetPackinglist = ({
       setDiaQlty(true);
     }
   };
+
 
   return (
     <>
@@ -337,7 +339,7 @@ const DesignsetPackinglist = ({
                     <table>
                       <thead>
                         <tr>
-                          <td>
+                          <td style={{padding: '0px'}}>
                             <div className="pcltablehead border-start border-end border-bottom border-black ">
                               <div
                                 className="srnopclthead centerpcl fwboldpcl srfslhpcl fspcl"
@@ -1338,7 +1340,6 @@ const DesignsetPackinglist = ({
                                     ? Number(e.designSetTotalAmount / (result?.header?.CurrencyExchRate || 1)).toFixed(2)
                                     : ""}
                                 </div>
-
                               </div>
 
                               {/* {e?.DiscountAmt === 0 ? (
