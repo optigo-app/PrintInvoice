@@ -673,7 +673,7 @@ const MRPBill = () => {
           };
         })
         const body = {
-          "Token": `${atob(tkn)}`, "ReqData": `[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"BookId\":\"${bookId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"${lid}\",\"userid\":\"${luid}\",\"date\":\"${formatedDate}\",\"remark\":\"${formatedRemark}\"\"RoundupType\":\"${roundType}\"\"RoundupValue\":\"${roundValue}\",\"BillDetail\":${JSON.stringify(bill_detail)},\"luid\":\"${luid ?? ""}\"}]`
+          "Token": `${atob(tkn)}`, "ReqData": `[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"BookId\":\"${bookId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"${lid}\",\"userid\":\"${luid}\",\"date\":\"${formatedDate}\",\"remark\":\"${formatedRemark}\",\"RoundupType\":\"${roundType}\",\"RoundupValue\":\"${roundValue}\",\"BillDetail\":${JSON.stringify(bill_detail)},\"luid\":\"${luid ?? ""}\"}]`
         }
         try {
           setIsLoading(true);
