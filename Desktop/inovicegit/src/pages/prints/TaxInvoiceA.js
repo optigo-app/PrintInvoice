@@ -1337,6 +1337,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         // borderTop: "1px solid black",
                         paddingTop: "10px",
                         position: "relative",
+                        minHeight: '50px'
                       }}
                     >
                       <div
@@ -1381,7 +1382,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         style={{
                           position: "absolute",
                           right: "20px",
-                          top: "10px",
+                          top: "0px",
                         }}
                       >
                         <img
