@@ -200,7 +200,6 @@ const MRPBill = () => {
     }, 50);
   };
 
-
   useEffect(() => {
     const total = jobList?.reduce((sum, item) => sum + (Number(item.FinalPrice) || 0), 0);
     setTotalAmount(total);
@@ -853,7 +852,8 @@ const MRPBill = () => {
 
   //continue button logic
   const handleContinue = () => {
-    setEditTableFlag(true); // Disable fields
+    debugger
+    setEditTableFlag(true);
     setScanOff(true);
     setTimeout(() => {
       inputRef.current.focus();
@@ -871,9 +871,12 @@ const MRPBill = () => {
     } else {
       roundup = totalAmount + roundValue;
     }
-    setRoundUpTotalAmount(parseFloat(roundup.toFixed(2)));
+    setRoundUpTotalAmount(
+      parseFloat(isNaN(Number(roundup)) ? 0 : Number(roundup).toFixed(2))
+    );
     if (roundValue != 0 || roundValue != '') {
       setPendingNote(false);
+      console.log('roundValue: ', roundValue);
     } else {
       setPendingNote(true);
     }
@@ -888,6 +891,8 @@ const MRPBill = () => {
     setJobnoVal('');
     setPendingNote(true);
     setDisableInp(false);
+    setRoundType('less');
+    setRoundValue('');
     inputRef.current.focus();
     setTimeout(() => {
       setDisableInp(false);
@@ -1143,6 +1148,7 @@ const MRPBill = () => {
     }
 
   }
+
   const handleSalePriceFocus = (e) => {
     setScanOff(true);
     setTimeout(() => {
@@ -1163,20 +1169,13 @@ const MRPBill = () => {
     }
   }, []);
 
-
   //customer entered date
   const handleCustomerEnteredDate = (e) => {
     const custEnteredDate = e.target.value;
     setCustomerEnterDate(custEnteredDate);
     setCustomerEnteredDateError('');
-
-
-    // const enterDate = new Date(custEnteredDate)?.toDateString();
-    // const enterDate = new Date(custEnteredDate)?.toLocaleDateString();
-
-    // const formatedDate = moment(custEnteredDate).format('l'); 
-
   }
+
   //customer entered remark
   const handleCustomerEnteredRemark = (e) => {
     const custEnteredRemark = e.target.value;
