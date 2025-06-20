@@ -107,6 +107,7 @@ const MRPBill = () => {
   const [pendingNote, setPendingNote] = useState(true);
   const [showRateModal, setShowRateModal] = useState(false);
   const [totalAmount, setTotalAmount] = useState('');
+  console.log('totalAmount: ', totalAmount);
   const [roundUpTotalAmount, setRoundUpTotalAmount] = useState('');
   const [finalTotalAmount, setFinalTotalAmount] = useState('');
   console.log('selectedRows: ', selectedRows);
@@ -852,7 +853,6 @@ const MRPBill = () => {
 
   //continue button logic
   const handleContinue = () => {
-    debugger
     setEditTableFlag(true); // Disable fields
     setScanOff(true);
     setTimeout(() => {
@@ -864,6 +864,14 @@ const MRPBill = () => {
     setDisableInp(true);
     setDateRemarkFlag(true);
     setDeleteFlag(false);
+    setRoundValue('');
+    let roundup = 0;
+    if (roundType === 'less') {
+      roundup = totalAmount - roundValue;
+    } else {
+      roundup = totalAmount + roundValue;
+    }
+    setRoundUpTotalAmount(parseFloat(roundup.toFixed(2)));
     if (roundValue != 0 || roundValue != '') {
       setPendingNote(false);
     } else {
