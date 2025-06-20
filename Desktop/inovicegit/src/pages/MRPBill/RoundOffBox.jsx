@@ -42,7 +42,7 @@ const RoundOffBox = ({
                     Total Amount
                 </Typography>
                 <Typography fontSize={20} fontWeight={600}>
-                    {totalAmount}
+                {typeof totalAmount == 'number' ? totalAmount.toFixed(2) : (parseFloat(totalAmount) || 0)?.toFixed(2)}
                 </Typography>
             </Box>
 
