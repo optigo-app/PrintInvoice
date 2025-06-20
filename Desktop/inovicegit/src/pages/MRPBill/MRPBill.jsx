@@ -161,6 +161,7 @@ const MRPBill = () => {
     if (newType !== null) setRoundType(newType);
     setRoundValue('');
     setRoundUpTotalAmount('');
+    setFinalTotalAmount('');
   };
 
   const handleValueChange = (e) => {
@@ -687,6 +688,7 @@ const MRPBill = () => {
               setDisableInp(true);
             }, 0)
             setRoundValue('');
+            setRoundUpTotalAmount('');
             setIsLoading(false);
           } else {
             toast.error("Some Error Occured");
