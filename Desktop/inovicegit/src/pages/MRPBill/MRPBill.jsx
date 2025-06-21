@@ -107,6 +107,7 @@ const MRPBill = () => {
   const [pendingNote, setPendingNote] = useState(true);
   const [showRateModal, setShowRateModal] = useState(false);
   const [totalAmount, setTotalAmount] = useState('');
+  console.log('totalAmount: ', totalAmount);
   const [roundUpTotalAmount, setRoundUpTotalAmount] = useState('');
   const [finalTotalAmount, setFinalTotalAmount] = useState('');
   console.log('selectedRows: ', selectedRows);
@@ -161,6 +162,7 @@ const MRPBill = () => {
     if (newType !== null) setRoundType(newType);
     setRoundValue('');
     setRoundUpTotalAmount('');
+    setFinalTotalAmount('');
   };
 
   const handleValueChange = (e) => {
@@ -680,11 +682,13 @@ const MRPBill = () => {
           const response = await axios.post(url, body);
           if (response?.status === 200 && response?.data?.Status === '200') {
             setBillNo(response?.data?.Data?.DT[0]?.BillNo);
-            setPrintUrl(atob(response?.data?.Data?.DT[0]?.PrintUrl)); 
+            setPrintUrl(atob(response?.data?.Data?.DT[0]?.PrintUrl));
             setBillSavedFlag(true);
             setTimeout(() => {
               setDisableInp(true);
             }, 0)
+            setRoundValue('');
+            setRoundUpTotalAmount('');
             setIsLoading(false);
           } else {
             toast.error("Some Error Occured");
@@ -848,7 +852,8 @@ const MRPBill = () => {
 
   //continue button logic
   const handleContinue = () => {
-    setEditTableFlag(true); // Disable fields
+    debugger
+    setEditTableFlag(true);
     setScanOff(true);
     setTimeout(() => {
       inputRef.current.focus();
@@ -858,9 +863,23 @@ const MRPBill = () => {
     setNoJobAdd(true);
     setDisableInp(true);
     setDateRemarkFlag(true);
-
     setDeleteFlag(false);
-
+    setRoundValue('');
+    let roundup = 0;
+    if (roundType === 'less') {
+      roundup = totalAmount - roundValue;
+    } else {
+      roundup = totalAmount + roundValue;
+    }
+    setRoundUpTotalAmount(
+      parseFloat(isNaN(Number(roundup)) ? 0 : Number(roundup).toFixed(2))
+    );
+    if (roundValue != 0 || roundValue != '') {
+      setPendingNote(false);
+      console.log('roundValue: ', roundValue);
+    } else {
+      setPendingNote(true);
+    }
   };
 
   //back button logic
@@ -870,7 +889,10 @@ const MRPBill = () => {
     setScanFlag(false);
     setNoJobAdd(false);
     setJobnoVal('');
+    setPendingNote(true);
     setDisableInp(false);
+    setRoundType('less');
+    setRoundValue('');
     inputRef.current.focus();
     setTimeout(() => {
       setDisableInp(false);
@@ -1126,6 +1148,7 @@ const MRPBill = () => {
     }
 
   }
+
   const handleSalePriceFocus = (e) => {
     setScanOff(true);
     setTimeout(() => {
@@ -1146,20 +1169,13 @@ const MRPBill = () => {
     }
   }, []);
 
-
   //customer entered date
   const handleCustomerEnteredDate = (e) => {
     const custEnteredDate = e.target.value;
     setCustomerEnterDate(custEnteredDate);
     setCustomerEnteredDateError('');
-
-
-    // const enterDate = new Date(custEnteredDate)?.toDateString();
-    // const enterDate = new Date(custEnteredDate)?.toLocaleDateString();
-
-    // const formatedDate = moment(custEnteredDate).format('l'); 
-
   }
+
   //customer entered remark
   const handleCustomerEnteredRemark = (e) => {
     const custEnteredRemark = e.target.value;

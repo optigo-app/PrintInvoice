@@ -72,7 +72,7 @@ const JobListTable = ({
                             <td width={120} className="pd_0" style={{ borderRight: "1px solid #989898" }}>
                                 <input
                                     type="number"
-                                    value={e?.FinalPrice ? e?.FinalPrice : e?.salePrice}
+                                    value={(Number(e?.FinalPrice ?? e?.salePrice) || 0)?.toFixed(2)}
                                     style={{
                                         width: "100%",
                                         border: "none",
