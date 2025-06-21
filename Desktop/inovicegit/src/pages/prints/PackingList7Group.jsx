@@ -916,7 +916,7 @@ const PackingList7Group = ({
                                 </div>
                               )}
                               <div style={{ width: imgFlag ? "50%" : "100%" }}>
-                                   <div
+                                <div
                                   className="centerdp10_pcl7 fsgdp10_pcl7"
                                   style={{
                                     display: "flex",
@@ -939,7 +939,6 @@ const PackingList7Group = ({
                                   {e?.designno}&nbsp;
                                 </div>
 
-                             
                                 <div>
                                   {e?.CertificateNo !== "" && (
                                     <div
@@ -1003,16 +1002,21 @@ const PackingList7Group = ({
                                       L: <span>{e?.lineid}</span>
                                     </div>
                                   )}
-                                  <div
-                                    className="centerdp10_pcl7"
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      justifyContent: "center",
-                                    }}
-                                  >
-                                    {e?.Size === "" ? "" : `Size : ${e?.Size}`}
-                                  </div>
+                                  {atob(printName)?.toLowerCase() !==
+                                    "packing list 7d group" && (
+                                    <div
+                                      className="centerdp10_pcl7"
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
+                                      }}
+                                    >
+                                      {e?.Size === ""
+                                        ? ""
+                                        : `Size : ${e?.Size}`}
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -1031,7 +1035,9 @@ const PackingList7Group = ({
                                       }}
                                     >
                                       {el?.ShapeName} {el?.QualityName}&nbsp;
-                                      {el?.Colorname}
+                                      {atob(printName)?.toLowerCase() !==
+                                        "packing list 7d group" &&
+                                        el?.Colorname}
                                     </div>
                                     <div
                                       className="theadsubcol1_dp10_pcl7 text-start ps-1"
@@ -1958,18 +1964,36 @@ const PackingList7Group = ({
                               </div>
                             );
                           })} */}
-                             <div className="d-flex flex-column justify-content-start h-100">
-                                              {diamondDetails?.map((e, i) => {
-                                                return e?.Wt !== undefined && <React.Fragment key={i}>
-                                                  <div className={`d-flex justify-content-between px-1 pb-1  align-items-center ${i === 0 && "pt-1"}`}>
-                                                    <p className="fw-bold">{e?.ShapeName === "OTHER" ? e?.ShapeName : <>{e?.ShapeName} {e?.QualityName} {e?.Colorname}</>}</p>
-                                                    <p>
-                                                      {NumberWithCommas(e?.Pcs, 0)}/{NumberWithCommas(e?.Wt, 3)} Cts
-                                                    </p>
-                                                  </div>
-                                                </React.Fragment>
-                                              })}
-                                            </div>
+                          <div className="d-flex flex-column justify-content-start h-100">
+                            {diamondDetails?.map((e, i) => {
+                              return (
+                                e?.Wt !== undefined && (
+                                  <React.Fragment key={i}>
+                                    <div
+                                      className={`d-flex justify-content-between px-1 pb-1  align-items-center ${
+                                        i === 0 && "pt-1"
+                                      }`}
+                                    >
+                                      <p className="fw-bold">
+                                        {e?.ShapeName === "OTHER" ? (
+                                          e?.ShapeName
+                                        ) : (
+                                          <>
+                                            {e?.ShapeName} {e?.QualityName}{" "}
+                                            {e?.Colorname}
+                                          </>
+                                        )}
+                                      </p>
+                                      <p>
+                                        {NumberWithCommas(e?.Pcs, 0)}/
+                                        {NumberWithCommas(e?.Wt, 3)} Cts
+                                      </p>
+                                    </div>
+                                  </React.Fragment>
+                                )
+                              );
+                            })}
+                          </div>
                           <div className="d-flex justify-content-between px-1 bg_dp10_pcl7 h_bd10_pcl7  ball_dp10_pcl7">
                             <div className="fw-bold w-50 h14_dp10_pcl7"></div>
                             <div className="w-50"></div>
