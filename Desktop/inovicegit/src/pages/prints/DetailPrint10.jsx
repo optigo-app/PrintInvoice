@@ -1360,6 +1360,14 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className="w-25">{result?.header?.HSN_No}</div>
                     </div>
+                    {findingFlag && (
+                      <div className="d-flex justify-content-start px-1">
+                        <div className="w-25 fw-bold">REFERENCE</div>
+                        <div className="w-25">
+                          {result?.header?.BillReferenceNo}
+                        </div>
+                      </div>
+                    )}
                     {!findingFlag && (
                       <div className="d-flex justify-content-end mt-5 px-2 fw-bold">
                         Gold Rate {result?.header?.MetalRate24K?.toFixed(2)} Per
