@@ -383,6 +383,7 @@ export const fgPurchase = [
   {printName: 'jewellery invoice 2', etpType: 'print', componentName: 'JewelleryInvoice2'},
   {printName: 'customer daily statement', etpType: 'print', componentName: 'CustomerDailyStatement'},
   {printName: 'daily statement', etpType: 'print', componentName: 'CustomerDailyStatement'},
+  {printName: 'tax invoice 5', etpType: 'print', componentName: 'TaxInvoice5'}, 
 ];
 export const fgPurchaseReturn = [
   {printName: 'summary 2', etpType: 'print', componentName: 'Summary2'},
