@@ -1679,11 +1679,15 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                       {data?.FindingTypename !== "" && (
                                         <div style={{ display: "flex" }}>
                                           <div style={{ width: "40%" }}>
-                                            <p>{data?.FindingTypename}</p>
+                                            <p>
+                                              {data?.FindingTypename +
+                                                " " +
+                                                data?.QualityName}
+                                            </p>
                                           </div>
                                           <div
                                             style={{
-                                              width: "25%",
+                                              width: "20%",
                                               display: "flex",
                                               justifyContent: "flex-end",
                                             }}
@@ -1692,7 +1696,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                           </div>
                                           <div
                                             style={{
-                                              width: "25%",
+                                              width: "20%",
                                               display: "flex",
                                               justifyContent: "flex-end",
                                             }}
@@ -1701,7 +1705,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                           </div>
                                           <div
                                             style={{
-                                              width: "25%",
+                                              width: "20%",
                                               display: "flex",
                                               justifyContent: "flex-end",
                                             }}
