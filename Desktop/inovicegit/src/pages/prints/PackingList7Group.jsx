@@ -30,6 +30,7 @@ const PackingList7Group = ({
   const [diamondWise, setDiamondWise] = useState([]);
   const [imgFlag, setImgFlag] = useState(true);
   const [imgFlag2, setImgFlag2] = useState(true);
+  const [imgFlag3, setImgFlag3] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
 
   const [MetShpWise, setMetShpWise] = useState([]);
@@ -514,6 +515,13 @@ const PackingList7Group = ({
       setImgFlag2(true);
     }
   };
+  const handleCheckbox3 = () => {
+    if (imgFlag3) {
+      setImgFlag3(false);
+    } else {
+      setImgFlag3(true);
+    }
+  };
 
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -577,6 +585,24 @@ const PackingList7Group = ({
                       With Header
                     </label>
                   </span>
+                  {atob(printName)?.toLowerCase() ===
+                    "packing list 7d group" && (
+                    <span>
+                      <input
+                        type="checkbox"
+                        id="imghideshow3"
+                        className="mx-1"
+                        checked={imgFlag3}
+                        onChange={handleCheckbox3}
+                      />
+                      <label
+                        htmlFor="imghideshow3"
+                        className="me-3 user-select-none"
+                      >
+                        With Diamond Color
+                      </label>
+                    </span>
+                  )}
                   <button
                     className="btn_white blue mb-0 hidedp10_pcl7 m-0 p-2"
                     onClick={(e) => handlePrint(e)}
@@ -1035,9 +1061,9 @@ const PackingList7Group = ({
                                       }}
                                     >
                                       {el?.ShapeName} {el?.QualityName}&nbsp;
-                                      {atob(printName)?.toLowerCase() !==
-                                        "packing list 7d group" &&
-                                        el?.Colorname}
+                                      { imgFlag3
+                                        ? el?.Colorname
+                                        : ""}
                                     </div>
                                     <div
                                       className="theadsubcol1_dp10_pcl7 text-start ps-1"
@@ -1980,7 +2006,7 @@ const PackingList7Group = ({
                                         ) : (
                                           <>
                                             {e?.ShapeName} {e?.QualityName}{" "}
-                                            {e?.Colorname}
+                                            {imgFlag3 ? e?.Colorname : ""}
                                           </>
                                         )}
                                       </p>
