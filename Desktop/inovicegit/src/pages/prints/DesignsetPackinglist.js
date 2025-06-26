@@ -71,6 +71,93 @@ const DesignsetPackinglist = ({
     sendData();
   }, []);
 
+  // const loadData = (data) => {
+  //   let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
+  //   data.BillPrint_Json[0].address = address;
+
+  //   const datas = OrganizeDataPrint(
+  //     data?.BillPrint_Json[0],
+  //     data?.BillPrint_Json1,
+  //     data?.BillPrint_Json2
+  //   );
+
+  //   datas?.resultArray?.sort((a, b) => a.id - b.id);
+
+  //   const designSetAmountMap = {};
+  //   const designSetDesignNoSeen = new Set();
+  //   const designSetDesignNoCount = {};
+  //   const lastOfRepeatedDesignInSet = new Map();
+  //   const lastDesignSetIndexMap = {};
+  //   const firstDesignSetIndexMap = {};
+
+  //   // Step 1: Calculate total of unique designno per DesignSetNo and track last occurrences
+  //   datas.resultArray?.forEach((e, idx) => {
+  //     const setKey = e.DesignSetNo;
+  //     const designKey = `${e.DesignSetNo}__${e.designno}`;
+
+  //     // Track first index of DesignSetNo
+  //     if (firstDesignSetIndexMap[setKey] === undefined) {
+  //       firstDesignSetIndexMap[setKey] = idx;
+  //     }
+
+  //     // Unique designno amount per DesignSetNo
+  //     if (!designSetDesignNoSeen.has(designKey)) {
+  //       designSetDesignNoSeen.add(designKey);
+  //       designSetAmountMap[setKey] = (designSetAmountMap[setKey] || 0) + (e.TotalAmount || 0);
+  //     }
+
+  //     // Count occurrences and track last index
+  //     designSetDesignNoCount[designKey] = (designSetDesignNoCount[designKey] || 0) + 1;
+  //     lastDesignSetIndexMap[setKey] = idx;
+
+  //     if (designSetDesignNoCount[designKey] > 1) {
+  //       lastOfRepeatedDesignInSet.set(designKey, idx);
+  //     }
+  //   });
+
+  //   const shownFirstSet = new Set();
+
+  //   const finalArr = datas.resultArray.map((e, idx) => {
+  //     const obj = { ...e };
+  //     const setKey = e.DesignSetNo;
+  //     const designKey = `${setKey}__${e.designno}`;
+
+  //     const isRepeated = designSetDesignNoCount[designKey] > 1;
+  //     const isLastRepeat = lastOfRepeatedDesignInSet.get(designKey) === idx;
+  //     const isFirstDesignSet = !shownFirstSet.has(setKey);
+  //     const isFirstSetIndex = firstDesignSetIndexMap[setKey] === idx;
+
+  //     if (setKey === 0 || setKey === "0") {
+  //       // Directly show the TotalAmount for non-grouped design
+  //       obj.designSetTotalAmount = e.TotalAmount;
+  //     } else {
+  //       if (isFirstDesignSet) {
+  //         obj.designSetTotalAmount = designSetAmountMap[setKey];
+  //         shownFirstSet.add(setKey);
+  //       } else if (isRepeated && isLastRepeat) {
+  //         obj.designSetTotalAmount = e.TotalAmount;
+  //         obj.isLast = true;
+  //       } else {
+  //         obj.designSetTotalAmount = "";
+  //       }
+  //     }
+
+  //     if (isFirstSetIndex) {
+  //       obj.DesigSetImage = e.DesigSetImage;
+  //     } else {
+  //       obj.DesigSetImage = "";
+  //     }
+
+  //     return obj;
+  //   });
+
+  //   datas.resultArray = finalArr;
+  //   setResult(datas);
+  //   setData(datas);
+  //   setLoader(false);
+  // };
+
+
   const loadData = (data) => {
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
@@ -81,81 +168,80 @@ const DesignsetPackinglist = ({
       data?.BillPrint_Json2
     );
 
+    // Step 1: Sort resultArray by id
     datas?.resultArray?.sort((a, b) => a.id - b.id);
 
-    const designSetAmountMap = {};
-    const designSetDesignNoSeen = new Set();
-    const designSetDesignNoCount = {};
-    const lastOfRepeatedDesignInSet = new Map();
-    const lastDesignSetIndexMap = {};
-    const firstDesignSetIndexMap = {};
+    // Step 2: Enhance each row (discount info + image logic)
+    let enrichedArray = [];
+    datas?.resultArray?.forEach((e) => {
+      let obj = { ...e };
+      let discountOn = [];
 
-    // Step 1: Calculate total of unique designno per DesignSetNo and track last occurrences
-    datas.resultArray?.forEach((e, idx) => {
-      const setKey = e.DesignSetNo;
-      const designKey = `${e.DesignSetNo}__${e.designno}`;
-
-      // Track first index of DesignSetNo
-      if (firstDesignSetIndexMap[setKey] === undefined) {
-        firstDesignSetIndexMap[setKey] = idx;
+      if (e?.IsCriteriabasedAmount === 1) {
+        if (e?.IsMetalAmount === 1) discountOn.push("Metal");
+        if (e?.IsDiamondAmount === 1) discountOn.push("Diamond");
+        if (e?.IsStoneAmount === 1) discountOn.push("Stone");
+        if (e?.IsMiscAmount === 1) discountOn.push("Misc");
+        if (e?.IsLabourAmount === 1) discountOn.push("Labour");
+        if (e?.IsSolitaireAmount === 1) discountOn.push("Solitaire");
+      } else {
+        if (e?.Discount !== 0) discountOn.push("Total Amount");
       }
 
-      // Unique designno amount per DesignSetNo
-      if (!designSetDesignNoSeen.has(designKey)) {
-        designSetDesignNoSeen.add(designKey);
-        designSetAmountMap[setKey] = (designSetAmountMap[setKey] || 0) + (e.TotalAmount || 0);
-      }
+      obj.discountOn = discountOn;
+      obj.str_discountOn = discountOn.join(", ") + "Amount";
 
-      // Count occurrences and track last index
-      designSetDesignNoCount[designKey] = (designSetDesignNoCount[designKey] || 0) + 1;
-      lastDesignSetIndexMap[setKey] = idx;
-
-      if (designSetDesignNoCount[designKey] > 1) {
-        lastOfRepeatedDesignInSet.set(designKey, idx);
-      }
+      enrichedArray.push(obj);
     });
 
-    const shownFirstSet = new Set();
+    // Step 3: Add designSetTotalAmount + DesigSetImage handling
+    const finalArr = [];
+    let i = 0;
 
-    const finalArr = datas.resultArray.map((e, idx) => {
-      const obj = { ...e };
-      const setKey = e.DesignSetNo;
-      const designKey = `${setKey}__${e.designno}`;
+    while (i < enrichedArray.length) {
+      const current = enrichedArray[i];
+      const { DesignSetGroup, DesignSetNo } = current;
+      let total = current.TotalAmount;
+      let j = i + 1;
 
-      const isRepeated = designSetDesignNoCount[designKey] > 1;
-      const isLastRepeat = lastOfRepeatedDesignInSet.get(designKey) === idx;
-      const isFirstDesignSet = !shownFirstSet.has(setKey);
-      const isFirstSetIndex = firstDesignSetIndexMap[setKey] === idx;
-
-      if (setKey === 0 || setKey === "0") {
-        // Directly show the TotalAmount for non-grouped design
-        obj.designSetTotalAmount = e.TotalAmount;
-      } else {
-        if (isFirstDesignSet) {
-          obj.designSetTotalAmount = designSetAmountMap[setKey];
-          shownFirstSet.add(setKey);
-        } else if (isRepeated && isLastRepeat) {
-          obj.designSetTotalAmount = e.TotalAmount;
-          obj.isLast = true;
-        } else {
-          obj.designSetTotalAmount = "";
-        }
+      // Check for consecutive duplicates
+      while (
+        j < enrichedArray.length &&
+        enrichedArray[j].DesignSetGroup === DesignSetGroup &&
+        enrichedArray[j].DesignSetNo === DesignSetNo
+      ) {
+        total += enrichedArray[j].TotalAmount;
+        j++;
       }
 
-      if (isFirstSetIndex) {
-        obj.DesigSetImage = e.DesigSetImage;
-      } else {
-        obj.DesigSetImage = "";
+      const isMerged = j - i > 1;
+
+      // First item with total + image (if not seen)
+      finalArr.push({
+        ...current,
+        designSetTotalAmount: isMerged ? total : current.TotalAmount,
+        DesigSetImage: isMerged ? current.DesigSetImage : '',
+      });
+
+      // Remaining with empty values
+      for (let k = i + 1; k < j; k++) {
+        finalArr.push({
+          ...enrichedArray[k],
+          designSetTotalAmount: "",
+          DesigSetImage: "",
+        });
       }
+      i = j;
+    }
 
-      return obj;
-    });
-
+    // Step 4: Update final result
     datas.resultArray = finalArr;
+
+    console.log("datas: ", datas);
     setResult(datas);
-    setData(datas);
     setLoader(false);
   };
+
 
 
   useEffect(() => {
@@ -339,7 +425,7 @@ const DesignsetPackinglist = ({
                     <table>
                       <thead>
                         <tr>
-                          <td style={{padding: '0px'}}>
+                          <td style={{ padding: '0px' }}>
                             <div className="pcltablehead border-start border-end border-bottom border-black ">
                               <div
                                 className="srnopclthead centerpcl fwboldpcl srfslhpcl fspcl"
