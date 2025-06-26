@@ -74,8 +74,6 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       data?.BillPrint_Json2
     );
 
-    console.log(datas);
-
     datas.header.PrintRemark = datas.header.PrintRemark?.replace(
       /<br\s*\/?>/gi,
       ""

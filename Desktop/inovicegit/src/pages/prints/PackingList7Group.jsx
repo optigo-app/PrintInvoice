@@ -30,6 +30,7 @@ const PackingList7Group = ({
   const [diamondWise, setDiamondWise] = useState([]);
   const [imgFlag, setImgFlag] = useState(true);
   const [imgFlag2, setImgFlag2] = useState(true);
+  const [imgFlag3, setImgFlag3] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
 
   const [MetShpWise, setMetShpWise] = useState([]);
@@ -514,6 +515,13 @@ const PackingList7Group = ({
       setImgFlag2(true);
     }
   };
+  const handleCheckbox3 = () => {
+    if (imgFlag3) {
+      setImgFlag3(false);
+    } else {
+      setImgFlag3(true);
+    }
+  };
 
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -577,6 +585,24 @@ const PackingList7Group = ({
                       With Header
                     </label>
                   </span>
+                  {atob(printName)?.toLowerCase() ===
+                    "packing list 7d group" && (
+                    <span>
+                      <input
+                        type="checkbox"
+                        id="imghideshow3"
+                        className="mx-1"
+                        checked={imgFlag3}
+                        onChange={handleCheckbox3}
+                      />
+                      <label
+                        htmlFor="imghideshow3"
+                        className="me-3 user-select-none"
+                      >
+                        With Diamond Color
+                      </label>
+                    </span>
+                  )}
                   <button
                     className="btn_white blue mb-0 hidedp10_pcl7 m-0 p-2"
                     onClick={(e) => handlePrint(e)}
@@ -916,7 +942,7 @@ const PackingList7Group = ({
                                 </div>
                               )}
                               <div style={{ width: imgFlag ? "50%" : "100%" }}>
-                                   <div
+                                <div
                                   className="centerdp10_pcl7 fsgdp10_pcl7"
                                   style={{
                                     display: "flex",
@@ -939,7 +965,6 @@ const PackingList7Group = ({
                                   {e?.designno}&nbsp;
                                 </div>
 
-                             
                                 <div>
                                   {e?.CertificateNo !== "" && (
                                     <div
@@ -1003,16 +1028,21 @@ const PackingList7Group = ({
                                       L: <span>{e?.lineid}</span>
                                     </div>
                                   )}
-                                  <div
-                                    className="centerdp10_pcl7"
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      justifyContent: "center",
-                                    }}
-                                  >
-                                    {e?.Size === "" ? "" : `Size : ${e?.Size}`}
-                                  </div>
+                                  {atob(printName)?.toLowerCase() !==
+                                    "packing list 7d group" && (
+                                    <div
+                                      className="centerdp10_pcl7"
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
+                                      }}
+                                    >
+                                      {e?.Size === ""
+                                        ? ""
+                                        : `Size : ${e?.Size}`}
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -1031,7 +1061,9 @@ const PackingList7Group = ({
                                       }}
                                     >
                                       {el?.ShapeName} {el?.QualityName}&nbsp;
-                                      {el?.Colorname}
+                                      { imgFlag3
+                                        ? el?.Colorname
+                                        : ""}
                                     </div>
                                     <div
                                       className="theadsubcol1_dp10_pcl7 text-start ps-1"
@@ -1958,18 +1990,36 @@ const PackingList7Group = ({
                               </div>
                             );
                           })} */}
-                             <div className="d-flex flex-column justify-content-start h-100">
-                                              {diamondDetails?.map((e, i) => {
-                                                return e?.Wt !== undefined && <React.Fragment key={i}>
-                                                  <div className={`d-flex justify-content-between px-1 pb-1  align-items-center ${i === 0 && "pt-1"}`}>
-                                                    <p className="fw-bold">{e?.ShapeName === "OTHER" ? e?.ShapeName : <>{e?.ShapeName} {e?.QualityName} {e?.Colorname}</>}</p>
-                                                    <p>
-                                                      {NumberWithCommas(e?.Pcs, 0)}/{NumberWithCommas(e?.Wt, 3)} Cts
-                                                    </p>
-                                                  </div>
-                                                </React.Fragment>
-                                              })}
-                                            </div>
+                          <div className="d-flex flex-column justify-content-start h-100">
+                            {diamondDetails?.map((e, i) => {
+                              return (
+                                e?.Wt !== undefined && (
+                                  <React.Fragment key={i}>
+                                    <div
+                                      className={`d-flex justify-content-between px-1 pb-1  align-items-center ${
+                                        i === 0 && "pt-1"
+                                      }`}
+                                    >
+                                      <p className="fw-bold">
+                                        {e?.ShapeName === "OTHER" ? (
+                                          e?.ShapeName
+                                        ) : (
+                                          <>
+                                            {e?.ShapeName} {e?.QualityName}{" "}
+                                            {imgFlag3 ? e?.Colorname : ""}
+                                          </>
+                                        )}
+                                      </p>
+                                      <p>
+                                        {NumberWithCommas(e?.Pcs, 0)}/
+                                        {NumberWithCommas(e?.Wt, 3)} Cts
+                                      </p>
+                                    </div>
+                                  </React.Fragment>
+                                )
+                              );
+                            })}
+                          </div>
                           <div className="d-flex justify-content-between px-1 bg_dp10_pcl7 h_bd10_pcl7  ball_dp10_pcl7">
                             <div className="fw-bold w-50 h14_dp10_pcl7"></div>
                             <div className="w-50"></div>

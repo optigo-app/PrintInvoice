@@ -96,6 +96,7 @@ export const printConditions = [
   {printName: 'packing list 6', etpType: 'print', componentName: 'Packinglist6'},
   {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
   {printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group'},
+  {printName: 'packing list 7d group', etpType: 'print', componentName: 'PackingList7Group'},
   {printName: 'repair print', etpType: 'print', componentName: 'RepairPrint'},
   {printName: 'retail invoice', etpType: 'print', componentName: 'RetailInvoice'},
   {printName: 'retail invoice 2', etpType: 'print', componentName: 'RetailInvoice2_3'},
@@ -383,6 +384,7 @@ export const fgPurchase = [
   {printName: 'jewellery invoice 2', etpType: 'print', componentName: 'JewelleryInvoice2'},
   {printName: 'customer daily statement', etpType: 'print', componentName: 'CustomerDailyStatement'},
   {printName: 'daily statement', etpType: 'print', componentName: 'CustomerDailyStatement'},
+  {printName: 'tax invoice 5', etpType: 'print', componentName: 'TaxInvoice5'}, 
 ];
 export const fgPurchaseReturn = [
   {printName: 'summary 2', etpType: 'print', componentName: 'Summary2'},
