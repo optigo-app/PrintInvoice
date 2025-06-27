@@ -599,7 +599,7 @@ const PackingList7Group = ({
                         htmlFor="imghideshow3"
                         className="me-3 user-select-none"
                       >
-                        With Diamond Color
+                        With Diam Color & Quality
                       </label>
                     </span>
                   )}
