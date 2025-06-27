@@ -1060,9 +1060,10 @@ const PackingList7Group = ({
                                         paddingLeft: "2px",
                                       }}
                                     >
-                                      {el?.ShapeName} {el?.QualityName}&nbsp;
+                                      {el?.ShapeName} {""}
                                       { imgFlag3
-                                        ? el?.Colorname
+                                        ? `${el?.QualityName} ${el?.Colorname}
+                                          `
                                         : ""}
                                     </div>
                                     <div
@@ -2005,8 +2006,8 @@ const PackingList7Group = ({
                                           e?.ShapeName
                                         ) : (
                                           <>
-                                            {e?.ShapeName} {e?.QualityName}{" "}
-                                            {imgFlag3 ? e?.Colorname : ""}
+                                            {e?.ShapeName} {" "}
+                                            {imgFlag3 ? `${e?.QualityName} ${e?.Colorname}` : ""}
                                           </>
                                         )}
                                       </p>
