@@ -24,26 +24,26 @@ const CustWiseSalesProfitAmount = ({ tkn, fdate, tdate, country, CustomerWiseSal
     const fetchData = async () => {
       try {
         const transformedData = CustomerWiseSaleAmountData?.map(item => {
-          const adjustedCost = (item.CurrentCost || 0) * 0.7;
-          const adjustedProfit = (item.SaleAmount || 0) - adjustedCost;
-  
+          const adjustedCost = ((item?.CurrentCost - item?.CurrentCost_SaleReturn) || 0) * 0.7;
+          const adjustedProfit = (item?.NetSaleAmount || 0) - adjustedCost;
+
           return {
             CustomerDisplay: `${item.Customer} (${item.CompanyName})`,
             ...item,
             AdjustedProfit: adjustedProfit
           };
         });
-  
+
         setApiData(transformedData);
-  
+
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-  
+
     fetchData();
   }, [CustomerWiseSaleAmountData]);
-  
+
 
   const salesAmt = apiData?.map((e) => e?.SaleAmount);
   const ProfitAmt = apiData?.map((e) => e?.AdjustedProfit);
