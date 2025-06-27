@@ -845,17 +845,17 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="tocol3 colored brTop" style={{display:"flex"}}>
                             <div className=""></div>
                             <div className=""></div>
-                            <div className="SpLeft" style={{width: "35%"}}>{e?.totals?.diamonds?.Pcs}</div>
-                            <div className="SpLeft" style={{width: "20%"}}>{e?.totals?.diamonds?.Wt?.toFixed(3)}</div>
+                            <div className="SpLeft" style={{width: "37%"}}>{e?.totals?.diamonds?.Pcs}</div>
+                            <div className="SpLeft" style={{width: "17%"}}>{e?.totals?.diamonds?.Wt?.toFixed(3)}</div>
                             <div className=""></div>
-                            <div className="SpLeft" style={{width: "45%"}}>{NumberWithCommas((e?.totals?.diamonds?.Amount),2)}</div>
+                            <div className="SpLeft" style={{width: "46%"}}>{NumberWithCommas((e?.totals?.diamonds?.Amount),2)}</div>
                           </div>
                           <div className="tocol4 colored brTop" style={{display:"flex"}}>
                             <div className=""></div>
                             <div className="SpLeft" style={{width: "40%"}}>{fixedValues((e?.DiamondCTWwithLoss / 5 + e?.totals?.metal?.Wt),3)}</div>
-                            <div className="SpLeft" style={{width: "22%"}}>{e?.totals?.metal?.Wt?.toFixed(3)}</div>
+                            <div className="SpLeft" style={{width: "21%"}}>{e?.totals?.metal?.Wt?.toFixed(3)}</div>
                             <div className=""></div>
-                            <div className="SpLeft" style={{width: "38%"}}>{NumberWithCommas((e?.totals?.metal?.Amount),2)}</div></div>
+                            <div className="SpLeft" style={{width: "39%"}}>{NumberWithCommas((e?.totals?.metal?.Amount),2)}</div></div>
                           <div className="tocol5 colored brTop" style={{display: "flex"}}>
                             <div className=""></div>
                             <div className=""></div>
