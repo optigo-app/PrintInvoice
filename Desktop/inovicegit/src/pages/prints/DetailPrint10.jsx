@@ -927,30 +927,29 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   >
                     <div
                       className="centerdp10 brR_dp10"
-                      style={{ width: "12.5%" }}
+                      style={{ width: "12%" }}
                     >
                       Total
                     </div>
-                    <div className="col3dp10 d-flex align-items-center brR_dp10">
-                      <div className="theadsubcol1_dp10"></div>
-                      <div className="theadsubcol1_dp10"></div>
-                      <div className="theadsubcol1_dp10 end_dp10">
+                    <div className="tocol3 d-flex align-items-center brR_dp10">
+                      <div className="" ></div>
+                      <div className=""></div>
+                      <div className="end_dp10" style={{width: "35%"}}>
                         {result?.mainTotal?.diamonds?.Pcs}
                       </div>
-                      <div className="theadsubcol1_dp10 end_dp10">
+                      <div className="end_dp10" style={{width: "20%"}}>
                         {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
                       </div>
-                      {/* <div className="theadsubcol1_dp10"></div> */}
+                      <div className=""></div>
                       <div
-                        className="theadsubcol1_dp10 end_dp10 pr_dp10"
-                        style={{ width: "33.332%" }}
+                        className="end_dp10 pr_dp10" style={{width: "45%"}}
                       >
                         {formatAmount(result?.mainTotal?.diamonds?.Amount)}
                       </div>
                     </div>
                     <div
-                      className="col4dp10 d-flex align-items-center brR_dp10"
-                      style={{ width: "26%" }}
+                      className="tocol4 d-flex align-items-center brR_dp10"
+                      style={{ width: "23%" }}
                     >
                       {findingFlag && (
                         <div
@@ -985,7 +984,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         )}
                       </div>
                     </div>
-                    <div className="col3dp10 d-flex align-items-center brR_dp10">
+                    <div className="tocol5 d-flex align-items-center brR_dp10">
                       <div className="theadsubcol1_dp10"></div>
                       <div className="theadsubcol1_dp10"></div>
                       <div className="theadsubcol1_dp10 end_dp10">
@@ -1003,21 +1002,21 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                     </div>
                     <div
-                      className="col6dp10 end_dp10  d-flex align-items-center brR_dp10 pr_dp10"
-                      style={{ width: "5%", paddingRight: "1px" }}
+                      className="tocol6 end_dp10  d-flex align-items-center brR_dp10 pr_dp10"
+                      style={{ width: "4%", paddingRight: "1px" }}
                     >
                       {formatAmount(
                         result?.mainTotal?.total_otherCharge_Diamond_Handling
                       )}
                     </div>
-                    <div className="col7dp10 end_dp10  d-flex align-items-center brR_dp10 pr_dp10">
+                    <div className="tocol7 end_dp10  d-flex align-items-center brR_dp10 pr_dp10">
                       {formatAmount(
                         result?.mainTotal?.total_labour?.labour_amount +
                           result?.mainTotal?.total_TotalDiaSetcost +
                           result?.mainTotal?.total_TotalCsSetcost
                       )}
                     </div>
-                    <div className="col8dp10 end_dp10  d-flex align-items-center pr_dp10">
+                    <div className="tocol8 end_dp10  d-flex align-items-center pr_dp10" style={{borderRight: "none"}}>
                       {formatAmount(result?.finalAmount)}
                     </div>
                   </div>
