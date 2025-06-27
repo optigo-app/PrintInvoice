@@ -28,8 +28,8 @@ const CategoryWiseSalesProfitAmount = ({ tkn, fdate, tdate, country, CategoryWis
     const fetchData = async () => {
       try {
         const transformedData = CategoryWiseSaleAmountData?.map(item => {
-          const adjustedCost = (item.CurrentCost || 0) * 0.7;
-          const adjustedProfit = (item.SaleAmount || 0) - adjustedCost;
+          const adjustedCost = ((item.CurrentCost - item?.CurrentCost_SaleReturn) || 0) * 0.7;
+          const adjustedProfit = (item.NetSaleAmount || 0) - adjustedCost;
   
           return {
             CustomerDisplay: `${item.Customer} (${item.CompanyName})`,
@@ -51,11 +51,12 @@ const CategoryWiseSalesProfitAmount = ({ tkn, fdate, tdate, country, CategoryWis
     return saleAmountB - saleAmountA;
   });
   const top10 = sortedData?.slice(0, 10);
-  console.log('top10: ', top10);
 
   const sales = top10?.map((e) => +((e?.SaleAmount / (+country))?.toFixed(2)));
+  console.log('country: ', country);
+  console.log('sales: ', sales);
   const profit = top10?.map((e) => +(e?.AdjustedProfit));
-  const quantities = top10?.map((e) => e?.Quantity || 0); // Get quantity for each item
+  const quantities = top10?.map((e) => e?.Quantity || 0);
   const negativeArray = profit?.map(value => Math?.abs(value) * -1);
   const salesNames = top10?.map((e) => e?.Category)
   const totalSale = top10?.reduce((acc, num) => acc + num?.SaleAmount, 0);
@@ -91,7 +92,7 @@ const CategoryWiseSalesProfitAmount = ({ tkn, fdate, tdate, country, CategoryWis
               label += ': ';
             }
             if (context.parsed.y !== null) {
-              label += `${formatAmountKWise((context.parsed.y / (+country)))}`;
+              label += `${formatAmountKWise((context.parsed.y))}`;
             }
             if (context.dataset.label === 'Sales') {
               const quantity = quantities[context.dataIndex];
