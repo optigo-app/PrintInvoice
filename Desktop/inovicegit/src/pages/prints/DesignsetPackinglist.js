@@ -161,22 +161,22 @@ const DesignsetPackinglist = ({
   const loadData = (data) => {
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
-
+  
     const datas = OrganizeDataPrint(
       data?.BillPrint_Json[0],
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
-
+  
     // Step 1: Sort resultArray by id
     datas?.resultArray?.sort((a, b) => a.id - b.id);
-
-    // Step 2: Enhance each row (discount info + image logic)
+  
+    // Step 2: Enhance each row (discount info)
     let enrichedArray = [];
     datas?.resultArray?.forEach((e) => {
       let obj = { ...e };
       let discountOn = [];
-
+  
       if (e?.IsCriteriabasedAmount === 1) {
         if (e?.IsMetalAmount === 1) discountOn.push("Metal");
         if (e?.IsDiamondAmount === 1) discountOn.push("Diamond");
@@ -187,43 +187,54 @@ const DesignsetPackinglist = ({
       } else {
         if (e?.Discount !== 0) discountOn.push("Total Amount");
       }
-
+  
       obj.discountOn = discountOn;
       obj.str_discountOn = discountOn.join(", ") + "Amount";
-
+  
       enrichedArray.push(obj);
     });
-
+  
     // Step 3: Add designSetTotalAmount + DesigSetImage handling
     const finalArr = [];
     let i = 0;
-
+  
     while (i < enrichedArray.length) {
       const current = enrichedArray[i];
       const { DesignSetGroup, DesignSetNo } = current;
+  
+      // 👇 Do not merge if DesignSetGroup === 0
+      if (DesignSetGroup === 0) {
+        finalArr.push({
+          ...current,
+          designSetTotalAmount: current.TotalAmount,
+          DesigSetImage: '',
+        });
+        i++;
+        continue;
+      }
+  
       let total = current.TotalAmount;
       let j = i + 1;
-
+  
       // Check for consecutive duplicates
       while (
         j < enrichedArray.length &&
         enrichedArray[j].DesignSetGroup === DesignSetGroup &&
-        enrichedArray[j].DesignSetNo === DesignSetNo
+        enrichedArray[j].DesignSetNo === DesignSetNo &&
+        enrichedArray[j].DesignSetGroup !== 0 // Avoid merging group 0
       ) {
         total += enrichedArray[j].TotalAmount;
         j++;
       }
-
+  
       const isMerged = j - i > 1;
-
-      // First item with total + image (if not seen)
+  
       finalArr.push({
         ...current,
         designSetTotalAmount: isMerged ? total : current.TotalAmount,
         DesigSetImage: isMerged ? current.DesigSetImage : '',
       });
-
-      // Remaining with empty values
+  
       for (let k = i + 1; k < j; k++) {
         finalArr.push({
           ...enrichedArray[k],
@@ -231,19 +242,19 @@ const DesignsetPackinglist = ({
           DesigSetImage: "",
         });
       }
+  
       i = j;
     }
-
-    // Step 4: Update final result
+  
+    // Step 4: Update result
     datas.resultArray = finalArr;
-
+  
     console.log("datas: ", datas);
     setResult(datas);
+    setData(datas);
     setLoader(false);
   };
-
-
-
+  
   useEffect(() => {
     if (diaQlty) {
       const updated = cloneDeep(result);
@@ -643,7 +654,7 @@ const DesignsetPackinglist = ({
                                       onError={(e) => handleImageError(e)}
                                     />
                                   </div>
-                                  {/* <div className="fspcl">{e?.CertificateNo}</div> */}
+                                  <div className="fspcl">{e?.SrJobno}</div>
                                   {e?.HUID === "" ? (
                                     ""
                                   ) : (
