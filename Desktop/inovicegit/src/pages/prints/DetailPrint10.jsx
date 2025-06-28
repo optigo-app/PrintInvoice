@@ -685,8 +685,9 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
                                       {(
                                         e?.DiamondCTWwithLoss / 5 +
-                                        el?.Wt
+                                        el?.Wt - e?.totals?.finding?.Wt
                                       )?.toFixed(3)}
+                      
                                     </div>
                                   )}
                                   <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10">
@@ -718,12 +719,21 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     <div>
                                       {data?.FindingTypename !== "" && (
                                         <div style={{ display: "flex" }}>
-                                          <div style={{ width: "40%" }}>
+                                          <div style={{ width: "20%" }}>
                                             <p>
                                               {data?.FindingTypename +
                                                 " " +
                                                 data?.QualityName}
                                             </p>
+                                          </div>
+                                          <div
+                                            style={{
+                                              width: "20%",
+                                              display: "flex",
+                                              justifyContent: "flex-end",
+                                            }}
+                                          >
+                                            <p>{data?.Wt?.toFixed(3)}</p>
                                           </div>
                                           <div
                                             style={{
