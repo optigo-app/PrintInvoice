@@ -280,7 +280,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       obj_.Wt += a?.Wt;
       obj_.Pcs += a?.Pcs;
     });
-    
+
     darr4 = [...darr3, obj_];
 
     setDiamondArr(darr4);
@@ -743,7 +743,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           {e?.totals?.diamonds?.Amount !== 0 &&
                             formatAmount(
                               e?.totals?.diamonds?.Amount /
-                                result?.header?.CurrencyExchRate
+                              result?.header?.CurrencyExchRate
                             )}
                         </div>
                       </div>
@@ -766,18 +766,18 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     {e?.specialFinding?.FindingTypename?.toLowerCase()?.includes(
                                       "chain"
                                     ) ||
-                                    e?.specialFinding?.FindingTypename?.toLowerCase()?.includes(
-                                      "hook"
-                                    )
-                                      ? e?.NetWt?.toFixed(3)
+                                      e?.specialFinding?.FindingTypename?.toLowerCase()?.includes(
+                                        "hook"
+                                      )
+                                      ? (e?.NetWt - e?.finding_customer_wt)?.toFixed(3)
                                       : (
-                                          e?.NetWt - e?.totals?.finding?.Wt
-                                        )?.toFixed(3)}
+                                        e?.NetWt - e?.totals?.finding?.Wt - e?.finding_customer_wt
+                                      )?.toFixed(3)}
                                   </div>
                                   <div className="mcol4_pcls end_pcls pdr_pcls">
                                     {formatAmount(
                                       el?.Rate /
-                                        result?.header?.CurrencyExchRate
+                                      result?.header?.CurrencyExchRate
                                     )}
                                   </div>
                                   <div className="mcol5_pcls end_pcls pdr_pcls fw-bold">
@@ -789,12 +789,12 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                           "hook"
                                         )
                                         ? (e?.NetWt * e?.metal_rate) /
-                                            result?.header?.CurrencyExchRate
+                                        result?.header?.CurrencyExchRate
                                         : (el?.Amount -
-                                            (e?.totals?.finding?.Wt *
-                                              e?.metal_rate +
-                                              e?.LossAmt)) /
-                                            result?.header?.CurrencyExchRate
+                                          (e?.totals?.finding?.Wt *
+                                            e?.metal_rate +
+                                            e?.LossAmt)) /
+                                        result?.header?.CurrencyExchRate
                                     )}
                                   </div>
                                 </div>
@@ -818,85 +818,52 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </>
                           );
                         })}
-                        {e?.finding?.map((el, ind) => {
-                          return (
-                            <>
-                              {e?.specialFinding?.FindingTypename?.toLowerCase()?.includes(
-                                "chain"
-                              ) ||
-                              e?.specialFinding?.FindingTypename?.toLowerCase()?.includes(
-                                "hook"
-                              ) ? (
-                                ""
-                              ) : (
-                                <div className="d-flex w-100" key={ind}>
-                                  <div className="mcol1_pcls start_center_pcls pdl_pcls text-break">
-                                    {el?.FindingTypename + " " + el?.Supplier}
+
+                        <div style={{ margin: "0px 5px" }}>
+                          {e?.finding?.map((data, index) => (
+                            <React.Fragment key={index}>
+                              {data?.Supplier === "Customer" && (
+                                <div style={{ display: "flex" }}>
+                                  <div style={{ width: "37%" }}>
+                                    <p>
+                                      {data?.FindingTypename +
+                                        " " +
+                                        data?.QualityName}
+                                    </p>
                                   </div>
-                                  <div className="mcol2_pcls end_pcls pdr_pcls">
-                                    {e?.grosswt?.toFixed(3)}
+                                  <div
+                                    style={{
+                                      width: "17%",
+                                      display: "flex",
+                                      justifyContent: "flex-end",
+                                    }}
+                                  >
+                                    <p>{data?.Wt?.toFixed(3)}</p>
                                   </div>
-                                  <div className="mcol3_pcls end_pcls pdr_pcls">
-                                    {el?.Wt?.toFixed(3)}
+                                  <div
+                                    style={{
+                                      width: "20%",
+                                      display: "flex",
+                                      justifyContent: "flex-end",
+                                    }}
+                                  >
+                                    <p>{data?.Rate?.toFixed(2)}</p>
                                   </div>
-                                  <div className="mcol4_pcls end_pcls pdr_pcls">
-                                    {formatAmount(e?.metal_rate)}
+                                  <div
+                                    style={{
+                                      width: "26%",
+                                      display: "flex",
+                                      justifyContent: "flex-end",
+                                    }}
+                                  >
+                                    <p>{formatAmount(data?.Amount)}</p>
                                   </div>
-                                  <div className="mcol5_pcls end_pcls pdr_pcls fw-bold">
-                                    {formatAmount(e?.metal_rate * el?.Wt)}
-                                  </div>
-                                  {/* <div className='mcol5_pcls end_pcls pdr_pcls fw-bold'>{formatAmount((((el?.Amount - ((e?.totals?.finding?.Wt * e?.metal_rate) + e?.LossAmt))) / result?.header?.CurrencyExchRate))}</div> */}
                                 </div>
                               )}
-                            </>
-                          );
-                        })}
-                        {/* {
-                                        e?.totals?.finding?.Wt !== 0 &&
-                                            <div className='d-flex w-100 text-break' >
-                                                <div className='mcol1_pcls start_center_pcls pdl_pcls text-break' style={{width:'37%'}}>FINDING ACESSORIES</div>
-                                                <div className='mcol3_pcls end_pcls pdr_pcls'>{e?.totals?.finding?.Wt?.toFixed(3)}</div>
-                                                <div className='mcol4_pcls end_pcls pdr_pcls'>{formatAmount(e?.metal_rate)}</div>
-                                                <div className='mcol5_pcls end_pcls pdr_pcls fw-bold'>{formatAmount(((e?.totals?.finding?.Wt * e?.metal_rate) / result?.header?.CurrencyExchRate))}</div>
-                                            </div>
-                                 
-                                   } */}
-                        {/* {
-                                    e?.find_cust?.map((el, i) => {
-                                      return <>
-                                       <div className='d-flex w-100 text-break' key={i}>
-                                      <div className='mcol1_pcls start_center_pcls pdl_pcls text-break' style={{width:'37%'}}>FINDING ACESSORIES</div>
-                                      <div className='mcol3_pcls end_pcls pdr_pcls'>{el?.Wt?.toFixed(3)}</div>
-                                      <div className='mcol4_pcls end_pcls pdr_pcls'>{formatAmount(e?.metal_rate)}</div>
-                                      <div className='mcol5_pcls end_pcls pdr_pcls fw-bold'>{formatAmount(((el?.Wt * e?.metal_rate) / result?.header?.CurrencyExchRate))}</div>
-                                  </div>
-                                      </>
-                                    })
-                                   }
-                                   {
-                                    e?.find_company_chain?.map((el, i) => {
-                                      return <>
-                                       <div className='d-flex w-100 text-break' key={i}>
-                                      <div className='mcol1_pcls start_center_pcls pdl_pcls text-break' style={{width:'37%'}}>FINDING ACESSORIES</div>
-                                      <div className='mcol3_pcls end_pcls pdr_pcls'>{el?.Wt?.toFixed(3)}</div>
-                                      <div className='mcol4_pcls end_pcls pdr_pcls'>{formatAmount(e?.metal_rate)}</div>
-                                      <div className='mcol5_pcls end_pcls pdr_pcls fw-bold'>{formatAmount(((el?.Wt * e?.metal_rate) / result?.header?.CurrencyExchRate))}</div>
-                                  </div>
-                                      </>
-                                    })
-                                   }
-                                   {
-                                    e?.find_company_hook?.map((el, i) => {
-                                      return <>
-                                       <div className='d-flex w-100 text-break' key={i}>
-                                      <div className='mcol1_pcls start_center_pcls pdl_pcls text-break' style={{width:'37%'}}>FINDING ACESSORIES</div>
-                                      <div className='mcol3_pcls end_pcls pdr_pcls'>{el?.Wt?.toFixed(3)}</div>
-                                      <div className='mcol4_pcls end_pcls pdr_pcls'>{formatAmount(e?.metal_rate)}</div>
-                                      <div className='mcol5_pcls end_pcls pdr_pcls fw-bold'>{formatAmount(((el?.Wt * e?.metal_rate) / result?.header?.CurrencyExchRate))}</div>
-                                  </div>
-                                      </>
-                                    })
-                                   } */}
+                            </React.Fragment>
+                          ))}
+                        </div>
+
                         {e?.LossWt !== 0 && (
                           <div className="d-flex w-100 pt-1">
                             <div className="mcol1_pcls start_center_pcls pdl_pcls">
@@ -945,7 +912,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           {e?.totals?.metal?.Amount !== 0 &&
                             formatAmount(
                               e?.totals?.metal?.Amount /
-                                result?.header?.CurrencyExchRate
+                              result?.header?.CurrencyExchRate
                             )}
                         </div>
                       </div>
@@ -1023,7 +990,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             e?.totals?.colorstone?.Pcs !==
                             0 &&
                             e?.totals?.misc?.IsHSCODE_0_pcs +
-                              e?.totals?.colorstone?.Pcs}
+                            e?.totals?.colorstone?.Pcs}
                         </div>
                         <div className="dcol4_pcls end_pcls pdr_pcls">
                           {e?.totals?.misc?.IsHSCODE_0_wt +
@@ -1044,7 +1011,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             formatAmount(
                               (e?.totals?.misc?.IsHSCODE_0_amount +
                                 e?.totals?.colorstone?.Amount) /
-                                result?.header?.CurrencyExchRate
+                              result?.header?.CurrencyExchRate
                             )}
                         </div>
                       </div>
@@ -1063,7 +1030,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className="lcol1_pcls end_pcls pdr_pcls">
                               {formatAmount(
                                 e?.MakingAmount /
-                                  result?.header?.CurrencyExchRate
+                                result?.header?.CurrencyExchRate
                               )}
                             </div>
                           </div>
@@ -1092,7 +1059,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <div className="w-50 end_pcls pdr_pcls">
                                     {formatAmount(
                                       ele?.Amount /
-                                        result?.header?.CurrencyExchRate
+                                      result?.header?.CurrencyExchRate
                                     )}
                                   </div>
                                 </div>
@@ -1111,7 +1078,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <div className="w-50 end_pcls pdr_pcls">
                                     {formatAmount(
                                       ele?.Amount /
-                                        result?.header?.CurrencyExchRate
+                                      result?.header?.CurrencyExchRate
                                     )}
                                   </div>
                                 </div>
@@ -1130,7 +1097,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <div className="w-50 end_pcls pdr_pcls">
                                     {formatAmount(
                                       ele?.Amount /
-                                        result?.header?.CurrencyExchRate
+                                      result?.header?.CurrencyExchRate
                                     )}
                                   </div>
                                 </div>
@@ -1141,19 +1108,19 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {e?.totals?.diamonds?.SettingAmount +
                           e?.totals?.colorstone?.SettingAmount !==
                           0 && (
-                          <div className="d-flex w-100">
-                            <div className="w-50 start_center_pcls pdl_pcls text-break">
-                              Setting
-                            </div>
-                            <div className="w-50 end_pcls pdr_pcls">
-                              {formatAmount(
-                                (e?.totals?.diamonds?.SettingAmount +
-                                  e?.totals?.colorstone?.SettingAmount) /
+                            <div className="d-flex w-100">
+                              <div className="w-50 start_center_pcls pdl_pcls text-break">
+                                Setting
+                              </div>
+                              <div className="w-50 end_pcls pdr_pcls">
+                                {formatAmount(
+                                  (e?.totals?.diamonds?.SettingAmount +
+                                    e?.totals?.colorstone?.SettingAmount) /
                                   result?.header?.CurrencyExchRate
-                              )}
+                                )}
+                              </div>
                             </div>
-                          </div>
-                        )}
+                          )}
                         {e?.totals?.finding?.SettingAmount !== 0 && (
                           <div className="d-flex w-100">
                             <div className="lcol1_pcls start_center_pcls pdl_pcls text-break">
@@ -1165,7 +1132,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className="lcol1_pcls end_pcls pdr_pcls">
                               {formatAmount(
                                 e?.totals?.finding?.SettingAmount /
-                                  result?.header?.CurrencyExchRate
+                                result?.header?.CurrencyExchRate
                               )}
                             </div>
                           </div>
@@ -1179,7 +1146,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className="w-50 end_pcls pdr_pcls">
                               {formatAmount(
                                 e?.TotalDiamondHandling /
-                                  result?.header?.CurrencyExchRate
+                                result?.header?.CurrencyExchRate
                               )}
                             </div>
                           </div>
@@ -1208,7 +1175,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 e?.totals?.colorstone?.SettingAmount +
                                 e?.totals?.finding?.SettingAmount +
                                 e?.MakingAmount) /
-                                result?.header?.CurrencyExchRate
+                              result?.header?.CurrencyExchRate
                             )}
                         </div>
                       </div>
@@ -1259,7 +1226,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     >
                       {formatAmount(
                         result?.mainTotal?.diamonds?.Amount /
-                          result?.header?.CurrencyExchRate
+                        result?.header?.CurrencyExchRate
                       )}
                     </div>
                   </div>
@@ -1278,7 +1245,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="end_pcls pdr_pcls" style={{ width: "45%" }}>
                       {formatAmount(
                         result?.mainTotal?.metal?.Amount /
-                          result?.header?.CurrencyExchRate
+                        result?.header?.CurrencyExchRate
                       )}
                     </div>
                   </div>
@@ -1304,7 +1271,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       {formatAmount(
                         (result?.mainTotal?.misc?.IsHSCODE_0_amount +
                           result?.mainTotal?.colorstone?.Amount) /
-                          result?.header?.CurrencyExchRate
+                        result?.header?.CurrencyExchRate
                       )}
                     </div>
                   </div>
@@ -1322,7 +1289,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           result?.mainTotal?.misc?.IsHSCODE_1_amount +
                           result?.mainTotal?.misc?.IsHSCODE_2_amount +
                           result?.mainTotal?.misc?.IsHSCODE_3_amount) /
-                          result?.header?.CurrencyExchRate
+                        result?.header?.CurrencyExchRate
                       )}
                     </div>
                   </div>
@@ -1331,7 +1298,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   {formatAmount(
                     (result?.mainTotal?.TotalAmount +
                       result?.mainTotal?.DiscountAmt) /
-                      result?.header?.CurrencyExchRate
+                    result?.header?.CurrencyExchRate
                   )}
                 </div>
               </div>
@@ -1359,7 +1326,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       >
                         {formatAmount(
                           result?.mainTotal?.DiscountAmt /
-                            result?.header?.CurrencyExchRate
+                          result?.header?.CurrencyExchRate
                         )}
                       </div>
                     </div>
@@ -1371,7 +1338,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div style={{ width: "50%" }} className="end_pcls pdr_pcls">
                       {formatAmount(
                         result?.mainTotal?.TotalAmount /
-                          result?.header?.CurrencyExchRate
+                        result?.header?.CurrencyExchRate
                       )}
                     </div>
                   </div>
@@ -1403,7 +1370,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div style={{ width: "50%" }} className="end_pcls pdr_pcls">
                       {formatAmount(
                         result?.header?.AddLess /
-                          result?.header?.CurrencyExchRate
+                        result?.header?.CurrencyExchRate
                       )}
                     </div>
                   </div>
@@ -1421,7 +1388,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       >
                         {formatAmount(
                           result?.header?.FreightCharges /
-                            result?.header?.CurrencyExchRate
+                          result?.header?.CurrencyExchRate
                         )}
                       </div>
                     </div>
@@ -1435,8 +1402,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         (result?.mainTotal?.TotalAmount +
                           result?.header?.AddLess +
                           result?.header?.FreightCharges) /
-                          result?.header?.CurrencyExchRate +
-                          result?.allTaxesTotal
+                        result?.header?.CurrencyExchRate +
+                        result?.allTaxesTotal
                       )}
                     </div>
                   </div>
@@ -1638,7 +1605,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {formatAmount(
                           (result?.mainTotal?.metal?.Amount -
                             notGoldMetalTotal) /
-                            result?.header?.CurrencyExchRate
+                          result?.header?.CurrencyExchRate
                         )}
                       </div>
                     </div>
@@ -1663,7 +1630,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               )} */}
                         {formatAmount(
                           result?.mainTotal?.diamonds?.Amount /
-                            result?.header?.CurrencyExchRate
+                          result?.header?.CurrencyExchRate
                         )}
                       </div>
                     </div>
@@ -1672,7 +1639,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="w-50 end_dp10">
                         {formatAmount(
                           result?.mainTotal?.colorstone?.Amount /
-                            result?.header?.CurrencyExchRate
+                          result?.header?.CurrencyExchRate
                         )}
                       </div>
                     </div>
@@ -1681,7 +1648,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="w-50 end_dp10">
                         {formatAmount(
                           result?.mainTotal?.misc?.IsHSCODE_0_amount /
-                            result?.header?.CurrencyExchRate
+                          result?.header?.CurrencyExchRate
                         )}
                       </div>
                     </div>
@@ -1692,7 +1659,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           (result?.mainTotal?.MakingAmount +
                             result?.mainTotal?.diamonds?.SettingAmount +
                             result?.mainTotal?.colorstone?.SettingAmount) /
-                            result?.header?.CurrencyExchRate
+                          result?.header?.CurrencyExchRate
                         )}
                       </div>
                     </div>
@@ -1701,7 +1668,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="w-50 end_dp10">
                         {formatAmount(
                           result?.mainTotal?.OtherCharges /
-                            result?.header?.CurrencyExchRate
+                          result?.header?.CurrencyExchRate
                         )}
                       </div>
                     </div>
@@ -1712,7 +1679,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="w-50 end_dp10">
                         {formatAmount(
                           result?.header?.AddLess /
-                            result?.header?.CurrencyExchRate
+                          result?.header?.CurrencyExchRate
                         )}
                       </div>
                     </div>
@@ -1727,8 +1694,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         (result?.mainTotal?.TotalAmount +
                           result?.header?.AddLess +
                           result?.header?.FreightCharges) /
-                          result?.header?.CurrencyExchRate +
-                          result?.allTaxesTotal
+                        result?.header?.CurrencyExchRate +
+                        result?.allTaxesTotal
                       )}
                     </div>
                   </div>

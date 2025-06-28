@@ -71,6 +71,60 @@
   font-size: 11px !important;
 }
 
+.summury4_col1{
+  width: 3%;
+}
+.summury4_col2{
+  width: 8%;
+}
+.summury4_col3{
+  width: 8%;
+}
+.summury4_col4{
+  width: 5%;
+}
+.summury4_col5{
+  width: 6%;
+}
+.summury4_col6{
+  width: 6%;
+}
+.summury4_col7{
+  width: 6%;
+}
+.summury4_col8{
+  width: 6%;
+}
+.summury4_col9{
+  width: 6%;
+}
+.summury4_col10{
+  width: 6%;
+}
+.summury4_col11{
+  width: 6%;
+}
+.summury4_col12{
+  width: 6%;
+}
+.summury4_col13{
+  width: 6%;
+}
+.summury4_col14{
+  width: 6%;
+}
+.summury4_col15{
+  width: 8%;
+}
+.summury4_col16{
+  width: 8%;
+}
+
+
+
+
+
+
 .sr_sum4 {
   /* min-width: 40.5px;
     width: 40.5px; */
@@ -418,6 +472,11 @@
 }
 
 @media print {
+
+  .summury4_col_font{
+    font-size: 5px !important;
+  }
+
   .font_15_sum4 {
     line-height: 90%;
     font-size: 11px !important;
@@ -472,7 +531,7 @@
   }
 
   .sum4_table div {
-    font-size: 9px !important;
+    font-size: 8px !important;
   }
 
   .total_sgst_number_sum4 {
