@@ -245,6 +245,23 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         return (
           <div key={`${i}-${imet}`}>
             {findingFlag && (
+              <div className="finalnetwt">{value.toFixed(3)}</div>
+            )}
+          </div>
+        );
+      });
+    });
+  }
+  let totalnetwt = 0;
+  {
+    result?.resultArray?.map((e, i) => {
+      return e?.metal?.map((el, imet) => {
+        const value = el?.Wt - e?.totals?.finding?.Wt;
+        totalnetwt += value;
+
+        return (
+          <div key={`${i}-${imet}`}>
+            {findingFlag && (
               <div className="valueFianl">{value.toFixed(3)}</div>
             )}
           </div>
@@ -552,334 +569,424 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {result?.resultArray?.map((e, i) => {
                       return (
                         <>
-                        <div className={`${findingFlag ? "tbrowdp10finding" : "tbrowdp10"} h-100`} key={i}>
-                          <div className="tbcol1dp10 center_sdp10">
-                            {/* {e?.SrNo} */}
-                            {i + 1}
-                          </div>
-                          <div className="tbcol2dp10 d-flex flex-column justify-content-between">
-                            <div className="d-flex justify-content-between px-1 flex-wrap">
-                              <div className="fsgdp10">{e?.designno}</div>
-                              <div className="fsgdp10">{e?.SrJobno}</div>
-                            </div>
-                            <div className="d-flex justify-content-end px-1">
-                              {e?.MetalColor}
-                            </div>
-                            {imgFlag ? (
-                              <div
-                                className="w-100 d-flex justify-content-center align-items-start fsgdp10"
-                                style={{ minHeight: "80px", borderBottom: "none" }}
-                              >
-                                <img
-                                  src={e?.DesignImage}
-                                  onError={(e) => handleImageError(e)}
-                                  alt="design"
-                                  className="imgdp10"
-                                />
-                              </div>
-                            ) : (
-                              ""
-                            )}
-
-                            <div className="centerdp10 fsgdp10">
-                              {e?.batchnumber}
-                            </div>
-                            {e?.HUID !== "" ? (
-                              <div className="centerdp10 fsgdp10">
-                                HUID - {e?.HUID}
-                              </div>
-                            ) : (
-                              ""
-                            )}
-                            <div className="centerdp10 fw-bold fsgdp10">
-                              PO: {e?.PO}
-                            </div>
-                            <div className="centerdp10 fw-bold fsgdp10">
-                              {e?.lineid}
-                            </div>
-                            <div className="centerdp10 fsgdp10">
-                              Tunch : &nbsp;
-                              <b className="fsgdp10">{e?.Tunch?.toFixed(3)}</b>
-                            </div>
-                            <div className="centerdp10">
-                              <b className="fsgdp10">
-                                {e?.grosswt?.toFixed(3)} gm
-                              </b>
-                              &nbsp; Gross
-                            </div>
-                            <div className="centerdp10">
-                              {" "}
-                              {e?.Size === "" ? "" : `Size : ${e?.Size}`}
-                            </div>
-                          </div>
                           <div
-                            className="tbcol3dp10 "
-                            style={{ width: "23.33%" }}
+                            className={`${
+                              findingFlag ? "tbrowdp10finding" : "tbrowdp10"
+                            } h-100`}
+                            key={i}
                           >
-                            {e?.diamonds?.map((el, idia) => {
-                              return (
-                                <div className="d-flex" key={idia}>
-                                  <div
-                                    className="theadsubcol1_dp10"
-                                    style={{
-                                      wordBreak: "break-word",
-                                      paddingLeft: "2px",
-                                    }}
-                                  >
-                                    {el?.ShapeName} {el?.QualityName}&nbsp;
-                                    {el?.Colorname}
-                                  </div>
-                                  <div
-                                    className="theadsubcol1_dp10 text-center"
-                                    style={{
-                                      lineHeight: "8px !important",
-                                      width: "10.66%",
-                                    }}
-                                  >
-                                    {el?.SizeName}
-                                  </div>
-                                  <div
-                                    className="theadsubcol1_dp10 end_dp10"
-                                    style={{ width: "9.66%" }}
-                                  >
-                                    {el?.Pcs}
-                                  </div>
-                                  <div className="theadsubcol1_dp10 end_dp10">
-                                    {el?.Wt?.toFixed(3)}
-                                  </div>
-                                  <div
-                                    className="theadsubcol1_dp10 end_dp10"
-                                    style={{ width: "22.66%" }}
-                                  >
-                                    {formatAmount(el?.Rate)}
-                                  </div>
-                                  <div
-                                    className="theadsubcol1_dp10 fw-bold end_dp10 pr_dp10"
-                                    style={{ width: "24.66%" }}
-                                  >
-                                    {formatAmount(el?.Amount)}
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                          <div
-                            className="tbcol4dp10"
-                            style={{ width: "23.33%" }}
-                          >
-                            {e?.metal?.map((el, imet) => {
-                              return (
-                                <div className="d-flex w-100" key={imet}>
-                                  <div
-                                    className="theadsubcol2_dp10 d-flex justify-content-start h-100 ps-1 border-end-0"
-                                    style={{
-                                      width: "30%",
-                                      wordBreak: "break-word",
-                                    }}
-                                  >
-                                    {el?.ShapeName} {el?.QualityName}
-                                  </div>
-                                  {findingFlag && (
-                                    <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10">
-                                      {/* {(e?.NetWt + e?.LossWt)?.toFixed(3)} */}
-
-                                      {(
-                                        e?.DiamondCTWwithLoss / 5 +
-                                        el?.Wt - e?.totals?.finding?.Wt
-                                      )?.toFixed(3)}
-                      
-                                    </div>
-                                  )}
-                                  <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10">
-                                    {/* {(e?.NetWt + e?.LossWt)?.toFixed(3)} */}
-                                    {!findingFlag
-                                      ? el?.Wt?.toFixed(3)
-                                      : (
-                                          el?.Wt - e?.totals?.finding?.Wt
-                                        )?.toFixed(3)}
-                                  </div>
-                                  <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10">
-                                    {el?.Rate?.toFixed(2)}
-                                  </div>
-                                  <div
-                                    className={`theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10 pr_dp10 ${
-                                      el?.IsPrimaryMetal === 1 ? "" : "fw-bold"
-                                    }`}
-                                    style={{ width: "27%" }}
-                                  >
-                                    {el?.Amount?.toFixed(2)}
-                                  </div>
-                                </div>
-                              );
-                            })}
-                            {findingFlag && (
-                              <div style={{ margin: "0px 5px" }}>
-                                {e?.all_m_d_c_m?.map((data, index) => {
-                                  return (
-                                    <div>
-                                      {data?.FindingTypename !== "" && (
-                                        <div style={{ display: "flex" }}>
-                                          <div style={{ width: "20%" }}>
-                                            <p>
-                                              {data?.FindingTypename +
-                                                " " +
-                                                data?.QualityName}
-                                            </p>
-                                          </div>
-                                          <div
-                                            style={{
-                                              width: "20%",
-                                              display: "flex",
-                                              justifyContent: "flex-end",
-                                            }}
-                                          >
-                                            <p>{data?.Wt?.toFixed(3)}</p>
-                                          </div>
-                                          <div
-                                            style={{
-                                              width: "20%",
-                                              display: "flex",
-                                              justifyContent: "flex-end",
-                                            }}
-                                          >
-                                            <p>{data?.Wt?.toFixed(3)}</p>
-                                          </div>
-                                          <div
-                                            style={{
-                                              width: "20%",
-                                              display: "flex",
-                                              justifyContent: "flex-end",
-                                            }}
-                                          >
-                                            <p>{data?.Rate?.toFixed(2)}</p>
-                                          </div>
-                                          <div
-                                            style={{
-                                              width: "20%",
-                                              display: "flex",
-                                              justifyContent: "flex-end",
-                                            }}
-                                          >
-                                            <p>{formatAmount(data?.Amount)}</p>
-                                          </div>
-                                        </div>
-                                      )}
-                                    </div>
-                                  );
-                                })}
+                            <div className="tbcol1dp10 center_sdp10">
+                              {/* {e?.SrNo} */}
+                              {i + 1}
+                            </div>
+                            <div className="tbcol2dp10 d-flex flex-column justify-content-between">
+                              <div className="d-flex justify-content-between px-1 flex-wrap">
+                                <div className="fsgdp10">{e?.designno}</div>
+                                <div className="fsgdp10">{e?.SrJobno}</div>
                               </div>
-                            )}
-                            <div className="p-2 px-1">
-                              {e?.JobRemark !== "" ? (
-                                <>
-                                  <b className="fsgdp10">Remark : </b>{" "}
-                                  {e?.JobRemark}
-                                </>
+                              <div className="d-flex justify-content-end px-1">
+                                {e?.MetalColor}
+                              </div>
+                              {imgFlag ? (
+                                <div
+                                  className="w-100 d-flex justify-content-center align-items-start fsgdp10"
+                                  style={{
+                                    minHeight: "80px",
+                                    borderBottom: "none",
+                                  }}
+                                >
+                                  <img
+                                    src={e?.DesignImage}
+                                    onError={(e) => handleImageError(e)}
+                                    alt="design"
+                                    className="imgdp10"
+                                  />
+                                </div>
                               ) : (
                                 ""
-                              )}{" "}
-                            </div>
-                          </div>
-                          <div
-                            className="tbcol3dp10"
-                            style={{ width: "23.34%" }}
-                          >
-                            {e?.colorstone?.map((el, ics) => {
-                              return (
-                                <div className="d-flex" key={ics}>
-                                  <div
-                                    className="theadsubcol1_dp10"
-                                    style={{
-                                      wordBreak: "break-word",
-                                      paddingLeft: "2px",
-                                      width: "21.66%",
-                                    }}
-                                  >
-                                    {el?.ShapeName +
-                                      " " +
-                                      el?.QualityName +
-                                      " " +
-                                      el?.Colorname}
-                                  </div>
-                                  <div className="theadsubcol1_dp10 text-center">
-                                    {el?.SizeName}
-                                  </div>
-                                  <div
-                                    className="theadsubcol1_dp10 end_dp10"
-                                    style={{ width: "11.66%" }}
-                                  >
-                                    {el?.Pcs}
-                                  </div>
-                                  <div className="theadsubcol1_dp10 end_dp10">
-                                    {el?.Wt?.toFixed(3)}
-                                  </div>
-                                  <div className="theadsubcol1_dp10 end_dp10">
-                                    {el?.Rate?.toFixed(2)}
-                                  </div>
-                                  <div className="theadsubcol1_dp10 end_dp10 fw-bold pr_dp10">
-                                    {el?.Amount?.toFixed(2)}
-                                  </div>
+                              )}
+
+                              <div className="centerdp10 fsgdp10">
+                                {e?.batchnumber}
+                              </div>
+                              {e?.HUID !== "" ? (
+                                <div className="centerdp10 fsgdp10">
+                                  HUID - {e?.HUID}
                                 </div>
-                              );
-                            })}
-                          </div>
-                          <div className="tbcol6dp10 end_dp10 p-1 pr_dp10">
-                            {formatAmount(
-                              e?.OtherCharges +
-                                e?.MiscAmount +
-                                e?.TotalDiamondHandling
-                            )}
-                          </div>
-                          <div className="tbcol7dp10 ">
-                            <div className="d-flex">
-                              <div className="w-50 end_dp10 pr_dp10">
-                                {formatAmount(e?.MaKingCharge_Unit)}
+                              ) : (
+                                ""
+                              )}
+                              <div className="centerdp10 fw-bold fsgdp10">
+                                PO: {e?.PO}
                               </div>
-                              <div className="w-50 end_dp10  pr_dp10">
-                                {formatAmount(
-                                  e?.MakingAmount +
-                                    e?.TotalDiaSetcost +
-                                    e?.TotalCsSetcost
-                                )}
+                              <div className="centerdp10 fw-bold fsgdp10">
+                                {e?.lineid}
+                              </div>
+                              <div className="centerdp10 fsgdp10">
+                                Tunch : &nbsp;
+                                <b className="fsgdp10">
+                                  {e?.Tunch?.toFixed(3)}
+                                </b>
+                              </div>
+                              <div className="centerdp10">
+                                <b className="fsgdp10">
+                                  {e?.grosswt?.toFixed(3)} gm
+                                </b>
+                                &nbsp; Gross
+                              </div>
+                              <div className="centerdp10">
+                                {" "}
+                                {e?.Size === "" ? "" : `Size : ${e?.Size}`}
                               </div>
                             </div>
+                            <div
+                              className="tbcol3dp10 "
+                              style={{ width: "23.33%" }}
+                            >
+                              {e?.diamonds?.map((el, idia) => {
+                                return (
+                                  <div className="d-flex" key={idia}>
+                                    <div
+                                      className="theadsubcol1_dp10"
+                                      style={{
+                                        wordBreak: "break-word",
+                                        paddingLeft: "2px",
+                                      }}
+                                    >
+                                      {el?.ShapeName} {el?.QualityName}&nbsp;
+                                      {el?.Colorname}
+                                    </div>
+                                    <div
+                                      className="theadsubcol1_dp10 text-center"
+                                      style={{
+                                        lineHeight: "8px !important",
+                                        width: "10.66%",
+                                      }}
+                                    >
+                                      {el?.SizeName}
+                                    </div>
+                                    <div
+                                      className="theadsubcol1_dp10 end_dp10"
+                                      style={{ width: "9.66%" }}
+                                    >
+                                      {el?.Pcs}
+                                    </div>
+                                    <div className="theadsubcol1_dp10 end_dp10">
+                                      {el?.Wt?.toFixed(3)}
+                                    </div>
+                                    <div
+                                      className="theadsubcol1_dp10 end_dp10"
+                                      style={{ width: "22.66%" }}
+                                    >
+                                      {formatAmount(el?.Rate)}
+                                    </div>
+                                    <div
+                                      className="theadsubcol1_dp10 fw-bold end_dp10 pr_dp10"
+                                      style={{ width: "24.66%" }}
+                                    >
+                                      {formatAmount(el?.Amount)}
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                            <div
+                              className="tbcol4dp10"
+                              style={{ width: "23.33%" }}
+                            >
+                              {e?.metal?.map((el, imet) => {
+                                return (
+                                  <div className="d-flex w-100" key={imet}>
+                                    <div
+                                      className="theadsubcol2_dp10 d-flex justify-content-start h-100 ps-1 border-end-0"
+                                      style={{
+                                        width: "30%",
+                                        wordBreak: "break-word",
+                                      }}
+                                    >
+                                      {el?.ShapeName} {el?.QualityName}
+                                    </div>
+                                    {findingFlag && (
+                                      <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10">
+                                        {/* {(e?.NetWt + e?.LossWt)?.toFixed(3)} */}
+                                        {el?.IsPrimaryMetal == 1
+                                          ? (
+                                              e?.DiamondCTWwithLoss / 5 +
+                                              el?.Wt -
+                                              e?.totals?.finding?.Wt
+                                            )?.toFixed(3)
+                                          : (
+                                              e?.DiamondCTWwithLoss / 5 +
+                                              el?.Wt
+                                            )?.toFixed(3)}
+                                      </div>
+                                    )}
+                                    <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10">
+                                      {/* {(e?.NetWt + e?.LossWt)?.toFixed(3)} */}
+                                      {!findingFlag
+                                        ? el?.Wt?.toFixed(3)
+                                        : el?.IsPrimaryMetal == 1
+                                        ? (
+                                            el?.Wt - e?.totals?.finding?.Wt
+                                          )?.toFixed(3)
+                                        : (el?.Wt)?.toFixed(3)}
+                                    </div>
+                                    <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10">
+                                      {el?.Rate?.toFixed(2)}
+                                    </div>
+                                    <div
+                                      className={`theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10 pr_dp10`}
+                                      style={{ width: "27%" }}
+                                    >
+                                      {el?.Amount?.toFixed(2)}
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                              {findingFlag && (
+                                <div style={{ margin: "0px 5px" }}>
+                                  {e?.all_m_d_c_m?.map((data, index) => {
+                                    return (
+                                      <div>
+                                        {data?.FindingTypename !== "" && (
+                                          <div style={{ display: "flex" }}>
+                                            <div style={{ width: "20%" }}>
+                                              <p>
+                                                {data?.FindingTypename +
+                                                  " " +
+                                                  data?.QualityName}
+                                              </p>
+                                            </div>
+                                            <div
+                                              style={{
+                                                width: "20%",
+                                                display: "flex",
+                                                justifyContent: "flex-end",
+                                              }}
+                                            >
+                                              <p>{data?.Wt?.toFixed(3)}</p>
+                                            </div>
+                                            <div
+                                              style={{
+                                                width: "20%",
+                                                display: "flex",
+                                                justifyContent: "flex-end",
+                                              }}
+                                            >
+                                              <p>{data?.Wt?.toFixed(3)}</p>
+                                            </div>
+                                            <div
+                                              style={{
+                                                width: "20%",
+                                                display: "flex",
+                                                justifyContent: "flex-end",
+                                              }}
+                                            >
+                                              <p>{data?.Rate?.toFixed(2)}</p>
+                                            </div>
+                                            <div
+                                              style={{
+                                                width: "20%",
+                                                display: "flex",
+                                                justifyContent: "flex-end",
+                                              }}
+                                            >
+                                              <p>
+                                                {formatAmount(data?.Amount)}
+                                              </p>
+                                            </div>
+                                          </div>
+                                        )}
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              )}
+                              <div className="p-2 px-1">
+                                {e?.JobRemark !== "" ? (
+                                  <>
+                                    <b className="fsgdp10">Remark : </b>{" "}
+                                    {e?.JobRemark}
+                                  </>
+                                ) : (
+                                  ""
+                                )}{" "}
+                              </div>
+                            </div>
+                            <div
+                              className="tbcol3dp10"
+                              style={{ width: "23.34%" }}
+                            >
+                              {e?.colorstone?.map((el, ics) => {
+                                return (
+                                  <div className="d-flex" key={ics}>
+                                    <div
+                                      className="theadsubcol1_dp10"
+                                      style={{
+                                        wordBreak: "break-word",
+                                        paddingLeft: "2px",
+                                        width: "21.66%",
+                                      }}
+                                    >
+                                      {el?.ShapeName +
+                                        " " +
+                                        el?.QualityName +
+                                        " " +
+                                        el?.Colorname}
+                                    </div>
+                                    <div className="theadsubcol1_dp10 text-center">
+                                      {el?.SizeName}
+                                    </div>
+                                    <div
+                                      className="theadsubcol1_dp10 end_dp10"
+                                      style={{ width: "11.66%" }}
+                                    >
+                                      {el?.Pcs}
+                                    </div>
+                                    <div className="theadsubcol1_dp10 end_dp10">
+                                      {el?.Wt?.toFixed(3)}
+                                    </div>
+                                    <div className="theadsubcol1_dp10 end_dp10">
+                                      {el?.Rate?.toFixed(2)}
+                                    </div>
+                                    <div className="theadsubcol1_dp10 end_dp10 fw-bold pr_dp10">
+                                      {el?.Amount?.toFixed(2)}
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                            <div className="tbcol6dp10 end_dp10 p-1 pr_dp10">
+                              {formatAmount(
+                                e?.OtherCharges +
+                                  e?.MiscAmount +
+                                  e?.TotalDiamondHandling
+                              )}
+                            </div>
+                            <div className="tbcol7dp10 ">
+                              <div className="d-flex">
+                                <div className="w-50 end_dp10 pr_dp10">
+                                  {formatAmount(e?.MaKingCharge_Unit)}
+                                </div>
+                                <div className="w-50 end_dp10  pr_dp10">
+                                  {formatAmount(
+                                    e?.MakingAmount +
+                                      e?.TotalDiaSetcost +
+                                      e?.TotalCsSetcost
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                            <div className="tbcol8dp10 end_dp10 fw-bold p-1 pad_top_dp10 pr_dp10">
+                              {formatAmount(e?.TotalAmount + e?.DiscountAmt)}
+                            </div>
                           </div>
-                          <div className="tbcol8dp10 end_dp10 fw-bold p-1 pad_top_dp10 pr_dp10">
-                            {formatAmount(e?.TotalAmount + e?.DiscountAmt)}
-                          </div>
-                        </div>
-                        {findingFlag && (
-                        <div className="coltotal">
-                          <div className="tocol1"></div>
-                          <div className="tocol2"></div>
-                          <div className="tocol3 colored brTop" style={{display:"flex"}}>
-                            <div className=""></div>
-                            <div className=""></div>
-                            <div className="SpLeft" style={{width: "37%"}}>{e?.totals?.diamonds?.Pcs}</div>
-                            <div className="SpLeft" style={{width: "17%"}}>{e?.totals?.diamonds?.Wt?.toFixed(3)}</div>
-                            <div className=""></div>
-                            <div className="SpLeft" style={{width: "46%"}}>{NumberWithCommas((e?.totals?.diamonds?.Amount),2)}</div>
-                          </div>
-                          <div className="tocol4 colored brTop" style={{display:"flex"}}>
-                            <div className=""></div>
-                            <div className="SpLeft" style={{width: "40%"}}>{fixedValues((e?.DiamondCTWwithLoss / 5 + e?.totals?.metal?.Wt),3)}</div>
-                            <div className="SpLeft" style={{width: "21%"}}>{e?.totals?.metal?.Wt?.toFixed(3)}</div>
-                            <div className=""></div>
-                            <div className="SpLeft" style={{width: "39%"}}>{NumberWithCommas((e?.totals?.metal?.Amount),2)}</div></div>
-                          <div className="tocol5 colored brTop" style={{display: "flex"}}>
-                            <div className=""></div>
-                            <div className=""></div>
-                            <div className="SpLeft" style={{width: "49%"}}>{e?.totals?.colorstone?.Pcs}</div>
-                            <div className="SpLeft" style={{width: "18%"}}>{e?.totals?.colorstone?.Wt?.toFixed(3)}</div>
-                            <div className=""></div>
-                            <div className="SpLeft" style={{width: "33%"}}>{NumberWithCommas((e?.totals?.colorstone?.Amount),2)}</div>
-                          </div>
-                          <div className="tocol6 colored SpLeft brTop">{e?.other_details_arr_total_amount?.toFixed(2)}</div>
-                          <div className="tocol7 colored SpLeft brTop">{e?.Making_Amount_Other_Charges?.toFixed(2)}</div>
-                          <div className="tocol8 colored SpLeft brTop">{e?.TotalAmount?.toFixed(2)}</div>
-                        </div>
-                        )}
-                       </> 
+                          {findingFlag && (
+                            <div className="coltotal">
+                              <div className="tocol1"></div>
+                              <div className="tocol2"></div>
+                              <div
+                                className="tocol3 colored brTop"
+                                style={{ display: "flex" }}
+                              >
+                                <div className=""></div>
+                                <div className=""></div>
+                                <div
+                                  className="SpLeft"
+                                  style={{ width: "37%" }}
+                                >
+                                  {e?.totals?.diamonds?.Pcs}
+                                </div>
+                                <div
+                                  className="SpLeft"
+                                  style={{ width: "17%" }}
+                                >
+                                  {e?.totals?.diamonds?.Wt?.toFixed(3)}
+                                </div>
+                                <div className=""></div>
+                                <div
+                                  className="SpLeft"
+                                  style={{ width: "46%" }}
+                                >
+                                  {NumberWithCommas(
+                                    e?.totals?.diamonds?.Amount,
+                                    2
+                                  )}
+                                </div>
+                              </div>
+                              <div
+                                className="tocol4 colored brTop"
+                                style={{ display: "flex" }}
+                              >
+                                <div className=""></div>
+                                <div
+                                  className="SpLeft"
+                                  style={{ width: "40%" }}
+                                >
+                                  {fixedValues(
+                                    e?.DiamondCTWwithLoss / 5 +
+                                      e?.totals?.metal?.Wt,
+                                    3
+                                  )}
+                                </div>
+                                <div
+                                  className="SpLeft"
+                                  style={{ width: "21%" }}
+                                >
+                                  {e?.totals?.metal?.Wt?.toFixed(3)}
+                                </div>
+                                <div className=""></div>
+                                <div
+                                  className="SpLeft"
+                                  style={{ width: "39%" }}
+                                >
+                                  {NumberWithCommas(
+                                    e?.totals?.metal?.Amount,
+                                    2
+                                  )}
+                                </div>
+                              </div>
+                              <div
+                                className="tocol5 colored brTop"
+                                style={{ display: "flex" }}
+                              >
+                                <div className=""></div>
+                                <div className=""></div>
+                                <div
+                                  className="SpLeft"
+                                  style={{ width: "49%" }}
+                                >
+                                  {e?.totals?.colorstone?.Pcs}
+                                </div>
+                                <div
+                                  className="SpLeft"
+                                  style={{ width: "18%" }}
+                                >
+                                  {e?.totals?.colorstone?.Wt?.toFixed(3)}
+                                </div>
+                                <div className=""></div>
+                                <div
+                                  className="SpLeft"
+                                  style={{ width: "33%" }}
+                                >
+                                  {NumberWithCommas(
+                                    e?.totals?.colorstone?.Amount,
+                                    2
+                                  )}
+                                </div>
+                              </div>
+                              <div className="tocol6 colored SpLeft brTop">
+                                {e?.other_details_arr_total_amount?.toFixed(2)}
+                              </div>
+                              <div className="tocol7 colored SpLeft brTop">
+                                {e?.Making_Amount_Other_Charges?.toFixed(2)}
+                              </div>
+                              <div className="tocol8 colored SpLeft brTop">
+                                {e?.TotalAmount?.toFixed(2)}
+                              </div>
+                            </div>
+                          )}
+                        </>
                       );
                     })}
                   </div>
@@ -942,17 +1049,18 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       Total
                     </div>
                     <div className="tocol3 d-flex align-items-center brR_dp10">
-                      <div className="" ></div>
                       <div className=""></div>
-                      <div className="end_dp10" style={{width: "35%"}}>
+                      <div className=""></div>
+                      <div className="end_dp10" style={{ width: "35%" }}>
                         {result?.mainTotal?.diamonds?.Pcs}
                       </div>
-                      <div className="end_dp10" style={{width: "20%"}}>
+                      <div className="end_dp10" style={{ width: "20%" }}>
                         {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
                       </div>
                       <div className=""></div>
                       <div
-                        className="end_dp10 pr_dp10" style={{width: "45%"}}
+                        className="end_dp10 pr_dp10"
+                        style={{ width: "45%" }}
                       >
                         {formatAmount(result?.mainTotal?.diamonds?.Amount)}
                       </div>
@@ -1026,7 +1134,10 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           result?.mainTotal?.total_TotalCsSetcost
                       )}
                     </div>
-                    <div className="tocol8 end_dp10  d-flex align-items-center pr_dp10" style={{borderRight: "none"}}>
+                    <div
+                      className="tocol8 end_dp10  d-flex align-items-center pr_dp10"
+                      style={{ borderRight: "none" }}
+                    >
                       {formatAmount(result?.finalAmount)}
                     </div>
                   </div>
@@ -1077,14 +1188,10 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                           </div>
                         )}
-
                         <div className="d-flex justify-content-between px-1">
                           <div className="w-50 fw-bold">NET WT</div>
                           <div className="w-50 end_dp10 pe-1">
-                            {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(
-                              3
-                            )}
-                            gm
+                            {totalnetwt?.toFixed(3)} gm
                           </div>
                         </div>
                         <div className="d-flex justify-content-between px-1">
