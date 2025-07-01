@@ -262,7 +262,6 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
                 SettingRate:0,
                 FineWt:0
             }
-    
         }
         
         mainTotal.CsAmount += j1?.CsAmount;
@@ -498,6 +497,8 @@ export const OrganizeInvoicePrintData = (headerJson, JobwiseJson, materialJson) 
                     perjobTotal.finding.SettingRate += j2?.SettingRate;
                     perjobTotal.finding.FineWt += j2?.FineWt;
 
+                    console.log('j2j2j2j2j2j2', j2);
+                    
                     mainTotal.finding.Amount += j2?.Amount;
                     mainTotal.finding.Rate = j2?.Rate;
                     mainTotal.finding.rate += j2?.Rate;
