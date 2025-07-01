@@ -169,7 +169,7 @@ const DesignsetPackinglist = ({
     );
   
     // Step 1: Sort resultArray by id
-    datas?.resultArray?.sort((a, b) => a.id - b.id);
+    datas?.resultArray?.sort((a, b) => a.SrNo - b.SrNo);
   
     // Step 2: Enhance each row (discount info)
     let enrichedArray = [];
