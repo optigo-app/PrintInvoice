@@ -267,6 +267,7 @@ export const MemoPrints = [
   {printName: 'approval memo', etpType: 'print', componentName: 'ApprovalMemo'},
   {printName: 'delivery chalan js', etpType: 'print', componentName: 'TaxInvoiceA'},
   {printName: 'detail print 10', etpType: 'print', componentName: 'DetailPrint10'},
+  {printName: 'Designset Packinglist', etpType: 'print', componentName: 'DesignsetPackinglist'},
 ]
 
 export const MemoReturnPrints = [ 
@@ -321,6 +322,7 @@ export const EstimatePrints = [
   {printName: 'summary 12', etpType: 'print', componentName: 'Summary12'},
   {printName: 'summary 4', etpType: 'print', componentName: 'Summary4'},
   {printName: 'tax invoice', etpType: 'print', componentName: 'TaxInvoice'},
+  {printName: 'Designset Packinglist', etpType: 'print', componentName: 'DesignsetPackinglist'},
 ]
 
 export const HallMarkPrints = [
