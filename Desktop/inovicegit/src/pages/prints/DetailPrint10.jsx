@@ -712,12 +712,12 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         {el?.IsPrimaryMetal == 1
                                           ? (
                                               e?.DiamondCTWwithLoss / 5 +
-                                              el?.Wt -
+                                              e?.NetWt -
                                               e?.totals?.finding?.Wt
                                             )?.toFixed(3)
                                           : (
                                               e?.DiamondCTWwithLoss / 5 +
-                                              el?.Wt
+                                              e?.NetWt
                                             )?.toFixed(3)}
                                       </div>
                                     )}
@@ -727,7 +727,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         ? el?.Wt?.toFixed(3)
                                         : el?.IsPrimaryMetal == 1
                                         ? (
-                                            el?.Wt - e?.totals?.finding?.Wt
+                                            el?.Wt - e?.totals?.finding?.Wt 
                                           )?.toFixed(3)
                                         : (el?.Wt)?.toFixed(3)}
                                     </div>
