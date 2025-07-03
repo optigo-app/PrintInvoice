@@ -343,7 +343,9 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         };
         sendData();
     }, []);
-
+    console.log("data", data);
+    console.log("headerData", headerData);
+    
     const handleChangeImage = (e) => {
         image ? setImage(false) : setImage(true);
     }
@@ -709,9 +711,10 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                                 return <p className="pb-1 px-1 text-end" key={i}>Recv. in Bank ({e?.label})</p>
                                             })}
                                             {/* <p className="pb-1 px-1">Recv. in Bank</p> */}
+                                            <p className="pb-1 px-1 text-end">Advance</p>
                                             <p className="pb-1 px-1 text-end">Net Bal. Amount</p>
                                             <p className="fw-bold p-1 border-top text-end">GRAND TOTAL</p>
-                                        </div>
+                                        </div>  
                                         <div className={`${style?.wordsJewellryRetailInvoice4TaxesNumbers}`}>
                                             <p className="text-end pb-1 px-1">{NumberWithCommas(total?.discount, 2)}</p>
                                             <p className="text-end pb-1 px-1">{NumberWithCommas(total?.beforeTax / headerData?.CurrencyExchRate, 2)}</p>
@@ -726,11 +729,19 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                                 return <p className="pb-1 px-1 text-end" key={i}>{NumberWithCommas(e?.amount, 2)}</p>
                                             })}
                                             {/* <p className="pb-1 px-1 text-end">{NumberWithCommas(headerData?.BankReceived, 2)}</p> */}
-                                            <p className="pb-1 px-1 text-end">
+                                            {/* <p className="pb-1 px-1 text-end">
                                                 {NumberWithCommas(((total?.beforeTax / headerData?.CurrencyExchRate) +
                                                     taxes?.reduce((acc, cObj) => acc + (+cObj?.amount / headerData?.CurrencyExchRate), 0) +
                                                     (headerData?.AddLess / headerData?.CurrencyExchRate) - headerData?.OldGoldAmount - headerData?.CashReceived -
-                                                    bank?.reduce((acc, cObj) => acc + +cObj?.amount, 0)), 2)}</p>
+                                                    bank?.reduce((acc, cObj) => acc + +cObj?.amount, 0)), 2)}</p> */}
+                                            <p className="pb-1 px-1 text-end">
+                                                {NumberWithCommas(headerData?.AdvanceAmount, 2)}</p>
+
+
+                                            <p className="pb-1 px-1 text-end">
+                                                {NumberWithCommas(((total?.beforeTax / headerData?.CurrencyExchRate) +
+                                                    taxes?.reduce((acc, cObj) => acc + (+cObj?.amount / headerData?.CurrencyExchRate), 0) +
+                                                    (headerData?.AddLess / headerData?.CurrencyExchRate) - headerData?.OldGoldAmount - headerData?.CashReceived - headerData?.BankReceived - headerData?.AdvanceAmount), 2)}</p>
 
 
                                             <p className="fw-bold text-end p-1 border-top"><span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}></span>
