@@ -651,9 +651,8 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div className="container containerDetailPrint1 pt-4 ">
           <style>{styles}</style>
           <div
-            className="tax_invoice_main_allPrint"
+            className="tax_invoice_main_allPrint main_bor"
             style={{
-              border: "2px solid black",
               position: "relative",
               // backgroundImage: watermarkimg ? `url(${watermarkimg})` : "none",
               backgroundPosition: "center",
@@ -722,7 +721,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   width: "100%",
                   display: "flex",
                   justifyContent: "center",
-                  marginTop: "10px",
+                  marginTop: "13px",
                 }}
               >
                 {isImageWorking && json0Data?.PrintLogo !== "" && (

@@ -283,6 +283,10 @@
   //   background-position: center;
 }
 
+.main_bor{
+  border: 2px solid black;
+}
+
 @media print {
   //   .footerForThe_print {
   //   position: fixed;
@@ -306,8 +310,11 @@
   .footerForThe_print {
     display: flex !important;
     justify-content: center !important;
-    border-bottom: 2px solid black !important;
+    // border-bottom: 2px solid black !important;
     border-top: 1px solid rgb(77, 74, 74) !important;
+  }
+  table tfoot{
+    border-bottom: 2px solid black;
   }
   .print_watermark_element {
     position: fixed;
@@ -354,5 +361,9 @@
 
   .bottomo_section_for_print {
     border-bottom: 0px solid !important;
+  }
+  
+  .main_bor{
+    border-bottom: none;
   }
 }
