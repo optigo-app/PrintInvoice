@@ -601,7 +601,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   calculatedData.push(other);
 
-  console.log("finalDfinalDfinalD", json0Data, finalD);
+  // console.log("finalDfinalDfinalD", json0Data, finalD);
 
   const styles = `
     @media print {
@@ -1056,7 +1056,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 : ""}<br />
                               {e?.lineid ? `Line ID: ${e.lineid},` : ""}<br />
                               {e?.CertificateNo
-                                ? `Cert#: ${e.CertificateNo},`
+                                ? `Cert#: ${e.CertificateNo}`
                                 : ""}<br />
                             </p>
                           </div>
