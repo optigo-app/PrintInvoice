@@ -21,6 +21,7 @@ import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 import watermarkimg from "../../assets/img/watermark.png";
 import signatureLogo from "../../assets/img/signatureLogo.png";
+import { ToWords } from "to-words";
 
 const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [image, setImage] = useState(false);
@@ -29,6 +30,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [json1Data, setJson1Data] = useState([]);
   const [json1Data2, setJson1Data2] = useState([]);
   const [MetShpWise, setMetShpWise] = useState([]);
+  const toWords = new ToWords();  
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
   const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
   const [evtName, setEvtName] = useState(atob(evn).toLowerCase());
@@ -102,7 +104,6 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     image: true,
     brokarage: true,
   });
-
   const [checkBoxNew, setCheckBoxNew] = useState("Triplicate for Supplier");
 
   const [finalD, setFinalD] = useState({});
@@ -636,6 +637,12 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     };
   });
 
+  const amount = Number(finalD?.finalAmount || 0);
+  const rupees = Math.floor(amount);
+  const paise = Math.round((amount - rupees) * 100);
+  const rupeesInWords = toWords.convert(rupees);
+  const paiseInWords = paise > 0 ? ` and ${toWords.convert(paise)} Paise` : '';
+
   return (
     <>
       {loader ? (
@@ -1038,19 +1045,19 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="designDetalPrint3   p-1 ">
                           <div className="d-flex justify-content-between">
                             <p>
-                              {e?.BrandName} {e?.SubCategoryname}{" "}
-                              {e?.MetalPurity} {e?.MetalColor}
-                              {e?.lineid ? `, Line ID: ${e.lineid}` : ""}
-                              {e?.CertificateNo
-                                ? `, Cert#: ${e.CertificateNo}`
-                                : ""}
+                              {e?.BrandName} {e?.Categoryname} {e?.SubCategoryname}{" "}
+                              {e?.MetalPurity} {e?.MetalColor},
                               {e?.totals?.diamonds?.Wt ||
                               e?.totals?.colorstone?.Wt
-                                ? `, Tcw- ${(
+                                ? ` TCW- ${(
                                     (e?.totals?.diamonds?.Wt || 0) +
                                     (e?.totals?.colorstone?.Wt || 0)
-                                  ).toFixed(3)}`
-                                : ""}
+                                  ).toFixed(3)},`
+                                : ""}<br />
+                              {e?.lineid ? `Line ID: ${e.lineid},` : ""}<br />
+                              {e?.CertificateNo
+                                ? `Cert#: ${e.CertificateNo},`
+                                : ""}<br />
                             </p>
                           </div>
                         </div>
@@ -1229,6 +1236,9 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                   </div>
                 </div>
+                  <div style={{ width: "100%", borderBottom: "1px solid green", paddingLeft: "4px" }}>
+                    Amount In Words : <span style={{fontWeight: "bold"}}>Rupees {rupeesInWords + paiseInWords} Only</span>
+                  </div>
                 <div className="second_main_box_div" style={{ padding: "4px" }}>
                   <p className="memo1_title_secondBox_bottom_desc">
                     <b>Terms & Conditions :</b>
@@ -1357,8 +1367,8 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           style={{ textAlign: "center" }}
                           className="lhDetailPrint1"
                         >
-                          {json0Data?.CompanyAddress2}{" "}
-                          {json0Data?.CompanyAddress} {json0Data?.CompanyCity}-
+                          {json0Data?.CompanyAddress}{" "}
+                          {json0Data?.CompanyAddress2} {json0Data?.CompanyCity}-
                           {json0Data?.CompanyPinCode}, {json0Data?.CompanyState}{" "}
                           ({json0Data?.CompanyCountry})
                         </p>
