@@ -379,7 +379,7 @@ const RetailInvoiceprint4 = ({
     };
     sendData();
   }, []);
-  // console.log("data", data);
+  console.log("data", data);
   // console.log("headerData", headerData);
 
   const handleChangeImage = (e) => {
@@ -1049,7 +1049,8 @@ const RetailInvoiceprint4 = ({
                             className={`${style?.metalMakingJewerryRetailInvoicePrint} border-end align-items-center d-flex justify-content-end`}
                           >
                             <p className="text-end p-1">
-                              {NumberWithCommas(e?.MaKingCharge_Unit, 2)}
+                              {e?.MakingChargeDiscount !== 0 ? `${NumberWithCommas(e?.MakingChargeDiscount, 2)} %` : e?.MaKingCharge_Unit === 0 ? "" :
+                              `${NumberWithCommas(e?.MaKingCharge_Unit, 2)}`}
                             </p>
                           </div>
                           <div
