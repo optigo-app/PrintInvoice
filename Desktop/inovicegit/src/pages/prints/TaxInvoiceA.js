@@ -642,6 +642,30 @@
     const paise = Math.round((amount - rupees) * 100);
     const rupeesInWords = toWords.convert(rupees);
     const paiseInWords = paise > 0 ? ` and ${toWords.convert(paise)} Paise` : '';
+    
+    // Vivek Spacer 
+    const productsPerPage = 9;
+    let totalProducts = finalD?.resultArray?.length;
+    totalProducts = totalProducts > 7 ? totalProducts + 2 : totalProducts;
+    
+    const totalPages = Math.ceil(totalProducts / productsPerPage);
+    const hasMultiplePages = totalPages > 1;
+    
+    const remainingOnLastPage = totalProducts % productsPerPage || productsPerPage;
+    
+    const needsSpacer = 
+      (totalProducts === 7 || totalProducts === 6 || totalProducts === 5 || totalProducts === 4) 
+      || (hasMultiplePages && remainingOnLastPage <= productsPerPage);
+    
+        const spacerClass = 
+        totalProducts === 7 ? "spacer-53" :
+        totalProducts === 6 ? "spacer-52" :
+        totalProducts === 5 ? "spacer-51" :
+        totalProducts === 4 ? "spacer-50" :
+      remainingOnLastPage <= productsPerPage 
+        ? `spacer-${productsPerPage - remainingOnLastPage}`  
+        : "";
+  
 
     return (
       <>
@@ -995,11 +1019,7 @@
                 )} */}
 
                 {/* data */}
-                <div
-                  style={{
-                    minHeight: "300px",
-                  }}
-                >
+                <div className= {finalD?.resultArray?.length > 2 && finalD?.resultArray?.length < 4 ? "main_max_height" : "main_min_height"}>
                   {finalD?.resultArray?.map((e, i) => {
                     return (
                       <div
@@ -1007,12 +1027,12 @@
                         className="recordDetailPrint1 detailPrint1L_font_11"
                       >
                         <div className="d-flex w-100">
-                          <div className="designDetalPrint1 pt-1">
+                          <div className="designDetalPrint1 min_height pt-1">
                             <p className="text-center">
                               {NumberWithCommas(i + 1, 0)}
                             </p>
                           </div>
-                          <div className="designDetalPrint2   p-1 ">
+                          <div className="designDetalPrint2 min_height p-1">
                             <div
                               style={{
                                 display: "flex",
@@ -1033,15 +1053,15 @@
                                   alt=""
                                   onError={handleImageError}
                                   style={{
-                                    height: "80px",
-                                    width: "80px",
+                                    height: "77px",
+                                    width: "77px",
                                   }}
                                 />
                               )}
                             </div>
                           </div>
 
-                          <div className="designDetalPrint3   p-1 ">
+                          <div className="designDetalPrint3 min_height p-1">
                             <div className="d-flex justify-content-between">
                               <p>
                                 {e?.BrandName} {e?.Categoryname} {e?.SubCategoryname}{" "}
@@ -1060,28 +1080,28 @@
                               </p>
                             </div>
                           </div>
-                          <div className="designDetalPrint4   p-1 ">
+                          <div className="designDetalPrint4 min_height p-1">
                             <div className="d-flex justify-content-between">
                               <p style={{ width: "100%", textAlign: "center" }}>
                                 {e?.Quantity}
                               </p>
                             </div>
                           </div>
-                          <div className="designDetalPrint5   p-1 ">
+                          <div className="designDetalPrint5 min_height p-1">
                             <div className="d-flex justify-content-between">
                               <p style={{ width: "100%", textAlign: "right" }}>
                                 {formatAmount(e?.UnitCost)}
                               </p>
                             </div>
                           </div>
-                          <div className="designDetalPrint6 p-1 ">
+                          <div className="designDetalPrint6 min_height p-1">
                             <div className="d-flex justify-content-between">
                               <p style={{ width: "100%", textAlign: "right" }}>
                                 {formatAmount(e?.UnitCost)}
                               </p>
                             </div>
                           </div>
-                          <div className="designDetalPrint7 p-1">
+                          <div className="designDetalPrint7 min_height p-1">
                             <div className="d-flex justify-content-between">
                               <p style={{ width: "100%", textAlign: "right" }}>
                                 {" "}
@@ -1093,7 +1113,7 @@
                             </div>
                           </div>
                           <div
-                            className="designDetalPrint8"
+                            className="designDetalPrint8 min_height"
                             style={{ padding: ".25rem 10px" }}
                           >
                             <div className="d-flex justify-content-between">
@@ -1107,7 +1127,9 @@
                     );
                   })}
                 </div>
-
+                {needsSpacer && (
+                <div className={`spacer ${spacerClass}`}/>
+                )}
                 <div className="myToalaSection">
                   <div
                     style={{
