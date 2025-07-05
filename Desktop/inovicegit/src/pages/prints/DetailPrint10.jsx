@@ -237,7 +237,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   {
     result?.resultArray?.map((e, i) => {
       return e?.metal?.map((el, imet) => {
-        const value = e?.DiamondCTWwithLoss / 5 + el?.Wt || 0;
+        const value = e?.DiamondCTWwithLoss / 5 + e?.NetWt || 0;
         if (findingFlag) {
           totalValueFianl += value;
         }
@@ -712,12 +712,12 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         {el?.IsPrimaryMetal == 1
                                           ? (
                                               e?.DiamondCTWwithLoss / 5 +
-                                              el?.Wt -
+                                              e?.NetWt -
                                               e?.totals?.finding?.Wt
                                             )?.toFixed(3)
                                           : (
                                               e?.DiamondCTWwithLoss / 5 +
-                                              el?.Wt
+                                              e?.NetWt
                                             )?.toFixed(3)}
                                       </div>
                                     )}
@@ -727,7 +727,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         ? el?.Wt?.toFixed(3)
                                         : el?.IsPrimaryMetal == 1
                                         ? (
-                                            el?.Wt - e?.totals?.finding?.Wt
+                                            el?.Wt - e?.totals?.finding?.Wt 
                                           )?.toFixed(3)
                                         : (el?.Wt)?.toFixed(3)}
                                     </div>
@@ -925,8 +925,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 >
                                   {fixedValues(
                                     e?.DiamondCTWwithLoss / 5 +
-                                      e?.totals?.metal?.Wt,
-                                    3
+                                    e?.NetWt, 3
                                   )}
                                 </div>
                                 <div

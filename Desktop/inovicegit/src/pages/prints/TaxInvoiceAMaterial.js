@@ -21,6 +21,7 @@ import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 import watermarkimg from "../../assets/img/watermark.png";
 import signatureLogo from "../../assets/img/signatureLogo.png";
+import { ToWords } from "to-words";
 
 const TaxInvoiceAMaterial = ({
   token,
@@ -37,6 +38,7 @@ const TaxInvoiceAMaterial = ({
   const [finalD, setFinalD] = useState({});
   const [custAddress, setCustAddress] = useState([]);
   const [taxAmont , setTaxAmount] = useState();
+  const toWords = new ToWords();  
   const [isImageWorking, setIsImageWorking] = useState(true);
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -341,7 +343,11 @@ const TaxInvoiceAMaterial = ({
       
     }
   `;
-
+  const amount = Number(finalD?.finalAmount || 0);
+  const rupees = Math.floor(amount);
+  const paise = Math.round((amount - rupees) * 100);
+  const rupeesInWords = toWords.convert(rupees);
+  const paiseInWords = paise > 0 ? ` and ${toWords.convert(paise)} Paise` : '';
   return (
     <>
       {loader ? (
@@ -916,6 +922,9 @@ const TaxInvoiceAMaterial = ({
                     </div>
                   </div>
                 </div>
+                <div style={{ width: "100%", borderBottom: "1px solid green", paddingLeft: "4px" }}>
+                    Amount In Words : <span style={{fontWeight: "bold"}}>Rupees {rupeesInWords + paiseInWords} Only</span>
+                  </div>
                 {json0Data?.Declaration && (
                   <div
                     className="second_main_box_div"
@@ -1048,8 +1057,8 @@ const TaxInvoiceAMaterial = ({
                           style={{ textAlign: "center" }}
                           className="lhDetailPrint1"
                         >
-                          {json0Data?.CompanyAddress2}{" "}
-                          {json0Data?.CompanyAddress} {json0Data?.CompanyCity}-
+                          {json0Data?.CompanyAddress}{" "}
+                          {json0Data?.CompanyAddress2} {json0Data?.CompanyCity}-
                           {json0Data?.CompanyPinCode}, {json0Data?.CompanyState}{" "}
                           ({json0Data?.CompanyCountry})
                         </p>
