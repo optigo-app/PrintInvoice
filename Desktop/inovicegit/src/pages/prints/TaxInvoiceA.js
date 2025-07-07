@@ -662,6 +662,7 @@
         totalProducts === 6 ? "spacer-52" :
         totalProducts === 5 ? "spacer-51" :
         totalProducts === 4 ? "spacer-50" :
+        totalProducts === 3 ? "spacer-49" :
       remainingOnLastPage <= productsPerPage 
         ? `spacer-${productsPerPage - remainingOnLastPage}`  
         : "";
@@ -1063,7 +1064,7 @@
 
                           <div className="designDetalPrint3 min_height p-1">
                             <div className="d-flex justify-content-between">
-                              <p>
+                              <div className="wordbr">
                                 {e?.BrandName} {e?.Categoryname} {e?.SubCategoryname}{" "}
                                 {e?.MetalPurity} {e?.MetalColor},
                                 {e?.totals?.diamonds?.Wt ||
@@ -1077,7 +1078,7 @@
                                 {e?.CertificateNo
                                   ? `Cert#: ${e.CertificateNo}`
                                   : ""}<br />
-                              </p>
+                              </div>
                             </div>
                           </div>
                           <div className="designDetalPrint4 min_height p-1">

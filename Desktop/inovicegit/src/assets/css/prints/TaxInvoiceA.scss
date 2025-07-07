@@ -284,6 +284,11 @@
 }
 
 // Vivek
+.wordbr{
+  white-space: normal;
+  word-break: keep-all;
+  overflow-wrap: break-word; 
+}
 .min_height{
   min-height: 100px;
 }
@@ -314,6 +319,7 @@
   .spacer-7 { height: 325px; } // when jobs on last page is 2 *
   .spacer-8 { height: 435px; } // when jobs on last page is 1 *
   // ****** / ****** /
+  .spacer-49 { height: 860px; } // when jobs on Fisrt page is 3 *
   .spacer-50 { height: 860px; } // when jobs on Fisrt page is 4 *
   .spacer-51 { height: 760px; } // when jobs on Fisrt page is 5 *
   .spacer-52 { height: 660px; } // when jobs on Fisrt page is 6 *
@@ -397,4 +403,9 @@
   .main_bor{
     border-bottom: none;
   }
+  .wordbr{
+      white-space: normal;
+      word-break: keep-all;
+      overflow-wrap: break-word; 
+    }
 }
