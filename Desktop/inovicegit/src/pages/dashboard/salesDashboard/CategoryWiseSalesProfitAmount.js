@@ -30,7 +30,7 @@ const CategoryWiseSalesProfitAmount = ({ tkn, fdate, tdate, country, CategoryWis
         const transformedData = CategoryWiseSaleAmountData?.map(item => {
           const adjustedCost = ((item.CurrentCost - item?.CurrentCost_SaleReturn) || 0) * 0.7;
           const adjustedProfit = (item.SaleAmount || 0) - adjustedCost;
-  
+
           return {
             CustomerDisplay: `${item.Customer} (${item.CompanyName})`,
             ...item,
@@ -55,7 +55,7 @@ const CategoryWiseSalesProfitAmount = ({ tkn, fdate, tdate, country, CategoryWis
   const sales = top10?.map((e) => +((e?.SaleAmount / (+country))?.toFixed(2)));
   console.log('country: ', country);
   console.log('sales: ', sales);
-  const profit = top10?.map((e) => +(e?.AdjustedProfit));
+  const profit = top10?.map((e) => +(e?.AdjustedProfit / (+country))?.toFixed(2));
   const quantities = top10?.map((e) => e?.Quantity || 0);
   const negativeArray = profit?.map(value => Math?.abs(value) * -1);
   const salesNames = top10?.map((e) => e?.Category)
