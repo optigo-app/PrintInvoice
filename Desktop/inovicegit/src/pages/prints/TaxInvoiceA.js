@@ -211,6 +211,7 @@
       datas.mainTotal.miscChargesTotals = miscChargesTotals;
       settotalMetalWts(totalMetalWt);
       datas.resultArray = finalArr;
+      datas?.resultArray?.sort((a, b) => a.id - b.id);
       setFinalD(datas);
       let brok = brokarageDetail(data?.BillPrint_Json[0]?.Brokerage);
       setBrokarage(brok);
@@ -290,7 +291,6 @@
         obj.ShapeName = "OTHER";
         resultArr = [...finalArr, obj].flat();
       }
-
       setDiamondDetails(resultArr);
     };
 
