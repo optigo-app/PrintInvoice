@@ -380,7 +380,7 @@ const RetailInvoiceprint4 = ({
     sendData();
   }, []);
   console.log("data", data);
-  // console.log("headerData", headerData);
+  console.log("headerData", headerData);
 
   const handleChangeImage = (e) => {
     image ? setImage(false) : setImage(true);
@@ -1298,23 +1298,7 @@ const RetailInvoiceprint4 = ({
                           })}
                         {/* <p className="pb-1 px-1 text-end">{NumberWithCommas(headerData?.BankReceived, 2)}</p> */}
                         <p className="pb-1 px-1 text-end">
-                          {NumberWithCommas(
-                            total?.beforeTax / headerData?.CurrencyExchRate +
-                              taxes?.reduce(
-                                (acc, cObj) =>
-                                  acc +
-                                  +cObj?.amount / headerData?.CurrencyExchRate,
-                                0
-                              ) +
-                              headerData?.AddLess /
-                                headerData?.CurrencyExchRate -
-                              headerData?.OldGoldAmount -
-                              headerData?.CashReceived -
-                              bank?.reduce(
-                                (acc, cObj) => acc + +cObj?.amount,
-                                0
-                              ),
-                            2
+                          {NumberWithCommas(headerData?.AdvanceAmount,2
                           )}
                         </p>
                         <p className="pb-1 px-1 text-end">
