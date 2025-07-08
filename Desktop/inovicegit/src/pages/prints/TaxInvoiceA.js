@@ -643,29 +643,29 @@
     const rupeesInWords = toWords.convert(rupees);
     const paiseInWords = paise > 0 ? ` and ${toWords.convert(paise)} Paise` : '';
     
-    // Vivek Spacer 
-    const productsPerPage = 9;
-    let totalProducts = finalD?.resultArray?.length;
-    totalProducts = totalProducts > 7 ? totalProducts + 2 : totalProducts;
+
+    // const productsPerPage = 9;
+    // let totalProducts = finalD?.resultArray?.length;
+    // totalProducts = totalProducts > 7 ? totalProducts + 2 : totalProducts;
     
-    const totalPages = Math.ceil(totalProducts / productsPerPage);
-    const hasMultiplePages = totalPages > 1;
+    // const totalPages = Math.ceil(totalProducts / productsPerPage);
+    // const hasMultiplePages = totalPages > 1;
     
-    const remainingOnLastPage = totalProducts % productsPerPage || productsPerPage;
+    // const remainingOnLastPage = totalProducts % productsPerPage || productsPerPage;
     
-    const needsSpacer = 
-      (totalProducts === 7 || totalProducts === 6 || totalProducts === 5 || totalProducts === 4) 
-      || (hasMultiplePages && remainingOnLastPage <= productsPerPage);
+    // const needsSpacer = 
+    //   (totalProducts === 7 || totalProducts === 6 || totalProducts === 5 || totalProducts === 4) 
+    //   || (hasMultiplePages && remainingOnLastPage <= productsPerPage);
     
-        const spacerClass = 
-        totalProducts === 7 ? "spacer-53" :
-        totalProducts === 6 ? "spacer-52" :
-        totalProducts === 5 ? "spacer-51" :
-        totalProducts === 4 ? "spacer-50" :
-        totalProducts === 3 ? "spacer-49" :
-      remainingOnLastPage <= productsPerPage 
-        ? `spacer-${productsPerPage - remainingOnLastPage}`  
-        : "";
+    //     const spacerClass = 
+    //     totalProducts === 7 ? "spacer-53" :
+    //     totalProducts === 6 ? "spacer-52" :
+    //     totalProducts === 5 ? "spacer-51" :
+    //     totalProducts === 4 ? "spacer-50" :
+    //     totalProducts === 3 ? "spacer-49" :
+    //   remainingOnLastPage <= productsPerPage 
+    //     ? `spacer-${productsPerPage - remainingOnLastPage}`  
+    //     : "";
   
 
     return (
@@ -1020,7 +1020,7 @@
                 )} */}
 
                 {/* data */}
-                <div className= {finalD?.resultArray?.length > 2 && finalD?.resultArray?.length < 4 ? "main_max_height" : "main_min_height"}>
+                <div style={{minHeight: "300px"}}>
                   {finalD?.resultArray?.map((e, i) => {
                     return (
                       <div
@@ -1128,9 +1128,9 @@
                     );
                   })}
                 </div>
-                {needsSpacer && (
+                {/* {needsSpacer && (
                 <div className={`spacer ${spacerClass}`}/>
-                )}
+                )} */}
                 <div className="myToalaSection">
                   <div
                     style={{
