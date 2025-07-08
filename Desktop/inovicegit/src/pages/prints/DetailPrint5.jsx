@@ -13,6 +13,7 @@ import Loader from "../../components/Loader";
 import style from "../../assets/css/prints/detailPrint5.module.css";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 import ImageComponent from "../../components/ImageComponent ";
+import { styled } from "@mui/material";
 const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [logoStyle, setlogoStyle] = useState({ maxWidth: "120px", maxHeight: "95px", minHeight: "95px" });
   const [loader, setLoader] = useState(true);
@@ -338,16 +339,16 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       {/* header */}
       {/* {header} */}
       <div className={`${style.headline} headerTitle headline_dp5 target_header`}>{headerData?.PrintHeadLabel}</div>
-      <div className={` target_header d-flex justify-content-between`}>
-        <div className={` p-2`}>
-          <div  style={{ fontWeight: "bold" }}>
-            {headerData?.CompanyFullName}
-          </div>
-          <div >{headerData?.CompanyAddress}</div>
-          <div >{headerData?.CompanyAddress2}</div>
-          <div >{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
-          {/* <div >Tell No: {headerData?.CompanyTellNo}</div> */}
-          {/* <div >Tell No:  {headerData?.CompanyTellNo}</div> */}
+        <div className={` target_header d-flex justify-content-between`}>
+          <div className={` p-2`}>
+            <div  style={{ fontWeight: "bold" }}>
+              {headerData?.CompanyFullName}
+            </div>
+            <div >{headerData?.CompanyAddress}</div>
+            <div >{headerData?.CompanyAddress2}</div>
+            <div >{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
+            {/* <div >Tell No: {headerData?.CompanyTellNo}</div> */}
+            {/* <div >Tell No:  {headerData?.CompanyTellNo}</div> */}
           <div >
             {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
           </div>
@@ -362,7 +363,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
       </div>
       {/* sub header */}
-      <div className="d-flex border mb-1">
+      <div className="d-flex border mb-1 subHeadFont" style={{fontSize: "9px", lineHeight: "11px"}}>
         <div className="col-4 border-end p-2">
           <p>{headerData?.lblBillTo}</p>
           <p className="fw-semibold">{headerData?.customerfirmname}</p>
@@ -940,7 +941,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
         </div>
         {/* summary */}
-        <div className="d-flex">
+        <div className="d-flex" style={{fontSize: "9px"}}>
           <div className="col-6">
             <div className="d-flex">
               <div className="col-8 border-bottom border-start border-end">
@@ -950,7 +951,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   SUMMARY
                 </h6>
                 <div className="d-flex">
-                  <div className="col-6 border-end position-relative pb-3 px-1">
+                  <div className="col-6 border-end position-relative pb-3 px-1 sumFont">
                     <div className="d-flex justify-content-between">
                       <p className="fw-bold">GOLD IN 24KT </p>
                       <p>{NumberWithCommas((total?.gold24kt - notGoldMetalWtTotal), 3)} gm</p>
@@ -997,7 +998,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <p></p>
                     </div>
                   </div>
-                  <div className="col-6 border-end position-relative pb-3 px-1">
+                  <div className="col-6 border-end position-relative pb-3 px-1 sumFont">
                     <div className="d-flex justify-content-between">
                       <p className="fw-bold">GOLD </p>
                       <p>{NumberWithCommas((total?.metalTotal?.Amount - notGoldMetalTotal), 2)}</p>
@@ -1043,9 +1044,9 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              <div className="col-4 border-end border-bottom position-relative pb-3">
+              <div className="col-4 border-end border-bottom position-relative pb-3 sumFont">
                 <h6
-                  className={`${style?.min_height_15} border-bottom text-center fw-bold lightGrey`}
+                  className={`${style?.min_height_15} ${style?.sumCent} border-bottom fw-bold lightGrey text-center justify-content-center align-items-center`}
                 >
                   Diamond Details
                 </h6>
@@ -1080,9 +1081,9 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
             </div>
           </div>
-          <div className="col-2 border-bottom  h-100 border-end">
+          <div className="col-2 border-bottom  h-100 border-end sumFont">
             <h6
-              className={`fw-bold text-center border-bottom ${style?.min_height_15} lightGrey`}
+              className={`fw-bold text-center justify-content-center align-items-center border-bottom ${style?.min_height_15} ${style?.sumCent} lightGrey`}
             >
               OTHER DETAILS
             </h6>
@@ -1100,15 +1101,15 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
             </div>
           </div>
-          <div className={`col-2 border-bottom h-100 border-start `}>
-          {headerData?.PrintRemark !== "" && <>  <h6 className={`fw-bold text-center border-bottom ${style?.min_height_15} lightGrey`} >
-              REMARK
-            </h6>
-            <div className={`${style?.min_height_15}`}>
-              <p className="px-1" dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></p>
-            </div></>}
+          <div className={`col-2 border-bottom h-100 border-start ${style?.sumFont}`}>
+            {headerData?.PrintRemark !== "" && <>  <h6 className={`fw-bold text-center justify-content-center align-items-center border-bottom ${style?.sumCent} ${style?.min_height_15} lightGrey`} >
+                REMARK
+              </h6>
+              <div className={`${style?.min_height_15}`}>
+                <p className="px-1" dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></p>
+              </div></>}
           </div>
-          <div className="col-2 d-flex">
+          <div className="col-2 d-flex sumFont">
             <div
               className={`d-flex border-start border-end border-bottom ${style?.height_createBy} w-100 h-100`}
             >

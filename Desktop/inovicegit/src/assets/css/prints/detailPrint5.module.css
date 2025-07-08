@@ -1,14 +1,19 @@
-.detailPrint5 * {
+.detailPrint5 {
   word-break: normal;
   font-size: 12px;
   font-family: Calibri;
 }
-
+.sumFont{
+  font-size: 9px;
+}
+.sumCent{
+  padding-top: 3px;
+}
 .detailPrint5{
   zoom: 1.5;
 }
 
-.detailPrint5Table * {
+.detailPrint5Table {
   font-size: 8px;
 }
 
@@ -90,14 +95,20 @@
     display: none !important;
   }
 
-  .detailPrint5 * {
+  .detailPrint5 {
     font-size: 8px;
   }
 
-  .detailPrint5Table * {
+  .detailPrint5Table {
     font-size: 6px;
   }
-
+  .subHeadFont{
+    font-size: 8px;
+    line-height: 10px;
+  }
+  .sumFont{
+    font-size: 7px;
+  }
   .detailPrint5{
     zoom: unset;
   }
