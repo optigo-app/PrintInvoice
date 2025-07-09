@@ -283,7 +283,7 @@ const PrintDesign16A = ({ queries, headers }) => {
                                     <div>{e?.data?.rd?.MetalType + " " + e?.data?.rd?.MetalColor}</div>
                                   </div> */}
                                   <div className="partybg16A">
-                                    <div className="lh16bg">ARTICLE NO : {e?.data?.rd?.lineid}</div>
+                                    <div className="lh16bg">ARTICLE NO : {e?.data?.rd?.lineid?.slice(0, 8)}</div>
                                     <div className="lh16bg">
                                       <span className="bg16oldlh7">JOB NO : </span>
                                       {e?.data?.rd?.serialjobno}
@@ -989,7 +989,7 @@ const PrintDesign16A = ({ queries, headers }) => {
                                       </div>
                                     </div> */}
                                     <div className="partybg16A">
-                                      <div className="lh16bg">ARTICLE NO : {e?.data?.rd?.lineid}</div>
+                                      <div className="lh16bg">ARTICLE NO : {e?.data?.rd?.lineid?.slice(0, 8)}</div>
                                       <div>
                                         <span className="bg16oldlh7">JOB NO : </span>
                                         {e?.data?.rd?.serialjobno}
