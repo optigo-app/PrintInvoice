@@ -989,7 +989,7 @@ const PrintDesign16A = ({ queries, headers }) => {
                                       </div>
                                     </div> */}
                                     <div className="partybg16A">
-                                      <div className="lh16bg">ARTICLE NO : {e?.data?.rd?.uniqueno}</div>
+                                      <div className="lh16bg">ARTICLE NO : {e?.data?.rd?.lineid}</div>
                                       <div>
                                         <span className="bg16oldlh7">JOB NO : </span>
                                         {e?.data?.rd?.serialjobno}
