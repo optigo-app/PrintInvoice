@@ -182,17 +182,17 @@ const PrintDesign16A = ({ queries, headers }) => {
     e.target.src = require("../../assets/img/default.jpg");
   };
 
-    useEffect(() => {
-      if (data?.length !== 0) {
-        if(data?.length === 1 && data[0] === 'Data Not Present' ){
-            return
-        }else{
-          setTimeout(() => {
-            window.print();
-          }, 5000);
-        }
-      }
-    }, [data]);
+    // useEffect(() => {
+    //   if (data?.length !== 0) {
+    //     if(data?.length === 1 && data[0] === 'Data Not Present' ){
+    //         return
+    //     }else{
+    //       setTimeout(() => {
+    //         window.print();
+    //       }, 5000);
+    //     }
+    //   }
+    // }, [data]);
 
   const handlePrint = (e) => {
     if (data?.length !== 0) {
@@ -283,7 +283,7 @@ const PrintDesign16A = ({ queries, headers }) => {
                                     <div>{e?.data?.rd?.MetalType + " " + e?.data?.rd?.MetalColor}</div>
                                   </div> */}
                                   <div className="partybg16A">
-                                    <div className="lh16bg">ARTICLE NO : {e?.data?.rd?.uniqueno}</div>
+                                    <div className="lh16bg">ARTICLE NO : {e?.data?.rd?.lineid}</div>
                                     <div className="lh16bg">
                                       <span className="bg16oldlh7">JOB NO : </span>
                                       {e?.data?.rd?.serialjobno}
