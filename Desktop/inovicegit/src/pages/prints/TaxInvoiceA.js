@@ -643,6 +643,11 @@
     const rupeesInWords = toWords.convert(rupees);
     const paiseInWords = paise > 0 ? ` and ${toWords.convert(paise)} Paise` : '';
     
+    console.log("json0Data", json0Data);
+    console.log("json1Data", json1Data);
+    console.log("json1Data2", json1Data2);
+    console.log("finalD", finalD);
+    
 
     // const productsPerPage = 9;
     // let totalProducts = finalD?.resultArray?.length;
@@ -1248,10 +1253,10 @@
                             {" "}
                             {formatAmount(
                               finalD?.mainTotal?.total_amount /
-                                finalD?.header?.CurrencyExchRate +
-                                finalD?.allTaxesTotal +
-                                finalD?.header?.FreightCharges /
-                                  finalD?.header?.CurrencyExchRate
+                              finalD?.header?.CurrencyExchRate +
+                              finalD?.allTaxesTotal +
+                              finalD?.header?.FreightCharges /
+                              finalD?.header?.CurrencyExchRate
                             )}
                           </b>
                         </p>

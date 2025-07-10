@@ -290,6 +290,8 @@ export const MemoReturnPrints = [
   {printName: 'summary 2', etpType: 'print', componentName: 'Summary2'},
   {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrint'},
   {printName: 'tax invoice 5', etpType: 'print', componentName: 'TaxInvoice5'}, 
+  {printName: 'export print', etpType: 'print', componentName: 'ExportPrint'},
+  {printName: 'jewellery tax invoice', etpType: 'print', componentName: 'JewelleryTaxInvoice'},
 ]
 
 export const ShipmentArray = [
