@@ -10,6 +10,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
     <>
           { (atob(evn)?.trim()?.toLowerCase() === 'sale' || atob(evn)?.trim()?.toLowerCase() === "memo") && <JewelleryTaxInvoiceSale urls={urls} token={token} invoiceNo={invoiceNo} printName={printName} evn={evn} ApiVer={ApiVer}  /> }      
           { atob(evn)?.trim()?.toLowerCase() === 'quote' && <JewelleryTaxInvoiceQuote urls={urls} token={token} invoiceNo={invoiceNo} printName={printName} evn={evn} ApiVer={ApiVer} /> }      
+          { atob(evn)?.trim()?.toLowerCase() === 'memo return' && <JewelleryTaxInvoiceSale urls={urls} token={token} invoiceNo={invoiceNo} printName={printName} evn={evn} ApiVer={ApiVer} /> }      
           {/* { atob(evn)?.trim()?.toLowerCase() === 'memo' && <JewelleryTaxInvoiceMemo urls={urls} token={token} invoiceNo={invoiceNo} printName={printName} evn={evn} ApiVer={ApiVer} /> }       */}
     </>
   )
