@@ -373,6 +373,7 @@ export const quoteArray = [
 export const ordersArray = [
   {printName: 'sale order', etpType: 'print', componentName: 'SaleOrder'},
   {printName: 'print', etpType: 'print', componentName: 'OrderPrint'},
+  {printName: 'order print am', etpType: 'print', componentName: 'OrderPrintAM'},
 ];
 export const MaterialSale = [
   {printName: 'invoice print', etpType: 'print', componentName: 'InvoicePrintShwinit'},
