@@ -85,7 +85,7 @@ export default function ShipmentTagOptigo() {
       <hr className="divider" />
 
       {/* Footer */}
-      <div className="footer">
+      {/* <div className="footer">
         <h4>
           📩 Introducing SCAVU: A Smarter Way to Connect Buyers & Sellers!
         </h4>
@@ -125,7 +125,7 @@ export default function ShipmentTagOptigo() {
             </li>
           </ul>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
