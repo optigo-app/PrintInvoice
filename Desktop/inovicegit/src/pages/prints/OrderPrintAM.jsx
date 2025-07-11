@@ -22,10 +22,19 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [image, setImage] = useState(true);
   const [json1Data, setJson1Data] = useState({});
   const [json2Data, setJson2Data] = useState([]);
-  console.log('json2Data: ', json2Data);
+  console.log("json2Data: ", json2Data);
   const [otherCharges, setOtherCharges] = useState(0);
   const [imageLoading, setImageLoading] = useState(true);
   const [msg, setMsg] = useState("");
+  // const [checkBox, setCheckBox] = useState({
+  //   image: true,
+  //   brokarage: true,
+  // });
+  // const [checkBoxNew, setCheckBoxNew] = useState("Amantran");
+  // const MyComponent = ({ imageOptions }) => {
+  //   const [selectedLabel, setSelectedLabel] = useState(
+  //     imageOptions?.[0]?.label || "" 
+  //   );
   const [diamondDetailss, setDiamondDetailss] = useState({});
   const [isImageWorking, setIsImageWorking] = useState(true);
   const handleImageErrors = () => {
@@ -125,6 +134,7 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
   const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
+ 
 
   // const handleChange = (e) => {
   //   const { name } = e?.target;
@@ -134,7 +144,6 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   //     brokrage ? setBrokrage(false) : setBrokrage(true);
   //   }
   // };
-
 
   const caiculateMaterial = (data) => {
     let diamondDetailsss = [];
@@ -531,8 +540,7 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       }
     });
 
-    console.log('totalstotals', totals);
-
+    console.log("totalstotals", totals);
 
     setDiamondDetail(diamondDetailList2);
     setTotal(totals);
@@ -656,7 +664,7 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 elee?.QualityName === elem?.QualityName &&
                 elee?.Rate === elem?.Rate &&
                 elee?.MasterManagement_DiamondStoneTypeid ===
-                elem?.MasterManagement_DiamondStoneTypeid &&
+                  elem?.MasterManagement_DiamondStoneTypeid &&
                 elee?.SizeName === elem?.SizeName
             );
             if (findMiscs === -1) {
@@ -707,7 +715,7 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 elee?.QualityName === elem?.QualityName &&
                 elee?.Rate === elem?.Rate &&
                 elee?.MasterManagement_DiamondStoneTypeid ===
-                elem?.MasterManagement_DiamondStoneTypeid &&
+                  elem?.MasterManagement_DiamondStoneTypeid &&
                 elee?.SizeName === elem?.SizeName
             );
             if (findFinding === -1) {
@@ -741,7 +749,7 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 elee?.QualityName === elem?.QualityName &&
                 elee?.Rate === elem?.Rate &&
                 elee?.MasterManagement_DiamondStoneTypeid ===
-                elem?.MasterManagement_DiamondStoneTypeid &&
+                  elem?.MasterManagement_DiamondStoneTypeid &&
                 elee?.SizeName === elem?.SizeName
             );
             if (findFinding === -1) {
@@ -1127,18 +1135,50 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     sendData();
   }, []);
 
+  // const handleChange = (e) => {
+  //   const { name, checked } = e?.target;
+  //   setCheckBox({ ...checkBox, [name]: checked });
+  // };
+
+  // const handleChangeNew = (label) => {
+  //   setCheckBoxNew(label);
+  // };
+
+  // const imageOptionsFiltered  = json2Data?.map((item) => {
+  //   let image = "";
+  
+  //   if (item.name === "Amantran") image = item.AmantranImage;
+  //   else if (item.name === "Crystal Cut") image = item.CrystalCutImage;
+  //   else if (item.name === "Royal Touch") image = item.RoyalTouchImage;
+  //   else if (item.DesignImage) image = item.DesignImage;
+  
+  //   return {
+  //     label: item.name,
+  //     image  
+  //   };
+  // });
+
+
   const handleImageLoad = () => {
     setImageLoading(false);
   };
 
   function formatDateTime() {
     const now = new Date();
-    const options = { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-    return now.toLocaleString('en-GB', options).replace(',', '');
+    const options = {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    };
+    return now.toLocaleString("en-GB", options).replace(",", "");
   }
 
-  console.log('json2Datajson2Data' , json2Data);
-  
+  console.log("json2Datajson2Data", json2Data);
+
   return (
     <>
       {loader ? (
@@ -1147,6 +1187,21 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         <div className="container containerEstimate pad_60_allPrint">
           {/* print button */}
           <div className="d-flex justify-content-end align-items-center print_sec_sum4 pb-4 mt-5 w-100">
+            {/* {imageOptionsFiltered?.map((option, index) => (
+              <div key={index} className="form-check d-flex align-items-center detailPrint1L_font_13">
+                <input
+                  className="border-dark me-2"
+                  type="radio"
+                  name="imageOption"
+                  checked={checkBoxNew === option.label}
+                  onChange={() => handleChangeNew(option.label)}
+                  id={`checkbox-${index}`}
+                />
+                <label htmlFor={`checkbox-${index}`} className="pt-1">
+                  {option.label}
+                </label>
+              </div>
+            ))} */}
             <div className="form-check ps-3">
               <input
                 type="button"
@@ -1168,11 +1223,41 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           </div>
           {/* customer detail */}
           <div className="py-2 d-flex justify-content-between px-1">
-            <div>
-              <p className="estimatePrintFont_14">To,</p>
-              <p className="fw-bold estimatePrintFont_14">
-                {json1Data?.Customercode}
-              </p>
+            <div style={{display: "flex", flexDirection: "column"}}>
+              {/* <div style={{ marginTop: "4px" }}>
+              {imageOptionsFiltered ?.map((option, index) => (
+              <img
+                key={index}
+                src={option.image}
+                alt={option.label}
+                onClick={() => handleChangeNew(option.label)}
+                style={{
+                  width: '100px',
+                  height: 'auto',
+                  border: checkBoxNew === option.label ? '3px solid blue' : '2px solid transparent',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  transition: 'border 0.2s ease-in-out',
+                }}
+              />
+            ))} */}
+                {/* {imageOptionsFiltered 
+                  ?.filter((opt) => opt.label === checkBoxNew)
+                  .map((opt, idx) => (
+                    <img
+                      key={idx}
+                      src={opt.image}
+                      alt={opt.label}
+                      style={{ width: "100%", maxWidth: 400, borderRadius: 12 }}
+                    />
+                ))} */}
+              {/* </div> */}
+              <div>
+                <p className="estimatePrintFont_14">To,</p>
+                <p className="fw-bold estimatePrintFont_14">
+                  {json1Data?.Customercode}
+                </p>
+              </div>
             </div>
             <div>
               <div className="d-flex justify-conetnt-between">
@@ -1182,6 +1267,16 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               <div className="d-flex justify-conetnt-between">
                 <p className="mainDetailEstimate text-end pe-3">Date : </p>
                 <p className="fw-bold">{json1Data?.EntryDate}</p>
+              </div>
+              <div className="d-flex justify-conetnt-between">
+                <p className="mainDetailEstimate text-end pe-3">
+                  Sale Person :{" "}
+                </p>
+                <p className="fw-bold">{json1Data?.SalesRepName}</p>
+              </div>
+              <div className="d-flex justify-conetnt-between">
+                <p className="mainDetailEstimate text-end pe-3">Mobile No : </p>
+                <p className="fw-bold">{json1Data?.SalesRepMobileNo}</p>
               </div>
             </div>
           </div>
@@ -1307,14 +1402,12 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <p className="text-center">{i + 1}</p>
                       </div>
                       <div className="designEstimatePrint border-end  border_color_estimates d-flex justify-content-between flex-column">
-                        <div className="d-flex p_1Estimate">
-                          <div style={{width: "70%", display: "flex", flexDirection: "column", alignItems: "center"}}>
-                            <div>{e?.designno}</div>
-                            <div>{e?.Categoryname}</div>
-                          </div>
-                          <div className="text-end" style={{width: "30%"}}>
-                            <p>{e?.J_JobNo}</p>
-                          </div>
+                        <div className="d-flex justify-content-between p_1Estimate">
+                          <div>{e?.designno}</div>
+                          <div className="text-end">{e?.J_JobNo}</div>
+                        </div>
+                        <div style={{ textAlign: "center", fontWeight: "bold" }}>
+                          {e?.Categoryname}
                         </div>
                         <div className="pb-2 p_1Estimate">
                           {image && (
@@ -1395,9 +1488,10 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             })}
                         </div>
                         <div
-                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top border_color_estimates ${e?.diamonds.length === 0 &&
+                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top border_color_estimates ${
+                            e?.diamonds.length === 0 &&
                             "border-top height_28_5_estimatePrint border_color_estimates"
-                            }`}
+                          }`}
                         >
                           <div className="width20EstimatePrint p_1Estimate">
                             <p className="fw-bold"></p>
@@ -1512,9 +1606,10 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           )}
                         </div>
                         <div
-                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top border_color_estimates ${e?.metals.length === 0 &&
+                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top border_color_estimates ${
+                            e?.metals.length === 0 &&
                             "border-top height_28_5_estimatePrint"
-                            }`}
+                          }`}
                         >
                           <div className="width200EstimatePrint p_1Estimate">
                             <p></p>
@@ -1635,28 +1730,28 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <p className="text-end fw-bold">
                               {(e?.colorStones?.length > 0 ||
                                 e?.mics.length > 0) && (
-                                  <>
-                                    {NumberWithCommas(
-                                      e?.colorStonesTotal?.pcs +
+                                <>
+                                  {NumberWithCommas(
+                                    e?.colorStonesTotal?.pcs +
                                       e?.miscsTotal?.pcs,
-                                      0
-                                    )}
-                                  </>
-                                )}
+                                    0
+                                  )}
+                                </>
+                              )}
                             </p>
                           </div>
                           <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
                             <p className="text-end fw-bold">
                               {(e?.colorStones.length > 0 ||
                                 e?.mics.length > 0) && (
-                                  <>
-                                    {fixedValues(
-                                      e?.colorStonesTotal?.weight +
+                                <>
+                                  {fixedValues(
+                                    e?.colorStonesTotal?.weight +
                                       e?.miscsTotal?.weight,
-                                      3
-                                    )}
-                                  </>
-                                )}
+                                    3
+                                  )}
+                                </>
+                              )}
                             </p>
                           </div>
                           <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
@@ -1668,7 +1763,7 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <>
                                   {NumberWithCommas(
                                     e?.colorStonesTotal?.amount +
-                                    e?.miscsTotal?.amount,
+                                      e?.miscsTotal?.amount,
                                     2
                                   )}
                                 </>
@@ -1749,7 +1844,7 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     return (
                                       <p key={ind}>
                                         {NumberWithCommas(+ele?.label, 2) !==
-                                          "NaN"
+                                        "NaN"
                                           ? NumberWithCommas(+ele?.label, 2)
                                           : ele?.label}
                                       </p>
@@ -2220,7 +2315,9 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
               </div>
             </div>
-            <p style={{ fontSize: '9px', color: '#999999' }}>Printed on : {formatDateTime()}</p>
+            <p style={{ fontSize: "9px", color: "#999999" }}>
+              Printed on : {formatDateTime()}
+            </p>
           </div>
         </div>
       ) : (
@@ -2228,7 +2325,6 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           {msg}
         </p>
       )}
-
     </>
   );
 };

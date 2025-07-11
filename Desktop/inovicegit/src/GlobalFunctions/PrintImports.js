@@ -88,6 +88,7 @@ export const printConditions = [
   {printName: 'packing list 2', etpType: 'print', componentName: 'PackingList2'},
 
   {printName: 'packing list 3', etpType: 'print', componentName: 'PackingList3'},
+  {printName: 'packing list 3 am', etpType: 'print', componentName: 'PackingList3AM'},
   {printName: 'packing list 3a', etpType: 'print', componentName:'PackingList3A'},
   {printName: 'packing list e', etpType: 'print', componentName: 'PackingListE'},
   {printName: 'packing list s', etpType: 'print', componentName: 'PackingListS'},
