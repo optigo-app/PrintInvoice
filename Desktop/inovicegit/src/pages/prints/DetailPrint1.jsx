@@ -36,12 +36,20 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   );
 
   const [detailtPrintp, setdetailtPrintp] = useState(
-    atob(printName).toLowerCase() === "detail print1 (p)" ? true : false
+    atob(printName).toLowerCase() === "detail print1 (p)" ||
+      atob(printName).toLowerCase() === "detail print1 (p)k" ? true : false
   );
 
+  const [dp1lp, setdp1lp] = useState(
+    atob(printName).toLowerCase() === "detail print1 (l)" ||
+    atob(printName).toLowerCase() === "detail print1 (p)" ||
+    atob(printName).toLowerCase() === "detail print1 (p)k"
+  );
 
-  const [dp1lp, setdp1lp] = useState((atob(printName).toLowerCase() === "detail print1 (l)" || atob(printName).toLowerCase() === "detail print1 (p)") ? true : false);
-  const [dpp, setdpp] = useState(atob(printName).toLowerCase() === "detail print1 (p)" ? true : false);
+  const [dpp, setdpp] = useState(
+    atob(printName).toLowerCase() === "detail print1 (p)" ||
+    atob(printName).toLowerCase() === "detail print1 (p)k"
+  );
 
   const [brokarage, setBrokarage] = useState([]);
   const [msg, setMsg] = useState("");
@@ -133,7 +141,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
 
     let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
-      
+
     setMetShpWise(met_shp_arr);
     let tot_met = 0;
     let tot_met_wt = 0;
@@ -142,7 +150,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       tot_met += e?.Amount;
       tot_met_wt += e?.metalfinewt;
 
-    })    
+    })
     setNotGoldMetalWtTotal(tot_met_wt)
     setNotGoldMetalTotal(tot_met);
 
@@ -158,7 +166,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         totalMetalWt += findMetal?.Wt;
       }
       let obj = cloneDeep(e);
-      let miscChargesTotal = e?.OtherCharges+e?.TotalDiamondHandling
+      let miscChargesTotal = e?.OtherCharges + e?.TotalDiamondHandling
       let miscChargesss = 0;
       let miscCharges = data?.BillPrint_Json2?.filter((ele, ind) => {
         if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
@@ -173,7 +181,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         }
       });
 
-      
+
       miscChargesTotals += miscChargesTotal;
       obj.primaryMetalWt = primaryMetalWt;
       obj.otherMisc = otherMisc;
@@ -185,6 +193,12 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     datas.mainTotal.miscChargesTotals = miscChargesTotals
     settotalMetalWts(totalMetalWt);
     datas.resultArray = finalArr;
+    debugger
+    if (atob(printName).toLowerCase() === "detail print1 (p)k") {
+      datas?.resultArray?.sort((a, b) => 
+        a.Categoryname.toLowerCase().localeCompare(b.Categoryname.toLowerCase())
+      );
+    }
     setFinalD(datas);
     let brok = brokarageDetail(data?.BillPrint_Json[0]?.Brokerage);
     setBrokarage(brok);
@@ -286,8 +300,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           setLoader(false);
           // setMsg(data?.Message);
           const err = checkMsg(data?.Message);
-                    console.log(data?.Message);
-                    setMsg(err);
+          console.log(data?.Message);
+          setMsg(err);
         }
       } catch (error) {
         console.error(error);
@@ -566,7 +580,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   console.log('finalDfinalD', finalD);
 
-  
+
   return (
     <>
       {loader ? (
@@ -609,7 +623,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
             {/* header line*/}
             <div className="jewelleryPackingList mb-2 mt-2 recordDetailPrint1">
-              <p className={`p-2 fw-bold text-white`} style={{fontSize: "20px"}}>
+              <p className={`p-2 fw-bold text-white`} style={{ fontSize: "20px" }}>
                 {json0Data?.PrintHeadLabel}
               </p>
             </div>
@@ -791,7 +805,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
               </div>
               <div className={`${dpp ? "otherAmountDetailPrint1p" : "otherAmountDetailPrint1l"} border-end  border-bottom d-flex align-items-center justify-content-center flex-column`}>
-                <p className="fw-bold text-center d-flex align-items-center justify-content-center" style={{wordBreak: "normal"}}>
+                <p className="fw-bold text-center d-flex align-items-center justify-content-center" style={{ wordBreak: "normal" }}>
                   Other Amount
                 </p>
               </div>
@@ -846,7 +860,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                         <div className={`${!image && "pt-2 "}`}>
 
-                        {e?.CertificateNo !== "" && (
+                          {e?.CertificateNo !== "" && (
                             <p className="text-center">Certification no. - {e?.CertificateNo}</p>
                           )}
                           {e?.HUID !== "" && (
@@ -868,17 +882,17 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               </span>
                             </p>
                           )}
-                          
+
                           {!detailPrintK && (
                             <>
-                            {
-                              e?.CertificateNo !== '' && <p className="text-center">
-                              Cert#{" "}
-                              <span className="fw-bold">
-                                {e?.CertificateNo}
-                              </span>
-                            </p>
-                            }
+                              {
+                                e?.CertificateNo !== '' && <p className="text-center">
+                                  Cert#{" "}
+                                  <span className="fw-bold">
+                                    {e?.CertificateNo}
+                                  </span>
+                                </p>
+                              }
                             </>
                           )}
 
@@ -1069,49 +1083,49 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               <>
                                 {
                                   dp1lp ? (dpp ?
-                                   <>
+                                    <>
 
-                                    {
-                                      e?.other_details?.map((ele, ind) => {
-                                        return <div className="d-flex justify-content-between" style={{ fontSize: "10.5px" }} key={ind}>
-                                          <p className="paddingRightDetailPrint1">{ele?.label}</p>
-                                          <p className="">{NumberWithCommas(+ele?.value, 2)}</p>
-                                        </div>
-                                      })
-                                    }
-                                    {
-                                      e?.miscCharges?.map((ele, ind) => {
-                                        return ele?.Amount !== 0 && <div className="d-flex justify-content-between" style={{ fontSize: "10.5px" }} key={ind}>
-                                          <p className="paddingRightDetailPrint1">{ele?.ShapeName} {ele?.IsHSCOE}</p>
-                                          <p className="">{NumberWithCommas(+ele?.Amount, 2)}</p>
-                                        </div>
-                                      })
-                                    }
-                                    {e?.miscChargesss !== 0 && <div
-                                      className="d-flex justify-content-between"
-                                      style={{ fontSize: "10.5px" }}
-                                    >
-                                      <p className="paddingRightDetailPrint1">Misc Charges</p>
-                                      <p className="">{NumberWithCommas(e?.miscChargesss, 2)}</p>
-                                    </div>}
-                                    {e?.TotalDiamondHandling !== 0 && <div
-                                      className="d-flex justify-content-between"
-                                      style={{ fontSize: "10.5px" }}
-                                    >
-                                      <p className="paddingRightDetailPrint1">Handling</p>
-                                      <p className="">{NumberWithCommas(e?.TotalDiamondHandling, 2)}</p>
-                                    </div>
-                                    }
-                                  </> : <>
+                                      {
+                                        e?.other_details?.map((ele, ind) => {
+                                          return <div className="d-flex justify-content-between" style={{ fontSize: "10.5px" }} key={ind}>
+                                            <p className="paddingRightDetailPrint1">{ele?.label}</p>
+                                            <p className="">{NumberWithCommas(+ele?.value, 2)}</p>
+                                          </div>
+                                        })
+                                      }
+                                      {
+                                        e?.miscCharges?.map((ele, ind) => {
+                                          return ele?.Amount !== 0 && <div className="d-flex justify-content-between" style={{ fontSize: "10.5px" }} key={ind}>
+                                            <p className="paddingRightDetailPrint1">{ele?.ShapeName} {ele?.IsHSCOE}</p>
+                                            <p className="">{NumberWithCommas(+ele?.Amount, 2)}</p>
+                                          </div>
+                                        })
+                                      }
+                                      {e?.miscChargesss !== 0 && <div
+                                        className="d-flex justify-content-between"
+                                        style={{ fontSize: "10.5px" }}
+                                      >
+                                        <p className="paddingRightDetailPrint1">Misc Charges</p>
+                                        <p className="">{NumberWithCommas(e?.miscChargesss, 2)}</p>
+                                      </div>}
+                                      {e?.TotalDiamondHandling !== 0 && <div
+                                        className="d-flex justify-content-between"
+                                        style={{ fontSize: "10.5px" }}
+                                      >
+                                        <p className="paddingRightDetailPrint1">Handling</p>
+                                        <p className="">{NumberWithCommas(e?.TotalDiamondHandling, 2)}</p>
+                                      </div>
+                                      }
+                                    </> : <>
 
-                                    {(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling) !== 0 && <div
-                                      className="d-flex justify-content-between"
-                                      style={{ fontSize: "10.5px" }}
-                                    >
-                                      <p className="paddingRightDetailPrint1"></p>
-                                      <p className="">{NumberWithCommas(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling, 2)}</p>
-                                    </div>}
-                                  </>) : <>
+                                      {(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling) !== 0 && <div
+                                        className="d-flex justify-content-between"
+                                        style={{ fontSize: "10.5px" }}
+                                      >
+                                        <p className="paddingRightDetailPrint1"></p>
+                                        <p className="">{NumberWithCommas(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling, 2)}</p>
+                                      </div>}
+                                    </>) : <>
                                     {e?.OtherCharges !== 0 && <div
                                       className="d-flex justify-content-between"
                                       style={{ fontSize: "10.5px" }}
@@ -1414,16 +1428,16 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <p className="px-1 pt-1">
                         {" "}
                         {/* {(detailtPrintR || detailtPrintL || detailtPrintp) ?  */}
-                        {(detailtPrintR) ? 
-                        NumberWithCommas((summary?.gold24Kt - notGoldMetalWtTotal), 3) : fixedValues((finalD?.mainTotal?.total_purenetwt - notGoldMetalWtTotal), 3)} gm
+                        {(detailtPrintR) ?
+                          NumberWithCommas((summary?.gold24Kt - notGoldMetalWtTotal), 3) : fixedValues((finalD?.mainTotal?.total_purenetwt - notGoldMetalWtTotal), 3)} gm
                       </p>
                     </div>
                     {
                       MetShpWise?.map((e, i) => {
                         return <div className="d-flex justify-content-between" key={i}>
-                        <p className="fw-bold px-1 pt-1">{e?.ShapeName}</p>
-                        <p className="px-1 pt-1"> {(detailtPrintR) ?  NumberWithCommas(e?.metalfinewt, 3) : fixedValues(e?.metalfinewt, 3)} gm </p>
-                      </div>
+                          <p className="fw-bold px-1 pt-1">{e?.ShapeName}</p>
+                          <p className="px-1 pt-1"> {(detailtPrintR) ? NumberWithCommas(e?.metalfinewt, 3) : fixedValues(e?.metalfinewt, 3)} gm </p>
+                        </div>
                       })
                     }
                     <div className="d-flex justify-content-between">
@@ -1478,18 +1492,18 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {NumberWithCommas((finalD?.mainTotal?.MetalAmount - notGoldMetalTotal), 2)}
                       </p>
                     </div>
-                      {
-                        MetShpWise?.map((e, i) => {
-                          return <div className="d-flex justify-content-between">
-                           <React.Fragment key={i}><p className="fw-bold px-1 pt-1">{e?.ShapeName}</p>
-                          <p className="px-1 pt-1">
-                            {" "}
-                            {NumberWithCommas(e?.Amount, 2)}
-                          </p>
+                    {
+                      MetShpWise?.map((e, i) => {
+                        return <div className="d-flex justify-content-between">
+                          <React.Fragment key={i}><p className="fw-bold px-1 pt-1">{e?.ShapeName}</p>
+                            <p className="px-1 pt-1">
+                              {" "}
+                              {NumberWithCommas(e?.Amount, 2)}
+                            </p>
                           </React.Fragment>
-                      </div>
-                        })
-                      }
+                        </div>
+                      })
+                    }
                     <div className="d-flex justify-content-between">
                       <p className="fw-bold px-1 pt-1">DIAMOND</p>
                       <p className="px-1 pt-1">
