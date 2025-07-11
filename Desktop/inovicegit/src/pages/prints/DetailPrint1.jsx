@@ -37,18 +37,18 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   const [detailtPrintp, setdetailtPrintp] = useState(
     atob(printName).toLowerCase() === "detail print1 (p)" ||
-      atob(printName).toLowerCase() === "detail print1 (p)k" ? true : false
+      atob(printName).toLowerCase() === "detail print1 (p) k" ? true : false
   );
 
   const [dp1lp, setdp1lp] = useState(
     atob(printName).toLowerCase() === "detail print1 (l)" ||
     atob(printName).toLowerCase() === "detail print1 (p)" ||
-    atob(printName).toLowerCase() === "detail print1 (p)k"
+    atob(printName).toLowerCase() === "detail print1 (p) k"
   );
 
   const [dpp, setdpp] = useState(
     atob(printName).toLowerCase() === "detail print1 (p)" ||
-    atob(printName).toLowerCase() === "detail print1 (p)k"
+    atob(printName).toLowerCase() === "detail print1 (p) k"
   );
 
   const [brokarage, setBrokarage] = useState([]);
@@ -194,7 +194,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     settotalMetalWts(totalMetalWt);
     datas.resultArray = finalArr;
     debugger
-    if (atob(printName).toLowerCase() === "detail print1 (p)k") {
+    if (atob(printName).toLowerCase() === "detail print1 (p) k") {
       datas?.resultArray?.sort((a, b) => 
         a.Categoryname.toLowerCase().localeCompare(b.Categoryname.toLowerCase())
       );
