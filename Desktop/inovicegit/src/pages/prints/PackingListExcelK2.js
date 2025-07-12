@@ -236,13 +236,13 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                         <tr />
                                         <tr>
                                             <td />
-                                            <td colSpan={11} style={{ ...cellStyle, textAlign: 'center', borderTop: '1px solid black' }}>
+                                            <td colSpan={12} style={{ ...cellStyle, textAlign: 'center', borderTop: '1px solid black' }}>
                                                 <h3 style={{ margin: 0, textDecoration: 'underline' }}>Temporary Export-Import</h3>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td />
-                                            <td colSpan={8} style={{ ...cellStyle, textAlign: 'left', borderRight: 'none !important' }}>
+                                            <td colSpan={9} style={{ ...cellStyle, textAlign: 'left', borderRight: 'none !important' }}>
                                             </td>
                                             <td colSpan={3} style={{ ...cellStyle, textAlign: 'left', borderLeft: 'none !important' }}>
                                                 {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
@@ -250,7 +250,7 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                         </tr>
                                         <tr>
                                             <td />
-                                            <td colSpan={8} style={{ ...cellStyle, textAlign: 'left', borderRight: 'none !important' }}>
+                                            <td colSpan={9} style={{ ...cellStyle, textAlign: 'left', borderRight: 'none !important' }}>
                                             </td>
                                             <td colSpan={3} style={{ ...cellStyle, textAlign: 'left', borderLeft: 'none !important' }}>
                                                 Invoice No: {result?.header?.InvoiceNo}
@@ -261,13 +261,13 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                             <td colSpan={4} style={{ ...cellStyle, textAlign: 'left', borderRight: 'none !important' }}>
                                                 To:
                                             </td>
-                                            <td colSpan={7} style={{ ...cellStyle, textAlign: 'left', borderLeft: 'none !important' }}>
+                                            <td colSpan={8} style={{ ...cellStyle, textAlign: 'left', borderLeft: 'none !important' }}>
                                                 {result?.header?.customerstreet}
                                             </td>
                                         </tr>
                                         <tr>
                                             <td />
-                                            <td colSpan={6} style={{ ...cellStyle, textAlign: 'left', borderRight: 'none !important' }}>
+                                            <td colSpan={7} style={{ ...cellStyle, textAlign: 'left', borderRight: 'none !important' }}>
                                                 Contact Person: {result?.header?.CustName}
                                             </td>
                                             <td colSpan={5} style={{ ...cellStyle, textAlign: 'left', borderLeft: 'none !important' }}>
@@ -276,19 +276,19 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                         </tr>
                                         <tr>
                                             <td />
-                                            <td colSpan={11} style={{ ...cellStyle, textAlign: 'left' }}>
+                                            <td colSpan={12} style={{ ...cellStyle, textAlign: 'left' }}>
                                                 Mobile No: <span>{result?.header?.customermobileno}</span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td />
-                                            <td colSpan={11} style={{ ...cellStyle, textAlign: 'left' }}>
+                                            <td colSpan={12} style={{ ...cellStyle, textAlign: 'left' }}>
                                                 Delivery: {result?.header?.Delivery_Mode}
                                             </td>
                                         </tr>
                                         <tr>
                                             <td />
-                                            <td colSpan={11} style={{ ...cellStyle, textAlign: 'left' }}>
+                                            <td colSpan={12} style={{ ...cellStyle, textAlign: 'left' }}>
                                                 <h4 style={{ margin: 0 }}>List of Items:</h4>
                                             </td>
                                         </tr>
@@ -299,6 +299,7 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                             <th style={{ ...cellBodyStyle, width: '60px' }}>Sr. No</th>
                                             <th style={{ ...cellBodyStyle, width: '80px' }}>Tag No</th>
                                             <th style={{ ...cellBodyStyle, width: '80px' }}>Code No</th>
+                                            <th style={{ ...cellBodyStyle, width: '80px' }}>Lineid</th>
                                             <th style={{ ...cellBodyStyle, width: '100px' }}>Picture</th>
                                             <th style={{ ...cellBodyStyle, width: '100px' }}>Item</th>
                                             <th style={{ ...cellBodyStyle, width: '100px' }}>Diam Quality</th>
@@ -319,6 +320,7 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                                     ...cellBodyStyle,
                                                     width: '80px'
                                                 }}>'{item.SrJobno}{item.Counter_Tray !== "" && (item.Counter_Tray)}</td> 
+                                                <td style={{ ...cellBodyStyle }}>{item.lineid}</td>
                                                 {/* ({item.Counter_Tray}) */}
                                                 <td
                                                     style={{
@@ -354,7 +356,7 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                         ))}
                                         {/* Row for values */}
                                         <tr>
-                                            <td colSpan={7} />
+                                            <td colSpan={8} />
                                             <td style={{ ...cellMainTotalStyle, borderBottom: 'none' }}>
                                                 {(result?.mainTotal?.diamonds?.Wt ?? 0).toFixed(2)}
                                             </td>
@@ -372,7 +374,7 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
 
                                         {/* Row for units */}
                                         <tr>
-                                            <td colSpan={7} />
+                                            <td colSpan={8} />
                                             <td style={{ ...cellMainTotalStyle, borderTop: 'none' }}>CARATS</td>
                                             <td style={{ ...cellMainTotalStyle, borderTop: 'none' }}>CARATS</td>
                                             <td />
@@ -382,27 +384,27 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
 
                                         <tr>
                                             <td />
-                                            <td colSpan={10} style={{ textTransform: 'upperCase' }}>Total Value : {result?.header?.CurrencyCode}{". "}{toWords?.convert(+fixedValues((result?.mainTotal?.total_amount ) / result?.header?.CurrencyExchRate, 2))}</td>
+                                            <td colSpan={12} style={{ textTransform: 'upperCase' }}>Total Value : {result?.header?.CurrencyCode}{". "}{toWords?.convert(+fixedValues((result?.mainTotal?.total_amount ) / result?.header?.CurrencyExchRate, 2))}</td>
                                         </tr>
                                         {result?.mainCusTotal?.metalPurityWiseData?.map((item, idx) => (
                                             <React.Fragment key={idx}>
                                                 <tr>
                                                     <td />
-                                                    <td colSpan={11} style={{ textTransform: 'upperCase' }}>Description of Goods: {item?.descriptionofGoods}</td>
+                                                    <td colSpan={12} style={{ textTransform: 'upperCase' }}>Description of Goods: {item?.descriptionofGoods}</td>
                                                 </tr>
                                                 <tr>
                                                     <td />
-                                                    <td colSpan={11} style={{ textTransform: 'upperCase' }}>Total No of Pcs: {item?.totalPcs} PCS</td>
+                                                    <td colSpan={12} style={{ textTransform: 'upperCase' }}>Total No of Pcs: {item?.totalPcs} PCS</td>
                                                 </tr>
                                                 <tr>
                                                     <td />
-                                                    <td colSpan={11} style={{ textTransform: 'upperCase' }}>
+                                                    <td colSpan={12} style={{ textTransform: 'upperCase' }}>
                                                         Total {item?.descriptionofGoods} Weight: {item?.totalMetalpuritywt?.toFixed(3)} GRAMS
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td />
-                                                    <td colSpan={11} style={{ textTransform: 'upperCase' }}>Total Diamond Weight: {item?.totalDiamondWt?.toFixed(3)} CARATS</td>
+                                                    <td colSpan={12} style={{ textTransform: 'upperCase' }}>Total Diamond Weight: {item?.totalDiamondWt?.toFixed(3)} CARATS</td>
                                                 </tr>
                                                 <tr>
                                                     <td />
@@ -411,7 +413,7 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
 
                                                 {/* ✅ Blank row */}
                                                 <tr>
-                                                    <td colSpan={11}>&nbsp;</td>
+                                                    <td colSpan={12}>&nbsp;</td>
                                                 </tr>
                                             </React.Fragment>
                                         ))}
