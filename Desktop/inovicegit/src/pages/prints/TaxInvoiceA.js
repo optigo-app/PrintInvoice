@@ -636,16 +636,22 @@
         amountInNumber: taxData?.amountInNumber || 0,
       };
     });
-
+    // const FinalTotal= (
+    //   finalD?.mainTotal?.total_amount /
+    //   finalD?.header?.CurrencyExchRate +
+    //   finalD?.allTaxesTotal +
+    //   finalD?.header?.FreightCharges /
+    //   finalD?.header?.CurrencyExchRate)
+      
     const amount = Number(finalD?.finalAmount || 0);
     const rupees = Math.floor(amount);
     const paise = Math.round((amount - rupees) * 100);
     const rupeesInWords = toWords.convert(rupees);
     const paiseInWords = paise > 0 ? ` and ${toWords.convert(paise)} Paise` : '';
     
-    console.log("json0Data", json0Data);
-    console.log("json1Data", json1Data);
-    console.log("json1Data2", json1Data2);
+    // console.log("json0Data", json0Data);
+    // console.log("json1Data", json1Data);
+    // console.log("json1Data2", json1Data2);
     console.log("finalD", finalD);
     
 
@@ -899,25 +905,25 @@
                 >
                   <div>
                     <div className="header_top_content_main_class">
-                      <p className="Header_top_title_name">Invoice No.</p>
+                      <p className="Header_top_title_name1">Invoice No.</p>
                       <p className="Header_top_title_value_name">
                         <b>{json0Data?.InvoiceNo}</b>
                       </p>
                     </div>
                     <div className="header_top_content_main_class">
-                      <p className="Header_top_title_name">Date </p>
+                      <p className="Header_top_title_name1">Date </p>
                       <p className="Header_top_title_value_name">
                         {json0Data?.EntryDate}
                       </p>
                     </div>
                     <div className="header_top_content_main_class">
-                      <p className="Header_top_title_name">HSN Code</p>
+                      <p className="Header_top_title_name1">HSN Code</p>
                       <p className="Header_top_title_value_name">
                         {json0Data?.HSN_No}
                       </p>
                     </div>
                     <div className="header_top_content_main_class">
-                      <p className="Header_top_title_name">Location Code </p>
+                      <p className="Header_top_title_name1">Location Code </p>
                       <p className="Header_top_title_value_name">2001</p>
                     </div>
                   </div>
@@ -1070,19 +1076,26 @@
                           <div className="designDetalPrint3 min_height p-1">
                             <div className="d-flex justify-content-between">
                               <div className="wordbr">
-                                {e?.BrandName} {e?.Categoryname} {e?.SubCategoryname}{" "}
-                                {e?.MetalPurity} {e?.MetalColor},
-                                {e?.totals?.diamonds?.Wt ||
-                                e?.totals?.colorstone?.Wt
-                                  ? ` TCW- ${(
-                                      (e?.totals?.diamonds?.Wt || 0) +
-                                      (e?.totals?.colorstone?.Wt || 0)
-                                    ).toFixed(3)},`
-                                  : ""}<br />
-                                {e?.lineid ? `Line ID: ${e.lineid},` : ""}<br />
-                                {e?.CertificateNo
-                                  ? `Cert#: ${e.CertificateNo}`
-                                  : ""}<br />
+                                <div>{e?.BrandName} {e?.Categoryname} {e?.SubCategoryname}{" "}
+                                {e?.MetalPurity} {e?.MetalColor}</div>
+                                <div style={{display: "flex"}}>
+                                  <div>{e?.totals?.diamonds?.Wt ||
+                                        e?.totals?.colorstone?.Wt
+                                        ? ` TCW: ${(
+                                          (e?.totals?.diamonds?.Wt || 0) +
+                                          (e?.totals?.colorstone?.Wt || 0)
+                                        ).toFixed(3)}`
+                                      : ""}
+                                  </div>
+                                  {e?.lineid && (
+                                    <div style={{ marginLeft: "5px" }}>
+                                      Line ID: {e?.lineid}
+                                    </div>
+                                  )}
+                                </div>
+                                <div>{e?.CertificateNo
+                                  ? `Certificate No.: ${e.CertificateNo}`
+                                  : ""}</div>
                               </div>
                             </div>
                           </div>
@@ -1251,13 +1264,7 @@
                         <p>
                           <b>
                             {" "}
-                            {formatAmount(
-                              finalD?.mainTotal?.total_amount /
-                              finalD?.header?.CurrencyExchRate +
-                              finalD?.allTaxesTotal +
-                              finalD?.header?.FreightCharges /
-                              finalD?.header?.CurrencyExchRate
-                            )}
+                            {formatAmount(finalD?.finalAmount)}
                           </b>
                         </p>
                       </div>
