@@ -491,21 +491,23 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setIsImageWorking(false);
   };
 
-  const finalAmount = (
-    (result?.mainTotal?.TotalAmount + 
-    result?.header?.AddLess + 
+  const finalAmount =(
+    (result?.mainTotal?.TotalAmount +
     result?.header?.FreightCharges) / 
     result?.header?.CurrencyExchRate + 
     result?.allTaxesTotal
   );
-  const decimalPart = finalAmount - Math.floor(finalAmount);
+  const decimalPart = parseFloat((finalAmount - Math.floor(finalAmount)).toFixed(2));
   let roundedAmount = finalAmount;
   if (decimalPart < 0.50) {
     roundedAmount = finalAmount - decimalPart;
   } else {
     roundedAmount = finalAmount + (1 - decimalPart);
   }
+  console.log(roundedAmount = finalAmount + (1 - decimalPart));
+  console.log("finalAmount", finalAmount);
   console.log("decimalPart", decimalPart);
+  console.log("roundedAmount", roundedAmount);
   console.log("resultresult", result);
 
   return (
@@ -1582,8 +1584,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       {decimalPart < 0.50 ? "Less" : "Add"}
                     </div>
                     <div style={{ width: "50%" }} className="end_pcls pdr_pcls">
-                      {rateAmount ? (formatAmount(decimalPart
-                      )) : ""}
+                      {rateAmount ? (formatAmount(decimalPart > 0.50 ? 1 - decimalPart : decimalPart
+                        )) : ""}
                     </div>
                   </div>
                   {result?.header?.FreightCharges !== 0 && (
@@ -1881,12 +1883,10 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                     <div className="d-flex justify-content-between px-1">
                       <div className="w-50 fw-bold">
-                        {rateAmount ? (result?.header?.AddLess >= 0 ? "ADD" : "LESS") : ""}
+                        {rateAmount ? (decimalPart < 0.50 ? "LESS" : "ADD") : ""}
                       </div>
                       <div className="w-50 end_dp10">
-                        {rateAmount ? (formatAmount(
-                          result?.header?.AddLess /
-                            result?.header?.CurrencyExchRate
+                        {rateAmount ? (formatAmount(decimalPart > 0.50 ? 1 - decimalPart : decimalPart
                         )) : ""}
                       </div>
                     </div>
