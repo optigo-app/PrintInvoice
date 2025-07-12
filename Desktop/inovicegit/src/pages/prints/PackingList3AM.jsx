@@ -491,12 +491,21 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setIsImageWorking(false);
   };
 
-  const finalAmount = ((result?.mainTotal?.TotalAmount +
-    result?.header?.AddLess +
-    result?.header?.FreightCharges) /
-    result?.header?.CurrencyExchRate +
-    result?.allTaxesTotal)
-
+  const finalAmount = (
+    (result?.mainTotal?.TotalAmount + 
+    result?.header?.AddLess + 
+    result?.header?.FreightCharges) / 
+    result?.header?.CurrencyExchRate + 
+    result?.allTaxesTotal
+  );
+  const decimalPart = finalAmount - Math.floor(finalAmount);
+  let roundedAmount = finalAmount;
+  if (decimalPart < 0.50) {
+    roundedAmount = finalAmount - decimalPart;
+  } else {
+    roundedAmount = finalAmount + (1 - decimalPart);
+  }
+  console.log("decimalPart", decimalPart);
   console.log("resultresult", result);
 
   return (
@@ -1570,12 +1579,10 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   })}
                   <div className="w-100 d-flex align-items-center tb_fs_pcls">
                     <div style={{ width: "50%" }} className="end_pcls pdr_pcls">
-                      {result?.header?.AddLess >= 0 ? "Add" : "Less"}
+                      {decimalPart < 0.50 ? "Less" : "Add"}
                     </div>
                     <div style={{ width: "50%" }} className="end_pcls pdr_pcls">
-                      {rateAmount ? (formatAmount(
-                        result?.header?.AddLess /
-                          result?.header?.CurrencyExchRate
+                      {rateAmount ? (formatAmount(decimalPart
                       )) : ""}
                     </div>
                   </div>
@@ -1603,7 +1610,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       Final Amount
                     </div>
                     <div style={{ width: "50%" }} className="end_pcls pdr_pcls">
-                      {rateAmount? (formatAmount(finalAmount
+                      {rateAmount? (formatAmount(roundedAmount
                       )) : ""}
                     </div>
                   </div>
@@ -2023,7 +2030,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <div className="qrCode">
                 <div className="qrcodebg6A">
                   {rateAmount ? (<QRCodeGenerator
-                    text={finalAmount}
+                    text={roundedAmount}
                   />) : "" }
                 </div>
               </div>

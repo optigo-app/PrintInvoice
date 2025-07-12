@@ -404,6 +404,10 @@ export const fgPurchaseReturn = [
   {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrint'},
 ];
 
+// export const outsourcePrint = [
+//   {printName: 'outsource print am', etpType: 'print', componentName: 'OutsourcePrintAM'}
+// ];
+
 
 // export const Sales = [
 
