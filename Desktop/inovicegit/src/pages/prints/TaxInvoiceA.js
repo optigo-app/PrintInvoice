@@ -1079,19 +1079,17 @@
                                 <div>{e?.BrandName} {e?.Categoryname} {e?.SubCategoryname}{" "}
                                 {e?.MetalPurity} {e?.MetalColor}</div>
                                 <div style={{display: "flex"}}>
-                                  <div>{e?.totals?.diamonds?.Wt ||
-                                        e?.totals?.colorstone?.Wt
-                                        ? ` TCW: ${(
-                                          (e?.totals?.diamonds?.Wt || 0) +
-                                          (e?.totals?.colorstone?.Wt || 0)
-                                        ).toFixed(3)}`
-                                      : ""}
-                                  </div>
-                                  {e?.lineid && (
-                                    <div style={{ marginLeft: "5px" }}>
-                                      Line ID: {e?.lineid}
+                                  {(e?.totals?.diamonds?.Wt !== 0 && e?.totals?.colorstone?.Wt !== 0 ) &&
+                                    <div style={{marginRight: "5px"}}>
+                                      TCW: {(
+                                        (e?.totals?.diamonds?.Wt ?? 0) +
+                                        (e?.totals?.colorstone?.Wt ?? 0)
+                                      ).toFixed(3)}
                                     </div>
-                                  )}
+                                  }
+                                  <div> 
+                                    {e?.lineid ? `Line ID: ${e.lineid}` : ""}
+                                  </div>
                                 </div>
                                 <div>{e?.CertificateNo
                                   ? `Certificate No.: ${e.CertificateNo}`
@@ -1366,7 +1364,7 @@
                             justifyContent: "flex-end",
                           }}
                         >
-                          Authorized Signature
+                          Authorized Signatory
                         </b>
                       </p>
                     </div>
