@@ -208,12 +208,12 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
     };
 
 
-    if (result) {
-        setTimeout(() => {
-            const button = document.getElementById('test-table-xls-button');
-            button.click();
-        }, 500);
-    }
+    // if (result) {
+    //     setTimeout(() => {
+    //         const button = document.getElementById('test-table-xls-button');
+    //         button.click();
+    //     }, 500);
+    // }
 
     return (
         <>
@@ -356,7 +356,7 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                         ))}
                                         {/* Row for values */}
                                         <tr>
-                                            <td colSpan={7} />
+                                            <td colSpan={8} />
                                             <td style={{ ...cellMainTotalStyle, borderBottom: 'none' }}>
                                                 {(result?.mainTotal?.diamonds?.Wt ?? 0).toFixed(2)}
                                             </td>
@@ -374,7 +374,7 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
 
                                         {/* Row for units */}
                                         <tr>
-                                            <td colSpan={7} />
+                                            <td colSpan={8} />
                                             <td style={{ ...cellMainTotalStyle, borderTop: 'none' }}>CARATS</td>
                                             <td style={{ ...cellMainTotalStyle, borderTop: 'none' }}>CARATS</td>
                                             <td />
@@ -384,27 +384,27 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
 
                                         <tr>
                                             <td />
-                                            <td colSpan={10} style={{ textTransform: 'upperCase' }}>Total Value : {result?.header?.CurrencyCode}{". "}{toWords?.convert(+fixedValues((result?.mainTotal?.total_amount ) / result?.header?.CurrencyExchRate, 2))}</td>
+                                            <td colSpan={12} style={{ textTransform: 'upperCase' }}>Total Value : {result?.header?.CurrencyCode}{". "}{toWords?.convert(+fixedValues((result?.mainTotal?.total_amount ) / result?.header?.CurrencyExchRate, 2))}</td>
                                         </tr>
                                         {result?.mainCusTotal?.metalPurityWiseData?.map((item, idx) => (
                                             <React.Fragment key={idx}>
                                                 <tr>
                                                     <td />
-                                                    <td colSpan={11} style={{ textTransform: 'upperCase' }}>Description of Goods: {item?.descriptionofGoods}</td>
+                                                    <td colSpan={12} style={{ textTransform: 'upperCase' }}>Description of Goods: {item?.descriptionofGoods}</td>
                                                 </tr>
                                                 <tr>
                                                     <td />
-                                                    <td colSpan={11} style={{ textTransform: 'upperCase' }}>Total No of Pcs: {item?.totalPcs} PCS</td>
+                                                    <td colSpan={12} style={{ textTransform: 'upperCase' }}>Total No of Pcs: {item?.totalPcs} PCS</td>
                                                 </tr>
                                                 <tr>
                                                     <td />
-                                                    <td colSpan={11} style={{ textTransform: 'upperCase' }}>
+                                                    <td colSpan={12} style={{ textTransform: 'upperCase' }}>
                                                         Total {item?.descriptionofGoods} Weight: {item?.totalMetalpuritywt?.toFixed(3)} GRAMS
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td />
-                                                    <td colSpan={11} style={{ textTransform: 'upperCase' }}>Total Diamond Weight: {item?.totalDiamondWt?.toFixed(3)} CARATS</td>
+                                                    <td colSpan={12} style={{ textTransform: 'upperCase' }}>Total Diamond Weight: {item?.totalDiamondWt?.toFixed(3)} CARATS</td>
                                                 </tr>
                                                 <tr>
                                                     <td />
@@ -413,7 +413,7 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
 
                                                 {/* ✅ Blank row */}
                                                 <tr>
-                                                    <td colSpan={11}>&nbsp;</td>
+                                                    <td colSpan={12}>&nbsp;</td>
                                                 </tr>
                                             </React.Fragment>
                                         ))}
