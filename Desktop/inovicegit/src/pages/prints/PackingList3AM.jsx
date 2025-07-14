@@ -10,7 +10,7 @@ import {
 } from "../../GlobalFunctions";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import Loader from "../../components/Loader";
-import "../../assets/css/prints/packinglist3AM.css";
+import "../../assets/css/prints/packinglist3AM.scss";
 import Button from "../../GlobalFunctions/Button";
 import QRCodeGenerator from "../../components/QRCodeGenerator";
 import { OrganizeInvoicePrintData } from "../../GlobalFunctions/OrganizeInvoicePrintData";
@@ -511,6 +511,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   console.log("resultresult", result);
 
   return (
+    <div className="packList_3a_main">
     <>
       {loader ? (
         <Loader />
@@ -892,13 +893,13 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         el?.Amount /
                                         result?.header?.CurrencyExchRate /
                                         el?.Wt
-                                      )?.toFixed(0): ""}
+                                      )?.toFixed(2): ""}
                                     </div>
                                     <div className="dcol6_pcls end_pcls pdr_pcls fw-bold">
                                       {rateAmount ? (formatAmount(
                                         el?.Amount /
                                           result?.header?.CurrencyExchRate,
-                                        0 // 👈 no decimal places
+                                        2 // 👈 no decimal places
                                       )): ""}
                                     </div>
                                   </div>
@@ -2053,6 +2054,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </p>
       )}
     </>
+    </div>
   );
 };
 
