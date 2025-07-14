@@ -14,7 +14,7 @@ import "../../assets/css/prints/packinglist3AM.scss";
 import Button from "../../GlobalFunctions/Button";
 import QRCodeGenerator from "../../components/QRCodeGenerator";
 import { OrganizeInvoicePrintData } from "../../GlobalFunctions/OrganizeInvoicePrintData";
-import { cloneDeep } from "lodash";
+import { cloneDeep, head } from "lodash";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 
 const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
@@ -30,6 +30,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
   const [secondarySize, setSecondarySize] = useState(false);
   const [size, setSize] = useState(true);
+  const [checkBoxNew, setCheckBoxNew] = useState("Amantran");
 
   useEffect(() => {
     const sendData = async () => {
@@ -491,6 +492,22 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setIsImageWorking(false);
   };
 
+  const handleChangeNew = (label) => {
+    setCheckBoxNew(label);
+  };
+
+  const options = [
+    "Amantran",
+    "Crystal Cut",
+    "Single Stone",
+  ];
+
+  const logoMap = {
+    "Amantran": (result?.header?.AMJ_LOGO),
+    "Crystal Cut": (result?.header?.CC_LOGO),
+    "Single Stone": (result?.header?.SS_LOGO),
+  };
+
   const finalAmount =(
     (result?.mainTotal?.TotalAmount +
     result?.header?.FreightCharges) / 
@@ -520,6 +537,19 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           <div className="container_pcls">
             {/* print btn and flag */}
             <div className=" d-flex align-items-center justify-content-end my-5 whole_none_pcl3">
+              {options?.map((labelText, index) => (
+                <div
+                  key={index}
+                  className="px-2"
+                >
+                  <input
+                    type="checkbox"
+                    checked={checkBoxNew === labelText}
+                    onChange={() => handleChangeNew(labelText)}
+                  />
+                  <label className="user-select-none mx-1">{labelText}</label>
+                </div>
+              ))}
               <div className="px-2">
                 <input
                   type="checkbox"
@@ -577,8 +607,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               {result?.header?.PrintHeadLabel ?? "PACKING LIST"}
             </div>
             {/* comapny header */}
-            <div className="d-flex justify-content-between align-items-center px-1 com_fs_pcl3">
-              <div>
+            <div className="d-flex align-items-center px-1 com_fs_pcl3">
+              <div className="mainHeadWD justify-content-start">
                 <div className="fs_16_pcls fw-bold py-1">
                   {result?.header?.CompanyFullName}
                 </div>
@@ -601,6 +631,15 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   {result?.header?.Com_pannumber}
                 </div>
               </div>
+              {logoMap[checkBoxNew] && (
+              <div className="mainHeadWD1">
+                <img
+                  src={logoMap[checkBoxNew]}
+                  alt={checkBoxNew + " Logo"}
+                  style={{ width: "221px" }}
+                />
+              </div>
+              )}
               <div>
                 {isImageWorking && (
                   <img
