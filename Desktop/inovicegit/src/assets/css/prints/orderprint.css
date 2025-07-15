@@ -222,7 +222,9 @@
 .word_break_estimatePrint *{
     word-break: break-all;
 }
-
+.spBold{
+    font-weight: bold;
+}
 @media print {
     .recordEstimatePrint {
         page-break-inside: avoid;
@@ -233,5 +235,8 @@
 
       .recordEstimatePrint * {
         font-weight: 400;
+    }
+    .spBold{
+        font-weight: bold;
     }
 }

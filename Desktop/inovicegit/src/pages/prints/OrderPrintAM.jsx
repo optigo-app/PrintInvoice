@@ -1525,7 +1525,7 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </p>
                                   </div>
                                   <div className="width_40_estimatePrint p_1Estimate">
-                                    <p className="text-end ">
+                                    <p className="text-end spBold">
                                       {NumberWithCommas(ele?.Amount, 2)}
                                     </p>
                                   </div>
@@ -1557,7 +1557,7 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </p>
                                   </div>
                                   <div className="width_40_estimatePrint p_1Estimate">
-                                    <p className="text-end ">
+                                    <p className="text-end spBold">
                                       {NumberWithCommas(ele?.Amount, 2)}
                                     </p>
                                   </div>
@@ -1778,7 +1778,7 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   <span className="float-end">  {NumberWithCommas(e?.TotalDiamondHandling, 2)}</span>
                                 </p>
                               )} */}
-                            <div className="w-100 d-flex align-items-center justify-content-end">
+                            <div className="w-100 d-flex align-items-center justify-content-end spBold">
                               {NumberWithCommas(e?.OtherCharges, 2)}
                             </div>
                           </div>
@@ -1788,10 +1788,10 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           style={{ height: "14.5px" }}
                         >
                           <div className="text-end p_1Estimate">
-                            <p className="fw-bold">
+                            <div className="spBold">
                               {/* {NumberWithCommas(e?.otherChargesTotal, 2)} */}
                               {NumberWithCommas(e?.OtherCharges, 2)}
-                            </p>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -1817,7 +1817,7 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     );
                                   })}
                                 </div>
-                                <div className="w-50 text-end p_1Estimate">
+                                <div className="w-50 text-end p_1Estimate spBold">
                                   {/* <p>{NumberWithCommas(e?.MakingAmount, 2)}</p>
                                     {e?.settingAmount !== 0 && (
                                       <p>
@@ -1826,7 +1826,7 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     )} */}
                                   {e?.labourArr?.map((ele, ind) => {
                                     return (
-                                      <p key={ind}>
+                                      <p className="spBold" key={ind}>
                                         {NumberWithCommas(ele?.value, 2)}
                                       </p>
                                     );
@@ -1841,30 +1841,30 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           style={{ height: "14.5px" }}
                         >
                           <div className="">
-                            <p className="text-end p_1Estimate fw-bold">
+                            <div className="text-end p_1Estimate spBold">
                               {NumberWithCommas(e?.totalSetttingAmount, 2)}
-                            </p>
+                            </div>
                           </div>
                         </div>
                       </div>
                       <div className="totalAmountEstimatePrint position-relative">
                         <div className="h-100 d-grid pad_bot_29_estimatePrint">
                           <div className="border_color_estimates">
-                            <p className="text-end p_1Estimate pe-1 fw-bold">
+                            <div className="text-end p_1Estimate pe-1 spBold">
                               {NumberWithCommas(e?.TotalAmount, 2)}
-                            </p>
+                            </div>
                           </div>
                         </div>
                         <div className="totalBgEstimatePrint position-absolute bottom-0  height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end pe-1 border-top border_color_estimates">
                           <div className="text-end p_1Estimate">
-                            <p className="fw-bold">
+                            <div className="spBold">
                               {/* <span
                                   dangerouslySetInnerHTML={{
                                     __html: json1Data?.Currencysymbol,
                                   }}
                                 ></span> */}
                               {NumberWithCommas(e?.TotalAmount, 2)}
-                            </p>
+                            </div>
                           </div>
                         </div>
                       </div>
