@@ -79,7 +79,6 @@
     /* word-break: normal; */
     word-break: break-all;
     line-height: 120%;
-    /* font-weight: 700; */
 }
 
 .width20EstimatePrint {
@@ -232,10 +231,6 @@
     .print_sec_sum4 {
         display: none !important;
       }
-
-      .recordEstimatePrint * {
-        font-weight: 400;
-    }
     .spBold{
         font-weight: bold;
     }
