@@ -544,10 +544,12 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 >
                   <input
                     type="checkbox"
-                    checked={checkBoxNew === labelText}
                     onChange={() => handleChangeNew(labelText)}
+                    value={checkBoxNew}
+                    checked={checkBoxNew === labelText}
+                    id={index}
                   />
-                  <label className="user-select-none mx-1">{labelText}</label>
+                  <label htmlFor={index} className="user-select-none mx-1">{labelText}</label>
                 </div>
               ))}
               <div className="px-2">
@@ -1086,15 +1088,19 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   >
                                     <p>{data?.Wt?.toFixed(3)}</p>
                                   </div>
-                                  <div
-                                    style={{
-                                      width: "20%",
-                                      display: "flex",
-                                      justifyContent: "flex-end",
-                                    }}
-                                  >
-                                    <p>{rateAmount ? (data?.Rate?.toFixed(2)) : ""}</p>
-                                  </div>
+                                  {e?.metal?.map((el, ind) => {
+                                    return (
+                                      <div key={ind}
+                                        style={{
+                                          width: "20%",
+                                          display: "flex",
+                                          justifyContent: "flex-end",
+                                        }}
+                                      >
+                                        <p>{rateAmount ? (el?.Rate?.toFixed(2)) : ""}</p>
+                                      </div>
+                                    )
+                                  })}
                                   <div
                                     style={{
                                       width: "26%",

@@ -1184,8 +1184,9 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   type="checkbox"
                   checked={checkBoxNew === labelText}
                   onChange={() => handleChangeNew(labelText)}
+                  id={index}
                 />
-                <label className="pt-1">{labelText}</label>
+                <label htmlFor={index} className="pt-1">{labelText}</label>
               </div>
             ))}
             <div className="form-check ps-3">
