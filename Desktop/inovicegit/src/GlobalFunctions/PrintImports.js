@@ -328,6 +328,7 @@ export const EstimatePrints = [
   {printName: 'summary 4', etpType: 'print', componentName: 'Summary4'},
   {printName: 'tax invoice', etpType: 'print', componentName: 'TaxInvoice'},
   {printName: 'Designset Packinglist', etpType: 'print', componentName: 'DesignsetPackinglist'},
+  {printName: 'jewellery tax summary c', etpType: 'print', componentName: 'JewelleryTaxSummaryC'},
 ]
 
 export const HallMarkPrints = [
