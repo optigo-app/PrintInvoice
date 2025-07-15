@@ -607,8 +607,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               {result?.header?.PrintHeadLabel ?? "PACKING LIST"}
             </div>
             {/* comapny header */}
-            <div className="d-flex align-items-center px-1 com_fs_pcl3">
-              <div className="mainHeadWD justify-content-start">
+            <div className="px-1 com_fs_pcl3 mainHeadWD">
+              <div className="justify-content-start">
                 <div className="fs_16_pcls fw-bold py-1">
                   {result?.header?.CompanyFullName}
                 </div>
@@ -632,24 +632,14 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
               </div>
               {logoMap[checkBoxNew] && (
-              <div className="mainHeadWD1">
+              <div className="justify-content-end">
                 <img
                   src={logoMap[checkBoxNew]}
                   alt={checkBoxNew + " Logo"}
-                  style={{ width: "221px" }}
+                  style={{ width: "190px", paddingTop: "1px" }}
                 />
               </div>
               )}
-              <div>
-                {isImageWorking && (
-                  <img
-                    src={result?.header?.PrintLogo}
-                    alt="#companylogo"
-                    className="companylogo_pcls"
-                    onError={handleImageErrors}
-                  />
-                )}
-              </div>
             </div>
             {/* customer header */}
             <div className="d-flex  mt-1 brall_pcls brall_pcls ">
