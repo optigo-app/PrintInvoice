@@ -2071,6 +2071,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
                 <div className="col-4 p-2 w-50 d-flex align-items-center justify-content-between flex-column">
                 <p className="fw-bold">For {result?.header?.CompanyFullName}</p>
+                <img src={result?.header?.digital_signature} height="80px" width="80px"/>
                 <p className="fw-bold">Authorized Signature</p>
                 </div>
             </div>

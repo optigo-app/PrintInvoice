@@ -1222,7 +1222,7 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 {json1Data?.Customercode}
               </p>
             </div>
-            <div>
+            <div className="d-flex justify-content-end flex-column">
               <div className="d-flex justify-conetnt-between">
                 <p className="mainDetailEstimate text-end pe-3">Order# : </p>
                 <p className="fw-bold">{json1Data?.InvoiceNo}</p>
