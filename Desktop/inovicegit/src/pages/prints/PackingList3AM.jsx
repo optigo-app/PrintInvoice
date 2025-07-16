@@ -1084,63 +1084,60 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               <React.Fragment key={index}>
                                 <div style={{ display: "flex" }}>
                                   {data?.Supplier === "Customer" ? (
-                                    <>
-                                      <div style={{ width: "37%" }}>
-                                        <p>
-                                          {data?.FindingTypename +
-                                            " " +
-                                            data?.QualityName}
-                                          :C
-                                        </p>
-                                      </div>
-                                      <div
-                                        style={{
-                                          width: "17%",
-                                          display: "flex",
-                                          justifyContent: "flex-end",
-                                        }}
-                                      >
-                                        <p>{data?.Wt?.toFixed(3)}</p>
-                                      </div>
-                                    </>
+                                    <div style={{ width: "37%" }}>
+                                      <p>
+                                        {data?.FindingTypename +
+                                          " " +
+                                          data?.QualityName}
+                                        :C
+                                      </p>
+                                    </div>
                                   ) : (
-                                    <>
-                                      <div style={{ width: "37%" }}>
-                                        <p>
-                                          {data?.FindingTypename +
-                                            " " +
-                                            data?.QualityName}
-                                        </p>
-                                      </div>
-                                      <div
-                                        style={{
-                                          width: "17%",
-                                          display: "flex",
-                                          justifyContent: "flex-end",
-                                        }}
-                                      >
-                                        <p>{data?.Wt?.toFixed(3)}</p>
-                                      </div>
-                                    </>
+                                    <div style={{ width: "37%" }}>
+                                      <p>
+                                        {data?.FindingTypename +
+                                          " " +
+                                          data?.QualityName}
+                                      </p>
+                                    </div>
                                   )}
 
-                                  {data?.Rate === 0 ? (
-                                    e?.metal?.map((el, ind) => (
-                                      <div
-                                        key={ind}
-                                        style={{
-                                          width: "20%",
-                                          display: "flex",
-                                          justifyContent: "flex-end",
-                                        }}
-                                      >
-                                        <p>
+                                  <div
+                                    style={{
+                                      width: "17%",
+                                      display: "flex",
+                                      justifyContent: "flex-end",
+                                    }}
+                                  >
+                                    <p>{data?.Wt?.toFixed(3)}</p>
+                                  </div>
+
+                                  {data?.Rate === 0 &&
+                                  data?.Supplier === "Customer" ? (
+                                    <div
+                                      style={{
+                                        width: "20%",
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                      }}
+                                    >
+                                    </div>
+                                  ) : data?.Rate === 0 ? (
+                                    <div
+                                      style={{
+                                        width: "20%",
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                      }}
+                                    >
+                                      {e?.metal?.map((el, index) => (
+                                        <div key={index}>
                                           {rateAmount
-                                            ? el?.Rate?.toFixed(2)
+                                            ? formatAmount(el?.Rate)
                                             : ""}
-                                        </p>
-                                      </div>
-                                    ))
+                                        </div>
+                                      ))}
+                                    </div>
                                   ) : (
                                     <div
                                       style={{
@@ -1149,23 +1146,48 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         justifyContent: "flex-end",
                                       }}
                                     >
-                                      <p>{data?.Rate?.toFixed(2)}</p>
+                                      <p>
+                                        {rateAmount
+                                          ? data?.Rate?.toFixed(2)
+                                          : ""}
+                                      </p>
                                     </div>
                                   )}
 
-                                  <div
+                                  {data?.Amount === 0 &&
+                                  data?.Supplier === "Customer" ? (
+                                    <div
+                                      style={{
+                                        width: "26%",
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                      }}
+                                    ></div>
+                                  ) : (
+                                    <div
+                                      style={{
+                                        width: "26%",
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                      }}
+                                    >
+                                      {rateAmount
+                                        ? formatAmount(data?.Amount)
+                                        : ""}
+                                    </div>
+                                  )}
+
+                                  {/* <div
                                     style={{
                                       width: "26%",
                                       display: "flex",
                                       justifyContent: "flex-end",
                                     }}
                                   >
-                                    <p>
-                                      {rateAmount
-                                        ? formatAmount(data?.Amount)
-                                        : ""}
-                                    </p>
-                                  </div>
+                                    {rateAmount
+                                      ? formatAmount(data?.Amount)
+                                      : ""}
+                                  </div> */}
                                 </div>
                               </React.Fragment>
                             ))}

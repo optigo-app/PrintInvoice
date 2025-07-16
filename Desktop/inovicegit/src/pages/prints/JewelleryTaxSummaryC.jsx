@@ -259,7 +259,7 @@ const JewelleryTaxSummaryC = ({
                     <div className="col3_jts center_jts brr_jts">
                       DESCRIPTION
                     </div>
-                    <div className="col4_jts center_jts">AMOUNT (USD)</div>
+                    <div className="col4_jts center_jts">AMOUNT</div>
                   </div>
                   <div className="tbody_jts">
                     {result?.resultArray?.map((e, i) => {
