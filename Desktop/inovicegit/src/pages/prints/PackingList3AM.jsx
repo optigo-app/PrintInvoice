@@ -507,8 +507,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const finalAmount =
     (result?.mainTotal?.TotalAmount + result?.header?.FreightCharges) /
       result?.header?.CurrencyExchRate +
-    result?.allTaxesTotal;
-  const decimalPart = parseFloat(
+      result?.allTaxesTotal;
+    const decimalPart = parseFloat(
     (finalAmount - Math.floor(finalAmount)).toFixed(2)
   );
   let roundedAmount = finalAmount;
@@ -517,11 +517,11 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   } else {
     roundedAmount = finalAmount + (1 - decimalPart);
   }
-  console.log((roundedAmount = finalAmount + (1 - decimalPart)));
-  console.log("finalAmount", finalAmount);
-  console.log("decimalPart", decimalPart);
-  console.log("roundedAmount", roundedAmount);
-  console.log("resultresult", result);
+  // console.log((roundedAmount = finalAmount + (1 - decimalPart)));
+  // console.log("finalAmount", finalAmount);
+  // console.log("decimalPart", decimalPart);
+  // console.log("roundedAmount", roundedAmount);
+  // console.log("resultresult", result);
 
   return (
     <div className="packList_3a_main">
@@ -1018,12 +1018,11 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         "hook"
                                       )
                                         ? (
-                                            e?.NetWt - e?.finding_customer_wt
+                                            e?.NetWt - e?.totals?.finding?.Wt
                                           )?.toFixed(3)
                                         : (
                                             e?.NetWt -
-                                            e?.totals?.finding?.Wt -
-                                            e?.finding_customer_wt
+                                            e?.totals?.finding?.Wt
                                           )?.toFixed(3)}
                                     </div>
                                     <div className="mcol4_pcls end_pcls pdr_pcls">
@@ -1080,27 +1079,11 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           })}
 
                           <div style={{ margin: "0px 2px" }}>
-                            {e?.finding?.map((data, index) => (
-                              <React.Fragment key={index}>
+
                                 <div style={{ display: "flex" }}>
-                                  {data?.Supplier === "Customer" ? (
-                                    <div style={{ width: "37%" }}>
-                                      <p>
-                                        {data?.FindingTypename +
-                                          " " +
-                                          data?.QualityName}
-                                        :C
-                                      </p>
+                                    <div className="spbrWord" style={{ width: "37%" }}>
+                                        FINDING ACESSORIES
                                     </div>
-                                  ) : (
-                                    <div style={{ width: "37%" }}>
-                                      <p>
-                                        {data?.FindingTypename +
-                                          " " +
-                                          data?.QualityName}
-                                      </p>
-                                    </div>
-                                  )}
 
                                   <div
                                     style={{
@@ -1109,73 +1092,24 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                       justifyContent: "flex-end",
                                     }}
                                   >
-                                    <p>{data?.Wt?.toFixed(3)}</p>
+                                    {e?.totals?.finding?.Wt?.toFixed(3)}
                                   </div>
 
-                                  {data?.Rate === 0 &&
-                                  data?.Supplier === "Customer" ? (
-                                    <div
-                                      style={{
-                                        width: "20%",
-                                        display: "flex",
-                                        justifyContent: "flex-end",
-                                      }}
-                                    >
-                                    </div>
-                                  ) : data?.Rate === 0 ? (
-                                    <div
-                                      style={{
-                                        width: "20%",
-                                        display: "flex",
-                                        justifyContent: "flex-end",
-                                      }}
-                                    >
-                                      {e?.metal?.map((el, index) => (
-                                        <div key={index}>
-                                          {rateAmount
-                                            ? formatAmount(el?.Rate)
-                                            : ""}
-                                        </div>
-                                      ))}
-                                    </div>
-                                  ) : (
-                                    <div
-                                      style={{
-                                        width: "20%",
-                                        display: "flex",
-                                        justifyContent: "flex-end",
-                                      }}
-                                    >
-                                      <p>
-                                        {rateAmount
-                                          ? data?.Rate?.toFixed(2)
-                                          : ""}
-                                      </p>
-                                    </div>
-                                  )}
+                                  {/* {e?.metal?.map((el, ind) => {
 
-                                  {data?.Amount === 0 &&
-                                  data?.Supplier === "Customer" ? (
                                     <div
+                                      key={ind}
                                       style={{
-                                        width: "26%",
+                                        width: "20%",
                                         display: "flex",
                                         justifyContent: "flex-end",
-                                      }}
-                                    ></div>
-                                  ) : (
-                                    <div
-                                      style={{
-                                        width: "26%",
-                                        display: "flex",
-                                        justifyContent: "flex-end",
+                                        border: "1px solid black"
                                       }}
                                     >
                                       {rateAmount
-                                        ? formatAmount(data?.Amount)
-                                        : ""}
+                                        ? formatAmount(el?.Rate) : ""}
                                     </div>
-                                  )}
+                                    })} */}
 
                                   {/* <div
                                     style={{
@@ -1185,12 +1119,10 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     }}
                                   >
                                     {rateAmount
-                                      ? formatAmount(data?.Amount)
-                                      : ""}
-                                  </div> */}
+                                      ? formatAmount()
+                                      : ""} */}
+                                  {/* </div> */}
                                 </div>
-                              </React.Fragment>
-                            ))}
                           </div>
 
                           {e?.LossWt !== 0 && (

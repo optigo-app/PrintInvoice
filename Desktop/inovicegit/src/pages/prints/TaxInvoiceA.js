@@ -628,14 +628,14 @@
 
     const expectedTaxes = [ "CGST", "SGST", "IGST"];
 
-    const taxList = expectedTaxes?.map((taxName) => {
-      const taxData = finalD?.allTaxes?.find((e) => e.name === taxName);
-      return {
-        name: taxName,
-        per: taxData?.per || "",
-        amountInNumber: taxData?.amountInNumber || 0,
-      };
-    });
+    // const taxList = expectedTaxes?.map((taxName) => {
+    //   const taxData = finalD?.allTaxes?.find((e) => e.name === taxName);
+    //   return {
+    //     name: taxName,
+    //     per: taxData?.per || "",
+    //     amountInNumber: taxData?.amountInNumber || 0,
+    //   };
+    // });
     // const FinalTotal= (
     //   finalD?.mainTotal?.total_amount /
     //   finalD?.header?.CurrencyExchRate +
@@ -1229,7 +1229,7 @@
                           <b>{formatAmount(finalD?.mainTotal?.total_amount)}</b>
                         </p>
                       </div>
-                      {taxList?.map((e, i) => {
+                      {finalD?.allTaxes?.map((e, i) => {
                         return (
                           <div
                             style={{
