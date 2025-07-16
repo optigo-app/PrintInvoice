@@ -507,8 +507,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const finalAmount =
     (result?.mainTotal?.TotalAmount + result?.header?.FreightCharges) /
       result?.header?.CurrencyExchRate +
-      result?.allTaxesTotal;
-    const decimalPart = parseFloat(
+    result?.allTaxesTotal;
+  const decimalPart = parseFloat(
     (finalAmount - Math.floor(finalAmount)).toFixed(2)
   );
   let roundedAmount = finalAmount;
@@ -1021,8 +1021,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                             e?.NetWt - e?.totals?.finding?.Wt
                                           )?.toFixed(3)
                                         : (
-                                            e?.NetWt -
-                                            e?.totals?.finding?.Wt
+                                            e?.NetWt - e?.totals?.finding?.Wt
                                           )?.toFixed(3)}
                                     </div>
                                     <div className="mcol4_pcls end_pcls pdr_pcls">
@@ -1042,7 +1041,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                               e?.specialFinding?.FindingTypename?.toLowerCase()?.includes(
                                                 "hook"
                                               )
-                                              ? (e?.NetWt * e?.metal_rate) /
+                                              ? (e?.NetWt * e?.metal_rate) - (el?.Rate * e?.totals?.finding?.Wt) /
                                                   result?.header
                                                     ?.CurrencyExchRate
                                               : (el?.Amount -
@@ -1051,8 +1050,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                     e?.LossAmt)) /
                                                   result?.header
                                                     ?.CurrencyExchRate
-                                          )
-                                        : ""}
+                                          ) : ""}
                                     </div>
                                   </div>
                                 ) : (
@@ -1079,50 +1077,51 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           })}
 
                           <div style={{ margin: "0px 2px" }}>
+                            <div style={{ display: "flex" }}>
+                              <div
+                                className="spbrWord"
+                                style={{ width: "37%" }}
+                              >
+                                FINDING ACESSORIES
+                              </div>
 
-                                <div style={{ display: "flex" }}>
-                                    <div className="spbrWord" style={{ width: "37%" }}>
-                                        FINDING ACESSORIES
-                                    </div>
+                              <div
+                                style={{
+                                  width: "17%",
+                                  display: "flex",
+                                  justifyContent: "flex-end",
+                                }}
+                              >
+                                {e?.totals?.finding?.Wt?.toFixed(3)}
+                              </div>
 
-                                  <div
-                                    style={{
-                                      width: "17%",
-                                      display: "flex",
-                                      justifyContent: "flex-end",
-                                    }}
-                                  >
-                                    {e?.totals?.finding?.Wt?.toFixed(3)}
-                                  </div>
-
-                                  {/* {e?.metal?.map((el, ind) => {
-
+                              {e?.metal?.map((el, ind) => {
+                                return (
+                                  <>
                                     <div
                                       key={ind}
                                       style={{
                                         width: "20%",
                                         display: "flex",
                                         justifyContent: "flex-end",
-                                        border: "1px solid black"
                                       }}
                                     >
-                                      {rateAmount
-                                        ? formatAmount(el?.Rate) : ""}
+                                      {rateAmount ? formatAmount(el?.Rate) : ""}
                                     </div>
-                                    })} */}
 
-                                  {/* <div
-                                    style={{
-                                      width: "26%",
-                                      display: "flex",
-                                      justifyContent: "flex-end",
-                                    }}
-                                  >
-                                    {rateAmount
-                                      ? formatAmount()
-                                      : ""} */}
-                                  {/* </div> */}
-                                </div>
+                                    <div className="spBold"
+                                      style={{
+                                        width: "26%",
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                      }}
+                                    >
+                                      {rateAmount ? formatAmount(el?.Rate * e?.totals?.finding?.Wt) : ""}
+                                    </div>
+                                  </>
+                                );
+                              })}
+                            </div>
                           </div>
 
                           {e?.LossWt !== 0 && (
