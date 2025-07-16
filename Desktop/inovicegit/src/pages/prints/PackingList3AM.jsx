@@ -521,7 +521,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   // console.log("finalAmount", finalAmount);
   // console.log("decimalPart", decimalPart);
   // console.log("roundedAmount", roundedAmount);
-  // console.log("resultresult", result);
+  console.log("resultresult", result);
 
   return (
     <div className="packList_3a_main">
@@ -1041,16 +1041,19 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                               e?.specialFinding?.FindingTypename?.toLowerCase()?.includes(
                                                 "hook"
                                               )
-                                              ? (e?.NetWt * e?.metal_rate) - (el?.Rate * e?.totals?.finding?.Wt) /
-                                                  result?.header
-                                                    ?.CurrencyExchRate
+                                              ? e?.NetWt * e?.metal_rate -
+                                                  (el?.Rate *
+                                                    e?.totals?.finding?.Wt) /
+                                                    result?.header
+                                                      ?.CurrencyExchRate
                                               : (el?.Amount -
                                                   (e?.totals?.finding?.Wt *
                                                     e?.metal_rate +
                                                     e?.LossAmt)) /
                                                   result?.header
                                                     ?.CurrencyExchRate
-                                          ) : ""}
+                                          )
+                                        : ""}
                                     </div>
                                   </div>
                                 ) : (
@@ -1076,30 +1079,38 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             );
                           })}
 
-                          <div style={{ margin: "0px 2px" }}>
-                            <div style={{ display: "flex" }}>
-                              <div
-                                className="spbrWord"
-                                style={{ width: "37%" }}
-                              >
-                                FINDING ACESSORIES
-                              </div>
+                          {e?.metal?.map((el, ind) => {
+                            if (el?.IsPrimaryMetal === 1) {
+                              // Calculate total weight of non-primary metals
+                              const nonPrimaryTotalWt = e?.metal
+                                ?.filter((m) => m?.IsPrimaryMetal === 0)
+                                ?.reduce((sum, m) => sum + (m?.Wt || 0), 0);
 
-                              <div
-                                style={{
-                                  width: "17%",
-                                  display: "flex",
-                                  justifyContent: "flex-end",
-                                }}
-                              >
-                                {e?.totals?.finding?.Wt?.toFixed(3)}
-                              </div>
+                              const finalFindingWt =
+                                (e?.totals?.finding?.Wt || 0) -
+                                nonPrimaryTotalWt;
 
-                              {e?.metal?.map((el, ind) => {
-                                return (
-                                  <>
+                              return (
+                                <div key={ind} style={{ margin: "0px 2px" }}>
+                                  <div style={{ display: "flex" }}>
                                     <div
-                                      key={ind}
+                                      className="spbrWord"
+                                      style={{ width: "37%" }}
+                                    >
+                                      FINDING ACCESSORIES
+                                    </div>
+
+                                    <div
+                                      style={{
+                                        width: "17%",
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                      }}
+                                    >
+                                      {formatAmount(finalFindingWt, 3)}
+                                    </div>
+
+                                    <div
                                       style={{
                                         width: "20%",
                                         display: "flex",
@@ -1109,20 +1120,27 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                       {rateAmount ? formatAmount(el?.Rate) : ""}
                                     </div>
 
-                                    <div className="spBold"
+                                    <div
+                                      className="spBold"
                                       style={{
                                         width: "26%",
                                         display: "flex",
                                         justifyContent: "flex-end",
                                       }}
                                     >
-                                      {rateAmount ? formatAmount(el?.Rate * e?.totals?.finding?.Wt) : ""}
+                                      {rateAmount
+                                        ? formatAmount(
+                                            el?.Rate * finalFindingWt
+                                          )
+                                        : ""}
                                     </div>
-                                  </>
-                                );
-                              })}
-                            </div>
-                          </div>
+                                  </div>
+                                </div>
+                              );
+                            } else {
+                              return null;
+                            }
+                          })}
 
                           {e?.LossWt !== 0 && (
                             <div className="d-flex w-100 pt-1">
@@ -1930,6 +1948,13 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           {result?.mainTotal?.colorstone?.Wt?.toFixed(3)} cts
                         </div>
                       </div>
+                      <div className="d-flex justify-content-between px-1">
+                        <div className="w-50 fw-bold">MISC WT</div>
+                        <div className="w-50 end_dp10 pe-1">
+                          {result?.mainTotal?.misc?.Pcs} /{" "}
+                          {result?.mainTotal?.misc?.Wt?.toFixed(3)} gm
+                        </div>
+                      </div>
                     </div>
                     <div className="w-50 bright_dp10 tb_fs_pcls">
                       <div className="d-flex justify-content-between px-1">
@@ -2059,15 +2084,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {rateAmount ? "TOTAL" : ""}
                       </div>
                       <div className="w-50 end_dp10 px-1">
-                        {rateAmount
-                          ? formatAmount(
-                              (result?.mainTotal?.TotalAmount +
-                                result?.header?.AddLess +
-                                result?.header?.FreightCharges) /
-                                result?.header?.CurrencyExchRate +
-                                result?.allTaxesTotal
-                            )
-                          : ""}
+                        {rateAmount ? formatAmount(roundedAmount) : ""}
                       </div>
                     </div>
                   </div>
