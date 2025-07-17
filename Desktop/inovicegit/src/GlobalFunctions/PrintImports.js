@@ -271,6 +271,7 @@ export const MemoPrints = [
   {printName: 'delivery chalan js', etpType: 'print', componentName: 'TaxInvoiceA'},
   {printName: 'detail print 10', etpType: 'print', componentName: 'DetailPrint10'},
   {printName: 'Designset Packinglist', etpType: 'print', componentName: 'DesignsetPackinglist'},
+  {printName: 'packing list 3 am', etpType: 'print', componentName: 'PackingList3AM'},
 ]
 
 export const MemoReturnPrints = [ 

@@ -2231,9 +2231,9 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   ></div>
                 </div>
                 <div className="qrCode">
-                  <div className="qrcodebg6A">
+                  {/* <div className="qrcodebg6A">
                     {rateAmount ? <QRCodeGenerator text={roundedAmount} /> : ""}
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="d-flex w-100 brall_pcls brtop_none min_heig">

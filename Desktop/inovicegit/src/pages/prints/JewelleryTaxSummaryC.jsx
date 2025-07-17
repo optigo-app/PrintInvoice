@@ -115,6 +115,19 @@ const JewelleryTaxSummaryC = ({
   );
   const totalTax = taxes?.reduce((acc, val) => acc + (isNaN(val) ? 0 : val), 0);
 
+  const finalAmount =
+  (result?.mainTotal?.TotalAmount + result?.header?.FreightCharges) /
+    result?.header?.CurrencyExchRate +
+    result?.allTaxesTotal;
+  const decimalPart = parseFloat(
+    (finalAmount - Math.floor(finalAmount)).toFixed(2)
+  );
+  let roundedAmount = finalAmount;
+  if (decimalPart < 0.5) {
+    roundedAmount = finalAmount - decimalPart;
+  } else {
+    roundedAmount = finalAmount + (1 - decimalPart);
+  }
   console.log("resultdata", result);
 
   return (
@@ -399,13 +412,11 @@ const JewelleryTaxSummaryC = ({
                           {e?.name} @ {e?.per}
                         </div>
                       ))}
-                      {result?.header?.AddLess === null && (
-                        <div className="start_jts ps-1">
-                          {result.header.AddLess > 0 ? "Add" : "Less"}
-                        </div>
-                      )}
-                      {result?.header?.FreightCharges === null && (
-                        <div className="start_jts ps-1">Delivery Charges</div>
+                      <div className="start_jts ps-1">
+                        {decimalPart < 0.5 ? "Less" : decimalPart > 0.5 ? "Add" : "Add/Less" }
+                      </div>
+                      {result?.header?.ModeOfDel !== null && (
+                        <div className="start_jts ps-1">{result?.header?.ModeOfDel}</div>
                       )}
                     </div>
                     <div className="w2_jts fw-bold">
@@ -441,6 +452,15 @@ const JewelleryTaxSummaryC = ({
                           {formatAmount(e?.amount)}
                         </div>
                       ))}
+                        <div className="end_jts pe-1">
+                          <span
+                            className="pe-1"
+                            dangerouslySetInnerHTML={{
+                              __html: result?.header?.Currencysymbol,
+                            }}
+                          ></span>
+                          {formatAmount(decimalPart > 0.5 ? 1 - decimalPart : decimalPart)}
+                        </div>
                       {/* <div className="end_jts pe-1">
                         <span
                           className="pe-1"
@@ -454,7 +474,7 @@ const JewelleryTaxSummaryC = ({
                             totalTax
                         )}
                       </div> */}
-                      {result?.header?.AddLess === null && (
+                      {/* {result?.header?.AddLess === null && (
                         <div className="end_jts pe-1">
                           <span
                             className="pe-1"
@@ -467,8 +487,8 @@ const JewelleryTaxSummaryC = ({
                               result?.header?.CurrencyExchRate
                           )}
                         </div>
-                      )}
-                      {result?.header?.FreightCharges === null && (
+                      )} */}
+                      {result?.header?.ModeOfDel !== null && (
                         <div className="end_jts pe-1">
                           <span
                             className="pe-1"
@@ -498,7 +518,7 @@ const JewelleryTaxSummaryC = ({
                       }}
                     ></span>{" "}
                     {formatAmount(
-                      result?.finalAmount / result?.header?.CurrencyExchRate
+                      (result?.finalAmount  + result.header.FreightCharges)/ result?.header?.CurrencyExchRate
                     )}
                   </div>
                 </div>
