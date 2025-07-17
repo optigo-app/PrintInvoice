@@ -934,12 +934,12 @@
               <table style={{ width: "100%" }}>
                 {/* {finalD?.resultArray?.length > 6 ? ( */}
                 <thead>
-                  {/* <div className="header_top_content_main_class" style={{width:"100%", justifyContent: "right"}}>
+                      <div className="header_top_content_main_class" style={{width:"100%", justifyContent: "right",borderTop: "1px solid black",}}>
                     <p className="Header_top_title_name1">Invoice No.</p>
                     <p className="Header_top_title_value_name">
                       <b>{json0Data?.InvoiceNo}</b>
                     </p>
-                  </div> */}
+                  </div>
                   <div
                     style={{
                       borderTop: "1px solid black",

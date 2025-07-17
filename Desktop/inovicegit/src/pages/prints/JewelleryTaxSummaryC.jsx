@@ -488,7 +488,7 @@ const JewelleryTaxSummaryC = ({
                           )}
                         </div>
                       )} */}
-                      {result?.header?.ModeOfDel !== null && (
+                      {result?.header?.FreightCharges !== 0 && (
                         <div className="end_jts pe-1">
                           <span
                             className="pe-1"
