@@ -115,19 +115,19 @@ const JewelleryTaxSummaryC = ({
   );
   const totalTax = taxes?.reduce((acc, val) => acc + (isNaN(val) ? 0 : val), 0);
 
-  const finalAmount =
-  (result?.mainTotal?.TotalAmount + result?.header?.FreightCharges) /
-    result?.header?.CurrencyExchRate +
-    result?.allTaxesTotal;
-  const decimalPart = parseFloat(
-    (finalAmount - Math.floor(finalAmount)).toFixed(2)
-  );
-  let roundedAmount = finalAmount;
-  if (decimalPart < 0.5) {
-    roundedAmount = finalAmount - decimalPart;
-  } else {
-    roundedAmount = finalAmount + (1 - decimalPart);
-  }
+  // const finalAmount =
+  // (result?.mainTotal?.TotalAmount + result?.header?.FreightCharges) /
+  //   result?.header?.CurrencyExchRate +
+  //   result?.allTaxesTotal;
+  // const decimalPart = parseFloat(
+  //   (finalAmount - Math.floor(finalAmount)).toFixed(2)
+  // );
+  // let roundedAmount = finalAmount;
+  // if (decimalPart < 0.5) {
+  //   roundedAmount = finalAmount - decimalPart;
+  // } else {
+  //   roundedAmount = finalAmount + (1 - decimalPart);
+  // }
   console.log("resultdata", result);
 
   return (

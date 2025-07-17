@@ -1,22 +1,62 @@
 .container_jts{
-    max-width: 700px;
+    max-width: 10.668cm;
     width: 100%;
     padding-bottom: 5rem;
     margin: 3rem auto;
     font-family: Calibri;
-    border: 1px solid #000000;
 }
 .fs_jts{
     font-size: 12px;
     line-height: 14px;
-    text-align: center;
-    width: 100%;
 }
 .fs2_jts{
     font-size: 14px;
 }
 .fs2_jts1{
     font-size: 13px;
+}
+.es_mainHead{
+    text-align: center;
+    width: 100%;
+}
+.es_subHead{
+    display: flex;
+    justify-content: space-between;
+}
+.es_detHead{
+    display: flex;
+    text-align: center;
+    align-items: center;
+}
+.es_detBody{
+    display: flex;
+    text-align: center;
+}
+.sevotfon{
+    width: 14%;
+}
+.sevotfsec{
+    width: 14%;
+}
+.sevotfthr{
+    width: 15%;
+}
+.sevotffor{
+    width: 14%;
+}
+.sevotffiv{
+    width: 14%;
+}
+.sevotfsx{
+    width: 15%;
+}
+.sevotfsev{
+    width: 14%;
+}
+.spbrWord{
+    word-break: break-word;
+    overflow-wrap: break-word;
+    word-wrap: break-word; 
 }
 .spBgColor{
     background: #F2F2F2;
@@ -108,14 +148,11 @@
 }
 @media print {
     .container_jts{
-        max-width: 400px;
-        min-width: 400px;
+        max-width: 9cm;
+        min-width: 9cm;
         width: 100%;
-        padding: 10px;
-        padding-bottom: 5rem;
         margin: 0 auto;
         font-family: Calibri;
-        border: 1px solid #000000;
     }
     .d_none_jts{
         display: none !important;

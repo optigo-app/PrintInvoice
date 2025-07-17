@@ -9,6 +9,7 @@ import {
   apiCall,
   checkMsg,
   formatAmount,
+  NumberWithCommas,
   isObjectEmpty,
 } from "../../GlobalFunctions";
 import { cloneDeep } from "lodash";
@@ -157,7 +158,8 @@ const EstimatePrintK = ({
                   <Button />
                 </div>
                 <div className="align-items-center">
-                  <div className="fs_jts brb_jts">
+                  <div className="fs_jts brb_jts es_mainHead">
+                    <div className="fs2_jts brb_jts">Estimate</div>
                     <div className="fs2_jts fw-bold">
                       {result?.header?.CompanyFullName}
                     </div>
@@ -181,14 +183,69 @@ const EstimatePrintK = ({
                       {result?.header?.Com_pannumber}
                     </div>
                   </div>
-                  <div>
-                    <div className="fs2_jts1">
-                      Invoice No:{" "}
-                      <span className="fw-bold">
-                        {result?.header?.InvoiceNo}
-                      </span>
+                  <div className="es_subHead brb_jts">
+                    <div>
+                      <div className="fs2_jts1">
+                        Invoice No:{" "}
+                        <span className="fw-bold">
+                          {result?.header?.InvoiceNo}
+                        </span>
+                      </div>
+                      <div className="fs2_jts1">
+                        Name:{" "}
+                        <span className="fw-bold">
+                          {result?.header?.customerfirmname}
+                        </span>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="fs2_jts1">
+                        Date:{" "}
+                        <span className="fw-bold">
+                          {result?.header?.EntryDate}
+                        </span>
+                      </div>
+                      <div className="fs2_jts1">
+                        Sales Person:{" "}
+                        <span className="fw-bold">
+                          {result?.header?.SalesRepName}
+                        </span>
+                      </div>
                     </div>
                   </div>
+                  <div className="es_detHead fs_jts brb_jts">
+                    <div className="sevotfon spbrWord">Design</div>
+                    <div className="sevotfsec">Gr.Wt</div>
+                    <div className="sevotfthr spbrWord">St.Wt/D.Wt</div>
+                    <div className="sevotffor">Net Wt</div>
+                    <div className="sevotffiv">Rate</div>
+                    <div className="sevotfsx spbrWord">Other Charges</div>
+                    <div className="sevotfsev">Amount</div>
+                  </div>
+                </div>
+                <div className="es_detBody fs_jts brb_jts">
+                  {result?.resultArray?.map((e, i) => {
+                    return ( 
+                    <>
+                      <div className="sevotfon spbrWord">
+                        <p>{e?.SrJobno}</p>
+                        <p>{e?.designno}</p>
+                      </div>
+                      <div className="sevotfsec spbrWord">{e?.grosswt?.toFixed(3)}</div>
+                      <div className="sevotfthr spbrWord">{e?.totals?.colorstone?.Wt?.toFixed(3)} / {e?.totals?.diamonds?.Wt?.toFixed(3)}</div>
+                      <div className="sevotffor spbrWord">{e?.NetWt?.toFixed(3)}</div>
+                      <div className="sevotffiv spbrWord">
+                        {e?.MakingChargeDiscount !== 0 ? `${NumberWithCommas(e?.MakingChargeDiscount, 2)} %` : e?.MaKingCharge_Unit === 0 ? "" :
+                          `${NumberWithCommas(e?.MaKingCharge_Unit, 2)}`}
+                      </div>
+                      <div className="sevotfsx spbrWord">{NumberWithCommas(e?.OtherCharges, 2)}</div>
+                      <div className="sevotfsev spbrWord">{formatAmount(e?.TotalAmount + e?.DiscountAmt)}</div>
+                    </>
+                    )
+                  })}
+                </div>
+                <div>
+                  <div>Total</div>
                 </div>
 
               </div>
