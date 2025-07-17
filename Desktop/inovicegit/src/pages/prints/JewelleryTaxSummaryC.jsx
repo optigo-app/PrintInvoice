@@ -115,7 +115,10 @@ const JewelleryTaxSummaryC = ({
   );
   const totalTax = taxes?.reduce((acc, val) => acc + (isNaN(val) ? 0 : val), 0);
 
-  const finalAmount = (result?.mainTotal?.total_unitcost - result?.mainTotal?.total_discount_amount) + (result?.header?.FreightCharges + result?.allTaxesTotal)
+  const finalAmount =
+  (result?.mainTotal?.TotalAmount + result?.header?.FreightCharges) /
+    result?.header?.CurrencyExchRate +
+    result?.allTaxesTotal;
   const decimalPart = parseFloat(
     (finalAmount - Math.floor(finalAmount)).toFixed(2)
   );
@@ -410,7 +413,7 @@ const JewelleryTaxSummaryC = ({
                         </div>
                       ))}
                       <div className="start_jts ps-1">
-                        {decimalPart < 0.5 ? "Less" : decimalPart > 0.5 ? "Add" : "Add/Less" }
+                        {result?.header?.AddLess < 0 ? "Less" :  "Add" }
                       </div>
                       {result?.header?.ModeOfDel !== null && (
                         <div className="start_jts ps-1">{result?.header?.ModeOfDel}</div>
@@ -434,7 +437,7 @@ const JewelleryTaxSummaryC = ({
                           }}
                         ></span>
                         {formatAmount(
-                          result?.mainTotal?.total_unitcost - result?.mainTotal?.total_discount_amount /
+                          result?.mainTotal?.total_amount /
                             result?.header?.CurrencyExchRate 
                         )}
                       </div>
@@ -456,7 +459,7 @@ const JewelleryTaxSummaryC = ({
                               __html: result?.header?.Currencysymbol,
                             }}
                           ></span>
-                          {formatAmount(decimalPart > 0.5 ? 1 - decimalPart : decimalPart)}
+                          {formatAmount(result?.header?.AddLess)}
                         </div>
                       {/* <div className="end_jts pe-1">
                         <span
@@ -514,7 +517,9 @@ const JewelleryTaxSummaryC = ({
                         __html: result?.header?.Currencysymbol,
                       }}
                     ></span>{" "}
-                    {formatAmount(roundedAmount)}
+                    {formatAmount(
+                      (result?.finalAmount  + result.header.FreightCharges) / result?.header?.CurrencyExchRate
+                    )}
                   </div>
                 </div>
                 <div className="static_jts py-2">
