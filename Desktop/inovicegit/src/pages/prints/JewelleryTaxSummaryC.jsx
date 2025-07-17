@@ -115,10 +115,7 @@ const JewelleryTaxSummaryC = ({
   );
   const totalTax = taxes?.reduce((acc, val) => acc + (isNaN(val) ? 0 : val), 0);
 
-  const finalAmount =
-  (result?.mainTotal?.TotalAmount + result?.header?.FreightCharges) /
-    result?.header?.CurrencyExchRate +
-    result?.allTaxesTotal;
+  const finalAmount = (result?.mainTotal?.total_unitcost - result?.mainTotal?.total_discount_amount) + (result?.header?.FreightCharges + result?.allTaxesTotal)
   const decimalPart = parseFloat(
     (finalAmount - Math.floor(finalAmount)).toFixed(2)
   );
@@ -437,7 +434,7 @@ const JewelleryTaxSummaryC = ({
                           }}
                         ></span>
                         {formatAmount(
-                          result?.mainTotal?.total_amount /
+                          result?.mainTotal?.total_unitcost - result?.mainTotal?.total_discount_amount /
                             result?.header?.CurrencyExchRate 
                         )}
                       </div>
@@ -517,9 +514,7 @@ const JewelleryTaxSummaryC = ({
                         __html: result?.header?.Currencysymbol,
                       }}
                     ></span>{" "}
-                    {formatAmount(
-                      (result?.finalAmount  + result.header.FreightCharges)/ result?.header?.CurrencyExchRate
-                    )}
+                    {formatAmount(roundedAmount)}
                   </div>
                 </div>
                 <div className="static_jts py-2">

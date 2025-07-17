@@ -1,5 +1,5 @@
 import React from "react";
-import "../../assets/css/prints/jewellerytaxsummary.css";
+import "../../assets/css/prints/estimateprintK.css";
 import { ToWords } from "to-words";
 import { useState } from "react";
 import Loader from "../../components/Loader";
@@ -139,24 +139,58 @@ const EstimatePrintK = ({
           {msg === "" ? (
             <>
               <div className="container_jts">
-                <div className="mb-5 pb-5 d-flex justify-content-end align-items-center mt-5 pt-5 d_none_jts">
-                  {/* <div className="form-check pe-3">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      checked={image}
-                      onChange={handleChangeImage}
-                    />
-                    <label
-                      className="form-check-label pt-1"
-                      htmlFor="flexCheckDefault"
-                    >
-                      With Image
-                    </label>
-                  </div> */}
+                <div className="d-flex justify-content-end align-items-center d_none_jts">
+                    {/* <div className="form-check pe-3">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        checked={image}
+                        onChange={handleChangeImage}
+                      />
+                      <label
+                        className="form-check-label pt-1"
+                        htmlFor="flexCheckDefault"
+                      >
+                        With Image
+                      </label>
+                    </div> */}
                   <Button />
                 </div>
-       
+                <div className="align-items-center">
+                  <div className="fs_jts brb_jts">
+                    <div className="fs2_jts fw-bold">
+                      {result?.header?.CompanyFullName}
+                    </div>
+                    <div>{result?.header?.CompanyAddress}</div>
+                    <div>{result?.header?.CompanyAddress2}</div>
+                    <div>
+                      {result?.header?.CompanyCity}-
+                      {result?.header?.CompanyPinCode},{" "}
+                      {result?.header?.CompanyState}(
+                      {result?.header?.CompanyCountry})
+                    </div>
+                    <div>T {result?.header?.CompanyTellNo}</div>
+                    <div>
+                      {result?.header?.CompanyEmail} |{" "}
+                      {result?.header?.CompanyWebsite}
+                    </div>
+                    <div>
+                      {result?.header?.Company_VAT_GST_No} |{" "}
+                      {result?.header?.Company_CST_STATE}-
+                      {result?.header?.Company_CST_STATE_No} | PAN-
+                      {result?.header?.Com_pannumber}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="fs2_jts1">
+                      Invoice No:{" "}
+                      <span className="fw-bold">
+                        {result?.header?.InvoiceNo}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </>
           ) : (
