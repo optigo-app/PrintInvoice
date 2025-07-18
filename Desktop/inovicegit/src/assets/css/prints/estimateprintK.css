@@ -2,7 +2,7 @@
     max-width: 10.668cm;
     width: 100%;
     padding-bottom: 5rem;
-    margin: 3rem auto;
+    /* margin: 3rem auto; */
     font-family: Calibri;
 }
 .fs_jts{
@@ -31,6 +31,7 @@
 .es_detBody{
     display: flex;
     text-align: center;
+    padding-bottom: 15px;
 }
 .es_detTotal{
     display: flex;
@@ -75,14 +76,6 @@
 .lh_jts{
     line-height: 20px !important;
 }
-.thead_jts{
-    display: flex;
-    height: 25px;
-    font-weight: bold;
-    background-color: #F2F2F2;
-    border: 1px solid #DDDDDD;
-    border-top: 0px;
-}
 .col1_jts{
     width: 10%;
 }
@@ -111,30 +104,60 @@
     align-items: center;
 }
 .brr_jts{
-    border-right: 1px solid #DDDDDD;
+    border-right: 1px solid #000000;
 }
 .brl_jts{
-    border-left: 1px solid #DDDDDD;
+    border-left: 1px solid #000000;
 }
 .brb_jts{
     border-bottom: 1px solid #000000;
 }
+.brt_jts{
+    border-top: 1px solid #000000;
+}
 .brall_jts{
-    border: 1px solid #DDDDDD;
+    border: 1px solid #000000;
 }
 .w33_jts{
     width: 33.33%;
 }
-.w30_jts{
-    width: 30%;
+.es_mTotal1{
+    display: flex;
+    width: 60%;
 }
-.w1_jts{
-    width: 61%;
+.es_mTotal2{
+    display: flex;
+    flex-direction: column;
+    width: 40%;
 }
-.w2_jts{
-    width: 39%;
+.es_mTotal2Dp{
+    display: flex;
+    width: 40%;
 }
-.static_jts{
+.es_mTotal2Sub1{
+    width: 50%;
+    text-align: start;
+}
+.es_mTotal2Sub2{
+    width: 50%;
+    text-align: right;
+}
+.es_dsflx{
+    display: flex;
+}
+.es_sptxCen{
+    text-align: center;
+}
+.es_slbld{
+    font-weight: bold;
+}
+.es_slFnt{
+    font-size: 17px;
+}
+.es_slPad{
+    padding-top: 46px;
+}
+/* .static_jts{
     text-transform: uppercase;
     text-align: left;
     font-size: 12px;
@@ -146,16 +169,15 @@
     padding: 2px;
     word-wrap: break-word !important;
     word-break: break-word !important;
-}
-.lastPad{
+} */
+/* .lastPad{
     padding-right: 8.5rem;
-}
+} */
 @media print {
     .container_jts{
         max-width: 9cm;
         min-width: 9cm;
         width: 100%;
-        margin: 0 auto;
         font-family: Calibri;
     }
     .d_none_jts{
@@ -188,9 +210,6 @@
         font-size: 12px;
         line-height: 14px;
     }
-    .thead_jts{
-        font-size: 12px;
-    }
     .spImag{
         width: 70px;
         height: 70px;
@@ -198,7 +217,10 @@
     .fs2_jts1{
         font-size: 11px;
     }
-    .lastPad{
+    /* .lastPad{
         padding-right: 4.4rem;
+    } */
+    .es_slFnt{
+        font-size: 15px;
     }
 }

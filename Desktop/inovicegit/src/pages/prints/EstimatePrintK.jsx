@@ -10,6 +10,7 @@ import {
   checkMsg,
   formatAmount,
   NumberWithCommas,
+  fixedValues,
   isObjectEmpty,
 } from "../../GlobalFunctions";
 import { cloneDeep } from "lodash";
@@ -159,8 +160,8 @@ const EstimatePrintK = ({
                 </div>
                 <div className="align-items-center">
                   <div className="fs_jts brb_jts es_mainHead">
-                    <div className="fs2_jts brb_jts">Estimate</div>
-                    <div className="fs2_jts fw-bold">
+                    <div className="es_slFnt brb_jts es_slbld">Estimate</div>
+                    <div className="fs2_jts es_slbld">
                       {result?.header?.CompanyFullName}
                     </div>
                     <div>{result?.header?.CompanyAddress}</div>
@@ -183,7 +184,7 @@ const EstimatePrintK = ({
                       {result?.header?.Com_pannumber}
                     </div>
                   </div>
-                  <div className="es_subHead brb_jts">
+                  <div className="es_subHead brb_jts es_slbld">
                     <div>
                       <div className="fs2_jts1">
                         Invoice No:{" "}
@@ -213,7 +214,7 @@ const EstimatePrintK = ({
                       </div>
                     </div>
                   </div>
-                  <div className="es_detHead fs_jts brb_jts">
+                  <div className="es_detHead fs_jts brb_jts es_slbld">
                     <div className="sevotfon spbrWord">Design</div>
                     <div className="sevotfsec">Gr.Wt</div>
                     <div className="sevotfthr spbrWord">St.Wt/D.Wt</div>
@@ -226,7 +227,7 @@ const EstimatePrintK = ({
                 {result?.resultArray?.map((e, i) => {
                   return ( 
                     <>
-                      <div className="es_detBody fs_jts brb_jts" style={{paddingBottom: "15px"}}>
+                      <div className="es_detBody fs_jts es_slbld" style={{paddingBottom: "15px"}}>
                         <div className="sevotfon spbrWord">
                           <p>{e?.SrJobno}</p>
                           <p>{e?.designno}</p>
@@ -244,7 +245,7 @@ const EstimatePrintK = ({
                     </>
                   )
                 })}
-                <div className="es_detTotal fs_jts brb_jts">
+                <div className="es_detTotal fs_jts brt_jts brb_jts es_slbld">
                   <div className="sevotfon spbrWord">Total</div>
                   <div className="sevotfsec spbrWord">{result?.mainTotal?.grosswt?.toFixed(3)}</div>
                   <div className="sevotfthr spbrWord"></div>
@@ -254,6 +255,64 @@ const EstimatePrintK = ({
                   <div className="sevotfsev spbrWord">
                     {formatAmount(result?.mainTotal?.total_amount + result?.mainTotal?.total_discount_amount)}
                   </div>
+                </div>
+                <div className="fs_jts es_dsflx es_slbld">
+                  <div className="es_mTotal1"></div>
+                  <div className="es_mTotal2">
+                      {result?.mainTotal?.total_discount_amount !== 0 && (<div className="es_dsflx"><div className="es_mTotal2Sub1">Total Discount</div> <div className="es_mTotal2Sub2">{formatAmount(result?.mainTotal?.total_discount_amount)}</div></div>)}
+                      {result?.mainTotal?.total_discount_amount !== 0 && (<div className="es_dsflx"><div className="es_mTotal2Sub1">Taxable Value</div> <div className="es_mTotal2Sub2">{formatAmount(result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate)}</div></div>)}
+                      {result?.allTaxes?.map((e, i) => (
+                        <div className="es_dsflx">
+                          <div key={i} className="es_mTotal2Sub1 spbrWord">{e?.name} @ {e?.per}</div> 
+                          <div key={i} className="es_mTotal2Sub2">{formatAmount(e?.amount)}</div>
+                        </div>
+                      ))}
+                      <div className="es_dsflx">
+                        <div className="es_mTotal2Sub1">{result?.header?.AddLess < 0 ? "Less" :  "Add" }</div>
+                        <div className="es_mTotal2Sub2">{formatAmount(result?.header?.AddLess)}</div>
+                      </div>
+                      {result?.header?.FreightCharges !== 0 && (
+                        <div className="es_dsflx"><div className="es_mTotal2Sub1">{result?.header?.ModeOfDel}</div><div className="es_mTotal2Sub2">{formatAmount(result.header.FreightCharges / result.header.CurrencyExchRate)}</div></div>
+                      )}
+                    {/* <div className="es_mTotal2Sub2">
+                      {result?.mainTotal?.total_discount_amount !== 0 && (
+                        <div>
+                          {formatAmount(result?.mainTotal?.total_discount_amount)}
+                        </div>
+                      )}
+                      {result?.mainTotal?.total_discount_amount !== 0 && (
+                        <div>
+                          {formatAmount(result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate)}
+                        </div>
+                      )}
+                      {result?.allTaxes?.map((e, i) => (
+                        <div key={i}>
+                          {formatAmount(e?.amount)}
+                        </div>
+                      ))}
+                      <div>{formatAmount(result?.header?.AddLess)}</div>
+                      {result?.header?.FreightCharges !== 0 && (<div>{formatAmount(result.header.FreightCharges / result.header.CurrencyExchRate)}</div>)}
+                    </div> */}
+                  </div>
+                </div>
+
+                <div className="fs_jts es_dsflx es_slbld brt_jts brb_jts">
+                  <div className="es_mTotal1"> Total Pcs : {result?.resultArray?.length}</div>
+                  <div className="es_mTotal2Dp">
+                    <div className="es_mTotal2Sub1">Grand Total</div>
+                    <div className="es_mTotal2Sub2">{formatAmount((result?.finalAmount  + result.header.FreightCharges) / result?.header?.CurrencyExchRate)}</div>
+                  </div>
+                </div>
+
+                <div className="fs_jts es_dsflx es_slbld">
+                  <div className="spbrWord" style={{width: "13%"}}>In Words : </div>
+                  <div className="spbrWord" style={{width: "87%"}}>{toWords.convert(+fixedValues((result.finalAmount + result.header.FreightCharges) / result.header.CurrencyExchRate,2))} Only.</div>
+                </div>
+                
+                <div className="fs_jts es_dsflx brt_jts brb_jts es_slPad es_slbld">
+                  <div className="w33_jts es_sptxCen">E & O.E</div>
+                  <div className="w33_jts es_sptxCen"></div>
+                  <div className="w33_jts es_sptxCen">SIGN</div>
                 </div>
 
               </div>
