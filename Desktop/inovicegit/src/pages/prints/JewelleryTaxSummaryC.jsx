@@ -9,6 +9,7 @@ import {
   apiCall,
   checkMsg,
   formatAmount,
+  handleImageError,
   isObjectEmpty,
 } from "../../GlobalFunctions";
 import { cloneDeep } from "lodash";
@@ -289,17 +290,14 @@ const JewelleryTaxSummaryC = ({
                               Job: {e?.SrJobno}
                             </div>
                             {image && (
+                              <div>
                               <img
-                                src={
-                                  e?.DesigSetImage !== ""
-                                    ? e?.DesigSetImage
-                                    : result?.header?.DefImage
-                                }
-                                alt=""
-                                onError={handleImageErrors}
-                                lazy="eagar"
+                                src={e?.DesignImage}
+                                onError={(e) => handleImageError(e)}
+                                alt="design"
                                 className="spImag p-1"
                               />
+                              </div>
                             )}
                             <div className="text-break lh_jts">
                               Design:{" "}

@@ -223,29 +223,37 @@ const EstimatePrintK = ({
                     <div className="sevotfsev">Amount</div>
                   </div>
                 </div>
-                <div className="es_detBody fs_jts brb_jts">
-                  {result?.resultArray?.map((e, i) => {
-                    return ( 
+                {result?.resultArray?.map((e, i) => {
+                  return ( 
                     <>
-                      <div className="sevotfon spbrWord">
-                        <p>{e?.SrJobno}</p>
-                        <p>{e?.designno}</p>
+                      <div className="es_detBody fs_jts brb_jts" style={{paddingBottom: "15px"}}>
+                        <div className="sevotfon spbrWord">
+                          <p>{e?.SrJobno}</p>
+                          <p>{e?.designno}</p>
+                        </div>
+                        <div className="sevotfsec spbrWord">{e?.grosswt?.toFixed(3)}</div>
+                        <div className="sevotfthr spbrWord">{e?.totals?.colorstone?.Wt?.toFixed(3)} / {e?.totals?.diamonds?.Wt?.toFixed(3)}</div>
+                        <div className="sevotffor spbrWord">{e?.NetWt?.toFixed(3)}</div>
+                        <div className="sevotffiv spbrWord">
+                          {e?.MakingChargeDiscount !== 0 ? `${NumberWithCommas(e?.MakingChargeDiscount, 2)} %` : e?.MaKingCharge_Unit === 0 ? "" :
+                            `${NumberWithCommas(e?.MaKingCharge_Unit, 2)}`}
+                        </div>
+                        <div className="sevotfsx spbrWord">{NumberWithCommas(e?.OtherCharges, 2)}</div>
+                        <div className="sevotfsev spbrWord">{formatAmount(e?.TotalAmount + e?.DiscountAmt)}</div>
                       </div>
-                      <div className="sevotfsec spbrWord">{e?.grosswt?.toFixed(3)}</div>
-                      <div className="sevotfthr spbrWord">{e?.totals?.colorstone?.Wt?.toFixed(3)} / {e?.totals?.diamonds?.Wt?.toFixed(3)}</div>
-                      <div className="sevotffor spbrWord">{e?.NetWt?.toFixed(3)}</div>
-                      <div className="sevotffiv spbrWord">
-                        {e?.MakingChargeDiscount !== 0 ? `${NumberWithCommas(e?.MakingChargeDiscount, 2)} %` : e?.MaKingCharge_Unit === 0 ? "" :
-                          `${NumberWithCommas(e?.MaKingCharge_Unit, 2)}`}
-                      </div>
-                      <div className="sevotfsx spbrWord">{NumberWithCommas(e?.OtherCharges, 2)}</div>
-                      <div className="sevotfsev spbrWord">{formatAmount(e?.TotalAmount + e?.DiscountAmt)}</div>
                     </>
-                    )
-                  })}
-                </div>
-                <div>
-                  <div>Total</div>
+                  )
+                })}
+                <div className="es_detTotal fs_jts brb_jts">
+                  <div className="sevotfon spbrWord">Total</div>
+                  <div className="sevotfsec spbrWord">{result?.mainTotal?.grosswt?.toFixed(3)}</div>
+                  <div className="sevotfthr spbrWord"></div>
+                  <div className="sevotffor spbrWord">{result?.mainTotal?.netwt?.toFixed(3)}</div>
+                  <div className="sevotffiv spbrWord"></div>
+                  <div className="sevotfsx spbrWord"></div>
+                  <div className="sevotfsev spbrWord">
+                    {formatAmount(result?.mainTotal?.total_amount + result?.mainTotal?.total_discount_amount)}
+                  </div>
                 </div>
 
               </div>

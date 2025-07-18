@@ -32,6 +32,10 @@
     display: flex;
     text-align: center;
 }
+.es_detTotal{
+    display: flex;
+    text-align: center;
+}
 .sevotfon{
     width: 14%;
 }
@@ -45,13 +49,13 @@
     width: 14%;
 }
 .sevotffiv{
-    width: 14%;
+    width: 13%;
 }
 .sevotfsx{
     width: 15%;
 }
 .sevotfsev{
-    width: 14%;
+    width: 15%;
 }
 .spbrWord{
     word-break: break-word;
