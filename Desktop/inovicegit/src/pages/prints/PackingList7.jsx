@@ -648,23 +648,23 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   {imgFlag2 && (
                     <div className="d-flex justify-content-between">
                       <div className="p-1 fsgdp10_pcl7_2">
-                        <div className="fw-bold cfullname_pcl7 ">
+                      <div className="fw-bold cfullname_pcl7 ">
                           {result?.header?.CompanyFullName}
                         </div>
-                        <div>{result?.header?.CompanyAddress}</div>
-                        <div>{result?.header?.CompanyAddress2}</div>
-                        <div>{result?.header?.CompanyCity}</div>
+                        <div><span>{result?.header?.CompanyAddress}</span><span>{result?.header?.CompanyAddress2}</span>, {result?.header?.CompanyCity}</div>
+                        {/* <div>{result?.header?.CompanyAddress2}</div> */}
+                        {/* <div>{result?.header?.CompanyCity}</div> */}
                         <div>
                           {result?.header?.CompanyCity}-
                           {result?.header?.CompanyPinCode},{" "}
                           {result?.header?.CompanyState}(
-                          {result?.header?.CompanyCountry})
+                          {result?.header?.CompanyCountry}), <span>T {result?.header?.CompanyTellNo}</span> <span>{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</span>
                         </div>
-                        <div>T {result?.header?.CompanyTellNo}</div>
-                        <div>
+                        {/* <div>T {result?.header?.CompanyTellNo}</div> */}
+                        {/* <div>
                           {result?.header?.CompanyEmail} |{" "}
                           {result?.header?.CompanyWebsite}
-                        </div>
+                        </div> */}
                         <div>
                           {result?.header?.Company_VAT_GST_No} |{" "}
                           {result?.header?.Company_CST_STATE}-
@@ -1014,14 +1014,14 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     ""
                                   ) : (
                                     <div
-                                      className="centerdp10_pcl7 fw-bold fsgdp10 text-break ps-1"
+                                      className="centerdp10_pcl7 fsgdp10 text-break ps-1"
                                       style={{
                                         display: "flex",
                                         flexDirection: "column",
                                         justifyContent: "center",
                                       }}
                                     >
-                                      PO: <span>{e?.PO}</span>
+                                      PO: <span className="fw-bold">{e?.PO}</span>
                                     </div>
                                   )}
                                   {e?.lineid === "" ? (
@@ -1808,11 +1808,18 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         style={{
                           width: "83%",
                           display: "flex",
+                          flexDirection: "column",
                           gap: "5px",
-                          paddingTop: "20px",
                           borderRight: "1px solid",
                         }}
-                      >
+                      > 
+                        <div className="text-start ps-1 pt-1 fs_5_pcl7">
+                          No. Of Items :{" "}
+                          <span className="fw-bold">
+                            {result?.resultArray?.length}
+                          </span>
+                        </div>
+                        <div style={{display: "flex", gap: "5px",}}>
                         <div className="d-flex flex-column sumdp10_pcl7">
                           <div className="fw-bold bg_dp10_pcl7 w-100 centerdp10_pcl7  ball_dp10_pcl7">
                             SUMMARY
@@ -2091,10 +2098,28 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                           </div>
                         </div>
-                        No. Of Items :{" "}
+                        <div className="remark_sum_dp10_pcl7 fsgdp10_pcl7">
+                              {result?.header?.PrintRemark === "" ? (
+                                ""
+                              ) : (
+                                  <>
+                                  <div className="h_bd10 centerdp10_pcl7 bg_dp10_pcl7 fw-bold ball_dp10_pcl7">
+                                    Remark
+                                  </div>
+                                  <div
+                                    className="ball_dp10_pcl7 border-top-0 p-1"
+                                    dangerouslySetInnerHTML={{
+                                      __html: result?.header?.PrintRemark,
+                                    }}
+                                  ></div>
+                                  </>
+                              )}
+                            </div>
+                        {/* No. Of Items :{" "}
                         <span className="fw-bold">
                           {result?.resultArray?.length}
-                        </span>
+                        </span> */}
+                        </div>
                       </div>
                       <div
                         className="border-black"
@@ -2185,7 +2210,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
                 {/* summary */}
-                <div>
+                {/* <div>
                   {result?.header?.PrintRemark === "" ? (
                     <div style={{ width: "15%" }}></div>
                   ) : (
@@ -2201,7 +2226,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       ></div>
                     </div>
                   )}
-                </div>
+                </div> */}
                 <div className="d-flex justify-content-between mt-1">
                   <div
                     className=" ball_dp10_pcl7 d-flex justify-content-center align-items-end pb-1 "

@@ -16,7 +16,7 @@ import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 
-const PackingList7Group = ({
+const PackingList7DGroup = ({
   token,
   invoiceNo,
   printName,
@@ -626,20 +626,20 @@ const PackingList7Group = ({
                         <div className="fw-bold cfullname_pcl7 ">
                           {result?.header?.CompanyFullName}
                         </div>
-                        <div><span>{result?.header?.CompanyAddress}</span><span>{result?.header?.CompanyAddress2}</span>, {result?.header?.CompanyCity}</div>
-                        {/* <div>{result?.header?.CompanyAddress2}</div> */}
-                        {/* <div>{result?.header?.CompanyCity}</div> */}
+                        <div>{result?.header?.CompanyAddress}</div>
+                        <div>{result?.header?.CompanyAddress2}</div>
+                        <div>{result?.header?.CompanyCity}</div>
                         <div>
                           {result?.header?.CompanyCity}-
                           {result?.header?.CompanyPinCode},{" "}
                           {result?.header?.CompanyState}(
-                          {result?.header?.CompanyCountry}), <span>T {result?.header?.CompanyTellNo}</span> <span>{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</span>
+                          {result?.header?.CompanyCountry})
                         </div>
-                        {/* <div>T {result?.header?.CompanyTellNo}</div> */}
-                        {/* <div>
+                        <div>T {result?.header?.CompanyTellNo}</div>
+                        <div>
                           {result?.header?.CompanyEmail} |{" "}
                           {result?.header?.CompanyWebsite}
-                        </div> */}
+                        </div>
                         <div>
                           {result?.header?.Company_VAT_GST_No} |{" "}
                           {result?.header?.Company_CST_STATE}-
@@ -2233,7 +2233,7 @@ const PackingList7Group = ({
   );
 };
 
-export default PackingList7Group;
+export default PackingList7DGroup;
 
 // import React from "react";
 // import { useEffect } from "react";
