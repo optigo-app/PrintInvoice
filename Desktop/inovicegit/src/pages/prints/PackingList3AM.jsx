@@ -1075,7 +1075,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             );
                           })}
 
-                          {e?.metal?.map((el, ind) => {
+                          {e?.finding?.length > 0 && e?.metal?.map((el, ind) => {
                             if (el?.IsPrimaryMetal === 1) {
                               // Calculate total weight of non-primary metals
                               const nonPrimaryTotalWt = e?.metal
