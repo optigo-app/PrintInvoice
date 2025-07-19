@@ -1,62 +1,78 @@
+@font-face {
+    font-family: "Montserrat", sans-serif;
+    src: url("../../../assets/fonts/calibri-font-family/calibri-bold.ttf")
+      format("truetype");
+}
 .container_jts{
-    max-width: 10.668cm;
+    max-width: 10cm;
     width: 100%;
     padding-bottom: 5rem;
+    /* font-family: calibri; */
     /* margin: 3rem auto; */
-    font-family: Calibri;
 }
 .fs_jts{
-    font-size: 12px;
-    line-height: 14px;
+    font-size: 11px;
+    line-height: 13px;
 }
 .fs2_jts{
     font-size: 14px;
 }
 .fs2_jts1{
     font-size: 13px;
+    line-height: 17px;
 }
 .es_mainHead{
     text-align: center;
     width: 100%;
+    font-weight: bold;
+    margin-bottom: 3px;
 }
 .es_subHead{
     display: flex;
     justify-content: space-between;
 }
+.es_subHeadDp{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2px;
+}
 .es_detHead{
     display: flex;
     text-align: center;
     align-items: center;
+    padding: 2px 0;
 }
 .es_detBody{
     display: flex;
     text-align: center;
+    padding-top: 2px;
     padding-bottom: 15px;
 }
 .es_detTotal{
     display: flex;
     text-align: center;
+    padding-bottom: 2px;
 }
 .sevotfon{
     width: 14%;
 }
 .sevotfsec{
-    width: 14%;
+    width: 12%;
 }
 .sevotfthr{
-    width: 15%;
-}
-.sevotffor{
     width: 14%;
 }
-.sevotffiv{
+.sevotffor{
     width: 13%;
+}
+.sevotffiv{
+    width: 14%;
 }
 .sevotfsx{
     width: 15%;
 }
 .sevotfsev{
-    width: 15%;
+    width: 18%;
 }
 .spbrWord{
     word-break: break-word;
@@ -123,16 +139,28 @@
 }
 .es_mTotal1{
     display: flex;
-    width: 60%;
+    width: 50%;
+    padding-bottom: 2px;
+}
+.es_mTotal1Dp{
+    display: flex;
+    width: 50%;
+    padding-bottom: 2px;
 }
 .es_mTotal2{
     display: flex;
     flex-direction: column;
-    width: 40%;
+    width: 50%;
+    padding-bottom: 2px;
 }
 .es_mTotal2Dp{
     display: flex;
-    width: 40%;
+    width: 50%;
+    padding-bottom: 2px;
+}
+.es_inwrds{
+    display: flex;
+    padding: 2px 0px;
 }
 .es_mTotal2Sub1{
     width: 50%;
@@ -141,6 +169,7 @@
 .es_mTotal2Sub2{
     width: 50%;
     text-align: right;
+    margin-right: 10px;
 }
 .es_dsflx{
     display: flex;
@@ -153,6 +182,7 @@
 }
 .es_slFnt{
     font-size: 17px;
+    margin-bottom: 3px;
 }
 .es_slPad{
     padding-top: 46px;

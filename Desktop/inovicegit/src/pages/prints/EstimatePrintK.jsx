@@ -159,9 +159,11 @@ const EstimatePrintK = ({
                   <Button />
                 </div>
                 <div className="align-items-center">
-                  <div className="fs_jts brb_jts es_mainHead">
-                    <div className="es_slFnt brb_jts es_slbld">Estimate</div>
-                    <div className="fs2_jts es_slbld">
+                  <div className="fs_jts es_mainHead">
+                    <div className="es_slFnt brb_jts">
+                      <div style={{marginBottom: "5px"}}>Estimate</div>
+                    </div>
+                    <div className="fs2_jts">
                       {result?.header?.CompanyFullName}
                     </div>
                     <div>{result?.header?.CompanyAddress}</div>
@@ -184,8 +186,8 @@ const EstimatePrintK = ({
                       {result?.header?.Com_pannumber}
                     </div>
                   </div>
-                  <div className="es_subHead brb_jts es_slbld">
-                    <div>
+                  <div className="es_subHead brt_jts brb_jts es_slbld">
+                    <div className="es_subHeadDp">
                       <div className="fs2_jts1">
                         Invoice No:{" "}
                         <span className="fw-bold">
@@ -199,7 +201,7 @@ const EstimatePrintK = ({
                         </span>
                       </div>
                     </div>
-                    <div>
+                    <div className="es_subHeadDp">
                       <div className="fs2_jts1">
                         Date:{" "}
                         <span className="fw-bold">
@@ -217,7 +219,7 @@ const EstimatePrintK = ({
                   <div className="es_detHead fs_jts brb_jts es_slbld">
                     <div className="sevotfon spbrWord">Design</div>
                     <div className="sevotfsec">Gr.Wt</div>
-                    <div className="sevotfthr spbrWord">St.Wt/D.Wt</div>
+                    <div className="sevotfthr spbrWord">St.Wt / D.Wt</div>
                     <div className="sevotffor">Net Wt</div>
                     <div className="sevotffiv">Rate</div>
                     <div className="sevotfsx spbrWord">Other Charges</div>
@@ -297,16 +299,16 @@ const EstimatePrintK = ({
                 </div>
 
                 <div className="fs_jts es_dsflx es_slbld brt_jts brb_jts">
-                  <div className="es_mTotal1"> Total Pcs : {result?.resultArray?.length}</div>
+                  <div className="es_mTotal1Dp"> Total Pcs : {result?.resultArray?.length}</div>
                   <div className="es_mTotal2Dp">
                     <div className="es_mTotal2Sub1">Grand Total</div>
                     <div className="es_mTotal2Sub2">{formatAmount((result?.finalAmount  + result.header.FreightCharges) / result?.header?.CurrencyExchRate)}</div>
                   </div>
                 </div>
 
-                <div className="fs_jts es_dsflx es_slbld">
-                  <div className="spbrWord" style={{width: "13%"}}>In Words : </div>
-                  <div className="spbrWord" style={{width: "87%"}}>{toWords.convert(+fixedValues((result.finalAmount + result.header.FreightCharges) / result.header.CurrencyExchRate,2))} Only.</div>
+                <div className="fs_jts es_inwrds es_slbld">
+                  <div className="spbrWord" style={{width: "16%"}}>In Words : </div>
+                  <div className="spbrWord" style={{width: "84%"}}>{toWords.convert(+fixedValues((result.finalAmount + result.header.FreightCharges) / result.header.CurrencyExchRate,2))} Only.</div>
                 </div>
                 
                 <div className="fs_jts es_dsflx brt_jts brb_jts es_slPad es_slbld">
