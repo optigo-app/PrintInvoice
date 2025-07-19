@@ -586,7 +586,7 @@ const PackingList7Group = ({
                       With Header
                     </label>
                   </span>
-                  {atob(printName)?.toLowerCase() ===
+                  {/* {atob(printName)?.toLowerCase() ===
                     "packing list 7d group" && (
                     <span>
                       <input
@@ -603,7 +603,7 @@ const PackingList7Group = ({
                         With Diam Color & Quality
                       </label>
                     </span>
-                  )}
+                  )} */}
                   <button
                     className="btn_white blue mb-0 hidedp10_pcl7 m-0 p-2"
                     onClick={(e) => handlePrint(e)}
@@ -1027,21 +1027,6 @@ const PackingList7Group = ({
                                       }}
                                     >
                                       L: <span>{e?.lineid}</span>
-                                    </div>
-                                  )}
-                                  {atob(printName)?.toLowerCase() !==
-                                    "packing list 7d group" && (
-                                    <div
-                                      className="centerdp10_pcl7"
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        justifyContent: "center",
-                                      }}
-                                    >
-                                      {e?.Size === ""
-                                        ? ""
-                                        : `Size : ${e?.Size}`}
                                     </div>
                                   )}
                                 </div>

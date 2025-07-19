@@ -586,9 +586,7 @@ const PackingList7DGroup = ({
                       With Header
                     </label>
                   </span>
-                  {atob(printName)?.toLowerCase() ===
-                    "packing list 7d group" && (
-                    <span>
+                  <span>
                       <input
                         type="checkbox"
                         id="imghideshow3"
@@ -602,8 +600,7 @@ const PackingList7DGroup = ({
                       >
                         With Diam Color & Quality
                       </label>
-                    </span>
-                  )}
+                  </span>
                   <button
                     className="btn_white blue mb-0 hidedp10_pcl7 m-0 p-2"
                     onClick={(e) => handlePrint(e)}
@@ -1029,21 +1026,18 @@ const PackingList7DGroup = ({
                                       L: <span>{e?.lineid}</span>
                                     </div>
                                   )}
-                                  {atob(printName)?.toLowerCase() !==
-                                    "packing list 7d group" && (
-                                    <div
+                                  <div
                                       className="centerdp10_pcl7"
                                       style={{
                                         display: "flex",
                                         flexDirection: "column",
                                         justifyContent: "center",
                                       }}
-                                    >
+                                  >
                                       {e?.Size === ""
                                         ? ""
                                         : `Size : ${e?.Size}`}
-                                    </div>
-                                  )}
+                                  </div>
                                 </div>
                               </div>
                             </div>

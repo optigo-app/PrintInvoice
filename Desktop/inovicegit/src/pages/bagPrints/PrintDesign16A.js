@@ -597,7 +597,7 @@ const PrintDesign16A = ({ queries, headers }) => {
                                       fontWeight: "900",
                                       paddingTop: "2px",
                                       paddingLeft: "0.79375mm",
-                                      width: "10.7mm",
+                                      width: "10.8mm",
                                       fontSize: "11.5px",
                                     }}
                                   >
@@ -1263,7 +1263,7 @@ const PrintDesign16A = ({ queries, headers }) => {
                                       fontSize: "11px",
                                       paddingLeft: "2px",
                                       fontWeight: "900",
-                                      width: "46px",
+                                      width: "45px",
                                     }}
                                   >
                                     QUALITY
@@ -1311,7 +1311,7 @@ const PrintDesign16A = ({ queries, headers }) => {
                                       height: "3.7041666667mm",
                                       fontWeight: "900",
                                       paddingLeft: "0.79375mm",
-                                      width: "11.5mm",
+                                      width: "11.7mm",
                                       fontSize: "11px",
                                     }}
                                   >

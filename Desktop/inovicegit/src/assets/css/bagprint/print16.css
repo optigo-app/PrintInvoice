@@ -569,8 +569,8 @@ table {
   margin-left: 2mm;
 }
 
-.bag_design_2 .container_2:nth-child(even) {
-  margin-left: 4mm;
+.bag_design_2  {
+  margin-left: 6mm;
 }
 
 .bag_design_2 .container_2 {
@@ -1998,16 +1998,20 @@ table {
     line-height: 8px;
   }
 @media print {
+  @page {
+    margin-top: 20px !important;
+    margin-left: 7.5px !important;
+  }
   .container_2.ml_8mm.mb_2.mt_2.pt_2.bag_2:nth-child(4n+1) {
       page-break-before: always !important;
     }
     
-    .container_2.ml_8mm.mb_2.mt_2.pt_2.bag_2:nth-child(n+1), 
-    .container_2.ml_8mm.mb_2.mt_2.pt_2.bag_2:nth-child(n+2){
-      margin-top: 6mm !important;
+    .container_2.mb_2.mt_2.pt_2.bag_2:nth-child(n+1), 
+    .container_2.mb_2.mt_2.pt_2.bag_2:nth-child(n+2){
+      margin-top: 1mm !important;
+      margin-left: 4mm !important;
       border-collapse: collapse !important;
     }
-
   } 
   @media (orientation: portrait) {
     body {

@@ -153,7 +153,8 @@ export const printConditions = [
   {printName: 'Invoice Print D', etpType: 'print', componentName: 'InvoicePrintD'},
 
   {printName: 'tax invoice a', etpType: 'print', componentName: 'TaxInvoiceA'},
-  {printName: 'material sale print', etpType: 'print', componentName: 'MaterialSalePrint'}
+  {printName: 'material sale print', etpType: 'print', componentName: 'MaterialSalePrint'},
+  {printName: 'estimate print k', etpType: 'print', componentName: 'EstimatePrintK'}
 
 ];
 
