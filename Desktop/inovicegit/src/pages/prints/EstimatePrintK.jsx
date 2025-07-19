@@ -187,7 +187,7 @@ const EstimatePrintK = ({
                     </div>
                   </div>
                   <div className="es_subHead brt_jts brb_jts es_slbld">
-                    <div className="es_subHeadDp">
+                    <div>
                       <div className="fs2_jts1">
                         Invoice No:{" "}
                         <span className="fw-bold">
@@ -201,7 +201,7 @@ const EstimatePrintK = ({
                         </span>
                       </div>
                     </div>
-                    <div className="es_subHeadDp">
+                    <div>
                       <div className="fs2_jts1">
                         Date:{" "}
                         <span className="fw-bold">
@@ -242,7 +242,7 @@ const EstimatePrintK = ({
                             `${NumberWithCommas(e?.MaKingCharge_Unit, 2)}`}
                         </div>
                         <div className="sevotfsx spbrWord">{NumberWithCommas(e?.OtherCharges, 2)}</div>
-                        <div className="sevotfsev spbrWord">{formatAmount(e?.TotalAmount + e?.DiscountAmt)}</div>
+                        <div className="sevotfsevDp spbrWord">{formatAmount(e?.TotalAmount + e?.DiscountAmt)}</div>
                       </div>
                     </>
                   )
@@ -254,7 +254,7 @@ const EstimatePrintK = ({
                   <div className="sevotffor spbrWord">{result?.mainTotal?.netwt?.toFixed(3)}</div>
                   <div className="sevotffiv spbrWord"></div>
                   <div className="sevotfsx spbrWord"></div>
-                  <div className="sevotfsev spbrWord">
+                  <div className="sevotfsevDp spbrWord">
                     {formatAmount(result?.mainTotal?.total_amount + result?.mainTotal?.total_discount_amount)}
                   </div>
                 </div>
@@ -299,7 +299,7 @@ const EstimatePrintK = ({
                 </div>
 
                 <div className="fs_jts es_dsflx es_slbld brt_jts brb_jts">
-                  <div className="es_mTotal1Dp"> Total Pcs : {result?.resultArray?.length}</div>
+                  <div className="es_mTotal1"> Total Pcs : {result?.resultArray?.length}</div>
                   <div className="es_mTotal2Dp">
                     <div className="es_mTotal2Sub1">Grand Total</div>
                     <div className="es_mTotal2Sub2">{formatAmount((result?.finalAmount  + result.header.FreightCharges) / result?.header?.CurrencyExchRate)}</div>

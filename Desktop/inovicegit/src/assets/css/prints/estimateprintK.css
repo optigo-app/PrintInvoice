@@ -20,6 +20,7 @@
 .fs2_jts1{
     font-size: 13px;
     line-height: 17px;
+    margin-bottom: 3px;
 }
 .es_mainHead{
     text-align: center;
@@ -73,6 +74,10 @@
 }
 .sevotfsev{
     width: 18%;
+}
+.sevotfsevDp{
+    width: 18%;
+    text-align: right;
 }
 .spbrWord{
     word-break: break-word;
@@ -139,28 +144,24 @@
 }
 .es_mTotal1{
     display: flex;
-    width: 50%;
-    padding-bottom: 2px;
-}
-.es_mTotal1Dp{
-    display: flex;
-    width: 50%;
+    width: 60%;
     padding-bottom: 2px;
 }
 .es_mTotal2{
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 40%;
     padding-bottom: 2px;
 }
 .es_mTotal2Dp{
     display: flex;
-    width: 50%;
+    width: 40%;
     padding-bottom: 2px;
 }
 .es_inwrds{
     display: flex;
-    padding: 2px 0px;
+    padding: 1px 0px;
+    padding-bottom: 2px;
 }
 .es_mTotal2Sub1{
     width: 50%;
@@ -169,7 +170,6 @@
 .es_mTotal2Sub2{
     width: 50%;
     text-align: right;
-    margin-right: 10px;
 }
 .es_dsflx{
     display: flex;
