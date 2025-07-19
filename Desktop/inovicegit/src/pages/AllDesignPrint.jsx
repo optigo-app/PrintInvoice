@@ -142,7 +142,8 @@ const AllDesignPrint = () => {
       'orders': module?.ordersArray || [],
       'fg purchase': module?.fgPurchase || [],
       'fg purchase return': module?.fgPurchaseReturn || [],
-      'outsource': module?.outsourcePrint || []
+      'outsource': module?.outsourcePrint || [],
+      'jewellerysale': module?.ShipmentArray || []
     };
   
     return eventMappings[evnname] || [];

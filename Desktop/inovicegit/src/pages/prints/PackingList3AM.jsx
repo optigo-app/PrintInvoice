@@ -206,7 +206,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             b?.totals?.metal?.IsPrimaryMetalWt;
         }
       }
-    });
+    }); 
 
     datas?.resultArray?.forEach((e) => {
       //diamond

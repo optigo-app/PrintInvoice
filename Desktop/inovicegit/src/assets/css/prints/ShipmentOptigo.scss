@@ -23,16 +23,19 @@
           width: 100px;
           height: 100px;
           margin-right: 16px;
+          margin-top: 25px;
         }
       }
 
       .address-block {
-        font-size: 16px;
+        font-size: 15px;
         line-height: 1.5;
 
         strong {
           display: block;
+          font-size: 13px;
           margin-bottom: 6px;
+          border-bottom: 1px solid #000000;
         }
         p {
           font-size: 12px;
@@ -53,16 +56,19 @@
       }
 
       .address-block {
-        font-size: 16px;
+        font-size: 15px;
         line-height: 1.5;
-        padding: 0px 10px;
+        
 
         strong {
           display: block;
           margin-bottom: 6px;
+          font-size: 13px;
+          border-bottom: 1px solid #000000;
         }
         p {
           font-size: 12px;
+          padding: 0px 10px;
         }
       }
     }
@@ -168,4 +174,17 @@
   margin-right: 0.5em;
   font-weight: bold;
   color: #333; /* any color you like */
+}
+.spbrWord {
+  overflow-wrap: break-word;
+  word-break: keep-all;
+}
+.spBold{
+  font-weight: bold;
+}
+.brBtom{
+  border-bottom: 1px solid #000000;
+}
+.spPadg{
+  padding-left: 10px;
 }

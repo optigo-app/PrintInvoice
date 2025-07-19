@@ -304,6 +304,7 @@ export const ShipmentArray = [
   {printName: 'shipment optigo', etpType: 'print', componentName: 'ShipmentTagOptigo'},
 ]
 
+
 export const EstimatePrints = [
   {printName: 'sale order', etpType: 'print', componentName: 'SaleOrderSale'},
   {printName: 'detail print 11', etpType: 'print', componentName: 'DetailPrint11'},

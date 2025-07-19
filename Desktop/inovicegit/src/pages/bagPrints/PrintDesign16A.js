@@ -1311,7 +1311,7 @@ const PrintDesign16A = ({ queries, headers }) => {
                                       height: "3.7041666667mm",
                                       fontWeight: "900",
                                       paddingLeft: "0.79375mm",
-                                      width: "11.7mm",
+                                      width: "11.8mm",
                                       fontSize: "11px",
                                     }}
                                   >

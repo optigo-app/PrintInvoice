@@ -569,8 +569,8 @@ table {
   margin-left: 2mm;
 }
 
-.bag_design_2  {
-  margin-left: 6mm;
+.bag_design_2 {
+  margin-left: 4mm;
 }
 
 .bag_design_2 .container_2 {
@@ -1578,7 +1578,7 @@ table {
 
 .bag_design_2 .container_2:nth-child(even) {
   box-sizing: border-box;
-  margin-left: 4mm;
+  margin-left: 6mm;
 }
 
 .bag_design_2 .container_2 {
@@ -2009,9 +2009,14 @@ table {
     .container_2.mb_2.mt_2.pt_2.bag_2:nth-child(n+1), 
     .container_2.mb_2.mt_2.pt_2.bag_2:nth-child(n+2){
       margin-top: 1mm !important;
-      margin-left: 4mm !important;
+      margin-left: 1mm !important;
+      margin-right: 6.5mm !important;
       border-collapse: collapse !important;
     }
+
+  }
+  .bag_design_2 {
+    margin-left: 5mm;
   } 
   @media (orientation: portrait) {
     body {
