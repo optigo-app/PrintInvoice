@@ -4,7 +4,7 @@
       format("truetype");
 }
 .container_jts{
-    max-width: 10cm;
+    max-width: 9.5cm;
     width: 100%;
     padding-bottom: 5rem;
     /* font-family: calibri; */
@@ -64,10 +64,10 @@
     width: 14%;
 }
 .sevotffor{
-    width: 13%;
+    width: 12%;
 }
 .sevotffiv{
-    width: 14%;
+    width: 15%;
 }
 .sevotfsx{
     width: 15%;
@@ -76,7 +76,7 @@
     width: 18%;
 }
 .sevotfsevDp{
-    width: 18%;
+    width: 20%;
     text-align: right;
 }
 .spbrWord{
@@ -144,18 +144,18 @@
 }
 .es_mTotal1{
     display: flex;
-    width: 60%;
+    width: 55%;
     padding-bottom: 2px;
 }
 .es_mTotal2{
     display: flex;
     flex-direction: column;
-    width: 40%;
+    width: 45%;
     padding-bottom: 2px;
 }
 .es_mTotal2Dp{
     display: flex;
-    width: 40%;
+    width: 45%;
     padding-bottom: 2px;
 }
 .es_inwrds{
