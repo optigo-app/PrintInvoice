@@ -120,7 +120,6 @@
   .end_pcls {
     display: flex;
     justify-content: flex-end;
-    align-items: center;
   }
   .start_center_pcls {
     display: flex;
@@ -304,10 +303,6 @@
   .h14_dp10 {
     height: 14px;
   }
-  .spbrWord {
-    overflow-wrap: break-word;
-    word-break: keep-all;
-  }
   .disColunm {
     display: flex;
     flex-direction: column;
@@ -337,6 +332,14 @@
   .spBold{
     font-weight: bold;
   }
+  .spbrWord{
+    word-break: break-word;
+    overflow-wrap: break-word;
+    word-wrap: break-word; 
+  }
+  .spTxCen{
+    text-align: center;
+  }
   @media print {
     .fs_16_pcls {
       font-size: 10px;
@@ -344,7 +347,11 @@
     .fs_14_pcls {
       font-size: 10px;
     }
-
+    .spbrWord{
+      word-break: break-word;
+      overflow-wrap: break-word;
+      word-wrap: break-word; 
+    }
     .pakinglist_31_botom_total {
       min-height: 0px !important;
     }

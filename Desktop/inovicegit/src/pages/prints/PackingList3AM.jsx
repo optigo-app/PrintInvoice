@@ -24,13 +24,15 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [imgFlag, setImgFlag] = useState(true);
   const [rateAmount, setRateAmount] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
-  const [diamondArr, setDiamondArr] = useState([]);
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
   const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
   const [secondarySize, setSecondarySize] = useState(false);
   const [size, setSize] = useState(true);
   const [checkBoxNew, setCheckBoxNew] = useState("Amantran");
+  const [diamondDetails, setDiamondDetails] = useState([]);
+  const [diamondWise, setDiamondWise] = useState([]);
+
 
   useEffect(() => {
     const sendData = async () => {
@@ -82,316 +84,409 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       ""
     );
 
-    let finalArr = [];
+     //grouping of jobs and isGroupJob is 1
 
-    datas?.resultArray?.forEach((a) => {
-      if (a?.GroupJob === "") {
-        finalArr.push(a);
-      } else {
-        let b = cloneDeep(a);
-        let find_record = finalArr.findIndex(
-          (el) => el?.GroupJob === b?.GroupJob
-        );
-        if (find_record === -1) {
-          finalArr.push(b);
-        } else {
-          if (
-            finalArr[find_record]?.GroupJob !== finalArr[find_record]?.SrJobno
-          ) {
-            finalArr[find_record].designno = b?.designno;
-            finalArr[find_record].HUID = b?.HUID;
-          }
-
-          finalArr[find_record].grosswt += b?.grosswt;
-          finalArr[find_record].NetWt += b?.NetWt;
-          finalArr[find_record].LossWt += b?.LossWt;
-          finalArr[find_record].TotalAmount += b?.TotalAmount;
-          finalArr[find_record].DiscountAmt += b?.DiscountAmt;
-          finalArr[find_record].UnitCost += b?.UnitCost;
-          finalArr[find_record].MakingAmount += b?.MakingAmount;
-          finalArr[find_record].OtherCharges += b?.OtherCharges;
-          finalArr[find_record].TotalDiamondHandling += b?.TotalDiamondHandling;
-          finalArr[find_record].Quantity += b?.Quantity;
-          finalArr[find_record].Wastage += b?.Wastage;
-
-          finalArr[find_record].diamonds = [
-            ...finalArr[find_record]?.diamonds,
-            ...b?.diamonds,
-          ]?.flat();
-          finalArr[find_record].colorstone = [
-            ...finalArr[find_record]?.colorstone,
-            ...b?.colorstone,
-          ]?.flat();
-          finalArr[find_record].metal = [
-            ...finalArr[find_record]?.metal,
-            ...b?.metal,
-          ]?.flat();
-          finalArr[find_record].misc = [
-            ...finalArr[find_record]?.misc,
-            ...b?.misc,
-          ]?.flat();
-          finalArr[find_record].misc_0List = [
-            ...finalArr[find_record]?.misc_0List,
-            ...b?.misc_0List,
-          ]?.flat();
-          finalArr[find_record].finding = [
-            ...finalArr[find_record]?.finding,
-            ...b?.finding,
-          ]?.flat();
-          finalArr[find_record].other_details_array = [
-            ...finalArr[find_record]?.other_details_array,
-            ...b?.other_details_array,
-          ]?.flat();
-
-          finalArr[find_record].other_details_array_amount +=
-            b?.other_details_array_amount;
-
-          finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
-          finalArr[find_record].totals.diamonds.Pcs += b?.totals?.diamonds?.Pcs;
-          finalArr[find_record].totals.diamonds.Amount +=
-            b?.totals?.diamonds?.Amount;
-          finalArr[find_record].totals.diamonds.SettingAmount +=
-            b?.totals?.diamonds?.SettingAmount;
-
-          finalArr[find_record].totals.finding.Wt += b?.totals?.finding?.Wt;
-          finalArr[find_record].totals.finding.Rate = b?.totals?.finding?.Rate;
-          finalArr[find_record].totals.finding.Pcs += b?.totals?.finding?.Pcs;
-          finalArr[find_record].totals.finding.Amount +=
-            b?.totals?.finding?.Amount;
-          finalArr[find_record].totals.finding.SettingAmount +=
-            b?.totals?.finding?.SettingAmount;
-
-          finalArr[find_record].totals.colorstone.Wt +=
-            b?.totals?.colorstone?.Wt;
-          finalArr[find_record].totals.colorstone.Pcs +=
-            b?.totals?.colorstone?.Pcs;
-          finalArr[find_record].totals.colorstone.Amount +=
-            b?.totals?.colorstone?.Amount;
-          finalArr[find_record].totals.colorstone.SettingAmount +=
-            b?.totals?.colorstone?.SettingAmount;
-
-          finalArr[find_record].totals.misc.Wt += b?.totals?.misc?.Wt;
-          finalArr[find_record].totals.misc.Pcs += b?.totals?.misc?.Pcs;
-          finalArr[find_record].totals.misc.Amount += b?.totals?.misc?.Amount;
-          finalArr[find_record].totals.misc.SettingAmount +=
-            b?.totals?.misc?.SettingAmount;
-
-          finalArr[find_record].totals.misc.IsHSCODE_0_amount +=
-            b?.totals?.misc?.IsHSCODE_0_amount;
-          finalArr[find_record].totals.misc.IsHSCODE_0_pcs +=
-            b?.totals?.misc?.IsHSCODE_0_pcs;
-          finalArr[find_record].totals.misc.IsHSCODE_0_wt +=
-            b?.totals?.misc?.IsHSCODE_0_wt;
-
-          finalArr[find_record].totals.metal.Amount += b?.totals?.metal?.Amount;
-          finalArr[find_record].totals.metal.Wt += b?.totals?.metal?.Wt;
-          finalArr[find_record].totals.metal.Pcs += b?.totals?.metal?.Pcs;
-
-          finalArr[find_record].totals.metal.IsNotPrimaryMetalAmount +=
-            b?.totals?.metal?.IsNotPrimaryMetalAmount;
-          finalArr[find_record].totals.metal.IsNotPrimaryMetalPcs +=
-            b?.totals?.metal?.IsNotPrimaryMetalPcs;
-          finalArr[find_record].totals.metal.IsNotPrimaryMetalSettingAmount +=
-            b?.totals?.metal?.IsNotPrimaryMetalSettingAmount;
-          finalArr[find_record].totals.metal.IsNotPrimaryMetalWt +=
-            b?.totals?.metal?.IsNotPrimaryMetalWt;
-
-          finalArr[find_record].totals.metal.IsPrimaryMetalAmount +=
-            b?.totals?.metal?.IsPrimaryMetalAmount;
-          finalArr[find_record].totals.metal.IsPrimaryMetalPcs +=
-            b?.totals?.metal?.IsPrimaryMetalPcs;
-          finalArr[find_record].totals.metal.IsPrimaryMetalSettingAmount +=
-            b?.totals?.metal?.IsPrimaryMetalSettingAmount;
-          finalArr[find_record].totals.metal.IsPrimaryMetalWt +=
-            b?.totals?.metal?.IsPrimaryMetalWt;
-        }
-      }
-    }); 
-
-    datas?.resultArray?.forEach((e) => {
-      //diamond
-      let dia2 = [];
-      let dia1_ = [];
-      let dia2_ = [];
-      e?.diamonds?.forEach((el) => {
-        if (el?.GroupName === "") {
-          dia1_.push(el);
-        } else {
-          dia2_.push(el);
-        }
-      });
-      let dia1_g = [];
-      dia1_?.forEach((ell) => {
-        let bll = cloneDeep(ell);
-        let findrec = dia1_g.findIndex(
-          (a) =>
-            a?.ShapeName === bll?.ShapeName &&
-            a?.QualityName === bll?.QualityName &&
-            a?.Colorname === bll?.Colorname &&
-            a?.SizeName === bll?.SizeName
-        );
-        if (findrec === -1) {
-          dia1_g.push(bll);
-        } else {
-          dia1_g[findrec].Wt += bll?.Wt;
-          dia1_g[findrec].Pcs += bll?.Pcs;
-          dia1_g[findrec].Amount += bll?.Amount;
-        }
-      });
-      let dia2_g = [];
-      dia2_?.forEach((ell) => {
-        let bll = cloneDeep(ell);
-        let findrec = dia2_g.findIndex(
-          (a) =>
-            a?.ShapeName === bll?.ShapeName &&
-            a?.QualityName === bll?.QualityName &&
-            a?.Colorname === bll?.Colorname &&
-            a?.GroupName === bll?.GroupName
-        );
-        if (findrec === -1) {
-          dia2_g.push(bll);
-        } else {
-          dia2_g[findrec].Wt += bll?.Wt;
-          dia2_g[findrec].Pcs += bll?.Pcs;
-          dia2_g[findrec].Amount += bll?.Amount;
-        }
-      });
-      let dia2_g_ = [];
-      dia2_g?.forEach((e) => {
-        e.SizeName = e?.GroupName;
-        dia2_g_.push(e);
-      });
-      dia2 = [...dia1_g, ...dia2_g_];
-
-      e.diamonds = dia2;
-
-      let misc0 = [];
-      e?.misc?.forEach((el) => {
-        if (el?.IsHSCOE === 0) {
-          misc0?.push(el);
-        }
-      });
-
-      e.misc = misc0;
-
-      let met2 = [];
-      e?.metal?.forEach((a) => {
-        if (e?.GroupJob !== "") {
-          let obj = { ...a };
-          obj.GroupJob = e?.GroupJob;
-          met2?.push(obj);
-        }
-      });
-
-      let met3 = [];
-      met2?.forEach((a) => {
-        let findrec = met3?.findIndex(
-          (el) => el?.StockBarcode === el?.GroupJob
-        );
-        if (findrec === -1) {
-          met3?.push(a);
-        } else {
-          met3[findrec].Wt += a?.Wt;
-        }
-      });
-      if (e?.GroupJob === "") {
-        return;
-      } else {
-        e.metal = met3;
-      }
-    });
-
-    datas.resultArray = finalArr;
-
-    let darr = [];
-    let darr2 = [];
-    let darr3 = [];
-    let darr4 = [];
-
-    datas?.resultArray?.forEach((e) => {
-      let met2 = [];
-      e?.metal?.forEach((a) => {
-        if (e?.GroupJob !== "") {
-          let obj = { ...a };
-          obj.GroupJob = e?.GroupJob;
-          met2?.push(obj);
-        }
-      });
-
-      let met3 = [];
-      met2?.forEach((a) => {
-        let findrec = met3?.findIndex(
-          (el) => el?.StockBarcode === el?.GroupJob
-        );
-        if (findrec === -1) {
-          met3?.push(a);
-        } else {
-          met3[findrec].Wt += a?.Wt;
-        }
-      });
-
-      if (e?.GroupJob === "") {
-        return;
-      } else {
-        e.metal = met3;
-      }
-    });
-
-    datas?.json2?.forEach((el) => {
-      if (el?.MasterManagement_DiamondStoneTypeid === 1) {
-        if (el?.ShapeName?.toLowerCase() === "rnd") {
-          darr.push(el);
-        } else {
-          darr2.push(el);
-        }
-      }
-    });
-
-    setResult(datas);
-
-    darr?.forEach((a) => {
-      let aobj = cloneDeep(a);
-      let findrec = darr3?.findIndex(
-        (al) =>
-          al?.ShapeName === aobj?.ShapeName &&
-          al?.Colorname === aobj?.Colorname &&
-          al?.QualityName === aobj?.QualityName
-      );
-      if (findrec === -1) {
-        darr3.push(aobj);
-      } else {
-        darr3[findrec].Wt += a?.Wt;
-        darr3[findrec].Pcs += a?.Pcs;
-      }
-    });
-
-    let obj_ = {
-      ShapeName: "OTHERS",
-      QualityName: "",
-      Colorname: "",
-      Wt: 0,
-      Pcs: 0,
-    };
-    darr2?.forEach((a) => {
-      obj_.Wt += a?.Wt;
-      obj_.Pcs += a?.Pcs;
-    });
-
-    darr4 = [...darr3, obj_];
-
-    setDiamondArr(darr4);
-
-    let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
-
-    setMetShpWise(met_shp_arr);
-    let tot_met = 0;
-    let tot_met_wt = 0;
-    met_shp_arr?.forEach((e, i) => {
-      tot_met += e?.Amount;
-      tot_met_wt += e?.metalfinewt;
-    });
-    setNotGoldMetalTotal(tot_met);
-    setNotGoldMetalWtTotal(tot_met_wt);
+     let finalArr = [];
+     datas?.resultArray?.forEach((a) => {
+       if (a?.GroupJob === "") {
+         finalArr.push(a);
+       } else {
+         let b = cloneDeep(a);
+         let find_record = finalArr.findIndex(
+           (el) => el?.GroupJob === b?.GroupJob
+         );
+         if (find_record === -1) {
+           finalArr.push(b);
+         } else {
+           if (
+             finalArr[find_record]?.GroupJob !== finalArr[find_record]?.SrJobno
+           ) {
+             finalArr[find_record].designno = b?.designno;
+             finalArr[find_record].HUID = b?.HUID;
+           }
+           finalArr[find_record].grosswt += b?.grosswt;
+           finalArr[find_record].NetWt += b?.NetWt;
+           finalArr[find_record].LossWt += b?.LossWt;
+           finalArr[find_record].TotalAmount += b?.TotalAmount;
+           finalArr[find_record].DiscountAmt += b?.DiscountAmt;
+           finalArr[find_record].UnitCost += b?.UnitCost;
+           finalArr[find_record].MakingAmount += b?.MakingAmount;
+           finalArr[find_record].OtherCharges += b?.OtherCharges;
+           finalArr[find_record].TotalDiamondHandling += b?.TotalDiamondHandling;
+           finalArr[find_record].Quantity += b?.Quantity;
+           finalArr[find_record].Wastage += b?.Wastage;
+           finalArr[find_record].totals.metal.IsPrimaryMetal +=
+             b?.totals?.metal?.IsPrimaryMetal;
+           finalArr[find_record].totals.metal.Wt += b?.totals?.metal?.Wt;
+           finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
+           // finalArr[find_record].diamonds_d = [...finalArr[find_record]?.diamonds ,...b?.diamonds]?.flat();
+           finalArr[find_record].diamonds = [
+             ...finalArr[find_record]?.diamonds,
+             ...b?.diamonds,
+           ]?.flat();
+           // finalArr[find_record].colorstone_d = [...finalArr[find_record]?.colorstone ,...b?.colorstone]?.flat();
+           finalArr[find_record].colorstone = [
+             ...finalArr[find_record]?.colorstone,
+             ...b?.colorstone,
+           ]?.flat();
+           // finalArr[find_record].metal_d = [...finalArr[find_record]?.metal ,...b?.metal]?.flat();
+           finalArr[find_record].metal = [
+             ...finalArr[find_record]?.metal,
+             ...b?.metal,
+           ]?.flat();
+           finalArr[find_record].misc = [
+             ...finalArr[find_record]?.misc,
+             ...b?.misc,
+           ]?.flat();
+           finalArr[find_record].finding = [
+             ...finalArr[find_record]?.finding,
+             ...b?.finding,
+           ]?.flat();
+ 
+           finalArr[find_record].totals.finding.Wt += b?.totals?.finding?.Wt;
+           finalArr[find_record].totals.finding.Pcs += b?.totals?.finding?.Pcs;
+           finalArr[find_record].totals.finding.Amount +=
+             b?.totals?.finding?.Amount;
+ 
+           // finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
+           finalArr[find_record].totals.diamonds.Pcs += b?.totals?.diamonds?.Pcs;
+           finalArr[find_record].totals.diamonds.Amount +=
+             b?.totals?.diamonds?.Amount;
+ 
+           finalArr[find_record].totals.colorstone.Wt +=
+             b?.totals?.colorstone?.Wt;
+           finalArr[find_record].totals.colorstone.Pcs +=
+             b?.totals?.colorstone?.Pcs;
+           finalArr[find_record].totals.colorstone.Amount +=
+             b?.totals?.colorstone?.Amount;
+ 
+           finalArr[find_record].totals.misc.Wt += b?.totals?.misc?.Wt;
+           finalArr[find_record].totals.misc.allservwt +=
+             b?.totals?.misc?.allservwt;
+           finalArr[find_record].totals.misc.Pcs += b?.totals?.misc?.Pcs;
+           finalArr[find_record].totals.misc.Amount += b?.totals?.misc?.Amount;
+ 
+           finalArr[find_record].totals.metal.Amount += b?.totals?.metal?.Amount;
+           finalArr[find_record].totals.metal.IsPrimaryMetal +=
+             b?.totals?.metal?.IsPrimaryMetal;
+           finalArr[find_record].totals.metal.IsPrimaryMetal_Amount +=
+             b?.totals?.metal?.IsPrimaryMetal_Amount;
+ 
+           finalArr[find_record].totals.misc.withouthscode1_2_pcs +=
+             b?.totals?.misc?.withouthscode1_2_pcs;
+           finalArr[find_record].totals.misc.withouthscode1_2_wt +=
+             b?.totals?.misc?.withouthscode1_2_wt;
+           finalArr[find_record].totals.misc.onlyHSCODE3_amt +=
+             b?.totals?.misc?.onlyHSCODE3_amt;
+           finalArr[find_record].totals.misc.onlyIsHSCODE0_Wt +=
+             b?.totals?.misc?.onlyIsHSCODE0_Wt;
+           finalArr[find_record].totals.misc.onlyIsHSCODE0_Pcs +=
+             b?.totals?.misc?.onlyIsHSCODE0_Pcs;
+           finalArr[find_record].totals.misc.onlyIsHSCODE0_Amount +=
+             b?.totals?.misc?.onlyIsHSCODE0_Amount;
+           // finalArr[find_record].misc_d = [...finalArr[find_record]?.misc ,...b?.misc]?.flat();
+         }
+       }
+     });
+ 
+     datas.resultArray = finalArr;
+ 
+     //after groupjob
+     datas?.resultArray?.forEach((e) => {
+       //diamond
+       let dia2 = [];
+       let dia1_ = [];
+       let dia2_ = [];
+       e?.diamonds?.forEach((el) => {
+         if (el?.GroupName === "") {
+           dia1_.push(el);
+         } else {
+           dia2_.push(el);
+         }
+       });
+       let dia1_g = [];
+       dia1_?.forEach((ell) => {
+         let bll = cloneDeep(ell);
+         let findrec = dia1_g.findIndex(
+           (a) =>
+             a?.ShapeName === bll?.ShapeName &&
+             a?.QualityName === bll?.QualityName &&
+             a?.Colorname === bll?.Colorname &&
+             a?.SizeName === bll?.SizeName
+         );
+         if (findrec === -1) {
+           dia1_g.push(bll);
+         } else {
+           dia1_g[findrec].Wt += bll?.Wt;
+           dia1_g[findrec].Pcs += bll?.Pcs;
+           dia1_g[findrec].Amount += bll?.Amount;
+         }
+       });
+       let dia2_g = [];
+       dia2_?.forEach((ell) => {
+         let bll = cloneDeep(ell);
+         let findrec = dia2_g.findIndex(
+           (a) =>
+             a?.ShapeName === bll?.ShapeName &&
+             a?.QualityName === bll?.QualityName &&
+             a?.Colorname === bll?.Colorname &&
+             a?.GroupName === bll?.GroupName
+         );
+         if (findrec === -1) {
+           dia2_g.push(bll);
+         } else {
+           dia2_g[findrec].Wt += bll?.Wt;
+           dia2_g[findrec].Pcs += bll?.Pcs;
+           dia2_g[findrec].Amount += bll?.Amount;
+         }
+       });
+       let dia2_g_ = [];
+       dia2_g?.forEach((e) => {
+         e.SizeName = e?.GroupName;
+         dia2_g_.push(e);
+       });
+       dia2 = [...dia1_g, ...dia2_g_];
+ 
+       e.diamonds = dia2;
+ 
+       let misc0 = [];
+       e?.misc?.forEach((el) => {
+         if (el?.IsHSCOE === 0) {
+           misc0?.push(el);
+         }
+       });
+ 
+       e.misc = misc0;
+ 
+       let met2 = [];
+       e?.metal?.forEach((a) => {
+         if (e?.GroupJob !== "") {
+           let obj = { ...a };
+           obj.GroupJob = e?.GroupJob;
+           met2?.push(obj);
+         }
+       });
+ 
+       let met3 = [];
+       met2?.forEach((a) => {
+         let findrec = met3?.findIndex(
+           (el) => el?.StockBarcode === el?.GroupJob
+         );
+         if (findrec === -1) {
+           met3?.push(a);
+         } else {
+           met3[findrec].Wt += a?.Wt;
+         }
+       });
+       if (e?.GroupJob === "") {
+         return;
+       } else {
+         e.metal = met3;
+       }
+     });
+ 
+     let diaObj = {
+       ShapeName: "OTHERS",
+       wtWt: 0,
+       wtWts: 0,
+       pcPcs: 0,
+       pcPcss: 0,
+       rRate: 0,
+       rRates: 0,
+       amtAmount: 0,
+       amtAmounts: 0,
+     };
+ 
+     let diaonlyrndarr1 = [];
+     let diaonlyrndarr2 = [];
+     let diaonlyrndarr3 = [];
+     let diaonlyrndarr4 = [];  
+     let diarndotherarr5 = [];
+     let diaonlyrndarr6 = [];
+     datas?.json2?.forEach((e) => {
+       if (e?.MasterManagement_DiamondStoneTypeid === 1) {
+         if (e.ShapeName?.toLowerCase() === "rnd") {
+           diaonlyrndarr1.push(e);
+         } else {
+           diaonlyrndarr2.push(e);
+         }
+       }
+     });
+ 
+     diaonlyrndarr1?.forEach((e) => {
+       let findRecord = diaonlyrndarr3.findIndex(
+         (a) =>
+           e?.StockBarcode === a?.StockBarcode &&
+           e?.ShapeName === a?.ShapeName &&
+           e?.QualityName === a?.QualityName &&
+           e?.Colorname === a?.Colorname
+       );
+ 
+       if (findRecord === -1) {
+         let obj = { ...e };
+         obj.wtWt = e?.Wt;
+         obj.pcPcs = e?.Pcs;
+         obj.rRate = e?.Rate;
+         obj.amtAmount = e?.Amount;
+         diaonlyrndarr3.push(obj);
+       } else {
+         diaonlyrndarr3[findRecord].wtWt += e?.Wt;
+         diaonlyrndarr3[findRecord].pcPcs += e?.Pcs;
+         diaonlyrndarr3[findRecord].rRate += e?.Rate;
+         diaonlyrndarr3[findRecord].amtAmount += e?.Amount;
+       }
+     });
+ 
+     diaonlyrndarr2?.forEach((e) => {
+       let findRecord = diaonlyrndarr4.findIndex(
+         (a) =>
+           e?.StockBarcode === a?.StockBarcode &&
+           e?.ShapeName === a?.ShapeName &&
+           e?.QualityName === a?.QualityName &&
+           e?.Colorname === a?.Colorname
+       );
+ 
+       if (findRecord === -1) {
+         let obj = { ...e };
+         obj.wtWt = e?.Wt;
+         obj.wtWts = e?.Wt;
+         obj.pcPcs = e?.Pcs;
+         obj.pcPcss = e?.Pcs;
+         obj.rRate = e?.Rate;
+         obj.rRates = e?.Rate;
+         obj.amtAmount = e?.Amount;
+         obj.amtAmounts = e?.Amount;
+         diaonlyrndarr4.push(obj);
+       } else {
+         diaonlyrndarr4[findRecord].wtWt += e?.Wt;
+         diaonlyrndarr4[findRecord].wtWts += e?.Wt;
+         diaonlyrndarr4[findRecord].pcPcs += e?.Pcs;
+         diaonlyrndarr4[findRecord].pcPcss += e?.Pcs;
+         diaonlyrndarr4[findRecord].rRate += e?.Rate;
+         diaonlyrndarr4[findRecord].rRates += e?.Rate;
+         diaonlyrndarr4[findRecord].amtAmount += e?.Amount;
+         diaonlyrndarr4[findRecord].amtAmounts += e?.Amount;
+       }
+     });
+ 
+     diaonlyrndarr4?.forEach((e) => {
+       diaObj.wtWt += e?.wtWt;
+       diaObj.wtWts += e?.wtWts;
+       diaObj.pcPcs += e?.pcPcs;
+       diaObj.pcPcss += e?.pcPcss;
+       diaObj.rRate += e?.rRate;
+       diaObj.rRates += e?.rRates;
+       diaObj.amtAmount += e?.amtAmount;
+       diaObj.amtAmounts += e?.amtAmounts;
+     });
+ 
+     diaonlyrndarr3?.forEach((e) => {
+       let find_record = diaonlyrndarr6?.findIndex(
+         (a) =>
+           e?.ShapeName === a?.ShapeName &&
+           e?.QualityName === a?.QualityName &&
+           e?.Colorname === a?.Colorname
+       );
+       if (find_record === -1) {
+         let obj = { ...e };
+         obj.wtWts = e?.wtWt;
+         obj.pcPcss = e?.pcPcs;
+         obj.rRates = e?.rRate;
+         obj.amtAmounts = e?.amtAmount;
+         diaonlyrndarr6.push(obj);
+       } else {
+         diaonlyrndarr6[find_record].wtWts += e?.wtWt;
+         diaonlyrndarr6[find_record].pcPcss += e?.pcPcs;
+         diaonlyrndarr6[find_record].rRates += e?.rRate;
+         diaonlyrndarr6[find_record].amtAmounts += e?.amtAmount;
+       }
+     });
+ 
+     let diamondDetail = [];
+     data?.BillPrint_Json2?.forEach((e, i) => {
+       if (e?.MasterManagement_DiamondStoneTypeid === 1) {
+         let findDiamond = diamondDetail?.findIndex(
+           (ele, ind) =>
+             ele?.ShapeName === e?.ShapeName &&
+             ele?.QualityName === e?.QualityName &&
+             ele?.Colorname === e?.Colorname
+         );
+         if (findDiamond === -1) {
+           diamondDetail.push(e);
+         } else {
+           diamondDetail[findDiamond].Pcs += e?.Pcs;
+           diamondDetail[findDiamond].Wt += e?.Wt;
+           diamondDetail[findDiamond].Amount += e?.Amount;
+         }
+       }
+     });
+     let findRND = [];
+     let remaingDia = [];
+     diamondDetail?.forEach((ele, ind) => {
+       if (ele?.ShapeName === "RND") {
+         findRND.push(ele);
+       } else {
+         remaingDia.push(ele);
+       }
+     });
+ 
+     let resultArr = [];
+     findRND.sort((a, b) => {
+       if (a.ShapeName !== b.ShapeName) {
+         return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
+       } else if (a.QualityName !== b.QualityName) {
+         return a.QualityName.localeCompare(b.QualityName); // If ShapeName is same, sort by QualityName
+       } else {
+         return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
+       }
+     });
+ 
+     remaingDia.sort((a, b) => {
+       if (a.ShapeName !== b.ShapeName) {
+         return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
+       } else if (a.QualityName !== b.QualityName) {
+         return a.QualityName.localeCompare(b.QualityName); // If ShapeName is same, sort by QualityName
+       } else {
+         return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
+       }
+     });
+     if (findRND?.length > 6) {
+       let arr = findRND.slice(0, 6);
+       let anotherArr = [...findRND.slice(6), remaingDia].flat();
+       let obj = { ...anotherArr[0] };
+       anotherArr?.reduce((acc, cobj) => {
+         obj.Pcs += cobj?.Pcs;
+         obj.Wt += cobj?.Wt;
+         obj.Amount += cobj?.Amount;
+       }, obj);
+       obj.ShapeName = "OTHER";
+       resultArr = [...arr, obj].flat();
+     } else {
+       let arr = [...findRND].flat();
+       let smallArr = [...remaingDia.slice(0, 6 - findRND?.length)].flat();
+       let largeArr = [...remaingDia.slice(6 - findRND?.length)].flat();
+       let finalArr = [...arr, ...smallArr].flat();
+ 
+       let obj = { ...largeArr[0] };
+       obj.Pcs = 0;
+       obj.Wt = 0;
+       obj.Amount = 0;
+       largeArr?.reduce((acc, cobj) => {
+         obj.Pcs += cobj?.Pcs;
+         obj.Wt += cobj?.Wt;
+         obj.Amount += cobj?.Amount;
+       }, obj);
+       obj.ShapeName = "OTHER";
+       resultArr = [...finalArr, obj].flat();
+     }
+ 
+     setDiamondDetails(resultArr);
+ 
+     diarndotherarr5 = [...diaonlyrndarr6, diaObj];
+     const sortedData = diarndotherarr5?.sort(customSort);
+     setDiamondWise(sortedData);
+     setResult(datas);
+     console.log("datas", datas);
 
     // let mainArr2 = [];
     // datas.resultArray?.forEach((e) => {
@@ -469,6 +564,23 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   //     setImgFlag(true);
   //   }
   // };
+  const customSort = (a, b) => {
+    if (a?.ShapeName === "OTHER" && b?.ShapeName !== "OTHER") {
+      return 1; // "OTHER" comes after any other ShapeName
+    } else if (a?.ShapeName !== "OTHER" && b?.ShapeName === "OTHER") {
+      return -1; // Any other ShapeName comes before "OTHER"
+    } else {
+      // If ShapeNames are equal, compare by QualityName
+      if (a?.QualityName < b?.QualityName) {
+        return -1;
+      } else if (a?.QualityName > b?.QualityName) {
+        return 1;
+      } else {
+        // If QualityNames are equal, compare by Colorname
+        return a?.Colorname?.localeCompare(b?.Colorname);
+      }
+    }
+  };
   const handleSize = (e) => {
     if (secondarySize) setSecondarySize(false);
     else {
@@ -604,9 +716,9 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 {result?.header?.PrintHeadLabel ?? "PACKING LIST"}
               </div>
               {/* comapny header */}
-              <div className="px-1 com_fs_pcl3 mainHeadWD">
-                <div className="justify-content-start">
-                  <div className="fs_16_pcls fw-bold py-1">
+              <div className="px-1 spbrWord com_fs_pcl3 mainHeadWD">
+                <div className="justify-content-start spbrWord">
+                  <div className="fs_16_pcls fw-bold py-1 spbrWord">
                     {result?.header?.CompanyFullName}
                   </div>
                   <div>{result?.header?.CompanyAddress}</div>
@@ -640,7 +752,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 )}
               </div>
               {/* customer header */}
-              <div className="d-flex  mt-1 brall_pcls brall_pcls ">
+              <div className="d-flex  mt-1 brall_pcls brall_pcls spbrWord">
                 <div
                   className="bright_pcls p-1 com_fs_pcl3"
                   style={{ width: "35%" }}
@@ -816,8 +928,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className="col2_pcls start_top_pcls flex-column bright_pcls pt-1">
                         <div className="d-flex flex-wrap justify-content-between align-items-center w-100 text-break pdl_pcls pdr_pcls">
-                          <div>{e?.designno}</div>
-                          <div>{e?.SrJobno}</div>
+                          <div className="spbrWord">{e?.designno}</div>
+                          <div className="spbrWord">{e?.SrJobno}</div>
                         </div>
                         <div className="d-flex flex-wrap justify-content-between align-items-center w-100 text-break pdl_pcls pdr_pcls">
                           <div>{e?.Categoryname}</div>
@@ -896,14 +1008,14 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           {e?.diamonds?.map((el, idia) => {
                             return (
                               <div className="d-flex w-100" key={idia}>
-                                <div className="dcol1_pcls start_center_pcls pdl_pcls">
+                                <div className="dcol1_pcls start_center_pcls spbrWord pdl_pcls">
                                   {el?.ShapeName +
                                     " " +
                                     el?.QualityName +
                                     " " +
                                     el?.Colorname}
                                 </div>
-                                <div className="dcol2_pcls start_center_pcls pdl_pcls">
+                                <div className="dcol2_pcls spTxCen spbrWord pdl_pcls">
                                   {size
                                     ? secondarySize
                                       ? el?.SecondarySize
@@ -1004,7 +1116,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               <>
                                 {el?.IsPrimaryMetal === 1 ? (
                                   <div className="d-flex w-100" key={ind}>
-                                    <div className="mcol1_pcls start_center_pcls pdl_pcls">
+                                    <div className="mcol1_pcls start_center_pcls spbrWord pdl_pcls">
                                       {el?.ShapeName + " " + el?.QualityName}
                                     </div>
                                     <div className="mcol2_pcls end_pcls pdr_pcls">
@@ -1202,14 +1314,14 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           {e?.colorstone?.map((el, ind) => {
                             return (
                               <div className="d-flex w-100" key={ind}>
-                                <div className="dcol1_pcls start_center_pcls pdl_pcls">
+                                <div className="dcol1_pcls spbrWord start_center_pcls pdl_pcls">
                                   {el?.ShapeName +
                                     " " +
                                     el?.QualityName +
                                     " " +
                                     el?.Colorname}
                                 </div>
-                                <div className="dcol2_pcls start_center_pcls pdl_pcls">
+                                <div className="dcol2_pcls spTxCen pdl_pcls">
                                   {secondarySize
                                     ? el?.SecondarySize
                                     : el?.SizeName}
@@ -1241,7 +1353,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   {el?.ShapeName?.length !== 0 && "M : "}
                                   {el?.ShapeName + " " + el?.QualityName}
                                 </div>
-                                <div className="dcol2_pcls start_center_pcls pdl_pcls">
+                                <div className="dcol2_pcls spTxCen pdl_pcls">
                                   {secondarySize
                                     ? el?.SecondarySize
                                     : el?.SizeName}
@@ -2103,7 +2215,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     className="h-100 d-flex flex-column bright_dp10 bl_dp10 pakinglist_31_botom_total"
                     style={{ minHeight: "100px" }}
                   >
-                    {diamondArr?.map((e, i) => {
+                    {diamondDetails?.map((e, i) => {
                       return (
                         <div
                           className="d-flex justify-content-between px-1 fsgdp10 tb_fs_pcls"
