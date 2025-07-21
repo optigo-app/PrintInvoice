@@ -1133,7 +1133,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                             e?.NetWt - e?.totals?.finding?.Wt
                                           )?.toFixed(3)
                                         : (
-                                            el?.Wt
+                                            el?.Wt - e?.totals?.finding?.Wt
                                           )?.toFixed(3)}
                                     </div>
                                     <div className="mcol4_pcls end_pcls pdr_pcls">
