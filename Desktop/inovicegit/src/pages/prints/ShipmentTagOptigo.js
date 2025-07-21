@@ -73,7 +73,7 @@ export default function ShipmentTagOptigo({ token, invoiceNo, printName, urls, e
                     alt="Optigo Logo"
                   />
                   <div className="address-block">
-                    <strong>FROM:</strong>
+                    <strong className="brBtom" style={{width: "110%"}}>FROM:</strong>
                     <p className="spbrWord spBold">{e?.ShippingFrom}</p>
                     <p className="spbrWord">{e?.ShippingFromPrintlable}</p>
                   </div>
@@ -98,29 +98,26 @@ export default function ShipmentTagOptigo({ token, invoiceNo, printName, urls, e
               {/* Mid section */}
               <div className="mid-section">
                 <div className="secondOPart1">
-                  <div style={{ borderBottom: "1px solid" }}>
-                    <p>Date:</p> <span className="label">{e?.Shipmentdate}</span>
+                  <div className="brBtom">
+                    <div className="spMgl">Date:</div> <div className="spFntst spMgl">{e?.Shipmentdate}</div>
                   </div>
-                  <div style={{ borderBottom: "1px solid" }}>
-                    <p> Delivery By:</p>
-                    <span className="label">{e?.Deliveredby}</span>
+                  <div className="brBtom">
+                    <div className="spMgl spMgT"> Delivery By:</div>
+                    <div className="spFntst spMgl">{e?.Deliveredby}</div>
                   </div>
                   <div>
-                    <p> Shipment:</p> <span className="label">{e?.Shipmentno}</span>
+                    <div className="spMgl spMgT"> Shipment:</div> <div className="spFntst spMgl">{e?.Shipmentno}</div>
                   </div>
                 </div>
                 <div className="secondOPart2">
-                  <div className="order-no">
-                    <p style={{ fontSize: '12px', margin: '0px' }}>Order No.</p>
-                    <strong>{e?.BillNo}</strong>
-                  </div>
+                    <div style={{ fontSize: '8px', }}>Order No.</div>
+                    <div style={{ fontSize: '9px', fontWeight: "bold" }}>{e?.BillNo}</div>
                 </div>
                 <div className="secondOPart3">
                   <QRCode
-                    size={256}
-                    style={{ height: "140px", width: "140px" }}
+                    style={{ height: "60px", width: "60px" }}
                     value={e?.BillNo}
-                    viewBox={`0 0 256 256`}
+                    viewBox={`0 0 128 128`}
                   />
                 </div>
               </div>
