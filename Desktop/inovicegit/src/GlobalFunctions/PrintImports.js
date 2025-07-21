@@ -301,7 +301,7 @@ export const MemoReturnPrints = [
 
 export const ShipmentArray = [
   {printName: 'rough estimate', etpType: 'print', componentName: 'Shipment'},
-  {printName: 'shipment optigo', etpType: 'print', componentName: 'ShipmentTagOptigo'},
+  {printName: 'shipmenttag', etpType: 'print', componentName: 'ShipmentTagOptigo'},
 ]
 
 

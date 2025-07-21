@@ -188,3 +188,9 @@
 .spPadg{
   padding-left: 10px;
 }
+
+@media print {
+  .hidedp10{
+    display: none;
+  }
+}
