@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import printData from "../../assets/json/print_2.json";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
-import "../../assets/css/bagprint/print16.css";
+import "../../assets/css/bagprint/printD16A.css";
 import Loader from "../../components/Loader";
 import BarcodeGenerator from "../../components/BarcodeGenerator";
 import { GetData } from "../../GlobalFunctions/GetData";
@@ -243,7 +243,7 @@ const PrintDesign16A = ({ queries, headers }) => {
                     <React.Fragment key={`bagprint16${i}`}>
                       <div
                         className="container_2 ml_8mm mb_2 mt_2 pt_2 bag_2"
-
+                        style={{ marginBottom: "25px" }}
                       >
                         <div className="print_2 ">
                           <div className="border_collapse print_design_2">
@@ -954,7 +954,6 @@ const PrintDesign16A = ({ queries, headers }) => {
                       <React.Fragment key={index}>
                         <div
                           className="container_2 ml_8mm mb_2 mt_2 pt_2 bag_2"
-
                         >
                           <div className="print_2 ">
                             <div className="border_collapse print_design_2">

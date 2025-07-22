@@ -143,7 +143,14 @@ const AllDesignPrint = () => {
       'fg purchase': module?.fgPurchase || [],
       'fg purchase return': module?.fgPurchaseReturn || [],
       'outsource': module?.outsourcePrint || [],
-      'jewellerysale': module?.ShipmentArray || []
+      'jewellerysale': module?.ShipmentArray || [],
+      'issue_to_manufacturer': module?.Issue_To_Manufacturer || [],
+      'customer return': module?.CustomerReturn || [],
+      'materialissue': module?.MaterialIssue || [],
+      'jewelleymemo': module?.JewelleyMemo || [],
+      'memomaterialissue': module?.MemoMaterialIssue || [],
+      'materialpurchasereturn': module?.MaterialPurchaseReturn || [],
+      'product_alteration': module?.Product_Alteration || [],
     };
   
     return eventMappings[evnname] || [];

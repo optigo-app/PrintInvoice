@@ -386,7 +386,8 @@ export const ordersArray = [
 export const MaterialSale = [
   {printName: 'invoice print', etpType: 'print', componentName: 'InvoicePrintShwinit'},
   {printName: 'material sale print', etpType: 'print', componentName: 'MaterialSalePrint'},
-  {printName: 'tax invoice a', etpType: 'print', componentName: 'TaxInvoiceAMaterial'}
+  {printName: 'tax invoice a', etpType: 'print', componentName: 'TaxInvoiceAMaterial'},
+  {printName: 'shipmenttag', etpType: 'print', componentName: 'ShipmentTagOptigo'},
 ]
 export const fgPurchase = [
   {printName: 'item wise print', etpType: 'print', componentName: 'ItemWisePrint'},
@@ -409,6 +410,35 @@ export const fgPurchaseReturn = [
   {printName: 'item wise print2', etpType: 'print', componentName: 'ItemWisePrint'},
   {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrint'},
 ];
+
+export const Issue_To_Manufacturer = [
+  {printName: 'shipmenttag', etpType: 'print', componentName: 'ShipmentTagOptigo'},
+];
+
+export const CustomerReturn = [
+  {printName: 'shipmenttag', etpType: 'print', componentName: 'ShipmentTagOptigo'},
+];
+
+export const MaterialIssue = [
+  {printName: 'shipmenttag', etpType: 'print', componentName: 'ShipmentTagOptigo'},
+];
+
+export const JewelleyMemo = [
+  {printName: 'shipmenttag', etpType: 'print', componentName: 'ShipmentTagOptigo'},
+];
+
+export const MemoMaterialIssue = [
+  {printName: 'shipmenttag', etpType: 'print', componentName: 'ShipmentTagOptigo'},
+];
+
+export const MaterialPurchaseReturn = [
+  {printName: 'shipmenttag', etpType: 'print', componentName: 'ShipmentTagOptigo'},
+];
+
+export const Product_Alteration = [
+  {printName: 'shipmenttag', etpType: 'print', componentName: 'ShipmentTagOptigo'},
+];
+
 
 // export const outsourcePrint = [
 //   {printName: 'outsource print am', etpType: 'print', componentName: 'OutsourcePrintAM'}

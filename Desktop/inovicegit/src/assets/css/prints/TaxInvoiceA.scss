@@ -304,11 +304,11 @@
 .main_bor{
   border: 2px solid black;
 }
-@media screen {
-  .print-spacer {
-    display: none;
-  }
-}
+// @media screen {
+//   .print-spacer {
+//     display: none;
+//   }
+// }
 
 @media print {
   // .spacer-9 { height: 860px; } 

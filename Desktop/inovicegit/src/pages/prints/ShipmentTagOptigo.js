@@ -75,20 +75,18 @@ export default function ShipmentTagOptigo({ token, invoiceNo, printName, urls, e
                   <div className="address-block">
                     <strong className="brBtom" style={{width: "110%"}}>FROM:</strong>
                     <p className="spbrWord spBold">{e?.ShippingFrom}</p>
-                    <p className="spbrWord">{e?.ShippingFromPrintlable}</p>
+                    {e?.ShippingFromPrintlable !== null &&<p className="spbrWord">{e?.ShippingFromPrintlable}</p>}
                   </div>
                 </div>
                 <div className="party2 to">
                   <div className="address-block">
                     <strong className="spPadg">TO:</strong>
-                    <p className="spbrWord spBold">{e?.ShippingTo}</p>
-                    <p className="spbrWord">
-                      {e?.ShippingAddressline}
-                      <br />
-                      {e?.ShippingCity}‑{e?.ShippingPincode}, {e?.ShippingState} ‑ {e?.ShippingCountry}
-                      <br />
-                      Phone: {e?.ShippingMobileNo}
-                    </p>
+                    <div className="spbrWord spBold">{e?.ShippingTo}</div>
+                    <div className="spbrWord">
+                      {e?.ShippingAddressline !== null && <div className="spbrWord">{e?.ShippingAddressline}</div>}
+                      <div>{e?.ShippingCity}‑{e?.ShippingPincode}, {e?.ShippingState} ‑ {e?.ShippingCountry}</div>
+                      <div>Phone: {e?.ShippingMobileNo}</div>
+                    </div>
                   </div>
                 </div>
               </div>

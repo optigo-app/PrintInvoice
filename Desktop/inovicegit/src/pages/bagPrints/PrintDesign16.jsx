@@ -241,7 +241,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                     <React.Fragment key={`bagprint16${i}`}>
                       <div
                         className="container_2 ml_8mm mb_2 mt_2 pt_2 bag_2"
-
+                        style={{ marginBottom: "30px" }}
                       >
                         <div className="print_2 ">
                           <div className="border_collapse print_design_2">
