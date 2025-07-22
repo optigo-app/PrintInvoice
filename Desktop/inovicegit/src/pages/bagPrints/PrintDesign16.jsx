@@ -16,6 +16,7 @@ const PrintDesign16 = ({ queries, headers }) => {
   const resultString = GetUniquejob(queryParams?.str_srjobno);
   const [data, setData] = useState([]);
   const chunkSize = 15;
+
   useEffect(() => {
     if (Object.keys(queryParams)?.length !== 0) {
       atob(queryParams?.imagepath);
@@ -33,7 +34,12 @@ const PrintDesign16 = ({ queries, headers }) => {
         };
         let allDatas = await GetData(objs);
 
+        console.log("all datas", allDatas);
+        
+
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
+        console.log('datas', datas);
+        
         // eslint-disable-next-line array-callback-return
         if (datas?.length === 0) {
           setData(['Data Not Present'])
@@ -167,7 +173,8 @@ const PrintDesign16 = ({ queries, headers }) => {
           setData(responseData);
 
         }
-
+        console.log('organized data', datas);
+        
       } catch (error) {
         console.log(error);
       }
@@ -204,7 +211,6 @@ const PrintDesign16 = ({ queries, headers }) => {
     }
   };
 
-  console.log('datadatadata', data);
 
   return (
     <div>
@@ -241,7 +247,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                     <React.Fragment key={`bagprint16${i}`}>
                       <div
                         className="container_2 ml_8mm mb_2 mt_2 pt_2 bag_2"
-                        style={{ marginBottom: "30px" }}
+
                       >
                         <div className="print_2 ">
                           <div className="border_collapse print_design_2">
@@ -258,7 +264,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                 <div
                                   className="thikborder"
                                   style={{
-                                    background: "rgb(138, 255, 20)",
+                                    background: " #8aff14",
                                     borderRight: "1px solid black",
                                   }}
                                 >
@@ -649,7 +655,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       ></div>
                                     </div>
                                   )
-                                )}
+                                )}       
                               </div>
                             </div>
                             <div className="bag_footer_border_remove border_right">

@@ -2009,7 +2009,8 @@ table {
     .container_2.mb_2.mt_2.pt_2.bag_2:nth-child(n+1), 
     .container_2.mb_2.mt_2.pt_2.bag_2:nth-child(n+2){
       margin-top: 1mm !important;
-      margin-right: 6.5mm !important;
+      /* margin-left: 1mm !important; */
+      /* margin-right: 3mm !important; */
       border-collapse: collapse !important;
     }
 
