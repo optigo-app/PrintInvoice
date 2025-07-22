@@ -307,7 +307,8 @@ const BagPrint7A = ({ queries, headers }) => {
       setImageFlag(true);
     }
   };
-
+  // console.log("data", data);
+  
   return (
     <>
       {data?.length === 0 ? (

@@ -11,15 +11,15 @@
     /* margin: 3rem auto; */
 }
 .fs_jts{
-    font-size: 11px;
-    line-height: 13px;
+    font-size: 10px;
+    line-height: 12px;
 }
 .fs2_jts{
     font-size: 14px;
 }
 .fs2_jts1{
-    font-size: 13px;
-    line-height: 17px;
+    font-size: 12px;
+    line-height: 16px;
     margin-bottom: 3px;
 }
 .es_mainHead{
@@ -230,8 +230,8 @@
         color: gray;
     }
     .fs_jts{
-        font-size: 10px;
-        line-height: 12px;
+        font-size: 9px;
+        line-height: 11px;
     }
     .lh_jts{
         line-height: 16px !important;
@@ -245,7 +245,7 @@
         height: 70px;
     }
     .fs2_jts1{
-        font-size: 11px;
+        font-size: 10px;
     }
     /* .lastPad{
         padding-right: 4.4rem;

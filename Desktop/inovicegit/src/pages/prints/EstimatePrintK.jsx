@@ -17,14 +17,7 @@ import { cloneDeep } from "lodash";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { deepClone } from "@mui/x-data-grid/utils/utils";
 
-const EstimatePrintK = ({
-  token,
-  invoiceNo,
-  printName,
-  urls,
-  evn,
-  ApiVer,
-}) => {
+const EstimatePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const toWords = new ToWords();
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
@@ -118,8 +111,8 @@ const EstimatePrintK = ({
   const totalTax = taxes?.reduce((acc, val) => acc + (isNaN(val) ? 0 : val), 0);
 
   const finalAmount =
-  (result?.mainTotal?.TotalAmount + result?.header?.FreightCharges) /
-    result?.header?.CurrencyExchRate +
+    (result?.mainTotal?.TotalAmount + result?.header?.FreightCharges) /
+      result?.header?.CurrencyExchRate +
     result?.allTaxesTotal;
   const decimalPart = parseFloat(
     (finalAmount - Math.floor(finalAmount)).toFixed(2)
@@ -142,7 +135,7 @@ const EstimatePrintK = ({
             <>
               <div className="container_jts">
                 <div className="d-flex justify-content-end align-items-center d_none_jts">
-                    {/* <div className="form-check pe-3">
+                  {/* <div className="form-check pe-3">
                       <input
                         className="form-check-input"
                         type="checkbox"
@@ -161,7 +154,7 @@ const EstimatePrintK = ({
                 <div className="align-items-center">
                   <div className="fs_jts es_mainHead">
                     <div className="es_slFnt brb_jts">
-                      <div style={{marginBottom: "5px"}}>Estimate</div>
+                      <div style={{ marginBottom: "5px" }}>Estimate</div>
                     </div>
                     <div className="fs2_jts">
                       {result?.header?.CompanyFullName}
@@ -216,66 +209,135 @@ const EstimatePrintK = ({
                       </div>
                     </div>
                   </div>
+
                   <div className="es_detHead fs_jts brb_jts es_slbld">
                     <div className="sevotfon spbrWord">Design</div>
                     <div className="sevotfsec">Gr.Wt</div>
                     <div className="sevotfthr spbrWord">St.Wt / D.Wt</div>
                     <div className="sevotffor">Net Wt</div>
-                    <div className="sevotffiv">Rate</div>
+                    <div className="sevotffor">Rate</div>
+                    <div className="sevotffiv">Making</div>
                     <div className="sevotfsx spbrWord">Other Charges</div>
                     <div className="sevotfsev">Amount</div>
                   </div>
                 </div>
+
                 {result?.resultArray?.map((e, i) => {
-                  return ( 
-                    <>
-                      <div className="es_detBody fs_jts es_slbld" style={{paddingBottom: "15px"}}>
-                        <div className="sevotfon spbrWord">
-                          <p>{e?.SrJobno}</p>
-                          <p>{e?.designno}</p>
-                        </div>
-                        <div className="sevotfsec spbrWord">{e?.grosswt?.toFixed(3)}</div>
-                        <div className="sevotfthr spbrWord">{e?.totals?.colorstone?.Wt?.toFixed(3)} / {e?.totals?.diamonds?.Wt?.toFixed(3)}</div>
-                        <div className="sevotffor spbrWord">{e?.NetWt?.toFixed(3)}</div>
-                        <div className="sevotffiv spbrWord">
-                          {e?.MakingChargeDiscount !== 0 ? `${NumberWithCommas(e?.MakingChargeDiscount, 2)} %` : e?.MaKingCharge_Unit === 0 ? "" :
-                            `${NumberWithCommas(e?.MaKingCharge_Unit, 2)}`}
-                        </div>
-                        <div className="sevotfsx spbrWord">{NumberWithCommas(e?.OtherCharges, 2)}</div>
-                        <div className="sevotfsevDp spbrWord">{formatAmount(e?.TotalAmount + e?.DiscountAmt)}</div>
+                  return e?.metal?.map((el, id) => (
+                    <div
+                      key={`${i}-${id}`}
+                      className="es_detBody fs_jts es_slbld"
+                      style={{ paddingBottom: "15px" }}
+                    >
+                      <div className="sevotfon spbrWord">
+                        <p>{e?.SrJobno}</p>
+                        <p>{e?.designno}</p>
                       </div>
-                    </>
-                  )
+                      <div className="sevotfsec spbrWord">
+                        {e?.grosswt?.toFixed(3)}
+                      </div>
+                      <div className="sevotfthr spbrWord">
+                        {e?.totals?.colorstone?.Wt?.toFixed(3)} /{" "}
+                        {e?.totals?.diamonds?.Wt?.toFixed(3)}
+                      </div>
+                      <div className="sevotffor spbrWord">
+                        {e?.NetWt?.toFixed(3)}
+                      </div>
+                      <div className="sevotffor spbrWord">
+                        {el?.Rate?.toFixed(2)}
+                      </div>
+                      <div className="sevotffiv spbrWord">
+                        {e?.MakingChargeDiscount !== 0
+                          ? `${NumberWithCommas(e?.MakingChargeDiscount, 2)} %`
+                          : e?.MaKingCharge_Unit === 0
+                          ? ""
+                          : `${NumberWithCommas(e?.MaKingCharge_Unit, 2)}`}
+                      </div>
+                      <div className="sevotfsx spbrWord">
+                        {NumberWithCommas(e?.OtherCharges, 2)}
+                      </div>
+                      <div className="sevotfsevDp spbrWord">
+                        {formatAmount(e?.TotalAmount + e?.DiscountAmt)}
+                      </div>
+                    </div>
+                  ));
                 })}
+
                 <div className="es_detTotal fs_jts brt_jts brb_jts es_slbld">
                   <div className="sevotfon spbrWord">Total</div>
-                  <div className="sevotfsec spbrWord">{result?.mainTotal?.grosswt?.toFixed(3)}</div>
+                  <div className="sevotfsec spbrWord">
+                    {result?.mainTotal?.grosswt?.toFixed(3)}
+                  </div>
                   <div className="sevotfthr spbrWord"></div>
-                  <div className="sevotffor spbrWord">{result?.mainTotal?.netwt?.toFixed(3)}</div>
+                  <div className="sevotffor spbrWord">
+                    {result?.mainTotal?.netwt?.toFixed(3)}
+                  </div>
+                  <div className="sevotffor spbrWord"></div>
                   <div className="sevotffiv spbrWord"></div>
                   <div className="sevotfsx spbrWord"></div>
                   <div className="sevotfsevDp spbrWord">
-                    {formatAmount(result?.mainTotal?.total_amount + result?.mainTotal?.total_discount_amount)}
+                    {formatAmount(
+                      result?.mainTotal?.total_amount +
+                        result?.mainTotal?.total_discount_amount
+                    )}
                   </div>
                 </div>
+
                 <div className="fs_jts es_dsflx es_slbld">
                   <div className="es_mTotal1"></div>
                   <div className="es_mTotal2">
-                      {result?.mainTotal?.total_discount_amount !== 0 && (<div className="es_dsflx"><div className="es_mTotal2Sub1">Total Discount</div> <div className="es_mTotal2Sub2">{formatAmount(result?.mainTotal?.total_discount_amount)}</div></div>)}
-                      {result?.mainTotal?.total_discount_amount !== 0 && (<div className="es_dsflx"><div className="es_mTotal2Sub1">Taxable Value</div> <div className="es_mTotal2Sub2">{formatAmount(result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate)}</div></div>)}
-                      {result?.allTaxes?.map((e, i) => (
-                        <div className="es_dsflx">
-                          <div key={i} className="es_mTotal2Sub1 spbrWord">{e?.name} @ {e?.per}</div> 
-                          <div key={i} className="es_mTotal2Sub2">{formatAmount(e?.amount)}</div>
-                        </div>
-                      ))}
+                    {result?.mainTotal?.total_discount_amount !== 0 && (
                       <div className="es_dsflx">
-                        <div className="es_mTotal2Sub1">{result?.header?.AddLess < 0 ? "Less" :  "Add" }</div>
-                        <div className="es_mTotal2Sub2">{formatAmount(result?.header?.AddLess)}</div>
+                        <div className="es_mTotal2Sub1">Total Discount</div>{" "}
+                        <div className="es_mTotal2Sub2">
+                          {formatAmount(
+                            result?.mainTotal?.total_discount_amount
+                          )}
+                        </div>
                       </div>
-                      {result?.header?.FreightCharges !== 0 && (
-                        <div className="es_dsflx"><div className="es_mTotal2Sub1">{result?.header?.ModeOfDel}</div><div className="es_mTotal2Sub2">{formatAmount(result.header.FreightCharges / result.header.CurrencyExchRate)}</div></div>
-                      )}
+                    )}
+                    {result?.mainTotal?.total_discount_amount !== 0 && (
+                      <div className="es_dsflx">
+                        <div className="es_mTotal2Sub1">Taxable Value</div>{" "}
+                        <div className="es_mTotal2Sub2">
+                          {formatAmount(
+                            result?.mainTotal?.total_amount /
+                              result?.header?.CurrencyExchRate
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    {result?.allTaxes?.map((e, i) => (
+                      <div className="es_dsflx">
+                        <div key={i} className="es_mTotal2Sub1 spbrWord">
+                          {e?.name} @ {e?.per}
+                        </div>
+                        <div key={i} className="es_mTotal2Sub2">
+                          {formatAmount(e?.amount)}
+                        </div>
+                      </div>
+                    ))}
+                    <div className="es_dsflx">
+                      <div className="es_mTotal2Sub1">
+                        {result?.header?.AddLess < 0 ? "Less" : "Add"}
+                      </div>
+                      <div className="es_mTotal2Sub2">
+                        {formatAmount(result?.header?.AddLess)}
+                      </div>
+                    </div>
+                    {result?.header?.FreightCharges !== 0 && (
+                      <div className="es_dsflx">
+                        <div className="es_mTotal2Sub1">
+                          {result?.header?.ModeOfDel}
+                        </div>
+                        <div className="es_mTotal2Sub2">
+                          {formatAmount(
+                            result.header.FreightCharges /
+                              result.header.CurrencyExchRate
+                          )}
+                        </div>
+                      </div>
+                    )}
                     {/* <div className="es_mTotal2Sub2">
                       {result?.mainTotal?.total_discount_amount !== 0 && (
                         <div>
@@ -299,24 +361,42 @@ const EstimatePrintK = ({
                 </div>
 
                 <div className="fs_jts es_dsflx es_slbld brt_jts brb_jts">
-                  <div className="es_mTotal1"> Total Pcs : {result?.resultArray?.length}</div>
+                  <div className="es_mTotal1">
+                    {" "}
+                    Total Pcs : {result?.resultArray?.length}
+                  </div>
                   <div className="es_mTotal2Dp">
                     <div className="es_mTotal2Sub1">Grand Total</div>
-                    <div className="es_mTotal2Sub2">{formatAmount((result?.finalAmount  + result.header.FreightCharges) / result?.header?.CurrencyExchRate)}</div>
+                    <div className="es_mTotal2Sub2">
+                      {formatAmount(
+                        (result?.finalAmount + result.header.FreightCharges) /
+                          result?.header?.CurrencyExchRate
+                      )}
+                    </div>
                   </div>
                 </div>
 
                 <div className="fs_jts es_inwrds es_slbld">
-                  <div className="spbrWord" style={{width: "16%"}}>In Words : </div>
-                  <div className="spbrWord" style={{width: "84%"}}>{toWords.convert(+fixedValues((result.finalAmount + result.header.FreightCharges) / result.header.CurrencyExchRate,2))} Only.</div>
+                  <div className="spbrWord" style={{ width: "16%" }}>
+                    In Words :{" "}
+                  </div>
+                  <div className="spbrWord" style={{ width: "84%" }}>
+                    {toWords.convert(
+                      +fixedValues(
+                        (result.finalAmount + result.header.FreightCharges) /
+                          result.header.CurrencyExchRate,
+                        2
+                      )
+                    )}{" "}
+                    Only.
+                  </div>
                 </div>
-                
+
                 <div className="fs_jts es_dsflx brt_jts brb_jts es_slPad es_slbld">
                   <div className="w33_jts es_sptxCen">E & O.E</div>
                   <div className="w33_jts es_sptxCen"></div>
                   <div className="w33_jts es_sptxCen">SIGN</div>
                 </div>
-
               </div>
             </>
           ) : (
