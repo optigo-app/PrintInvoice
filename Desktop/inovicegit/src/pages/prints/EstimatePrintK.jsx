@@ -135,20 +135,6 @@ const EstimatePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <>
               <div className="container_jts">
                 <div className="d-flex justify-content-end align-items-center d_none_jts">
-                  {/* <div className="form-check pe-3">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        checked={image}
-                        onChange={handleChangeImage}
-                      />
-                      <label
-                        className="form-check-label pt-1"
-                        htmlFor="flexCheckDefault"
-                      >
-                        With Image
-                      </label>
-                    </div> */}
                   <Button />
                 </div>
                 <div className="align-items-center">
@@ -215,10 +201,10 @@ const EstimatePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="sevotfsec">Gr.Wt</div>
                     <div className="sevotfthr spbrWord">St.Wt / D.Wt</div>
                     <div className="sevotffor">Net Wt</div>
-                    <div className="sevotffor">Rate</div>
-                    <div className="sevotffiv">Making</div>
-                    <div className="sevotfsx spbrWord">Other Charges</div>
-                    <div className="sevotfsev">Amount</div>
+                    <div className="sevotffiv">Rate</div>
+                    <div className="sevotfsx">Making</div>
+                    <div className="sevotfsev spbrWord">Other Charges</div>
+                    <div className="sevplsone">Amount</div>
                   </div>
                 </div>
 
@@ -243,20 +229,20 @@ const EstimatePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="sevotffor spbrWord">
                         {e?.NetWt?.toFixed(3)}
                       </div>
-                      <div className="sevotffor spbrWord">
-                        {el?.Rate?.toFixed(2)}
-                      </div>
                       <div className="sevotffiv spbrWord">
+                        {NumberWithCommas(el?.Rate, 2)}
+                      </div>
+                      <div className="sevotfsx spbrWord">
                         {e?.MakingChargeDiscount !== 0
                           ? `${NumberWithCommas(e?.MakingChargeDiscount, 2)} %`
                           : e?.MaKingCharge_Unit === 0
                           ? ""
                           : `${NumberWithCommas(e?.MaKingCharge_Unit, 2)}`}
                       </div>
-                      <div className="sevotfsx spbrWord">
+                      <div className="sevotfsev spbrWord">
                         {NumberWithCommas(e?.OtherCharges, 2)}
                       </div>
-                      <div className="sevotfsevDp spbrWord">
+                      <div className="sevplsoneDp spbrWord">
                         {formatAmount(e?.TotalAmount + e?.DiscountAmt)}
                       </div>
                     </div>
@@ -272,10 +258,10 @@ const EstimatePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="sevotffor spbrWord">
                     {result?.mainTotal?.netwt?.toFixed(3)}
                   </div>
-                  <div className="sevotffor spbrWord"></div>
                   <div className="sevotffiv spbrWord"></div>
                   <div className="sevotfsx spbrWord"></div>
-                  <div className="sevotfsevDp spbrWord">
+                  <div className="sevotfsev spbrWord"></div>
+                  <div className="sevplsoneDp spbrWord">
                     {formatAmount(
                       result?.mainTotal?.total_amount +
                         result?.mainTotal?.total_discount_amount

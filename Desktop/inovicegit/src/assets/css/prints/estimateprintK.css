@@ -4,7 +4,7 @@
       format("truetype");
 }
 .container_jts{
-    max-width: 9.5cm;
+    max-width: 9.8cm;
     width: 100%;
     padding-bottom: 5rem;
     /* font-family: calibri; */
@@ -55,28 +55,31 @@
     padding-bottom: 2px;
 }
 .sevotfon{
-    width: 14%;
+    width: 12.5%;
 }
 .sevotfsec{
-    width: 12%;
+    width: 10.5%;
 }
 .sevotfthr{
-    width: 14%;
+    width: 12.5%;
 }
 .sevotffor{
-    width: 12%;
+    width: 10.5%;
 }
 .sevotffiv{
-    width: 15%;
+    width: 13%;
 }
 .sevotfsx{
-    width: 15%;
+    width: 12.5%;
 }
 .sevotfsev{
-    width: 18%;
+    width: 12.5%;
 }
-.sevotfsevDp{
-    width: 20%;
+.sevplsone{
+    width: 16.5%;
+}
+.sevplsoneDp{
+    width: 16.5%;
     text-align: right;
 }
 .spbrWord{
@@ -96,18 +99,6 @@
 }
 .lh_jts{
     line-height: 20px !important;
-}
-.col1_jts{
-    width: 10%;
-}
-.col2_jts{
-    width: 15%;
-}
-.col3_jts{
-    width: 62%;
-}
-.col4_jts{
-    width: 13%;
 }
 .center_jts{
     display: flex;
@@ -187,22 +178,6 @@
 .es_slPad{
     padding-top: 46px;
 }
-/* .static_jts{
-    text-transform: uppercase;
-    text-align: left;
-    font-size: 12px;
-    color: gray;
-}
-.dec_jts *{
-    font-size: 12px;
-    line-height: 15px;
-    padding: 2px;
-    word-wrap: break-word !important;
-    word-break: break-word !important;
-} */
-/* .lastPad{
-    padding-right: 8.5rem;
-} */
 @media print {
     .container_jts{
         max-width: 9cm;
