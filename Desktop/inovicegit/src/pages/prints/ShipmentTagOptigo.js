@@ -46,6 +46,8 @@ export default function ShipmentTagOptigo({ token, invoiceNo, printName, urls, e
   const loadData = (data) => {
     setResult(data)
   }
+  const text = result?.Shipment_Json?.map((e) => e?.ShippingToPrintlable || '').join('\n') || '';
+  const formattedText = text.replace(/\n/g, "<br />");
   console.log("resultresult", result);
   return (
     <div>
@@ -66,25 +68,29 @@ export default function ShipmentTagOptigo({ token, invoiceNo, printName, urls, e
             <div key={i} className="invoice-container">
               {/* Header */}
               <div className="header">
-                <div className="party1 from" style={{ borderRight: "1px solid" }}>
+                <div className="party0">
                   <img
                     src={e?.InvoicePrintLogo}
                     onError={(e) => handleImageError(e)}
+                    height={30}
+                    width={50}
                     className="logo"
-                    alt=""
+                    alt="logo"
                   />
+                </div>
+                <div className="party1 from" style={{ borderRight: "1px solid" }}>
                   <div className="address-block">
-                    <strong className="brBtom" style={{width: "110%"}}>FROM:</strong>
-                    <p className="spbrWord spBold">{e?.ShippingFrom}</p>
-                    {e?.ShippingFromPrintlable !== null &&<p className="spbrWord">{e?.ShippingFromPrintlable}</p>}
+                    <strong className="brBtom">FROM:</strong>
+                    <div className="spbrWord spBold">{e?.ShippingFrom}</div>
+                    {e?.ShippingFromPrintlable !== "" && <div dangerouslySetInnerHTML={{ __html: e?.ShippingFromPrintlable }}/>}
                   </div>
                 </div>
                 <div className="party2 to">
                   <div className="address-block">
-                    <strong className="spPadg">TO:</strong>
-                    <div className="spbrWord spBold">{e?.ShippingTo}</div>
+                    <strong className="spPadg brBtom">TO:</strong>
+                    <div className="spbrWord spBold">{e?.ShippingFullName}</div>
                     <div className="spbrWord">
-                      {e?.ShippingAddressline !== null && <div className="spbrWord">{e?.ShippingAddressline}</div>}
+                      {e?.ShippingToPrintlable !== "" && <div dangerouslySetInnerHTML={{ __html: formattedText }} />}
                       <div>{e?.ShippingCity}‑{e?.ShippingPincode}, {e?.ShippingState} ‑ {e?.ShippingCountry}</div>
                       <div>Phone: {e?.ShippingMobileNo}</div>
                     </div>
@@ -92,7 +98,7 @@ export default function ShipmentTagOptigo({ token, invoiceNo, printName, urls, e
                 </div>
               </div>
   
-              <hr className="divider" />
+              <hr className="divider" style={{ marginBottom: "2px" }}/>
   
               {/* Mid section */}
               <div className="mid-section">
@@ -109,19 +115,19 @@ export default function ShipmentTagOptigo({ token, invoiceNo, printName, urls, e
                   </div>
                 </div>
                 <div className="secondOPart2">
-                    <div style={{ fontSize: '8px', }}>Order No.</div>
-                    <div style={{ fontSize: '9px', fontWeight: "bold" }}>{e?.BillNo}</div>
+                    <div style={{ fontSize: "7px", }}>Order No.</div>
+                    <div style={{ fontSize: "8px", fontWeight: "bold" }}>{e?.BillNo}</div>
                 </div>
                 <div className="secondOPart3">
                   <QRCode
-                    style={{ height: "60px", width: "60px" }}
+                    style={{ height: "45px", width: "60px" }}
                     value={e?.BillNo}
                     viewBox={`0 0 128 128`}
                   />
                 </div>
               </div>
   
-              <hr className="divider" style={{ borderTop: "none" }} />
+              {/* <hr className="divider" style={{ borderTop: "none" }} /> */}
             </div>
           ))}
         </>
