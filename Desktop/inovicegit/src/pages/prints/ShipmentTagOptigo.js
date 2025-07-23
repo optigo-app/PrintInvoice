@@ -68,7 +68,7 @@ export default function ShipmentTagOptigo({ token, invoiceNo, printName, urls, e
               <div className="header">
                 <div className="party1 from" style={{ borderRight: "1px solid" }}>
                   <img
-                    src={e?.ShipmentTagOptigo}
+                    src={e?.InvoicePrintLogo}
                     onError={(e) => handleImageError(e)}
                     className="logo"
                     alt=""
