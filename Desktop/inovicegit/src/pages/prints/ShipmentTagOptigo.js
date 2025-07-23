@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/prints/ShipmentOptigo.scss";
 import QRCode from "react-qr-code";
-import { apiCall, checkMsg, isObjectEmpty, handlePrint, } from "../../GlobalFunctions";
+import { apiCall, checkMsg, isObjectEmpty, handlePrint, handleImageError, } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 
 export default function ShipmentTagOptigo({ token, invoiceNo, printName, urls, evn, ApiVer }) {
@@ -68,9 +68,10 @@ export default function ShipmentTagOptigo({ token, invoiceNo, printName, urls, e
               <div className="header">
                 <div className="party1 from" style={{ borderRight: "1px solid" }}>
                   <img
+                    src={e?.ShipmentTagOptigo}
+                    onError={(e) => handleImageError(e)}
                     className="logo"
-                    src="https://fastly.picsum.photos/id/1/5000/3333.jpg?hmac=Asv2DU3rA_5D1xSe22xZK47WEAN0wjWeFOhzd13ujW4"
-                    alt="Optigo Logo"
+                    alt=""
                   />
                   <div className="address-block">
                     <strong className="brBtom" style={{width: "110%"}}>FROM:</strong>
