@@ -809,10 +809,10 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="fw-bold billbox_pcls">Sale Person Name</div>
                     <div>{result?.header?.SalesRepName}</div>
                   </div>
-                  <div className="d-flex align-items-center">
+                  {/* <div className="d-flex align-items-center">
                     <div className="fw-bold billbox_pcls">Mobile No</div>
                     <div>{result?.header?.SalesRepMobileNo}</div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               {/* table */}
