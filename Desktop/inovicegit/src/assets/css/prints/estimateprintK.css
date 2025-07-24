@@ -25,7 +25,7 @@
 .es_mainHead{
     text-align: center;
     width: 100%;
-    font-weight: bold;
+    font-weight: 1000;
     margin-bottom: 3px;
 }
 .es_subHead{
@@ -171,7 +171,7 @@
     text-align: center;
 }
 .es_slbld{
-    font-weight: bold;
+    font-weight: 1000;
 }
 .es_slFnt{
     font-size: 17px;
@@ -223,6 +223,12 @@
     }
     .fs2_jts1{
         font-size: 10px;
+    }
+    .es_mainHead{
+        font-weight: 1000;
+    }
+    .es_slbld{
+        font-weight: 1200;
     }
     /* .lastPad{
         padding-right: 4.4rem;

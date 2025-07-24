@@ -169,13 +169,13 @@ const EstimatePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div>
                       <div className="fs2_jts1">
                         Invoice No:{" "}
-                        <span className="fw-bold">
+                        <span>
                           {result?.header?.InvoiceNo}
                         </span>
                       </div>
                       <div className="fs2_jts1">
                         Name:{" "}
-                        <span className="fw-bold">
+                        <span>
                           {result?.header?.customerfirmname}
                         </span>
                       </div>
@@ -183,13 +183,13 @@ const EstimatePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div>
                       <div className="fs2_jts1">
                         Date:{" "}
-                        <span className="fw-bold">
+                        <span>
                           {result?.header?.EntryDate}
                         </span>
                       </div>
                       <div className="fs2_jts1">
                         Sales Person:{" "}
-                        <span className="fw-bold">
+                        <span>
                           {result?.header?.SalesRepName}
                         </span>
                       </div>
