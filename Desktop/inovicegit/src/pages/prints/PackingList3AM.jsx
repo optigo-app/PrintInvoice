@@ -636,7 +636,6 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   console.log("resultresult", result);
 
   return (
-    <div className="packList_3a_main">
       <>
         {loader ? (
           <Loader />
@@ -2221,7 +2220,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           className="d-flex justify-content-between px-1 fsgdp10 tb_fs_pcls"
                           key={i}
                         >
-                          <div className="fw-bold w-50 tb_fs_pcls">
+                          <div className="fw-bold w-50 tb_fs_pcls spbrWord">
                             {e?.ShapeName} {e?.QualityName} {e?.Colorname}
                           </div>
                           <div className="w-50 end_dp10 tb_fs_pcls">
@@ -2291,40 +2290,40 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="w-100 fw-bold text-center">
                       Bank Details
                     </div>
-                    <div className="d-flex w-100 spbrWord">
-                      <span className="fw-bold w-25">Bank name</span>:
-                      <span style={{ marginLeft: "5px" }}>
+                    <div className="d-flex w-100">
+                      <span className="fw-bold spwdth">Bank name</span>:
+                      <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
                         {result?.header?.bankname}
                       </span>
                     </div>
-                    <div className="d-flex w-100 spbrWord">
+                    <div className="d-flex w-100">
                       <span
-                        className="fw-bold w-25"
+                        className="fw-bold spwdth"
                         style={{ wordBreak: "normal" }}
                       >
                         Branch
                       </span>
                       :
-                      <span style={{ marginLeft: "5px" }}>
+                      <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
                         {result?.header?.bankaddress}
                       </span>
                     </div>
                     {/* <span>{headerData?.spaninCode}</span> */}
-                    <div className="d-flex w-100 spbrWord">
-                      <span className="fw-bold w-25">Account Name</span>:
-                      <span style={{ marginLeft: "5px" }}>
+                    <div className="d-flex w-100">
+                      <span className="fw-bold spwdth">Account Name</span>:
+                      <span className="spwdth1 spbrWord"style={{ marginLeft: "5px" }}>
                         {result?.header?.accountname}
                       </span>
                     </div>
-                    <div className="d-flex w-100 spbrWord">
-                      <span className="fw-bold w-25">Account No </span>:
-                      <span style={{ marginLeft: "5px" }}>
+                    <div className="d-flex w-100">
+                      <span className="fw-bold spwdth">Account No </span>:
+                      <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
                         {result?.header?.accountnumber}
                       </span>
                     </div>
-                    <div className="d-flex w-100 spbrWord">
-                      <span className="fw-bold w-25">RTGS NEFT IFSC </span>:
-                      <span style={{ marginLeft: "5px" }}>
+                    <div className="d-flex w-100">
+                      <span className="fw-bold spwdth">RTGS NEFT IFSC </span>:
+                      <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
                         {result?.header?.rtgs_neft_ifsc}
                       </span>
                     </div>
@@ -2373,7 +2372,6 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </p>
         )}
       </>
-    </div>
   );
 };
 
