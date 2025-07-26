@@ -29,7 +29,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
   const [secondarySize, setSecondarySize] = useState(false);
   const [size, setSize] = useState(true);
-  const [checkBoxNew, setCheckBoxNew] = useState("Amantran");
+  const [checkBoxNew, setCheckBoxNew] = useState("Single Stone");
   const [diamondDetails, setDiamondDetails] = useState([]);
   const [diamondWise, setDiamondWise] = useState([]);
 
@@ -611,9 +611,9 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const options = ["Amantran", "Crystal Cut", "Single Stone"];
 
   const logoMap = {
-    Amantran: result?.header?.AMJ_LOGO,
-    "Crystal Cut": result?.header?.CC_LOGO,
-    "Single Stone": result?.header?.SS_LOGO,
+    "Amantran" : result?.header?.AMJ_LOGO,
+    "Crystal Cut" : result?.header?.CC_LOGO,
+    "Single Stone" : result?.header?.SS_LOGO,
   };
 
   const finalAmount =

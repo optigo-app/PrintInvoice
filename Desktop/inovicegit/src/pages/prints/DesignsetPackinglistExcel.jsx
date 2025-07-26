@@ -1,4 +1,4 @@
-// http://localhost:3001/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=U0syMTA0MjAyNA==&evn=c2FsZQ==&pnm=RGVzaWduc2V0IFBhY2tpbmdsaXN0&up=aHR0cDovL3plbi9qby9hcGktbGliL0FwcC9TYWxlQmlsbF9Kc29u&ctv=NzE=&ifid=PackingList3&pid=undefined&etp=ZXhjZWw=
+// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=SlMvNDE4LzIwLTI1&evn=c2FsZQ==&pnm=RGVzaWduc2V0IFBhY2tpbmdsaXN0&up=aHR0cDovL3plbi9qby9hcGktbGliL0FwcC9TYWxlQmlsbF9Kc29u&ctv=NzE=&ifid=PackingList3&pid=undefined&etp=ZXhjZWw=
 import React, { useEffect, useState } from "react";
 import {
   apiCall,
@@ -25,16 +25,12 @@ const DesignsetPackinglistExcel = ({
   ApiVer,
 }) => {
   const [result, setResult] = useState(null);
-  const [result2, setResult2] = useState(null);
-  const [result3, setResult3] = useState(null);
-  const [diamondWise, setDiamondWise] = useState([]);
   const [responsejson, setResponsejson] = useState("");
-  const [rowWise, setRowWise] = useState([]);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
-  const [diaQlty, setDiaQlty] = useState(false);
   const [data, setData] = useState(null);
+  // const [diaQlty, setDiaQlty] = useState(false);
 
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -175,49 +171,50 @@ const DesignsetPackinglistExcel = ({
     }, 500);
   };
 
-  useEffect(() => {
-    if (diaQlty) {
-      const updated = cloneDeep(result);
+  // useEffect(() => {
+  //   if (diaQlty) {
+  //     const updated = cloneDeep(result);
 
-      updated.resultArray.forEach((e) => {
-        // Merge duplicate diamonds
-        const diaMap = new Map();
-        e?.diamonds?.forEach((el) => {
-          const key = el?.QualityName;
-          if (!diaMap.has(key)) {
-            diaMap.set(key, cloneDeep(el));
-          } else {
-            const existing = diaMap.get(key);
-            existing.Wt += el.Wt;
-            existing.Pcs += el.Pcs;
-            existing.Amount += el.Amount;
-          }
-        });
-        e.diamonds = Array.from(diaMap.values());
+  //     updated.resultArray.forEach((e) => {
+  //       // Merge duplicate diamonds
+  //       const diaMap = new Map();
+  //       e?.diamonds?.forEach((el) => {
+  //         const key = el?.QualityName;
+  //         if (!diaMap.has(key)) {
+  //           diaMap.set(key, cloneDeep(el));
+  //         } else {
+  //           const existing = diaMap.get(key);
+  //           existing.Wt += el.Wt;
+  //           existing.Pcs += el.Pcs;
+  //           existing.Amount += el.Amount;
+  //         }
+  //       });
+  //       e.diamonds = Array.from(diaMap.values());
 
-        // Merge duplicate colorstones
-        const clrMap = new Map();
-        e?.colorstone?.forEach((el) => {
-          const key = `${el.ShapeName}|${el.SizeName}|${el.QualityName}|${el.Colorname}|${el.Rate}`;
-          if (!clrMap.has(key)) {
-            clrMap.set(key, cloneDeep(el));
-          } else {
-            const existing = clrMap.get(key);
-            existing.Wt += el.Wt;
-            existing.Pcs += el.Pcs;
-            existing.Amount += el.Amount;
-          }
-        });
-        e.colorstone = Array.from(clrMap.values());
-      });
+  //       // Merge duplicate colorstones
+  //       const clrMap = new Map();
+  //       e?.colorstone?.forEach((el) => {
+  //         const key = `${el.ShapeName}|${el.SizeName}|${el.QualityName}|${el.Colorname}|${el.Rate}`;
+  //         if (!clrMap.has(key)) {
+  //           clrMap.set(key, cloneDeep(el));
+  //         } else {
+  //           const existing = clrMap.get(key);
+  //           existing.Wt += el.Wt;
+  //           existing.Pcs += el.Pcs;
+  //           existing.Amount += el.Amount;
+  //         }
+  //       });
+  //       e.colorstone = Array.from(clrMap.values());
+  //     });
 
-      setResult(updated);
-    } else {
-      setResult(data);
-    }
-  }, [diaQlty]);
+  //     setResult(updated);
+  //   } else {
+  //     setResult(data);
+  //   }
+  // }, [diaQlty]);
 
   //styles and css
+  
   const txtRt = {
     textAlign: "right",
   };
@@ -229,6 +226,9 @@ const DesignsetPackinglistExcel = ({
   };
   const brRight = {
     borderRight: "1px solid #989898",
+  };
+  const brRightlgt = {
+    borderRight: "1px solid #e8e8e8",
   };
   const brLeft = {
     borderLeft: "1px solid #989898",
@@ -245,7 +245,10 @@ const DesignsetPackinglistExcel = ({
   const coWdth = {
     width: "80px",
   };
-
+  const coHeit = {
+    width: "50px",
+  };
+  
   return (
     <>
       {loader ? (
@@ -265,8 +268,10 @@ const DesignsetPackinglistExcel = ({
                 />
                 <table id="table-to-xls">
                   <tbody>
+                    {/** Main Header */}
                     <tr>
-                      <td colSpan={22} width={132} height={132}>
+                      <td colSpan={11}></td>
+                      <td width={60} height={132}>
                         {isImageWorking && result?.header?.PrintLogo !== "" && (
                           <div>
                             <img
@@ -279,9 +284,10 @@ const DesignsetPackinglistExcel = ({
                           </div>
                         )}
                       </td>
+                      <td colSpan={11}></td>
                     </tr>
                     <tr>
-                      <td colSpan={22} style={{ ...txtCen }}>
+                      <td colSpan={23} style={{ ...txtCen }}>
                         <div>
                           {result?.header?.CompanyAddress}
                           {result?.header?.CompanyAddress2}
@@ -298,10 +304,21 @@ const DesignsetPackinglistExcel = ({
                           )}
                       </td>
                     </tr>
+                    <tr>
+                      <td colSpan={3}>
+                        <div><b>Party:</b> {result?.header?.customerfirmname} </div>
+                      </td>
+                      <td colSpan={17}></td>
+                      <td colSpan={3}>
+                        <div>Invoice No: <b>{result?.header?.InvoiceNo}</b></div>
+                        <div>Date: <b>{result?.header?.EntryDate}</b></div>
+                      </td>
+                    </tr>
 
-                    {/* table */}
+                    {/* Table Headers */}
                     <tr>
                       <th
+                        width={25}
                         style={{...brLeft,...brTop,...bgColor,}}
                       >
                         Sr
@@ -348,12 +365,18 @@ const DesignsetPackinglistExcel = ({
                       <th
                         style={{...brLeft,...brTop,...brRight,...bgColor,}}
                       >
-                        Total
+                        Price
+                      </th>
+                      <th
+                        style={{...brLeft,...brTop,...brRight,...bgColor,}}
+                      >
+                        Amount
                       </th>
                     </tr>
                     <tr>
                       <th
-                        style={{...coWdth,...brLeft,...brBotm,...brRight,...bgColor,}}
+                        width={25}
+                        style={{...brLeft,...brBotm,...brRight,...bgColor,}}
                       ></th>
                       <th
                         style={{...coWdth,...brBotm,...brRight,...bgColor,}}
@@ -454,18 +477,23 @@ const DesignsetPackinglistExcel = ({
                       <th
                         style={{...coWdth,...brBotm,...brRight,...bgColor,}}
                       >
-                        Amount
+                      </th>
+                      <th
+                        style={{...coWdth,...brBotm,...brRight,...bgColor,}}
+                      >
                       </th>
                     </tr>
-
+                    
+                    {/** Table Info */}
                     {result?.resultArray?.map((e, i) => {
+                      const lastElement = i === result.resultArray.length - 1;
                       return ( 
                           <tr key={i}>
-                            <td style={{ ...brRight, ...txtTop }} align="center">
+                            <td style={{ ...brRight, ...txtTop }} width={25} align="center">
                               {i + 1}
                             </td>
-                            <td style={{ ...brRight, ...txtTop }} height={150}>
-                              <div style={{ textAlign: "right" }}>
+                            <td style={{ ...brRight, ...txtTop, ...txtCen }} height={150} width={100}>
+                              <div style={{ textAlign: "left" }}>
                                   {e?.JewelCodePrefix?.slice(0, 2) +
                                   e?.Category_Prefix?.slice(0, 2) +
                                   e?.SrJobno?.split("/")[1]}
@@ -483,128 +511,284 @@ const DesignsetPackinglistExcel = ({
                               {e?.HUID === "" ? ( "" ) : (<div>HUID - {e?.HUID}</div>)}
                               {e?.lineid !== "" ? (<div>{e?.lineid}</div>) : ( "" )}
                             </td>
-                            <td style={{ ...brRight, ...txtTop }} height={120}>
+                            <td style={{ ...brRight, ...txtTop }} height={120} width={100}>
                               <div>
                                 <img
-                                  src={`e?.DesigSetImage?resize=90x90`}
-                                  alt="packinglist"
+                                  src={`${e?.DesigSetImage}?resize=90x90`}
+                                  alt="img"
                                   width="90"
                                   height="90"
                                   onError={(e) => handleImageError(e)}
                                 />
                               </div>
                             </td>
-                            {/* <td width={120} align="right" style={{ ...brRight, wordBreak: "break-word", paddingRight: "5px",}}>
-                              &nbsp;{e?.SrJobno}&nbsp;
+                            {/** Diamond */}
+                            <td style={{ ...txtTop }}>
+                              {e?.diamonds?.map((ele, ind) => {
+                                return <div key={ind}>{ele?.ShapeName}</div>
+                              })}
                             </td>
-                            <td  align="left">
-                              &nbsp;{e?.dia_code}
+                            <td style={{ ...txtTop }}>
+                              {e?.diamonds?.map((ele, ind) => {
+                                return <div key={ind}>{ele?.SizeName}</div>
+                              })}
                             </td>
-                            <td  align="left">
-                              &nbsp;{`${e?.dia_size}`}
+                            <td style={{ ...txtTop }}>
+                              {e?.diamonds?.map((ele, ind) => {
+                                return <div key={ind}>{ele?.Wt}</div>
+                              })}
                             </td>
-                            <td  align="right">
-                              {e?.dia_pcs}
+                            <td style={{ ...txtTop }}>
+                              {e?.diamonds?.map((ele, ind) => {
+                                return <div key={ind}>{ele?.Rate}</div>
+                              })}
                             </td>
-                            <td  align="right">
-                              {e?.dia_wt === "" ? "" : (+e?.dia_wt)?.toFixed(3)}
+                            <td style={{ ...txtTop, ...brRight }}>
+                              {e?.diamonds?.map((ele, ind) => {
+                                return <div key={ind}>{formatAmount(ele?.Amount / result?.header?.CurrencyExchRate)}</div>
+                              })}
                             </td>
-                            <td  align="right">
-                              {e?.dia_rate === ""
-                                ? ""
-                                : formatAmount(e?.dia_rate)}
+                            {/** Metal */}
+                            {e?.JobRemark !== "" ? (
+                              <>
+                                <td style={{ ...txtTop }}>
+                                  {e?.metal?.map((ele, ind) => {
+                                    return <div key={ind}>{ele?.ShapeName + " " + ele?.QualityName}</div>
+                                  })}
+                                  <div>Remark:</div>
+                                  <div>{e?.JobRemark} </div>
+                                </td>
+                                <td style={{ ...txtTop }}>
+                                  <div>{e?.grosswt?.toFixed(3)}</div>
+                                </td>
+                                <td style={{ ...txtTop }}>
+                                  <div>{e?.totals?.metal?.IsPrimaryMetal?.toFixed(3)}</div>
+                                </td>
+                                <td style={{ ...txtTop }}>
+                                  {e?.metal?.map((ele, ind) => {
+                                    return <div key={ind}>{ele?.Rate?.toFixed(2)}</div>
+                                  })}
+                                </td>
+                                <td style={{ ...brRight, ...txtTop }}>
+                                  {e?.metal?.map((ele, ind) => {
+                                    return <div key={ind}>{formatAmount(ele?.Amount / result?.header?.CurrencyExchRate)}</div>
+                                  })}
+                                </td>
+                              </>
+                            ) : (
+                              <>
+                                <td style={{ ...txtTop }}>
+                                  {e?.metal?.map((ele, ind) => {
+                                    return <div key={ind}>{ele?.IsPrimaryMetal === 1 && ele?.ShapeName + " " + ele?.QualityName}</div>
+                                  })}
+                                </td>
+                                <td style={{ ...txtTop }}>
+                                  <div>{e?.grosswt?.toFixed(3)}</div>
+                                </td>
+                                <td style={{ ...txtTop }}>
+                                  <div>{e?.totals?.metal?.IsPrimaryMetal?.toFixed(3)}</div>
+                                </td>
+                                <td style={{ ...txtTop }}>
+                                  {e?.metal?.map((ele, ind) => {
+                                    return <div key={ind}>{ele?.IsPrimaryMetal === 1 && ele?.Rate !== 0 && ele?.Rate?.toFixed(2)}</div>
+                                  })}
+                                </td>
+                                <td style={{ ...brRight, ...txtTop }}>
+                                  {e?.metal?.map((ele, ind) => {
+                                    return <div key={ind}>{ele?.IsPrimaryMetal === 1 && ele?.Amount !== 0 && formatAmount(ele?.Amount / result?.header?.CurrencyExchRate)}</div>
+                                  })}
+                                </td>
+                              </>
+                            )}
+                            {/** ColorStone */}
+                              <td style={{ ...txtTop }}>
+                                {e?.colorstone?.map((ele, ind) => {
+                                  return <div key={ind}>{ele?.ShapeName}</div>
+                                })}
+                              </td>
+                              <td style={{ ...txtTop }}>
+                                {e?.colorstone?.map((ele, ind) => {
+                                  return <div key={ind}>{ele?.Wt?.toFixed(3)}</div>
+                                })}
+                              </td>
+                              <td style={{ ...txtTop }}>
+                                {e?.colorstone?.map((ele, ind) => {
+                                  return <div key={ind}>{ele?.Wt?.toFixed(3)}</div>
+                                })}
+                              </td>
+                              <td style={{ ...brRight, ...txtTop }}>
+                                {e?.colorstone?.map((ele, ind) => {
+                                  return <div key={ind}>{ele?.IsPrimaryMetal === 1 && ele?.Amount !== 0 && formatAmount(ele?.Amount / result?.header?.CurrencyExchRate)}</div>
+                                })}
+                              </td>
+                            {/** Labour */}
+                            <td style={{ ...txtTop }}>
+                              <div>{e?.MaKingCharge_Unit !== 0? formatAmount(e?.MaKingCharge_Unit): "\u00A0"}</div>
                             </td>
-                            <th
-                              align="right"
-                              
-                              style={{ ...brRight }}
-                            >
-                              {e?.dia_amt === ""
-                                ? ""
-                                : formatAmount(e?.dia_amt)}
-                            </th>
-                            <td
-                              
-                              style={{ wordBreak: "break-word" }}
-                              align="left"
-                            >
-                              &nbsp;{`${e?.met_quality}`}
+                            <td style={{ ...brRight, ...txtTop }}>
+                              <div>
+                                {e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost !== 0 &&
+                                  formatAmount((e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost) / result?.header?.CurrencyExchRate)}
+                              </div>
                             </td>
-                            <td  align="right">
-                              {(+e?.met_wt)?.toFixed(3)}
+                            {/** Other */}
+                            <td style={{ ...txtTop }}>
+                              <div>{e?.totals?.misc?.onlyIsHSCODE0_Amount === 0 ? "" : "Other"}</div>
+                              <div>{e?.TotalDiamondHandling === 0 ? "" : "Handling"}</div>
+                              {e?.other_details?.map((e, i) => {
+                                return ( i < 3 && (
+                                  <div key={i}>{e?.label}</div>
+                                ));
+                              })}
+                              {e?.misc?.map((el, i) => {
+                                return el?.IsHSCOE === 1 || el?.IsHSCOE === 2 || el?.IsHSCOE === 3 ? (
+                                  <div key={i}>{el?.Amount === 0 ? "" : el?.IsHSCOE === 3 ? el?.ShapeName?.split("_")[1] : el?.ShapeName}</div>
+                                ) : (
+                                  ""
+                                );
+                              })}
                             </td>
-                            <td  align="right">
-                              {formatAmount(e?.met_rate)}
+                            <td style={{ ...brRight, ...txtTop }}>
+                              <div>
+                                {e?.totals?.misc?.onlyIsHSCODE0_Amount === 0 ? "" : 
+                                  formatAmount(e?.totals?.misc?.onlyIsHSCODE0_Amount / result?.header?.CurrencyExchRate)}
+                              </div>
+                              <div>{e?.TotalDiamondHandling === 0 ? "" : formatAmount(e?.TotalDiamondHandling)}</div>
+                              {e?.other_details?.map((el, i) => {return i < 3 ? (<div key={i}>{el?.value}</div>) : ( "" );})}
+                              {e?.misc?.map((el, i) => {return el?.IsHSCOE === 1 || el?.IsHSCOE === 2 || el?.IsHSCOE === 3 ? (
+                                <div key={i}>{el?.Amount === 0 ? "" : 
+                                  formatAmount(el?.Amount / result?.header?.CurrencyExchRate)}
+                                </div>) : ( "" );
+                              })}
                             </td>
-                            <th
-                              align="right"
-                              
-                              style={{ ...brRight }}
-                            >
-                              {e?.met_amt}
-                            </th>
-                            <td  align="left">
-                              &nbsp;{e?.cls_code}
+                            {/** Price */}
+                            <td style={{ ...brRight, ...txtTop }}>
+                              <div>{formatAmount(e?.UnitCost / result?.header?.CurrencyExchRate)}</div>
                             </td>
-                            <td  align="left">
-                              &nbsp;{`${e?.cls_size}`}
+                            {/** Amount */}
+                            <td style={{ ...brRight, ...txtTop, 
+                              borderTop: e?.designSetTotalAmount ? "1px solid #989898" : "none",
+                              visibility:
+                               e?.IsCriteriabasedAmount === 1 ? "hidden" : "visible",
+                              }}>
+                              <div>
+                                <b>{e?.designSetTotalAmount
+                                  ? Number(e.designSetTotalAmount / (result?.header?.CurrencyExchRate || 1)).toFixed(2)
+                                  : ""}</b>
+                              </div>
                             </td>
-                            <td  align="right">
-                              {e?.cls_pcs}
-                            </td>
-                            <td  align="right">
-                              {e?.cls_wt === "" ? "" : (+e?.cls_wt)?.toFixed(3)}
-                            </td>
-                            <td  align="right">
-                              {e?.cls_rate === ""
-                                ? ""
-                                : formatAmount(e?.cls_rate)}
-                            </td>
-                            <th
-                              align="right"
-                              
-                              style={{ ...brRight }}
-                            >
-                              {e?.cls_amt === "" ? "" : e?.cls_amt}
-                            </th>
-                            <td
-                              
-                              align="right"
-                              style={{ ...brRight }}
-                            >
-                              {e?.oth_amt === 0 ? "" : formatAmount(e?.oth_amt)}
-                            </td>
-                            <td
-                              
-                              align="right"
-                              style={{ ...brRight }}
-                            >
-                              {e?.labour_rate === 0
-                                ? ""
-                                : formatAmount(e?.labour_rate)}
-                            </td>
-                            <td
-                              
-                              align="right"
-                              style={{ ...brRight }}
-                            >
-                              {formatAmount(e?.labour_amt)}
-                            </td>
-                            <th
-                              align="right"
-                              
-                              style={{ ...brRight }}
-                            >
-                              {formatAmount(e?.total_amount)}
-                            </th> */}
+
+                            {/** Per Job Total */}
+                            <tr>
+                              <td style={{ ...brRight, ...brBotm }}/>
+                              <td style={{ ...brRight, ...brBotm }}/>
+                              <td style={{ ...brRight, ...brBotm }}/>
+                              <td style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}/>
+                              <td style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}/>
+                              <td style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}><b>{e?.totals?.diamonds?.Wt?.toFixed(3)}</b></td>
+                              <td style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}/>
+                              <td style={{ ...bgColor, ...brRight, ...brTop, ...brBotm }}>
+                                <b>{formatAmount(e?.totals?.diamonds?.Amount / result?.header?.CurrencyExchRate)}</b>
+                              </td>
+                              <td style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}/>
+                              <td style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}><b>{e?.grosswt?.toFixed(3)}</b></td>
+                              <td style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}><b>{e?.totals?.metal?.IsPrimaryMetal?.toFixed(3)}</b></td>
+                              <td style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}/>
+                              <td style={{ ...bgColor, ...brRight, ...brTop, ...brBotm }}>
+                                <b>{formatAmount(e?.totals?.metal ?.IsPrimaryMetal_Amount / result?.header?.CurrencyExchRate)}</b>
+                              </td>
+                              <td style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}/>
+                              <td style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}>
+                                <b>{e?.totals?.colorstone?.Wt === 0 ? ("") : (e?.totals?.colorstone?.Wt?.toFixed(3))}</b>
+                              </td>
+                              <td style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}/>
+                              <td style={{ ...bgColor, ...brRight, ...brTop, ...brBotm }}>
+                                <b>{e?.totals?.colorstone?.Amount === 0 ? ( "" ) : (formatAmount(e?.totals?.colorstone?.Amount / result?.header?.CurrencyExchRate))}</b>
+                              </td>
+                              <td style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}>
+                                <b>{e?.MaKingCharge_Unit !== 0 ? formatAmount(e?.MaKingCharge_Unit) : ""}</b>
+                              </td>
+                              <td style={{ ...bgColor, ...brRight, ...brTop, ...brBotm }}>
+                                <b>
+                                  {e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost === 0 ? ( ""
+                                    ) : (
+                                      e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost !== 0 &&
+                                        formatAmount((e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost) / result?.header?.CurrencyExchRate)
+                                  )}
+                                </b>
+                              </td>
+                              <td style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }} />
+                              <td style={{ ...bgColor, ...brRight, ...brTop, ...brBotm }}>
+                                <b>
+                                  {e?.other_details?.length === 0 && e?.misc?.length === 0 && e?.TotalDiamondHandling === 0 && e?.totals?.misc?.onlyIsHSCODE0_Amount === 0 ? 
+                                    ( "" ) : 
+                                    (formatAmount(e?.other_details_arr_total_amount + e?.totals?.misc?.Amount / result?.header?.CurrencyExchRate + e?.TotalDiamondHandling))}
+                                </b>
+                              </td>
+                              <td style={{ ...bgColor, ...brRight, ...brTop, ...brBotm }}><b>{formatAmount(e?.TotalAmount / result?.header?.CurrencyExchRate)}</b></td>
+                              <td style={{ ...brRight, borderBottom: lastElement ? "1px solid #989898" : "none", }}><div></div></td>
+                            </tr>
                           </tr>
                         )
                     })}
+                    <tr>
+                      <td style={{ ...brRight, ...brBotm, ...bgColor, }}/>
+                      <td style={{ ...brRight, ...brBotm, ...bgColor, }}><b>TOTAL</b></td>
+                      <td style={{ ...brRight, ...brBotm, ...bgColor, }}/>
+                      <td style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}/>
+                      <td style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}/>
+                      <td align="right" style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}>
+                        <b>{result?.mainTotal?.diamonds?.Wt !== 0 && result?.mainTotal?.diamonds?.Wt?.toFixed(3)}</b>
+                      </td>
+                              <td colSpan={2} align="right" style={{ ...bgColor, ...brRight, ...brTop, ...brBotm }}>
+                                <b>
+                                  {result?.mainTotal?.diamonds?.Amount !== 0 &&
+                                    formatAmount(result?.mainTotal?.diamonds?.Amount / result?.header?.CurrencyExchRate)}
+                                </b>
+                              </td>
+                              <td style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}/>
+                              <td align="right" style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}><b>{result?.mainTotal?.grosswt?.toFixed(3)}</b></td>
+                              <td align="right" style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}><b>{result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}</b></td>
+                              <td colSpan={2} align="right" style={{ ...bgColor, ...brRight, ...brTop, ...brBotm }}>
+                                <b>
+                                  {result?.mainTotal.metal?.IsPrimaryMetal_Amount !== 0 &&
+                                    formatAmount(result?.mainTotal.metal?.IsPrimaryMetal_Amount / result?.header?.CurrencyExchRate)}
+                                </b>
+                              </td>
+                              <td style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}/>
+                              <td align="right" style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}>
+                                <b>{result?.mainTotal?.colorstone?.Wt !== 0 && result?.mainTotal?.colorstone?.Wt?.toFixed(3)}</b>
+                              </td>
+                              <td colSpan={2} align="right" style={{ ...bgColor, ...brRight, ...brTop, ...brBotm }}>
+                                <b>
+                                  {result?.mainTotal.colorstone?.Amount !== 0 &&
+                                    formatAmount(result?.mainTotal.colorstone?.Amount / result?.header?.CurrencyExchRate)}
+                                </b>
+                              </td>
+                              <td colSpan={2} align="right" style={{ ...bgColor, ...brRight, ...brTop, ...brBotm }}>
+                                <b>
+                                  {result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.total_TotalCsSetcost !== 0 &&
+                                    formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalDiaSetcost +
+                                       result?.mainTotal?.total_TotalCsSetcost) / result?.header?.CurrencyExchRate)}
+                                </b>
+                              </td>
+                              <td colSpan={2} align="right" style={{ ...bgColor, ...brRight, ...brTop, ...brBotm }}>
+                                <b>
+                                  {result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.totalMiscAmount !== 0 &&
+                                    formatAmount((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling +
+                                      result?.mainTotal?.totalMiscAmount) / result?.header?.CurrencyExchRate)}
+                                </b>
+                              </td>
+                              <td style={{ ...brRight, ...bgColor, ...brBotm }}/>
+                              <td align="right" style={{ ...bgColor, ...brRight, ...brTop, ...brBotm }}>
+                                <b>{formatAmount(result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate)}</b>
+                              </td>
+                            </tr>              
                     
                     {/* Last Tax Total */}
                     <tr>
-                      <td colSpan={19}></td>
-                      <td colSpan={2}>Total Discount</td>
+                      <td colSpan={20} style={{ ...brLeft, ...brRight }}></td>
+                      <td colSpan={2} style={{ ...brRight }}>Total Discount</td>
                       <td
                         align="right" 
                         style={{ ...brRight }}
@@ -618,8 +802,8 @@ const DesignsetPackinglistExcel = ({
                     {result?.allTaxes?.map((e, i) => {
                       return (
                         <tr key={i}>
-                          <td colSpan={19}></td>
-                          <td colSpan={2}>
+                          <td colSpan={20} style={{ ...brLeft, ...brRight }}></td>
+                          <td colSpan={2} style={{ ...brRight }}>
                             {e?.name} @ {e?.per}
                           </td>
                           <td
@@ -637,8 +821,8 @@ const DesignsetPackinglistExcel = ({
                       ""
                     ) : (
                       <tr>
-                        <td colSpan={19}></td>
-                        <td colSpan={2}>{result?.header?.ModeOfDel}</td>
+                        <td colSpan={20} style={{ ...brLeft, ...brRight }}></td>
+                        <td colSpan={2} style={{ ...brRight }}>{result?.header?.ModeOfDel}</td>
                         <td
                           align="right"
                           style={{ ...brRight }}
@@ -651,8 +835,8 @@ const DesignsetPackinglistExcel = ({
                       </tr>
                     )}
                     <tr>
-                      <td colSpan={19}></td>
-                      <td colSpan={2}>
+                      <td colSpan={20} style={{ ...brLeft, ...brRight }}></td>
+                      <td colSpan={2} style={{ ...brRight }}>
                         {result?.header?.AddLess > 0 ? "Add" : "Less"}
                       </td>
                       <td
@@ -660,6 +844,19 @@ const DesignsetPackinglistExcel = ({
                         style={{ ...brRight }}
                       >
                         {formatAmount(result?.header?.AddLess)}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan={20} style={{ ...brLeft, ...brBotm, ...brRight }}></td>
+                      <td colSpan={2} style={{ ...brRight, ...brBotm, }}>
+                        Grand Total
+                      </td>
+                      <td
+                        align="right"
+                        style={{ ...brRight, ...brBotm, }}
+                      >
+                        {formatAmount((result?.mainTotal?.total_amount + result?.header?.AddLess) /
+                          result?.header?.CurrencyExchRate + result?.allTaxesTotal + result?.header?.FreightCharges / result?.header?.CurrencyExchRate)}
                       </td>
                     </tr>
                   </tbody>

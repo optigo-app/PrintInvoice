@@ -1518,8 +1518,7 @@ const DesignsetPackinglist = ({
                               }}
                             ></div>
                             <div
-                              className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-import { value } from './ExportDeclarationForm';
-items-center end_p_pcl_new"
+                              className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-import { value } from './ExportDeclarationForm'; items-center end_p_pcl_new"
                               style={{ width: "22%" }}
                             >
                               {result?.mainTotal?.diamonds?.Wt !== 0 &&
