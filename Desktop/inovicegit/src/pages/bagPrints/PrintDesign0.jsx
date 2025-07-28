@@ -246,7 +246,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                           <div className="print_2 ">
                             <div
                               className="border_collapse print_design_2"
-                              style={{ height: "100%" }}
+                              style={{ height: "97%" }}
                             >
                               <div
                                 style={{
@@ -284,7 +284,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                       {e?.data?.rd?.subcategoryname}
                                     </div>
                                   </div>
-                                  <div className="" style={{ height: "91.5%" }}>
+                                  <div className="" style={{ height: "88.5%" }}>
                                     <div
                                       className="header_16"
                                       style={{ height: "100%" }}
@@ -395,15 +395,15 @@ const PrintDesign0 = ({ queries, headers }) => {
                               </div>
                               <div
                                 style={{
-                                  height: "14%",
+                                  height: "17%",
                                   display: "flex",
                                   marginRight: "2px",
                                   marginLeft: "2px",
                                 }}
                                 className="spbrWrd"
                               >
-                                <p className="spbrWrd" style={{ fontSize: "13px", margin: 0, textAlign: "top" }}>
-                                  <span style={{ fontWeight: "bold"}}>Remark:</span>  <span style={{ fontSize: "12px", lineHeight: "12px", }}>
+                                <p className="spbrWrd" style={{ fontSize: "14.5px", margin: 0, textAlign: "top" }}>
+                                  <span style={{ fontWeight: "bold"}}>Remark:</span>  <span className="decsbag">
                                   {e?.data?.rd?.ProductInstruction1}</span>
                                 </p>
                               </div>
@@ -579,7 +579,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                           <div className="print_2 ">
                             <div
                               className="border_collapse print_design_2"
-                              style={{ height: "100%" }}
+                              style={{ height: "97%" }}
                             >
                               <div
                                 style={{
@@ -618,7 +618,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                       {e?.data?.rd?.subcategoryname}
                                     </div>
                                   </div>
-                                  <div className="" style={{ height: "91.5%" }}>
+                                  <div className="" style={{ height: "88.5%" }}>
                                     <div
                                       className="header_16"
                                       style={{ height: "100%" }}
@@ -728,14 +728,14 @@ const PrintDesign0 = ({ queries, headers }) => {
                               </div>
                               <div
                                 style={{
-                                  height: "14%",
+                                  height: "17%",
                                   display: "flex",
                                   marginRight: "2px",
                                   marginLeft: "2px",
                                 }}
                               >
-                                <p className="spbrWrd" style={{ fontSize: "13px", margin: 0, textAlign: "top"}}>
-                                  <span style={{ fontWeight: "bold"}}>Remark:</span>  <span style={{ fontSize: "12px", lineHeight: "12px", }}>
+                                <p className="spbrWrd" style={{ fontSize: "14.5px", margin: 0, textAlign: "top"}}>
+                                  <span style={{ fontWeight: "bold"}}>Remark:</span>  <span className="decsbag spbrWrd">
                                   {e?.data?.rd?.ProductInstruction1}</span>
                                 </p>
                               </div>

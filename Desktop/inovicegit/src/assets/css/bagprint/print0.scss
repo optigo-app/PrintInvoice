@@ -1920,7 +1920,10 @@ table {
   overflow-wrap: break-word;
   word-wrap: break-word;
 }
-
+.decsbag {
+  font-size: 12px;
+  line-height: 15px;
+}
 @media print {
   @page {
     margin: 15px 0px 30px 0px !important; 
