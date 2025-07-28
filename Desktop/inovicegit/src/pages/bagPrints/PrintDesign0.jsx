@@ -284,7 +284,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                       {e?.data?.rd?.subcategoryname}
                                     </div>
                                   </div>
-                                  <div className="" style={{ height: "92%" }}>
+                                  <div className="" style={{ height: "91.5%" }}>
                                     <div
                                       className="header_16"
                                       style={{ height: "100%" }}
@@ -364,25 +364,25 @@ const PrintDesign0 = ({ queries, headers }) => {
 
                                         </div>
                                         <div
-                                          className="net16A"
+                                          className="net16A spbrWrd"
                                           style={{ borderRight: "0px" }}
                                         >
                                           <b>{e?.data?.rd?.Designcode}</b>
                                         </div>
                                         <div
-                                          className="net16A"
+                                          className="net16A spbrWrd"
                                           style={{ borderRight: "0px" }}
                                         ></div>
                                         <div
-                                          className="net16A"
+                                          className="net16A spbrWrd"
                                           style={{ borderRight: "0px" }}
                                         ></div>
                                         <div
-                                          className="net16A"
+                                          className="net16A spbrWrd"
                                           style={{ borderRight: "0px" }}
                                         ></div>
                                         <div
-                                          className="net16A"
+                                          className="net16A spbrWrd"
                                           style={{
                                             borderBottom: "0px",
                                             borderRight: "0px",
@@ -397,18 +397,19 @@ const PrintDesign0 = ({ queries, headers }) => {
                                 style={{
                                   height: "14%",
                                   display: "flex",
-                                  alignItems: "center",
-                                  gap: "5px",
+                                  marginRight: "2px",
+                                  marginLeft: "2px",
                                 }}
+                                className="spbrWrd"
                               >
-                                <p style={{ fontSize: "12px", margin: 0 }}>
-                                  Remark:<br />
-                                  {e?.data?.rd?.ProductInstruction1}
+                                <p className="spbrWrd" style={{ fontSize: "13px", margin: 0, textAlign: "top" }}>
+                                  <span style={{ fontWeight: "bold"}}>Remark:</span>  <span style={{ fontSize: "12px", lineHeight: "12px", }}>
+                                  {e?.data?.rd?.ProductInstruction1}</span>
                                 </p>
                               </div>
 
                               <div
-                                style={{ height: "29%" }}
+                                style={{ height: "28.3%" }}
                                 className="bag_footer_border_remove"
                               >
                                 <div style={{ height: "70%" }}>
@@ -420,7 +421,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                       className="border_top2 border_right border_bottom bag_td "
                                       style={{
                                         paddingLeft: "0.79375mm",
-                                        fontSize: "10px",
+                                        fontSize: "14px",
                                         fontWeight: "900",
                                         width: "25%",
                                         height: "100%",
@@ -430,7 +431,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                       className="border_top2 border_right bag_td border_bottom"
                                       style={{
                                         paddingLeft: "0.79375mm",
-                                        fontSize: "12px",
+                                        fontSize: "14px",
                                         fontWeight: "900",
                                         width: "25%",
                                         height: "100%",
@@ -443,7 +444,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                       className="border_top2 border_right bag_td border_bottom "
                                       style={{
                                         paddingLeft: "0.79375mm",
-                                        fontSize: "12px",
+                                        fontSize: "14px",
                                         fontWeight: "900",
                                         width: "25%",
                                         height: "100%",
@@ -456,7 +457,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                       className="border_top2 bag_td border_bottom "
                                       style={{
                                         paddingLeft: "0.79375mm",
-                                        fontSize: "12px",
+                                        fontSize: "14px",
                                         fontWeight: "900",
                                         width: "25%",
                                         height: "100%",
@@ -485,7 +486,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                             className="border_right border_bottom border_right bag_td"
                                             style={{
                                               paddingLeft: "0.79375mm",
-                                              fontSize: "11px",
+                                              fontSize: "12px",
                                               width: "25%",
                                               height: "100%",
                                               fontWeight: 600,
@@ -547,7 +548,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                         paddingLeft: "0.79375mm",
                                         height: "7mm",
                                         width: "94mm",
-                                        fontSize: "10px",
+                                        fontSize: "12px",
                                         minWidth: "100%",
                                         color: "red",
                                         lineHeight: "9.5px",
@@ -617,7 +618,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                       {e?.data?.rd?.subcategoryname}
                                     </div>
                                   </div>
-                                  <div className="" style={{ height: "92%" }}>
+                                  <div className="" style={{ height: "91.5%" }}>
                                     <div
                                       className="header_16"
                                       style={{ height: "100%" }}
@@ -729,18 +730,18 @@ const PrintDesign0 = ({ queries, headers }) => {
                                 style={{
                                   height: "14%",
                                   display: "flex",
-                                  alignItems: "center",
-                                  gap: "5px",
+                                  marginRight: "2px",
+                                  marginLeft: "2px",
                                 }}
                               >
-                                <p style={{ fontSize: "12px", margin: 0 }}>
-                                  Remark:<br />
-                                  {e?.data?.rd?.ProductInstruction1}
+                                <p className="spbrWrd" style={{ fontSize: "13px", margin: 0, textAlign: "top"}}>
+                                  <span style={{ fontWeight: "bold"}}>Remark:</span>  <span style={{ fontSize: "12px", lineHeight: "12px", }}>
+                                  {e?.data?.rd?.ProductInstruction1}</span>
                                 </p>
                               </div>
 
                               <div
-                                style={{ height: "29%" }}
+                                style={{ height: "28.3%" }}
                                 className="bag_footer_border_remove"
                               >
                                 <div style={{ height: "70%" }}>
@@ -752,7 +753,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                       className="border_top2 border_right border_bottom bag_td "
                                       style={{
                                         paddingLeft: "0.79375mm",
-                                        fontSize: "10px",
+                                        fontSize: "12px",
                                         fontWeight: "900",
                                         width: "25%",
                                         height: "100%",
@@ -762,7 +763,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                       className="border_top2 border_right bag_td border_bottom"
                                       style={{
                                         paddingLeft: "0.79375mm",
-                                        fontSize: "12px",
+                                        fontSize: "14px",
                                         fontWeight: "900",
                                         width: "25%",
                                         height: "100%",
@@ -775,7 +776,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                       className="border_top2 border_right bag_td border_bottom "
                                       style={{
                                         paddingLeft: "0.79375mm",
-                                        fontSize: "12px",
+                                        fontSize: "14px",
                                         fontWeight: "900",
                                         width: "25%",
                                         height: "100%",
@@ -788,7 +789,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                       className="border_top2 bag_td border_bottom "
                                       style={{
                                         paddingLeft: "0.79375mm",
-                                        fontSize: "12px",
+                                        fontSize: "14px",
                                         fontWeight: "900",
                                         width: "25%",
                                         height: "100%",
@@ -817,7 +818,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                             className="border_right border_bottom border_right bag_td"
                                             style={{
                                               paddingLeft: "0.79375mm",
-                                              fontSize: "11px",
+                                              fontSize: "12px",
                                               width: "25%",
                                               height: "100%",
                                               fontWeight: 600,
@@ -879,7 +880,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                         paddingLeft: "0.79375mm",
                                         height: "7mm",
                                         width: "94mm",
-                                        fontSize: "10px",
+                                        fontSize: "12px",
                                         minWidth: "100%",
                                         color: "red",
                                         lineHeight: "9.5px",
@@ -1187,7 +1188,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                       fontWeight: "900",
                   //                       paddingLeft: "0.79375mm",
                   //                       width: "17.853583333mm",
-                  //                       fontSize: "11px",
+                  //                       fontSize: "12px",
                   //                     }}
                   //                   >
                   //                     RM TYPE
@@ -1196,7 +1197,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                     className="border_right border_bottom display"
                   //                     style={{
                   //                       height: "3.7041666667mm",
-                  //                       fontSize: "11px",
+                  //                       fontSize: "12px",
                   //                       paddingLeft: "2px",
                   //                       fontWeight: "900",
                   //                       width: "46px",
@@ -1211,7 +1212,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                       fontWeight: "900",
                   //                       paddingLeft: "0.79375mm",
                   //                       width: "11.0015mm",
-                  //                       fontSize: "11px",
+                  //                       fontSize: "12px",
                   //                     }}
                   //                   >
                   //                     COLOR
@@ -1223,7 +1224,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                       fontWeight: "900",
                   //                       paddingLeft: "0.79375mm",
                   //                       width: "15.880666667mm",
-                  //                       fontSize: "11px",
+                  //                       fontSize: "12px",
                   //                     }}
                   //                   >
                   //                     SIZE
@@ -1236,7 +1237,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                       textAlign: "center",
                   //                       paddingLeft: "0.79375mm",
                   //                       width: "16.345958333mm",
-                  //                       fontSize: "11px",
+                  //                       fontSize: "12px",
                   //                     }}
                   //                   >
                   //                     ACTUAL
@@ -1248,7 +1249,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                       fontWeight: "900",
                   //                       paddingLeft: "0.79375mm",
                   //                       width: "11.5mm",
-                  //                       fontSize: "11px",
+                  //                       fontSize: "12px",
                   //                     }}
                   //                   >
                   //                     WT
@@ -1416,7 +1417,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                         style={{
                   //                           width: "11.7952mm",
                   //                           fontWeight: "bold",
-                  //                           fontSize: "10px",
+                  //                           fontSize: "12px",
                   //                           height: "3.7041666667mm",
                   //                           textAlign: "end",
                   //                           paddingRight: "1.3229166667mm",
@@ -1435,7 +1436,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                         className="border_right border_bottom display"
                   //                         style={{
                   //                           width: "17.853583333mm",
-                  //                           fontSize: "10px",
+                  //                           fontSize: "12px",
                   //                           height: "3.7041666667mm",
                   //                         }}
                   //                       ></div>
@@ -1443,7 +1444,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                         className="border_right border_bottom display"
                   //                         style={{
                   //                           width: "45.0015px",
-                  //                           fontSize: "10px",
+                  //                           fontSize: "12px",
                   //                           height: "3.7041666667mm",
                   //                           display: "-webkit-box",
                   //                           lineClamp: "1",
@@ -1455,7 +1456,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                         className="border_right border_bottom display"
                   //                         style={{
                   //                           width: "11.0015mm",
-                  //                           fontSize: "10px",
+                  //                           fontSize: "12px",
                   //                           height: "3.7041666667mm",
                   //                         }}
                   //                       ></div>
@@ -1463,7 +1464,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                         className="border_right border_bottom display"
                   //                         style={{
                   //                           width: "15.880666667mm",
-                  //                           fontSize: "10px",
+                  //                           fontSize: "12px",
                   //                           height: "3.7041666667mm",
                   //                         }}
                   //                       ></div>
@@ -1503,7 +1504,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                       style={{
                   //                         paddingLeft: "0.79375mm",
                   //                         height: "3.7041666667mm",
-                  //                         fontSize: "10px",
+                  //                         fontSize: "12px",
                   //                         fontWeight: "900",
                   //                       }}
                   //                     ></div>
@@ -1512,7 +1513,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                       style={{
                   //                         paddingLeft: "0.79375mm",
                   //                         height: "3.7041666667mm",
-                  //                         fontSize: "10px",
+                  //                         fontSize: "12px",
                   //                         fontWeight: "900",
                   //                       }}
                   //                     >
@@ -1523,7 +1524,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                       style={{
                   //                         paddingLeft: "0.79375mm",
                   //                         height: "3.7041666667mm",
-                  //                         fontSize: "10px",
+                  //                         fontSize: "12px",
                   //                         fontWeight: "900",
                   //                       }}
                   //                     >
@@ -1534,7 +1535,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                       style={{
                   //                         paddingLeft: "0.79375mm",
                   //                         height: "3.7041666667mm",
-                  //                         fontSize: "10px",
+                  //                         fontSize: "12px",
                   //                         fontWeight: "900",
                   //                       }}
                   //                     >
@@ -1545,7 +1546,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                       style={{
                   //                         paddingLeft: "0.79375mm",
                   //                         height: "3.7041666667mm",
-                  //                         fontSize: "10px",
+                  //                         fontSize: "12px",
                   //                         fontWeight: "900",
                   //                       }}
                   //                     >
@@ -1556,7 +1557,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                       style={{
                   //                         paddingLeft: "0.79375mm",
                   //                         height: "3.7041666667mm",
-                  //                         fontSize: "10px",
+                  //                         fontSize: "12px",
                   //                         fontWeight: "900",
                   //                       }}
                   //                     >
@@ -1567,7 +1568,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                       style={{
                   //                         paddingLeft: "0.79375mm",
                   //                         height: "3.7041666667mm",
-                  //                         fontSize: "10px",
+                  //                         fontSize: "12px",
                   //                         fontWeight: "900",
                   //                       }}
                   //                     >
@@ -1577,7 +1578,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                       className="border_top2 border_bottom bag_td d-flex justify-content-center align-items-center"
                   //                       style={{
                   //                         paddingLeft: "0.79375mm",
-                  //                         fontSize: "10px",
+                  //                         fontSize: "12px",
                   //                         height: "3.7041666667mm",
                   //                         fontWeight: "900",
                   //                       }}
@@ -1603,7 +1604,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                               style={{
                   //                                 paddingLeft: "0.79375mm",
                   //                                 height: "3.7041666667mm",
-                  //                                 fontSize: "10px",
+                  //                                 fontSize: "12px",
                   //                               }}
                   //                             >
                   //                               {e["0"] === "0" ? "" : e["0"]}
@@ -1613,7 +1614,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                               style={{
                   //                                 paddingLeft: "0.79375mm",
                   //                                 height: "3.7041666667mm",
-                  //                                 fontSize: "10px",
+                  //                                 fontSize: "12px",
                   //                               }}
                   //                             >
                   //                               {e["GRAND"] === "0"
@@ -1625,7 +1626,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                               style={{
                   //                                 paddingLeft: "0.79375mm",
                   //                                 height: "3.7041666667mm",
-                  //                                 fontSize: "10px",
+                  //                                 fontSize: "12px",
                   //                               }}
                   //                             >
                   //                               {e["FILLING"] === "0"
@@ -1637,7 +1638,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                               style={{
                   //                                 paddingLeft: "0.79375mm",
                   //                                 height: "3.7041666667mm",
-                  //                                 fontSize: "10px",
+                  //                                 fontSize: "12px",
                   //                               }}
                   //                             >
                   //                               {e["EPD"] === "0"
@@ -1649,7 +1650,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                               style={{
                   //                                 paddingLeft: "0.79375mm",
                   //                                 height: "3.7041666667mm",
-                  //                                 fontSize: "10px",
+                  //                                 fontSize: "12px",
                   //                               }}
                   //                             >
                   //                               {e["P.P"] === "0"
@@ -1661,7 +1662,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                               style={{
                   //                                 paddingLeft: "0.79375mm",
                   //                                 height: "3.7041666667mm",
-                  //                                 fontSize: "10px",
+                  //                                 fontSize: "12px",
                   //                               }}
                   //                             >
                   //                               {e["SET"] === "0"
@@ -1673,7 +1674,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                               style={{
                   //                                 paddingLeft: "0.79375mm",
                   //                                 height: "3.7041666667mm",
-                  //                                 fontSize: "10px",
+                  //                                 fontSize: "12px",
                   //                               }}
                   //                             >
                   //                               {e["F.P"] === "0"
@@ -1683,7 +1684,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                             <div
                   //                               className="border_bottom bag_td"
                   //                               style={{
-                  //                                 fontSize: "10px",
+                  //                                 fontSize: "12px",
                   //                                 paddingLeft: "0.79375mm",
                   //                                 height: "3.7041666667mm",
                   //                                 borderRight: "0px solid",
@@ -1707,7 +1708,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                         paddingLeft: "0.79375mm",
                   //                         height: "7mm",
                   //                         width: "94mm",
-                  //                         fontSize: "10px",
+                  //                         fontSize: "12px",
                   //                         minWidth: "100%",
                   //                         color: "red",
                   //                         borderRight: "0px solid",
@@ -1727,7 +1728,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                         paddingLeft: "0.79375mm",
                   //                         height: "7mm",
                   //                         width: "94mm",
-                  //                         fontSize: "10px",
+                  //                         fontSize: "12px",
                   //                         minWidth: "100%",
                   //                         color: "red",
                   //                         borderRight: "0px solid",
@@ -1749,7 +1750,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                   //                         paddingLeft: "0.79375mm",
                   //                         height: "6mm",
                   //                         width: "94mm",
-                  //                         fontSize: "10px",
+                  //                         fontSize: "12px",
                   //                         minWidth: "100%",
                   //                         color: "red",
                   //                         borderRight: "0px solid",
