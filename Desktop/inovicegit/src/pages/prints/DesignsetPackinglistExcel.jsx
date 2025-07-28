@@ -14,7 +14,7 @@ import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { cloneDeep } from "lodash";
 import sanitizeHtml from "sanitize-html";
 import { htmlToText } from "html-to-text";
-import { BorderBottom } from "@mui/icons-material";
+import { BorderBottom, Visibility, VisibilityOff } from "@mui/icons-material";
 
 const DesignsetPackinglistExcel = ({
   urls,
@@ -103,6 +103,8 @@ const DesignsetPackinglistExcel = ({
       obj.str_discountOn = discountOn.join(", ") + "Amount";
 
       enrichedArray.push(obj);
+      // console.log("enrichedArray", enrichedArray.length);
+      
     });
 
     // Step 3: Add designSetTotalAmount + DesigSetImage handling
@@ -126,6 +128,7 @@ const DesignsetPackinglistExcel = ({
 
       let total = current.TotalAmount;
       let j = i + 1;
+      // let groupSize = 1;
 
       // Check for consecutive duplicates
       while (
@@ -135,6 +138,7 @@ const DesignsetPackinglistExcel = ({
         enrichedArray[j].DesignSetGroup !== 0 // Avoid merging group 0
       ) {
         total += enrichedArray[j].TotalAmount;
+        // groupSize++;
         j++;
       }
 
@@ -160,7 +164,7 @@ const DesignsetPackinglistExcel = ({
     // Step 4: Update result
     datas.resultArray = finalArr;
 
-    console.log("datas: ", datas);
+    console.log("datas:", datas);
     setResult(datas);
     setData(datas);
     setLoader(false);
@@ -214,21 +218,39 @@ const DesignsetPackinglistExcel = ({
   // }, [diaQlty]);
 
   //styles and css
+  const groupCounts = {}
+  result?.resultArray?.forEach((obj) => {
+    if (obj.DesignSetNo === 0 && obj.DesignSetGroup === 0) {
+      return; 
+    }
   
-  const txtRt = {
-    textAlign: "right",
-  };
+    const key = `${obj.DesignSetNo}-${obj.DesignSetGroup}`;
+    
+    if (!groupCounts[key]) {
+      groupCounts[key] = 0;
+    }
+    
+    groupCounts[key]++;
+  });
+  
+  console.log(groupCounts);
+
+  // Style...
   const txtCen = {
     textAlign: "center",
   };
   const txtTop = {
     verticalAlign: "top",
   };
-  const brRight = {
-    borderRight: "1px solid #989898",
-  };
+  const spBrdr= {
+    borderCollapse: "collapse",
+    backgroundColor: "#ffffff",
+  }
   const brRightlgt = {
     borderRight: "1px solid #e8e8e8",
+  };
+  const brRight = {
+    borderRight: "1px solid #989898",
   };
   const brLeft = {
     borderLeft: "1px solid #989898",
@@ -248,7 +270,12 @@ const DesignsetPackinglistExcel = ({
   const coHeit = {
     width: "50px",
   };
-  
+  const spbrWrd = {
+    wordBreak: "break-word",
+    overflowWrap: "break-word",
+    wordWrap: "break-word",
+  }
+
   return (
     <>
       {loader ? (
@@ -486,46 +513,69 @@ const DesignsetPackinglistExcel = ({
                     
                     {/** Table Info */}
                     {result?.resultArray?.map((e, i) => {
-                      const lastElement = i === result.resultArray.length - 1;
+                      const lastElement = i === result.resultArray.length - 1; // It was for border bottom in last Job
                       return ( 
                           <tr key={i}>
-                            <td style={{ ...brRight, ...txtTop }} width={25} align="center">
+                            <td style={{ ...brRight, ...txtTop, ...brBotm, ...spBrdr }} width={25} align="center" rowSpan={e?.IsCriteriabasedAmount === 0 ? 2 : 1}>
                               {i + 1}
                             </td>
-                            <td style={{ ...brRight, ...txtTop, ...txtCen }} height={150} width={100}>
+                            <td style={{ ...brRight, ...txtTop, ...txtCen, ...brBotm, ...spBrdr }} height={150} width={100} rowSpan={e?.IsCriteriabasedAmount === 0 ? 2 : 1}>
                               <div style={{ textAlign: "left" }}>
                                   {e?.JewelCodePrefix?.slice(0, 2) +
                                   e?.Category_Prefix?.slice(0, 2) +
                                   e?.SrJobno?.split("/")[1]}
                               </div>
+                              {/* <div>{`\u00A0`}</div> */}
                               <div>
                                 <img
-                                  src={`${e?.DesignImage}?resize=90x90`}
+                                  src={`${e?.DesignImage}?resize=95x95`}
                                   alt="img"
-                                  width="90"
-                                  height="90"
+                                  width="95"
+                                  height="95"
                                   onError={(e) => handleImageError(e)}
                                 />
                               </div>
+                              {/* <div>{`\u00A0`}</div> */}
                               <div>{e?.SrJobno}</div>
                               {e?.HUID === "" ? ( "" ) : (<div>HUID - {e?.HUID}</div>)}
                               {e?.lineid !== "" ? (<div>{e?.lineid}</div>) : ( "" )}
                             </td>
-                            <td style={{ ...brRight, ...txtTop }} height={120} width={100}>
-                              <div>
-                                <img
-                                  src={`${e?.DesigSetImage}?resize=90x90`}
-                                  alt="img"
-                                  width="90"
-                                  height="90"
-                                  onError={(e) => handleImageError(e)}
-                                />
-                              </div>
+                            <td style={{ ...brRight, ...txtTop, ...spBrdr, 
+                              borderBottom: lastElement ? "1px solid #989898" : "none",
+                              borderTop: e?.designSetTotalAmount ? "1px solid #989898" : "none", }} 
+                              height={100} width={100} rowSpan={e?.IsCriteriabasedAmount === 0 ? 2 : 1}>
+                              {e?.DesigSetImage !== "" ? (
+                                <>
+                                  <div>{`\u00A0`}</div>
+                                  <div>
+                                    <img
+                                      src={`${e?.DesigSetImage}?resize=95x95`}
+                                      alt="img"
+                                      width="95"
+                                      height="95"
+                                      onError={(e) => handleImageError(e)}
+                                    />
+                                  </div>
+                                </>
+                              ) : (e?.DesignSetGroup === 0 && e?.DesignSetNo === 0) ? (
+                                <>
+                                  <div>{`\u00A0`}</div>
+                                  <div>
+                                    <img
+                                      src={`${e?.DesigSetImage}?resize=95x95`}
+                                      alt="img"
+                                      width="95"
+                                      height="95"
+                                      onError={(e) => handleImageError(e)}
+                                    />
+                                  </div>
+                                </>
+                              ) : null}
                             </td>
                             {/** Diamond */}
-                            <td style={{ ...txtTop }}>
+                            <td style={{ ...txtTop, ...spbrWrd }}>
                               {e?.diamonds?.map((ele, ind) => {
-                                return <div key={ind}>{ele?.ShapeName}</div>
+                                return <div key={ind}>{ele?.ShapeName + " " + ele?.QualityName + " " + ele?.Colorname}</div>
                               })}
                             </td>
                             <td style={{ ...txtTop }}>
@@ -551,7 +601,7 @@ const DesignsetPackinglistExcel = ({
                             {/** Metal */}
                             {e?.JobRemark !== "" ? (
                               <>
-                                <td style={{ ...txtTop }}>
+                                <td style={{ ...txtTop, ...spbrWrd }}>
                                   {e?.metal?.map((ele, ind) => {
                                     return <div key={ind}>{ele?.ShapeName + " " + ele?.QualityName}</div>
                                   })}
@@ -577,7 +627,7 @@ const DesignsetPackinglistExcel = ({
                               </>
                             ) : (
                               <>
-                                <td style={{ ...txtTop }}>
+                                <td style={{ ...txtTop, ...spbrWrd }}>
                                   {e?.metal?.map((ele, ind) => {
                                     return <div key={ind}>{ele?.IsPrimaryMetal === 1 && ele?.ShapeName + " " + ele?.QualityName}</div>
                                   })}
@@ -662,27 +712,27 @@ const DesignsetPackinglistExcel = ({
                               })}
                             </td>
                             {/** Price */}
-                            <td style={{ ...brRight, ...txtTop }}>
+                            <td style={{ ...brRight, ...txtTop, ...spBrdr }}>
                               <div>{formatAmount(e?.UnitCost / result?.header?.CurrencyExchRate)}</div>
                             </td>
                             {/** Amount */}
-                            <td style={{ ...brRight, ...txtTop, 
-                              borderTop: e?.designSetTotalAmount ? "1px solid #989898" : "none",
-                              visibility:
-                               e?.IsCriteriabasedAmount === 1 ? "hidden" : "visible",
-                              }}>
+                            <td style={{ ...brRight, ...txtTop, ...spBrdr,
+                                  borderTop: e?.designSetTotalAmount ? "1px solid #989898" : "none",
+                                }}
+                                rowSpan={e?.designSetTotalAmount ? 2 : e?.DesignSetGroup !== 0 ? 2 : 1}
+                                >
                               <div>
                                 <b>{e?.designSetTotalAmount
-                                  ? Number(e.designSetTotalAmount / (result?.header?.CurrencyExchRate || 1)).toFixed(2)
+                                  ? (e.designSetTotalAmount / (result?.header?.CurrencyExchRate || 1)).toFixed(2)
                                   : ""}</b>
                               </div>
                             </td>
 
                             {/** Per Job Total */}
                             <tr>
+                              {/* <td style={{ ...brRight, ...brBotm }}/>
                               <td style={{ ...brRight, ...brBotm }}/>
-                              <td style={{ ...brRight, ...brBotm }}/>
-                              <td style={{ ...brRight, ...brBotm }}/>
+                              <td style={{ ...brRight, ...brBotm }}/> */}
                               <td style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}/>
                               <td style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}/>
                               <td style={{ ...bgColor, ...brTop, ...brBotm, ...brRightlgt }}><b>{e?.totals?.diamonds?.Wt?.toFixed(3)}</b></td>
@@ -726,7 +776,7 @@ const DesignsetPackinglistExcel = ({
                                 </b>
                               </td>
                               <td style={{ ...bgColor, ...brRight, ...brTop, ...brBotm }}><b>{formatAmount(e?.TotalAmount / result?.header?.CurrencyExchRate)}</b></td>
-                              <td style={{ ...brRight, borderBottom: lastElement ? "1px solid #989898" : "none", }}><div></div></td>
+                              {/* <td style={{ ...brRight }}><div></div></td> */}
                             </tr>
                           </tr>
                         )

@@ -126,6 +126,7 @@ export default function ShipmentTagOptigo({ token, invoiceNo, printName, urls, e
                   />
                 </div>
               </div>
+              {/* <div className="spFntclr" style={{ fontSize: "6px", width: "100%", textAlign: "center" }}>Powered by Orail</div> */}
   
               {/* <hr className="divider" style={{ borderTop: "none" }} /> */}
             </div>
