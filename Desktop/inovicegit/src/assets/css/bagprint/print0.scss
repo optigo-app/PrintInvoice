@@ -395,12 +395,6 @@ table {
   border-collapse: collapse;
 }
 
-.print_design_2 td,
-.print_design_2 th {
-  height: 10px;
-  font-size: 6px;
-}
-
 /* .barcode img{
   width: 48px;
   transform: rotate(90deg) translate(-50%, 0);
@@ -492,12 +486,8 @@ table {
 
 .print_design_2_head_new {
   width: 100%;
-  height: 100%;
+  height: 294px;
 }
-
-/* .print_design_2_head{
-  padding: 0 3px;
-} */
 
 .print_2_head > div {
   font-weight: 700;
@@ -980,7 +970,7 @@ p.w_33.bold,
   border: 0.5291666667mm solid #000;
   border-radius: 1.3229166667mm;
   overflow: hidden;
-  height: 90mm;
+  height: 130mm;
   width: 90mm;
 }
 
@@ -1344,13 +1334,6 @@ table {
   border-collapse: collapse;
 }
 
-.print_design_2 td,
-.print_design_2 th {
-  box-sizing: border-box;
-  height: 2.6458333333mm;
-  font-size: 1.5875mm;
-}
-
 /* .barcode img{
   width: 48px;
   transform: rotate(90deg) translate(-50%, 0);
@@ -1456,9 +1439,6 @@ table {
   display: none;
 }
 
-/* .print_design_2_head{
-  padding: 0 0.79375mm;
-} */
 
 .print_2_head > div {
   box-sizing: border-box;
@@ -1756,7 +1736,6 @@ table {
 
 .jobInfo16 {
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
   align-items: center;
   width: 25%;
@@ -1768,37 +1747,11 @@ table {
   width: 100%;
   line-height: 8px;
   font-size: 12px;
-  height: 18%;
+  height: 15%;
   display: flex;
   justify-content: left;
   align-items: center;
   padding-left: 5px;
-}
-.header_16_a {
-  width: 60.5px;
-  height: 58.5px;
-  border-right: 2px solid;
-  /* border-bottom: 2px solid; */
-}
-.header_16_b {
-  /* border-bottom: 2px solid ; */
-  height: 58.5px;
-  width: 40px;
-}
-.header_16_sub {
-  border-bottom: 1.5px solid black;
-  padding-left: 0rem;
-  padding-bottom: 0.2rem;
-  font-size: 2.2mm;
-  width: 2.5rem;
-}
-.header_16_sub_a {
-  border-bottom: 1.5px solid black;
-  padding-left: 0.1rem;
-  padding-bottom: 0.2rem;
-  font-size: 2.2mm;
-  width: 4rem;
-  word-break: break-all;
 }
 .lastCell {
   width: 3rem;
@@ -1939,11 +1892,11 @@ table {
 }
 
 .partybg16_new {
+  height: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 2px;
-  height: 20px;
   font-weight: bold;
   word-break: break-all;
   border-bottom: 1px solid;

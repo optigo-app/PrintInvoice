@@ -175,65 +175,21 @@ const DesignsetPackinglistExcel = ({
     }, 500);
   };
 
-  // useEffect(() => {
-  //   if (diaQlty) {
-  //     const updated = cloneDeep(result);
-
-  //     updated.resultArray.forEach((e) => {
-  //       // Merge duplicate diamonds
-  //       const diaMap = new Map();
-  //       e?.diamonds?.forEach((el) => {
-  //         const key = el?.QualityName;
-  //         if (!diaMap.has(key)) {
-  //           diaMap.set(key, cloneDeep(el));
-  //         } else {
-  //           const existing = diaMap.get(key);
-  //           existing.Wt += el.Wt;
-  //           existing.Pcs += el.Pcs;
-  //           existing.Amount += el.Amount;
-  //         }
-  //       });
-  //       e.diamonds = Array.from(diaMap.values());
-
-  //       // Merge duplicate colorstones
-  //       const clrMap = new Map();
-  //       e?.colorstone?.forEach((el) => {
-  //         const key = `${el.ShapeName}|${el.SizeName}|${el.QualityName}|${el.Colorname}|${el.Rate}`;
-  //         if (!clrMap.has(key)) {
-  //           clrMap.set(key, cloneDeep(el));
-  //         } else {
-  //           const existing = clrMap.get(key);
-  //           existing.Wt += el.Wt;
-  //           existing.Pcs += el.Pcs;
-  //           existing.Amount += el.Amount;
-  //         }
-  //       });
-  //       e.colorstone = Array.from(clrMap.values());
-  //     });
-
-  //     setResult(updated);
-  //   } else {
-  //     setResult(data);
+  // const groupCounts = {}
+  // result?.resultArray?.forEach((obj) => {
+  //   if (obj.DesignSetNo === 0 && obj.DesignSetGroup === 0) {
+  //     return; 
   //   }
-  // }, [diaQlty]);
-
-  //styles and css
-  const groupCounts = {}
-  result?.resultArray?.forEach((obj) => {
-    if (obj.DesignSetNo === 0 && obj.DesignSetGroup === 0) {
-      return; 
-    }
   
-    const key = `${obj.DesignSetNo}-${obj.DesignSetGroup}`;
+  //   const key = `${obj.DesignSetNo}-${obj.DesignSetGroup}`;
     
-    if (!groupCounts[key]) {
-      groupCounts[key] = 0;
-    }
+  //   if (!groupCounts[key]) {
+  //     groupCounts[key] = 0;
+  //   }
     
-    groupCounts[key]++;
-  });
-  
-  console.log(groupCounts);
+  //   groupCounts[key]++;
+  // });
+  // console.log(groupCounts);
 
   // Style...
   const txtCen = {
@@ -266,9 +222,6 @@ const DesignsetPackinglistExcel = ({
   };
   const coWdth = {
     width: "80px",
-  };
-  const coHeit = {
-    width: "50px",
   };
   const spbrWrd = {
     wordBreak: "break-word",

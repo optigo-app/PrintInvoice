@@ -250,7 +250,6 @@ const PrintDesign0 = ({ queries, headers }) => {
                             >
                               <div
                                 style={{
-                                  justifyContent: "space-between",
                                   borderBottom: "2px solid",
                                   height: "60%",
                                 }}
@@ -259,7 +258,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                 <div className="print_design_2_head_new">
                                   <div
                                     style={{
-                                      height: "19%",
+                                      height: "17%",
                                     }}
                                   >
                                     <div className="bg16oldjob_new">
@@ -285,7 +284,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                       {e?.data?.rd?.subcategoryname}
                                     </div>
                                   </div>
-                                  <div className="" style={{ height: "81%" }}>
+                                  <div className="" style={{ height: "92%" }}>
                                     <div
                                       className="header_16"
                                       style={{ height: "100%" }}
@@ -396,34 +395,20 @@ const PrintDesign0 = ({ queries, headers }) => {
                               </div>
                               <div
                                 style={{
-                                  height: "10%",
+                                  height: "14%",
                                   display: "flex",
                                   alignItems: "center",
                                   gap: "5px",
                                 }}
                               >
                                 <p style={{ fontSize: "12px", margin: 0 }}>
-                                  Remark:
-                                </p>
-                                <p
-                                  style={{
-                                    fontSize: "10px",
-                                    margin: 0,
-                                    display: "-webkit-box",
-                                    WebkitLineClamp: 2,
-                                    WebkitBoxOrient: "vertical",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    lineHeight: "1.2em",
-                                    maxHeight: "2.4em", // 2 lines * line-height
-                                  }}
-                                >
+                                  Remark:<br />
                                   {e?.data?.rd?.ProductInstruction1}
                                 </p>
                               </div>
 
                               <div
-                                style={{ height: "30%" }}
+                                style={{ height: "29%" }}
                                 className="bag_footer_border_remove"
                               >
                                 <div style={{ height: "70%" }}>
@@ -606,7 +591,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                 <div className="print_design_2_head_new">
                                   <div
                                     style={{
-                                      height: "19%",
+                                      height: "17%",
                                     }}
                                   >
                                     <div className="bg16oldjob_new">
@@ -632,7 +617,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                       {e?.data?.rd?.subcategoryname}
                                     </div>
                                   </div>
-                                  <div className="" style={{ height: "81%" }}>
+                                  <div className="" style={{ height: "92%" }}>
                                     <div
                                       className="header_16"
                                       style={{ height: "100%" }}
@@ -742,34 +727,20 @@ const PrintDesign0 = ({ queries, headers }) => {
                               </div>
                               <div
                                 style={{
-                                  height: "10%",
+                                  height: "14%",
                                   display: "flex",
                                   alignItems: "center",
                                   gap: "5px",
                                 }}
                               >
                                 <p style={{ fontSize: "12px", margin: 0 }}>
-                                  Remark:
-                                </p>
-                                <p
-                                  style={{
-                                    fontSize: "10px",
-                                    margin: 0,
-                                    display: "-webkit-box",
-                                    WebkitLineClamp: 2,
-                                    WebkitBoxOrient: "vertical",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    lineHeight: "1.2em",
-                                    maxHeight: "2.4em", // 2 lines * line-height
-                                  }}
-                                >
+                                  Remark:<br />
                                   {e?.data?.rd?.ProductInstruction1}
                                 </p>
                               </div>
 
                               <div
-                                style={{ height: "30%" }}
+                                style={{ height: "29%" }}
                                 className="bag_footer_border_remove"
                               >
                                 <div style={{ height: "70%" }}>
