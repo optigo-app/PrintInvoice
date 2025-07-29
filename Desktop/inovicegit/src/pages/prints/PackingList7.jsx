@@ -960,7 +960,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     style={{ minHeight: "80px" }}
                                   >
                                     <img
-                                      src={e?.CDNDesignImage}
+                                      src={e?.GroupJob === "" ? e?.DesignImage : result?.json1?.map((el) => el?.DesignImage)}
                                       onError={(e) => handleImageError(e)}
                                       alt="design"
                                       className="imgdp10_pcl7"
@@ -972,7 +972,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className="centerdp10_pcl7 fsgdp10_pcl7">
                                   {atob(evn)?.toLowerCase() === "quote"
                                     ? ""
-                                    : e?.SrJobno}
+                                    : e?.GroupJob !== "" ? e?.GroupJob : e?.SrJobno}
                                 </div>
                                 <div className=" centerdp10_pcl7 fsgdp10_pcl7">
                                   {e?.designno}&nbsp;
@@ -1426,13 +1426,13 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                       key={ind}
                                     >
                                       <div
-                                        style={{ width: "33.33%" }}
+                                        style={{ width: "58%" }}
                                         className=" text-start text-break fsgdp10_pcl7"
                                       >
                                         {el?.label}
                                       </div>
                                       <div
-                                        style={{ width: "33.33%" }}
+                                        style={{ width: "10%" }}
                                         className="pr_dp10_pcl7 text-end"
                                       ></div>
                                       <div

@@ -4,7 +4,6 @@ import {
   apiCall,
   checkMsg,
   formatAmount,
-  handleGlobalImgError,
   handleImageError,
   isObjectEmpty,
 } from "../../GlobalFunctions";
@@ -228,7 +227,6 @@ const DesignsetPackinglistExcel = ({
     overflowWrap: "break-word",
     wordWrap: "break-word",
   }
-
   return (
     <>
       {loader ? (
