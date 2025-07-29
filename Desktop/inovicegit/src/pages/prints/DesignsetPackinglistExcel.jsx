@@ -242,7 +242,7 @@ const DesignsetPackinglistExcel = ({
                   id="test-table-xls-button"
                   className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5 d-none"
                   table="table-to-xls"
-                  filename={`TaxInvoice_${result?.header?.InvoiceNo}_${Date.now()}`}
+                  filename={`DesignSet_PackingList_Excel${result?.header?.InvoiceNo}_${Date.now()}`}
                   sheet="tablexls"
                   buttonText="Download as XLS"
                 />

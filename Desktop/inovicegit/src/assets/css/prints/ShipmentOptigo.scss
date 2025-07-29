@@ -14,6 +14,8 @@
   .header {
     display: flex;
     justify-content: space-between;
+    // min-height: 2.5cm;
+    // max-height: 2.5cm;
 
     .party0{
       width: 16%;
@@ -80,10 +82,11 @@
   .mid-section {
     display: flex;
     padding: 0px 5px;
+    // min-height: 1.5cm;
+    // max-height: 1.5cm;
 
     .secondOPart1 {
       width: 40%;
-      border-right: 1px solid;
       display: flex;
       flex-direction: column;
       font-size: 6.5px;
@@ -179,6 +182,9 @@
 }
 .brBtom{
   border-bottom: 1px solid #000000;
+}
+.brRight{
+  border-right: 1px solid #000000;
 }
 .brtop{
   border-top: 1px solid #000000;

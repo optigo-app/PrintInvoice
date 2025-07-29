@@ -103,15 +103,23 @@ export default function ShipmentTagOptigo({ token, invoiceNo, printName, urls, e
               {/* Mid section */}
               <div className="mid-section">
                 <div className="secondOPart1">
-                  <div className="brBtom">
+                  <div className="brBtom brRight">
                     <div className="spMgl">Date:</div> <div className="spFntst spMgl">{e?.Shipmentdate}</div>
                   </div>
-                  <div className="brBtom">
+                  <div className="brBtom brRight">
                     <div className="spMgl spMgT"> Delivery By:</div>
-                    <div className="spFntst spMgl">{e?.Deliveredby}</div>
+                    <div className="spFntst spMgl">
+                      {e?.Deliveredby?.length > 25 ?
+                        e?.Deliveredby?.slice(0, 25) + "..." : e?.Deliveredby}
+                      </div>
                   </div>
-                  <div>
-                    <div className="spMgl spMgT"> Shipment:</div> <div className="spFntst spMgl">{e?.Shipmentno}</div>
+                  <div className="brRight">
+                    <div className="spMgl spMgT"> Shipment:</div> 
+                    <div className="spFntst spMgl">
+                    {e?.Shipmentno?.length > 25
+                      ? e.Shipmentno.slice(0, 25) + "..."
+                      : e.Shipmentno}
+                    </div>
                   </div>
                 </div>
                 <div className="secondOPart2">
@@ -126,7 +134,7 @@ export default function ShipmentTagOptigo({ token, invoiceNo, printName, urls, e
                   />
                 </div>
               </div>
-              {/* <div className="spFntclr" style={{ fontSize: "6px", width: "100%", textAlign: "center" }}>Powered by Orail</div> */}
+              <div className="spFntclr" style={{ fontSize: "6px", width: "100%", textAlign: "center" }}>Powered by OptigoApps</div>
   
               {/* <hr className="divider" style={{ borderTop: "none" }} /> */}
             </div>
