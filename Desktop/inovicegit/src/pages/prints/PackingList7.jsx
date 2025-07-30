@@ -91,7 +91,6 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     //grouping of jobs and isGroupJob is 1
 
     let finalArr = [];
-
     datas?.resultArray?.forEach((a) => {
       if (a?.GroupJob === "") {
         finalArr.push(a);
@@ -109,6 +108,11 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             finalArr[find_record].designno = b?.designno;
             finalArr[find_record].HUID = b?.HUID;
           }
+
+          if (!finalArr[find_record].DesignImage && b?.DesignImage) {
+            finalArr[find_record].DesignImage = b?.DesignImage;
+          }
+
           finalArr[find_record].grosswt += b?.grosswt;
           finalArr[find_record].NetWt += b?.NetWt;
           finalArr[find_record].LossWt += b?.LossWt;
@@ -152,12 +156,9 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           finalArr[find_record].totals.finding.Pcs += b?.totals?.finding?.Pcs;
           finalArr[find_record].totals.finding.Amount +=
             b?.totals?.finding?.Amount;
-
-          // finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
           finalArr[find_record].totals.diamonds.Pcs += b?.totals?.diamonds?.Pcs;
           finalArr[find_record].totals.diamonds.Amount +=
             b?.totals?.diamonds?.Amount;
-
           finalArr[find_record].totals.colorstone.Wt +=
             b?.totals?.colorstone?.Wt;
           finalArr[find_record].totals.colorstone.Pcs +=
@@ -189,18 +190,17 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             b?.totals?.misc?.onlyIsHSCODE0_Pcs;
           finalArr[find_record].totals.misc.onlyIsHSCODE0_Amount +=
             b?.totals?.misc?.onlyIsHSCODE0_Amount;
-          // finalArr[find_record].misc_d = [...finalArr[find_record]?.misc ,...b?.misc]?.flat();
         }
       }
     });
+
+    console.log("finalArrfinalArrfinalArr", finalArr);
 
     datas.resultArray = finalArr;
 
     //after groupjob
     datas?.resultArray?.forEach((e) => {
-      //diamond
       let dia2 = [];
-
       e?.diamonds?.forEach((el) => {
         // let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.GroupName === el?.GroupName)
         let findrec = dia2?.findIndex(
@@ -594,7 +594,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     }
   };
   console.log("result", result);
-  
+
   return (
     <>
       {loader ? (
@@ -650,17 +650,26 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   {imgFlag2 && (
                     <div className="d-flex justify-content-between">
                       <div className="p-1 fsgdp10_pcl7_2">
-                      <div className="fw-bold cfullname_pcl7 ">
+                        <div className="fw-bold cfullname_pcl7 ">
                           {result?.header?.CompanyFullName}
                         </div>
-                        <div><span>{result?.header?.CompanyAddress}</span><span>{result?.header?.CompanyAddress2}</span>, {result?.header?.CompanyCity}</div>
+                        <div>
+                          <span>{result?.header?.CompanyAddress}</span>
+                          <span>{result?.header?.CompanyAddress2}</span>,{" "}
+                          {result?.header?.CompanyCity}
+                        </div>
                         {/* <div>{result?.header?.CompanyAddress2}</div> */}
                         {/* <div>{result?.header?.CompanyCity}</div> */}
                         <div>
                           {result?.header?.CompanyCity}-
                           {result?.header?.CompanyPinCode},{" "}
                           {result?.header?.CompanyState}(
-                          {result?.header?.CompanyCountry}), <span>T {result?.header?.CompanyTellNo}</span> <span>{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</span>
+                          {result?.header?.CompanyCountry}),{" "}
+                          <span>T {result?.header?.CompanyTellNo}</span>{" "}
+                          <span>
+                            {result?.header?.CompanyEmail} |{" "}
+                            {result?.header?.CompanyWebsite}
+                          </span>
                         </div>
                         {/* <div>T {result?.header?.CompanyTellNo}</div> */}
                         {/* <div>
@@ -960,7 +969,8 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     style={{ minHeight: "80px" }}
                                   >
                                     <img
-                                      src={e?.GroupJob === "" ? e?.DesignImage : result?.json1?.map((el) => el?.DesignImage)}
+                                      src={e?.DesignImage}
+                                      // src={e?.GroupJob === "" ? e?.DesignImage : result?.json1?.map((el) => el?.DesignImage)}
                                       onError={(e) => handleImageError(e)}
                                       alt="design"
                                       className="imgdp10_pcl7"
@@ -972,7 +982,9 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className="centerdp10_pcl7 fsgdp10_pcl7">
                                   {atob(evn)?.toLowerCase() === "quote"
                                     ? ""
-                                    : e?.GroupJob !== "" ? e?.GroupJob : e?.SrJobno}
+                                    : e?.GroupJob !== ""
+                                    ? e?.GroupJob
+                                    : e?.SrJobno}
                                 </div>
                                 <div className=" centerdp10_pcl7 fsgdp10_pcl7">
                                   {e?.designno}&nbsp;
@@ -1023,7 +1035,8 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         justifyContent: "center",
                                       }}
                                     >
-                                      PO: <span className="fw-bold">{e?.PO}</span>
+                                      PO:{" "}
+                                      <span className="fw-bold">{e?.PO}</span>
                                     </div>
                                   )}
                                   {e?.lineid === "" ? (
@@ -1814,214 +1827,226 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           gap: "5px",
                           borderRight: "1px solid",
                         }}
-                      > 
+                      >
                         <div className="text-start ps-1 pt-1 fs_5_pcl7">
                           No. Of Items :{" "}
                           <span className="fw-bold">
                             {result?.resultArray?.length}
                           </span>
                         </div>
-                        <div style={{display: "flex", gap: "5px",}}>
-                        <div className="d-flex flex-column sumdp10_pcl7">
-                          <div className="fw-bold bg_dp10_pcl7 w-100 centerdp10_pcl7  ball_dp10_pcl7">
-                            SUMMARY
-                          </div>
-                          <div className="d-flex w-100 fsgdp10_pcl7">
-                            <div className="w-50 bright_dp10_pcl7  bl_dp10_pcl7">
-                              <div className="d-flex justify-content-between px-1">
-                                <div className="w-50 fw-bold">GOLD IN 24KT</div>
-                                <div className="w-50 end_dp10_pcl7 pe-1">
-                                  {(
-                                    result?.mainTotal?.total_purenetwt -
-                                    notGoldMetalWtTotal
-                                  )?.toFixed(3)}{" "}
-                                  gm
-                                </div>
-                              </div>
-                              {MetShpWise?.map((e, i) => {
-                                return (
-                                  <div
-                                    className="d-flex justify-content-between px-1"
-                                    key={i}
-                                  >
-                                    <div className="w-50 fw-bold">
-                                      {e?.ShapeName}
-                                    </div>
-                                    <div className="w-50 end_dp10_pcl7 pe-1">
-                                      {e?.metalfinewt?.toFixed(3)} gm
-                                    </div>
+                        <div style={{ display: "flex", gap: "5px" }}>
+                          <div className="d-flex flex-column sumdp10_pcl7">
+                            <div className="fw-bold bg_dp10_pcl7 w-100 centerdp10_pcl7  ball_dp10_pcl7">
+                              SUMMARY
+                            </div>
+                            <div className="d-flex w-100 fsgdp10_pcl7">
+                              <div className="w-50 bright_dp10_pcl7  bl_dp10_pcl7">
+                                <div className="d-flex justify-content-between px-1">
+                                  <div className="w-50 fw-bold">
+                                    GOLD IN 24KT
                                   </div>
-                                );
-                              })}
-                              <div className="d-flex justify-content-between px-1">
-                                <div className="w-50 fw-bold">GROSS WT</div>
-                                <div className="w-50 end_dp10_pcl7 pe-1">
-                                  {result?.mainTotal?.grosswt?.toFixed(3)} gm
+                                  <div className="w-50 end_dp10_pcl7 pe-1">
+                                    {(
+                                      result?.mainTotal?.total_purenetwt -
+                                      notGoldMetalWtTotal
+                                    )?.toFixed(3)}{" "}
+                                    gm
+                                  </div>
+                                </div>
+                                {MetShpWise?.map((e, i) => {
+                                  return (
+                                    <div
+                                      className="d-flex justify-content-between px-1"
+                                      key={i}
+                                    >
+                                      <div className="w-50 fw-bold">
+                                        {e?.ShapeName}
+                                      </div>
+                                      <div className="w-50 end_dp10_pcl7 pe-1">
+                                        {e?.metalfinewt?.toFixed(3)} gm
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                                <div className="d-flex justify-content-between px-1">
+                                  <div className="w-50 fw-bold">GROSS WT</div>
+                                  <div className="w-50 end_dp10_pcl7 pe-1">
+                                    {result?.mainTotal?.grosswt?.toFixed(3)} gm
+                                  </div>
+                                </div>
+                                <div className="d-flex justify-content-between px-1">
+                                  <div className="w-50 fw-bold">NET WT</div>
+                                  <div className="w-50 end_dp10_pcl7 pe-1">
+                                    {result?.mainTotal?.metal?.Wt?.toFixed(3)}{" "}
+                                    gm
+                                  </div>
+                                </div>
+                                <div className="d-flex justify-content-between px-1">
+                                  <div className="w-50 fw-bold">LOSS WT</div>
+                                  <div className="w-50 end_dp10_pcl7 pe-1">
+                                    {result?.mainTotal?.lossWt?.toFixed(3)} gm
+                                  </div>
+                                </div>
+                                <div className="d-flex justify-content-between px-1">
+                                  <div className="w-50 fw-bold">DIAMOND WT</div>
+                                  <div className="w-50 end_dp10_pcl7 pe-1">
+                                    {result?.mainTotal?.diamonds?.Pcs} /{" "}
+                                    {result?.mainTotal?.diamonds?.Wt?.toFixed(
+                                      3
+                                    )}{" "}
+                                    cts
+                                  </div>
+                                </div>
+                                <div className="d-flex justify-content-between px-1">
+                                  <div className="w-50 fw-bold">STONE WT</div>
+                                  <div className="w-50 end_dp10_pcl7 pe-1">
+                                    {result?.mainTotal?.colorstone?.Pcs} /{" "}
+                                    {result?.mainTotal?.colorstone?.Wt?.toFixed(
+                                      3
+                                    )}{" "}
+                                    cts
+                                  </div>
+                                </div>
+                                <div className="d-flex justify-content-between px-1">
+                                  <div className="w-50 fw-bold">MISC WT</div>
+                                  <div className="w-50 end_dp10_pcl7 pe-1">
+                                    {result?.mainTotal?.misc?.onlyIsHSCODE0_Pcs}{" "}
+                                    /{" "}
+                                    {result?.mainTotal?.misc?.onlyIsHSCODE0_Wt?.toFixed(
+                                      3
+                                    )}{" "}
+                                    gm
+                                  </div>
                                 </div>
                               </div>
-                              <div className="d-flex justify-content-between px-1">
-                                <div className="w-50 fw-bold">NET WT</div>
-                                <div className="w-50 end_dp10_pcl7 pe-1">
-                                  {result?.mainTotal?.metal?.Wt?.toFixed(3)} gm
+                              <div className="w-50 bright_dp10_pcl7 ">
+                                <div className="d-flex justify-content-between px-1">
+                                  <div className="w-50 fw-bold">GOLD</div>
+                                  <div className="w-50 end_dp10_pcl7">
+                                    {formatAmount(
+                                      (result?.mainTotal?.metal?.Amount -
+                                        notGoldMetalTotal) /
+                                        result?.header?.CurrencyExchRate
+                                    )}
+                                  </div>
                                 </div>
-                              </div>
-                              <div className="d-flex justify-content-between px-1">
-                                <div className="w-50 fw-bold">LOSS WT</div>
-                                <div className="w-50 end_dp10_pcl7 pe-1">
-                                  {result?.mainTotal?.lossWt?.toFixed(3)} gm
+                                {MetShpWise?.map((e, i) => {
+                                  return (
+                                    <div
+                                      className="d-flex justify-content-between px-1"
+                                      key={i}
+                                    >
+                                      <div className="w-50 fw-bold">
+                                        {e?.ShapeName}
+                                      </div>
+                                      <div className="w-50 end_dp10_pcl7">
+                                        {formatAmount(
+                                          e?.Amount /
+                                            result?.header?.CurrencyExchRate
+                                        )}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                                <div className="d-flex justify-content-between px-1">
+                                  <div className="w-50 fw-bold">DIAMOND</div>
+                                  <div className="w-50 end_dp10_pcl7">
+                                    {formatAmount(
+                                      result?.mainTotal?.diamonds?.Amount /
+                                        result?.header?.CurrencyExchRate,
+                                      0
+                                    )}
+                                  </div>
                                 </div>
-                              </div>
-                              <div className="d-flex justify-content-between px-1">
-                                <div className="w-50 fw-bold">DIAMOND WT</div>
-                                <div className="w-50 end_dp10_pcl7 pe-1">
-                                  {result?.mainTotal?.diamonds?.Pcs} /{" "}
-                                  {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}{" "}
-                                  cts
+                                <div className="d-flex justify-content-between px-1">
+                                  <div className="w-50 fw-bold">CST</div>
+                                  <div className="w-50 end_dp10_pcl7">
+                                    {formatAmount(
+                                      result?.mainTotal?.colorstone?.Amount /
+                                        result?.header?.CurrencyExchRate,
+                                      0
+                                    )}
+                                  </div>
                                 </div>
-                              </div>
-                              <div className="d-flex justify-content-between px-1">
-                                <div className="w-50 fw-bold">STONE WT</div>
-                                <div className="w-50 end_dp10_pcl7 pe-1">
-                                  {result?.mainTotal?.colorstone?.Pcs} /{" "}
-                                  {result?.mainTotal?.colorstone?.Wt?.toFixed(
-                                    3
-                                  )}{" "}
-                                  cts
+                                <div className="d-flex justify-content-between px-1">
+                                  <div className="w-50 fw-bold">MISC</div>
+                                  <div className="w-50 end_dp10_pcl7">
+                                    {formatAmount(
+                                      result?.mainTotal?.misc
+                                        ?.onlyIsHSCODE0_Amount /
+                                        result?.header?.CurrencyExchRate,
+                                      0
+                                    )}
+                                  </div>
                                 </div>
-                              </div>
-                              <div className="d-flex justify-content-between px-1">
-                                <div className="w-50 fw-bold">MISC WT</div>
-                                <div className="w-50 end_dp10_pcl7 pe-1">
-                                  {result?.mainTotal?.misc?.onlyIsHSCODE0_Pcs} /{" "}
-                                  {result?.mainTotal?.misc?.onlyIsHSCODE0_Wt?.toFixed(
-                                    3
-                                  )}{" "}
-                                  gm
+                                <div className="d-flex justify-content-between px-1">
+                                  <div className="w-50 fw-bold">MAKING </div>
+                                  <div className="w-50 end_dp10_pcl7">
+                                    {formatAmount(
+                                      (result?.mainTotal?.misc
+                                        ?.isHSCODE123_amt +
+                                        result?.mainTotal?.finding
+                                          ?.SettingAmount +
+                                        result?.mainTotal?.total_labour
+                                          ?.labour_amount +
+                                        result?.mainTotal
+                                          ?.total_TotalDiaSetcost +
+                                        result?.mainTotal
+                                          ?.total_TotalCsSetcost) /
+                                        result?.header?.CurrencyExchRate,
+                                      0
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="d-flex justify-content-between px-1">
+                                  <div className="w-50 fw-bold">OTHER </div>
+                                  <div className="w-50 end_dp10_pcl7">
+                                    {formatAmount(
+                                      result?.mainTotal?.total_other_charges +
+                                        result?.mainTotal
+                                          ?.total_diamondHandling,
+                                      0
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="d-flex justify-content-between px-1">
+                                  <div className="w-50 fw-bold">
+                                    {result?.header?.AddLess > 0
+                                      ? "ADD"
+                                      : "LESS"}
+                                  </div>
+                                  <div className="w-50 end_dp10_pcl7">
+                                    {formatAmount(
+                                      result?.header?.AddLess /
+                                        result?.header?.CurrencyExchRate
+                                    )}
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                            <div className="w-50 bright_dp10_pcl7 ">
-                              <div className="d-flex justify-content-between px-1">
-                                <div className="w-50 fw-bold">GOLD</div>
-                                <div className="w-50 end_dp10_pcl7">
+                            <div className="bg_dp10_pcl7 h_bd10_pcl7 ball_dp10_pcl7 d-flex fsgdp10_pcl7 ">
+                              <div className="w-50 h-100"></div>
+                              <div className="w-50 h-100 d-flex align-items-center bl_dp10_pcl7">
+                                <div className="fw-bold w-50 px-1">TOTAL</div>
+                                <div className="w-50 end_dp10_pcl7 px-1">
                                   {formatAmount(
-                                    (result?.mainTotal?.metal?.Amount -
-                                      notGoldMetalTotal) /
-                                      result?.header?.CurrencyExchRate
-                                  )}
-                                </div>
-                              </div>
-                              {MetShpWise?.map((e, i) => {
-                                return (
-                                  <div
-                                    className="d-flex justify-content-between px-1"
-                                    key={i}
-                                  >
-                                    <div className="w-50 fw-bold">
-                                      {e?.ShapeName}
-                                    </div>
-                                    <div className="w-50 end_dp10_pcl7">
-                                      {formatAmount(
-                                        e?.Amount /
-                                          result?.header?.CurrencyExchRate
-                                      )}
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                              <div className="d-flex justify-content-between px-1">
-                                <div className="w-50 fw-bold">DIAMOND</div>
-                                <div className="w-50 end_dp10_pcl7">
-                                  {formatAmount(
-                                    result?.mainTotal?.diamonds?.Amount /
-                                      result?.header?.CurrencyExchRate,
-                                    0
-                                  )}
-                                </div>
-                              </div>
-                              <div className="d-flex justify-content-between px-1">
-                                <div className="w-50 fw-bold">CST</div>
-                                <div className="w-50 end_dp10_pcl7">
-                                  {formatAmount(
-                                    result?.mainTotal?.colorstone?.Amount /
-                                      result?.header?.CurrencyExchRate,
-                                    0
-                                  )}
-                                </div>
-                              </div>
-                              <div className="d-flex justify-content-between px-1">
-                                <div className="w-50 fw-bold">MISC</div>
-                                <div className="w-50 end_dp10_pcl7">
-                                  {formatAmount(
-                                    result?.mainTotal?.misc
-                                      ?.onlyIsHSCODE0_Amount /
-                                      result?.header?.CurrencyExchRate,
-                                    0
-                                  )}
-                                </div>
-                              </div>
-                              <div className="d-flex justify-content-between px-1">
-                                <div className="w-50 fw-bold">MAKING </div>
-                                <div className="w-50 end_dp10_pcl7">
-                                  {formatAmount(
-                                    (result?.mainTotal?.misc?.isHSCODE123_amt +
-                                      result?.mainTotal?.finding
-                                        ?.SettingAmount +
-                                      result?.mainTotal?.total_labour
-                                        ?.labour_amount +
-                                      result?.mainTotal?.total_TotalDiaSetcost +
-                                      result?.mainTotal?.total_TotalCsSetcost) /
-                                      result?.header?.CurrencyExchRate,
-                                    0
-                                  )}
-                                </div>
-                              </div>
-                              <div className="d-flex justify-content-between px-1">
-                                <div className="w-50 fw-bold">OTHER </div>
-                                <div className="w-50 end_dp10_pcl7">
-                                  {formatAmount(
-                                    result?.mainTotal?.total_other_charges +
-                                      result?.mainTotal?.total_diamondHandling,
-                                    0
-                                  )}
-                                </div>
-                              </div>
-                              <div className="d-flex justify-content-between px-1">
-                                <div className="w-50 fw-bold">
-                                  {result?.header?.AddLess > 0 ? "ADD" : "LESS"}
-                                </div>
-                                <div className="w-50 end_dp10_pcl7">
-                                  {formatAmount(
-                                    result?.header?.AddLess /
-                                      result?.header?.CurrencyExchRate
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="bg_dp10_pcl7 h_bd10_pcl7 ball_dp10_pcl7 d-flex fsgdp10_pcl7 ">
-                            <div className="w-50 h-100"></div>
-                            <div className="w-50 h-100 d-flex align-items-center bl_dp10_pcl7">
-                              <div className="fw-bold w-50 px-1">TOTAL</div>
-                              <div className="w-50 end_dp10_pcl7 px-1">
-                                {formatAmount(
-                                  result?.mainTotal?.total_amount /
-                                    result?.header?.CurrencyExchRate +
-                                    result?.allTaxesTotal +
-                                    result?.header?.FreightCharges /
+                                    result?.mainTotal?.total_amount /
                                       result?.header?.CurrencyExchRate +
-                                    result?.header?.AddLess /
-                                      result?.header?.CurrencyExchRate
-                                )}
+                                      result?.allTaxesTotal +
+                                      result?.header?.FreightCharges /
+                                        result?.header?.CurrencyExchRate +
+                                      result?.header?.AddLess /
+                                        result?.header?.CurrencyExchRate
+                                  )}
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="dia_sum_dp10_pcl7 d-flex flex-column  fsgdp10_pcl7  border-start border-end">
-                          <div className="h_bd10_pcl7 centerdp10_pcl7 bg_dp10_pcl7 fw-bold ball_dp10_pcl7">
-                            Diamond Detail
-                          </div>
-                          {/* {diamondWise?.map((e, i) => {
+                          <div className="dia_sum_dp10_pcl7 d-flex flex-column  fsgdp10_pcl7  border-start border-end">
+                            <div className="h_bd10_pcl7 centerdp10_pcl7 bg_dp10_pcl7 fw-bold ball_dp10_pcl7">
+                              Diamond Detail
+                            </div>
+                            {/* {diamondWise?.map((e, i) => {
                             return (
                               <div
                                 className="d-flex justify-content-between px-1 ball_dp10_pcl7 border-top-0 border-bottom-0 fsgdp10_pcl7"
@@ -2036,88 +2061,93 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               </div>
                             );
                           })} */}
-                          <div className="d-flex flex-column justify-content-start h-100">
-                            {diamondDetails?.map((e, i) => {
-                              return (
-                                e?.Wt !== undefined && (
-                                  <React.Fragment key={i}>
-                                    <div
-                                      className={`d-flex justify-content-between px-1 pb-1  align-items-center ${
-                                        i === 0 && "pt-1"
-                                      }`}
-                                    >
-                                      <p className="fw-bold">
-                                        {e?.ShapeName === "OTHER" ? (
-                                          e?.ShapeName
-                                        ) : (
-                                          <>
-                                            {e?.ShapeName} {e?.QualityName}{" "}
-                                            {e?.Colorname}
-                                          </>
-                                        )}
-                                      </p>
-                                      <p>
-                                        {NumberWithCommas(e?.Pcs, 0)}/
-                                        {NumberWithCommas(e?.Wt, 3)} Cts
-                                      </p>
-                                    </div>
-                                  </React.Fragment>
-                                )
-                              );
-                            })}
-                          </div>
-                          <div className="d-flex justify-content-between px-1 bg_dp10_pcl7 h_bd10_pcl7  ball_dp10_pcl7">
-                            <div className="fw-bold w-50 h14_dp10_pcl7"></div>
-                            <div className="w-50"></div>
-                          </div>
-                        </div>
-                        <div className="oth_sum_dp10_pcl7 fsgdp10_pcl7">
-                          <div className="h_bd10 centerdp10_pcl7 bg_dp10_pcl7 fw-bold ball_dp10_pcl7">
-                            OTHER DETAILS
-                          </div>
-                          <div className="d-flex flex-column justify-content-between w-100 px-1 ball_dp10_pcl7 border-top-0 p-1  fw-bold">
-                            <div className="d-flex">
-                              <div className="w-50 fw-bold start_dp10_pcl7 fsgdp10_pcl7">
-                                RATE IN 24KT
-                              </div>
-                              <div className="w-50 end_dp10_pcl7 fsgdp10_pcl7">
-                                {result?.header?.MetalRate24K?.toFixed(2)}
-                              </div>
-                            </div>
-                            <div>
-                              {result?.header?.BrokerageDetails?.map((e, i) => {
+                            <div className="d-flex flex-column justify-content-start h-100">
+                              {diamondDetails?.map((e, i) => {
                                 return (
-                                  <div className="d-flex fsgdp10_pcl7" key={i}>
-                                    <div className="w-50 fw-bold start_dp10_pcl7">
-                                      {e?.label}
-                                    </div>
-                                    <div className="w-50 end_dp10_pcl7">
-                                      {e?.value}
-                                    </div>
-                                  </div>
+                                  e?.Wt !== undefined && (
+                                    <React.Fragment key={i}>
+                                      <div
+                                        className={`d-flex justify-content-between px-1 pb-1  align-items-center ${
+                                          i === 0 && "pt-1"
+                                        }`}
+                                      >
+                                        <p className="fw-bold">
+                                          {e?.ShapeName === "OTHER" ? (
+                                            e?.ShapeName
+                                          ) : (
+                                            <>
+                                              {e?.ShapeName} {e?.QualityName}{" "}
+                                              {e?.Colorname}
+                                            </>
+                                          )}
+                                        </p>
+                                        <p>
+                                          {NumberWithCommas(e?.Pcs, 0)}/
+                                          {NumberWithCommas(e?.Wt, 3)} Cts
+                                        </p>
+                                      </div>
+                                    </React.Fragment>
+                                  )
                                 );
                               })}
                             </div>
-                          </div>
-                        </div>
-                        <div className="remark_sum_dp10_pcl7 fsgdp10_pcl7">
-                              {result?.header?.PrintRemark === "" ? (
-                                ""
-                              ) : (
-                                  <>
-                                  <div className="h_bd10 centerdp10_pcl7 bg_dp10_pcl7 fw-bold ball_dp10_pcl7">
-                                    Remark
-                                  </div>
-                                  <div
-                                    className="ball_dp10_pcl7 border-top-0 p-1"
-                                    dangerouslySetInnerHTML={{
-                                      __html: result?.header?.PrintRemark,
-                                    }}
-                                  ></div>
-                                  </>
-                              )}
+                            <div className="d-flex justify-content-between px-1 bg_dp10_pcl7 h_bd10_pcl7  ball_dp10_pcl7">
+                              <div className="fw-bold w-50 h14_dp10_pcl7"></div>
+                              <div className="w-50"></div>
                             </div>
-                        {/* No. Of Items :{" "}
+                          </div>
+                          <div className="oth_sum_dp10_pcl7 fsgdp10_pcl7">
+                            <div className="h_bd10 centerdp10_pcl7 bg_dp10_pcl7 fw-bold ball_dp10_pcl7">
+                              OTHER DETAILS
+                            </div>
+                            <div className="d-flex flex-column justify-content-between w-100 px-1 ball_dp10_pcl7 border-top-0 p-1  fw-bold">
+                              <div className="d-flex">
+                                <div className="w-50 fw-bold start_dp10_pcl7 fsgdp10_pcl7">
+                                  RATE IN 24KT
+                                </div>
+                                <div className="w-50 end_dp10_pcl7 fsgdp10_pcl7">
+                                  {result?.header?.MetalRate24K?.toFixed(2)}
+                                </div>
+                              </div>
+                              <div>
+                                {result?.header?.BrokerageDetails?.map(
+                                  (e, i) => {
+                                    return (
+                                      <div
+                                        className="d-flex fsgdp10_pcl7"
+                                        key={i}
+                                      >
+                                        <div className="w-50 fw-bold start_dp10_pcl7">
+                                          {e?.label}
+                                        </div>
+                                        <div className="w-50 end_dp10_pcl7">
+                                          {e?.value}
+                                        </div>
+                                      </div>
+                                    );
+                                  }
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="remark_sum_dp10_pcl7 fsgdp10_pcl7">
+                            {result?.header?.PrintRemark === "" ? (
+                              ""
+                            ) : (
+                              <>
+                                <div className="h_bd10 centerdp10_pcl7 bg_dp10_pcl7 fw-bold ball_dp10_pcl7">
+                                  Remark
+                                </div>
+                                <div
+                                  className="ball_dp10_pcl7 border-top-0 p-1"
+                                  dangerouslySetInnerHTML={{
+                                    __html: result?.header?.PrintRemark,
+                                  }}
+                                ></div>
+                              </>
+                            )}
+                          </div>
+                          {/* No. Of Items :{" "}
                         <span className="fw-bold">
                           {result?.resultArray?.length}
                         </span> */}
