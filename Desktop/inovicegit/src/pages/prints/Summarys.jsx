@@ -149,6 +149,9 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         }
         sendData();
     }, []);
+
+    console.log("data", data);
+    
     return (
         <>  {loader ? <Loader /> : msg === "" ? <div className={`pad_60_allPrint ${style.summarysContaoiner}`}>
             <div className="container max_width_container">
@@ -259,7 +262,7 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className="d-flex h-100">
                                 <div className={`border-end col-4`}>
                                     {e?.diamonds.length > 0 && e?.diamonds.map((ele, ind) => {
-                                        return <p className='p-1' key={ind}>{ele?.QualityName} / {ele?.Colorname}</p>
+                                        return <p className='p-1' key={ind}>{ele?.ShapeName &&<><span className={`${style?.spbrWord}`}>{ele?.ShapeName}</span> <span>/</span></>} {ele?.QualityName && <><span className={`${style?.spbrWord}`}>{ele?.QualityName}</span> <span>/</span></>} {ele?.Colorname && <><span className={`${style?.spbrWord}`}>{ele?.Colorname}</span></>}</p>
                                     })}
                                 </div>
                                 <div className={`border-end col-4`}>

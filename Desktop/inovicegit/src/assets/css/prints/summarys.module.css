@@ -68,6 +68,15 @@
     min-width: 19.1%;
 }
 
+.spbrWord{
+    word-break: break-word;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.disF{
+    display: flex;
+}
 @media print{
     .d_none{
         display: none !important;
