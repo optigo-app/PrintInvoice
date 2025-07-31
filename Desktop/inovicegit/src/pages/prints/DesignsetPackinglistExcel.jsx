@@ -235,16 +235,16 @@ const DesignsetPackinglistExcel = ({
         <>
           {msg === "" ? (
             <>
-              <div style={{ paddingBottom: "5rem" }}>
+              <div>
                 <ReactHTMLTableToExcel
                   id="test-table-xls-button"
                   className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5 d-none"
                   table="table-to-xls"
-                  filename={`DesignSet_PackingList_Excel${result?.header?.InvoiceNo}_${Date.now()}`}
+                  filename={`DesignSet_PackingList_${result?.header?.InvoiceNo}_${Date.now()}`}
                   sheet="tablexls"
                   buttonText="Download as XLS"
                 />
-                <table id="table-to-xls">
+                <table id="table-to-xls" className='d-none'>
                   <tbody>
                     {/** Main Header */}
                     <tr>

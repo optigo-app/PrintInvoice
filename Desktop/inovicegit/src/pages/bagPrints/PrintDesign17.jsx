@@ -253,14 +253,14 @@ const PrintDesign17 = ({ queries, headers }) => {
                                       wordBreak: "break-all",
                                     }}
                                   >
-                                    INS :{" "}
+                                    INS :{" "}<span className="spinstFnt">
                                     {e?.data?.rd?.instructionData ===
                                     (null || "null")
                                       ? ""
                                       : e?.data?.rd?.instructionData?.slice(
                                           0,
                                           113
-                                        )}
+                                        )}</span>
                                   </p>
                                 </div>
                               </div>

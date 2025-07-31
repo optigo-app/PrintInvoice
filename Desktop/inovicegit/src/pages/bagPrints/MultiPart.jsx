@@ -221,11 +221,13 @@ const MultiPart = ({ queries, headers }) => {
                 finalArr2.push(obj2);
             }
 
+            // console.log("finalArr2", finalArr2);
         });
         setTimeout(() => {
             
             setFilterData(finalArr2);
             setTitle(title);
+            
         }, 0);
     
         if (finalArr2.length > 0) {
@@ -234,6 +236,8 @@ const MultiPart = ({ queries, headers }) => {
             }, 500);
         }
     };
+    // console.log("filterData", filterData);
+    
   return (
     <div className='bg_color_mlt pb-5 mb-5'>
     {
@@ -311,22 +315,25 @@ const MultiPart = ({ queries, headers }) => {
                     
                     return(
                         <div className='containerjbsbg' key={index}>
-                        <div>
-                                <div className=' fsjbsbg  py-1 d-flex align-items-center'>{title}</div>
-                            { e?.data?.rd?.serialjobno?.length > 0 && <div className='fsjbsbg fw-bold'>{e?.data?.rd?.serialjobno} {e?.data?.rd?.metal_color_casted}</div>}
-                            { e?.data?.rd?.Designcode?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.Designcode}</div>}
-                            { e?.data?.rd?.CustomerCode?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.CustomerCode}</div>}
-                            { e?.data?.rd?.OrderNo?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.OrderNo}</div>}
-                            { e?.data?.rd?.promiseDatef?.length > 0 && <div className='fsjbsbg fw-bold'>{e?.data?.rd?.promiseDatef}</div>}
-                            { e?.data?.rd?.Size?.length > 0 && <div className='fsjbsbg'>Size: {e?.data?.rd?.Size}</div>}
-                            { e?.data?.rd?.MetalType?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.MetalType?.split(" ")[1] + " " +e?.data?.rd?.MetalColor}</div>}
-                            { e?.data?.rd?.MetalWeight > 0 && <div className='fsjbsbg'>{(+e?.data?.rd?.MetalWeight)?.toFixed(3)}gm</div>}
-                            <div className='d-flex justify-content-start align-items-center'>
-                                <QRCodeGenerator text={e?.data?.rd.serialjobno +" "+ (e?.data?.rd?.metal_color_casted === undefined ? '' : e?.data?.rd?.metal_color_casted)} />{ diaFlag && <span className='fsjbsbg'>{e?.data?.rd?.diamondQuality?.join(",")}</span>}
+                            <div>
+                                    <div className=' fsjbsbg  py-1 d-flex align-items-center'>{title}</div>
+                                { e?.data?.rd?.serialjobno?.length > 0 && <div className='fsjbsbg fw-bold'>{e?.data?.rd?.serialjobno} {e?.data?.rd?.metal_color_casted}</div>}
+                                { e?.data?.rd?.Designcode?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.Designcode}</div>}
+                                { e?.data?.rd?.CustomerCode?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.CustomerCode}</div>}
+                                { e?.data?.rd?.OrderNo?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.OrderNo}</div>}
+                                { e?.data?.rd?.promiseDatef?.length > 0 && <div className='fsjbsbg fw-bold'>{e?.data?.rd?.promiseDatef}</div>}
+                                { e?.data?.rd?.Size?.length > 0 && <div className='fsjbsbg'>Size: {e?.data?.rd?.Size}</div>}
+                                { e?.data?.rd?.MetalType?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.MetalType?.split(" ")[1] + " " +e?.data?.rd?.MetalColor}</div>}
+                                { e?.data?.rd?.MetalWeight > 0 && <div className='fsjbsbg'>{(+e?.data?.rd?.MetalWeight)?.toFixed(3)}gm</div>}
+                                <div className='d-flex justify-content-start align-items-center'>
+                                    <QRCodeGenerator text={e?.data?.rd.serialjobno +" "+ (e?.data?.rd?.metal_color_casted === undefined ? '' : e?.data?.rd?.metal_color_casted)} />{ diaFlag && <span className='fsjbsbg'>{e?.data?.rd?.diamondQuality?.join(",")}</span>}
+                                </div>
                             </div>
+                            <div className='text-break ins_multipart fw-bolder'>{e?.data?.rd?.ProductInstruction} 
+                                {/* {e?.data?.rd?.officeuse} */}
+                            </div>
+                            {/* <div className='text-break ins_multipart fw-bolder'>{e?.data?.rd?.officeuse}</div> */}
                         </div>
-                        <div className='text-break ins_multipart fw-bolder'>{e?.data?.rd?.ProductInstruction}</div>
-                      </div>
                     //   <React.Fragment key={index}>
                     //     {
                     //       e?.additional?.pages?.length > 0 ? e?.additional?.pages?.map((el, i) => {

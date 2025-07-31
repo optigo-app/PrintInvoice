@@ -5,7 +5,6 @@ import { useState } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { apiCall, checkMsg, fixedValues, formatAmount, handleImageError, isObjectEmpty, NumberWithCommas } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
-import { cloneDeep } from 'lodash';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import { MetalShapeNameWiseArr } from '../../GlobalFunctions/MetalShapeNameWiseArr';
 
