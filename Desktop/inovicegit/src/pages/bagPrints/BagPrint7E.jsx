@@ -351,6 +351,9 @@ const BagPrint7A = ({ queries, headers }) => {
                                     <div
                                       style={{
                                         backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
+                                        border: `${e?.data?.rd?.prioritycolorcode}`,
+                                        borderTopLeftRadius: "6px",
+                                        boxSizing: "border-box",
                                       }}
                                     >
                                       <div className="head7AjobInfoJobNO">
@@ -497,14 +500,17 @@ const BagPrint7A = ({ queries, headers }) => {
                                       onError={(e) => handleImageError(e)}
                                       // onError={(e) => handleImageError2(e)}
                                       loading="eager"
+                                      style={{ paddingTop: "2px"}}
                                     />
                                     <div
                                       className="borderBottom7A d-flex justify-content-center align-items-center fw-bold"
                                       style={{
+                                        borderTop: "1px solid #989898",
                                         fontSize: "11px",
                                         lineHeight: "9px",
                                         padding: "2px",
                                         height: "22px",
+                                        borderLeft: "none"
                                       }}
                                     >
                                       {checkInstruction(
@@ -523,7 +529,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                         >
                                           <p
                                             className="w7A d-flex justify-content-center align-items-center pe-1"
-                                            style={{ width: "82px" }}
+                                            style={{ width: "82px", borderLeft: "none" }}
                                           >
                                             <b>Type</b>
                                           </p>
@@ -537,7 +543,6 @@ const BagPrint7A = ({ queries, headers }) => {
                                             className="w7A d-flex justify-content-center align-items-center pe-1"
                                             style={{
                                               width: "70px",
-                                              borderRight: "0px",
                                             }}
                                           >
                                             <b>Color</b>
@@ -561,6 +566,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                                         style={{
                                                           width: "82px",
                                                           paddingLeft: "1px",
+                                                          borderLeft: "none"
                                                         }}
                                                       >
                                                         {e?.Shapecode}
@@ -579,7 +585,6 @@ const BagPrint7A = ({ queries, headers }) => {
                                                         style={{
                                                           width: "70px",
                                                           paddingLeft: "1px",
-                                                          borderRight: "0px",
                                                         }}
                                                       >
                                                         {e?.ColorCode}
@@ -594,7 +599,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                     </div>
                                     <div className="d-flex">
                                       <div>
-                                        <div className="tableHead7B">
+                                        <div className="tableHead7B" style={{ borderRight: "none" }}>
                                           <div
                                             className="dept7A fw-bold d-flex justify-content-start align-items-center"
                                             style={{
@@ -619,7 +624,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                           </div>
                                           <div
                                             className="dept7A fw-bold"
-                                            style={{ borderRight: "0px" }}
+                                            style={{ borderRight: "none" }}
                                           >
                                             (%)
                                           </div>
@@ -655,7 +660,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                             </div>
                                             <div
                                               className="dept7AD w7A70"
-                                              style={{ borderBottom: "0px" }}
+                                              style={{ borderBottom: "0px", height: "16.2px" }}
                                             >
                                               RHODIUM
                                             </div>
@@ -686,7 +691,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                             )}
                                           </div>
                                         </div>
-                                        <div className="tableHead7B">
+                                        <div className="tableHead7B" style={{ width: "235px" }}>
                                           <div
                                             className="dept7A"
                                             style={{ width: "63px" }}
@@ -704,7 +709,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                             Sign
                                           </div>
                                         </div>
-                                        <div className="tableHead7B">
+                                        <div className="tableHead7B" style={{ width: "235px" }}>
                                           <div
                                             className="dept7A"
                                             style={{
@@ -725,6 +730,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                           className="tableHead7B"
                                           style={{
                                             fontWeight: "bold",
+                                            width: "235px"
                                           }}
                                         >
                                           <div
@@ -763,6 +769,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                           style={{
                                             fontWeight: "bold",
                                             height: "16px",
+                                            width: "235px"
                                           }}
                                         >
                                           <div
@@ -928,8 +935,8 @@ const BagPrint7A = ({ queries, headers }) => {
                         {e?.data?.rd?.OrignalRollOverImage === "" ? (
                           ""
                         ) : (
-                          <div className="container7A">
-                            <div style={{ padding: "1rem" }}>
+                          <div className="container7A sppadlft">
+                            <div>
                               {imgFlag ? (
                                 ""
                               ) : (
@@ -939,6 +946,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                       ? e?.data?.rd?.OrignalRollOverImage
                                       : require("../../assets/img/default.jpg")
                                   }
+                                  style={{ padding: "10px"}}
                                   alt="materialimage1"
                                   onError={(e) => {
                                     handleImageError(e);
@@ -960,6 +968,9 @@ const BagPrint7A = ({ queries, headers }) => {
                               <div
                                 style={{
                                   backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
+                                  border: `${e?.data?.rd?.prioritycolorcode}`,
+                                  borderTopLeftRadius: "6px",
+                                  boxSizing: "border-box",
                                 }}
                               >
                                 <div className="head7AjobInfoJobNO">
@@ -1051,7 +1062,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                   </div>
                                 </div>
                                 <div className="pcswt7AH">
-                                  <div className="net7A">
+                                  <div className="net7A" style={{ width: "62px" }}>
                                     <b>Clr Pcs:</b>
                                   </div>
                                   <div className="net7A justify-content-end pe-1">
@@ -1060,7 +1071,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                   <div className="net7A">
                                     <b>Clr Wt.</b>
                                   </div>
-                                  <div className="net7A justify-content-end pe-1">
+                                  <div className="net7A justify-content-end pe-1" style={{ borderRight: "none", width: "62px" }}>
                                     {e?.additional?.clr?.ActualWeight.toFixed(
                                       3
                                     )}
@@ -1076,7 +1087,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                   <div className="net7A">
                                     <b>Misc Wt.</b>
                                   </div>
-                                  <div className="net7A justify-content-end pe-1">
+                                  <div className="net7A justify-content-end pe-1" style={{ borderRight: "none" }}>
                                     {e?.additional?.misc?.ActualWeight.toFixed(
                                       3
                                     )}
@@ -1096,14 +1107,17 @@ const BagPrint7A = ({ queries, headers }) => {
                                 alt=""
                                 onError={(e) => handleImageError(e)}
                                 loading="eager"
+                                style={{ paddingTop: "2px"}}
                               />
                               <div
                                 className="borderBottom7A d-flex justify-content-center align-items-center fw-bold"
                                 style={{
+                                  borderTop: "1px solid #989898",
                                   fontSize: "11px",
                                   lineHeight: "8px",
                                   padding: "2px",
                                   height: "22px",
+                                  borderLeft: "none"
                                 }}
                               >
                                 {checkInstruction(
@@ -1117,7 +1131,7 @@ const BagPrint7A = ({ queries, headers }) => {
                               <div className="d-flex justify-content-between align-items-center dup7Aemt">
                                 <div
                                   className="w7A d-flex justify-content-center align-items-center pe-1"
-                                  style={{ width: "82px", fontSize: "9px" }}
+                                  style={{ width: "82px", fontSize: "9px", borderLeft: "none" }}
                                 >
                                   Type
                                 </div>
@@ -1137,17 +1151,17 @@ const BagPrint7A = ({ queries, headers }) => {
                               <div className="tableHead7B">
                                 <div
                                   className="dept7A fw-bold d-flex justify-content-start "
-                                  style={{ width: "52px", paddingLeft: "2px" }}
+                                  style={{ width: "52.5px", paddingLeft: "2px" }}
                                 >
                                   Dept
                                 </div>
-                                <div className="dept7A fw-bold">WrKr</div>
+                                <div className="dept7A fw-bold" style={{ width: "40.5px"}}>WrKr</div>
                                 <div className="dept7A fw-bold">In Wt</div>
                                 <div className="dept7A fw-bold">OutWt</div>
                                 <div className="dept7A fw-bold">D Wt</div>
                                 <div
                                   className="dept7A fw-bold"
-                                  style={{ borderRight: "0px" }}
+                                  style={{ borderRight: "none" }}
                                 >
                                   (%)
                                 </div>
@@ -1165,7 +1179,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                   <div className="dept7AD w7A70">F POLISH</div>
                                   <div
                                     className="dept7AD w7A70"
-                                    style={{ borderBottom: "0px" }}
+                                    style={{ borderBottom: "0px", height: "16.2px" }}
                                   >
                                     RHODIUM
                                   </div>
@@ -1335,6 +1349,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                     fontSize: "9px",
                                     height: "16px",
                                     lineHeight: "5px",
+                                    borderRight: "0px",
                                   }}
                                 >
                                   Wt
@@ -1347,14 +1362,15 @@ const BagPrint7A = ({ queries, headers }) => {
                         {e?.data?.rd?.OrignalRollOverImage === "" ? (
                           ""
                         ) : (
-                          <div className="container7A">
-                            <div style={{ padding: "1rem" }}>
+                          <div className="container7A sppadlft">
+                            <div>
                               <img
                                 src={
                                   e?.data?.rd?.OrignalRollOverImage !== ""
                                     ? e?.data?.rd?.OrignalRollOverImage
                                     : require("../../assets/img/default.jpg")
                                 }
+                                style={{ padding: "10px" }}
                                 loading="eager"
                                 alt="materialimage 2"
                                 id="img7ABig"

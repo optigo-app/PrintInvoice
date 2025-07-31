@@ -28,4 +28,5 @@ export const bagPrintConditions = [
   { printName: "jobbagsticker3", componentName: "Jobbagsticker3" },
   { printName: "searchmaterial", componentName: "SearchMaterial" },
   { printName: "multipartbagprint", componentName: "MultiPart" },
+  // { printName: "multipartbagprint1", componentName: "MultiPart1" },
 ];
