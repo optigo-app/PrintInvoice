@@ -21,6 +21,10 @@ const BagPrint7A = ({ queries, headers }) => {
 
   const resultString = GetUniquejob(queryParams?.str_srjobno);
   const chunkSize7 = 22;
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
 
   useEffect(() => {
     if (Object.keys(queryParams)?.length !== 0) {
@@ -307,7 +311,7 @@ const BagPrint7A = ({ queries, headers }) => {
       setImageFlag(true);
     }
   };
-  // console.log("data", data);
+  console.log("data", data);
   
   return (
     <>
@@ -498,7 +502,6 @@ const BagPrint7A = ({ queries, headers }) => {
                                       id="img7A"
                                       alt=""
                                       onError={(e) => handleImageError(e)}
-                                      // onError={(e) => handleImageError2(e)}
                                       loading="eager"
                                       style={{ paddingTop: "2px"}}
                                     />
@@ -948,9 +951,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                   }
                                   style={{ padding: "10px"}}
                                   alt="materialimage1"
-                                  onError={(e) => {
-                                    handleImageError(e);
-                                  }}
+                                  onError={handleImageErrors}
                                   // onError={(el) => handleImageError2(el, e?.data?.rd?.serialjobno)}
                                   id="img7ABig"
                                 />
@@ -1374,6 +1375,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                 loading="eager"
                                 alt="materialimage 2"
                                 id="img7ABig"
+                                onError={handleImageErrors}
                               />
                             </div>
                           </div>

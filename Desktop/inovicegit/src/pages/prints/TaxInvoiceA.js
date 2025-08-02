@@ -1328,11 +1328,11 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                     <div style={{ display: "flex", lineHeight: "11px" }}>
                       <p style={{ minWidth: "120px" }}>Bank MICR Code :</p>
-                      <p>110229007</p>
+                      <p>{finalD?.header?.micrcode}</p>
                     </div>
                     <div style={{ display: "flex", lineHeight: "11px" }}>
                       <p style={{ minWidth: "120px" }}>Bank SWIFT Code :</p>
-                      <p>ICICINBBCTS</p>
+                      <p>{finalD?.header?.swiftcode}</p>
                     </div>
                     <div style={{ display: "flex", lineHeight: "11px" }}>
                       <p style={{ minWidth: "120px" }}>GST Number :</p>
