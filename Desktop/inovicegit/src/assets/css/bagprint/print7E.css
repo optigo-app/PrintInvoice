@@ -161,7 +161,7 @@
 .tableHead7B {
     display: flex;
     justify-content: space-between;
-    width: 234.5px;
+    width: 235px;
     border-bottom: 1px solid #989898;
     border-right: 1px solid #989898;
 }
@@ -354,7 +354,7 @@
     @page {
         margin-left: 10px;
         margin-right: 10px;
-        margin-top: 10px;
+        margin-top: 15px;
         margin-bottom: 10px; 
       }
     .sppadlft{

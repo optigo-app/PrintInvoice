@@ -497,12 +497,13 @@ const BagPrint7A = ({ queries, headers }) => {
                                       src={
                                         e?.data?.rd?.OrignalDesignImage !== ""
                                           ? e?.data?.rd?.OrignalDesignImage
-                                          : require("../../assets/img/default.jpg")
+                                          : ""
+                                          // require("../../assets/img/default.jpg")
                                       }
                                       id="img7A"
                                       alt=""
                                       onError={(e) => handleImageError(e)}
-                                      loading="eager"
+                                      // loading="eager"
                                       style={{ paddingTop: "2px"}}
                                     />
                                     <div
@@ -606,23 +607,23 @@ const BagPrint7A = ({ queries, headers }) => {
                                           <div
                                             className="dept7A fw-bold d-flex justify-content-start align-items-center"
                                             style={{
-                                              width: "53px",
+                                              width: "52px",
                                               paddingLeft: "2px",
                                             }}
                                             // 63px
                                           >
                                             Dept
                                           </div>
-                                          <div className="dept7A fw-bold">
+                                          <div className="dept7A fw-bold" style={{ width: "39px" }}>
                                             WrKr
                                           </div>
-                                          <div className="dept7A fw-bold">
+                                          <div className="dept7A fw-bold" style={{ width: "39px" }}>
                                             In Wt
                                           </div>
                                           <div className="dept7A fw-bold">
                                             OutWt
                                           </div>
-                                          <div className="dept7A fw-bold">
+                                          <div className="dept7A fw-bold" style={{ width: "39px" }}>
                                             D Wt
                                           </div>
                                           <div
@@ -947,7 +948,8 @@ const BagPrint7A = ({ queries, headers }) => {
                                   src={
                                     e?.data?.rd?.OrignalRollOverImage !== ""
                                       ? e?.data?.rd?.OrignalRollOverImage
-                                      : require("../../assets/img/default.jpg")
+                                      : ""
+                                      // require("../../assets/img/default.jpg")
                                   }
                                   style={{ padding: "10px"}}
                                   alt="materialimage1"
@@ -1102,12 +1104,13 @@ const BagPrint7A = ({ queries, headers }) => {
                                 src={
                                   e?.data?.rd?.OrignalDesignImage !== ""
                                     ? e?.data?.rd?.OrignalDesignImage
-                                    : require("../../assets/img/default.jpg")
+                                    : ""
+                                    // require("../../assets/img/default.jpg")
                                 }
                                 id="img7A"
                                 alt=""
                                 onError={(e) => handleImageError(e)}
-                                loading="eager"
+                                // loading="eager"
                                 style={{ paddingTop: "2px"}}
                               />
                               <div
@@ -1369,10 +1372,11 @@ const BagPrint7A = ({ queries, headers }) => {
                                 src={
                                   e?.data?.rd?.OrignalRollOverImage !== ""
                                     ? e?.data?.rd?.OrignalRollOverImage
-                                    : require("../../assets/img/default.jpg")
+                                    : ""
+                                    // require("../../assets/img/default.jpg")
                                 }
                                 style={{ padding: "10px" }}
-                                loading="eager"
+                                // loading="eager"
                                 alt="materialimage 2"
                                 id="img7ABig"
                                 onError={handleImageErrors}
