@@ -972,6 +972,7 @@ p.w_33.bold,
   overflow: hidden;
   height: 130mm;
   width: 90mm;
+  margin-left: 30px;
 }
 
 .blank_lines:last-child > div {
@@ -1746,12 +1747,13 @@ table {
   height: 14px;
   width: 100%;
   line-height: 8px;
-  font-size: 13px;
-  height: 15%;
+  font-size: 14px;
+  height: 14.90%;
   display: flex;
   justify-content: left;
   align-items: center;
   padding-left: 5px;
+  font-weight: 1500;
 }
 .lastCell {
   width: 3rem;
@@ -1951,5 +1953,14 @@ table {
 @media (orientation: portrait) {
   body {
     flex-direction: column !important;
+  }
+  .print_2 {
+    box-sizing: border-box;
+    border: 0.5291666667mm solid #000;
+    border-radius: 1.3229166667mm;
+    overflow: hidden;
+    height: 130mm;
+    width: 90mm;
+    margin-left: 0px;
   }
 }

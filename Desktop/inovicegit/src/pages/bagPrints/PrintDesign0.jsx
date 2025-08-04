@@ -421,7 +421,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                       className="border_top2 border_right border_bottom bag_td "
                                       style={{
                                         paddingLeft: "0.79375mm",
-                                        fontSize: "14px",
+                                        fontSize: "15px",
                                         fontWeight: "900",
                                         width: "25%",
                                         height: "100%",
@@ -431,7 +431,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                       className="border_top2 border_right bag_td border_bottom"
                                       style={{
                                         paddingLeft: "0.79375mm",
-                                        fontSize: "14px",
+                                        fontSize: "15px",
                                         fontWeight: "900",
                                         width: "25%",
                                         height: "100%",
@@ -444,7 +444,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                       className="border_top2 border_right bag_td border_bottom "
                                       style={{
                                         paddingLeft: "0.79375mm",
-                                        fontSize: "14px",
+                                        fontSize: "15px",
                                         fontWeight: "900",
                                         width: "25%",
                                         height: "100%",
@@ -457,7 +457,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                       className="border_top2 bag_td border_bottom "
                                       style={{
                                         paddingLeft: "0.79375mm",
-                                        fontSize: "14px",
+                                        fontSize: "15px",
                                         fontWeight: "900",
                                         width: "25%",
                                         height: "100%",
@@ -486,7 +486,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                             className="border_right border_bottom border_right bag_td"
                                             style={{
                                               paddingLeft: "0.79375mm",
-                                              fontSize: "12px",
+                                              fontSize: "14px",
                                               width: "25%",
                                               height: "100%",
                                               fontWeight: 600,
@@ -575,7 +575,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                           </div>
                         </div>
 
-                        <div className="container_2 ml_8mm mb_2  pt_2 bag_2">
+                        {/* <div className="container_2 ml_8mm mb_2  pt_2 bag_2">
                           <div className="print_2 ">
                             <div
                               className="border_collapse print_design_2"
@@ -693,8 +693,8 @@ const PrintDesign0 = ({ queries, headers }) => {
                                           className="net16A"
                                           style={{ borderRight: "0px" }}
                                         >
-                                          {/* <b>{e?.data?.rd?.promisedate}</b> */}
-                                          <b>{new Date(e?.data?.rd?.promisedate).toDateString() === 'Mon Jan 01 1900' ? '' : e.data.rd.promisedate}</b>
+                                          {/* <b>{e?.data?.rd?.promisedate}</b> 
+                                          {/* <b>{new Date(e?.data?.rd?.promisedate).toDateString() === 'Mon Jan 01 1900' ? '' : e.data.rd.promisedate}</b>
                                         </div>
                                         <div
                                           className="net16A"
@@ -905,7 +905,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> */}
                       </React.Fragment>
                     );
                   // } else {
