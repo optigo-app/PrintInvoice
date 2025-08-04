@@ -442,10 +442,9 @@ export const Product_Alteration = [
   {printName: 'shipmenttag', etpType: 'print', componentName: 'ShipmentTagOptigo'},
 ];
 
-
-// export const outsourcePrint = [
-//   {printName: 'outsource print am', etpType: 'print', componentName: 'OutsourcePrintAM'}
-// ];
+export const outsourcePrint = [
+  {printName: 'outsource print am', etpType: 'print', componentName: 'OutsourcePrintAM'}
+];
 
 
 // export const Sales = [
