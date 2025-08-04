@@ -312,6 +312,9 @@ const BagPrint7A = ({ queries, headers }) => {
     }
   };
   console.log("data", data);
+  {data?.map((e) => {
+    console.log("Image URL:", e?.data?.rd?.OrignalDesignImage);
+  })}
   
   return (
     <>
@@ -953,7 +956,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                   }
                                   style={{ padding: "10px"}}
                                   alt="materialimage1"
-                                  onError={handleImageErrors}
+                                  onError={(e) => handleImageError(e)}
                                   // onError={(el) => handleImageError2(el, e?.data?.rd?.serialjobno)}
                                   id="img7ABig"
                                 />
@@ -1379,7 +1382,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                 // loading="eager"
                                 alt="materialimage 2"
                                 id="img7ABig"
-                                onError={handleImageErrors}
+                                onError={(e) => handleImageError(e)}
                               />
                             </div>
                           </div>
