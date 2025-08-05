@@ -391,6 +391,7 @@ export const MaterialSale = [
   {printName: 'material sale print', etpType: 'print', componentName: 'MaterialSalePrint'},
   {printName: 'tax invoice a', etpType: 'print', componentName: 'TaxInvoiceAMaterial'},
   {printName: 'shipmenttag', etpType: 'print', componentName: 'ShipmentTagOptigo'},
+  {printName: 'invoice print 2', etpType: 'print', componentName: 'InvoicePrint2Material'},
 ]
 export const fgPurchase = [
   {printName: 'item wise print', etpType: 'print', componentName: 'ItemWisePrint'},

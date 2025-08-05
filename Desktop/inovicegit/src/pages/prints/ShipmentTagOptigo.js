@@ -91,8 +91,8 @@ export default function ShipmentTagOptigo({ token, invoiceNo, printName, urls, e
                     <div className="spbrWord spBold">{e?.ShippingFullName}</div>
                     <div className="spbrWord">
                       {e?.ShippingToPrintlable !== "" && <div dangerouslySetInnerHTML={{ __html: formattedText }} />}
-                      <div>{e?.ShippingCity}‑{e?.ShippingPincode}, {e?.ShippingState} ‑ {e?.ShippingCountry}</div>
-                      <div>Phone: {e?.ShippingMobileNo}</div>
+                      {/* <div>{e?.ShippingCity}‑{e?.ShippingPincode}, {e?.ShippingState} ‑ {e?.ShippingCountry}</div>
+                      <div>Phone: {e?.ShippingMobileNo}</div> */}
                     </div>
                   </div>
                 </div>
