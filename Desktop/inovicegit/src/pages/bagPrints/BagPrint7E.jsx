@@ -950,7 +950,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                 <img
                                   src={
                                     e?.data?.rd?.OrignalRollOverImage !== ""
-                                      ? e?.data?.rd?.c
+                                      ? e?.data?.rd?.OrignalRollOverImage
                                       : ""
                                       // require("../../assets/img/default.jpg")
                                   }
@@ -1112,7 +1112,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                 }
                                 id="img7A"
                                 alt=""
-                                // onError={(e) => handleImageError(e)}
+                                onError={(e) => handleImageError(e)}
                                 // loading="eager"
                                 style={{ paddingTop: "2px"}}
                               />
@@ -1382,7 +1382,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                 // loading="eager"
                                 alt="materialimage 2"
                                 id="img7ABig"
-                                // onError={(e) => handleImageError(e)}
+                                onError={(e) => handleImageError(e)}
                               />
                             </div>
                           </div>
