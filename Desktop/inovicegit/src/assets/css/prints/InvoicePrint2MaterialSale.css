@@ -7,25 +7,26 @@
     box-sizing: border-box;
     padding: 10px;
     margin: 1rem auto;
+    letter-spacing: 0.2px; 
     font-family: Calibri, sans-serif !important;
 }
 .disflx{
     display: flex;
 }
 .col1_inv2{
-    width: 5%;
+    width: 4%;
     padding: 4px;
 }
 .col2_inv2{
-    width: 25%;
+    width: 26%;
     padding: 4px;
 }
 .col3_inv2{
-    width: 10%;
+    width: 10.5%;
     padding: 4px;
 }
 .col4_inv2{
-    width: 9%;
+    width: 8.5%;
     padding: 4px;
 }
 .col5_inv2{
@@ -48,12 +49,43 @@
     width: 12%;
     padding: 4px;
 }
+.Sucol2_inv2{
+    width: 25.90%;
+    padding: 4px;
+}
+.Sucol3_inv2{
+    width: 10.6%;
+    padding: 4px;
+}
+.Sucol4_inv2{
+    width: 8.4%;
+    padding: 4px;
+}
+.Sucol6_inv2{
+    width: 10.10%;
+    padding: 4px;
+}
+.Sucol7_inv2{
+    width: 8.90%;
+    padding: 4px;
+}
+.Sucol8_inv2{
+    width: 10.10%;
+    padding: 4px;
+}
+.Sucol9_inv2{
+    width: 12%;
+    padding: 4px;
+}
 .spfntbH{
     font-size: 12px;
     line-height: 13px;
 }
 .spfntCen{
     text-align: center;
+}
+.spfnted{
+    text-align: right;
 }
 .spfntBld{
     font-weight: bold;
@@ -75,16 +107,16 @@
 }
 .w30_inv2{
     width: 30%;
-    padding-left: 2px;
+    padding-left: 4px;
 }
 .w1_inv2{
     width: 35%;
     min-height: 102px;
-    padding-left: 2px;
+    padding-left: 4px;
 }
 .w2_inv2{
     width: 35%;
-    padding-left: 2px;
+    padding-left: 4px;
 }
 .spfnthead{
     font-size: 13px;
@@ -100,11 +132,55 @@
 .wdthHd1{
     width: 75%;
 }
-.static_inv2{
-    text-transform: uppercase;
-    text-align: left;
+.taxwdth{
+    width: 76%
+}
+.taxwdth1{
+    width: 12%;
+    text-align: end;
+    padding-right: 5px;
+    padding-top: 2px;
+    line-height: 15px;
+}
+.taxwdth2{
+    width: 12%;
+    text-align: end;
+    padding-right: 5px;
+    padding-top: 2px;
+    line-height: 15px;
+}
+.grtHet{
+    height: 35px;
+    padding-top: 10px;
+    /* align-items: center; */
+}
+.sprmrk{
+    width: 100%;
+    min-height: 40px;
+    font-size: 13px;
+    line-height: 14px;
+    padding: 5px;
+}
+.spinst{
+    padding: 12px 6px;
     font-size: 12px;
-    color: gray;
+    line-height: 25px;
+}
+.spbrWord {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+.spbnkdtl{
+    width: 33.33%;
+    padding: 5px;
+}
+.spbnkdtl1{
+    width: 33.33%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px;
 }
 .prnt_btn{
     padding-top: 10px;
@@ -120,8 +196,8 @@
         font-family: Calibri, sans-serif !important;
     }
     .spfnthead{
-        font-size: 11px;
-        line-height: 12px;
+        font-size: 10px;
+        line-height: 11px;
     }
     .spfntsZ{
         font-size: 13px;
@@ -131,11 +207,68 @@
         font-size: 11px;
         line-height: 12px;
     }
+    .col2_inv2{
+        width: 29%;
+        padding: 4px;
+    }
+    .col4_inv2{
+        width: 7.5%;
+        padding: 4px;
+    }
+    .col6_inv2{
+        width: 9%;
+        padding: 4px;
+    }
+    .col7_inv2{
+        width: 8%;
+        padding: 4px;
+    }
+    .Sucol2_inv2{
+        width: 28.90%;
+        padding: 4px;
+    }
+    .Sucol3_inv2{
+        width: 10.5%;
+        padding: 4px;
+    }
+    .Sucol4_inv2{
+        width: 7.5%;
+        padding: 4px;
+    }
+    .Sucol6_inv2{
+        width: 9.10%;
+        padding: 4px;
+    }
+    .Sucol7_inv2{
+        width: 7.90%;
+        padding: 4px;
+    }
+    .Sucol8_inv2{
+        width: 10%;
+        padding: 4px;
+    }
+    .Sucol9_inv2{
+        width: 12.180%;
+        padding: 4px;
+    }
     .wdthHd{
         width: 30%;
     }
     .wdthHd1{
         width: 70%;
+    }
+    .taxwdth{
+        width: 70%
+    }
+    .taxwdth1{
+        width: 18%;
+    }
+    .taxwdth2{
+        width: 12.180%;
+    }
+    .sprmrk{
+        font-size: 10px;
+        line-height: 11px;
     }
     .prnt_btn{
         display: none;

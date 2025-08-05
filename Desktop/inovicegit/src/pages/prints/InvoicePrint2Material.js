@@ -37,6 +37,7 @@ const InvoicePrint2Material = ({
   const [finalD, setFinalD] = useState({});
   const [custAddress, setCustAddress] = useState([]);
   const [taxAmont , setTaxAmount] = useState();
+  const [extraTaxAmont , setExtraTaxAmount] = useState();
   const toWords = new ToWords();  
   const [isImageWorking, setIsImageWorking] = useState(true);
   const handleImageErrors = () => {
@@ -60,10 +61,15 @@ const InvoicePrint2Material = ({
             let address =
               data?.Data?.MaterialBill_Json[0]?.Printlable?.split("\r\n");
             setCustAddress(address);
-
+            console.log("data", data);
+            
             setJson0Data(data?.Data?.MaterialBill_Json[0]);
-            setFinalD(data?.Data?.MaterialBill_Json1);
+            const sortedItems = [...(data?.Data?.MaterialBill_Json1 || [])].sort(
+              (a, b) => parseFloat(a?.ItemId || 0) - parseFloat(b?.ItemId || 0)
+            );
+            setFinalD(sortedItems);
             setTaxAmount(data?.Data?.MaterialBill_Json2[0]);
+            setExtraTaxAmount(data?.Data?.MaterialBill_Json3);
             
             setLoader(false);
           } else {
@@ -119,6 +125,7 @@ const InvoicePrint2Material = ({
     // console.log("TotalSGSTAmount:", TotalSGSTAmount);
     // console.log("TotalIGSTAmount:", TotalIGSTAmount);
   } 
+
   function PrintableText({ json0Data }) {
     const htmlContent = json0Data?.Printlable?.replace(/\n/g, '<br />');
   
@@ -128,9 +135,34 @@ const InvoicePrint2Material = ({
       />
     );
   }
-  console.log("finalDfinalDfinalD", taxAmont ,json0Data, finalD);
 
-  const amount = Number(finalD?.finalAmount || 0);
+  const totalWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
+    const weight = parseFloat(item?.Weight);
+    return sum + (isNaN(weight) ? 0 : weight);
+  }, 0);  
+
+  const totalAmount = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
+    const Amount = parseFloat(item?.Amount);
+    return sum + (isNaN(Amount) ? 0 : Amount);
+  }, 0);
+
+  const totalEtraTaxAmount = (Array.isArray(extraTaxAmont) ? extraTaxAmont : []).reduce((sum, item) => {
+    const amount = parseFloat(item?.TaxAmount);
+    return sum + (isNaN(amount) ? 0 : amount);
+  }, 0); 
+
+  const getDueDate = (entryDateStr, orderDue) => {
+    const date = new Date(entryDateStr);
+    date.setDate(date.getDate() + orderDue);
+    return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  };
+  const DueDate = getDueDate(json0Data?.EntryDate, json0Data?.OrderDue)
+  const GrandTotal = totalAmount + totalEtraTaxAmount;
+
+  console.log("taxAmont", taxAmont);
+  console.log("extraTaxAmont", extraTaxAmont);
+
+  const amount = Number(GrandTotal || 0);
   const rupees = Math.floor(amount);
   const paise = Math.round((amount - rupees) * 100);
   const rupeesInWords = toWords.convert(rupees);
@@ -154,7 +186,6 @@ const InvoicePrint2Material = ({
           </div>
           <div className="w-full flex items-center justify-center">
             <div className="container_inv2">
-
               {/** Header */}
               <div className="disflx brbxAll">
                 <div className="w1_inv2 spbrRht spfnthead">
@@ -183,7 +214,7 @@ const InvoicePrint2Material = ({
                   </div>
                   <div className="disflx">
                     <div className="wdthHd spfntBld">DUE DATE</div>
-                    <div className="wdthHd1">{json0Data?.EntryDate1}</div>
+                    <div className="wdthHd1">{DueDate}</div>
                   </div>
                 </div>
               </div>
@@ -205,12 +236,92 @@ const InvoicePrint2Material = ({
               {finalD?.map((e, i) => {
                 return (
                   <div key={i} className="disflx spbrlFt brBtom spfntbH">
-                    <div className="col1_inv2">{i + 1}</div>
-                    <div className="col2_inv2">{e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND" : e?.ItemName === "COLOR STONE" ? "STONE" : e?.ItemName === "METAL" ? "GOLD" : e?.ItemName === "MISC" ? "MISC" : ""}</div>
-                    <div className="col3_inv2">{e?.shape}</div>
+                    <div className="col1_inv2 spbrRht spfntCen">{i + 1}</div>
+                    <div className="Sucol2_inv2 spbrRht">
+                      {e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND" : e?.ItemName === "COLOR STONE" ? "STONE" : e?.ItemName === "METAL" && e?.shape === "gold" ? "GOLD" : e?.ItemName === "METAL" && e?.shape === "silver" ? "SILVER" : e?.ItemName === "MISC" ? "MISC" : ""}
+                    </div>
+                    <div className="Sucol3_inv2 spbrRht">{e?.shape === "" || e?.ItemName === "METAL" ? "-" : e?.shape}</div>
+                    <div className="Sucol4_inv2 spbrRht">{e?.quality === "" ? "-" : e?.quality}</div>
+                    <div className="col5_inv2 spbrRht">{e?.color === "" ? "-" : e?.color}</div>
+                    <div className="Sucol6_inv2 spbrRht">{e?.size === "" ? "-" : e?.size}</div>
+                    <div className="Sucol7_inv2 spfntCen spbrRht">{fixedValues(e?.Weight === "" ? "-" : e?.Weight,3)}</div>
+                    <div className="Sucol8_inv2 spfnted spbrRht">{formatAmount(e?.Rate === "" ? "-" : e?.Rate,2)}</div>
+                    <div className="Sucol9_inv2 spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.Amount,2)}</div>
                   </div>
                 )
               })}
+
+              {/** Table Total */}
+              <div className="disflx spbrlFt brBtom spfntbH">
+                <div className="col1_inv2 spbrRht spfntCen"></div>
+                <div className="Sucol2_inv2 spbrRht"></div>
+                <div className="Sucol3_inv2 spbrRht"></div>
+                <div className="Sucol4_inv2 spbrRht"></div>
+                <div className="col5_inv2 spbrRht"></div>
+                <div className="Sucol6_inv2 spbrRht"></div>
+                <div className="Sucol7_inv2 spfntCen spfntBld spbrRht">{fixedValues(totalWeight,3)}</div>
+                <div className="Sucol8_inv2 spfnted spbrRht"></div>
+                <div className="Sucol9_inv2 spfnted spfntBld spbrRht">{formatAmount(totalAmount,2)}</div>
+              </div>
+
+              {/** Tax Amount */}
+              <div className="disflx spfntbH">
+                <div className="taxwdth spbrlFt spbrRht"></div>
+                <div className="taxwdth1 spbrRht brBtom">
+                  {extraTaxAmont?.map?.((e, i) => {
+                    return (
+                      <p key={i} className="spfntBld">{e?.TaxName}</p>
+                    )
+                  })}
+                </div>
+                <div className="taxwdth2 spbrRht brBtom">
+                  {extraTaxAmont?.map?.((e, i) => {
+                    return (
+                      <p key={i} className="spfntBld">{formatAmount(e?.TaxAmount,2)}</p>
+                    )
+                  })}
+                </div>
+              </div>
+
+              {/**Gran Total */}
+              <div className="disflx spfntbH">
+                <div className="taxwdth spbrlFt spbrRht" style={{ paddingLeft: "5px", paddingTop: "5px" }}>
+                  In Words Indian Rupees <br /><span className="spfntBld">Rupees {rupeesInWords + paiseInWords} Only</span>
+                </div>
+                <div className="taxwdth1 spbrRht spfntBld grtHet" style={{ alignItems: "center" }}>GRAND TOTAL</div>
+                <div className="taxwdth2 spbrRht spfntBld grtHet">{NumberWithCommas(GrandTotal,2)}</div>
+              </div>
+              
+              {/** Remarks */}
+              <div className="sprmrk brbxAll">
+                <div className="spfntBld">REMARKS :</div>
+              </div>
+              
+              {/** Instuction */}
+              {json0Data?.Declaration && ( 
+                <div className="brbxAll" style={{ borderTop: "none" }}>
+                  <div className="spbrWord spinst" dangerouslySetInnerHTML={{ __html: json0Data?.Declaration,}}></div>
+                </div>
+              )}
+
+              <div className="disflx brbxAll spfntbH" style={{ borderTop: "none" }}>
+                <div className="spbnkdtl spbrRht">
+                  <div className="spfntBld">Bank Detail</div>
+                  <div>Bank Name:<span>{json0Data?.bankname}</span></div>
+                  <div>Branch:<span>{json0Data?.bankaddress}</span></div>
+                  <div>Account Name:<span>{json0Data?.accountname}</span></div>
+                  <div>Account No:<span>{json0Data?.accountnumber}</span></div>
+                  <div>RTGS/NEFT IFSC:<span>{json0Data?.rtgs_neft_ifsc}</span></div>
+                </div>
+                <div className="spbnkdtl1 spbrRht">
+                  <div>Signature</div>
+                  <div className="spfntBld">{json0Data?.customerfirmname}</div>
+                </div>
+                <div className="spbnkdtl1">
+                  <div>Signature</div>
+                  <div className="spfntBld">{json0Data?.CompanyFullName}</div>
+                </div>
+              </div>
             </div>
           </div>
         </>
