@@ -1224,12 +1224,12 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
           >
             <p className="text-uppercase fw-bold estimatePrintFont_14">
               {json1Data?.PrintHeadLabel === ""
-                ? "ORDER REQUEST"
+                ? "PO REQUEST"
                 : json1Data?.PrintHeadLabel}
             </p>
           </div>
           {/* customer detail */}
-          <div className="py-2 d-flex justify-content-between px-1">
+          <div className="py-1 d-flex justify-content-between px-1">
             <div style={{display: "flex", flexDirection: "column"}}>
               <div>
                 <p className="estimatePrintFont_14">To</p>
@@ -1249,7 +1249,7 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
               </div>
             </div>
           </div>
-          <div className="my-2 w-100">
+          <div className="w-100">
             {/* heading */}
             <div className="border-start border-top border-end d-flex border-bottom recordEstimatePrint overflow-hidden border-black lightGrey">
               <div className="srNoEstimatePrint border-end px-1 d-flex align-items-center justify-content-center border_color_estimates">
