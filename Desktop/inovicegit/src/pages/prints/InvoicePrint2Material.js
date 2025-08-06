@@ -90,42 +90,6 @@ const InvoicePrint2Material = ({
     sendData();
   }, []);
 
-  const summary = Array.isArray(finalD)
-    ? finalD.reduce(
-        (acc, item) => {
-          acc.totalPieces += item.pieces || 0;
-          acc.totalWeight += item.Weight || 0;
-          acc.totalAmount += item.TotalAmount || 0;
-          return acc;
-        },
-        {
-          totalPieces: 0,
-          totalWeight: 0,
-          totalAmount: 0,
-        }
-      )
-    : {
-        totalPieces: 0,
-        totalWeight: 0,
-        totalAmount: 0,
-      };
-
-  let TotalCGSTAmount = 0;
-  let TotalSGSTAmount = 0;
-  let TotalIGSTAmount = 0;
-
-  if (Array.isArray(finalD)) {
-    finalD.forEach((item) => {
-      TotalCGSTAmount += Number(item.CGSTAmount) || 0;
-      TotalSGSTAmount += Number(item.SGSTAmount) || 0;
-      TotalIGSTAmount += Number(item.IGSTAmount) || 0;
-    });
-
-    // console.log("TotalCGSTAmount:", TotalCGSTAmount);
-    // console.log("TotalSGSTAmount:", TotalSGSTAmount);
-    // console.log("TotalIGSTAmount:", TotalIGSTAmount);
-  } 
-
   function PrintableText({ json0Data }) {
     const htmlContent = json0Data?.Printlable?.replace(/\n/g, '<br />');
   
