@@ -92,7 +92,7 @@
     justify-content: end;
 }
 .Sesptxtend{
-    height: 19px;
+    height: 19.1px;
     padding-left: 3px;
     display: flex;
     flex-direction: column;
@@ -147,6 +147,16 @@
 .spfntszDCM{
     font-size: 9px;
     line-height: 10px;
+}
+.SuBspfntszDCM{
+    font-size: 10px;
+    line-height: 11px;
+}
+.SuspfntszDCM{
+    font-size: 10px;
+    line-height: 11px;
+    text-align: right;
+    padding-right: 3px;
 }
 .sptxtCn{
     text-align: center;
@@ -220,5 +230,14 @@
     .spfntszDCM{
         font-size: 9px;
         line-height: 9.5px;
+    }
+    .SuspfntszDCM{
+        font-size: 9.5px;
+        line-height: 10px;
+        padding-right: 1.5px;
+    }
+    .SuBspfntszDCM{
+        font-size: 9.5px;
+        line-height: 10px;
     }
 }

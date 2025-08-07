@@ -14,7 +14,6 @@ import {
   otherAmountDetail,
   taxGenrator,
 } from "../../GlobalFunctions";
-import Loader2 from "../../components/Loader2";
 import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
@@ -150,7 +149,6 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             (elem, index) => elem?.ShapeName === "OTHER"
           );
           if (findOther === -1) {
-            // let obj = { ...ele };
             obj.ShapeName = "OTHER";
             diamondDetailsss.push(obj);
           } else {
@@ -255,7 +253,6 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         amount: 0,
       };
       let primaryMetalAmount = 0;
-      // totals.gold24Kt += e?.convertednetwt;
       totals.gold24Kt += e?.PureNetWt;
       data?.BillPrint_Json2.forEach((ele, ind) => {
         if (e?.SrJobno === ele?.StockBarcode) {
@@ -366,8 +363,6 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
               totals.findingWeight += ele?.Wt;
             }
             anotherFinding.push(ele);
-            // metalsTotal.weight += ele.Wt;
-            // totals.weightWithDiamondLoss += ele.Wt;
           }
         }
       });
@@ -393,10 +388,8 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       if (metals.length > 0) {
         metals.reduce((accumulator, currentObject) => {
           accumulator.amount += currentObject.Amount;
-          // accumulator.weight += currentObject.Wt;
           accumulator.pcs += currentObject.Pcs;
           accumulator.rate += currentObject.Rate;
-          // totals.finalMetalsTotal.amount += currentObject.Amount;
           totals.finalMetalsTotal.pcs += currentObject.Pcs;
           totals.finalMetalsTotal.rate += currentObject.Rate;
           return accumulator;
@@ -458,7 +451,6 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         metalsTotal.Wt -= findingTotal;
         totals.finalMetalsTotal.Wt -= findingTotal;
       }
-      // totals.finalMetalsTotal.weight += metalsTotal.Wt;
       resultArr.push(obj);
     });
 
@@ -472,7 +464,6 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       (data?.BillPrint_Json[0]?.CGST * totals.totalamount) / 100;
     totals.sgstAmount =
       (data?.BillPrint_Json[0]?.SGST * totals.totalamount) / 100;
-    // totals.finalAmount = totals.totalamount + totals.cgstAmount + totals.sgstAmount + data?.BillPrint_Json[0]?.AddLess;
     totals.summaryTotalAmount = (
       totals.goldAmount +
       totals.diamondAmount +
@@ -842,7 +833,6 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             });
             objmetals.sort((a, b) => {
               let namea = a?.IsPrimaryMetal;
-              // let nameb = b?.IsPrimaryMetal;
               if (namea !== 0) {
                 return -1;
               } else if (namea === 0) {
@@ -879,7 +869,6 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
           finalArr[findRecord].finding = blankFindingArr;
           finalArr[findRecord].anotherFinding = blankFindingAnotherArray;
 
-          // finalArr[findRecord].metals = blankMetalsArr;
           finalArr[findRecord].otherAmountDetails = blankOtherAmtDetails;
           finalArr[findRecord].MakingAmount += obj?.MakingAmount;
           finalArr[findRecord].MaKingCharge_Unit += obj?.MaKingCharge_Unit;
@@ -909,7 +898,6 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
               finalArr[findRecord].metals[0].Wt -
               (finalArr[findRecord].findingTotal + obj?.findingTotal);
           }
-          // finalArr[findRecord].metals[0].Wt = finalArr[findRecord].findingTotal +obj?.findingTotal ;
           finalArr[findRecord].findingTotal += obj?.findingTotal;
           // diamondTotal
         }
@@ -998,10 +986,6 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             a?.Colorname === eem?.Colorname
         );
         if (findrec === -1) {
-          // let obj = {...eem};
-          // obj.wt = eem?.Wt;
-          // obj.pcs = eem?.Pcs;
-          // obj.amount = eem?.Amount;
           finalArr3.push(eem);
         } else {
           finalArr3[findrec].Wt += eem?.Wt;
@@ -1117,29 +1101,27 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     return filledArr;
   };
   
-  // Diamonds (max 11 rows logic)
   const diamondRows = Array.isArray(json2Data)
     ? json2Data.map(e => {
         const diamonds = e?.diamonds || [];
         if (diamonds.length === 0) return fillEmptyRows([], 11, () => ({}));
         if (diamonds.length <= 11) return fillEmptyRows(diamonds, 11, () => ({}));
-        return diamonds; // > 11 rows? show as-is
+        return diamonds;
       })
     : [];
   
-  // Colorstone + Mics (max 5 rows logic)
   const colorMicsRows = Array.isArray(json2Data)
     ? json2Data.map(e => {
         const combined = [...(e?.colorStones || []), ...(e?.mics || [])];
         if (combined.length === 0) return fillEmptyRows([], 5, () => ({}));
         if (combined.length <= 5) return fillEmptyRows(combined, 5, () => ({}));
-        return combined; // > 5 rows? show as-is
+        return combined; 
       })
     : [];
   
   
-  console.log("json2Datajson2Data", json2Data);
-  console.log("json1Data", json1Data)
+  // console.log("json2Datajson2Data", json2Data);
+  // console.log("json1Data", json1Data)
 
   return (
     <>
@@ -1171,6 +1153,7 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
           </div>
 
           <div className="spdispFlx w-100">
+            {/** Left Side Section */}
             <div className="spdispFlxClum w-100 spdtl1">
               <div className="spMrgdt1">
 
@@ -1252,6 +1235,7 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
               </div>
             </div>
 
+            {/** Right Side Section */}
             <div className="spdtl2 spbrdRghtDR spbrdrBtomDR spbrdrLftDR">
               <div className="spdispFlx">
                 <div className="dtlWdth1 spbrdRght spbrdrBtomDR estimatePrintFont_14 sptxtCn spBold sptxtend">Item</div>
@@ -1275,9 +1259,9 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                           {[el?.Shape_Code, el?.Quality_Code, el?.Color_Code].filter(Boolean).join("/")}
                         </p>
                       </div>
-                      <div className="dtlWdth2 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend spfntszDCM">{el?.SizeName || ""}</div>
-                      <div className="dtlWdth3 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend spfntszDCM">{el?.Pcs || ""}</div>
-                      <div className="dtlWdth4 spbrdRghtDR spbrdrBtom estimatePrintFont_14 Sesptxtend spfntszDCM">{el?.Wt || ""}</div>
+                      <div className="dtlWdth2 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend SuBspfntszDCM">{el?.SizeName || ""}</div>
+                      <div className="dtlWdth3 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend SuspfntszDCM">{el?.Pcs || ""}</div>
+                      <div className="dtlWdth4 spbrdRghtDR spbrdrBtom estimatePrintFont_14 Sesptxtend SuspfntszDCM">{el?.Wt || ""}</div>
                       <div className="dtlWdth5 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend"></div>
                       <div className="dtlWdth6 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend"></div>
                       <div className="dtlWdth7 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend"></div>
@@ -1306,9 +1290,9 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                           ].filter(Boolean).join("/")}
                         </p>
                       </div>
-                      <div className="dtlWdth2 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend spfntszDCM">{item?.SizeName || ""}</div>
-                      <div className="dtlWdth3 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend spfntszDCM">{item?.Pcs || ""}</div>
-                      <div className="dtlWdth4 spbrdRghtDR spbrdrBtom estimatePrintFont_14 Sesptxtend spfntszDCM">{item?.Wt || ""}</div>
+                      <div className="dtlWdth2 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend SuBspfntszDCM">{item?.SizeName || ""}</div>
+                      <div className="dtlWdth3 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend SuspfntszDCM">{item?.Pcs || ""}</div>
+                      <div className="dtlWdth4 spbrdRghtDR spbrdrBtom estimatePrintFont_14 Sesptxtend SuspfntszDCM">{item?.Wt || ""}</div>
                       <div className="dtlWdth5 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend"></div>
                       <div className="dtlWdth6 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend"></div>
                       <div className="dtlWdth7 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend"></div>
