@@ -444,7 +444,8 @@ export const Product_Alteration = [
 ];
 
 export const outsourcePrint = [
-  {printName: 'outsource print am', etpType: 'print', componentName: 'OutsourcePrintAM'}
+  {printName: 'outsource print am', etpType: 'print', componentName: 'OutsourcePrintAM'},
+  {printName: 'outsource print a', etpType: 'print', componentName: 'OutsourcePrintA'},
 ];
 
 

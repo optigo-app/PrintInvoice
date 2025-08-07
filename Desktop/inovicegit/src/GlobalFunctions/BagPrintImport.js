@@ -19,6 +19,7 @@ export const bagPrintConditions = [
   { printName: "bagprint16", componentName: "PrintDesign16" },
   { printName: "bagprint0", componentName: "PrintDesign0" },
   { printName: "bagprint16m", componentName: "PrintDesign16M" },
+  { printName: "bagprint16d", componentName: "PrintDesign16D" },
   { printName: "bagprint16a", componentName: "PrintDesign16A" },
   { printName: "bagprint17", componentName: "PrintDesign17" },
   { printName: "bagprint18", componentName: "BagPrint18A" },
