@@ -80,7 +80,7 @@
     width: 50%;
 }
 .spdtl2{
-    width: 125%;
+    width: 125.2%;
     margin-left: 10px;
     border-top: none;
 }
@@ -195,6 +195,9 @@
     border-bottom: none !important;
 }  
 @media print {
+    @page {
+        margin: 25px 15px;
+    }
     .print_sec_sum4 {
         display: none !important;
     }

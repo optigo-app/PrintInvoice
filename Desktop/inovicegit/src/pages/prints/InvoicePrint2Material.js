@@ -1,4 +1,4 @@
-// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=TVMvMzY0LzIwMjQ=&evn=TWF0ZXJpYWwgc2FsZQ==&pnm=dGF4IGludm9pY2UgYQ==&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvTWF0ZXJpYWxCaWxsX0pzb24=&ctv=NzE=&ifid=DetailPrintR&pid=undefined
+// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=TVMvMzY0LzIwMjQ=&evn=TWF0ZXJpYWwgc2FsZQ==&pnm=SW52b2ljZSBQcmludCAy&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvTWF0ZXJpYWxCaWxsX0pzb24=&ctv=NzE=&ifid=DetailPrintR&pid=undefined
 import React, { useEffect } from "react";
 import "../../assets/css/prints/InvoicePrint2MaterialSale.css";
 import { useState } from "react";
@@ -200,7 +200,7 @@ const InvoicePrint2Material = ({
                     </div>
                     <div className="Sucol3_inv2 spbrRht">{e?.shape === "" || e?.ItemName === "METAL" ? "-" : e?.shape}</div>
                     <div className="Sucol4_inv2 spbrRht">{e?.quality === "" ? "-" : e?.quality}</div>
-                    <div className="col5_inv2 spbrRht">{e?.color === "" ? "-" : e?.color}</div>
+                    <div className="Sucol5_inv2 spbrRht">{e?.color === "" ? "-" : e?.color}</div>
                     <div className="Sucol6_inv2 spbrRht">{e?.size === "" ? "-" : e?.size}</div>
                     <div className="Sucol7_inv2 spfntCen spbrRht">{fixedValues(e?.Weight === "" ? "-" : e?.Weight,3)}</div>
                     <div className="Sucol8_inv2 spfnted spbrRht">{formatAmount(e?.Rate === "" ? "-" : e?.Rate,2)}</div>
@@ -215,7 +215,7 @@ const InvoicePrint2Material = ({
                 <div className="Sucol2_inv2 spbrRht"></div>
                 <div className="Sucol3_inv2 spbrRht"></div>
                 <div className="Sucol4_inv2 spbrRht"></div>
-                <div className="col5_inv2 spbrRht"></div>
+                <div className="Sucol5_inv2 spbrRht"></div>
                 <div className="Sucol6_inv2 spbrRht"></div>
                 <div className="Sucol7_inv2 spfntCen spfntBld spbrRht">{fixedValues(totalWeight,3)}</div>
                 <div className="Sucol8_inv2 spfnted spbrRht"></div>
@@ -223,23 +223,19 @@ const InvoicePrint2Material = ({
               </div>
 
               {/** Tax Amount */}
-              <div className="disflx spfntbH">
-                <div className="taxwdth spbrlFt spbrRht"></div>
-                <div className="taxwdth1 spbrRht brBtom">
-                  {extraTaxAmont?.map?.((e, i) => {
-                    return (
-                      <p key={i} className="spfntBld">{e?.TaxName}</p>
-                    )
-                  })}
-                </div>
-                <div className="taxwdth2 spbrRht brBtom">
-                  {extraTaxAmont?.map?.((e, i) => {
-                    return (
+              {extraTaxAmont?.map?.((e, i) => {
+                return (
+                  <div className="disflx spfntbH">
+                    <div className="taxwdth spbrlFt spbrRht"></div>
+                      <div className="taxwdth1 spbrRht brBtom">
+                        <p key={i} className="spfntBld">{e?.TaxName}</p>
+                      </div>
+                    <div className="taxwdth2 spbrRht brBtom">
                       <p key={i} className="spfntBld">{formatAmount(e?.TaxAmount,2)}</p>
-                    )
-                  })}
-                </div>
-              </div>
+                    </div>
+                  </div>
+                )
+              })}
 
               {/**Gran Total */}
               <div className="disflx spfntbH">

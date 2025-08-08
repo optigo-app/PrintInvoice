@@ -22,11 +22,11 @@
     padding: 4px;
 }
 .col3_inv2{
-    width: 10.5%;
+    width: 10.50%;
     padding: 4px;
 }
 .col4_inv2{
-    width: 8.5%;
+    width: 8.50%;
     padding: 4px;
 }
 .col5_inv2{
@@ -54,11 +54,15 @@
     padding: 4px;
 }
 .Sucol3_inv2{
-    width: 10.6%;
+    width: 10.60%;
     padding: 4px;
 }
 .Sucol4_inv2{
-    width: 8.4%;
+    width: 8.40%;
+    padding: 4px;
+}
+.Sucol5_inv2{
+    width: 10%;
     padding: 4px;
 }
 .Sucol6_inv2{
@@ -151,8 +155,7 @@
 }
 .grtHet{
     height: 35px;
-    padding-top: 10px;
-    /* align-items: center; */
+    align-content: center;
 }
 .sprmrk{
     width: 100%;
@@ -188,6 +191,9 @@
     justify-content: end;
 }
 @media print {
+    @page {
+        margin: 25px 15px;
+    }
     .container_inv2{
         width: 100% !important;
         box-sizing: border-box;
@@ -209,47 +215,42 @@
     }
     .col2_inv2{
         width: 29%;
-        padding: 4px;
     }
     .col4_inv2{
         width: 7.5%;
-        padding: 4px;
     }
     .col6_inv2{
         width: 9%;
-        padding: 4px;
     }
     .col7_inv2{
         width: 8%;
-        padding: 4px;
+    }
+    .col8_inv2{
+        width: 9.90%;
     }
     .Sucol2_inv2{
-        width: 28.90%;
-        padding: 4px;
+        width: 29%;
     }
     .Sucol3_inv2{
-        width: 10.5%;
-        padding: 4px;
+        width: 10.50%;
     }
     .Sucol4_inv2{
-        width: 7.5%;
-        padding: 4px;
+        width: 7.40%;
+    }
+    .Sucol5_inv2{
+        width: 10%;
     }
     .Sucol6_inv2{
-        width: 9.10%;
-        padding: 4px;
+        width: 9%;
     }
     .Sucol7_inv2{
-        width: 7.90%;
-        padding: 4px;
+        width: 8%;
     }
     .Sucol8_inv2{
         width: 10%;
-        padding: 4px;
     }
     .Sucol9_inv2{
         width: 12.180%;
-        padding: 4px;
     }
     .wdthHd{
         width: 30%;
@@ -272,5 +273,28 @@
     }
     .prnt_btn{
         display: none;
+    }
+}
+@media print and (orientation: landscape) {
+    .Sucol2_inv2{
+        width: 29.10%;
+    }
+    .Sucol3_inv2{
+        width: 10.50%;
+    }
+    .Sucol4_inv2{
+        width: 7.50%;
+    }
+    .Sucol5_inv2{
+        width: 10%;
+    }
+    .Sucol7_inv2{
+        width: 8.10%;
+    }
+    .Sucol8_inv2{
+        width: 9.90%;
+    }
+    .Sucol9_inv2{
+        width: 12.25%;
     }
 }

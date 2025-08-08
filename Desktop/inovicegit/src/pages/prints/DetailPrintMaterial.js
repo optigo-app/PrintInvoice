@@ -243,7 +243,7 @@ const DetailPrintMaterial = ({
                 <div className="Sucol1_inv2 spbrRht spfntBld"><b>TOTAL</b></div>
                 <div className="Sucol6_inv2 spbrRht spfnted spfntBld"><b>{totalPieces}</b></div>
                 <div className="Sucol7_inv2 spfnted spfntBld spbrRht spbrWord"><b>{fixedValues(remainingWeight,3)} ctw <br /> {fixedValues(metalAndMiscWeight,3)} gm</b></div>
-                <div className="Sucol8_inv2 spfnted spbrRht"></div>
+                <div className="SeSucol8_inv2 spfnted spbrRht"></div>
                 <div className="SeSucol9_inv2 spfnted spfntBld spbrRht"><b>{formatAmount(totalAmount,2)}</b></div>
               </div>
               
