@@ -46,7 +46,7 @@
     font-size: 14px
 }
 .recordEstimatePrint * {
-    font-size: 9px;
+    font-size: 10px;
     word-break: break-all;
     line-height: 120%;
 }
@@ -114,10 +114,6 @@
 
 .min_height_24_estimatePrint{
     min-height: 12px;
-}
-
-.min_height_100EstimatePrint{
-    min-height: 100px;
 }
 
 .height_30_estimatePrint{
@@ -220,13 +216,17 @@
     padding-left: 2px;
 }
 @media print {
-    .recordEstimatePrint {
+    .recordEstimatePrint * {
         page-break-inside: avoid;
+        font-size: 9px;
     }
     .print_sec_sum4 {
         display: none !important;
     }
     .spBold{
         font-weight: bold;
+    }
+    .summaryEstimateprint {
+        width: 20%
     }
 }

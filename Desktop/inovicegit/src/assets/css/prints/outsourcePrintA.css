@@ -16,23 +16,28 @@
     font-size: 14px;
     line-height: 14px;
 }
+.spMrgTFive{
+    margin-top: 4px;
+}
+.spMrgBFive{
+    margin-bottom: 4px;
+}
 .spnfntIns{
     font-size: 14px;
     line-height: 14px;
+    align-content: center;
 }
 .spstlClr {
     font-size: 14px;
     line-height: 14px;
     height: 25px;
     padding-left: 3px;
-    padding-top: 4px;
+    align-content: center;
 }
 .spnHitArtisn{
-    height: 18px;
+    height: 19.4px;
     padding-left: 3px;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
+    align-content: center;
 }
 .spnfntArtisn {
     font-size: 13px;
@@ -85,11 +90,9 @@
     border-top: none;
 }
 .sptxtend{
-    height: 19px;
+    height: 19.24px;
     padding-left: 3px;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
+    align-content: center;
 }
 .Sesptxtend{
     height: 19.1px;
@@ -99,7 +102,7 @@
     justify-content: center;
 }
 .spHitIns{
-    height: 70px;
+    height: 90px;
     padding-left: 3px;
     padding-top: 5px;
 }
@@ -107,7 +110,7 @@
     width: 75%;
 }
 .spMrgdt1{
-    padding-top: 19px;
+    padding-top: 17px;
 }
 .spbrWord {
     word-break: break-word;
@@ -193,10 +196,10 @@
 }
 .no-border .spbrdrBtom {
     border-bottom: none !important;
-}  
+} 
 @media print {
     @page {
-        margin: 25px 15px;
+        margin: 4rem 1rem;
     }
     .print_sec_sum4 {
         display: none !important;
@@ -219,11 +222,11 @@
         line-height: 8.90px;
     }
     .spnHitArtisn{
-        height: 15.5px;
+        height: 17.5px;
         padding-left: 1.5px;
     }
     .sptxtend{
-        height: 19px;
+        height: 19.2px;
         padding-left: 1.5px;
     }
     .Sesptxtend{
@@ -242,5 +245,28 @@
     .SuBspfntszDCM{
         font-size: 9.5px;
         line-height: 10px;
+    }
+    .spBtomspc{
+        margin-bottom: 5rem;
+    }
+}
+@media print and (orientation: landscape) {
+    @page {
+        margin: 15px 15px;
+    }
+    .spdtl2{
+        width: 125.5%;
+    }
+    .SuBspfntszDCM{
+        font-size: 10px;
+        line-height: 11px;
+    }
+    .SuspfntszDCM{
+        font-size: 10px;
+        line-height: 11px;
+        padding-right: 1.5px;
+    }
+    .spBtomspc{
+        margin-bottom: 1rem;
     }
 }

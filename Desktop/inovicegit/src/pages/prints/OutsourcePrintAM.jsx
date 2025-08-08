@@ -1148,6 +1148,10 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
 
   console.log("json2Datajson2Data", json2Data);
   console.log("json1Data", json1Data)
+  console.log("miscTotal", miscTotal)
+  console.log("ColorStoneTotal", ColorStoneTotal)
+  console.log("total", total)
+  console.log("diamondTotal", diamondTotal)
 
 
   return (
@@ -1677,23 +1681,25 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
             </div>
             <div className="d-flex recordEstimatePrint justify-content-between overflow-hidden border-start border-end border_color_estimates">
               {/* summary */}
-              <div className="min_height_100EstimatePrint border-end border-bottom position-relative summaryEstimateprint border_color_estimates">
+              <div className="border-end border-bottom position-relative summaryEstimateprint border_color_estimates">
                 <div className="totalBgEstimatePrint sphit text-center border-bottom border_color_estimates">
                   <p className="fw-bold spmrg">SUMMARY</p>
                 </div>
-                <div className="d-grid h-100 w-100 pb-3">
+                <div className="d-grid w-100 pb-2">
                   <div className="d-flex w-100 justify-content-between">
-                    <div className="h-100 w-100 pb-2">
-                      <div className="d-flex justify-content-between px-1">
-                        <p className="fw-bold">GOLD IN 24KT</p>
-                        <p>
-                          {fixedValues(
-                            total?.gold24Kt - notGoldMetalWtTotal,
-                            3
-                          )}{" "}
-                          gm
-                        </p>
-                      </div>
+                    <div className="w-100 pb-2">
+                      {total?.gold24Kt !== 0 && (
+                        <div className="d-flex justify-content-between px-1">
+                          <p className="fw-bold">GOLD IN 24KT</p>
+                          <p>
+                            {fixedValues(
+                              total?.gold24Kt - notGoldMetalWtTotal,
+                              3
+                            )}{" "}
+                            gm
+                          </p>
+                        </div>
+                      )}
                       {MetShpWise?.map((e, i) => {
                         return (
                           <div
@@ -1705,39 +1711,54 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                           </div>
                         );
                       })}
-                      <div className="d-flex justify-content-between px-1">
-                        <p className="fw-bold">GROSS WT</p>
-                        <p>{fixedValues(total?.grosswt, 3)} gm</p>
-                      </div>
-                      <div className="d-flex justify-content-between px-1">
-                        <p className="fw-bold">*WT</p>
-                        <p>{fixedValues(total?.weightWithDiamondLoss, 2)} gm</p>
-                      </div>
-                      <div className="d-flex justify-content-between px-1">
-                        <p className="fw-bold">NET WT</p>
-                        <p>{fixedValues(total?.gdWt, 2)} gm</p>
-                      </div>
-                      <div className="d-flex justify-content-between px-1">
-                        <p className="fw-bold">DIAMOND WT</p>
-                        <p>
-                          {NumberWithCommas(total?.diaPcs, 0)} /{" "}
-                          {NumberWithCommas(diamondTotal?.Wt, 3)} cts
-                        </p>
-                      </div>
-                      <div className="d-flex justify-content-between px-1">
-                        <p className="fw-bold">STONE WT</p>
-                        <p>
-                          {NumberWithCommas(ColorStoneTotal?.Pcs, 0)} /{" "}
-                          {fixedValues(ColorStoneTotal?.Wt, 2)} cts
-                        </p>
-                      </div>
-                      <div className="d-flex justify-content-between px-1">
-                        <p className="fw-bold">MISC WT</p>
-                        <p>
-                          {NumberWithCommas(miscTotal?.Pcs, 0)} /{" "}
-                          {fixedValues(miscTotal?.Wt, 3)} gm
-                        </p>
-                      </div>
+                      {total?.grosswt !== 0 && (
+                        <div className="d-flex justify-content-between px-1">
+                          <p className="fw-bold">GROSS WT</p>
+                          <p>{fixedValues(total?.grosswt, 3)} gm</p>
+                        </div>
+                      )}
+                      {total?.weightWithDiamondLoss !== 0 && (
+                        <div className="d-flex justify-content-between px-1">
+                          <p className="fw-bold">*WT</p>
+                          <p>{fixedValues(total?.weightWithDiamondLoss, 2)} gm</p>
+                        </div>
+                      )}
+                      {total?.gdWt !== 0 && (
+                        <div className="d-flex justify-content-between px-1">
+                          <p className="fw-bold">NET WT</p>
+                          <p>{fixedValues(total?.gdWt, 2)} gm</p>
+                        </div>
+                      )}
+                      {total?.diaPcs === 0 || diamondTotal?.Wt === 0 ? ( "" ) : 
+                      (
+                        <div className="d-flex justify-content-between px-1">
+                          <p className="fw-bold">DIAMOND WT</p>
+                          <p>
+                            {NumberWithCommas(total?.diaPcs, 0)} /{" "}
+                            {NumberWithCommas(diamondTotal?.Wt, 3)} cts
+                          </p>
+                        </div>
+                      )}
+                      {ColorStoneTotal?.Pcs === 0 || ColorStoneTotal?.Wt === 0 ? ( "" ) : 
+                      (
+                        <div className="d-flex justify-content-between px-1">
+                          <p className="fw-bold">STONE WT</p>
+                          <p>
+                            {NumberWithCommas(ColorStoneTotal?.Pcs, 0)} /{" "}
+                            {fixedValues(ColorStoneTotal?.Wt, 2)} cts
+                          </p>
+                        </div>
+                      )}
+                      {miscTotal?.Pcs === 0 || miscTotal?.Wt === 0 ? ( "" ) : 
+                      (
+                        <div className="d-flex justify-content-between px-1">
+                          <p className="fw-bold">MISC WT</p>
+                          <p>
+                            {NumberWithCommas(miscTotal?.Pcs, 0)} /{" "}
+                            {fixedValues(miscTotal?.Wt, 3)} gm
+                          </p>
+                        </div>
+                      )}
                       {total?.findingWeight !== 0 && (
                         <div className="d-flex justify-content-between px-1">
                           <p className="fw-bold">FINDING WT</p>
@@ -1753,8 +1774,8 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
               </div>
 
               {/* created by */}
-              <div className="min_height_100EstimatePrint d-flex border-start col-1 border-bottom border_color_estimates">
-                <div className="d-flex h-100 w-100">
+              <div className="d-flex border-start col-1 border-bottom border_color_estimates">
+                <div className="d-flex w-100">
                   <div className="position-relative d-flex justify-conten-center align-items-end w-100">
                     <i className="w-100 text-center">Checked By </i>
                   </div>
