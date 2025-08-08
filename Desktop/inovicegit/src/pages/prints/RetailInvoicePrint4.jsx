@@ -229,6 +229,7 @@ const RetailInvoiceprint4 = ({
       totals.afterTax += totals?.beforeTax + data?.BillPrint_Json[0]?.AddLess;
       let debitCardinfo = ReceiveInBank(data?.BillPrint_Json[0]?.BankPayDet);
       setBank(debitCardinfo);
+      console.log("bank", debitCardinfo);
       totals.netBalAmount =
         totals.afterTax - data?.BillPrint_Json[0]?.OldGoldAmount;
       debitCardinfo.length > 0 &&
@@ -236,8 +237,7 @@ const RetailInvoiceprint4 = ({
           totals.netBalAmount -= e.amount;
         });
       setTaxes(taxValue);
-      // console.log("taxValue", taxValue);
-      console.log("bank", debitCardinfo);
+      console.log("taxValue", taxValue);
 
       blankArr?.forEach((e, i) => {
         if (e?.GroupJob !== "") {
@@ -339,7 +339,7 @@ const RetailInvoiceprint4 = ({
       setDocument(documentDetail);
       setdata(resultArr);
       setTotal(totals);
-      // console.log("totals", totals);
+      console.log("totals", totals);
 
       setLoader(false);
     } catch (error) {
@@ -393,7 +393,6 @@ const RetailInvoiceprint4 = ({
     headerData?.AdvanceAmount +
     bank?.reduce((acc, cObj) => acc + +cObj?.amount, 0);
 
-  // Round the difference to 2 decimal places before formatting
   const difference = Math.round((totalConverted - totalPayments) * 100) / 100;
 
   return (
@@ -1248,14 +1247,14 @@ const RetailInvoiceprint4 = ({
                         className={`${style?.wordsJewellryRetailInvoice4TaxesNumbers}`}
                       >
                         <p className="text-end pb-1 px-1">
-                          {NumberWithCommas(total?.discount, 2)}
+                          {NumberWithCommas(total?.discount, 2)}{/** Discount */}
                         </p>
                         <p className="text-end pb-1 px-1">
                           {NumberWithCommas(
                             total?.beforeTax / headerData?.CurrencyExchRate,
                             2
-                          )}
-                        </p>
+                          )}{/** Before Tax */}
+                        </p> 
                         {taxes.length > 0 &&
                           taxes.map((e, i) => {
                             return (
@@ -1266,7 +1265,7 @@ const RetailInvoiceprint4 = ({
                                 )}
                               </p>
                             );
-                          })}
+                          })} {/** CGST SGST */}
                         {headerData?.AddLess !== 0 && (
                           <p className="pb-1 px-1 text-end">
                             {NumberWithCommas(
@@ -1275,36 +1274,36 @@ const RetailInvoiceprint4 = ({
                               2
                             )}
                           </p>
-                        )}
+                        )} {/** Add/Less */}
                         <p className="pb-1 px-1 text-end">
                           {NumberWithCommas(
                             total?.afterTax / headerData?.CurrencyExchRate,
                             2
-                          )}
+                          )} {/** After Tax */}
                         </p>
                         <p className="pb-1 px-1 text-end">
-                          {NumberWithCommas(headerData?.OldGoldAmount, 2)}
+                          {NumberWithCommas(headerData?.OldGoldAmount, 2)} {/** Old Gold */}
                         </p>
                         <p className="pb-1 px-1 text-end">
-                          {NumberWithCommas(headerData?.CashReceived, 2)}
+                          {NumberWithCommas(headerData?.CashReceived, 2)} {/** Amount That Receive In Cash */}
                         </p>
                         {bank.length > 0 &&
                           bank.map((e, i) => {
                             return (
                               <p className="pb-1 px-1 text-end" key={i}>
-                                {NumberWithCommas(e?.amount, 2)}
+                                {NumberWithCommas(e?.amount, 2)} {/** Amount That Receive In Bank */}
                               </p>
                             );
                           })}
                         {/* <p className="pb-1 px-1 text-end">{NumberWithCommas(headerData?.BankReceived, 2)}</p> */}
                         <p className="pb-1 px-1 text-end">
                           {NumberWithCommas(headerData?.AdvanceAmount,2
-                          )}
+                          )} {/** Advance Given Amount */}
                         </p>
                         <p className="pb-1 px-1 text-end">
                           {
-                            NumberWithCommas(difference, 2) // Result: formatted
-                          }
+                            NumberWithCommas(difference, 2)
+                          } {/** Net Balance Amount */}
                         </p>
                         <p className="fw-bold text-end p-1 border-top">
                           <span
@@ -1323,7 +1322,7 @@ const RetailInvoiceprint4 = ({
                               headerData?.AddLess /
                                 headerData?.CurrencyExchRate,
                             2
-                          )}
+                          )} {/** Grand Total */}
                         </p>
                       </div>
                     </div>

@@ -329,8 +329,8 @@ const MultiPart = ({ queries, headers }) => {
                                     <QRCodeGenerator text={e?.data?.rd.serialjobno +" "+ (e?.data?.rd?.metal_color_casted === undefined ? '' : e?.data?.rd?.metal_color_casted)} />{ diaFlag && <span className='fsjbsbg'>{e?.data?.rd?.diamondQuality?.join(",")}</span>}
                                 </div>
                             </div>
-                            <div className='text-break ins_multipart fw-bolder'>{e?.data?.rd?.ProductInstruction} 
-                                {/* {e?.data?.rd?.officeuse} */}
+                            <div className='text-break ins_multipart fw-bolder'>
+                                {e?.data?.rd?.officeuse} {e?.data?.rd?.ProductInstruction}
                             </div>
                             {/* <div className='text-break ins_multipart fw-bolder'>{e?.data?.rd?.officeuse}</div> */}
                         </div>
