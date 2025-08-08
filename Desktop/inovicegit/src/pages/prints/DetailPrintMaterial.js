@@ -94,9 +94,30 @@ const DetailPrintMaterial = ({
     );
   }
 
-  const totalWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
+  const totalMiscWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
     const weight = parseFloat(item?.Weight);
-    return sum + (isNaN(weight) ? 0 : weight);
+    if (item?.ItemName === 'MISC') {
+      return sum + (isNaN(weight) ? 0 : weight);
+    }
+    return sum;
+  }, 0);
+
+  const totalMetalWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
+    const weight = parseFloat(item?.Weight);
+    if (item?.ItemName === 'METAL') {
+      return sum + (isNaN(weight) ? 0 : weight);
+    }
+    return sum;
+  }, 0);
+
+  const metalAndMiscWeight = totalMetalWeight + totalMiscWeight;
+  
+  const remainingWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
+    const weight = parseFloat(item?.Weight);
+    if (item?.ItemName !== 'METAL' && item?.ItemName !== 'MISC') {
+      return sum + (isNaN(weight) ? 0 : weight);
+    }
+    return sum;
   }, 0);
 
   const totalPieces = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
@@ -181,7 +202,7 @@ const DetailPrintMaterial = ({
               </div>
 
               {/** Table Header */}
-              <div className="disflx brbxAll spfntbH" style={{ marginTop: "5px"}}>
+              <div className="disflx brbxAll spfntbH" style={{ marginTop: "2px"}}>
                 <div className="col1_inv2 spfntBld spbrRht spfntCen">SR#</div>
                 <div className="col2_inv2 spfntBld spbrRht">DESCRIPTION</div>
                 <div className="col3_inv2 spfntBld spbrRht">REMARKS</div>
@@ -198,13 +219,13 @@ const DetailPrintMaterial = ({
                     <div className="col1_inv2 spbrRht spfntCen">{i + 1}</div>
                     <div className="Sucol2_inv2 spbrRht">
                     {e?.ItemName === "DIAMOND" 
-                      ? `DIAMOND:/${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}`
+                      ? `DIAMOND:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}`
                       : e?.ItemName === "COLOR STONE" 
-                        ? `CS:/${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}` 
+                        ? `CS:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}` 
                         : e?.ItemName === "METAL" 
-                          ? `METAL:/${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}`
+                          ? `METAL:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${formatAmount(e?.Tunch,3)}`
                           : e?.ItemName === "MISC" 
-                            ? `MISC:/${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}`
+                            ? `MISC:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}`
                             : ""
                     }
                     </div>
@@ -219,71 +240,38 @@ const DetailPrintMaterial = ({
 
               {/** Table Total */}
               <div className="disflx spbrlFt brBtom spfntbH">
-                <div className="col1_inv2"></div>
-                <div className="Sucol2_inv2"></div>
-                <div className="Sucol3_inv2 spbrRht"></div>
-                <div className="Sucol6_inv2 spbrRht spfnted spfntBld">{totalPieces}</div>
-                <div className="Sucol7_inv2 spfnted spfntBld spbrRht">{fixedValues(totalWeight,3)}</div>
+                <div className="Sucol1_inv2 spbrRht spfntBld"><b>TOTAL</b></div>
+                <div className="Sucol6_inv2 spbrRht spfnted spfntBld"><b>{totalPieces}</b></div>
+                <div className="Sucol7_inv2 spfnted spfntBld spbrRht spbrWord"><b>{fixedValues(remainingWeight,3)} ctw <br /> {fixedValues(metalAndMiscWeight,3)} gm</b></div>
                 <div className="Sucol8_inv2 spfnted spbrRht"></div>
-                <div className="Sucol9_inv2 spfnted spfntBld spbrRht">{formatAmount(totalAmount,2)}</div>
-              </div>
-
-              {/** Tax Amount */}
-              <div className="disflx spfntbH">
-                <div className="taxwdth spbrlFt spbrRht"></div>
-                <div className="taxwdth1 spbrRht brBtom">
-                  {extraTaxAmont?.map?.((e, i) => {
-                    return (
-                      <p key={i} className="spfntBld">{e?.TaxName}</p>
-                    )
-                  })}
-                </div>
-                <div className="taxwdth2 spbrRht brBtom">
-                  {extraTaxAmont?.map?.((e, i) => {
-                    return (
-                      <p key={i} className="spfntBld">{formatAmount(e?.TaxAmount,2)}</p>
-                    )
-                  })}
-                </div>
-              </div>
-
-              {/**Gran Total */}
-              <div className="disflx spfntbH">
-                <div className="taxwdth spbrlFt spbrRht" style={{ paddingLeft: "5px", paddingTop: "5px" }}>
-                  In Words Indian Rupees <br /><span className="spfntBld">Rupees {rupeesInWords + paiseInWords} Only</span>
-                </div>
-                <div className="taxwdth1 spbrRht spfntBld grtHet" style={{ alignItems: "center" }}>GRAND TOTAL</div>
-                <div className="taxwdth2 spbrRht spfntBld grtHet">{NumberWithCommas(GrandTotal,2)}</div>
+                <div className="SeSucol9_inv2 spfnted spfntBld spbrRht"><b>{formatAmount(totalAmount,2)}</b></div>
               </div>
               
-              {/** Remarks */}
-              <div className="sprmrk brbxAll">
-                <div className="spfntBld">REMARKS :</div>
+              {/** Total */}
+              <div className="sprmrk disflx spbgClr brbxAll">
+                <div className="sptxtVcen">Gold In 24K : <b>{fixedValues(totalMetalWeight,3)}</b></div>
+                <div className="spfntBld sptxtVcen">TOTAL IN HK$ : {NumberWithCommas(GrandTotal,2)}</div>
+              </div>
+              <div className="sprmrk brbxAll spfnted">
+                <div className="spfntBld">TOTAL IN : HKD {NumberWithCommas(GrandTotal,2)}</div>
               </div>
               
-              {/** Instuction */}
-              {json0Data?.Declaration && ( 
-                <div className="brbxAll" style={{ borderTop: "none" }}>
-                  <div className="spbrWord spinst" dangerouslySetInnerHTML={{ __html: json0Data?.Declaration,}}></div>
-                </div>
-              )}
-
-              <div className="disflx brbxAll spfntbH" style={{ borderTop: "none" }}>
-                <div className="spbnkdtl spbrRht">
-                  <div className="spfntBld">Bank Detail</div>
-                  <div>Bank Name:<span>{json0Data?.bankname}</span></div>
-                  <div>Branch:<span>{json0Data?.bankaddress}</span></div>
-                  <div>Account Name:<span>{json0Data?.accountname}</span></div>
-                  <div>Account No:<span>{json0Data?.accountnumber}</span></div>
-                  <div>RTGS/NEFT IFSC:<span>{json0Data?.rtgs_neft_ifsc}</span></div>
-                </div>
+              {/** Instuction */} 
+              <div className="brbxAll spinst">
+                **We hereby confirm that we have received the above goods in good condition and order.
+              </div>
+              
+              {/** Signature */}
+              <div className="disflx brbxAll spfntCen spfntbH" style={{ marginTop: "24px" }}>
                 <div className="spbnkdtl1 spbrRht">
-                  <div>Signature</div>
-                  <div className="spfntBld">{json0Data?.customerfirmname}</div>
+                  <div className="disflx w-100 align-items-center text-center">
+                  <div className="w-100 text-center">Authorised,&nbsp;<b>{json0Data?.customerfirmname}</b></div>
+                  </div>
                 </div>
                 <div className="spbnkdtl1">
-                  <div>Signature</div>
-                  <div className="spfntBld">{json0Data?.CompanyFullName}</div>
+                  <div className="disflx w-100">
+                    <div className="w-100 text-center">Authorised,&nbsp;<b>{json0Data?.CompanyFullName}</b></div>
+                  </div>
                 </div>
               </div>
             </div>

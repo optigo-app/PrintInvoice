@@ -58,29 +58,45 @@
     width: 12%;
     padding: 4px;
 }
+.Sucol1_inv2{
+    width: 62.30%;
+    font-size: 20px;
+    align-content: center;
+    padding-left: 8px;
+}
 .Sucol2_inv2{
-    width: 28.90%;
-    padding: 4px;
+    width: 29.20%;
+    padding: 5px;
 }
 .Sucol3_inv2{
     width: 29.10%;
-    padding: 4px;
+    align-content: center;
+    padding: 5px;
 }
 .Sucol6_inv2{
-    width: 6.90%;
-    padding: 4px;
+    width: 7.10%;
+    align-content: center;
+    padding: 5px;
 }
 .Sucol7_inv2{
-    width: 9%;
-    padding: 4px;
+    width: 9.10%;
+    align-content: center;
+    padding: 5px;
 }
 .Sucol8_inv2{
-    width: 10%;
-    padding: 4px;
+    width: 10.10%;
+    align-content: center;
+    padding: 5px;
 }
 .Sucol9_inv2{
     width: 12.10%;
-    padding: 4px;
+    align-content: center;
+    padding: 5px;
+}
+.SeSucol9_inv2{
+    width: 12.10%;
+    align-content: center;
+    padding: 5px;
 }
 .spfntbH{
     font-size: 12px;
@@ -137,54 +153,39 @@
 .wdthHd1{
     width: 75%;
 }
-.taxwdth{
-    width: 76%
-}
-.taxwdth1{
-    width: 12%;
-    text-align: end;
-    padding-right: 5px;
-    padding-top: 2px;
-    line-height: 15px;
-}
-.taxwdth2{
-    width: 12%;
-    text-align: end;
-    padding-right: 5px;
-    padding-top: 2px;
-    line-height: 15px;
-}
-.grtHet{
-    height: 35px;
-    padding-top: 10px;
-    /* align-items: center; */
-}
 .sprmrk{
+    margin-top: 2px;
     width: 100%;
-    min-height: 40px;
+    height: 38px;
     font-size: 13px;
     line-height: 14px;
     padding: 5px;
+    align-content: center;
+    justify-content: space-between;
+}
+.sptxtVcen{
+    align-content: center;
+}
+.spbgClr{
+    background-color: #f2f2f2;
 }
 .spinst{
-    padding: 12px 6px;
+    margin-top: 2px;
+    padding: 4px 6px;
     font-size: 12px;
-    line-height: 25px;
+    line-height: 14px;
 }
 .spbrWord {
     word-break: break-word;
     overflow-wrap: break-word;
     word-wrap: break-word;
 }
-.spbnkdtl{
-    width: 33.33%;
-    padding: 5px;
-}
 .spbnkdtl1{
-    width: 33.33%;
+    width: 50%;
+    height: 90px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: end;
     padding: 5px;
 }
 .prnt_btn{
@@ -216,44 +217,41 @@
         line-height: 12px;
     }
     .col2_inv2{
-        width: 29%;
-        padding: 4px;
+        width: 31%;
+    }
+    .col3_inv2{
+        width: 28%;
     }
     .col6_inv2{
-        width: 9%;
-        padding: 4px;
+        width: 7%;
     }
     .col7_inv2{
-        width: 8%;
-        padding: 4px;
+        width: 9%;
     }
-    .Sucol2_inv2{
-        width: 28.90%;
-        padding: 4px;
+    .Sucol1_inv2{
+        width: 63.20%;
+        font-size: 15px;
+    }
+    .Sucol2_inv2{   
+        width: 31.20%;
     }
     .Sucol3_inv2{
-        width: 10.5%;
-        padding: 4px;
-    }
-    .Sucol4_inv2{
-        width: 7.5%;
-        padding: 4px;
+        width: 28.10%;
     }
     .Sucol6_inv2{
-        width: 9.10%;
-        padding: 4px;
+        width: 7%;
     }
     .Sucol7_inv2{
-        width: 7.90%;
-        padding: 4px;
+        width: 9%;
     }
     .Sucol8_inv2{
         width: 10%;
-        padding: 4px;
     }
     .Sucol9_inv2{
-        width: 12.180%;
-        padding: 4px;
+        width: 12.20%;
+    }
+    .SeSucol9_inv2{
+        width: 12.10%;
     }
     .wdthHd{
         width: 30%;
