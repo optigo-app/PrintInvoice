@@ -387,12 +387,13 @@ export const ordersArray = [
   {printName: 'order print am', etpType: 'print', componentName: 'OrderPrintAM'},
 ];
 export const MaterialSale = [
-  {printName: 'invoice print', etpType: 'print', componentName: 'InvoicePrintShwinit'},
+  // {printName: 'invoice print', etpType: 'print', componentName: 'InvoicePrintShwinit'},
   {printName: 'material sale print', etpType: 'print', componentName: 'MaterialSalePrint'},
   {printName: 'tax invoice a', etpType: 'print', componentName: 'TaxInvoiceAMaterial'},
   {printName: 'shipmenttag', etpType: 'print', componentName: 'ShipmentTagOptigo'},
   {printName: 'invoice print 2', etpType: 'print', componentName: 'InvoicePrint2Material'},
   {printName: 'detail print', etpType: 'print', componentName: 'DetailPrintMaterial'},
+  {printName: 'invoice print', etpType: 'print', componentName: 'InvoicePrintMaterial'},
 ]
 export const fgPurchase = [
   {printName: 'item wise print', etpType: 'print', componentName: 'ItemWisePrint'},
