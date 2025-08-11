@@ -206,7 +206,7 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       }, 500);
     }
 
-    // console.log("result", result);
+    console.log("result", result);
     
     // Style...
     const txtTop = {
@@ -443,8 +443,10 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </td> {/** colorstone and misc value */}
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {<div>{e?.MakingAmount}</div>}
-                                    </td>
-                                    <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>{}</td> {/** stone rate */}
+                                    </td> {/** labour */}
+                                    <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
+                                        {formatAmount( (e?.totals?.colorstone?.Amount) + (e?.totals?.misc?.Amount) )}
+                                    </td> {/** stone rate */}
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {e?.diamond_colorstone_misc?.map((el, id) => (
                                             <div key={id}>{el?.SettingAmount}</div>
@@ -465,7 +467,7 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </td> {/** total gross */}
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {e?.NetWt * e?.Quantity}
-                                    </td> {/** tota net wt */}
+                                    </td> {/** total net wt */}
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {e?.metal?.map((el, id) => (<div key={id}>{NumberWithCommas(el?.Rate,2)}</div>))}
                                     </td> {/** gold rate */}
