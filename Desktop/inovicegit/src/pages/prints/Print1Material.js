@@ -1,6 +1,6 @@
 //http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=TVMvNDk0LzIwMjQ=&evn=TWF0ZXJpYWwgU2FsZQ==&pnm=RGV0YWlsIFByaW50&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvTWF0ZXJpYWxCaWxsX0pzb24=&ctv=NzE=&ifid=TaxInvoiceA&pid=undefined
 import React, { useEffect } from "react";
-import "../../assets/css/prints/detailPrintMaterialSale.css";
+import "../../assets/css/prints/print1MaterialSale.css";
 import { useState } from "react";
 import {
   NumberWithCommas,
@@ -205,6 +205,7 @@ const DetailPrintMaterial = ({
               <div className="disflx brbxAll spfntbH" style={{ marginTop: "2px"}}>
                 <div className="col1_inv2 spfntBld spbrRht spfntCen">SR#</div>
                 <div className="col2_inv2 spfntBld spbrRht">DESCRIPTION</div>
+                <div className="col4_inv2 spfntBld spbrRht">TAG NO</div>
                 <div className="col3_inv2 spfntBld spbrRht">REMARKS</div>
                 <div className="col6_inv2 spfntBld spbrRht spfnted">PCS</div>
                 <div className="col7_inv2 spbrRht spfntBld spfnted">WEIGHT</div>
@@ -216,7 +217,7 @@ const DetailPrintMaterial = ({
               {finalD?.map((e, i) => {
                 return (
                   <div key={i} className="disflx spbrlFt brBtom spfntbH">
-                    <div className="col1_inv2 spbrRht spfntCen">{i + 1}</div>
+                    <div className="Sucol1_inv2 spbrRht spfntCen">{i + 1}</div>
                     <div className="Sucol2_inv2 spbrRht">
                     {e?.ItemName === "DIAMOND" 
                       ? `DIAMOND:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}`
@@ -229,6 +230,7 @@ const DetailPrintMaterial = ({
                             : ""
                     }
                     </div>
+                    <div className="Sucol4_inv2 spbrRht">{}</div> {/** Tag No */}
                     <div className="Sucol3_inv2 spbrRht">{}</div> {/** Remarks */}
                     <div className="Sucol6_inv2 spbrRht spfnted">{e?.pieces === "" ? "-" : e?.pieces}</div>
                     <div className="Sucol7_inv2 spbrRht spfnted">{fixedValues(e?.Weight === "" ? "-" : e?.Weight,3)}</div>
@@ -240,8 +242,8 @@ const DetailPrintMaterial = ({
 
               {/** Table Total */}
               <div className="disflx spbrlFt brBtom spfntbH">
-                <div className="Sucol1_inv2 spbrRht spfntBld"><b>TOTAL</b></div>
-                <div className="Sucol6_inv2 spbrRht spfnted spfntBld"><b>{totalPieces}</b></div>
+                <div className="SeSucol1_inv2 spbrRht spfntBld"><b>TOTAL</b></div>
+                <div className="SeSucol6_inv2 spbrRht spfnted spfntBld"><b>{totalPieces}</b></div>
                 <div className="SeSucol7_inv2 spfnted spfntBld spbrRht spbrWord"><b>{fixedValues(remainingWeight,3)} ctw <br /> {fixedValues(metalAndMiscWeight,3)} gm</b></div>
                 <div className="SeSucol8_inv2 spfnted spbrRht"></div>
                 <div className="SeSucol9_inv2 spfnted spfntBld spbrRht"><b>{formatAmount(totalAmount,2)}</b></div>
