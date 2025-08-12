@@ -10,77 +10,152 @@
     letter-spacing: 0.2px; 
     font-family: Calibri, sans-serif !important;
 }
+.headlineJL {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;   
+    height: 35px;
+    background-color: #939292;
+    color: white;
+    font-size: 30px !important;
+    line-height: 120%;
+    font-family: calibri;
+    padding-left: 10px;
+    margin-bottom: 7px;
+}
 .disflx{
     display: flex;
 }
 .col1_inv2{
-    width: 4%;
+    width: 3%;
     padding: 4px;
 }
 .col2_inv2{
-    width: 26%;
+    width: 15%;
     padding: 4px;
 }
 .col3_inv2{
-    width: 10.50%;
+    width: 7%;
     padding: 4px;
 }
 .col4_inv2{
-    width: 8.50%;
+    width: 9.50%;
     padding: 4px;
 }
 .col5_inv2{
-    width: 10%;
+    width: 7.50%;
     padding: 4px;
 }
 .col6_inv2{
-    width: 10%;
+    width: 8.50%;
     padding: 4px;
 }
 .col7_inv2{
-    width: 9%;
+    width: 8%;
     padding: 4px;
 }
 .col8_inv2{
-    width: 10%;
+    width: 7%;
     padding: 4px;
 }
 .col9_inv2{
-    width: 12%;
+    width: 7%;
     padding: 4px;
 }
+.col10_inv2{
+    width: 7.50%;
+    padding: 4px;
+}
+.col11_inv2{
+    width: 9%;
+    padding: 4px;
+}
+.col12_inv2{
+    width: 11%;
+    padding: 4px;
+}
+
+.RTcol8_inv2{
+    width: 9%;
+    padding: 4px;
+}
+.RTcol9_inv2{
+    width: 9%;
+    padding: 4px;
+}
+.RTcol10_inv2{
+    width: 9.50%;
+    padding: 4px;
+}
+.RTcol12_inv2{
+    width: 14%;
+    padding: 4px;
+}
+
+
 .Sucol2_inv2{
-    width: 25.90%;
+    width: 15%;
     padding: 4px;
 }
 .Sucol3_inv2{
-    width: 10.60%;
+    width: 6.90%;
     padding: 4px;
 }
 .Sucol4_inv2{
-    width: 8.40%;
+    width: 9.50%;
     padding: 4px;
 }
 .Sucol5_inv2{
-    width: 10%;
+    width: 7.60%;
     padding: 4px;
 }
 .Sucol6_inv2{
-    width: 10.10%;
+    width: 8.50%;
     padding: 4px;
 }
 .Sucol7_inv2{
-    width: 8.90%;
+    width: 7.90%;
     padding: 4px;
 }
 .Sucol8_inv2{
-    width: 10.10%;
+    width: 7.10%;
     padding: 4px;
 }
 .Sucol9_inv2{
-    width: 12%;
+    width: 6.90%;
     padding: 4px;
 }
+.Sucol10_inv2{
+    width: 7.50%;
+    padding: 4px;
+}
+.Sucol11_inv2{
+    width: 9%;
+    padding: 4px;
+}
+.Sucol12_inv2{
+    width: 11.10%;
+    padding: 4px;
+}
+
+.RTSucol8_inv2{
+    width: 9%;
+    padding: 4px;
+}
+.RTSucol9_inv2{
+    width: 9%;
+    padding: 4px;
+}
+.RTSucol10_inv2{
+    width: 9.50%;
+    padding: 4px;
+}
+.RTSucol12_inv2{
+    width: 14.10%;
+    padding: 4px;
+}
+
 .spfntbH{
     font-size: 12px;
     line-height: 13px;
@@ -137,17 +212,17 @@
     width: 75%;
 }
 .taxwdth{
-    width: 76%
+    width: 72.40%
 }
 .taxwdth1{
-    width: 12%;
+    width: 16.50%;
     text-align: end;
     padding-right: 5px;
     padding-top: 2px;
     line-height: 15px;
 }
 .taxwdth2{
-    width: 12%;
+    width: 11.10%;
     text-align: end;
     padding-right: 5px;
     padding-top: 2px;
@@ -165,7 +240,7 @@
     padding: 5px;
 }
 .spinst * {
-    padding: 2px 5px;
+    padding: 3px 5px;
     font-size: 12px !important;
     line-height: 13px !important;
     word-break: break-word !important;
@@ -217,65 +292,120 @@
         font-size: 11px;
         line-height: 12px;
     }
+
+
+    .col1_inv2{
+        width: 3.20%;
+    }
     .col2_inv2{
-        width: 29%;
+        width: 16%;
+    }
+    .col3_inv2{
+        width: 7%;
     }
     .col4_inv2{
-        width: 7.5%;
+        width: 9.50%;
+    }
+    .col5_inv2{
+        width: 6.50%;
     }
     .col6_inv2{
-        width: 9%;
+        width: 8.50%;
     }
     .col7_inv2{
-        width: 8%;
+        width: 7%;
     }
     .col8_inv2{
-        width: 9.90%;
+        width: 7%;
     }
+    .col9_inv2{
+        width: 7%;
+    }
+    .col10_inv2{
+        width: 6.50%;
+    }
+    .col11_inv2{
+        width: 9.80%;
+    }
+    .col12_inv2{
+        width: 12%;
+    }
+
+
     .Sucol2_inv2{
-        width: 29%;
+        width: 16.10%;
     }
     .Sucol3_inv2{
-        width: 10.50%;
+        width: 6.90%;
     }
     .Sucol4_inv2{
-        width: 7.40%;
+        width: 9.60%;
     }
     .Sucol5_inv2{
-        width: 10%;
+        width: 6.40%;
     }
     .Sucol6_inv2{
-        width: 9%;
+        width: 8.50%;
     }
     .Sucol7_inv2{
-        width: 8%;
+        width: 7.10%;
     }
     .Sucol8_inv2{
-        width: 10%;
+        width: 7%;
     }
     .Sucol9_inv2{
-        width: 12.180%;
+        width: 7.10%;
     }
+    .Sucol10_inv2{
+        width: 6.40%;
+    }
+    .Sucol11_inv2{
+        width: 9.90%;
+    }
+    .Sucol12_inv2{
+        width: 12.150%;
+    }
+
+
+    .RTSucol8_inv2{
+        width: 9%;
+    }
+    .RTSucol9_inv2{
+        width: 9%;
+    }
+    .RTSucol10_inv2{
+        width: 9.50%;
+    }
+    .RTSucol12_inv2{
+        width: 15%;
+    }
+
     .wdthHd{
         width: 30%;
     }
     .wdthHd1{
         width: 70%;
     }
+
     .taxwdth{
-        width: 70%
+        width: 71.80%
     }
     .taxwdth1{
-        width: 18%;
+        width: 16.20%;
     }
     .taxwdth2{
         width: 12.180%;
     }
+
     .sprmrk{
         font-size: 10px;
         line-height: 11px;
     }
-    .prnt_btn{
+    
+    .prnt_btn {
+        display: none;
+    }
+    .RT_Chkbx {
         display: none;
     }
     .spinst * {
@@ -285,24 +415,53 @@
 }
 @media print and (orientation: landscape) {
     .Sucol2_inv2{
-        width: 29.10%;
+        width: 16.10%;
     }
     .Sucol3_inv2{
-        width: 10.50%;
+        width: 7%;
     }
     .Sucol4_inv2{
-        width: 7.50%;
+        width: 9.40%;
     }
     .Sucol5_inv2{
-        width: 10%;
+        width: 6.60%;
+    }
+    .Sucol6_inv2{
+        width: 8.50%;
     }
     .Sucol7_inv2{
-        width: 8.10%;
+        width: 7%;
     }
     .Sucol8_inv2{
-        width: 9.90%;
+        width: 7.10%;
     }
     .Sucol9_inv2{
-        width: 12.25%;
+        width: 7%;
+    }
+    .Sucol10_inv2{
+        width: 6.50%;
+    }
+    .Sucol11_inv2{
+        width: 9.80%;
+    }
+
+
+    .RTSucol3_inv2{
+        width: 6.90%;
+    }
+    .RTSucol4_inv2{
+        width: 9.50%;
+    }
+    .RTSucol8_inv2{
+        width: 9.10%;
+    }
+    .RTSucol9_inv2{
+        width: 8.90%;
+    }
+    .RTSucol10_inv2{
+        width: 9.50%;
+    }
+    .RTSucol12_inv2{
+        width: 15%;
     }
 }

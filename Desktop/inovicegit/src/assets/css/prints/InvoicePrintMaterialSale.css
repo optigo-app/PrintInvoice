@@ -204,10 +204,14 @@
     line-height: 14px;
     padding: 5px;
 }
-.spinst{
-    padding: 12px 6px;
-    font-size: 12px;
-    line-height: 25px;
+.spinst * {
+    padding: 3px 5px;
+    font-size: 12px !important;
+    line-height: 13px !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    word-wrap: break-word !important;
+    font-family: Calibri, sans-serif !important;
 }
 .spbrWord {
     word-break: break-word;
@@ -345,27 +349,40 @@
     .prnt_btn{
         display: none;
     }
+    .spinst * {
+        font-size: 11px !important;
+        line-height: 12px !important;
+    }
 }
 @media print and (orientation: landscape) {
     .Sucol2_inv2{
-        width: 29.10%;
+        width: 16.10%;
     }
     .Sucol3_inv2{
-        width: 10.50%;
+        width: 7%;
     }
     .Sucol4_inv2{
-        width: 7.50%;
+        width: 9.40%;
     }
     .Sucol5_inv2{
-        width: 10%;
+        width: 6.60%;
+    }
+    .Sucol6_inv2{
+        width: 8.50%;
     }
     .Sucol7_inv2{
-        width: 8.10%;
+        width: 7%;
     }
     .Sucol8_inv2{
-        width: 9.90%;
+        width: 7.10%;
     }
     .Sucol9_inv2{
-        width: 12.25%;
+        width: 7%;
+    }
+    .Sucol10_inv2{
+        width: 6.50%;
+    }
+    .Sucol11_inv2{
+        width: 9.80%;
     }
 }

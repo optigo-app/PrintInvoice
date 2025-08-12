@@ -280,10 +280,14 @@
     line-height: 16px;
     padding: 5px;
 }
-.spinst{
-    padding: 12px 6px;
-    font-size: 12px;
-    line-height: 25px;
+.spinst * {
+    padding: 2px 5px;
+    font-size: 12px !important;
+    line-height: 13px !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    word-wrap: break-word !important;
+    font-family: Calibri, sans-serif !important;
 }
 .spbrWord {
     word-break: break-word;
@@ -356,6 +360,10 @@
         letter-spacing: 0.1px !important;
         color: #000 !important;
     }  
+    .spinst * {
+        font-size: 11px !important;
+        line-height: 12px !important;
+    }
 }
 @media print and (orientation: portrait) {
     .col1_inv2{

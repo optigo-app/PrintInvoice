@@ -1,6 +1,6 @@
-// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=TVMvNDk0LzIwMjQ=&evn=TWF0ZXJpYWwgU2FsZQ==&pnm=SW52b2ljZSBQcmludCAoT2xkKQ==&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvTWF0ZXJpYWxCaWxsX0pzb24=&ctv=NzE=&ifid=TaxInvoiceA&pid=undefined
+// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=TVMvNDk0LzIwMjQ=&evn=TWF0ZXJpYWwgU2FsZQ==&pnm=SW52b2ljZSBQcmludCAx&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvTWF0ZXJpYWxCaWxsX0pzb24=&ctv=NzE=&ifid=TaxInvoiceA&pid=undefined
 import React, { useEffect } from "react";
-import "../../assets/css/prints/InvoicePrintOldMaterialSale.css";
+import "../../assets/css/prints/InvoicePrint1MaterialSale.css";
 import { useState } from "react";
 import {
   NumberWithCommas,
@@ -17,7 +17,7 @@ import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 import { ToWords } from "to-words";
 
-const InvoicePrintOldMaterial = ({
+const InvoicePrint1Material = ({
   token,
   invoiceNo,
   printName,
@@ -93,6 +93,32 @@ const InvoicePrintOldMaterial = ({
       />
     );
   }
+
+  const totalMiscWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
+    const weight = parseFloat(item?.Weight);
+    if (item?.ItemName === 'MISC') {
+      return sum + (isNaN(weight) ? 0 : weight);
+    }
+    return sum;
+  }, 0);
+
+  const totalMetalWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
+    const weight = parseFloat(item?.Weight);
+    if (item?.ItemName === 'METAL') {
+      return sum + (isNaN(weight) ? 0 : weight);
+    }
+    return sum;
+  }, 0);
+
+  const metalAndMiscWeight = totalMetalWeight + totalMiscWeight;
+  
+  const remainingWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
+    const weight = parseFloat(item?.Weight);
+    if (item?.ItemName !== 'METAL' && item?.ItemName !== 'MISC') {
+      return sum + (isNaN(weight) ? 0 : weight);
+    }
+    return sum;
+  }, 0);
 
   const totalAmount = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
     const Amount = parseFloat(item?.Amount);
@@ -186,7 +212,7 @@ const InvoicePrintOldMaterial = ({
 
               {/** Data */}
               <div className="disflx spfntbH spbrRht spbrlFt spveheit">
-                <div className="col1_inv2 spbrRht spfntCen spbrWord" style={{ paddingTop: "70px" }}>RAW <br /> MATERIAL</div>
+                <div className="col1_inv2 spbrRht spfntCen spbrWord" style={{ paddingTop: "70px" }}>STONE</div>
                 <div className="w90inOld">
                   {finalD?.map((e) => {
                     return (
@@ -214,7 +240,7 @@ const InvoicePrintOldMaterial = ({
                 <div className="col1_inv2 spfntBld spbrRht spfntCen"></div>
                 <div className="disflx w90inOld">
                   <div className="FtSucol2_inv2 spfntBld spVefntCen">TOTAL</div>
-                  <div className="FtSucol3_inv2"></div>
+                  <div className="FtSucol3_inv2 spfnted spfntBld spVefntCen">{fixedValues(remainingWeight,3)} ctw<br />{fixedValues(metalAndMiscWeight,3)} gm</div>
                   <div className="FtSucol4_inv2"></div>
                   <div className="FtSucol5_inv2 spfnted spfntBld spVefntCen">{formatAmount(totalAmount,2)}</div>
                   <div className="FtSucol6_inv2"></div>
@@ -270,10 +296,9 @@ const InvoicePrintOldMaterial = ({
               {/** Note */}
               <div className="sprmrk brbxAll spfntbH pgbrkIsd">
                 <div className="spfntBld">NOTE :</div>
-                <div>1 Graded material</div>
-                <div>2 All goods manufactured and delivered at surat (gujarat)</div>
-                <div>3 Goods once sold will not be taken back or replaced</div>
-                <div>4 Subject to Surat (Gujarat) Juridiction</div>
+                {json0Data?.Declaration && ( 
+                  <div className="spinst" dangerouslySetInnerHTML={{ __html: json0Data?.Declaration,}}></div>
+                )}
               </div>
                 
               {/** Company Details */}
@@ -310,4 +335,4 @@ const InvoicePrintOldMaterial = ({
   );
 };
 
-export default InvoicePrintOldMaterial;
+export default InvoicePrint1Material;

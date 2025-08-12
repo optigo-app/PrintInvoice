@@ -237,7 +237,7 @@ const InvoicePrint2Material = ({
                 )
               })}
 
-              {/**Gran Total */}
+              {/**Grand Total */}
               <div className="disflx spfntbH">
                 <div className="taxwdth spbrlFt spbrRht" style={{ paddingLeft: "5px", paddingTop: "5px" }}>
                   In Words Indian Rupees <br /><span className="spfntBld">Rupees {rupeesInWords + paiseInWords} Only</span>
@@ -254,7 +254,7 @@ const InvoicePrint2Material = ({
               {/** Instuction */}
               {json0Data?.Declaration && ( 
                 <div className="brbxAll" style={{ borderTop: "none" }}>
-                  <div className="spbrWord spinst" dangerouslySetInnerHTML={{ __html: json0Data?.Declaration,}}></div>
+                  <div className="spinst" dangerouslySetInnerHTML={{ __html: json0Data?.Declaration,}}></div>
                 </div>
               )}
 
