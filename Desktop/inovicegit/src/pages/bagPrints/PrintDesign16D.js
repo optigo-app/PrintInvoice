@@ -8,6 +8,7 @@ import BarcodeGenerator from "../../components/BarcodeGenerator";
 import { GetData } from "../../GlobalFunctions/GetData";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
+import { checkInstruction } from "../../GlobalFunctions";
 // import { checkInstruction } from "../../GlobalFunctions";
 
 const PrintDesign16D = ({ queries, headers }) => {
@@ -1175,12 +1176,21 @@ const PrintDesign16D = ({ queries, headers }) => {
                                         minWidth: "100%",
                                         color: "red",
                                         lineHeight: "9.5px",
+                                        borderBottom: "3px solid black",
                                       }}
                                     >
-                                      RHODIUM INS. :
+                                      REMARK :
+                                      {" " +
+                                        (e?.data?.rd?.ProductInstruction?.length > 0
+                                          ? checkInstruction(
+                                          e?.data?.rd?.ProductInstruction
+                                          )
+                                          : checkInstruction(
+                                          e?.data?.rd?.QuoteRemark
+                                      ))}
                                     </div>
                                   </div>
-                                  <div className="bag_footerM d_flex last_line">
+                                  {/* <div className="bag_footerM d_flex last_line">
                                     <div
                                       className="border_right2 border_bottom2 bag_td line_clamp_2"
                                       style={{
@@ -1199,7 +1209,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                         ? e?.data?.rd?.custInstruction
                                         : ""}
                                     </div>
-                                  </div>
+                                  </div> */}
                                 </div>
                               </div>
                             </div>
@@ -2275,14 +2285,23 @@ const PrintDesign16D = ({ queries, headers }) => {
                                           fontSize: "10px",
                                           minWidth: "100%",
                                           color: "red",
+                                          borderBottom: "3px solid black",
                                           borderRight: "0px solid",
                                           lineHeight: "9.5px",
                                         }}
                                       >
-                                        RHODIUM INS. :
+                                        REMARK :
+                                        {" " +
+                                          (e?.data?.rd?.ProductInstruction?.length > 0
+                                            ? checkInstruction(
+                                            e?.data?.rd?.ProductInstruction
+                                            )
+                                            : checkInstruction(
+                                            e?.data?.rd?.QuoteRemark
+                                        ))}
                                       </div>
                                     </div>
-                                    <div className="bag_footerM d_flex last_line">
+                                    {/* <div className="bag_footerM d_flex last_line">
                                       <div
                                         className="border_right2 border_bottom border_top bag_td line_clamp_2"
                                         style={{
@@ -2300,7 +2319,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                         CUST INS:{" "}
                                         {e?.data?.rd?.custInstruction ?? ""}
                                       </div>
-                                    </div>
+                                    </div> */}
                                   </div>
                                 </div>
                               </div>

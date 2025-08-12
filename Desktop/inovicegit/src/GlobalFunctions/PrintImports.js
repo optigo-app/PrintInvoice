@@ -397,6 +397,7 @@ export const MaterialSale = [
   {printName: 'invoice print (old)', etpType: 'print', componentName: 'InvoicePrintOldMaterial'},
   {printName: 'invoice print 1', etpType: 'print', componentName: 'InvoicePrint1Material'},
   {printName: 'invoice print 3', etpType: 'print', componentName: 'InvoicePrint3Material'},
+  {printName: 'invoice print 4', etpType: 'print', componentName: 'InvoicePrint4Material'},
 ]
 export const fgPurchase = [
   {printName: 'item wise print', etpType: 'print', componentName: 'ItemWisePrint'},
