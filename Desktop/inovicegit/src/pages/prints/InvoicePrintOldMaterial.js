@@ -1,4 +1,4 @@
-// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=TVMvNDk0LzIwMjQ=&evn=TWF0ZXJpYWwgU2FsZQ==&pnm=SW52b2ljZSBQcmludA==&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvTWF0ZXJpYWxCaWxsX0pzb24=&ctv=NzE=&ifid=TaxInvoiceA&pid=undefined
+// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=TVMvNDk0LzIwMjQ=&evn=TWF0ZXJpYWwgU2FsZQ==&pnm=SW52b2ljZSBQcmludCAoT2xkKQ==&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvTWF0ZXJpYWxCaWxsX0pzb24=&ctv=NzE=&ifid=TaxInvoiceA&pid=undefined
 import React, { useEffect } from "react";
 import "../../assets/css/prints/InvoicePrintOldMaterialSale.css";
 import { useState } from "react";
@@ -115,6 +115,8 @@ const InvoicePrintOldMaterial = ({
   }, 0);
 
   const GrandTotal = totalAmount + taxAmont?.CGSTTotalAmount + taxAmont?.SGSTTotalAmount;
+  const amountStr = formatAmount(GrandTotal, 2);
+  const isWide = amountStr.length >= 9;
 
   console.log("taxAmont", taxAmont);
   console.log("extraTaxAmont", extraTaxAmont);
@@ -198,8 +200,8 @@ const InvoicePrintOldMaterial = ({
               </div>
 
               {/** Data */}
-              <div className="disflx spfntbH spbrRht spbrlFt">
-                <div className="col1_inv2 spbrRht spfntCen spbrWord" style={{ alignContent: "center" }}>RAW MATERIAL</div>
+              <div className="disflx spfntbH spbrRht spbrlFt spveheit">
+                <div className="col1_inv2 spbrRht spfntCen spbrWord" style={{ paddingTop: "70px" }}>RAW <br /> MATERIAL</div>
                 <div className="w90inOld">
                   {finalD?.map((e) => {
                     return (
@@ -223,19 +225,19 @@ const InvoicePrintOldMaterial = ({
               </div>
 
               {/** Table Total */}
-              <div className="disflx brbxAll spfntbH">
+              <div className="disflx brbxAll spfntbH spveheit1">
                 <div className="col1_inv2 spfntBld spbrRht spfntCen"></div>
                 <div className="disflx w90inOld">
-                  <div className="Sucol2_inv2 spfntBld">TOTAL</div>
-                  <div className="Sucol3_inv2"></div>
-                  <div className="Sucol4_inv2"></div>
-                  <div className="Sucol5_inv2 spfnted spfntBld">{formatAmount(totalAmount,2)}</div>
-                  <div className="Sucol6_inv2"></div>
-                  <div className="Sucol7_inv2"></div>
-                  <div className="Sucol8_inv2 spfnted spfntBld">{formatAmount(taxAmont?.CGSTTotalAmount)}</div>
-                  <div className="Sucol9_inv2 spfntBld"></div>
-                  <div className="Sucol10_inv2 spfnted spfntBld">{formatAmount(taxAmont?.SGSTTotalAmount)}</div>
-                  <div className="Sucol11_inv2 spfnted spfntBld">{formatAmount(GrandTotal,2)}</div>
+                  <div className="FtSucol2_inv2 spfntBld spVefntCen">TOTAL</div>
+                  <div className="FtSucol3_inv2"></div>
+                  <div className="FtSucol4_inv2"></div>
+                  <div className="FtSucol5_inv2 spfnted spfntBld spVefntCen">{formatAmount(totalAmount,2)}</div>
+                  <div className="FtSucol6_inv2"></div>
+                  <div className="FtSucol7_inv2"></div>
+                  <div className="FtSucol8_inv2 spfnted spfntBld spVefntCen">{formatAmount(taxAmont?.CGSTTotalAmount)}</div>
+                  <div className={`FtSucol9_inv2 spfntBld ${isWide ? 'FtSucol9_inv2_wide' : 'FtSucol9_inv2_shrnk'}`}></div>
+                  <div className="FtSucol10_inv2 spfnted spfntBld spVefntCen">{formatAmount(taxAmont?.SGSTTotalAmount)}</div>
+                  <div className={`spfnted spfntBld spVefntCen FtSucol11_inv2 ${isWide ? 'FtSucol11_inv2_wide' : 'FtSucol11_inv2_shrnk'}`}>{amountStr}</div>
                 </div>
               </div>
 
@@ -288,18 +290,21 @@ const InvoicePrintOldMaterial = ({
                 <div>3 Goods once sold will not be taken back or replaced</div>
                 <div>4 Subject to Surat (Gujarat) Juridiction</div>
               </div>
-
+                
+              {/** Company Details */}
               <div className="brbxAll spfntbH spbnkdtl spbrRht spacTpm pgbrkIsd">
                   <div className="spfntBld">COMPANY DETAILS :</div>
                   <div>GSTIN :<span>{json0Data?.Company_VAT_GST_No}</span></div>
                   <div>STATE CODE :<span>{json0Data?.Company_CST_STATE_No}</span></div>
                   <div>PAN NO. :</div>
-                  <div>Kindly make your payment by the name of <b>{json0Data?.accountname}</b></div>
+                  <div>Kindly make your payment by the name of <span className="spfntBld">"{json0Data?.accountname}"</span></div>
                   <div>Payable at Surat (Gujarat) by cheque or DD</div>
-                  <div>Bank Detail : Bank Account No <b>{json0Data?.accountnumber}</b></div>
+                  <div>Bank Detail : Bank Account No <span className="spfntBld">{json0Data?.accountnumber}</span></div>
                   <div>Bank Name : {json0Data?.bankname}, {json0Data?.bankaddress}</div>
                   <div>RTGS/NEFT IFSC:<span>{json0Data?.rtgs_neft_ifsc}</span></div>
               </div>
+
+              {/** Signature */}
               <div className="disflx spacTpm spfntbH pgbrkIsd">
                 <div className="spbnkdtl1 brbxAll spaceRht">
                     <div className="spfntBld">AUTHORISED, {json0Data?.customerfirmname}</div>

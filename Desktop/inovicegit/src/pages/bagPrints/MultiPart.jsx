@@ -11,7 +11,7 @@ import QRCodeGenerator from '../../components/QRCodeGenerator';
 import { GetUniquejob } from '../../GlobalFunctions/GetUniqueJob';
 import { FetchDatas } from '../../GlobalFunctions/FetchDatas';
 import { Box,  Typography } from "@mui/material";
-import { cloneDeep } from 'lodash';
+import { cloneDeep, slice } from 'lodash';
 
 export const JobDesc = () => {
     return (
@@ -330,7 +330,7 @@ const MultiPart = ({ queries, headers }) => {
                                 </div>
                             </div>
                             <div className='text-break ins_multipart fw-bolder'>
-                                {e?.data?.rd?.officeuse} {e?.data?.rd?.ProductInstruction}
+                                {e?.data?.rd?.officeuse.slice(0, 30)} {e?.data?.rd?.ProductInstruction}
                             </div>
                             {/* <div className='text-break ins_multipart fw-bolder'>{e?.data?.rd?.officeuse}</div> */}
                         </div>

@@ -29,10 +29,10 @@
 }
 
 .w90inOld{
-    width: 90%;
+    width: 91%;
 }
 .col1_inv2{
-    width: 10%;
+    width: 9%;
     padding: 4px;
 }
 
@@ -69,15 +69,19 @@
     padding: 4px;
 }
 .col10_inv2{
-    width: 8.50%;
+    width: 8.40%;
     padding: 4px;
 }
 .col11_inv2{
-    width: 10%;
+    width: 10.10%;
     padding: 4px;
 }
-
-
+.spveheit {
+    height: 200px;
+}
+.spveheit1 {
+    height: 32px;
+}
 .Sucol2_inv2{
     width: 20%;
     padding: 4px;
@@ -119,6 +123,39 @@
     padding: 4px;
 }
 
+.FtSucol2_inv2{
+    width: 20%;
+    padding-left: 4px;
+}
+.FtSucol3_inv2{
+    width: 7.90%;
+}
+.FtSucol4_inv2{
+    width: 8.60%;
+}
+.FtSucol5_inv2{
+    width: 10.50%;
+}
+.FtSucol6_inv2{
+    width: 9.50%;
+}
+.FtSucol7_inv2{
+    width: 8.90%;
+}
+.FtSucol8_inv2{
+    width: 8.10%;
+}
+.FtSucol9_inv2{
+    width: 7.90%;
+}
+.FtSucol10_inv2{
+    width: 8.50%;
+}
+.FtSucol11_inv2{
+    width: 10.10%;
+    padding-right: 4px;
+}
+
 
 .spfntbH{
     font-size: 12px;
@@ -127,12 +164,17 @@
 .spfntCen{
     text-align: center;
 }
+.spVefntCen{
+    align-content: center;
+}
 .spfnted{
     text-align: right;
 }
-.spfntBld{
+.spfntBld {
     font-weight: bold;
-}
+    text-shadow: 0.2px 0 0 currentColor;
+    letter-spacing: 0.4px;
+}  
 
 .spbrRht{
     border-right: 2px solid #000000;
@@ -307,4 +349,60 @@
     .w2_invold{
         min-height: 53px;
     }
+    .spfntBld {
+        font-weight: 700 !important;
+        text-shadow: none !important;
+        letter-spacing: 0.1px !important;
+        color: #000 !important;
+    }  
+}
+@media print and (orientation: portrait) {
+    .col1_inv2{
+        width: 10%;
+    }
+    .w90inOld{
+        width: 90%;
+    }
+    .FtSucol2_inv2{
+        width: 20%;
+        padding-left: 4px;
+    }
+    .FtSucol3_inv2{
+        width: 7.90%;
+    }
+    .FtSucol4_inv2{
+        width: 8.40%;
+    }
+    .FtSucol5_inv2{
+        width: 10.70%;
+    }
+    .FtSucol6_inv2{
+        width: 9.50%;
+    }
+    .FtSucol7_inv2{
+        width: 8.90%;
+    }
+    .FtSucol8_inv2{
+        width: 8.10%;
+    }
+    .FtSucol9_inv2_shrnk {
+        width: 7.90%;
+    }
+    .FtSucol9_inv2_wide{
+        width: 6.90%;
+    }
+    .FtSucol10_inv2{
+        width: 8.50%;
+    }
+    .FtSucol11_inv2{
+        width: 11.10%;
+        padding-right: 4px;
+    }
+    .FtSucol11_inv2_shrnk {
+        width: 10.10%;
+    }  
+    .FtSucol11_inv2_wide {
+        width: 11.10%;
+    }
+      
 }
