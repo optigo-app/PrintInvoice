@@ -201,10 +201,22 @@ const InvoicePrint4Material = ({
               {/** table Body */}
               {finalD?.map((e, i) => {
                 return (
-                  <div key={i} className="disflx spbrlFt brBtom spfntbH">
+                  <div key={i} className="disflx spbrlFt brBtom spfntbH2 pagBrkIsid">
                     <div className="col1_inv2 spbrRht spfntCen">{i + 1}</div>
-                    <div className="Sucol2_inv2 spbrRht spbrWord">
-                      {e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND" : e?.ItemName === "COLOR STONE" ? "STONE" : e?.ItemName === "METAL" && e?.shape === "gold" ? e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD' : e?.ItemName === "METAL" && e?.shape === "silver" ? "SILVER" : e?.ItemName === "MISC" ? "MISC" : ""}
+                    <div className="Sucol2_inv2 spbrRht spbrWord spfntSt">
+                    {
+                      e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND" :
+                      e?.ItemName === "COLOR STONE" ? "STONE" :
+                      e?.ItemName === "METAL" && e?.shape === "gold" ?
+                        e?.Tunch ? (
+                          <>
+                            GOLD<br />
+                            Tunch: {fixedValues(e?.Tunch, 3)}
+                          </>
+                        ) : 'GOLD' :
+                      e?.ItemName === "METAL" && e?.shape === "silver" ? "SILVER" :
+                      e?.ItemName === "MISC" ? "MISC" : ""
+                    }
                     </div>
                     <div className="Sucol3_inv2 spbrRht spbrWord spfntSt">{e?.shape === "" || e?.ItemName === "METAL" ? "-" : e?.shape}</div>
                     <div className="Sucol4_inv2 spbrRht spbrWord spfntSt">{e?.quality === "" ? "-" : e?.quality}</div>
@@ -225,7 +237,7 @@ const InvoicePrint4Material = ({
               })}
 
               {/** Table Total */}
-              <div className="disflx spbrlFt brBtom spfntbH">
+              <div className="disflx spbrlFt brBtom spfntbH2 pagBrkIsid">
                 <div className="col1_inv2 spbrRht"></div>
                 <div className="Sucol2_inv2 spbrRht spfntSt"></div>
                 <div className="Sucol3_inv2 spbrRht spfntSt"></div>
@@ -245,37 +257,44 @@ const InvoicePrint4Material = ({
               </div>
 
               {/** Tax Amount */}
-              {extraTaxAmont?.map?.((e, i) => {
-                return (
-                  <div className="disflx spfntbH">
-                    <div className="taxwdth spbrlFt spbrRht"></div>
-                      <div className="taxwdth1 spbrRht">
-                        <p key={i} className="spfntBld">{e?.TaxName}</p>
-                      </div>
-                    <div className="taxwdth2 spbrRht">
-                      <p key={i} className="spfntBld">{formatAmount(e?.TaxAmount,2)}</p>
+              <div className="disflx spfntbH2 pagBrkIsid">
+                <div className="taxwdth spbrlFt spbrRht"></div>
+                {taxAmont?.CGSTTotalAmount !== 0 && (
+                    <div className="taxwdth1 spacLft2 spfntBld spbrRht">
+                      <p>CGST</p>
+                      <p>SGST</p>
                     </div>
-                  </div>
-                )
-              })}
+                )}
+                {taxAmont?.SGSTTotalAmount !== 0 && (
+                    <div className="taxwdth2 spacLft2 spfntBld spbrRht">
+                      <p>{formatAmount(taxAmont?.CGSTTotalAmount,2)}</p>
+                      <p>{formatAmount(taxAmont?.SGSTTotalAmount,2)}</p>
+                    </div>
+                )}
+              </div>
 
               {/**Grand Total */}
-              <div className="disflx spfntbH brBtom">
+              <div className="disflx spfntbH2 brBtom pagBrkIsid">
                 <div className="taxwdth spbrlFt spbrRht" style={{ paddingLeft: "5px", paddingTop: "5px" }}>
                   In Words Indian Rupees <br /><span className="spfntBld">Rupees {rupeesInWords + paiseInWords} Only</span>
                 </div>
-                <div className="taxwdth1 spbrRht spfntBld grtHet brTpm" style={{ alignItems: "center" }}>GRAND TOTAL</div>
-                <div className="taxwdth2 spbrRht spfntBld grtHet brTpm">{NumberWithCommas(GrandTotal,2)}</div>
+                <div className="taxwdth1 spbrRht spfntBld grtHet brTpm" style={{ alignItems: "center" }}>
+                  GRAND TOTAL
+                </div>
+                <div className="taxwdth2 spbrRht spfntBld grtHet brTpm">
+                  <span dangerouslySetInnerHTML={{ __html: json0Data?.CurrSymbol }} />
+                  {NumberWithCommas(GrandTotal,2)}
+                </div>
               </div>
               
               {/** Instuction */}
               {json0Data?.Declaration && ( 
-                <div className="brbxAll" style={{ borderTop: "none" }}>
+                <div className="brbxAll pagBrkIsid" style={{ borderTop: "none" }}>
                   <div className="spinst" dangerouslySetInnerHTML={{ __html: json0Data?.Declaration,}}></div>
                 </div>
               )}
 
-              <div className="disflx brbxAll spfntbH" style={{ borderTop: "none" }}>
+              <div className="disflx brbxAll spfntbH pagBrkIsid" style={{ borderTop: "none" }}>
                 <div className="spbnkdtl spbrRht">
                   <div className="spfntBld">Bank Detail</div>
                   <div>Bank Name:<span>{json0Data?.bankname}</span></div>

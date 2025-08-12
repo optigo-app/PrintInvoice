@@ -391,13 +391,13 @@ export const MaterialSale = [
   {printName: 'material sale print', etpType: 'print', componentName: 'MaterialSalePrint'},
   {printName: 'tax invoice a', etpType: 'print', componentName: 'TaxInvoiceAMaterial'},
   {printName: 'shipmenttag', etpType: 'print', componentName: 'ShipmentTagOptigo'},
-  {printName: 'invoice print 2', etpType: 'print', componentName: 'InvoicePrint2Material'},
+  {printName: 'invoice print2', etpType: 'print', componentName: 'InvoicePrint2Material'},
   {printName: 'detail print', etpType: 'print', componentName: 'DetailPrintMaterial'},
   {printName: 'invoice print', etpType: 'print', componentName: 'InvoicePrintMaterial'},
   {printName: 'invoice print (old)', etpType: 'print', componentName: 'InvoicePrintOldMaterial'},
-  {printName: 'invoice print 1', etpType: 'print', componentName: 'InvoicePrint1Material'},
-  {printName: 'invoice print 3', etpType: 'print', componentName: 'InvoicePrint3Material'},
-  {printName: 'invoice print 4', etpType: 'print', componentName: 'InvoicePrint4Material'},
+  {printName: 'invoice print1', etpType: 'print', componentName: 'InvoicePrint1Material'},
+  {printName: 'invoice print3', etpType: 'print', componentName: 'InvoicePrint3Material'},
+  {printName: 'invoice print4', etpType: 'print', componentName: 'InvoicePrint4Material'},
 ]
 export const fgPurchase = [
   {printName: 'item wise print', etpType: 'print', componentName: 'ItemWisePrint'},

@@ -11,7 +11,7 @@ function App() {
   
   return (
     <>
-       <RouterProvider router={router}/>
+       <RouterProvider router={router}  />
        {/* <BrowserRouter>
        <Routes>
        <Routes>
