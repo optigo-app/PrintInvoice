@@ -80,36 +80,30 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn, ApiVer) =>
 };
 
 //api calling function for Hopscoach for jewellerybook
-export const apiCallHopsCoach = async (token, spNo, spVer, url) => {
-  const body = {
+export const apiCallHopsCoach = async (token, spNo, spVer, evn, sv, urls) => {
+  const requestBody = {
     Token: token,
     SpNo: spNo,
     SpVer: spVer,
     ReqData: JSON.stringify([
       {
         Token: token,
-        Evt: "jewellerybook",
-        SV: spVer,
+        Evt: evn, 
+        SV: sv,
       }
     ])
   };
 
   try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(body)
-    });
-
-    const data = await response.json();
-    return data;
+    const response = await axios.post(urls, requestBody);
+    return response?.data;
   } catch (error) {
-    console.error("HopsCoach API call failed:", error);
-    return { Status: "500", Message: "Internal Error" };
+    console.error("API call failed:", error);
+    return { Status: "500", Message: "API call failed", Data: {} };
   }
 };
+
+
 
 
 

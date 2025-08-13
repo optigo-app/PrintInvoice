@@ -1372,6 +1372,11 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                               Size : <b>{e?.Size}</b>
                             </p>
                           )}
+                          {e?.uniqueno !== "" && (
+                            <p className="w-100 ps-1">
+                              Unique : <b>{e?.uniqueno}</b>
+                            </p>
+                          )}
                         </div>
                       </div>
                       <div className="diamondEstimatePrint border-end position-relative border_color_estimates">

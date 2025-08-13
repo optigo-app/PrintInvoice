@@ -1169,7 +1169,7 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
 
                     <div className="spdispFlx spbrdrLftDR spbrdRghtDR">
                       <div className="Suspdtl1 spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">Cust Id</div>
-                      <div className="Suspdtl2 sptxtend spbrdrBtom estimatePrintFont_14"></div>
+                      <div className="Suspdtl2 sptxtend spbrdrBtom estimatePrintFont_14">{json1Data?.CustName}</div>
                       <div className="Suspdtl3 spBold sptxtend spbrdrBtom estimatePrintFont_14"></div>
                     </div>
 
@@ -1198,7 +1198,7 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                             })}
                           </div>
                           <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">{e?.JobSKUNo}</div>
-                          <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_14"></div>
+                          <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">{e?.EntryDate}</div>
                           <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">{e?.Size}</div>
                           <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">{e?.grosswt}</div>
                           <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">{e?.diamondTotal?.weight}</div>
@@ -1225,7 +1225,7 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                   <div className="border_color_estimate">
                     <div className="spdispFlx">
                       <div className="Suspdtl1 spBold spHitIns spbrdRght spbrdrBtom estimatePrintFont_14">Instuction :</div>
-                      <div className="spHitIns spbrdrBtom spWdthIns estimatePrintFont_14"></div>
+                      <div className="spHitIns spbrdrBtom spWdthIns estimatePrintFont_14">{e?.Instruction}</div>
                     </div>
                     <div className="spdispFlx">
                       <div className="Suspdtl1 spnHitArtisn spBold spbrdRght spnfntArtisn">ARTISAN NAME :</div>
