@@ -1,4 +1,4 @@
-//http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=TVMvNDk0LzIwMjQ=&evn=TWF0ZXJpYWwgU2FsZQ==&pnm=RGV0YWlsIFByaW50&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvTWF0ZXJpYWxCaWxsX0pzb24=&ctv=NzE=&ifid=TaxInvoiceA&pid=undefined
+//http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=TVMvNDk0LzIwMjQ=&evn=TWF0ZXJpYWwgU2FsZQ==&pnm=UHJpbnQx&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvTWF0ZXJpYWxCaWxsX0pzb24=&ctv=NzE=&ifid=TaxInvoiceA&pid=undefined
 import React, { useEffect } from "react";
 import "../../assets/css/prints/print1MaterialSale.css";
 import { useState } from "react";
@@ -17,7 +17,7 @@ import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 import { ToWords } from "to-words";
 
-const DetailPrintMaterial = ({
+const Print1Material = ({
   token,
   invoiceNo,
   printName,
@@ -227,6 +227,8 @@ const DetailPrintMaterial = ({
                           ? `METAL:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${formatAmount(e?.Tunch,3)}`
                           : e?.ItemName === "MISC" 
                             ? `MISC:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}`
+                          : e?.ItemName === "FINDING" 
+                            ? `FINDING:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}`
                             : ""
                     }
                     </div>
@@ -288,4 +290,4 @@ const DetailPrintMaterial = ({
   );
 };
 
-export default DetailPrintMaterial;
+export default Print1Material;

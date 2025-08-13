@@ -583,7 +583,7 @@ table {
 }
 
 .bag_design_2 .container_2:nth-child(even) {
-  margin-left: 4mm;
+  margin-left: 8mm;
 }
 
 .bag_design_2 .container_2 {
@@ -1591,7 +1591,7 @@ table {
 
 .bag_design_2 .container_2:nth-child(even) {
   box-sizing: border-box;
-  margin-left: 4mm;
+  margin-left: 8mm;
 }
 
 .bag_design_2 .container_2 {
@@ -2004,14 +2004,18 @@ table {
     line-height: 8px;
   }
 @media print {
+  @page {
+    margin: 0px 10px;
+  }
   .container_2.ml_8mm.mb_2.mt_2.pt_2.bag_2:nth-child(4n+1) {
       page-break-before: always !important;
     }
     
     .container_2.ml_8mm.mb_2.mt_2.pt_2.bag_2:nth-child(n+1), 
     .container_2.ml_8mm.mb_2.mt_2.pt_2.bag_2:nth-child(n+2){
-      margin-top: 6mm !important;
+      margin-top: 5mm !important;
       border-collapse: collapse !important;
+      margin-left: 11mm !important;
     }
 
   } 

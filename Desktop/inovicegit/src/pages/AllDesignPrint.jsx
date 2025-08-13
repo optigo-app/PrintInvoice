@@ -151,6 +151,7 @@ const AllDesignPrint = () => {
       'memomaterialissue': module?.MemoMaterialIssue || [],
       'materialpurchasereturn': module?.MaterialPurchaseReturn || [],
       'product_alteration': module?.Product_Alteration || [],
+      'jewellerybook': module?.Jewellery_Book|| [],
     };
   
     return eventMappings[evnname] || [];

@@ -294,7 +294,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                       <div className="d-flex">
                                         <div className="lh16bg">PARTY: </div>
                                         <div className="lh16bg">
-                                          {e?.data?.rd?.CustomerCode}
+                                          {e?.data?.rd?.CustomerName}
                                         </div>
                                       </div>
                                       <div>
@@ -535,7 +535,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                         height: "3.7041666667mm",
                                         fontWeight: "900",
                                         paddingLeft: "0.79375mm",
-                                        width: "12.0015mm",
+                                        width: "18.0015mm",
                                         fontSize: "11.5px",
                                       }}
                                     >
@@ -548,7 +548,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                         fontWeight: "900",
                                         fontSize: "11.5px",
                                         paddingLeft: "0.79375mm",
-                                        width: "18.880666667mm",
+                                        width: "12.880666667mm",
                                       }}
                                     >
                                       SIZE
@@ -612,7 +612,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                         <div
                                           className="border_right border_bottom display"
                                           style={{
-                                            width: "12.0015mm",
+                                            width: "18.880666667mm",
                                             fontSize: "1.8520833333",
                                             height: "3.7041666667mm",
                                           }}
@@ -620,7 +620,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                         <div
                                           className="border_right border_bottom display"
                                           style={{
-                                            width: "18.880666667mm",
+                                            width: "12.0015mm",
                                             fontSize: "1.8520833333",
                                             height: "3.7041666667mm",
                                           }}
@@ -1170,7 +1170,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                       className="border_right2 border_bottom border_top bag_td line_clamp_2"
                                       style={{
                                         paddingLeft: "0.79375mm",
-                                        height: "7mm",
+                                        height: "12mm",
                                         width: "94mm",
                                         fontSize: "10px",
                                         minWidth: "100%",
@@ -1269,7 +1269,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                       </div>
                                       <div className="partybg16">
                                         <div className="lh16bg">
-                                          PARTY: {e?.data?.rd?.CustomerCode}
+                                          PARTY: {e?.data?.rd?.CustomerName}
                                         </div>
                                         <div>
                                           {e?.data?.rd?.MetalType +
@@ -1515,7 +1515,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                         height: "3.7041666667mm",
                                         fontWeight: "900",
                                         paddingLeft: "0.79375mm",
-                                        width: "11.0015mm",
+                                        width: "15.880666667mm",
                                         fontSize: "11px",
                                       }}
                                     >
@@ -1527,7 +1527,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                         height: "3.7041666667mm",
                                         fontWeight: "900",
                                         paddingLeft: "0.79375mm",
-                                        width: "15.880666667mm",
+                                        width: "11.0015mm",
                                         fontSize: "11px",
                                       }}
                                     >
@@ -1552,7 +1552,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                         height: "3.7041666667mm",
                                         fontWeight: "900",
                                         paddingLeft: "0.79375mm",
-                                        width: "11.5mm",
+                                        width: "11.70mm",
                                         fontSize: "11px",
                                       }}
                                     >
@@ -1608,7 +1608,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                             : ""
                                             }`}
                                           style={{
-                                            width: "11.0015mm",
+                                            width: "15.880666667mm",
                                             fontWeight: "bold",
                                             fontSize: "9px",
                                             height: "3.7041666667mm",
@@ -1617,7 +1617,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                             justifyContent: "center",
                                           }}
                                         >
-                                          
+                                          {e?.MaterialTypeName}
                                         </div>
 
                                         <div
@@ -1626,7 +1626,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                             : ""
                                             }`}
                                           style={{
-                                            width: "15.880666667mm",
+                                            width: "11.0015mm",
                                             fontWeight: "bold",
                                             fontSize: "9px",
                                             height: "3.7041666667mm",
@@ -1719,7 +1719,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                         <div
                                           className="border_right border_bottom display"
                                           style={{
-                                            width: "11.0015mm",
+                                            width: "15.880666667mm",
                                             fontSize: "10px",
                                             height: "3.7041666667mm",
                                           }}
@@ -1727,7 +1727,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                         <div
                                           className="border_right border_bottom display"
                                           style={{
-                                            width: "15.880666667mm",
+                                            width: "11.0015mm",
                                             fontSize: "10px",
                                             height: "3.7041666667mm",
                                           }}
@@ -2280,7 +2280,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                         className="border_right2 border_bottom border_top bag_td line_clamp_2"
                                         style={{
                                           paddingLeft: "0.79375mm",
-                                          height: "7mm",
+                                          height: "12mm",
                                           width: "94mm",
                                           fontSize: "10px",
                                           minWidth: "100%",

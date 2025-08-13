@@ -1,4 +1,4 @@
-// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=TVMvMzY0LzIwMjQ=&evn=TWF0ZXJpYWwgc2FsZQ==&pnm=SW52b2ljZSBQcmludCAy&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvTWF0ZXJpYWxCaWxsX0pzb24=&ctv=NzE=&ifid=DetailPrintR&pid=undefined
+// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=TVMvNTE3LzIwMjQ=&evn=TWF0ZXJpYWwgc2FsZQ==&pnm=SW52b2ljZSBQcmludDI=&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvTWF0ZXJpYWxCaWxsX0pzb24=&ctv=NzE=&ifid=DetailPrintR&pid=undefined
 import React, { useEffect } from "react";
 import "../../assets/css/prints/InvoicePrint2MaterialSale.css";
 import { useState } from "react";
@@ -119,6 +119,8 @@ const InvoicePrint2Material = ({
 
   console.log("taxAmont", taxAmont);
   console.log("extraTaxAmont", extraTaxAmont);
+  console.log("finalD", finalD);
+  console.log("json0Data", json0Data);
 
   const amount = Number(GrandTotal || 0);
   const rupees = Math.floor(amount);
@@ -196,7 +198,15 @@ const InvoicePrint2Material = ({
                   <div key={i} className="disflx spbrlFt brBtom spfntbH">
                     <div className="col1_inv2 spbrRht spfntCen">{i + 1}</div>
                     <div className="Sucol2_inv2 spbrRht">
-                      {e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND" : e?.ItemName === "COLOR STONE" ? "STONE" : e?.ItemName === "METAL" && e?.shape === "gold" ? "GOLD" : e?.ItemName === "METAL" && e?.shape === "silver" ? "SILVER" : e?.ItemName === "MISC" ? "MISC" : ""}
+                      {e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND" : 
+                        e?.ItemName === "COLOR STONE" ? "STONE" : 
+                          e?.ItemName === "METAL" && e?.shape === "GOLD" ? "GOLD" : 
+                          e?.ItemName === "METAL" && e?.shape === "Silver" ? `SILVER ${e?.quality ? e?.quality : ''}` : 
+                          e?.ItemName === "MISC" ? "MISC" : 
+                          e?.ItemName === "FINDING" ? "FINDING" : 
+                          e?.ItemName === "ALLOY" ? "ALLOY" : 
+                          e?.ItemName === "MOUNT" ? "MOUNT" : 
+                          ""}
                     </div>
                     <div className="Sucol3_inv2 spbrRht">{e?.shape === "" || e?.ItemName === "METAL" ? "-" : e?.shape}</div>
                     <div className="Sucol4_inv2 spbrRht">{e?.quality === "" ? "-" : e?.quality}</div>

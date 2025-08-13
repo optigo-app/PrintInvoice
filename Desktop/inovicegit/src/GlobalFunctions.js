@@ -79,6 +79,40 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn, ApiVer) =>
 
 };
 
+//api calling function for Hopscoach for jewellerybook
+export const apiCallHopsCoach = async (token, spNo, spVer, url) => {
+  const body = {
+    Token: token,
+    SpNo: spNo,
+    SpVer: spVer,
+    ReqData: JSON.stringify([
+      {
+        Token: token,
+        Evt: "jewellerybook",
+        SV: spVer,
+      }
+    ])
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("HopsCoach API call failed:", error);
+    return { Status: "500", Message: "Internal Error" };
+  }
+};
+
+
+
 // new api print
 export const newApiPrint = async (token, invoiceNo, printName, url, evn) => {
   let data = `{\r\n  "token" : "${token}"\r\n  ,"invoiceno":"${invoiceNo}"\r\n  ,"printname":"${printName}"\r\n  ,"Eventname":"${evn}"\r\n}`;
