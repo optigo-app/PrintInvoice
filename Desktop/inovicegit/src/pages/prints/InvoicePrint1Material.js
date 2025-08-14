@@ -218,7 +218,15 @@ const InvoicePrint1Material = ({
                     return (
                       <div className="disflx">
                         <div className="Sucol2_inv2 spbrWord">
-                          {e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND" : e?.ItemName === "COLOR STONE" ? "STONE" : e?.ItemName === "METAL" && e?.shape === "gold" ? e?.quality ? `GOLD ${e?.quality}` : 'GOLD' : e?.ItemName === "METAL" && e?.shape === "silver" ? "SILVER" : e?.ItemName === "MISC" ? "MISC" : ""}
+                          {e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND" 
+                            : e?.ItemName === "COLOR STONE" ? "STONE"   
+                              : e?.ItemName === "METAL" && e?.shape === "Gold" ? e?.quality ? `GOLD ${e?.quality}` : 'GOLD' 
+                                : e?.ItemName === "METAL" && e?.shape === "Silver" ? "SILVER"   
+                                  : e?.ItemName === "MISC" ? "MISC" 
+                                    : e?.ItemName === "ALLOY" ? "ALLOY" 
+                                      : e?.ItemName === "MOUNT" ? "M" 
+                                        : e?.ItemName === "FINDING" ? "F:" 
+                                          : ""}
                         </div>
                         <div className="Sucol3_inv2 spfnted">{fixedValues(e?.Weight === "" ? "-" : e?.Weight,3)}</div>
                         <div className="Sucol4_inv2 spfnted">{formatAmount(e?.Rate === "" ? "-" : e?.Rate,2)}</div>

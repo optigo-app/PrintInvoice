@@ -207,15 +207,19 @@ const InvoicePrint4Material = ({
                     {
                       e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND" :
                       e?.ItemName === "COLOR STONE" ? "STONE" :
-                      e?.ItemName === "METAL" && e?.shape === "gold" ?
+                      e?.ItemName === "METAL" && e?.shape === "Gold" ?
                         e?.Tunch ? (
                           <>
                             GOLD<br />
                             Tunch: {fixedValues(e?.Tunch, 3)}
                           </>
                         ) : 'GOLD' :
-                      e?.ItemName === "METAL" && e?.shape === "silver" ? "SILVER" :
-                      e?.ItemName === "MISC" ? "MISC" : ""
+                      e?.ItemName === "METAL" && e?.shape === "Silver" ? "SILVER" :
+                      e?.ItemName === "MISC" ? "MISC" 
+                      : e?.ItemName === "FINDING" ? "FINDING" 
+                      : e?.ItemName === "MOUNT" ? "MOUNT" 
+                      : e?.ItemName === "ALLOY" ? "ALLOY" 
+                      : ""
                     }
                     </div>
                     <div className="Sucol3_inv2 spbrRht spbrWord spfntSt">{e?.shape === "" || e?.ItemName === "METAL" ? "-" : e?.shape}</div>

@@ -212,10 +212,12 @@ const InvoicePrintMaterial = ({
                     <div className="Sucol2_inv2 spbrRht spbrWord">
                       {e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND" 
                       : e?.ItemName === "COLOR STONE" ? "STONE"  
-                        : e?.ItemName === "METAL" && e?.shape === "gold" ? e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD' 
+                        : e?.ItemName === "METAL" && e?.shape === "Gold" ? e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD' 
                           : e?.ItemName === "METAL" && e?.shape === "Silver" ? `SILVER ${e?.quality ? e?.quality : ''}` 
                             : e?.ItemName === "MISC" ? "MISC" 
                               : e?.ItemName === "FINDING" ? "FINDING" 
+                              : e?.ItemName === "ALLOY" ? "ALLOY" 
+                              : e?.ItemName === "MOUNT" ? "MOUNT" 
                                 : ""}
                     </div>
                     <div className="Sucol3_inv2 spbrRht">{e?.HSN_No === "" ?  "-"  : e?.HSN_No }</div>

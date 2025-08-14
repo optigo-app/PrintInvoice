@@ -239,7 +239,15 @@ const InvoicePrint3Material = ({
                   <div key={i} className="disflx spbrlFt brBtom spfntbH">
                     <div className="col1_inv2 spbrRht spfntCen">{i + 1}</div>
                     <div className="Sucol2_inv2 spbrRht spbrWord">
-                      {e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND" : e?.ItemName === "COLOR STONE" ? "STONE" : e?.ItemName === "METAL" && e?.shape === "gold" ? e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD' : e?.ItemName === "METAL" && e?.shape === "silver" ? "SILVER" : e?.ItemName === "MISC" ? "MISC" : ""}
+                      {e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND" 
+                        : e?.ItemName === "COLOR STONE" ? "STONE"   
+                          : e?.ItemName === "METAL" && e?.shape === "Gold" ? e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD' 
+                            : e?.ItemName === "METAL" && e?.shape === "Silver" ? "SILVER" 
+                              : e?.ItemName === "MISC" ? "MISC" 
+                                : e?.ItemName === "ALLOY" ? "ALLOY" 
+                                  : e?.ItemName === "MOUNT" ? "MOUNT" 
+                                    : e?.ItemName === "FINDING" ? "FINDING" 
+                                      : ""}
                     </div>
                     <div className={`spbrRht Sucol3_inv2 ${rateFlag ? 'RTSucol3_inv2' : ''}`}>{e?.HSN_No === "" ?  "-"  : e?.HSN_No }</div>
                     <div className={`${rateFlag ? 'RTSucol4_inv2' : ''} Sucol4_inv2 spbrRht spbrWord`}>{e?.shape === "" || e?.ItemName === "METAL" ? "-" : e?.shape}</div>
