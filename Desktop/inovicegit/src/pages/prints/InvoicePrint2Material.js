@@ -157,6 +157,7 @@ const InvoicePrint2Material = ({
                   <div>{json0Data?.customeremail}</div>
                   <div>{json0Data?.Cust_VAT_GST}-{json0Data?.Cust_VAT_GST_No} | PAN-{json0Data?.customerPANno}</div>
                   <div>{json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No}</div>
+                  {json0Data?.customeraadharno !== "" && (<div>Adhar-{json0Data.customeraadharno}</div>)}
                 </div>
                 <div className="w2_inv2 spbrRht spfnthead">
                   <div style={{ paddingTop: "2px" }}>Ship To,</div>

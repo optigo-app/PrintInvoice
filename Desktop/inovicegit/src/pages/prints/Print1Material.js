@@ -12,9 +12,6 @@ import {
   isObjectEmpty,
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
-import { cloneDeep } from "lodash";
-import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
-import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 import { ToWords } from "to-words";
 
 const Print1Material = ({
@@ -32,7 +29,7 @@ const Print1Material = ({
   const [custAddress, setCustAddress] = useState([]);
   const [taxAmont , setTaxAmount] = useState();
   const [extraTaxAmont , setExtraTaxAmount] = useState();
-  const toWords = new ToWords();  
+  const [headFlag, setHeadFlag] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -84,15 +81,7 @@ const Print1Material = ({
     sendData();
   }, []);
 
-  function PrintableText({ json0Data }) {
-    const htmlContent = json0Data?.Printlable?.replace(/\n/g, '<br />');
   
-    return (
-      <div
-        dangerouslySetInnerHTML={{ __html: htmlContent }}
-      />
-    );
-  }
 
   const totalMiscWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
     const weight = parseFloat(item?.Weight);
@@ -135,24 +124,12 @@ const Print1Material = ({
     return sum + (isNaN(amount) ? 0 : amount);
   }, 0); 
 
-  // const getDueDate = (entryDateStr, orderDue) => {
-  //   const date = new Date(entryDateStr);
-  //   date.setDate(date.getDate() + orderDue);
-  //   return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-  // };
-  // const DueDate = getDueDate(json0Data?.EntryDate, json0Data?.OrderDue)
   const GrandTotal = totalAmount + totalEtraTaxAmount;
 
   console.log("taxAmont", taxAmont);
   console.log("extraTaxAmont", extraTaxAmont);
   console.log("finalD", finalD);
   console.log("json0Data", json0Data);
-
-  const amount = Number(GrandTotal || 0);
-  const rupees = Math.floor(amount);
-  const paise = Math.round((amount - rupees) * 100);
-  const rupeesInWords = toWords.convert(rupees);
-  const paiseInWords = paise > 0 ? ` and ${toWords.convert(paise)} Paise` : '';
 
   return (
     <>
@@ -161,7 +138,17 @@ const Print1Material = ({
       ) : msg === "" ? (
         <>
           <div className="w-full flex">
-            <div className="w-full flex prnt_btn">
+            <div className="w-full flex items-center justify-end spfnthead head_Chkbx">
+              <input
+                type="checkbox"
+                id="Finding"
+                className="mx-1"
+                checked={headFlag}
+                onChange={() => setHeadFlag(!headFlag)}
+              />
+              <label htmlFor="Finding" className="me-3 user-select-none">With Header</label>
+            </div>
+            <div className="prnt_btn">
               <input
                 type="button"
                 className="btn_white blue mt-0"
@@ -173,11 +160,13 @@ const Print1Material = ({
           <div className="w-full flex items-center justify-center">
             <div className="container_inv2">
               {/** Header */}
-              <div className="headlineJL w-100 p-2">
-                <b style={{ fontSize: "20px" }}>
-                  MATERIAL SALE
-                </b>
-              </div>
+              {headFlag && (
+                <div className="headlineJL w-100 p-2">
+                  <b style={{ fontSize: "20px" }}>
+                    MATERIAL SALE
+                  </b>
+                </div>
+              )}
               <div className="disflx brbxAll">
                 <div className="w1_inv2 spTpMrgHD spfnthead disflx">
                   <div className="spfntBld">To,</div>
@@ -232,8 +221,8 @@ const Print1Material = ({
                               : e?.ItemName === "ALLOY" 
                                 ? `ALLOY:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}`
                                 : e?.ItemName === "MOUNT" 
-                                ? `MOUNT:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}`
-                                : ""
+                                  ? `MOUNT:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}`
+                                  : ""
                     }
                     </div>
                     <div className="Sucol4_inv2 spbrRht">{}</div> {/** Tag No */}

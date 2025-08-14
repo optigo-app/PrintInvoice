@@ -456,7 +456,7 @@ export const outsourcePrint = [
 ];
 
 export const Jewellery_Book = [
-  {printName: 'print', etpType: 'print', componentName: 'PrintJewelleryBook'},
+  {printName: 'print 1', etpType: 'print', componentName: 'Print1JewelleryBook'},
 ];
 
 // export const Sales = [

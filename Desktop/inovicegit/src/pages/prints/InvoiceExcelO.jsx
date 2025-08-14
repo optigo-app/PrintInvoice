@@ -318,8 +318,11 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             {result?.resultArray?.map((e, i) => {
                                 return <tr key={i}>
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}><div>{i + 1}</div></td>
+
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}><div>D</div></td>
+
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>{e?.metal?.map((el, id) => (<div key={id}>{el?.Pcs}</div>))}</td>
+
                                     <td width={120} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {e?.DesignImage !== "" && 
                                             <>
@@ -338,169 +341,214 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             </>
                                         }
                                     </td>
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop, ...styBld }}><div>{e?.SrJobno}</div></td>
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop, ...styBld }}><div>{e?.designno}</div></td>
+
                                     <td width={140} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         <div>{e?.Categoryname}</div>
                                     </td>
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {e?.metal?.map((el, id) => (<div key={id}>{el?.Colorname}</div>))}
                                     </td>
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         <div>{e?.MetalPurity}</div>
                                     </td>
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         <div>{fixedValues(e?.grosswt,3)}</div>
                                     </td>
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         <div>{fixedValues(e?.NetWt,3)}</div>
                                     </td>
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {e?.metal?.map((el, id) => (<div key={id}>{NumberWithCommas(el?.Rate,2)}</div>))}
                                     </td> 
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {e?.metal?.map((el, id) => (<div key={id}>{NumberWithCommas(el?.Amount,2)}</div>))}
                                     </td> 
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {e?.diamond_colorstone_misc?.map((el) => {
                                             return (
                                                 <div key={el?.id}>
                                                     {el?.MasterManagement_DiamondStoneTypeName === "DIAMOND"
                                                         ? "D"
-                                                        : (el?.MasterManagement_DiamondStoneTypeName === "COLOR STONE" || el?.MasterManagement_DiamondStoneTypeName === "MISC"
-                                                            ? "C"
-                                                            : "")}
+                                                        : (el?.MasterManagement_DiamondStoneTypeName === "COLOR STONE" 
+                                                            || el?.MasterManagement_DiamondStoneTypeName === "MISC"
+                                                                ? "C"
+                                                                    : ""
+                                                    )}
                                                 </div>
                                             );
                                         })}
                                     </td>
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {e?.diamond_colorstone_misc?.map((el, id) => (
                                             <div key={id}>{el?.MasterManagement_DiamondStoneTypeName}</div>
                                         ))}
                                     </td>
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop, ...spSTy }}>
                                         {e?.diamond_colorstone_misc?.map((el, id) => (
                                             <div key={id}>{el?.Pcs}</div>
                                         ))}
                                     </td>
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {e?.diamond_colorstone_misc?.map((el, id) => (
-                                            <div key={id}>{el?.Wt}</div>
+                                            <div key={id}>{fixedValues(el?.Wt,3)}</div>
                                         ))}
                                     </td> {/** total gms dmd */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {e?.diamond_colorstone_misc?.map((el, id) => (
                                             <div key={id}>{el?.Colorname}</div>
                                         ))}
                                     </td> {/** color */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {e?.diamond_colorstone_misc?.map((el, id) => (
                                             <div key={id}>{el?.QualityName}</div>
                                         ))}
                                     </td> {/** clarity */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {e?.diamond_colorstone_misc?.map((el, id) => (
                                             <div key={id}>{el?.ShapeName}</div>
                                         ))}
                                     </td> {/** shape */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
                                         {e?.diamond_colorstone_misc?.map((el, id) => (
                                             <div key={id}>{el?.SizeName}</div>
                                         ))}
                                     </td> {/** mm size */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>{}</td> {/** Sieve Size */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {e?.diamond_colorstone_misc?.map((el, id) => (
-                                            <div key={id}>{el?.Rate}</div>
+                                            <div key={id}>{formatAmount(el?.Rate,2)}</div>
                                         ))}    
                                     </td>
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {e?.diamond_colorstone_misc?.map((el, id) => (
-                                            <div key={id}>{el?.Amount}</div>
+                                            <div key={id}>{formatAmount(el?.Amount,2)}</div>
                                         ))}
                                     </td> {/** total amt usd */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {<div>{ (e?.totals?.diamonds?.Amount || 0) + (e?.totals?.colorstone?.Amount || 0) + (e?.totals?.misc?.Amount || 0) }</div>}
+                                        {<div>{formatAmount((e?.totals?.diamonds?.Amount || 0) + (e?.totals?.colorstone?.Amount || 0) + (e?.totals?.misc?.Amount || 0),2)}</div>}
                                     </td> {/** total dia + cs */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {e?.totals?.diamonds?.Wt?.toFixed(3)}
                                     </td> {/** total dmd wt */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {e?.totals?.diamonds?.Pcs}
+                                        {fixedValues(e?.totals?.diamonds?.Pcs,3)}
                                     </td> {/** total dmd pcs */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {e?.totals?.diamonds?.Amount?.toFixed(2)}
+                                        {formatAmount(e?.totals?.diamonds?.Amount,2)}
                                     </td> {/** dia value */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        { (e?.totals?.colorstone?.Wt) + (e?.totals?.misc?.Wt) }
+                                        {fixedValues((e?.totals?.colorstone?.Wt) + (e?.totals?.misc?.Wt),2)}
                                     </td> {/** total clr and misc wt */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        { (e?.totals?.colorstone?.Pcs) + (e?.totals?.misc?.Pcs) }
+                                        {fixedValues((e?.totals?.colorstone?.Pcs) + (e?.totals?.misc?.Pcs),2)}
                                     </td> {/** total clr and misc pcs */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {formatAmount( (e?.totals?.colorstone?.Amount) + (e?.totals?.misc?.Amount) )}
+                                        {formatAmount((e?.totals?.colorstone?.Amount) + (e?.totals?.misc?.Amount),2)}
                                     </td> {/** colorstone and misc value */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {<div>{e?.MakingAmount}</div>}
+                                        {<div>{formatAmount(e?.MakingAmount,2)}</div>}
                                     </td> {/** labour */}
-                                    <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {formatAmount( (e?.totals?.colorstone?.Amount) + (e?.totals?.misc?.Amount) )}
-                                    </td> {/** stone rate */}
+
+                                    <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}></td> {/** stone rate */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {e?.diamond_colorstone_misc?.map((el, id) => (
-                                            <div key={id}>{el?.SettingAmount}</div>
+                                            <div key={id}>{formatAmount(el?.SettingAmount,2)}</div>
                                         ))}
                                     </td> {/** setting */}
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop, ...spFnt, ...spbgClr }}>
-                                        {formatAmount(e?.TotalAmount + e?.DiscountAmt)}
+                                        {formatAmount(e?.TotalAmount + e?.DiscountAmt,2)}
                                     </td> {/** total per job amount */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {e?.Quantity}
                                     </td> {/** quantity per job */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop, ...spFnt, ...spbgClr }}>
-                                        {formatAmount(e?.TotalAmount)}
+                                        {formatAmount(e?.TotalAmount,2)}
                                     </td> {/** total quantity amount */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop, ...spBgclr }}>{}</td>
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {e?.grosswt * e?.Quantity}
+                                        {fixedValues(e?.grosswt * e?.Quantity,3)}
                                     </td> {/** total gross */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {e?.NetWt * e?.Quantity}
+                                        {fixedValues(e?.NetWt * e?.Quantity,3)}
                                     </td> {/** total net wt */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {e?.metal?.map((el, id) => (<div key={id}>{NumberWithCommas(el?.Rate,2)}</div>))}
                                     </td> {/** gold rate */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {e?.metal?.map((el, id) => (<div key={id}>{NumberWithCommas(el?.Amount * e?.Quantity, 2)}</div>))}
                                     </td> {/** gold value */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {e?.totals?.diamonds?.Wt * e?.Quantity}
+                                        {fixedValues(e?.totals?.diamonds?.Wt * e?.Quantity,3)}
                                     </td> {/** total dia ct */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {e?.totals?.diamonds?.Pcs * e?.Quantity}
                                     </td> {/** total dia pcs */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {formatAmount(e?.totals?.diamonds?.Amount * e?.Quantity)}
                                     </td> {/** total dia value */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {(e?.totals?.colorstone?.Wt || 0) + (e?.totals?.misc?.Wt || 0) * (e?.Quantity)}
+                                        {fixedValues((e?.totals?.colorstone?.Wt || 0) + (e?.totals?.misc?.Wt || 0) * (e?.Quantity),3)}
                                     </td> {/** total color ct */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {(e?.totals?.colorstone?.Pcs || 0) + (e?.totals?.misc?.Pcs || 0) * (e?.Quantity)}
                                     </td> {/** total color pcs */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {formatAmount((e?.totals?.colorstone?.Amount || 0) + (e?.totals?.misc?.Amount || 0) * (e?.Quantity))}
+                                        {formatAmount((e?.totals?.colorstone?.Amount || 0) + (e?.totals?.misc?.Amount || 0) * (e?.Quantity),2)}
                                     </td> {/** total color value */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        <div>{formatAmount(e?.MakingAmount * e?.Quantity)}</div>
+                                        <div>{formatAmount(e?.MakingAmount * e?.Quantity,2)}</div>
                                     </td> 
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         {formatAmount(e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount + e?.totals?.metal?.SettingAmount + 
-                                            e?.totals?.misc?.SettingAmount)}
+                                            e?.totals?.misc?.SettingAmount,2)}
                                     </td> {/** total setting */}
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {formatAmount(e?.TotalAmount * e?.Quantity)}
+                                        {formatAmount(e?.TotalAmount * e?.Quantity,2)}
                                     </td>
                                 </tr>
                             })}
