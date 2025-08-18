@@ -119,7 +119,7 @@ const Print1Material = ({
     return sum + (isNaN(amount) ? 0 : amount);
   }, 0); 
 
-  const GrandTotal = totalAmount + totalEtraTaxAmount;
+  const GrandTotal = totalAmount + totalEtraTaxAmount + taxAmont?.tax1Amount + taxAmont?.tax2Amount + taxAmont?.tax3Amount;
 
   console.log("taxAmont", taxAmont);
   console.log("extraTaxAmont", extraTaxAmont);

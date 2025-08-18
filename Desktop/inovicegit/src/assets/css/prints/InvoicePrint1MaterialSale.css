@@ -77,12 +77,29 @@
     width: 10.10%;
     padding: 4px;
 }
+
+.col2_inv2IG {
+    width: 14.10%;
+    padding: 4px;
+}
+.col9_inv2IG {
+    width: 8%;
+    padding: 4px;
+}
+.col10_inv2IG {
+    width: 8.40%;
+    padding: 4px;
+}
+
+
 .spveheit {
     height: 200px;
 }
 .spveheit1 {
     height: 32px;
 }
+
+
 .Sucol2_inv2{
     width: 20%;
     padding: 4px;
@@ -124,6 +141,20 @@
     padding: 4px;
 }
 
+.Sucol2_inv2IG {
+    width: 14.10%;
+    padding: 4px;
+}
+.Sucol9_inv2IG{
+    width: 7.90%;
+    padding: 4px;
+}
+.Sucol10_inv2IG{
+    width: 8.50%;
+    padding: 4px;
+}
+
+
 .FtSucol2_inv2{
     width: 20%;
     padding-left: 4px;
@@ -156,6 +187,19 @@
     width: 10.10%;
     padding-right: 4px;
 }
+
+
+.FtSucol2_inv2IG {
+    width: 14.10%;
+    padding-left: 4px;
+}
+.FtSucol9_inv2IG {
+    width: 7.90%;
+}
+.FtSucol10_inv2IG {
+    width: 8.50%;
+}
+
 
 
 .spfntbH{

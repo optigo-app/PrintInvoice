@@ -124,7 +124,7 @@ const DetailPrintMaterial = ({
   //   return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
   // };
   // const DueDate = getDueDate(json0Data?.EntryDate, json0Data?.OrderDue)
-  const GrandTotal = totalAmount + totalEtraTaxAmount;
+  const GrandTotal = totalAmount + totalEtraTaxAmount + taxAmont?.tax1Amount + taxAmont?.tax2Amount + taxAmont?.tax3Amount;;
 
   console.log("taxAmont", taxAmont);
   console.log("extraTaxAmont", extraTaxAmont);

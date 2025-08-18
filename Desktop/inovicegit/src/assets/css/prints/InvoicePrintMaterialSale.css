@@ -27,6 +27,12 @@
 .disflx{
     display: flex;
 }
+.disflxClom {
+    display: flex;
+    flex-direction: column;
+}
+
+
 .col1_inv2{
     width: 3%;
     padding: 4px;

@@ -103,13 +103,14 @@ const InvoicePrint4Material = ({
   }, 0);
 
   const GrandTotal = totalAmount + taxAmont?.CGSTTotalAmount + taxAmont?.SGSTTotalAmount;
+  const EndGrandTotal = totalAmount + taxAmont?.CGSTTotalAmount + taxAmont?.SGSTTotalAmount + taxAmont?.tax1Amount + taxAmont?.tax2Amount + taxAmont?.tax3Amount;
 
   console.log("taxAmont", taxAmont);
   console.log("extraTaxAmont", extraTaxAmont);
   console.log("json0Data", json0Data);
   console.log("finalD", finalD);
 
-  const amount = Number(GrandTotal || 0);
+  const amount = Number(EndGrandTotal || 0);
   const rupees = Math.floor(amount);
   const paise = Math.round((amount - rupees) * 100);
   const rupeesInWords = toWords.convert(rupees);
@@ -174,21 +175,33 @@ const InvoicePrint4Material = ({
               {/** Table Header */}
               <div className="disflx brbxAll spfntbH" style={{ marginTop: "5px"}}>
                 <div className="col1_inv2 spfntBld spbrRht spfntCen">Sr#</div>
-                <div className="col2_inv2 spfntBld spfntCen spbrRht">Description</div>
-                <div className="col3_inv2 spfntBld spbrRht spfntCen">Shape</div>
-                <div className="col4_inv2 spbrRht spfntBld spfntCen">Quality</div>
-                <div className="col5_inv2 spbrRht spfntBld spfntCen">Color</div>
-                <div className="col6_inv2 spfntBld spbrRht spfntCen">Size</div>
-                <div className="col7_inv2 spbrRht spfntBld spfntCen">Weight</div>
-                <div className="col8_inv2 spbrRht spfntBld spfntCen">Pieces</div>
-                <div className="col9_inv2 spfntBld spbrRht spfntCen">Rate</div>
-                <div className="col10_inv2 spfntBld spfntCen spbrRht">Amount</div>
-                <div className="col11_inv2 spfntBld spfntCen spbrRht">HSN#</div>
-                <div className="col12_inv2 spbrRht spfntBld spfntCen">CGST(%)</div>
-                <div className="col13_inv2 spbrRht spfntBld spfntCen">CGST</div>
-                <div className="col14_inv2 spbrRht spfntBld spfntCen">SGST(%)</div>
-                <div className="col15_inv2 spbrRht spfntBld spfntCen">SGST</div>
-                <div className="col16_inv2 spfntBld spfntCen">TOTAL AMT</div>
+                <div className={`${taxAmont?.CGSTTotalAmount === 0 ? "col2_inv2NGSt" : "col2_inv2"} spfntBld spfntCen spbrRht`}>Description</div>
+                <div className={`${taxAmont?.CGSTTotalAmount === 0 ? "col3_inv2NGSt" : "col3_inv2"} spfntBld spbrRht spfntCen`}>Shape</div>
+                <div className={`${taxAmont?.CGSTTotalAmount === 0 ? "col4_inv2NGSt" : "col4_inv2"} spbrRht spfntBld spfntCen`}>Quality</div>
+                <div className={`${taxAmont?.CGSTTotalAmount === 0 ? "col5_inv2NGSt" : "col5_inv2"} spbrRht spfntBld spfntCen`}>Color</div>
+                <div className={`${taxAmont?.CGSTTotalAmount === 0 ? "col6_inv2NGSt" : "col6_inv2"} spfntBld spbrRht spfntCen`}>Size</div>
+                <div className={`${taxAmont?.CGSTTotalAmount === 0 ? "col7_inv2NGSt" : "col7_inv2"} spbrRht spfntBld spfntCen`}>
+                  {taxAmont?.CGSTTotalAmount === 0 ? "HSN#" : "Weight"}
+                </div>
+                <div className={`${taxAmont?.CGSTTotalAmount === 0 ? "col8_inv2NGSt" : "col8_inv2"} spbrRht spfntBld spfntCen`}>
+                  {taxAmont?.CGSTTotalAmount === 0 ? "Weight" : "Pieces"}
+                </div>
+                <div className={`${taxAmont?.CGSTTotalAmount === 0 ? "col9_inv2NGSt" : "col9_inv2"} spfntBld spbrRht spfntCen`}>
+                  {taxAmont?.CGSTTotalAmount === 0 ? "Pieces" : "Rate"}
+                </div>
+                <div className={`${taxAmont?.CGSTTotalAmount === 0 ? "col10_inv2NGSt" : "col10_inv2"} spfntBld spfntCen spbrRht`}>
+                  {taxAmont?.CGSTTotalAmount === 0 ? "Rate" : "Amount"}
+                </div>
+                <div className={`${taxAmont?.CGSTTotalAmount === 0 ? "col11_inv2NGSt" : "col11_inv2 spbrRht"} spfntBld spfntCen`}>
+                  {taxAmont?.CGSTTotalAmount === 0 ? "Amount" : "HSN#"}
+                </div>
+                {taxAmont?.CGSTTotalAmount === 0 ? "" : <>
+                  <div className="col12_inv2 spbrRht spfntBld spfntCen">CGST(%)</div>
+                  <div className="col13_inv2 spbrRht spfntBld spfntCen">CGST</div>
+                  <div className="col14_inv2 spbrRht spfntBld spfntCen">SGST(%)</div>
+                  <div className="col15_inv2 spbrRht spfntBld spfntCen">SGST</div>
+                  <div className="col16_inv2 spfntBld spfntCen">TOTAL AMT</div>
+                </>}
               </div>
 
               {/** table Body */}
@@ -196,7 +209,7 @@ const InvoicePrint4Material = ({
                 return (
                   <div key={i} className="disflx spbrlFt brBtom spfntbH2 pagBrkIsid">
                     <div className="col1_inv2 spbrRht spfntCen">{i + 1}</div>
-                    <div className="Sucol2_inv2 spbrRht spbrWord spfntSt">
+                    <div className={`${e?.CGSTAmount === 0 ? "Sucol2_inv2NGSt" : "Sucol2_inv2"} spbrRht spbrWord spfntSt`}>
                     {
                       e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND" :
                       e?.ItemName === "COLOR STONE" ? "STONE" :
@@ -215,20 +228,22 @@ const InvoicePrint4Material = ({
                       : ""
                     }
                     </div>
-                    <div className="Sucol3_inv2 spbrRht spbrWord spfntSt">{e?.shape === "" || e?.ItemName === "METAL" ? "-" : e?.shape}</div>
-                    <div className="Sucol4_inv2 spbrRht spbrWord spfntSt">{e?.quality === "" ? "-" : e?.quality}</div>
-                    <div className="Sucol5_inv2 spbrRht spbrWord spfntSt">{e?.color === "" ? "-" : e?.color}</div>
-                    <div className="Sucol6_inv2 spbrRht spbrWord spfntSt">{e?.size === "" ? "-" : e?.size}</div>
-                    <div className="Sucol7_inv2 spfnted spbrRht">{fixedValues(e?.Weight === "" ? "-" : e?.Weight,3)}</div>
-                    <div className="Sucol8_inv2 spfnted spbrRht">{fixedValues(e?.pieces === "" ? "-" : e?.pieces,3)}</div>
-                    <div className="Sucol9_inv2 spfnted spbrRht">{formatAmount(e?.Rate === "" ? "-" : e?.Rate,2)}</div>
-                    <div className="Sucol10_inv2 spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.Amount,2)}</div>
-                    <div className="Sucol11_inv2 spbrRht spfnted">{e?.HSN_No === "" ?  "-"  : e?.HSN_No }</div>
-                    <div className="Sucol12_inv2 spfnted spbrRht">{fixedValues(e?.CGST === "" ? "-" : e?.CGST,3)}</div>
-                    <div className="Sucol13_inv2 spfnted spbrRht">{formatAmount(e?.CGSTAmount === "" ? "-" : e?.CGSTAmount,2)}</div>
-                    <div className="Sucol14_inv2 spfnted spbrRht">{fixedValues(e?.SGST === "" ? "-" : e?.SGST,3)}</div>
-                    <div className="Sucol15_inv2 spfnted spbrRht">{formatAmount(e?.SGSTAmount === "" ? "-" : e?.SGSTAmount,2)}</div>
-                    <div className="Sucol16_inv2 spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.Amount + e?.CGSTAmount + e?.SGSTAmount,2)}</div>
+                    <div className={`${e?.CGSTAmount === 0 ? "Sucol3_inv2NGSt" : "Sucol3_inv2"} spbrRht spbrWord spfntSt`}>{e?.shape === "" || e?.ItemName === "METAL" ? "-" : e?.shape}</div>
+                    <div className={`${e?.CGSTAmount === 0 ? "Sucol4_inv2NGSt" : "Sucol4_inv2"} spbrRht spbrWord spfntSt`}>{e?.quality === "" ? "-" : e?.quality}</div>
+                    <div className={`${e?.CGSTAmount === 0 ? "Sucol5_inv2NGSt" : "Sucol5_inv2"} spbrRht spbrWord spfntSt`}>{e?.color === "" ? "-" : e?.color}</div>
+                    <div className={`${e?.CGSTAmount === 0 ? "Sucol6_inv2NGSt" : "Sucol6_inv2"} spbrRht spbrWord spfntSt`}>{e?.size === "" ? "-" : e?.size}</div>
+                    <div className={`${e?.CGSTAmount === 0 ? "Sucol7_inv2NGSt" : "Sucol7_inv2"} spfnted spbrRht`}>{fixedValues(e?.Weight === "" ? "-" : e?.Weight,3)}</div>
+                    <div className={`${e?.CGSTAmount === 0 ? "Sucol8_inv2NGSt" : "Sucol8_inv2"} spfnted spbrRht`}>{fixedValues(e?.pieces === "" ? "-" : e?.pieces,3)}</div>
+                    <div className={`${e?.CGSTAmount === 0 ? "Sucol9_inv2NGSt" : "Sucol9_inv2"} spfnted spbrRht`}>{formatAmount(e?.Rate === "" ? "-" : e?.Rate,2)}</div>
+                    <div className={`${e?.CGSTAmount === 0 ? "Sucol10_inv2NGSt" : "Sucol10_inv2"} spfnted spbrRht`}>{formatAmount(e?.Amount === "" ? "-" : e?.Amount,2)}</div>
+                    <div className={`${e?.CGSTAmount === 0 ? "Sucol11_inv2NGSt" : "Sucol11_inv2"} spbrRht spfnted`}>{e?.HSN_No === "" ?  "-"  : e?.HSN_No }</div>
+                    {e?.CGSTAmount === 0 ? "" : <>
+                      <div className="Sucol12_inv2 spfnted spbrRht">{fixedValues(e?.CGST === "" ? "-" : e?.CGST,3)}</div>
+                      <div className="Sucol13_inv2 spfnted spbrRht">{formatAmount(e?.CGSTAmount === 0 ? "-" : e?.CGSTAmount,2)}</div>
+                      <div className="Sucol14_inv2 spfnted spbrRht">{fixedValues(e?.SGST === "" ? "-" : e?.SGST,3)}</div>
+                      <div className="Sucol15_inv2 spfnted spbrRht">{formatAmount(e?.SGSTAmount === 0 ? "-" : e?.SGSTAmount,2)}</div>
+                      <div className="Sucol16_inv2 spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.Amount + e?.CGSTAmount + e?.SGSTAmount,2)}</div>
+                    </>}
                   </div>
                 )
               })}
@@ -332,7 +347,7 @@ const InvoicePrint4Material = ({
                 </div>
                 <div className="taxwdth2 spbrRht spfntBld grtHet brTpm">
                   <span dangerouslySetInnerHTML={{ __html: json0Data?.CurrSymbol }} />
-                  {NumberWithCommas(GrandTotal,2)}
+                  {NumberWithCommas(EndGrandTotal,2)}
                 </div>
               </div>
               
