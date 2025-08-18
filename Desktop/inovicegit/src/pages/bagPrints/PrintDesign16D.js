@@ -1180,14 +1180,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                       }}
                                     >
                                       REMARK :
-                                      {" " +
-                                        (e?.data?.rd?.ProductInstruction?.length > 0
-                                          ? checkInstruction(
-                                          e?.data?.rd?.ProductInstruction
-                                          )
-                                          : checkInstruction(
-                                          e?.data?.rd?.QuoteRemark
-                                      ))}
+                                      <span key={i} style={{ whiteSpace: 'normal' }} dangerouslySetInnerHTML={{ __html: e?.data?.rd?.ProductInstruction1 }}/>
                                     </div>
                                   </div>
                                   {/* <div className="bag_footerM d_flex last_line">
@@ -2291,14 +2284,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                         }}
                                       >
                                         REMARK :
-                                        {" " +
-                                          (e?.data?.rd?.ProductInstruction?.length > 0
-                                            ? checkInstruction(
-                                            e?.data?.rd?.ProductInstruction
-                                            )
-                                            : checkInstruction(
-                                            e?.data?.rd?.QuoteRemark
-                                        ))}
+                                        <span key={i} style={{ whiteSpace: 'normal' }} dangerouslySetInnerHTML={{ __html: e?.data?.rd?.ProductInstruction1 }}/>
                                       </div>
                                     </div>
                                     {/* <div className="bag_footerM d_flex last_line">

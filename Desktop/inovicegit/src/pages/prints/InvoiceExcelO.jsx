@@ -486,6 +486,7 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <div key={id}>{formatAmount(el?.SettingAmount,2)}</div>
                                         ))}
                                     </td> {/** setting */}
+                                    
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop, ...spFnt, ...spbgClr }}>
                                         {formatAmount(e?.TotalAmount + e?.DiscountAmt,2)}
                                     </td> {/** total per job amount */}
