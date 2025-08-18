@@ -1,4 +1,4 @@
-// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=SlMvMTgyLzI1LTI2&evn=c2FsZQ==&pnm=SW52b2ljZSBFeGNlbCBP&up=aHR0cDovL3plbi9qby9hcGktbGliL0FwcC9TYWxlQmlsbF9Kc29u&ctv=NzE=&ifid=PackingList3&pid=undefined&etp=ZXhjZWw=
+    // http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=SlMvMTgyLzI1LTI2&evn=c2FsZQ==&pnm=SW52b2ljZSBFeGNlbCBP&up=aHR0cDovL3plbi9qby9hcGktbGliL0FwcC9TYWxlQmlsbF9Kc29u&ctv=NzE=&ifid=PackingList3&pid=undefined&etp=ZXhjZWw=
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -486,7 +486,7 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <div key={id}>{formatAmount(el?.SettingAmount,2)}</div>
                                         ))}
                                     </td> {/** setting */}
-                                    
+
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop, ...spFnt, ...spbgClr }}>
                                         {formatAmount(e?.TotalAmount + e?.DiscountAmt,2)}
                                     </td> {/** total per job amount */}
@@ -582,7 +582,7 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     { (result?.mainTotal?.diamonds?.Pcs) + (result?.mainTotal?.colorstone?.Pcs) + (result?.mainTotal?.misc?.Pcs) }
                                 </td>
                                 <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}>
-                                    {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
+                                    {fixedValues( (result?.mainTotal?.diamonds?.Wt) + (result?.mainTotal?.colorstone?.Wt) + (result?.mainTotal?.misc?.Wt),3 )}
                                 </td>
                                 <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
                                 <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
