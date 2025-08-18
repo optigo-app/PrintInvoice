@@ -205,6 +205,9 @@
         margin: 1rem auto;
         font-family: Calibri, sans-serif !important;
     }
+    .pagBrkIsid{
+        page-break-inside: avoid;
+    }
     .spfnthead{
         font-size: 10px;
         line-height: 11px;

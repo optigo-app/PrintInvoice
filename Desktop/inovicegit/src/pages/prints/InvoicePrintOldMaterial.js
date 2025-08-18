@@ -12,9 +12,6 @@ import {
   isObjectEmpty,
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
-import { cloneDeep } from "lodash";
-import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
-import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 import { ToWords } from "to-words";
 
 const InvoicePrintOldMaterial = ({
@@ -32,11 +29,7 @@ const InvoicePrintOldMaterial = ({
   const [custAddress, setCustAddress] = useState([]);
   const [taxAmont , setTaxAmount] = useState();
   const [extraTaxAmont , setExtraTaxAmount] = useState();
-  const toWords = new ToWords();  
-  const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
+  const toWords = new ToWords();
 
   useEffect(() => {
     const sendData = async () => {
@@ -241,6 +234,36 @@ const InvoicePrintOldMaterial = ({
               <div className="wdthHdOld brbxAll spfntbH">
                 <div className="vheit">
                 <div>
+                {taxAmont?.tax1_taxname !== "" && (
+                  <div className="disflx">
+                    <div className="taxwdth1 spacLft2">
+                      <p>{taxAmont?.tax1_taxname} @ {fixedValues(taxAmont?.tax1_value,3)} %</p>
+                    </div>
+                    <div className="taxwdth2">
+                      <p>{formatAmount(taxAmont?.tax1Amount,2)}</p>
+                    </div>
+                  </div>
+                )}
+                {taxAmont?.tax2_taxname !== "" && (
+                  <div className="disflx">
+                    <div className="taxwdth1 spacLft2">
+                      <p>{taxAmont?.tax2_taxname} @ {fixedValues(taxAmont?.tax2_value,3)} %</p>
+                    </div>
+                    <div className="taxwdth2">
+                      <p>{formatAmount(taxAmont?.tax2Amount,2)}</p>
+                    </div>
+                  </div>
+                )}
+                {taxAmont?.tax3_taxname !== "" && (
+                  <div className="disflx">
+                    <div className="taxwdth1 spacLft2">
+                      <p>{taxAmont?.tax3_taxname} @ {fixedValues(taxAmont?.tax3_value,3)} %</p>
+                    </div>
+                    <div className="taxwdth2">
+                      <p>{formatAmount(taxAmont?.tax3Amount,2)}</p>
+                    </div>
+                  </div>
+                )}
                 {taxAmont?.CGSTTotalAmount !== 0 && (
                   <div className="disflx">
                     <div className="taxwdth1 spacLft2">
@@ -258,6 +281,16 @@ const InvoicePrintOldMaterial = ({
                     </div>
                     <div className="taxwdth2">
                       <p>{formatAmount(taxAmont?.SGSTTotalAmount,2)}</p>
+                    </div>
+                  </div>
+                )}
+                {taxAmont?.IGSTTotalAmount !== 0 && (
+                  <div className="disflx">
+                    <div className="taxwdth1 spacLft2">
+                      <p>IGST</p>
+                    </div>
+                    <div className="taxwdth2">
+                      <p>{formatAmount(taxAmont?.IGSTTotalAmount,2)}</p>
                     </div>
                   </div>
                 )}

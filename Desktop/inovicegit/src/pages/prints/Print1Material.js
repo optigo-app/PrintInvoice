@@ -12,7 +12,6 @@ import {
   isObjectEmpty,
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
-import { ToWords } from "to-words";
 
 const Print1Material = ({
   token,
@@ -30,10 +29,6 @@ const Print1Material = ({
   const [taxAmont , setTaxAmount] = useState();
   const [extraTaxAmont , setExtraTaxAmount] = useState();
   const [headFlag, setHeadFlag] = useState(true);
-  const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
 
   useEffect(() => {
     const sendData = async () => {

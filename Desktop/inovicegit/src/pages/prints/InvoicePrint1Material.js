@@ -12,9 +12,6 @@ import {
   isObjectEmpty,
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
-import { cloneDeep } from "lodash";
-import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
-import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 import { ToWords } from "to-words";
 
 const InvoicePrint1Material = ({
@@ -32,11 +29,7 @@ const InvoicePrint1Material = ({
   const [custAddress, setCustAddress] = useState([]);
   const [taxAmont , setTaxAmount] = useState();
   const [extraTaxAmont , setExtraTaxAmount] = useState();
-  const toWords = new ToWords();  
-  const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
+  const toWords = new ToWords();
 
   useEffect(() => {
     const sendData = async () => {

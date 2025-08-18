@@ -1,6 +1,4 @@
 // http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=TVMvNDk0LzIwMjQ=&evn=TWF0ZXJpYWwgU2FsZQ==&pnm=SW52b2ljZSBQcmludDQ=&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvTWF0ZXJpYWxCaWxsX0pzb24=&ctv=NzE=&ifid=TaxInvoiceA&pid=undefined
-
-
 import React, { useEffect } from "react";
 import "../../assets/css/prints/InvoicePrint4MaterialSale.css";
 import { useState } from "react";
@@ -14,9 +12,6 @@ import {
   isObjectEmpty,
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
-import { cloneDeep } from "lodash";
-import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
-import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 import { ToWords } from "to-words";
 
 const InvoicePrint4Material = ({
@@ -34,11 +29,7 @@ const InvoicePrint4Material = ({
   const [custAddress, setCustAddress] = useState([]);
   const [taxAmont , setTaxAmount] = useState();
   const [extraTaxAmont , setExtraTaxAmount] = useState();
-  const toWords = new ToWords();  
-  const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
+  const toWords = new ToWords();
 
   useEffect(() => {
     const sendData = async () => {
@@ -265,18 +256,70 @@ const InvoicePrint4Material = ({
               {/** Tax Amount */}
               <div className="disflx spfntbH2 pagBrkIsid">
                 <div className="taxwdth spbrlFt spbrRht"></div>
-                {taxAmont?.CGSTTotalAmount !== 0 && (
-                    <div className="taxwdth1 spacLft2 spfntBld spbrRht">
-                      <p>CGST</p>
-                      <p>SGST</p>
-                    </div>
-                )}
-                {taxAmont?.SGSTTotalAmount !== 0 && (
-                    <div className="taxwdth2 spacLft2 spfntBld spbrRht">
-                      <p>{formatAmount(taxAmont?.CGSTTotalAmount,2)}</p>
-                      <p>{formatAmount(taxAmont?.SGSTTotalAmount,2)}</p>
-                    </div>
-                )}
+                <div className="taxwdth1 spbrRht">
+                  {taxAmont?.tax1_taxname !== "" && (
+                      <div className="spacLft2 spfntBld">
+                        <p>{taxAmont?.tax1_taxname} @ {fixedValues(taxAmont?.tax1_value,3)} %</p>
+                      </div>
+                  )}
+                  {taxAmont?.tax2_taxname !== "" && (
+                      <div className="spacLft2 spfntBld">
+                        <p>{taxAmont?.tax2_taxname} @ {fixedValues(taxAmont?.tax2_value,3)} %</p>
+                      </div>
+                  )}
+                  {taxAmont?.tax3_taxname !== "" && (
+                      <div className="spacLft2 spfntBld">
+                        <p>{taxAmont?.tax3_taxname} @ {fixedValues(taxAmont?.tax3_value,3)} %</p>
+                      </div>
+                  )}
+                  {taxAmont?.CGSTTotalAmount !== 0 && (
+                      <div className="spacLft2 spfntBld">
+                        <p>CGST</p>
+                      </div>
+                  )}
+                  {taxAmont?.SGSTTotalAmount !== 0 && (
+                      <div className="spacLft2 spfntBld">
+                        <p>SGST</p>
+                      </div>
+                  )}
+                  {taxAmont?.IGSTTotalAmount !== 0 && (
+                      <div className="spacLft2 spfntBld">
+                        <p>IGST</p>
+                      </div>
+                  )}
+                </div>
+                <div className="taxwdth2 spbrRht">
+                  {taxAmont?.tax1Amount !== 0 && (
+                    <div className="spacLft2 spfntBld">
+                        <p>{formatAmount(taxAmont?.tax1Amount,2)}</p>
+                      </div>
+                  )}
+                  {taxAmont?.tax2Amount !== 0 && (
+                      <div className="spacLft2 spfntBld">
+                        <p>{formatAmount(taxAmont?.tax2Amount,2)}</p>
+                      </div>
+                  )}
+                  {taxAmont?.tax3Amount !== 0 && (
+                      <div className="spacLft2 spfntBld">
+                        <p>{formatAmount(taxAmont?.tax3Amount,2)}</p>
+                      </div>
+                  )}
+                  {taxAmont?.CGSTTotalAmount !== 0 && (
+                      <div className="spacLft2 spfntBld">
+                        <p>{formatAmount(taxAmont?.CGSTTotalAmount,2)}</p>
+                      </div>
+                  )}
+                  {taxAmont?.SGSTTotalAmount !== 0 && (
+                      <div className="spacLft2 spfntBld">
+                        <p>{formatAmount(taxAmont?.SGSTTotalAmount,2)}</p>
+                      </div>
+                  )}
+                  {taxAmont?.IGSTTotalAmount !== 0 && (
+                      <div className="spacLft2 spfntBld">
+                        <p>{formatAmount(taxAmont?.IGSTTotalAmount,2)}</p>
+                      </div>
+                  )}
+                </div>
               </div>
 
               {/**Grand Total */}

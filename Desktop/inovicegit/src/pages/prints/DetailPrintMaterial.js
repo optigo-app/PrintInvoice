@@ -12,9 +12,6 @@ import {
   isObjectEmpty,
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
-import { cloneDeep } from "lodash";
-import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
-import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 import { ToWords } from "to-words";
 
 const DetailPrintMaterial = ({
@@ -32,11 +29,7 @@ const DetailPrintMaterial = ({
   const [custAddress, setCustAddress] = useState([]);
   const [taxAmont , setTaxAmount] = useState();
   const [extraTaxAmont , setExtraTaxAmount] = useState();
-  const toWords = new ToWords();  
-  const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
+  const toWords = new ToWords();
 
   useEffect(() => {
     const sendData = async () => {
@@ -83,16 +76,6 @@ const DetailPrintMaterial = ({
     };
     sendData();
   }, []);
-
-  function PrintableText({ json0Data }) {
-    const htmlContent = json0Data?.Printlable?.replace(/\n/g, '<br />');
-  
-    return (
-      <div
-        dangerouslySetInnerHTML={{ __html: htmlContent }}
-      />
-    );
-  }
 
   const totalMiscWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
     const weight = parseFloat(item?.Weight);
@@ -147,12 +130,6 @@ const DetailPrintMaterial = ({
   console.log("extraTaxAmont", extraTaxAmont);
   console.log("finalD", finalD);
   console.log("json0Data", json0Data);
-
-  const amount = Number(GrandTotal || 0);
-  const rupees = Math.floor(amount);
-  const paise = Math.round((amount - rupees) * 100);
-  const rupeesInWords = toWords.convert(rupees);
-  const paiseInWords = paise > 0 ? ` and ${toWords.convert(paise)} Paise` : '';
 
   return (
     <>
