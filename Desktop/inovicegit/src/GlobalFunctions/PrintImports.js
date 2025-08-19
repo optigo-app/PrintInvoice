@@ -99,6 +99,7 @@ export const printConditions = [
   {printName: 'packing list 6', etpType: 'print', componentName: 'Packinglist6'},
   {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
   {printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group'},
+  {printName: 'packing list 7group s', etpType: 'print', componentName: 'PackingList7GroupS'},
   {printName: 'packing list 7d group', etpType: 'print', componentName: 'PackingList7DGroup'},
   {printName: 'repair print', etpType: 'print', componentName: 'RepairPrint'},
   {printName: 'retail invoice', etpType: 'print', componentName: 'RetailInvoice'},
@@ -218,6 +219,7 @@ export const QuotationPrints = [
 
   {printName: 'print quotation', etpType: 'print', componentName: 'Quetioprint'},
   {printName: 'quotation print', etpType: 'print', componentName: 'Quetioprint'},
+  {printName: 'packing list 7group s', etpType: 'print', componentName: 'PackingList7GroupS'},
 ]
 
 export const MemoPrints = [
@@ -273,6 +275,7 @@ export const MemoPrints = [
   {printName: 'detail print 10', etpType: 'print', componentName: 'DetailPrint10'},
   {printName: 'Designset Packinglist', etpType: 'print', componentName: 'DesignsetPackinglist'},
   {printName: 'packing list 3 am', etpType: 'print', componentName: 'PackingList3AM'},
+  {printName: 'packing list 7group s', etpType: 'print', componentName: 'PackingList7GroupS'},
 ]
 
 export const MemoReturnPrints = [ 
@@ -333,6 +336,7 @@ export const EstimatePrints = [
   {printName: 'Designset Packinglist', etpType: 'print', componentName: 'DesignsetPackinglist'},
   {printName: 'jewellery tax summary c', etpType: 'print', componentName: 'JewelleryTaxSummaryC'},
   {printName: 'estimate print k', etpType: 'print', componentName: 'EstimatePrintK'},
+  {printName: 'packing list 7group s', etpType: 'print', componentName: 'PackingList7GroupS'},
 ]
 
 export const HallMarkPrints = [
@@ -385,6 +389,7 @@ export const ordersArray = [
   {printName: 'sale order', etpType: 'print', componentName: 'SaleOrder'},
   {printName: 'print', etpType: 'print', componentName: 'OrderPrint'},
   {printName: 'order print am', etpType: 'print', componentName: 'OrderPrintAM'},
+  {printName: 'packing list 7group s', etpType: 'print', componentName: 'PackingList7GroupS'},
 ];
 export const MaterialSale = [
   // {printName: 'invoice print', etpType: 'print', componentName: 'InvoicePrintShwinit'},
