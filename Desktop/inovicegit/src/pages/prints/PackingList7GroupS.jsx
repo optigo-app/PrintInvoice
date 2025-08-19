@@ -677,6 +677,7 @@ const PackingList7GroupS = ({
 
   // console.log("result", result);
   // console.log("metaltypeSum", metaltypeSum);
+  console.log("summaryDetail", summaryDetail);
   
   return (
     <>
@@ -2184,7 +2185,7 @@ const PackingList7GroupS = ({
                 </div>
                 
                 <div className="d-flex mt-1 w-100">
-                <div className="widh50 me-1 brall">
+                <div className="widh50 me-1 brall mXheit">
                   <div className="bg_total_sum4 d-flex py-1">
                     <div className="metal_type_sum4 fw-bold ps-1">
                       Metal Type
@@ -2248,17 +2249,17 @@ const PackingList7GroupS = ({
                     </div>
                   </div>
                 </div>
-                <div className="widh50 brall">
+                <div className={`brall mXheit ${summaryDetail?.length <= 4 ? "widh15" : "MNwidh50" }`}>
                   <div className="bg_total_sum4 py-1 ps-1 fw-bold mb-1">
                     Summary Detail
                   </div>
-                  <div className="d-flex flex-wrap">
+                  <div className={`d-flex flex-wrap ${summaryDetail?.length <= 4 ? "flex-column" : "" }`}>
                     {summaryDetail.length > 0 && summaryDetail.map((elem, ind) => {
-                      return <div className="d-flex ps-2 pb-2 widh33" key={ind}>
-                        <div className="widh80">
+                      return <div className={`d-flex ps-2 pb-2 ${summaryDetail?.length <= 4 ? "" : "widh33" }`} key={ind}>
+                        <div className={`${summaryDetail?.length <= 4 ? "" : "widh80" }`}>
                           {elem.name}
                         </div>
-                        <div className="widh20">
+                        <div className={`${summaryDetail?.length <= 4 ? "" : "widh20" }`}>
                           : <b>{NumberWithCommas(elem.value)}</b>
                         </div>
                       </div>

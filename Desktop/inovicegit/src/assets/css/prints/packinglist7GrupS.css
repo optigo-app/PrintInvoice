@@ -295,6 +295,19 @@
     width: 50%;
 }
 
+.MNwidh50 {
+    width: 50%;
+    min-width: 26%;
+}
+
+.widh15 {
+    width: 15%;
+}
+
+.mXheit{
+    height: max-content;
+}
+
 .widh33 {
     width: 33.33%;
 }

@@ -1,7 +1,9 @@
+html {
+    scrollbar-gutter: stable;
+}  
 .container_inv2{
     position: absolute;
     height: -webkit-fill-available;
-    width: 100% !important;
     width: 52.083vw !important; 
     /* width: 1000px !important; */
     box-sizing: border-box;
@@ -221,31 +223,31 @@
     align-content: center;
 }
 .Sucol4_inv2NGSt {
-    width: 7.70%;
+    width: 7.75%;
     align-content: center;
 }
 .Sucol5_inv2NGSt {
-    width: 8.30%;
+    width: 8.20%;
     align-content: center;
 }
 .Sucol6_inv2NGSt {
-    width: 7.95%;
+    width: 8%;
     align-content: center;
 }
 .Sucol7_inv2NGSt {
-    width: 8.30%;
+    width: 8.20%;
     align-content: center;
 }
 .Sucol8_inv2NGSt {
-    width: 7.90%;
+    width: 8%;
     align-content: center;
 }
 .Sucol9_inv2NGSt {
-    width: 9.05%;
+    width: 9%;
     align-content: center;
 }
 .Sucol10_inv2NGSt {
-    width: 14.75%;
+    width: 14.80%;
     align-content: center;
 }
 .Sucol11_inv2NGSt {
@@ -348,6 +350,12 @@
     padding-top: 2px;
     line-height: 15px;
 }
+.taxwdth1:empty {
+    padding-top: 0;
+}
+.taxwdth2:empty {
+    padding-top: 0;
+}
 
 
 .grtHet{
@@ -392,7 +400,7 @@
     justify-content: space-between;
     padding: 5px;
 }
-
+  
 
 .prnt_btn{
     padding-top: 10px;
@@ -523,6 +531,10 @@
         align-content: center;
     } 
 
+    .Sucol11_inv2NGSt {
+        width: 14.510%;
+    }
+
     .prnt_btn{
         display: none;
     }
@@ -530,64 +542,69 @@
 @media print and (orientation: landscape) {
     .Sucol2_inv2{
         width: 7.90%;
-        align-content: center;
         min-height: 30px;
         padding: 4px;
     }
     .Sucol3_inv2{
         width: 6.10%;
-        align-content: center;
     }
     .Sucol4_inv2{
         width: 5.45%;
-        align-content: center;
     }
     .Sucol5_inv2{
         width: 6.05%;
-        align-content: center;
     }
     .Sucol6_inv2{
         width: 5.70%;
-        align-content: center;
     }
     .Sucol7_inv2{
         width: 6.05%;
-        align-content: center;
     }
     .Sucol8_inv2{
         width: 5.65%;
-        align-content: center;
     }
     .Sucol9_inv2{
         width: 6.80%;
-        align-content: center;
     }
     .Sucol10_inv2{
         width: 7.70%;
-        align-content: center;
     }
     .Sucol11_inv2{
         width: 6.55%;
-        align-content: center;
     }
     .Sucol12_inv2{
         width: 5.70%;
-        align-content: center;
     }
     .Sucol13_inv2{
         width: 6.75%;
-        align-content: center;
     }
     .Sucol14_inv2{
         width: 5.80%;
-        align-content: center;
     }
     .Sucol15_inv2{
         width: 6.75%;
-        align-content: center;
     }
     .Sucol16_inv2{
         width: 8.05%;
-        align-content: center;
     }    
+
+
+    .Sucol6_inv2NGSt {
+        width: 8.05%;
+    }
+    .Sucol7_inv2NGSt {
+        width: 8.25%;
+    }
+    .Sucol8_inv2NGSt {
+        width: 7.90%;
+    }
+    .Sucol9_inv2NGSt {
+        width: 9.05%;
+    }
+    .Sucol10_inv2NGSt {
+        width: 14.75%;
+    }
+    .Sucol11_inv2NGSt {
+        width: 14.525%;
+    }
 }

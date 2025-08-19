@@ -301,18 +301,18 @@ const InvoicePrint4Material = ({
               {/** Tax Amount */}
               <div className="disflx spfntbH2 pagBrkIsid">
                 <div className="taxwdth spbrlFt spbrRht"></div>
-                <div className="taxwdth1 spbrRht">
-                  {taxAmont?.tax1_taxname !== "" && (
+                <div className={`taxwdth1 spbrRht ${taxAmont?.tax1Amount === 0 || taxAmont?.CGSTTotalAmount === 0? "" : "brBtom"}`}>
+                  {taxAmont?.tax1Amount !== 0 && (
                       <div className="spacLft2 spfntBld">
                         <p>{taxAmont?.tax1_taxname} @ {fixedValues(taxAmont?.tax1_value,3)} %</p>
                       </div>
                   )}
-                  {taxAmont?.tax2_taxname !== "" && (
+                  {taxAmont?.tax2Amount !== 0 && (
                       <div className="spacLft2 spfntBld">
                         <p>{taxAmont?.tax2_taxname} @ {fixedValues(taxAmont?.tax2_value,3)} %</p>
                       </div>
                   )}
-                  {taxAmont?.tax3_taxname !== "" && (
+                  {taxAmont?.tax3Amount !== 0 && (
                       <div className="spacLft2 spfntBld">
                         <p>{taxAmont?.tax3_taxname} @ {fixedValues(taxAmont?.tax3_value,3)} %</p>
                       </div>
@@ -333,7 +333,7 @@ const InvoicePrint4Material = ({
                       </div>
                   )}
                 </div>
-                <div className="taxwdth2 spbrRht">
+                <div className={`taxwdth2 spbrRht ${taxAmont?.tax1Amount === 0 || taxAmont?.CGSTTotalAmount === 0? "" : "brBtom"}`}>
                   {taxAmont?.tax1Amount !== 0 && (
                     <div className="spacLft2 spfntBld">
                         <p>{formatAmount(taxAmont?.tax1Amount,2)}</p>
@@ -372,10 +372,10 @@ const InvoicePrint4Material = ({
                 <div className="taxwdth spbrlFt spbrRht" style={{ paddingLeft: "5px", paddingTop: "5px" }}>
                   In Words Indian Rupees <br /><span className="spfntBld">Rupees {rupeesInWords + paiseInWords} Only</span>
                 </div>
-                <div className="taxwdth1 spbrRht spfntBld grtHet brTpm" style={{ alignItems: "center" }}>
+                <div className="taxwdth1 spbrRht spfntBld grtHet" style={{ alignItems: "center" }}>
                   GRAND TOTAL
                 </div>
-                <div className="taxwdth2 spbrRht spfntBld grtHet brTpm">
+                <div className="taxwdth2 spbrRht spfntBld grtHet">
                   <span dangerouslySetInnerHTML={{ __html: json0Data?.CurrSymbol }} />
                   {NumberWithCommas(EndGrandTotal,2)}
                 </div>

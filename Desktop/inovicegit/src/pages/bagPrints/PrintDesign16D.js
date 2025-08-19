@@ -1180,7 +1180,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                       }}
                                     >
                                       REMARK :
-                                      <span key={i} style={{ whiteSpace: 'normal' }} dangerouslySetInnerHTML={{ __html: e?.data?.rd?.ProductInstruction1 }}/>
+                                      <span key={i}>{e?.data?.rd?.ProductInstruction}</span>
                                     </div>
                                   </div>
                                   {/* <div className="bag_footerM d_flex last_line">
@@ -2284,7 +2284,7 @@ const PrintDesign16D = ({ queries, headers }) => {
                                         }}
                                       >
                                         REMARK :
-                                        <span key={i} style={{ whiteSpace: 'normal' }} dangerouslySetInnerHTML={{ __html: e?.data?.rd?.ProductInstruction1 }}/>
+                                        <span key={i}>{e?.data?.rd?.ProductInstruction}</span>
                                       </div>
                                     </div>
                                     {/* <div className="bag_footerM d_flex last_line">
