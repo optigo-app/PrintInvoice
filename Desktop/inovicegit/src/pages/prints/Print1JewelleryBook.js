@@ -1,5 +1,5 @@
 // http://localhost:3000/?tkn=...
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import "../../assets/css/prints/Print1JewelleryBook.css";
 import {
   apiCallHopsCoach,
@@ -24,6 +24,15 @@ export default function Print1JewelleryBook({
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [visibleCount, setVisibleCount] = useState(10);
+  const [withImage, setWithImage] = useState(true);
+  const [checkedItems, setCheckedItems] = useState({
+    "On Hand": true,
+    "Sold": false,
+    "In Memo": false,
+    "Purchase Return": false,
+    "In Repair": false,
+  });
+  console.log('checkedItems: ', checkedItems);
 
   useEffect(() => {
     const sendData = async () => {
@@ -145,45 +154,123 @@ export default function Print1JewelleryBook({
     return () => clearInterval(interval);
   }, [result]);
 
+  const handleImageHideShow = useCallback(() => {
+    setWithImage(!withImage);
+  }, [withImage])
+
+  const handleCheckedChange = useCallback((e) => {
+    setCheckedItems({
+      ...checkedItems,
+      [e.target.name]: e.target.checked,
+    });
+  }, [checkedItems]);
+
   const visibleItems = useMemo(() => {
-    return result?.DT?.slice(0, visibleCount) || [];
-  }, [result, visibleCount]);
+    const filteredItems = result?.DT?.filter(item => {
+      const status = item?.Status || "";
+      return checkedItems[status] || (status === "On Hand" && checkedItems["On Hand"]);
+    });
+    return filteredItems?.slice(0, visibleCount) || [];
+  }, [result, checkedItems, visibleCount]);
 
   const imgPath =
-    result?.DT1?.[0]?.ImageUploadLogicalPath || ""; // take first path if available
+    result?.DT1?.[0]?.ImageUploadLogicalPath || "";
 
   return (
     loader ? (
       <Loader />
     ) : msg === "" ? (
       <>
-        <div className="w-full flex">
-          <div className="w-full flex prnt_btn">
+        <div className="w-full fil_sec">
+          <div className="w-full flex prnt_btn mb-1">
             <input
               type="button"
               className="btn_white blue mt-0"
               value="Print"
-              // onClick={(e) => handlePrint(e)}
-              // onClick={handlePrintWithAllData}
               onClick={(e) => handlePrintWithAllData(e)}
             />
           </div>
+          <div className="w-full flex justify-center align-center gap-4 mb-2">
+            <label htmlFor="checked" className="inline-flex items-center cursor-pointer gap-2">
+              <input
+                type="checkbox"
+                checked={checkedItems["On Hand"]}
+                onChange={handleCheckedChange}
+                name="On Hand"
+                id="StatusOnHand"
+              />
+              On Hand
+            </label>
+            <label htmlFor="checked" className="inline-flex items-center cursor-pointer gap-2">
+              <input
+                type="checkbox"
+                checked={checkedItems["Sold"]}
+                onChange={handleCheckedChange}
+                name="Sold"
+                id="StatusSold"
+              />
+              Sold
+            </label>
+            <label htmlFor="checked" className="inline-flex items-center cursor-pointer gap-2">
+              <input
+                type="checkbox"
+                checked={checkedItems["In Memo"]}
+                onChange={handleCheckedChange}
+                name="In Memo"
+                id="StatusInMemo"
+              />
+              In Memo
+            </label>
+            <label htmlFor="checked" className="inline-flex items-center cursor-pointer gap-2">
+              <input
+                type="checkbox"
+                checked={checkedItems["Purchase Return"]}
+                onChange={handleCheckedChange}
+                name="Purchase Return"
+                id="StatusPurchaseReturn"
+              />
+              Purchase Return
+            </label>
+            <label htmlFor="checked" className="inline-flex items-center cursor-pointer gap-2">
+              <input
+                type="checkbox"
+                checked={checkedItems["In Repair"]}
+                onChange={handleCheckedChange}
+                name="In Repair"
+                id="StatusInRepair"
+              />
+              In Repair
+            </label>
+            <label htmlFor="checked" className="inline-flex items-center cursor-pointer gap-2">
+              <input
+                type="checkbox"
+                checked={withImage}
+                onChange={handleImageHideShow}
+                name="WithImage"
+                id="WithImage"
+              />
+              with Image
+            </label>
+          </div>
+        <p className="text-center">Total: {visibleItems?.length}</p>
         </div>
         <div className="w-full flex items-center justify-center">
           <div className="container disflx">
             {visibleItems?.map((e, i) => (
               <div key={i} className="col1 brbxAll spfntbH pagBrkIns">
                 <div className="w-100 brBtom spaclftTpm spacBtom spfntHead">{e?.Customer}</div>
-                <div className="w-100 brBtom imgwdtheit">
-                  {e?.ImageName !== "" && (
-                    <img
-                      src={imgPath + "/" + e?.ImageName}
-                      loading="lazy"
-                      alt="Design_Image"
-                      onError={handleImageError}
-                    />
-                  )}
-                </div>
+                {withImage && (
+                  <div className="w-100 brBtom imgwdtheit">
+                    {e?.ImageName !== "" && (
+                      <img
+                        src={imgPath + "/" + e?.ImageName}
+                        loading="lazy"
+                        alt="Design_Image"
+                        onError={handleImageError}
+                      />
+                    )}
+                  </div>
+                )}
                 <div className="w-100 spaclftTpm">
                   <div className="w-100 spfntBld spbrWord spfntHead">{e?.DesNo}</div>
                 </div>

@@ -1,5 +1,4 @@
 .container {
-  position: absolute;
   height: -webkit-fill-available;
   width: 100% !important;
   width: 61.083vw !important;
@@ -35,7 +34,7 @@
   flex: 0 0 calc(20% - 12px);
   /* 5 items per row */
   box-sizing: border-box;
-  min-height: 260px;
+  /* min-height: 260px; */
 }
 
 .spaclftTpm {
@@ -151,7 +150,9 @@
     flex: 0 0 18.50%;
     max-width: 18.50%;
     box-sizing: border-box;
-    min-height: 240px;
+  }
+  .fil_sec{
+    display: none;
   }
 
   .imgwdtheit {
