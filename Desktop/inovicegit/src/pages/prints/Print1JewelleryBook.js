@@ -11,27 +11,29 @@ import {
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 
-export default function Print1JewelleryBook({token, spNo, spVer, evn, sv, urls}) {
+export default function Print1JewelleryBook({token, spNo, spVer, sv, evn, printName, urls}) {
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [visibleCount, setVisibleCount] = useState(50); // Load 50 items initially
 
-  function getParam(key) {
-    return new URLSearchParams(window.location.search).get(key);
-  }
+  // Uncomment and use if needed:
+  // function getParam(key) {
+  //   return new URLSearchParams(window.location.search).get(key);
+  // }
   
-  const decodedToken  = atob(getParam("tkn"));
-  const decodedSpNo   = atob(getParam("invn"));
-  const decodedEvt    = atob(getParam("evn"));
-  const decodedUrl    = atob(getParam("up"));
-  const decodedSV     = atob(getParam("sv"));
-  const decodedSpVer  = atob(getParam("ctv"));
+  // const decodedToken  = atob(getParam("tkn"));
+  // const decodedSpNo   = atob(getParam("invn"));
+  // const decodedEvt    = atob(getParam("evn"));
+  // const decodedUrl    = atob(getParam("up"));
+  // const decodedSV     = atob(getParam("sv"));
+  // const decodedSpVer  = atob(getParam("ctv"));
+
 
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCallHopsCoach(decodedToken, decodedSpNo, decodedSpVer, decodedEvt, decodedSV, decodedUrl);
+        const data = await apiCallHopsCoach(token, spNo, spVer, sv, evn, printName, urls);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
@@ -54,6 +56,7 @@ export default function Print1JewelleryBook({token, spNo, spVer, evn, sv, urls})
 
     sendData();
   }, []);
+
 
   const loadData = (result) => {
     const statusPriority = {
@@ -178,6 +181,8 @@ export default function Print1JewelleryBook({token, spNo, spVer, evn, sv, urls})
 
   const imgPath = result?.DT1?.map((e) => {return e?.ImageUploadLogicalPath})
   console.log("result", result);
+  console.log("Props check:", { token, spNo, spVer, sv, evn, printName, urls });
+
   
 
   return (

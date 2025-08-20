@@ -80,18 +80,14 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn, ApiVer) =>
 };
 
 //api calling function for Hopscoach for jewellerybook
-export const apiCallHopsCoach = async (token, spNo, spVer, evn, sv, urls) => {
+export const apiCallHopsCoach = async (token, spNo, spVer, sv, evn, printName, urls) => {
   const requestBody = {
-    Token: token,
+    token: token,
     SpNo: spNo,
     SpVer: spVer,
-    ReqData: JSON.stringify([
-      {
-        Token: token,
-        Evt: evn, 
-        SV: sv,
-      }
-    ])
+    SV: sv,
+    printname: printName, 
+    Eventname: evn,
   };
 
   try {
@@ -102,7 +98,6 @@ export const apiCallHopsCoach = async (token, spNo, spVer, evn, sv, urls) => {
     return { Status: "500", Message: "API call failed", Data: {} };
   }
 };
-
 
 
 
