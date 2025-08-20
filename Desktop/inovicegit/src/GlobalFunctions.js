@@ -12,6 +12,7 @@ import Footer2 from "./components/footers/Footer2";
 import { ToWords } from "to-words";
 import Header4 from "./components/headers/Header4";
 import EInvoiceHeader from "./components/headers/EInvoiceHeader";
+import { at } from "lodash";
 
 //print button function for print pop up
 export const handlePrint = (e) => {
@@ -80,14 +81,17 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn, ApiVer) =>
 };
 
 //api calling function for Hopscoach for jewellerybook
-export const apiCallHopsCoach = async (token, spNo, spVer, sv, evn, printName, urls) => {
+export const apiCallHopsCoach = async ({token, SpNo, SpVer, SV, evn, urls}) => {
+  const reqData = [{
+    Token: atob(token),
+    Evt: atob(evn),
+    SV: atob(SV) ?? '',
+  }]
   const requestBody = {
-    token: token,
-    SpNo: spNo,
-    SpVer: spVer,
-    SV: sv,
-    printname: printName, 
-    Eventname: evn,
+    token: atob(token),
+    SpNo: atob(SpNo) ?? '',
+    SpVer: atob(SpVer) ?? '',
+    ReqData:JSON.stringify(reqData)
   };
 
   try {

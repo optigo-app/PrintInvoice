@@ -39,6 +39,9 @@ const AllDesignPrint = () => {
       const evn = queryParams.get("evn");
       const fv = atob(queryParams.get("Fv"));
       const ApiVer = queryParams.get("ctv");
+      const SpNo = queryParams.get("SpNo");
+      const SpVer = queryParams.get("SpVer");
+      const SV = queryParams.get("SV");
       return (
         <AnotherComponent
           billNumber={billNum}
@@ -48,6 +51,9 @@ const AllDesignPrint = () => {
           printName={printname}
           evn={evn}
           ApiVer = {ApiVer}
+          SpNo = {SpNo}
+          SpVer = {SpVer}
+          SV = {SV}
         />
       );
     } catch (error) {
