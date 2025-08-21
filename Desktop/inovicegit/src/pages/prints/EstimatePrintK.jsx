@@ -22,8 +22,6 @@ const EstimatePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
-  const [image, setImage] = useState(true);
-  const [isImageWorking, setIsImageWorking] = useState(true);
   const [purityWise, setPurityWise] = useState([]);
 
   useEffect(() => {
@@ -97,19 +95,6 @@ const EstimatePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setPurityWise(pwise);
   };
 
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
-
-  const handleChangeImage = (e) => {
-    image ? setImage(false) : setImage(true);
-  };
-
-  const taxes = result?.allTaxes?.map((e) =>
-    e?.amountInNumber != null ? e.amountInNumber : parseFloat(e?.amount)
-  );
-  const totalTax = taxes?.reduce((acc, val) => acc + (isNaN(val) ? 0 : val), 0);
-
   const finalAmount =
     (result?.mainTotal?.TotalAmount + result?.header?.FreightCharges) /
       result?.header?.CurrencyExchRate +
@@ -123,7 +108,7 @@ const EstimatePrintK = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   } else {
     roundedAmount = finalAmount + (1 - decimalPart);
   }
-  console.log("resultdata", result);
+  // console.log("resultdata", result);
 
   return (
     <>

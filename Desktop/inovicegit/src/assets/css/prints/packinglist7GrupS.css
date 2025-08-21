@@ -323,6 +323,10 @@
     border: 1px solid #000000;
 }
 
+.brall1 {
+    border: 1px solid #BDBDBD;
+}
+
 .bg_total_sum4 {
     background: #f2f2f2;
     min-height: 23px;

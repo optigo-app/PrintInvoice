@@ -133,7 +133,8 @@ const TaxInvoiceAMaterial = ({
   const totalEtraTaxAmount = (Array.isArray(extraTaxAmont) ? extraTaxAmont : []).reduce((sum, item) => {
     const amount = parseFloat(item?.TaxAmount);
     return sum + (isNaN(amount) ? 0 : amount);
-  }, 0); 
+  }, 0);
+   
 
   const styles = `
     @media print {
@@ -157,6 +158,29 @@ const TaxInvoiceAMaterial = ({
       
     }
   `;
+
+  const formatTaxLabel = (taxName, taxValue) => {
+    if (!taxName || taxValue == null) return "";
+  
+    const normalizedValue = parseFloat(taxValue);
+  
+    // Step 1: Build the full label
+    let label = taxName;
+  
+    // Step 2: Append value if not already included
+    if (!label.includes(normalizedValue)) {
+      label += ` ${fixedValues(normalizedValue,3)}`;
+    }
+  
+    // Step 3: Check if label already contains '%'
+    if (!label.includes("%")) {
+      label += " %";
+    }
+  
+    return label;
+  };
+  
+  
 
   const amount = Number(summary?.totalAmount + totalEtraTaxAmount || 0);
   const rupees = Math.floor(amount);
@@ -656,17 +680,48 @@ const TaxInvoiceAMaterial = ({
                     
                     {extraTaxAmont?.map?.((e, i) => {
                       return (
-                        <div key={i} style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          borderBottom: "1px solid green",
-                          paddingRight: "10px",
-                        }}> 
-                          <p style={{ fontSize: "9px", paddingTop: "1.5px"}}>{e?.TaxName}</p>
-                          <p style={{ fontWeight: "bold" }}>{formatAmount(e?.TaxAmount,2)}</p>
-                        </div>
+                          <div key={i} style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            borderBottom: "1px solid green",
+                            paddingRight: "10px",
+                          }}> 
+                            <p style={{ fontSize: "9px", paddingTop: "1.5px"}}>{e?.TaxName}</p>
+                            <p style={{ fontWeight: "bold" }}>{formatAmount(e?.TaxAmount,2)}</p>
+                          </div>
                       )
                     })}
+                    
+                    {taxAmont?.tax1Amount !== 0 && (
+                      <div style={{display: "flex", justifyContent: "space-between", borderBottom: "1px solid green", paddingRight: "10px",}}> 
+                        <p style={{ fontSize: "9px", paddingTop: "1.5px"}}>{formatTaxLabel(taxAmont?.tax1_taxname, taxAmont?.tax1_value)}</p>
+                        <p style={{ fontWeight: "bold" }}>{formatAmount(taxAmont?.tax1Amount,2)}</p>
+                      </div>
+                    )}
+                    {taxAmont?.tax2Amount !== 0 && (
+                      <div style={{display: "flex", justifyContent: "space-between", borderBottom: "1px solid green", paddingRight: "10px",}}> 
+                        <p style={{ fontSize: "9px", paddingTop: "1.5px"}}>{formatTaxLabel(taxAmont?.tax2_taxname, taxAmont?.tax2_value)}</p>
+                        <p style={{ fontWeight: "bold" }}>{formatAmount(taxAmont?.tax2Amount,2)}</p>
+                      </div>
+                    )}
+                    {taxAmont?.tax3Amount !== 0 && (
+                      <div style={{display: "flex", justifyContent: "space-between", borderBottom: "1px solid green", paddingRight: "10px",}}> 
+                        <p style={{ fontSize: "9px", paddingTop: "1.5px"}}>{formatTaxLabel(taxAmont?.tax3_taxname, taxAmont?.tax3_value)}</p>
+                        <p style={{ fontWeight: "bold" }}>{formatAmount(taxAmont?.tax3Amount,2)}</p>
+                      </div>
+                    )}
+                    {taxAmont?.tax4Amount !== 0 && (
+                      <div style={{display: "flex", justifyContent: "space-between", borderBottom: "1px solid green", paddingRight: "10px",}}> 
+                        <p style={{ fontSize: "9px", paddingTop: "1.5px"}}>{formatTaxLabel(taxAmont?.tax4_taxname, taxAmont?.tax4_value)}</p>
+                        <p style={{ fontWeight: "bold" }}>{formatAmount(taxAmont?.tax4Amount,2)}</p>
+                      </div>
+                    )}
+                    {taxAmont?.tax5Amount !== 0 && (
+                      <div style={{display: "flex", justifyContent: "space-between", borderBottom: "1px solid green", paddingRight: "10px",}}> 
+                        <p style={{ fontSize: "9px", paddingTop: "1.5px"}}>{formatTaxLabel(taxAmont?.tax5_taxname, taxAmont?.tax5_value)}</p>
+                        <p style={{ fontWeight: "bold" }}>{formatAmount(taxAmont?.tax5Amount,2)}</p>
+                      </div>
+                    )}
 
                     <div
                       style={{
@@ -680,7 +735,7 @@ const TaxInvoiceAMaterial = ({
                         <b>
                           {" "}
                           {formatAmount(
-                            summary?.totalAmount + totalEtraTaxAmount
+                            summary?.totalAmount + totalEtraTaxAmount + taxAmont?.totaltaxAmount
                           )}
                         </b>
                       </p>

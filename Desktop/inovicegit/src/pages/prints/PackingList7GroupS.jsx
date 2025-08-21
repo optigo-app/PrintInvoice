@@ -527,9 +527,9 @@ const PackingList7GroupS = ({
     
         item?.metal?.forEach((metalItem) => {
           summaryMap[metalType].MetalAmount += metalItem?.Amount || 0;
-          summaryMap[metalType].pcs += metalItem?.Pcs || 0;
         });
         
+        summaryMap[metalType].pcs += item?.totals?.metal?.Pcs || 0;
         summaryMap[metalType].NetWt += item?.NetWt || 0;
         summaryMap[metalType].grosswt += item?.grosswt || 0;
         summaryMap[metalType].diaWt += item?.DiamondCTWwithLoss || 0;
@@ -675,8 +675,8 @@ const PackingList7GroupS = ({
     return sum + (isNaN(MetalAmount) ? 0 : MetalAmount);
   }, 0);
 
-  console.log("result", result);
-  console.log("metaltypeSum", metaltypeSum);
+  // console.log("result", result);
+  // console.log("metaltypeSum", metaltypeSum);
   console.log("summaryDetail", summaryDetail);
   
   return (
@@ -2184,88 +2184,88 @@ const PackingList7GroupS = ({
                   </div>
                 </div>
                 
-                <div className="d-flex mt-1 w-100">
-                <div className="widh50 me-1 brall">
-                  <div className="bg_total_sum4 d-flex py-1">
-                    <div className="metal_type_sum4 fw-bold ps-1">
-                      Metal Type
-                    </div>
-                    <div className="dia_wt_sum4 fw-bold text-center">
-                      Pcs
-                    </div>
-                    <div className="GWt_sum4 fw-bold text-center">
-                      GWt (gm)
-                    </div>
-                    <div className="net_wt_sum4 fw-bold text-center">
-                      Net Wt (gm)
-                    </div>
-                    <div className="fine_wt_sum4 fw-bold text-center">
-                      Pure Wt (gm)
-                    </div>
-                    <div className="gold_amount_sum4 text-end pe-1 fw-bold">
-                      Gold Amount
-                    </div>
-                  </div>
-                  {metaltypeSum.length > 0 && metaltypeSum.map((e, i) => {
-                    return <div className=" d-flex py-1" key={i}>
-                      <div className="metal_type_sum4 ps-1 text-start">
-                        {e?.metalType}
+                <div className="d-flex mt-1 brall w-100 p-1">
+                  <div className={` brall1 widh50 me-1 mXheit `}>
+                    <div className="bg_total_sum4 d-flex py-1">
+                      <div className="metal_type_sum4 fw-bold ps-1">
+                        Metal Type
                       </div>
-                      <div className="dia_wt_sum4 text-center">
-                        {e?.pcs}
+                      <div className="dia_wt_sum4 fw-bold text-center">
+                        Pcs
                       </div>
-                      <div className="GWt_sum4 text-center">
-                        {fixedValues(e?.grosswt, 3)}
+                      <div className="GWt_sum4 fw-bold text-center">
+                        GWt (gm)
                       </div>
-                      <div className="net_wt_sum4 text-center">
-                        {fixedValues(e?.NetWt, 3)}
+                      <div className="net_wt_sum4 fw-bold text-center">
+                        Net Wt (gm)
                       </div>
-                      <div className="fine_wt_sum4 text-center">
-                        {fixedValues(e?.pureWt, 3)}
+                      <div className="fine_wt_sum4 fw-bold text-center">
+                        Pure Wt (gm)
                       </div>
-                      <div className="gold_amount_sum4 text-end pe-1">
-                        {NumberWithCommas(e?.MetalAmount, 2)}
+                      <div className="gold_amount_sum4 text-end pe-1 fw-bold">
+                        Gold Amount
                       </div>
                     </div>
-                  })}
-                  <div className="bg_total_sum4 d-flex py-1">
-                    <div className="metal_type_sum4 fw-bold ps-1">
-                      TOTAL
-                    </div>
-                    <div className="dia_wt_sum4 fw-bold text-center">
-                      {totalPCS}
-                    </div>
-                    <div className="GWt_sum4 fw-bold text-center">
-                      
-                    </div>
-                    <div className="net_wt_sum4 fw-bold text-center">
-                      
-                    </div>
-                    <div className="fine_wt_sum4 fw-bold text-center">
-                      {fixedValues(totalPueWt,3)}
-                    </div>
-                    <div className="gold_amount_sum4 text-end pe-1 fw-bold">
-                      {NumberWithCommas(totalMetalAMT,2)}
-                    </div>
-                  </div>
-                </div>
-                <div className={`brall ${summaryDetail?.length <= 4 ? "widh15" : "MNwidh50" }`}>
-                  <div className="bg_total_sum4 py-1 ps-1 fw-bold mb-1">
-                    Summary Detail
-                  </div>
-                  <div className={`d-flex flex-wrap ${summaryDetail?.length <= 4 ? "flex-column" : "" }`}>
-                    {summaryDetail.length > 0 && summaryDetail.map((elem, ind) => {
-                      return <div className={`d-flex ps-2 pb-2 ${summaryDetail?.length <= 4 ? "" : "widh33" }`} key={ind}>
-                        <div className={`${summaryDetail?.length <= 4 ? "" : "widh80" }`}>
-                          {elem.name}
+                    {metaltypeSum.length > 0 && metaltypeSum.map((e, i) => {
+                      return <div className=" d-flex py-1" key={i}>
+                        <div className="metal_type_sum4 ps-1 text-start">
+                          {e?.metalType}
                         </div>
-                        <div className={`${summaryDetail?.length <= 4 ? "" : "widh20" }`}>
-                          : <b>{NumberWithCommas(elem.value)}</b>
+                        <div className="dia_wt_sum4 text-center">
+                          {e?.pcs}
+                        </div>
+                        <div className="GWt_sum4 text-center">
+                          {fixedValues(e?.grosswt, 3)}
+                        </div>
+                        <div className="net_wt_sum4 text-center">
+                          {fixedValues(e?.NetWt, 3)}
+                        </div>
+                        <div className="fine_wt_sum4 text-center">
+                          {fixedValues(e?.pureWt, 3)}
+                        </div>
+                        <div className="gold_amount_sum4 text-end pe-1">
+                          {NumberWithCommas(e?.MetalAmount, 2)}
                         </div>
                       </div>
                     })}
+                    <div className="bg_total_sum4 d-flex py-1">
+                      <div className="metal_type_sum4 fw-bold ps-1">
+                        TOTAL
+                      </div>
+                      <div className="dia_wt_sum4 fw-bold text-center">
+                        {totalPCS}
+                      </div>
+                      <div className="GWt_sum4 fw-bold text-center">
+                        
+                      </div>
+                      <div className="net_wt_sum4 fw-bold text-center">
+                        
+                      </div>
+                      <div className="fine_wt_sum4 fw-bold text-center">
+                        {fixedValues(totalPueWt,3)}
+                      </div>
+                      <div className="gold_amount_sum4 text-end pe-1 fw-bold">
+                        {NumberWithCommas(totalMetalAMT,2)}
+                      </div>
+                    </div>
                   </div>
-                </div>
+                  <div className={`brall1 mXheit ${summaryDetail?.length <= 4 ? "widh15" : "MNwidh50" }`}>
+                    <div className="bg_total_sum4 py-1 ps-1 fw-bold mb-1">
+                      Summary Detail
+                    </div>
+                    <div className={`d-flex flex-wrap ${summaryDetail?.length <= 4 ? "flex-column" : "" }`}>
+                      {summaryDetail.length > 0 && summaryDetail.map((elem, ind) => {
+                        return <div className={`d-flex ps-2 pb-2 ${summaryDetail?.length <= 4 ? "" : "widh33" }`} key={ind}>
+                          <div className={`${summaryDetail?.length <= 4 ? "" : "widh80" }`}>
+                            {elem.name}
+                          </div>
+                          <div className={`${summaryDetail?.length <= 4 ? "" : "widh20" }`}>
+                            : <b>{NumberWithCommas(elem.value)}</b>
+                          </div>
+                        </div>
+                      })}
+                    </div>
+                  </div>
                 </div>
 
                 <div className="d-flex justify-content-between mt-1">
