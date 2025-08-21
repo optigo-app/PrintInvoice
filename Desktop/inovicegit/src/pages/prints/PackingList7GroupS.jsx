@@ -675,8 +675,8 @@ const PackingList7GroupS = ({
     return sum + (isNaN(MetalAmount) ? 0 : MetalAmount);
   }, 0);
 
-  // console.log("result", result);
-  // console.log("metaltypeSum", metaltypeSum);
+  console.log("result", result);
+  console.log("metaltypeSum", metaltypeSum);
   console.log("summaryDetail", summaryDetail);
   
   return (
@@ -2185,7 +2185,7 @@ const PackingList7GroupS = ({
                 </div>
                 
                 <div className="d-flex mt-1 w-100">
-                <div className="widh50 me-1 brall mXheit">
+                <div className="widh50 me-1 brall">
                   <div className="bg_total_sum4 d-flex py-1">
                     <div className="metal_type_sum4 fw-bold ps-1">
                       Metal Type
@@ -2249,7 +2249,7 @@ const PackingList7GroupS = ({
                     </div>
                   </div>
                 </div>
-                <div className={`brall mXheit ${summaryDetail?.length <= 4 ? "widh15" : "MNwidh50" }`}>
+                <div className={`brall ${summaryDetail?.length <= 4 ? "widh15" : "MNwidh50" }`}>
                   <div className="bg_total_sum4 py-1 ps-1 fw-bold mb-1">
                     Summary Detail
                   </div>

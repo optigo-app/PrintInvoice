@@ -307,7 +307,6 @@ export const ShipmentArray = [
   {printName: 'shipmenttag', etpType: 'print', componentName: 'ShipmentTagOptigo'},
 ]
 
-
 export const EstimatePrints = [
   {printName: 'sale order', etpType: 'print', componentName: 'SaleOrderSale'},
   {printName: 'detail print 11', etpType: 'print', componentName: 'DetailPrint11'},
@@ -326,6 +325,7 @@ export const EstimatePrints = [
   {printName: 'packing list', etpType: 'print', componentName: 'PackingList'},
   {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
   {printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group'},
+  {printName: 'packing list 7group s', etpType: 'print', componentName: 'PackingList7GroupS'},
   {printName: 'packing list 1', etpType: 'print', componentName: 'PackingList1'},
   {printName: 'packing list 4', etpType: 'print', componentName: 'PackingList4'}, 
   {printName: 'retail print 3', etpType: 'print', componentName: 'RetailPrint3'},
@@ -336,7 +336,6 @@ export const EstimatePrints = [
   {printName: 'Designset Packinglist', etpType: 'print', componentName: 'DesignsetPackinglist'},
   {printName: 'jewellery tax summary c', etpType: 'print', componentName: 'JewelleryTaxSummaryC'},
   {printName: 'estimate print k', etpType: 'print', componentName: 'EstimatePrintK'},
-  {printName: 'packing list 7group s', etpType: 'print', componentName: 'PackingList7GroupS'},
 ]
 
 export const HallMarkPrints = [
@@ -385,12 +384,13 @@ export const alterationArray = [
 export const quoteArray = [
   {label:"alteration", evname: "quote"},
 ];
+
 export const ordersArray = [
   {printName: 'sale order', etpType: 'print', componentName: 'SaleOrder'},
   {printName: 'print', etpType: 'print', componentName: 'OrderPrint'},
   {printName: 'order print am', etpType: 'print', componentName: 'OrderPrintAM'},
-  {printName: 'packing list 7group s', etpType: 'print', componentName: 'PackingList7GroupS'},
 ];
+
 export const MaterialSale = [
   // {printName: 'invoice print', etpType: 'print', componentName: 'InvoicePrintShwinit'},
   {printName: 'material sale print', etpType: 'print', componentName: 'MaterialSalePrint'},
@@ -405,6 +405,7 @@ export const MaterialSale = [
   {printName: 'invoice print4', etpType: 'print', componentName: 'InvoicePrint4Material'},
   {printName: 'print1', etpType: 'print', componentName: 'Print1Material'},
 ]
+
 export const fgPurchase = [
   {printName: 'item wise print', etpType: 'print', componentName: 'ItemWisePrint'},
   {printName: 'item wise print1', etpType: 'print', componentName: 'ItemWisePrint'},
@@ -417,6 +418,7 @@ export const fgPurchase = [
   {printName: 'daily statement', etpType: 'print', componentName: 'CustomerDailyStatement'},
   {printName: 'tax invoice 5', etpType: 'print', componentName: 'TaxInvoice5'}, 
 ];
+
 export const fgPurchaseReturn = [
   {printName: 'summary 2', etpType: 'print', componentName: 'Summary2'},
   {printName: 'retail print', etpType: 'print', componentName: 'RetailPrint'},
