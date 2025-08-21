@@ -677,7 +677,7 @@ const PackingList7GroupS = ({
 
   // console.log("result", result);
   // console.log("metaltypeSum", metaltypeSum);
-  console.log("summaryDetail", summaryDetail);
+  // console.log("summaryDetail", summaryDetail);
   
   return (
     <>

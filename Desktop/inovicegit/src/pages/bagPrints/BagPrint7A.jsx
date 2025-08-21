@@ -308,6 +308,8 @@ const BagPrint7A = ({ queries, headers }) => {
     }
   };
 
+  console.log("data", data);
+
   return (
     <>
       {data?.length === 0 ? (
@@ -845,7 +847,6 @@ const BagPrint7A = ({ queries, headers }) => {
                                             className="w-100 d-flex justify-content-between align-items-center sizehead7A"
                                             key={i}
                                           >
-                                            {e?.Sizename.includes("TOTAL") ? (
                                               <div
                                                 className="spw7AD d-flex justify-content-start align-items-center fw-bold"
                                                 style={{
@@ -859,36 +860,6 @@ const BagPrint7A = ({ queries, headers }) => {
                                               >
                                                 {e?.Sizename?.slice(0, 16)}
                                               </div>
-                                            ) : (
-                                              <div
-                                                className="spw7AD d-flex justify-content-start align-items-center"
-                                                style={{
-                                                  width: "40%",
-                                                  paddingLeft: "1px",
-                                                  paddingTop: "1.5px",
-                                                  height: "16px",
-                                                  lineHeight: "8px",
-                                                  // 70px
-                                                }}
-                                              >
-                                                {e?.Sizename?.slice(0, 16)}
-                                              </div>
-                                            )}
-                                            {e?.Sizename.includes("TOTAL") ? (
-                                              <div
-                                                className="spw7AD d-flex justify-content-end align-items-center fw-bold"
-                                                style={{
-                                                  width: "30%",
-                                                  paddingRight: "1px",
-                                                  paddingTop: "1.5px",
-                                                  height: "16px",
-                                                  lineHeight: "8px",
-                                                  // 30px
-                                                }}
-                                              >
-                                                {e?.ActualPcs}
-                                              </div>
-                                            ) : (
                                               <div
                                                 className="spw7AD d-flex justify-content-end align-items-center"
                                                 style={{
@@ -902,7 +873,6 @@ const BagPrint7A = ({ queries, headers }) => {
                                               >
                                                 {e?.ActualPcs}
                                               </div>
-                                            )}
                                             <div
                                               className="spw7AD"
                                               style={{

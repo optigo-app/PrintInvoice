@@ -411,6 +411,10 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setCheckBox({ ...checkBox, [name]: checked });
   };
 
+  // console.log(headerData);
+  // console.log("data", data);
+  
+
   return loader ? (
     <Loader />
   ) : msg === "" ? (
