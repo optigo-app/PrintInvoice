@@ -32,7 +32,7 @@ export default function Print1JewelleryBook({
   });
 
   // New pagination state
-  const itemsPerPage = 2000; // how many items per page to show
+  const itemsPerPage = 1000; // how many items per page to show
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
