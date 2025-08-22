@@ -1,3 +1,6 @@
+html {
+    scrollbar-gutter: stable;
+}
 .container_inv2{
     position: absolute;
     height: -webkit-fill-available;
@@ -27,6 +30,8 @@
 .disflx{
     display: flex;
 }
+
+
 .col1_inv2{
     width: 3%;
     padding: 4px;
@@ -76,6 +81,7 @@
     padding: 4px;
 }
 
+
 .RTcol8_inv2{
     width: 9%;
     padding: 4px;
@@ -94,8 +100,9 @@
 }
 
 
+
 .Sucol2_inv2{
-    width: 15%;
+    width: 15.10%;
     padding: 4px;
 }
 .Sucol3_inv2{
@@ -107,7 +114,7 @@
     padding: 4px;
 }
 .Sucol5_inv2{
-    width: 7.60%;
+    width: 7.50%;
     padding: 4px;
 }
 .Sucol6_inv2{
@@ -115,11 +122,11 @@
     padding: 4px;
 }
 .Sucol7_inv2{
-    width: 7.90%;
+    width: 8.10%;
     padding: 4px;
 }
 .Sucol8_inv2{
-    width: 7.10%;
+    width: 7%;
     padding: 4px;
 }
 .Sucol9_inv2{
@@ -127,7 +134,7 @@
     padding: 4px;
 }
 .Sucol10_inv2{
-    width: 7.50%;
+    width: 7.60%;
     padding: 4px;
 }
 .Sucol11_inv2{
@@ -138,6 +145,7 @@
     width: 11.10%;
     padding: 4px;
 }
+
 
 .RTSucol8_inv2{
     width: 9%;
@@ -156,6 +164,7 @@
     padding: 4px;
 }
 
+
 .spfntbH{
     font-size: 12px;
     line-height: 13px;
@@ -169,6 +178,7 @@
 .spfntBld{
     font-weight: bold;
 }
+
 .spbrRht{
     border-right: 1px solid #DDDDDD;
 }
@@ -184,6 +194,7 @@
 .brbxAll{
     border: 1px solid #DDDDDD;
 }
+
 .w30_inv2{
     width: 30%;
     padding-left: 4px;
@@ -197,6 +208,7 @@
     width: 35%;
     padding-left: 4px;
 }
+
 .spfnthead{
     font-size: 13px;
     line-height: 14px;
@@ -205,12 +217,14 @@
     font-size: 15px;
     line-height: 15px;
 }
+
 .wdthHd{
     width: 25%;
 }
 .wdthHd1{
     width: 75%;
 }
+
 .taxwdth{
     width: 72.40%
 }
@@ -228,6 +242,7 @@
     padding-top: 2px;
     line-height: 15px;
 }
+
 .grtHet{
     height: 35px;
     align-content: center;
@@ -333,34 +348,34 @@
 
 
     .Sucol2_inv2{
-        width: 16.10%;
+        width: 16%;
     }
     .Sucol3_inv2{
-        width: 6.90%;
+        width: 7.10%;
     }
     .Sucol4_inv2{
-        width: 9.60%;
+        width: 9.50%;
     }
     .Sucol5_inv2{
-        width: 6.40%;
+        width: 6.50%;
     }
     .Sucol6_inv2{
         width: 8.50%;
     }
     .Sucol7_inv2{
-        width: 7.10%;
-    }
-    .Sucol8_inv2{
         width: 7%;
     }
-    .Sucol9_inv2{
+    .Sucol8_inv2{
         width: 7.10%;
     }
+    .Sucol9_inv2{
+        width: 6.90%;
+    }
     .Sucol10_inv2{
-        width: 6.40%;
+        width: 6.60%;
     }
     .Sucol11_inv2{
-        width: 9.90%;
+        width: 9.80%;
     }
     .Sucol12_inv2{
         width: 12.150%;
@@ -388,13 +403,13 @@
     }
 
     .taxwdth{
-        width: 71.80%
+        width: 71.70%
     }
     .taxwdth1{
-        width: 16.20%;
+        width: 16.30%;
     }
     .taxwdth2{
-        width: 12.180%;
+        width: 12.150%;
     }
 
     .sprmrk{
