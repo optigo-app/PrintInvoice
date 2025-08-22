@@ -1,4 +1,3 @@
-// http://localhost:3000/?tkn=...
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import "../../assets/css/prints/Print1JewelleryBook.css";
 import {
@@ -23,7 +22,6 @@ export default function Print1JewelleryBook({
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
-  const [visibleCount, setVisibleCount] = useState(10);
   const [withImage, setWithImage] = useState(true);
   const [checkedItems, setCheckedItems] = useState({
     "On Hand": true,
@@ -32,7 +30,10 @@ export default function Print1JewelleryBook({
     "Purchase Return": false,
     "In Repair": false,
   });
-  console.log('checkedItems: ', checkedItems);
+
+  // New pagination state
+  const itemsPerPage = 1000; // how many items per page to show
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const sendData = async () => {
@@ -71,7 +72,7 @@ export default function Print1JewelleryBook({
 
   const loadData = (res) => {
     const statusPriority = {
-      Sold: 1,
+      "Sold": 1,
       "In Memo": 2,
       "On Hand": 3,
       "Purchase Return": 4,
@@ -79,12 +80,12 @@ export default function Print1JewelleryBook({
     };
 
     const extractPrefix = (str) => {
-      const match = str?.match(/^[A-Za-z\-]+/); // prefix like "b-book"
+      const match = str?.match(/^[A-Za-z\-]+/);
       return match ? match[0].toUpperCase() : "ZZZ";
     };
 
     const extractNumber = (str) => {
-      const match = str?.match(/\d+/); // numeric part
+      const match = str?.match(/\d+/);
       return match ? parseInt(match[0], 10) : 0;
     };
 
@@ -116,166 +117,178 @@ export default function Print1JewelleryBook({
       });
     }
     setResult(res);
+    setCurrentPage(1); // reset to first page on new data load
   };
 
-  const handlePrintWithAllData = () => {
-    if (!result?.DT?.length) return;
-    setVisibleCount(result.DT.length);
-    let attempts = 0; const maxAttempts = 200; // ~200 frames (~3s @60fps) 
+
+  // Filtered and paginated items
+  const filteredItems = useMemo(() => {
+    return result?.DT?.filter(item => {
+      const status = item?.Status || "";
+      return checkedItems[status] || (status === "On Hand" && checkedItems["On Hand"]);
+    }) || [];
+  }, [result, checkedItems]);
+
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+
+  const visibleItems = useMemo(() => {
+    const startIdx = (currentPage - 1) * itemsPerPage;
+    const endIdx = startIdx + itemsPerPage;
+    return filteredItems.slice(startIdx, endIdx);
+  }, [filteredItems, currentPage, itemsPerPage]);
+
+
+  // Print only current page items
+  const handlePrintCurrentPage = () => {
+    if (visibleItems.length === 0) return;
+    let attempts = 0;
+    const maxAttempts = 200;
+
     const waitForDOM = () => {
       requestAnimationFrame(() => {
-        attempts++; const items = document.querySelectorAll(".col1");
-        if (items?.length >= result?.DT?.length || attempts > maxAttempts) { handlePrint(); }
-        else { waitForDOM(); }
+        attempts++;
+        const items = document.querySelectorAll(".col1");
+        if (items.length >= visibleItems.length || attempts > maxAttempts) {
+          handlePrint();
+        } else {
+          waitForDOM();
+        }
       });
     };
+
     waitForDOM();
   };
 
-  // Incrementally load items in batches to avoid heavy rendering at once
-  useEffect(() => {
-    if (!result?.DT?.length) return;
 
-    let currentCount = visibleCount;
-    const batchSize = 2000; // larger batch for fewer updates
-    const intervalDelay = 100; // smoother interval
-
-    const interval = setInterval(() => {
-      currentCount += batchSize;
-
-      if (currentCount >= result.DT.length) {
-        currentCount = result.DT.length;
-        clearInterval(interval);
-      }
-
-      setVisibleCount(currentCount);
-    }, intervalDelay);
-
-    return () => clearInterval(interval);
-  }, [result]);
+  const getPageNumbers = () => {
+    const pages = [];
+    const totalPageCount = totalPages;
+    const maxVisible = 5;
+  
+    let start = Math.max(currentPage - 2, 1);
+    let end = Math.min(start + maxVisible - 1, totalPageCount);
+  
+    // Shift start if we're at the end to still show 5 pages
+    if (end - start < maxVisible - 1) {
+      start = Math.max(end - maxVisible + 1, 1);
+    }
+  
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+  
+    return pages;
+  };
+  
 
   const handleImageHideShow = useCallback(() => {
     setWithImage(!withImage);
-  }, [withImage])
+  }, [withImage]);
 
   const handleCheckedChange = useCallback((e) => {
     setCheckedItems({
       ...checkedItems,
       [e.target.name]: e.target.checked,
     });
+    setCurrentPage(1); // reset to first page on filter change
   }, [checkedItems]);
 
-  const visibleItems = useMemo(() => {
-    const filteredItems = result?.DT?.filter(item => {
-      const status = item?.Status || "";
-      return checkedItems[status] || (status === "On Hand" && checkedItems["On Hand"]);
-    });
-    return filteredItems?.slice(0, visibleCount) || [];
-  }, [result, checkedItems, visibleCount]);
+  const imgPath = result?.DT1?.[0]?.ImageUploadLogicalPath || "";
 
-  const imgPath =
-    result?.DT1?.[0]?.ImageUploadLogicalPath || "";
-
-  return (
-    loader ? (
-      <Loader />
-    ) : msg === "" ? (
-      <>
-        <div className="w-full fil_sec">
-          <div className="w-full flex prnt_btn mb-1">
-            <input
-              type="button"
-              className="btn_white blue mt-0"
-              value="Print"
-              onClick={(e) => handlePrintWithAllData(e)}
-            />
-          </div>
-          <div className="w-full flex justify-center align-center gap-4 mb-2">
-            <label htmlFor="checked" className="inline-flex items-center cursor-pointer gap-2">
-              <input
-                type="checkbox"
-                checked={checkedItems["On Hand"]}
-                onChange={handleCheckedChange}
-                name="On Hand"
-                id="StatusOnHand"
-              />
-              On Hand
-            </label>
-            <label htmlFor="checked" className="inline-flex items-center cursor-pointer gap-2">
-              <input
-                type="checkbox"
-                checked={checkedItems["Sold"]}
-                onChange={handleCheckedChange}
-                name="Sold"
-                id="StatusSold"
-              />
-              Sold
-            </label>
-            <label htmlFor="checked" className="inline-flex items-center cursor-pointer gap-2">
-              <input
-                type="checkbox"
-                checked={checkedItems["In Memo"]}
-                onChange={handleCheckedChange}
-                name="In Memo"
-                id="StatusInMemo"
-              />
-              In Memo
-            </label>
-            <label htmlFor="checked" className="inline-flex items-center cursor-pointer gap-2">
-              <input
-                type="checkbox"
-                checked={checkedItems["Purchase Return"]}
-                onChange={handleCheckedChange}
-                name="Purchase Return"
-                id="StatusPurchaseReturn"
-              />
-              Purchase Return
-            </label>
-            <label htmlFor="checked" className="inline-flex items-center cursor-pointer gap-2">
-              <input
-                type="checkbox"
-                checked={checkedItems["In Repair"]}
-                onChange={handleCheckedChange}
-                name="In Repair"
-                id="StatusInRepair"
-              />
-              In Repair
-            </label>
-            <label htmlFor="checked" className="inline-flex items-center cursor-pointer gap-2">
-              <input
-                type="checkbox"
-                checked={withImage}
-                onChange={handleImageHideShow}
-                name="WithImage"
-                id="WithImage"
-              />
-              with Image
-            </label>
-          </div>
-        <p className="text-center">Total: {visibleItems?.length}</p>
+  return loader ? (
+    <Loader />
+  ) : msg !== "" ? (
+    <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">{msg}</p>
+  ) : (
+    <>
+      <div className="w-full fil_sec">
+        <div className="w-full flex prnt_btn mb-1">
+          <input
+            type="button"
+            className="btn_white blue mt-0"
+            value="Print"
+            onClick={handlePrintCurrentPage}
+          />
         </div>
-        <div className="w-full flex items-center justify-center">
-          <div className="container disflx">
-            {visibleItems?.map((e, i) => (
-              <div key={i} className="col1 brbxAll spfntbH pagBrkIns">
-                <div className="w-100 brBtom spaclftTpm spacBtom spfntHead">{e?.Customer}</div>
-                {withImage && (
-                  <div className="w-100 brBtom imgwdtheit">
-                    {e?.ImageName !== "" && (
-                      <img
-                        src={imgPath + "/" + e?.ImageName}
-                        loading="lazy"
-                        alt="Design_Image"
-                        onError={handleImageError}
-                      />
-                    )}
-                  </div>
-                )}
-                <div className="w-100 spaclftTpm">
-                  <div className="w-100 spfntBld spbrWord spfntHead">{e?.DesNo}</div>
-                </div>
+        <div className="w-full flex justify-center align-center gap-4 mb-2">
+          {["On Hand", "Sold", "In Memo", "Purchase Return", "In Repair"].map(status => (
+            <label key={status} htmlFor={`Status${status.replace(" ", "")}`} className="inline-flex items-center cursor-pointer gap-2">
+              <input
+                type="checkbox"
+                checked={checkedItems[status]}
+                onChange={handleCheckedChange}
+                name={status}
+                id={`Status${status.replace(" ", "")}`}
+              />
+              {status}
+            </label>
+          ))}
+          <label htmlFor="WithImage" className="inline-flex items-center cursor-pointer gap-2">
+            <input
+              type="checkbox"
+              checked={withImage}
+              onChange={handleImageHideShow}
+              name="WithImage"
+              id="WithImage"
+            />
+            with Image
+          </label>
+        </div>
 
-                <div className="w-100 disflxCen spaclftTpm">
+        {/* Pagination controls */}
+        <div className="pagination">
+          <button
+            onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Prev
+          </button>
+
+          {getPageNumbers().map((num) => (
+            <button
+              key={num}
+              onClick={() => setCurrentPage(num)}
+              className={num === currentPage ? "active" : ""}
+            >
+              {num}
+            </button>
+          ))}
+
+          <button
+            onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+
+        <p className="text-center text-sm text-gray-600 mt-1 transition-opacity duration-200 ease-in-out">
+          {/* Showing <strong>{visibleItems.length}</strong> of <strong>{filteredItems.length}</strong> items &nbsp;| &nbsp; */}
+          Page <strong>{currentPage}</strong> of <strong>{totalPages}</strong>
+        </p>
+
+      </div>
+
+      <div className="w-full flex items-center justify-center">
+        <div className="container disflx">
+          {visibleItems.map((e, i) => (
+            <div key={i} className="col1 brbxAll spfntbH pagBrkIns">
+              {e?.Customer ? <div className="w-100 brBtom spaclftTpm spacBtom spfntHead">{e?.Customer}</div> : <div className="minheit brBtom"></div>}
+              {withImage && e?.ImageName !== "" && (
+                <div className="w-100 brBtom imgwdtheit">
+                  <img
+                    src={`${imgPath}/${e?.ImageName}`}
+                    loading="lazy"
+                    alt="Design_Image"
+                    onError={handleImageError}
+                  />
+                </div>
+              )}
+              <div className="w-100 spaclftTpm">
+                <div className="w-100 spfntBld spbrWord spfntHead">{e?.DesNo}</div>
+              </div>
+
+              <div className="w-100 disflxCen spaclftTpm">
                   <div className="wdth_45 spbrWord">{e?.Status}</div>
                   {e?.JobNo !== "" ? (
                     <div className="spfntBld">|</div>
@@ -350,16 +363,10 @@ export default function Print1JewelleryBook({
                     Pur. Return: {e?.InvoiceNo}
                   </div>
                 )}
-
-              </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
-      </>
-    ) : (
-      <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
-        {msg}
-      </p>
-    )
-  )
+      </div>
+    </>
+  );
 }
