@@ -301,7 +301,7 @@ const InvoicePrint4Material = ({
               {/** Tax Amount */}
               <div className="disflx spfntbH2 pagBrkIsid">
                 <div className="taxwdth spbrlFt spbrRht"></div>
-                <div className={`taxwdth1 spbrRht ${taxAmont?.tax1Amount === 0 || taxAmont?.CGSTTotalAmount === 0? "" : "brBtom"}`}>
+                <div className={`taxwdth1 spbrRht brBtom`}>
                   {taxAmont?.tax1Amount !== 0 && (
                       <div className="spacLft2 spfntBld">
                         <p>{taxAmont?.tax1_taxname} @ {fixedValues(taxAmont?.tax1_value,3)} %</p>
@@ -333,7 +333,7 @@ const InvoicePrint4Material = ({
                       </div>
                   )}
                 </div>
-                <div className={`taxwdth2 spbrRht ${taxAmont?.tax1Amount === 0 || taxAmont?.CGSTTotalAmount === 0? "" : "brBtom"}`}>
+                <div className={`taxwdth2 spbrRht brBtom`}>
                   {taxAmont?.tax1Amount !== 0 && (
                     <div className="spacLft2 spfntBld">
                         <p>{formatAmount(taxAmont?.tax1Amount,2)}</p>

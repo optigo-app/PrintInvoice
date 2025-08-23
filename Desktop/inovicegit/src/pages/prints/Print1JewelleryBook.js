@@ -34,6 +34,9 @@ export default function Print1JewelleryBook({
   // New pagination state
   const itemsPerPage = 1000; // how many items per page to show
   const [currentPage, setCurrentPage] = useState(1);
+  const statusKeys = ["On Hand", "Sold", "In Memo", "Purchase Return", "In Repair"];
+  const isAnyStatusChecked = statusKeys.some((key) => checkedItems[key]);
+
 
   useEffect(() => {
     const sendData = async () => {
@@ -182,16 +185,31 @@ export default function Print1JewelleryBook({
   
 
   const handleImageHideShow = useCallback(() => {
+    if (!isAnyStatusChecked) return; // block toggling when no status is selected
     setWithImage(!withImage);
-  }, [withImage]);
+  }, [withImage, isAnyStatusChecked]);
+  
 
   const handleCheckedChange = useCallback((e) => {
-    setCheckedItems({
+    const newCheckedItems = {
       ...checkedItems,
       [e.target.name]: e.target.checked,
-    });
-    setCurrentPage(1); // reset to first page on filter change
-  }, [checkedItems]);
+    };
+  
+    const wasPreviouslyNoneChecked = !statusKeys.some((key) => checkedItems[key]);
+    const isNowAnyChecked = statusKeys.some((key) => newCheckedItems[key]);
+  
+    // Auto-check 'With Image' if transitioning from none → some
+    if (!wasPreviouslyNoneChecked && !isNowAnyChecked) {
+      setWithImage(false);
+    } else if (wasPreviouslyNoneChecked && isNowAnyChecked) {
+      setWithImage(true);
+    }
+  
+    setCheckedItems(newCheckedItems);
+    setCurrentPage(1);
+  }, [checkedItems]);  
+  
 
   const imgPath = result?.DT1?.[0]?.ImageUploadLogicalPath || "";
 
@@ -230,42 +248,50 @@ export default function Print1JewelleryBook({
               onChange={handleImageHideShow}
               name="WithImage"
               id="WithImage"
+              disabled={!isAnyStatusChecked}
             />
             with Image
           </label>
         </div>
 
         {/* Pagination controls */}
-        <div className="pagination">
-          <button
-            onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
-            disabled={currentPage === 1}
-          >
-            Prev
-          </button>
+        {isAnyStatusChecked ? (
+          <>
+            <div className="pagination">
+              <button
+                onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+                disabled={currentPage === 1}
+              >
+                Prev
+              </button>
 
-          {getPageNumbers().map((num) => (
-            <button
-              key={num}
-              onClick={() => setCurrentPage(num)}
-              className={num === currentPage ? "active" : ""}
-            >
-              {num}
-            </button>
-          ))}
+              {getPageNumbers().map((num) => (
+                <button
+                  key={num}
+                  onClick={() => setCurrentPage(num)}
+                  className={num === currentPage ? "active" : ""}
+                >
+                  {num}
+                </button>
+              ))}
 
-          <button
-            onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
-            disabled={currentPage === totalPages}
-          >
-            Next
-          </button>
-        </div>
+              <button
+                onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </button>
+            </div>
 
-        <p className="text-center text-sm text-gray-600 mt-1 transition-opacity duration-200 ease-in-out">
-          {/* Showing <strong>{visibleItems.length}</strong> of <strong>{filteredItems.length}</strong> items &nbsp;| &nbsp; */}
-          Page <strong>{currentPage}</strong> of <strong>{totalPages}</strong>
-        </p>
+            <p className="text-center text-sm text-gray-600 mt-1 transition-opacity duration-200 ease-in-out">
+              Page <strong>{currentPage}</strong> of <strong>{totalPages}</strong>
+            </p>
+          </>
+        ) : (
+          <p className="text-center text-danger fw-bold mt-2">
+            At least select one checkbox from field.
+          </p>
+        )}
 
       </div>
 
