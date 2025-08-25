@@ -351,6 +351,7 @@ export const excelConditions = [
   { printName: "sale format b", etpType: "excel", componentName: "ExcelToJsonDownload"},
   { printName: "sale format s", etpType: "excel", componentName: "ExcelToJsonDownloads"},
   { printName: "sale format a", etpType: "excel", componentName: "ExcelToJsonDownloadA"},
+  { printName: "sale format ab", etpType: "excel", componentName: "ExcelToJsonDownloadAB"},
   { printName: "sale format j1", etpType: "excel", componentName: "ExcelToJsonDownloadJ1"},
   { printName: "sale format r", etpType: "excel", componentName: "ExcelToJsonDownloadR"},
   { printName: "repair packing list", etpType: "excel", componentName: "ExcelToJsonDownloadR"},
