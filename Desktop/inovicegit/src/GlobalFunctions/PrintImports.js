@@ -404,6 +404,7 @@ export const MaterialSale = [
   {printName: 'invoice print3', etpType: 'print', componentName: 'InvoicePrint3Material'},
   {printName: 'invoice print4', etpType: 'print', componentName: 'InvoicePrint4Material'},
   {printName: 'print1', etpType: 'print', componentName: 'Print1Material'},
+  {printName: 'solitair invoice', etpType: 'print', componentName: 'SolitairInvoiceMaterial'},
 ]
 
 export const fgPurchase = [

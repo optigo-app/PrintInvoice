@@ -231,7 +231,7 @@ const InvoicePrint3Material = ({
                 return (
                   <div key={i} className="disflx spbrlFt brBtom spfntbH">
                     <div className="col1_inv2 spbrRht spfntCen">{i + 1}</div>
-                    <div className="Sucol2_inv2 spbrRht spbrWord">
+                    <div className={`Sucol2_inv2 ${rateFlag ? 'RTSucol2_inv2' : ''} spbrRht spbrWord`}>
                       {e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND" 
                         : e?.ItemName === "COLOR STONE" ? "STONE"   
                           : e?.ItemName === "METAL" && e?.shape === "Gold" ? e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD' 
@@ -270,7 +270,7 @@ const InvoicePrint3Material = ({
               {/** Table Total */}
               <div className="disflx spbrlFt brBtom spfntbH">
                 <div className="col1_inv2 spbrRht"></div>
-                <div className="Sucol2_inv2 spbrRht"></div>
+                <div className={`Sucol2_inv2 ${rateFlag ? 'RTSucol2_inv2' : ''} spbrRht`}></div>
                 <div className={`Sucol3_inv2 spbrRht ${rateFlag ? 'RTSucol3_inv2' : ''}`}></div>
                 <div className={`Sucol4_inv2 spbrRht ${rateFlag ? 'RTSucol4_inv2' : ''}`}></div>
                 <div className="Sucol5_inv2 spbrRht"></div>
@@ -298,11 +298,11 @@ const InvoicePrint3Material = ({
               {extraTaxAmont?.map?.((e, i) => {
                 return (
                   <div className="disflx spfntbH">
-                    <div className="taxwdth spbrlFt spbrRht"></div>
-                      <div className="taxwdth1 spbrRht">
+                    <div className={`${rateFlag ? 'RTtaxwdth' : 'taxwdth'} spbrlFt spbrRht`}></div>
+                      <div className={`${rateFlag ? 'RTtaxwdth1' : 'taxwdth1'} spbrRht`}>
                         <p key={i} className="spfntBld">{e?.TaxName}</p>
                       </div>
-                    <div className="taxwdth2 spbrRht">
+                    <div className={`${rateFlag ? 'RTtaxwdth2' : 'taxwdth2'} spbrRht`}>
                       <p key={i} className="spfntBld">{formatAmount(e?.TaxAmount,2)}</p>
                     </div>
                   </div>
@@ -310,8 +310,8 @@ const InvoicePrint3Material = ({
               })}
               {extraTaxAmont?.length === 0 && (
                 <div className="disflx spfntbH pagBrkIsid">
-                  <div className="taxwdth spbrlFt spbrRht"></div>
-                  <div className="taxwdth1 spbrRht">
+                  <div className={`${rateFlag ? 'RTtaxwdth' : 'taxwdth'} spbrlFt spbrRht`}></div>
+                  <div className={`${rateFlag ? 'RTtaxwdth1' : 'taxwdth1'} spbrRht`}>
                     {taxAmont?.tax1_taxname !== "" && (
                         <div className="spacLft2 spfntBld">
                           <p>{taxAmont?.tax1_taxname} @ {fixedValues(taxAmont?.tax1_value,3)} %</p>
@@ -343,7 +343,7 @@ const InvoicePrint3Material = ({
                         </div>
                     )}
                   </div>
-                  <div className="taxwdth2 spbrRht">
+                  <div className={`${rateFlag ? 'RTtaxwdth2' : 'taxwdth2'} spbrRht`}>
                     {taxAmont?.tax1Amount !== 0 && (
                       <div className="spacLft2 spfntBld">
                           <p>{formatAmount(taxAmont?.tax1Amount,2)}</p>
@@ -380,11 +380,11 @@ const InvoicePrint3Material = ({
 
               {/**Grand Total */}
               <div className="disflx spfntbH brBtom">
-                <div className="taxwdth spbrlFt spbrRht" style={{ paddingLeft: "5px", paddingTop: "5px" }}>
+                <div className={`${rateFlag ? 'RTtaxwdth' : 'taxwdth'} spbrlFt spbrRht`} style={{ paddingLeft: "5px", paddingTop: "5px" }}>
                   In Words Indian Rupees <br /><span className="spfntBld">Rupees {rupeesInWords + paiseInWords} Only</span>
                 </div>
-                <div className="taxwdth1 spbrRht spfntBld grtHet brTpm" style={{ alignItems: "center" }}>GRAND TOTAL</div>
-                <div className="taxwdth2 spbrRht spfntBld grtHet brTpm">{NumberWithCommas(GrandTotal,2)}</div>
+                <div className={`${rateFlag ? 'RTtaxwdth1' : 'taxwdth1'} spbrRht spfntBld grtHet brTpm`} style={{ alignItems: "center" }}>GRAND TOTAL</div>
+                <div className={`${rateFlag ? 'RTtaxwdth2' : 'taxwdth2'} spbrRht spfntBld grtHet brTpm`}>{NumberWithCommas(GrandTotal,2)}</div>
               </div>
               
               {/** Instuction */}

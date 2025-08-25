@@ -1,3 +1,6 @@
+html {
+    scrollbar-gutter: stable;
+}
 .container_inv2{
     position: absolute;
     height: -webkit-fill-available;
@@ -220,6 +223,8 @@
         font-size: 11px;
         line-height: 12px;
     }
+
+
     .col2_inv2{
         width: 29%;
     }
@@ -235,6 +240,8 @@
     .col8_inv2{
         width: 9.90%;
     }
+
+    
     .Sucol2_inv2{
         width: 29%;
     }
@@ -248,32 +255,38 @@
         width: 10%;
     }
     .Sucol6_inv2{
-        width: 9%;
+        width: 9.10%;
     }
     .Sucol7_inv2{
-        width: 8%;
+        width: 7.90%;
     }
     .Sucol8_inv2{
-        width: 10%;
+        width: 9.90%;
     }
     .Sucol9_inv2{
-        width: 12.180%;
+        width: 12.190%;
     }
+
+
     .wdthHd{
         width: 30%;
     }
     .wdthHd1{
         width: 70%;
     }
+
+
     .taxwdth{
-        width: 70%
+        width: 70.10%
     }
     .taxwdth1{
-        width: 18%;
+        width: 17.90%;
     }
     .taxwdth2{
         width: 12.180%;
     }
+
+
     .sprmrk{
         font-size: 10px;
         line-height: 11px;
