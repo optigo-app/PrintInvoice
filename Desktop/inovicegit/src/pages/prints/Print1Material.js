@@ -220,7 +220,7 @@ const Print1Material = ({
                                   : ""
                     }
                     </div>
-                    <div className="Sucol4_inv2 spbrRht">{}</div> {/** Tag No */}
+                    <div className="Sucol4_inv2 spbrRht">{e?.RfBag}</div>
                     <div className="Sucol3_inv2 spbrRht">{}</div> {/** Remarks */}
                     <div className="Sucol6_inv2 spbrRht spfnted">{e?.pieces === "" ? "-" : e?.pieces}</div>
                     <div className="Sucol7_inv2 spbrRht spfnted">{fixedValues(e?.Weight === "" ? "-" : e?.Weight,3)}</div>
