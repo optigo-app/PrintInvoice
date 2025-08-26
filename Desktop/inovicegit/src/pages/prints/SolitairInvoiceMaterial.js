@@ -295,10 +295,12 @@ const SolitairInvoiceMaterial = ({
 
               {/** Tax Amount */}
               <div className="disflx spfntbH2 pagBrkIsid">
-                <div className="taxwdth spbrlFt spbrRht"></div>
+                <div className={`spbrlFt spbrRht
+                  ${taxAmont?.tax1Amount !== 0 || taxAmont?.tax2Amount !== 0 || taxAmont?.tax3Amount !== 0 || 
+                    taxAmont?.CGSTTotalAmount !== 0 || taxAmont?.SGSTTotalAmount !== 0 || taxAmont?.IGSTTotalAmount !== 0 ? "brBtom taxwdthGST" : ""}`}></div>
                 <div className={`taxwdth1 spbrRht 
                   ${taxAmont?.tax1Amount !== 0 || taxAmont?.tax2Amount !== 0 || taxAmont?.tax3Amount !== 0 || 
-                    taxAmont?.CGSTTotalAmount !== 0 || taxAmont?.SGSTTotalAmount !== 0 || taxAmont?.IGSTTotalAmount !== 0 ? "brBtom" : ""}`}>
+                    taxAmont?.CGSTTotalAmount !== 0 || taxAmont?.SGSTTotalAmount !== 0 || taxAmont?.IGSTTotalAmount !== 0 ? "brBtom taxwdth1GST" : ""}`}>
                   {taxAmont?.tax1Amount !== 0 && (
                       <div className="spacLft2 spfntBld">
                         <p>{taxAmont?.tax1_taxname} @ {fixedValues(taxAmont?.tax1_value,3)} %</p>
@@ -332,7 +334,7 @@ const SolitairInvoiceMaterial = ({
                 </div>
                 <div className={`taxwdth2 spbrRht 
                   ${taxAmont?.tax1Amount !== 0 || taxAmont?.tax2Amount !== 0 || taxAmont?.tax3Amount !== 0 || 
-                    taxAmont?.CGSTTotalAmount !== 0 || taxAmont?.SGSTTotalAmount !== 0 || taxAmont?.IGSTTotalAmount !== 0 ? "brBtom" : ""}`}>
+                    taxAmont?.CGSTTotalAmount !== 0 || taxAmont?.SGSTTotalAmount !== 0 || taxAmont?.IGSTTotalAmount !== 0 ? "brBtom taxwdth2GST" : ""}`}>
                   {taxAmont?.tax1Amount !== 0 && (
                     <div className="spacLft2 spfntBld">
                         <p>{formatAmount(taxAmont?.tax1Amount,2)}</p>
