@@ -494,47 +494,48 @@ const BagPrint7B = ({ queries, headers }) => {
                           <div className="divide7A">
                             <div>
                               {/* Render Data */}
-                              {e?.additional?.material?.length > 0 &&
-                                e?.additional?.material?.map((item, i) => (
-                                  <React.Fragment key={`data-${i}`}>
-                                    <div className="tableHead7A">
-                                      <div
-                                        className="w7A d-flex justify-content-start align-items-center spbrWord"
-                                        style={{
-                                          width: "82px",
-                                          paddingLeft: "1px",
-                                          height: "15px",
-                                        }}
-                                      >
-                                        {item?.Shapecode}
+                              {e?.data?.rd1?.length > 0 && 
+                                e?.data?.rd1?.filter(item => [3, 4, 7].includes(item?.MasterManagement_DiamondStoneTypeid))?.map((item, i) => (
+                                    <React.Fragment key={`data-${i}`}>
+                                      <div className="tableHead7A">
+                                        <div
+                                          className="w7A d-flex justify-content-start align-items-center spbrWord"
+                                          style={{
+                                            width: "82px",
+                                            paddingLeft: "1px",
+                                            height: "15px",
+                                          }}
+                                        >
+                                          {item?.Shapecode}
+                                        </div>
+                                        <div
+                                          className="w7A d-flex justify-content-start align-items-center"
+                                          style={{
+                                            width: "82px",
+                                            paddingLeft: "1px",
+                                          }}
+                                        >
+                                          {item?.QualityCode}
+                                        </div>
+                                        <div
+                                          className="w7A d-flex justify-content-start align-items-center"
+                                          style={{
+                                            width: "70px",
+                                            paddingLeft: "1px",
+                                            borderRight: "0px",
+                                          }}
+                                        >
+                                          {item?.ColorCode}
+                                        </div>
                                       </div>
-                                      <div
-                                        className="w7A d-flex justify-content-start align-items-center"
-                                        style={{
-                                          width: "82px",
-                                          paddingLeft: "1px",
-                                        }}
-                                      >
-                                        {item?.QualityCode}
-                                      </div>
-                                      <div
-                                        className="w7A d-flex justify-content-start align-items-center"
-                                        style={{
-                                          width: "70px",
-                                          paddingLeft: "1px",
-                                          borderRight: "0px",
-                                        }}
-                                      >
-                                        {item?.ColorCode}
-                                      </div>
-                                    </div>
-                                  </React.Fragment>
+                                    </React.Fragment>
                                 ))}
 
                               {/* Render Blank Rows */}
                               {Array.from({
-                                length:
-                                  15 - (e?.additional?.material?.length || 0),
+                               length: 15 - (
+                                e?.data?.rd1?.filter(item => [3, 4, 7].includes(item?.MasterManagement_DiamondStoneTypeid))?.length || 0
+                              ),
                               }).map((_, i) => (
                                 <div className="tableHead7A" key={`blank-${i}`}>
                                   <div
@@ -724,7 +725,7 @@ const BagPrint7B = ({ queries, headers }) => {
                             </div>
                           </div>
                           <div>
-                            {e?.additional?.material?.map((eo, i) => (
+                            {e?.data?.rd1?.filter(item => [3, 4, 7].includes(item?.MasterManagement_DiamondStoneTypeid))?.map((eo, i) => (
                               <div
                                 className="w-100 d-flex justify-content-between align-items-center sizehead7A"
                                 key={`data-${i}`}
@@ -771,8 +772,9 @@ const BagPrint7B = ({ queries, headers }) => {
 
                             {/* Render blank rows if less than 15 */}
                             {Array.from({
-                              length:
-                                15 - (e?.additional?.material?.length || 0),
+                              length: 15 - (
+                                e?.data?.rd1?.filter(item => [3, 4, 7].includes(item?.MasterManagement_DiamondStoneTypeid))?.length || 0
+                              ),
                             }).map((_, i) => (
                               <div
                                 className="w-100 d-flex justify-content-between align-items-center sizehead7A"

@@ -292,13 +292,13 @@ const BagPrint7A = ({ queries, headers }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (data?.length !== 0) {
-      setTimeout(() => {
-        window.print();
-      }, 5000);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data?.length !== 0) {
+  //     setTimeout(() => {
+  //       window.print();
+  //     }, 5000);
+  //   }
+  // }, [data]);
 
   const handleImageError2 = (e, jobno) => {
     e.target.src = img;
