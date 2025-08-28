@@ -1365,13 +1365,39 @@ const PackingList7DGroup = ({
                                       className="pr_dp10_pcl7 text-end fsgdp10_pcl7"
                                     >
                                       {formatAmount(
-                                        e?.MaKingCharge_Unit * e?.metal?.reduce((sum, el) => sum + (el?.Wt || 0), 0) /
+                                        e?.MakingAmount /
                                           result?.header?.CurrencyExchRate,
                                         0
                                       )}
                                     </div>
                                   </div>
                                 )}
+                                {e?.metal?.filter(el => el?.IsPrimaryMetal !== 1 )?.map((el, ui) => (
+                                  <div id={ui} className="d-flex align-items-center w-100 fsgdp10_pcl7">
+                                    <div
+                                      style={{ width: "33.33%" }}
+                                      className=" text-start fsgdp10_pcl7"
+                                    >
+                                      Labour
+                                    </div>
+                                    <div
+                                      style={{ width: "33.33%" }}
+                                      className="pr_dp10_pcl7 text-end fsgdp10_pcl7"
+                                    >
+                                      {el?.SettingRate?.toFixed(0)}
+                                    </div>
+                                    <div
+                                      style={{ width: "33.33%" }}
+                                      className="pr_dp10_pcl7 text-end fsgdp10_pcl7"
+                                    >
+                                      {formatAmount(
+                                        el?.SettingAmount /
+                                          result?.header?.CurrencyExchRate,
+                                        0
+                                      )}
+                                    </div>
+                                  </div>
+                                ))}
                                 {e?.totals?.finding?.SettingAmount !== 0 && (
                                   <div className="d-flex align-items-center w-100 fsgdp10_pcl7">
                                     <div
