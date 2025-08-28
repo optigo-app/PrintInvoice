@@ -1229,7 +1229,7 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                     </div>
                     <div className="spdispFlx">
                       <div className="Suspdtl1 spnHitArtisn spBold spbrdRght spnfntArtisn">ARTISAN NAME :</div>
-                      <div className="spWdthIns spnHitArtisn estimatePrintFont_14">{json1Data?.Customercode}</div>
+                      <div className="spWdthIns spnHitArtisn estimatePrintFont_14">{json1Data?.Manufacturer}</div>
                     </div>
                   </div>
                 </div>

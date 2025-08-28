@@ -1238,7 +1238,7 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
               <div>
                 <p className="estimatePrintFont_14">To</p>
                 <p className="fw-bold estimatePrintFont_14">
-                  {json1Data?.Customercode}
+                  {json1Data?.Manufacturer}
                 </p>
               </div>
             </div>

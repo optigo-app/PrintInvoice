@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import "../../assets/css/prints/summary4.css";
+// import "../../assets/css/prints/summary4.css";
 import { NumberWithCommas, apiCall, checkMsg, fixedValues, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { usePDF } from 'react-to-pdf';
@@ -474,7 +474,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <div className='p-1 fw-bold ps-2 border-start border-end align-middle text-center sr_sum4'>SR#</div>
                                     <div className='p-1 fw-bold border-end align-middle text-center design_sum12'>DESIGN</div>
                                     {/* <div className='p-1 fw-bold border-end align-middle text-center remark_sum4'>Remark</div> */}
-                                    <div className='p-1 fw-bold border-end align-middle text-center dia_wt_ctw_sum4'>DIA WT (ctw)</div>
+                                    <div className='p-1 fw-bold border-end align-middle text-center dia_wt_ctw_sum4'>DIA WT <p>(ctw)</p></div>
                                     <div className='p-1 fw-bold border-end align-middle text-center dia_rate_sum4'><p>DIA </p> <p>RATE</p></div>
                                     <div className='p-1 fw-bold border-end align-middle text-center dia_amt_sum4'><p>DIA </p><p>AMT</p></div>
                                     <div className='p-1 fw-bold border-end align-middle text-center g_wt_sum4'><p>G WT</p><p>(gm)</p> </div>
@@ -604,7 +604,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="d-flex border-bottom mb-1 no_break">
+                                <div className="d-flex mb-1 no_break">
                                     <div className="summary_detail_sum4 border me-1">
                                         <div className="fw-bold border-bottom ps-2 bg_total_sum4 pt-1">
                                             SUMMARY
