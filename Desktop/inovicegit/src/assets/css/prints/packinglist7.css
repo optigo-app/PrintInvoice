@@ -301,9 +301,14 @@
 }
 .summarydp10_pcl7{
     border-top: 1px solid #989898;
-
-    
 }
+
+.spbrWord {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
 @media print {
 
     .containerdp10_pcl7{

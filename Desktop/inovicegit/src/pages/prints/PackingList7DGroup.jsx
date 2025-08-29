@@ -1384,7 +1384,7 @@ const PackingList7DGroup = ({
                                     </div>
                                   </div>
                                 )}
-                                {e?.metal?.filter(el => el?.IsPrimaryMetal !== 1 )?.map((el, ui) => (
+                                {e?.metal?.filter(el => el?.IsPrimaryMetal !== 1 && el?.SettingRate !== 0)?.map((el, ui) => (
                                   <div id={ui} className="d-flex align-items-center w-100 fsgdp10_pcl7">
                                     <div
                                       style={{ width: "33.33%" }}

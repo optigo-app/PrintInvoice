@@ -1440,16 +1440,16 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     >
                                       <div
                                         style={{ width: "58%" }}
-                                        className=" text-start text-break fsgdp10_pcl7"
+                                        className=" text-start text-break fsgdp10_pcl7 spbrWord"
                                       >
                                         {el?.label}
                                       </div>
                                       <div
-                                        style={{ width: "10%" }}
+                                        style={{ width: "5%" }}
                                         className="pr_dp10_pcl7 text-end"
                                       ></div>
                                       <div
-                                        style={{ width: "33.33%" }}
+                                        style={{ width: "38.33%" }}
                                         className="pr_dp10_pcl7 text-end fsgdp10_pcl7"
                                       >
                                         {formatAmount(el?.amtval, 0)}
@@ -2002,10 +2002,8 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <div className="w-50 fw-bold">OTHER </div>
                                   <div className="w-50 end_dp10_pcl7">
                                     {formatAmount(
-                                      result?.mainTotal?.total_other_charges +
-                                        result?.mainTotal
-                                          ?.total_diamondHandling,
-                                      0
+                                      (result?.mainTotal?.total_other_charges / result?.header?.CurrencyExchRate) +
+                                        result?.mainTotal?.total_diamondHandling, 0
                                     )}
                                   </div>
                                 </div>

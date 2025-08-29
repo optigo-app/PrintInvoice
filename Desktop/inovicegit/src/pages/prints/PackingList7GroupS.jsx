@@ -676,22 +676,6 @@ const PackingList7GroupS = ({
     return sum + (isNaN(MetalAmount) ? 0 : MetalAmount);
   }, 0);
 
-  const countRepeatedMetalTypePurity = (result) => {
-    if (!Array.isArray(result)) return 0;
-  
-    const counts = {};
-  
-    result?.resultArray?.forEach(item => {
-      const purity = item?.MetalTypePurity;
-      if (purity) {
-        counts[purity] = (counts[purity] || 0) + 1;
-      }
-    });
-  
-    const repeatedCount = Object.values(counts).filter(count => count > 1).length;
-    return repeatedCount;
-  };
-
   const formatMetalPurityCounts = (data) => {
     if (!Array.isArray(data)) return [];
   
@@ -711,8 +695,11 @@ const PackingList7GroupS = ({
   
     return formatted;
   };
-  
   const metalPcsQuote = formatMetalPurityCounts(result?.resultArray);
+  const totalMetalPcsQuote = (Array.isArray(metalPcsQuote) ? metalPcsQuote : []).reduce((sum, item) => {
+    const Count = parseFloat(item?.Count);
+    return sum + (isNaN(Count) ? 0 : Count);
+  }, 0);
 
   // console.log('metalPcsQuote', metalPcsQuote);  
   // console.log("result", result);
@@ -1492,17 +1479,17 @@ const PackingList7GroupS = ({
                                       key={ind}
                                     >
                                       <div
-                                        style={{ width: "33.33%" }}
-                                        className=" text-start text-break fsgdp10_pcl7"
+                                        style={{ width: "49.33%" }}
+                                        className=" text-start text-break fsgdp10_pcl7 spbrWord"
                                       >
                                         {el?.label}
                                       </div>
                                       <div
-                                        style={{ width: "33.33%" }}
+                                        style={{ width: "5.33%" }}
                                         className="pr_dp10_pcl7 text-end"
                                       ></div>
                                       <div
-                                        style={{ width: "33.33%" }}
+                                        style={{ width: "45.33%" }}
                                         className="pr_dp10_pcl7 text-end fsgdp10_pcl7"
                                       >
                                         {formatAmount(el?.amtval, 0)}
@@ -2252,7 +2239,7 @@ const PackingList7GroupS = ({
                           {e?.metalType}
                         </div>
                         <div className="dia_wt_sum4 text-center">
-                          {atob(evn).toLowerCase() === "Quote" ?
+                          {atob(evn).toLowerCase() === "quote" ?
                             metalPcsQuote?.map((qu) => qu?.MetalTypePurity === e?.metalType ? qu?.Count : null)
                             : e?.pcs
                           }
@@ -2276,7 +2263,7 @@ const PackingList7GroupS = ({
                         TOTAL
                       </div>
                       <div className="dia_wt_sum4 fw-bold text-center">
-                        {totalPCS}
+                        {atob(evn).toLowerCase() === "quote" ? totalMetalPcsQuote : totalPCS}
                       </div>
                       <div className="GWt_sum4 fw-bold text-center">
                         

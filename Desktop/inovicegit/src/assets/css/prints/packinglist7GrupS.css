@@ -350,6 +350,12 @@
   min-width: 20%;
 }
 
+.spbrWord {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
 @media print {
 
     .containerdp10_pcl7{
