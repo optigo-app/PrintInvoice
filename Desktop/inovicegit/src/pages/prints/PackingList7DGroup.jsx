@@ -546,6 +546,18 @@ const PackingList7DGroup = ({
     }
   };
 
+
+  const totalSecondaryMetalLabour = result?.resultArray?.reduce((acc, e) => {
+    const metalSum = e?.metal
+      ?.filter(el => el?.IsPrimaryMetal !== 1)
+      ?.reduce((metalAcc, el) => {
+        return metalAcc + (el?.SettingAmount / result?.header?.CurrencyExchRate || 0);
+      }, 0) || 0;
+  
+    return acc + metalSum;
+  }, 0)
+
+
   return (
     <>
       {loader ? (
@@ -1953,10 +1965,9 @@ const PackingList7DGroup = ({
                                 <div className="w-50 end_dp10_pcl7">
                                   {formatAmount(
                                     (result?.mainTotal?.misc?.isHSCODE123_amt +
-                                      result?.mainTotal?.finding
-                                        ?.SettingAmount +
-                                      result?.mainTotal?.total_labour
-                                        ?.labour_amount +
+                                      totalSecondaryMetalLabour + 
+                                      result?.mainTotal?.finding?.SettingAmount +
+                                      result?.mainTotal?.total_labour?.labour_amount +
                                       result?.mainTotal?.total_TotalDiaSetcost +
                                       result?.mainTotal?.total_TotalCsSetcost) /
                                       result?.header?.CurrencyExchRate,

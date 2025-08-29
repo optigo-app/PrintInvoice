@@ -46,6 +46,7 @@ const PackingList7GroupS = ({
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
   const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
   const [diamondDetails, setDiamondDetails] = useState([]);
+  const [repeatedCount, setRepeatedCount] = useState(0);
 
   useEffect(() => {
     const sendData = async () => {
@@ -675,6 +676,45 @@ const PackingList7GroupS = ({
     return sum + (isNaN(MetalAmount) ? 0 : MetalAmount);
   }, 0);
 
+  const countRepeatedMetalTypePurity = (result) => {
+    if (!Array.isArray(result)) return 0;
+  
+    const counts = {};
+  
+    result?.resultArray?.forEach(item => {
+      const purity = item?.MetalTypePurity;
+      if (purity) {
+        counts[purity] = (counts[purity] || 0) + 1;
+      }
+    });
+  
+    const repeatedCount = Object.values(counts).filter(count => count > 1).length;
+    return repeatedCount;
+  };
+
+  const formatMetalPurityCounts = (data) => {
+    if (!Array.isArray(data)) return [];
+  
+    const counts = {};
+  
+    data.forEach(item => {
+      const purity = item?.MetalTypePurity?.trim();
+      if (purity) {
+        counts[purity] = (counts[purity] || 0) + 1;
+      }
+    });
+  
+    const formatted = Object.entries(counts).map(([purity, count]) => ({
+        MetalTypePurity: purity,
+        Count: count
+    }));
+  
+    return formatted;
+  };
+  
+  const metalPcsQuote = formatMetalPurityCounts(result?.resultArray);
+
+  // console.log('metalPcsQuote', metalPcsQuote);  
   // console.log("result", result);
   // console.log("metaltypeSum", metaltypeSum);
   // console.log("summaryDetail", summaryDetail);
@@ -2212,7 +2252,10 @@ const PackingList7GroupS = ({
                           {e?.metalType}
                         </div>
                         <div className="dia_wt_sum4 text-center">
-                          {e?.pcs}
+                          {atob(evn).toLowerCase() === "Quote" ?
+                            metalPcsQuote?.map((qu) => qu?.MetalTypePurity === e?.metalType ? qu?.Count : null)
+                            : e?.pcs
+                          }
                         </div>
                         <div className="GWt_sum4 text-center">
                           {fixedValues(e?.grosswt, 3)}
