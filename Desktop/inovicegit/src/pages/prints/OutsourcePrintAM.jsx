@@ -1146,12 +1146,191 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
     return now.toLocaleString("en-GB", options).replace(",", "");
   }
 
+  const calculateMetalWeights = () => {
+    // Ensure the `gdWt` exists
+    if (!total?.gdWt) {
+      console.error("Total weight (gdWt) is missing");
+      return;
+    }
+  
+    // Calculate per-metal weight percentage
+    const metalWeights = json2Data?.map((e) => {
+      return e?.metals?.map((metal) => {
+        // Calculate the weight percentage for each metal
+        const metalWtPercentage = (metal?.Wt / total?.gdWt) * 100;
+        return {
+          ShapeName: metal?.ShapeName,
+          QualityName: metal?.QualityName,
+          Colorname: metal?.Colorname,
+          Weight: metal?.Wt,
+          WeightPercentage: metalWtPercentage,
+        };
+      });
+    });
+  
+    // Calculate per-finding weight percentage
+    const findingWeights = json2Data?.map((e) => {
+      return e?.finding?.map((finding) => {
+        // Calculate the weight percentage for each finding
+        const findingWtPercentage = (finding?.Wt / total?.gdWt) * 100;
+        return {
+          ShapeName: finding?.ShapeName,
+          QualityName: finding?.QualityName,
+          Colorname: finding?.Colorname,
+          Weight: finding?.Wt,
+          WeightPercentage: findingWtPercentage,
+        };
+      });
+    });
+  
+    // Calculate per-anotherFinding weight percentage
+    const anotherFindingWeights = json2Data?.map((e) => {
+      return e?.anotherFinding?.map((anotherFinding) => {
+        // Calculate the weight percentage for each anotherFinding
+        const anotherFindingWtPercentage = (anotherFinding?.Wt / total?.gdWt) * 100;
+        return {
+          ShapeName: anotherFinding?.ShapeName,
+          QualityName: anotherFinding?.QualityName,
+          Colorname: anotherFinding?.Colorname,
+          FindingTypename: anotherFinding?.FindingTypename,
+          FindingAccessories: anotherFinding?.FindingAccessories,
+          Weight: anotherFinding?.Wt,
+          WeightPercentage: anotherFindingWtPercentage,
+        };
+      });
+    });
+  
+    // Combine all the results into a single object (if necessary)
+    return {
+      metalWeights,
+      findingWeights,
+      anotherFindingWeights,
+    };
+  };
+  
+  const weightDetails = calculateMetalWeights();
+  // console.log("weightDetails", weightDetails);
+  
+
+/////////////////////////////////////////////
+
+
+const calculateContributions = () => {
+  if (!diamondTotal?.Wt) {
+    console.error("Diamond total weight (diamondTotal?.Wt) is missing");
+    return;
+  }
+
+  // Combine all the weight details (metals, findings, anotherFindings)
+  const allWeightDetails = [
+    ...weightDetails.metalWeights.flat(),
+    ...weightDetails.findingWeights.flat(),
+    ...weightDetails.anotherFindingWeights.flat(),
+  ];
+
+  // Calculate the contribution for each item based on its weight percentage
+  const contributions = allWeightDetails.map((item) => {
+    let weight = 0;
+    let weightPercentage = 0;
+
+    // Handle the cases where `item` might have a `0` key and extract the values accordingly
+    if (item?.[0]) {
+      // If `0` key exists, extract values from `0`
+      weight = item?.[0]?.Weight || 0;
+      weightPercentage = item?.[0]?.WeightPercentage || 0;
+    } else {
+      // If `0` key doesn't exist, use direct properties
+      weight = item?.Weight || 0;
+      weightPercentage = item?.WeightPercentage || 0;
+    }
+
+    // Calculate contribution using the formula: (WeightPercentage * diamondTotal?.Wt) / 100
+    let contribution = (weightPercentage * diamondTotal?.Wt) / 100;
+    contribution = contribution / 5; 
+    // Round the contribution to 3 decimal places and keep it as a number
+    contribution = Math.round(contribution * 1000) / 1000; // This ensures it's a number with 3 decimals
+
+    return {
+      ...item,
+      Contribution: contribution, // Add the calculated and formatted contribution
+    };
+  });
+
+  // Now, we need to add the contribution to the respective `Wt` based on the ShapeName, QualityName, Colorname
+  const updatedWeightDetails = {
+    metalWeights: weightDetails.metalWeights.map((metalGroup) => {
+      return metalGroup.map((metal) => {
+        // Find the matching contribution based on ShapeName, QualityName, Colorname
+        const contribution = contributions.find(contrib =>
+          contrib?.ShapeName === metal?.ShapeName &&
+          contrib?.QualityName === metal?.QualityName &&
+          contrib?.Colorname === metal?.Colorname
+        )?.Contribution || 0; // Default to 0 if no matching contribution
+
+        // Add the contribution to the weight (Wt) only if contribution is calculated (not zero)
+        if (contribution > 0) {
+          metal.Wt = (metal.Wt || 0) + contribution;
+        }
+
+        return metal; // Return the updated metal item
+      });
+    }),
+    findingWeights: weightDetails.findingWeights.map((findingGroup) => {
+      return findingGroup.map((finding) => {
+        // Find the matching contribution based on ShapeName, QualityName, Colorname
+        const contribution = contributions.find(contrib =>
+          contrib?.ShapeName === finding?.ShapeName &&
+          contrib?.QualityName === finding?.QualityName &&
+          contrib?.Colorname === finding?.Colorname
+        )?.Contribution || 0; // Default to 0 if no matching contribution
+
+        // Add the contribution to the weight (Wt) only if contribution is calculated (not zero)
+        if (contribution > 0) {
+          finding.Wt = (finding.Wt || 0) + contribution;
+        }
+
+        return finding; // Return the updated finding item
+      });
+    }),
+    anotherFindingWeights: weightDetails.anotherFindingWeights.map((anotherFindingGroup) => {
+      return anotherFindingGroup.map((anotherFinding) => {
+        // Find the matching contribution based on ShapeName, QualityName, Colorname
+        const contribution = contributions.find(contrib =>
+          contrib?.ShapeName === anotherFinding?.ShapeName &&
+          contrib?.QualityName === anotherFinding?.QualityName &&
+          contrib?.Colorname === anotherFinding?.Colorname &&
+          contrib?.FindingTypename === anotherFinding?.FindingTypename &&
+          contrib?.FindingAccessories === anotherFinding?.FindingAccessories 
+        )?.Contribution || 0; // Default to 0 if no matching contribution
+
+        // Add the contribution to the weight (Wt) only if contribution is calculated (not zero)
+        if (contribution > 0) {
+          anotherFinding.Wt = (anotherFinding.Wt || 0) + contribution;
+        }
+
+        return anotherFinding; // Return the updated anotherFinding item
+      });
+    }),
+  };
+
+  return updatedWeightDetails; // Return the updated structure
+};
+
+// Example usage
+const mergeMetalDiamondwt = calculateContributions();
+// console.log("mergeMetalDiamondwt", mergeMetalDiamondwt);
+
+
+  
+
   console.log("json2Datajson2Data", json2Data);
   console.log("json1Data", json1Data)
-  console.log("miscTotal", miscTotal)
-  console.log("ColorStoneTotal", ColorStoneTotal)
+  // console.log("miscTotal", miscTotal)
+  // console.log("ColorStoneTotal", ColorStoneTotal)
   console.log("total", total)
-  console.log("diamondTotal", diamondTotal)
+  console.log("total,weightWithDiamondLoss", total?.weightWithDiamondLoss)
+  console.log("total,gdWt", total?.gdWt)
+  // console.log("diamondTotal", diamondTotal)
 
 
   return (
@@ -1439,34 +1618,22 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                       <div className="metalEstimatePrint border-end position-relative border_color_estimates">
                         {/* <div className='h-100 d-grid pad_bot_29_estimatePrint'> */}
                         <div className="pad_bot_29_estimatePrint">
-                          {e?.metals.length > 0 &&
-                            e?.metals.map((ele, ind) => {
-                              return (
-                                <div className="d-flex" key={ind}>
-                                  <div className="Suwidth_40_estimatePrint p_1Estimate">
-                                    <p className="spspcLft spbrWord">
-                                      {ele?.ShapeName} {ele?.QualityName} ({ele?.Colorname})
-                                    </p>
-                                  </div>
-                                  <div className="width_40_estimatePrint p_1Estimate">
-                                    <p className="text-end">
-                                      {ind === 0
-                                        ? fixedValues(e?.WtSpecial, 3)
-                                        : fixedValues(ele?.Weight, 3)}
-                                    </p>
-                                  </div>
-                                  <div className="width_40_estimatePrint p_1Estimate">
-                                    <p className="text-end ">
-                                      {ind === 0
-                                        ? fixedValues(e?.metalNetWt, 3)
-                                        : fixedValues(ele?.Wt, 3)}
-                                    </p>
-                                  </div>
+                          {mergeMetalDiamondwt?.metalWeights?.flat().map((ele, ind) => (
+                              <div className="d-flex" key={ind}>
+                                <div className="Suwidth_40_estimatePrint p_1Estimate">
+                                  <p className="spspcLft spbrWord">
+                                    {ele?.ShapeName} {ele?.QualityName} ({ele?.Colorname})
+                                  </p>
                                 </div>
-                              );
-                            })}
-                          {e?.finding.length > 0 &&
-                            e?.finding.map((ele, ind) => {
+                                <div className="width_40_estimatePrint p_1Estimate">
+                                  <p className="text-end">{fixedValues(ele?.Weight + ele?.Wt, 3)}</p>
+                                </div>
+                                <div className="width_40_estimatePrint p_1Estimate">
+                                  <p className="text-end ">{fixedValues(ele?.Weight, 3)}</p>
+                                </div>
+                              </div>
+                            ))}
+                          {mergeMetalDiamondwt?.findingWeights?.flat().map((ele, ind) => {
                               return (
                                 <div className="d-flex" key={ind}>
                                   <div className="Suwidth_40_estimatePrint p_1Estimate">
@@ -1476,19 +1643,18 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                                   </div>
                                   <div className="width_40_estimatePrint p_1Estimate">
                                     <p className="text-end">
-                                      {fixedValues(ele?.Wt, 3)}
+                                      {fixedValues(ele?.Weight + ele?.Wt, 3)}
                                     </p>
                                   </div>
                                   <div className="width_40_estimatePrint p_1Estimate">
                                     <p className="text-end">
-                                      {fixedValues(ele?.Wt, 3)}
+                                      {fixedValues(ele?.Weight, 3)}
                                     </p>
                                   </div>
                                 </div>
                               );
                             })}
-                          {e?.anotherFinding.length > 0 &&
-                            e?.anotherFinding.map((ele, ind) => {
+                          {mergeMetalDiamondwt?.anotherFindingWeights?.flat().map((ele, ind) => {
                               return ( <>
                                 <div className="d-flex" key={ind}>
                                   <div className="Suwidth_40_estimatePrint p_1Estimate">
@@ -1498,12 +1664,12 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                                   </div>
                                   <div className="width_40_estimatePrint p_1Estimate">
                                     <p className="text-end">
-                                      {fixedValues(ele?.Wt, 3)}
+                                      {fixedValues(ele?.Weight + ele?.Wt, 3)}
                                     </p>
                                   </div>
                                   <div className="width_40_estimatePrint p_1Estimate">
                                     <p className="text-end">
-                                      {fixedValues(ele?.Wt, 3)}
+                                      {fixedValues(ele?.Weight, 3)}
                                     </p>
                                   </div>
                                 </div>
