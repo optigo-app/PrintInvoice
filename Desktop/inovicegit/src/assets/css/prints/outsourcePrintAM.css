@@ -199,7 +199,7 @@
     border-top: 1px solid #BDBDBD;
 }
 .spspcLft{
-    padding-left: 2px;
+    padding-left: 3px;
 }
 @media print {
     @page {

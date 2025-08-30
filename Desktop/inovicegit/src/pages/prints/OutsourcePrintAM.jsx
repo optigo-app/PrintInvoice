@@ -1445,7 +1445,7 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                                 <div className="d-flex" key={ind}>
                                   <div className="Suwidth_40_estimatePrint p_1Estimate">
                                     <p className="spspcLft spbrWord">
-                                      {ele?.ShapeName} {ele?.QualityName}
+                                      {ele?.ShapeName} {ele?.QualityName} ({ele?.Colorname})
                                     </p>
                                   </div>
                                   <div className="width_40_estimatePrint p_1Estimate">
@@ -1471,7 +1471,7 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                                 <div className="d-flex" key={ind}>
                                   <div className="Suwidth_40_estimatePrint p_1Estimate">
                                     <p className="spspcLft spbrWord">
-                                      {ele?.FindingAccessories}
+                                      {ele?.FindingTypename} {ele?.FindingAccessories}
                                     </p>
                                   </div>
                                   <div className="width_40_estimatePrint p_1Estimate">
@@ -1487,13 +1487,53 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                                 </div>
                               );
                             })}
+                          {e?.anotherFinding.length > 0 &&
+                            e?.anotherFinding.map((ele, ind) => {
+                              return ( <>
+                                <div className="d-flex" key={ind}>
+                                  <div className="Suwidth_40_estimatePrint p_1Estimate">
+                                    <p className="spspcLft spbrWord">
+                                      {ele?.ShapeName} {ele?.QualityName} ({ele?.Colorname})
+                                    </p>
+                                  </div>
+                                  <div className="width_40_estimatePrint p_1Estimate">
+                                    <p className="text-end">
+                                      {fixedValues(ele?.Wt, 3)}
+                                    </p>
+                                  </div>
+                                  <div className="width_40_estimatePrint p_1Estimate">
+                                    <p className="text-end">
+                                      {fixedValues(ele?.Wt, 3)}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="d-flex">
+                                  <div className="Suwidth_40_estimatePrint p_1Estimate">
+                                    <p className="spspcLft spbrWord">
+                                      {ele?.FindingTypename} {ele?.FindingAccessories}
+                                    </p>
+                                  </div>
+                                  <div className="width_40_estimatePrint p_1Estimate">
+                                    <p className="text-end">
+                                      {/* {fixedValues(ele?.Wt, 3)} */}
+                                    </p>
+                                  </div>
+                                  <div className="width_40_estimatePrint p_1Estimate">
+                                    <p className="text-end">
+                                      {/* {fixedValues(ele?.Wt, 3)} */}
+                                    </p>
+                                  </div>
+                                </div>
+                              </>
+                            );
+                          })}
                           {e?.PromiseDate !== "" && e?.PromiseDate !== null && (
                             <p className="w-100 spspcLft spbrdrTop spbrWord">
                               Promise Dt : <b>{e?.PromiseDate}</b>
                             </p>
                           )}
                           {e?.JobRemark !== "" && (
-                            <div className="pt-2 spspcLft px-1 spbrWord">
+                            <div className="spspcLft px-1 spbrWord">
                               <p>Remark:</p>
                               <p className="fw-bold spbrWord"> {e?.JobRemark}</p>
                             </div>
@@ -1549,14 +1589,14 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                                 </div>
                               );
                             })}
-                          {e?.mics.length > 0 &&
+                          {/* {e?.mics.length > 0 &&
                             e?.mics.map((ele, ind) => {
                               return (
                                 <div className="d-flex" key={ind}>
                                   <div className="Suwidth20EstimatePrint p_1Estimate">
                                     <p className="spspcLft spbrWord">
                                       {ele?.ShapeName} {ele?.QualityName}{" "}
-                                      {/* {ele?.Colorname} */}
+                                      {/* {ele?.Colorname}
                                     </p>
                                   </div>
                                   <div className="width20EstimatePrint p_1Estimate">
@@ -1575,7 +1615,7 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                                   </div>
                                 </div>
                               );
-                            })}
+                            })} */}
                         </div>
                         <div
                           className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top border_color_estimates `}

@@ -1169,8 +1169,8 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
 
                     <div className="spdispFlx spbrdrLftDR spbrdRghtDR">
                       <div className="Suspdtl1 spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">Cust Id</div>
-                      <div className="Suspdtl2 sptxtend spbrdrBtom estimatePrintFont_14">{json1Data?.CustName}</div>
-                      <div className="Suspdtl3 spBold sptxtend spbrdrBtom estimatePrintFont_14"></div>
+                      <div className="Suspdtl2 sptxtend spbrdrBtom estimatePrintFont_14" style={{width: "75%"}}>{json1Data?.CustName}</div>
+                      {/* <div className="Suspdtl3 spBold sptxtend spbrdrBtom estimatePrintFont_14"></div> */}
                     </div>
 
                     <div className="spdispFlx spbrdrLftDR spbrdRghtDR">
@@ -1278,8 +1278,8 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                         <p className="spbrWord">
                           {[
                             item?.Shape_Code !== "-" ? item?.Shape_Code : null,
-                            item?.Quality_Code !== "-" ? item?.Quality_Code : null,
-                            item?.Color_Code !== "-" ? item?.Color_Code : null
+                            // item?.Quality_Code !== "-" ? item?.Quality_Code : null,
+                            // item?.Color_Code !== "-" ? item?.Color_Code : null
                           ].filter(Boolean).join("/")}
                         </p>
                       </div>

@@ -17,6 +17,7 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [image, setImage] = useState(true);
+  const [reference , setReference] = useState(false);
   const [isImageWorking, setIsImageWorking] = useState(true);
   const [purityWise, setPurityWise] = useState([]);
     
@@ -88,7 +89,11 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
 
     const handleChangeImage = (e) => {
         image ? setImage(false) : setImage(true);
-      }
+    }
+
+    const handleReferenceNo = (e) => {
+        setReference(e.target.checked);
+    }
 
     const taxes = result?.allTaxes?.map(e =>
         e?.amountInNumber != null ? e.amountInNumber : parseFloat(e?.amount)
@@ -109,7 +114,13 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
             <div className='container_jts'>
                 <div className='mb-5 pb-5 d-flex justify-content-end align-items-center mt-5 pt-5 d_none_jts'>
                     <div className="form-check pe-3">
-                        <input className="form-check-input" type="checkbox" checked={image} onChange={handleChangeImage} />
+                        <input id="referenceCheckbox" className="form-check-input" type="checkbox" checked={reference} onChange={handleReferenceNo} />
+                        <label className="form-check-label pt-1" htmlFor="referenceCheckbox">
+                            Reference 
+                        </label>
+                    </div>
+                    <div className="form-check pe-3">
+                        <input id="flexCheckDefault" className="form-check-input" type="checkbox" checked={image} onChange={handleChangeImage} />
                         <label className="form-check-label pt-1" htmlFor="flexCheckDefault">
                             With Image
                         </label>
@@ -147,6 +158,7 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                     <div className='fs_jts' style={{paddingRight: "2.5rem"}}>
                         <div>Invoice#: <span className='fw-bold'>{result?.header?.InvoiceNo}</span> <span className='spfontCol'>Dated</span> <span className='fw-bold'>{result?.header?.EntryDate}</span></div>
                         <div>{result?.header?.HSN_No_Label}: <span className='fw-bold'>{result?.header?.HSN_No}</span></div>
+                        {reference && <div>Reference: <span className='fw-bold'>{result?.header?.BillReferenceNo}</span></div>}
                         <div>PAN#: <span className='fw-bold'>{result?.header?.CustPanno}</span></div>
                         <div>{result?.header?.CustGstNo === '' ? 'VAT' : 'GSTIN'} &nbsp;
                         <span className='fw-bold'>{ result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo}</span>
