@@ -367,8 +367,7 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
             }
             anotherFinding.push(ele);
             // metalsTotal.weight += ele.Wt;
-            totals.weightWithDiamondLoss += ele.Wt;
-            totals.gdWt += ele.Wt;
+            // totals.weightWithDiamondLoss += ele.Wt;
           }
         }
       });
@@ -1152,7 +1151,6 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
   console.log("miscTotal", miscTotal)
   console.log("ColorStoneTotal", ColorStoneTotal)
   console.log("total", total)
-  console.log("total,weightWithDiamondLoss", total?.weightWithDiamondLoss)
   console.log("diamondTotal", diamondTotal)
 
 
