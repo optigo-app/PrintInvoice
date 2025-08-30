@@ -547,15 +547,15 @@ const PackingList7DGroup = ({
   };
 
 
-  const totalSecondaryMetalLabour = result?.resultArray?.reduce((acc, e) => {
-    const metalSum = e?.metal
-      ?.filter(el => el?.IsPrimaryMetal !== 1)
-      ?.reduce((metalAcc, el) => {
-        return metalAcc + (el?.SettingAmount / result?.header?.CurrencyExchRate || 0);
-      }, 0) || 0;
+  // const totalSecondaryMetalLabour = result?.resultArray?.reduce((acc, e) => {
+  //   const metalSum = e?.metal
+  //     ?.filter(el => el?.IsPrimaryMetal !== 1)
+  //     ?.reduce((metalAcc, el) => {
+  //       return metalAcc + (el?.SettingAmount / result?.header?.CurrencyExchRate || 0);
+  //     }, 0) || 0;
   
-    return acc + metalSum;
-  }, 0)
+  //   return acc + metalSum;
+  // }, 0)
 
 
   return (
@@ -1657,17 +1657,23 @@ const PackingList7DGroup = ({
                             >
                               {/* {formatAmount( result?.mainTotal?.total_labour?.labour_amount + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.total_TotalCsSetcost )} */}
                               <div>
-                                {formatAmount(
-                                  (e?.MaKingCharge_Unit * e?.metal?.reduce((sum, el) => sum + (el?.Wt || 0), 0) +
-                                    e?.totals?.misc?.isHSCODE123_amt +
-                                    e?.OtherCharges +
-                                    e?.TotalDiamondHandling +
-                                    e?.TotalCsSetcost +
-                                    e?.TotalDiaSetcost +
-                                    e?.totals?.finding?.SettingAmount) /
-                                    result?.header?.CurrencyExchRate,
+                              {
+                                formatAmount(
+                                  (
+                                    (e?.metal
+                                      ?.filter(el => el?.IsPrimaryMetal !== 1 && el?.SettingRate !== 0)
+                                      ?.reduce((sum, el) => sum + (el?.SettingAmount || 0), 0) || 0) +
+                                    (e?.MakingAmount) +
+                                    (e?.totals?.misc?.isHSCODE123_amt) +
+                                    (e?.OtherCharges) +
+                                    (e?.TotalDiamondHandling) +
+                                    (e?.TotalCsSetcost) +
+                                    (e?.TotalDiaSetcost) +
+                                    (e?.totals?.finding?.SettingAmount)
+                                  ) / (result?.header?.CurrencyExchRate),
                                   0
-                                )}
+                                )
+                              }
                               </div>
                             </div>
                             <div
@@ -1781,20 +1787,22 @@ const PackingList7DGroup = ({
                       </div> */}
                       <div className="col7dp10_pcl7 end_dp10_pcl7  d-flex align-items-center  pr_dp10_pcl7  border-end-0">
                         {formatAmount(
-                          ( 
-                            result?.resultArray?.reduce?.((acc, e) => {
-                              if (!e || e.MaKingCharge_Unit === 0) return acc;
-                              const weight = e?.metal?.reduce?.((sum, el) => sum + (el?.Wt || 0), 0) || 0;
-                              return acc + (e?.MaKingCharge_Unit || 0) * weight;
-                            }, 0) +
-                            result?.mainTotal?.total_diamondHandling +
-                            result?.mainTotal?.misc?.isHSCODE123_amt +
-                            result?.mainTotal?.total_TotalDiaSetcost +
-                            result?.mainTotal?.total_TotalCsSetcost +
-                            result?.mainTotal?.finding?.SettingAmount +
-                            result?.mainTotal?.total_other_charges) /
-                            result?.header?.CurrencyExchRate,
-                          0
+                          (
+                            (result?.resultArray?.reduce((total, e) => {
+                              const metalSum = e?.metal
+                                ?.filter(el => el?.IsPrimaryMetal !== 1 && el?.SettingRate !== 0)
+                                ?.reduce((sum, el) => sum + (el?.SettingAmount || 0), 0) || 0;
+                              return total + metalSum;
+                            }, 0) || 0) +
+                            (result?.mainTotal?.total_Making_Amount || 0) +
+                            (result?.mainTotal?.total_diamondHandling || 0) +
+                            (result?.mainTotal?.misc?.isHSCODE123_amt || 0) +
+                            (result?.mainTotal?.total_TotalDiaSetcost || 0) +
+                            (result?.mainTotal?.total_TotalCsSetcost || 0) +
+                            (result?.mainTotal?.finding?.SettingAmount || 0) +
+                            (result?.mainTotal?.total_other_charges || 0)
+                          ) / (result?.header?.CurrencyExchRate || 1),
+                          0 
                         )}
                       </div>
                       <div className="col8dp10_pcl7 end_dp10_pcl7  d-flex align-items-center pr_dp10_pcl7 border-start border-black">
@@ -1963,23 +1971,30 @@ const PackingList7DGroup = ({
                               <div className="d-flex justify-content-between px-1">
                                 <div className="w-50 fw-bold">MAKING </div>
                                 <div className="w-50 end_dp10_pcl7">
-                                  {formatAmount(
-                                    (result?.mainTotal?.misc?.isHSCODE123_amt +
-                                      totalSecondaryMetalLabour + 
-                                      result?.mainTotal?.finding?.SettingAmount +
-                                      result?.mainTotal?.total_labour?.labour_amount +
-                                      result?.mainTotal?.total_TotalDiaSetcost +
-                                      result?.mainTotal?.total_TotalCsSetcost) /
-                                      result?.header?.CurrencyExchRate,
-                                    0
-                                  )}
+                                {formatAmount(
+  (
+    (result?.resultArray?.reduce((total, e) => {
+      const metalSum = e?.metal
+        ?.filter(el => el?.IsPrimaryMetal !== 1 && el?.SettingRate !== 0)
+        ?.reduce((sum, el) => sum + (el?.SettingAmount || 0), 0) || 0;
+      return total + metalSum;
+    }, 0) || 0) +
+    (Number(result?.mainTotal?.misc?.isHSCODE123_amt) || 0) +
+    (Number(result?.mainTotal?.finding?.SettingAmount) || 0) +
+    (Number(result?.mainTotal?.total_Making_Amount) || 0) +
+    (Number(result?.mainTotal?.total_TotalDiaSetcost) || 0) +
+    (Number(result?.mainTotal?.total_TotalCsSetcost) || 0)
+  ) / (Number(result?.header?.CurrencyExchRate) || 1),
+  0
+)}
+
                                 </div>
                               </div>
                               <div className="d-flex justify-content-between px-1">
                                 <div className="w-50 fw-bold">OTHER </div>
                                 <div className="w-50 end_dp10_pcl7">
                                   {formatAmount(
-                                    result?.mainTotal?.total_other_charges +
+                                    result?.mainTotal?.total_other_charges + 
                                       result?.mainTotal?.total_diamondHandling,
                                     0
                                   )}
