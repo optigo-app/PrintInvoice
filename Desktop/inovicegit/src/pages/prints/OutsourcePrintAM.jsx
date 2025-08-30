@@ -367,7 +367,8 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
             }
             anotherFinding.push(ele);
             // metalsTotal.weight += ele.Wt;
-            // totals.weightWithDiamondLoss += ele.Wt;
+            totals.weightWithDiamondLoss += ele.Wt;
+            totals.gdWt += ele.Wt;
           }
         }
       });
@@ -1151,6 +1152,7 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
   console.log("miscTotal", miscTotal)
   console.log("ColorStoneTotal", ColorStoneTotal)
   console.log("total", total)
+  console.log("total,weightWithDiamondLoss", total?.weightWithDiamondLoss)
   console.log("diamondTotal", diamondTotal)
 
 
@@ -1632,8 +1634,7 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                                 e?.mics.length > 0) && (
                                 <>
                                   {NumberWithCommas(
-                                    e?.colorStonesTotal?.pcs +
-                                      e?.miscsTotal?.pcs,
+                                    e?.colorStonesTotal?.pcs,
                                     0
                                   )}
                                 </>
@@ -1646,8 +1647,7 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                                 e?.mics.length > 0) && (
                                 <>
                                   {fixedValues(
-                                    e?.colorStonesTotal?.weight +
-                                      e?.miscsTotal?.weight,
+                                    e?.colorStonesTotal?.weight,
                                     3
                                   )}
                                 </>
@@ -1715,14 +1715,16 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                   </div>
                   <div className="width20EstimatePrint p_1Estimate h-100">
                     <p className="text-center fw-bold">
-                      {colorStoneMiscTotal?.Pcs !== 0 &&
-                        NumberWithCommas(colorStoneMiscTotal?.Pcs, 0)}
+                      {ColorStoneTotal?.Pcs !== 0 &&
+                        NumberWithCommas(ColorStoneTotal?.Pcs
+                      , 0)}
                     </p>
                   </div>
                   <div className="width20EstimatePrint p_1Estimate h-100">
                     <p className="text-end fw-bold">
-                      {colorStoneMiscTotal?.Wt !== 0 &&
-                        fixedValues(colorStoneMiscTotal?.Wt, 3)}
+                      {ColorStoneTotal?.Wt !== 0 &&
+                        fixedValues(ColorStoneTotal?.Wt
+                      , 3)}
                     </p>
                   </div>
                 </div>
@@ -1798,7 +1800,7 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                           </p>
                         </div>
                       {/** )}*/}
-                      {miscTotal?.Pcs === 0 || miscTotal?.Wt === 0 ? ( "" ) : 
+                      {/* {miscTotal?.Pcs === 0 || miscTotal?.Wt === 0 ? ( "" ) : 
                       (
                         <div className="d-flex justify-content-between px-1">
                           <p className="fw-bold">MISC WT</p>
@@ -1807,7 +1809,7 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                             {fixedValues(miscTotal?.Wt, 3)} gm
                           </p>
                         </div>
-                      )}
+                      )} */}
                       {total?.findingWeight !== 0 && (
                         <div className="d-flex justify-content-between px-1">
                           <p className="fw-bold">FINDING WT</p>
