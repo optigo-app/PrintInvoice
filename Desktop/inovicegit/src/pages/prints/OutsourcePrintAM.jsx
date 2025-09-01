@@ -1711,7 +1711,9 @@ const calculateContributions = () => {
                                                 e?.J_JobNo === ele?.J_JobNo &&
                                                 el?.ShapeName === ele?.ShapeName &&
                                                 el?.QualityName === ele?.QualityName &&
-                                                el?.Colorname === ele?.Colorname
+                                                el?.Colorname === ele?.Colorname &&
+                                                el?.FindingTypename === ele?.FindingTypename &&
+                                                el?.FindingAccessories === ele?.FindingAccessories
                                             );
 
                                           if (matchedItems && matchedItems.length > 0) {
