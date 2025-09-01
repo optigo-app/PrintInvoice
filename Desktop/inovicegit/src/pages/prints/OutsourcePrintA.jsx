@@ -1200,8 +1200,8 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                           <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">{e?.JobSKUNo}</div>
                           <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">{e?.EntryDate}</div>
                           <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">{e?.Size}</div>
-                          <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">{e?.grosswt}</div>
-                          <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">{e?.diamondTotal?.weight}</div>
+                          <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">{fixedValues(e?.grosswt,3)}</div>
+                          <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">{fixedValues(e?.diamondTotal?.weight,3)}</div>
                           <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_14"></div>
                           <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_14"></div>
                           <div className="spbrdRght sptxtend spbrdrBtomDR estimatePrintFont_14"></div>
@@ -1258,7 +1258,7 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                       </div>
                       <div className="dtlWdth2 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend SuBspfntszDCM">{el?.SizeName || ""}</div>
                       <div className="dtlWdth3 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend SuspfntszDCM">{el?.Pcs || ""}</div>
-                      <div className="dtlWdth4 spbrdRghtDR spbrdrBtom estimatePrintFont_14 Sesptxtend SuspfntszDCM">{el?.Wt || ""}</div>
+                      <div className="dtlWdth4 spbrdRghtDR spbrdrBtom estimatePrintFont_14 Sesptxtend SuspfntszDCM">{fixedValues(el?.Wt,3) || null }</div>
                       <div className="dtlWdth5 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend"></div>
                       <div className="dtlWdth6 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend"></div>
                       <div className="dtlWdth7 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend"></div>
@@ -1285,7 +1285,7 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                       </div>
                       <div className="dtlWdth2 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend SuBspfntszDCM">{item?.SizeName || ""}</div>
                       <div className="dtlWdth3 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend SuspfntszDCM">{item?.Pcs || ""}</div>
-                      <div className="dtlWdth4 spbrdRghtDR spbrdrBtom estimatePrintFont_14 Sesptxtend SuspfntszDCM">{item?.Wt || ""}</div>
+                      <div className="dtlWdth4 spbrdRghtDR spbrdrBtom estimatePrintFont_14 Sesptxtend SuspfntszDCM">{fixedValues(item?.Wt,3) || ""}</div>
                       <div className="dtlWdth5 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend"></div>
                       <div className="dtlWdth6 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend"></div>
                       <div className="dtlWdth7 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend"></div>
