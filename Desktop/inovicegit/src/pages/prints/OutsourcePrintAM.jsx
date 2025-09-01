@@ -1151,7 +1151,7 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
     const metalWeights = json2Data?.map((e) => {
       if (!e?.diamonds || e?.diamonds?.length === 0) return [];
       return e?.metals?.map((metal) => {
-        const metalWtPercentage = (metal?.Wt / e?.NetWt + e?.LossWt) * 100;
+        const metalWtPercentage = (metal?.Wt / e?.NetWt) * 100;
         return {
           J_JobNo: e?.J_JobNo,
           StockDocumentNo: metal?.StockDocumentNo,
@@ -1168,7 +1168,7 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
     const findingWeights = json2Data?.map((e) => {
       if (!e?.diamonds || e?.diamonds?.length === 0) return [];
       return e?.finding?.map((finding) => {
-        const findingWtPercentage = (finding?.Wt / e?.NetWt + e?.LossWt) * 100;
+        const findingWtPercentage = (finding?.Wt / e?.NetWt) * 100;
         return {
           J_JobNo: e?.J_JobNo,
           StockDocumentNo: finding?.StockDocumentNo,
@@ -1185,7 +1185,7 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
     const anotherFindingWeights = json2Data?.map((e) => {
       if (!e?.diamonds || e?.diamonds?.length === 0) return [];
       return e?.anotherFinding?.map((anotherFinding) => {
-        const anotherFindingWtPercentage = (anotherFinding?.Wt / e?.NetWt + e?.LossWt) * 100;
+        const anotherFindingWtPercentage = (anotherFinding?.Wt / e?.NetWt) * 100;
         return {
           J_JobNo: e?.J_JobNo,
           StockDocumentNo: anotherFinding?.StockDocumentNo,
@@ -1209,7 +1209,7 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
   };
   
   const weightDetails = calculateMetalWeights();
-  console.log("weightDetails", weightDetails);
+  // console.log("weightDetails", weightDetails);
   
 
 /////////////////////////////////////////////
@@ -1314,19 +1314,23 @@ const calculateContributions = () => {
 };
 
   const mergeMetalDiamondwt = calculateContributions();
-  console.log("mergeMetalDiamondwt", mergeMetalDiamondwt);
+  // console.log("mergeMetalDiamondwt", mergeMetalDiamondwt);
 
-
+  const finalMetalWtTotal = json2Data?.reduce((sum, e) => {
+    return sum + (e?.metalsTotal?.weight || 0);
+  }, 0);
   
 
-  console.log("json2Datajson2Data", json2Data);
-  console.log("json1Data", json1Data)
+
+
+  // console.log("json2Datajson2Data", json2Data);
+  // console.log("json1Data", json1Data)
   // console.log("miscTotal", miscTotal)
   // console.log("ColorStoneTotal", ColorStoneTotal)
-  console.log("total", total)
+  // console.log("total", total)
   // console.log("total,weightWithDiamondLoss", total?.weightWithDiamondLoss)
   // console.log("total,gdWt", total?.gdWt)
-  console.log("diamondTotal", diamondTotal)
+  // console.log("diamondTotal", diamondTotal)
 
 
   return (
@@ -1783,7 +1787,7 @@ const calculateContributions = () => {
                           </div>
                           <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
                             <p className="text-end fw-bold">
-                              {fixedValues(e?.NetWt + e?.LossWt,2)}
+                              {fixedValues(e?.NetWt,2)} {/* + e?.LossWt */}
                             </p>
                           </div>
                         </div>
@@ -1920,8 +1924,9 @@ const calculateContributions = () => {
                   </div>
                   <div className="width200EstimatePrint p_1Estimate h-100">
                     <p className="fw-bold fw-bold text-end">
-                      {total?.weightWithDiamondLoss !== 0 &&
-                        fixedValues(total?.weightWithDiamondLoss,2)}
+                      {formatAmount(finalMetalWtTotal,2)}
+                      {/* {total?.weightWithDiamondLoss !== 0 &&
+                        fixedValues( total?.weightWithDiamondLoss,2)} */}
                     </p>
                   </div>
                   <div className="width200EstimatePrint p_1Estimate h-100">
