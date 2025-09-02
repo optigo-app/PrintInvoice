@@ -201,7 +201,9 @@ const InvoicePrint2Material = ({
                     <div className="Sucol2_inv2 spbrRht">
                       {e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND" : 
                         e?.ItemName === "COLOR STONE" ? "STONE" : 
-                          e?.ItemName === "METAL" && e?.shape === "GOLD" ? "GOLD" : 
+                          e?.ItemName === "METAL" && e?.shape === "GOLD" ? "GOLD" :
+                          e?.ItemName === "METAL" && e?.shape === "gold" ? "GOLD" :
+                          e?.ItemName === "METAL" && e?.shape === "Gold" ? "GOLD" : 
                           e?.ItemName === "METAL" && e?.shape === "Silver" ? `SILVER ${e?.quality ? e?.quality : ''}` : 
                           e?.ItemName === "MISC" ? "MISC" : 
                           e?.ItemName === "FINDING" ? "FINDING" : 

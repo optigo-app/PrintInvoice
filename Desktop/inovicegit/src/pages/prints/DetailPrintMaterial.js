@@ -212,7 +212,7 @@ const DetailPrintMaterial = ({
                             : ""
                     }
                     </div>
-                    <div className="Sucol3_inv2 spbrRht">{}</div> {/** Remarks */}
+                    <div className="Sucol3_inv2 spbrRht">{e?.MaterialRemark}</div>
                     <div className="Sucol6_inv2 spbrRht spfnted">{e?.pieces === "" ? "-" : e?.pieces}</div>
                     <div className="Sucol7_inv2 spbrRht spfnted">{fixedValues(e?.Weight === "" ? "-" : e?.Weight,3)}</div>
                     <div className="Sucol8_inv2 spfnted spbrRht">{formatAmount(e?.Rate === "" ? "-" : e?.Rate,2)}</div>

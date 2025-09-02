@@ -1215,103 +1215,103 @@ const OutsourcePrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
 /////////////////////////////////////////////
 
 
-const calculateContributions = () => {
-  if (!diamondTotal?.Wt) {
-    console.error("Diamond total weight (diamondTotal?.Wt) is missing");
-    return;
-  }
-
-  const allWeightDetails = [
-    ...weightDetails.metalWeights.flat(),
-    ...weightDetails.findingWeights.flat(),
-    ...weightDetails.anotherFindingWeights.flat(),
-  ];
-
-  const contributions = allWeightDetails.map((item) => {
-    let weight = item?.Weight || 0;
-    let weightPercentage = item?.WeightPercentage || 0;
-  
-    const diamondWeight = json2Data.find(
-      (job) => job.J_JobNo === item.J_JobNo)?.diamondTotal?.weight || 0;
-  
-    if (diamondWeight === 0) {
-      return { ...item, Contribution: 0, Wt: weight }; 
+  const calculateContributions = () => {
+    if (!diamondTotal?.Wt) {
+      console.error("Diamond total weight (diamondTotal?.Wt) is missing");
+      return;
     }
-  
-    let contribution = (weightPercentage * diamondWeight) / 100;
-    contribution = contribution / 5;
+
+    const allWeightDetails = [
+      ...weightDetails.metalWeights.flat(),
+      ...weightDetails.findingWeights.flat(),
+      ...weightDetails.anotherFindingWeights.flat(),
+    ];
+
+    const contributions = allWeightDetails.map((item) => {
+      let weight = item?.Weight || 0;
+      let weightPercentage = item?.WeightPercentage || 0;
     
-    return {
-      ...item,
-      Contribution: contribution,
-      Wt: contribution,
+      const diamondWeight = json2Data.find(
+        (job) => job.J_JobNo === item.J_JobNo)?.diamondTotal?.weight || 0;
+    
+      if (diamondWeight === 0) {
+        return { ...item, Contribution: 0, Wt: weight }; 
+      }
+    
+      let contribution = (weightPercentage * diamondWeight) / 100;
+      contribution = contribution / 5;
+      
+      return {
+        ...item,
+        Contribution: contribution,
+        Wt: contribution,
+      };
+    });
+    
+    
+
+    const updatedWeightDetails = {
+      metalWeights: weightDetails.metalWeights.map((metalGroup) => {
+        return metalGroup.map((metal) => {
+          const contribution = contributions.find(contrib =>
+            contrib?.J_JobNo === metal?.J_JobNo &&
+            contrib?.StockDocumentNo === metal?.StockDocumentNo &&
+            contrib?.StockBarcode === metal?.StockBarcode &&
+            contrib?.ShapeName === metal?.ShapeName &&
+            contrib?.QualityName === metal?.QualityName &&
+            contrib?.Colorname === metal?.Colorname
+          )?.Contribution || 0;
+          if (contribution > 0) {
+            metal.Wt = (metal.Wt || 0) + contribution;
+            metal.Weight = (metal.Weight || 0) + contribution;
+          }
+
+          return metal;
+        });
+      }),
+      findingWeights: weightDetails.findingWeights.map((findingGroup) => {
+        return findingGroup.map((finding) => {
+          const contribution = contributions.find(contrib =>
+            contrib?.J_JobNo === finding?.J_JobNo &&
+            contrib?.StockDocumentNo === finding?.StockDocumentNo &&
+            contrib?.StockBarcode === finding?.StockBarcode &&
+            contrib?.ShapeName === finding?.ShapeName &&
+            contrib?.QualityName === finding?.QualityName &&
+            contrib?.Colorname === finding?.Colorname
+          )?.Contribution || 0;
+          if (contribution > 0) {
+            finding.Wt = (finding.Wt || 0) + contribution;
+            finding.Weight = (finding.Weight || 0) + contribution;
+          }
+
+          return finding;
+        });
+      }),
+      anotherFindingWeights: weightDetails.anotherFindingWeights.map((anotherFindingGroup) => {
+        return anotherFindingGroup.map((anotherFinding) => {
+          const contribution = contributions.find(contrib =>
+            contrib?.J_JobNo === anotherFinding?.J_JobNo &&
+            contrib?.StockDocumentNo === anotherFinding?.StockDocumentNo &&
+            contrib?.StockBarcode === anotherFinding?.StockBarcode &&
+            contrib?.ShapeName === anotherFinding?.ShapeName &&
+            contrib?.QualityName === anotherFinding?.QualityName &&
+            contrib?.Colorname === anotherFinding?.Colorname &&
+            contrib?.FindingTypename === anotherFinding?.FindingTypename &&
+            contrib?.FindingAccessories === anotherFinding?.FindingAccessories 
+          )?.Contribution || 0;
+
+          if (contribution > 0) {
+            anotherFinding.Wt = (anotherFinding.Wt || 0) + contribution;
+            anotherFinding.Weight = (anotherFinding.Weight || 0) + contribution;
+          }
+
+          return anotherFinding;
+        });
+      }),
     };
-  });
-  
-  
 
-  const updatedWeightDetails = {
-    metalWeights: weightDetails.metalWeights.map((metalGroup) => {
-      return metalGroup.map((metal) => {
-        const contribution = contributions.find(contrib =>
-          contrib?.J_JobNo === metal?.J_JobNo &&
-          contrib?.StockDocumentNo === metal?.StockDocumentNo &&
-          contrib?.StockBarcode === metal?.StockBarcode &&
-          contrib?.ShapeName === metal?.ShapeName &&
-          contrib?.QualityName === metal?.QualityName &&
-          contrib?.Colorname === metal?.Colorname
-        )?.Contribution || 0;
-        if (contribution > 0) {
-          metal.Wt = (metal.Wt || 0) + contribution;
-          metal.Weight = (metal.Weight || 0) + contribution;
-        }
-
-        return metal;
-      });
-    }),
-    findingWeights: weightDetails.findingWeights.map((findingGroup) => {
-      return findingGroup.map((finding) => {
-        const contribution = contributions.find(contrib =>
-          contrib?.J_JobNo === finding?.J_JobNo &&
-          contrib?.StockDocumentNo === finding?.StockDocumentNo &&
-          contrib?.StockBarcode === finding?.StockBarcode &&
-          contrib?.ShapeName === finding?.ShapeName &&
-          contrib?.QualityName === finding?.QualityName &&
-          contrib?.Colorname === finding?.Colorname
-        )?.Contribution || 0;
-        if (contribution > 0) {
-          finding.Wt = (finding.Wt || 0) + contribution;
-          finding.Weight = (finding.Weight || 0) + contribution;
-        }
-
-        return finding;
-      });
-    }),
-    anotherFindingWeights: weightDetails.anotherFindingWeights.map((anotherFindingGroup) => {
-      return anotherFindingGroup.map((anotherFinding) => {
-        const contribution = contributions.find(contrib =>
-          contrib?.J_JobNo === anotherFinding?.J_JobNo &&
-          contrib?.StockDocumentNo === anotherFinding?.StockDocumentNo &&
-          contrib?.StockBarcode === anotherFinding?.StockBarcode &&
-          contrib?.ShapeName === anotherFinding?.ShapeName &&
-          contrib?.QualityName === anotherFinding?.QualityName &&
-          contrib?.Colorname === anotherFinding?.Colorname &&
-          contrib?.FindingTypename === anotherFinding?.FindingTypename &&
-          contrib?.FindingAccessories === anotherFinding?.FindingAccessories 
-        )?.Contribution || 0;
-
-        if (contribution > 0) {
-          anotherFinding.Wt = (anotherFinding.Wt || 0) + contribution;
-          anotherFinding.Weight = (anotherFinding.Weight || 0) + contribution;
-        }
-
-        return anotherFinding;
-      });
-    }),
+    return updatedWeightDetails;
   };
-
-  return updatedWeightDetails;
-};
 
   const mergeMetalDiamondwt = calculateContributions();
   // console.log("mergeMetalDiamondwt", mergeMetalDiamondwt);
