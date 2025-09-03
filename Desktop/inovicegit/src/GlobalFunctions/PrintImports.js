@@ -410,6 +410,7 @@ export const MaterialSale = [
 
 export const fgPurchase = [
   {printName: 'item wise print', etpType: 'print', componentName: 'ItemWisePrint'},
+  {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrintfgPurchase'},
   {printName: 'item wise print1', etpType: 'print', componentName: 'ItemWisePrint'},
   {printName: 'item wise print2', etpType: 'print', componentName: 'ItemWisePrint'},
   {printName: 'summary 4', etpType: 'print', componentName: 'Summary4'},

@@ -1130,7 +1130,7 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       ) : msg === "" ? (
         <>
           {/* print button */}
-          <div className="d-flex justify-content-end align-items-center print_sec_sum4 pb-4 mt-5 w-100">
+          <div className="d-flex container containerEstimate justify-content-end align-items-center print_sec_sum4 pb-4 mt-5 w-100">
             <div className="form-check ps-3">
               <input
                 type="button"
@@ -1169,7 +1169,7 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
 
                     <div className="spdispFlx spbrdrLftDR spbrdRghtDR">
                       <div className="Suspdtl1 spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">Cust Id</div>
-                      <div className="Suspdtl2 sptxtend spbrdrBtom estimatePrintFont_14" style={{width: "75%"}}>{json1Data?.CustName}</div>
+                      <div className="Suspdtl2 sptxtend spbrdrBtom estimatePrintFont_14" style={{width: "75%"}}>{json1Data?.Customercode}</div>
                       {/* <div className="Suspdtl3 spBold sptxtend spbrdrBtom estimatePrintFont_14"></div> */}
                     </div>
 
@@ -1219,13 +1219,13 @@ const OutsourcePrintA = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                   </div>
 
                   <div className="spBold sptxtend border_color_estimate text-center spnfntIns spMrgBFive spMrgTFive spbgColr">
-                    Instuction
+                    Instruction
                   </div>
                   
                   <div className="border_color_estimate">
                     <div className="spdispFlx">
-                      <div className="Suspdtl1 spBold spHitIns spbrdRght spbrdrBtom estimatePrintFont_14">Instuction :</div>
-                      <div className="spHitIns spbrdrBtom spWdthIns estimatePrintFont_14">{e?.Instruction}</div>
+                      <div className="Suspdtl1 spBold spHitIns spbrdRght spbrdrBtom estimatePrintFont_14">Instruction :</div>
+                      <div className="spHitIns spbrdrBtom spWdthIns estimatePrintFont_14">{e?.JobRemark}</div>
                     </div>
                     <div className="spdispFlx">
                       <div className="Suspdtl1 spnHitArtisn spBold spbrdRght spnfntArtisn">ARTISAN NAME :</div>

@@ -32,7 +32,7 @@ const InvoicePrint2Material = ({
   const [custAddress, setCustAddress] = useState([]);
   const [taxAmont , setTaxAmount] = useState();
   const [extraTaxAmont , setExtraTaxAmount] = useState();
-  const toWords = new ToWords();  
+  const toWords = new ToWords(); 
   const [isImageWorking, setIsImageWorking] = useState(true);
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -122,11 +122,11 @@ const InvoicePrint2Material = ({
   console.log("finalD", finalD);
   console.log("json0Data", json0Data);
 
-  const amount = Number(GrandTotal || 0);
-  const rupees = Math.floor(amount);
-  const paise = Math.round((amount - rupees) * 100);
-  const rupeesInWords = toWords.convert(rupees);
-  const paiseInWords = paise > 0 ? ` and ${toWords.convert(paise)} Paise` : '';
+  // const amount = Number(GrandTotal || 0);
+  // const rupees = Math.floor(amount);
+  // const paise = Math.round((amount - rupees) * 100);
+  // const rupeesInWords = toWords.convert(rupees);
+  // const paiseInWords = paise > 0 ? ` and ${toWords.convert(paise)} Paise` : '';
 
   return (
     <>
@@ -322,7 +322,7 @@ const InvoicePrint2Material = ({
               {/**Grand Total */}
               <div className="disflx spfntbH">
                 <div className="taxwdth spbrlFt spbrRht" style={{ paddingLeft: "5px", paddingTop: "5px" }}>
-                  In Words Indian Rupees <br /><span className="spfntBld">Rupees {rupeesInWords + paiseInWords} Only</span>
+                  <p>In Words { /** Currencyname */ }</p><span className="spfntBld">{toWords.convert(+(GrandTotal?.toFixed(2)))} Only</span>
                 </div>
                 <div className="taxwdth1 spbrRht spfntBld grtHet brTpm" style={{ alignItems: "center" }}>GRAND TOTAL</div>
                 <div className="taxwdth2 spbrRht spfntBld grtHet brTpm">{NumberWithCommas(GrandTotal,2)}</div>
