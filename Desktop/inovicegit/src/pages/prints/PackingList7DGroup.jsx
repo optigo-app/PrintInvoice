@@ -224,8 +224,9 @@ const PackingList7DGroup = ({
             a?.ShapeName === bll?.ShapeName &&
             a?.QualityName === bll?.QualityName &&
             a?.Colorname === bll?.Colorname &&
-            a?.SizeName === bll?.SizeName
-        );
+            a?.SizeName === bll?.SizeName 
+            /* a?.MaterialTypeName === bll?.MaterialTypeName */
+          );
         if (findrec === -1) {
           dia1_g.push(bll);
         } else {
@@ -242,7 +243,8 @@ const PackingList7DGroup = ({
             a?.ShapeName === bll?.ShapeName &&
             a?.QualityName === bll?.QualityName &&
             a?.Colorname === bll?.Colorname &&
-            a?.GroupName === bll?.GroupName
+            a?.GroupName === bll?.GroupName 
+            // a?.MaterialTypeName === bll?.MaterialTypeName
         );
         if (findrec === -1) {
           dia2_g.push(bll);
@@ -1069,7 +1071,7 @@ const PackingList7DGroup = ({
                                     >
                                       {el?.ShapeName} {""}
                                       { imgFlag3
-                                        ? `${el?.QualityName} ${el?.Colorname}
+                                        ? `${el?.QualityName} ${el?.MaterialTypeName}
                                           `
                                         : ""}
                                     </div>
