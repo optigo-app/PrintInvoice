@@ -1883,11 +1883,11 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <div className="stoneEstimatePrint position-relative"></div>
                 <div className="OtherAmountEstimatePrint position-relative"></div>
                 <div className="labourEstimatePrint border-end border-white">
-                  {total?.discountAmt !== 0 && (
+                  {/* {total?.discountAmt !== 0 && (
                     <div className="text-end">
                       <p>Total Discount</p>
                     </div>
-                  )}
+                  )} */}
                   {total?.finalAmount !== 0 && (
                     <div className="text-end">
                       <p>Bill Amount</p>
@@ -1941,14 +1941,14 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   className="totalAmountEstimatePrint"
                   style={{ paddingRight: "2px" }}
                 >
-                  {total?.discountAmt !== 0 && (
+                  {/* {total?.discountAmt !== 0 && (
                     <div className="text-end">
                       <p>{NumberWithCommas(total?.discountAmt, 2)}</p>
                     </div>
-                  )}
+                  )} */}
                   {total?.totalamount !== 0 && (
                     <div className="text-end">
-                      <p>{NumberWithCommas(total?.totalamount - total?.discountAmt, 2)}</p> {/* total?.finalAmount */}
+                      <p>{NumberWithCommas(total?.totalamount, 2)}</p> {/* total?.finalAmount */}
                     </div>
                   )}
 
@@ -2120,7 +2120,7 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         }}
                       ></span>
                       {total?.finalAmount !== 0 &&
-                        NumberWithCommas(total?.finalAmount - total?.discountAmt, 2)}
+                        NumberWithCommas(total?.finalAmount, 2)}
                     </p>
                   </div>
                 </div>
