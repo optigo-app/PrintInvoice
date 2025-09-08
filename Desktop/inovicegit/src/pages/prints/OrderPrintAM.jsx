@@ -1165,6 +1165,8 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   };
 
   console.log("json2Datajson2Data", json2Data);
+  console.log("json1Data", json1Data);
+  console.log("total", total);
 
   return (
     <>
@@ -1244,7 +1246,6 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               </div>
             </div>
           </div>
-          {console.log("json1Data", json1Data)}
           <div className="my-2 w-100">
             {/* heading */}
             <div className="border-start border-top border-end d-flex border-bottom recordEstimatePrint overflow-hidden border-black lightGrey">
@@ -1912,11 +1913,11 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <p>Advance</p>
                     </div>
                   )}
-                  {total?.AddLess !== 0 && (
+                  {/* {total?.AddLess !== 0 && (
                     <div className="text-end">
                       <p>Add</p>
                     </div>
-                  )}
+                  )} */}
                   {total.previeligeCardDisocunt !== 0 && (
                     <div className="text-end">
                       <p>Privilege Card Discount </p>
@@ -1945,9 +1946,9 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <p>{NumberWithCommas(total?.discountAmt, 2)}</p>
                     </div>
                   )}
-                  {total?.finalAmount !== 0 && (
+                  {total?.totalamount !== 0 && (
                     <div className="text-end">
-                      <p>{NumberWithCommas(total?.finalAmount, 2)}</p>
+                      <p>{NumberWithCommas(total?.totalamount, 2)}</p> {/* finalAmount */}
                     </div>
                   )}
 
@@ -1971,11 +1972,11 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <p>{NumberWithCommas(total?.Advance, 2)}</p>
                     </div>
                   )}
-                  {total?.AddLess !== 0 && (
+                  {/* {total?.AddLess !== 0 && (
                     <div className="text-end">
                       <p>{NumberWithCommas(total?.AddLess, 2)}</p>
                     </div>
-                  )}
+                  )} */}
 
                   {total?.discountAmt !== 0 && (
                     <div className="text-end">

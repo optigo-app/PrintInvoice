@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import "../../assets/css/prints/SummaryPrintfgPurchase.css";
+import "../../assets/css/prints/summaryprintFG.css";
 import { apiCall, handlePrint, taxGenrator, isObjectEmpty, NumberWithCommas, fixedValues, checkMsg } from "../../GlobalFunctions";
 import { usePDF } from "react-to-pdf";
 import { ToWords } from 'to-words';
 import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
 
-const SummaryPrintfgPurchase = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
+const SummaryPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
   const [loader, setLoader] = useState(true);
   const toWords = new ToWords();
@@ -568,4 +568,4 @@ const SummaryPrintfgPurchase = ({ token, invoiceNo, printName, urls, evn, ApiVer
   );
 };
 
-export default SummaryPrintfgPurchase;
+export default SummaryPrintFG;

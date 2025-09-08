@@ -410,7 +410,7 @@ export const MaterialSale = [
 
 export const fgPurchase = [
   {printName: 'item wise print', etpType: 'print', componentName: 'ItemWisePrint'},
-  {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrintfgPurchase'},
+  {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrintFG'},
   {printName: 'item wise print1', etpType: 'print', componentName: 'ItemWisePrint'},
   {printName: 'item wise print2', etpType: 'print', componentName: 'ItemWisePrint'},
   {printName: 'summary 4', etpType: 'print', componentName: 'Summary4'},
@@ -420,6 +420,7 @@ export const fgPurchase = [
   {printName: 'customer daily statement', etpType: 'print', componentName: 'CustomerDailyStatement'},
   {printName: 'daily statement', etpType: 'print', componentName: 'CustomerDailyStatement'},
   {printName: 'tax invoice 5', etpType: 'print', componentName: 'TaxInvoice5'}, 
+  {printName: 'detail print', etpType: 'print', componentName: 'DetailPrintFG'}, 
 ];
 
 export const fgPurchaseReturn = [
