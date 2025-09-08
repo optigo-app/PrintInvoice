@@ -1948,7 +1948,7 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   )}
                   {total?.totalamount !== 0 && (
                     <div className="text-end">
-                      <p>{NumberWithCommas(total?.totalamount, 2)}</p> {/* finalAmount */}
+                      <p>{NumberWithCommas(total?.totalamount - total?.discountAmt, 2)}</p> {/* total?.finalAmount */}
                     </div>
                   )}
 
@@ -1977,12 +1977,6 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <p>{NumberWithCommas(total?.AddLess, 2)}</p>
                     </div>
                   )} */}
-
-                  {total?.discountAmt !== 0 && (
-                    <div className="text-end">
-                      <p>{NumberWithCommas(total?.discountAmt, 2)}</p>
-                    </div>
-                  )}
 
                   {total.previeligeCardDisocunt !== 0 && (
                     <div className="text-end">
@@ -2126,7 +2120,7 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         }}
                       ></span>
                       {total?.finalAmount !== 0 &&
-                        NumberWithCommas(total?.finalAmount, 2)}
+                        NumberWithCommas(total?.finalAmount - total?.discountAmt, 2)}
                     </p>
                   </div>
                 </div>
