@@ -1164,9 +1164,9 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     "Single Stone": (json1Data?.SS_LOGO),
   };
 
-  console.log("json2Datajson2Data", json2Data);
-  console.log("json1Data", json1Data);
-  console.log("total", total);
+  // console.log("json2Datajson2Data", json2Data);
+  // console.log("json1Data", json1Data);
+  // console.log("total", total);
 
   return (
     <>
@@ -1332,7 +1332,7 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <p className="text-center spBold">Amount </p>
               </div>
               <div className="labourEstimatePrint border-end border_color_estimates">
-                <div className="px-1 text-center border-bottom border_color_estimates">
+                <div className="p-1 text-center border-bottom border_color_estimates">
                   <p className="spBold">Labour</p>
                 </div>
                 <div className="d-flex h-100">

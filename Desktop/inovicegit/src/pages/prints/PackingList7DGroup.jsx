@@ -11,7 +11,7 @@ import {
   NumberWithCommas,
 } from "../../GlobalFunctions";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
-import "../../assets/css/prints/packinglist7Grup.scss";
+import "../../assets/css/prints/packinglist7DGrup.css";
 import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
@@ -30,7 +30,6 @@ const PackingList7DGroup = ({
   const [diamondWise, setDiamondWise] = useState([]);
   const [imgFlag, setImgFlag] = useState(true);
   const [imgFlag2, setImgFlag2] = useState(true);
-  const [imgFlag3, setImgFlag3] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
 
   const [MetShpWise, setMetShpWise] = useState([]);
@@ -224,8 +223,8 @@ const PackingList7DGroup = ({
             a?.ShapeName === bll?.ShapeName &&
             a?.QualityName === bll?.QualityName &&
             a?.Colorname === bll?.Colorname &&
-            a?.SizeName === bll?.SizeName 
-            /* a?.MaterialTypeName === bll?.MaterialTypeName */
+            a?.SizeName === bll?.SizeName &&
+            a?.MaterialTypeName === bll?.MaterialTypeName // Added
           );
         if (findrec === -1) {
           dia1_g.push(bll);
@@ -244,7 +243,6 @@ const PackingList7DGroup = ({
             a?.QualityName === bll?.QualityName &&
             a?.Colorname === bll?.Colorname &&
             a?.GroupName === bll?.GroupName 
-            // a?.MaterialTypeName === bll?.MaterialTypeName
         );
         if (findrec === -1) {
           dia2_g.push(bll);
@@ -357,7 +355,9 @@ const PackingList7DGroup = ({
           e?.StockBarcode === a?.StockBarcode &&
           e?.ShapeName === a?.ShapeName &&
           e?.QualityName === a?.QualityName &&
-          e?.Colorname === a?.Colorname
+          e?.Colorname === a?.Colorname &&
+          e?.SizeName === a?.SizeName && // Added
+          e?.MaterialTypeName === a?.MaterialTypeName // Added
       );
 
       if (findRecord === -1) {
@@ -518,13 +518,6 @@ const PackingList7DGroup = ({
       setImgFlag2(true);
     }
   };
-  const handleCheckbox3 = () => {
-    if (imgFlag3) {
-      setImgFlag3(false);
-    } else {
-      setImgFlag3(true);
-    }
-  };
 
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -599,21 +592,6 @@ const PackingList7DGroup = ({
                     >
                       With Header
                     </label>
-                  </span>
-                  <span>
-                      <input
-                        type="checkbox"
-                        id="imghideshow3"
-                        className="mx-1"
-                        checked={imgFlag3}
-                        onChange={handleCheckbox3}
-                      />
-                      <label
-                        htmlFor="imghideshow3"
-                        className="me-3 user-select-none"
-                      >
-                        With Diam Color & Quality
-                      </label>
                   </span>
                   <button
                     className="btn_white blue mb-0 hidedp10_pcl7 m-0 p-2"
@@ -817,11 +795,11 @@ const PackingList7DGroup = ({
                         Metal
                       </div>
                       <div className="d-flex justify-content-between align-items-center h-50 bt_dp10_pcl7 w-100">
-                        <div
-                          className="theadsubcol2_dp10_pcl7 bright_dp10_pcl7 h-100 centerdp10_pcl7"
-                          style={{ width: "21%" }}
-                        >
+                        <div className="theadsubcol2_dp10_pcl7 bright_dp10_pcl7 h-100 centerdp10_pcl7" style={{ width: "21%" }}>
                           Quality
+                        </div>
+                        <div className="theadsubcol2_dp10_pcl7 bright_dp10_pcl7 h-100 centerdp10_pcl7" style={{ width: "14.66%" }}>
+                          Tunch
                         </div>
                         <div className="theadsubcol2_dp10_pcl7 centerdp10_pcl7 bright_dp10_pcl7 h-100">
                           Gross Wt
@@ -844,25 +822,19 @@ const PackingList7DGroup = ({
                         </div>
                       </div>
                     </div>
-                    <div className="col3dp10_pcl7">
+                    <div className="col3dp10_pcl7CLR">
                       <div className="h-50 centerdp10_pcl7 fw-bold w-100">
                         Stone & Misc
                       </div>
                       <div className="d-flex justify-content-between align-items-center h-50 bt_dp10_pcl7 w-100">
                         <div
                           className="centerdp10_pcl7 h-100 bright_dp10_pcl7 theadsubcol1_dp10_pcl7"
-                          style={{ width: "21.66%" }}
+                          style={{ width: "20.66%" }}
                         >
-                          Code
+                          Clarity
                         </div>
                         <div className="centerdp10_pcl7 h-100 bright_dp10_pcl7 theadsubcol1_dp10_pcl7 ">
-                          Size
-                        </div>
-                        <div
-                          className="centerdp10_pcl7 h-100 bright_dp10_pcl7 theadsubcol1_dp10_pcl7"
-                          style={{ width: "11.66%" }}
-                        >
-                          Pcs
+                          Color
                         </div>
                         <div className="centerdp10_pcl7 h-100 bright_dp10_pcl7 theadsubcol1_dp10_pcl7">
                           Wt
@@ -870,7 +842,7 @@ const PackingList7DGroup = ({
                         <div className="centerdp10_pcl7 h-100 bright_dp10_pcl7 theadsubcol1_dp10_pcl7">
                           Rate
                         </div>
-                        <div className="centerdp10_pcl7 h-100 theadsubcol1_dp10_pcl7">
+                        <div className="centerdp10_pcl7 h-100 theadsubcol1_dp10_pcl7" style={{ width: "20.66%" }}>
                           Amount
                         </div>
                       </div>
@@ -1069,11 +1041,7 @@ const PackingList7DGroup = ({
                                         paddingLeft: "2px",
                                       }}
                                     >
-                                      {el?.ShapeName} {""}
-                                      { imgFlag3
-                                        ? `${el?.QualityName} ${el?.MaterialTypeName}
-                                          `
-                                        : ""}
+                                      {el?.MaterialTypeName}
                                     </div>
                                     <div
                                       className="theadsubcol1_dp10_pcl7 text-start ps-1"
@@ -1135,12 +1103,21 @@ const PackingList7DGroup = ({
                                       {el?.ShapeName} {el?.QualityName}{" "}
                                       {el?.Colorname}
                                     </div>
-                                    <div className="theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7">
+                                    <div
+                                      className="theadsubcol2_dp10_pcl7 d-flex justify-content-start border-end h-100 ps-1 border-end-0 text-break"
+                                      style={{
+                                        width: "14.02%",
+                                        wordBreak: "break-word",
+                                      }}
+                                    >
+                                      {el?.SizeName}
+                                    </div>
+                                    <div className="theadsubcol1_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7">
                                       {/* {(e?.NetWt + e?.LossWt)?.toFixed(3)} */}
                                       {el?.IsPrimaryMetal === 1 &&
                                         e?.grosswt?.toFixed(3)}
                                     </div>
-                                    <div className="theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7">
+                                    <div className="theadsubcol1_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7">
                                       {/* {(e?.NetWt + e?.LossWt)?.toFixed(3)} */}
                                       {/* { el?.IsPrimaryMetal === 1 ? ((el?.Wt - (e?.LossWt + e?.totals?.finding?.Wt))?.toFixed(3)) : (el?.Wt?.toFixed(3))} */}
                                       {el?.IsPrimaryMetal === 1
@@ -1148,7 +1125,7 @@ const PackingList7DGroup = ({
                                         : el?.Wt?.toFixed(3)}
                                     </div>
                                     <div
-                                      className="theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7"
+                                      className="theadsubcol1_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7"
                                       style={{ width: "18%" }}
                                     >
                                       {el?.Rate?.toFixed(2)}
@@ -1186,6 +1163,7 @@ const PackingList7DGroup = ({
                                   >
                                     Loss Wt
                                   </div>
+                                  <div className="theadsubcol2_dp10_pcl7 d-flex justify-content-start border-end h-100 ps-1 border-end-0 text-break" style={{width: "14.02%"}}></div>
                                   <div className="theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7">
                                     {e?.LossPer?.toFixed(3)} %
                                   </div>
@@ -1248,7 +1226,7 @@ const PackingList7DGroup = ({
                                 )}{" "}
                               </div>
                             </div>
-                            <div className="tbcol3dp10_pcl7">
+                            <div className="tbcol3dp10_pcl7CLR">
                               {e?.colorstone?.map((el, ics) => {
                                 return (
                                   <div
@@ -1260,28 +1238,18 @@ const PackingList7DGroup = ({
                                       style={{
                                         wordBreak: "break-word",
                                         paddingLeft: "2px",
-                                        width: "21.66%",
+                                        width: "20.66%",
                                       }}
                                     >
-                                      {el?.ShapeName +
-                                        " " +
-                                        el?.QualityName +
-                                        " " +
-                                        el?.Colorname}
+                                      {el?.Quality_Code}
                                     </div>
-                                    <div className="theadsubcol1_dp10_pcl7 text-center">
-                                      {el?.SizeName}
+                                    <div className="theadsubcol1_dp10_pcl7 text-center" style={{ width: "17.72%" }}>
+                                      {el?.Colorname}
                                     </div>
-                                    <div
-                                      className="theadsubcol1_dp10_pcl7 end_dp10_pcl7"
-                                      style={{ width: "11.66%" }}
-                                    >
-                                      {el?.Pcs}
-                                    </div>
-                                    <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
+                                    <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7" style={{ width: "20.54%"}}>
                                       {el?.Wt?.toFixed(3)}
                                     </div>
-                                    <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
+                                    <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7" style={{ width: "20.54%"}}>
                                       {/* {el?.Rate?.toFixed(2)} */}
                                       {(
                                         el?.Amount /
@@ -1295,7 +1263,7 @@ const PackingList7DGroup = ({
                                           : el?.Pcs)
                                       )?.toFixed(0)}
                                     </div>
-                                    <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 fw-bold pr_dp10_pcl7">
+                                    <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 fw-bold pr_dp10_pcl7" style={{ width: "20.54%"}}>
                                       {formatAmount(
                                         el?.Amount /
                                           result?.header?.CurrencyExchRate,
@@ -1316,19 +1284,13 @@ const PackingList7DGroup = ({
                                       style={{
                                         wordBreak: "break-word",
                                         paddingLeft: "2px",
-                                        width: "21.66%",
+                                        width: "20.66%",
                                       }}
                                     >
-                                      M: {el?.ShapeName + " " + el?.QualityName}
+                                      M: {el?.Quality_Code}
                                     </div>
                                     <div className="theadsubcol1_dp10_pcl7 text-center">
-                                      {el?.SizeName}
-                                    </div>
-                                    <div
-                                      className="theadsubcol1_dp10_pcl7 end_dp10_pcl7"
-                                      style={{ width: "11.66%" }}
-                                    >
-                                      {el?.Pcs}
+                                      {el?.Colorname}
                                     </div>
                                     <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
                                       {el?.Wt?.toFixed(3)}
@@ -1590,7 +1552,7 @@ const PackingList7DGroup = ({
                               {/* <div className="theadsubcol2_dp10_pcl7"  ></div> */}
                               <div
                                 className="theadsubcol2_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7"
-                                style={{ width: "42%" }}
+                                style={{ width: "53.66%" }}
                               >
                                 {e?.grosswt?.toFixed(3)}
                               </div>
@@ -1608,18 +1570,11 @@ const PackingList7DGroup = ({
                               </div>
                             </div>
                             <div
-                              className="col3dp10_pcl7 d-flex align-items-center bt_dp10_pcl7 "
+                              className="col3dp10_pcl7CLR d-flex align-items-center bt_dp10_pcl7 "
                               style={{ backgroundColor: "#F5F5F5" }}
                             >
                               <div className="theadsubcol1_dp10_pcl7"></div>
                               <div className="theadsubcol1_dp10_pcl7"></div>
-                              <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
-                                {e?.totals?.colorstone?.Pcs +
-                                  e?.totals?.misc?.onlyIsHSCODE0_Pcs !==
-                                  0 &&
-                                  e?.totals?.colorstone?.Pcs +
-                                    e?.totals?.misc?.onlyIsHSCODE0_Pcs}
-                              </div>
                               <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
                                 {/* {result?.mainTotal?.colorstone?.Wt?.toFixed(3)} */}
                                 {e?.totals?.colorstone?.Wt +
@@ -1740,6 +1695,7 @@ const PackingList7DGroup = ({
                       </div>
                       <div className="col4dp10_pcl7 d-flex align-items-center brR_dp10_pcl7">
                         <div className="theadsubcol2_dp10_pcl7"></div>
+                        <div className="theadsubcol2_dp10_pcl7" style={{ width: "11.66%" }}></div>
                         <div className="theadsubcol2_dp10_pcl7 end_dp10_pcl7">
                           {result?.mainTotal?.grosswt?.toFixed(3)}
                         </div>
@@ -1758,13 +1714,10 @@ const PackingList7DGroup = ({
                           )}
                         </div>
                       </div>
-                      <div className="col3dp10_pcl7 d-flex align-items-center brR_dp10_pcl7">
+                      <div className="col3dp10_pcl7CLR d-flex align-items-center brR_dp10_pcl7">
                         <div className="theadsubcol1_dp10_pcl7"></div>
                         <div className="theadsubcol1_dp10_pcl7"></div>
-                        <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
-                          {result?.mainTotal?.colorstone?.Pcs +
-                            result?.mainTotal?.misc?.onlyIsHSCODE0_Pcs}
-                        </div>
+                        <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7"></div>
                         <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
                           {(
                             result?.mainTotal?.colorstone?.Wt +
@@ -2063,14 +2016,7 @@ const PackingList7DGroup = ({
                                       }`}
                                     >
                                       <p className="fw-bold">
-                                        {e?.ShapeName === "OTHER" ? (
-                                          e?.ShapeName
-                                        ) : (
-                                          <>
-                                            {e?.ShapeName} {" "}
-                                            {imgFlag3 ? `${e?.QualityName} ${e?.Colorname}` : ""}
-                                          </>
-                                        )}
+                                        {e?.MaterialTypeName}
                                       </p>
                                       <p>
                                         {NumberWithCommas(e?.Pcs, 0)}/
