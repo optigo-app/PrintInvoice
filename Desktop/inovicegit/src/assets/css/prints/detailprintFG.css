@@ -33,13 +33,6 @@
     min-width: 24%;
 }
 
-.border_color_estimate{
-    border: 1px solid #BDBDBD !important; 
-}
-
-.border_color_estimates{
-    border-color: #BDBDBD !important;
-}
 
 .metalEstimatePrint {
     /* width: 205px;
@@ -89,8 +82,8 @@
 }
 
 .width20EstimatePrint {
-    width: 16.67%;
-    min-width: 16.67%;
+    width: 14.67%;
+    min-width: 14.67%;
 }
 
 .width200EstimatePrint {
@@ -239,14 +232,55 @@
     width: 50%;
 }
 
+.border_color_estimate{
+    border: 1px solid #BDBDBD !important; 
+}
+
+.spBrdrTop {
+    border-top: 1px solid #BDBDBD;
+}
+.spBrdrBtom {
+    border-bottom: 1px solid #BDBDBD;
+}
+.spBrdrRigt {
+    border-right: 1px solid #BDBDBD;
+}
+.spBrdrLft {
+    border-left: 1px solid #BDBDBD;
+}
+
+.spBrdrTopBlk {
+    border-top: 1px solid #000;
+}
+.spBrdrBtomBlk {
+    border-bottom: 1px solid #000;
+}
+.spBrdrRigtBlk {
+    border-right: 1px solid #000;
+}
+.spBrdrLftBlk {
+    border-left: 1px solid #000;
+}
+
 @media print {
+    @page {
+        margin: 15px 10px;
+    }
     .recordEstimatePrint {
         page-break-inside: avoid;
     }
     .print_sec_sum4 {
         display: none !important;
-      }
+    }
     .spBold{
         font-weight: bold;
+    }
+    .recordEstimatePrint * {
+        font-size: 6px;
+        line-height: 120%;
+    }
+    .recordEstimatePrintHead * {
+        font-size: 6px;
+        line-height: 120%;
     }
 }

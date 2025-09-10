@@ -115,6 +115,10 @@ const PackingList7DGroup = ({
             finalArr[find_record].designno = b?.designno;
             finalArr[find_record].HUID = b?.HUID;
           }
+          // if (finalArr[find_record].DesignImage && b?.DesignImage) {
+          //   finalArr[find_record].DesignImage = b?.DesignImage;
+          // }
+          finalArr[find_record].DesignImage = b?.DesignImage;
           finalArr[find_record].grosswt += b?.grosswt;
           finalArr[find_record].NetWt += b?.NetWt;
           finalArr[find_record].LossWt += b?.LossWt;
@@ -552,7 +556,7 @@ const PackingList7DGroup = ({
   //   return acc + metalSum;
   // }, 0)
 
-  console.log("diamondDetails", diamondDetails);
+  // console.log("diamondDetails", diamondDetails);
   console.log("result", result);
   
 
@@ -920,7 +924,7 @@ const PackingList7DGroup = ({
                                     style={{ minHeight: "80px" }}
                                   >
                                     <img
-                                      src={e?.CDNDesignImage}
+                                      src={e?.DesignImage}
                                       onError={(e) => handleImageError(e)}
                                       alt="design"
                                       className="imgdp10_pcl7"
@@ -1722,17 +1726,17 @@ const PackingList7DGroup = ({
                       <div className="col3dp10_pcl7CLR d-flex align-items-center brR_dp10_pcl7">
                         <div className="theadsubcol1_dp10_pcl7"></div>
                         <div className="theadsubcol1_dp10_pcl7"></div>
-                        <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7"></div>
                         <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
                           {(
                             result?.mainTotal?.colorstone?.Wt +
                             result?.mainTotal?.misc?.onlyIsHSCODE0_Wt
                           )?.toFixed(3)}
                         </div>
+                        <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7"></div>
                         {/* <div className="theadsubcol1_dp10_pcl7"></div> */}
                         <div
                           className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7"
-                          style={{ width: "33.32%" }}
+                          style={{ width: "24.32%" }}
                         >
                           {formatAmount(
                             (result?.mainTotal?.colorstone?.Amount +

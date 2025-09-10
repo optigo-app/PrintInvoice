@@ -1,3 +1,4 @@
+// http://localhost:3001/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=U1A4MzE3&evn=RkcgUHVyY2hhc2U=&pnm=RGV0YWlsIFByaW50&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&ctv=NzE=&ifid=ItemWisePrint&pid=undefined
 import React, { useEffect, useState } from "react";
 import "../../assets/css/prints/detailprintFG.css";
 import {
@@ -222,31 +223,34 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
           <div className="my-2 w-100">
             {/* heading */}
-            <div className="border-start border-top border-end d-flex border-bottom recordEstimatePrintHead overflow-hidden border-black lightGrey">
-              <div className="srNoEstimatePrint border-end px-1 d-flex align-items-center justify-content-center border_color_estimates">
+            <div className="spBrdrLftBlk spBrdrTopBlk spBrdrRigtBlk d-flex spBrdrBtomBlk recordEstimatePrintHead overflow-hidden lightGrey">
+              <div className="srNoEstimatePrint spBrdrRigt px-1 d-flex align-items-center justify-content-center ">
                 <p className="spBold">Sr</p>
               </div>
-              <div className="designEstimatePrint border-end px-1 d-flex align-items-center justify-content-center border_color_estimates">
+              <div className="designEstimatePrint spBrdrRigt px-1 d-flex align-items-center justify-content-center ">
                 <p className="spBold">Design</p>
               </div>
-              <div className="diamondEstimatePrint border-end border_color_estimates">
-                <div className="p-1 text-center border-bottom border_color_estimates">
+              <div className="diamondEstimatePrint spBrdrRigt ">
+                <div className="p-1 text-center spBrdrBtom ">
                   <p className="spBold">Diamond / Solitaire</p>
                 </div>
                 <div className="d-flex h-100">
-                  <div className="width20EstimatePrint px-1 border-end border_color_estimates">
+                  <div className="width20EstimatePrint px-1 spBrdrRigt ">
                     <p className="text-center spBold">Code</p>
                   </div>
-                  <div className="width20EstimatePrint px-1 border-end border_color_estimates">
+                  <div className="width20EstimatePrint px-1 spBrdrRigt ">
                     <p className="text-center spBold">Size</p>
                   </div>
-                  <div className="width20EstimatePrint px-1 border-end border_color_estimates">
+                  <div className="width20EstimatePrint px-1 spBrdrRigt " style={{ width: "12%", minWidth: "12%" }}>
                     <p className="text-center spBold">Pcs</p>
                   </div>
-                  <div className="width20EstimatePrint px-1 border-end border_color_estimates">
+                  <div className="width20EstimatePrint px-1 spBrdrRigt ">
                     <p className="text-center spBold">Wt</p>
                   </div>
-                  <div className="width20EstimatePrint px-1 border-end border_color_estimates">
+                  <div className="width20EstimatePrint px-1 spBrdrRigt ">
+                    <p className="text-center spBold">Supp</p>
+                  </div>
+                  <div className="width20EstimatePrint px-1 spBrdrRigt ">
                     <p className="text-center spBold">Rate</p>
                   </div>
                   <div className="width20EstimatePrint px-1">
@@ -254,24 +258,24 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              <div className="metalEstimatePrint border-end border_color_estimates">
-                <div className="p-1 text-center border-bottom border_color_estimates">
+              <div className="metalEstimatePrint spBrdrRigt ">
+                <div className="p-1 text-center spBrdrBtom ">
                   <p className="spBold">Metal / Mount</p>
                 </div>
                 <div className="d-flex h-100">
-                  <div className="width_40_estimatePrint px-1 border-end border_color_estimates">
+                  <div className="width_40_estimatePrint px-1 spBrdrRigt ">
                     <p className="text-center spBold">Quality</p>
                   </div>
-                  <div className="width_40_estimatePrint px-1 border-end border_color_estimates">
+                  <div className="width_40_estimatePrint px-1 spBrdrRigt ">
                     <p className="text-center spBold">*Wt</p>
                   </div>
-                  <div className="width_40_estimatePrint px-1 border-end border_color_estimates">
+                  <div className="width_40_estimatePrint px-1 spBrdrRigt ">
                     <p className="text-center spBold">Net Wt</p>
                   </div>
-                  <div className="width_40_estimatePrint px-1 border-end border_color_estimates" style={{ width: "14%", minWidth: "14%" }}>
+                  <div className="width_40_estimatePrint px-1 spBrdrRigt " style={{ width: "14%", minWidth: "14%" }}>
                     <p className="text-center spBold">Supp</p>
                   </div>
-                  <div className="width_40_estimatePrint px-1 border-end border_color_estimates">
+                  <div className="width_40_estimatePrint px-1 spBrdrRigt ">
                     <p className="text-center spBold">Rate</p>
                   </div>
                   <div className="width_40_estimatePrint px-1" style={{ width: "19.32%", minWidth: "19.32%" }}>
@@ -279,24 +283,27 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              <div className="stoneEstimatePrint border-end border_color_estimates">
-                <div className="p-1 text-center border-bottom border_color_estimates">
+              <div className="stoneEstimatePrint spBrdrRigt ">
+                <div className="p-1 text-center spBrdrBtom ">
                   <p className="spBold">Stone</p>
                 </div>
                 <div className="d-flex h-100">
-                  <div className="width20EstimatePrint px-1 border-end border_color_estimates">
+                  <div className="width20EstimatePrint px-1 spBrdrRigt ">
                     <p className="text-center spBold">Code</p>
                   </div>
-                  <div className="width20EstimatePrint px-1 border-end border_color_estimates">
+                  <div className="width20EstimatePrint px-1 spBrdrRigt ">
                     <p className="text-center spBold">Size</p>
                   </div>
-                  <div className="width20EstimatePrint px-1 border-end border_color_estimates">
+                  <div className="width20EstimatePrint px-1 spBrdrRigt " style={{ width: "12%", minWidth: "12%" }}>
                     <p className="text-center spBold">Pcs</p>
                   </div>
-                  <div className="width20EstimatePrint px-1 border-end border_color_estimates">
+                  <div className="width20EstimatePrint px-1 spBrdrRigt ">
                     <p className="text-center spBold">Wt</p>
                   </div>
-                  <div className="width20EstimatePrint px-1 border-end border_color_estimates">
+                  <div className="width20EstimatePrint px-1 spBrdrRigt ">
+                    <p className="text-center spBold">Supp</p>
+                  </div>
+                  <div className="width20EstimatePrint px-1 spBrdrRigt ">
                     <p className="text-center spBold">Rate</p>
                   </div>
                   <div className="width20EstimatePrint px-1">
@@ -304,16 +311,16 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              <div className="OtherAmountEstimatePrint border-end border_color_estimates px-1 d-flex align-items-center justify-content-center flex-wrap">
+              <div className="OtherAmountEstimatePrint spBrdrRigt  px-1 d-flex align-items-center justify-content-center flex-wrap">
                 <p className="text-center spBold">Other &nbsp;</p>
                 <p className="text-center spBold">Amount </p>
               </div>
-              <div className="labourEstimatePrint border-end border_color_estimates">
-                <div className="p-1 text-center border-bottom border_color_estimates">
+              <div className="labourEstimatePrint spBrdrRigt ">
+                <div className="p-1 text-center spBrdrBtom ">
                   <p className="spBold">Labour</p>
                 </div>
                 <div className="d-flex h-100">
-                  <div className="col px-1 border-end border_color_estimates text-center">
+                  <div className="col px-1 spBrdrRigt  text-center">
                     <p className="spBold">Rate</p>
                   </div>
                   <div className="col px-1 text-center">
@@ -329,17 +336,17 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div>
               {Array.isArray(data?.resultArray) && data.resultArray.length > 0 &&
                 data.resultArray.map((item, index) => (
-                  <div key={index} className="d-flex border-bottom recordEstimatePrint overflow-hidden word_break_estimatePrint" style={{ borderLeft: "1px solid black", borderRight: "1px solid black" }}>
+                  <div key={index} className="d-flex spBrdrBtom recordEstimatePrint overflow-hidden word_break_estimatePrint" style={{ borderLeft: "1px solid black", borderRight: "1px solid black" }}>
                     
-                    <div className="srNoEstimatePrint border-end p_1Estimate border_color_estimates">
+                    <div className="srNoEstimatePrint spBrdrRigt p_1Estimate ">
                       <p className="text-center">{index + 1}</p>
                     </div>
                     
                     {/* Design Info */}
-                    <div className="designEstimatePrint border-end  border_color_estimates d-flex justify-content-between flex-column">
+                    <div className="designEstimatePrint spBrdrRigt   d-flex justify-content-between flex-column">
                         <div className="d-flex justify-content-between p_1Estimate">
                           <div>{item?.designno}</div>
-                          <div className="text-end">{item?.J_JobNo}</div>
+                          <div className="text-end">{item?.SrJobno}</div>
                         </div>
                         {/* <div
                           style={{ textAlign: "center", fontWeight: "bold" }}
@@ -368,7 +375,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             Tunch: {fixedValues(item?.Tunch,3)}
                           </div>
                         }
-                        <div className="border-top border_color_estimates">
+                        <div className="spBrdrTop ">
                           <p
                             className="w-100 spBold"
                             style={{ padding: "1px 0px 1px 5px", textAlign: "center" }}
@@ -389,14 +396,14 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
 
                     {/* Diamond */}
-                    <div className="diamondEstimatePrint border-end position-relative border_color_estimates">
+                    <div className="diamondEstimatePrint spBrdrRigt position-relative ">
                         <div className="pad_bot_29_estimatePrint">
                           {item?.diamonds.length > 0 &&
                             item?.diamonds.map((ele, ind) => {
                               return (
                                 <div className="d-flex " key={ind}>
-                                  <div className="width20EstimatePrint spbrWord p_1Estimate">
-                                    <p className="">
+                                  <div className="width20EstimatePrint p_1Estimate">
+                                    <p className="spbrWord">
                                       {ele?.ShapeName} {ele?.QualityName}{" "}
                                       {ele?.Colorname}
                                     </p>
@@ -404,7 +411,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <div className="width20EstimatePrint p_1Estimate">
                                     <p className="">{ele?.SizeName}</p>
                                   </div>
-                                  <div className="width20EstimatePrint p_1Estimate">
+                                  <div className="width20EstimatePrint p_1Estimate" style={{ width: "12%", minWidth: "12%" }}>
                                     <p className="text-end">
                                       {NumberWithCommas(ele?.Pcs, 0)}
                                     </p>
@@ -412,6 +419,11 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <div className="width20EstimatePrint p_1Estimate">
                                     <p className="text-end">
                                       {fixedValues(ele?.Wt, 3)}
+                                    </p>
+                                  </div>
+                                  <div className="width20EstimatePrint p_1Estimate">
+                                    <p className="text-end">
+                                      {ele?.Supplier.slice(0,4)}
                                     </p>
                                   </div>
                                   <div className="width20EstimatePrint p_1Estimate">
@@ -429,8 +441,8 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             })}
                         </div>
                         <div
-                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top border_color_estimates 
-                            border-top height_28_5_estimatePrint border_color_estimates`}
+                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 spBrdrTop  
+                            spBrdrTop height_28_5_estimatePrint `}
                         >
                           <div className="width20EstimatePrint p_1Estimate">
                             <p className="spBold"></p>
@@ -438,7 +450,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="width20EstimatePrint p_1Estimate">
                             <p className="spBold"></p>
                           </div>
-                          <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
+                          <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "12%", minWidth: "12%" }}>
                             <p className="text-end spBold">
                               {item?.totals?.diamonds?.Pcs !== 0 && (
                                 <>{NumberWithCommas(item?.totals?.diamonds?.Pcs, 0)}</>
@@ -456,6 +468,9 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <p className="text-end spBold"></p>
                           </div>
                           <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
+                            <p className="text-end spBold"></p>
+                          </div>
+                          <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
                             <p className="text-end spBold">
                                   {NumberWithCommas(item?.totals?.diamonds?.Amount, 2)}
                             </p>
@@ -464,7 +479,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
 
                     {/* Metal */}    
-                    <div className="metalEstimatePrint border-end position-relative border_color_estimates">
+                    <div className="metalEstimatePrint spBrdrRigt position-relative ">
                       <div className="pad_bot_29_estimatePrint">
                         {item?.metal?.length > 0 &&
                           item.metal.map((ele, ind) => (
@@ -530,7 +545,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         )}
                       </div>
 
-                      <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top border_color_estimates">
+                      <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 spBrdrTop ">
                         <div className="width200EstimatePrint p_1Estimate" />
                         <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
                           <p className="text-end spBold">{fixedValues(item?.totals?.metal?.Wt + item?.totals?.finding?.Wt, 3)}</p>
@@ -547,8 +562,8 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                     </div>
 
-                    {/* Stone & Misc */}
-                    <div className="stoneEstimatePrint border-end position-relative border_color_estimates">
+                    {/* ColorStone */}
+                    <div className="stoneEstimatePrint spBrdrRigt position-relative ">
                       <div className="pad_bot_29_estimatePrint">
                         {item?.colorstone?.length > 0 &&
                           item.colorstone.map((ele, ind) => (
@@ -559,11 +574,14 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               <div className="width20EstimatePrint p_1Estimate">
                                 <p>{ele?.SizeName}</p>
                               </div>
-                              <div className="width20EstimatePrint p_1Estimate">
+                              <div className="width20EstimatePrint p_1Estimate" style={{ width: "12%", minWidth: "12%" }}>
                                 <p className="text-end">{ele?.Pcs > 0 && NumberWithCommas(ele?.Pcs, 0)}</p>
                               </div>
                               <div className="width20EstimatePrint p_1Estimate">
                                 <p className="text-end">{ele?.Wt > 0 && fixedValues(ele?.Wt, 3)}</p>
+                              </div>
+                              <div className="width20EstimatePrint p_1Estimate">
+                                <p className="text-end">{ele?.Supplier.slice(0,4)}</p>
                               </div>
                               <div className="width20EstimatePrint p_1Estimate">
                                 <p className="text-end">{NumberWithCommas(ele?.Rate, 2)}</p>
@@ -583,11 +601,14 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               <div className="width20EstimatePrint p_1Estimate">
                                 <p>{ele?.SizeName}</p>
                               </div>
-                              <div className="width20EstimatePrint p_1Estimate">
+                              <div className="width20EstimatePrint p_1Estimate" style={{ width: "12%", minWidth: "12%" }}>
                                 <p className="text-end">{ele?.Pcs > 0 && NumberWithCommas(ele?.Pcs, 0)}</p>
                               </div>
                               <div className="width20EstimatePrint p_1Estimate">
                                 <p className="text-end">{ele?.Wt > 0 && fixedValues(ele?.Wt, 3)}</p>
+                              </div>
+                              <div className="width20EstimatePrint p_1Estimate">
+                                <p className="text-end">{ele?.Supplier.slice(0,4)}</p>
                               </div>
                               <div className="width20EstimatePrint p_1Estimate">
                                 <p className="text-end">{NumberWithCommas(ele?.Rate, 2)}</p>
@@ -599,10 +620,10 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           ))} */}
                       </div>
 
-                      <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top border_color_estimates">
+                      <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 spBrdrTop ">
                         <div className="width20EstimatePrint p_1Estimate" />
                         <div className="width20EstimatePrint p_1Estimate" />
-                        <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
+                        <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "12%", minWidth: "12%" }}>
                           <p className="text-end spBold">
                             {(item?.totals?.colorstone?.length > 0 
                               // || item?.totals?.misc?.length > 0
@@ -623,6 +644,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </p>
                         </div>
                         <div className="width20EstimatePrint p_1Estimate" />
+                        <div className="width20EstimatePrint p_1Estimate" />
                         <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
                           <p className="text-end spBold">
                             {NumberWithCommas(item?.totals?.colorstone?.Amount
@@ -634,16 +656,16 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
 
                     {/* Other Charges */}
-                    <div className="OtherAmountEstimatePrint border-end position-relative border_color_estimates">
+                    <div className="OtherAmountEstimatePrint spBrdrRigt position-relative ">
                       <div className="h-100 d-grid pad_bot_29_estimatePrint">
-                        <div className="p_1Estimate border_color_estimates">
+                        <div className="p_1Estimate ">
                           <div className="w-100 d-flex align-items-center justify-content-end spBold">
                             {NumberWithCommas(item?.OtherCharges, 2)}
                           </div>
                         </div>
                       </div>
                       <div
-                        className="totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end border-top border_color_estimates"
+                        className="totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end spBrdrTop "
                         style={{ height: "14.5px" }}
                       >
                         <div className="text-end p_1Estimate">
@@ -653,9 +675,9 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
 
                     {/* Labour */}
-                    <div className="labourEstimatePrint border-end position-relative border_color_estimates">
+                    <div className="labourEstimatePrint spBrdrRigt position-relative ">
                       <div className="h-100 d-grid pad_bot_29_estimatePrint">
-                        <div className="d-flex border_color_estimates">
+                        <div className="d-flex ">
                           {item?.MakingAmount !== 0 && (
                             <>
                               <div className="w-50 p_1Estimate">
@@ -672,7 +694,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                       </div>
                       <div
-                        className="totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end border-top border_color_estimates"
+                        className="totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end spBrdrTop "
                         style={{ height: "14.5px" }}
                       >
                         <div className="text-end p_1Estimate spBold">
@@ -684,13 +706,13 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {/* Final Total */}
                     <div className="totalAmountEstimatePrint position-relative">
                       <div className="h-100 d-grid pad_bot_29_estimatePrint spBold">
-                        <div className="border_color_estimates spBold">
+                        <div className=" spBold">
                           <div className="text-end p_1Estimate pe-1 spBold">
                             {NumberWithCommas(item?.TotalAmount, 2)}
                           </div>
                         </div>
                       </div>
-                      <div className="totalBgEstimatePrint spBold position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end pe-1 border-top border_color_estimates">
+                      <div className="totalBgEstimatePrint spBold position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end pe-1 spBrdrTop ">
                         <div className="text-end p_1Estimate spBold">
                           <div className="spBold">
                             {/* <span
@@ -748,11 +770,11 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
 
             {/* Final Total */}
-              <div className="d-flex recordEstimatePrint overflow-hidden border-end border-top border-start border-bottom border-black totalBgEstimatePrint">
-                    <div className="totalEstimatePrint border-end totalBgEstimatePrint border_color_estimates">
+              <div className="d-flex recordEstimatePrint overflow-hidden spBrdrRigtBlk spBrdrTopBlk spBrdrLftBlk spBrdrBtomBlk totalBgEstimatePrint">
+                    <div className="totalEstimatePrint spBrdrRigt totalBgEstimatePrint ">
                       <p className="text-center spBold h-100">Total</p>
                     </div>
-                    <div className="diamondEstimatePrint border-end border_color_estimates">
+                    <div className="diamondEstimatePrint spBrdrRigt ">
                       <div className="d-flex w-100">
                         <div className="width20EstimatePrint p_1Estimate h-100">
                           <p></p>
@@ -760,7 +782,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="width20EstimatePrint p_1Estimate h-100">
                           <p></p>
                         </div>
-                        <div className="width20EstimatePrint p_1Estimate h-100">
+                        <div className="width20EstimatePrint p_1Estimate h-100" style={{ width: "12%", minWidth: "12%" }}>
                           <p className="text-end spBold">
                             {data?.mainTotal?.diamonds?.Pcs > 0 && NumberWithCommas(data?.mainTotal?.diamonds?.Pcs, 0)}
                           </p>
@@ -771,6 +793,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </p>
                         </div>
                         <div className="width20EstimatePrint p_1Estimate h-100"></div>
+                        <div className="width20EstimatePrint p_1Estimate h-100"></div>
                         <div className="width20EstimatePrint p_1Estimate h-100">
                           <p className="text-end spBold">
                             {NumberWithCommas(data?.mainTotal?.diamonds?.Amount, 2)}
@@ -778,7 +801,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                       </div>
                     </div>
-                    <div className="metalEstimatePrint border-end border_color_estimates">
+                    <div className="metalEstimatePrint spBrdrRigt ">
                       <div className="d-flex totalBgEstimatePrint bottom-0 w-100">
                         <div className="width200EstimatePrint p_1Estimate h-100">
                           <p className="spBold"></p>
@@ -804,7 +827,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                       </div>
                     </div>
-                    <div className="stoneEstimatePrint border-end border_color_estimates">
+                    <div className="stoneEstimatePrint spBrdrRigt ">
                       <div className="d-flex totalBgEstimatePrint bottom-0 w-100">
                         <div className="width20EstimatePrint p_1Estimate h-100">
                           <p className="spBold"></p>
@@ -812,7 +835,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="width20EstimatePrint p_1Estimate h-100">
                           <p className="spBold"></p>
                         </div>
-                        <div className="width20EstimatePrint p_1Estimate h-100">
+                        <div className="width20EstimatePrint p_1Estimate h-100" style={{ width: "12%", minWidth: "12%" }}>
                           <p className="text-end spBold">
                             {(data?.mainTotal?.colorstone?.Pcs !== 0 || data?.mainTotal?.misc?.Pcs !== 0) &&
                               (data?.mainTotal?.colorstone?.Pcs + data?.mainTotal?.misc?.Pcs)}
@@ -825,6 +848,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </p>
                         </div>
                         <div className="width20EstimatePrint p_1Estimate h-100"></div>
+                        <div className="width20EstimatePrint p_1Estimate h-100"></div>
                         <div className="width20EstimatePrint p_1Estimate h-100">
                           <p className="text-end spBold">
                             {NumberWithCommas(data?.mainTotal?.colorstone?.Amount + data?.mainTotal?.misc?.Amount, 2)}
@@ -832,20 +856,20 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                       </div>
                     </div>
-                    <div className="OtherAmountEstimatePrint border-end border_color_estimates">
+                    <div className="OtherAmountEstimatePrint spBrdrRigt ">
                       <div className="totalBgEstimatePrint bottom-0 w-100 h-100">
                         <div className="h-100 text-end p_1Estimate">
                           <p className="spBold">
-                            {NumberWithCommas(data.otherAmount, 2)}
+                            {NumberWithCommas(data?.mainTotal?.total_other_charges, 2)}
                           </p>
                         </div>
                       </div>
                     </div>
-                    <div className="labourEstimatePrint border-end border_color_estimates">
+                    <div className="labourEstimatePrint spBrdrRigt ">
                       <div className="d-flex w-100 h-100 justify-content-end">
                         <div className="p_1Estimate spBold">
                           <p>
-                            {NumberWithCommas(data.labourAmount, 2)}
+                            {NumberWithCommas(data?.mainTotal?.total_Making_Amount, 2)}
                           </p>
                         </div>
                       </div>
@@ -866,17 +890,17 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
               </div>
 
-              <div className="d-flex w-100 recordEstimatePrint overflow-hidden align-items-start border_color_estimates" style={{ gap: "3px"}}>
+              <div className="d-flex w-100 recordEstimatePrint overflow-hidden align-items-start " style={{ gap: "3px"}}>
                 {/* Summary Section */}
-                <div className="min_height_100EstimatePrint border-start border-end border-bottom position-relative col-2 border_color_estimates">
-                        <div className="totalBgEstimatePrint text-center border-bottom border_color_estimates">
+                <div className="min_height_100EstimatePrint spBrdrLft spBrdrRigt spBrdrBtom position-relative col-2 ">
+                        <div className="totalBgEstimatePrint text-center spBrdrBtom ">
                           <p className="spBold p-1">SUMMARY</p>
                         </div>
 
                         <div className="d-flex h-100 pb-3">
                           <div className="d-flex w-100 justify-content-between">
                             {/* LEFT COLUMN */}
-                            <div className="w-100 h-100 pb-2 border_color_estimates">
+                            <div className="w-100 h-100 pb-2 ">
                               <div className="d-flex justify-content-between px-1">
                                 <p className="spBold">GOLD IN 24KT</p>
                                 <p>{fixedValues(data?.header?.MetalRate24K, 3)} gm</p>
@@ -919,7 +943,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
 
                         {/* Bottom Row */}
-                        <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 w-100 border-top border_color_estimates">
+                        <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 w-100 spBrdrTop ">
                           <div className="px-1 min_height_24_estimatePrint w-50">
                             <div className="d-flex justify-content-between align-items-center h-100">
                               <div className="spBold"></div>
@@ -929,15 +953,15 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
                       
                 {/* Diamond Detail */}
-                <div className="min_height_100EstimatePrint border-start border-end border-bottom position-relative col-2 border_color_estimates">
-                  <div className="totalBgEstimatePrint text-center border-bottom border_color_estimates">
+                <div className="min_height_100EstimatePrint spBrdrLft spBrdrRigt spBrdrBtom position-relative col-2 ">
+                  <div className="totalBgEstimatePrint text-center spBrdrBtom ">
                           <p className="spBold p-1">Diamond Detail</p>
                         </div>
 
                         <div className="d-flex h-100 pb-3">
                           <div className="d-flex w-100 justify-content-between">
                             {/* LEFT COLUMN */}
-                            <div className="w-100 h-100 pb-2 border_color_estimates">
+                            <div className="w-100 h-100 pb-2 ">
                               <div className="d-flex flex-column px-1">
                                 {data?.resultArray?.flatMap((e) =>
                                   e?.diamonds?.map((el, i) => (
@@ -956,7 +980,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                         </div>
 
-                        <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 w-100 border-top border_color_estimates">
+                        <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 w-100 spBrdrTop ">
                           <div className="px-1 min_height_24_estimatePrint w-50">
                             <div className="d-flex justify-content-between align-items-center h-100">
                               <div className="spBold"></div>
@@ -966,14 +990,14 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
                       
                 {/* Category Wise Summary */}      
-                <div className="min_height_100EstimatePrint border-start border-end border-bottom position-relative col-2 border_color_estimates">
-                  <div className="totalBgEstimatePrint text-center border-bottom border_color_estimates">
+                <div className="min_height_100EstimatePrint spBrdrLft spBrdrRigt spBrdrBtom position-relative col-2 ">
+                  <div className="totalBgEstimatePrint text-center spBrdrBtom ">
                     <p className="spBold p-1">Summary</p>
                   </div>
 
                   <div className="d-flex h-100 pb-3">
                     <div className="d-flex w-100 justify-content-between">
-                      <div className="w-100 h-100 pb-2 border_color_estimates">
+                      <div className="w-100 h-100 pb-2 ">
                       <div className="d-flex flex-column px-1">
                                 {categoryCounts?.map((el) =>
                                     <div className="d-flex justify-content-between">
@@ -990,7 +1014,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                   </div>
 
-                  <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 w-100 border-top border_color_estimates">
+                  <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 w-100 spBrdrTop ">
                     <div className="px-1 min_height_24_estimatePrint w-50">
                       <div className="d-flex justify-content-between align-items-center h-100">
                         <div className="spBold"></div>
@@ -1002,7 +1026,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className="spWdthLst"></div>
 
                 {/* Checked By Section */}
-                <div className="col-1 min_height_100EstimatePrint d-flex align-items-end justify-content-center border-start border-end border-bottom border_color_estimates">
+                <div className="col-1 min_height_100EstimatePrint d-flex align-items-end justify-content-center spBrdrLft spBrdrRigt spBrdrBtom ">
                   <div className="d-flex h-100 w-100">
                     <div className="position-relative d-flex justify-content-center align-items-end w-100">
                       <i className="w-100 text-center">Checked By</i>
