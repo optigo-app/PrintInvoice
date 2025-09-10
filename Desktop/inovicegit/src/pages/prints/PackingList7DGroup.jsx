@@ -500,7 +500,7 @@ const PackingList7DGroup = ({
     const sortedData = diarndotherarr5?.sort(customSort);
     setDiamondWise(sortedData);
     setResult(datas);
-    console.log("datas", datas);
+    // console.log("datas", datas);
   }
 
   const handleCheckbox = () => {
@@ -552,6 +552,9 @@ const PackingList7DGroup = ({
   //   return acc + metalSum;
   // }, 0)
 
+  console.log("diamondDetails", diamondDetails);
+  console.log("result", result);
+  
 
   return (
     <>
@@ -759,7 +762,7 @@ const PackingList7DGroup = ({
                       </div>
                       <div className="d-flex justify-content-between align-items-center h-50 bt_dp10_pcl7 w-100">
                         <div className="centerdp10_pcl7 h-100 bright_dp10_pcl7 theadsubcol1_dp10_pcl7">
-                          Code
+                          Type
                         </div>
                         <div className="centerdp10_pcl7 h-100 bright_dp10_pcl7 theadsubcol1_dp10_pcl7">
                           Size
@@ -936,6 +939,8 @@ const PackingList7DGroup = ({
                                 >
                                   {atob(evn)?.toLowerCase() === "quote"
                                     ? ""
+                                    : e?.GroupJob !== ""
+                                    ? e?.GroupJob
                                     : e?.SrJobno}
                                 </div>
                                 <div
@@ -1243,7 +1248,7 @@ const PackingList7DGroup = ({
                                     >
                                       {el?.Quality_Code}
                                     </div>
-                                    <div className="theadsubcol1_dp10_pcl7 text-center" style={{ width: "17.72%" }}>
+                                    <div className="theadsubcol1_dp10_pcl7 text-start" style={{ width: "17.72%" }}>
                                       {el?.Colorname}
                                     </div>
                                     <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7" style={{ width: "20.54%"}}>
@@ -1289,13 +1294,13 @@ const PackingList7DGroup = ({
                                     >
                                       M: {el?.Quality_Code}
                                     </div>
-                                    <div className="theadsubcol1_dp10_pcl7 text-center">
+                                    <div className="theadsubcol1_dp10_pcl7 text-start">
                                       {el?.Colorname}
                                     </div>
-                                    <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
+                                    <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7" style={{ width: "19.10%" }}>
                                       {el?.Wt?.toFixed(3)}
                                     </div>
-                                    <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
+                                    <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7" style={{ width: "21%" }}>
                                       {/* {el?.Rate?.toFixed(2)} */}
                                       {(
                                         el?.Amount /
@@ -1309,7 +1314,7 @@ const PackingList7DGroup = ({
                                           : el?.Pcs)
                                       )?.toFixed(0)}
                                     </div>
-                                    <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 fw-bold pr_dp10_pcl7">
+                                    <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 fw-bold pr_dp10_pcl7" style={{ width: "20%" }}>
                                       {formatAmount(
                                         el?.Amount /
                                           result?.header?.CurrencyExchRate,
@@ -1927,22 +1932,21 @@ const PackingList7DGroup = ({
                                 <div className="w-50 fw-bold">MAKING </div>
                                 <div className="w-50 end_dp10_pcl7">
                                 {formatAmount(
-  (
-    (result?.resultArray?.reduce((total, e) => {
-      const metalSum = e?.metal
-        ?.filter(el => el?.IsPrimaryMetal !== 1 && el?.SettingRate !== 0)
-        ?.reduce((sum, el) => sum + (el?.SettingAmount || 0), 0) || 0;
-      return total + metalSum;
-    }, 0) || 0) +
-    (Number(result?.mainTotal?.misc?.isHSCODE123_amt) || 0) +
-    (Number(result?.mainTotal?.finding?.SettingAmount) || 0) +
-    (Number(result?.mainTotal?.total_Making_Amount) || 0) +
-    (Number(result?.mainTotal?.total_TotalDiaSetcost) || 0) +
-    (Number(result?.mainTotal?.total_TotalCsSetcost) || 0)
-  ) / (Number(result?.header?.CurrencyExchRate) || 1),
-  0
-)}
-
+                                  (
+                                    (result?.resultArray?.reduce((total, e) => {
+                                      const metalSum = e?.metal
+                                        ?.filter(el => el?.IsPrimaryMetal !== 1 && el?.SettingRate !== 0)
+                                        ?.reduce((sum, el) => sum + (el?.SettingAmount || 0), 0) || 0;
+                                      return total + metalSum;
+                                    }, 0) || 0) +
+                                    (Number(result?.mainTotal?.misc?.isHSCODE123_amt) || 0) +
+                                    (Number(result?.mainTotal?.finding?.SettingAmount) || 0) +
+                                    (Number(result?.mainTotal?.total_Making_Amount) || 0) +
+                                    (Number(result?.mainTotal?.total_TotalDiaSetcost) || 0) +
+                                    (Number(result?.mainTotal?.total_TotalCsSetcost) || 0)
+                                  ) / (Number(result?.header?.CurrencyExchRate) || 1),
+                                  0
+                                )}
                                 </div>
                               </div>
                               <div className="d-flex justify-content-between px-1">
@@ -2018,10 +2022,10 @@ const PackingList7DGroup = ({
                                       <p className="fw-bold">
                                         {e?.MaterialTypeName}
                                       </p>
-                                      <p>
+                                      {e?.MaterialTypeName && <p>
                                         {NumberWithCommas(e?.Pcs, 0)}/
                                         {NumberWithCommas(e?.Wt, 3)} Cts
-                                      </p>
+                                      </p>}
                                     </div>
                                   </React.Fragment>
                                 )
@@ -2093,7 +2097,8 @@ const PackingList7DGroup = ({
                         style={{ width: "17%", borderTop: "0px solid black" }}
                       >
                         <div>
-                          {result?.mainTotal?.total_discount_amount !== 0 && (
+                          {!!result?.mainTotal?.total_discount_amount &&
+                            result?.mainTotal?.total_discount_amount !== 0 && (
                             <div className="d-flex justify-content-between fs_5_pcl7">
                               <div className="w-50 end_dp10_pcl7">
                                 Total Discount
@@ -2147,17 +2152,19 @@ const PackingList7DGroup = ({
                               </div>
                             </div>
                           </div>
-                          <div className="d-flex justify-content-between fs_5_pcl7">
-                            <div className="w-50 end_dp10_pcl7">
-                              {result?.header?.ModeOfDel}
+                          {result?.header?.ModeOfDel !== "" && (
+                            <div className="d-flex justify-content-between fs_5_pcl7">
+                              <div className="w-50 end_dp10_pcl7">
+                                {result?.header?.ModeOfDel}
+                              </div>
+                              <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
+                                {formatAmount(
+                                  result?.header?.FreightCharges /
+                                    result?.header?.CurrencyExchRate
+                                )}
+                              </div>
                             </div>
-                            <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
-                              {formatAmount(
-                                result?.header?.FreightCharges /
-                                  result?.header?.CurrencyExchRate
-                              )}
-                            </div>
-                          </div>
+                          )}
                         </div>
                         <div
                           className="d-flex justify-content-between fw-bold fs_5_pcl7 "

@@ -586,24 +586,6 @@ const PackingList7Group = ({
                       With Header
                     </label>
                   </span>
-                  {/* {atob(printName)?.toLowerCase() ===
-                    "packing list 7d group" && (
-                    <span>
-                      <input
-                        type="checkbox"
-                        id="imghideshow3"
-                        className="mx-1"
-                        checked={imgFlag3}
-                        onChange={handleCheckbox3}
-                      />
-                      <label
-                        htmlFor="imghideshow3"
-                        className="me-3 user-select-none"
-                      >
-                        With Diam Color & Quality
-                      </label>
-                    </span>
-                  )} */}
                   <button
                     className="btn_white blue mb-0 hidedp10_pcl7 m-0 p-2"
                     onClick={(e) => handlePrint(e)}
