@@ -76,7 +76,7 @@ const PackingList7DGroup = ({
   function loadData(data) {
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
-    console.log("data", data);
+    // console.log("data", data);
     
     const datas = OrganizeDataPrint(
       data?.BillPrint_Json[0],
@@ -843,7 +843,7 @@ const PackingList7DGroup = ({
                           className="centerdp10_pcl7 h-100 bright_dp10_pcl7 theadsubcol1_dp10_pcl7"
                           style={{ width: "20.66%" }}
                         >
-                          Clarity
+                          Quality
                         </div>
                         <div className="centerdp10_pcl7 h-100 bright_dp10_pcl7 theadsubcol1_dp10_pcl7 ">
                           Color
@@ -1055,7 +1055,7 @@ const PackingList7DGroup = ({
                                         paddingLeft: "2px",
                                       }}
                                     >
-                                      {el?.MaterialTypeName}
+                                      {el?.MaterialTypeName} {el?.ShapeName}
                                     </div>
                                     <div
                                       className="theadsubcol1_dp10_pcl7 text-start ps-1"
