@@ -76,7 +76,8 @@ const PackingList7DGroup = ({
   function loadData(data) {
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
-
+    console.log("data", data);
+    
     const datas = OrganizeDataPrint(
       data?.BillPrint_Json[0],
       data?.BillPrint_Json1,
@@ -106,19 +107,23 @@ const PackingList7DGroup = ({
         let find_record = finalArr.findIndex(
           (el) => el?.GroupJob === b?.GroupJob
         );
+        // console.log("find_record", find_record);
+        
         if (find_record === -1) {
           finalArr.push(b);
         } else {
-          if (
-            finalArr[find_record]?.GroupJob !== finalArr[find_record]?.SrJobno
-          ) {
+          if (finalArr[find_record]?.GroupJob !== finalArr[find_record]?.SrJobno) {
             finalArr[find_record].designno = b?.designno;
             finalArr[find_record].HUID = b?.HUID;
+            finalArr[find_record].DesignImage = b?.DesignImage;
           }
+          // if (!finalArr[find_record].DesignImage && b?.DesignImage) {
+          //   finalArr[find_record].DesignImage = b?.DesignImage;
+          // }
           // if (finalArr[find_record].DesignImage && b?.DesignImage) {
           //   finalArr[find_record].DesignImage = b?.DesignImage;
           // }
-          finalArr[find_record].DesignImage = b?.DesignImage;
+          // finalArr[find_record].DesignImage = b?.DesignImage;
           finalArr[find_record].grosswt += b?.grosswt;
           finalArr[find_record].NetWt += b?.NetWt;
           finalArr[find_record].LossWt += b?.LossWt;
@@ -557,7 +562,7 @@ const PackingList7DGroup = ({
   // }, 0)
 
   // console.log("diamondDetails", diamondDetails);
-  console.log("result", result);
+  // console.log("result", result);
   
 
   return (

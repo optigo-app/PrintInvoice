@@ -9,69 +9,104 @@
 }
 
 
-.containerJewelleryMaxWidth{
+.containerJewelleryMaxWidth {
     max-width: 836px !important;
     box-sizing: border-box;
 }
-.fs_16_jti{
+
+.fs_16_jti {
     font-size: 16px;
 }
 
-.image{
+.image {
     max-height: 100px;
     width: 100%;
     object-fit: contain;
 }
 
-.generated{
+.generated {
     font-size: 9px;
 }
-.lh_dec_JTI{
+
+.lh_dec_JTI {
     line-height: 14px;
 }
 
-.headLabelJTI_quote{
+.headLabelJTI_quote {
     font-size: 20px;
     background-color: #939292;
     color: #FFF;
     padding: 4px 0px 5px 6px !important;
     font-weight: bold;
 }
-.lines{
+
+.lines {
     font-size: 12px;
     line-height: 13px;
 }
-.JTIlogo{
+
+.JTIlogo {
     height: 120px;
     width: 150px;
 }
-.fs_comment_jti{
+
+.fs_comment_jti {
     font-size: 12px;
 }
-@media print{
-    .print_sec_sum4{
+
+@media print {
+    @page {
+        margin: 15px 10px; 
+    }
+
+    /* .wrapper {
+        height: 250mm;
+        width: 210mm;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mainContent {
+        flex-grow: 1;
+        height: 230mm;
+    }
+
+    .footer {
+        display: block;
+        padding: 1rem;
+        text-align: center;
+        border-top: 1px solid #ccc;
+        height: 10mm;
+        background-color: #939292;
+    } */
+
+    .print_sec_sum4 {
         display: none !important;
     }
+
     .containerJewellery * {
         font-size: 11px;
         font-family: Calibri;
     }
-    .fs_16_jti{
+
+    .fs_16_jti {
         font-size: 14px;
     }
-    .JTIlogo{
+
+    .JTIlogo {
         height: 100px !important;
         width: 100px !important;
     }
-    .image{
+
+    .image {
         max-height: 80px;
         width: 80%;
         object-fit: contain;
     }
-    .fs_comment_jti{
+
+    .fs_comment_jti {
         font-size: 9px;
     }
-
 }
 
 /* .containerJewellery *:not(.declaration *) {

@@ -14,8 +14,8 @@
 .srNoEstimatePrint {
     /* width: 25px;
     min-width: 25px; */
-    width: 3%;
-    min-width: 3%;
+    width: 2%;
+    min-width: 2%;
 }
 
 .designEstimatePrint {
@@ -37,8 +37,8 @@
 .metalEstimatePrint {
     /* width: 205px;
     min-width: 205px; */
-    width: 19%;
-    min-width: 19%;
+    width: 21%;
+    min-width: 21%;
 }
 
 
@@ -57,8 +57,8 @@
 .labourEstimatePrint {
     /* width: 90px;
     min-width: 90px; */
-    width: 9%;
-    min-width: 9%;
+    width: 8%;
+    min-width: 8%;
 }
 
 
@@ -109,8 +109,8 @@
 .totalEstimatePrint {
     /* width: 135px;
     min-width: 135px; */
-    width: 13%;
-    min-width: 13%;
+    width: 12%;
+    min-width: 12%;
 }
 
 .summaryEstimateprint {
@@ -261,6 +261,10 @@
 .spBrdrLftBlk {
     border-left: 1px solid #000;
 }
+.spSpceBtom {
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
 
 @media print {
     @page {
@@ -275,12 +279,21 @@
     .spBold{
         font-weight: bold;
     }
+    .min_height_100EstimatePrint{
+        min-height: 110px;
+    }
+    .estimatePrintFont_14{
+        font-size: 10px
+    }
+    .containerEstimate *{
+        font-size: 10px;
+    }
     .recordEstimatePrint * {
-        font-size: 6px;
-        line-height: 120%;
+        font-size: 7px;
+        line-height: 100%;
     }
     .recordEstimatePrintHead * {
-        font-size: 6px;
-        line-height: 120%;
+        font-size: 7px;
+        line-height: 100%;
     }
 }

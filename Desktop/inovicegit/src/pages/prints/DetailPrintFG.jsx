@@ -224,111 +224,111 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           <div className="my-2 w-100">
             {/* heading */}
             <div className="spBrdrLftBlk spBrdrTopBlk spBrdrRigtBlk d-flex spBrdrBtomBlk recordEstimatePrintHead overflow-hidden lightGrey">
-              <div className="srNoEstimatePrint spBrdrRigt px-1 d-flex align-items-center justify-content-center ">
+              <div className="srNoEstimatePrint spBrdrRigt d-flex align-items-center justify-content-center">
                 <p className="spBold">Sr</p>
               </div>
-              <div className="designEstimatePrint spBrdrRigt px-1 d-flex align-items-center justify-content-center ">
+              <div className="designEstimatePrint spBrdrRigt d-flex align-items-center justify-content-center">
                 <p className="spBold">Design</p>
               </div>
               <div className="diamondEstimatePrint spBrdrRigt ">
-                <div className="p-1 text-center spBrdrBtom ">
+                <div className="text-center spBrdrBtom spSpceBtom">
                   <p className="spBold">Diamond / Solitaire</p>
                 </div>
                 <div className="d-flex h-100">
-                  <div className="width20EstimatePrint px-1 spBrdrRigt ">
+                  <div className="width20EstimatePrint spBrdrRigt spSpceBtom">
                     <p className="text-center spBold">Code</p>
                   </div>
-                  <div className="width20EstimatePrint px-1 spBrdrRigt ">
+                  <div className="width20EstimatePrint spBrdrRigt spSpceBtom">
                     <p className="text-center spBold">Size</p>
                   </div>
-                  <div className="width20EstimatePrint px-1 spBrdrRigt " style={{ width: "12%", minWidth: "12%" }}>
+                  <div className="width20EstimatePrint spBrdrRigt spSpceBtom" style={{ width: "10%", minWidth: "10%" }}>
                     <p className="text-center spBold">Pcs</p>
                   </div>
-                  <div className="width20EstimatePrint px-1 spBrdrRigt ">
+                  <div className="width20EstimatePrint spBrdrRigt spSpceBtom">
                     <p className="text-center spBold">Wt</p>
                   </div>
-                  <div className="width20EstimatePrint px-1 spBrdrRigt ">
+                  <div className="width20EstimatePrint spBrdrRigt spSpceBtom">
                     <p className="text-center spBold">Supp</p>
                   </div>
-                  <div className="width20EstimatePrint px-1 spBrdrRigt ">
+                  <div className="width20EstimatePrint spBrdrRigt spSpceBtom">
                     <p className="text-center spBold">Rate</p>
                   </div>
-                  <div className="width20EstimatePrint px-1">
+                  <div className="width20EstimatePrint spSpceBtom" style={{ width: "16.67%", minWidth: "16.67%" }}>
                     <p className="text-center spBold">Amount</p>
                   </div>
                 </div>
               </div>
-              <div className="metalEstimatePrint spBrdrRigt ">
-                <div className="p-1 text-center spBrdrBtom ">
+              <div className="metalEstimatePrint spBrdrRigt">
+                <div className="text-center spBrdrBtom spSpceBtom">
                   <p className="spBold">Metal / Mount</p>
                 </div>
                 <div className="d-flex h-100">
-                  <div className="width_40_estimatePrint px-1 spBrdrRigt ">
+                  <div className="width_40_estimatePrint spBrdrRigt spSpceBtom">
                     <p className="text-center spBold">Quality</p>
                   </div>
-                  <div className="width_40_estimatePrint px-1 spBrdrRigt ">
+                  <div className="width_40_estimatePrint spBrdrRigt spSpceBtom">
                     <p className="text-center spBold">*Wt</p>
                   </div>
-                  <div className="width_40_estimatePrint px-1 spBrdrRigt ">
+                  <div className="width_40_estimatePrint spBrdrRigt spSpceBtom">
                     <p className="text-center spBold">Net Wt</p>
                   </div>
-                  <div className="width_40_estimatePrint px-1 spBrdrRigt " style={{ width: "14%", minWidth: "14%" }}>
+                  <div className="width_40_estimatePrint spBrdrRigt spSpceBtom" style={{ width: "14%", minWidth: "14%" }}>
                     <p className="text-center spBold">Supp</p>
                   </div>
-                  <div className="width_40_estimatePrint px-1 spBrdrRigt ">
+                  <div className="width_40_estimatePrint spBrdrRigt spSpceBtom">
                     <p className="text-center spBold">Rate</p>
                   </div>
-                  <div className="width_40_estimatePrint px-1" style={{ width: "19.32%", minWidth: "19.32%" }}>
+                  <div className="width_40_estimatePrint spSpceBtom" style={{ width: "19.32%", minWidth: "19.32%" }}>
                     <p className="text-center spBold">Amount</p>
                   </div>
                 </div>
               </div>
-              <div className="stoneEstimatePrint spBrdrRigt ">
-                <div className="p-1 text-center spBrdrBtom ">
+              <div className="stoneEstimatePrint spBrdrRigt">
+                <div className="text-center spBrdrBtom spSpceBtom">
                   <p className="spBold">Stone</p>
                 </div>
                 <div className="d-flex h-100">
-                  <div className="width20EstimatePrint px-1 spBrdrRigt ">
+                  <div className="width20EstimatePrint spBrdrRigt spSpceBtom">
                     <p className="text-center spBold">Code</p>
                   </div>
-                  <div className="width20EstimatePrint px-1 spBrdrRigt ">
+                  <div className="width20EstimatePrint spBrdrRigt spSpceBtom">
                     <p className="text-center spBold">Size</p>
                   </div>
-                  <div className="width20EstimatePrint px-1 spBrdrRigt " style={{ width: "12%", minWidth: "12%" }}>
+                  <div className="width20EstimatePrint spBrdrRigt spSpceBtom" style={{ width: "10%", minWidth: "10%" }}>
                     <p className="text-center spBold">Pcs</p>
                   </div>
-                  <div className="width20EstimatePrint px-1 spBrdrRigt ">
+                  <div className="width20EstimatePrint spBrdrRigt spSpceBtom">
                     <p className="text-center spBold">Wt</p>
                   </div>
-                  <div className="width20EstimatePrint px-1 spBrdrRigt ">
+                  <div className="width20EstimatePrint spBrdrRigt spSpceBtom">
                     <p className="text-center spBold">Supp</p>
                   </div>
-                  <div className="width20EstimatePrint px-1 spBrdrRigt ">
+                  <div className="width20EstimatePrint spBrdrRigt spSpceBtom">
                     <p className="text-center spBold">Rate</p>
                   </div>
-                  <div className="width20EstimatePrint px-1">
+                  <div className="width20EstimatePrint spSpceBtom" style={{ width: "16.67%", minWidth: "16.67%" }}>
                     <p className="text-center spBold">Amount</p>
                   </div>
                 </div>
               </div>
-              <div className="OtherAmountEstimatePrint spBrdrRigt  px-1 d-flex align-items-center justify-content-center flex-wrap">
+              <div className="OtherAmountEstimatePrint spBrdrRigt d-flex align-items-center justify-content-center flex-wrap">
                 <p className="text-center spBold">Other &nbsp;</p>
                 <p className="text-center spBold">Amount </p>
               </div>
-              <div className="labourEstimatePrint spBrdrRigt ">
-                <div className="p-1 text-center spBrdrBtom ">
+              <div className="labourEstimatePrint spBrdrRigt">
+                <div className="text-center spBrdrBtom spSpceBtom">
                   <p className="spBold">Labour</p>
                 </div>
                 <div className="d-flex h-100">
-                  <div className="col px-1 spBrdrRigt  text-center">
+                  <div className="col spBrdrRigt text-center spSpceBtom">
                     <p className="spBold">Rate</p>
                   </div>
-                  <div className="col px-1 text-center">
+                  <div className="col text-center spSpceBtom">
                     <p className="spBold">Amount</p>
                   </div>
                 </div>
               </div>
-              <div className="totalAmountEstimatePrint p-1 d-flex align-items-center justify-content-center flex-wrap">
+              <div className="totalAmountEstimatePrint d-flex align-items-center justify-content-center flex-wrap">
                 <p className="text-center spBold">Amount </p>
               </div>
             </div>
@@ -411,7 +411,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <div className="width20EstimatePrint p_1Estimate">
                                     <p className="">{ele?.SizeName}</p>
                                   </div>
-                                  <div className="width20EstimatePrint p_1Estimate" style={{ width: "12%", minWidth: "12%" }}>
+                                  <div className="width20EstimatePrint p_1Estimate" style={{ width: "10%", minWidth: "10%" }}>
                                     <p className="text-end">
                                       {NumberWithCommas(ele?.Pcs, 0)}
                                     </p>
@@ -431,7 +431,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                       {NumberWithCommas(ele?.Rate, 2)}
                                     </p>
                                   </div>
-                                  <div className="width20EstimatePrint p_1Estimate">
+                                  <div className="width20EstimatePrint p_1Estimate" style={{ width: "16.67%", minWidth: "16.67%" }}>
                                     <p className="spBold text-end">
                                       {NumberWithCommas(ele?.Amount, 2)}
                                     </p>
@@ -450,7 +450,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="width20EstimatePrint p_1Estimate">
                             <p className="spBold"></p>
                           </div>
-                          <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "12%", minWidth: "12%" }}>
+                          <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "10%", minWidth: "10%" }}>
                             <p className="text-end spBold">
                               {item?.totals?.diamonds?.Pcs !== 0 && (
                                 <>{NumberWithCommas(item?.totals?.diamonds?.Pcs, 0)}</>
@@ -470,7 +470,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
                             <p className="text-end spBold"></p>
                           </div>
-                          <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
+                          <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "16.67%", minWidth: "16.67%" }}>
                             <p className="text-end spBold">
                                   {NumberWithCommas(item?.totals?.diamonds?.Amount, 2)}
                             </p>
@@ -574,7 +574,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               <div className="width20EstimatePrint p_1Estimate">
                                 <p>{ele?.SizeName}</p>
                               </div>
-                              <div className="width20EstimatePrint p_1Estimate" style={{ width: "12%", minWidth: "12%" }}>
+                              <div className="width20EstimatePrint p_1Estimate" style={{ width: "10%", minWidth: "10%" }}>
                                 <p className="text-end">{ele?.Pcs > 0 && NumberWithCommas(ele?.Pcs, 0)}</p>
                               </div>
                               <div className="width20EstimatePrint p_1Estimate">
@@ -586,7 +586,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               <div className="width20EstimatePrint p_1Estimate">
                                 <p className="text-end">{NumberWithCommas(ele?.Rate, 2)}</p>
                               </div>
-                              <div className="width20EstimatePrint p_1Estimate">
+                              <div className="width20EstimatePrint p_1Estimate" style={{ width: "16.67%", minWidth: "16.67%" }}>
                                 <p className="spBold text-end">{NumberWithCommas(ele?.Amount, 2)}</p>
                               </div>
                             </div>
@@ -601,7 +601,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               <div className="width20EstimatePrint p_1Estimate">
                                 <p>{ele?.SizeName}</p>
                               </div>
-                              <div className="width20EstimatePrint p_1Estimate" style={{ width: "12%", minWidth: "12%" }}>
+                              <div className="width20EstimatePrint p_1Estimate" style={{ width: "10%", minWidth: "10%" }}>
                                 <p className="text-end">{ele?.Pcs > 0 && NumberWithCommas(ele?.Pcs, 0)}</p>
                               </div>
                               <div className="width20EstimatePrint p_1Estimate">
@@ -613,7 +613,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               <div className="width20EstimatePrint p_1Estimate">
                                 <p className="text-end">{NumberWithCommas(ele?.Rate, 2)}</p>
                               </div>
-                              <div className="width20EstimatePrint p_1Estimate">
+                              <div className="width20EstimatePrint p_1Estimate" style={{ width: "16.67%", minWidth: "16.67%" }}>
                                 <p className="spBold text-end">{NumberWithCommas(ele?.Amount, 2)}</p>
                               </div>
                             </div>
@@ -623,7 +623,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 spBrdrTop ">
                         <div className="width20EstimatePrint p_1Estimate" />
                         <div className="width20EstimatePrint p_1Estimate" />
-                        <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "12%", minWidth: "12%" }}>
+                        <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "10%", minWidth: "10%" }}>
                           <p className="text-end spBold">
                             {(item?.totals?.colorstone?.length > 0 
                               // || item?.totals?.misc?.length > 0
@@ -645,7 +645,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                         <div className="width20EstimatePrint p_1Estimate" />
                         <div className="width20EstimatePrint p_1Estimate" />
-                        <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
+                        <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "16.67%", minWidth: "16.67%" }}>
                           <p className="text-end spBold">
                             {NumberWithCommas(item?.totals?.colorstone?.Amount
                               //  + item?.totals?.misc?.Amount
@@ -782,7 +782,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="width20EstimatePrint p_1Estimate h-100">
                           <p></p>
                         </div>
-                        <div className="width20EstimatePrint p_1Estimate h-100" style={{ width: "12%", minWidth: "12%" }}>
+                        <div className="width20EstimatePrint p_1Estimate h-100" style={{ width: "10%", minWidth: "10%" }}>
                           <p className="text-end spBold">
                             {data?.mainTotal?.diamonds?.Pcs > 0 && NumberWithCommas(data?.mainTotal?.diamonds?.Pcs, 0)}
                           </p>
@@ -794,7 +794,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                         <div className="width20EstimatePrint p_1Estimate h-100"></div>
                         <div className="width20EstimatePrint p_1Estimate h-100"></div>
-                        <div className="width20EstimatePrint p_1Estimate h-100">
+                        <div className="width20EstimatePrint p_1Estimate h-100" style={{ width: "16.67%", minWidth: "16.67%" }}>
                           <p className="text-end spBold">
                             {NumberWithCommas(data?.mainTotal?.diamonds?.Amount, 2)}
                           </p>
@@ -835,7 +835,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="width20EstimatePrint p_1Estimate h-100">
                           <p className="spBold"></p>
                         </div>
-                        <div className="width20EstimatePrint p_1Estimate h-100" style={{ width: "12%", minWidth: "12%" }}>
+                        <div className="width20EstimatePrint p_1Estimate h-100" style={{ width: "10%", minWidth: "10%" }}>
                           <p className="text-end spBold">
                             {(data?.mainTotal?.colorstone?.Pcs !== 0 || data?.mainTotal?.misc?.Pcs !== 0) &&
                               (data?.mainTotal?.colorstone?.Pcs + data?.mainTotal?.misc?.Pcs)}
@@ -849,7 +849,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                         <div className="width20EstimatePrint p_1Estimate h-100"></div>
                         <div className="width20EstimatePrint p_1Estimate h-100"></div>
-                        <div className="width20EstimatePrint p_1Estimate h-100">
+                        <div className="width20EstimatePrint p_1Estimate h-100" style={{ width: "16.67%", minWidth: "16.67%" }}>
                           <p className="text-end spBold">
                             {NumberWithCommas(data?.mainTotal?.colorstone?.Amount + data?.mainTotal?.misc?.Amount, 2)}
                           </p>
