@@ -1182,9 +1182,9 @@ const JewelleryTaxInvoiceSale = ({
       </div>
     </div>
 
-      <div className={`${style?.footer}`}>
+      {/* <div className={`${style?.footer}`}>
         <p>Copyright © 2025. All rights reserved.</p>
-      </div>
+      </div> */}
     </>
   ) : (
     <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">

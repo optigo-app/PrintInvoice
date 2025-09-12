@@ -40,6 +40,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
+
   const findOtherName = (arr, ele) => {
     let findIndex = arr.findIndex((e, i) => e?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid && e?.Rate === ele?.Rate);
     if (findIndex === -1) {
@@ -86,8 +87,6 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   }
 
   const loadData = (data) => {
-
-
     setJson0(data?.BillPrint_Json[0]);
 
     let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
@@ -399,6 +398,10 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  console.log("json0", json0);
+  console.log("mainData", mainData);
+  console.log("datass", datass);
+  
   return (
     loader ? <Loader /> : msg === "" ? <div className='container portraitContainer inoviceprintContainer max_width_container pad_60_allPrint mt-2 px-1 invp_830 invp_830_fs'>
       {/* buttons */}
@@ -408,18 +411,18 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         </div>
       </div>
       {/* heading */}
-      <div className="bgGrey text-uppercase fs-5 fw-bold p-2 text-white mb_2 no_break invp_830_fs invp_830_fs_head_label">{json0?.PrintHeadLabel}</div>
+      <div className="bgGrey text-uppercase fs-5 fw-bold text-white mb_2 no_break invp_830_fs invp_830_fs_head_label" style={{ padding: "0.7rem" }}>{json0?.PrintHeadLabel}</div>
       {/* address */}
-      <div className="w-100 d-flex justify-content-between  no_break">
-        <div className='col-10  border  border-white p-1 invp_830_fs'>
+      {/* <div className="w-100 d-flex justify-content-between  no_break">
+        <div className='col-10  brdrAll  p-1 invp_830_fs'>
           <p className='fw-bold fs-6 pb-1 invp_830_fs'>{json0?.CompanyFullName}</p>
           <p className='pb-1 invp_830_fs'>{json0?.CompanyAddress}</p>
           <p className='pb-1 invp_830_fs'>{json0?.CompanyAddress2}</p>
           <p className='pb-1 invp_830_fs'>{json0?.CompanyCity}-{json0?.CompanyPinCode}, {json0?.CompanyState}{json0?.CompanyCountry !== "" && `(${json0?.CompanyCountry})`}</p>
-          {/* <p>{json0?.CompanyAddress2}-{json0?.CompanyPinCode}, {json0?.CompanyState}({json0?.CompanyCountry})</p> */}
+          {/* <p>{json0?.CompanyAddress2}-{json0?.CompanyPinCode}, {json0?.CompanyState}({json0?.CompanyCountry})</p> 
           <p className='pb-1 invp_830_fs'>T {json0?.CompanyTellNo} | TOLL FREE {json0?.CompanyTollFreeNo}</p>
           <p className='pb-1 invp_830_fs'>{json0?.CompanyEmail} | {json0?.CompanyWebsite}</p>
-          {/* { json0?.MSME && <p className='pb-1 invp_830_fs'>MSME - {json0?.MSME}</p>} */}
+          {/* { json0?.MSME && <p className='pb-1 invp_830_fs'>MSME - {json0?.MSME}</p>} 
         </div>
         <div className='col-2'>
           {isImageWorking && (json0?.PrintLogo !== "" &&
@@ -427,15 +430,15 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               className='w-100 h-auto ms-auto d-block object-fit-contain'
               style={{ maxWidth: '138px' }}
               onError={handleImageErrors} height={120} width={150} />)}
-          {/* <img src={json0?.PrintLogo} alt="" className='w-100 invoicePrintLogo' /> */}
+          {/* <img src={json0?.PrintLogo} alt="" className='w-100 invoicePrintLogo' /> 
         </div>
-      </div>
+      </div> */}
       {/* bill no */}
-      <div className="w-100 d-flex justify-content-between border-top py-2 pb-1 no_break">
+      <div className="w-100 d-flex justify-content-between pb-1 no_break">
         <div className='col-9'>
         </div>
         <div className='col-3'>
-          <div className="border  p_2 border-black">
+          <div className="brdrAll p_2">
             <div className="d-flex pb-1">
               <p className='col-3 fw-bold invp_830_fs'>BILL NO</p>
               <p className='col-9 ps-2 invp_830_fs'>{json0?.InvoiceNo}</p>
@@ -453,13 +456,13 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       </div>
       {/* customer address */}
       <div className="pb-1 no_break">
-        <div className="d-flex  border border-black p-1">
+        <div className="d-flex brdrAll p-1">
           <div className="col-6">
             <p className='pb-1 fs-6 fw-bold invp_830_fs'> To,	{json0?.customerfirmname}</p>
             <p className="pb-1 ps-4 invp_830_fs">{json0?.customerstreet}</p>
-            <p className="pb-1 ps-4 invp_830_fs">{json0?.customerAddress2}</p>
+            <p className="pb-1 ps-4 invp_830_fs">{json0?.customerregion}</p>
             <p className="pb-1 ps-4 invp_830_fs">{json0?.customercity}{json0?.customerpincode}</p>
-            <p className="pb-1 ps-4 invp_830_fs">STATE NAME : {json0?.State}</p>
+            <p className="pb-1 ps-4 invp_830_fs">STATE NAME : {json0?.customerstate}</p>
           </div>
           <div className="col-3"></div>
           <div className="col-4 d-flex justify-content-center align-items-start flex-column">
@@ -471,16 +474,16 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       </div>
       {/* discription */}
       <div className="pb-1 ">
-        <div className="d-flex border  border-black minh_invp_830_2">
-          <div className="col-3 border-end border-2 border-black position-relative">
-            <p className="fw-bold p-1 text-center border-bottom border-2 border-black invp_830_fs">DESCRIPTION</p>
+        <div className="d-flex brdrAll minh_invp_830_2">
+          <div className="col-3 brdrRigt position-relative">
+            <p className="fw-bold p-1 text-center brdrBtom invp_830_fs">DESCRIPTION</p>
             <div className="minHieght150InvoicePrint d-flex justify-content-center pd_top_invp invp_830_fs">
               <p className='invp_830_fs'>{datass?.mainTotal?.diamonds?.Pcs > 0 ? "DIAMOND STUDDED" : "GOLD"}  JEWELLERY</p>
             </div>
-            <div className="minHieght28InvoicePrint border-top border-2 border-black position-absolute bottom-0 left-0 w-100"></div>
+            <div className="minHieght28InvoicePrint brdrTop position-absolute bottom-0 left-0 w-100"></div>
           </div>
           <div className="col-9">
-            <div className="d-flex border-bottom border-black border-2 p-1">
+            <div className="d-flex brdrBtom p-1">
               <div className="col-4">
                 <p className="fw-bold invp_830_fs">DETAIL	</p>
               </div>
@@ -494,56 +497,11 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <p className="fw-bold text-end invp_830_fs"> AMOUNT </p>
               </div>
             </div>
-            {/* <div className="minHieght150InvoicePrint pt-1">
-              {mainData?.resultArr?.map((e, i) => {
-                return <div className="d-flex pb-1 no_break" key={i}>
-                  <div className="col-4 px-1 text-uppercase invp_830_fs"><p className='invp_830_fs'>{e?.primaryMetal?.ShapeName} {e?.primaryMetal?.QualityName}</p></div>
-                  <div className="col-3 px-1 text-end invp_830_fs"><p className='invp_830_fs'>{NumberWithCommas(e?.netWtFinal, 3)} </p></div>
-                  <div className="col-2 px-1 text-end invp_830_fs"><p className='invp_830_fs'>{e?.netWtFinal === 0 ? formatAmount(e?.metal_rate) : NumberWithCommas((e?.metalAmountFinal / json0?.CurrencyExchRate) / e?.netWtFinal, 2)}</p></div>
-                  <div className="col-3 px-1 text-end invp_830_fs"><p className='invp_830_fs'>{NumberWithCommas(e?.metalAmountFinal / json0?.CurrencyExchRate, 2)}</p></div>
-                </div>
-              })}
-              {mainData?.diamonds?.map((e, i) => {
-                return <div className="d-flex pb-1 no_break" key={i}>
-                  <div className="px-1 text-uppercase col-4 invp_830_fs"><p className='invp_830_fs'>{e?.MasterManagement_DiamondStoneTypeName} {e?.MaterialTypeName !== "" && `(${e?.MaterialTypeName})`}</p></div>
-                  <div className="px-1 text-end col-3 invp_830_fs"><p className='invp_830_fs'>{NumberWithCommas(e?.Wt, 3)} </p></div>
-                  <div className="px-1 text-end col-2 invp_830_fs"><p className='invp_830_fs'>{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas((e?.Amount / e?.Wt) / json0?.CurrencyExchRate, 0)} </>) : (e?.Pcs !== 0 && <>{NumberWithCommas((e?.Amount / e?.Pcs) / json0?.CurrencyExchRate, 0)} / Pcs</>))}</p></div>
-                  <div className="px-1 text-end col-3 invp_830_fs"><p className='invp_830_fs'>{NumberWithCommas(e?.Amount, 2)}</p></div>
-                </div>
-              })}
-              {mainData?.colorStones?.map((e, i) => {
-                return <div className="d-flex pb-1 no_break" key={i}>
-                  <div className="col-4 px-1 text-uppercase invp_830_fs"><p className='invp_830_fs'>STONE {e?.MaterialTypeName !== "" && `(${e?.MaterialTypeName})`}</p></div>
-                  <div className="col-3  px-1 text-end invp_830_fs"><p className='invp_830_fs'>{NumberWithCommas(e?.Wt, 3)} </p></div>
-                  <div className="col-2  px-1 text-end invp_830_fs"><p className='invp_830_fs'>{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas((e?.Amount / e?.Wt) / json0?.CurrencyExchRate, 0)} </>) : (e?.Pcs !== 0 && <>{NumberWithCommas((e?.Amount / e?.Pcs) / json0?.CurrencyExchRate, 0)} </>))}</p></div>
-                  <div className="col-3  px-1 text-end invp_830_fs"><p className='invp_830_fs'>{NumberWithCommas(e?.Amount, 2)}</p></div>
-                </div>
-              })}
-              { mainData?.labour?.totalAmount === 0 ? '' : <div className="d-flex pb-1 no_break">
-                <div className="px-1 col-4 text-uppercase invp_830_fs"><p className='invp_830_fs'>{mainData?.labour?.label}</p></div>
-                <div className="px-1 col-3 text-end invp_830_fs"><p></p></div>
-                <div className="px-1 col-2 text-end invp_830_fs"><p className='invp_830_fs'>{mainData?.labour?.primaryWt !== 0 && NumberWithCommas((mainData?.labour?.rate), 0)}</p></div>
-                <div className="px-1 col-3 text-end invp_830_fs"><p className='invp_830_fs'>{NumberWithCommas(datass?.mainTotal?.total_Making_Amount + datass?.mainTotal?.diamonds?.SettingAmount +
-                  datass?.mainTotal?.colorstone?.SettingAmount + datass?.mainTotal?.misc?.Amount + datass?.mainTotal?.total_diamondHandling, 2)}</p></div>
-              </div>}
-              {mainData?.otherCharges?.map((e, i) => {
-                return <div className="d-flex pb-1 no_break" key={i}>
-                  <div className="col-4 px-1 text-uppercase invp_830_fs"><p className='invp_830_fs'>{e?.label}</p></div>
-                  <div className="col-3 px-1 text-end"><p></p></div>
-                  <div className="col-2 px-1 text-end"><p></p></div>
-                  <div className="col-3 px-1 text-end invp_830_fs"><p className='invp_830_fs'>{NumberWithCommas(+e?.value, 2)}</p></div>
-                </div>
-              })}
-            </div>
-            <div className="minHieght28InvoicePrint d-flex justify-content-between align-items-center py-1 px-2 border-top border-black border-2 no_break">
-              <p className='fw-bold text-end invp_830_fs'>Total</p>
-              <p className='fw-bold invp_830_fs'>{NumberWithCommas(datass?.mainTotal?.total_unitcost, 2)}</p>
-            </div> */}
             <div className='d-flex justify-content-between align-items-start  flex-column w-100 minh_invp_830_2'>
             <div className="minHieght150InvoicePrint pt-1 w-100">
               {mainData?.resultArr?.map((e, i) => {
                 return <div className="d-flex pb-1 no_break" key={i}>
-                  <div className="col-4 px-1 text-uppercase invp_830_fs"><p className='invp_830_fs'>{e?.primaryMetal?.ShapeName} {e?.primaryMetal?.QualityName}</p></div>
+                  <div className="col-4 px-1 text-uppercase invp_830_fs"><p className='invp_830_fs spbrWord'>{e?.primaryMetal?.ShapeName} {e?.primaryMetal?.QualityName}</p></div>
                   <div className="col-3 px-1 text-end invp_830_fs"><p className='invp_830_fs'>{NumberWithCommas(e?.netWtFinal, 3)} </p></div>
                   <div className="col-2 px-1 text-end invp_830_fs"><p className='invp_830_fs'>{e?.netWtFinal === 0 ? formatAmount(e?.metal_rate) : NumberWithCommas((e?.metalAmountFinal / json0?.CurrencyExchRate) / e?.netWtFinal, 2)}</p></div>
                   <div className="col-3 px-1 text-end invp_830_fs"><p className='invp_830_fs'>{NumberWithCommas(e?.metalAmountFinal / json0?.CurrencyExchRate, 2)}</p></div>
@@ -551,7 +509,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               })}
               {mainData?.diamonds?.map((e, i) => {
                 return <div className="d-flex pb-1 no_break" key={i}>
-                  <div className="px-1 text-uppercase col-4 invp_830_fs"><p className='invp_830_fs'>{e?.MasterManagement_DiamondStoneTypeName} {e?.MaterialTypeName !== "" && `(${e?.MaterialTypeName})`}</p></div>
+                  <div className="px-1 text-uppercase col-4 invp_830_fs"><p className='invp_830_fs spbrWord'>CUT AND POLISHED DIAMOND {e?.MaterialTypeName !== "" && `(${e?.MaterialTypeName})`}</p></div>
                   <div className="px-1 text-end col-3 invp_830_fs"><p className='invp_830_fs'>{NumberWithCommas(e?.Wt, 3)} </p></div>
                   <div className="px-1 text-end col-2 invp_830_fs"><p className='invp_830_fs'>{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas((e?.Amount / e?.Wt) / json0?.CurrencyExchRate, 0)} </>) : (e?.Pcs !== 0 && <>{NumberWithCommas((e?.Amount / e?.Pcs) / json0?.CurrencyExchRate, 0)} / Pcs</>))}</p></div>
                   <div className="px-1 text-end col-3 invp_830_fs"><p className='invp_830_fs'>{NumberWithCommas(e?.Amount, 2)}</p></div>
@@ -559,14 +517,14 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               })}
               {mainData?.colorStones?.map((e, i) => {
                 return <div className="d-flex pb-1 no_break" key={i}>
-                  <div className="col-4 px-1 text-uppercase invp_830_fs"><p className='invp_830_fs'>STONE {e?.MaterialTypeName !== "" && `(${e?.MaterialTypeName})`}</p></div>
+                  <div className="col-4 px-1 text-uppercase invp_830_fs"><p className='invp_830_fs spbrWord'>STONE {e?.MaterialTypeName !== "" && `(${e?.MaterialTypeName})`}</p></div>
                   <div className="col-3  px-1 text-end invp_830_fs"><p className='invp_830_fs'>{NumberWithCommas(e?.Wt, 3)} </p></div>
                   <div className="col-2  px-1 text-end invp_830_fs"><p className='invp_830_fs'>{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas((e?.Amount / e?.Wt) / json0?.CurrencyExchRate, 0)} </>) : (e?.Pcs !== 0 && <>{NumberWithCommas((e?.Amount / e?.Pcs) / json0?.CurrencyExchRate, 0)} </>))}</p></div>
                   <div className="col-3  px-1 text-end invp_830_fs"><p className='invp_830_fs'>{NumberWithCommas(e?.Amount, 2)}</p></div>
                 </div>
               })}
               { mainData?.labour?.totalAmount === 0 ? '' : <div className="d-flex pb-1 no_break">
-                <div className="px-1 col-4 text-uppercase invp_830_fs"><p className='invp_830_fs'>{mainData?.labour?.label}</p></div>
+                <div className="px-1 col-4 text-uppercase invp_830_fs"><p className='invp_830_fs spbrWord'>{mainData?.labour?.label}</p></div>
                 <div className="px-1 col-3 text-end invp_830_fs"><p></p></div>
                 <div className="px-1 col-2 text-end invp_830_fs"><p className='invp_830_fs'>{mainData?.labour?.primaryWt !== 0 && NumberWithCommas((mainData?.labour?.rate), 0)}</p></div>
                 <div className="px-1 col-3 text-end invp_830_fs"><p className='invp_830_fs'>{NumberWithCommas(datass?.mainTotal?.total_Making_Amount + datass?.mainTotal?.diamonds?.SettingAmount +
@@ -581,7 +539,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
               })}
             </div>
-            <div className="minHieght28InvoicePrint d-flex justify-content-between align-items-center py-1 px-2 border-top border-black border-2 no_break w-100">
+            <div className="minHieght28InvoicePrint d-flex justify-content-between align-items-center py-1 px-2 brdrTop no_break w-100">
               <p className='fw-bold text-end invp_830_fs'>Total</p>
               <p className='fw-bold invp_830_fs'>{NumberWithCommas(datass?.mainTotal?.total_unitcost, 2)}</p>
             </div>
@@ -594,8 +552,8 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         <div className='' style={{width:'30%'}}>
           { json0?.PrintRemark && <><span className="fw-bold invp_830_fs">  Note: </span> <span dangerouslySetInnerHTML={{ __html: json0?.PrintRemark }} className='text-break'></span> </>}
         </div>
-       <div className='d-flex flex-column justify-content-between border-black border border-2' style={{width:'34%'}}>
-       <div className="  w-100 border-bottom-0">
+       <div className='d-flex flex-column justify-content-between brdrAll' style={{width:'34%'}}>
+       <div className="  w-100 brdrBtom-0">
           {datass?.mainTotal?.total_discount_amount !== 0 && <div className="d-flex py-1 justify-content-between px-2 invp_830_fs">
             <p className='invp_830_fs'>Discount	 </p>
             <p className='invp_830_fs'>{NumberWithCommas(datass?.mainTotal?.total_discount_amount, 2)} </p>
@@ -619,7 +577,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
          
         </div>
         <div className='w-100'>
-        {<div className="d-flex justify-content-between py-1 px-2 border-2  border-top border-black invp_830_fs">
+        {<div className="d-flex justify-content-between py-1 px-2 brdrTop invp_830_fs">
             <p className='fw-bold invp_830_fs'>Grand Total </p>
             <p className='fw-bold invp_830_fs'>{NumberWithCommas(datass?.mainTotal?.total_amount + datass?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * json0?.CurrencyExchRate), 0) + json0?.AddLess, 2)}</p>
           </div>}
@@ -628,20 +586,20 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       </div>
       {/* total price in text */}
       <div className="pb-1 no_break">
-        <div className="border  border-black p-1">
+        <div className="brdrAll p-1">
           <p className="fw-bold invp_830_fs">Rs. {toWords?.convert(+fixedValues(datass?.mainTotal?.total_amount + datass?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * json0?.CurrencyExchRate), 0) + json0?.AddLess, 2))} Only.</p>
         </div>
       </div>
       {/* note */}
       <div className="pb-1 no_break">
-        <div className="border  border-black pad_10_invp_830">
+        <div className="brdrAll pad_10_invp_830">
           <p className='fw-bold invp_830_fs'>NOTE :</p>
           <p className='declarationInvoicePrint invp_830_fs text-break' dangerouslySetInnerHTML={{ __html: json0?.Declaration }}></p>
         </div>
       </div>
       {/* company details */}
       <div className="pb-1 no_break">
-        <div className="border  border-black p-1 invp_830_fs">
+        <div className="brdrAll p-1 invp_830_fs">
           <p className="fw-bold pb-1 invp_830_fs">COMPANY DETAILS :</p>
           <p className='pb-1 invp_830_fs'>GSTIN. : {json0?.Company_VAT_GST_No?.split("-")[1]}</p>
           <p className='pb-1 invp_830_fs'>{json0?.Company_CST_STATE} : {json0?.Company_CST_STATE_No}</p>
@@ -657,12 +615,12 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       {/* authorised amigos */}
       <div className="pb-2 d-flex justify-content-between no_break">
         <div className="w-50 pe-1">
-          <div className="border  border-black d-flex justify-content-center minHieght138InvoicePrint">
+          <div className="brdrAll d-flex justify-content-center minHieght138InvoicePrint">
             <p className='fw-bold invp_830_fs pt-2'> AUTHORISED, {json0?.customerfirmname}</p>
           </div>
         </div>
         <div className="w-50 ps-1">
-          <div className="border border-black d-flex justify-content-center minHieght138InvoicePrint">
+          <div className="brdrAll d-flex justify-content-center minHieght138InvoicePrint">
             <p className='fw-bold invp_830_fs pt-2'>AUTHORISED, {json0?.CompanyFullName}</p>
           </div>
         </div>

@@ -1,7 +1,7 @@
 .inoviceprintContainer *:not(.declarationInvoicePrint *){
     font-size: 12px;
-    line-height: 120%;
-    line-height: 10px;
+    line-height: 100%;
+    line-height: 12px;
     font-family: Calibri;
 }
 
@@ -64,6 +64,34 @@
 .minh_invp_830_3{
     min-height: 100px;
 }
+
+/* VivekM */
+.brdrTop {
+    border-top: 2px solid #000;
+}
+
+.brdrRigt {
+    border-right: 2px solid #000;
+}
+
+.brdrBtom {
+    border-bottom: 2px solid #000;
+}
+
+.brdrLft {
+    border-left: 2px solid #000;
+}
+
+.brdrAll {
+    border: 2px solid #000;
+}
+
+.spbrWord {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
 @media print{
     .print_sec_sum4 {
         display: none !important;
