@@ -1191,37 +1191,63 @@ const OutsourceJobPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                   <div className="spdispFlxClum w-100 spdtl1">
                     <div className="spMrgdt1">
                       <div className="spdispFlx spbrdrLftDR spbrdrTopDR spbrdRghtDR">
-                        <div className="Suspdtl1 spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">JOB NO</div>
-                        <div className="Suspdtl2 spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">{e?.J_JobNo}</div>
+                        <div className="Suspdtl1 spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_9">JOB NO</div>
+                        <div className="Suspdtl2 spbrdRght sptxtend spbrdrBtom estimatePrintFont_9">{e?.J_JobNo}</div>
                         <div className="Suspdtl3 sptxtend spbrdrBtom">
                           <div className="spdispFlx">
-                            <p className="spBold estimatePrintFont_14">DESIGN -&nbsp;</p> <span className="estimatePrintFont_14 spBold">{e?.designno}</span>
+                            <p className="spBold estimatePrintFont_9">DESIGN -&nbsp;</p> <span className="estimatePrintFont_9 spBold">{e?.designno}</span>
                           </div>
                         </div>
                       </div>
 
                       <div className="spdispFlx spbrdrLftDR spbrdRghtDR">
                         <div className="Suspdtl1">
-                          <div className="spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">DATE</div>
-                          <div className="spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">MFG CODE</div>
-                          <div className="spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">CUST</div>
-                          <div className="spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">ORDER</div>
-                          <div className="spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">ODR. DT.</div>
-                          <div className="spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">DEL. DT.</div>
-                          <div className="spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">GR. WT.</div>
-                          <div className="spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">NET WT.</div>
-                          <div className="spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">{e?.diamondTotal?.weight !== 0 ? "DIA" : "" }</div>
-                          <div className="spBold spbrdRght sptxtend spbrdrBtomDR estimatePrintFont_14">{e?.colorStonesTotal?.weight !== 0 ? "CST" : ""}</div>
+                          <div className="spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_9">DATE</div>
+                          <div className="spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_9">MFG CODE</div>
+                          <div className="spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_9">CUST</div>
+                          <div className="spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_9">ORDER</div>
+                          <div className="spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_9">ODR. DT.</div>
+                          <div className="spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_9">DEL. DT.</div>
+                          <div className="spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_9">GR. WT.</div>
+                          <div className="spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_9">NET WT.</div>
+                          <div className="spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_9">{e?.diamondTotal?.weight !== 0 ? "DIA" : "" }</div>
+                          <div className="spBold spbrdRght sptxtend spbrdrBtomDR estimatePrintFont_9">{e?.colorStonesTotal?.weight !== 0 ? "CST" : ""}</div>
                         </div>
                         <div className="Suspdtl2">
-                          <div className="sptxtend spbrdRght spbrdrBtom estimatePrintFont_14">{json1Data?.EntryDate}</div>
-                          <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">{json1Data?.Manufacturer}</div>
-                          <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">{json1Data?.Customercode}</div>
-                          <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">{e?.JobSKUNo}</div>
-                          <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">{e?.EntryDate}</div>
-                          <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">{e?.PromiseDate}</div>
-                          <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_14">{fixedValues(e?.grosswt,3)}</div>
-                          <div className="spbrdRght spbrdrBtom estimatePrintFont_14 spdispFlx">
+                          <div className="sptxtend spbrdRght spbrdrBtom estimatePrintFont_9">{json1Data?.EntryDate}</div>
+                          <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_9">{json1Data?.Manufacturer}</div>
+                          <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_9">{json1Data?.Customercode}</div>
+                          <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_9">{e?.JobSKUNo}</div>
+                          <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_9">{e?.EntryDate}</div>
+                          <div className="spbrdRght sptxtend spbrdrBtom estimatePrintFont_9">{e?.PromiseDate}</div>
+                          <div className="spbrdRght spbrdrBtom estimatePrintFont_9 spdispFlx">
+                          <div className="subwidthHed spnHitArtisn">{fixedValues(e?.grosswt,3)}</div>
+                          <div className={`subwidthHed spBold spnHitArtisn 
+                              ${e?.metals?.some(
+                                (m) => m?.IsPrimaryMetal === 1 && (m?.QualityName !== "-" || m?.Colorname !== "-"))
+                                  ? "spbrdrLftDR spbrdRghtDR"
+                                  : ""
+                              }`}
+                            >
+                              {e?.metals?.filter((filter) => filter?.IsPrimaryMetal === 1)?.map((ep) => { 
+                              return (
+                                <>
+                                  {ep?.IsPrimaryMetal === 1 && ep?.QualityName !== "-" || ep?.Colorname !== "-" ? "COL" : "" }
+                                </>
+                              )
+                            })}
+                          </div>
+                          <div className="subwidthHed spnHitArtisn">
+                              {e?.metals?.filter((filter) => filter?.IsPrimaryMetal === 1)?.map((ep) => { 
+                                return (
+                                  <>
+                                    {ep?.IsPrimaryMetal === 1 && ep?.Colorname}
+                                  </>
+                                )
+                              })}
+                            </div>
+                          </div>
+                          <div className="spbrdRght spbrdrBtom estimatePrintFont_9 spdispFlx">
                             <div className="subwidthHed spnHitArtisn">{fixedValues(e?.NetWt,3)}</div>
                             <div className={`subwidthHed spBold spnHitArtisn 
                               ${e?.metals?.some(
@@ -1233,27 +1259,27 @@ const OutsourceJobPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                               {e?.metals?.filter((filter) => filter?.IsPrimaryMetal === 1)?.map((ep) => { 
                                 return (
                                   <>
-                                    {ep?.IsPrimaryMetal === 1 && ep?.QualityName !== "-" || ep?.Colorname !== "-" ? "KT/COL" : "" }
+                                    {ep?.IsPrimaryMetal === 1 && ep?.QualityName !== "-" || ep?.Colorname !== "-" ? "KT" : "" }
                                   </>
                                 )
-                              })}
+                              })} 
                             </div>
                             <div className="subwidthHed spnHitArtisn">
                                 {e?.metals?.filter((filter) => filter?.IsPrimaryMetal === 1)?.map((ep) => { 
                                   return (
                                     <>
-                                      {ep?.IsPrimaryMetal === 1 && ( `${ep?.QualityName}/${ep?.Colorname}` )}
+                                      {ep?.IsPrimaryMetal === 1 && ep?.QualityName}
                                     </>
                                   )
                                 })}
                               </div>
                           </div>
-                            <div className="spbrdRght spbrdrBtom estimatePrintFont_14 spdispFlx">
+                            <div className="spbrdRght spbrdrBtom estimatePrintFont_9 spdispFlx">
                               <div className="subwidthHed spnHitCsMs">{e?.diamondTotal?.weight !== 0 ? fixedValues(e?.diamondTotal?.weight,3) : ""}</div>
                               <div className={`subwidthHed spBold ${e?.Size !== "" ? "spbrdrLftDR spbrdRghtDR" : ""} spnHitCsMs`}>{e?.Size !== "" ? "SIZE" : ""}</div>
                               <div className="subwidthHed spnHitCsMs">{e?.Size}</div>
                             </div>
-                            <div className="spbrdRght spbrdrBtomDR estimatePrintFont_14 spdispFlx">
+                            <div className="spbrdRght spbrdrBtomDR estimatePrintFont_9 spdispFlx">
                               <div className="subwidthHed spnHitCsMs">{e?.colorStonesTotal?.weight !== 0 ?fixedValues(e?.colorStonesTotal?.weight,3) : ""}</div>
                               <div className={`subwidthHed spnHitCsMs ${e?.miscsTotal?.weight !== 0 ? "spbrdrLftDR spbrdRghtDR" : ""} spBold`}>
                                 {e?.miscsTotal?.weight === 0 ? "" : "MISC" }
@@ -1284,14 +1310,14 @@ const OutsourceJobPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                   {/** Right Side Section */}
                   <div className="spdtl2 spbrdRghtDR spbrdrLftDR">
                     <div className="spdispFlx">
-                      <div className="dtlWdth1 spbrdRght spbrdrBtomDR estimatePrintFont_14 sptxtCn spBold sptxtend">RM CODE</div>
-                      <div className="dtlWdth2 spbrdRght spbrdrBtomDR estimatePrintFont_14 sptxtCn spBold sptxtend">SIZE</div>
-                      <div className="dtlWdth3 spbrdRght spbrdrBtomDR estimatePrintFont_14 sptxtCn spBold sptxtend">PCS</div>
-                      <div className="dtlWdth4 spbrdRghtDR spbrdrBtomDR estimatePrintFont_14 sptxtCn spBold sptxtend">WT</div>
-                      <div className="dtlWdth5 spbrdRght spbrdrBtomDR estimatePrintFont_14 sptxtCn spBold sptxtend">RM CODE</div>
-                      <div className="dtlWdth6 spbrdRght spbrdrBtomDR estimatePrintFont_14 sptxtCn spBold sptxtend">SIZE</div>
-                      <div className="dtlWdth7 spbrdRght spbrdrBtomDR estimatePrintFont_14 sptxtCn spBold sptxtend">PCS</div>
-                      <div className="dtlWdth8 spbrdrBtomDR estimatePrintFont_14 sptxtCn spBold sptxtend">WT</div>
+                      <div className="dtlWdth1 spbrdRght spbrdrBtomDR estimatePrintFont_9 sptxtCn spBold sptxtend">RM CODE</div>
+                      <div className="dtlWdth2 spbrdRght spbrdrBtomDR estimatePrintFont_9 sptxtCn spBold sptxtend">SIZE</div>
+                      <div className="dtlWdth3 spbrdRght spbrdrBtomDR estimatePrintFont_9 sptxtCn spBold sptxtend">PCS</div>
+                      <div className="dtlWdth4 spbrdRghtDR spbrdrBtomDR estimatePrintFont_9 sptxtCn spBold sptxtend">WT</div>
+                      <div className="dtlWdth5 spbrdRght spbrdrBtomDR estimatePrintFont_9 sptxtCn spBold sptxtend">RM CODE</div>
+                      <div className="dtlWdth6 spbrdRght spbrdrBtomDR estimatePrintFont_9 sptxtCn spBold sptxtend">SIZE</div>
+                      <div className="dtlWdth7 spbrdRght spbrdrBtomDR estimatePrintFont_9 sptxtCn spBold sptxtend">PCS</div>
+                      <div className="dtlWdth8 spbrdrBtomDR estimatePrintFont_9 sptxtCn spBold sptxtend">WT</div>
                     </div>
 
                       {/* Left and Right Rows Together */}
@@ -1320,20 +1346,20 @@ const OutsourceJobPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                             return (
                               <>
                                 <div
-                                  className={`dtlWdth${side === "left" ? 1 : 5} estimatePrintFont_14 spbrdRght spbrdrBtom Sesptxtend spBold`}
+                                  className={`dtlWdth${side === "left" ? 1 : 5} estimatePrintFont_9 spbrdRght spbrdrBtom Sesptxtend spBold`}
                                 >
                                   {label}
                                 </div>
                                 <div
-                                  className={`dtlWdth${side === "left" ? 2 : 6} estimatePrintFont_14 spbrdRght spbrdrBtom Sesptxtend`}
+                                  className={`dtlWdth${side === "left" ? 2 : 6} estimatePrintFont_9 spbrdRght spbrdrBtom Sesptxtend`}
                                 />
                                 <div
-                                  className={`dtlWdth${side === "left" ? 3 : 7} estimatePrintFont_14 spbrdRght spbrdrBtom Sesptxtend`}
+                                  className={`dtlWdth${side === "left" ? 3 : 7} estimatePrintFont_9 spbrdRght spbrdrBtom Sesptxtend`}
                                 >
                                   {row.totalPcs || 0}
                                 </div>
                                 <div
-                                  className={`dtlWdth${side === "left" ? 4 : 8} estimatePrintFont_14 ${side === "left" ? "spbrdRghtDR" : ""} spbrdrBtom Sesptxtend`}
+                                  className={`dtlWdth${side === "left" ? 4 : 8} estimatePrintFont_9 ${side === "left" ? "spbrdRghtDR" : ""} spbrdrBtom Sesptxtend`}
                                 >
                                   {row.totalWt != null ? fixedValues(row.totalWt, 3) : "0.000"}
                                 </div>
