@@ -1068,6 +1068,8 @@ const PackingList7GroupS = ({
                                 >
                                   {atob(evn)?.toLowerCase() === "quote"
                                     ? ""
+                                    : e?.GroupJob !== ""
+                                    ? e?.GroupJob
                                     : e?.SrJobno}
                                 </div>
                                 <div

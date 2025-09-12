@@ -301,8 +301,9 @@ const JewelleryTaxInvoiceSale = ({
     <Loader />
   ) : msg === "" ? (
     <>
+    <div className={`${style?.wrapper}`}>
       <div
-        className={`container  pad_60_allPrint ${style?.containerJewellery} ${style?.containerJewelleryMaxWidth} jewelleryinvoiceContain jewelleryinvoiceContain_new`}
+        className={`container ${style?.mainContent} pad_60_allPrint ${style?.containerJewellery} ${style?.containerJewelleryMaxWidth} jewelleryinvoiceContain jewelleryinvoiceContain_new`}
       >
         {/* buttons */}
         <div
@@ -1167,6 +1168,11 @@ const JewelleryTaxInvoiceSale = ({
           </div>
         </div>
       </div>
+    </div>
+
+      {/* <div className={`${style?.footer}`}>
+        <p>Copyright © 2025. All rights reserved.</p>
+      </div> */}
     </>
   ) : (
     <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">

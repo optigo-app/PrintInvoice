@@ -13,6 +13,8 @@ const JewelleryTaxInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
     const [loader, setLoader] = useState(true);
     const [isImageWorking, setIsImageWorking] = useState(true);
     const [purityWise, setPurityWise] = useState([]);
+    const [grossNetFlag, setGrossNetFlag] = useState(true);
+    
       
       useEffect(() => {
           const sendData = async () => {
@@ -257,6 +259,13 @@ const JewelleryTaxInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
       const handleImageErrors = () => {
         setIsImageWorking(false);
       };
+
+      const handleCheckbox = () => {
+        setGrossNetFlag((prev) => !prev);
+        }
+
+      console.log("result", result);
+      
   
   return (
     <>
@@ -265,7 +274,22 @@ const JewelleryTaxInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
             {
                 msg === '' ? <>
                 <div className='container_jti2'>
-                    <div className='mb-5 pb-5 d-flex justify-content-end align-items-center mt-5 pt-5 d_none_jti2'><Button /></div>
+                    <div className='mb-5 pb-5 d-flex justify-content-end align-items-center mt-5 pt-5 d_none_jti2'>
+                        <input
+                            type="checkbox"
+                            id="imghideshow"
+                            className="mx-1"
+                            checked={grossNetFlag}
+                            onChange={handleCheckbox}
+                        />
+                        <label
+                            htmlFor="imghideshow"
+                            className="me-3 user-select-none"
+                        >
+                            Gross & Net
+                        </label>
+                        <Button />
+                    </div>
                     <div className='text-center text-decoration-underline fs_head_jti2 text-break'>{result?.header?.PrintHeadLabel}</div>
                     <div className='border p-2 d-flex justify-content-between align-items-center pbia_jti2'>
                         <div className='fs_jti2 text-break'>
@@ -307,7 +331,7 @@ const JewelleryTaxInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                                     </div>
                                     <div className='col3_jti2 start_jti2 align-items-start flex-column  brr_jti2 text-break'>
                                         <div className='p-1 text-break'>
-                                            {a?.MetalTypePurity} {a?.MetalColorCode} | {a?.grosswt?.toFixed(3)} gms GW | {a?.NetWt?.toFixed(3)} gms NW 
+                                            {a?.MetalTypePurity} {a?.MetalColorCode} {grossNetFlag ? `| ${a?.grosswt?.toFixed(3)} gms GW | ${a?.NetWt?.toFixed(3)} gms NW` : ""} 
                                             {
                                                 `${a?.totals?.diamonds?.Wt === 0 ? '' : (' | ' + a?.totals?.diamonds?.Wt?.toFixed(3) + " cts ") } `
                                             }

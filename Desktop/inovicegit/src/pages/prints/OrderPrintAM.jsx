@@ -1164,7 +1164,9 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     "Single Stone": (json1Data?.SS_LOGO),
   };
 
-  console.log("json2Datajson2Data", json2Data);
+  // console.log("json2Datajson2Data", json2Data);
+  // console.log("json1Data", json1Data);
+  // console.log("total", total);
 
   return (
     <>
@@ -1244,7 +1246,6 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               </div>
             </div>
           </div>
-          {console.log("json1Data", json1Data)}
           <div className="my-2 w-100">
             {/* heading */}
             <div className="border-start border-top border-end d-flex border-bottom recordEstimatePrint overflow-hidden border-black lightGrey">
@@ -1331,7 +1332,7 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <p className="text-center spBold">Amount </p>
               </div>
               <div className="labourEstimatePrint border-end border_color_estimates">
-                <div className="px-1 text-center border-bottom border_color_estimates">
+                <div className="p-1 text-center border-bottom border_color_estimates">
                   <p className="spBold">Labour</p>
                 </div>
                 <div className="d-flex h-100">
@@ -1882,11 +1883,11 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <div className="stoneEstimatePrint position-relative"></div>
                 <div className="OtherAmountEstimatePrint position-relative"></div>
                 <div className="labourEstimatePrint border-end border-white">
-                  {total?.discountAmt !== 0 && (
+                  {/* {total?.discountAmt !== 0 && (
                     <div className="text-end">
                       <p>Total Discount</p>
                     </div>
-                  )}
+                  )} */}
                   {total?.finalAmount !== 0 && (
                     <div className="text-end">
                       <p>Bill Amount</p>
@@ -1912,11 +1913,11 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <p>Advance</p>
                     </div>
                   )}
-                  {total?.AddLess !== 0 && (
+                  {/* {total?.AddLess !== 0 && (
                     <div className="text-end">
                       <p>Add</p>
                     </div>
-                  )}
+                  )} */}
                   {total.previeligeCardDisocunt !== 0 && (
                     <div className="text-end">
                       <p>Privilege Card Discount </p>
@@ -1940,14 +1941,14 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   className="totalAmountEstimatePrint"
                   style={{ paddingRight: "2px" }}
                 >
-                  {total?.discountAmt !== 0 && (
+                  {/* {total?.discountAmt !== 0 && (
                     <div className="text-end">
                       <p>{NumberWithCommas(total?.discountAmt, 2)}</p>
                     </div>
-                  )}
-                  {total?.finalAmount !== 0 && (
+                  )} */}
+                  {total?.totalamount !== 0 && (
                     <div className="text-end">
-                      <p>{NumberWithCommas(total?.finalAmount, 2)}</p>
+                      <p>{NumberWithCommas(total?.totalamount, 2)}</p> {/* total?.finalAmount */}
                     </div>
                   )}
 
@@ -1971,17 +1972,11 @@ const OrderPrintAM = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <p>{NumberWithCommas(total?.Advance, 2)}</p>
                     </div>
                   )}
-                  {total?.AddLess !== 0 && (
+                  {/* {total?.AddLess !== 0 && (
                     <div className="text-end">
                       <p>{NumberWithCommas(total?.AddLess, 2)}</p>
                     </div>
-                  )}
-
-                  {total?.discountAmt !== 0 && (
-                    <div className="text-end">
-                      <p>{NumberWithCommas(total?.discountAmt, 2)}</p>
-                    </div>
-                  )}
+                  )} */}
 
                   {total.previeligeCardDisocunt !== 0 && (
                     <div className="text-end">

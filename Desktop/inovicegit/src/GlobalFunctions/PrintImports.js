@@ -276,6 +276,7 @@ export const MemoPrints = [
   {printName: 'Designset Packinglist', etpType: 'print', componentName: 'DesignsetPackinglist'},
   {printName: 'packing list 3 am', etpType: 'print', componentName: 'PackingList3AM'},
   {printName: 'packing list 7group s', etpType: 'print', componentName: 'PackingList7GroupS'},
+  {printName: 'jewellery tax invoice 2', etpType: 'print', componentName: 'JewelleryTaxInvoice2'},
 ]
 
 export const MemoReturnPrints = [ 
@@ -411,7 +412,7 @@ export const MaterialSale = [
 
 export const fgPurchase = [
   {printName: 'item wise print', etpType: 'print', componentName: 'ItemWisePrint'},
-  {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrintfgPurchase'},
+  {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrintFG'},
   {printName: 'item wise print1', etpType: 'print', componentName: 'ItemWisePrint'},
   {printName: 'item wise print2', etpType: 'print', componentName: 'ItemWisePrint'},
   {printName: 'summary 4', etpType: 'print', componentName: 'Summary4'},
@@ -421,6 +422,7 @@ export const fgPurchase = [
   {printName: 'customer daily statement', etpType: 'print', componentName: 'CustomerDailyStatement'},
   {printName: 'daily statement', etpType: 'print', componentName: 'CustomerDailyStatement'},
   {printName: 'tax invoice 5', etpType: 'print', componentName: 'TaxInvoice5'}, 
+  {printName: 'detail print', etpType: 'print', componentName: 'DetailPrintFG'}, 
 ];
 
 export const fgPurchaseReturn = [
