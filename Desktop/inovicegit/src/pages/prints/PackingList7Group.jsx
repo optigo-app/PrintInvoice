@@ -11,7 +11,7 @@ import {
   NumberWithCommas,
 } from "../../GlobalFunctions";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
-import "../../assets/css/prints/packinglist7Grup.scss";
+import "../../assets/css/prints/packinglist7Grup.css";
 import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
@@ -75,6 +75,8 @@ const PackingList7Group = ({
   }, []);
 
   function loadData(data) {
+    // console.log("datadata", data);
+    
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
 
@@ -608,14 +610,21 @@ const PackingList7Group = ({
                         <div className="fw-bold cfullname_pcl7 ">
                           {result?.header?.CompanyFullName}
                         </div>
-                        <div><span>{result?.header?.CompanyAddress}</span><span>{result?.header?.CompanyAddress2}</span>, {result?.header?.CompanyCity}</div>
-                        {/* <div>{result?.header?.CompanyAddress2}</div> */}
-                        {/* <div>{result?.header?.CompanyCity}</div> */}
-                        <div>
+                        <div><span>{result?.header?.CompanyAddress}</span><span>{result?.header?.CompanyAddress2}</span>
+                          {result?.header?.CompanyCity}{" "}
                           {result?.header?.CompanyCity}-
                           {result?.header?.CompanyPinCode},{" "}
                           {result?.header?.CompanyState}(
-                          {result?.header?.CompanyCountry}), <span>T {result?.header?.CompanyTellNo}</span> <span>{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</span>
+                          {result?.header?.CompanyCountry})
+                        </div>
+                        {/* <div>{result?.header?.CompanyAddress2}</div> */}
+                        {/* <div>{result?.header?.CompanyCity}</div> */}
+                        <div>
+                          <span>T {result?.header?.CompanyTellNo}</span> <span>{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite} | </span>
+                          {result?.header?.Company_VAT_GST_No} |{" "}
+                          {result?.header?.Company_CST_STATE}-
+                          {result?.header?.Company_CST_STATE_No} | PAN-
+                          {result?.header?.Pannumber}
                         </div>
                         {/* <div>T {result?.header?.CompanyTellNo}</div> */}
                         {/* <div>
@@ -623,10 +632,10 @@ const PackingList7Group = ({
                           {result?.header?.CompanyWebsite}
                         </div> */}
                         <div>
-                          {result?.header?.Company_VAT_GST_No} |{" "}
+                          {/* {result?.header?.Company_VAT_GST_No} |{" "}
                           {result?.header?.Company_CST_STATE}-
                           {result?.header?.Company_CST_STATE_No} | PAN-
-                          {result?.header?.Pannumber}
+                          {result?.header?.Pannumber} */}
                         </div>
                       </div>
                       <div className="d-flex justify-content-end pe-2 pt-2">
@@ -891,6 +900,7 @@ const PackingList7Group = ({
                       </div>
                     </div>
                   </div>
+
                   {/* table body */}
                   <div className="tbodydp10_pcl7 fsgdp10_pcl7 ">
                     {result?.resultArray?.map((e, i) => {
@@ -898,9 +908,9 @@ const PackingList7Group = ({
                         <div className="summarydp10_pcl7" key={i}>
                           <div className="tbrowdp10_pcl7 h-100 ">
                             <div className="tbcol1dp10_pcl7 center_sdp10_pcl7 pad_top_pcl7">
-                              {/* {e?.SrNo} */}
                               {i + 1}
                             </div>
+
                             <div className="tbcol2dp10_pcl7 d-flex justify-content-between">
                               {imgFlag && (
                                 <div
@@ -926,18 +936,6 @@ const PackingList7Group = ({
                               )}
                               <div style={{ width: imgFlag ? "50%" : "100%" }}>
                                 <div
-                                  className="centerdp10_pcl7 fsgdp10_pcl7"
-                                  style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "center",
-                                  }}
-                                >
-                                  {atob(evn)?.toLowerCase() === "quote"
-                                    ? ""
-                                    : e?.SrJobno}
-                                </div>
-                                <div
                                   className=" centerdp10_pcl7 fsgdp10_pcl7"
                                   style={{
                                     display: "flex",
@@ -947,6 +945,18 @@ const PackingList7Group = ({
                                 >
                                   {e?.designno}&nbsp;
                                 </div>
+                                  <div
+                                    className="centerdp10_pcl7 fsgdp10_pcl7"
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      justifyContent: "center",
+                                    }}
+                                  >
+                                    {atob(evn)?.toLowerCase() === "quote"
+                                      ? ""
+                                      : e?.SrJobno}
+                                  </div>
 
                                 <div>
                                   {e?.CertificateNo !== "" && (
@@ -956,10 +966,11 @@ const PackingList7Group = ({
                                         display: "flex",
                                         flexDirection: "column",
                                         justifyContent: "center",
+                                        fontSize: "9px"
                                       }}
                                     >
-                                      <span>Certificate# :</span>{" "}
-                                      <span className="fw-bold">
+                                      <span className="fw-bold">Certificate# :</span>{" "}
+                                      <span>
                                         {e?.CertificateNo}
                                       </span>
                                     </div>
@@ -971,11 +982,11 @@ const PackingList7Group = ({
                                         display: "flex",
                                         flexDirection: "column",
                                         justifyContent: "center",
+                                        fontSize: "9px"
                                       }}
                                     >
-                                      {" "}
-                                      HUID:{" "}
-                                      <span className="fw-bold">
+                                      <p className="fw-bold">HUID:{" "}</p>
+                                      <span>
                                         {e?.HUID}
                                       </span>{" "}
                                     </div>
@@ -991,10 +1002,11 @@ const PackingList7Group = ({
                                         display: "flex",
                                         flexDirection: "column",
                                         justifyContent: "center",
+                                        fontSize: "9px"
                                       }}
                                     >
-                                      PO:
-                                      <span className="fw-bold">{e?.PO}</span>
+                                      <p className="fw-bold">PO:</p>
+                                      <span>{e?.PO}</span>
                                     </div>
                                   )}
                                   {e?.lineid === "" ? (
@@ -1006,14 +1018,16 @@ const PackingList7Group = ({
                                         display: "flex",
                                         flexDirection: "column",
                                         justifyContent: "center",
+                                        fontSize: "9px"
                                       }}
                                     >
-                                      L: <span>{e?.lineid}</span>
+                                      <p className="fw-bold">L:</p> <span>{e?.lineid}</span>
                                     </div>
                                   )}
                                 </div>
                               </div>
                             </div>
+
                             <div className="tbcol3dp10_pcl7 ">
                               {e?.diamonds?.map((el, idia) => {
                                 return (
@@ -1077,6 +1091,7 @@ const PackingList7Group = ({
                                 );
                               })}
                             </div>
+
                             <div className="tbcol4dp10_pcl7">
                               {e?.metal?.map((el, imet) => {
                                 return (
@@ -1207,6 +1222,7 @@ const PackingList7Group = ({
                                 )}{" "}
                               </div>
                             </div>
+
                             <div className="tbcol3dp10_pcl7">
                               {e?.colorstone?.map((el, ics) => {
                                 return (
@@ -1317,6 +1333,7 @@ const PackingList7Group = ({
                                 );
                               })}
                             </div>
+
                             <div className="tbcol7dp10_pcl7 border-end border-black">
                               <div className="d-flex flex-column pad_top_pcl7">
                                 {e?.MakingAmount !== 0 && (
@@ -1345,6 +1362,19 @@ const PackingList7Group = ({
                                     </div>
                                   </div>
                                 )}
+                                {e?.stone_misc
+                                    .filter(el => el?.ShapeName === "Hallmark")
+                                    .map((el, ics) => (
+                                    <div className="d-flex pad_top_pcl7" key={ics}>
+                                      <div style={{ width: "33.33%" }} className=" text-start fsgdp10_pcl7">
+                                        {el?.ShapeName}
+                                      </div>
+                                      <div style={{ width: "33.33%" }} className="pr_dp10_pcl7 text-end"></div>
+                                      <div style={{ width: "33.33%" }} className="pr_dp10_pcl7 text-end fsgdp10_pcl7">
+                                        {( el?.Amount )?.toFixed(0)}
+                                      </div>
+                                    </div>
+                                ))}
                                 {e?.totals?.finding?.SettingAmount !== 0 && (
                                   <div className="d-flex align-items-center w-100 fsgdp10_pcl7">
                                     <div
@@ -1381,17 +1411,17 @@ const PackingList7Group = ({
                                       key={ind}
                                     >
                                       <div
-                                        style={{ width: "33.33%" }}
-                                        className=" text-start text-break fsgdp10_pcl7"
+                                        style={{ width: "56.33%" }}
+                                        className="spbrWord text-start text-break fsgdp10_pcl7"
                                       >
                                         {el?.label}
                                       </div>
                                       <div
-                                        style={{ width: "33.33%" }}
+                                        style={{ width: "5.33%" }}
                                         className="pr_dp10_pcl7 text-end"
                                       ></div>
                                       <div
-                                        style={{ width: "33.33%" }}
+                                        style={{ width: "38.33%" }}
                                         className="pr_dp10_pcl7 text-end fsgdp10_pcl7"
                                       >
                                         {formatAmount(el?.amtval, 0)}
@@ -1454,8 +1484,31 @@ const PackingList7Group = ({
                                     </div>
                                   );
                                 })}
+                                {e?.stone_misc?.map((e) => {
+                                  return (
+                                    <div className="d-flex align-items-center w-100 fsgdp10_pcl7">
+                                      {e?.Amount !== 0 && (
+                                        <div className="w-50  text-start fsgdp10_pcl7">
+                                          {e?.IsHSCOE === 3 && e?.ShapeName}
+                                        </div>
+                                      )}
+                                      {e?.Amount !== 0 && (
+                                        <div className="w-50 pr_dp10_pcl7 text-end fsgdp10_pcl7">
+                                          {e?.IsHSCOE === 3 &&
+                                            formatAmount(
+                                              e?.Amount /
+                                                result?.header
+                                                  ?.CurrencyExchRate,
+                                              0
+                                            )}
+                                        </div>
+                                      )}
+                                    </div>
+                                  );
+                                })}
                               </div>
                             </div>
+
                             <div className="tbcol8dp10_pcl7 end_dp10_pcl7 fw-bold  pr_dp10_pcl7 border-start pad_top_pcl7 ">
                               {formatAmount(
                                 e?.UnitCost / result?.header?.CurrencyExchRate
@@ -1894,7 +1947,7 @@ const PackingList7Group = ({
                                 <div className="w-50 fw-bold">MAKING </div>
                                 <div className="w-50 end_dp10_pcl7">
                                   {formatAmount(
-                                    (result?.mainTotal?.misc?.isHSCODE123_amt +
+                                    (// result?.mainTotal?.misc?.isHSCODE123_amt +
                                       result?.mainTotal?.finding
                                         ?.SettingAmount +
                                       result?.mainTotal?.total_labour

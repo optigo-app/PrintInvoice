@@ -655,21 +655,25 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                         <div>
                           <span>{result?.header?.CompanyAddress}</span>
-                          <span>{result?.header?.CompanyAddress2}</span>,{" "}
-                          {result?.header?.CompanyCity}
+                          <span>{result?.header?.CompanyAddress2}</span>{" "}
+                          {result?.header?.CompanyCity}{" "}
+                          {result?.header?.CompanyCity}-
+                          {result?.header?.CompanyPinCode},{" "}
+                          {result?.header?.CompanyState}(
+                          {result?.header?.CompanyCountry}){" "}
                         </div>
                         {/* <div>{result?.header?.CompanyAddress2}</div> */}
                         {/* <div>{result?.header?.CompanyCity}</div> */}
                         <div>
-                          {result?.header?.CompanyCity}-
-                          {result?.header?.CompanyPinCode},{" "}
-                          {result?.header?.CompanyState}(
-                          {result?.header?.CompanyCountry}),{" "}
                           <span>T {result?.header?.CompanyTellNo}</span>{" "}
                           <span>
                             {result?.header?.CompanyEmail} |{" "}
-                            {result?.header?.CompanyWebsite}
+                            {result?.header?.CompanyWebsite} | {" "}
                           </span>
+                          {result?.header?.Company_VAT_GST_No} |{" "}
+                          {result?.header?.Company_CST_STATE}-
+                          {result?.header?.Company_CST_STATE_No} | PAN-
+                          {result?.header?.Pannumber}
                         </div>
                         {/* <div>T {result?.header?.CompanyTellNo}</div> */}
                         {/* <div>
@@ -677,10 +681,10 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           {result?.header?.CompanyWebsite}
                         </div> */}
                         <div>
-                          {result?.header?.Company_VAT_GST_No} |{" "}
+                          {/* {result?.header?.Company_VAT_GST_No} |{" "}
                           {result?.header?.Company_CST_STATE}-
                           {result?.header?.Company_CST_STATE_No} | PAN-
-                          {result?.header?.Pannumber}
+                          {result?.header?.Pannumber} */}
                         </div>
                       </div>
                       <div className="d-flex justify-content-end pe-2 pt-2">
@@ -979,15 +983,15 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
                               )}
                               <div style={{ width: imgFlag ? "50%" : "100%" }}>
+                                <div className=" centerdp10_pcl7 fsgdp10_pcl7">
+                                  {e?.designno}&nbsp;
+                                </div>
                                 <div className="centerdp10_pcl7 fsgdp10_pcl7">
                                   {atob(evn)?.toLowerCase() === "quote"
                                     ? ""
                                     : e?.GroupJob !== ""
                                     ? e?.GroupJob
                                     : e?.SrJobno}
-                                </div>
-                                <div className=" centerdp10_pcl7 fsgdp10_pcl7">
-                                  {e?.designno}&nbsp;
                                 </div>
 
                                 <div>
@@ -998,10 +1002,11 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         display: "flex",
                                         flexDirection: "column",
                                         justifyContent: "center",
+                                        fontSize: "9px"
                                       }}
                                     >
-                                      <span>Certificate# :</span>{" "}
-                                      <span className="fw-bold">
+                                      <span className="fw-bold">Certificate# :</span>{" "}
+                                      <span>
                                         {e?.CertificateNo}
                                       </span>
                                     </div>
@@ -1013,11 +1018,11 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         display: "flex",
                                         flexDirection: "column",
                                         justifyContent: "center",
+                                        fontSize: "9px"
                                       }}
                                     >
-                                      {" "}
-                                      HUID :{" "}
-                                      <span className="fw-bold">
+                                      <p className="fw-bold">HUID :{" "}</p>
+                                      <span>
                                         {e?.HUID}
                                       </span>{" "}
                                     </div>
@@ -1033,10 +1038,11 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         display: "flex",
                                         flexDirection: "column",
                                         justifyContent: "center",
+                                        fontSize: "9px"
                                       }}
                                     >
-                                      PO:{" "}
-                                      <span className="fw-bold">{e?.PO}</span>
+                                      <p className="fw-bold">PO:</p>{" "}
+                                      <span>{e?.PO}</span>
                                     </div>
                                   )}
                                   {e?.lineid === "" ? (
@@ -1048,24 +1054,28 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         display: "flex",
                                         flexDirection: "column",
                                         justifyContent: "center",
+                                        fontSize: "9px"
                                       }}
                                     >
-                                      L: <span>{e?.lineid}</span>
+                                      <p className="fw-bold">L:</p> <span>{e?.lineid}</span>
                                     </div>
                                   )}
-                                  <div
+                                  {e?.Size === "" && (<div
                                     className="centerdp10_pcl7"
                                     style={{
                                       display: "flex",
                                       flexDirection: "column",
                                       justifyContent: "center",
+                                      fontSize: "9px"
                                     }}
                                   >
-                                    {e?.Size === "" ? "" : `Size : ${e?.Size}`}
+                                    <p className="fw-bold">Size:</p> <span>{e?.Size}</span>
                                   </div>
+                                  )}
                                 </div>
                               </div>
                             </div>
+
                             <div className="tbcol3dp10_pcl7 ">
                               {e?.diamonds?.map((el, idia) => {
                                 return (
@@ -1122,6 +1132,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 );
                               })}
                             </div>
+
                             <div className="tbcol4dp10_pcl7">
                               {e?.metal?.map((el, imet) => {
                                 return (
@@ -1252,6 +1263,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 )}{" "}
                               </div>
                             </div>
+
                             <div className="tbcol3dp10_pcl7">
                               {e?.colorstone?.map((el, ics) => {
                                 return (
@@ -1403,6 +1415,19 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     </div>
                                   </div>
                                 )}
+                                {e?.stone_misc
+                                    .filter(el => el?.ShapeName === "Hallmark")
+                                    .map((el, ics) => (
+                                    <div className="d-flex pad_top_pcl7" key={ics}>
+                                      <div style={{ width: "33.33%" }} className=" text-start fsgdp10_pcl7">
+                                        {el?.ShapeName}
+                                      </div>
+                                      <div style={{ width: "33.33%" }} className="pr_dp10_pcl7 text-end"></div>
+                                      <div style={{ width: "33.33%" }} className="pr_dp10_pcl7 text-end fsgdp10_pcl7">
+                                        {( el?.Amount )?.toFixed(0)}
+                                      </div>
+                                    </div>
+                                ))}
                                 {e?.totals?.finding?.SettingAmount !== 0 && (
                                   <div className="d-flex align-items-center w-100 fsgdp10_pcl7">
                                     <div
@@ -1518,6 +1543,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               </div> */}
                               </div>
                             </div>
+
                             <div className="tbcol8dp10_pcl7 end_dp10_pcl7 fw-bold  pr_dp10_pcl7 border-start pad_top_pcl7 ">
                               {/* {formatAmount((e?.TotalAmount + e?.DiscountAmt))} */}
                               {formatAmount(
@@ -1525,6 +1551,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               )}
                             </div>
                           </div>
+
                           <div className="d-flex grandtotaldp10_pcl7 brb_dp10_pcl7  tbrowdp10_pcl7 border-top-0 bb_dp10_pcl7">
                             <div className="col1dp10_pcl7 "></div>
                             <div
@@ -1983,8 +2010,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <div className="w-50 fw-bold">MAKING </div>
                                   <div className="w-50 end_dp10_pcl7">
                                     {formatAmount(
-                                      (result?.mainTotal?.misc
-                                        ?.isHSCODE123_amt +
+                                      (// result?.mainTotal?.misc?.isHSCODE123_amt +
                                         result?.mainTotal?.finding
                                           ?.SettingAmount +
                                         result?.mainTotal?.total_labour

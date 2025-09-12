@@ -344,6 +344,7 @@ const JewelleryTaxInvoiceSale = ({
             />
           </div>
         </div>
+
         {json0Data?.IsBranchWiseAddress === 1 ? (
           <div className="d-flex justify-content-between p-2 jewel_top_main_class_second ">
             <div>
@@ -424,6 +425,7 @@ const JewelleryTaxInvoiceSale = ({
             </div>
           </div>
         )}
+
         <div className="no_break jewel_tax_invoice_setting">
           <div className="border d-flex justify-content-between bottomBorderSetting">
             <div
@@ -601,6 +603,7 @@ const JewelleryTaxInvoiceSale = ({
             </div>
           </div>
         </div>
+
         {/* table header */}
         <div
           className="d-flex border  no_break table_sqm"
@@ -667,6 +670,7 @@ const JewelleryTaxInvoiceSale = ({
             </p>
           </div>
         </div>
+
         {/* table data */}
         {data?.length > 0 &&
           data?.map((e, i) => {
@@ -860,252 +864,260 @@ const JewelleryTaxInvoiceSale = ({
               </div>
             );
           })}
-        {/* total */}
-        <div className="d-flex border-start border-end border-bottom no_break lightGrey total_height_show_jewel">
-          <div className="col1_sqm border-end" style={{ width: "11%" }}>
-            <p className="text-center"></p>
-          </div>
-          <div
-            className={`${"col2_sqm"} border-end jewel_totalFinal`}
-            style={{ width: "14%" }}
-          >
-            <p
-              className="fw-normal "
-              style={{
-                fontSize: "12.5px",
-                display: "flex",
-                alignItems: "center",
-                padding: "2px 4px",
-              }}
+        
+        <div className={`${style?.pgBrkInsid}`}>
+          {/* total */}
+          <div className="d-flex border-start border-end border-bottom no_break lightGrey total_height_show_jewel">
+            <div className="col1_sqm border-end" style={{ width: "11%" }}>
+              <p className="text-center"></p>
+            </div>
+            <div
+              className={`${"col2_sqm"} border-end jewel_totalFinal`}
+              style={{ width: "14%" }}
             >
-              TOTAL
-            </p>{" "}
+              <p
+                className="fw-normal "
+                style={{
+                  fontSize: "12.5px",
+                  display: "flex",
+                  alignItems: "center",
+                  padding: "2px 4px",
+                }}
+              >
+                TOTAL
+              </p>{" "}
+            </div>
+
+            <div className="col6_sqm ">
+              <p
+                className="text-end fw-bold "
+                style={{ fontSize: "12.7px", padding: "0px 4px" }}
+              >
+                <span
+                  style={{ fontSize: "13px" }}
+                  dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
+                ></span>{" "}
+                {NumberWithCommas(totalAmount.before, 2)}{" "}
+              </p>
+            </div>
           </div>
 
-          <div className="col6_sqm ">
-            <p
-              className="text-end fw-bold "
-              style={{ fontSize: "12.7px", padding: "0px 4px" }}
-            >
-              <span
-                style={{ fontSize: "13px" }}
-                dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
-              ></span>{" "}
-              {NumberWithCommas(totalAmount.before, 2)}{" "}
-            </p>
-          </div>
-        </div>
-        {/* Remakrs */}
-        <div className="d-flex border-start border-end border-bottom no_break">
-          <div className="col_r_1 p-1 border-end" style={{ width: "33%" }}>
-            {json0Data?.PrintRemark !== "" && (
-              <p className="fw-bold text-decoration-underline"> REMARKS</p>
-            )}
+          {/* Remakrs */}
+          <div className="d-flex border-start border-end border-bottom no_break">
+            <div className="col_r_1 p-1 border-end" style={{ width: "33%" }}>
+              {json0Data?.PrintRemark !== "" && (
+                <p className="fw-bold text-decoration-underline"> REMARKS</p>
+              )}
+              <div
+                className={`${style?.lh_dec_JTI}`}
+                dangerouslySetInnerHTML={{ __html: json0Data?.PrintRemark }}
+              ></div>
+            </div>
             <div
-              className={`${style?.lh_dec_JTI}`}
-              dangerouslySetInnerHTML={{ __html: json0Data?.PrintRemark }}
-            ></div>
-          </div>
-          <div
-            className="col_r_2 p-1 border-end"
-            style={{ width: "33%", minHeight: "95px" }}
-          >
-            {summary.map((e, i) => {
-              return (
-                <React.Fragment key={i}>
-                  {e?.value === 0 ? (
-                    ""
-                  ) : (
+              className="col_r_2 p-1 border-end"
+              style={{ width: "33%", minHeight: "95px" }}
+            >
+              {summary.map((e, i) => {
+                return (
+                  <React.Fragment key={i}>
+                    {e?.value === 0 ? (
+                      ""
+                    ) : (
+                      <div
+                        className="d-flex"
+                        style={{ width: "70%" }}
+                        key={i}
+                      >
+                        <p key={i} className="remark_fs fs_jti_Sale" style={{ minWidth: '60%' }}>
+                          {e?.label}:{" "}
+                        </p>
+                        <p className="remark_fs fs_jti_Sale">
+                          {NumberWithCommas(e?.value, 3)} {e?.gm ? "gm" : "cts"}
+                        </p>
+                      </div>
+                    )}
+                  </React.Fragment>
+                );
+              })}
+            </div>
+            <div style={{ width: "20%", borderRight: "1px solid #DDDDDD" }}>
+              {result?.allTaxes?.map((e, i) => {
+                return (
+                  e?.amountInNumber !== 0 && (
                     <div
-                      className="d-flex"
-                      style={{ width: "70%" }}
+                      className="d-flex align-items-center justify-content-start ps-1"
                       key={i}
+                      style={{ fontSize: "12.8px", height: "25px" }}
                     >
-                      <p key={i} className="remark_fs fs_jti_Sale" style={{ minWidth: '60%' }}>
-                        {e?.label}:{" "}
-                      </p>
-                      <p className="remark_fs fs_jti_Sale">
-                        {NumberWithCommas(e?.value, 3)} {e?.gm ? "gm" : "cts"}
-                      </p>
+                      {e?.name} @ ({e?.per})
                     </div>
-                  )}
-                </React.Fragment>
-              );
-            })}
-          </div>
-          <div style={{ width: "20%", borderRight: "1px solid #DDDDDD" }}>
-            {result?.allTaxes?.map((e, i) => {
-              return (
-                e?.amountInNumber !== 0 && (
+                  )
+                );
+              })}
+
+              {result?.allTaxes[0]?.amountInNumber !== 0 &&
+                result?.allTaxes?.length !== 0 && (
                   <div
                     className="d-flex align-items-center justify-content-start ps-1"
-                    key={i}
                     style={{ fontSize: "12.8px", height: "25px" }}
                   >
-                    {e?.name} @ ({e?.per})
+                    Total
                   </div>
-                )
-              );
-            })}
+                )}
 
-            {result?.allTaxes[0]?.amountInNumber !== 0 &&
-              result?.allTaxes?.length !== 0 && (
+              {result?.header?.AddLess !== 0 && (
                 <div
                   className="d-flex align-items-center justify-content-start ps-1"
                   style={{ fontSize: "12.8px", height: "25px" }}
                 >
-                  Total
+                  {result?.header?.AddLess > 0 ? "Add" : "Less"}
                 </div>
               )}
-
-            {result?.header?.AddLess !== 0 && (
-              <div
-                className="d-flex align-items-center justify-content-start ps-1"
-                style={{ fontSize: "12.8px", height: "25px" }}
-              >
-                {result?.header?.AddLess > 0 ? "Add" : "Less"}
-              </div>
-            )}
-            {result?.header?.FreightCharges !== 0 && (
-              <div
-                className="d-flex align-items-center justify-content-start ps-1"
-                style={{ fontSize: "12.8px", height: "25px" }}
-              >
-                Delivery Charges
-              </div>
-            )}
-          </div>
-          <div style={{ width: "14%" }}>
-            {result?.allTaxes?.map((e, i) => {
-              // if (e?.per !== "0.00%") {
-              return (
-                <>
-                  {e?.amountInNumber !== 0 && (
-                    <div key={i}>
-                      <div
-                        className="fw-bold d-flex align-items-center justify-content-end pe-1 "
-                        style={{
-                          fontSize: "12.5px",
-                          gap: "2px",
-                          height: "25px",
-                        }}
-                      >
-                        <span
-                          style={{ fontSize: "13px" }}
-                          dangerouslySetInnerHTML={{
-                            __html: result?.header?.Currencysymbol,
-                          }}
-                        ></span>{" "}
-                        {e?.amountInNumber?.toFixed(2)}
-                      </div>
-                    </div>
-                  )}
-                </>
-              );
-              // }
-              return null;
-            })}
-
-            {result?.allTaxes[0]?.amountInNumber !== 0 &&
-              result?.allTaxes?.length !== 0 && (
+              {result?.header?.FreightCharges !== 0 && (
                 <div
-                  className="fw-bold d-flex align-items-center justify-content-end pe-1 aaaaaa"
-                  style={{ fontSize: "12.5px", gap: "2px", height: "25px" }}
+                  className="d-flex align-items-center justify-content-start ps-1"
+                  style={{ fontSize: "12.8px", height: "25px" }}
                 >
-                  {" "}
+                  Delivery Charges
+                </div>
+              )}
+            </div>
+            <div style={{ width: "14%" }}>
+              {result?.allTaxes?.map((e, i) => {
+                // if (e?.per !== "0.00%") {
+                return (
+                  <>
+                    {e?.amountInNumber !== 0 && (
+                      <div key={i}>
+                        <div
+                          className="fw-bold d-flex align-items-center justify-content-end pe-1 "
+                          style={{
+                            fontSize: "12.5px",
+                            gap: "2px",
+                            height: "25px",
+                          }}
+                        >
+                          <span
+                            style={{ fontSize: "13px" }}
+                            dangerouslySetInnerHTML={{
+                              __html: result?.header?.Currencysymbol,
+                            }}
+                          ></span>{" "}
+                          {e?.amountInNumber?.toFixed(2)}
+                        </div>
+                      </div>
+                    )}
+                  </>
+                );
+                // }
+                return null;
+              })}
+
+              {result?.allTaxes[0]?.amountInNumber !== 0 &&
+                result?.allTaxes?.length !== 0 && (
+                  <div
+                    className="fw-bold d-flex align-items-center justify-content-end pe-1 aaaaaa"
+                    style={{ fontSize: "12.5px", gap: "2px", height: "25px" }}
+                  >
+                    {" "}
+                    <span
+                      style={{ fontSize: "12.5px" }}
+                      dangerouslySetInnerHTML={{
+                        __html: result?.header?.Currencysymbol,
+                      }}
+                    ></span>{" "}
+                    {NumberWithCommas(
+                      totalAmount.before + result?.allTaxesTotal,
+                      2
+                    )}
+                  </div>
+                )}
+
+              {result?.header?.AddLess !== 0 && (
+                <div
+                  className="fw-bold d-flex align-items-center justify-content-end pe-1 "
+                  style={{ fontSize: "12.5px", gap: "2px" }}
+                >
                   <span
                     style={{ fontSize: "12.5px" }}
                     dangerouslySetInnerHTML={{
                       __html: result?.header?.Currencysymbol,
                     }}
-                  ></span>{" "}
-                  {NumberWithCommas(
-                    totalAmount.before + result?.allTaxesTotal,
-                    2
+                  ></span>
+                  {formatAmount(
+                    result?.header?.AddLess / result?.header?.CurrencyExchRate
                   )}
                 </div>
               )}
+              {result?.header?.FreightCharges !== 0 && (
+                <div
+                  className="fw-bold d-flex align-items-center justify-content-end pe-1 "
+                  style={{ fontSize: "12.5px", gap: "2px" }}
+                >
+                  <span
+                    style={{ fontSize: "12.5px" }}
+                    dangerouslySetInnerHTML={{
+                      __html: result?.header?.Currencysymbol,
+                    }}
+                  ></span>
+                  {formatAmount(
+                    result?.header?.FreightCharges /
+                    result?.header?.CurrencyExchRate
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
 
-            {result?.header?.AddLess !== 0 && (
-              <div
-                className="fw-bold d-flex align-items-center justify-content-end pe-1 "
-                style={{ fontSize: "12.5px", gap: "2px" }}
+          {/* grand total */}
+          <div className="d-flex border-start border-end border-bottom no_break lightGrey">
+            <div className="col-8"></div>
+            <div className="col-2">
+              <p
+                className="fw-bold "
+                style={{ fontSize: "12.8px", padding: "2px" }}
+              >
+                GRAND TOTAL
+              </p>{" "}
+            </div>
+            <div className="col-2">
+              <p
+                className="text-end fw-bold "
+                style={{ fontSize: "13px", padding: "2px" }}
               >
                 <span
-                  style={{ fontSize: "12.5px" }}
-                  dangerouslySetInnerHTML={{
-                    __html: result?.header?.Currencysymbol,
-                  }}
+                  style={{ fontSize: "13px" }}
+                  dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
                 ></span>
                 {formatAmount(
-                  result?.header?.AddLess / result?.header?.CurrencyExchRate
-                )}
-              </div>
-            )}
-            {result?.header?.FreightCharges !== 0 && (
-              <div
-                className="fw-bold d-flex align-items-center justify-content-end pe-1 "
-                style={{ fontSize: "12.5px", gap: "2px" }}
-              >
-                <span
-                  style={{ fontSize: "12.5px" }}
-                  dangerouslySetInnerHTML={{
-                    __html: result?.header?.Currencysymbol,
-                  }}
-                ></span>
-                {formatAmount(
+                  result?.mainTotal?.total_amount /
+                  result?.header?.CurrencyExchRate +
+                  result?.allTaxesTotal +
+                  result?.header?.AddLess / result?.header?.CurrencyExchRate +
                   result?.header?.FreightCharges /
                   result?.header?.CurrencyExchRate
                 )}
-              </div>
-            )}
+              </p>
+            </div>
           </div>
         </div>
-        {/* gran total */}
-        <div className="d-flex border-start border-end border-bottom no_break lightGrey">
-          <div className="col-8"></div>
-          <div className="col-2">
-            <p
-              className="fw-bold "
-              style={{ fontSize: "12.8px", padding: "2px" }}
-            >
-              GRAND TOTAL
-            </p>{" "}
-          </div>
-          <div className="col-2">
-            <p
-              className="text-end fw-bold "
-              style={{ fontSize: "13px", padding: "2px" }}
-            >
-              <span
-                style={{ fontSize: "13px" }}
-                dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
-              ></span>
-              {formatAmount(
-                result?.mainTotal?.total_amount /
-                result?.header?.CurrencyExchRate +
-                result?.allTaxesTotal +
-                result?.header?.AddLess / result?.header?.CurrencyExchRate +
-                result?.header?.FreightCharges /
-                result?.header?.CurrencyExchRate
-              )}
-            </p>
-          </div>
-        </div>
+        <div className={`${style?.pgBrkInsid}`}>
         <p
-          className={`py-2 ${style.generated} no_break   static_line_sqm`}
+          className={`py-2 ${style.generated} ${style?.pgBrkInsid} no_break static_line_sqm`}
           style={{ color: "rgb(161 159 159)" }}
         >
           ** THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US
           IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF
           TRANSACTIONS{" "}
         </p>
-        <div className="border px-2 no_break ">
-          <div
-            className="jewel_box_infor_summury"
-            dangerouslySetInnerHTML={{ __html: json0Data?.Declaration }}
-          ></div>
+          <div className={`border px-2 no_break ${style?.pgBrkInsid}`}>
+            <div
+              className="jewel_box_infor_summury"
+              dangerouslySetInnerHTML={{ __html: json0Data?.Declaration }}
+            ></div>
+          </div>
         </div>
+
         {/* bank detail */}
         <div className="border-start border-end border-bottom d-flex no_break">
           <div
@@ -1170,9 +1182,9 @@ const JewelleryTaxInvoiceSale = ({
       </div>
     </div>
 
-      {/* <div className={`${style?.footer}`}>
+      <div className={`${style?.footer}`}>
         <p>Copyright © 2025. All rights reserved.</p>
-      </div> */}
+      </div>
     </>
   ) : (
     <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
