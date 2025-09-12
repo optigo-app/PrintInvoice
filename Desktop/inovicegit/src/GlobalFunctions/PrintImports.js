@@ -155,8 +155,8 @@ export const printConditions = [
 
   {printName: 'tax invoice a', etpType: 'print', componentName: 'TaxInvoiceA'},
   {printName: 'material sale print', etpType: 'print', componentName: 'MaterialSalePrint'},
-  {printName: 'estimate print k', etpType: 'print', componentName: 'EstimatePrintK'}
-
+  {printName: 'estimate print k', etpType: 'print', componentName: 'EstimatePrintK'},
+  {printName: 'estimation 1', etpType: 'print', componentName: 'Estimation1'},
 ];
 
 export const SaleReturn = [
@@ -336,6 +336,7 @@ export const EstimatePrints = [
   {printName: 'Designset Packinglist', etpType: 'print', componentName: 'DesignsetPackinglist'},
   {printName: 'jewellery tax summary c', etpType: 'print', componentName: 'JewelleryTaxSummaryC'},
   {printName: 'estimate print k', etpType: 'print', componentName: 'EstimatePrintK'},
+  {printName: 'estimation 1', etpType: 'print', componentName: 'Estimation1'},
 ]
 
 export const HallMarkPrints = [
@@ -461,6 +462,8 @@ export const Product_Alteration = [
 ];
 
 export const outsourcePrint = [
+  {printName: 'image print', etpType: 'print', componentName: 'OutsourceImagePrint'},
+  {printName: 'detail print', etpType: 'print', componentName: 'OutsourceDeatilPrint'},
   {printName: 'outsource print am', etpType: 'print', componentName: 'OutsourcePrintAM'},
   {printName: 'outsource print a', etpType: 'print', componentName: 'OutsourcePrintA'},
   {printName: 'outsource job print', etpType: 'print', componentName: 'OutsourceJobPrint'},
