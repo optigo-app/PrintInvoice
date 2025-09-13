@@ -1519,12 +1519,12 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   return (
                                     <div className="d-flex align-items-center w-100 fsgdp10_pcl7">
                                       {e?.Amount !== 0 && (
-                                        <div className="w-50  text-start fsgdp10_pcl7">
+                                        <div className="text-start fsgdp10_pcl7" style={{ width: "65%" }}>
                                           {e?.IsHSCOE === 3 && e?.ShapeName}
                                         </div>
                                       )}
                                       {e?.Amount !== 0 && (
-                                        <div className="w-50 pr_dp10_pcl7 text-end fsgdp10_pcl7">
+                                        <div className="pr_dp10_pcl7 text-end fsgdp10_pcl7" style={{ width: "35%" }}>
                                           {e?.IsHSCOE === 3 &&
                                             formatAmount(
                                               e?.Amount /
