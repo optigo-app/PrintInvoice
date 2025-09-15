@@ -277,6 +277,7 @@ export const MemoPrints = [
   {printName: 'packing list 3 am', etpType: 'print', componentName: 'PackingList3AM'},
   {printName: 'packing list 7group s', etpType: 'print', componentName: 'PackingList7GroupS'},
   {printName: 'jewellery tax invoice 2', etpType: 'print', componentName: 'JewelleryTaxInvoice2'},
+  {printName: 'packing list 7d group', etpType: 'print', componentName: 'PackingList7DGroup'},
 ]
 
 export const MemoReturnPrints = [ 
@@ -338,6 +339,7 @@ export const EstimatePrints = [
   {printName: 'jewellery tax summary c', etpType: 'print', componentName: 'JewelleryTaxSummaryC'},
   {printName: 'estimate print k', etpType: 'print', componentName: 'EstimatePrintK'},
   {printName: 'estimation 1', etpType: 'print', componentName: 'Estimation1'},
+  {printName: 'packing list 7d group', etpType: 'print', componentName: 'PackingList7DGroup'},
 ]
 
 export const HallMarkPrints = [
@@ -470,6 +472,7 @@ export const outsourcePrint = [
   {printName: 'outsource print a', etpType: 'print', componentName: 'OutsourcePrintA'},
   {printName: 'ret. mat.', etpType: 'print', componentName: 'OutsourceRetMat'},
   {printName: 'outsource job print', etpType: 'print', componentName: 'OutsourceJobPrint'},
+  {printName: 'outsource job print 2', etpType: 'print', componentName: 'OutsourceJobPrint2'},
 ];
 
 export const Jewellery_Book = [
