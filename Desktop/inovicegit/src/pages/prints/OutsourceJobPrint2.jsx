@@ -1123,36 +1123,34 @@ const OutsourceJobPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
 
 
   const buildMaterialRows = (e) => {
-    const maxRows = 18;
-  
+    const maxRows = 20;
+
     const addRowsWithTotal = (items, type) => {
-      if (!Array.isArray(items) || items.length === 0) return [];
-  
-      const rows = items.map((item) => ({ type, data: item }));
-  
-      const totalPcs = items.reduce((sum, curr) => sum + (Number(curr?.Pcs) || 0), 0);
-      const totalWt = items.reduce((sum, curr) => sum + (Number(curr?.Wt) || 0), 0);
-  
-      return [...rows, { type: `${type}-total`, totalPcs, totalWt }];
+        if (!Array.isArray(items) || items.length === 0) return [];
+
+        const rows = items.map((item) => ({ type, data: item }));
+
+        const totalPcs = items.reduce((sum, curr) => sum + (Number(curr?.Pcs) || 0), 0);
+        const totalWt = items.reduce((sum, curr) => sum + (Number(curr?.Wt) || 0), 0);
+
+        return [...rows, { type: `${type}-total`, totalPcs, totalWt }];
     };
-  
+
     const diamondRows = addRowsWithTotal(e?.diamonds, "diamond");
     const colorStoneRows = addRowsWithTotal(e?.colorStones, "colorStone");
-  
+
     let finalRows = [...diamondRows, ...colorStoneRows];
-  
-    // Ensure 15 rows
+
+    // Ensure 20 rows
     if (finalRows.length > maxRows) {
-      finalRows = finalRows.slice(0, maxRows);
+        finalRows = finalRows.slice(0, maxRows);
     }
     while (finalRows.length < maxRows) {
-      finalRows.push({ type: "empty" });
+        finalRows.push({ type: "empty" });
     }
-  
+
     return finalRows;
-  };
-  
-  const finalRows = buildMaterialRows(json2Data[0]);
+};
   
   // const renderRow = (row) => {
   //   if (row.type === 'empty') {
@@ -1231,7 +1229,7 @@ const OutsourceJobPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
           </div>
           <div className="spdispFlx1">
             {json2Data?.map((e, index) => {
-              const { leftRows, rightRows } = buildMaterialRows(e);
+              const finalRows = buildMaterialRows(e);
               return (
               <>
               <div key={index} className="mainWdthHeit spBtomspc">
@@ -1241,7 +1239,7 @@ const OutsourceJobPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                   <div className="spdispFlxClum w-100 spdtl1">
                     <div className="spMrgdt1">
 
-                      <div className="spdispFlx spbrdrLft spbrdRght spbrdrTop">
+                      <div className="spdispFlx spbrdrLft brdrRdusTop spbrdRght spbrdrTop">
                         <div className="Suspdtl1">
                           <div className="spBold sptxtend spbrdRght spbrdrBtom estimatePrintFont_9 spdispFlx justify-content-between align-items-center">
                             <div>{e?.J_JobNo}</div>
@@ -1272,12 +1270,12 @@ const OutsourceJobPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                             </div>
                           </div>
                           <div className="spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_9 spdispFlx">
-                            <div className="SUspspdtl1 spbrdRght spdispFlx align-items-center">Promise</div>
+                            <div className="SUspspdtl1 spbrdRght spdispFlx align-items-center">Delivery</div>
                             <div className="spspdtl1 spbrdRght spdispFlx align-items-center" style={{ paddingLeft: "2px" }}>{e?.PromiseDate}</div>
                             <div className="SUspspdtl1 spbrdRght spdispFlx justify-content-center align-items-center">{fixedValues(e?.metalsTotal?.weight,3)}</div>
                             <div className="spspdtl1 spdispFlx">
-                              <div className="spspdtl2 spbrdRght spdispFlx justify-content-center align-items-center">{e?.diamondTotal?.pcs} /<br/> {fixedValues(e?.diamondTotal?.weight,3)}</div>
-                              <div className="spspdtl2 spdispFlx justify-content-center align-items-center">{e?.colorStonesTotal?.pcs} /<br/> {fixedValues(e?.colorStonesTotal?.weight,3)}</div>
+                              <div className="spspdtl2 spbrdRght spdispFlx justify-content-center align-items-center margnBtom">{e?.diamondTotal?.pcs} /<br/> {fixedValues(e?.diamondTotal?.weight,3)}</div>
+                              <div className="spspdtl2 spdispFlx justify-content-center align-items-center margnBtom">{e?.colorStonesTotal?.pcs} /<br/> {fixedValues(e?.colorStonesTotal?.weight,3)}</div>
                             </div>
                           </div>  
                         </div>
@@ -1303,7 +1301,7 @@ const OutsourceJobPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                 </div>
 
                   {/** Bottom Section */}
-                  <div className="spdispFlx">
+                  <div className="spdispFlx spMrgdt10">
                     <div className="spdtl2 spbrdRght spbrdrLft">
                       <div className="spdispFlx">
                         <div className="dtlWdth1 spbrdRght spbrdrBtom estimatePrintFont_9 sptxtCn spBold sptxtend">RM CODE</div>
@@ -1321,8 +1319,14 @@ const OutsourceJobPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                 <>
                                   <div className="dtlWdth1 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend"></div>
                                   <div className="dtlWdth2 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend"></div>
-                                  <div className="dtlWdth3 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend"></div>
-                                  <div className="dtlWdth4 spbrdrBtom estimatePrintFont_14 Sesptxtend"></div>
+                                  <div className="dtlWdth3 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend" style={{ flexDirection: "row"}}>
+                                    <div className="spbrdRght" style={{ width: "40%" }}></div>
+                                    <div style={{ width: "60%" }}></div>
+                                  </div>
+                                  <div className="dtlWdth4 spbrdrBtom estimatePrintFont_14 Sesptxtend" style={{ flexDirection: "row"}}>
+                                    <div className="spbrdRght" style={{ width: "40%" }}></div>
+                                    <div style={{ width: "60%" }}></div>
+                                  </div>
                                 </>
                               );
                             }
@@ -1337,9 +1341,13 @@ const OutsourceJobPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                 <>
                                   <div className="dtlWdth1 estimatePrintFont_9 spbrdRght spbrdrBtom Sesptxtend spBold">{label}</div>
                                   <div className="dtlWdth2 estimatePrintFont_9 spbrdRght spbrdrBtom Sesptxtend"></div>
-                                  <div className="dtlWdth3 estimatePrintFont_9 spbrdRght spbrdrBtom Sesptxtend spBold">{row.totalPcs || 0}</div>
-                                  <div className="dtlWdth4 estimatePrintFont_9 spbrdrBtom Sesptxtend spBold">
-                                    {row.totalWt != null ? fixedValues(row.totalWt, 3) : "0.000"}
+                                  <div className="dtlWdth3 estimatePrintFont_9 spbrdRght spbrdrBtom Sesptxtend spBold" style={{ flexDirection: "row"}}>
+                                    <div className="spbrdRght d-flex align-items-center" style={{ width: "40%" }}>{row.totalPcs || 0}</div>
+                                    <div className="d-flex align-items-center" style={{ width: "60%", paddingLeft: "2px" }}>{row.totalWt != null ? fixedValues(row.totalWt, 3) : ""}</div>
+                                  </div>
+                                  <div className="dtlWdth4 estimatePrintFont_9 spbrdrBtom Sesptxtend spBold" style={{ flexDirection: "row"}}>
+                                    <div className="spbrdRght" style={{ width: "40%" }}></div>
+                                    <div style={{ width: "60%" }}></div>
                                   </div>
                                 </>
                               );
@@ -1359,11 +1367,13 @@ const OutsourceJobPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                 <div className="dtlWdth2 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend">
                                   {item?.SizeName || ""}
                                 </div>
-                                <div className="dtlWdth3 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend">
-                                  {item?.Pcs || ""}
+                                <div className="dtlWdth3 spbrdRght spbrdrBtom estimatePrintFont_14 Sesptxtend" style={{ flexDirection: "row"}}>
+                                  <div className="spbrdRght d-flex align-items-center" style={{ width: "40%" }}>{item?.Pcs || ""}</div>
+                                  <div className="d-flex align-items-center" style={{ width: "60%", paddingLeft: "3px" }}>{item?.Wt != null ? fixedValues(item?.Wt, 3) : ""}</div>
                                 </div>
-                                <div className="dtlWdth4 spbrdrBtom estimatePrintFont_14 Sesptxtend">
-                                  {item?.Wt != null ? fixedValues(item?.Wt, 3) : ""}
+                                <div className="dtlWdth4 spbrdrBtom estimatePrintFont_14 Sesptxtend" style={{ flexDirection: "row"}}>
+                                  <div className="spbrdRght" style={{ width: "40%" }}></div>
+                                  <div style={{ width: "60%" }}></div>
                                 </div>
                               </>
                             );
@@ -1385,7 +1395,7 @@ const OutsourceJobPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                     </div>
                   </div>
                 </div>
-                <div className="spMrgdt1 sptxtend spbrdrLft spbrdRght spbrdrBtom" style={{ height: "20px", }}></div>
+                <div className="spMrgdt1 sptxtend spbrdrLft spbrdRght spbrdrBtom brdrRdusBtom" style={{ height: "20px", }}></div>
               </div>
               </>
               )

@@ -192,15 +192,15 @@ html {
 }
 
 .dtlWdth1 {
-    width: 35%;
+    width: 34%;
 }
 
 .dtlWdth2 {
-    width: 22.50%;
+    width: 19.50%;
 }
 
 .dtlWdth3 {
-    width: 20%;
+    width: 24%;
 }
 
 .dtlWdth4 {
@@ -252,6 +252,16 @@ html {
     border-left: 1px solid #000000;
 }
 
+.brdrRdusTop {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.brdrRdusBtom {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
 .barcode_sticker {
     display: block;
     height: 25px !important;
@@ -292,17 +302,21 @@ html {
     }
 
     .spMrgdt1 {
-        margin-left: 25px;
+        margin-left: 35px;
+    }
+
+    .spMrgdt10 {
+        margin-left: 10px;
     }
 
     .estimatePrintFont_14 {
-        font-size: 9px;
-        line-height: 9px;
+        font-size: 8px;
+        line-height: 8px;
     }
 
     .estimatePrintFont_141 {
-        font-size: 9px;
-        line-height: 9px;
+        font-size: 8px;
+        line-height: 8px;
     }
 
     .spnfntArtisn {
@@ -328,6 +342,10 @@ html {
     .Sesptxtend {
         height: 18px;
         padding-left: 1.5px;
+    }
+
+    .margnBtom {
+        padding-bottom: 1px;
     }
 
     .pagBrkIsid {
