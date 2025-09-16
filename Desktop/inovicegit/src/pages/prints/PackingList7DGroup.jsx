@@ -1602,7 +1602,7 @@ const PackingList7DGroup = ({
                               {/* <div className="theadsubcol1_dp10_pcl7"></div> */}
                               <div
                                 className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7"
-                                style={{ width: "33.32%" }}
+                                style={{ width: "43.32%" }}
                               >
                                 {/* {formatAmount(result?.mainTotal?.colorstone?.Amount)} */}
                                 {e?.totals?.colorstone?.Amount +
