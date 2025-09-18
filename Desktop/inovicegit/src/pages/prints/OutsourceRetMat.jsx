@@ -1,4 +1,5 @@
-//http://localhost:3001/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=NTM0&evn=T3V0U291cmNl&pnm=UmV0LiBNYXQu&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&ctv=NzE=&ifid=OutsourcePrintA&pid=undefined
+//http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=NTQ3&evn=T3V0U291cmNl&pnm=UmV0LiBNYXQu&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&ctv=NzE=&ifid=OutsourcePrintA&pid=undefined
+//http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=NTM0&evn=T3V0U291cmNl&pnm=UmV0LiBNYXQu&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&ctv=NzE=&ifid=OutsourcePrintA&pid=undefined
 import React, { useEffect, useState } from "react";
 import "../../assets/css/prints/outsourceRetMat.css";
 import {
@@ -18,6 +19,8 @@ import Loader from "../../components/Loader";
 import { cloneDeep, filter } from "lodash";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
+import * as XLSX from 'xlsx';
+import { jsPDF } from "jspdf";
 const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [image, setImage] = useState(true);
   const [json1Data, setJson1Data] = useState({});
@@ -28,6 +31,18 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
   const [diamondDetailss, setDiamondDetailss] = useState({});
   const [checkBoxNew, setCheckBoxNew] = useState("Single Stone");
   const [isImageWorking, setIsImageWorking] = useState(true);
+  const [showSections, setShowSections] = useState({
+    diamonds: true,
+    colorStones: true,
+    metals: true,
+    finding: true,
+  });
+  const [availableSections, setAvailableSections] = useState({
+    diamonds: false,
+    colorStones: false,
+    metals: false,
+    finding: false,
+  });
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -464,7 +479,7 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       (data?.BillPrint_Json[0]?.CGST * totals.totalamount) / 100;
     totals.sgstAmount =
       (data?.BillPrint_Json[0]?.SGST * totals.totalamount) / 100;
-    totals.summaryTotalAmount = (
+    totals.summaryTotalAmount = fixedValues(
       totals.goldAmount +
       totals.diamondAmount +
       totals.colorStoneAmount +
@@ -472,7 +487,7 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       totals.makingAmount +
       totals.otherAmount +
       data?.BillPrint_Json[0].AddLess
-    ).toFixed(3);
+    ,3);
 
     // taxes
     let taxValue = taxGenrator(data?.BillPrint_Json[0], totals?.totalamount);
@@ -1086,54 +1101,81 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     };
     sendData();
   }, []);
-
-
-  const handleImageLoad = () => {
-    setImageLoading(false);
-  };
-
-  const fillEmptyRows = (arr, targetLength, blankRowFn) => {
-    const filledArr = [...arr];
-    const blanksToAdd = targetLength - arr.length;
-    for (let i = 0; i < blanksToAdd; i++) {
-      filledArr.push(blankRowFn());
+  
+  const handleExcelExport = () => {
+    const tableContent = document.getElementById('mnContnt');
+    
+    if (!tableContent) {
+      console.error("Content to export is not available.");
+      return;
     }
-    return filledArr;
+  
+    const wb = XLSX.utils.table_to_book(tableContent, { sheet: "Sheet 1" });
+    XLSX.writeFile(wb, 'exported-file.xlsx');
   };
-  
-  const diamondRows = Array.isArray(json2Data)
-    ? json2Data.map(e => {
-        const diamonds = e?.diamonds || [];
-        if (diamonds.length === 0) return fillEmptyRows([], 12, () => ({}));
-        if (diamonds.length <= 12) return fillEmptyRows(diamonds, 12, () => ({}));
-        return diamonds;
-      })
-    : [];
-  
-  // const colorMicsRows = Array.isArray(json2Data)
-  //   ? json2Data.map(e => {
-  //       const combined = [...(e?.colorStones || []), ...(e?.mics || [])];
-  //       if (combined.length === 0) return fillEmptyRows([], 6, () => ({}));
-  //       if (combined.length <= 6) return fillEmptyRows(combined, 6, () => ({}));
-  //       return combined; 
-  //     })
-  //   : [];
-  const colorMicsRows = Array.isArray(json2Data)
-  ? json2Data.map(e => {
-      const combined = [...(e?.colorStones || []), ...(e?.mics || [])];
 
-      // Take first 6 entries only
-      const sliced = combined.slice(0, 6);
+  const handlePDFExport = () => {
+    const doc = new jsPDF();
+    const content = document.getElementById('mnContnt'); 
+    
+    doc.html(content, {
+      callback: function (doc) {
+        doc.save('exported-file.pdf');
+      },
+      x: 10,
+      y: 10
+    });
+  };
 
-      // Pad to 6 if fewer
-      return fillEmptyRows(sliced, 6, () => ({}));
-    })
-  : [];
+  useEffect(() => {
+    const allDiamonds = json2Data.flatMap(item => item.diamonds || []);
+    const allColorStones = json2Data.flatMap(item => item.colorStones || []);
+    const allMetals = json2Data.flatMap(item => item.metals || []);
+    const allFindings = json2Data.flatMap(item => item.anotherFinding || []);
 
-  
+    const newAvailable = {
+      diamonds: allDiamonds.length > 0,
+      colorStones: allColorStones.length > 0,
+      metals: allMetals.length > 0,
+      finding: allFindings.length > 0,
+    };
+
+    setAvailableSections(newAvailable);
+
+    // Initialize showSections based on availability
+    setShowSections(prev => ({
+      ...prev,
+      diamonds: newAvailable.diamonds,
+      colorStones: newAvailable.colorStones,
+      metals: newAvailable.metals,
+      finding: newAvailable.finding,
+    }));
+  }, [json2Data]);
+
+  const handleToggle = (section) => {
+    setShowSections(prev => ({
+      ...prev,
+      [section]: !prev[section],
+    }));
+  };
+
   
   console.log("json2Data", json2Data);
   console.log("json1Data", json1Data);
+
+  const totalAFindingPcs = json2Data?.reduce((acc, e) => {
+    const pcsSum = e?.anotherFinding?.reduce((innerAcc, el) => {
+      return innerAcc + (el?.Pcs || 0);
+    }, 0);
+    return acc + pcsSum;
+  }, 0);
+
+  const totalAFindingWeight = json2Data?.reduce((acc, e) => {
+    const wtSum = e?.anotherFinding?.reduce((innerAcc, el) => {
+      return innerAcc + (el?.Wt || 0);
+    }, 0);
+    return acc + wtSum;
+  }, 0); 
 
   return (
     <>
@@ -1141,7 +1183,303 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         <Loader />
       ) : msg === "" ? (
         <>
-          <div className="mainRTMT"></div>
+          <div className="mainRTMT">
+            {/* HEADER */}
+            <div className="spMnHead">
+              <div className="spHeadWdth1">
+                <img
+                  src={json1Data?.PrintLogo}
+                  alt=""
+                  className="theLogoImg"
+                  onError={handleImageErrors}
+                />                
+              </div>
+              <div className="spHeadWdth2">
+                <div className="spBold spdispFlx">
+                  <div className="retMatFont_22">PO: </div>
+                  <div className="retMatFont_22">{/* PO Number */} wise Required Material Report</div>
+                </div>
+              </div>
+              <div className="spHeadWdth3">
+                <button onClick={(e) => handlePrint(e)}>
+                  <img 
+                    src="/images/logos/print_icon.png"
+                    alt="PrintIcon"
+                    className="theIconImg"
+                  />
+                </button>
+              </div>
+              <div className="spHeadWdth3">
+                <button onClick={handleExcelExport}>
+                  <img 
+                    src="/images/logos/ExcelExport.png"
+                    alt="XlSXIcon"
+                    className="theIconImg"
+                  />
+                </button>
+              </div>
+              <div className="spHeadWdth3">
+                <button onClick={handlePDFExport}>
+                  <img 
+                    src="/images/logos/pdf_icon.png"
+                    alt="PDFIcon"
+                    className="theIconImg"
+                  />
+                </button>
+              </div>
+            </div>
+
+            {/* CHECKBOXES */}
+            <div className="spSubHed">
+              <div className="spBgColr spBrdrAll spdispFlx">
+                <div className="sFntStyl subSubHed1">
+                  ORDER INFO
+                </div>
+                <div className="subSubHed2">
+                  <div className="sFntStyl">
+                    {availableSections.diamonds && (
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={showSections.diamonds}
+                          onChange={() => handleToggle('diamonds')}
+                          style={{ marginRight: "5px" }}
+                        />
+                        DIAMONDS
+                      </label>
+                    )}
+                  </div>
+                  <div className="sFntStyl">
+                    {availableSections.colorStones && (
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={showSections.colorStones}
+                          onChange={() => handleToggle('colorStones')}
+                          style={{ marginRight: "5px" }}
+                        />
+                        COLOR STONE
+                      </label>
+                    )}
+                  </div>
+                  <div className="sFntStyl">
+                    {availableSections.metals && (
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={showSections.metals}
+                          onChange={() => handleToggle('metals')}
+                          style={{ marginRight: "5px" }}
+                        />
+                        METAL
+                      </label>
+                    )}
+                  </div>
+                  <div className="sFntStyl">
+                    {availableSections.finding && (
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={showSections.finding}
+                          onChange={() => handleToggle('finding')}
+                          style={{ marginRight: "5px" }}
+                        />
+                        FINDING
+                      </label>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mnContnt">
+              {json2Data?.map((e) => (
+                <>
+                  {/* ORDER DETAILS */}
+                  <div className="bodyContnt">
+                    <div className="spBold retMatFont_22">{json1Data?.Manufacturer}</div>
+                    <div className="spdispFlx">
+                      <div style={{ marginRight: "15px"}}>Manufacturer PO#:	</div>
+                      <div className="spBold" style={{ marginRight: "60px"}}>{/* PO Number */}</div>
+                      <div style={{ marginRight: "15px"}}>Dated:	</div>
+                      <div className="spBold">{json1Data?.EntryDate.slice(0,7)}</div>
+                    </div>
+                  </div>
+
+                  {/* DIAMOND */}
+                  <div className={`section-transition ${showSections.diamonds ? '' : 'section-hidden'}`}>
+                    {showSections.diamonds && e?.diamonds.length > 0 && (
+                      <div style={{ marginBottom: "15px" }}>
+                        <div className="detlsContnt spBrdrAll retMatFont_14">
+                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">ITEM</div>
+                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">SHAPE</div>
+                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">QUALITY</div>
+                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">COLOR</div>
+                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">SIZE</div>
+                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">PCS.</div>
+                          <div className="sFntStyl dimndNClrstn spBgColr">CTW</div>
+                        </div>
+                        <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
+                          <div className="comnFistCol spBrdrRigt d-flex justify-content-center" style={{ paddingTop : "6px" }}>DIAMOND</div>
+                          <div className="d-flex flex-column otherRmnSpac">
+                            {e?.diamonds?.map((el, id) => {
+                              const isLast = id === e?.diamonds?.length - 1;
+                              return (
+                                <div key={id}  className={`d-flex ${!isLast ? 'spBrdrBtom' : ''}`}> 
+                                  <div className="spacCell proprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.ShapeName}</div>
+                                  <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.QualityName}</div>
+                                  <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.Colorname}</div>
+                                  <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.SizeName}</div>
+                                  <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-end align-items-center">{el?.Pcs}</div>
+                                  <div className="proprDvson spacCell d-flex justify-content-end align-items-center">{fixedValues(el?.Wt,3)}</div>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        </div>
+                        <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
+                          <div className="spBold dimndNClrstn spacCell d-flex justify-content-start align-items-center">TOTAL :</div>
+                          <div className="dimndNClrstn"></div>
+                          <div className="dimndNClrstn"></div>
+                          <div className="dimndNClrstn"></div>
+                          <div className="dimndNClrstn spacCell spBrdrRigt"></div>
+                          <div className="spBold dimndNClrstn spBrdrRigt spacCell d-flex justify-content-end align-items-center">{e?.diamondTotal?.pcs}</div>
+                          <div className="spBold dimndNClrstn spacCell d-flex justify-content-end align-items-center">{fixedValues(e?.diamondTotal?.weight,3)}</div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* COLORSTONES */}
+                  <div className={`section-transition ${ showSections.colorStones ? '' : 'section-hidden' }`}>
+                    {showSections.colorStones && e?.colorStones.length > 0 && (
+                      <div style={{ marginBottom: "15px" }}>
+                        <div className="detlsContnt spBrdrAll retMatFont_14">
+                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">ITEM</div>
+                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">SHAPE</div>
+                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">QUALITY</div>
+                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">COLOR</div>
+                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">SIZE</div>
+                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">PCS.</div>
+                          <div className="sFntStyl dimndNClrstn spBgColr">CTW</div>
+                        </div>
+                        <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
+                          <div className="comnFistCol spBrdrRigt d-flex justify-content-center" style={{ paddingTop : "6px" }}>COLOR STONE</div>
+                          <div className="d-flex flex-column otherRmnSpac">
+                            {e?.colorStones?.map((el, id) => {
+                              const isLast = id === e?.colorStones?.length - 1;
+                              return (
+                                <div key={id}  className={`d-flex ${!isLast ? 'spBrdrBtom' : ''}`}> 
+                                  <div className="spacCell proprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.ShapeName}</div>
+                                  <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.QualityName}</div>
+                                  <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.Colorname}</div>
+                                  <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.SizeName}</div>
+                                  <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-end align-items-center">{el?.Pcs}</div>
+                                  <div className="proprDvson spacCell d-flex justify-content-end align-items-center">{fixedValues(el?.Wt,3)}</div>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        </div>
+                        <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
+                          <div className="spBold dimndNClrstn spacCell d-flex justify-content-start align-items-center">TOTAL :</div>
+                          <div className="dimndNClrstn"></div>
+                          <div className="dimndNClrstn"></div>
+                          <div className="dimndNClrstn"></div>
+                          <div className="dimndNClrstn spacCell spBrdrRigt"></div>
+                          <div className="spBold dimndNClrstn spBrdrRigt spacCell d-flex justify-content-end align-items-center">{e?.colorStonesTotal?.pcs}</div>
+                          <div className="spBold dimndNClrstn spacCell d-flex justify-content-end align-items-center">{fixedValues(e?.colorStonesTotal?.weight ,3)}</div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* FINDING */}
+                  <div className={`section-transition ${showSections.finding ? '' : 'section-hidden'}`}>
+                    {showSections.finding && e?.anotherFinding.length > 0 && (
+                      <div style={{ marginBottom: "15px" }}>
+                        <div className="detlsContnt spBrdrAll retMatFont_14">
+                          <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">ITEM</div>
+                          <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">F.TYPE</div>
+                          <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">ACCESSORIES</div>
+                          <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">METAL</div>
+                          <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">QUALITY</div>
+                          <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">COLOR</div>
+                          <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">PCS.</div>
+                          <div className="sFntStyl fndingStyl spBgColr">WT</div>
+                        </div>
+                        <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
+                          <div className="fndingFistCol spBrdrRigt d-flex justify-content-center" style={{ paddingTop : "6px" }}>FINDING</div>
+                          <div className="d-flex flex-column fndingotherRmnSpac">
+                            {e?.anotherFinding?.map((el, id) => {
+                              const isLast = id === e?.anotherFinding?.length - 1;
+                              return (
+                                <div key={id}  className={`d-flex ${!isLast ? 'spBrdrBtom' : ''}`}> 
+                                  <div className="spacCell fndingproprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.FindingTypename}</div>
+                                  <div className="spacCell fndingproprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.FindingAccessories}</div>
+                                  <div className="fndingproprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.ShapeName}</div>
+                                  <div className="fndingproprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.QualityName}</div>
+                                  <div className="fndingproprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.Colorname}</div>
+                                  <div className="fndingproprDvson spBrdrRigt spacCell d-flex justify-content-end align-items-center">{el?.Pcs}</div>
+                                  <div className="fndingproprDvson spacCell d-flex justify-content-end align-items-center">{fixedValues(el?.Wt,3)}</div>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        </div>
+                        <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
+                          <div className="spBold fndingStyl spacCell d-flex justify-content-start align-items-center">TOTAL :</div>
+                          <div className="fndingStyl"></div>
+                          <div className="fndingStyl"></div>
+                          <div className="fndingStyl"></div>
+                          <div className="fndingStyl"></div>
+                          <div className="fndingStyl spacCell spBrdrRigt"></div>
+                          <div className="spBold fndingStyl spBrdrRigt spacCell d-flex justify-content-end align-items-center">{totalAFindingPcs}</div>
+                          <div className="spBold fndingStyl spacCell d-flex justify-content-end align-items-center">{fixedValues(totalAFindingWeight,3)}</div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* METAL */}
+                  <div className={`section-transition ${showSections.metals ? '' : 'section-hidden'}`}>
+                    {showSections.metals && e?.metals.length > 0 && (
+                      <div style={{ marginBottom: "0px" }}>
+                        <div className="detlsContnt spBrdrAll retMatFont_14">
+                          <div className="sFntStyl mtalStyl spBgColr spBrdrRigt">ITEM</div>
+                          <div className="sFntStyl mtalStyl spBgColr spBrdrRigt">METAL TYPE</div>
+                          <div className="sFntStyl mtalStyl spBgColr spBrdrRigt">COLOR</div>
+                          <div className="sFntStyl mtalStyl spBgColr">REQ.GM.</div>
+                        </div>
+                        <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
+                          <div className="mtalFistCol spBrdrRigt d-flex justify-content-center" style={{ paddingTop : "6px" }}>METAL</div>
+                          <div className="d-flex flex-column mtalotherRmnSpac">
+                            {e?.metals?.map((el, id) => {
+                              const isLast = id === e?.metals?.length - 1;
+                              return (
+                                <div key={id}  className={`d-flex ${!isLast ? 'spBrdrBtom' : ''}`}> 
+                                  <div className="spacCell mtalproprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.ShapeName} {el?.QualityName}</div>
+                                  <div className="spacCell mtalproprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.Colorname}</div>
+                                  <div className="mtalproprDvson spacCell d-flex justify-content-end align-items-center">{fixedValues(el?.Wt,3)}</div>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        </div>
+                        <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
+                          <div className="spBold mtalStyl spacCell d-flex justify-content-start align-items-center">TOTAL :</div>
+                          <div className="mtalStyl"></div>
+                          <div className="spBold mtalStyl spBrdrRigt spacCell d-flex justify-content-end align-items-center">{}</div>
+                          <div className="spBold mtalStyl spacCell d-flex justify-content-end align-items-center">{fixedValues(e?.metalsTotal?.Wt,3)}</div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                </>
+              ))}
+            </div>
+          </div>
         </>
       ) : (
         <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">

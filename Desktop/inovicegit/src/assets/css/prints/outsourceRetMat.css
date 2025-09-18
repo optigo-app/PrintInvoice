@@ -1,7 +1,242 @@
+html {
+    scrollbar-gutter: stable;
+}
+
 .mainRTMT {
     width: 80vw !important;
     font-family: Calibri;
     letter-spacing: 0.2px !important;
     border: 1px solid #f2f2f2;
     margin: 20px auto;
+}
+
+.retMatFont_22 {
+    font-size: 22px;
+}
+
+.retMatFont_14 {
+    font-size: 14px;
+    line-height: 14px;
+}
+
+.retMatFont_13 {
+    font-size: 13px;
+    line-height: 13px;
+}
+
+.spdispFlx {
+    display: flex;
+}
+
+.spMnHead {
+    display: flex;
+    padding: 10px;
+}
+
+.spHeadWdth1 {
+    width: 15%;
+    display: flex;
+    align-items: center;
+}
+
+.spHeadWdth2 {
+    width: 55%;
+    display: flex;
+    align-items: center;
+}
+
+.spHeadWdth3 {
+    width: 10%;
+    display: flex;
+    align-items: center;
+}
+
+.theLogoImg {
+    width: 70px;
+    height: 70px;
+    align-items: center;
+}
+
+.theIconImg {
+    width: 35px;
+    height: 35px;
+    align-items: center;
+}
+
+.spSubHed {
+    width: 100%;
+    padding: 10px;
+}
+
+.subSubHed1 {
+    width: 50%;
+}
+
+.subSubHed2 {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.mnContnt {
+    border-top: 1px solid #f2f2f2;
+    padding: 10px;
+}
+
+.bodyContnt {
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.detlsContnt {
+    width: 60%;
+    display: flex;
+}
+
+.dimndNClrstn {
+    width: 14.29%;
+    padding: 0px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.comnFistCol {
+    width: 14.29%;
+}
+
+.otherRmnSpac {
+    width: 85.71%;
+}
+
+.proprDvson {
+    width: 16.66%;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.fndingStyl {
+    width: 12.50%;
+    padding: 0px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.fndingFistCol {
+    width: 12.50%;
+}
+
+.fndingotherRmnSpac {
+    width: 87.50%;
+}
+
+.fndingproprDvson {
+    width: 14.59%;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.mtalStyl {
+    width: 25%;
+    padding: 0px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.mtalFistCol {
+    width: 25%;
+}
+
+.mtalotherRmnSpac {
+    width: 75%;
+}
+
+.mtalproprDvson {
+    width: 33.33%;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.sFntStyl {
+    color: #7a7a7a;
+    font-weight: bold;
+    padding: 5px;
+}
+
+.spacCell {
+    height: 25px;
+}
+
+.spBrdrAll {
+    border: 1px solid #d6d6d6;
+}
+
+.spBrdrRigt {
+    border-right: 1px solid #d6d6d6;
+}
+
+.spBrdrLft {
+    border-left: 1px solid #d6d6d6;
+}
+
+.spBrdrTop {
+    border-top: 1px solid #d6d6d6;
+}
+
+.spBrdrBtom {
+    border-bottom: 1px solid #d6d6d6;
+}
+
+.spBgColr {
+    background-color: #fafafa;
+}
+
+.spbrWord {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.spBold {
+    font-weight: bold;
+}
+
+.section-transition {
+    overflow: hidden;
+    transition: max-width 0.5s ease, padding 0.3s ease, margin 0.3s ease, opacity 0.5s ease;
+    max-width: 2000px;
+    opacity: 1;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-right: 1rem;
+    white-space: nowrap;
+}
+
+.section-hidden {
+    max-width: 0;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-right: 0 !important;
+    opacity: 0;
+}
+
+@media print {
+    @page {
+        margin: 20px 20px;
+    }
+
+    .mainRTMT {
+        width: 100vw !important;
+    }
+
+    .spHeadWdth1,
+    .spHeadWdth3,
+    .spSubHed {
+        display: none;
+    }
+
+    .detlsContnt {
+        width: 100%;
+    }
 }

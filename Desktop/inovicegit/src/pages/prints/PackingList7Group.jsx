@@ -936,7 +936,7 @@ const PackingList7Group = ({
                               )}
                               <div style={{ width: imgFlag ? "50%" : "100%" }}>
                                 <div
-                                  className=" centerdp10_pcl7 fsgdp10_pcl7"
+                                  className=" centerdp10_pcl7 fw-bold fsgdp10_pcl7"
                                   style={{
                                     display: "flex",
                                     flexDirection: "column",
@@ -946,7 +946,7 @@ const PackingList7Group = ({
                                   {e?.designno}&nbsp;
                                 </div>
                                   <div
-                                    className="centerdp10_pcl7 fsgdp10_pcl7"
+                                    className="centerdp10_pcl7 fw-bold fsgdp10_pcl7"
                                     style={{
                                       display: "flex",
                                       flexDirection: "column",

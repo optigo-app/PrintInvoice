@@ -983,10 +983,10 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
                               )}
                               <div style={{ width: imgFlag ? "50%" : "100%" }}>
-                                <div className=" centerdp10_pcl7 fsgdp10_pcl7">
+                                <div className=" centerdp10_pcl7 fsgdp10_pcl7 fw-bold">
                                   {e?.designno}&nbsp;
                                 </div>
-                                <div className="centerdp10_pcl7 fsgdp10_pcl7">
+                                <div className="centerdp10_pcl7 fsgdp10_pcl7 fw-bold">
                                   {atob(evn)?.toLowerCase() === "quote"
                                     ? ""
                                     : e?.GroupJob !== ""
