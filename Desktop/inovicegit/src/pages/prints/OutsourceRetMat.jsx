@@ -1197,7 +1197,7 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
               <div className="spHeadWdth2">
                 <div className="spBold spdispFlx">
                   <div className="retMatFont_22">PO: </div>
-                  <div className="retMatFont_22">{/* PO Number */} wise Required Material Report</div>
+                  <div className="retMatFont_22">{" "}{json1Data?.InvoiceNo} wise Required Material Report</div>
                 </div>
               </div>
               <div className="spHeadWdth3">
@@ -1299,8 +1299,8 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                   <div className="bodyContnt">
                     <div className="spBold retMatFont_22">{json1Data?.Manufacturer}</div>
                     <div className="spdispFlx">
-                      <div style={{ marginRight: "15px"}}>Manufacturer PO#:	</div>
-                      <div className="spBold" style={{ marginRight: "60px"}}>{/* PO Number */}</div>
+                      <div style={{ marginRight: "15px"}}>Manufacturer PO#:	{}</div>
+                      <div className="spBold" style={{ marginRight: "60px"}}>{json1Data?.InvoiceNo}</div>
                       <div style={{ marginRight: "15px"}}>Dated:	</div>
                       <div className="spBold">{json1Data?.EntryDate.slice(0,7)}</div>
                     </div>

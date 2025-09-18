@@ -1258,7 +1258,7 @@ const OutsourceJobPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                             <div className="SUspspdtl1 spbrdRght spdispFlx align-items-center">Size</div>
                             <div className="spspdtl1 spbrdRght spdispFlx align-items-center" style={{ paddingLeft: "2px" }}>{e?.Size}</div>
                             <div className="SUspspdtl1 spbrdRght spdispFlx align-items-center" style={{ paddingLeft: "2px" }}>PO</div>
-                            <div className="spspdtl1 spdispFlx align-items-center" style={{ paddingLeft: "2px" }}>{}</div>
+                            <div className="spspdtl1 spdispFlx align-items-center" style={{ paddingLeft: "2px" }}>{e?.PO}</div>
                           </div>
                           <div className="spBold spbrdRght sptxtend spbrdrBtom estimatePrintFont_9 spdispFlx">
                             <div className="SUspspdtl1 spbrdRght spdispFlx align-items-center">Order</div>

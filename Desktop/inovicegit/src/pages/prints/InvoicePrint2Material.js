@@ -208,7 +208,7 @@ const InvoicePrint2Material = ({
                           e?.ItemName === "MISC" ? "MISC" : 
                           e?.ItemName === "FINDING" ? "FINDING" : 
                           e?.ItemName === "ALLOY" ? "ALLOY" : 
-                          e?.ItemName === "MOUNT" ? "MOUNT" : 
+                          e?.ItemName === "MOUNT" ? `MOUNT : ${e?.MountCategory?.toUpperCase()}` : 
                           ""}
                     </div>
                     <div className="Sucol3_inv2 spbrRht">{e?.shape === "" || e?.ItemName === "METAL" ? "-" : e?.shape}</div>
@@ -330,7 +330,8 @@ const InvoicePrint2Material = ({
               
               {/** Remarks */}
               <div className="sprmrk brbxAll">
-                <div className="spfntBld">REMARKS :</div>
+                <div className="spfntBld">REMARKS : </div>
+                <div className="">{json0Data?.Remark}</div>
               </div>
               
               {/** Instuction */}
