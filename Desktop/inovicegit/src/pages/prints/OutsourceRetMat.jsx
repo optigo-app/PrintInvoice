@@ -22,14 +22,11 @@ import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseA
 import * as XLSX from 'xlsx';
 import { jsPDF } from "jspdf";
 const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
-  const [image, setImage] = useState(true);
   const [json1Data, setJson1Data] = useState({});
   const [json2Data, setJson2Data] = useState([]);
   const [otherCharges, setOtherCharges] = useState(0);
-  const [imageLoading, setImageLoading] = useState(true);
   const [msg, setMsg] = useState("");
   const [diamondDetailss, setDiamondDetailss] = useState({});
-  const [checkBoxNew, setCheckBoxNew] = useState("Single Stone");
   const [isImageWorking, setIsImageWorking] = useState(true);
   const [showSections, setShowSections] = useState({
     diamonds: true,
@@ -42,6 +39,12 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     colorStones: false,
     metals: false,
     finding: false,
+  });
+  const [renderSections, setRenderSections] = useState({
+    diamonds: true,
+    colorStones: true,
+    metals: true,
+    finding: true,
   });
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -133,7 +136,6 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
   const [taxes, setTaxes] = useState([]);
   const [diamondDetail, setDiamondDetail] = useState([]);
   const [loader, setLoader] = useState(true);
-  const [brokrage, setBrokrage] = useState(false);
   const [brokarage, setBrokarage] = useState([]);
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
@@ -1127,55 +1129,150 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     });
   };
 
-  useEffect(() => {
-    const allDiamonds = json2Data.flatMap(item => item.diamonds || []);
-    const allColorStones = json2Data.flatMap(item => item.colorStones || []);
-    const allMetals = json2Data.flatMap(item => item.metals || []);
-    const allFindings = json2Data.flatMap(item => item.anotherFinding || []);
-
-    const newAvailable = {
-      diamonds: allDiamonds.length > 0,
-      colorStones: allColorStones.length > 0,
-      metals: allMetals.length > 0,
-      finding: allFindings.length > 0,
+  
+  function normalize(value) {
+    return value === null || value === undefined || value === ''
+    ? '___empty___'
+      : String(value).trim().toLowerCase();
+  }
+  
+  function createKey(obj, keys) {
+    return keys.map(key => normalize(obj[key])).join('|');
+  }
+  
+  function groupByFields(items, keys) {
+    const map = new Map();
+    
+    for (const item of items) {
+      const key = createKey(item, keys);
+      if (!map.has(key)) {
+        map.set(key, { ...item, Pcs: Number(item.Pcs || 0), Wt: Number(item.Wt || 0) });
+      } else {
+        const existing = map.get(key);
+        existing.Pcs += Number(item.Pcs || 0);
+        existing.Wt += Number(item.Wt || 0);
+      }
+    }
+    
+    return Array.from(map.values());
+  }
+  
+  // make group for same material
+  function groupMaterials(dataArray) {
+    const result = {
+      diamonds: [],
+      colorStones: [],
+      metals: [],
+      anotherFinding: [],
+      diamondsTotal: { Pcs: 0, Wt: 0 },
+      colorStonesTotal: { Pcs: 0, Wt: 0 },
+      metalsTotal: { Pcs: 0, Wt: 0 },
+      anotherFindingTotal: { Pcs: 0, Wt: 0 },
     };
 
-    setAvailableSections(newAvailable);
+    // normalization function
+    const normalize = s => (s === null || s === undefined ? '' : String(s).trim().toLowerCase());
 
-    // Initialize showSections based on availability
-    setShowSections(prev => ({
-      ...prev,
+    const groupAndSum = (items, keys, targetArrayName, targetTotalName) => {
+      const map = new Map();
+      let totalPcs = 0, totalWt = 0;
+
+      for (const item of items) {
+        if (!item) continue;
+        const key = keys.map(k => normalize(item[k])).join('|');
+        const pcs = Number(item.Pcs || 0);
+        const wt = Number(item.Wt || 0);
+
+        totalPcs += pcs;
+        totalWt += wt;
+
+        if (map.has(key)) {
+          const ex = map.get(key);
+          ex.Pcs += pcs;
+          ex.Wt += wt;
+        } else {
+          // copy the original but ensure properties exist
+          map.set(key, {
+            ...item,
+            ShapeName: item.ShapeName,
+            QualityName: item.QualityName,
+            Colorname: item.Colorname,
+            SizeName: item.SizeName,
+            Pcs: pcs,
+            Wt: wt
+          });
+        }
+      }
+
+      result[targetArrayName] = Array.from(map.values());
+      result[targetTotalName] = { Pcs: totalPcs, Wt: totalWt };
+    };
+
+    // collect all items
+    const allDiamonds = dataArray.flatMap(job => job.diamonds || []);
+    const allColorStones = dataArray.flatMap(job => job.colorStones || []);
+    const allMetals = dataArray.flatMap(job => job.metals || []);
+    const allFindings = dataArray.flatMap(job => job.anotherFinding || []);
+
+    groupAndSum(allDiamonds, ['ShapeName','QualityName','Colorname','SizeName'], 'diamonds','diamondsTotal');
+    groupAndSum(allColorStones, ['ShapeName','QualityName','Colorname','SizeName'], 'colorStones','colorStonesTotal');
+    groupAndSum(allMetals, ['ShapeName','QualityName','Colorname'], 'metals','metalsTotal');
+    groupAndSum(allFindings, ['FindingTypename','FindingAccessories','ShapeName','QualityName','Colorname'], 'anotherFinding','anotherFindingTotal');
+
+    return result;
+  } 
+  
+  const grouped = groupMaterials(json2Data);
+  // console.log(grouped.diamonds);
+  // console.log(grouped.colorStones);
+  // console.log(grouped.metals);
+  // console.log(grouped.anotherFinding); 
+  
+  useEffect(() => {
+    const newAvailable = {
+      diamonds: (grouped.diamonds || []).length > 0,
+      colorStones: (grouped.colorStones || []).length > 0,
+      metals: (grouped.metals || []).length > 0,
+      finding: (grouped.anotherFinding || []).length > 0,
+    };
+  
+    setAvailableSections(newAvailable);
+  
+    // Automatically show sections that are available
+    setShowSections({
       diamonds: newAvailable.diamonds,
       colorStones: newAvailable.colorStones,
       metals: newAvailable.metals,
       finding: newAvailable.finding,
-    }));
-  }, [json2Data]);
+    });
+  
+    setRenderSections({
+      diamonds: newAvailable.diamonds,
+      colorStones: newAvailable.colorStones,
+      metals: newAvailable.metals,
+      finding: newAvailable.finding,
+    });
+  }, [grouped]);
+  
+  
 
   const handleToggle = (section) => {
-    setShowSections(prev => ({
-      ...prev,
-      [section]: !prev[section],
-    }));
-  };
-
+    const isCurrentlyShown = showSections[section];
   
-  console.log("json2Data", json2Data);
+    if (isCurrentlyShown) {
+      setShowSections(prev => ({ ...prev, [section]: false }));
+  
+      setTimeout(() => {
+        setRenderSections(prev => ({ ...prev, [section]: false }));
+      }, 600);
+    } else {  
+      setRenderSections(prev => ({ ...prev, [section]: true }));
+      setShowSections(prev => ({ ...prev, [section]: true }));
+    }
+  };  
+  
+  console.log("json2Data", json2Data);  
   console.log("json1Data", json1Data);
-
-  const totalAFindingPcs = json2Data?.reduce((acc, e) => {
-    const pcsSum = e?.anotherFinding?.reduce((innerAcc, el) => {
-      return innerAcc + (el?.Pcs || 0);
-    }, 0);
-    return acc + pcsSum;
-  }, 0);
-
-  const totalAFindingWeight = json2Data?.reduce((acc, e) => {
-    const wtSum = e?.anotherFinding?.reduce((innerAcc, el) => {
-      return innerAcc + (el?.Wt || 0);
-    }, 0);
-    return acc + wtSum;
-  }, 0); 
 
   return (
     <>
@@ -1197,7 +1294,7 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
               <div className="spHeadWdth2">
                 <div className="spBold spdispFlx">
                   <div className="retMatFont_22">PO: </div>
-                  <div className="retMatFont_22">{" "}{json1Data?.InvoiceNo} wise Required Material Report</div>
+                  <div className="retMatFont_22">&nbsp;{json1Data?.InvoiceNo} wise Required Material Report</div>
                 </div>
               </div>
               <div className="spHeadWdth3">
@@ -1293,8 +1390,6 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             </div>
 
             <div className="mnContnt">
-              {json2Data?.map((e) => (
-                <>
                   {/* ORDER DETAILS */}
                   <div className="bodyContnt">
                     <div className="spBold retMatFont_22">{json1Data?.Manufacturer}</div>
@@ -1307,8 +1402,8 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                   </div>
 
                   {/* DIAMOND */}
-                  <div className={`section-transition ${showSections.diamonds ? '' : 'section-hidden'}`}>
-                    {showSections.diamonds && e?.diamonds.length > 0 && (
+                  <div className={`section-transition ${showSections.diamonds ? '' : 'section-hidden'}` }>
+                    {renderSections.diamonds && grouped.diamonds.length > 0 && (
                       <div style={{ marginBottom: "15px" }}>
                         <div className="detlsContnt spBrdrAll retMatFont_14">
                           <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">ITEM</div>
@@ -1322,8 +1417,8 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                         <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
                           <div className="comnFistCol spBrdrRigt d-flex justify-content-center" style={{ paddingTop : "6px" }}>DIAMOND</div>
                           <div className="d-flex flex-column otherRmnSpac">
-                            {e?.diamonds?.map((el, id) => {
-                              const isLast = id === e?.diamonds?.length - 1;
+                            {grouped?.diamonds?.map((el, id) => {
+                              const isLast = id === grouped?.diamonds?.length - 1;
                               return (
                                 <div key={id}  className={`d-flex ${!isLast ? 'spBrdrBtom' : ''}`}> 
                                   <div className="spacCell proprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.ShapeName}</div>
@@ -1343,16 +1438,16 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                           <div className="dimndNClrstn"></div>
                           <div className="dimndNClrstn"></div>
                           <div className="dimndNClrstn spacCell spBrdrRigt"></div>
-                          <div className="spBold dimndNClrstn spBrdrRigt spacCell d-flex justify-content-end align-items-center">{e?.diamondTotal?.pcs}</div>
-                          <div className="spBold dimndNClrstn spacCell d-flex justify-content-end align-items-center">{fixedValues(e?.diamondTotal?.weight,3)}</div>
+                          <div className="spBold dimndNClrstn spBrdrRigt spacCell d-flex justify-content-end align-items-center">{grouped?.diamondsTotal?.Pcs}</div>
+                          <div className="spBold dimndNClrstn spacCell d-flex justify-content-end align-items-center">{fixedValues(grouped?.diamondsTotal?.Wt,3)}</div>
                         </div>
                       </div>
                     )}
                   </div>
 
                   {/* COLORSTONES */}
-                  <div className={`section-transition ${ showSections.colorStones ? '' : 'section-hidden' }`}>
-                    {showSections.colorStones && e?.colorStones.length > 0 && (
+                  <div className={`section-transition ${showSections.colorStones ? '' : 'section-hidden' }`}>
+                    {renderSections.colorStones && grouped.colorStones.length > 0 && (
                       <div style={{ marginBottom: "15px" }}>
                         <div className="detlsContnt spBrdrAll retMatFont_14">
                           <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">ITEM</div>
@@ -1366,8 +1461,8 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                         <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
                           <div className="comnFistCol spBrdrRigt d-flex justify-content-center" style={{ paddingTop : "6px" }}>COLOR STONE</div>
                           <div className="d-flex flex-column otherRmnSpac">
-                            {e?.colorStones?.map((el, id) => {
-                              const isLast = id === e?.colorStones?.length - 1;
+                            {grouped?.colorStones?.map((el, id) => {
+                              const isLast = id === grouped?.colorStones?.length - 1;
                               return (
                                 <div key={id}  className={`d-flex ${!isLast ? 'spBrdrBtom' : ''}`}> 
                                   <div className="spacCell proprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.ShapeName}</div>
@@ -1387,8 +1482,8 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                           <div className="dimndNClrstn"></div>
                           <div className="dimndNClrstn"></div>
                           <div className="dimndNClrstn spacCell spBrdrRigt"></div>
-                          <div className="spBold dimndNClrstn spBrdrRigt spacCell d-flex justify-content-end align-items-center">{e?.colorStonesTotal?.pcs}</div>
-                          <div className="spBold dimndNClrstn spacCell d-flex justify-content-end align-items-center">{fixedValues(e?.colorStonesTotal?.weight ,3)}</div>
+                          <div className="spBold dimndNClrstn spBrdrRigt spacCell d-flex justify-content-end align-items-center">{grouped?.colorStonesTotal?.Pcs}</div>
+                          <div className="spBold dimndNClrstn spacCell d-flex justify-content-end align-items-center">{fixedValues(grouped?.colorStonesTotal?.Wt ,3)}</div>
                         </div>
                       </div>
                     )}
@@ -1396,7 +1491,7 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
 
                   {/* FINDING */}
                   <div className={`section-transition ${showSections.finding ? '' : 'section-hidden'}`}>
-                    {showSections.finding && e?.anotherFinding.length > 0 && (
+                    {renderSections.finding && grouped.anotherFinding.length > 0 && (
                       <div style={{ marginBottom: "15px" }}>
                         <div className="detlsContnt spBrdrAll retMatFont_14">
                           <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">ITEM</div>
@@ -1411,8 +1506,8 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                         <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
                           <div className="fndingFistCol spBrdrRigt d-flex justify-content-center" style={{ paddingTop : "6px" }}>FINDING</div>
                           <div className="d-flex flex-column fndingotherRmnSpac">
-                            {e?.anotherFinding?.map((el, id) => {
-                              const isLast = id === e?.anotherFinding?.length - 1;
+                            {grouped?.anotherFinding?.map((el, id) => {
+                              const isLast = id === grouped?.anotherFinding?.length - 1;
                               return (
                                 <div key={id}  className={`d-flex ${!isLast ? 'spBrdrBtom' : ''}`}> 
                                   <div className="spacCell fndingproprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.FindingTypename}</div>
@@ -1434,8 +1529,8 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                           <div className="fndingStyl"></div>
                           <div className="fndingStyl"></div>
                           <div className="fndingStyl spacCell spBrdrRigt"></div>
-                          <div className="spBold fndingStyl spBrdrRigt spacCell d-flex justify-content-end align-items-center">{totalAFindingPcs}</div>
-                          <div className="spBold fndingStyl spacCell d-flex justify-content-end align-items-center">{fixedValues(totalAFindingWeight,3)}</div>
+                          <div className="spBold fndingStyl spBrdrRigt spacCell d-flex justify-content-end align-items-center">{grouped?.anotherFindingTotal?.Pcs}</div>
+                          <div className="spBold fndingStyl spacCell d-flex justify-content-end align-items-center">{fixedValues(grouped?.anotherFindingTotal?.Wt,3)}</div>
                         </div>
                       </div>
                     )}
@@ -1443,7 +1538,7 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
 
                   {/* METAL */}
                   <div className={`section-transition ${showSections.metals ? '' : 'section-hidden'}`}>
-                    {showSections.metals && e?.metals.length > 0 && (
+                    {renderSections.metals && grouped.metals.length > 0 && (
                       <div style={{ marginBottom: "0px" }}>
                         <div className="detlsContnt spBrdrAll retMatFont_14">
                           <div className="sFntStyl mtalStyl spBgColr spBrdrRigt">ITEM</div>
@@ -1454,8 +1549,8 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                         <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
                           <div className="mtalFistCol spBrdrRigt d-flex justify-content-center" style={{ paddingTop : "6px" }}>METAL</div>
                           <div className="d-flex flex-column mtalotherRmnSpac">
-                            {e?.metals?.map((el, id) => {
-                              const isLast = id === e?.metals?.length - 1;
+                            {grouped?.metals?.map((el, id) => {
+                              const isLast = id === grouped?.metals?.length - 1;
                               return (
                                 <div key={id}  className={`d-flex ${!isLast ? 'spBrdrBtom' : ''}`}> 
                                   <div className="spacCell mtalproprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.ShapeName} {el?.QualityName}</div>
@@ -1470,14 +1565,12 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                           <div className="spBold mtalStyl spacCell d-flex justify-content-start align-items-center">TOTAL :</div>
                           <div className="mtalStyl"></div>
                           <div className="spBold mtalStyl spBrdrRigt spacCell d-flex justify-content-end align-items-center">{}</div>
-                          <div className="spBold mtalStyl spacCell d-flex justify-content-end align-items-center">{fixedValues(e?.metalsTotal?.Wt,3)}</div>
+                          <div className="spBold mtalStyl spacCell d-flex justify-content-end align-items-center">{fixedValues(grouped?.metalsTotal?.Wt,3)}</div>
                         </div>
                       </div>
                     )}
                   </div>
 
-                </>
-              ))}
             </div>
           </div>
         </>

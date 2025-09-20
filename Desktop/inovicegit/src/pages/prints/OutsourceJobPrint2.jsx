@@ -1125,13 +1125,18 @@ const OutsourceJobPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
   const buildMaterialRows = (e) => {
     const maxRows = 20;
 
-    const addRowsWithTotal = (items, type) => {
+    const addRowsWithTotal = (items, type, filterFn = null) => {
         if (!Array.isArray(items) || items.length === 0) return [];
 
-        const rows = items.map((item) => ({ type, data: item }));
+        // Apply filter if provided
+        const filteredItems = filterFn ? items.filter(filterFn) : items;
 
-        const totalPcs = items.reduce((sum, curr) => sum + (Number(curr?.Pcs) || 0), 0);
-        const totalWt = items.reduce((sum, curr) => sum + (Number(curr?.Wt) || 0), 0);
+        if (filteredItems.length === 0) return [];
+
+        const rows = filteredItems.map((item) => ({ type, data: item }));
+
+        const totalPcs = filteredItems.reduce((sum, curr) => sum + (Number(curr?.Pcs) || 0), 0);
+        const totalWt = filteredItems.reduce((sum, curr) => sum + (Number(curr?.Wt) || 0), 0);
 
         return [...rows, { type: `${type}-total`, totalPcs, totalWt }];
     };
@@ -1139,7 +1144,14 @@ const OutsourceJobPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
     const diamondRows = addRowsWithTotal(e?.diamonds, "diamond");
     const colorStoneRows = addRowsWithTotal(e?.colorStones, "colorStone");
 
-    let finalRows = [...diamondRows, ...colorStoneRows];
+    // Apply filter for mics: only include if ismiscwtaddingrossweight === 1
+    const micsRows = addRowsWithTotal(
+        e?.mics,
+        "mics",
+        (item) => Number(item?.ismiscwtaddingrossweight) === 1
+    );
+
+    let finalRows = [...diamondRows, ...colorStoneRows, ...micsRows];
 
     // Ensure 20 rows
     if (finalRows.length > maxRows) {
@@ -1150,7 +1162,8 @@ const OutsourceJobPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
     }
 
     return finalRows;
-};
+  };
+
   
   // const renderRow = (row) => {
   //   if (row.type === 'empty') {
@@ -1207,8 +1220,8 @@ const OutsourceJobPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
   // };
 
   
-  console.log("json2Data", json2Data);
-  console.log("json1Data", json1Data);
+  // console.log("json2Data", json2Data);
+  // console.log("json1Data", json1Data);
 
   return (
     <>
@@ -1274,8 +1287,34 @@ const OutsourceJobPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                             <div className="spspdtl1 spbrdRght spdispFlx align-items-center" style={{ paddingLeft: "2px" }}>{e?.PromiseDate}</div>
                             <div className="SUspspdtl1 spbrdRght spdispFlx justify-content-center align-items-center">{fixedValues(e?.metalsTotal?.weight,3)}</div>
                             <div className="spspdtl1 spdispFlx">
-                              <div className="spspdtl2 spbrdRght spdispFlx justify-content-center align-items-center margnBtom">{e?.diamondTotal?.pcs} /<br/> {fixedValues(e?.diamondTotal?.weight,3)}</div>
-                              <div className="spspdtl2 spdispFlx justify-content-center align-items-center margnBtom">{e?.colorStonesTotal?.pcs} /<br/> {fixedValues(e?.colorStonesTotal?.weight,3)}</div>
+                              <div className="spspdtl2 spbrdRght spdispFlx justify-content-center align-items-center margnBtom">
+                                {(e?.diamondTotal?.pcs > 0 || e?.diamondTotal?.weight > 0) && (
+                                  <>
+                                    {e?.diamondTotal?.pcs > 0 && (
+                                      <>
+                                        {e.diamondTotal.pcs}
+                                        {e?.diamondTotal?.weight > 0 && " /"}
+                                      </>
+                                    )}
+                                    {e?.diamondTotal?.pcs > 0 && e?.diamondTotal?.weight > 0 && <br />}
+                                    {e?.diamondTotal?.weight > 0 && fixedValues(e?.diamondTotal?.weight, 3)}
+                                  </>
+                                )}
+                              </div>
+                              <div className="spspdtl2 spdispFlx justify-content-center align-items-center margnBtom">
+                                {(e?.colorStonesTotal?.pcs > 0 || e?.colorStonesTotal?.weight > 0) && (
+                                  <>
+                                    {e?.colorStonesTotal?.pcs > 0 && (
+                                      <>
+                                        {e.colorStonesTotal.pcs}
+                                        {e?.colorStonesTotal?.weight > 0 && " /"}
+                                      </>
+                                    )}
+                                    {e?.colorStonesTotal?.pcs > 0 && e?.colorStonesTotal?.weight > 0 && <br />}
+                                    {e?.colorStonesTotal?.weight > 0 && fixedValues(e?.colorStonesTotal?.weight, 3)}
+                                  </>
+                                )}
+                              </div>
                             </div>
                           </div>  
                         </div>
@@ -1335,6 +1374,7 @@ const OutsourceJobPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                               const label =
                                 row.type.startsWith('diamond') ? 'D TOTAL' :
                                 row.type.startsWith('colorStone') ? 'C TOTAL' :
+                                row.type.startsWith('mics') ? 'M TOTAL' :
                                 'TOTAL';
 
                               return (

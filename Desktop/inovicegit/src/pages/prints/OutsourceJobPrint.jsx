@@ -1125,20 +1125,29 @@ const OutsourceJobPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
     const maxPerSide = 12;
     const maxTotalRows = 24;
   
-    const addRowsWithTotal = (items, type) => {
+    const addRowsWithTotal = (items, type, filterFn = null) => {
       if (!Array.isArray(items) || items.length === 0) return [];
-    
-      const rows = items.map((item) => ({ type, data: item }));
-    
-      const totalPcs = items.reduce((sum, curr) => sum + (Number(curr?.Pcs) || 0), 0);
-      const totalWt = items.reduce((sum, curr) => sum + (Number(curr?.Wt) || 0), 0);
-    
+  
+      const filteredItems = filterFn ? items.filter(filterFn) : items;
+      if (filteredItems.length === 0) return [];
+  
+      const rows = filteredItems.map((item) => ({ type, data: item }));
+  
+      const totalPcs = filteredItems.reduce((sum, curr) => sum + (Number(curr?.Pcs) || 0), 0);
+      const totalWt = filteredItems.reduce((sum, curr) => sum + (Number(curr?.Wt) || 0), 0);
+  
       return [...rows, { type: `${type}-total`, totalPcs, totalWt }];
     };
   
     const diamondRows = addRowsWithTotal(e?.diamonds, "diamond");
     const colorStoneRows = addRowsWithTotal(e?.colorStones, "colorStone");
-    const miscRows = addRowsWithTotal(e?.mics, "misc");
+  
+    // Filter mics where ismiscwtaddingrossweight === 1
+    const miscRows = addRowsWithTotal(
+      e?.mics,
+      "misc",
+      (item) => Number(item?.ismiscwtaddingrossweight) === 1
+    );
   
     let combinedRows = [...diamondRows, ...colorStoneRows, ...miscRows];
   
@@ -1157,6 +1166,25 @@ const OutsourceJobPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
   
     return { leftRows, rightRows };
   };
+  
+  const countMicsWt = json2Data?.map((job) => {
+    const filteredMics = job?.mics?.filter(
+      (mic) => Number(mic?.ismiscwtaddingrossweight) === 1
+    );
+  
+    const totalWt = filteredMics?.reduce(
+      (sum, mic) => sum + (Number(mic?.Wt) || 0),
+      0
+    );
+  
+    return {
+      jobId: job?.SrJobno ?? null,
+      totalWt
+    };
+  });
+  
+  console.log("countMicsWt", countMicsWt);
+  
   
 
   // console.log("json2Data", json2Data);
@@ -1281,10 +1309,20 @@ const OutsourceJobPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                             </div>
                             <div className="spbrdRght spbrdrBtomDR estimatePrintFont_9 spdispFlx">
                               <div className="subwidthHed spnHitCsMs">{e?.colorStonesTotal?.weight !== 0 ?fixedValues(e?.colorStonesTotal?.weight,3) : ""}</div>
-                              <div className={`subwidthHed spnHitCsMs ${e?.miscsTotal?.weight !== 0 ? "spbrdrLftDR spbrdRghtDR" : ""} spBold`}>
-                                {e?.miscsTotal?.weight === 0 ? "" : "MISC" }
-                              </div>
-                              <div className="subwidthHed spnHitCsMs">{e?.miscsTotal?.weight !== 0 ? fixedValues(e?.miscsTotal?.weight, 3) : ""}</div>
+                              {(() => {
+                                const matchingMic = countMicsWt?.find((job) => job?.jobId === e?.SrJobno);
+
+                                return matchingMic && (
+                                  <>
+                                    <div className={`subwidthHed spnHitCsMs ${matchingMic.totalWt !== 0 ? "spbrdrLftDR spbrdRghtDR" : ""} spBold`}>
+                                      {matchingMic.totalWt !== 0 ? "MISC" : ""}
+                                    </div>
+                                    <div className="subwidthHed spnHitCsMs">
+                                      {matchingMic.totalWt !== 0 ? fixedValues(matchingMic.totalWt, 3) : ""}
+                                    </div>
+                                  </>
+                                )
+                              })()}
                             </div>
                           </div>
                           <div className="Suspdtl3 spbrdrBtomDR">
@@ -1416,11 +1454,11 @@ const OutsourceJobPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
 
                     <div className="spbrdrTop spbrdrBtomDR">
                       <div className="spdispFlx spbrdrBtomDR">
-                        <div className="spdispFlx spHitIns spbrdRghtDR" style={{ width: "78.20%"}}>
+                        <div className="spdispFlx spHitIns spbrdRghtDR" style={{ width: "78.50%"}}>
                           <div className="spBold spnfntArtisn">Instruction : </div>&nbsp;
                           <span className="spnfntArtisn">{e?.JobRemark}</span>
                         </div>
-                        <div className="spHitIns spWdthIns" style={{ width: "21.80%"}}></div>
+                        <div className="spHitIns spWdthIns" style={{ width: "21.50%"}}></div>
                       </div>
                       <div className="spdispFlx w-100">
                         <div className="spnHitArtisn spBold spnfntArtisn w-100">STMP INSTR :</div>

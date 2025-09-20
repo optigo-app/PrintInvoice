@@ -84,7 +84,7 @@ html {
 }
 
 .bodyContnt {
-    width: 60%;
+    width: 58%;
     display: flex;
     justify-content: space-between;
     margin-bottom: 8px;
@@ -111,7 +111,7 @@ html {
 }
 
 .proprDvson {
-    width: 16.66%;
+    width: 16.67%;
     padding-left: 6px;
     padding-right: 6px;
 }
@@ -132,7 +132,7 @@ html {
 }
 
 .fndingproprDvson {
-    width: 14.59%;
+    width: 14.28%; /* 14.59 */
     padding-left: 6px;
     padding-right: 6px;
 }
@@ -207,7 +207,7 @@ html {
     transition: max-width 0.5s ease, padding 0.3s ease, margin 0.3s ease, opacity 0.5s ease;
     max-width: 2000px;
     opacity: 1;
-    padding-left: 1rem;
+    padding-left: 0.1rem;
     padding-right: 1rem;
     margin-right: 1rem;
     white-space: nowrap;
@@ -220,6 +220,25 @@ html {
     margin-right: 0 !important;
     opacity: 0;
 }
+
+/* .section-transition {
+    overflow: hidden;
+    transition: max-width 0.5s ease, padding 0.5s ease, margin 0.5s ease, opacity 0.5s ease;
+    max-width: 100%; 
+    opacity: 1;
+    padding-left: 0.1rem;
+    padding-right: 1rem;
+    margin-right: 1rem;
+}
+
+.section-hidden {
+    max-width: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-right: 0 !important;
+    opacity: 0 !important;
+} */
+
 
 @media print {
     @page {
