@@ -8,6 +8,7 @@ html {
     letter-spacing: 0.2px !important;
     border: 1px solid #f2f2f2;
     margin: 20px auto;
+    align-items: flex-start;
 }
 
 .retMatFont_22 {
@@ -57,9 +58,15 @@ html {
     align-items: center;
 }
 
-.theIconImg {
+.theIconImgPrnt {
     width: 35px;
     height: 35px;
+    align-items: center;
+}
+
+.theIconImg {
+    width: 30px;
+    height: 30px;
     align-items: center;
 }
 
@@ -132,9 +139,15 @@ html {
 }
 
 .fndingproprDvson {
-    width: 14.28%; /* 14.59 */
+    width: 14.28%;
+    /* 14.59 */
     padding-left: 6px;
     padding-right: 6px;
+}
+
+.detlsMtlContnt {
+    width: 60%;
+    display: flex;
 }
 
 .mtalStyl {
@@ -165,7 +178,7 @@ html {
 }
 
 .spacCell {
-    height: 25px;
+    height: 25px !important;
 }
 
 .spBrdrAll {
@@ -208,8 +221,7 @@ html {
     max-width: 2000px;
     opacity: 1;
     padding-left: 0.1rem;
-    padding-right: 1rem;
-    margin-right: 1rem;
+    margin-right: 0.1rem;
     white-space: nowrap;
 }
 
@@ -240,6 +252,97 @@ html {
 } */
 
 
+.pdf-export-mode {
+    font-size: 16px;
+    width: 800px;
+    margin: 0 auto;
+    padding-top: 0;
+    background-color: white;
+}
+
+.pdf-export-mode .spSubHed,
+.pdf-export-mode .spHeadWdth3 {
+    display: none !important;
+}
+
+.pdf-export-mode .retMatFont_22 {
+    font-size: 28px;
+}
+
+.pdf-export-mode .page-break {
+    page-break-before: always;
+}
+
+.pdf-export-mode .bodyContnt {
+    width: 98% !important;
+}
+
+.pdf-export-mode .detlsContnt {
+  width: 100% !important;
+}
+
+.pdf-export-mode .retMatFont_14 {
+    font-size: 15px;
+    line-height: 17px;
+}
+
+.pdf-export-mode .retMatFont_13 {
+    font-size: 16px;
+    line-height: 18px;
+}
+
+.pdf-export-mode .spBgColr {
+    background-color: #ececec;
+}
+
+.pdf-export-mode .comnFistCol,
+.pdf-export-mode .fndingFistCol,
+.pdf-export-mode .mtalFistCol {
+    padding-top: 0px !important;
+    padding-bottom: 6px !important;
+}
+
+.pdf-export-mode .proprDvson,
+.pdf-export-mode .fndingproprDvson,
+.pdf-export-mode .mtalproprDvson,
+.pdf-export-mode .mtalStyl,
+.pdf-export-mode .fndingStyl,
+.pdf-export-mode .dimndNClrstn {
+    padding-bottom: 10px !important;
+}
+
+.pdf-export-mode .spHeadWdth2 {
+    width: 100% !important;
+}
+
+div.pdf-export-mode .mainRTMT {
+    border: 1px solid transparent !important;
+}
+
+.pdf-export-mode .sFntStyl {
+    color: #000000;
+}
+
+.pdf-export-mode .spBrdrAll {
+    border: 1px solid #000000;
+}
+
+.pdf-export-mode .spBrdrRigt {
+    border-right: 1px solid #000000;
+}
+
+.pdf-export-mode .spBrdrLft {
+    border-left: 1px solid #000000;
+}
+
+.pdf-export-mode .spBrdrTop {
+    border-top: 1px solid #000000;
+}
+
+.pdf-export-mode .spBrdrBtom {
+    border-bottom: 1px solid #000000;
+}
+
 @media print {
     @page {
         margin: 20px 20px;
@@ -255,7 +358,27 @@ html {
         display: none;
     }
 
-    .detlsContnt {
+    .detlsContnt,
+    .bodyContnt {
         width: 100%;
+    }
+
+    .retMatFont_22 {
+        font-size: 18px;
+    }
+
+    .retMatFont_14 {
+        font-size: 12px;
+        line-height: 12px;
+    }
+
+    .retMatFont_13 {
+        font-size: 11px;
+        line-height: 11px;
+    }
+
+    .section-transition {
+        padding-right: 0rem;
+        margin-right: 0rem;
     }
 }

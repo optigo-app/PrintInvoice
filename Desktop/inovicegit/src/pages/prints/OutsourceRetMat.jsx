@@ -1,25 +1,25 @@
 //http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=NTQ3&evn=T3V0U291cmNl&pnm=UmV0LiBNYXQu&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&ctv=NzE=&ifid=OutsourcePrintA&pid=undefined
 //http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=NTM0&evn=T3V0U291cmNl&pnm=UmV0LiBNYXQu&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&ctv=NzE=&ifid=OutsourcePrintA&pid=undefined
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import "../../assets/css/prints/outsourceRetMat.css";
 import {
-  NumberWithCommas,
   ReceiveInBank,
   apiCall,
   checkMsg,
   fixedValues,
-  formatAmount,
-  handleImageError,
   handlePrint,
   isObjectEmpty,
   otherAmountDetail,
   taxGenrator,
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
-import { cloneDeep, filter } from "lodash";
-import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
+import { FcPrint } from "react-icons/fc";
+import { GrDocumentExcel } from "react-icons/gr";
+import { GrDocumentPdf } from "react-icons/gr";
+import { cloneDeep } from "lodash";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 import * as XLSX from 'xlsx';
+import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [json1Data, setJson1Data] = useState({});
@@ -28,6 +28,7 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
   const [msg, setMsg] = useState("");
   const [diamondDetailss, setDiamondDetailss] = useState({});
   const [isImageWorking, setIsImageWorking] = useState(true);
+  const exportRef = useRef();
   const [showSections, setShowSections] = useState({
     diamonds: true,
     colorStones: true,
@@ -1115,19 +1116,67 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     const wb = XLSX.utils.table_to_book(tableContent, { sheet: "Sheet 1" });
     XLSX.writeFile(wb, 'exported-file.xlsx');
   };
-
-  const handlePDFExport = () => {
-    const doc = new jsPDF();
-    const content = document.getElementById('mnContnt'); 
-    
-    doc.html(content, {
-      callback: function (doc) {
-        doc.save('exported-file.pdf');
-      },
-      x: 10,
-      y: 10
+  
+  const handlePDFExport = async () => {
+    const element = exportRef.current;
+  
+    // ✅ Add temporary class for PDF styling
+    element.classList.add("pdf-export-mode");
+  
+    // ✅ Hide specific sections
+    const spSubHed = element.querySelector(".spSubHed");
+    const spHeadWdth3List = element.querySelectorAll(".spHeadWdth3");
+    const originalDisplays = [];
+  
+    if (spSubHed) {
+      originalDisplays.push({ el: spSubHed, display: spSubHed.style.display });
+      spSubHed.style.display = "none";
+    }
+  
+    spHeadWdth3List.forEach((el) => {
+      originalDisplays.push({ el, display: el.style.display });
+      el.style.display = "none";
     });
-  };
+  
+    // ✅ Directly remove the border from .mainRTMT
+    const mainRTMT = element.querySelector(".mainRTMT");
+    let originalBorder = "";
+    if (mainRTMT) {
+      originalBorder = mainRTMT.style.border;
+      mainRTMT.style.border = "none";
+    }
+  
+    // ✅ Capture the element
+    const canvas = await html2canvas(element, { scale: 2, useCORS: true });
+    const imgData = canvas.toDataURL("image/png");
+  
+    const pdf = new jsPDF({
+      orientation: "portrait",
+      unit: "mm",
+      format: "a4",
+    });
+  
+    const pageWidth = 210; // A4 in mm
+    const margin = 10;     // Margin
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = pageWidth - margin * 2;
+    const scaleFactor = pdfWidth / imgProps.width;
+    const pdfHeight = imgProps.height * scaleFactor;
+  
+    pdf.addImage(imgData, "PNG", margin, margin, pdfWidth, pdfHeight);
+    pdf.save(`PO_Required_Meterial_Report_${json1Data?.InvoiceNo}.pdf`);
+  
+    // ✅ Restore all previous styles
+    originalDisplays.forEach(({ el, display }) => {
+      el.style.display = display;
+    });
+  
+    if (mainRTMT) {
+      mainRTMT.style.border = originalBorder;
+    }
+  
+    element.classList.remove("pdf-export-mode");
+  };    
 
   
   function normalize(value) {
@@ -1222,7 +1271,7 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     return result;
   } 
   
-  const grouped = groupMaterials(json2Data);
+  const grouped = useMemo(() => groupMaterials(json2Data), [json2Data]);
   // console.log(grouped.diamonds);
   // console.log(grouped.colorStones);
   // console.log(grouped.metals);
@@ -1236,26 +1285,42 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       finding: (grouped.anotherFinding || []).length > 0,
     };
   
-    setAvailableSections(newAvailable);
-  
-    // Automatically show sections that are available
-    setShowSections({
-      diamonds: newAvailable.diamonds,
-      colorStones: newAvailable.colorStones,
-      metals: newAvailable.metals,
-      finding: newAvailable.finding,
+    // Update only if newAvailable differs from current availableSections
+    setAvailableSections(prev => {
+      if (JSON.stringify(prev) !== JSON.stringify(newAvailable)) {
+        return newAvailable;
+      }
+      return prev;
     });
   
-    setRenderSections({
-      diamonds: newAvailable.diamonds,
-      colorStones: newAvailable.colorStones,
-      metals: newAvailable.metals,
-      finding: newAvailable.finding,
+    setShowSections(prev => {
+      const newShow = {
+        diamonds: newAvailable.diamonds ? prev.diamonds : true,
+        colorStones: newAvailable.colorStones ? prev.colorStones : true,
+        metals: newAvailable.metals ? prev.metals : true,
+        finding: newAvailable.finding ? prev.finding : true,
+      };
+      if (JSON.stringify(prev) !== JSON.stringify(newShow)) {
+        return newShow;
+      }
+      return prev;
     });
-  }, [grouped]);
+  
+    setRenderSections(prev => {
+      const newRender = {
+        diamonds: newAvailable.diamonds ? prev.diamonds : true,
+        colorStones: newAvailable.colorStones ? prev.colorStones : true,
+        metals: newAvailable.metals ? prev.metals : true,
+        finding: newAvailable.finding ? prev.finding : true,
+      };
+      if (JSON.stringify(prev) !== JSON.stringify(newRender)) {
+        return newRender;
+      }
+      return prev;
+    });
+  }, [grouped]);  
   
   
-
   const handleToggle = (section) => {
     const isCurrentlyShown = showSections[section];
   
@@ -1271,8 +1336,8 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     }
   };  
   
-  console.log("json2Data", json2Data);  
-  console.log("json1Data", json1Data);
+  // console.log("json2Data", json2Data);  
+  // console.log("json1Data", json1Data);
 
   return (
     <>
@@ -1280,7 +1345,7 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         <Loader />
       ) : msg === "" ? (
         <>
-          <div className="mainRTMT">
+          <div className="mainRTMT" ref={exportRef}>
             {/* HEADER */}
             <div className="spMnHead">
               <div className="spHeadWdth1">
@@ -1299,29 +1364,17 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
               </div>
               <div className="spHeadWdth3">
                 <button onClick={(e) => handlePrint(e)}>
-                  <img 
-                    src="/images/logos/print_icon.png"
-                    alt="PrintIcon"
-                    className="theIconImg"
-                  />
+                  <FcPrint className="theIconImgPrnt" />
                 </button>
               </div>
               <div className="spHeadWdth3">
                 <button onClick={handleExcelExport}>
-                  <img 
-                    src="/images/logos/ExcelExport.png"
-                    alt="XlSXIcon"
-                    className="theIconImg"
-                  />
+                  <GrDocumentExcel color="#217346" className="theIconImg" />
                 </button>
               </div>
               <div className="spHeadWdth3">
                 <button onClick={handlePDFExport}>
-                  <img 
-                    src="/images/logos/pdf_icon.png"
-                    alt="PDFIcon"
-                    className="theIconImg"
-                  />
+                  <GrDocumentPdf color="rgb(115, 43, 33)" className="theIconImg" />
                 </button>
               </div>
             </div>
@@ -1540,13 +1593,13 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                   <div className={`section-transition ${showSections.metals ? '' : 'section-hidden'}`}>
                     {renderSections.metals && grouped.metals.length > 0 && (
                       <div style={{ marginBottom: "0px" }}>
-                        <div className="detlsContnt spBrdrAll retMatFont_14">
+                        <div className="detlsMtlContnt spBrdrAll retMatFont_14">
                           <div className="sFntStyl mtalStyl spBgColr spBrdrRigt">ITEM</div>
                           <div className="sFntStyl mtalStyl spBgColr spBrdrRigt">METAL TYPE</div>
                           <div className="sFntStyl mtalStyl spBgColr spBrdrRigt">COLOR</div>
                           <div className="sFntStyl mtalStyl spBgColr">REQ.GM.</div>
                         </div>
-                        <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
+                        <div className="detlsMtlContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
                           <div className="mtalFistCol spBrdrRigt d-flex justify-content-center" style={{ paddingTop : "6px" }}>METAL</div>
                           <div className="d-flex flex-column mtalotherRmnSpac">
                             {grouped?.metals?.map((el, id) => {
@@ -1561,7 +1614,7 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                             })}
                           </div>
                         </div>
-                        <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
+                        <div className="detlsMtlContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
                           <div className="spBold mtalStyl spacCell d-flex justify-content-start align-items-center">TOTAL :</div>
                           <div className="mtalStyl"></div>
                           <div className="spBold mtalStyl spBrdrRigt spacCell d-flex justify-content-end align-items-center">{}</div>

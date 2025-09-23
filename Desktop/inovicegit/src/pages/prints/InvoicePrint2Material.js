@@ -55,7 +55,6 @@ const InvoicePrint2Material = ({
             let address =
               data?.Data?.MaterialBill_Json[0]?.Printlable?.split("\r\n");
             setCustAddress(address);
-            console.log("data", data);
             
             setJson0Data(data?.Data?.MaterialBill_Json[0]);
             const sortedItems = [...(data?.Data?.MaterialBill_Json1 || [])].sort(
@@ -117,10 +116,29 @@ const InvoicePrint2Material = ({
   const DueDate = getDueDate(json0Data?.EntryDate, json0Data?.OrderDue)
   const GrandTotal = totalAmount + totalEtraTaxAmount + taxAmont?.tax1Amount + taxAmont?.tax2Amount + taxAmont?.tax3Amount;
 
-  console.log("taxAmont", taxAmont);
-  console.log("extraTaxAmont", extraTaxAmont);
-  console.log("finalD", finalD);
-  console.log("json0Data", json0Data);
+  function convertWithAnd(amount) {
+    let words = toWords.convert(amount); // e.g. "Twenty Four Thousand Four Hundred Fifteen"
+    
+    // We need to add "and" between "Hundred" and tens/units if missing
+    // A rough regex based approach:
+    
+    // Example: "Four Hundred Fifteen" → "Four Hundred and Fifteen"
+    // We look for "Hundred " followed by some word not "Thousand", etc.
+    
+    const pattern = /\bHundred\b\s+(?!(Thousand|Lakh|Crore|Only))(.+)/i;
+    if (pattern.test(words)) {
+      words = words.replace(pattern, (match, p1, p2) => {
+        return `Hundred and ${p2}`;
+      });
+    }
+    
+    return words;
+  }
+
+  // console.log("taxAmont", taxAmont);
+  // console.log("extraTaxAmont", extraTaxAmont);
+  // console.log("finalD", finalD);
+  // console.log("json0Data", json0Data);
 
   // const amount = Number(GrandTotal || 0);
   // const rupees = Math.floor(amount);
@@ -322,7 +340,7 @@ const InvoicePrint2Material = ({
               {/**Grand Total */}
               <div className="disflx spfntbH">
                 <div className="taxwdth spbrlFt spbrRht" style={{ paddingLeft: "5px", paddingTop: "5px" }}>
-                  <p>In Words { /** Currencyname */ }</p><span className="spfntBld">{toWords.convert(+(GrandTotal?.toFixed(2)))} Only</span>
+                  <p>In Words { /** Currencyname */ }</p><span className="spfntBld">{convertWithAnd(+(GrandTotal?.toFixed(2)))} Only</span>
                 </div>
                 <div className="taxwdth1 spbrRht spfntBld grtHet brTpm" style={{ alignItems: "center" }}>GRAND TOTAL</div>
                 <div className="taxwdth2 spbrRht spfntBld grtHet brTpm">{NumberWithCommas(GrandTotal,2)}</div>
