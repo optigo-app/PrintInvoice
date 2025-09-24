@@ -117,13 +117,7 @@ const InvoicePrint2Material = ({
   const GrandTotal = totalAmount + totalEtraTaxAmount + taxAmont?.tax1Amount + taxAmont?.tax2Amount + taxAmont?.tax3Amount;
 
   function convertWithAnd(amount) {
-    let words = toWords.convert(amount); // e.g. "Twenty Four Thousand Four Hundred Fifteen"
-    
-    // We need to add "and" between "Hundred" and tens/units if missing
-    // A rough regex based approach:
-    
-    // Example: "Four Hundred Fifteen" → "Four Hundred and Fifteen"
-    // We look for "Hundred " followed by some word not "Thousand", etc.
+    let words = toWords.convert(amount);
     
     const pattern = /\bHundred\b\s+(?!(Thousand|Lakh|Crore|Only))(.+)/i;
     if (pattern.test(words)) {
@@ -340,7 +334,7 @@ const InvoicePrint2Material = ({
               {/**Grand Total */}
               <div className="disflx spfntbH">
                 <div className="taxwdth spbrlFt spbrRht" style={{ paddingLeft: "5px", paddingTop: "5px" }}>
-                  <p>In Words { /** Currencyname */ }</p><span className="spfntBld">{convertWithAnd(+(GrandTotal?.toFixed(2)))} Only</span>
+                  <p>In Words Indian Rupees</p><span className="spfntBld">{convertWithAnd(+(GrandTotal?.toFixed(2)))} Only</span>
                 </div>
                 <div className="taxwdth1 spbrRht spfntBld grtHet brTpm" style={{ alignItems: "center" }}>GRAND TOTAL</div>
                 <div className="taxwdth2 spbrRht spfntBld grtHet brTpm">{NumberWithCommas(GrandTotal,2)}</div>

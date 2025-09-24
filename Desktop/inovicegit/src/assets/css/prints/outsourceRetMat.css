@@ -85,6 +85,11 @@ html {
     justify-content: space-between;
 }
 
+.bdyhead {
+    font-size: 16px;
+    line-height: 16px;
+}
+
 .mnContnt {
     border-top: 1px solid #f2f2f2;
     padding: 10px;
@@ -252,6 +257,8 @@ html {
 } */
 
 
+
+/* For Special PDF */
 .pdf-export-mode {
     font-size: 16px;
     width: 800px;
@@ -269,7 +276,7 @@ html {
     font-size: 28px;
 }
 
-.pdf-export-mode .page-break {
+.pdf-export-mode .page_break {
     page-break-before: always;
 }
 
@@ -282,13 +289,18 @@ html {
 }
 
 .pdf-export-mode .retMatFont_14 {
-    font-size: 15px;
+    font-size: 17px;
     line-height: 17px;
 }
 
 .pdf-export-mode .retMatFont_13 {
     font-size: 16px;
     line-height: 18px;
+}
+
+.pdf-export-mode .bdyhead {
+    font-size: 19px;
+    line-height: 19px;
 }
 
 .pdf-export-mode .spBgColr {
@@ -342,6 +354,12 @@ div.pdf-export-mode .mainRTMT {
 .pdf-export-mode .spBrdrBtom {
     border-bottom: 1px solid #000000;
 }
+
+
+/* For Excel */
+.excel {
+    display: none;
+} 
 
 @media print {
     @page {

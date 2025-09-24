@@ -18,9 +18,9 @@ import { GrDocumentExcel } from "react-icons/gr";
 import { GrDocumentPdf } from "react-icons/gr";
 import { cloneDeep } from "lodash";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
-import * as XLSX from 'xlsx';
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
+import * as XLSX from 'xlsx';
 const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [json1Data, setJson1Data] = useState({});
   const [json2Data, setJson2Data] = useState([]);
@@ -490,7 +490,7 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       totals.makingAmount +
       totals.otherAmount +
       data?.BillPrint_Json[0].AddLess
-    ,3);
+      , 3);
 
     // taxes
     let taxValue = taxGenrator(data?.BillPrint_Json[0], totals?.totalamount);
@@ -651,7 +651,7 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 elee?.QualityName === elem?.QualityName &&
                 elee?.Rate === elem?.Rate &&
                 elee?.MasterManagement_DiamondStoneTypeid ===
-                  elem?.MasterManagement_DiamondStoneTypeid &&
+                elem?.MasterManagement_DiamondStoneTypeid &&
                 elee?.SizeName === elem?.SizeName
             );
             if (findMiscs === -1) {
@@ -702,7 +702,7 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 elee?.QualityName === elem?.QualityName &&
                 elee?.Rate === elem?.Rate &&
                 elee?.MasterManagement_DiamondStoneTypeid ===
-                  elem?.MasterManagement_DiamondStoneTypeid &&
+                elem?.MasterManagement_DiamondStoneTypeid &&
                 elee?.SizeName === elem?.SizeName
             );
             if (findFinding === -1) {
@@ -736,7 +736,7 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 elee?.QualityName === elem?.QualityName &&
                 elee?.Rate === elem?.Rate &&
                 elee?.MasterManagement_DiamondStoneTypeid ===
-                  elem?.MasterManagement_DiamondStoneTypeid &&
+                elem?.MasterManagement_DiamondStoneTypeid &&
                 elee?.SizeName === elem?.SizeName
             );
             if (findFinding === -1) {
@@ -1104,94 +1104,79 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     };
     sendData();
   }, []);
-  
+
   const handleExcelExport = () => {
-    const tableContent = document.getElementById('mnContnt');
-    
-    if (!tableContent) {
-      console.error("Content to export is not available.");
+    const table = document.getElementById('table-to-xls');
+    if (!table) {
+      console.error("Export table not found");
       return;
     }
-  
-    const wb = XLSX.utils.table_to_book(tableContent, { sheet: "Sheet 1" });
-    XLSX.writeFile(wb, 'exported-file.xlsx');
+    const wb = XLSX.utils.table_to_book(table, { sheet: "Invoice" });
+    const filename = `PO_Required_Meterial_Report_${json1Data?.InvoiceNo}.xlsx`;
+    XLSX.writeFile(wb, filename);
   };
-  
+
+
   const handlePDFExport = async () => {
-    const element = exportRef.current;
-  
-    // ✅ Add temporary class for PDF styling
-    element.classList.add("pdf-export-mode");
-  
-    // ✅ Hide specific sections
-    const spSubHed = element.querySelector(".spSubHed");
-    const spHeadWdth3List = element.querySelectorAll(".spHeadWdth3");
-    const originalDisplays = [];
-  
-    if (spSubHed) {
-      originalDisplays.push({ el: spSubHed, display: spSubHed.style.display });
-      spSubHed.style.display = "none";
-    }
-  
-    spHeadWdth3List.forEach((el) => {
-      originalDisplays.push({ el, display: el.style.display });
-      el.style.display = "none";
-    });
-  
-    // ✅ Directly remove the border from .mainRTMT
-    const mainRTMT = element.querySelector(".mainRTMT");
-    let originalBorder = "";
-    if (mainRTMT) {
-      originalBorder = mainRTMT.style.border;
-      mainRTMT.style.border = "none";
-    }
-  
-    // ✅ Capture the element
-    const canvas = await html2canvas(element, { scale: 2, useCORS: true });
+    const originalElement = exportRef.current;
+
+    if (!originalElement) return;
+
+    // Clone the element
+    const clonedElement = originalElement.cloneNode(true);
+    clonedElement.style.position = 'fixed';
+    clonedElement.style.top = '-9999px'; // Move it off-screen
+    clonedElement.style.left = '0';
+    clonedElement.style.zIndex = '-1000';
+    clonedElement.classList.add("pdf-export-mode");
+
+    // Append to body temporarily
+    document.body.appendChild(clonedElement);
+
+    // Hide specific sections in the clone
+    const spSubHed = clonedElement.querySelector(".spSubHed");
+    const spHeadWdth3List = clonedElement.querySelectorAll(".spHeadWdth3");
+
+    if (spSubHed) spSubHed.style.display = "none";
+    spHeadWdth3List.forEach(el => el.style.display = "none");
+
+    // Generate canvas from the cloned (off-screen, styled) element
+    const canvas = await html2canvas(clonedElement, { scale: 2, useCORS: true });
     const imgData = canvas.toDataURL("image/png");
-  
+
     const pdf = new jsPDF({
       orientation: "portrait",
       unit: "mm",
       format: "a4",
     });
-  
-    const pageWidth = 210; // A4 in mm
-    const margin = 10;     // Margin
+
+    const pageWidth = 210; // A4 width in mm
+    const margin = 10;
     const imgProps = pdf.getImageProperties(imgData);
     const pdfWidth = pageWidth - margin * 2;
     const scaleFactor = pdfWidth / imgProps.width;
     const pdfHeight = imgProps.height * scaleFactor;
-  
+
     pdf.addImage(imgData, "PNG", margin, margin, pdfWidth, pdfHeight);
     pdf.save(`PO_Required_Meterial_Report_${json1Data?.InvoiceNo}.pdf`);
-  
-    // ✅ Restore all previous styles
-    originalDisplays.forEach(({ el, display }) => {
-      el.style.display = display;
-    });
-  
-    if (mainRTMT) {
-      mainRTMT.style.border = originalBorder;
-    }
-  
-    element.classList.remove("pdf-export-mode");
-  };    
 
-  
+    // Remove the cloned element from DOM
+    document.body.removeChild(clonedElement);
+  };
+
   function normalize(value) {
     return value === null || value === undefined || value === ''
-    ? '___empty___'
+      ? '___empty___'
       : String(value).trim().toLowerCase();
   }
-  
+
   function createKey(obj, keys) {
     return keys.map(key => normalize(obj[key])).join('|');
   }
-  
+
   function groupByFields(items, keys) {
     const map = new Map();
-    
+
     for (const item of items) {
       const key = createKey(item, keys);
       if (!map.has(key)) {
@@ -1202,10 +1187,10 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         existing.Wt += Number(item.Wt || 0);
       }
     }
-    
+
     return Array.from(map.values());
   }
-  
+
   // make group for same material
   function groupMaterials(dataArray) {
     const result = {
@@ -1263,20 +1248,20 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     const allMetals = dataArray.flatMap(job => job.metals || []);
     const allFindings = dataArray.flatMap(job => job.anotherFinding || []);
 
-    groupAndSum(allDiamonds, ['ShapeName','QualityName','Colorname','SizeName'], 'diamonds','diamondsTotal');
-    groupAndSum(allColorStones, ['ShapeName','QualityName','Colorname','SizeName'], 'colorStones','colorStonesTotal');
-    groupAndSum(allMetals, ['ShapeName','QualityName','Colorname'], 'metals','metalsTotal');
-    groupAndSum(allFindings, ['FindingTypename','FindingAccessories','ShapeName','QualityName','Colorname'], 'anotherFinding','anotherFindingTotal');
+    groupAndSum(allDiamonds, ['ShapeName', 'QualityName', 'Colorname', 'SizeName'], 'diamonds', 'diamondsTotal');
+    groupAndSum(allColorStones, ['ShapeName', 'QualityName', 'Colorname', 'SizeName'], 'colorStones', 'colorStonesTotal');
+    groupAndSum(allMetals, ['ShapeName', 'QualityName', 'Colorname'], 'metals', 'metalsTotal');
+    groupAndSum(allFindings, ['FindingTypename', 'FindingAccessories', 'ShapeName', 'QualityName', 'Colorname'], 'anotherFinding', 'anotherFindingTotal');
 
     return result;
-  } 
-  
+  }
+
   const grouped = useMemo(() => groupMaterials(json2Data), [json2Data]);
   // console.log(grouped.diamonds);
   // console.log(grouped.colorStones);
   // console.log(grouped.metals);
   // console.log(grouped.anotherFinding); 
-  
+
   useEffect(() => {
     const newAvailable = {
       diamonds: (grouped.diamonds || []).length > 0,
@@ -1284,7 +1269,7 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       metals: (grouped.metals || []).length > 0,
       finding: (grouped.anotherFinding || []).length > 0,
     };
-  
+
     // Update only if newAvailable differs from current availableSections
     setAvailableSections(prev => {
       if (JSON.stringify(prev) !== JSON.stringify(newAvailable)) {
@@ -1292,7 +1277,7 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       }
       return prev;
     });
-  
+
     setShowSections(prev => {
       const newShow = {
         diamonds: newAvailable.diamonds ? prev.diamonds : true,
@@ -1305,7 +1290,7 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       }
       return prev;
     });
-  
+
     setRenderSections(prev => {
       const newRender = {
         diamonds: newAvailable.diamonds ? prev.diamonds : true,
@@ -1318,26 +1303,57 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       }
       return prev;
     });
-  }, [grouped]);  
-  
-  
+  }, [grouped]);
+
+
   const handleToggle = (section) => {
     const isCurrentlyShown = showSections[section];
-  
+
     if (isCurrentlyShown) {
       setShowSections(prev => ({ ...prev, [section]: false }));
-  
+
       setTimeout(() => {
         setRenderSections(prev => ({ ...prev, [section]: false }));
       }, 600);
-    } else {  
+    } else {
       setRenderSections(prev => ({ ...prev, [section]: true }));
       setShowSections(prev => ({ ...prev, [section]: true }));
     }
-  };  
-  
+  };
+
   // console.log("json2Data", json2Data);  
   // console.log("json1Data", json1Data);
+
+  // Style...
+  const txtTop = {
+    verticalAlign: "top",
+  };
+  const brRight = {
+    borderRight: "0.5px solid #000000",
+  };
+  const brBotm = {
+    borderBottom: "0.5px solid #000000",
+  };
+  const brBotmdrk = {
+    borderBottom: "1px solid #000000",
+  };
+  const brTop = {
+    borderTop: "1px solid #000000",
+  };
+  const styBld = {
+    fontWeight: "bold",
+  }
+  const txtCen = {
+    textAlign: "center",
+  }
+  const coWdth = {
+    width: "150px",
+  };
+  const spbrWrd = {
+    wordBreak: "break-word",
+    overflowWrap: "break-word",
+    wordWrap: "break-word",
+  }
 
   return (
     <>
@@ -1354,7 +1370,7 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                   alt=""
                   className="theLogoImg"
                   onError={handleImageErrors}
-                />                
+                />
               </div>
               <div className="spHeadWdth2">
                 <div className="spBold spdispFlx">
@@ -1443,189 +1459,252 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             </div>
 
             <div className="mnContnt">
-                  {/* ORDER DETAILS */}
-                  <div className="bodyContnt">
-                    <div className="spBold retMatFont_22">{json1Data?.Manufacturer}</div>
-                    <div className="spdispFlx">
-                      <div style={{ marginRight: "15px"}}>Manufacturer PO#:	{}</div>
-                      <div className="spBold" style={{ marginRight: "60px"}}>{json1Data?.InvoiceNo}</div>
-                      <div style={{ marginRight: "15px"}}>Dated:	</div>
-                      <div className="spBold">{json1Data?.EntryDate.slice(0,7)}</div>
+              {/* ORDER DETAILS */}
+              <div className="bodyContnt page_break">
+                <div className="spBold retMatFont_22">{json1Data?.Manufacturer}</div>
+                <div className="spdispFlx bdyhead align-items-center">
+                  <div style={{ marginRight: "15px" }}>Manufacturer PO#:	{ }</div>
+                  <div className="spBold" style={{ marginRight: "60px" }}>{json1Data?.InvoiceNo}</div>
+                  <div style={{ marginRight: "15px" }}>Dated:	</div>
+                  <div className="spBold">{json1Data?.EntryDate.slice(0, 7)}</div>
+                </div>
+              </div>
+
+              {/* DIAMOND */}
+              <div className={`section-transition ${showSections.diamonds ? '' : 'section-hidden'} page_break`}>
+                {renderSections.diamonds && grouped.diamonds.length > 0 && (
+                  <div style={{ marginBottom: "15px" }}>
+                    <div className="detlsContnt spBrdrAll retMatFont_14">
+                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">ITEM</div>
+                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">SHAPE</div>
+                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">QUALITY</div>
+                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">COLOR</div>
+                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">SIZE</div>
+                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">PCS.</div>
+                      <div className="sFntStyl dimndNClrstn spBgColr">CTW</div>
+                    </div>
+                    <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
+                      <div className="comnFistCol spBrdrRigt d-flex justify-content-center" style={{ paddingTop: "6px" }}>DIAMOND</div>
+                      <div className="d-flex flex-column otherRmnSpac">
+                        {grouped?.diamonds?.map((el, id) => {
+                          const isLast = id === grouped?.diamonds?.length - 1;
+                          return (
+                            <div key={id} className={`d-flex ${!isLast ? 'spBrdrBtom' : ''}`}>
+                              <div className="spacCell proprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.ShapeName}</div>
+                              <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.QualityName}</div>
+                              <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.Colorname}</div>
+                              <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.SizeName}</div>
+                              <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-end align-items-center">{el?.Pcs}</div>
+                              <div className="proprDvson spacCell d-flex justify-content-end align-items-center">{fixedValues(el?.Wt, 3)}</div>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                    <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
+                      <div className="spBold dimndNClrstn spacCell d-flex justify-content-start align-items-center">TOTAL :</div>
+                      <div className="dimndNClrstn"></div>
+                      <div className="dimndNClrstn"></div>
+                      <div className="dimndNClrstn"></div>
+                      <div className="dimndNClrstn spacCell spBrdrRigt"></div>
+                      <div className="spBold dimndNClrstn spBrdrRigt spacCell d-flex justify-content-end align-items-center">{grouped?.diamondsTotal?.Pcs}</div>
+                      <div className="spBold dimndNClrstn spacCell d-flex justify-content-end align-items-center">{fixedValues(grouped?.diamondsTotal?.Wt, 3)}</div>
                     </div>
                   </div>
+                )}
+              </div>
 
-                  {/* DIAMOND */}
-                  <div className={`section-transition ${showSections.diamonds ? '' : 'section-hidden'}` }>
-                    {renderSections.diamonds && grouped.diamonds.length > 0 && (
-                      <div style={{ marginBottom: "15px" }}>
-                        <div className="detlsContnt spBrdrAll retMatFont_14">
-                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">ITEM</div>
-                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">SHAPE</div>
-                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">QUALITY</div>
-                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">COLOR</div>
-                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">SIZE</div>
-                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">PCS.</div>
-                          <div className="sFntStyl dimndNClrstn spBgColr">CTW</div>
-                        </div>
-                        <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
-                          <div className="comnFistCol spBrdrRigt d-flex justify-content-center" style={{ paddingTop : "6px" }}>DIAMOND</div>
-                          <div className="d-flex flex-column otherRmnSpac">
-                            {grouped?.diamonds?.map((el, id) => {
-                              const isLast = id === grouped?.diamonds?.length - 1;
-                              return (
-                                <div key={id}  className={`d-flex ${!isLast ? 'spBrdrBtom' : ''}`}> 
-                                  <div className="spacCell proprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.ShapeName}</div>
-                                  <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.QualityName}</div>
-                                  <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.Colorname}</div>
-                                  <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.SizeName}</div>
-                                  <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-end align-items-center">{el?.Pcs}</div>
-                                  <div className="proprDvson spacCell d-flex justify-content-end align-items-center">{fixedValues(el?.Wt,3)}</div>
-                                </div>
-                              )
-                            })}
-                          </div>
-                        </div>
-                        <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
-                          <div className="spBold dimndNClrstn spacCell d-flex justify-content-start align-items-center">TOTAL :</div>
-                          <div className="dimndNClrstn"></div>
-                          <div className="dimndNClrstn"></div>
-                          <div className="dimndNClrstn"></div>
-                          <div className="dimndNClrstn spacCell spBrdrRigt"></div>
-                          <div className="spBold dimndNClrstn spBrdrRigt spacCell d-flex justify-content-end align-items-center">{grouped?.diamondsTotal?.Pcs}</div>
-                          <div className="spBold dimndNClrstn spacCell d-flex justify-content-end align-items-center">{fixedValues(grouped?.diamondsTotal?.Wt,3)}</div>
-                        </div>
+              {/* COLORSTONES */}
+              <div className={`section-transition ${showSections.colorStones ? '' : 'section-hidden'} page_break`}>
+                {renderSections.colorStones && grouped.colorStones.length > 0 && (
+                  <div style={{ marginBottom: "15px" }}>
+                    <div className="detlsContnt spBrdrAll retMatFont_14">
+                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">ITEM</div>
+                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">SHAPE</div>
+                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">QUALITY</div>
+                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">COLOR</div>
+                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">SIZE</div>
+                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">PCS.</div>
+                      <div className="sFntStyl dimndNClrstn spBgColr">CTW</div>
+                    </div>
+                    <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
+                      <div className="comnFistCol spBrdrRigt d-flex justify-content-center" style={{ paddingTop: "6px" }}>COLOR STONE</div>
+                      <div className="d-flex flex-column otherRmnSpac">
+                        {grouped?.colorStones?.map((el, id) => {
+                          const isLast = id === grouped?.colorStones?.length - 1;
+                          return (
+                            <div key={id} className={`d-flex ${!isLast ? 'spBrdrBtom' : ''}`}>
+                              <div className="spacCell proprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.ShapeName}</div>
+                              <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.QualityName}</div>
+                              <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.Colorname}</div>
+                              <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.SizeName}</div>
+                              <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-end align-items-center">{el?.Pcs}</div>
+                              <div className="proprDvson spacCell d-flex justify-content-end align-items-center">{fixedValues(el?.Wt, 3)}</div>
+                            </div>
+                          )
+                        })}
                       </div>
-                    )}
+                    </div>
+                    <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
+                      <div className="spBold dimndNClrstn spacCell d-flex justify-content-start align-items-center">TOTAL :</div>
+                      <div className="dimndNClrstn"></div>
+                      <div className="dimndNClrstn"></div>
+                      <div className="dimndNClrstn"></div>
+                      <div className="dimndNClrstn spacCell spBrdrRigt"></div>
+                      <div className="spBold dimndNClrstn spBrdrRigt spacCell d-flex justify-content-end align-items-center">{grouped?.colorStonesTotal?.Pcs}</div>
+                      <div className="spBold dimndNClrstn spacCell d-flex justify-content-end align-items-center">{fixedValues(grouped?.colorStonesTotal?.Wt, 3)}</div>
+                    </div>
                   </div>
+                )}
+              </div>
 
-                  {/* COLORSTONES */}
-                  <div className={`section-transition ${showSections.colorStones ? '' : 'section-hidden' }`}>
-                    {renderSections.colorStones && grouped.colorStones.length > 0 && (
-                      <div style={{ marginBottom: "15px" }}>
-                        <div className="detlsContnt spBrdrAll retMatFont_14">
-                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">ITEM</div>
-                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">SHAPE</div>
-                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">QUALITY</div>
-                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">COLOR</div>
-                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">SIZE</div>
-                          <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">PCS.</div>
-                          <div className="sFntStyl dimndNClrstn spBgColr">CTW</div>
-                        </div>
-                        <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
-                          <div className="comnFistCol spBrdrRigt d-flex justify-content-center" style={{ paddingTop : "6px" }}>COLOR STONE</div>
-                          <div className="d-flex flex-column otherRmnSpac">
-                            {grouped?.colorStones?.map((el, id) => {
-                              const isLast = id === grouped?.colorStones?.length - 1;
-                              return (
-                                <div key={id}  className={`d-flex ${!isLast ? 'spBrdrBtom' : ''}`}> 
-                                  <div className="spacCell proprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.ShapeName}</div>
-                                  <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.QualityName}</div>
-                                  <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.Colorname}</div>
-                                  <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.SizeName}</div>
-                                  <div className="proprDvson spBrdrRigt spacCell d-flex justify-content-end align-items-center">{el?.Pcs}</div>
-                                  <div className="proprDvson spacCell d-flex justify-content-end align-items-center">{fixedValues(el?.Wt,3)}</div>
-                                </div>
-                              )
-                            })}
-                          </div>
-                        </div>
-                        <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
-                          <div className="spBold dimndNClrstn spacCell d-flex justify-content-start align-items-center">TOTAL :</div>
-                          <div className="dimndNClrstn"></div>
-                          <div className="dimndNClrstn"></div>
-                          <div className="dimndNClrstn"></div>
-                          <div className="dimndNClrstn spacCell spBrdrRigt"></div>
-                          <div className="spBold dimndNClrstn spBrdrRigt spacCell d-flex justify-content-end align-items-center">{grouped?.colorStonesTotal?.Pcs}</div>
-                          <div className="spBold dimndNClrstn spacCell d-flex justify-content-end align-items-center">{fixedValues(grouped?.colorStonesTotal?.Wt ,3)}</div>
-                        </div>
+              {/* FINDING */}
+              <div className={`section-transition ${showSections.finding ? '' : 'section-hidden'} page_break`}>
+                {renderSections.finding && grouped.anotherFinding.length > 0 && (
+                  <div style={{ marginBottom: "15px" }}>
+                    <div className="detlsContnt spBrdrAll retMatFont_14">
+                      <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">ITEM</div>
+                      <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">F.TYPE</div>
+                      <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">ACCESSORIES</div>
+                      <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">METAL</div>
+                      <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">QUALITY</div>
+                      <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">COLOR</div>
+                      <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">PCS.</div>
+                      <div className="sFntStyl fndingStyl spBgColr">WT</div>
+                    </div>
+                    <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
+                      <div className="fndingFistCol spBrdrRigt d-flex justify-content-center" style={{ paddingTop: "6px" }}>FINDING</div>
+                      <div className="d-flex flex-column fndingotherRmnSpac">
+                        {grouped?.anotherFinding?.map((el, id) => {
+                          const isLast = id === grouped?.anotherFinding?.length - 1;
+                          return (
+                            <div key={id} className={`d-flex ${!isLast ? 'spBrdrBtom' : ''}`}>
+                              <div className="spacCell fndingproprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.FindingTypename}</div>
+                              <div className="spacCell fndingproprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.FindingAccessories}</div>
+                              <div className="fndingproprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.ShapeName}</div>
+                              <div className="fndingproprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.QualityName}</div>
+                              <div className="fndingproprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.Colorname}</div>
+                              <div className="fndingproprDvson spBrdrRigt spacCell d-flex justify-content-end align-items-center">{el?.Pcs}</div>
+                              <div className="fndingproprDvson spacCell d-flex justify-content-end align-items-center">{fixedValues(el?.Wt, 3)}</div>
+                            </div>
+                          )
+                        })}
                       </div>
-                    )}
+                    </div>
+                    <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
+                      <div className="spBold fndingStyl spacCell d-flex justify-content-start align-items-center">TOTAL :</div>
+                      <div className="fndingStyl"></div>
+                      <div className="fndingStyl"></div>
+                      <div className="fndingStyl"></div>
+                      <div className="fndingStyl"></div>
+                      <div className="fndingStyl spacCell spBrdrRigt"></div>
+                      <div className="spBold fndingStyl spBrdrRigt spacCell d-flex justify-content-end align-items-center">{grouped?.anotherFindingTotal?.Pcs}</div>
+                      <div className="spBold fndingStyl spacCell d-flex justify-content-end align-items-center">{fixedValues(grouped?.anotherFindingTotal?.Wt, 3)}</div>
+                    </div>
                   </div>
+                )}
+              </div>
 
-                  {/* FINDING */}
-                  <div className={`section-transition ${showSections.finding ? '' : 'section-hidden'}`}>
-                    {renderSections.finding && grouped.anotherFinding.length > 0 && (
-                      <div style={{ marginBottom: "15px" }}>
-                        <div className="detlsContnt spBrdrAll retMatFont_14">
-                          <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">ITEM</div>
-                          <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">F.TYPE</div>
-                          <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">ACCESSORIES</div>
-                          <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">METAL</div>
-                          <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">QUALITY</div>
-                          <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">COLOR</div>
-                          <div className="sFntStyl fndingStyl spBgColr spBrdrRigt">PCS.</div>
-                          <div className="sFntStyl fndingStyl spBgColr">WT</div>
-                        </div>
-                        <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
-                          <div className="fndingFistCol spBrdrRigt d-flex justify-content-center" style={{ paddingTop : "6px" }}>FINDING</div>
-                          <div className="d-flex flex-column fndingotherRmnSpac">
-                            {grouped?.anotherFinding?.map((el, id) => {
-                              const isLast = id === grouped?.anotherFinding?.length - 1;
-                              return (
-                                <div key={id}  className={`d-flex ${!isLast ? 'spBrdrBtom' : ''}`}> 
-                                  <div className="spacCell fndingproprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.FindingTypename}</div>
-                                  <div className="spacCell fndingproprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.FindingAccessories}</div>
-                                  <div className="fndingproprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.ShapeName}</div>
-                                  <div className="fndingproprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.QualityName}</div>
-                                  <div className="fndingproprDvson spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.Colorname}</div>
-                                  <div className="fndingproprDvson spBrdrRigt spacCell d-flex justify-content-end align-items-center">{el?.Pcs}</div>
-                                  <div className="fndingproprDvson spacCell d-flex justify-content-end align-items-center">{fixedValues(el?.Wt,3)}</div>
-                                </div>
-                              )
-                            })}
-                          </div>
-                        </div>
-                        <div className="detlsContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
-                          <div className="spBold fndingStyl spacCell d-flex justify-content-start align-items-center">TOTAL :</div>
-                          <div className="fndingStyl"></div>
-                          <div className="fndingStyl"></div>
-                          <div className="fndingStyl"></div>
-                          <div className="fndingStyl"></div>
-                          <div className="fndingStyl spacCell spBrdrRigt"></div>
-                          <div className="spBold fndingStyl spBrdrRigt spacCell d-flex justify-content-end align-items-center">{grouped?.anotherFindingTotal?.Pcs}</div>
-                          <div className="spBold fndingStyl spacCell d-flex justify-content-end align-items-center">{fixedValues(grouped?.anotherFindingTotal?.Wt,3)}</div>
-                        </div>
+              {/* METAL */}
+              <div className={`section-transition ${showSections.metals ? '' : 'section-hidden'} page_break`}>
+                {renderSections.metals && grouped.metals.length > 0 && (
+                  <div style={{ marginBottom: "0px" }}>
+                    <div className="detlsMtlContnt spBrdrAll retMatFont_14">
+                      <div className="sFntStyl mtalStyl spBgColr spBrdrRigt">ITEM</div>
+                      <div className="sFntStyl mtalStyl spBgColr spBrdrRigt">METAL TYPE</div>
+                      <div className="sFntStyl mtalStyl spBgColr spBrdrRigt">COLOR</div>
+                      <div className="sFntStyl mtalStyl spBgColr">REQ.GM.</div>
+                    </div>
+                    <div className="detlsMtlContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
+                      <div className="mtalFistCol spBrdrRigt d-flex justify-content-center" style={{ paddingTop: "6px" }}>METAL</div>
+                      <div className="d-flex flex-column mtalotherRmnSpac">
+                        {grouped?.metals?.map((el, id) => {
+                          const isLast = id === grouped?.metals?.length - 1;
+                          return (
+                            <div key={id} className={`d-flex ${!isLast ? 'spBrdrBtom' : ''}`}>
+                              <div className="spacCell mtalproprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.ShapeName} {el?.QualityName}</div>
+                              <div className="spacCell mtalproprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.Colorname}</div>
+                              <div className="mtalproprDvson spacCell d-flex justify-content-end align-items-center">{fixedValues(el?.Wt, 3)}</div>
+                            </div>
+                          )
+                        })}
                       </div>
-                    )}
+                    </div>
+                    <div className="detlsMtlContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
+                      <div className="spBold mtalStyl spacCell d-flex justify-content-start align-items-center">TOTAL :</div>
+                      <div className="mtalStyl"></div>
+                      <div className="spBold mtalStyl spBrdrRigt spacCell d-flex justify-content-end align-items-center">{ }</div>
+                      <div className="spBold mtalStyl spacCell d-flex justify-content-end align-items-center">{fixedValues(grouped?.metalsTotal?.Wt, 3)}</div>
+                    </div>
                   </div>
-
-                  {/* METAL */}
-                  <div className={`section-transition ${showSections.metals ? '' : 'section-hidden'}`}>
-                    {renderSections.metals && grouped.metals.length > 0 && (
-                      <div style={{ marginBottom: "0px" }}>
-                        <div className="detlsMtlContnt spBrdrAll retMatFont_14">
-                          <div className="sFntStyl mtalStyl spBgColr spBrdrRigt">ITEM</div>
-                          <div className="sFntStyl mtalStyl spBgColr spBrdrRigt">METAL TYPE</div>
-                          <div className="sFntStyl mtalStyl spBgColr spBrdrRigt">COLOR</div>
-                          <div className="sFntStyl mtalStyl spBgColr">REQ.GM.</div>
-                        </div>
-                        <div className="detlsMtlContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
-                          <div className="mtalFistCol spBrdrRigt d-flex justify-content-center" style={{ paddingTop : "6px" }}>METAL</div>
-                          <div className="d-flex flex-column mtalotherRmnSpac">
-                            {grouped?.metals?.map((el, id) => {
-                              const isLast = id === grouped?.metals?.length - 1;
-                              return (
-                                <div key={id}  className={`d-flex ${!isLast ? 'spBrdrBtom' : ''}`}> 
-                                  <div className="spacCell mtalproprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.ShapeName} {el?.QualityName}</div>
-                                  <div className="spacCell mtalproprDvson spBrdrRigt d-flex justify-content-start align-items-center">{el?.Colorname}</div>
-                                  <div className="mtalproprDvson spacCell d-flex justify-content-end align-items-center">{fixedValues(el?.Wt,3)}</div>
-                                </div>
-                              )
-                            })}
-                          </div>
-                        </div>
-                        <div className="detlsMtlContnt spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
-                          <div className="spBold mtalStyl spacCell d-flex justify-content-start align-items-center">TOTAL :</div>
-                          <div className="mtalStyl"></div>
-                          <div className="spBold mtalStyl spBrdrRigt spacCell d-flex justify-content-end align-items-center">{}</div>
-                          <div className="spBold mtalStyl spacCell d-flex justify-content-end align-items-center">{fixedValues(grouped?.metalsTotal?.Wt,3)}</div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                )}
+              </div>
 
             </div>
           </div>
+
+          <table id="table-to-xls" className='d-none'>
+            <tbody>
+              <tr>
+                <td rowSpan={3} />
+                <td rowSpan={3} colSpan={3}>
+                  <img
+                    src={json1Data?.PrintLogo}
+                    alt=""
+                    width="95"
+                    height="95"
+                    onError={handleImageErrors}
+                  />
+                </td>
+                <td rowSpan={3} colSpan={6}>
+                  <div className="retMatFont_22">PO: &nbsp;{json1Data?.InvoiceNo} wise Required Material Report</div>
+                </td>
+              </tr>
+
+              <tr>
+                <td />
+                <td rowSpan={2} colSpan={3}>{json1Data?.Manufacturer}</td>
+                <td rowSpan={2} colSpan={3}>Manufacturer PO#:  {json1Data?.InvoiceNo}</td>
+                <td rowSpan={2} colSpan={3}>Dated:  <p>{json1Data?.EntryDate.slice(0, 7)}</p></td>
+              </tr>
+
+              {renderSections.diamonds && grouped.diamonds.length > 0 && (<>
+                <tr className="detlsContnt spBrdrAll retMatFont_14">
+                  <td width={150} style={{ ...coWdth, ...spbrWrd }}>ITEM</td>
+                  <td width={150} style={{ ...coWdth, ...spbrWrd }}>SHAPE</td>
+                  <td width={150} style={{ ...coWdth, ...spbrWrd }}>QUALITY</td>
+                  <td width={150} style={{ ...coWdth, ...spbrWrd }}>COLOR</td>
+                  <td width={150} style={{ ...coWdth, ...spbrWrd }}>SIZE</td>
+                  <td width={150} style={{ ...coWdth, ...spbrWrd }}>PCS.</td>
+                  <td width={150} style={{ ...coWdth, ...spbrWrd }}>CTW</td>
+                </tr>
+
+                {grouped?.diamonds?.map((el, id) => (
+                  <tr key={id} className="detlsContnt retMatFont_13">
+                    {id === 0 && (
+                      <td rowSpan={grouped?.diamonds.length} className="comnFistCol spBrdrRigt d-flex justify-content-center">
+                        DIAMOND
+                      </td>
+                    )}
+                    <td className="spacCell proprDvson spBrdrRigt">{el?.ShapeName}</td>
+                    <td className="proprDvson spBrdrRigt spacCell">{el?.QualityName}</td>
+                    <td className="proprDvson spBrdrRigt spacCell">{el?.Colorname}</td>
+                    <td className="proprDvson spBrdrRigt spacCell">{el?.SizeName}</td>
+                    <td className="proprDvson spBrdrRigt spacCell">{el?.Pcs}</td>
+                    <td className="proprDvson spacCell">{fixedValues(el?.Wt, 3)}</td>
+                  </tr>
+                ))}
+
+                <tr className="detlsContnt retMatFont_13">
+                  <td className="spBold dimndNClrstn spacCell">TOTAL :</td>
+                  <td></td><td></td><td></td>
+                  <td className="spBrdrRigt"></td>
+                  <td className="spBold dimndNClrstn spBrdrRigt spacCell">{grouped?.diamondsTotal?.Pcs}</td>
+                  <td className="spBold dimndNClrstn spacCell">{fixedValues(grouped?.diamondsTotal?.Wt, 3)}</td>
+                </tr>
+              </>)}
+            </tbody>
+          </table>
         </>
       ) : (
         <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
