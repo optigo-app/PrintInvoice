@@ -131,7 +131,7 @@ const InvoicePrint2Material = ({
 
   // console.log("taxAmont", taxAmont);
   // console.log("extraTaxAmont", extraTaxAmont);
-  // console.log("finalD", finalD);
+  console.log("finalD", finalD);
   // console.log("json0Data", json0Data);
 
   // const amount = Number(GrandTotal || 0);
@@ -139,6 +139,8 @@ const InvoicePrint2Material = ({
   // const paise = Math.round((amount - rupees) * 100);
   // const rupeesInWords = toWords.convert(rupees);
   // const paiseInWords = paise > 0 ? ` and ${toWords.convert(paise)} Paise` : '';
+
+  const allowedNamesForRate = ["Metal", "METAL", "metal", "MOUNT", "Mount", "mount", "FINDING", "Finding", "finding", "Alloy", "ALLOY", "alloy"];
 
   return (
     <>
@@ -223,13 +225,25 @@ const InvoicePrint2Material = ({
                           e?.ItemName === "MOUNT" ? `MOUNT : ${e?.MountCategory?.toUpperCase()}` : 
                           ""}
                     </div>
-                    <div className="Sucol3_inv2 spbrRht">{e?.shape === "" || e?.ItemName === "METAL" ? "-" : e?.shape}</div>
+                    <div className="Sucol3_inv2 spbrRht">{e?.shape === "" || allowedNamesForRate.includes(e?.ItemName) ? "-" : e?.shape}</div>
                     <div className="Sucol4_inv2 spbrRht">{e?.quality === "" ? "-" : e?.quality}</div>
                     <div className="Sucol5_inv2 spbrRht">{e?.color === "" ? "-" : e?.color}</div>
                     <div className="Sucol6_inv2 spbrRht">{e?.size === "" ? "-" : e?.size}</div>
                     <div className="Sucol7_inv2 spfntCen spbrRht">{fixedValues(e?.Weight === "" ? "-" : e?.Weight,3)}</div>
-                    <div className="Sucol8_inv2 spfnted spbrRht">{formatAmount(e?.Rate === "" ? "-" : e?.Rate,2)}</div>
-                    <div className="Sucol9_inv2 spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.Amount,2)}</div>
+                    <div className="Sucol8_inv2 spfnted spbrRht">
+                      {formatAmount(e?.Rate === "" ? "-" 
+                        : allowedNamesForRate.includes(e?.ItemName) && e?.Tunch !== 0
+                        ? ((e?.Weight * e?.Rate * e?.Tunch / 100) / e?.Weight)
+                        : e?.Rate, 2
+                      )}
+                    </div>
+                    <div className="Sucol9_inv2 spfnted spbrRht">
+                      {formatAmount(e?.Amount === "" ? "-" 
+                        : allowedNamesForRate.includes(e?.ItemName) && e?.Tunch !== 0 
+                        ? ((e?.Weight * e?.Rate * e?.Tunch / 100)) 
+                        : e?.Amount, 2
+                      )}
+                    </div>
                   </div>
                 )
               })}
@@ -329,15 +343,34 @@ const InvoicePrint2Material = ({
                     )}
                   </div>
                 </div>                
-              )}       
+              )}
 
               {/**Grand Total */}
               <div className="disflx spfntbH">
-                <div className="taxwdth spbrlFt spbrRht" style={{ paddingLeft: "5px", paddingTop: "5px" }}>
+                <div className={`taxwdth spbrlFt spbrRht ${taxAmont?.AddLess !== 0 && ("brTpm")}`} style={{ paddingLeft: "5px", paddingTop: "5px", alignContent: "end" }}>
                   <p>In Words Indian Rupees</p><span className="spfntBld">{convertWithAnd(+(GrandTotal?.toFixed(2)))} Only</span>
                 </div>
-                <div className="taxwdth1 spbrRht spfntBld grtHet brTpm" style={{ alignItems: "center" }}>GRAND TOTAL</div>
-                <div className="taxwdth2 spbrRht spfntBld grtHet brTpm">{NumberWithCommas(GrandTotal,2)}</div>
+                  <div className="extrWdthAftrBg1">
+                    {taxAmont?.AddLess !== 0 && (
+                      <div className="disflx extrWdthAftrBg spbrRht spfntBld grtHet brTpm spfntbH" style={{ height: "22px", alignItems: "center" }}>
+                        {taxAmont?.AddLess < 0 ? "Less" : taxAmont?.AddLess > 0 ? "Add" : "" }
+                      </div>
+                    )}
+                    <div className="disflx extrWdthAftrBg spbrRht spfntBld grtHet brTpm" style={{ alignItems: "center" }}>GRAND TOTAL</div>
+                  </div>
+                  <div className="extrWdthAftrBg2">
+                    {taxAmont?.AddLess !== 0 && ( 
+                      <div className="disflx extrWdthAftrBg spbrRht spfntBld grtHet brTpm spfntbH" style={{ height: "22px", alignItems: "center" }}>
+                        {fixedValues(taxAmont?.AddLess,2)}
+                      </div>
+                    )}
+                    <div className="disflx extrWdthAftrBg spbrRht spfntBld grtHet brTpm" style={{ alignItems: "center" }}>
+                      {NumberWithCommas(taxAmont?.AddLess !== 0 
+                        ? GrandTotal + taxAmont?.AddLess 
+                        : GrandTotal, 2
+                      )}
+                    </div>
+                  </div>
               </div>
               
               {/** Remarks */}

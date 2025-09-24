@@ -156,6 +156,21 @@ html {
     padding-top: 2px;
     line-height: 15px;
 }
+.extrWdthAftrBg {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    text-align: end;
+    padding-right: 5px;
+    padding-top: 2px;
+    line-height: 15px;
+}
+.extrWdthAftrBg1 {
+    width: 19%;
+}
+.extrWdthAftrBg2 {
+    width: 12.10%;
+}
 .grtHet{
     height: 35px;
     align-content: center;
