@@ -115,7 +115,7 @@ const InvoicePrint2Material = ({
   };
   const DueDate = getDueDate(json0Data?.EntryDate, json0Data?.OrderDue)
   const GrandTotal = totalAmount + totalEtraTaxAmount + taxAmont?.tax1Amount + taxAmont?.tax2Amount + taxAmont?.tax3Amount;
-
+  const LastGrandTotal = GrandTotal + taxAmont?.AddLess 
   function convertWithAnd(amount) {
     let words = toWords.convert(amount);
     
@@ -348,7 +348,7 @@ const InvoicePrint2Material = ({
               {/**Grand Total */}
               <div className="disflx spfntbH">
                 <div className={`taxwdth spbrlFt spbrRht ${taxAmont?.AddLess !== 0 && ("brTpm")}`} style={{ paddingLeft: "5px", paddingTop: "5px", alignContent: "end" }}>
-                  <p>In Words Indian Rupees</p><span className="spfntBld">{convertWithAnd(+(GrandTotal?.toFixed(2)))} Only</span>
+                  <p>In Words Indian Rupees</p><span className="spfntBld">{convertWithAnd(+(LastGrandTotal?.toFixed(2)))} Only</span>
                 </div>
                   <div className="extrWdthAftrBg1">
                     {taxAmont?.AddLess !== 0 && (
@@ -365,10 +365,7 @@ const InvoicePrint2Material = ({
                       </div>
                     )}
                     <div className="disflx extrWdthAftrBg spbrRht spfntBld grtHet brTpm" style={{ alignItems: "center" }}>
-                      {NumberWithCommas(taxAmont?.AddLess !== 0 
-                        ? GrandTotal + taxAmont?.AddLess 
-                        : GrandTotal, 2
-                      )}
+                      {NumberWithCommas(LastGrandTotal, 2)}
                     </div>
                   </div>
               </div>
