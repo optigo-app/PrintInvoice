@@ -55,6 +55,8 @@ const RetailInvoiceprint4 = ({
   const [bank, setBank] = useState([]);
   const [document, setDocument] = useState([]);
   function loadData(data) {
+    console.log("datadatadata", data);
+    
     try {
       setHeaderData(data?.BillPrint_Json[0]);
       let blankArr = [];
@@ -88,11 +90,11 @@ const RetailInvoiceprint4 = ({
         let miscsRate = 0;
         let findingWt = 0;
         let otherCharge = 0;
-        let others = GovernMentDocuments(e?.OtherAmtDetail);
-        if (e?.NetWt + e?.LossWt !== 0 && others?.length >= 4) {
-          otherCharge = +others[3]?.value / (e?.NetWt + e?.LossWt);
+        let others = e?.OtherCharges;
+        if ((e?.NetWt + e?.LossWt) !== 0 && others !== undefined) {
+          otherCharge = others / (e?.NetWt + e?.LossWt);
         }
-        totals.otherCharge += +otherCharge?.toFixed(2);
+        totals.otherCharge += +otherCharge.toFixed(2);
         let metalMaking = obj?.MetalAmount + obj?.MakingAmount;
         data?.BillPrint_Json2.forEach((ele, ind) => {
           if (e?.SrJobno === ele?.StockBarcode) {
@@ -339,7 +341,6 @@ const RetailInvoiceprint4 = ({
       setDocument(documentDetail);
       setdata(resultArr);
       setTotal(totals);
-      console.log("totals", totals);
 
       setLoader(false);
     } catch (error) {
@@ -379,8 +380,9 @@ const RetailInvoiceprint4 = ({
     };
     sendData();
   }, []);
-  console.log("data", data);
-  console.log("headerData", headerData);
+  // console.log("data", data);
+  // console.log("headerData", headerData);
+  // console.log("total", total);
 
   const handleChangeImage = (e) => {
     image ? setImage(false) : setImage(true);
@@ -1057,7 +1059,7 @@ const RetailInvoiceprint4 = ({
                           >
                             <p className=" text-end p-1">
                               {/* {NumberWithCommas(e?.OtherCharges, 2)} */}
-                              {NumberWithCommas(e?.otherCharge, 2)}
+                              {NumberWithCommas(e?.OtherCharges / ( e?.NetWt + e?.LossWt ), 2)}
                             </p>
                           </div>
                           <div
