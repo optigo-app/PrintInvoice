@@ -321,11 +321,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                         </div>
                                         <div className="net16A"></div>
                                         <div className="net16A">
-                                          <b>
-                                            {e?.data?.rd?.ActualGrossweight?.toFixed(
-                                              3
-                                            )}
-                                          </b>
+                                          <b>{e?.data?.rd?.QuotGrossWeight?.toFixed(3)}</b>
                                         </div>
                                         <div className="net16A"></div>
                                         <div
@@ -367,12 +363,12 @@ const PrintDesign0 = ({ queries, headers }) => {
                                           className="net16A spbrWrd"
                                           style={{ borderRight: "0px" }}
                                         >
-                                          <b>{e?.data?.rd?.Designcode}</b>
+                                          <b>{e?.data?.rd?.Designcode1}</b>
                                         </div>
                                         <div
                                           className="net16A spbrWrd"
                                           style={{ borderRight: "0px" }}
-                                        ></div>
+                                        ><b>{e?.data?.rd?.Setting}</b></div>
                                         <div
                                           className="net16A spbrWrd"
                                           style={{ borderRight: "0px" }}
@@ -380,14 +376,14 @@ const PrintDesign0 = ({ queries, headers }) => {
                                         <div
                                           className="net16A spbrWrd"
                                           style={{ borderRight: "0px" }}
-                                        ></div>
+                                        ><b>{e?.data?.rd?.Rhodium}</b></div>
                                         <div
                                           className="net16A spbrWrd"
                                           style={{
                                             borderBottom: "0px",
                                             borderRight: "0px",
                                           }}
-                                        ></div>
+                                        ><b>{e?.data?.rd?.SettingType}</b></div>
                                       </div>
                                     </div>
                                   </div>
@@ -700,7 +696,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                           className="net16A"
                                           style={{ borderRight: "0px" }}
                                         >
-                                          <b>{e?.data?.rd?.Designcode}</b>
+                                          <b>{e?.data?.rd?.Designcode1}</b>
                                         </div>
                                         <div
                                           className="net16A"

@@ -209,8 +209,8 @@ const InvoicePrintMaterial = ({
                       <div className="col10_inv2lab spbrRht spfntBld spfntCen">Pieces</div>
                       <div className="col11_inv2lab spfntBld spbrRht spfntCen">Rate</div>
                       <div className="col12_inv2lab spfntBld spfntCen spbrRht">Amount</div>
-                      <div className="col13_inv2lab spfntBld spfntCen spbrRht">Lab. Rate</div>
-                      <div className="col14_inv2lab spfntBld spbrWord spfntCen spbrRht">Lab. Amount</div>
+                      <div className="col13_inv2lab spfntBld spfntCen spbrRht">Lab.<br />Rate</div>
+                      <div className="col14_inv2lab spfntBld spbrWord spfntCen spbrRht">Lab<br />Amount</div>
                       <div className="col15_inv2lab spfntBld spbrWord spfntCen">Taxable Amount</div>
                     </>
                   ) : (
