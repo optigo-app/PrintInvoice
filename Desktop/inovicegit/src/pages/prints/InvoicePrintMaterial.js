@@ -48,7 +48,7 @@ const InvoicePrintMaterial = ({
             let address =
               data?.Data?.MaterialBill_Json[0]?.Printlable?.split("\r\n");
             setCustAddress(address);
-            console.log("data", data);
+            // console.log("data", data);
             
             setJson0Data(data?.Data?.MaterialBill_Json[0]);
             const sortedItems = [...(data?.Data?.MaterialBill_Json1 || [])].sort(
@@ -106,7 +106,6 @@ const InvoicePrintMaterial = ({
     const Amount = parseFloat(item?.Amount);
     return sum + (isNaN(Amount) ? 0 : Amount);
   }, 0);
-  console.log("totalAmount", totalAmount);
   
 
   const totalLabAmount = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
@@ -133,8 +132,8 @@ const InvoicePrintMaterial = ({
   const rupeesInWords = toWords.convert(rupees);
   const paiseInWords = paise > 0 ? ` and ${toWords.convert(paise)} Paise` : '';
 
-  const allowedNames = ["MOUNT", "Mount", "mount", "FINDING", "Finding", "finding"];
-  const isFindingOrMount = Array.isArray(finalD) ? finalD.map((e) => allowedNames.includes(e?.ItemName)) : [];
+  const allowedNames = ["mount", "finding"];
+  const isFindingOrMount = Array.isArray(finalD) ? finalD.some((e) => allowedNames.includes(e?.ItemName?.toLowerCase())) : false;  
 
   const allowedNamesForRate = ["Metal", "METAL", "metal", "MOUNT", "Mount", "mount", "FINDING", "Finding", "finding", "Alloy", "ALLOY", "alloy"];
 
@@ -374,23 +373,37 @@ const InvoicePrintMaterial = ({
               </div>
 
               {/** Tax Amount */}
-              {extraTaxAmont?.map?.((e, i) => {
+              {extraTaxAmont?.map((e, i) => {
                 return (
-                  <div className="disflx spfntbH">
-                    <div className="taxwdth spbrlFt spbrRht"></div>
-                      <div className="taxwdth1 spbrRht">
-                        <p key={i} className="spfntBld">{e?.TaxName}</p>
-                      </div>
-                    <div className="taxwdth2 spbrRht">
-                      <p key={i} className="spfntBld">{formatAmount(e?.TaxAmount,2)}</p>
-                    </div>
+                  <div key={i} className="disflx spfntbH">
+                    {isFindingOrMount ? (
+                      <> 
+                        <div className="taxwdthlab spbrlFt spbrRht"></div>
+                        <div className="taxwdth1lab spbrRht">
+                          <p className="spfntBld">{e?.TaxName}</p>
+                        </div>
+                        <div className="taxwdth2lab spbrRht">
+                          <p className="spfntBld">{formatAmount(e?.TaxAmount,2)}</p>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="taxwdth spbrlFt spbrRht"></div>
+                        <div className="taxwdth1 spbrRht">
+                          <p className="spfntBld">{e?.TaxName}</p>
+                        </div>
+                        <div className="taxwdth2 spbrRht">
+                          <p className="spfntBld">{formatAmount(e?.TaxAmount,2)}</p>
+                        </div>
+                      </>
+                    )}
                   </div>
                 )
               })}
               {extraTaxAmont?.length === 0 && (
                 <div className="disflx spfntbH pagBrkIsid">
-                  <div className="taxwdth spbrlFt spbrRht"></div>
-                  <div className="taxwdth1 spbrRht">
+                  {isFindingOrMount ? (<div className="taxwdthlab spbrlFt spbrRht"></div>) : (<div className="taxwdth spbrlFt spbrRht"></div>)}
+                  <div className={`${isFindingOrMount ? "taxwdth1lab" : "taxwdth1" } spbrRht`}>
                     {taxAmont?.tax1_taxname !== "" && (
                         <div className="spacLft2 spfntBld">
                           <p>{taxAmont?.tax1_taxname} @ {fixedValues(taxAmont?.tax1_value,3)} %</p>
@@ -422,7 +435,7 @@ const InvoicePrintMaterial = ({
                         </div>
                     )}
                   </div>
-                  <div className="taxwdth2 spbrRht">
+                  <div className={`${ isFindingOrMount ? "taxwdth2lab" : "taxwdth2"} spbrRht`}>
                     {taxAmont?.tax1Amount !== 0 && (
                       <div className="spacLft2 spfntBld">
                           <p>{formatAmount(taxAmont?.tax1Amount,2)}</p>
@@ -459,11 +472,11 @@ const InvoicePrintMaterial = ({
 
               {/**Grand Total */}
               <div className="disflx spfntbH brBtom">
-                <div className="taxwdth spbrlFt spbrRht" style={{ paddingLeft: "5px", paddingTop: "5px" }}>
+                <div className={`${ isFindingOrMount ? "taxwdthlab" : "taxwdth"} spbrlFt spbrRht`} style={{ paddingLeft: "5px", paddingTop: "5px" }}>
                   In Words Indian Rupees <br /><span className="spfntBld">Rupees {rupeesInWords + paiseInWords} Only</span>
                 </div>
-                <div className="taxwdth1 spbrRht spfntBld grtHet brTpm" style={{ alignItems: "center" }}>GRAND TOTAL</div>
-                <div className="taxwdth2 spbrRht spfntBld grtHet brTpm">{NumberWithCommas(GrandTotal,2)}</div>
+                <div className={`${isFindingOrMount ? "taxwdth1lab" : "taxwdth1" } spbrRht spfntBld grtHet brTpm`} style={{ alignItems: "center" }}>GRAND TOTAL</div>
+                <div className={`${isFindingOrMount ? "taxwdth2lab" : "taxwdth2" } spbrRht spfntBld grtHet brTpm`}>{NumberWithCommas(GrandTotal,2)}</div>
               </div>
               
               {/** Instuction */}

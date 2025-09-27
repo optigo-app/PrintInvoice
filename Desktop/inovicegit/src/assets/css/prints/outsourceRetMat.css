@@ -217,7 +217,7 @@ html {
 }
 
 .spBold {
-    font-weight: bold;
+    font-weight: bold !important;
 }
 
 .section-transition {

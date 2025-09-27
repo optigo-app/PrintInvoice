@@ -1,3 +1,6 @@
+html {
+    scrollbar-gutter: stable;
+}
 .container_inv2{
     position: absolute;
     height: -webkit-fill-available;
@@ -35,7 +38,7 @@
 
 .col1_inv2{
     width: 3%;
-    padding: 4px;
+    align-content: center;
 }
 .col2_inv2{
     width: 15%;
@@ -84,7 +87,6 @@
 
 .col1_inv2lab {
     width: 3%;
-    padding: 4px;
     align-content: center;
 }
 .col2_inv2lab {
@@ -164,7 +166,7 @@
     padding: 4px;
 }
 .Sucol3_inv2{
-    width: 6.90%;
+    width: 7%;
     padding: 4px;
 }
 .Sucol4_inv2{
@@ -172,7 +174,7 @@
     padding: 4px;
 }
 .Sucol5_inv2{
-    width: 7.60%;
+    width: 7.40%;   
     padding: 4px;
 }
 .Sucol6_inv2{
@@ -180,15 +182,15 @@
     padding: 4px;
 }
 .Sucol7_inv2{
-    width: 7.90%;
+    width: 8.10%;
     padding: 4px;
 }
 .Sucol8_inv2{
-    width: 7.10%;
+    width: 6.90%;
     padding: 4px;
 }
 .Sucol9_inv2{
-    width: 6.90%;
+    width: 7%;
     padding: 4px;
 }
 .Sucol10_inv2{
@@ -214,11 +216,11 @@
     padding: 4px;
 }
 .Sucol4_inv2lab {
-    width: 6.67%;
+    width: 6.57%;
     padding: 4px;
 }
 .Sucol5_inv2lab {
-    width: 6.67%;
+    width: 6.77%;
     padding: 4px;
 }
 .Sucol6_inv2lab {
@@ -230,7 +232,7 @@
     padding: 4px;
 }
 .Sucol8_inv2lab {
-    width: 6.67%;
+    width: 6.57%;
     padding: 4px;
 }
 .Sucol9_inv2lab {
@@ -238,7 +240,7 @@
     padding: 4px;
 }
 .Sucol10_inv2lab {
-    width: 6.67%;
+    width: 6.77%;
     padding: 4px;
 }
 .Sucol11_inv2lab {
@@ -246,7 +248,7 @@
     padding: 4px;
 }
 .Sucol12_inv2lab {
-    width: 6.67%;
+    width: 6.57%;
     padding: 4px;
 }
 .Sucol13_inv2lab {
@@ -258,7 +260,7 @@
     padding: 4px;
 }
 .Sucol15_inv2lab {
-    width: 6.67%;
+    width: 6.77%;
     padding: 4px;
 }
 
@@ -318,6 +320,7 @@
 .wdthHd1{
     width: 75%;
 }
+
 .taxwdth{
     width: 72.40%
 }
@@ -335,6 +338,26 @@
     padding-top: 2px;
     line-height: 15px;
 }
+
+
+.taxwdthlab {
+    width: 66.70%
+}
+.taxwdth1lab {
+    width: 19.90%;
+    text-align: end;
+    padding-right: 5px;
+    padding-top: 2px;
+    line-height: 15px;
+}
+.taxwdth2lab {
+    width: 13.40%;
+    text-align: end;
+    padding-right: 5px;
+    padding-top: 2px;
+    line-height: 15px;
+}
+
 .grtHet{
     height: 35px;
     align-content: center;
@@ -437,10 +460,10 @@
     }
 
     .Sucol2_inv2{
-        width: 16.10%;
+        width: 16%;
     }
     .Sucol3_inv2{
-        width: 6.90%;
+        width: 7%;
     }
     .Sucol4_inv2{
         width: 9.60%;
@@ -449,41 +472,84 @@
         width: 6.40%;
     }
     .Sucol6_inv2{
-        width: 8.50%;
+        width: 8.60%;
     }
     .Sucol7_inv2{
-        width: 7.10%;
-    }
-    .Sucol8_inv2{
         width: 7%;
     }
-    .Sucol9_inv2{
+    .Sucol8_inv2{
         width: 7.10%;
     }
+    .Sucol9_inv2{
+        width: 6.90%;
+    }
     .Sucol10_inv2{
-        width: 6.40%;
+        width: 6.60%;
     }
     .Sucol11_inv2{
-        width: 9.90%;
+        width: 9.80%;
     }
     .Sucol12_inv2{
         width: 12.150%;
     }
+
+
+    .Sucol4_inv2lab {
+        width: 6.67%;
+    }
+    .Sucol5_inv2lab {
+        width: 6.67%;
+    }
+    .Sucol6_inv2lab {
+        width: 6.57%;
+    }
+    .Sucol7_inv2lab {
+        width: 6.77%;
+    }
+    .Sucol9_inv2lab {
+        width: 6.77%;
+    }
+    .Sucol10_inv2lab {
+        width: 6.57%;
+    }
+    .Sucol11_inv2lab {
+        width: 6.67%;
+    }
+    .Sucol12_inv2lab {
+        width: 6.67%;
+    }
+
+
     .wdthHd{
         width: 30%;
     }
     .wdthHd1{
         width: 70%;
     }
+
+
     .taxwdth{
-        width: 71.80%
+        width: 71.70%
     }
     .taxwdth1{
-        width: 16.20%;
+        width: 16.30%;
     }
     .taxwdth2{
-        width: 12.180%;
+        width: 12.170%;
     }
+
+
+    .taxwdthlab {
+        width: 66.60%
+    }
+    .taxwdth1lab {
+        width: 20%;
+    }
+    .taxwdth2lab {
+        width: 13.40%;
+    }
+
+
     .sprmrk{
         font-size: 10px;
         line-height: 11px;

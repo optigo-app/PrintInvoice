@@ -1325,31 +1325,31 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
   // console.log("json1Data", json1Data);
 
   // Style...
-  const txtTop = {
+  const RtMttxtTop = {
     verticalAlign: "top",
   };
-  const brRight = {
+  const RtMtbrRight = {
     borderRight: "0.5px solid #000000",
   };
-  const brBotm = {
+  const RtMtbrBotm = {
     borderBottom: "0.5px solid #000000",
   };
-  const brBotmdrk = {
+  const RtMtbrBotmdrk = {
     borderBottom: "1px solid #000000",
   };
-  const brTop = {
+  const RtMtbrTop = {
     borderTop: "1px solid #000000",
   };
-  const styBld = {
+  const RtMtstyBld = {
     fontWeight: "bold",
   }
-  const txtCen = {
+  const RtMttxtCen = {
     textAlign: "center",
   }
-  const coWdth = {
+  const RtMtWdth = {
     width: "150px",
   };
-  const spbrWrd = {
+  const RtMtspbrWrd = {
     wordBreak: "break-word",
     overflowWrap: "break-word",
     wordWrap: "break-word",
@@ -1646,61 +1646,63 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
           <table id="table-to-xls" className='d-none'>
             <tbody>
               <tr>
-                <td rowSpan={3} />
-                <td rowSpan={3} colSpan={3}>
+                <td colSpan={6} width={60} height={132}>
                   <img
                     src={json1Data?.PrintLogo}
                     alt=""
-                    width="95"
-                    height="95"
                     onError={handleImageErrors}
+                    width={132}
+                    height={132}
                   />
                 </td>
-                <td rowSpan={3} colSpan={6}>
+                <td colSpan={12}>
                   <div className="retMatFont_22">PO: &nbsp;{json1Data?.InvoiceNo} wise Required Material Report</div>
                 </td>
               </tr>
 
+              <tr><td colSpan={18}></td></tr>
+
               <tr>
-                <td />
-                <td rowSpan={2} colSpan={3}>{json1Data?.Manufacturer}</td>
-                <td rowSpan={2} colSpan={3}>Manufacturer PO#:  {json1Data?.InvoiceNo}</td>
-                <td rowSpan={2} colSpan={3}>Dated:  <p>{json1Data?.EntryDate.slice(0, 7)}</p></td>
+                <td colSpan={4}><div className="spBold" >{json1Data?.Manufacturer}</div></td>
+                <td colSpan={2}></td>
+                <td colSpan={4}>Manufacturer PO#:  {json1Data?.InvoiceNo}</td>
+                <td colSpan={2}></td>
+                <td colSpan={6}>Dated:  <p>{json1Data?.EntryDate.slice(0, 7)}</p></td>
               </tr>
 
+              <tr><td colSpan={18}></td></tr>
+
               {renderSections.diamonds && grouped.diamonds.length > 0 && (<>
-                <tr className="detlsContnt spBrdrAll retMatFont_14">
-                  <td width={150} style={{ ...coWdth, ...spbrWrd }}>ITEM</td>
-                  <td width={150} style={{ ...coWdth, ...spbrWrd }}>SHAPE</td>
-                  <td width={150} style={{ ...coWdth, ...spbrWrd }}>QUALITY</td>
-                  <td width={150} style={{ ...coWdth, ...spbrWrd }}>COLOR</td>
-                  <td width={150} style={{ ...coWdth, ...spbrWrd }}>SIZE</td>
-                  <td width={150} style={{ ...coWdth, ...spbrWrd }}>PCS.</td>
-                  <td width={150} style={{ ...coWdth, ...spbrWrd }}>CTW</td>
+                <tr className="retMatFont_14">
+                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd }}>ITEM</td>
+                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd }}>SHAPE</td>
+                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd }}>QUALITY</td>
+                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd }}>COLOR</td>
+                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd }}>SIZE</td>
+                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd }}>PCS.</td>
+                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd }}>CTW</td>
                 </tr>
 
                 {grouped?.diamonds?.map((el, id) => (
-                  <tr key={id} className="detlsContnt retMatFont_13">
+                  <tr key={id} className="retMatFont_13">
                     {id === 0 && (
-                      <td rowSpan={grouped?.diamonds.length} className="comnFistCol spBrdrRigt d-flex justify-content-center">
+                      <td colSpan={2} rowSpan={grouped?.diamonds.length} style={{ ...RtMttxtTop, ...RtMtspbrWrd }}>
                         DIAMOND
                       </td>
                     )}
-                    <td className="spacCell proprDvson spBrdrRigt">{el?.ShapeName}</td>
-                    <td className="proprDvson spBrdrRigt spacCell">{el?.QualityName}</td>
-                    <td className="proprDvson spBrdrRigt spacCell">{el?.Colorname}</td>
-                    <td className="proprDvson spBrdrRigt spacCell">{el?.SizeName}</td>
-                    <td className="proprDvson spBrdrRigt spacCell">{el?.Pcs}</td>
-                    <td className="proprDvson spacCell">{fixedValues(el?.Wt, 3)}</td>
+                    <td colSpan={2} style={{ ...RtMtspbrWrd }}>{el?.ShapeName}</td>
+                    <td colSpan={2} style={{ ...RtMtspbrWrd }}>{el?.QualityName}</td>
+                    <td colSpan={2} style={{ ...RtMtspbrWrd }}>{el?.Colorname}</td>
+                    <td colSpan={2} style={{ ...RtMtspbrWrd }}>{el?.SizeName}</td>
+                    <td colSpan={2} style={{ ...RtMtspbrWrd }}>{el?.Pcs}</td>
+                    <td colSpan={2} style={{ ...RtMtspbrWrd }}>{fixedValues(el?.Wt, 3)}</td>
                   </tr>
                 ))}
 
-                <tr className="detlsContnt retMatFont_13">
-                  <td className="spBold dimndNClrstn spacCell">TOTAL :</td>
-                  <td></td><td></td><td></td>
-                  <td className="spBrdrRigt"></td>
-                  <td className="spBold dimndNClrstn spBrdrRigt spacCell">{grouped?.diamondsTotal?.Pcs}</td>
-                  <td className="spBold dimndNClrstn spacCell">{fixedValues(grouped?.diamondsTotal?.Wt, 3)}</td>
+                <tr>
+                  <td colSpan={10} style={{ ...RtMtstyBld }}>TOTAL :</td>
+                  <td colSpan={2} style={{ ...RtMtstyBld }}>{grouped?.diamondsTotal?.Pcs}</td>
+                  <td colSpan={2} style={{ ...RtMtstyBld }}>{fixedValues(grouped?.diamondsTotal?.Wt, 3)}</td>
                 </tr>
               </>)}
             </tbody>
