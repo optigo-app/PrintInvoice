@@ -241,7 +241,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                 data?.map((e, i) => {
                   // if (e?.additional?.chdata?.length === 0) {
                     return (
-                      <React.Fragment key={`bagprint16${i}`} className="top_two_all">
+                      <div key={`bagprint16${i}`} className="top_two_all">
                         <div className="container_2 ml_8mm mb_2  pt_2 bag_2">
                           <div className="print_2 ">
                             <div
@@ -319,7 +319,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                                         <div className="net16A">
                                           <b>{e?.data?.rd?.Size}</b>
                                         </div>
-                                        <div className="net16A"></div>
+                                        <div className="net16A"><b>{e?.data?.rd?.Quantity}</b></div>
                                         <div className="net16A">
                                           <b>{e?.data?.rd?.QuotGrossWeight?.toFixed(3)}</b>
                                         </div>
@@ -372,11 +372,11 @@ const PrintDesign0 = ({ queries, headers }) => {
                                         <div
                                           className="net16A spbrWrd"
                                           style={{ borderRight: "0px" }}
-                                        ></div>
+                                        ><b>{e?.data?.rd?.Rhodium}</b></div>
                                         <div
                                           className="net16A spbrWrd"
                                           style={{ borderRight: "0px" }}
-                                        ><b>{e?.data?.rd?.Rhodium}</b></div>
+                                        ></div>
                                         <div
                                           className="net16A spbrWrd"
                                           style={{
@@ -902,7 +902,7 @@ const PrintDesign0 = ({ queries, headers }) => {
                             </div>
                           </div>
                         </div> */}
-                      </React.Fragment>
+                      </div>
                     );
                   // } else {
                   //   return e?.additional?.chdata?.map((chunk, index) => {

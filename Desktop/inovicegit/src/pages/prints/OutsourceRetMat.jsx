@@ -1111,10 +1111,25 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       console.error("Export table not found");
       return;
     }
+  
     const wb = XLSX.utils.table_to_book(table, { sheet: "Invoice" });
+    const ws = wb.Sheets["Invoice"];
+  
+    // Apply bold to the first row (headers)
+    const range = XLSX.utils.decode_range(ws['!ref']);
+    for (let C = range.s.c; C <= range.e.c; ++C) {
+      const cellAddress = XLSX.utils.encode_cell({ r: 0, c: C });
+      if (!ws[cellAddress]) continue;
+  
+      ws[cellAddress].s = {
+        font: { bold: true }
+      };
+    }
+  
     const filename = `PO_Required_Meterial_Report_${json1Data?.InvoiceNo}.xlsx`;
     XLSX.writeFile(wb, filename);
   };
+  
 
 
   const handlePDFExport = async () => {
@@ -1642,7 +1657,8 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
 
             </div>
           </div>
-
+          
+          
           <table id="table-to-xls" className='d-none'>
             <tbody>
               <tr>
@@ -1663,24 +1679,24 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
               <tr><td colSpan={18}></td></tr>
 
               <tr>
-                <td colSpan={4}><div className="spBold" >{json1Data?.Manufacturer}</div></td>
+                <td colSpan={4}><div className="spBold" style={{ fontWeight: "bold" }}>{json1Data?.Manufacturer}</div></td>
                 <td colSpan={2}></td>
-                <td colSpan={4}>Manufacturer PO#:  {json1Data?.InvoiceNo}</td>
+                <td colSpan={4} style={{ fontWeight: "bold" }}>Manufacturer PO#:  {json1Data?.InvoiceNo}</td>
                 <td colSpan={2}></td>
-                <td colSpan={6}>Dated:  <p>{json1Data?.EntryDate.slice(0, 7)}</p></td>
+                <td colSpan={6} style={{ fontWeight: "bold" }}>Dated:  <p>{json1Data?.EntryDate.slice(0, 7)}</p></td>
               </tr>
 
               <tr><td colSpan={18}></td></tr>
 
               {renderSections.diamonds && grouped.diamonds.length > 0 && (<>
                 <tr className="retMatFont_14">
-                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd }}>ITEM</td>
-                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd }}>SHAPE</td>
-                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd }}>QUALITY</td>
-                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd }}>COLOR</td>
-                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd }}>SIZE</td>
-                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd }}>PCS.</td>
-                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd }}>CTW</td>
+                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd, ...RtMtstyBld }}>ITEM</td>
+                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd, ...RtMtstyBld }}>SHAPE</td>
+                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd, ...RtMtstyBld }}>QUALITY</td>
+                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd, ...RtMtstyBld }}>COLOR</td>
+                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd, ...RtMtstyBld }}>SIZE</td>
+                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd, ...RtMtstyBld }}>PCS.</td>
+                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd, ...RtMtstyBld }}>CTW</td>
                 </tr>
 
                 {grouped?.diamonds?.map((el, id) => (
