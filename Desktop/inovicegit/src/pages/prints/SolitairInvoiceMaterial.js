@@ -48,7 +48,7 @@ const SolitairInvoiceMaterial = ({
             let address =
               data?.Data?.MaterialBill_Json[0]?.Printlable?.split("\r\n");
             setCustAddress(address);
-            console.log("data", data);
+            // console.log("data", data);
             
             setJson0Data(data?.Data?.MaterialBill_Json[0]);
             const sortedItems = [...(data?.Data?.MaterialBill_Json1 || [])].sort(
@@ -87,28 +87,36 @@ const SolitairInvoiceMaterial = ({
     );
   }
 
-  const totalMiscWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
+  const totalCsWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
     const weight = parseFloat(item?.Weight);
-    if (item?.ItemName === 'MISC') {
+    if (item?.ItemName === 'COLOR STONE') {
       return sum + (isNaN(weight) ? 0 : weight);
     }
     return sum;
   }, 0);
 
-  const totalMetalWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
+  const totalDiamondWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
     const weight = parseFloat(item?.Weight);
-    if (item?.ItemName === 'METAL') {
+    if (item?.ItemName === 'DIAMOND') {
       return sum + (isNaN(weight) ? 0 : weight);
     }
     return sum;
   }, 0);
 
-  const metalAndMiscWeight = totalMetalWeight + totalMiscWeight;
-  console.log("metalAndMiscWeight", metalAndMiscWeight);
+  const totalMountWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
+    const weight = parseFloat(item?.PureWeight);
+    if (item?.ItemName === 'MOUNT') {
+      return sum + (isNaN(weight) ? 0 : weight);
+    }
+    return sum;
+  }, 0);
+
+  const metalAndMiscWeight = totalDiamondWeight + totalCsWeight;
+  // console.log("metalAndMiscWeight", metalAndMiscWeight);
   
   const remainingWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
     const weight = parseFloat(item?.Weight);
-    if (item?.ItemName !== 'METAL' && item?.ItemName !== 'MISC') {
+    if (item?.ItemName !== 'COLOR STONE' && item?.ItemName !== 'DIAMOND' && item?.ItemName !== 'MOUNT' ) {
       return sum + (isNaN(weight) ? 0 : weight);
     }
     return sum;
@@ -125,18 +133,25 @@ const SolitairInvoiceMaterial = ({
   }, 0);
 
   const GrandTotal = totalAmount + taxAmont?.CGSTTotalAmount + taxAmont?.SGSTTotalAmount;
-  const EndGrandTotal = totalAmount + taxAmont?.CGSTTotalAmount + taxAmont?.SGSTTotalAmount + taxAmont?.tax1Amount + taxAmont?.tax2Amount + taxAmont?.tax3Amount;
+  const EndGrandTotal = totalAmount + taxAmont?.CGSTTotalAmount + taxAmont?.SGSTTotalAmount + taxAmont?.tax1Amount + taxAmont?.tax2Amount + taxAmont?.tax3Amount + taxAmont?.IGSTTotalAmount;
+
+  function convertWithAnd(amount) {
+    let words = toWords.convert(amount);
+    
+    const pattern = /\bHundred\b\s+(?!(Thousand|Lakh|Crore|Only))(.+)/i;
+    if (pattern.test(words)) {
+      words = words.replace(pattern, (match, p1, p2) => {
+        return `Hundred and ${p2}`;
+      });
+    }
+    
+    return words;
+  }
 
   console.log("taxAmont", taxAmont);
   console.log("extraTaxAmont", extraTaxAmont);
-  console.log("json0Data", json0Data);
-  console.log("finalD", finalD);
-
-  const amount = Number(EndGrandTotal || 0);
-  const rupees = Math.floor(amount);
-  const paise = Math.round((amount - rupees) * 100);
-  const rupeesInWords = toWords.convert(rupees);
-  const paiseInWords = paise > 0 ? ` and ${toWords.convert(paise)} Paise` : '';
+  // console.log("json0Data", json0Data);
+  // console.log("finalD", finalD);
 
   return (
     <>
@@ -158,7 +173,7 @@ const SolitairInvoiceMaterial = ({
             <div className="container_inv2">
               <div className="headlineJL w-100 p-2">
                 <b style={{ fontSize: "20px" }}>
-                  SOLITAIRE INVOICE
+                  {json0Data?.PrintHeadLbl}
                 </b>
               </div>
               {/** Header */}
@@ -213,6 +228,11 @@ const SolitairInvoiceMaterial = ({
                   <div className="col14_inv2 spbrRht spfntBld spfntCen">SGST</div>
                   <div className="col15_inv2 spfntBld spfntCen">TOTAL AMT</div>
                 </>}
+                {taxAmont?.IGSTTotalAmount === 0 ? "" : <>
+                  <div className="col13_inv2 spbrRht spfntBld spfntCen">IGST(%)</div>
+                  <div className="col14_inv2 spbrRht spfntBld spfntCen">IGST</div>
+                  <div className="col15_inv2 spfntBld spfntCen">TOTAL AMT</div>
+                </>}
               </div>
 
               {/** table Body */}
@@ -226,7 +246,7 @@ const SolitairInvoiceMaterial = ({
                       : e?.ItemName === "COLOR STONE" 
                         ? `CS:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}` 
                         : e?.ItemName === "METAL" 
-                          ? `METAL:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${formatAmount(e?.Tunch,3)}`
+                          ? `METAL:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '' : ''}`/* ${formatAmount(e?.Tunch,3)} */
                           : e?.ItemName === "MISC" 
                             ? `MISC:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}`
                             : e?.ItemName === "FINDING" 
@@ -241,7 +261,7 @@ const SolitairInvoiceMaterial = ({
                     <div className={`${e?.CGSTAmount === 0 ? "Sucol3_inv2NGSt" : "Sucol3_inv2"} spbrRht spbrWord spfntSt`}>{e?.HSN_No}</div>
                     <div className={`${e?.CGSTAmount === 0 ? "Sucol4_inv2NGSt" : "Sucol4_inv2"} spbrRht spbrWord spfnted`}>{e?.pieces}</div>
                     <div className={`${e?.CGSTAmount === 0 ? "Sucol5_inv2NGSt" : "Sucol5_inv2"} spbrRht spbrWord spfnted`}>
-                      {fixedValues(e?.Weight === "" ? "-" : e?.Weight,3)}
+                      {fixedValues(e?.Weight === "" ? "-" : e?.ItemName === "MOUNT" ? e?.PureWeight : e?.Weight,3)}
                     </div>
                     <div className={`${e?.CGSTAmount === 0 ? "Sucol6_inv2NGSt" : "Sucol6_inv2"} spfnted spbrRht`}>
                       {formatAmount(e?.Rate === "" ? "-" : e?.Rate,2)}
@@ -265,6 +285,11 @@ const SolitairInvoiceMaterial = ({
                       <div className="Sucol14_inv2 spfnted spbrRht">{formatAmount(e?.SGSTAmount === 0 ? "-" : e?.SGSTAmount,2)}</div>
                       <div className="Sucol15_inv2 spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.Amount + e?.CGSTAmount + e?.SGSTAmount,2)}</div>
                     </>}
+                    {e?.IGSTAmount === 0 ? "" : <>
+                      <div className="Sucol13_inv2 spfnted spbrRht">{fixedValues(e?.IGST === "" ? "-" : e?.IGST,3)}</div>
+                      <div className="Sucol14_inv2 spfnted spbrRht">{formatAmount(e?.IGSTAmount === 0 ? "-" : e?.IGSTAmount,2)}</div>
+                      <div className="Sucol15_inv2 spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.Amount + e?.IGSTAmount,2)}</div>
+                    </>}
                   </div>
                 )
               })}
@@ -276,8 +301,8 @@ const SolitairInvoiceMaterial = ({
                 <div className={`${taxAmont?.CGSTTotalAmount === 0 ? "Sucol3_inv2NGSt" : "Sucol3_inv2"} spbrRht spfntSt`}></div>
                 <div className={`${taxAmont?.CGSTTotalAmount === 0 ? "Sucol4_inv2NGSt" : "Sucol4_inv2"} spbrRht spfntBld spfnted`}>{totalPieces}</div>
                 <div className={`${taxAmont?.CGSTTotalAmount === 0 ? "Sucol5_inv2NGSt" : "Sucol5_inv2"} spbrRht spfntBld spfnted`}>
-                  {remainingWeight !== 0 && `${fixedValues(remainingWeight, 3)} ctw`} <br />
-                  {metalAndMiscWeight !== 0 && `${fixedValues(metalAndMiscWeight, 3)} gm`}
+                  {metalAndMiscWeight !== 0 && `${fixedValues(metalAndMiscWeight, 3)} ctw`} <br />
+                  {remainingWeight !== 0 && `${fixedValues(remainingWeight + totalMountWeight, 3)} gm`} 
                 </div>
                 <div className={`${taxAmont?.CGSTTotalAmount === 0 ? "Sucol6_inv2NGSt" : "Sucol6_inv2"} spfnted spfntBld spbrRht`}></div>
                 <div className={`${taxAmont?.CGSTTotalAmount === 0 ? "Sucol7_inv2NGSt" : "Sucol7_inv2"} spfnted spbrRht`}></div>
@@ -289,6 +314,11 @@ const SolitairInvoiceMaterial = ({
                   <div className="Sucol12_inv2 spfnted spfntBld spbrRht">{formatAmount(taxAmont?.CGSTTotalAmount)}</div>
                   <div className="Sucol13_inv2 spfnted spfntBld spbrRht"></div>
                   <div className="Sucol14_inv2 spfnted spfntBld spbrRht">{formatAmount(taxAmont?.SGSTTotalAmount)}</div>
+                  <div className="Sucol15_inv2 spfnted spfntBld spbrRht">{NumberWithCommas(GrandTotal,2)}</div>
+                </>}
+                {taxAmont?.IGSTTotalAmount === 0 ? "" : <>
+                  <div className="Sucol13_inv2 spfnted spfntBld spbrRht"></div>
+                  <div className="Sucol14_inv2 spfnted spfntBld spbrRht">{formatAmount(taxAmont?.IGSTTotalAmount)}</div>
                   <div className="Sucol15_inv2 spfnted spfntBld spbrRht">{NumberWithCommas(GrandTotal,2)}</div>
                 </>}
               </div>
@@ -371,14 +401,14 @@ const SolitairInvoiceMaterial = ({
               {/**Grand Total */}
               <div className="disflx spfntbH2 brBtom pagBrkIsid">
                 <div className={`${taxAmont?.CGSTTotalAmount === 0 ? "taxwdthGST" : "taxwdth"} spbrlFt spbrRht`} style={{ paddingLeft: "5px", paddingTop: "5px" }}>
-                  In Words Indian Rupees <br /><span className="spfntBld">Rupees {rupeesInWords + paiseInWords} Only</span>
+                  In Words {json0Data?.CurrName} <br /><span className="spfntBld">{convertWithAnd(+(EndGrandTotal?.toFixed(2)))} Only</span>
                 </div>
                 <div className={`${taxAmont?.CGSTTotalAmount === 0 ? "taxwdth1GST" : "taxwdth1"} spbrRht spfntBld grtHet`} style={{ alignItems: "center" }}>
                   GRAND TOTAL
                 </div>
                 <div className={`${taxAmont?.CGSTTotalAmount === 0 ? "taxwdth2GST" : "taxwdth2"} spbrRht spfntBld grtHet`}>
                   <span dangerouslySetInnerHTML={{ __html: json0Data?.CurrSymbol }} />
-                  {NumberWithCommas(EndGrandTotal,2)}
+                  &nbsp;{NumberWithCommas(EndGrandTotal,2)}
                 </div>
               </div>
               

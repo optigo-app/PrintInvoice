@@ -12,9 +12,6 @@ import {
   isObjectEmpty,
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
-import { cloneDeep } from "lodash";
-import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
-import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 import { ToWords } from "to-words";
 
 const InvoicePrint2Material = ({
@@ -33,6 +30,7 @@ const InvoicePrint2Material = ({
   const [taxAmont , setTaxAmount] = useState();
   const [extraTaxAmont , setExtraTaxAmount] = useState();
   const toWords = new ToWords(); 
+  const [headerFlag, setHeaderFlag] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -129,16 +127,17 @@ const InvoicePrint2Material = ({
     return words;
   }
 
+  const handleHeaderShow = (e) => {
+    if (headerFlag) setHeaderFlag(false);
+    else {
+      setHeaderFlag(true);
+    }
+  };
+
   // console.log("taxAmont", taxAmont);
   // console.log("extraTaxAmont", extraTaxAmont);
-  console.log("finalD", finalD);
+  // console.log("finalD", finalD);
   // console.log("json0Data", json0Data);
-
-  // const amount = Number(GrandTotal || 0);
-  // const rupees = Math.floor(amount);
-  // const paise = Math.round((amount - rupees) * 100);
-  // const rupeesInWords = toWords.convert(rupees);
-  // const paiseInWords = paise > 0 ? ` and ${toWords.convert(paise)} Paise` : '';
 
   const allowedNamesForRate = ["Metal", "METAL", "metal", "MOUNT", "Mount", "mount", "FINDING", "Finding", "finding", "Alloy", "ALLOY", "alloy"];
 
@@ -150,17 +149,52 @@ const InvoicePrint2Material = ({
         <>
           <div className="w-full flex">
             <div className="w-full flex prnt_btn">
-              <input
-                type="button"
-                className="btn_white blue mt-0"
-                value="Print"
-                onClick={(e) => handlePrint(e)}
-              />
+              <div className="px-2">
+                <input
+                  type="checkbox"
+                  onChange={handleHeaderShow}
+                  value={headerFlag}
+                  checked={headerFlag}
+                  id="headershow"
+                />
+                <label htmlFor="headershow" className="user-select-none mx-1">
+                  Header
+                </label>
+              </div>
+
+              <div className="px-2">
+                <input
+                  type="button"
+                  className="btn_white blue mt-0"
+                  value="Print"
+                  onClick={(e) => handlePrint(e)}
+                />
+              </div>
             </div>
           </div>
+
           <div className="w-full flex items-center justify-center">
             <div className="container_inv2">
-              {/** Header */}
+              {/* Header */}
+              {headerFlag && (
+                <div className="disflx justify-content-between" style={{ marginBottom: "10px" }}>
+                  <div className="spfnthead" style={{ paddingLeft: "5px" }}>
+                    <div className="spfntBld" style={{ fontSize: "15px" }}>{json0Data?.CompanyFullName}</div>
+                    <div className="">{json0Data?.CompanyAddress}</div>
+                    {/* <div className="">{json0Data?.CompanyAddress2}</div> */}
+                    <div className="">{json0Data?.CompanyCity} - {json0Data?.CompanyPinCode}, {json0Data?.CompanyState}({json0Data?.CompanyCountry})</div>
+                    <div className="">T {json0Data?.CompanyTellNo}</div>
+                    <div className="">{json0Data?.CompanyEmail} {json0Data?.CompanyWebsite}</div>
+                    <div className="">{json0Data?.Company_VAT_GST}-{json0Data?.Company_VAT_GST_No} | {json0Data?.Company_CST_STATE}-{json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.ComPanCard}</div>
+                  </div>
+
+                  <div>
+                    <img src={json0Data?.PrintLogo} alt="#companylogo" className="cmpnyLogo" onError={handleImageErrors}/>
+                  </div>
+                </div>
+              )}
+
+              {/* Sub Header */}
               <div className="disflx brbxAll">
                 <div className="w1_inv2 spbrRht spfnthead">
                   <div style={{ paddingTop: "2px" }}>Bill To,</div>
@@ -348,7 +382,8 @@ const InvoicePrint2Material = ({
               {/**Grand Total */}
               <div className="disflx spfntbH">
                 <div className={`taxwdth spbrlFt spbrRht ${taxAmont?.AddLess !== 0 && ("brTpm")}`} style={{ paddingLeft: "5px", paddingTop: "5px", alignContent: "end" }}>
-                  <p>In Words Indian Rupees</p><span className="spfntBld">{convertWithAnd(+(LastGrandTotal?.toFixed(2)))} Only</span>
+                  <p>In Words {json0Data?.CurrName}</p>
+                  <span className="spfntBld">{convertWithAnd(+(LastGrandTotal?.toFixed(2)))} Only</span>
                 </div>
                   <div className="extrWdthAftrBg1">
                     {taxAmont?.AddLess !== 0 && (
@@ -365,7 +400,8 @@ const InvoicePrint2Material = ({
                       </div>
                     )}
                     <div className="disflx extrWdthAftrBg spbrRht spfntBld grtHet brTpm" style={{ alignItems: "center" }}>
-                      {NumberWithCommas(LastGrandTotal, 2)}
+                      <span dangerouslySetInnerHTML={{ __html: json0Data?.CurrSymbol }} />
+                      &nbsp;{NumberWithCommas(LastGrandTotal, 2)}
                     </div>
                   </div>
               </div>
