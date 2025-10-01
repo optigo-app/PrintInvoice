@@ -90,7 +90,7 @@ html {
     align-content: center;
 }
 .col2_inv2lab {
-    width: 10.34%;
+    width: 13.34%;
     padding: 4px;
     align-content: center;
 }
@@ -105,8 +105,8 @@ html {
     align-content: center;
 }
 .col5_inv2lab {
-    width: 6.67%;
-    padding: 4px;
+    width: 4.67%;
+    padding: 2px;
     align-content: center;
 }
 .col6_inv2lab {
@@ -115,7 +115,7 @@ html {
     align-content: center;
 }
 .col7_inv2lab {
-    width: 6.67%;
+    width: 5.67%;
     padding: 4px;
     align-content: center;
 }
@@ -208,19 +208,19 @@ html {
 
 
 .Sucol2_inv2lab {
-    width: 10.34%;
+    width: 13.34%;
     padding: 4px;
 }
 .Sucol3_inv2lab {
-    width: 6.67%;
-    padding: 4px;
-}
-.Sucol4_inv2lab {
     width: 6.57%;
     padding: 4px;
 }
-.Sucol5_inv2lab {
+.Sucol4_inv2lab {
     width: 6.77%;
+    padding: 4px;
+}
+.Sucol5_inv2lab {
+    width: 4.57%;
     padding: 4px;
 }
 .Sucol6_inv2lab {
@@ -228,11 +228,11 @@ html {
     padding: 4px;
 }
 .Sucol7_inv2lab {
-    width: 6.67%;
+    width: 5.67%;
     padding: 4px;
 }
 .Sucol8_inv2lab {
-    width: 6.57%;
+    width: 6.67%;
     padding: 4px;
 }
 .Sucol9_inv2lab {
@@ -244,11 +244,11 @@ html {
     padding: 4px;
 }
 .Sucol11_inv2lab {
-    width: 6.67%;
+    width: 6.57%;
     padding: 4px;
 }
 .Sucol12_inv2lab {
-    width: 6.57%;
+    width: 6.67%;
     padding: 4px;
 }
 .Sucol13_inv2lab {
@@ -256,7 +256,7 @@ html {
     padding: 4px;
 }
 .Sucol14_inv2lab {
-    width: 6.67%;
+    width: 6.57%;
     padding: 4px;
 }
 .Sucol15_inv2lab {
@@ -493,30 +493,108 @@ html {
         width: 12.150%;
     }
 
-
-    .Sucol4_inv2lab {
+    .col1_inv2lab {
+        width: 3%;
+    }
+    .col2_inv2lab {
+        width: 10.34%;
+    }
+    .col3_inv2lab {
         width: 6.67%;
+    }
+    .col4_inv2lab {
+        width: 6.67%;
+    }
+    .col5_inv2lab {
+        width: 6.67%;
+    }
+    .col6_inv2lab {
+        width: 6.67%;
+    }
+    .col7_inv2lab {
+        width: 6.67%;
+    }
+    .col8_inv2lab {
+        width: 6.67%;
+    }
+    .col9_inv2lab {
+        width: 6.67%;
+    }
+    .col10_inv2lab {
+        width: 6.67%;
+    }
+    .col11_inv2lab {
+        width: 6.67%;
+    }
+    .col12_inv2lab {
+        width: 6.67%;
+    }
+    .col13_inv2lab {
+        width: 6.67%;
+    }
+    .col14_inv2lab {
+        width: 6.67%;
+    }
+    .col15_inv2lab {
+        width: 6.67%;
+    }
+
+
+    .Sucol2_inv2lab {
+        width: 10.34%;
+        padding: 4px;
+    }
+    .Sucol3_inv2lab {
+        width: 6.57%;
+        padding: 4px;
+    }
+    .Sucol4_inv2lab {
+        width: 6.77%;
+        padding: 4px;
     }
     .Sucol5_inv2lab {
-        width: 6.67%;
+        width: 6.57%;
+        padding: 4px;
     }
     .Sucol6_inv2lab {
-        width: 6.57%;
+        width: 6.67%;
+        padding: 4px;
     }
     .Sucol7_inv2lab {
-        width: 6.77%;
+        width: 6.67%;
+        padding: 4px;
+    }
+    .Sucol8_inv2lab {
+        width: 6.67%;
+        padding: 4px;
     }
     .Sucol9_inv2lab {
         width: 6.77%;
+        padding: 4px;
     }
     .Sucol10_inv2lab {
         width: 6.57%;
+        padding: 4px;
     }
     .Sucol11_inv2lab {
-        width: 6.67%;
+        width: 6.57%;
+        padding: 4px;
     }
     .Sucol12_inv2lab {
+        width: 6.77%;
+        padding: 4px;
+    }
+    .Sucol13_inv2lab {
         width: 6.67%;
+        padding: 4px;
+    }
+    .Sucol14_inv2lab {
+        width: 6.67%;
+        padding: 4px;
+    }
+    .Sucol15_inv2lab {
+        width: 6.77%;
+        padding: 4px;
     }
 
 

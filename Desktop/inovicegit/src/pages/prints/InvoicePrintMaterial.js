@@ -124,7 +124,7 @@ const InvoicePrintMaterial = ({
   // console.log("taxAmont", taxAmont);
   // console.log("extraTaxAmont", extraTaxAmont);
   // console.log("json0Data", json0Data);
-  // console.log("finalD", finalD);
+  console.log("finalD", finalD);
 
   const amount = Number(GrandTotal || 0);
   const rupees = Math.floor(amount);
@@ -135,7 +135,7 @@ const InvoicePrintMaterial = ({
   const allowedNames = ["mount", "finding"];
   const isFindingOrMount = Array.isArray(finalD) ? finalD.some((e) => allowedNames.includes(e?.ItemName?.toLowerCase())) : false;  
 
-  const allowedNamesForRate = ["Metal", "METAL", "metal", "MOUNT", "Mount", "mount", "FINDING", "Finding", "finding", "Alloy", "ALLOY", "alloy"];
+  const allowedNamesForRate = ["Metal", "METAL", "metal", "MOUNT", "Mount", "mount", "FINDING", "Finding", "finding"];
 
   return (
     <>
@@ -153,6 +153,7 @@ const InvoicePrintMaterial = ({
               />
             </div>
           </div>
+
           <div className="w-full flex items-center justify-center">
             <div className="container_inv2">
               <div className="headlineJL w-100 p-2">
@@ -261,6 +262,7 @@ const InvoicePrintMaterial = ({
                             : e?.ItemName === "METAL" && e?.shape === "Gold" ? "24K" 
                             : e?.ItemName === "METAL" && e?.shape === "gold" ? "24K" 
                             : e?.ItemName === "METAL" && e?.shape === "GOLD" ? "24K" 
+                            : e?.ItemName === "MOUNT" ? "24K" 
                             : e?.quality
                           }
                         </div>
@@ -323,7 +325,7 @@ const InvoicePrintMaterial = ({
                         </div>
                         <div className="Sucol12_inv2 spfnted spbrRht">
                           {formatAmount(e?.Amount === "" ? "-" :
-                            allowedNamesForRate.includes(e?.ItemName) ? ((e?.Weight * e?.Rate * e?.Tunch / 100) / e?.Weight) * e?.Rate 
+                            allowedNamesForRate.includes(e?.ItemName) ? (e?.Weight * e?.Rate * e?.Tunch / 100) 
                             : e?.Amount,2
                           )}
                         </div>
