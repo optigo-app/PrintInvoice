@@ -8,6 +8,7 @@ html {
     letter-spacing: 0.2px !important;
     border: 1px solid #f2f2f2;
     margin: 20px auto;
+    margin-bottom: 10rem;
     align-items: flex-start;
 }
 
@@ -151,7 +152,7 @@ html {
 }
 
 .detlsMtlContnt {
-    width: 60%;
+    width: 35%;
     display: flex;
 }
 
@@ -208,6 +209,10 @@ html {
 
 .spBgColr {
     background-color: #fafafa;
+}
+
+.spBgColrExcl {
+    background-color: #ffffff;
 }
 
 .spbrWord {
@@ -379,6 +384,10 @@ div.pdf-export-mode .mainRTMT {
     .detlsContnt,
     .bodyContnt {
         width: 100%;
+    }
+
+    .detlsMtlContnt {
+        width: 60%;
     }
 
     .retMatFont_22 {

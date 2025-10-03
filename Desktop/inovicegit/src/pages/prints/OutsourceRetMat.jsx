@@ -21,6 +21,8 @@ import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseA
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 import * as XLSX from 'xlsx';
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { borderLeft } from "@mui/system";
 const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [json1Data, setJson1Data] = useState({});
   const [json2Data, setJson2Data] = useState([]);
@@ -1105,32 +1107,6 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     sendData();
   }, []);
 
-  const handleExcelExport = () => {
-    const table = document.getElementById('table-to-xls');
-    if (!table) {
-      console.error("Export table not found");
-      return;
-    }
-  
-    const wb = XLSX.utils.table_to_book(table, { sheet: "Invoice" });
-    const ws = wb.Sheets["Invoice"];
-  
-    // Apply bold to the first row (headers)
-    const range = XLSX.utils.decode_range(ws['!ref']);
-    for (let C = range.s.c; C <= range.e.c; ++C) {
-      const cellAddress = XLSX.utils.encode_cell({ r: 0, c: C });
-      if (!ws[cellAddress]) continue;
-  
-      ws[cellAddress].s = {
-        font: { bold: true }
-      };
-    }
-  
-    const filename = `PO_Required_Meterial_Report_${json1Data?.InvoiceNo}.xlsx`;
-    XLSX.writeFile(wb, filename);
-  };
-  
-
 
   const handlePDFExport = async () => {
     const originalElement = exportRef.current;
@@ -1346,14 +1322,17 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
   const RtMtbrRight = {
     borderRight: "0.5px solid #000000",
   };
+  const RtMtbrLft = {
+    borderLeft: "0.5px solid #000000",
+  };
   const RtMtbrBotm = {
     borderBottom: "0.5px solid #000000",
   };
-  const RtMtbrBotmdrk = {
-    borderBottom: "1px solid #000000",
-  };
   const RtMtbrTop = {
-    borderTop: "1px solid #000000",
+    borderTop: "0.5px solid #000000",
+  };
+  const RtMtbrder = {
+    border: "0.5px solid #000000",
   };
   const RtMtstyBld = {
     fontWeight: "bold",
@@ -1361,13 +1340,23 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
   const RtMttxtCen = {
     textAlign: "center",
   }
+  const RtMttxtLft = {
+    textAlign: "left",
+  }
   const RtMtWdth = {
-    width: "150px",
+    width: "80px",
   };
   const RtMtspbrWrd = {
     wordBreak: "break-word",
     overflowWrap: "break-word",
     wordWrap: "break-word",
+  }
+  const fntSize = {
+    fontSize: "22px",
+  }
+  const spBrdr = {
+    borderCollapse: "collapse",
+    backgroundColor: "#ffffff",
   }
 
   return (
@@ -1376,6 +1365,14 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         <Loader />
       ) : msg === "" ? (
         <>
+          <ReactHTMLTableToExcel
+            id="test-table-xls-button"
+            className="d-none"
+            table="table-to-xls"
+            filename={`PO_Required_Meterial_Report_${json1Data?.InvoiceNo}.xlsx`}
+            sheet="tablexls"
+            buttonText=""
+          />
           <div className="mainRTMT" ref={exportRef}>
             {/* HEADER */}
             <div className="spMnHead">
@@ -1399,7 +1396,7 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 </button>
               </div>
               <div className="spHeadWdth3">
-                <button onClick={handleExcelExport}>
+                <button onClick={() => document.getElementById('test-table-xls-button').click()}>{/* Programmatically trigger the export */}
                   <GrDocumentExcel color="#217346" className="theIconImg" />
                 </button>
               </div>
@@ -1659,10 +1656,13 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
           </div>
           
           
-          <table id="table-to-xls" className='d-none'>
+          {/* Hidden table to be exported */}
+          <table id="table-to-xls" className="d-none" style={{ ...spBrdr }}>
             <tbody>
+              {/* HEADER */}
               <tr>
-                <td colSpan={6} width={60} height={132}>
+                <td />
+                <td colSpan={3} width={60} height={132}>
                   <img
                     src={json1Data?.PrintLogo}
                     alt=""
@@ -1671,56 +1671,237 @@ const OutsourceRetMat = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                     height={132}
                   />
                 </td>
-                <td colSpan={12}>
-                  <div className="retMatFont_22">PO: &nbsp;{json1Data?.InvoiceNo} wise Required Material Report</div>
+                <td colSpan={6} style={{ ...RtMtstyBld, ...fntSize }}>
+                  PO: &nbsp;{json1Data?.InvoiceNo} wise Required Material Report
                 </td>
               </tr>
 
-              <tr><td colSpan={18}></td></tr>
-
+              {/* ORDER DETAILS */}
               <tr>
-                <td colSpan={4}><div className="spBold" style={{ fontWeight: "bold" }}>{json1Data?.Manufacturer}</div></td>
-                <td colSpan={2}></td>
-                <td colSpan={4} style={{ fontWeight: "bold" }}>Manufacturer PO#:  {json1Data?.InvoiceNo}</td>
-                <td colSpan={2}></td>
-                <td colSpan={6} style={{ fontWeight: "bold" }}>Dated:  <p>{json1Data?.EntryDate.slice(0, 7)}</p></td>
+                <td />
+                <td colSpan={2} height={30} style={{ ...RtMtstyBld, ...fntSize, ...RtMttxtLft }}>{json1Data?.Manufacturer}</td>
+                <td colSpan={4}>
+                  Manufacturer PO#: <span style={{ ...RtMtstyBld }}>{json1Data?.InvoiceNo}</span>
+                </td>
+                <td colSpan={3}>
+                  Dated: <span style={{ ...RtMtstyBld }}>{json1Data?.EntryDate.slice(0, 7)}</span>
+                </td>
               </tr>
 
-              <tr><td colSpan={18}></td></tr>
+              <tr colSpan={9}></tr>
 
-              {renderSections.diamonds && grouped.diamonds.length > 0 && (<>
-                <tr className="retMatFont_14">
-                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd, ...RtMtstyBld }}>ITEM</td>
-                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd, ...RtMtstyBld }}>SHAPE</td>
-                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd, ...RtMtstyBld }}>QUALITY</td>
-                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd, ...RtMtstyBld }}>COLOR</td>
-                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd, ...RtMtstyBld }}>SIZE</td>
-                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd, ...RtMtstyBld }}>PCS.</td>
-                  <td colSpan={2} className="spBold" style={{ ...RtMtspbrWrd, ...RtMtstyBld }}>CTW</td>
-                </tr>
-
-                {grouped?.diamonds?.map((el, id) => (
-                  <tr key={id} className="retMatFont_13">
-                    {id === 0 && (
-                      <td colSpan={2} rowSpan={grouped?.diamonds.length} style={{ ...RtMttxtTop, ...RtMtspbrWrd }}>
-                        DIAMOND
-                      </td>
-                    )}
-                    <td colSpan={2} style={{ ...RtMtspbrWrd }}>{el?.ShapeName}</td>
-                    <td colSpan={2} style={{ ...RtMtspbrWrd }}>{el?.QualityName}</td>
-                    <td colSpan={2} style={{ ...RtMtspbrWrd }}>{el?.Colorname}</td>
-                    <td colSpan={2} style={{ ...RtMtspbrWrd }}>{el?.SizeName}</td>
-                    <td colSpan={2} style={{ ...RtMtspbrWrd }}>{el?.Pcs}</td>
-                    <td colSpan={2} style={{ ...RtMtspbrWrd }}>{fixedValues(el?.Wt, 3)}</td>
+              {/* DIAMOND */}
+              {renderSections.diamonds && grouped.diamonds.length > 0 && (
+                <>
+                  <tr>
+                    <td height={23}/>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrder }}>
+                      ITEM
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      SHAPE
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      QUALITY
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      COLOR
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      SIZE
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      PCS.
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      CTW
+                    </td>
                   </tr>
-                ))}
 
-                <tr>
-                  <td colSpan={10} style={{ ...RtMtstyBld }}>TOTAL :</td>
-                  <td colSpan={2} style={{ ...RtMtstyBld }}>{grouped?.diamondsTotal?.Pcs}</td>
-                  <td colSpan={2} style={{ ...RtMtstyBld }}>{fixedValues(grouped?.diamondsTotal?.Wt, 3)}</td>
-                </tr>
-              </>)}
+                  {grouped?.diamonds?.map((el, id) => (
+                    <tr key={id}>
+                      <td height={23}/>
+                      {id === 0 && (
+                        <td rowSpan={grouped?.diamonds.length} style={{ ...RtMttxtTop, ...RtMtspbrWrd, ...RtMtbrLft, ...RtMtbrTop, ...RtMtbrRight, ...RtMttxtCen }}>
+                          DIAMOND
+                        </td>
+                      )}
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrLft, ...RtMtbrTop, ...RtMtbrRight }} width={120}>{el?.ShapeName}</td>
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrTop, ...RtMtbrRight }} width={120}>{el?.QualityName}</td>
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrTop, ...RtMtbrRight }}>{el?.Colorname}</td>
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrTop, ...RtMtbrRight }}>{el?.SizeName}</td>
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrTop, ...RtMtbrRight }}>{el?.Pcs}</td>
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrTop, ...RtMtbrRight }}>{fixedValues(el?.Wt, 3)}</td>
+                    </tr>
+                  ))}
+
+                  <tr>
+                    <td height={23}/>
+                    <td colSpan={5} style={{ ...RtMtstyBld, ...RtMtbrder }}>TOTAL :</td>
+                    <td style={{ ...RtMtstyBld, ...RtMtbrTop, ...RtMtbrRight, ...RtMtbrBotm }}>{grouped?.diamondsTotal?.Pcs}</td>
+                    <td style={{ ...RtMtstyBld, ...RtMtbrTop, ...RtMtbrRight, ...RtMtbrBotm }}>{fixedValues(grouped?.diamondsTotal?.Wt, 3)}</td>
+                  </tr>
+                </>
+              )}
+              
+              <tr colSpan={9}/>
+
+              {/* COLORSTONES */}
+              {renderSections.colorStones && grouped.colorStones.length > 0 && (
+                <>
+                  <tr>
+                    <td height={23}/>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrder }}>
+                      ITEM
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      SHAPE
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      QUALITY
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      COLOR
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      SIZE
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      PCS.
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      CTW
+                    </td>
+                  </tr>
+
+                  {grouped?.colorStones?.map((el, id) => (
+                    <tr key={id}>
+                      <td height={23}/>
+                      {id === 0 && (
+                        <td rowSpan={grouped?.colorStones.length} style={{ ...RtMttxtTop, ...RtMtspbrWrd, ...RtMtbrLft, ...RtMtbrTop, ...RtMtbrRight, ...RtMttxtCen }} width={120}>
+                          COLORSTONE
+                        </td>
+                      )}
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrLft, ...RtMtbrTop, ...RtMtbrRight }}>{el?.ShapeName}</td>
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrTop, ...RtMtbrRight }}>{el?.QualityName}</td>
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrTop, ...RtMtbrRight }}>{el?.Colorname}</td>
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrTop, ...RtMtbrRight }}>{el?.SizeName}</td>
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrTop, ...RtMtbrRight }}>{el?.Pcs}</td>
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrTop, ...RtMtbrRight }}>{fixedValues(el?.Wt, 3)}</td>
+                    </tr>
+                  ))}
+
+                  <tr>
+                    <td height={23}/>
+                    <td colSpan={5} style={{ ...RtMtstyBld, ...RtMtbrder }}>TOTAL :</td>
+                    <td style={{ ...RtMtstyBld, ...RtMtbrTop, ...RtMtbrRight, ...RtMtbrBotm }}>{grouped?.colorStonesTotal?.Pcs}</td>
+                    <td style={{ ...RtMtstyBld, ...RtMtbrTop, ...RtMtbrRight, ...RtMtbrBotm }}>{fixedValues(grouped?.colorStonesTotal?.Wt, 3)}</td>
+                  </tr>
+                </>
+              )}
+
+              <tr colSpan={9}/>
+
+              {/* FINDING */}
+              {renderSections.finding && grouped.anotherFinding.length > 0 && (
+                <>
+                  <tr>
+                    <td height={23}/>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrder }}>
+                      ITEM
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      F.TYPE
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      ACCESSORIES
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      METAL
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      QUALITY
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      COLOR
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      PCS.
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      WT
+                    </td>
+                  </tr>
+
+                  {grouped?.anotherFinding?.map((el, id) => (
+                    <tr key={id}>
+                      <td height={23}/>
+                      {id === 0 && (
+                        <td rowSpan={grouped?.anotherFinding.length} style={{ ...RtMttxtTop, ...RtMtspbrWrd, ...RtMtbrLft, ...RtMtbrTop, ...RtMtbrRight, ...RtMttxtCen }} width={120}>
+                          FINDING
+                        </td>
+                      )}
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrLft, ...RtMtbrTop, ...RtMtbrRight }}>{el?.FindingTypename}</td>
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrTop, ...RtMtbrRight }}>{el?.FindingAccessories}</td>
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrTop, ...RtMtbrRight }}>{el?.ShapeName}</td>
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrTop, ...RtMtbrRight }}>{el?.QualityName}</td>
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrTop, ...RtMtbrRight }}>{el?.Colorname}</td>
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrTop, ...RtMtbrRight }}>{el?.Pcs}</td>
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrTop, ...RtMtbrRight }}>{fixedValues(el?.Wt, 3)}</td>
+                    </tr>
+                  ))}
+
+                  <tr>
+                    <td height={23}/>
+                    <td colSpan={6} style={{ ...RtMtstyBld, ...RtMtbrder }}>TOTAL :</td>
+                    <td style={{ ...RtMtstyBld, ...RtMtbrTop, ...RtMtbrRight, ...RtMtbrBotm }}>{grouped?.anotherFindingTotal?.Pcs}</td>
+                    <td style={{ ...RtMtstyBld, ...RtMtbrTop, ...RtMtbrRight, ...RtMtbrBotm }}>{fixedValues(grouped?.anotherFindingTotal?.Wt, 3)}</td>
+                  </tr>
+                </>
+              )}
+
+              {/* METAL */}
+              {renderSections.metals && grouped.metals.length > 0 && (
+                <>
+                  <tr>
+                    <td height={23}/>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrder }}>
+                      ITEM
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      METAL TYPE
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      COLOR
+                    </td>
+                    <td style={{ ...RtMtspbrWrd, ...RtMtstyBld, ...RtMtWdth, ...RtMtbrTop, ...RtMtbrRight }}>
+                      REQ.GM.
+                    </td>
+                  </tr>
+
+                  {grouped?.metals?.map((el, id) => (
+                    <tr key={id}>
+                      <td height={23}/>
+                      {id === 0 && (
+                        <td rowSpan={grouped?.metals.length} style={{ ...RtMttxtTop, ...RtMtspbrWrd, ...RtMtbrLft, ...RtMtbrTop, ...RtMtbrRight, ...RtMttxtCen }} width={120}>
+                          METAL
+                        </td>
+                      )}
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrLft, ...RtMtbrTop, ...RtMtbrRight }}>{el?.ShapeName} {el?.QualityName}</td>
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrTop, ...RtMtbrRight }}>{el?.Colorname}</td>
+                      <td style={{ ...RtMtspbrWrd, ...RtMtbrTop, ...RtMtbrRight }}>{fixedValues(el?.Wt, 3)}</td>
+                    </tr>
+                  ))}
+
+                  <tr>
+                    <td height={23}/>
+                    <td colSpan={3} style={{ ...RtMtstyBld, ...RtMtbrder }}>TOTAL :</td>
+                    <td style={{ ...RtMtstyBld, ...RtMtbrTop, ...RtMtbrRight, ...RtMtbrBotm }}>{fixedValues(grouped?.metalsTotal?.Wt, 3)}</td>
+                  </tr>
+                </>
+              )}
+
+              <tr rowSpan={5} height={200}></tr>
             </tbody>
           </table>
         </>
