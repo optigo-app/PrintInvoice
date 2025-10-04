@@ -119,12 +119,17 @@ const Print1Material = ({
     return sum + (isNaN(amount) ? 0 : amount);
   }, 0); 
 
-  const GrandTotal = totalAmount + totalEtraTaxAmount + taxAmont?.tax1Amount + taxAmont?.tax2Amount + taxAmont?.tax3Amount;
+  const GrandTotal =
+    (totalAmount || 0) +
+    (totalEtraTaxAmount || 0) +
+    (taxAmont?.tax1Amount || 0) +
+    (taxAmont?.tax2Amount || 0) +
+    (taxAmont?.tax3Amount || 0);
 
-  console.log("taxAmont", taxAmont);
-  console.log("extraTaxAmont", extraTaxAmont);
-  console.log("finalD", finalD);
-  console.log("json0Data", json0Data);
+  // console.log("taxAmont", taxAmont);
+  // console.log("extraTaxAmont", extraTaxAmont);
+  // console.log("finalD", finalD);
+  // console.log("json0Data", json0Data);
 
   return (
     <>
@@ -158,7 +163,7 @@ const Print1Material = ({
               {headFlag && (
                 <div className="headlineJL w-100 p-2">
                   <b style={{ fontSize: "20px" }}>
-                    MATERIAL SALE
+                    {json0Data?.PrintHeadLbl}
                   </b>
                 </div>
               )}

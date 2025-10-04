@@ -92,8 +92,19 @@ const InvoicePrintOldMaterial = ({
     return sum + (isNaN(Amount) ? 0 : Amount);
   }, 0);
 
-  const GrandTotal = totalAmount + taxAmont?.CGSTTotalAmount + taxAmont?.SGSTTotalAmount;
-  const EndGrandTotal = totalAmount + taxAmont?.CGSTTotalAmount + taxAmont?.SGSTTotalAmount + taxAmont?.tax1Amount + taxAmont?.tax2Amount + taxAmont?.tax3Amount;
+  const GrandTotal = 
+    (totalAmount || 0) +
+    (taxAmont?.CGSTTotalAmount || 0) +
+    (taxAmont?.SGSTTotalAmount || 0);
+
+  const EndGrandTotal = 
+    (totalAmount || 0) +
+    (taxAmont?.CGSTTotalAmount || 0) +
+    (taxAmont?.SGSTTotalAmount || 0) +
+    (taxAmont?.tax1Amount || 0) +
+    (taxAmont?.tax2Amount || 0) +
+    (taxAmont?.tax3Amount || 0);
+
   const amountStr = formatAmount(GrandTotal, 2);
   const isWide = amountStr.length >= 9;
 
@@ -102,11 +113,18 @@ const InvoicePrintOldMaterial = ({
   console.log("json0Data", json0Data);
   console.log("finalD", finalD);
 
-  const amount = Number(EndGrandTotal || 0);
-  const rupees = Math.floor(amount);
-  const paise = Math.round((amount - rupees) * 100);
-  const rupeesInWords = toWords.convert(rupees);
-  const paiseInWords = paise > 0 ? ` and ${toWords.convert(paise)} Paise` : '';
+  function convertWithAnd(amount) {
+    let words = toWords.convert(amount);
+
+    const pattern = /\bHundred\b\s+(?!(Thousand|Lakh|Crore|Only))(.+)/i;
+    if (pattern.test(words)) {
+      words = words.replace(pattern, (match, p1, p2) => {
+        return `Hundred and ${p2}`;
+      });
+    }
+
+    return words;
+  }
 
   return (
     <>
@@ -128,7 +146,7 @@ const InvoicePrintOldMaterial = ({
             <div className="container_inv2">
               <div className="headlineJL w-100 p-2">
                 <b style={{ fontSize: "20px" }}>
-                  TAX INVOICE
+                  {json0Data?.PrintHeadLbl}
                 </b>
               </div>
 
@@ -323,7 +341,9 @@ const InvoicePrintOldMaterial = ({
                 </div>
                 <div className="disflx brTpm">
                   <div className="taxwdth1 spfntBld spacLft2" style={{ alignItems: "center" }}>GRAND TOTAL</div>
-                  <div className="taxwdth2 spfntBld">{NumberWithCommas(EndGrandTotal,2)}</div>
+                  <div className="taxwdth2 spfntBld">
+                    <span dangerouslySetInnerHTML={{ __html: json0Data?.CurrSymbol }} />
+                    &nbsp;{NumberWithCommas(EndGrandTotal,2)}</div>
                 </div>
               </div>
               </div>
@@ -331,7 +351,7 @@ const InvoicePrintOldMaterial = ({
 
               {/** Total In Word */}
               <div className="taxwdth brbxAll spfntbH pgbrkIsd">
-                <span className="spfntBld">Rs.</span> <span>Rupees {rupeesInWords + paiseInWords} Only</span>
+                <span className="spfntBld">Rs.</span> <span>{convertWithAnd(Number(EndGrandTotal?.toFixed(2)))} Only</span>
               </div>
 
               

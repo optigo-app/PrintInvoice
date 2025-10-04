@@ -27,8 +27,8 @@ const InvoicePrintMaterial = ({
   const [msg, setMsg] = useState("");
   const [finalD, setFinalD] = useState({});
   const [custAddress, setCustAddress] = useState([]);
-  const [taxAmont , setTaxAmount] = useState();
-  const [extraTaxAmont , setExtraTaxAmount] = useState();
+  const [taxAmont, setTaxAmount] = useState();
+  const [extraTaxAmont, setExtraTaxAmount] = useState();
   const toWords = new ToWords();
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const InvoicePrintMaterial = ({
               data?.Data?.MaterialBill_Json[0]?.Printlable?.split("\r\n");
             setCustAddress(address);
             // console.log("data", data);
-            
+
             setJson0Data(data?.Data?.MaterialBill_Json[0]);
             const sortedItems = [...(data?.Data?.MaterialBill_Json1 || [])].sort(
               (a, b) => parseFloat(a?.ItemId || 0) - parseFloat(b?.ItemId || 0)
@@ -57,7 +57,7 @@ const InvoicePrintMaterial = ({
             setFinalD(sortedItems);
             setTaxAmount(data?.Data?.MaterialBill_Json2[0]);
             setExtraTaxAmount(data?.Data?.MaterialBill_Json3);
-            
+
             setLoader(false);
           } else {
             setLoader(false);
@@ -79,12 +79,25 @@ const InvoicePrintMaterial = ({
 
   function PrintableText({ json0Data }) {
     const htmlContent = json0Data?.Printlable?.replace(/\n/g, '<br />');
-  
+
     return (
       <div
         dangerouslySetInnerHTML={{ __html: htmlContent }}
       />
     );
+  }
+
+  function convertWithAnd(amount) {
+    let words = toWords.convert(amount);
+
+    const pattern = /\bHundred\b\s+(?!(Thousand|Lakh|Crore|Only))(.+)/i;
+    if (pattern.test(words)) {
+      words = words.replace(pattern, (match, p1, p2) => {
+        return `Hundred and ${p2}`;
+      });
+    }
+
+    return words;
   }
 
   const totalWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
@@ -95,8 +108,8 @@ const InvoicePrintMaterial = ({
   const totalPureWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
     const PureWeight = parseFloat(item?.PureWeight);
     return sum + (isNaN(PureWeight) ? 0 : PureWeight);
-  }, 0);  
-  
+  }, 0);
+
   const totalPieces = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
     const pieces = parseFloat(item?.pieces);
     return sum + (isNaN(pieces) ? 0 : pieces);
@@ -106,34 +119,33 @@ const InvoicePrintMaterial = ({
     const Amount = parseFloat(item?.Amount);
     return sum + (isNaN(Amount) ? 0 : Amount);
   }, 0);
-  
+
 
   const totalLabAmount = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
     const LabourAmt = parseFloat(item?.LabourAmt);
     return sum + (isNaN(LabourAmt) ? 0 : LabourAmt);
   }, 0);
-  
+
 
   const totalEtraTaxAmount = (Array.isArray(extraTaxAmont) ? extraTaxAmont : []).reduce((sum, item) => {
     const amount = parseFloat(item?.TaxAmount);
     return sum + (isNaN(amount) ? 0 : amount);
-  }, 0); 
+  }, 0);
 
-  const GrandTotal = totalAmount + totalEtraTaxAmount + taxAmont?.tax1Amount + taxAmont?.tax2Amount + taxAmont?.tax3Amount;
+  const GrandTotal = 
+  (totalAmount || 0) +
+  (totalEtraTaxAmount || 0) +
+  (taxAmont?.tax1Amount || 0) +
+  (taxAmont?.tax2Amount || 0) +
+  (taxAmont?.tax3Amount || 0);
 
   // console.log("taxAmont", taxAmont);
   // console.log("extraTaxAmont", extraTaxAmont);
   // console.log("json0Data", json0Data);
-  console.log("finalD", finalD);
-
-  const amount = Number(GrandTotal || 0);
-  const rupees = Math.floor(amount);
-  const paise = Math.round((amount - rupees) * 100);
-  const rupeesInWords = toWords.convert(rupees);
-  const paiseInWords = paise > 0 ? ` and ${toWords.convert(paise)} Paise` : '';
+  // console.log("finalD", finalD);
 
   const allowedNames = ["mount", "finding"];
-  const isFindingOrMount = Array.isArray(finalD) ? finalD.some((e) => allowedNames.includes(e?.ItemName?.toLowerCase())) : false;  
+  const isFindingOrMount = Array.isArray(finalD) ? finalD.some((e) => allowedNames.includes(e?.ItemName?.toLowerCase())) : false;
 
   const allowedNamesForRate = ["Metal", "METAL", "metal", "MOUNT", "Mount", "mount", "FINDING", "Finding", "finding"];
 
@@ -158,7 +170,7 @@ const InvoicePrintMaterial = ({
             <div className="container_inv2">
               <div className="headlineJL w-100 p-2">
                 <b style={{ fontSize: "20px" }}>
-                  TAX INVOICE
+                  {json0Data?.PrintHeadLbl}
                 </b>
               </div>
               {/** Header */}
@@ -195,92 +207,92 @@ const InvoicePrintMaterial = ({
               </div>
 
               {/** Table Header */}
-              <div className="disflx brbxAll spfntbH" style={{ marginTop: "5px"}}>
-                {isFindingOrMount ? ( 
-                    <>
-                      <div className="col1_inv2lab spfntBld spbrRht spfntCen">Sr#</div>
-                      <div className="col2_inv2lab spfntBld spfntCen spbrRht">Description</div>
-                      <div className="col3_inv2lab spfntBld spfntCen spbrRht">HSN#</div>
-                      <div className="col4_inv2lab spfntBld spbrRht spfntCen">Shape</div>
-                      <div className="col5_inv2lab spbrRht spfntBld spfntCen">Quality</div>
-                      <div className="spbrRht col6_inv2lab spfntBld spfntCen">Color</div>
-                      <div className="col7_inv2lab spfntBld spbrRht spfntCen">Size</div>
-                      <div className="col8_inv2lab spbrRht spfntBld spfntCen">Weight</div>
-                      <div className="col9_inv2lab spbrRht spfntBld spfntCen">Pure Wt</div>
-                      <div className="col10_inv2lab spbrRht spfntBld spfntCen">Pieces</div>
-                      <div className="col11_inv2lab spfntBld spbrRht spfntCen">Rate</div>
-                      <div className="col12_inv2lab spfntBld spfntCen spbrRht">Amount</div>
-                      <div className="col13_inv2lab spfntBld spfntCen spbrRht">Lab.<br />Rate</div>
-                      <div className="col14_inv2lab spfntBld spbrWord spfntCen spbrRht">Lab<br />Amount</div>
-                      <div className="col15_inv2lab spfntBld spbrWord spfntCen">Taxable Amount</div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="col1_inv2 spfntBld spbrRht spfntCen">Sr#</div>
-                      <div className="col2_inv2 spfntBld spfntCen spbrRht">Description</div>
-                      <div className="col3_inv2 spfntBld spfntCen spbrRht">HSN#</div>
-                      <div className="col4_inv2 spfntBld spbrRht spfntCen">Shape</div>
-                      <div className="col5_inv2 spbrRht spfntBld spfntCen">Quality</div>
-                      <div className="spbrRht col6_inv2 spfntBld spfntCen">Color</div>
-                      <div className="col7_inv2 spfntBld spbrRht spfntCen">Size</div>
-                      <div className="col8_inv2 spbrRht spfntBld spfntCen">Weight</div>
-                      <div className="col9_inv2 spbrRht spfntBld spfntCen">Pure Wt</div>
-                      <div className="col10_inv2 spbrRht spfntBld spfntCen">Pieces</div>
-                      <div className="col11_inv2 spfntBld spbrRht spfntCen">Rate</div>
-                      <div className="col12_inv2 spfntBld spfntCen">Taxable Amount</div>
-                    </>
-                  )
+              <div className="disflx brbxAll spfntbH" style={{ marginTop: "5px" }}>
+                {isFindingOrMount ? (
+                  <>
+                    <div className="col1_inv2lab spfntBld spbrRht spfntCen">Sr#</div>
+                    <div className="col2_inv2lab spfntBld spfntCen spbrRht">Description</div>
+                    <div className="col3_inv2lab spfntBld spfntCen spbrRht">HSN#</div>
+                    <div className="col4_inv2lab spfntBld spbrRht spfntCen">Shape</div>
+                    <div className="col5_inv2lab spbrRht spfntBld spfntCen">Quality</div>
+                    <div className="spbrRht col6_inv2lab spfntBld spfntCen">Color</div>
+                    <div className="col7_inv2lab spfntBld spbrRht spfntCen">Size</div>
+                    <div className="col8_inv2lab spbrRht spfntBld spfntCen">Weight</div>
+                    <div className="col9_inv2lab spbrRht spfntBld spfntCen">Pure Wt</div>
+                    <div className="col10_inv2lab spbrRht spfntBld spfntCen">Pieces</div>
+                    <div className="col11_inv2lab spfntBld spbrRht spfntCen">Rate</div>
+                    <div className="col12_inv2lab spfntBld spfntCen spbrRht">Amount</div>
+                    <div className="col13_inv2lab spfntBld spfntCen spbrRht">Lab.<br />Rate</div>
+                    <div className="col14_inv2lab spfntBld spbrWord spfntCen spbrRht">Lab<br />Amount</div>
+                    <div className="col15_inv2lab spfntBld spbrWord spfntCen">Taxable Amount</div>
+                  </>
+                ) : (
+                  <>
+                    <div className="col1_inv2 spfntBld spbrRht spfntCen">Sr#</div>
+                    <div className="col2_inv2 spfntBld spfntCen spbrRht">Description</div>
+                    <div className="col3_inv2 spfntBld spfntCen spbrRht">HSN#</div>
+                    <div className="col4_inv2 spfntBld spbrRht spfntCen">Shape</div>
+                    <div className="col5_inv2 spbrRht spfntBld spfntCen">Quality</div>
+                    <div className="spbrRht col6_inv2 spfntBld spfntCen">Color</div>
+                    <div className="col7_inv2 spfntBld spbrRht spfntCen">Size</div>
+                    <div className="col8_inv2 spbrRht spfntBld spfntCen">Weight</div>
+                    <div className="col9_inv2 spbrRht spfntBld spfntCen">Pure Wt</div>
+                    <div className="col10_inv2 spbrRht spfntBld spfntCen">Pieces</div>
+                    <div className="col11_inv2 spfntBld spbrRht spfntCen">Rate</div>
+                    <div className="col12_inv2 spfntBld spfntCen">Taxable Amount</div>
+                  </>
+                )
                 }
               </div>
 
               {/** table Body */}
               {finalD?.map((e, i) => {
                 return (
-                  isFindingOrMount ? ( 
+                  isFindingOrMount ? (
                     <>
                       <div key={i} className="disflx spbrlFt brBtom spfntbH">
                         <div className="col1_inv2lab spbrRht spfntCen">{i + 1}</div>
                         <div className="Sucol2_inv2lab spbrRht spbrWord">
-                          {e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND" 
-                          : e?.ItemName === "COLOR STONE" ? "STONE"  
-                            : e?.ItemName === "METAL" && e?.shape === "Gold" ? e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD' 
-                            : e?.ItemName === "METAL" && e?.shape === "gold" ? e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD' 
-                            : e?.ItemName === "METAL" && e?.shape === "GOLD" ? e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD' 
-                              : e?.ItemName === "METAL" && e?.shape === "Silver" ? 'SILVER ' +  (e?.quality || '') + (e?.Tunch !== undefined ? ' /' : '') + (e?.Tunch !== undefined ? `\u00A0Tunch: ${fixedValues(e.Tunch, 3)}` : '') 
-                              : e?.ItemName === "METAL" && e?.shape === "silver" ? 'SILVER ' +  (e?.quality || '') + (e?.Tunch !== undefined ? ' /' : '') + (e?.Tunch !== undefined ? `\u00A0Tunch: ${fixedValues(e.Tunch, 3)}` : '') 
-                              : e?.ItemName === "METAL" && e?.shape === "SILVER" ? 'SILVER ' +  (e?.quality || '') + (e?.Tunch !== undefined ? ' /' : '') + (e?.Tunch !== undefined ? `\u00A0Tunch: ${fixedValues(e.Tunch, 3)}` : '')
-                                : e?.ItemName === "MISC" ? "MISC" 
-                                  : e?.ItemName === "FINDING" ? "FINDING" 
-                                  : e?.ItemName === "ALLOY" ? "ALLOY" 
-                                  : e?.ItemName === "MOUNT" ? "MOUNT" 
-                                    : ""}
+                          {e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND"
+                            : e?.ItemName === "COLOR STONE" ? "STONE"
+                              : e?.ItemName === "METAL" && e?.shape === "Gold" ? e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD'
+                                : e?.ItemName === "METAL" && e?.shape === "gold" ? e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD'
+                                  : e?.ItemName === "METAL" && e?.shape === "GOLD" ? e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD'
+                                    : e?.ItemName === "METAL" && e?.shape === "Silver" ? 'SILVER ' + (e?.quality || '') + (e?.Tunch !== undefined ? ' /' : '') + (e?.Tunch !== undefined ? `\u00A0Tunch: ${fixedValues(e.Tunch, 3)}` : '')
+                                      : e?.ItemName === "METAL" && e?.shape === "silver" ? 'SILVER ' + (e?.quality || '') + (e?.Tunch !== undefined ? ' /' : '') + (e?.Tunch !== undefined ? `\u00A0Tunch: ${fixedValues(e.Tunch, 3)}` : '')
+                                        : e?.ItemName === "METAL" && e?.shape === "SILVER" ? 'SILVER ' + (e?.quality || '') + (e?.Tunch !== undefined ? ' /' : '') + (e?.Tunch !== undefined ? `\u00A0Tunch: ${fixedValues(e.Tunch, 3)}` : '')
+                                          : e?.ItemName === "MISC" ? "MISC"
+                                            : e?.ItemName === "FINDING" ? "FINDING"
+                                              : e?.ItemName === "ALLOY" ? "ALLOY"
+                                                : e?.ItemName === "MOUNT" ? "MOUNT"
+                                                  : ""}
                         </div>
-                        <div className="Sucol3_inv2lab spbrRht">{e?.HSN_No === "" ?  "-"  : e?.HSN_No }</div>
+                        <div className="Sucol3_inv2lab spbrRht">{e?.HSN_No === "" ? "-" : e?.HSN_No}</div>
                         <div className="Sucol4_inv2lab spbrRht spbrWord">{e?.shape === "" || e?.ItemName === "METAL" || e?.ItemName === "FINDING" ? "-" : e?.shape}</div>
                         <div className="Sucol5_inv2lab spbrRht spbrWord">
-                          {e?.quality === "" ? "-" 
-                            : e?.ItemName === "METAL" && e?.shape === "Gold" ? "24K" 
-                            : e?.ItemName === "METAL" && e?.shape === "gold" ? "24K" 
-                            : e?.ItemName === "METAL" && e?.shape === "GOLD" ? "24K" 
-                            : e?.ItemName === "MOUNT" ? "24K" 
-                            : e?.quality
+                          {e?.quality === "" ? "-"
+                            : e?.ItemName === "METAL" && e?.shape === "Gold" ? "24K"
+                              : e?.ItemName === "METAL" && e?.shape === "gold" ? "24K"
+                                : e?.ItemName === "METAL" && e?.shape === "GOLD" ? "24K"
+                                  : e?.ItemName === "MOUNT" ? "24K"
+                                    : e?.quality
                           }
                         </div>
                         <div className="Sucol6_inv2lab spbrRht spbrWord">{e?.color === "" ? "-" : e?.color}</div>
                         <div className="Sucol7_inv2lab spbrRht spbrWord">{e?.size === "" ? "-" : e?.size}</div>
-                        <div className="Sucol8_inv2lab spfnted spbrRht">{fixedValues(e?.Weight === "" ? "-" : e?.Weight,3)}</div>
-                        <div className="Sucol9_inv2lab spfnted spbrRht">{fixedValues(e?.PureWeight === "" ? "-" : e?.PureWeight,3)}</div>
-                        <div className="Sucol10_inv2lab spfnted spbrRht">{fixedValues(e?.pieces === "" ? "-" : e?.pieces,3)}</div>
+                        <div className="Sucol8_inv2lab spfnted spbrRht">{fixedValues(e?.Weight === "" ? "-" : e?.Weight, 3)}</div>
+                        <div className="Sucol9_inv2lab spfnted spbrRht">{fixedValues(e?.PureWeight === "" ? "-" : e?.PureWeight, 3)}</div>
+                        <div className="Sucol10_inv2lab spfnted spbrRht">{fixedValues(e?.pieces === "" ? "-" : e?.pieces, 3)}</div>
                         <div className="Sucol11_inv2lab spfnted spbrRht">
                           {formatAmount(e?.Rate === "" ? "-"
-                            : allowedNamesForRate.includes(e?.ItemName) ? (e?.Weight * e?.Rate * e?.Tunch / 100) / e?.Weight 
-                            : e?.Rate,2
+                            : allowedNamesForRate.includes(e?.ItemName) ? (e?.Weight * e?.Rate * e?.Tunch / 100) / e?.Weight
+                              : e?.Rate, 2
                           )}
                         </div>
-                        <div className="Sucol12_inv2lab spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.Amount - e?.LabourAmt,2)}</div>
-                        <div className="Sucol13_inv2lab spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.LabourRate,2)}</div>
-                        <div className="Sucol14_inv2lab spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.LabourAmt,2)}</div>
-                        <div className="Sucol15_inv2lab spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.FinalAmount,2)}</div>
+                        <div className="Sucol12_inv2lab spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.Amount - e?.LabourAmt, 2)}</div>
+                        <div className="Sucol13_inv2lab spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.LabourRate, 2)}</div>
+                        <div className="Sucol14_inv2lab spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.LabourAmt, 2)}</div>
+                        <div className="Sucol15_inv2lab spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.FinalAmount, 2)}</div>
                       </div>
                     </>
                   ) : (
@@ -288,45 +300,45 @@ const InvoicePrintMaterial = ({
                       <div key={i} className="disflx spbrlFt brBtom spfntbH">
                         <div className="col1_inv2 spbrRht spfntCen">{i + 1}</div>
                         <div className="Sucol2_inv2 spbrRht spbrWord">
-                          {e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND" 
-                          : e?.ItemName === "COLOR STONE" ? "STONE"  
-                            : e?.ItemName === "METAL" && e?.shape === "Gold" ? e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD' 
-                            : e?.ItemName === "METAL" && e?.shape === "gold" ? e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD' 
-                            : e?.ItemName === "METAL" && e?.shape === "GOLD" ? e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD' 
-                              : e?.ItemName === "METAL" && e?.shape === "Silver" ? 'SILVER ' +  (e?.quality || '') + (e?.Tunch !== undefined ? ' /' : '') + (e?.Tunch !== undefined ? `\u00A0Tunch: ${fixedValues(e.Tunch, 3)}` : '') 
-                              : e?.ItemName === "METAL" && e?.shape === "silver" ? 'SILVER ' +  (e?.quality || '') + (e?.Tunch !== undefined ? ' /' : '') + (e?.Tunch !== undefined ? `\u00A0Tunch: ${fixedValues(e.Tunch, 3)}` : '') 
-                              : e?.ItemName === "METAL" && e?.shape === "SILVER" ? 'SILVER ' +  (e?.quality || '') + (e?.Tunch !== undefined ? ' /' : '') + (e?.Tunch !== undefined ? `\u00A0Tunch: ${fixedValues(e.Tunch, 3)}` : '')
-                                : e?.ItemName === "MISC" ? "MISC" 
-                                  : e?.ItemName === "FINDING" ? "FINDING" 
-                                  : e?.ItemName === "ALLOY" ? "ALLOY" 
-                                  : e?.ItemName === "MOUNT" ? "MOUNT" 
-                                    : ""}
+                          {e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND"
+                            : e?.ItemName === "COLOR STONE" ? "STONE"
+                              : e?.ItemName === "METAL" && e?.shape === "Gold" ? e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD'
+                                : e?.ItemName === "METAL" && e?.shape === "gold" ? e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD'
+                                  : e?.ItemName === "METAL" && e?.shape === "GOLD" ? e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD'
+                                    : e?.ItemName === "METAL" && e?.shape === "Silver" ? 'SILVER ' + (e?.quality || '') + (e?.Tunch !== undefined ? ' /' : '') + (e?.Tunch !== undefined ? `\u00A0Tunch: ${fixedValues(e.Tunch, 3)}` : '')
+                                      : e?.ItemName === "METAL" && e?.shape === "silver" ? 'SILVER ' + (e?.quality || '') + (e?.Tunch !== undefined ? ' /' : '') + (e?.Tunch !== undefined ? `\u00A0Tunch: ${fixedValues(e.Tunch, 3)}` : '')
+                                        : e?.ItemName === "METAL" && e?.shape === "SILVER" ? 'SILVER ' + (e?.quality || '') + (e?.Tunch !== undefined ? ' /' : '') + (e?.Tunch !== undefined ? `\u00A0Tunch: ${fixedValues(e.Tunch, 3)}` : '')
+                                          : e?.ItemName === "MISC" ? "MISC"
+                                            : e?.ItemName === "FINDING" ? "FINDING"
+                                              : e?.ItemName === "ALLOY" ? "ALLOY"
+                                                : e?.ItemName === "MOUNT" ? "MOUNT"
+                                                  : ""}
                         </div>
-                        <div className="Sucol3_inv2 spbrRht">{e?.HSN_No === "" ?  "-"  : e?.HSN_No }</div>
+                        <div className="Sucol3_inv2 spbrRht">{e?.HSN_No === "" ? "-" : e?.HSN_No}</div>
                         <div className="Sucol4_inv2 spbrRht spbrWord">{e?.shape === "" || e?.ItemName === "METAL" || e?.ItemName === "FINDING" ? "-" : e?.shape}</div>
                         <div className="Sucol5_inv2 spbrRht spbrWord">
-                          {e?.quality === "" ? "-" 
-                            : e?.ItemName === "METAL" && e?.shape === "Gold" ? "24K" 
-                            : e?.ItemName === "METAL" && e?.shape === "gold" ? "24K" 
-                            : e?.ItemName === "METAL" && e?.shape === "GOLD" ? "24K" 
-                            : e?.quality
+                          {e?.quality === "" ? "-"
+                            : e?.ItemName === "METAL" && e?.shape === "Gold" ? "24K"
+                              : e?.ItemName === "METAL" && e?.shape === "gold" ? "24K"
+                                : e?.ItemName === "METAL" && e?.shape === "GOLD" ? "24K"
+                                  : e?.quality
                           }
                         </div>
                         <div className="Sucol6_inv2 spbrRht spbrWord">{e?.color === "" ? "-" : e?.color}</div>
                         <div className="Sucol7_inv2 spbrRht spbrWord">{e?.size === "" ? "-" : e?.size}</div>
-                        <div className="Sucol8_inv2 spfnted spbrRht">{fixedValues(e?.Weight === "" ? "-" : e?.Weight,3)}</div>
-                        <div className="Sucol9_inv2 spfnted spbrRht">{fixedValues(e?.PureWeight === "" ? "-" : e?.PureWeight,3)}</div>
-                        <div className="Sucol10_inv2 spfnted spbrRht">{fixedValues(e?.pieces === "" ? "-" : e?.pieces,3)}</div>
+                        <div className="Sucol8_inv2 spfnted spbrRht">{fixedValues(e?.Weight === "" ? "-" : e?.Weight, 3)}</div>
+                        <div className="Sucol9_inv2 spfnted spbrRht">{fixedValues(e?.PureWeight === "" ? "-" : e?.PureWeight, 3)}</div>
+                        <div className="Sucol10_inv2 spfnted spbrRht">{fixedValues(e?.pieces === "" ? "-" : e?.pieces, 3)}</div>
                         <div className="Sucol11_inv2 spfnted spbrRht">
                           {formatAmount(e?.Rate === "" ? "-"
-                            : allowedNamesForRate.includes(e?.ItemName) ? (e?.Weight * e?.Rate * e?.Tunch / 100) / e?.Weight 
-                            : e?.Rate,2
+                            : allowedNamesForRate.includes(e?.ItemName) ? (e?.Weight * e?.Rate * e?.Tunch / 100) / e?.Weight
+                              : e?.Rate, 2
                           )}
                         </div>
                         <div className="Sucol12_inv2 spfnted spbrRht">
                           {formatAmount(e?.Amount === "" ? "-" :
-                            allowedNamesForRate.includes(e?.ItemName) ? (e?.Weight * e?.Rate * e?.Tunch / 100) 
-                            : e?.Amount,2
+                            allowedNamesForRate.includes(e?.ItemName) ? (e?.Weight * e?.Rate * e?.Tunch / 100)
+                              : e?.Amount, 2
                           )}
                         </div>
                       </div>
@@ -337,7 +349,7 @@ const InvoicePrintMaterial = ({
 
               {/** Table Total */}
               <div className="disflx spbrlFt brBtom spfntbH">
-                {isFindingOrMount ? ( 
+                {isFindingOrMount ? (
                   <>
                     <div className="col1_inv2lab spbrRht"></div>
                     <div className="Sucol2_inv2lab spbrRht"></div>
@@ -346,14 +358,14 @@ const InvoicePrintMaterial = ({
                     <div className="Sucol5_inv2lab spbrRht"></div>
                     <div className="Sucol6_inv2lab spbrRht"></div>
                     <div className="Sucol7_inv2lab spbrRht"></div>
-                    <div className="Sucol8_inv2lab spfnted spfntBld spbrRht">{fixedValues(totalWeight,3)}</div>
-                    <div className="Sucol9_inv2lab spfnted spfntBld spbrRht">{fixedValues(totalPureWeight,3)}</div>
+                    <div className="Sucol8_inv2lab spfnted spfntBld spbrRht">{fixedValues(totalWeight, 3)}</div>
+                    <div className="Sucol9_inv2lab spfnted spfntBld spbrRht">{fixedValues(totalPureWeight, 3)}</div>
                     <div className="Sucol10_inv2lab spfnted spfntBld spbrRht">{totalPieces}</div>
                     <div className="Sucol11_inv2lab spfnted spbrRht"></div>
-                    <div className="Sucol12_inv2lab spfnted spfntBld spbrRht">{formatAmount(totalAmount - totalLabAmount,2)}</div>
+                    <div className="Sucol12_inv2lab spfnted spfntBld spbrRht">{formatAmount(totalAmount - totalLabAmount, 2)}</div>
                     <div className="Sucol13_inv2lab spfnted spfntBld spbrRht"></div>
-                    <div className="Sucol14_inv2lab spfnted spfntBld spbrRht">{formatAmount(totalLabAmount,2)}</div>
-                    <div className="Sucol15_inv2lab spfnted spfntBld spbrRht">{formatAmount(totalAmount,2)}</div>
+                    <div className="Sucol14_inv2lab spfnted spfntBld spbrRht">{formatAmount(totalLabAmount, 2)}</div>
+                    <div className="Sucol15_inv2lab spfnted spfntBld spbrRht">{formatAmount(totalAmount, 2)}</div>
                   </>
                 ) : (
                   <>
@@ -364,11 +376,11 @@ const InvoicePrintMaterial = ({
                     <div className="Sucol5_inv2 spbrRht"></div>
                     <div className="Sucol6_inv2 spbrRht"></div>
                     <div className="Sucol7_inv2 spbrRht"></div>
-                    <div className="Sucol8_inv2 spfnted spfntBld spbrRht">{fixedValues(totalWeight,3)}</div>
-                    <div className="Sucol9_inv2 spfnted spfntBld spbrRht">{fixedValues(totalPureWeight,3)}</div>
+                    <div className="Sucol8_inv2 spfnted spfntBld spbrRht">{fixedValues(totalWeight, 3)}</div>
+                    <div className="Sucol9_inv2 spfnted spfntBld spbrRht">{fixedValues(totalPureWeight, 3)}</div>
                     <div className="Sucol10_inv2 spfnted spfntBld spbrRht">{totalPieces}</div>
                     <div className="Sucol11_inv2 spfnted spbrRht"></div>
-                    <div className="Sucol12_inv2 spfnted spfntBld spbrRht">{formatAmount(totalAmount,2)}</div>
+                    <div className="Sucol12_inv2 spfnted spfntBld spbrRht">{formatAmount(totalAmount, 2)}</div>
 
                   </>
                 )}
@@ -379,13 +391,13 @@ const InvoicePrintMaterial = ({
                 return (
                   <div key={i} className="disflx spfntbH">
                     {isFindingOrMount ? (
-                      <> 
+                      <>
                         <div className="taxwdthlab spbrlFt spbrRht"></div>
                         <div className="taxwdth1lab spbrRht">
                           <p className="spfntBld">{e?.TaxName}</p>
                         </div>
                         <div className="taxwdth2lab spbrRht">
-                          <p className="spfntBld">{formatAmount(e?.TaxAmount,2)}</p>
+                          <p className="spfntBld">{formatAmount(e?.TaxAmount, 2)}</p>
                         </div>
                       </>
                     ) : (
@@ -395,7 +407,7 @@ const InvoicePrintMaterial = ({
                           <p className="spfntBld">{e?.TaxName}</p>
                         </div>
                         <div className="taxwdth2 spbrRht">
-                          <p className="spfntBld">{formatAmount(e?.TaxAmount,2)}</p>
+                          <p className="spfntBld">{formatAmount(e?.TaxAmount, 2)}</p>
                         </div>
                       </>
                     )}
@@ -405,86 +417,109 @@ const InvoicePrintMaterial = ({
               {extraTaxAmont?.length === 0 && (
                 <div className="disflx spfntbH pagBrkIsid">
                   {isFindingOrMount ? (<div className="taxwdthlab spbrlFt spbrRht"></div>) : (<div className="taxwdth spbrlFt spbrRht"></div>)}
-                  <div className={`${isFindingOrMount ? "taxwdth1lab" : "taxwdth1" } spbrRht`}>
+                  <div className={`${isFindingOrMount ? "taxwdth1lab" : "taxwdth1"} spbrRht`}>
                     {taxAmont?.tax1_taxname !== "" && (
-                        <div className="spacLft2 spfntBld">
-                          <p>{taxAmont?.tax1_taxname} @ {fixedValues(taxAmont?.tax1_value,3)} %</p>
-                        </div>
+                      <div className="spacLft2 spfntBld">
+                        <p>{taxAmont?.tax1_value ? `${taxAmont?.tax1_taxname} @ ${fixedValues(taxAmont?.tax1_value, 3)} %` : ""}</p>
+                      </div>
                     )}
                     {taxAmont?.tax2_taxname !== "" && (
-                        <div className="spacLft2 spfntBld">
-                          <p>{taxAmont?.tax2_taxname} @ {fixedValues(taxAmont?.tax2_value,3)} %</p>
-                        </div>
+                      <div className="spacLft2 spfntBld">
+                        <p>{taxAmont?.tax2_value ? `${taxAmont?.tax2_taxname} @ ${fixedValues(taxAmont?.tax2_value, 3)} %` : ""}</p>
+                      </div>
                     )}
                     {taxAmont?.tax3_taxname !== "" && (
-                        <div className="spacLft2 spfntBld">
-                          <p>{taxAmont?.tax3_taxname} @ {fixedValues(taxAmont?.tax3_value,3)} %</p>
-                        </div>
-                    )}
-                    {taxAmont?.CGSTTotalAmount !== 0 && (
-                        <div className="spacLft2 spfntBld">
-                          <p>CGST</p>
-                        </div>
-                    )}
-                    {taxAmont?.SGSTTotalAmount !== 0 && (
-                        <div className="spacLft2 spfntBld">
-                          <p>SGST</p>
-                        </div>
-                    )}
-                    {taxAmont?.IGSTTotalAmount !== 0 && (
-                        <div className="spacLft2 spfntBld">
-                          <p>IGST</p>
-                        </div>
-                    )}
-                  </div>
-                  <div className={`${ isFindingOrMount ? "taxwdth2lab" : "taxwdth2"} spbrRht`}>
-                    {taxAmont?.tax1Amount !== 0 && (
                       <div className="spacLft2 spfntBld">
-                          <p>{formatAmount(taxAmont?.tax1Amount,2)}</p>
-                        </div>
+                        <p>{taxAmont?.tax3_value ? `${taxAmont?.tax3_taxname} @ ${fixedValues(taxAmont?.tax3_value, 3)} %` : ""}</p>
+                      </div>
                     )}
-                    {taxAmont?.tax2Amount !== 0 && (
-                        <div className="spacLft2 spfntBld">
-                          <p>{formatAmount(taxAmont?.tax2Amount,2)}</p>
-                        </div>
-                    )}
-                    {taxAmont?.tax3Amount !== 0 && (
-                        <div className="spacLft2 spfntBld">
-                          <p>{formatAmount(taxAmont?.tax3Amount,2)}</p>
-                        </div>
-                    )}
-                    {taxAmont?.CGSTTotalAmount !== 0 && (
-                        <div className="spacLft2 spfntBld">
-                          <p>{formatAmount(taxAmont?.CGSTTotalAmount,2)}</p>
-                        </div>
-                    )}
-                    {taxAmont?.SGSTTotalAmount !== 0 && (
-                        <div className="spacLft2 spfntBld">
-                          <p>{formatAmount(taxAmont?.SGSTTotalAmount,2)}</p>
-                        </div>
-                    )}
-                    {taxAmont?.IGSTTotalAmount !== 0 && (
-                        <div className="spacLft2 spfntBld">
-                          <p>{formatAmount(taxAmont?.IGSTTotalAmount,2)}</p>
-                        </div>
+                    {taxAmont && (
+                      <>
+                        {taxAmont.CGSTTotalAmount !== 0 && (
+                          <div className="spacLft2 spfntBld">
+                            <p>CGST</p>
+                          </div>
+                        )}
+                        {taxAmont.SGSTTotalAmount !== 0 && (
+                          <div className="spacLft2 spfntBld">
+                            <p>SGST</p>
+                          </div>
+                        )}
+                        {taxAmont.IGSTTotalAmount !== 0 && (
+                          <div className="spacLft2 spfntBld">
+                            <p>IGST</p>
+                          </div>
+                        )}
+                      </>
                     )}
                   </div>
-                </div>                
+                  <div className={`${isFindingOrMount ? "taxwdth2lab" : "taxwdth2"} spbrRht`}>
+                    {Number(taxAmont?.tax1Amount) > 0 && (
+                      <div className="spacLft2 spfntBld">
+                        <p>{formatAmount(taxAmont.tax1Amount, 2)}</p>
+                      </div>
+                    )}
+
+                    {Number(taxAmont?.tax2Amount) > 0 && (
+                      <div className="spacLft2 spfntBld">
+                        <p>{formatAmount(taxAmont.tax2Amount, 2)}</p>
+                      </div>
+                    )}
+
+                    {Number(taxAmont?.tax3Amount) > 0 && (
+                      <div className="spacLft2 spfntBld">
+                        <p>{formatAmount(taxAmont.tax3Amount, 2)}</p>
+                      </div>
+                    )}
+
+                    {Number(taxAmont?.CGSTTotalAmount) > 0 && (
+                      <div className="spacLft2 spfntBld">
+                        <p>{formatAmount(taxAmont.CGSTTotalAmount, 2)}</p>
+                      </div>
+                    )}
+
+                    {Number(taxAmont?.SGSTTotalAmount) > 0 && (
+                      <div className="spacLft2 spfntBld">
+                        <p>{formatAmount(taxAmont.SGSTTotalAmount, 2)}</p>
+                      </div>
+                    )}
+
+                    {Number(taxAmont?.IGSTTotalAmount) > 0 && (
+                      <div className="spacLft2 spfntBld">
+                        <p>{formatAmount(taxAmont.IGSTTotalAmount, 2)}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
               )}
 
               {/**Grand Total */}
               <div className="disflx spfntbH brBtom">
-                <div className={`${ isFindingOrMount ? "taxwdthlab" : "taxwdth"} spbrlFt spbrRht`} style={{ paddingLeft: "5px", paddingTop: "5px" }}>
-                  In Words Indian Rupees <br /><span className="spfntBld">Rupees {rupeesInWords + paiseInWords} Only</span>
+                <div className={`${isFindingOrMount ? "taxwdthlab" : "taxwdth"} spbrlFt spbrRht`} style={{ paddingLeft: "5px", paddingTop: "5px" }}>
+                  {Number(GrandTotal) > 0 && (
+                    <>
+                      <p>In Words {json0Data?.CurrName}</p>
+                      <span className="spfntBld">{convertWithAnd(Number(GrandTotal.toFixed(2)))} Only</span>
+                    </>
+                  )}
                 </div>
-                <div className={`${isFindingOrMount ? "taxwdth1lab" : "taxwdth1" } spbrRht spfntBld grtHet brTpm`} style={{ alignItems: "center" }}>GRAND TOTAL</div>
-                <div className={`${isFindingOrMount ? "taxwdth2lab" : "taxwdth2" } spbrRht spfntBld grtHet brTpm`}>{NumberWithCommas(GrandTotal,2)}</div>
+                <div className={`${isFindingOrMount ? "taxwdth1lab" : "taxwdth1"} spbrRht spfntBld grtHet brTpm`} style={{ alignItems: "center" }}>
+                  {Number(GrandTotal) !== 0 && !isNaN(Number(GrandTotal)) && ("GRAND TOTAL")}
+                </div>
+                <div className={`${isFindingOrMount ? "taxwdth2lab" : "taxwdth2"} spbrRht spfntBld grtHet brTpm`}>
+                  {Number(GrandTotal) !== 0 && !isNaN(Number(GrandTotal)) && (
+                    <>
+                      <span dangerouslySetInnerHTML={{ __html: json0Data?.CurrSymbol }} />
+                      &nbsp;{NumberWithCommas(GrandTotal, 2)}
+                    </>
+                  )}
+                </div>
               </div>
-              
+
               {/** Instuction */}
-              {json0Data?.Declaration && ( 
+              {json0Data?.Declaration && (
                 <div className="brbxAll" style={{ borderTop: "none" }}>
-                  <div className="spinst" dangerouslySetInnerHTML={{ __html: json0Data?.Declaration,}}></div>
+                  <div className="spinst" dangerouslySetInnerHTML={{ __html: json0Data?.Declaration, }}></div>
                 </div>
               )}
 
