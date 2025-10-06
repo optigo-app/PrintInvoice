@@ -47,7 +47,7 @@ const InvoicePrint2Material = ({
           evn,
           ApiVer
         );
-        console.log("data", data);
+        // console.log("data", data);
         
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
@@ -145,7 +145,7 @@ const InvoicePrint2Material = ({
 
   // console.log("taxAmont", taxAmont);
   // console.log("extraTaxAmont", extraTaxAmont);
-  // console.log("finalD", finalD);
+  console.log("finalD", finalD);
   console.log("json0Data", json0Data);
 
   const allowedNamesForRate = ["Metal", "METAL", "metal", "MOUNT", "Mount", "mount", "FINDING", "Finding", "finding", "Alloy", "ALLOY", "alloy"];
@@ -270,6 +270,8 @@ const InvoicePrint2Material = ({
                           e?.ItemName === "METAL" && e?.shape === "gold" ? "GOLD" :
                           e?.ItemName === "METAL" && e?.shape === "Gold" ? "GOLD" : 
                           e?.ItemName === "METAL" && e?.shape === "Silver" ? `SILVER ${e?.quality ? e?.quality : ''}` : 
+                          e?.ItemName === "METAL" && e?.shape === "SILVER" ? `SILVER ${e?.quality ? e?.quality : ''}` : 
+                          e?.ItemName === "METAL" && e?.shape === "silver" ? `SILVER ${e?.quality ? e?.quality : ''}` : 
                           e?.ItemName === "MISC" ? "MISC" : 
                           e?.ItemName === "FINDING" ? "FINDING" : 
                           e?.ItemName === "ALLOY" ? "ALLOY" : 
@@ -408,12 +410,8 @@ const InvoicePrint2Material = ({
               {/**Grand Total */}
               <div className="disflx spfntbH">
                 <div className={`taxwdth spbrlFt spbrRht ${taxAmont?.AddLess !== 0 && ("brTpm")}`} style={{ paddingLeft: "5px", paddingTop: "5px", alignContent: "end" }}>
-                  {Number(LastGrandTotal) > 0 && (
-                    <>
-                      <p>In Words {json0Data?.CurrName}</p>
-                      <span className="spfntBld">{convertWithAnd(Number(LastGrandTotal.toFixed(2)))} Only</span>
-                    </>
-                  )}
+                  <p>In Words {json0Data?.CurrName}</p>
+                  <span className="spfntBld">{convertWithAnd(Number(LastGrandTotal.toFixed(2)))} Only</span>
                 </div>
                   <div className="extrWdthAftrBg1">
                     {taxAmont?.AddLess !== 0 && (
@@ -421,9 +419,7 @@ const InvoicePrint2Material = ({
                         {taxAmont?.AddLess < 0 ? "Less" : taxAmont?.AddLess > 0 ? "Add" : "" }
                       </div>
                     )}
-                    <div className="disflx extrWdthAftrBg spbrRht spfntBld grtHet brTpm" style={{ alignItems: "center" }}>
-                      {Number(LastGrandTotal) !== 0 && !isNaN(Number(LastGrandTotal)) && ("GRAND TOTAL")}
-                    </div>
+                    <div className="disflx extrWdthAftrBg spbrRht spfntBld grtHet brTpm" style={{ alignItems: "center" }}>GRAND TOTAL</div>
                   </div>
                   <div className="extrWdthAftrBg2">
                     {taxAmont?.AddLess !== 0 && ( 
@@ -432,25 +428,23 @@ const InvoicePrint2Material = ({
                       </div>
                     )}
                     <div className="disflx extrWdthAftrBg spbrRht spfntBld grtHet brTpm" style={{ alignItems: "center" }}>
-                      {Number(LastGrandTotal) !== 0 && !isNaN(Number(LastGrandTotal)) && (
-                        <>
-                          <span dangerouslySetInnerHTML={{ __html: json0Data?.CurrSymbol }} />
-                          &nbsp;{NumberWithCommas(LastGrandTotal, 2)}
-                        </>
-                      )}
+                      <span dangerouslySetInnerHTML={{ __html: json0Data?.CurrSymbol }} />
+                      &nbsp;{NumberWithCommas(LastGrandTotal, 2)}
                     </div>
                   </div>
               </div>
               
               {/** Remarks */}
-              <div className="sprmrk brbxAll">
-                <div className="spfntBld">REMARKS : </div>
-                <div className="">{json0Data?.Remark}</div>
-              </div>
+              {json0Data?.Remark !== "" && (
+                <div className="sprmrk brbxAll">
+                  <div className="spfntBld">REMARKS : </div>
+                  <div className="">{json0Data?.Remark}</div>
+                </div>
+              )}
               
               {/** Instuction */}
               {json0Data?.Declaration && ( 
-                <div className="brbxAll" style={{ borderTop: "none" }}>
+                <div className="brbxAll" style={{ borderTop: json0Data?.Remark === "" ? "1px solid #DDDDDD" : "none"  }}>
                   <div className="spinst" dangerouslySetInnerHTML={{ __html: json0Data?.Declaration,}}></div>
                 </div>
               )}

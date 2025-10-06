@@ -74,6 +74,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   }, []);
 
   function loadData(data) {
+    console.log("data", data);
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
     const datas = OrganizeDataPrint(
@@ -94,7 +95,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     datas?.resultArray?.forEach((el) => {
       let dia = [];
       el?.diamonds?.forEach((a) => {
-          let findrecord = dia?.findIndex((ele) => ele?.ShapeName === a?.ShapeName && ele?.QualityName === a?.QualityName && ele?.Colorname === a?.Colorname && ele?.Rate === a?.Rate)
+          let findrecord = dia?.findIndex((ele) => ele?.QualityName === a?.QualityName)
           if(findrecord === -1){
             let obj = {...a};
             obj.dwt = a?.Wt;
@@ -141,6 +142,10 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       }
     }
   };
+
+
+  console.log("result",result);
+
 
   return (
     <>
