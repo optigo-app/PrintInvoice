@@ -144,7 +144,7 @@ const InvoicePrint2Material = ({
   // console.log("taxAmont", taxAmont);
   // console.log("extraTaxAmont", extraTaxAmont);
   // console.log("finalD", finalD);
-  // console.log("json0Data", json0Data);
+  console.log("json0Data", json0Data);
 
   const allowedNamesForRate = ["Metal", "METAL", "metal", "MOUNT", "Mount", "mount", "FINDING", "Finding", "finding", "Alloy", "ALLOY", "alloy"];
 
@@ -195,9 +195,17 @@ const InvoicePrint2Material = ({
                     <div className="">{json0Data?.Company_VAT_GST}-{json0Data?.Company_VAT_GST_No} | {json0Data?.Company_CST_STATE}-{json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.ComPanCard}</div>
                   </div>
 
-                  <div>
-                    <img src={json0Data?.PrintLogo} alt="#companylogo" className="cmpnyLogo" onError={handleImageErrors}/>
-                  </div>
+                  {typeof json0Data?.PrintLogo === 'string' && json0Data.PrintLogo.trim() !== '' && (
+                    <div>
+                      <img 
+                        src={json0Data.PrintLogo} 
+                        alt="#companylogo"  
+                        className="cmpnyLogo" 
+                        onError={handleImageErrors}
+                      />
+                    </div>
+                  )}
+
                 </div>
               )}
 
