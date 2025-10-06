@@ -47,6 +47,8 @@ const InvoicePrint2Material = ({
           evn,
           ApiVer
         );
+        console.log("data", data);
+        
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
@@ -216,7 +218,7 @@ const InvoicePrint2Material = ({
                   <div className="spfntsZ spfntBld">{json0Data?.customerfirmname}</div>
                   <div>{json0Data?.customerAddress1}</div>
                   <div>{json0Data?.customerAddress2}</div>
-                  <div>{json0Data?.CompanyCity} {json0Data?.PinCode}</div>
+                  <div>{json0Data?.PinCode}</div>
                   <div>{json0Data?.customeremail}</div>
                   <div>{json0Data?.Cust_VAT_GST}-{json0Data?.Cust_VAT_GST_No} | PAN-{json0Data?.customerPANno}</div>
                   <div>{json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No}</div>
