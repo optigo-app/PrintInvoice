@@ -504,35 +504,37 @@ const DesignsetPackinglist = ({
                                 <div className="diamhpclcol w-100">
                                   <div
                                     className="dcolsthpcl centerpcl fwboldpcl fspcl"
-                                    style={{ width: "22%" }}
+                                    style={{  width: netWtflag ? "22%" : "26.50%" }}
                                   >
                                     {" "}
                                     KT{" "}
                                   </div>
                                   <div
                                     className="dcolsthpcl centerpcl fwboldpcl fspcl"
-                                    style={{ width: "18%" }}
+                                    style={{ width: netWtflag ? "18%" : "22.50%" }}
                                   >
                                     {" "}
                                     Gr Wt{" "}
                                   </div>
+                                  {netWtflag && (
+                                    <div
+                                      className="dcolsthpcl centerpcl fwboldpcl fspcl"
+                                      style={{ width: "18%" }}
+                                    >
+                                      {" "}
+                                      NetWt{" "}
+                                    </div>
+                                  )}
                                   <div
                                     className="dcolsthpcl centerpcl fwboldpcl fspcl"
-                                    style={{ width: "18%" }}
-                                  >
-                                    {" "}
-                                    NetWt{" "}
-                                  </div>
-                                  <div
-                                    className="dcolsthpcl centerpcl fwboldpcl fspcl"
-                                    style={{ width: "20%" }}
+                                    style={{ width: netWtflag ? "20%" : "24.50%" }}
                                   >
                                     {" "}
                                     Rate{" "}
                                   </div>
                                   <div
                                     className="dcolsthpcl centerpcl fwboldpcl fspcl"
-                                    style={{ borderRight: "0px", width: "22%" }}
+                                    style={{ borderRight: "0px", width: netWtflag ? "22%" : "26.50%" }}
                                   >
                                     {" "}
                                     Amount{" "}
@@ -667,14 +669,29 @@ const DesignsetPackinglist = ({
                                     {e?.lineid}
                                   </div>
                                 </div>
-                                <div className="pcltbr1c2 fspcl border-bottom border-black">
+                                <div className={`pcltbr1c2 fspcl border-black ${
+                                  result?.resultArray?.length === 1
+                                    ? 'border-bottom'
+                                    : i === 0
+                                    ? ''
+                                    : e?.designSetTotalAmount && i === result.resultArray.length - 1
+                                    ? 'border-bottom border-top'
+                                    : e?.designSetTotalAmount
+                                    ? 'border-top'
+                                    : i === result.resultArray.length - 1
+                                    ? 'border-bottom'
+                                    : ''
+                                  }`}
+                                >
                                   <div className="designimgpcl fspcl">
-                                    <img
-                                      src={e?.DesigSetImage}
-                                      alt="packinglist"
-                                      id="designimgpclid"
-                                      onError={(e) => handleImageError(e)}
-                                    />
+                                    {e?.designSetTotalAmount && (
+                                      <img
+                                        src={e?.DesigSetImage}
+                                        alt="packinglist"
+                                        id="designimgpclid"
+                                        onError={(e) => handleImageError(e)}
+                                      />
+                                    )}
                                   </div>
                                 </div>
                                 {/* diamond */}
@@ -980,7 +997,7 @@ const DesignsetPackinglist = ({
                                   ) : (
                                     <div className="w-100 d-flex h-100">
                                       <div
-                                        style={{ width: "22%" }}
+                                        style={{  width: netWtflag ? "22%" : "26.50%" }}
                                         className="be_1_pcl pt-1"
                                       >
                                         <div className="d-flex flex-column justify-content-between h-100">
@@ -1009,7 +1026,7 @@ const DesignsetPackinglist = ({
                                         </div>
                                       </div>
                                       <div
-                                        style={{ width: "18%" }}
+                                        style={{  width: netWtflag ? "18%" : "22.50%" }}
                                         className="be_1_pcl d-flex justify-content-end pt-1"
                                       >
                                         <div className="d-flex flex-column justify-content-between h-100 w-100">
@@ -1023,28 +1040,20 @@ const DesignsetPackinglist = ({
                                           </div>
                                         </div>
                                       </div>
-                                      <div
-                                        style={{ width: "18%" }}
-                                        className="be_1_pcl d-flex justify-content-end pt-1"
-                                      >
-                                        <div className="d-flex flex-column h-100 w-100 justify-content-between">
-                                          <div className="w-100 end_pcl_new end_p_pcl_new">
-                                            {netWtflag &&
-                                              e?.totals?.metal?.IsPrimaryMetal?.toFixed(
-                                                3
-                                              )}
-                                          </div>
-                                          <div className="w-100 end_pcl_new end_p_pcl_new bg_pcl br_top_pcl fw-bold">
-                                            {netWtflag
-                                              ? e?.totals?.metal?.IsPrimaryMetal?.toFixed(
-                                                3
-                                              )
-                                              : "\u00A0"}
+                                      {netWtflag && (
+                                        <div style={{ width: "18%" }} className="be_1_pcl d-flex justify-content-end pt-1">
+                                          <div className="d-flex flex-column h-100 w-100 justify-content-between">
+                                            <div className="w-100 end_pcl_new end_p_pcl_new">
+                                                {e?.totals?.metal?.IsPrimaryMetal?.toFixed(3)}
+                                            </div>
+                                            <div className="w-100 end_pcl_new end_p_pcl_new bg_pcl br_top_pcl fw-bold">
+                                              {e?.totals?.metal?.IsPrimaryMetal?.toFixed(3)}
+                                            </div>
                                           </div>
                                         </div>
-                                      </div>
+                                      )}
                                       <div
-                                        style={{ width: "20%" }}
+                                        style={{  width: netWtflag ? "20%" : "24.50%" }}
                                         className="be_1_pcl "
                                       >
                                         <div className="d-flex flex-column justify-content-between h-100 w-100">
@@ -1076,7 +1085,7 @@ const DesignsetPackinglist = ({
                                       </div>
 
                                       <div
-                                        style={{ width: "22%" }}
+                                        style={{ width: netWtflag ? "22%" : "26.50%" }}
                                         className="d-flex flex-column justify-content-between h-100"
                                       >
                                         <div>
@@ -1543,32 +1552,28 @@ const DesignsetPackinglist = ({
                           <div className="diapcltotrowtb">
                             <div
                               className="dcolsthpcl"
-                              style={{ width: "22%" }}
+                              style={{ width: netWtflag ? "22%" : "26.50%" }}
                             ></div>
                             <div
                               className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new"
-                              style={{ width: "18%" }}
+                              style={{ width: netWtflag ? "18%" : "22.50%" }}
                             >
                               {result?.mainTotal?.grosswt?.toFixed(3)}
                             </div>
-                            <div
-                              className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new"
-                              style={{ width: "18%" }}
-                            >
-                              {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
-                              {/* {(result?.mainTotal?.metal?.IsPrimaryMetal + result?.mainTotal?.lossWt)?.toFixed(3)} */}
-                              {netWtflag && (
-                                <>
-                                  {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(
-                                    3
-                                  )}
-                                </>
-                              )}
-                            </div>
+                            {netWtflag && (
+                              <div
+                                className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new"
+                                style={{ width: "18%" }}
+                              >
+                                {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
+                                {/* {(result?.mainTotal?.metal?.IsPrimaryMetal + result?.mainTotal?.lossWt)?.toFixed(3)} */}
+                                    {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}
+                              </div>
+                            )}
                             {/* <div className="dcolsthpcl" style={{ width: "20%" }} ></div> */}
                             <div
                               className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new"
-                              style={{ borderRight: "0px", width: "42%" }}
+                              style={{ borderRight: "0px", width: netWtflag ? "42%" : "51%" }}
                             >
                               {result?.mainTotal.metal
                                 ?.IsPrimaryMetal_Amount !== 0 &&
