@@ -74,7 +74,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   }, []);
 
   function loadData(data) {
-    console.log("data", data);
+    // console.log("data", data);
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
     const datas = OrganizeDataPrint(
@@ -144,7 +144,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   };
 
 
-  console.log("result",result);
+  // console.log("result",result);
 
 
   return (

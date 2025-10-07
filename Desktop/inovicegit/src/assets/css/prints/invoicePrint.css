@@ -1,7 +1,7 @@
 .inoviceprintContainer *:not(.declarationInvoicePrint *){
     font-size: 12px;
     line-height: 100%;
-    line-height: 12px;
+    line-height: 14px;
     font-family: Calibri;
 }
 
@@ -66,6 +66,11 @@
 }
 
 /* VivekM */
+.brderBtomLt {
+    border-bottom: 1px solid #dddddd;
+    margin-bottom: 8px;
+}
+
 .brdrTop {
     border-top: 2px solid #000;
 }

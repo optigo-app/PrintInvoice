@@ -215,9 +215,10 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         } else {
           // let findDiamond = diamonds?.findIndex((elem, index) => elem?.MaterialTypeName === ele?.MaterialTypeName && elem?.ShapeName === ele?.ShapeName &&
           //   elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate);
-          let findDiamond = diamonds?.findIndex((elem, index) => elem?.MaterialTypeName === ele?.MaterialTypeName &&
-            // elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && 
-            elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate);
+          let findDiamond = diamonds?.findIndex((elem, index) => elem?.MaterialTypeName === ele?.MaterialTypeName 
+            // && elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && 
+            // elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate
+          );
           if (findDiamond === -1) {
             // let findDiamonds = diamonds?.findIndex((elem, index) => elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate && elem?.MaterialTypeName === ele?.MaterialTypeName);
             // if (findDiamonds === -1) {
@@ -398,9 +399,9 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log("json0", json0);
+  // console.log("json0", json0);
   console.log("mainData", mainData);
-  console.log("datass", datass);
+  // console.log("datass", datass);
   
   return (
     loader ? <Loader /> : msg === "" ? <div className='container portraitContainer inoviceprintContainer max_width_container pad_60_allPrint mt-2 px-1 invp_830 invp_830_fs'>
@@ -413,26 +414,24 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       {/* heading */}
       <div className="bgGrey text-uppercase fs-5 fw-bold text-white mb_2 no_break invp_830_fs invp_830_fs_head_label" style={{ padding: "0.7rem" }}>{json0?.PrintHeadLabel}</div>
       {/* address */}
-      {/* <div className="w-100 d-flex justify-content-between  no_break">
-        <div className='col-10  brdrAll  p-1 invp_830_fs'>
-          <p className='fw-bold fs-6 pb-1 invp_830_fs'>{json0?.CompanyFullName}</p>
-          <p className='pb-1 invp_830_fs'>{json0?.CompanyAddress}</p>
-          <p className='pb-1 invp_830_fs'>{json0?.CompanyAddress2}</p>
-          <p className='pb-1 invp_830_fs'>{json0?.CompanyCity}-{json0?.CompanyPinCode}, {json0?.CompanyState}{json0?.CompanyCountry !== "" && `(${json0?.CompanyCountry})`}</p>
-          {/* <p>{json0?.CompanyAddress2}-{json0?.CompanyPinCode}, {json0?.CompanyState}({json0?.CompanyCountry})</p> 
-          <p className='pb-1 invp_830_fs'>T {json0?.CompanyTellNo} | TOLL FREE {json0?.CompanyTollFreeNo}</p>
-          <p className='pb-1 invp_830_fs'>{json0?.CompanyEmail} | {json0?.CompanyWebsite}</p>
-          {/* { json0?.MSME && <p className='pb-1 invp_830_fs'>MSME - {json0?.MSME}</p>} 
+      <div className="w-100 d-flex justify-content-between no_break" style={{ padding: "6px" }}>
+        <div className='col-10 invp_830_fs'>
+          <p className='fw-bold fs-6 invp_830_fs'>{json0?.CompanyFullName}</p>
+          <p className='invp_830_fs'>{json0?.CompanyAddress}</p>
+          <p className='invp_830_fs'>{json0?.CompanyCity}-{json0?.CompanyPinCode}, {json0?.CompanyState}{json0?.CompanyCountry !== "" && `(${json0?.CompanyCountry})`}</p>
+          <p className='invp_830_fs'>T {json0?.CompanyTellNo} | TOLL FREE {json0?.CompanyTollFreeNo}</p>
+          <p className='invp_830_fs'>{json0?.CompanyEmail} | {json0?.CompanyWebsite}</p>
+          { json0?.MSME && <p className='invp_830_fs'>MSME - {json0?.MSME}</p>} 
         </div>
         <div className='col-2'>
           {isImageWorking && (json0?.PrintLogo !== "" &&
             <img src={json0?.PrintLogo} alt=""
               className='w-100 h-auto ms-auto d-block object-fit-contain'
-              style={{ maxWidth: '138px' }}
+              style={{ maxWidth: '105px' }}
               onError={handleImageErrors} height={120} width={150} />)}
-          {/* <img src={json0?.PrintLogo} alt="" className='w-100 invoicePrintLogo' /> 
         </div>
-      </div> */}
+      </div>
+      <div className='brderBtomLt'></div>
       {/* bill no */}
       <div className="w-100 d-flex justify-content-between pb-1 no_break">
         <div className='col-9'>
@@ -443,14 +442,16 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               <p className='col-3 fw-bold invp_830_fs'>BILL NO</p>
               <p className='col-9 ps-2 invp_830_fs'>{json0?.InvoiceNo}</p>
             </div>
-            <div className="d-flex pb-1">
+            <div className={`d-flex ${json0?.HSN_No && ( "pb-1" )}`}>
               <p className='col-3 fw-bold invp_830_fs'>DATE</p>
               <p className='col-9 ps-2 invp_830_fs'>{json0?.EntryDate}</p>
             </div>
-            <div className="d-flex pb-1">
-              <p className='col-3 fw-bold invp_830_fs'>HSN</p>
-              <p className='col-9 ps-2 invp_830_fs'>{json0?.HSN_No}</p>
-            </div>
+            {json0?.HSN_No && (
+              <div className="d-flex pb-1">
+                <p className='col-3 fw-bold invp_830_fs'>HSN</p>
+                <p className='col-9 ps-2 invp_830_fs'>{json0?.HSN_No}</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -528,7 +529,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <div className="px-1 col-3 text-end invp_830_fs"><p></p></div>
                 <div className="px-1 col-2 text-end invp_830_fs"><p className='invp_830_fs'>{mainData?.labour?.primaryWt !== 0 && NumberWithCommas((mainData?.labour?.rate), 0)}</p></div>
                 <div className="px-1 col-3 text-end invp_830_fs"><p className='invp_830_fs'>{NumberWithCommas(datass?.mainTotal?.total_Making_Amount + datass?.mainTotal?.diamonds?.SettingAmount +
-                  datass?.mainTotal?.colorstone?.SettingAmount + datass?.mainTotal?.misc?.Amount + datass?.mainTotal?.total_diamondHandling, 2)}</p></div>
+                  datass?.mainTotal?.colorstone?.SettingAmount  + datass?.mainTotal?.total_diamondHandling, 2)}</p></div>
               </div>}
               {mainData?.otherCharges?.map((e, i) => {
                 return <div className="d-flex pb-1 no_break" key={i}>
