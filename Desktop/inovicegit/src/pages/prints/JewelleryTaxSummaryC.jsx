@@ -210,9 +210,8 @@ const JewelleryTaxSummaryC = ({
                       {result?.header?.customerfirmname}
                     </div>
                     <div>{result?.header?.customerstreet}</div>
-                    <div>{result?.header?.customercity} {result?.header?.customerpincode}</div>
-                    <div>{result?.header?.customerstate} {result?.header?.customercountry}</div>
-                    {/* <div>Tel : {result?.header?.customermobileno}</div>
+                    <div>{result?.header?.customercity} {result?.header?.customerpincode} {result?.header?.customerstate} {result?.header?.customercountry}</div>
+                    {/*<div>Tel : {result?.header?.customermobileno}</div>
                     <div>{result?.header?.customeremail1}</div> */}
                   </div>
                   <div className="fs_jts devidePDetail2">
