@@ -104,6 +104,26 @@
 .lastPad{
     padding-right: 8.5rem;
 }
+
+.spbrWord {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.devidePDetail1 {
+    width: 75%;
+}
+
+.devidePDetail2 {
+    width: 25%;
+    padding-right: 1.5rem;
+}
+
+.spPad05 {
+    padding: 0.5rem;
+}
+
 @media print {
     .d_none_jts{
         display: none !important;
@@ -147,5 +167,15 @@
     }
     .lastPad{
         padding-right: 4.4rem;
+    }
+    .devidePDetail1 {
+        width: 72%;
+    }
+    .devidePDetail2 {
+        width: 28%;
+        padding-right: 0.1rem;
+    }
+    .spPad2_5 {
+        padding: 0.1rem;
     }
 }

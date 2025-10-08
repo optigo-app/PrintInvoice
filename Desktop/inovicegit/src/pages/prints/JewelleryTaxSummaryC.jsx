@@ -11,6 +11,7 @@ import {
   formatAmount,
   handleImageError,
   isObjectEmpty,
+  ReceiveInBank,
 } from "../../GlobalFunctions";
 import { cloneDeep } from "lodash";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
@@ -31,6 +32,7 @@ const JewelleryTaxSummaryC = ({
   const [image, setImage] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
   const [purityWise, setPurityWise] = useState([]);
+  const [bank, setBank] = useState([]);
 
   useEffect(() => {
     const sendData = async () => {
@@ -79,7 +81,8 @@ const JewelleryTaxSummaryC = ({
       copydata?.BillPrint_Json2
     );
     setResult(datas);
-
+    let debitCardinfo = ReceiveInBank(data?.BillPrint_Json[0]?.BankPayDet);
+    setBank(debitCardinfo);
     let pwise = [];
 
     datas?.resultArray?.forEach((el) => {
@@ -157,7 +160,7 @@ const JewelleryTaxSummaryC = ({
                   </div>
                   <Button />
                 </div>
-                <div className="d-flex justify-content-between align-items-center p-1">
+                {/* <div className="d-flex justify-content-between align-items-center p-1">
                   <div className="fs_jts">
                     <div className="fs2_jts fw-bold">
                       {result?.header?.CompanyFullName}
@@ -200,44 +203,54 @@ const JewelleryTaxSummaryC = ({
                       />
                     )}
                   </div>
-                </div>
-                <div className="border p-2 d-flex justify-content-between align-items-center">
-                  <div className="fs_jts">
-                    <div>To,</div>
+                </div> */}
+                <div className="border spPad05 d-flex justify-content-between">
+                  <div className="fs_jts devidePDetail1">
                     <div className="fs2_jts1 fw-bold">
                       {result?.header?.customerfirmname}
                     </div>
                     <div>{result?.header?.customerstreet}</div>
-                    <div>{result?.header?.customerregion}</div>
-                    <div>
-                      {result?.header?.customercity}{" "}
-                      {result?.header?.customerpincode}
-                    </div>
-                    <div>Tel : {result?.header?.customermobileno}</div>
-                    <div>{result?.header?.customeremail1}</div>
+                    <div>{result?.header?.customercity} {result?.header?.customerpincode}</div>
+                    <div>{result?.header?.customerstate} {result?.header?.customercountry}</div>
+                    {/* <div>Tel : {result?.header?.customermobileno}</div>
+                    <div>{result?.header?.customeremail1}</div> */}
                   </div>
-                  <div className="fs_jts" style={{ paddingRight: "2.5rem" }}>
-                    <div>
-                      Invoice#:{" "}
-                      <span className="fw-bold">
+                  <div className="fs_jts devidePDetail2">
+                    <div className="d-flex w-100">
+                      <div className="w-50">Invoice#:</div>
+                      <div className="fw-bold w-50">
                         {result?.header?.InvoiceNo}
-                      </span>{" "}
-                      <span className="spfontCol">Dated</span>{" "}
-                      <span className="fw-bold">
-                        {result?.header?.EntryDate}
-                      </span>
+                      </div>
                     </div>
-                    <div>
+                    <div className="d-flex w-100">
+                      <div className="w-50">Dated</div>{" "}
+                      <div className="fw-bold w-50">
+                        {result?.header?.EntryDate}
+                      </div>
+                    </div>
+                    <div className="d-flex w-100">
+                      <div className="w-50">Mode Of Payment</div>
+                      <div className="fw-bold w-50 spbrWord">
+                        {[
+                          result?.header?.CashReceived > 0 ? "Cash" : "",
+                          result?.header?.AdvanceAmount > 0 ? "Advance" : "",
+                          ...new Set(bank?.map((e) => e?.label))
+                        ]
+                          .filter(Boolean)
+                          .join(", ")}
+                      </div>
+                    </div>
+                    {/* <div>
                       {result?.header?.HSN_No_Label}:{" "}
                       <span className="fw-bold">{result?.header?.HSN_No}</span>
-                    </div>
-                    <div>
+                    </div> */}
+                    {/* <div>
                       PAN#:{" "}
                       <span className="fw-bold">
                         {result?.header?.CustPanno}
                       </span>
-                    </div>
-                    <div>
+                    </div> */}
+                    {/* <div>
                       {result?.header?.CustGstNo === "" ? "VAT" : "GSTIN"}{" "}
                       &nbsp;
                       <span className="fw-bold">
@@ -249,8 +262,8 @@ const JewelleryTaxSummaryC = ({
                       <span className="fw-bold">
                         {result?.header?.Cust_CST_STATE_No}
                       </span>
-                    </div>
-                    {result?.header?.DueDays === 0 ? (
+                    </div> */}
+                    {/* {result?.header?.DueDays === 0 ? (
                       ""
                     ) : (
                       <div>
@@ -259,11 +272,11 @@ const JewelleryTaxSummaryC = ({
                           {result?.header?.DueDays} Days
                         </span>
                       </div>
-                    )}
-                    <div>
+                    )} */}
+                    {/* <div>
                       Due Date:{" "}
                       <span className="fw-bold">{result?.header?.DueDate}</span>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className="table_jts">
@@ -325,6 +338,7 @@ const JewelleryTaxSummaryC = ({
                                   3
                                 )} gms `}
                             {/* | DIA: {e?.totals?.diamonds?.Wt?.toFixed(3)} Cts | CS: {e?.totals?.colorstone?.Wt?.toFixed(3)} Cts | MISC: {e?.totals?.misc?.Wt?.toFixed(3)} gms */}
+                            <br />{e?.Categoryname}
                           </div>
                           <div className="col4_jts d-flex align-items-start justify-content-end p-1">
                             <span
@@ -339,7 +353,7 @@ const JewelleryTaxSummaryC = ({
                       );
                     })}
                   </div>
-                  <div
+                  {/* <div
                     className="thead_jts fs2_jts1"
                     style={{ marginTop: "5px" }}
                   >
@@ -357,9 +371,9 @@ const JewelleryTaxSummaryC = ({
                           result?.mainTotal?.total_discount_amount
                       )}
                     </div>
-                  </div>
+                  </div> */}
                 </div>
-                <div className="brall_jts border-top-0 d-flex pbia_jts">
+                <div className="brall_jts d-flex pbia_jts" style={{ marginTop: "5px" }}>
                   <div className="w33_jts p-1 fs_jts brr_jts">
                     <div className="fw-bold text-decoration-underline">
                       REMARKS:
@@ -403,15 +417,14 @@ const JewelleryTaxSummaryC = ({
                   </div>
                   <div className="w33_jts fs2_jts1 d-flex">
                     <div className="brr_jts w1_jts">
-                    <div className="start_jts ps-1">Total Discount</div>
-                    <div className="start_jts ps-1">Taxable Value</div>
-                      {result?.allTaxes?.map((e, i) => (
-                        <div className="start_jts ps-1" key={i}>
-                          {e?.name} @ {e?.per}
-                        </div>
-                      ))}
+                      <div className="start_jts ps-1">Sub Total</div>
+                      <div className="start_jts ps-1">Total Discount</div>
+                      {/* <div className="start_jts ps-1">Taxable Value</div> */}
                       <div className="start_jts ps-1">
-                        {result?.header?.AddLess < 0 ? "Less" :  "Add" }
+                          Tax
+                      </div>
+                      <div className="start_jts ps-1">
+                        {result?.header?.AddLess < 0 ? "Less" : result?.header?.AddLess > 0 ? "Add" : "" }
                       </div>
                       {result?.header?.ModeOfDel !== null && (
                         <div className="start_jts ps-1">{result?.header?.ModeOfDel}</div>
@@ -425,9 +438,21 @@ const JewelleryTaxSummaryC = ({
                             __html: result?.header?.Currencysymbol,
                           }}
                         ></span>
-                        {formatAmount(result?.mainTotal?.total_discount_amount)}
+                        {formatAmount(
+                          result?.mainTotal?.total_amount +
+                          result?.mainTotal?.total_discount_amount
+                        )}
                       </div>
                       <div className="end_jts pe-1">
+                        <span
+                          className="pe-1"
+                          dangerouslySetInnerHTML={{
+                            __html: result?.header?.Currencysymbol,
+                          }}
+                        ></span>
+                        {formatAmount(result?.mainTotal?.total_discount_amount)}
+                      </div>
+                      {/* <div className="end_jts pe-1">
                         <span
                           className="pe-1"
                           dangerouslySetInnerHTML={{
@@ -438,18 +463,22 @@ const JewelleryTaxSummaryC = ({
                           result?.mainTotal?.total_amount /
                             result?.header?.CurrencyExchRate 
                         )}
+                      </div> */}
+                      <div className="end_jts pe-1 fw-bold">
+                        <span
+                          className="pe-1"
+                          dangerouslySetInnerHTML={{
+                            __html: result?.header?.Currencysymbol,
+                          }}
+                        ></span>
+                        {formatAmount(
+                          result?.allTaxes?.reduce(
+                            (acc, curr) => acc + (Number(curr?.amount) || 0),
+                            0
+                          )
+                        )}
                       </div>
-                      {result?.allTaxes?.map((e, i) => (
-                        <div className="end_jts pe-1" key={i}>
-                          <span
-                            className="pe-1"
-                            dangerouslySetInnerHTML={{
-                              __html: result?.header?.Currencysymbol,
-                            }}
-                          ></span>
-                          {formatAmount(e?.amount)}
-                        </div>
-                      ))}
+                      {result?.header?.AddLess !== 0 && ( 
                         <div className="end_jts pe-1">
                           <span
                             className="pe-1"
@@ -459,6 +488,7 @@ const JewelleryTaxSummaryC = ({
                           ></span>
                           {formatAmount(result?.header?.AddLess)}
                         </div>
+                      )}
                       {/* <div className="end_jts pe-1">
                         <span
                           className="pe-1"
@@ -525,29 +555,29 @@ const JewelleryTaxSummaryC = ({
                   IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF
                   TRANSACTIONS
                 </div>
-                <div className="brall_jts dec_jts p-2 pbia_jts">
+                {/* <div className="brall_jts dec_jts p-2 pbia_jts">
                   <div
                     dangerouslySetInnerHTML={{
                       __html: result?.header?.Declaration,
                     }}
                   ></div>
-                </div>
-                <div className="d-flex fs_jts brall_jts border-top-0 pbia_jts">
-                  <div className="w33_jts p-1 brr_jts">
+                </div> */}
+                <div className="d-flex fs_jts brall_jts pbia_jts" style={{ height: "100px" }}>
+                  {/* <div className="w33_jts p-1 brr_jts">
                     <div className="fw-bold">Bank Detail </div>
                     <div>Bank Name: {result?.header?.bankname}</div>
                     <div>Branch: {result?.header?.bankaddress}</div>
                     <div>Account Name: {result?.header?.accountname}</div>
                     <div>Account No. : {result?.header?.accountnumber}</div>
                     <div>RTGS/NEFT IFSC: {result?.header?.rtgs_neft_ifsc}</div>
-                  </div>
-                  <div className="w33_jts p-1 brr_jts d-flex flex-column justify-content-between">
+                  </div> */}
+                  <div className="w33_jts w-50 p-1 brr_jts d-flex flex-column justify-content-between text-end">
                     <div>Signature</div>
                     <div className="fw-bold">
                       {result?.header?.customerfirmname}
                     </div>
                   </div>
-                  <div className="w33_jts p-1 d-flex flex-column justify-content-between">
+                  <div className="w33_jts w-50 p-1 d-flex flex-column justify-content-between text-end">
                     <div>Signature</div>
                     <div className="fw-bold">
                       {result?.header?.CompanyFullName}
