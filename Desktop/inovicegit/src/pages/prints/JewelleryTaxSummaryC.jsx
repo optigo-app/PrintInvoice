@@ -227,18 +227,22 @@ const JewelleryTaxSummaryC = ({
                         {result?.header?.EntryDate}
                       </div>
                     </div>
-                    <div className="d-flex w-100">
-                      <div className="w-50">Mode Of Payment</div>
-                      <div className="fw-bold w-50 spbrWord">
-                        {[
-                          result?.header?.CashReceived > 0 ? "Cash" : "",
-                          result?.header?.AdvanceAmount > 0 ? "Advance" : "",
-                          ...new Set(bank?.map((e) => e?.label))
-                        ]
-                          .filter(Boolean)
-                          .join(", ")}
+                    {(result?.header?.CashReceived > 0 ||
+                      result?.header?.AdvanceAmount > 0 ||
+                      (Array.isArray(bank) && bank.length > 0)) && (
+                      <div className="d-flex w-100">
+                        <div className="w-50">Mode Of Payment</div>
+                        <div className="fw-bold w-50 spbrWord">
+                          {[
+                            result?.header?.CashReceived > 0 ? "Cash" : "",
+                            result?.header?.AdvanceAmount > 0 ? "Advance" : "",
+                            ...(Array.isArray(bank) ? [...new Set(bank?.map((e) => e?.label))] : [])
+                          ]
+                            .filter(Boolean)
+                            .join(", ")}
+                        </div>
                       </div>
-                    </div>
+                    )}
                     {/* <div>
                       {result?.header?.HSN_No_Label}:{" "}
                       <span className="fw-bold">{result?.header?.HSN_No}</span>
@@ -375,7 +379,7 @@ const JewelleryTaxSummaryC = ({
                 <div className="brall_jts d-flex pbia_jts" style={{ marginTop: "5px" }}>
                   <div className="w33_jts p-1 fs_jts brr_jts">
                     <div className="fw-bold text-decoration-underline">
-                      REMARKS:
+                      {result?.header?.PrintRemark !== "" && ("REMARKS:")}
                     </div>
                     <div
                       dangerouslySetInnerHTML={{
