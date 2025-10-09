@@ -4,6 +4,7 @@ import { useState } from "react";
 import {
   apiCall,
   checkMsg,
+  fixedValues,
   formatAmount,
   handleImageError,
   handlePrint,
@@ -1179,7 +1180,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     </div>
                                     <div className="theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7">
                                       {/* {(e?.NetWt + e?.LossWt)?.toFixed(3)} */}
-                                      {el?.IsPrimaryMetal === 1 &&
+                                      {el?.StockBarcode === el?.GroupJob &&
                                         e?.grosswt?.toFixed(3)}
                                     </div>
                                     <div className="theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7">
