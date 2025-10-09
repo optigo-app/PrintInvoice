@@ -67,6 +67,8 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   }, []);
 
   function loadData(data) {
+    // console.log("data", data);
+    
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
 
@@ -124,8 +126,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           finalArr[find_record].TotalDiamondHandling += b?.TotalDiamondHandling;
           finalArr[find_record].Quantity += b?.Quantity;
           finalArr[find_record].Wastage += b?.Wastage;
-          finalArr[find_record].totals.metal.IsPrimaryMetal +=
-            b?.totals?.metal?.IsPrimaryMetal;
+          finalArr[find_record].totals.metal.IsPrimaryMetal += b?.totals?.metal?.IsPrimaryMetal;
           finalArr[find_record].totals.metal.Wt += b?.totals?.metal?.Wt;
           finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
           // finalArr[find_record].diamonds_d = [...finalArr[find_record]?.diamonds ,...b?.diamonds]?.flat();
@@ -139,10 +140,21 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             ...b?.colorstone,
           ]?.flat();
           // finalArr[find_record].metal_d = [...finalArr[find_record]?.metal ,...b?.metal]?.flat();
-          finalArr[find_record].metal = [
-            ...finalArr[find_record]?.metal,
-            ...b?.metal,
-          ]?.flat();
+
+          // CQ Was Solved 09/10/2025
+          // finalArr[find_record].metal = [
+          //   ...(finalArr[find_record]?.metal || []),
+          //   ...(b?.metal || [])
+          // ].flat();
+          if (!finalArr[find_record].metal) {
+            finalArr[find_record].metal = [];
+          }
+          if (Array.isArray(b?.metal)) {
+            finalArr[find_record].metal.push(...cloneDeep(b.metal));
+          }
+          // console.log("finalArr[find_record]?.metal", finalArr[find_record]?.metal);
+          // CQ Was Solved 09/10/2025
+
           finalArr[find_record].misc = [
             ...finalArr[find_record]?.misc,
             ...b?.misc,
@@ -159,6 +171,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           finalArr[find_record].totals.diamonds.Pcs += b?.totals?.diamonds?.Pcs;
           finalArr[find_record].totals.diamonds.Amount +=
             b?.totals?.diamonds?.Amount;
+
           finalArr[find_record].totals.colorstone.Wt +=
             b?.totals?.colorstone?.Wt;
           finalArr[find_record].totals.colorstone.Pcs +=
@@ -193,8 +206,13 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         }
       }
     });
-
-    console.log("finalArrfinalArrfinalArr", finalArr);
+    
+    // CQ Was Solving 09/10/2025
+    // finalArr.forEach((item, idx) => {
+    //   console.log(`🎯 Record ${idx} GroupJob: ${item.GroupJob} has metal count:`, item.metal?.length);
+    // });
+    // console.log("✅ Final finalArr stringified:\n", JSON.stringify(finalArr, null, 2));
+    // CQ Was Solving 09/10/2025
 
     datas.resultArray = finalArr;
 
@@ -325,31 +343,40 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       e.misc = misc0;
 
-      let met2 = [];
-      e?.metal?.forEach((a) => {
-        if (e?.GroupJob !== "") {
-          let obj = { ...a };
-          obj.GroupJob = e?.GroupJob;
-          met2?.push(obj);
-        }
-      });
+      // CQ Was Solved 09/10/2025
+      // let met2 = [];
+      // e?.metal?.forEach((a) => {
+      //   if (e?.GroupJob !== "") {
+      //     let obj = { ...a };
+      //     obj.GroupJob = e?.GroupJob;
+      //     met2?.push(obj);
+      //   }
+      // });
 
-      let met3 = [];
-      met2?.forEach((a) => {
-        let findrec = met3?.findIndex(
-          (el) => el?.StockBarcode === el?.GroupJob
-        );
-        if (findrec === -1) {
-          met3?.push(a);
-        } else {
-          met3[findrec].Wt += a?.Wt;
-        }
-      });
-      if (e?.GroupJob === "") {
-        return;
-      } else {
-        e.metal = met3;
+      // let met3 = [];
+      // met2?.forEach((a) => {
+      //   let findrec = met3?.findIndex(
+      //     (el) => el?.StockBarcode === el?.GroupJob
+      //   );
+      //   if (findrec === -1) {
+      //     met3?.push(a);
+      //   } else {
+      //     met3[findrec].Wt += a?.Wt;
+      //   }
+      // });
+      // if (e?.GroupJob === "") {
+      //   return;
+      // } else {
+      //   e.metal = met3;
+      // }
+      if (e?.GroupJob !== "") {
+        e.metal = e.metal?.map((a) => ({
+          ...a,
+          GroupJob: e.GroupJob,
+        }));
       }
+      // CQ Was Solved 09/10/2025
+
     });
 
     let diaObj = {
@@ -593,7 +620,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       }
     }
   };
-  console.log("result", result);
+  // console.log("result", result);
 
   return (
     <>
