@@ -1,7 +1,7 @@
 // http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=UEUvMTMyLzIwMjU=&evn=c2FsZQ==&pnm=ZXN0aW1hdGlvbiAx&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&ctv=NzE=&ifid=EstimatePrintK&pid=undefined
 
 import React from "react";
-import "../../assets/css/prints/Estimation1.scss";
+import "../../assets/css/prints/Estimation1.css";
 import { ToWords } from "to-words";
 import { useState } from "react";
 import Loader from "../../components/Loader";
@@ -25,6 +25,7 @@ const Estimation1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [purityWise, setPurityWise] = useState([]);
+  const [detalsFlag, setDetalsFlag] = useState(false);
 
   useEffect(() => {
     const sendData = async () => {
@@ -113,6 +114,14 @@ const Estimation1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     roundedAmount = finalAmount + (1 - decimalPart);
   }
 
+  const handleCheckbox = () => {
+    if (! detalsFlag) {
+      setDetalsFlag(true);
+    } else {
+      setDetalsFlag(false);
+    }
+  };
+
   console.log("resultdata", result);
 
   return (
@@ -123,6 +132,22 @@ const Estimation1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <>
           {msg === "" ? (
             <>
+              <div className="d-flex justify-content-end align-items-center d_none_jts FrstWdth">
+                <input
+                  type="checkbox"
+                  id="detalshideshow"
+                  className="mx-1 fontCheck"
+                  checked={detalsFlag}
+                  onChange={handleCheckbox}
+                />
+                <label
+                  htmlFor="detalshideshow"
+                  className="me-3 user-select-none fontCheck"
+                >
+                  With Detail
+                </label>
+                <Button />
+              </div>
               <div
                 style={{
                   display: "flex",
@@ -130,26 +155,24 @@ const Estimation1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 }}
               >
                 <div className="estimation1_main">
-                  <div className="d-flex justify-content-end align-items-center d_none_jts">
-                    <Button />
-                  </div>
                   <div className="topheaderMain">
                     <p className="copmName">
                       {result?.header?.CompanyFullName}
                     </p>
-                    <p className="compPhone">Ph:09856589851/09856589851</p>
-                    <p className="title_estimate">ESTIMATION</p>
+                    {/* <p className="compPhone">Ph:09856589851/09856589851</p> */}
+                    <p className="title_estimate">{result?.header?.PrintHeadLabel}</p>
                     <div
                       style={{
                         display: "flex",
                         justifyContent: "space-between",
-                        borderTop: "3px double #000", // double line on top
-                        borderBottom: "3px double #000", // double line on bottom
-                        padding: "5px 0",
+                        borderTop: "3px double #000",
+                        borderBottom: "3px double #000", 
+                        fontSize: "13px",
+                        lineHeight: "20px"
                       }}
                     >
                       <p>
-                        <span>Est No.: </span>
+                        <span>Est No.&nbsp;: </span>
                         {result?.header?.InvoiceNo}
                       </p>
                       <p>
@@ -215,32 +238,54 @@ const Estimation1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               <b>Gold Amt</b>
                             </p>
                             <p>
-                              <b>{e?.TotalAmount?.toFixed(2)}</b>
+                              <b>{e?.MetalAmount?.toFixed(2)}</b>
                             </p>
                           </div>
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <p style={{ width: "20%" }}>Diamond</p>
-                            <p>{e?.totals?.diamonds?.Wt?.toFixed(3)}CT</p>
-                            <p>{e?.totals?.diamonds?.Pcs} pcs </p>
-                            <p>{e?.totals?.diamonds?.Amount?.toFixed(2)}</p>
+                          <div className="fontDmdClr" style={{ display: "flex", flexDirection: "column", gap: "4px"  }}>
+                            {detalsFlag ? (
+                              <>
+                                {e?.diamonds?.map((el, index) => (
+                                  <div key={index} style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
+                                    <p style={{ width: "20%" }}>{el?.ShapeName} {el?.SizeName}</p>
+                                    <p style={{ width: "20%", textAlign: "end" }}>{fixedValues(el?.Wt, 3)}CT</p>
+                                    <p style={{ width: "20%", textAlign: "end" }}>{el?.Pcs} pcs</p>
+                                    <p style={{ width: "20%", textAlign: "end" }}>{NumberWithCommas(el?.Rate, 2)}</p>
+                                    <p style={{ width: "20%", textAlign: "end" }}>{NumberWithCommas(el?.Amount, 2)}</p>
+                                  </div>
+                                ))}
+                              </>
+                            ) : (
+                              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                <p style={{ width: "20%" }}>Diamond</p>
+                                <p>{e?.totals?.diamonds?.Wt?.toFixed(3)}CT</p>
+                                <p>{e?.totals?.diamonds?.Pcs} pcs </p>
+                                <p>{NumberWithCommas(e?.totals?.diamonds?.Amount,2)}</p>
+                              </div>
+                            )}
                           </div>
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <p style={{ width: "20%" }}>ColorStone</p>
-                            <p>{e?.totals?.colorstone?.Wt?.toFixed(3)}CT</p>
-                            <p>{e?.totals?.colorstone?.Pcs} pcs </p>
-                            <p>{e?.totals?.colorstone?.Amount?.toFixed(2)}</p>
+                          <div className="fontDmdClr" style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                            {detalsFlag ? (
+                              <>
+                                {e?.colorstone?.map((el, index) => (
+                                  <div key={index} style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
+                                    <p style={{ width: "20%" }}>{el?.ShapeName} {el?.SizeName}</p>
+                                    <p style={{ width: "20%", textAlign: "end" }}>{fixedValues(el?.Wt, 3)}CT</p>
+                                    <p style={{ width: "20%", textAlign: "end" }}>{el?.Pcs} pcs</p>
+                                    <p style={{ width: "20%", textAlign: "end" }}>{NumberWithCommas(el?.Rate, 2)}</p>
+                                    <p style={{ width: "20%", textAlign: "end" }}>{NumberWithCommas(el?.Amount, 2)}</p>
+                                  </div>
+                                ))}
+                              </>
+                            ) : (
+                              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                <p style={{ width: "20%" }}>ColorStone</p>
+                                <p>{e?.totals?.colorstone?.Wt?.toFixed(3)}CT</p>
+                                <p>{e?.totals?.colorstone?.Pcs} pcs</p>
+                                <p>{NumberWithCommas(e?.totals?.colorstone?.Amount, 2)}</p>
+                              </div>
+                            )}
                           </div>
-                          <div
+                          <div className="fontDmdClr"
                             style={{
                               display: "flex",
                               justifyContent: "space-between",
@@ -250,21 +295,24 @@ const Estimation1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               <b>M/C Total</b>
                             </p>
                             <p>
-                              <b>0.00</b>
+                              <b>{NumberWithCommas(result?.mainTotal?.total_Making_Amount,2)}</b>
                             </p>
                           </div>
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              borderBottom: "3px double #000",
-                            }}
-                          >
+                          <div className="fontDmdClr" style={{ display: "flex", justifyContent: "space-between", borderBottom: "3px double #000",}}>
                             <p>
                               <b>Other</b>
                             </p>
                             <p>
-                              <b>0.00</b>
+                              <b>
+                                {NumberWithCommas(
+                                    // e?.totals?.misc?.isHSCODE123_amt +
+                                    e?.OtherCharges +
+                                    e?.TotalDiamondHandling +
+                                    e?.TotalCsSetcost +
+                                    e?.TotalDiaSetcost +
+                                    e?.totals?.finding?.SettingAmount,2 
+                                  )}
+                              </b>
                             </p>
                           </div>
                         </div>
@@ -273,7 +321,7 @@ const Estimation1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="estimate_bottom_total">
                     <div style={{ width: "70%", borderRight: "1px solid" }}>
                       <p>TOTAL VALUE BEFORE GST</p>
-                      <p>GST 4.00% VALUE </p>
+                      <p>GST {fixedValues(result?.header?.CGST + result?.header?.SGST,2)}% VALUE</p>
                       <p>TOTAL VALUE OF ORNAMENTS</p>
                     </div>
                     <div
@@ -285,14 +333,14 @@ const Estimation1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       }}
                     >
                       <p>
-                        <b>{result?.mainTotal?.total_amount?.toFixed(2)}</b>
+                        <b>{NumberWithCommas(result?.mainTotal?.total_amount,2)}</b>
                       </p>
 
                       <p>
-                        <b>{result?.header?.TotalGSTAmount?.toFixed(2)}</b>
+                        <b>{NumberWithCommas(result?.header?.TotalGSTAmount,2)}</b>
                       </p>
                       <p>
-                        <b>{result?.finalAmount?.toFixed(2)}</b>
+                        <b>{NumberWithCommas(result?.finalAmount,2)}</b>
                       </p>
                     </div>
                   </div>

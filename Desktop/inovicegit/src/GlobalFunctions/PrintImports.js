@@ -338,7 +338,7 @@ export const EstimatePrints = [
   {printName: 'Designset Packinglist', etpType: 'print', componentName: 'DesignsetPackinglist'},
   {printName: 'jewellery tax summary c', etpType: 'print', componentName: 'JewelleryTaxSummaryC'},
   {printName: 'estimate print k', etpType: 'print', componentName: 'EstimatePrintK'},
-  {printName: 'estimation 1', etpType: 'print', componentName: 'Estimation1'},
+  {printName: 'estimate 1', etpType: 'print', componentName: 'Estimation1'},
   {printName: 'packing list 7d group', etpType: 'print', componentName: 'PackingList7DGroup'},
 ]
 

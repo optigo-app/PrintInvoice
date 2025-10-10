@@ -1,3 +1,11 @@
+html {
+  scrollbar-gutter: stable;
+}
+
+.FrstWdth {
+  width: 70vw;
+}
+
 .estimation1_main {
   width: 400px;
 
@@ -5,21 +13,25 @@
     .copmName {
       text-align: center;
       font-size: 13px;
+      line-height: 17px;
     }
 
     .title_estimate {
       text-align: center;
       font-size: 12px;
+      line-height: 16px;
     }
 
     .compPhone {
-      font-size: 12px;
+      font-size: 11px;
+      line-height: 15px;
       text-align: center;
     }
   }
 
   .deatilSectionMain {
-    font-size: 12px;
+    font-size: 11px;
+    line-height: 21px;
     .detail_section_main {
       display: flex;
       .detail_Setion1 {
@@ -40,9 +52,19 @@
 
   .estimate_bottom_total {
     display: flex;
-    font-size: 12px;
+    font-size: 11px;
+    line-height: 18px;
     border-bottom: 1px solid;
     margin-bottom: 50px;
 
   }
+}
+
+.fontDmdClr {
+  font-size: 11px;
+  line-height: 17px;
+}
+
+.fontCheck {
+  font-size: 14px;
 }
