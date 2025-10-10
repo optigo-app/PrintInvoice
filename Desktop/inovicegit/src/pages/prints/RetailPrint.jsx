@@ -437,15 +437,28 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div className={`${styles.Material} border-end d-flex justify-content-center align-items-center`}>
                                 <p className='fw-bold'>Material</p>
                             </div>
-                            <div className={`${styles.Qty} border-end d-flex justify-content-center align-items-center`}>
+                            <div className={`${styles.Qty} ${netWt ? "lossqtyRetailPrint" : ""} border-end d-flex justify-content-center align-items-center`}>
                                 <p className='fw-bold'>Qty</p>
                             </div>
                             <div className={`${styles.Pcs} border-end d-flex justify-content-center align-items-center`}>
                                 <p className='fw-bold'>Pcs</p>
                             </div>
-                            <div className={`${styles.Wt} border-end d-flex justify-content-center align-items-center`}>
-                                <p className='fw-bold'>{netWt ? "Net" : "Wt."}</p>
-                            </div>
+                            {netWt ? (
+                                <>
+                                    <div className={`${styles.Wt} lossWtRetailPrint border-end d-flex justify-content-center align-items-center`}>
+                                        <p className='fw-bold'>Net</p>
+                                    </div>
+                                    <div className={`${styles.Wt} lossWtRetailPrint border-end d-flex justify-content-center align-items-center`}>
+                                        <p className='fw-bold'>N + L</p>
+                                    </div>
+                                </>
+                            ) : ( 
+                                <>
+                                    <div className={`${styles.Wt} lossWtRetailPrintNoRate border-end d-flex justify-content-center align-items-center`}>
+                                        <p className='fw-bold'>Wt.</p>
+                                    </div>
+                                </>
+                            )}
                             {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} d-flex justify-content-center align-items-center`}>
                                 <p className='fw-bold'>Rate</p>
                             </div>}
@@ -486,16 +499,29 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <div className={`${styles.Material} border-end p-1 d-flex align-items-center`}>
                                                 <p>{ele?.ShapeName}</p>
                                             </div>
-                                            <div className={`${styles.Qty} border-end p-1 d-flex align-items-center`}>
+                                            <div className={`${styles.Qty} ${netWt ? "lossqtyRetailPrint" : ""} border-end p-1 d-flex align-items-center`}>
                                                 <p>{ele?.QualityName}</p>
                                             </div>
                                             <div className={`${styles.Pcs} border-end p-1 d-flex align-items-center justify-content-end`}>
                                                 <p className='text-end'></p>
                                             </div>
-                                            <div className={`${styles.Wt} border-end p-1 d-flex align-items-center justify-content-end`}>
-                                                {/* <p className='text-end'>{NumberWithCommas(e?.netWtLossWt, 3)}</p> */}
-                                                <p className='text-end'>{NumberWithCommas(e?.NetWt, 3)}</p>
-                                            </div>
+                                            {netWt ? (
+                                                <>
+                                                    <div className={`${styles.Wt} lossWtRetailPrint border-end p-1 d-flex align-items-center justify-content-end`}>
+                                                        {/* <p className='text-end'>{NumberWithCommas(e?.netWtLossWt, 3)}</p> */}
+                                                        <p className='text-end'>{NumberWithCommas(e?.NetWt, 3)}</p>
+                                                    </div>
+                                                    <div className={`${styles.Wt} lossWtRetailPrint border-end p-1 d-flex align-items-center justify-content-end`}>
+                                                        {/* <p className='text-end'>{NumberWithCommas(e?.netWtLossWt, 3)}</p> */}
+                                                        <p className='text-end'>{NumberWithCommas(e?.NetWt + e?.LossWt, 3)}</p>
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <div className={`${styles.Wt} lossWtRetailPrintNoRate border-end p-1 d-flex align-items-center justify-content-end`}>
+                                                    {/* <p className='text-end'>{NumberWithCommas(e?.netWtLossWt, 3)}</p> */}
+                                                    <p className='text-end'>{NumberWithCommas(e?.NetWt, 3)}</p>
+                                                </div>
+                                            )}
                                             {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
                                                 <p className='text-end'>{e?.netWtLossWt !== 0 ? NumberWithCommas(((ele?.Amount / jsonData1?.CurrencyExchRate) / ele?.Wt) / jsonData1?.CurrencyExchRate, 2) : "0.00"}</p>
                                             </div>}
@@ -511,15 +537,26 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <div className={`${styles.Material} border-end p-1 d-flex align-items-center`}>
                                                 <p>{ele?.MasterManagement_DiamondStoneTypeName}</p>
                                             </div>
-                                            <div className={`${styles.Qty} border-end p-1 d-flex align-items-center`}>
+                                            <div className={`${styles.Qty} ${netWt ? "lossqtyRetailPrint" : ""} border-end p-1 d-flex align-items-center`}>
                                                 <p>{ele?.QualityName}</p>
                                             </div>
                                             <div className={`${styles.Pcs} border-end p-1 d-flex align-items-center justify-content-end`}>
                                                 <p className='text-end'>{NumberWithCommas(ele?.Pcs, 0)}</p>
                                             </div>
-                                            <div className={`${styles.Wt} border-end p-1 d-flex align-items-center justify-content-end`}>
-                                                <p className='text-end'>{NumberWithCommas(ele?.Wt, 3)}</p>
-                                            </div>
+                                            {netWt ? (
+                                                <>
+                                                    <div className={`${styles.Wt} lossWtRetailPrint border-end p-1 d-flex align-items-center justify-content-end`}>
+                                                        <p className='text-end'>{NumberWithCommas(ele?.Wt, 3)}</p>
+                                                    </div>
+                                                    <div className={`${styles.Wt} lossWtRetailPrint border-end p-1 d-flex align-items-center justify-content-end`}>
+                                                        <p className='text-end'></p>
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <div className={`${styles.Wt} lossWtRetailPrintNoRate border-end p-1 d-flex align-items-center justify-content-end`}>
+                                                    <p className='text-end'>{NumberWithCommas(ele?.Wt, 3)}</p>
+                                                </div>
+                                            )}
                                             {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
                                                 <p className='text-end'>{ele?.Wt !== 0 ? NumberWithCommas(((ele?.Amount / jsonData1?.CurrencyExchRate) / ele?.Wt), 2) : "0.00"}</p>
                                             </div>}
@@ -535,15 +572,26 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <div className={`${styles.Material} border-end p-1 d-flex align-items-center`}>
                                                 <p>{ele?.MasterManagement_DiamondStoneTypeName}</p>
                                             </div>
-                                            <div className={`${styles.Qty} border-end p-1 d-flex align-items-center`}>
+                                            <div className={`${styles.Qty} ${netWt ? "lossqtyRetailPrint" : ""} border-end p-1 d-flex align-items-center`}>
                                                 <p>{ele?.QualityName}</p>
                                             </div>
                                             <div className={`${styles.Pcs} border-end p-1 d-flex align-items-center justify-content-end`}>
                                                 <p className='text-end'>{NumberWithCommas(ele?.Pcs, 0)}</p>
                                             </div>
-                                            <div className={`${styles.Wt} border-end p-1 d-flex align-items-center justify-content-end`}>
-                                                <p className='text-end'>{NumberWithCommas(ele?.Wt, 3)}</p>
-                                            </div>
+                                            {netWt ? (
+                                                <>
+                                                    <div className={`${styles.Wt} lossWtRetailPrint border-end p-1 d-flex align-items-center justify-content-end`}>
+                                                        <p className='text-end'>{NumberWithCommas(ele?.Wt, 3)}</p>
+                                                    </div>
+                                                    <div className={`${styles.Wt} lossWtRetailPrint border-end p-1 d-flex align-items-center justify-content-end`}>
+                                                        <p className='text-end'></p>
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <div className={`${styles.Wt} lossWtRetailPrintNoRate border-end p-1 d-flex align-items-center justify-content-end`}>
+                                                    <p className='text-end'>{NumberWithCommas(ele?.Wt, 3)}</p>
+                                                </div>
+                                            )}
                                             {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
                                                 <p className='text-end'>{ele?.Wt !== 0 ? NumberWithCommas((ele?.Amount / jsonData1?.CurrencyExchRate) / ele?.Wt, 2) : "0.00"}</p>
                                             </div>}
@@ -559,15 +607,26 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <div className={`${styles.Material} border-end p-1 d-flex align-items-center`}>
                                                 <p>{ele?.MasterManagement_DiamondStoneTypeName}</p>
                                             </div>
-                                            <div className={`${styles.Qty} border-end p-1 d-flex align-items-center`}>
+                                            <div className={`${styles.Qty} ${netWt ? "lossqtyRetailPrint" : ""} border-end p-1 d-flex align-items-center`}>
                                                 <p>{ele?.ShapeName}</p>
                                             </div>
                                             <div className={`${styles.Pcs} border-end p-1 d-flex align-items-center justify-content-end`}>
                                                 <p className='text-end'>{NumberWithCommas(ele?.Pcs, 0)}</p>
                                             </div>
-                                            <div className={`${styles.Wt} border-end p-1 d-flex align-items-center justify-content-end`}>
-                                                <p className='text-end'>{NumberWithCommas(ele?.Wt + ele?.ServWt, 3)}</p>
-                                            </div>
+                                            {netWt ? (
+                                                <>
+                                                    <div className={`${styles.Wt} lossWtRetailPrint border-end p-1 d-flex align-items-center justify-content-end`}>
+                                                        <p className='text-end'>{NumberWithCommas(ele?.Wt + ele?.ServWt, 3)}</p>
+                                                    </div>
+                                                    <div className={`${styles.Wt} lossWtRetailPrint border-end p-1 d-flex align-items-center justify-content-end`}>
+                                                        <p className='text-end'></p>
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <div className={`${styles.Wt} lossWtRetailPrintNoRate border-end p-1 d-flex align-items-center justify-content-end`}>
+                                                    <p className='text-end'>{NumberWithCommas(ele?.Wt + ele?.ServWt, 3)}</p>
+                                                </div>
+                                            )}
                                             {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
                                                 {/* <p className='text-end'>{(ele?.IsHSCODE === 0 ? (ele?.Wt !== 0 ? NumberWithCommas((ele?.Amount / ele?.Wt), 2) : "0.00") : (ele?.ServWt !== 0 ? NumberWithCommas((ele?.Amount / ele?.ServWt), 2) : "0.00"))}</p> */}
                                                 <p className='text-end'>{ele?.Wt !== 0 && NumberWithCommas(((ele?.Amount / jsonData1?.CurrencyExchRate) / ele?.Wt), 2)}</p>
@@ -619,18 +678,25 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div className={`${styles.Material} border-end p-1 min_height_44_retail_print_1 ft_12_retailPrint`}>
                                 <p className='fw-bold'></p>
                             </div>
-                            <div className={`${styles.Qty} border-end p-1 min_height_44_retail_print_1 ft_12_retailPrint`}>
+                            <div className={`${styles.Qty} ${netWt ? "lossqtyRetailPrint" : ""} border-end p-1 min_height_44_retail_print_1 ft_12_retailPrint`}>
                                 <p className='fw-bold'></p>
                             </div>
                             <div className={`${styles.Pcs} border-end p-1 text-end d-flex align-items-center justify-content-end min_height_44_retail_print_1 ft_12_retailPrint`}>
                                 <p className='fw-bold text-end'>{NumberWithCommas(finalD?.mainTotal?.diasCsMiscPcs, 0)}</p>
                             </div>
-                            <div className={`${styles.Wt} border-end p-1 d-flex align-items-end justify-content-around flex-column min_height_44_retail_print_1 ft_12_retailPrint`}>
-                                <p className='fw-bold lh-1 text-end fs_maintotal_wt_rp'>D + C : {fixedValues(total?.materialWeight, 3)} Ctw</p>
-                                {/* <p className='fw-bold lh-1 text-end'>{fixedValues(total?.goldWeight - (finalD?.mainTotal?.diamonds?.Wt / 5), 3)} gm</p> */}
-                                <p className='fw-bold lh-1 text-end fs_maintotal_wt_rp'>Metal : {((total?.goldWeight - (finalD?.mainTotal?.diamonds?.Wt / 5)) - resultArrayC?.mainTotal?.misc?.onlyIsHSCODE0_Wt)?.toFixed(3)} gm</p>
-                                <p className='fw-bold lh-1 text-end fs_maintotal_wt_rp'>Misc : {(resultArrayC?.mainTotal?.misc?.onlyIsHSCODE0_Wt)?.toFixed(3)} gm</p>
-                            </div>
+                            {netWt ? (
+                                <>
+                                    <div className={`${styles.Wt} lossWtRetailPrint border-end p-1 d-flex align-items-end justify-content-around flex-column min_height_44_retail_print_1 ft_12_retailPrint`}></div>
+                                    <div className={`${styles.Wt} lossWtRetailPrint border-end p-1 d-flex align-items-end justify-content-around flex-column min_height_44_retail_print_1 ft_12_retailPrint`}></div>
+                                </>
+                            ) : (  
+                                <div className={`${styles.Wt} lossWtRetailPrintNoRate border-end p-1 d-flex align-items-end justify-content-around flex-column min_height_44_retail_print_1 ft_12_retailPrint`}>
+                                    <p className='fw-bold lh-1 text-end fs_maintotal_wt_rp'>D + C : {fixedValues(total?.materialWeight, 3)} Ctw</p>
+                                    {/* <p className='fw-bold lh-1 text-end'>{fixedValues(total?.goldWeight - (finalD?.mainTotal?.diamonds?.Wt / 5), 3)} gm</p> */}
+                                    <p className='fw-bold lh-1 text-end fs_maintotal_wt_rp'>Metal : {((total?.goldWeight - (finalD?.mainTotal?.diamonds?.Wt / 5)) - resultArrayC?.mainTotal?.misc?.onlyIsHSCODE0_Wt)?.toFixed(3)} gm</p>
+                                    <p className='fw-bold lh-1 text-end fs_maintotal_wt_rp'>Misc : {(resultArrayC?.mainTotal?.misc?.onlyIsHSCODE0_Wt)?.toFixed(3)} gm</p>
+                                </div>
+                            )}
                             {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end min_height_44_retail_print_1 ft_12_retailPrint`}>
                                 <p className='fw-bold text-end'>
                                     {/* {NumberWithCommas(total?.rate, 2)} */}

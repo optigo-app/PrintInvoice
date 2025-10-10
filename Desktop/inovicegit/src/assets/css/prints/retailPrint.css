@@ -87,6 +87,11 @@
     min-width: 21%;
 }
 
+.lossWtRetailPrint{
+    width: 13%;
+    min-width: 13%;
+}
+
 .pcsRetailPrint{
     width: 7%;
     min-width: 7%;
@@ -98,11 +103,26 @@
     min-width: 23%;
 }
 
+.lossqtyRetailPrint {
+    width: 18%;
+    min-width: 18%;
+}
+
 .materialRetailPrintNoRate,
-.wtRetailPrintNoRate,
 .amountRetailPrintNoRate {
     width: 21.6%;
     min-width: 21.6%;
+}
+
+.wtRetailPrintNoRate {
+    width: 10.8%;
+    min-width: 10.8%;
+}
+
+/* Never Change This Width */
+.lossWtRetailPrintNoRate {
+    width: 21%;
+    min-width: 21%;
 }
 
 .qtyRetailPrintNoRate,

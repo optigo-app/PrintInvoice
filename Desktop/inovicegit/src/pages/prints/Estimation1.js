@@ -1,5 +1,4 @@
-// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=UEUvMTMyLzIwMjU=&evn=c2FsZQ==&pnm=ZXN0aW1hdGlvbiAx&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&ctv=NzE=&ifid=EstimatePrintK&pid=undefined
-
+//http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=UEUvMTQ3LzIwMjU=&evn=c2FsZQ==&pnm=RXN0aW1hdGUgMQ==&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&ctv=NzE=&ifid=Estimate1&pid=undefined
 import React from "react";
 import "../../assets/css/prints/Estimation1.css";
 import { ToWords } from "to-words";
