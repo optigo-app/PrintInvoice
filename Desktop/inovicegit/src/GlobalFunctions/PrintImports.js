@@ -279,6 +279,7 @@ export const MemoPrints = [
   {printName: 'jewellery tax invoice 2', etpType: 'print', componentName: 'JewelleryTaxInvoice2'},
   {printName: 'packing list 7d group', etpType: 'print', componentName: 'PackingList7DGroup'},
   {printName: 'detail print group(l)', etpType: 'print', componentName: 'DetailPrintGroupLMemo'},
+  {printName: 'detail print group(p)', etpType: 'print', componentName: 'DetailPrintGroupPMemo'},
 ]
 
 export const MemoReturnPrints = [ 

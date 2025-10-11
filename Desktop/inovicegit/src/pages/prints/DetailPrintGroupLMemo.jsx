@@ -66,8 +66,6 @@ const DetailPrintGroupLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer 
                 if(findrec === -1){
                   dia.push(obj);
                 }else{
-                  // dia.push(obj);
-                  //removed grouping 10/10/25
                   dia[findrec].Wt += obj?.Wt;
                   dia[findrec].Pcs += obj?.Pcs;
                 }
@@ -78,14 +76,12 @@ const DetailPrintGroupLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer 
               
               e?.colorstone?.forEach((e) => {
                 let obj = cloneDeep(e);
-                let findrec = clr?.findIndex((a) => a?.ShapeName === obj?.ShapeName && a?.QualityName === obj?.QualityName && a?.Colorname === obj?.Colorname);
+                let findrec = clr?.findIndex((a) => a?.ShapeName === obj?.ShapeName && a?.QualityName === obj?.QualityName && a?.Colorname === obj?.Colorname && a?.SizeName === obj?.SizeName);
                 if(findrec === -1){
                   clr.push(obj);
                 }else{
-                  clr.push(obj);
-                  //removed grouping 10/10/25
-                  // clr[findrec].Wt += obj?.Wt;
-                  // clr[findrec].Pcs += obj?.Pcs;
+                  clr[findrec].Wt += obj?.Wt;
+                  clr[findrec].Pcs += obj?.Pcs;
                 }
               })
               e.colorstone = clr;
