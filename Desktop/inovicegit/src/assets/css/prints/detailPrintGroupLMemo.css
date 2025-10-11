@@ -1,6 +1,6 @@
 .containerDetailPrint1 {
     /* max-width: 297mm !important; */
-    max-width: 1200px !important;
+    max-width: 1300px !important;
     padding: 0 5px !important;
     font-family: Calibri;
     font-size: 12px;
@@ -23,7 +23,7 @@
 }
 
 .lhDetailPrint1 {
-    line-height: 130%;
+    line-height: 90%;
 }
 
 .srNoDetailprint11 {
@@ -172,28 +172,35 @@
 .totalMinHeightDetailPrint1 {
     min-height: 18px;
 }
+
 .containerDetailPrint1 .detailPrint1L_font_13 *,
 .containerDetailPrint1 .detailPrint1L_font_13 {
     font-size: 13px;
+    line-height: 18px;
 }
+
 .containerDetailPrint1 .detailPrint1L_font_14 *,
 .containerDetailPrint1 .detailPrint1L_font_14 {
     font-size: 14px;
+    line-height: 19px;
 }
 
 .containerDetailPrint1 .detailPrint1L_font_16 *,
 .containerDetailPrint1 .detailPrint1L_font_16 {
     font-size: 16px;
+    line-height: 21px;
 }
 
 .containerDetailPrint1 .detailPrint1L_font_11 *,
 .containerDetailPrint1 .detailPrint1L_font_11 {
     font-size: 12px;
+    line-height: 17px;
 }
 
 .containerDetailPrint1 .detailPrint1L_font_12 *,
 .containerDetailPrint1 .detailPrint1L_font_12 {
     font-size: 12px;
+    line-height: 17px;
 }
 
 .paddingLeftDetailPrint1{
@@ -213,78 +220,164 @@
 }
 
 /* table columns */
-.srnodplmemo{
-    width: 5%;
+.srnodplmemo {
+    width: 3%;
 }
-.designdplmemo{
-    width: 15%;
+.designdplmemo {
+    width: 17%;
 }
-.diamonddplmemo{
+.designdplmemoMerged {
+    width: 20%;
+}
+.diamonddplmemo {
     width: 27%;
 }
-.metaldplmemo{
+.metaldplmemo {
     width: 26%;
 }
-.colorstonedplmemo{
+.colorstonedplmemo {
     width: 27%;
 }
-.imgBlock_dplmemo{
+
+.imgBlock_dplmemo {
     margin: 0 auto;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.checkedBy_dplmemo{
+
+.checkedBy_dplmemo {
     height: 130px;
     width: 130px;
-    border: 1px solid #BDBDBD;
+    border: 1px solid #bebebe;
     display: flex;
     justify-content: center;
     align-items: flex-end;
     padding: 5px;
     box-sizing: border-box;
     margin-top: 1px;
-
 }
-.head_dlpmemo{
+
+.head_dlpmemo {
     font-size: 20px;
 }
+
+.spBrdrAll {
+    border: 1px solid #bebebe;
+}
+
+.spBrdrRigt {
+    border-right: 1px solid #bebebe;
+}
+
+.spBrdrLft {
+    border-left: 1px solid #bebebe;
+}
+
+.spBrdrTop {
+    border-top: 1px solid #bebebe;
+}
+
+.spBrdrBtom {
+    border-bottom: 1px solid #bebebe;
+}
+
+.spWdths1 {
+    width: 41%;
+}
+
+.spWdths2 {
+    width: 23%;
+}
+
+.spWdths3 {
+    width: 18%;
+}
+
+.spWdths4 {
+    width: 18%;
+}
+
+.spImgCal {
+    width: 100px;
+    height: 100px;
+}
+
+
 @media print {
+    @page {
+        margin: 15px 20px;
+    }
+
     .containerDetailPrint1 {
         zoom: unset;
         margin: 0;
-        font-size: 11px;
+        font-size: 9px;
     }
 
+    .lhDetailPrint1 {
+        line-height: 90%;
+    }
 
     .totalLineDetailPrint1 {
         min-height: 18px;
     }
+
     .recordDetailPrint1 {
         page-break-inside: avoid;
     }
-
-    /* .containerDetailPrint1 p,
-    .containerDetailPrint1 p span {
-        font-size: 7px;
-    } */
 
     .print_sec_sum4 {
         display: none !important;
     }
 
+    .spMainHed {
+        padding: 0;
+    }
+
+    .containerDetailPrint1 .detailPrint1L_font_13 *,
+    .containerDetailPrint1 .detailPrint1L_font_13 {
+        font-size: 10px;
+        line-height: 13px;
+    }
+    .containerDetailPrint1 .detailPrint1L_font_14 *,
+    .containerDetailPrint1 .detailPrint1L_font_14 {
+        font-size: 11px;
+        line-height: 13px;
+    }
+
+    .containerDetailPrint1 .detailPrint1L_font_16 *,
+    .containerDetailPrint1 .detailPrint1L_font_16 {
+        font-size: 13px;
+        line-height: 16px;
+    }
+
     .containerDetailPrint1 .detailPrint1L_font_11 *,
     .containerDetailPrint1 .detailPrint1L_font_11 {
-        font-size: 11px;
+        font-size: 8px;
+        line-height: 10px;
     }
-.lhDetailPrint1{
-    line-height: 9px !important;
-}
-.head_dlpmemo{
-    font-size: 16px;
-    padding-top: 4px !important;
-    padding-bottom: 4px !important;
-}
 
+    .containerDetailPrint1 .detailPrint1L_font_12 *,
+    .containerDetailPrint1 .detailPrint1L_font_12 {
+        font-size: 8px;
+        line-height: 10px;
+    }
+
+    .head_dlpmemo{
+        font-size: 16px;
+        padding-top: 4px !important;
+        padding-bottom: 4px !important;
+    }
+
+    .spImgCal {
+        width: 80px;
+        height: 80px;
+    }
+
+    .checkedBy_dplmemo {
+        height: 90px;
+        width: 95px;
+    }
 }
