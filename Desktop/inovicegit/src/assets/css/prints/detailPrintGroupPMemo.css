@@ -66,8 +66,6 @@
     min-width: 21.8%;
 }
 
-
-
 .metalDetailPrint1 {
     width: 200px;
     min-width: 200px;
@@ -150,7 +148,7 @@
 }
 
 .totalLineDetailPrint1 {
-    min-height: 21px;
+    min-height: 17px;
 }
 
 .createdByDetailPrint1 {
@@ -214,7 +212,7 @@
 
 .dlpp_headline_fs{
     font-size: 20px !important;
-    padding: 8px;
+    padding: 4px 8px;
 }
 
 .spImgCal {
@@ -227,8 +225,46 @@
     height: 75px;
 }
 
+.spBrdrAll {
+    border: 1px solid #bebebe;
+}
+
+.spBrdrRigt {
+    border-right: 1px solid #bebebe;
+}
+
+.spBrdrLft {
+    border-left: 1px solid #bebebe;
+}
+
+.spBrdrTop {
+    border-top: 1px solid #bebebe;
+}
+
+.spBrdrBtom {
+    border-bottom: 1px solid #bebebe;
+}
+
+.cmonHeight {
+    height: 16px;
+}
+
+.fntSizeAtLst {
+    font-size: 10px;
+}
+
+.oneMorLstHeight {
+    height: 110px;
+}
+
+.ThrdLinHeight {
+    line-height: 13px;
+}
 
 @media print {
+    @page {
+        margin: 15px 20px;
+    }
 
     .containerDetailPrint1 {
         zoom: unset;
@@ -236,7 +272,7 @@
     }
 
     .totalLineDetailPrint1 {
-        min-height: 18px;
+        min-height: 15px;
     }
 
     .recordDetailPrint1 {
@@ -271,11 +307,40 @@
     }
 
     .spImgCal {
-        width: 80px;
-        height: 80px;
+        width: 70px;
+        height: 70px;
     }
 
     .createdByDetailPrint1 {
         min-height: 60px !important;
+    }
+
+    .cmonHeight {
+        height: 15px;
+    }
+
+    .spImgCalPrdct {
+        width: 95px;
+        height: 65px;
+    }
+
+    .fntSizeAtLst {
+        font-size: 9px;
+    }
+
+    .dlpp_headline_fs{
+        font-size: 18px !important;
+    }
+
+    .oneMorLstHeight {
+        height: 80px;
+    }
+
+    .ThrdLinHeight {
+        line-height: 8px;
+    }
+
+    .lhDetailPrint1 {
+        line-height: 10px;
     }
 }
