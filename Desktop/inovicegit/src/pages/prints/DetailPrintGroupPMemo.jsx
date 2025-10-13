@@ -1,3 +1,4 @@
+//http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=Sk1JLzMzMS8yMDI1&evn=bWVtbw==&pnm=RGV0YWlsIFByaW50IEdyb3VwKFAp&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&ctv=NzE=&ifid=DetailPrintGroup(P)&pid=undefined
 import React, { useEffect } from "react";
 import "../../assets/css/prints/detailPrintGroupPMemo.css";
 import { useState } from "react";
@@ -38,7 +39,6 @@ const DetailPrintGroupPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer 
   const [detailtPrintp, setdetailtPrintp] = useState(
     atob(printName).toLowerCase() === "detail print1 (p)" ? true : false
   );
-
 
   const [dp1lp, setdp1lp] = useState((atob(printName).toLowerCase() === "detail print1 (l)" || atob(printName).toLowerCase() === "detail print1 (p)") ? true : false);
   const [dpp, setdpp] = useState(atob(printName).toLowerCase() === "detail print1 (p)" ? true : false);
@@ -113,8 +113,7 @@ const DetailPrintGroupPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer 
       (e, i) =>
         e?.ShapeName === obj?.ShapeName &&
         e?.QualityName === obj?.QualityName &&
-        e?.Colorname === obj?.Colorname && 
-        e?.SizeName === obj?.SizeName 
+        e?.Colorname === obj?.Colorname
     );
     return recordIndex;
   };
@@ -167,7 +166,6 @@ const DetailPrintGroupPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer 
           }
         }
       });
-
       
       miscChargesTotals += miscChargesTotal;
       obj.primaryMetalWt = primaryMetalWt;
@@ -186,7 +184,8 @@ const DetailPrintGroupPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer 
     let diamondDetail = [];
     data?.BillPrint_Json2?.forEach((e, i) => {
       if (e?.MasterManagement_DiamondStoneTypeid === 1) {
-        let findDiamond = diamondDetail?.findIndex((ele, ind) => ele?.ShapeName === e?.ShapeName && ele?.QualityName === e?.QualityName && ele?.Colorname === e?.Colorname && ele?.SizeName === e?.SizeName);
+        let findDiamond = diamondDetail?.findIndex((ele, ind) => ele?.ShapeName === e?.ShapeName 
+          && ele?.QualityName === e?.QualityName && ele?.Colorname === e?.Colorname && ele?.SizeName === e?.SizeName);
         if (findDiamond === -1) {
           diamondDetail.push(e);
         } else {
@@ -196,66 +195,70 @@ const DetailPrintGroupPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer 
         }
       }
     });
-    let findRND = [];
-    let remaingDia = [];
-    diamondDetail?.forEach((ele, ind) => {
-      if (ele?.ShapeName === "RND") {
-        findRND.push(ele);
-      } else {
-        remaingDia.push(ele);
-      }
-    });
-    let resultArr = [];
-    findRND.sort((a, b) => {
-      if (a.ShapeName !== b.ShapeName) {
-        return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
-      } else if (a.QualityName !== b.QualityName) {
-        return a.QualityName.localeCompare(b.QualityName); // If ShapeName is same, sort by QualityName
-      } else {
-        return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
-      }
-    });
+    
+    // Made This Changes For Grouping 13/10/25
+    // let findRND = [];
+    // let remaingDia = [];
+    // diamondDetail?.forEach((ele, ind) => {
+    //   if (ele?.ShapeName === "RND") {
+    //     findRND.push(ele);
+    //   } else {
+    //     remaingDia.push(ele);
+    //   }
+    // });
+    // let resultArr = [];
+    // findRND.sort((a, b) => {
+    //   if (a.ShapeName !== b.ShapeName) {
+    //     return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
+    //   } else if (a.QualityName !== b.QualityName) {
+    //     return a.QualityName.localeCompare(b.QualityName); // If ShapeName is same, sort by QualityName
+    //   } else {
+    //     return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
+    //   }
+    // });
+    
+    // remaingDia.sort((a, b) => {
+    //   if (a.ShapeName !== b.ShapeName) {
+    //     return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
+    //   } else if (a.QualityName !== b.QualityName) {
+    //     return a.QualityName.localeCompare(b.QualityName); // If ShapeName is same, sort by QualityName
+    //   } else {
+    //     return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
+    //   }
+    // });
 
-    remaingDia.sort((a, b) => {
-      if (a.ShapeName !== b.ShapeName) {
-        return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
-      } else if (a.QualityName !== b.QualityName) {
-        return a.QualityName.localeCompare(b.QualityName); // If ShapeName is same, sort by QualityName
-      } else {
-        return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
-      }
-    });
-    if (findRND?.length > 6) {
-      let arr = findRND.slice(0, 6);
-      let anotherArr = [...findRND.slice(6), remaingDia].flat();
-      let obj = { ...anotherArr[0] };
-      anotherArr?.reduce((acc, cobj) => {
-        obj.Pcs += cobj?.Pcs;
-        obj.Wt += cobj?.Wt;
-        obj.Amount += cobj?.Amount;
-      }, obj);
-      obj.ShapeName = "OTHER";
-      resultArr = [...arr, obj].flat();
-    } else {
-      let arr = [...findRND].flat();
-      let smallArr = [...remaingDia.slice(0, 6 - findRND?.length)].flat();
-      let largeArr = [...remaingDia.slice(6 - findRND?.length)].flat();
-      let finalArr = [...arr, ...smallArr].flat();
+    // if (findRND?.length > 6) {
+    //   let arr = findRND.slice(0, 6);
+    //   let anotherArr = [...findRND.slice(6), remaingDia].flat();
+    //   let obj = { ...anotherArr[0] };
+    //   anotherArr?.reduce((acc, cobj) => {
+    //     obj.Pcs += cobj?.Pcs;
+    //     obj.Wt += cobj?.Wt;
+    //     obj.Amount += cobj?.Amount;
+    //   }, obj);
+    //   obj.ShapeName = "OTHER";
+    //   resultArr = [...arr, obj].flat();
+    // } else {
+    //   let arr = [...findRND].flat();
+    //   let smallArr = [...remaingDia.slice(0, 6 - findRND?.length)].flat();
+    //   let largeArr = [...remaingDia.slice(6 - findRND?.length)].flat();
+    //   let finalArr = [...arr, ...smallArr].flat();
 
-      let obj = { ...largeArr[0] };
-      obj.Pcs = 0;
-      obj.Wt = 0;
-      obj.Amount = 0;
-      largeArr?.reduce((acc, cobj) => {
-        obj.Pcs += cobj?.Pcs;
-        obj.Wt += cobj?.Wt;
-        obj.Amount += cobj?.Amount;
-      }, obj);
-      obj.ShapeName = "OTHER";
-      resultArr = [...finalArr, obj].flat();
-    }
+    //   let obj = { ...largeArr[0] };
+    //   obj.Pcs = 0;
+    //   obj.Wt = 0;
+    //   obj.Amount = 0;
+    //   largeArr?.reduce((acc, cobj) => {
+    //     obj.Pcs += cobj?.Pcs;
+    //     obj.Wt += cobj?.Wt;
+    //     obj.Amount += cobj?.Amount;
+    //   }, obj);
+    //   obj.ShapeName = "OTHER";
+    //   resultArr = [...finalArr, obj].flat();
+    // }
+    // Made This Changes For Grouping 13/10/25
 
-    setDiamondDetails(resultArr);
+    setDiamondDetails(diamondDetail);
   };
 
   useEffect(() => {
@@ -485,7 +488,7 @@ const DetailPrintGroupPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer 
       ee?.MasterManagement_DiamondStoneTypeid === 1 &&
       ee?.ShapeName === "Round"
     ) {
-      const key = `${ee?.ShapeName} ${ee?.QualityName} ${ee?.Colorname} ${ee?.SizeName}`;
+      const key = `${ee?.ShapeName} ${ee?.QualityName} ${ee?.Colorname}`;
 
       if (!grouped[key]) {
         grouped[key] = [];
@@ -501,7 +504,7 @@ const DetailPrintGroupPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer 
       ei?.MasterManagement_DiamondStoneTypeid === 1 &&
       ei?.ShapeName !== "Round"
     ) {
-      const key = `${ei?.ShapeName} ${ei?.QualityName} ${ei?.Colorname} ${ei?.SizeName}`;
+      const key = `${ei?.ShapeName} ${ei?.QualityName} ${ei?.Colorname}`;
 
       if (!grouped[key]) {
         grouped[key] = [];
@@ -557,8 +560,7 @@ const DetailPrintGroupPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer 
   };
 
   calculatedData.push(other);
-
-  console.log("finalD", finalD);
+  console.log("json0Data", json0Data);
   
   return (
     <>
@@ -610,17 +612,17 @@ const DetailPrintGroupPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer 
             <div className="d-flex align-items-center pb-2 border-bottom  recordDetailPrint1">
               <div className="col-6">
                 <h2 className="fw-bold dlp_p_memo_font16">{json0Data?.CompanyFullName}</h2>
-                <p className="lhDetailPrint1  lh_dlp_p_memo">{json0Data?.CompanyAddress}</p>
-                <p className="lhDetailPrint1  lh_dlp_p_memo">{json0Data?.CompanyAddress2}</p>
-                <p className="lhDetailPrint1  lh_dlp_p_memo">
+                <p className="lhDetailPrint1 lh_dlp_p_memo">{json0Data?.CompanyAddress}</p>
+                <p className="lhDetailPrint1 lh_dlp_p_memo">{json0Data?.CompanyAddress2}</p>
+                <p className="lhDetailPrint1 lh_dlp_p_memo">
                   {json0Data?.CompanyCity}-{json0Data?.CompanyPinCode},{" "}
                   {json0Data?.CompanyState}({json0Data?.CompanyCountry})
                 </p>
-                <p className="lhDetailPrint1  lh_dlp_p_memo">T {json0Data?.CompanyTellNo}</p>
-                <p className="lhDetailPrint1  lh_dlp_p_memo" >
+                <p className="lhDetailPrint1 lh_dlp_p_memo">T {json0Data?.CompanyTellNo}</p>
+                <p className="lhDetailPrint1 lh_dlp_p_memo" >
                   {json0Data?.CompanyEmail} | {json0Data?.CompanyWebsite}
                 </p>
-                <p className="lhDetailPrint1  lh_dlp_p_memo">
+                <p className="lhDetailPrint1 lh_dlp_p_memo">
                   {json0Data?.Company_VAT_GST_No} |{" "}
                   {json0Data?.Company_CST_STATE}-
                   {json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.Pannumber}
@@ -629,8 +631,8 @@ const DetailPrintGroupPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer 
               <div className="col-6">
                 {isImageWorking && (json0Data?.PrintLogo !== "" &&
                   <img src={json0Data?.PrintLogo} alt=""
-                    className='w-25 h-auto ms-auto d-block object-fit-contain'
-                    onError={handleImageErrors} height={120} width={150} />)}
+                    className='h-auto ms-auto d-block object-fit-contain spImgCal'
+                    onError={handleImageErrors} />)}
                 {/* <img
                   src={json0Data?.PrintLogo}
                   alt=""
@@ -639,49 +641,39 @@ const DetailPrintGroupPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer 
               </div>
             </div>
             {/* address */}
-            <div className="d-flex border-start border-end  border-bottom mb-1 recordDetailPrint1">
-              <div className="col-4 border-end  p-1">
+            <div className="d-flex border-start border-end border-bottom mb-1 recordDetailPrint1">
+              <div className="col-4 border-end p-1">
                 <p className="lhDetailPrint1 ">{json0Data?.lblBillTo}</p>
                 <p className="lhDetailPrint1 dlp_p_memo_font14 fw-bold  ">
                   {json0Data?.customerfirmname}
                 </p>
-                <p className="lhDetailPrint1  lh_dlp_p_memo">{json0Data?.customerAddress2}</p>
-                <p className="lhDetailPrint1  lh_dlp_p_memo">{json0Data?.customerAddress1}</p>
-                <p className="lhDetailPrint1  lh_dlp_p_memo">{json0Data?.customerAddress3}</p>
-                <p className="lhDetailPrint1  lh_dlp_p_memo">
+                <p className="lhDetailPrint1 lh_dlp_p_memo">{json0Data?.customerAddress2}</p>
+                <p className="lhDetailPrint1 lh_dlp_p_memo">{json0Data?.customerAddress1}</p>
+                <p className="lhDetailPrint1 lh_dlp_p_memo">{json0Data?.customerAddress3}</p>
+                <p className="lhDetailPrint1 lh_dlp_p_memo">
                   {json0Data?.customercity}
                   {json0Data?.customerpincode}
                 </p>
-                <p className="lhDetailPrint1  lh_dlp_p_memo">{json0Data?.customeremail1}</p>
-                <p className="lhDetailPrint1  lh_dlp_p_memo">{json0Data?.vat_cst_pan}</p>
-                <p className="lhDetailPrint1  lh_dlp_p_memo">
+                <p className="lhDetailPrint1 lh_dlp_p_memo">{json0Data?.customeremail1}</p>
+                <p className="lhDetailPrint1 lh_dlp_p_memo">{json0Data?.vat_cst_pan}</p>
+                <p className="lhDetailPrint1 lh_dlp_p_memo">
                   {json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No}
                 </p>
               </div>
+
               <div className="col-4 border-end  p-1">
-                <p className="lhDetailPrint1  lh_dlp_p_memo">Ship To,</p>
-                <p className="lhDetailPrint1 dlp_p_memo_font14 fw-bold   lh_dlp_p_memo">
+                <p className="lhDetailPrint1 lh_dlp_p_memo">Ship To,</p>
+                <p className="lhDetailPrint1 dlp_p_memo_font14 fw-bold lh_dlp_p_memo">
                   {json0Data?.customerfirmname}
                 </p>
-                {
-                  dp1lp ? <>
-                    {address?.map((e, i) => {
-                      return <p className="lhDetailPrint1  lh_dlp_p_memo" key={i}>{e}</p>
-                    })}
-                  </> : <><p className="lhDetailPrint1  lh_dlp_p_memo">{json0Data?.CustName}</p>
-                    <p className="lhDetailPrint1  lh_dlp_p_memo">{json0Data?.customerstreet}</p>
-                    <p className="lhDetailPrint1  lh_dlp_p_memo">
-                      {json0Data?.customercity} {json0Data?.State}
-                    </p>
-                    <p className="lhDetailPrint1  lh_dlp_p_memo">
-                      {json0Data?.CompanyCountry}-{json0Data?.PinCode}
-                    </p>
-                    <p className="lhDetailPrint1  lh_dlp_p_memo">
-                      Mobile No : {json0Data?.customermobileno}
-                    </p></>
-                }
-
+                <p
+                  className="lhDetailPrint1 lh_dlp_p_memo"
+                  dangerouslySetInnerHTML={{
+                    __html: (json0Data?.Printlable || "").replace(/\n/g, "<br />"),
+                  }}
+                />
               </div>
+
               <div className="col-4 p-1 ps-2">
                 <div className="d-flex pb-1 pt-1">
                   <p className="fw-bold col-3 me-2 lh_dlp_p_memo">VOUCHER NO </p>
@@ -832,16 +824,16 @@ const DetailPrintGroupPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer 
                             <img
                               src={e?.DesignImage}
                               alt=""
-                              className="w-100 d-block"
+                              className="d-block spImgCalPrdct"
                               onError={handleImageError}
                             />
                           )}
                         </div>
                         <div className={`${!image && "pt-2 "}`}>
 
-                          {e?.HUID !== "" && (
+                          {/* {e?.HUID !== "" && (
                             <p className="text-center">HUID - {e?.HUID}</p>
-                          )}
+                          )} */}
                           {e?.PO !== "" && e?.PO !== "-" && (
                             <p className="text-center fw-bold">PO: {e?.PO}</p>
                           )}
@@ -859,7 +851,7 @@ const DetailPrintGroupPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer 
                             </p>
                           )}
                           
-                          {!detailPrintK && (
+                          {/* {!detailPrintK && (
                             <>
                             {
                               e?.CertificateNo !== '' && <p className="text-center">
@@ -870,22 +862,13 @@ const DetailPrintGroupPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer 
                             </p>
                             }
                             </>
-                          )}
+                          )} */}
 
-                          {dp1lp ? <>
+                          {e?.grosswt && (
                             <p className="text-center">
-                              <span className="fw-bold">
-                                {fixedValues(e?.grosswt, 3)} gm
-                              </span><span className=""> Gross</span>
+                              <b>{fixedValues(e?.grosswt, 3)} gm</b> Gross
                             </p>
-                          </> : <>
-                            <p className="text-center">
-                              Gross Wt:{" "}
-                              <span className="fw-bold">
-                                {fixedValues(e?.grosswt, 3)}
-                              </span>
-                            </p>
-                          </>}
+                          )}
                           {e?.Size !== "" && e?.Size !== "-" && (
                             <p className="text-center">Size: {e?.Size}</p>
                           )}
@@ -893,8 +876,8 @@ const DetailPrintGroupPMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer 
                       </div>
                       <div className={`${dpp ? "diamondDetailPrint1p" : "diamondDetailPrint1l"} border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
                         <div className="h-100 paddingBottomTotalDetailPrint1">
-                          {e?.diamonds.length > 0 &&
-                            e?.diamonds.map((ele, ind) => {
+                          {diamondDetails.length > 0 &&
+                            diamondDetails.map((ele, ind) => {
                               return (
                                 <div
                                   className={`d-flex justify-content-between `}

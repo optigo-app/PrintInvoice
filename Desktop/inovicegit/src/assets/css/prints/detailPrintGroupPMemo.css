@@ -9,7 +9,6 @@
 .containerDetailPrint1 p span {
     word-break: break-all;
     font-size: 12px;
-    line-height: 100%;
     font-family: Calibri;
 }
 
@@ -22,7 +21,7 @@
 }
 
 .lhDetailPrint1 {
-    line-height: 130%;
+    line-height: 15px;
 }
 
 .srNoDetailprint11 {
@@ -204,16 +203,31 @@
 .paddingRightDetailPrint1l{
     padding-right: 4px !important;
 }
+
 .dlp_p_memo_font16{
     font-size: 16px;
 }
+
 .dlp_p_memo_font14{
     font-size: 14px !important;
 }
+
 .dlpp_headline_fs{
-    font-size: 15px !important;
-    padding: 4px;
+    font-size: 20px !important;
+    padding: 8px;
 }
+
+.spImgCal {
+    width: 100px;
+    height: 100px;
+}
+
+.spImgCalPrdct {
+    width: 100px;
+    height: 75px;
+}
+
+
 @media print {
 
     .containerDetailPrint1 {
@@ -224,6 +238,7 @@
     .totalLineDetailPrint1 {
         min-height: 18px;
     }
+
     .recordDetailPrint1 {
         page-break-inside: avoid;
     }
@@ -250,11 +265,17 @@
     .dlp_p_memo_font14{
         font-size: 10px !important;
     }
+
     .lh_dlp_p_memo{
         line-height: 8px !important;        
     }
-    
-.createdByDetailPrint1 {
-    min-height: 60px !important;
-}
+
+    .spImgCal {
+        width: 80px;
+        height: 80px;
+    }
+
+    .createdByDetailPrint1 {
+        min-height: 60px !important;
+    }
 }

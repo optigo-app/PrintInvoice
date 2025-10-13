@@ -132,7 +132,9 @@ const JewelleryTaxSummaryC = ({
   // } else {
   //   roundedAmount = finalAmount + (1 - decimalPart);
   // }
-  console.log("resultdata", result);
+
+  
+  // console.log("resultdata", result);
 
   return (
     <>
@@ -210,7 +212,7 @@ const JewelleryTaxSummaryC = ({
                       {result?.header?.customerfirmname}
                     </div>
                     <div>{result?.header?.customerstreet}</div>
-                    <div>{result?.header?.customercity} {result?.header?.customerpincode} {result?.header?.customerstate} {result?.header?.customercountry}</div>
+                    <div>{result?.header?.customercity} {result?.header?.customerstate} {result?.header?.customerpincode} {result?.header?.customercountry}</div>
                     {/*<div>Tel : {result?.header?.customermobileno}</div>
                     <div>{result?.header?.customeremail1}</div> */}
                   </div>
@@ -547,17 +549,17 @@ const JewelleryTaxSummaryC = ({
                       dangerouslySetInnerHTML={{
                         __html: result?.header?.Currencysymbol,
                       }}
-                    ></span>{" "}
+                    ></span>&nbsp;
                     {formatAmount(
                       (result?.finalAmount  + result.header.FreightCharges) / result?.header?.CurrencyExchRate
                     )}
                   </div>
                 </div>
-                <div className="static_jts py-2">
+                {/* <div className="static_jts py-2">
                   ** THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US
                   IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF
                   TRANSACTIONS
-                </div>
+                </div> */}
                 {/* <div className="brall_jts dec_jts p-2 pbia_jts">
                   <div
                     dangerouslySetInnerHTML={{
@@ -565,7 +567,7 @@ const JewelleryTaxSummaryC = ({
                     }}
                   ></div>
                 </div> */}
-                <div className="d-flex fs_jts brall_jts pbia_jts" style={{ height: "100px" }}>
+                <div className="d-flex fs_jts brall_jts pbia_jts" style={{ height: "100px", marginTop: "5px" }}>
                   {/* <div className="w33_jts p-1 brr_jts">
                     <div className="fw-bold">Bank Detail </div>
                     <div>Bank Name: {result?.header?.bankname}</div>
