@@ -184,7 +184,7 @@ html {
 }
 
 .dtlWdth1 {
-    width: 17.5%;
+    width: 20%;
 }
 
 .dtlWdth2 {
@@ -192,15 +192,15 @@ html {
 }
 
 .dtlWdth3 {
-    width: 10%;
+    width: 8.50%;
 }
 
 .dtlWdth4 {
-    width: 11.25%;
+    width: 10.25%;
 }
 
 .dtlWdth5 {
-    width: 17.5%;
+    width: 20%;
 }
 
 .dtlWdth6 {
@@ -208,11 +208,11 @@ html {
 }
 
 .dtlWdth7 {
-    width: 10%;
+    width: 8.50%;
 }
 
 .dtlWdth8 {
-    width: 11.25%;
+    width: 10.25%;
 }
 
 /* .dtlWdth9{
@@ -312,7 +312,7 @@ html {
 
     .estimatePrintFont_141 {
         font-size: 9px;
-        line-height: 9px;
+        line-height: 8px;
     }
 
     .spnfntArtisn {
@@ -326,7 +326,7 @@ html {
     }
 
     .spnHitCsMs {
-        height: 16.7px;
+        height: 16.5px;
         padding-left: 1.5px;
     }
 

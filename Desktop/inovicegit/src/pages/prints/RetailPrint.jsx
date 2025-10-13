@@ -325,7 +325,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
     console.log("jsonData1", jsonData1);
     console.log("finalD", finalD);
-    
+
     return (
         <>
             {loader ? <Loader /> : msg === "" ? <div className='container containerRetailPrint mt-5 pad_60_allPrint'>
@@ -381,7 +381,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <p className='line_height_110'>{jsonData1?.customermobileno1}</p>
                             <p className='line_height_110'>{jsonData1?.customeremail1}</p>
                         </div>
-                    ): ( 
+                    ) : (
                         <>
                             <div className="col-4 p-1 border-end">
                                 <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.lblBillTo} </p>
@@ -452,7 +452,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         <p className='fw-bold'>N + L</p>
                                     </div>
                                 </>
-                            ) : ( 
+                            ) : (
                                 <>
                                     <div className={`${styles.Wt} lossWtRetailPrintNoRate border-end d-flex justify-content-center align-items-center`}>
                                         <p className='fw-bold'>Wt.</p>
@@ -479,7 +479,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 {/* data */}
                 {dataFill.map((e, i) => {
-                    return ( <> <div className="d-flex border-start border-end no_break ft_12_retailPrint" key={i}>
+                    return (<> <div className="d-flex border-start border-end no_break ft_12_retailPrint" key={i}>
                         <div className="srNoRetailPrint border-end p-1 d-flex justify-content-center align-items-center border-bottom ">
                             <p className='fw-bold'>{NumberWithCommas(i + 1, 0)}</p>
                         </div>
@@ -648,21 +648,25 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <p className='text-end'>{NumberWithCommas((e?.OtherCharges + e?.TotalDiamondHandling) / jsonData1?.CurrencyExchRate, 2)}</p>
                         </div>
                         <div className="totalRetailPrint border-bottom p-1 d-flex align-items-center justify-content-end">
-                            <p className='text-end'>{NumberWithCommas(e?.TotalAmount / jsonData1?.CurrencyExchRate, 2)}</p>
+                            {netWt ? (
+                                <p className='text-end'>{NumberWithCommas(e?.TotalAmount + e?.DiscountAmt, 2)}</p>
+                            ) : (
+                                <p className='text-end'>{NumberWithCommas(e?.TotalAmount / jsonData1?.CurrencyExchRate, 2)}</p>
+                            )}
                         </div>
                     </div>
-                    {netWt && Number(e?.DiscountAmt) > 0 && (
-                        <div className='w-100 d-flex border-end border-bottom border-start ft_12_retailPrint'>
-                            <div className='discountSpWdth border-end fw-bold text-end p-1'>
-                            Discount {e?.Discount}% @ Total Amount 
-                            </div>        
-                            <div className='othersRetailPrint border-end fw-bold text-end p-1'>
-                            {NumberWithCommas(Number(e?.DiscountAmt), 2)}
-                            </div>        
-                            <div className='totalRetailPrint fw-bold text-end p-1'>
-                            {NumberWithCommas(Number(e?.DiscountAmt) + Number(e?.TotalAmount), 2)}
+                        {netWt && Number(e?.DiscountAmt) > 0 && (
+                            <div className='w-100 d-flex border-end border-bottom border-start ft_12_retailPrint'>
+                                <div className='discountSpWdth border-end fw-bold text-end p-1'>
+                                    Discount {e?.Discount}% @ Total Amount
+                                </div>
+                                <div className='othersRetailPrint border-end fw-bold text-end p-1'>
+                                    {NumberWithCommas(Number(e?.DiscountAmt), 2)}
+                                </div>
+                                <div className='totalRetailPrint fw-bold text-end p-1'>
+                                    {NumberWithCommas(Number(e?.TotalAmount), 2)}
+                                </div>
                             </div>
-                        </div>
                         )}
                     </>)
                 })}
@@ -689,7 +693,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <div className={`${styles.Wt} lossWtRetailPrint border-end p-1 d-flex align-items-end justify-content-around flex-column min_height_44_retail_print_1 ft_12_retailPrint`}></div>
                                     <div className={`${styles.Wt} lossWtRetailPrint border-end p-1 d-flex align-items-end justify-content-around flex-column min_height_44_retail_print_1 ft_12_retailPrint`}></div>
                                 </>
-                            ) : (  
+                            ) : (
                                 <div className={`${styles.Wt} lossWtRetailPrintNoRate border-end p-1 d-flex align-items-end justify-content-around flex-column min_height_44_retail_print_1 ft_12_retailPrint`}>
                                     <p className='fw-bold lh-1 text-end fs_maintotal_wt_rp'>D + C : {fixedValues(total?.materialWeight, 3)} Ctw</p>
                                     {/* <p className='fw-bold lh-1 text-end'>{fixedValues(total?.goldWeight - (finalD?.mainTotal?.diamonds?.Wt / 5), 3)} gm</p> */}
@@ -728,7 +732,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             {/* {toWords?.convert(+fixedValues((finalD?.mainTotal?.total_amount / jsonData1?.CurrencyExchRate) +
                             taxes?.reduce((acc, cObj) => acc + (+fixedValues(+cObj?.amount / jsonData1?.CurrencyExchRate, 2)), 0) + (jsonData1?.AddLess / jsonData1?.CurrencyExchRate), 2))}  */}
                             {NumToWord(+fixedValues((finalD?.mainTotal?.total_amount / jsonData1?.CurrencyExchRate) +
-                            taxes?.reduce((acc, cObj) => acc + (+fixedValues(+cObj?.amount / jsonData1?.CurrencyExchRate, 2)), 0) + (jsonData1?.AddLess / jsonData1?.CurrencyExchRate), 2))} </p>
+                                taxes?.reduce((acc, cObj) => acc + (+fixedValues(+cObj?.amount / jsonData1?.CurrencyExchRate, 2)), 0) + (jsonData1?.AddLess / jsonData1?.CurrencyExchRate), 2))} </p>
                     </div>
                     {/* <div className="cgstRetailPrint p-1 text-end p-1 border-end"> */}
                     <div className="col-2 py-1 text-end border-end ft_12_retailPrint">
@@ -753,7 +757,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div dangerouslySetInnerHTML={{ __html: jsonData1?.Declaration }} className='pt-2'></div>
                 </div>
                 <div className='note border-start border-end border-bottom p-1 no_break'>
-                    <p><span className="fw-bold">REMARKS : </span><span dangerouslySetInnerHTML={{__html:jsonData1?.PrintRemark}}></span></p>
+                    <p><span className="fw-bold">REMARKS : </span><span dangerouslySetInnerHTML={{ __html: jsonData1?.PrintRemark }}></span></p>
                 </div>
                 {/* bank detail */}
                 <div className="word_break_normal_retail_print d-flex border-start border-end border-bottom no_break ft_12_retailPrint">

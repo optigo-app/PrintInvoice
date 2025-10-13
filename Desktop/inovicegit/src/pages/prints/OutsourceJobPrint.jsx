@@ -1183,11 +1183,9 @@ const OutsourceJobPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
     };
   });
   
-  console.log("countMicsWt", countMicsWt);
-  
-  
+  // console.log("countMicsWt", countMicsWt);
 
-  // console.log("json2Data", json2Data);
+  console.log("json2Data", json2Data);
   // console.log("json1Data", json1Data);
 
   return (
@@ -1253,7 +1251,7 @@ const OutsourceJobPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                           <div className={`subwidthHed spBold spnHitArtisn 
                               ${e?.metals?.some(
                                 (m) => m?.IsPrimaryMetal === 1 && (m?.QualityName !== "-" || m?.Colorname !== "-"))
-                                  ? "spbrdrLftDR spbrdRghtDR"
+                                  ? "spbrdrLftDR spbrdRght"
                                   : ""
                               }`}
                             >
@@ -1280,7 +1278,7 @@ const OutsourceJobPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                             <div className={`subwidthHed spBold spnHitArtisn 
                               ${e?.metals?.some(
                                 (m) => m?.IsPrimaryMetal === 1 && (m?.QualityName !== "-" || m?.Colorname !== "-"))
-                                  ? "spbrdrLftDR spbrdRghtDR"
+                                  ? "spbrdrLftDR spbrdRght"
                                   : ""
                               }`}
                             >
@@ -1304,7 +1302,7 @@ const OutsourceJobPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                           </div>
                             <div className="spbrdRght spbrdrBtom estimatePrintFont_9 spdispFlx">
                               <div className="subwidthHed spnHitCsMs">{e?.diamondTotal?.weight !== 0 ? fixedValues(e?.diamondTotal?.weight,3) : ""}</div>
-                              <div className={`subwidthHed spBold ${e?.Size !== "" ? "spbrdrLftDR spbrdRghtDR" : ""} spnHitCsMs`}>{e?.Size !== "" ? "SIZE" : ""}</div>
+                              <div className={`subwidthHed spBold ${e?.Size !== "" ? "spbrdrLftDR spbrdRght" : ""} spnHitCsMs`}>{e?.Size !== "" ? "SIZE" : ""}</div>
                               <div className="subwidthHed spnHitCsMs">{e?.Size}</div>
                             </div>
                             <div className="spbrdRght spbrdrBtomDR estimatePrintFont_9 spdispFlx">
@@ -1314,7 +1312,7 @@ const OutsourceJobPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
 
                                 return matchingMic && (
                                   <>
-                                    <div className={`subwidthHed spnHitCsMs ${matchingMic.totalWt !== 0 ? "spbrdrLftDR spbrdRghtDR" : ""} spBold`}>
+                                    <div className={`subwidthHed spnHitCsMs ${matchingMic.totalWt !== 0 ? "spbrdrLftDR spbrdRght" : ""} spBold`}>
                                       {matchingMic.totalWt !== 0 ? "MISC" : ""}
                                     </div>
                                     <div className="subwidthHed spnHitCsMs">
@@ -1415,9 +1413,9 @@ const OutsourceJobPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                           return (
                             <>
                               <div
-                                className={`dtlWdth${side === "left" ? 1 : 5} spbrdRght spbrWord spbrdrBtom estimatePrintFont_141 Sesptxtend`}
+                                className={`dtlWdth${side === "left" ? 1 : 5} spbrdRght spbrdrBtom estimatePrintFont_141 Sesptxtend`}
                               >
-                                <p className="spbrWord">
+                                <p className="">
                                   {[item?.Shape_Code, item?.Quality_Code, item?.Color_Code]
                                     .filter(val => val && val !== "-")
                                     .join("/")}
@@ -1454,11 +1452,11 @@ const OutsourceJobPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
 
                     <div className="spbrdrTop spbrdrBtomDR">
                       <div className="spdispFlx spbrdrBtomDR">
-                        <div className="spdispFlx spHitIns spbrdRghtDR" style={{ width: "78.50%"}}>
-                          <div className="spBold spnfntArtisn">Instruction : </div>&nbsp;
-                          <span className="spnfntArtisn">{e?.JobRemark}</span>
+                        <div className="spdispFlx spHitIns spbrdRghtDR" style={{ width: "82%"}}>
+                          <div className="spnfntArtisn spbrWord" style={{ lineHeight: "12px" }}><b>Instruction :</b> &nbsp;{e?.JobRemark}
+                          </div>
                         </div>
-                        <div className="spHitIns spWdthIns" style={{ width: "21.50%"}}></div>
+                        <div className="spHitIns spWdthIns" style={{ width: "19%"}}></div>
                       </div>
                       <div className="spdispFlx w-100">
                         <div className="spnHitArtisn spBold spnfntArtisn w-100">STMP INSTR :</div>
