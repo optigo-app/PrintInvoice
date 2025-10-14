@@ -272,6 +272,8 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         setJsonData1(data?.BillPrint_Json[0]);
 
         let taxValue = taxGenrator(data?.BillPrint_Json[0], totalObj.totalAmount);
+        console.log("taxValue", taxValue);
+        
         setTaxes(taxValue);
         totalObj.materialWeight = datas?.mainTotal?.diamonds?.Wt + datas?.mainTotal?.colorstone?.Wt;
         taxValue.forEach((e, i) => {
@@ -324,7 +326,8 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     }, []);
 
     console.log("jsonData1", jsonData1);
-    console.log("finalD", finalD);
+    // console.log("finalD", finalD);
+    // console.log("taxes", taxes);
 
     return (
         <>
@@ -347,12 +350,14 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <input type="button" className="btn_white blue me-0" value="Print" onClick={(e) => handlePrint(e)} />
                     </div>
                 </div>
+
                 {/* headline retail print */}
                 <div className="px-1 no_break">
                     <div className='headlinepRetailPrint w-100 mt-4 px-2 fw-bold'>
                         {jsonData1?.PrintHeadLabel}
                     </div>
                 </div>
+
                 {/* company address */}
                 <div className="mt-2 px-1 d-flex no_break">
                     <div className="col-6">
@@ -373,6 +378,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 onError={handleImageErrors} height={120} width={150} />)}
                     </div>
                 </div>
+
                 {/* bill to */}
                 <div className="d-flex border mt-2 no_break">
                     {netWt ? (
@@ -421,6 +427,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div className='mt-5 position-absolute bottom-0 pb-1 ratePara'>{rate && (jsonData1?.MetalRate24K && (jsonData1?.MetalRate24K).toFixed(2))}</div>
                     </div>
                 </div>
+
                 {/* table */}
                 <div className="d-flex mt-1 border no_break ft_12_retailPrint">
                     <div className="srNoRetailPrint border-end d-flex justify-content-center align-items-center">
@@ -477,6 +484,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <p className='fw-bold'>Total</p>
                     </div>
                 </div>
+
                 {/* data */}
                 {dataFill.map((e, i) => {
                     return (<> <div className="d-flex border-start border-end no_break ft_12_retailPrint" key={i}>
@@ -670,6 +678,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         )}
                     </>)
                 })}
+
                 {/* total */}
                 <div className="d-flex border-bottom border-start border-end no_break">
                     <div className="srNoRetailPrint border-end p-1 d-flex justify-content-center align-items-center">
@@ -723,6 +732,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <p className='fw-bold text-end'>{NumberWithCommas(finalD?.mainTotal?.total_amount / jsonData1?.CurrencyExchRate, 2)}</p>
                     </div>
                 </div>
+
                 {/* grand total */}
                 <div className="d-flex border-start border-end border-bottom no_break">
                     {/* <div className="totalInWordsRetailPrint p-1 d-flex flex-column align-items-start justify-content-end p-1 border-end"> */}
@@ -736,7 +746,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                     {/* <div className="cgstRetailPrint p-1 text-end p-1 border-end"> */}
                     <div className="col-2 py-1 text-end border-end ft_12_retailPrint">
-                        {taxes.length > 0 && taxes.map((e, i) => {
+                        {finalD?.allTaxes.length > 0 && finalD?.allTaxes.map((e, i) => {
                             return <p key={i} className='pb-1 px-1'>{e?.name} @ {e?.per}</p>
                         })}
                         {jsonData1?.AddLess !== 0 && <p className='ft_12_retailPrint px-1'>{jsonData1?.AddLess > 0 ? "Add" : "Less"}</p>}
@@ -744,12 +754,16 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                     {/* <div className="totalRetailPrint p-1 text-end p-1"> */}
                     <div className="col-2  py-1 text-end ft_12_retailPrint">
-                        {taxes.length > 0 && taxes.map((e, i) => {
-                            return <p key={i} className='pb-1 px-1'>{NumberWithCommas(+e?.amount / jsonData1?.CurrencyExchRate, 2)}</p>
+                        {finalD?.allTaxes.length > 0 && finalD?.allTaxes.map((e, i) => {
+                            return <div key={i} className='pb-1 px-1'>{NumberWithCommas(+e?.amount / jsonData1?.CurrencyExchRate, 2)}</div>
                         })}
                         {jsonData1?.AddLess !== 0 && <p className='ft_12_retailPrint px-1'>{NumberWithCommas(jsonData1?.AddLess / jsonData1?.CurrencyExchRate, 2)}</p>}
-                        <p className='fw-bold py-1 border-top ft_12_retailPrint px-1'>₹{NumberWithCommas((finalD?.mainTotal?.total_amount / jsonData1?.CurrencyExchRate) +
-                            taxes?.reduce((acc, cObj) => acc + (+fixedValues(+cObj?.amount / jsonData1?.CurrencyExchRate, 2)), 0) + (jsonData1?.AddLess / jsonData1?.CurrencyExchRate), 2)}</p>
+                        <div className='fw-bold py-1 border-top ft_12_retailPrint px-1'>
+                            <span dangerouslySetInnerHTML={{ __html: jsonData1?.Currencysymbol }} />&nbsp;
+                            {NumberWithCommas((finalD?.mainTotal?.total_amount / jsonData1?.CurrencyExchRate) +
+                            finalD?.allTaxes?.reduce((acc, cObj) => 
+                                acc + (+fixedValues(+cObj?.amount / jsonData1?.CurrencyExchRate, 2)), 0) + (jsonData1?.AddLess / jsonData1?.CurrencyExchRate), 2)}
+                        </div>
                     </div>
                 </div>
                 {/* note */}
