@@ -170,6 +170,9 @@ const TaxInvoice5A = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     sendData();
   }, []);
 
+  // console.log("address", address);
+  console.log("headerData", headerData);
+  
   return loader ? (
     <Loader />
   ) : msg === "" ? (
@@ -220,9 +223,7 @@ const TaxInvoice5A = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div className="col-4 border-end border-black p-2">
           <p className="companyNametp5a2">Ship To,</p>
           <p className={`fw-semibold companyNametp5a`}>{headerData?.CustName}</p>
-          {address?.map((e, i) => {
-            return <p key={i} className="companyNametp5a2">{e}</p>;
-          })}
+          <p className="companyNametp5a2" dangerouslySetInnerHTML={{ __html: headerData?.Printlable?.replace(/\n/g, '<br />') }} />
         </div>
         <div className="col-3 p-2">
           <p className="d-flex">

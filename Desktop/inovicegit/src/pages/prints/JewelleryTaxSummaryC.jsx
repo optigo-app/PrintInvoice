@@ -134,7 +134,7 @@ const JewelleryTaxSummaryC = ({
   // }
 
   
-  // console.log("resultdata", result);
+  console.log("resultdata", result);
 
   return (
     <>
@@ -206,13 +206,14 @@ const JewelleryTaxSummaryC = ({
                     )}
                   </div>
                 </div> */}
-                <div className="border spPad05 d-flex justify-content-between">
+                <div className="border spPad05 d-flex justify-content-between" style={{ paddingBottom: "35px" }}>
                   <div className="fs_jts devidePDetail1">
                     <div className="fs2_jts1 fw-bold">
                       {result?.header?.customerfirmname}
                     </div>
                     <div>{result?.header?.customerstreet}</div>
-                    <div>{result?.header?.customercity} {result?.header?.customerstate} {result?.header?.customerpincode} {result?.header?.customercountry}</div>
+                    <div>{result?.header?.customercity} {result?.header?.customerstate} {result?.header?.PinCode}</div>
+                    <div>{result?.header?.customercountry}</div>
                     {/*<div>Tel : {result?.header?.customermobileno}</div>
                     <div>{result?.header?.customeremail1}</div> */}
                   </div>
@@ -567,7 +568,7 @@ const JewelleryTaxSummaryC = ({
                     }}
                   ></div>
                 </div> */}
-                <div className="d-flex fs_jts brall_jts pbia_jts" style={{ height: "100px", marginTop: "5px" }}>
+                <div className="d-flex fs2_jts1 brall_jts pbia_jts" style={{ height: "100px", marginTop: "5px" }}>
                   {/* <div className="w33_jts p-1 brr_jts">
                     <div className="fw-bold">Bank Detail </div>
                     <div>Bank Name: {result?.header?.bankname}</div>

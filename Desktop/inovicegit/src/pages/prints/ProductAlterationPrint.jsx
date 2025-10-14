@@ -1092,7 +1092,7 @@ const ProductPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         <>
           <div className="mainRTMT">
             {/* PRINT BUTTON */}
-            <div className="d-flex justify-content-between p-2">
+            <div className="d-flex justify-content-between p-1">
                 <div className="retMatFont_22 spBold">{json1Data?.InvoiceNo}</div>
                 <div className="form-check ps-3 dis-none">
                     <input
@@ -1107,7 +1107,7 @@ const ProductPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             {json2Data?.length > 0 && json2Data.map((e) => (
                 <div className="spBrdrAllBlck">
                     {/* HEADER */}
-                    <div className="spMnHead">
+                    <div className="spMnHead retMatFont_16">
                         <div className="spHeadWdth1">
                             <div className="spBold">{e?.SrJobno} [{e?.uniqueno}]</div>
                             <div className="">with <span className="spBold">{e?.MetalTypePurity} ({e?.MetalColor})</span></div>
@@ -1150,7 +1150,7 @@ const ProductPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         </div>
                     </div>
 
-                    <div className="d-flex">
+                    <div className="d-flex" style={{ paddingBottom: "13px" }}>
                       <div className="imgContnt">
                         <img
                           src={e?.DesignImage}
@@ -1229,8 +1229,8 @@ const ProductPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                               <div style={{ marginBottom: "15px" }}>
                                   <div className="detlsContnt spBrdrAll spBrdrBtomNone retMatFont_18 spBold">Color Stone</div>
                                   <div className="detlsContnt spBrdrAll retMatFont_14">
-                                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">SR#</div>
-                                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">TYPE</div>
+                                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt" style={{ width: "6.50%" }}>SR#</div>
+                                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt" style={{ width: "18.50%" }}>TYPE</div>
                                       <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">SHAPE</div>
                                       <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">QUALITY</div>
                                       <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">COLOR</div>
@@ -1241,8 +1241,8 @@ const ProductPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   {e?.colorStones?.map((el, id) => {
                                   return (
                                       <div key={id} className="detlsContnt d-flex spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
-                                          <div className="dimndNClrstn spBrdrRigt d-flex justify-content-center" style={{ paddingTop: "6px" }}>{id + 1}</div>
-                                          <div className="dimndNClrstn spBrdrRigt d-flex justify-content-center" style={{ paddingTop: "6px" }}>{el?.MaterialTypeName}</div>
+                                          <div className="dimndNClrstn spBrdrRigt d-flex justify-content-center" style={{ paddingTop: "6px", width: "6.50%" }}>{id + 1}</div>
+                                          <div className="dimndNClrstn spBrdrRigt d-flex justify-content-center" style={{ paddingTop: "6px", width: "18.50%" }}>{el?.MaterialTypeName}</div>
                                           <div className="spacCell dimndNClrstn spBrdrRigt d-flex justify-content-start align-items-center">{el?.ShapeName}</div>
                                           <div className="dimndNClrstn spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.QualityName}</div>
                                           <div className="dimndNClrstn spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.Colorname}</div>
@@ -1256,42 +1256,56 @@ const ProductPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           </div>
 
                           {/* MISC */}
-                          <div className={``}>
-                              <div style={{ marginBottom: "15px" }}>
-                                  <div className="detlsContnt spBrdrAll spBrdrBtomNone retMatFont_18 spBold">Misc.</div>
-                                  <div className="detlsContnt spBrdrAll retMatFont_14">
-                                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt" style={{ width: "9.50%" }}>SR#</div>
-                                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">TYPE</div>
-                                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">SHAPE</div>
-                                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">QUALITY</div>
-                                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">COLOR</div>
-                                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">SIZE</div>
-                                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt d-flex justify-content-start align-items-center" 
-                                          style={{ width: "9.50%" }}>
+                          {e?.mics.length > 0 && (
+                            <div className={``}>
+                                <div style={{ marginBottom: "15px" }}>
+                                    <div className="detlsContnt spBrdrAll spBrdrBtomNone retMatFont_18 spBold">Misc.</div>
+                                    <div className="detlsContnt spBrdrAll retMatFont_14">
+                                        <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt" style={{ width: "6.50%" }}>SR#</div>
+                                        <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt" style={{ width: "10.50%" }}>TYPE</div>
+                                        <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">SHAPE</div>
+                                        <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt" style={{ width: "14%" }}>QUALITY</div>
+                                        <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt" style={{ width: "17.50%"}}>COLOR</div>
+                                        <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">SIZE</div>
+                                        <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt d-flex justify-content-start align-items-center" style={{ width: "8.50%" }}>
                                           PCS.
-                                      </div>
-                                      <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">CTW</div>
-                                      <div className="sFntStyl dimndNClrstn spBgColr" style={{ width:"18.50%" }} >ADD IN GR WT</div>
-                                  </div>
-                                  {e?.mics?.map((el, id) => {
-                                  return (
-                                      <div key={id} className="detlsContnt d-flex spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
-                                          <div className="dimndNClrstn spBrdrRigt d-flex justify-content-center" style={{ paddingTop: "6px", width: "9.50%" }}>{id + 1}</div>
-                                          <div className="dimndNClrstn spBrdrRigt d-flex justify-content-center" style={{ paddingTop: "6px" }}>{el?.MaterialTypeName}</div>
-                                          <div className="spacCell dimndNClrstn spBrdrRigt d-flex justify-content-start align-items-center">{el?.ShapeName}</div>
-                                          <div className="dimndNClrstn spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.QualityName}</div>
-                                          <div className="dimndNClrstn spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.Colorname}</div>
-                                          <div className="dimndNClrstn spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.SizeName}</div>
-                                          <div className="dimndNClrstn spBrdrRigt spacCell d-flex justify-content-end align-items-center" style={{ width: "9.50%" }}>
-                                            {el?.Pcs}
-                                          </div>
-                                          <div className="dimndNClrstn spBrdrRigt spacCell d-flex justify-content-end align-items-center">{fixedValues(el?.Wt, 3)}</div>
-                                          <div className="dimndNClrstn spacCell d-flex justify-content-center align-items-center" style={{ width:"18.50%" }}>No</div>
-                                      </div>
-                                      )
-                                  })}
-                              </div>
-                          </div>
+                                        </div>
+                                        <div className="sFntStyl dimndNClrstn spBgColr spBrdrRigt">GM</div>
+                                        <div className="sFntStyl dimndNClrstn spBgColr" style={{ width:"18.50%" }} >ADD IN GR WT</div>
+                                    </div>
+                                    {e?.mics?.map((el, id) => {
+                                    return (
+                                        <div key={id} className="detlsContnt d-flex spBrdrRigt spBrdrBtom spBrdrLft retMatFont_13">
+                                            <div className="dimndNClrstn spBrdrRigt d-flex justify-content-center" style={{ paddingTop: "6px", width: "6.50%" }}>{id + 1}</div>
+                                            <div className="dimndNClrstn spBrdrRigt d-flex justify-content-center" style={{ paddingTop: "6px", width: "10.50%" }}>
+                                              {el?.MaterialTypeName}
+                                            </div>
+                                            <div className="spacCell dimndNClrstn spBrdrRigt d-flex justify-content-start align-items-center">{el?.ShapeName}</div>
+                                            <div className="dimndNClrstn spBrdrRigt spacCell d-flex justify-content-start align-items-center" style={{ width: "14%" }}>
+                                              {el?.QualityName}
+                                            </div>
+                                            <div className="dimndNClrstn spBrdrRigt spacCell d-flex justify-content-start align-items-center" style={{ width: "17.50%"}}>
+                                              {el?.Colorname}
+                                            </div>
+                                            <div className="dimndNClrstn spBrdrRigt spacCell d-flex justify-content-start align-items-center">{el?.SizeName}</div>
+                                            <div className="dimndNClrstn spBrdrRigt spacCell d-flex justify-content-end align-items-center" style={{ width: "8.50%" }}>
+                                              {el?.Pcs}
+                                            </div>
+                                            <div className="dimndNClrstn spBrdrRigt spacCell d-flex justify-content-end align-items-center">{fixedValues(el?.Wt, 3)}</div>
+                                            <div className="dimndNClrstn spacCell d-flex justify-content-center align-items-center" style={{ width:"18.50%" }}>No</div>
+                                        </div>
+                                        )
+                                    })}
+                                </div>
+                            </div>
+                          )}
+
+                          {json1Data?.Remark !== '' && (
+                            <>
+                              <div className="detlsContnt spBrdrAll spBrdrBtomNone retMatFont_18 spBold">Remark If Any</div>
+                              <div className="detlsContnt spBrdrAll spBrdrBtom retMatFont_14" style={{ padding: "5px", paddingBottom: "12px" }}>{json1Data?.Remark}</div>
+                            </>
+                          )}
 
                           {/* METAL */}
                           {/* <div className={`section-transition page_break`}>

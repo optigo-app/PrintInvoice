@@ -20,6 +20,11 @@ html {
     line-height: 14px;
 }
 
+.retMatFont_16 {
+    font-size: 16px;
+    line-height: 22px;
+}
+
 .retMatFont_18 {
     font-size: 18px;
     line-height: 18px;
@@ -41,14 +46,21 @@ html {
 }
 
 .spHeadWdth1 {
-    width: 33.33%;
+    width: 29.33%;
     display: flex;
     flex-direction: column;
     align-items: start;
 }
 
 .spHeadWdth2 {
-    width: 33.33%;
+    width: 35.33%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.spHeadWdth3 {
+    width: 35.33%;
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -60,13 +72,6 @@ html {
 
 .dividHeadWdth2 {
     width: 65%;
-}
-
-.spHeadWdth3 {
-    width: 33.33%;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
 }
 
 .theLogoImg {
@@ -87,50 +92,23 @@ html {
     align-items: center;
 }
 
-.spSubHed {
-    width: 100%;
-    padding: 10px;
-}
-
-.subSubHed1 {
-    width: 50%;
-}
-
-.subSubHed2 {
-    width: 50%;
-    display: flex;
-    justify-content: space-between;
-}
-
-.bdyhead {
-    font-size: 16px;
-    line-height: 16px;
-}
-
 .mnContnt {
-    width: 66%;
+    width: 71%;
     border-top: 1px solid #000000;
     padding-top: 10px;
 }
 
 .imgContnt {
-    width: 34%;
+    width: 29%;
     border-top: 1px solid #000000;
 }
 
 .imgWdth {
     width: 100%;
-    height: 300px;
+    height: 250px;
     box-sizing: border-box;
     object-fit: contain;
     padding: 20px;
-}
-
-.bodyContnt {
-    width: 58%;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
 }
 
 .detlsContnt {
@@ -140,12 +118,6 @@ html {
 .dimndNClrstn {
     width: 12.50%;
     padding: 0px;
-    padding-left: 6px;
-    padding-right: 6px;
-}
-
-.proprDvson {
-    width: 16.67%;
     padding-left: 6px;
     padding-right: 6px;
 }
@@ -160,14 +132,6 @@ html {
     padding: 0px;
     padding-left: 6px;
     padding-right: 6px;
-}
-
-.mtalFistCol {
-    width: 25%;
-}
-
-.mtalotherRmnSpac {
-    width: 75%;
 }
 
 .mtalproprDvson {
@@ -231,7 +195,7 @@ html {
 
 @media print {
     @page {
-        margin: 20px 20px;
+        margin: 5px 25px;
     }
 
     .mainRTMT {
@@ -239,12 +203,6 @@ html {
     }
 
     .dis-none {
-        display: none;
-    }
-    
-    .spHeadWdth1,
-    .spHeadWdth3,
-    .spSubHed {
         display: none;
     }
 
@@ -261,13 +219,31 @@ html {
         font-size: 18px;
     }
 
+    .retMatFont_18 {
+        font-size: 14px;
+        line-height: 15px;
+    }
+
+    .retMatFont_16 {
+        font-size: 13px;
+        line-height: 19px;
+    }
+
     .retMatFont_14 {
-        font-size: 12px;
+        font-size: 11px;
         line-height: 12px;
     }
 
     .retMatFont_13 {
-        font-size: 11px;
+        font-size: 10px;
         line-height: 11px;
+    }
+
+    .dividHeadWdth1 {
+        width: 35%;
+    }
+    
+    .dividHeadWdth2 {
+        width: 65%;
     }
 }
