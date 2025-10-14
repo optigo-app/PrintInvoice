@@ -272,8 +272,6 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         setJsonData1(data?.BillPrint_Json[0]);
 
         let taxValue = taxGenrator(data?.BillPrint_Json[0], totalObj.totalAmount);
-        console.log("taxValue", taxValue);
-        
         setTaxes(taxValue);
         totalObj.materialWeight = datas?.mainTotal?.diamonds?.Wt + datas?.mainTotal?.colorstone?.Wt;
         taxValue.forEach((e, i) => {
@@ -325,8 +323,10 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         sendData();
     }, []);
 
-    console.log("jsonData1", jsonData1);
-    // console.log("finalD", finalD);
+    // console.log("jsonData1", jsonData1);
+    // console.log("resultArrayC", resultArrayC);
+    // console.log("total", total);
+    console.log("finalD", finalD);
     // console.log("taxes", taxes);
 
     return (
@@ -706,7 +706,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <div className={`${styles.Wt} lossWtRetailPrintNoRate border-end p-1 d-flex align-items-end justify-content-around flex-column min_height_44_retail_print_1 ft_12_retailPrint`}>
                                     <p className='fw-bold lh-1 text-end fs_maintotal_wt_rp'>D + C : {fixedValues(total?.materialWeight, 3)} Ctw</p>
                                     {/* <p className='fw-bold lh-1 text-end'>{fixedValues(total?.goldWeight - (finalD?.mainTotal?.diamonds?.Wt / 5), 3)} gm</p> */}
-                                    <p className='fw-bold lh-1 text-end fs_maintotal_wt_rp'>Metal : {((total?.goldWeight - (finalD?.mainTotal?.diamonds?.Wt / 5)) - resultArrayC?.mainTotal?.misc?.onlyIsHSCODE0_Wt)?.toFixed(3)} gm</p>
+                                    <p className='fw-bold lh-1 text-end fs_maintotal_wt_rp'>Metal : {fixedValues(finalD?.mainTotal?.metal?.Wt - finalD?.mainTotal?.lossWt,3)} gm</p>
                                     <p className='fw-bold lh-1 text-end fs_maintotal_wt_rp'>Misc : {(resultArrayC?.mainTotal?.misc?.onlyIsHSCODE0_Wt)?.toFixed(3)} gm</p>
                                 </div>
                             )}

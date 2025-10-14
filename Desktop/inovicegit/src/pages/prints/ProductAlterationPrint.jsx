@@ -1292,7 +1292,9 @@ const ProductPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                               {el?.Pcs}
                                             </div>
                                             <div className="dimndNClrstn spBrdrRigt spacCell d-flex justify-content-end align-items-center">{fixedValues(el?.Wt, 3)}</div>
-                                            <div className="dimndNClrstn spacCell d-flex justify-content-center align-items-center" style={{ width:"18.50%" }}>No</div>
+                                            <div className="dimndNClrstn spacCell d-flex justify-content-center align-items-center" style={{ width:"18.50%" }}>
+                                              {el?.ismiscwtaddingrossweight === 1 ? "Yes" : el?.ismiscwtaddingrossweight === 0 ? "No" : "" }
+                                            </div>
                                         </div>
                                         )
                                     })}
