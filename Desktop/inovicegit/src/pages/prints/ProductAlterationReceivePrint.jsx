@@ -1,6 +1,6 @@
-// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=UjUzMw==&evn=QWx0ZXJhdGlvbg==&pnm=UHJvZHVjdCBBbHRlcmF0aW9u&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&ctv=NzE=&ifid=RepairPrint&pid=undefined
+// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=UlI1MTQ=&evn=QWx0ZXJhdGlvbiBSZWNlaXZl&pnm=UHJvZHVjdCBBbHRlcmF0aW9uIFJlY2VpdmU=&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&ctv=NzE=&ifid=RepairPrint&pid=undefined
 import React, { useEffect, useState } from "react";
-import "../../assets/css/prints/productAlterationPrint.css";
+import "../../assets/css/prints/productAlterationReceivePrint.css";
 import {
   ReceiveInBank,
   apiCall,
@@ -16,7 +16,7 @@ import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 import { borderLeft } from "@mui/system";
-const ProductPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
+const ProductAlterationReceivePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [json1Data, setJson1Data] = useState({});
   const [json2Data, setJson2Data] = useState([]);
   const [otherCharges, setOtherCharges] = useState(0);
@@ -1081,8 +1081,8 @@ const ProductPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     sendData();
   }, []);
 
-  console.log("json2Data", json2Data);
-  console.log("json1Data", json1Data);
+  // console.log("json2Data", json2Data);
+  // console.log("json1Data", json1Data);
   
   return (
     <>
@@ -1344,4 +1344,4 @@ const ProductPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   );
 };
 
-export default ProductPrint;
+export default ProductAlterationReceivePrint;

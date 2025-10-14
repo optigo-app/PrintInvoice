@@ -386,7 +386,8 @@ export const alterationArray = [
   {label:"alteration", evname: "RepairAlteration", componentName:'RepairAlteration'},
   {label:"alteration receive", evname: "RepairAlterationReceive", componentName: 'RepairAlterationReceive'},
   {printName: 'repair print',evname:'alteration', etpType: 'print', componentName: 'RepairPrint'},
-  {printName: 'product print',evname:'alteration', etpType: 'print', componentName: 'ProductAlterationPrint'},
+  {printName: 'product alteration',evname:'alteration', etpType: 'print', componentName: 'ProductAlterationPrint'},
+  {printName: 'product alteration receive',evname:'alteration', etpType: 'print', componentName: 'ProductAlterationReceivePrint'},
 ];
 
 export const quoteArray = [
