@@ -1044,7 +1044,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 )} */}
 
               {/* data */}
-              <div style={{ minHeight: "300px" }}>
+              <div style={{ minHeight: finalD?.resultArray?.length === 1 ? "360px" : finalD?.resultArray?.length === 2 ? "355px" : "300px" }}>
                 {finalD?.resultArray?.map((e, i) => {
                   return (
                     <div
