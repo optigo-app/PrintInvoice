@@ -53,28 +53,37 @@
 .fs_comment_jti {
     font-size: 12px;
 }
-.footer {
-    display: none;
-}
-.contentSpacer {
-    display: none;
-}
 
+.printSpacer {
+    width: 100%;
+    min-height: 0 !important;
+    line-height: 0;
+    font-size: 0;
+    display: block;
+  }
+  
 @media print {
+    .printSpacer {
+      page-break-inside: avoid !important;
+      border: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      background: transparent !important;
+    }
+
     @page {
-        margin-top: 31px;
-        margin-right: 20px;
-        margin-left: 20px;
+        margin: 20px;
     }
 
-    body {
-        /* Add a margin to the bottom of the body,
-           equal to the height of the footer plus some padding.
-           This prevents content from being hidden underneath the footer. */
-        /* padding-bottom: 50px !important; */
+    .spacer {
+        page-break-inside: avoid;
     }
 
-    /* .wrapper {
+    /* body {
+        padding-bottom: 50px !important;
+    }
+
+    .wrapper {
         height: auto;
         width: 210mm;
         display: flex;
@@ -99,24 +108,17 @@
         margin-top: 10px !important;
         margin-bottom: 0px !important;
         
-        /* The magical lines: position the footer at the bottom of every page 
         position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
         
-        /* Ensure the footer is on top of other content 
         z-index: 999;
     } */
     
     .pgBrkInsid {
         page-break-inside: avoid !important;
     }
-
-    /* .contentSpacer {
-        height: 120mm !important;
-        padding: 120mm !important;
-    } */
 
     .print_sec_sum4 {
         display: none !important;
@@ -146,49 +148,3 @@
         font-size: 9px;
     }
 }
-
-/* .containerJewellery *:not(.declaration *) {
-    font-size: 12px
-}
-
-.font_13, .font_13 *:not(.declaration *){
-    font-size: 13px;
-}
-
-.font_14, .font_14 *:not(.declaration *){
-    font-size: 14px;
-}
-
-.font_15, .font_15 *:not(.declaration *){
-    font-size: 15px;
-}
-
-
-.word_Break *{
-    word-break: normal !important;
-}
-
-.image{
-    max-height: 100px;
-    object-fit: contain;
-}
-
-.generated{
-    font-size: 9px !important;
-}
-
-
-@media print{
-    .print_sec_sum4{
-        display: none !important;
-    }
-}
- */
-
-/* .srNo, .jobNo, .image, .amount{
-    width: 15%;
-}
-
-.discription{
-    width: 40%;
-} */

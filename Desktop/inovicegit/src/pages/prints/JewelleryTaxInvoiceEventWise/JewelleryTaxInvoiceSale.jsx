@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import {
   NumberWithCommas,
   apiCall,
@@ -26,16 +26,11 @@ const JewelleryTaxInvoiceSale = ({
   ApiVer,
 }) => {
   const [loader, setLoader] = useState(true);
-
   const [result, setResult] = useState();
   const [data, setData] = useState([]);
   const [originalData, setOriginalData] = useState([]);
   const [tax, settax] = useState([]);
-  const [estimate, setEstimate] = useState(
-    atob(evn)?.toLowerCase() === "product estimate" ? true : false
-  );
   const [summary, setSummary] = useState([]);
-  const [summary2, setSummary2] = useState([]);
   const [imgFlag, setImgFlag] = useState(false);
   const [showBoxNo, setShowBoxNo] = useState(false);
   const [isImageWorking, setIsImageWorking] = useState(true);
@@ -52,14 +47,14 @@ const JewelleryTaxInvoiceSale = ({
     pan: "",
     gst: "",
   });
-
   const [msg, setMsg] = useState("");
-
   const [addressVal, setAddressVal] = useState("");
   const [MobVal, setMobVal] = useState("");
   const [emailVal, setEmailVal] = useState("");
 
-  const [evns, setEvns] = useState(atob(evn).toLowerCase());
+  const contentRef = useRef(null); 
+  const footerRef = useRef(null);
+  const [spacerStyle, setSpacerStyle] = useState({ height: '0px', pageBreakBefore: 'auto' });
 
   const loadData = (data) => {
     let json0Datas = data.BillPrint_Json[0];
@@ -222,14 +217,7 @@ const JewelleryTaxInvoiceSale = ({
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(
-          token,
-          invoiceNo,
-          printName,
-          urls,
-          evn,
-          ApiVer
-        );
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
@@ -251,6 +239,44 @@ const JewelleryTaxInvoiceSale = ({
     };
     sendData();
   }, []);
+  
+  const calculateSpacer = useCallback(() => {
+    if (!contentRef.current || !footerRef.current || loader) return;
+  
+    setTimeout(() => {
+      const contentHeight = contentRef.current.scrollHeight;
+      const footerHeight = footerRef.current.scrollHeight;
+      const printPageHeight = 1120;
+  
+      let heightOnLastPage = contentHeight % printPageHeight;
+      if (heightOnLastPage === 0) {
+        heightOnLastPage = printPageHeight;
+      }
+  
+      let spacerHeight = printPageHeight - heightOnLastPage - footerHeight;
+      
+      if (spacerHeight < 0) {
+        spacerHeight = printPageHeight - footerHeight - 20;
+        setSpacerStyle({
+          height: `${spacerHeight}px`,
+          pageBreakBefore: 'always'
+        });
+      } else {
+        setSpacerStyle({
+          height: `${Math.max(spacerHeight, 0)}px`,
+          pageBreakBefore: 'auto'
+        });
+      }
+      
+      console.log('✅ SPACER:', spacerHeight, 'px');
+    }, 150);
+  }, [loader]);
+  
+  useEffect(() => {
+    if (!loader && data.length > 0) {
+      setTimeout(() => calculateSpacer(), 200);
+    }
+  }, [data, totalAmount, json0Data, calculateSpacer]);
 
   const handleImgShow = (e) => {
     if (imgFlag) setImgFlag(false);
@@ -301,9 +327,11 @@ const JewelleryTaxInvoiceSale = ({
     <Loader />
   ) : msg === "" ? (
     <>
-    <div className={`${style?.wrapper}`}>
+    <div ref={contentRef}>
       <div
-        className={`container ${style?.mainContent} pad_60_allPrint ${style?.containerJewellery} ${style?.containerJewelleryMaxWidth} jewelleryinvoiceContain jewelleryinvoiceContain_new`}
+        className={`
+          container ${style?.mainContent} ${style?.containerJewellery} ${style?.containerJewelleryMaxWidth} jewelleryinvoiceContain jewelleryinvoiceContain_new
+        `}
       >
         {/* buttons */}
         <div
@@ -328,9 +356,9 @@ const JewelleryTaxInvoiceSale = ({
               onChange={handleImgShow}
               value={imgFlag}
               checked={imgFlag}
-              id="imgshow"
+              id="headershow"
             />
-            <label htmlFor="imgshow" className="user-select-none mx-1">
+            <label htmlFor="headershow" className="user-select-none mx-1">
               Header
             </label>
           </div>
@@ -1101,15 +1129,16 @@ const JewelleryTaxInvoiceSale = ({
             </div>
           </div>
         </div>
+
         <div className={`${style?.pgBrkInsid}`}>
-        <p
-          className={`py-2 ${style.generated} ${style?.pgBrkInsid} no_break static_line_sqm`}
-          style={{ color: "rgb(161 159 159)" }}
-        >
-          ** THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US
-          IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF
-          TRANSACTIONS{" "}
-        </p>
+          <p
+            className={`py-2 ${style.generated} ${style?.pgBrkInsid} no_break static_line_sqm`}
+            style={{ color: "rgb(161 159 159)" }}
+          >
+            ** THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US
+            IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF
+            TRANSACTIONS{" "}
+          </p>
           <div className={`border px-2 no_break ${style?.pgBrkInsid}`}>
             <div
               className="jewel_box_infor_summury"
@@ -1182,9 +1211,11 @@ const JewelleryTaxInvoiceSale = ({
       </div>
     </div>
 
-      {/* <div className={`${style?.footer}`}>
-        <p>Copyright © 2025. All rights reserved.</p>
-      </div> */}
+    {/* <div className={`${style?.printSpacer}`} style={spacerStyle}/>
+
+    <div ref={footerRef} className={`${style?.footer}`}>
+      <p>Copyright © 2025. All rights reserved.</p>
+    </div> */}
     </>
   ) : (
     <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">

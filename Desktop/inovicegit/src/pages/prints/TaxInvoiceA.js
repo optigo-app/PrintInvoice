@@ -660,28 +660,28 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   console.log("finalD", finalD);
 
 
-  // const productsPerPage = 9;
-  // let totalProducts = finalD?.resultArray?.length;
-  // totalProducts = totalProducts > 7 ? totalProducts + 2 : totalProducts;
+  const productsPerPage = 9;
+  let totalProducts = finalD?.resultArray?.length;
+  totalProducts = totalProducts > 7 ? totalProducts + 2 : totalProducts;
+  
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
+  const hasMultiplePages = totalPages > 1;
 
-  // const totalPages = Math.ceil(totalProducts / productsPerPage);
-  // const hasMultiplePages = totalPages > 1;
+  const remainingOnLastPage = totalProducts % productsPerPage || productsPerPage;
 
-  // const remainingOnLastPage = totalProducts % productsPerPage || productsPerPage;
+  const needsSpacer = 
+    (totalProducts === 7 || totalProducts === 6 || totalProducts === 5 || totalProducts === 4 || totalProducts === 3) 
+    || (hasMultiplePages && remainingOnLastPage <= productsPerPage);
 
-  // const needsSpacer = 
-  //   (totalProducts === 7 || totalProducts === 6 || totalProducts === 5 || totalProducts === 4) 
-  //   || (hasMultiplePages && remainingOnLastPage <= productsPerPage);
-
-  //     const spacerClass = 
-  //     totalProducts === 7 ? "spacer-53" :
-  //     totalProducts === 6 ? "spacer-52" :
-  //     totalProducts === 5 ? "spacer-51" :
-  //     totalProducts === 4 ? "spacer-50" :
-  //     totalProducts === 3 ? "spacer-49" :
-  //   remainingOnLastPage <= productsPerPage 
-  //     ? `spacer-${productsPerPage - remainingOnLastPage}`  
-  //     : "";
+      const spacerClass = 
+      totalProducts === 7 ? "spacer-53" :
+      totalProducts === 6 ? "spacer-52" :
+      totalProducts === 5 ? "spacer-51" :
+      totalProducts === 4 ? "spacer-50" :
+      totalProducts === 3 ? "spacer-49" :
+    remainingOnLastPage <= productsPerPage 
+      ? `spacer-${productsPerPage - remainingOnLastPage}`  
+      : "";
 
 
   return (
@@ -743,6 +743,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 />
               </div>
             </div>
+
             {/* header line*/}
             <div style={{ position: "relative" }}>
               <div
@@ -783,6 +784,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 )}
               </p>
             </div>
+
             <div
               style={{
                 display: "flex",
@@ -1050,7 +1052,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       className="recordDetailPrint1 detailPrint1L_font_11"
                     >
                       <div className="d-flex w-100">
-                        <div className="designDetalPrint1 min_height pt-1">
+                        <div className="designDetalPrint1 pt-1" style={{ minHeight:"100px" }}>
                           <p className="text-center">
                             {NumberWithCommas(i + 1, 0)}
                           </p>
@@ -1155,9 +1157,9 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   );
                 })}
               </div>
-              {/* {needsSpacer && (
-                <div className={`spacer ${spacerClass}`}/>
-                )} */}
+
+              {needsSpacer && ( <div className={`spacer ${spacerClass}`}/> )}
+
               <div className="myToalaSection">
                 <div
                   style={{
@@ -1381,6 +1383,7 @@ const TaxInvoiceA = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
+
               <tfoot>
                 <tr>
                   <td>
