@@ -152,7 +152,7 @@ const DetailPrintMaterial = ({
               {/** Header */}
               <div className="headlineJL w-100 p-2">
                 <b style={{ fontSize: "20px" }}>
-                  MATERIAL SALE
+                  {json0Data?.PrintHeadLbl}
                 </b>
               </div>
               <div className="disflx brbxAll">
