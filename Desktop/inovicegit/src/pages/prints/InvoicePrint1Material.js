@@ -486,7 +486,7 @@ const InvoicePrint1Material = ({
               </div>
 
               {/** Signature */}
-              <div className="disflx spacTpm spfntbH pgbrkIsd">
+              <div className="disflx spacTpm spfntbH pgbrkIsd SpaceAtBtom">
                 <div className="spbnkdtl1 brbxAll spaceRht">
                     <div className="spfntBld">AUTHORISED, {json0Data?.customerfirmname}</div>
                 </div>

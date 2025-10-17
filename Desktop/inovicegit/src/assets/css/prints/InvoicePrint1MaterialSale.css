@@ -12,6 +12,10 @@
     color: #000;
 }
 
+.SpaceAtBtom {
+    padding-bottom: 100px;
+}
+
 .headlineJL {
     display: flex;
     justify-content: flex-start;
@@ -49,7 +53,7 @@
 }
 
 .col2_inv2{
-    width: 21%;
+    width: 20%;
     padding: 4px;
 }
 .col3_inv2{
@@ -65,7 +69,7 @@
     padding: 4px;
 }
 .col6_inv2{
-    width: 8.50%;
+    width: 9.50%;
     padding: 4px;
 }
 .col7_inv2{
@@ -112,7 +116,7 @@
 
 
 .Sucol2_inv2{
-    width: 21%;
+    width: 20%;
     padding: 4px;
 }
 .Sucol3_inv2{
@@ -128,7 +132,7 @@
     padding: 4px;
 }
 .Sucol6_inv2{
-    width: 8.50%;
+    width: 9.50%;
     padding: 4px;
 }
 .Sucol7_inv2{
@@ -167,7 +171,7 @@
 
 
 .FtSucol2_inv2{
-    width: 21%;
+    width: 20%;
     padding-left: 4px;
 }
 .FtSucol3_inv2{
@@ -180,7 +184,7 @@
     width: 10.50%;
 }
 .FtSucol6_inv2{
-    width: 8.50%;
+    width: 9.50%;
 }
 .FtSucol7_inv2{
     width: 8.90%;
@@ -375,6 +379,10 @@
     @page {
         margin: 25px 15px;
     }
+    .SpaceAtBtom {
+        padding-bottom: 0px;
+    }
+
     .container_inv2{
         width: 100% !important;
         box-sizing: border-box;
