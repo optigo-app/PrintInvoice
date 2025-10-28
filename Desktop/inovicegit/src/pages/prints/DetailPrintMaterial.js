@@ -33,7 +33,7 @@ const DetailPrintMaterial = ({token, invoiceNo, printName, urls, evn, ApiVer,}) 
     const sendData = async () => {
       try {
         const data = await apiCall(
-          "OTA2NTQ3MTcwMDUzNTY1MQ==",
+          token,
           invoiceNo,
           printName,
           urls,
