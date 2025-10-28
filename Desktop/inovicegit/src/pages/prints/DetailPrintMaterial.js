@@ -14,14 +14,7 @@ import {
 import Loader from "../../components/Loader";
 import { ToWords } from "to-words";
 
-const DetailPrintMaterial = ({
-  token,
-  invoiceNo,
-  printName,
-  urls,
-  evn,
-  ApiVer,
-}) => {
+const DetailPrintMaterial = ({token, invoiceNo, printName, urls, evn, ApiVer,}) => {
   const [loader, setLoader] = useState(true);
   const [json0Data, setJson0Data] = useState({});
   const [msg, setMsg] = useState("");
@@ -30,12 +23,17 @@ const DetailPrintMaterial = ({
   const [taxAmont , setTaxAmount] = useState();
   const [extraTaxAmont , setExtraTaxAmount] = useState();
   const toWords = new ToWords();
+  const [headFlag, setHeadFlag] = useState(true);
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
 
   useEffect(() => {
     const sendData = async () => {
       try {
         const data = await apiCall(
-          token,
+          "OTA2NTQ3MTcwMDUzNTY1MQ==",
           invoiceNo,
           printName,
           urls,
@@ -77,27 +75,35 @@ const DetailPrintMaterial = ({
     sendData();
   }, []);
 
-  const totalMiscWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
+  const totalColrStonWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
     const weight = parseFloat(item?.Weight);
-    if (item?.ItemName === 'MISC') {
+    if (item?.ItemName === 'COLOR STONE') {
       return sum + (isNaN(weight) ? 0 : weight);
     }
     return sum;
   }, 0);
 
-  const totalMetalWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
+  const totalDiamondWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
     const weight = parseFloat(item?.Weight);
-    if (item?.ItemName === 'METAL') {
+    if (item?.ItemName === 'DIAMOND') {
       return sum + (isNaN(weight) ? 0 : weight);
     }
     return sum;
   }, 0);
-
-  const metalAndMiscWeight = totalMetalWeight + totalMiscWeight;
+  
+  const diamondAndClrStonWeight = totalDiamondWeight + totalColrStonWeight;
   
   const remainingWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
     const weight = parseFloat(item?.Weight);
-    if (item?.ItemName !== 'METAL' && item?.ItemName !== 'MISC') {
+    if (item?.ItemName !== 'DIAMOND' && item?.ItemName !== 'COLOR STONE') {
+      return sum + (isNaN(weight) ? 0 : weight);
+    }
+    return sum;
+  }, 0);
+  
+  const totalMetalWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
+    const weight = parseFloat(item?.Weight);
+    if (item?.ItemName === 'METAL') {
       return sum + (isNaN(weight) ? 0 : weight);
     }
     return sum;
@@ -138,7 +144,17 @@ const DetailPrintMaterial = ({
       ) : msg === "" ? (
         <>
           <div className="w-full flex">
-            <div className="w-full flex prnt_btn">
+            <div className="w-full flex items-center justify-end spfnthead head_Chkbx">
+              <input
+                type="checkbox"
+                id="Finding"
+                className="mx-1"
+                checked={headFlag}
+                onChange={() => setHeadFlag(!headFlag)}
+              />
+              <label htmlFor="Finding" className="me-3 user-select-none">Header</label>
+            </div>
+            <div className="prnt_btn">
               <input
                 type="button"
                 className="btn_white blue mt-0"
@@ -155,6 +171,31 @@ const DetailPrintMaterial = ({
                   {json0Data?.PrintHeadLbl}
                 </b>
               </div>
+              {headFlag && (
+                <div className="disflx justify-content-between" style={{ marginBottom: "10px" }}>
+                  <div className="spfnthead" style={{ paddingLeft: "5px" }}>
+                    <div className="spfntBld" style={{ fontSize: "15px" }}>{json0Data?.CompanyFullName}</div>
+                    <div className="">{json0Data?.CompanyAddress}</div>
+                    {/* <div className="">{json0Data?.CompanyAddress2}</div> */}
+                    <div className="">{json0Data?.CompanyCity} - {json0Data?.CompanyPinCode}, {json0Data?.CompanyState}({json0Data?.CompanyCountry})</div>
+                    <div className="">T {json0Data?.CompanyTellNo}</div>
+                    <div className="">{json0Data?.CompanyEmail} {json0Data?.CompanyWebsite}</div>
+                    <div className="">{json0Data?.Company_VAT_GST}-{json0Data?.Company_VAT_GST_No} | {json0Data?.Company_CST_STATE}-{json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.ComPanCard}</div>
+                  </div>
+
+                  {typeof json0Data?.PrintLogo === 'string' && json0Data.PrintLogo.trim() !== '' && (
+                    <div>
+                      <img 
+                        src={json0Data.PrintLogo} 
+                        alt="#companylogo"  
+                        className="cmpnyLogo" 
+                        onError={handleImageErrors}
+                      />
+                    </div>
+                  )}
+
+                </div>
+              )}
               <div className="disflx brbxAll">
                 <div className="w1_inv2 spTpMrgHD spfnthead disflx">
                   <div className="spfntBld">To,</div>
@@ -193,10 +234,10 @@ const DetailPrintMaterial = ({
               {finalD?.map((e, i) => {
                 return (
                   <div key={i} className="disflx spbrlFt brBtom spfntbH">
-                    <div className="col1_inv2 spbrRht spfntCen">{i + 1}</div>
+                    <div className="col1_inv2 spbrRht spfntCen" style={{ width: "4.10%"}}>{i + 1}</div>
                     <div className="Sucol2_inv2 spbrRht">
                     {e?.ItemName === "DIAMOND" 
-                      ? `DIAMOND:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}`
+                      ? `DIAMOND:${e?.LotNo}${e?.LotNo ? '/' : ''}${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}`
                       : e?.ItemName === "COLOR STONE" 
                         ? `CS:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}` 
                         : e?.ItemName === "METAL" 
@@ -204,15 +245,20 @@ const DetailPrintMaterial = ({
                           : e?.ItemName === "MISC" 
                             ? `MISC:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}`
                             : e?.ItemName === "FINDING" 
-                            ? `FINDING:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}`
+                            ? `FINDING:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}${formatAmount(e?.Tunch,3)}`
                               : e?.ItemName === "ALLOY" 
                               ? `ALLOY:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}`
                                 : e?.ItemName === "MOUNT" 
-                                ? `MOUNT:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}`
+                                ? `MOUNT:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${formatAmount(e?.Tunch,3)}`
                             : ""
                     }
                     </div>
-                    <div className="Sucol3_inv2 spbrRht">{e?.MaterialRemark}</div>
+                    <div className="Sucol3_inv2 spbrRht">
+                      {["mount"].includes(e?.ItemName?.toLowerCase())
+                        ? `${e?.MountCategory} / ${e?.MaterialRemark}`
+                        : e?.MaterialRemark
+                      }
+                    </div>
                     <div className="Sucol6_inv2 spbrRht spfnted">{e?.pieces === "" ? "-" : e?.pieces}</div>
                     <div className="Sucol7_inv2 spbrRht spfnted">{fixedValues(e?.Weight === "" ? "-" : e?.Weight,3)}</div>
                     <div className="Sucol8_inv2 spfnted spbrRht">{formatAmount(e?.Rate === "" ? "-" : e?.Rate,2)}</div>
@@ -227,8 +273,8 @@ const DetailPrintMaterial = ({
                 <div className="Sucol6_inv2 spbrRht spfnted spfntBld"><b>{totalPieces}</b></div>
                 <div className="SeSucol7_inv2 spfnted spfntBld spbrRht spbrWord">
                   <b>
-                    {remainingWeight !== 0 && `${fixedValues(remainingWeight, 3)} ctw`} <br />
-                    {metalAndMiscWeight !== 0 && `${fixedValues(metalAndMiscWeight, 3)} gm`}
+                    {diamondAndClrStonWeight !== 0 && `${fixedValues(diamondAndClrStonWeight, 3)} ctw`} <br />
+                    {remainingWeight !== 0 && `${fixedValues(remainingWeight, 3)} gm`}
                   </b>
                 </div>
                 <div className="SeSucol8_inv2 spfnted spbrRht"></div>
