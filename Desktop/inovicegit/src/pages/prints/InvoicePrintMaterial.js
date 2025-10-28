@@ -30,6 +30,11 @@ const InvoicePrintMaterial = ({
   const [taxAmont, setTaxAmount] = useState();
   const [extraTaxAmont, setExtraTaxAmount] = useState();
   const toWords = new ToWords();
+  const [headFlag, setHeadFlag] = useState(true);
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
 
   useEffect(() => {
     const sendData = async () => {
@@ -142,7 +147,7 @@ const InvoicePrintMaterial = ({
   // console.log("taxAmont", taxAmont);
   // console.log("extraTaxAmont", extraTaxAmont);
   // console.log("json0Data", json0Data);
-  // console.log("finalD", finalD);
+  console.log("finalD", finalD);
 
   const allowedNames = ["mount", "finding"];
   const isFindingOrMount = Array.isArray(finalD) ? finalD.some((e) => allowedNames.includes(e?.ItemName?.toLowerCase())) : false;
@@ -156,7 +161,17 @@ const InvoicePrintMaterial = ({
       ) : msg === "" ? (
         <>
           <div className="w-full flex">
-            <div className="w-full flex prnt_btn">
+            <div className="w-full flex items-center justify-end spfnthead head_Chkbx">
+              <input
+                type="checkbox"
+                id="Finding"
+                className="mx-1"
+                checked={headFlag}
+                onChange={() => setHeadFlag(!headFlag)}
+              />
+              <label htmlFor="Finding" className="me-3 user-select-none">Header</label>
+            </div>
+            <div className="prnt_btn">
               <input
                 type="button"
                 className="btn_white blue mt-0"
@@ -173,6 +188,31 @@ const InvoicePrintMaterial = ({
                   {json0Data?.PrintHeadLbl}
                 </b>
               </div>
+              {headFlag && (
+                <div className="disflx justify-content-between" style={{ marginBottom: "10px" }}>
+                  <div className="spfnthead" style={{ paddingLeft: "5px" }}>
+                    <div className="spfntBld" style={{ fontSize: "15px" }}>{json0Data?.CompanyFullName}</div>
+                    <div className="">{json0Data?.CompanyAddress}</div>
+                    {/* <div className="">{json0Data?.CompanyAddress2}</div> */}
+                    <div className="">{json0Data?.CompanyCity} - {json0Data?.CompanyPinCode}, {json0Data?.CompanyState}({json0Data?.CompanyCountry})</div>
+                    <div className="">T {json0Data?.CompanyTellNo}</div>
+                    <div className="">{json0Data?.CompanyEmail} {json0Data?.CompanyWebsite}</div>
+                    <div className="">{json0Data?.Company_VAT_GST}-{json0Data?.Company_VAT_GST_No} | {json0Data?.Company_CST_STATE}-{json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.ComPanCard}</div>
+                  </div>
+
+                  {typeof json0Data?.PrintLogo === 'string' && json0Data.PrintLogo.trim() !== '' && (
+                    <div>
+                      <img 
+                        src={json0Data.PrintLogo} 
+                        alt="#companylogo"  
+                        className="cmpnyLogo" 
+                        onError={handleImageErrors}
+                      />
+                    </div>
+                  )}
+
+                </div>
+              )}
               {/** Header */}
               <div className="disflx brbxAll">
                 <div className="w1_inv2 spbrRht spfnthead">
@@ -268,7 +308,9 @@ const InvoicePrintMaterial = ({
                                                   : ""}
                         </div>
                         <div className="Sucol3_inv2lab spbrRht">{e?.HSN_No === "" ? "-" : e?.HSN_No}</div>
-                        <div className="Sucol4_inv2lab spbrRht spbrWord">{e?.shape === "" || e?.ItemName === "METAL" || e?.ItemName === "FINDING" ? "-" : e?.shape}</div>
+                        <div className="Sucol4_inv2lab spbrRht spbrWord">
+                          {!e?.shape || ["metal", "finding", "mount", "alloy"].includes(e?.ItemName?.toLowerCase()) ? "-" : e?.shape}
+                        </div>
                         <div className="Sucol5_inv2lab spbrRht spbrWord">
                           {e?.quality === "" ? "-"
                             : e?.ItemName === "METAL" && e?.shape === "Gold" ? "24K"
@@ -282,12 +324,17 @@ const InvoicePrintMaterial = ({
                         <div className="Sucol7_inv2lab spbrRht spbrWord">{e?.size === "" ? "-" : e?.size}</div>
                         <div className="Sucol8_inv2lab spfnted spbrRht">{fixedValues(e?.Weight === "" ? "-" : e?.Weight, 3)}</div>
                         <div className="Sucol9_inv2lab spfnted spbrRht">{fixedValues(e?.PureWeight === "" ? "-" : e?.PureWeight, 3)}</div>
-                        <div className="Sucol10_inv2lab spfnted spbrRht">{fixedValues(e?.pieces === "" ? "-" : e?.pieces, 3)}</div>
+                        <div className="Sucol10_inv2lab spfnted spbrRht">{e?.pieces === "" ? "-" : e?.pieces}</div>
                         <div className="Sucol11_inv2lab spfnted spbrRht">
-                          {formatAmount(e?.Rate === "" ? "-"
-                            : allowedNamesForRate.includes(e?.ItemName) ? (e?.Weight * e?.Rate * e?.Tunch / 100) / e?.Weight
-                              : e?.Rate, 2
-                          )}
+                        {formatAmount(
+                          e?.Rate === "" ? "-"
+                            : allowedNamesForRate.includes(e?.ItemName)
+                              ? (e?.Weight * e?.Rate * e?.Tunch / 100) / e?.Weight
+                              : ["diamond", "color stone"].includes(e?.ItemName?.toLowerCase())
+                                ? (e?.Amount - e?.LabourAmt) / e?.Weight
+                                : e?.Rate
+                          , 2
+                        )}
                         </div>
                         <div className="Sucol12_inv2lab spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.Amount - e?.LabourAmt, 2)}</div>
                         <div className="Sucol13_inv2lab spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.LabourRate, 2)}</div>
@@ -315,7 +362,9 @@ const InvoicePrintMaterial = ({
                                                   : ""}
                         </div>
                         <div className="Sucol3_inv2 spbrRht">{e?.HSN_No === "" ? "-" : e?.HSN_No}</div>
-                        <div className="Sucol4_inv2 spbrRht spbrWord">{e?.shape === "" || e?.ItemName === "METAL" || e?.ItemName === "FINDING" ? "-" : e?.shape}</div>
+                        <div className="Sucol4_inv2 spbrRht spbrWord">
+                          {!e?.shape || ["metal", "finding", "mount", "alloy"].includes(e?.ItemName?.toLowerCase()) ? "-" : e?.shape}
+                        </div>
                         <div className="Sucol5_inv2 spbrRht spbrWord">
                           {e?.quality === "" ? "-"
                             : e?.ItemName === "METAL" && e?.shape === "Gold" ? "24K"
@@ -328,11 +377,14 @@ const InvoicePrintMaterial = ({
                         <div className="Sucol7_inv2 spbrRht spbrWord">{e?.size === "" ? "-" : e?.size}</div>
                         <div className="Sucol8_inv2 spfnted spbrRht">{fixedValues(e?.Weight === "" ? "-" : e?.Weight, 3)}</div>
                         <div className="Sucol9_inv2 spfnted spbrRht">{fixedValues(e?.PureWeight === "" ? "-" : e?.PureWeight, 3)}</div>
-                        <div className="Sucol10_inv2 spfnted spbrRht">{fixedValues(e?.pieces === "" ? "-" : e?.pieces, 3)}</div>
+                        <div className="Sucol10_inv2 spfnted spbrRht">{e?.pieces === "" ? "-" : e?.pieces}</div>
                         <div className="Sucol11_inv2 spfnted spbrRht">
                           {formatAmount(e?.Rate === "" ? "-"
-                            : allowedNamesForRate.includes(e?.ItemName) ? (e?.Weight * e?.Rate * e?.Tunch / 100) / e?.Weight
-                              : e?.Rate, 2
+                            : allowedNamesForRate.includes(e?.ItemName) 
+                              ? (e?.Weight * e?.Rate * e?.Tunch / 100) / e?.Weight
+                              : ["diamond", "color stone"].includes(e?.ItemName?.toLowerCase())
+                                ? e?.Amount / e?.Weight
+                                : e?.Rate, 2
                           )}
                         </div>
                         <div className="Sucol12_inv2 spfnted spbrRht">

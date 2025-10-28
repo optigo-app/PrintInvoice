@@ -34,7 +34,10 @@ html {
     display: flex;
     flex-direction: column;
 }
-
+.cmpnyLogo {
+    min-width: 85px;
+    height: 85px;
+}
 
 .col1_inv2{
     width: 3%;
