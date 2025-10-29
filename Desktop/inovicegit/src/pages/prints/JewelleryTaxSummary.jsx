@@ -172,7 +172,7 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                         <div className='col1_jts center_jts brr_jts'>SR NO</div>
                         <div className='col2_jts center_jts brr_jts'>ITEM CODE</div>
                         <div className='col3_jts center_jts brr_jts'>DESCRIPTION</div>
-                        <div className='col4_jts center_jts'>AMOUNT (USD)</div>
+                        <div className='col4_jts center_jts'>AMOUNT ({result?.header?.CurrencyCode})</div>
                     </div>
                     <div className='tbody_jts'>      
                         {
@@ -224,8 +224,8 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                                 result?.allTaxes?.map((e, i) => <div className='start_jts ps-1' key={i}>{e?.name} @ {e?.per}</div>)
                             }
                             <div className='start_jts ps-1'>Total</div>
-                            <div className='start_jts ps-1'>{result?.header?.AddLess > 0 ? 'Add' : 'Less'}</div>
-                            <div className='start_jts ps-1'>Delivery Charges</div>
+                            <div className='start_jts ps-1'>{result?.header?.AddLess > 0 ? 'Add' : result?.header?.AddLess < 0 ? "Less" : "" }</div>
+                            {result?.header?.FreightCharges > 0 && ( <div className='start_jts ps-1'>Delivery Charges</div> )}
                         </div>
                         <div className='w2_jts fw-bold'>
                             {
@@ -237,8 +237,8 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                                     result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate + totalTax
                                 )}
                             </div>
-                            <div className='end_jts pe-1'><span className='pe-1' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span>{formatAmount((result?.header?.AddLess / result?.header?.CurrencyExchRate))}</div>
-                            <div className='end_jts pe-1'><span className='pe-1' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span>{formatAmount((result?.header?.FreightCharges / result?.header?.CurrencyExchRate))}</div>
+                            {result?.header?.AddLess !== 0 && ( <div className='end_jts pe-1'><span className='pe-1' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span>{formatAmount((result?.header?.AddLess / result?.header?.CurrencyExchRate))}</div> )}
+                            {result?.header?.FreightCharges > 0 && ( <div className='end_jts pe-1'><span className='pe-1' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span>{formatAmount((result?.header?.FreightCharges / result?.header?.CurrencyExchRate))}</div> )}
                         </div>
                     </div>
                 </div>

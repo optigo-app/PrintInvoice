@@ -148,7 +148,7 @@ const InvoicePrint2Material = ({
   // console.log("taxAmont", taxAmont);
   // console.log("extraTaxAmont", extraTaxAmont);
   // console.log("finalD", finalD);
-  console.log("json0Data", json0Data);
+  // console.log("json0Data", json0Data);
 
   const allowedNamesForRate = ["Metal", "METAL", "metal", "MOUNT", "Mount", "mount", "FINDING", "Finding", "finding", "Alloy", "ALLOY", "alloy"];
 
