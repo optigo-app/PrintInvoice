@@ -114,6 +114,8 @@ const InvoicePrint2Material = ({
     return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
   };
   const DueDate = getDueDate(json0Data?.EntryDate, json0Data?.OrderDue)
+  // console.log("DueDate:", DueDate, "| Type:", typeof DueDate);
+  
   const GrandTotal = 
   (totalAmount || 0) +
   (totalEtraTaxAmount || 0) +
@@ -145,7 +147,7 @@ const InvoicePrint2Material = ({
 
   // console.log("taxAmont", taxAmont);
   // console.log("extraTaxAmont", extraTaxAmont);
-  console.log("finalD", finalD);
+  // console.log("finalD", finalD);
   console.log("json0Data", json0Data);
 
   const allowedNamesForRate = ["Metal", "METAL", "metal", "MOUNT", "Mount", "mount", "FINDING", "Finding", "finding", "Alloy", "ALLOY", "alloy"];
@@ -188,13 +190,13 @@ const InvoicePrint2Material = ({
               {headerFlag && (
                 <div className="disflx justify-content-between" style={{ marginBottom: "10px" }}>
                   <div className="spfnthead" style={{ paddingLeft: "5px" }}>
-                    <div className="spfntBld" style={{ fontSize: "15px" }}>{json0Data?.CompanyFullName}</div>
-                    <div className="">{json0Data?.CompanyAddress}</div>
+                    {json0Data?.CompanyFullName !== "" && ( <div className="spfntBld" style={{ fontSize: "15px" }}>{json0Data?.CompanyFullName}</div> )}
+                    {json0Data?.CompanyAddress !== "" && (<div className="">{json0Data?.CompanyAddress}</div>)}
                     {/* <div className="">{json0Data?.CompanyAddress2}</div> */}
-                    <div className="">{json0Data?.CompanyCity} - {json0Data?.CompanyPinCode}, {json0Data?.CompanyState}({json0Data?.CompanyCountry})</div>
-                    <div className="">T {json0Data?.CompanyTellNo}</div>
-                    <div className="">{json0Data?.CompanyEmail} {json0Data?.CompanyWebsite}</div>
-                    <div className="">{json0Data?.Company_VAT_GST}-{json0Data?.Company_VAT_GST_No} | {json0Data?.Company_CST_STATE}-{json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.ComPanCard}</div>
+                    <div className="">{json0Data?.CompanyCity} {json0Data?.CompanyCity && json0Data?.CompanyPinCode !== "" && ("-")} {json0Data?.CompanyPinCode !== "" && (`${json0Data?.CompanyPinCode},`)} {json0Data?.CompanyState}{json0Data?.CompanyCountry !== "" && (`(${json0Data?.CompanyCountry})`)}</div>
+                    {json0Data?.CompanyTellNo !== "" && (<div className="">T {json0Data?.CompanyTellNo}</div>)}
+                    <div className="">{json0Data?.CompanyEmail} {json0Data?.CompanyWebsite && json0Data?.CompanyEmail !== "" && ("|")} {json0Data?.CompanyWebsite}</div>
+                    <div className="">{json0Data?.Company_VAT_GST_No !== "" && (`${json0Data?.Company_VAT_GST}-${json0Data?.Company_VAT_GST_No}`)} {json0Data?.Company_VAT_GST_No && json0Data?.Company_CST_STATE_No !== "" && ("|")} {json0Data?.Company_CST_STATE_No !== "" && (`${json0Data?.Company_CST_STATE}-${json0Data?.Company_CST_STATE_No}`)} {json0Data?.Company_CST_STATE_No && json0Data?.ComPanCard !== "" && ("|")} {json0Data?.ComPanCard !== "" && ( `PAN-${json0Data?.ComPanCard} `)}</div>
                   </div>
 
                   {typeof json0Data?.PrintLogo === 'string' && json0Data.PrintLogo.trim() !== '' && (
@@ -215,32 +217,38 @@ const InvoicePrint2Material = ({
               <div className="disflx brbxAll">
                 <div className="w1_inv2 spbrRht spfnthead">
                   <div style={{ paddingTop: "2px" }}>Bill To,</div>
-                  <div className="spfntsZ spfntBld">{json0Data?.customerfirmname}</div>
-                  <div>{json0Data?.customerAddress1}</div>
-                  <div>{json0Data?.customerAddress2}</div>
-                  <div>{json0Data?.PinCode}</div>
-                  <div>{json0Data?.customeremail}</div>
-                  <div>{json0Data?.Cust_VAT_GST}-{json0Data?.Cust_VAT_GST_No} | PAN-{json0Data?.customerPANno}</div>
-                  <div>{json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No}</div>
+                  {json0Data?.customerfirmname !== "" && ( <div className="spfntsZ spfntBld">{json0Data?.customerfirmname}</div> )}
+                  {json0Data?.customerAddress1 !== "" && ( <div>{json0Data?.customerAddress1}</div> )}
+                  {json0Data?.customerAddress2 !== "" && ( <div>{json0Data?.customerAddress2}</div> )}
+                  {json0Data?.PinCode !== "" && ( <div>{json0Data?.PinCode}</div> )}
+                  {json0Data?.customeremail !== "" && ( <div>{json0Data?.customeremail}</div> )}
+                  <div>{json0Data?.Cust_VAT_GST_No !== "" && (`${json0Data?.Cust_VAT_GST}-${json0Data?.Cust_VAT_GST_No}`)} {json0Data?.Cust_VAT_GST_No && json0Data?.customerPANno !== "" && ("|")} {json0Data?.customerPANno !== "" && ( `PAN-${json0Data?.customerPANno}` )}</div>
+                  {json0Data?.Cust_CST_STATE_No !== "" && ( <div>{json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No}</div> )}
                   {json0Data?.customeraadharno !== "" && (<div>Adhar-{json0Data.customeraadharno}</div>)}
                 </div>
                 <div className="w2_inv2 spbrRht spfnthead">
                   <div style={{ paddingTop: "2px" }}>Ship To,</div>
-                  <div className="spfntsZ spfntBld">{json0Data?.customerfirmname}</div>
-                  <div><PrintableText json0Data={json0Data} /></div>
+                  {json0Data?.customerfirmname !== "" && (<div className="spfntsZ spfntBld">{json0Data?.customerfirmname}</div>)}
+                  {json0Data?.Printlable !== "" && ( <div><PrintableText json0Data={json0Data} /></div> )}
                 </div>
                 <div className="w30_inv2 spfnthead">
                   <div className="disflx" style={{ paddingTop: "2px" }}>
-                    <div className="wdthHd spfntBld">BILL NO</div>
-                    <div className="wdthHd1">{json0Data?.InvoiceNo}</div>
+                    {json0Data?.InvoiceNo !== "" && ( <>
+                      <div className="wdthHd spfntBld">BILL NO</div>
+                      <div className="wdthHd1">{json0Data?.InvoiceNo}</div>
+                    </>) }
                   </div>
                   <div className="disflx">
-                    <div className="wdthHd spfntBld">DATE</div>
-                    <div className="wdthHd1">{json0Data?.EntryDate}</div>
+                    {json0Data?.EntryDate !== "" && ( <>
+                      <div className="wdthHd spfntBld">DATE</div>
+                      <div className="wdthHd1">{json0Data?.EntryDate}</div>
+                    </>) }
                   </div>
                   <div className="disflx">
-                    <div className="wdthHd spfntBld">DUE DATE</div>
-                    <div className="wdthHd1">{DueDate}</div>
+                    {DueDate !== "" && ( <>
+                      <div className="wdthHd spfntBld">DUE DATE</div>
+                      <div className="wdthHd1">{DueDate}</div>
+                    </>) }
                   </div>
                 </div>
               </div>
