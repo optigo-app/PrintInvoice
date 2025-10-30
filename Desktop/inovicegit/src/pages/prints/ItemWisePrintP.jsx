@@ -328,8 +328,10 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   const TotalfineWtss = (data || []).reduce((sum, item) => sum + (item?.fineWtss || 0),0);
   const FinalTotalAmount = (data || []).reduce((sum, item) => sum + (item?.TotalAmount || 0),0);
+  const TotalDiscountAmt = (data || []).reduce((sum, item) => sum + (item?.DiscountAmt || 0),0);
+  const FinalTotal = FinalTotalAmount + TotalDiscountAmt;
 
-  // console.log("data", data);
+  console.log("data", data);
   // console.log("json0Data", json0Data);
 
   return (
@@ -585,39 +587,39 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 );
               })}
 
-              <div className="spbrlFt spbrRht" style={{ height: "100px" }}></div>
+            <div className="spbrlFt spbrRht" style={{ height: "100px" }}></div>
 
             {/* Totals */}
             <div className={`fw-bold w-100 no_break bgLightPink d-flex brTpm spbrlFt spbrRht brBtom itemWisePrintFont_11 d-flex flex-column`}>
               <div className="d-flex w-100">
-                <div className="WdthFrEql30 brBtom spbrRht"></div>
-                <div className="WdthFrEql30 brBtom spbrRht">Received Fine</div>
-                <div className="WdthFrEql30 brBtom spbrRht">Sales Fine</div>
+                <div className="WdthFrEqlCmon brBtom spbrRht"></div>
+                <div className="WdthFrEqlCmon brBtom spbrRht">Received Fine</div>
+                <div className="WdthFrEqlCmon brBtom spbrRht">Sales Fine</div>
                 <div className="WdthAftrBlnc brBtom">{NumberWithCommas(FinalTotalAmount,2)}</div>
               </div>
               <div className="d-flex w-100">
-                <div className="WdthFrEql30 brBtom spbrRht"></div>
-                <div className="WdthFrEql30 brBtom spbrRht"></div>
-                <div className="WdthFrEql30 brBtom spbrRht">{fixedValues(TotalfineWtss,3)}</div>
+                <div className="WdthFrEqlCmon brBtom spbrRht"></div>
+                <div className="WdthFrEqlCmon brBtom spbrRht"></div>
+                <div className="WdthFrEqlCmon brBtom spbrRht">{fixedValues(TotalfineWtss,3)}</div>
                 <div className="WdthAftrBlnc brBtom"></div>
               </div>
               <div className="d-flex w-100">
-                <div className="WdthFrEql30 brBtom spbrRht">Cheque</div>
-                <div className="WdthFrEql30 brBtom spbrRht"></div>
-                <div className="WdthFrEql30 brBtom spbrRht"></div>
+                <div className="WdthFrEqlCmon brBtom spbrRht">Cheque</div>
+                <div className="WdthFrEqlCmon brBtom spbrRht"></div>
+                <div className="WdthFrEqlCmon brBtom spbrRht"></div>
                 <div className="WdthAftrBlnc brBtom"></div>
               </div>
               <div className="d-flex w-100">
-                <div className="WdthFrEql30 brBtom spbrRht">Cash</div>
-                <div className="WdthFrEql30 brBtom spbrRht"></div>
-                <div className="WdthFrEql30 brBtom spbrRht"></div>
+                <div className="WdthFrEqlCmon brBtom spbrRht">Cash</div>
+                <div className="WdthFrEqlCmon brBtom spbrRht"></div>
+                <div className="WdthFrEqlCmon brBtom spbrRht"></div>
                 <div className="WdthAftrBlnc brBtom"></div>
               </div>
               <div className="d-flex w-100">
-                <div className="WdthFrEql30"></div>
-                <div className="WdthFrEql30"></div>
-                <div className="WdthFrEql30 spbrRht">Bill Outstanding</div>
-                <div className="WdthAftrBlnc">{NumberWithCommas(FinalTotalAmount,2)}</div>
+                <div className="WdthFrEqlCmon"></div>
+                <div className="WdthFrEqlCmon"></div>
+                <div className="WdthFrEqlCmon spbrRht">Bill Outstanding</div>
+                <div className="WdthAftrBlnc">{NumberWithCommas(FinalTotal,2)}</div>
               </div>
             </div>
 
