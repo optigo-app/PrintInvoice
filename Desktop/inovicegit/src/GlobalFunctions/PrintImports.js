@@ -61,6 +61,7 @@ export const printConditions = [
   {printName: 'item wise print', etpType: 'print', componentName: 'ItemWisePrint'},
   {printName: 'item wise print1', etpType: 'print', componentName: 'ItemWisePrint'},
   {printName: 'item wise print2', etpType: 'print', componentName: 'ItemWisePrint'},
+  {printName: 'item wise print p', etpType: 'print', componentName: 'ItemWisePrintP'},
   {printName: 'jewellary invoice print', etpType: 'print', componentName: 'JewelleryInvoicePrint'},
   {printName: 'jewellery invoice', etpType: 'print', componentName: 'JewelleryInvoice'},
   {printName: 'jewellery invoice 2', etpType: 'print', componentName: 'JewelleryInvoice2'},
