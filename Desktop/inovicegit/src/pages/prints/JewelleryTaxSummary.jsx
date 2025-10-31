@@ -181,7 +181,7 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                                 <div className='col1_jts  d-flex align-items-start justify-content-center brr_jts p-1'>{i+1}</div>
                                 <div className='col2_jts start_jts p-1 brr_jts d-flex flex-column align-items-start text-break'>	
                                     <div className='text-break lh_jts'>Job: {e?.SrJobno}</div>
-                                    {image && <img src={e?.DesigSetImage !== "" ? e?.DesigSetImage : result?.header?.DefImage} alt="" onError={handleImageErrors} lazy='eagar' className="spImag p-1" />}
+                                    {image && <img src={e?.DesignImage !== "" ? e?.DesignImage : result?.header?.DefImage} alt="" onError={handleImageErrors} lazy='eagar' className="spImag p-1" />}
                                     <div className='text-break lh_jts'>Design: <span className='fw-bold'>{e?.designno}</span></div>
                                     <div className='text-break lh_jts'>{e?.Size}</div>
                                 </div>

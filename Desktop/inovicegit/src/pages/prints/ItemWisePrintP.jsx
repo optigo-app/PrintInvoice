@@ -508,7 +508,7 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     key={i}
                   >
                     <div
-                      className={`metaltypeItemWisePrint1 spbrRht breakNormalItemWIse`}
+                      className={`d-flex align-items-center metaltypeItemWisePrint1 spbrRht breakNormalItemWIse`}
                     >
                       <p className={`itemWisePrintCategory`}>
                         {e?.MetalType} {e?.MetalPurity}
@@ -516,7 +516,7 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
 
                     <div
-                      className={`categoryItemWisePrint1 spbrRht`}
+                      className={`d-flex align-items-center categoryItemWisePrint1 spbrRht`}
                     >
                       <p style={{ wordBreak: "normal" }}>
                         {e?.Collectionname}-
@@ -529,32 +529,32 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </p>
                     </div>
 
-                    <div className={`pkgItemWisePrint1 spbrRht`}>
+                    <div className={`d-flex align-items-center justify-content-end pkgItemWisePrint1 spbrRht`}>
                       <p className="text-end">
                         {e?.SrJobno !== "" && e?.SrJobno}
                       </p>
                     </div>
 
-                    <div className={`countItemWisePrint1 spbrRht`}>
+                    <div className={`d-flex align-items-center justify-content-end countItemWisePrint1 spbrRht`}>
                       <p className="text-end">
                         {NumberWithCommas(e?.count, 0)}
                       </p>
                     </div>
 
-                    <div className={`gwtItemWisePrint1 spbrRht`}>
+                    <div className={`d-flex align-items-center justify-content-end gwtItemWisePrint1 spbrRht`}>
                       <p className="text-end">
                         {e?.grosswt !== 0 && NumberWithCommas(e?.grosswt, 3)}
                       </p>
                     </div>
 
-                    <div className={`tnchItemWisePrint1 spbrRht`}>
+                    <div className={`d-flex align-items-center justify-content-end tnchItemWisePrint1 spbrRht`}>
                       <p className="text-end">
                         {e?.MetalPriceRatio + e?.Wastage !== 0 &&
                           NumberWithCommas(e?.MetalPriceRatio + e?.Wastage, 3)}
                       </p>
                     </div>
 
-                    <div className={`spbrRht wastageItemWisePrint1`}>
+                    <div className={`d-flex align-items-center justify-content-end spbrRht wastageItemWisePrint1`}>
                       <p className="text-end">
                         {" "}
                         {e?.Wastage !== 0
@@ -563,21 +563,21 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </p>
                     </div>
 
-                    <div className={`fineAmt1 spbrRht`}>
+                    <div className={`d-flex align-items-center justify-content-end fineAmt1 spbrRht`}>
                       <p className="text-end">
                         {/* {e?.FineWt !== 0 && e?.FineWt} */}
                         {NumberWithCommas(e?.fineWtss, 3)}
                       </p>
                     </div>
 
-                    <div className={`makingItemWisePrint1 spbrRht`}>
+                    <div className={`d-flex align-items-center justify-content-end makingItemWisePrint1 spbrRht`}>
                       <p className="text-end">
                         {atob(printName).toLowerCase() !== "item wise print" &&
                           NumberWithCommas(e?.MaKingCharge_Unit, 3)}
                       </p>
                     </div>
 
-                    <div className={`totalAmt1`}>
+                    <div className={`d-flex align-items-center justify-content-end totalAmt1`}>
                       <p className="text-end">
                         {e?.TotalAmount !== 0 &&
                           NumberWithCommas(e?.TotalAmount + e?.DiscountAmt, 2)}
@@ -587,7 +587,7 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 );
               })}
 
-            <div className="spbrlFt spbrRht" style={{ height: "100px" }}></div>
+            <div className="inExchngHeight spbrlFt spbrRht"></div>
 
             {/* Totals */}
             <div className={`fw-bold w-100 no_break bgLightPink d-flex brTpm spbrlFt spbrRht brBtom itemWisePrintFont_11 d-flex flex-column`}>
