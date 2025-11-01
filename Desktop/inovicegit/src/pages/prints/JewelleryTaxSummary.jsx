@@ -246,7 +246,7 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                     <div className='col1_jts center_jts'></div>
                     <div className='col2_jts start_jts ps-1'></div>
                     <div className='col3_jts end_jts brr_jts lastPad'>GRAND TOTAL</div>
-                    <div className='col4_jts end_jts pe-1'><span dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span> {formatAmount((result?.finalAmount / result?.header?.CurrencyExchRate))}</div>
+                    <div className='col4_jts end_jts pe-1'><span dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span> {formatAmount((result?.finalAmount / result?.header?.CurrencyExchRate + result?.header?.FreightCharges))}</div>
                 </div>
                 <div className='static_jts py-2'>** THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</div>
                 <div className='brall_jts dec_jts p-2 pbia_jts'>
