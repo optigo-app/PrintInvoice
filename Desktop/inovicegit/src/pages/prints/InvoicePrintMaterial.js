@@ -293,19 +293,22 @@ const InvoicePrintMaterial = ({
                       <div key={i} className="disflx spbrlFt brBtom spfntbH">
                         <div className="col1_inv2lab spbrRht spfntCen">{i + 1}</div>
                         <div className="Sucol2_inv2lab spbrRht spbrWord">
-                          {e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND"
-                            : e?.ItemName === "COLOR STONE" ? "STONE"
-                              : e?.ItemName === "METAL" && e?.shape === "Gold" ? e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD'
-                                : e?.ItemName === "METAL" && e?.shape === "gold" ? e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD'
-                                  : e?.ItemName === "METAL" && e?.shape === "GOLD" ? e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD'
-                                    : e?.ItemName === "METAL" && e?.shape === "Silver" ? 'SILVER ' + (e?.quality || '') + (e?.Tunch !== undefined ? ' /' : '') + (e?.Tunch !== undefined ? `\u00A0Tunch: ${fixedValues(e.Tunch, 3)}` : '')
-                                      : e?.ItemName === "METAL" && e?.shape === "silver" ? 'SILVER ' + (e?.quality || '') + (e?.Tunch !== undefined ? ' /' : '') + (e?.Tunch !== undefined ? `\u00A0Tunch: ${fixedValues(e.Tunch, 3)}` : '')
-                                        : e?.ItemName === "METAL" && e?.shape === "SILVER" ? 'SILVER ' + (e?.quality || '') + (e?.Tunch !== undefined ? ' /' : '') + (e?.Tunch !== undefined ? `\u00A0Tunch: ${fixedValues(e.Tunch, 3)}` : '')
-                                          : e?.ItemName === "MISC" ? "MISC"
-                                            : e?.ItemName === "FINDING" ? "FINDING"
-                                              : e?.ItemName === "ALLOY" ? "ALLOY"
-                                                : e?.ItemName === "MOUNT" ? "MOUNT"
-                                                  : ""}
+                          {/* e?.ItemName?.toLowerCase() === "diamond" ? "CUT AND POLISHED DIAMOND" 01/11/2025_3:10 */}
+                          {
+                            e?.ItemName?.toLowerCase() === "diamond" ? "DIAMOND"
+                            : e?.ItemName?.toLowerCase() === "color stone" ? "STONE"
+                            : e?.ItemName?.toLowerCase() === "metal" && e?.shape?.toLowerCase() === "gold"
+                              ? e?.Tunch
+                                ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}`
+                                : "GOLD"
+                            : e?.ItemName?.toLowerCase() === "metal" && e?.shape?.toLowerCase() === "silver"
+                              ? `SILVER ${e?.quality || ''}${e?.Tunch !== undefined ? ' /' : ''}${e?.Tunch !== undefined ? ` Tunch: ${fixedValues(e.Tunch, 3)}` : ''}`
+                            : e?.ItemName?.toLowerCase() === "misc" ? "MISC"
+                            : e?.ItemName?.toLowerCase() === "finding" ? "FINDING"
+                            : e?.ItemName?.toLowerCase() === "alloy" ? "ALLOY"
+                            : e?.ItemName?.toLowerCase() === "mount" ? "MOUNT"
+                            : ""
+                          }
                         </div>
                         <div className="Sucol3_inv2lab spbrRht">{e?.HSN_No === "" ? "-" : e?.HSN_No}</div>
                         <div className="Sucol4_inv2lab spbrRht spbrWord">
