@@ -186,7 +186,7 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                                     <div className='text-break lh_jts'>{e?.Size}</div>
                                 </div>
                                 <div className='col3_jts d-flex align-items-start justify-content-start p-1 brr_jts text-break'>
-                                    {e?.MetalTypePurity} {e?.MetalColor} | {e?.grosswt?.toFixed(3)} gms GW | {e?.NetWt?.toFixed(3)} gms NW
+                                    {e?.MetalTypePurity} {e?.metal?.filter((el) => el?.IsPrimaryMetal === 1)?.map((el) => el?.MetalColorCode)} | {e?.grosswt?.toFixed(3)} gms GW | {e?.NetWt?.toFixed(3)} gms NW
                                     { e?.totals?.diamonds?.Wt === 0 ? ''  : ` | DIA : ${e?.totals?.diamonds?.Wt?.toFixed(3)} Cts `}
                                     { e?.totals?.colorstone?.Wt === 0 ? ''  : ` | CS : ${e?.totals?.colorstone?.Wt?.toFixed(3)} Cts `}
                                     { e?.totals?.misc?.Wt === 0 ? ''  : ` | MISC : ${e?.totals?.misc?.Wt?.toFixed(3)} gms `}
