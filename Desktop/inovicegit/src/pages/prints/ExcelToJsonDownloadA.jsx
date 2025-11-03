@@ -20,7 +20,8 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
         let json0Data = data?.BillPrint_Json[0];
         let resultArr = [];
         data?.BillPrint_Json1.forEach((e, i) => {
-            
+                console.log("diaInfo", diaInfo);
+                
             const diaInfo = data?.BillPrint_Json2.reduce((total, element) => {
                 if (e?.SrJobno === element?.StockBarcode) {
                     if (element.MasterManagement_DiamondStoneTypeid === 1) {
@@ -38,20 +39,20 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
             let colorStones = '';
             if (diaInfo?.diaWt !== 0) {
                 // diamonds = `With Diamond ${e?.MetalPurity} weight ${NumberWithCommas(e?.NetWt, 3)} grams No of Diamond ${NumberWithCommas(diaInfo?.diaPcs, 0)} Piece Diamond Weight ${NumberWithCommas(diaInfo?.diaWt, 3)} cts`;
-                diamonds = `With   No of Diamond ${NumberWithCommas(diaInfo?.diaPcs, 0)} Piece Diamond Weight ${NumberWithCommas(diaInfo?.diaWt, 3)} cts`;
+                diamonds = `With   No. of ${diaInfo?.MaterialTypeName} Diamond ${NumberWithCommas(diaInfo?.diaPcs, 0)} Piece Diamond Weight ${NumberWithCommas(diaInfo?.diaWt, 3)} cts`;
             }
             if (diaInfo?.csWt !== 0) {
                 // colorStones = `With ColorStone ${e?.MetalPurity} weight ${NumberWithCommas(e?.NetWt, 3)} grams No of ColorStone ${NumberWithCommas(diaInfo?.csPcs, 0)} Piece ColorStone Weight ${NumberWithCommas(diaInfo?.csWt, 3)} cts`;
-                colorStones = `With   No of ColorStone ${NumberWithCommas(diaInfo?.csPcs, 0)} Piece ColorStone Weight ${NumberWithCommas(diaInfo?.csWt, 3)} cts`;
+                colorStones = `With   No. of ColorStone ${NumberWithCommas(diaInfo?.csPcs, 0)} Piece ColorStone Weight ${NumberWithCommas(diaInfo?.csWt, 3)} cts`;
             }
             let obj = {
                 id: e?.id,
                 srNo: i,
                 barcode: e?.SrJobno,
                 designNo: e?.designno,
-                jewellery: 'Jewellery',
-                goldJewellery: 'Gold Jewellery',
-                description: `${e?.MetalPurity} Jewellery ${e?.Categoryname} With weight ${NumberWithCommas(e?.NetWt, 3)} grams ${diamonds} ${colorStones}`,
+                jewellery: 'Jewelry',
+                goldJewellery: 'Gold Jewelry',
+                description: `${e?.MetalPurity} Jewelry ${e?.Categoryname} With weight ${NumberWithCommas(e?.NetWt, 3)} grams ${diamonds} ${colorStones}`,
                 pcs: 1,
                 piece: `${e?.Categoryname?.toLowerCase().includes("ear") ? "Pair" : "Piece"}`,
                 hkd: e?.TotalAmount,

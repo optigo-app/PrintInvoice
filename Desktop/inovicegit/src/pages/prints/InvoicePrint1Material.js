@@ -306,7 +306,7 @@ const InvoicePrint1Material = ({
 
               {/** Data */}
               <div className="disflx spfntbH spbrRht spbrlFt spveheit">
-                <div className="col1_inv2 spbrRht spfntCen spbrWord" style={{ paddingTop: "70px" }}>STONE</div>
+                <div className="col1_inv2 spbrRht spfntCen spbrWord" style={{ paddingTop: "70px" }}>MATERIAL</div>
                 <div className="w90inOld">
                   {finalD?.map((e) => {
                     return (
