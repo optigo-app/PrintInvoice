@@ -30,7 +30,12 @@ const InvoicePrint3Material = ({
   const [taxAmont, setTaxAmount] = useState();
   const [extraTaxAmont, setExtraTaxAmount] = useState();
   const toWords = new ToWords();
+  const [headFlag, setHeadFlag] = useState(true);
   const [rateFlag, setRateFlag] = useState(false);
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
 
   useEffect(() => {
     const sendData = async () => {
@@ -161,7 +166,15 @@ const InvoicePrint3Material = ({
       ) : msg === "" ? (
         <>
           <div className="w-full flex">
-            <div className="w-full flex items-center justify-end spfnthead RT_Chkbx">
+            <div className="w-full flex items-center justify-end spfnthead head_Chkbx">
+              <input
+                type="checkbox"
+                id="Finding"
+                className="mx-1"
+                checked={headFlag}
+                onChange={() => setHeadFlag(!headFlag)}
+              />
+              <label htmlFor="Finding" className="me-3 user-select-none">Header</label>
               <input
                 type="checkbox"
                 id="Rate"
@@ -187,31 +200,61 @@ const InvoicePrint3Material = ({
                   {json0Data?.PrintHeadLbl}
                 </b>
               </div>
+              {headFlag && (
+                <div className="disflx justify-content-between" style={{ marginBottom: "10px" }}>
+                  <div className="spfnthead" style={{ paddingLeft: "5px" }}>
+                    {json0Data?.CompanyFullName !== "" && ( <div className="spfntBld" style={{ fontSize: "15px" }}>{json0Data?.CompanyFullName}</div> )}
+                    {json0Data?.CompanyAddress !== "" && (<div className="">{json0Data?.CompanyAddress}</div>)}
+                    {/* <div className="">{json0Data?.CompanyAddress2}</div> */}
+                    <div className="">{json0Data?.CompanyCity} {json0Data?.CompanyCity && json0Data?.CompanyPinCode !== "" && ("-")} {json0Data?.CompanyPinCode !== "" && (`${json0Data?.CompanyPinCode},`)} {json0Data?.CompanyState}{json0Data?.CompanyCountry !== "" && (`(${json0Data?.CompanyCountry})`)}</div>
+                    {json0Data?.CompanyTellNo !== "" && (<div className="">T {json0Data?.CompanyTellNo}</div>)}
+                    <div className="">{json0Data?.CompanyEmail} {json0Data?.CompanyWebsite && json0Data?.CompanyEmail !== "" && ("|")} {json0Data?.CompanyWebsite}</div>
+                    <div className="">{json0Data?.Company_VAT_GST_No !== "" && (`${json0Data?.Company_VAT_GST}-${json0Data?.Company_VAT_GST_No}`)} {json0Data?.Company_VAT_GST_No && json0Data?.Company_CST_STATE_No !== "" && ("|")} {json0Data?.Company_CST_STATE_No !== "" && (`${json0Data?.Company_CST_STATE}-${json0Data?.Company_CST_STATE_No}`)} {json0Data?.Company_CST_STATE_No && json0Data?.ComPanCard !== "" && ("|")} {json0Data?.ComPanCard !== "" && ( `PAN-${json0Data?.ComPanCard} `)}</div>
+                  </div>
+
+                  {typeof json0Data?.PrintLogo === 'string' && json0Data.PrintLogo.trim() !== '' && (
+                    <div>
+                      <img 
+                        src={json0Data.PrintLogo} 
+                        alt="#companylogo"  
+                        className="cmpnyLogo" 
+                        onError={handleImageErrors}
+                      />
+                    </div>
+                  )}
+
+                </div>
+              )}
               {/** Header */}
               <div className="disflx brbxAll">
                 <div className="w1_inv2 spbrRht spfnthead">
                   <div style={{ paddingTop: "2px" }}>Bill To,</div>
-                  <div className="spfntsZ spfntBld">{json0Data?.customerfirmname}</div>
-                  <div>{json0Data?.customerAddress1}</div>
-                  <div>{json0Data?.customerAddress2}</div>
-                  <div>{json0Data?.CompanyCity} {json0Data?.PinCode}</div>
-                  <div>{json0Data?.customeremail}</div>
-                  <div>{json0Data?.Cust_VAT_GST}-{json0Data?.Cust_VAT_GST_No} | PAN-{json0Data?.customerPANno}</div>
-                  <div>{json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No}</div>
+                  {json0Data?.customerfirmname !== "" && ( <div className="spfntsZ spfntBld">{json0Data?.customerfirmname}</div> )}
+                  {json0Data?.customerAddress1 !== "" && ( <div>{json0Data?.customerAddress1}</div> )}
+                  {json0Data?.customerAddress2 !== "" && ( <div>{json0Data?.customerAddress2}</div> )}
+                  {json0Data?.PinCode !== "" && ( <div>{json0Data?.PinCode}</div> )}
+                  {json0Data?.customeremail !== "" && ( <div>{json0Data?.customeremail}</div> )}
+                  <div>{json0Data?.Cust_VAT_GST_No !== "" && (`${json0Data?.Cust_VAT_GST}-${json0Data?.Cust_VAT_GST_No}`)} {json0Data?.Cust_VAT_GST_No && json0Data?.customerPANno !== "" && ("|")} {json0Data?.customerPANno !== "" && ( `PAN-${json0Data?.customerPANno}` )}</div>
+                  {json0Data?.Cust_CST_STATE_No !== "" && ( <div>{json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No}</div> )}
+                  {json0Data?.customeraadharno !== "" && (<div>Adhar-{json0Data.customeraadharno}</div>)}
                 </div>
                 <div className="w2_inv2 spbrRht spfnthead">
                   <div style={{ paddingTop: "2px" }}>Ship To,</div>
-                  <div className="spfntsZ spfntBld">{json0Data?.customerfirmname}</div>
-                  <div><PrintableText json0Data={json0Data} /></div>
+                  {json0Data?.customerfirmname !== "" && (<div className="spfntsZ spfntBld">{json0Data?.customerfirmname}</div>)}
+                  {json0Data?.Printlable !== "" && ( <div><PrintableText json0Data={json0Data} /></div> )}
                 </div>
                 <div className="w30_inv2 spfnthead">
                   <div className="disflx" style={{ paddingTop: "2px" }}>
-                    <div className="wdthHd spfntBld">BILL NO</div>
-                    <div className="wdthHd1">{json0Data?.InvoiceNo}</div>
+                    {json0Data?.InvoiceNo !== "" && ( <>
+                      <div className="wdthHd spfntBld">BILL NO</div>
+                      <div className="wdthHd1">{json0Data?.InvoiceNo}</div>
+                    </>) }
                   </div>
                   <div className="disflx">
-                    <div className="wdthHd spfntBld">DATE</div>
-                    <div className="wdthHd1">{json0Data?.EntryDate}</div>
+                    {json0Data?.EntryDate !== "" && ( <>
+                      <div className="wdthHd spfntBld">DATE</div>
+                      <div className="wdthHd1">{json0Data?.EntryDate}</div>
+                    </>) }
                   </div>
                   <div className="disflx">
                     <div className="wdthHd spfntBld">DUE DAYS</div>
@@ -291,21 +334,25 @@ const InvoicePrint3Material = ({
                       <>
                         <div className="col1FnDMnt_inv2 spbrRht spfntCen">{i + 1}</div>
                         <div className={`Sucol2FnDMnt_inv2 ${rateFlag ? 'RTSucol2_inv2' : ''} spbrRht spbrWord`}>
+                          {/* e?.ItemName?.toLowerCase() === "diamond" ? "CUT AND POLISHED DIAMOND" 01/11/2025_3:10 */}
                           {
-                            e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND" :
-                              e?.ItemName === "COLOR STONE" ? "STONE" :
-                                e?.ItemName === "METAL" && (e?.shape?.toLowerCase() === "gold") ?
-                                  e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD' :
-                                  e?.ItemName === "METAL" && e?.shape?.toLowerCase() === "silver" ? "SILVER" :
-                                    e?.ItemName === "MISC" ? "MISC" :
-                                      e?.ItemName === "ALLOY" ? "ALLOY" :
-                                        e?.ItemName === "MOUNT" ? "MOUNT" :
-                                          e?.ItemName === "FINDING" ? "FINDING" :
-                                            ""
+                            e?.ItemName?.toLowerCase() === "diamond" ? "DIAMOND"
+                            : e?.ItemName?.toLowerCase() === "color stone" ? "STONE"
+                            : e?.ItemName?.toLowerCase() === "metal" && e?.shape?.toLowerCase() === "gold"
+                              ? e?.Tunch
+                                ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}`
+                                : "GOLD"
+                            : e?.ItemName?.toLowerCase() === "metal" && e?.shape?.toLowerCase() === "silver"
+                              ? `SILVER ${e?.quality || ''}${e?.Tunch !== undefined ? ' /' : ''}${e?.Tunch !== undefined ? ` Tunch: ${fixedValues(e.Tunch, 3)}` : ''}`
+                            : e?.ItemName?.toLowerCase() === "misc" ? "MISC"
+                            : e?.ItemName?.toLowerCase() === "finding" ? "FINDING"
+                            : e?.ItemName?.toLowerCase() === "alloy" ? "ALLOY"
+                            : e?.ItemName?.toLowerCase() === "mount" ? "MOUNT"
+                            : ""
                           }
                         </div>
                         <div className={`spbrRht Sucol3FnDMnt_inv2 ${rateFlag ? 'RTSucol3_inv2' : ''}`}>{e?.HSN_No === "" ? "-" : e?.HSN_No}</div>
-                        <div className={`${rateFlag ? 'RTSucol4FnDMnt_inv2' : ''} Sucol4FnDMnt_inv2 spbrRht spbrWord`}>{e?.shape === "" || e?.ItemName === "METAL" ? "-" : e?.shape}</div>
+                        <div className={`${rateFlag ? 'RTSucol4FnDMnt_inv2' : ''} Sucol4FnDMnt_inv2 spbrRht spbrWord`}>{e?.shape === "" || e?.ItemName?.toLowerCase() === "metal" || e?.ItemName?.toLowerCase() === "alloy" || allowedNames.includes(e?.ItemName?.toLowerCase()) ? "-" : e?.shape}</div>
                         <div className="Sucol5FnDMnt_inv2 spbrRht spbrWord">{e?.quality === "" ? "-" : e?.quality}</div>
                         <div className="Sucol6FnDMnt_inv2 spbrRht spbrWord">{e?.color === "" ? "-" : e?.color}</div>
                         <div className="Sucol7FnDMnt_inv2 spbrRht spbrWord">{e?.size === "" ? "-" : e?.size}</div>
@@ -313,7 +360,7 @@ const InvoicePrint3Material = ({
                           <>
                             <div className="RTSucol8FnDMnt_inv2 spfnted spbrRht">{fixedValues(e?.Weight === "" ? "-" : e?.Weight, 3)}</div>
                             <div className="RTSucol9FnDMnt_inv2 spfnted spbrRht">{fixedValues(e?.PureWeight === "" ? "-" : e?.PureWeight, 3)}</div>
-                            <div className="RTSucol10FnDMnt_inv2 spfnted spbrRht">{fixedValues(e?.pieces === "" ? "-" : e?.pieces, 3)}</div>
+                            <div className="RTSucol10FnDMnt_inv2 spfnted spbrRht">{e?.pieces === "" ? "-" : e?.pieces}</div>
                             <div className="RTSucol13FnDMnt_inv2 spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.Amount - e?.LabourAmt, 2)}</div>
                             <div className="RTSucol14FnDMnt_inv2 spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.LabourRate, 2)}</div>
                             <div className="RTSucol15FnDMnt_inv2 spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.LabourAmt, 2)}</div>
@@ -323,7 +370,7 @@ const InvoicePrint3Material = ({
                           <>
                             <div className="Sucol8FnDMnt_inv2 spfnted spbrRht">{fixedValues(e?.Weight === "" ? "-" : e?.Weight, 3)}</div>
                             <div className="Sucol9FnDMnt_inv2 spfnted spbrRht">{fixedValues(e?.PureWeight === "" ? "-" : e?.PureWeight, 3)}</div>
-                            <div className="Sucol10FnDMnt_inv2 spfnted spbrRht">{fixedValues(e?.pieces === "" ? "-" : e?.pieces, 3)}</div>
+                            <div className="Sucol10FnDMnt_inv2 spfnted spbrRht">{e?.pieces === "" ? "-" : e?.pieces}</div>
                             <div className="Sucol11FnDMnt_inv2 spfnted spbrRht">{formatAmount(e?.Rate === "" ? "-" : e?.Rate, 2)}</div>
                             <div className="Sucol13FnDMnt_inv2 spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.Amount - e?.LabourAmt, 2)}</div>
                             <div className="Sucol14FnDMnt_inv2 spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.LabourRate, 2)}</div>
@@ -336,21 +383,25 @@ const InvoicePrint3Material = ({
                       <>
                         <div className="col1_inv2 spbrRht spfntCen">{i + 1}</div>
                         <div className={`Sucol2_inv2 ${rateFlag ? 'RTSucol2_inv2' : ''} spbrRht spbrWord`}>
+                          {/* e?.ItemName?.toLowerCase() === "diamond" ? "CUT AND POLISHED DIAMOND" 01/11/2025_3:10 */}
                           {
-                            e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND" :
-                              e?.ItemName === "COLOR STONE" ? "STONE" :
-                                e?.ItemName === "METAL" && (e?.shape?.toLowerCase() === "gold") ?
-                                  e?.Tunch ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}` : 'GOLD' :
-                                  e?.ItemName === "METAL" && e?.shape?.toLowerCase() === "silver" ? "SILVER" :
-                                    e?.ItemName === "MISC" ? "MISC" :
-                                      e?.ItemName === "ALLOY" ? "ALLOY" :
-                                        e?.ItemName === "MOUNT" ? "MOUNT" :
-                                          e?.ItemName === "FINDING" ? "FINDING" :
-                                            ""
+                            e?.ItemName?.toLowerCase() === "diamond" ? "DIAMOND"
+                            : e?.ItemName?.toLowerCase() === "color stone" ? "STONE"
+                            : e?.ItemName?.toLowerCase() === "metal" && e?.shape?.toLowerCase() === "gold"
+                              ? e?.Tunch
+                                ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}`
+                                : "GOLD"
+                            : e?.ItemName?.toLowerCase() === "metal" && e?.shape?.toLowerCase() === "silver"
+                              ? `SILVER ${e?.quality || ''}${e?.Tunch !== undefined ? ' /' : ''}${e?.Tunch !== undefined ? ` Tunch: ${fixedValues(e.Tunch, 3)}` : ''}`
+                            : e?.ItemName?.toLowerCase() === "misc" ? "MISC"
+                            : e?.ItemName?.toLowerCase() === "finding" ? "FINDING"
+                            : e?.ItemName?.toLowerCase() === "alloy" ? "ALLOY"
+                            : e?.ItemName?.toLowerCase() === "mount" ? "MOUNT"
+                            : ""
                           }
                         </div>
                         <div className={`spbrRht Sucol3_inv2 ${rateFlag ? 'RTSucol3_inv2' : ''}`}>{e?.HSN_No === "" ? "-" : e?.HSN_No}</div>
-                        <div className={`${rateFlag ? 'RTSucol4_inv2' : ''} Sucol4_inv2 spbrRht spbrWord`}>{e?.shape === "" || e?.ItemName === "METAL" ? "-" : e?.shape}</div>
+                        <div className={`${rateFlag ? 'RTSucol4FnDMnt_inv2' : ''} Sucol4FnDMnt_inv2 spbrRht spbrWord`}>{e?.shape === "" || e?.ItemName?.toLowerCase() === "metal" || e?.ItemName?.toLowerCase() === "alloy" || allowedNames.includes(e?.ItemName?.toLowerCase()) ? "-" : e?.shape}</div>
                         <div className="Sucol5_inv2 spbrRht spbrWord">{e?.quality === "" ? "-" : e?.quality}</div>
                         <div className="Sucol6_inv2 spbrRht spbrWord">{e?.color === "" ? "-" : e?.color}</div>
                         <div className="Sucol7_inv2 spbrRht spbrWord">{e?.size === "" ? "-" : e?.size}</div>
@@ -358,14 +409,14 @@ const InvoicePrint3Material = ({
                           <>
                             <div className="RTSucol8_inv2 spfnted spbrRht">{fixedValues(e?.Weight === "" ? "-" : e?.Weight, 3)}</div>
                             <div className="RTSucol9_inv2 spfnted spbrRht">{fixedValues(e?.PureWeight === "" ? "-" : e?.PureWeight, 3)}</div>
-                            <div className="RTSucol10_inv2 spfnted spbrRht">{fixedValues(e?.pieces === "" ? "-" : e?.pieces, 3)}</div>
+                            <div className="RTSucol10_inv2 spfnted spbrRht">{e?.pieces === "" ? "-" : e?.pieces}</div>
                             <div className="RTSucol12_inv2 spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.Amount, 2)}</div>
                           </>
                         ) : (
                           <>
                             <div className="Sucol8_inv2 spfnted spbrRht">{fixedValues(e?.Weight === "" ? "-" : e?.Weight, 3)}</div>
                             <div className="Sucol9_inv2 spfnted spbrRht">{fixedValues(e?.PureWeight === "" ? "-" : e?.PureWeight, 3)}</div>
-                            <div className="Sucol10_inv2 spfnted spbrRht">{fixedValues(e?.pieces === "" ? "-" : e?.pieces, 3)}</div>
+                            <div className="Sucol10_inv2 spfnted spbrRht">{e?.pieces === "" ? "-" : e?.pieces}</div>
                             <div className="Sucol11_inv2 spfnted spbrRht">{formatAmount(e?.Rate === "" ? "-" : e?.Rate, 2)}</div>
                             <div className="Sucol12_inv2 spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.Amount, 2)}</div>
                           </>

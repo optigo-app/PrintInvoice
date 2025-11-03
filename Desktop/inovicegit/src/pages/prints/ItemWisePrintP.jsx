@@ -331,7 +331,7 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const TotalDiscountAmt = (data || []).reduce((sum, item) => sum + (item?.DiscountAmt || 0),0);
   const FinalTotal = FinalTotalAmount + TotalDiscountAmt;
 
-  console.log("data", data);
+  // console.log("data", data);
   // console.log("json0Data", json0Data);
 
   return (
@@ -604,13 +604,19 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className="WdthAftrBlnc brBtom"></div>
               </div>
               <div className="d-flex w-100">
-                <div className="WdthFrEqlCmon brBtom spbrRht">Cheque</div>
+                <div className="WdthFrEqlCmon brBtom spbrRht">Cash</div>
                 <div className="WdthFrEqlCmon brBtom spbrRht"></div>
                 <div className="WdthFrEqlCmon brBtom spbrRht"></div>
                 <div className="WdthAftrBlnc brBtom"></div>
               </div>
               <div className="d-flex w-100">
-                <div className="WdthFrEqlCmon brBtom spbrRht">Cash</div>
+                <div className="WdthFrEqlCmon brBtom spbrRht">Bank</div>
+                <div className="WdthFrEqlCmon brBtom spbrRht"></div>
+                <div className="WdthFrEqlCmon brBtom spbrRht"></div>
+                <div className="WdthAftrBlnc brBtom"></div>
+              </div>
+              <div className="d-flex w-100">
+                <div className="WdthFrEqlCmon brBtom spbrRht">Cheque</div>
                 <div className="WdthFrEqlCmon brBtom spbrRht"></div>
                 <div className="WdthFrEqlCmon brBtom spbrRht"></div>
                 <div className="WdthAftrBlnc brBtom"></div>
@@ -633,7 +639,12 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <div className="d-flex w-100">
                 <div className="WdthAftrBlnc2">Opening Gold: </div>
                 <div className="WdthAftrBlnc1"></div>
-                <div className="WdthAftrBlnc2">Closing Gold bal:</div>
+                <div className="WdthAftrBlnc2">Closing Gold bal: </div>
+              </div>
+              <div className="d-flex w-100">
+                <div className="WdthAftrBlnc2">Delivery Person Name: {json0Data?.Name_Of_Transporter}</div>
+                <div className="WdthAftrBlnc1"></div>
+                <div className="WdthAftrBlnc2">Vehicle No.: {json0Data?.Vehicle_Number}</div>
               </div>
             </div>
           </div>
