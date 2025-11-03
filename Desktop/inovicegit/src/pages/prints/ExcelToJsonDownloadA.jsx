@@ -21,6 +21,7 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
         let json0Data = data?.BillPrint_Json[0];
         let resultArr = [];
         data?.BillPrint_Json1.forEach((e, i) => {
+            // console.log("data?.BillPrint_Json1", e);
                 
             const diaInfo = data?.BillPrint_Json2.reduce((total, element) => {
                 if (e?.SrJobno === element?.StockBarcode) {
@@ -36,12 +37,12 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
                 }
                 return total;
             }, { diaPcs: 0, diaWt: 0, csPcs: 0, csWt: 0 });
-            console.log("diaInfo", diaInfo);
+            // console.log("diaInfo", diaInfo);
             let diamonds = '';
             let colorStones = '';
             if (diaInfo?.diaWt !== 0) {
                 // diamonds = `With Diamond ${e?.MetalPurity} weight ${NumberWithCommas(e?.NetWt, 3)} grams No of Diamond ${NumberWithCommas(diaInfo?.diaPcs, 0)} Piece Diamond Weight ${NumberWithCommas(diaInfo?.diaWt, 3)} cts`;
-                diamonds = `With   No. of ${diaInfo?.MaterialTypeName !== "" && diaInfo?.MaterialTypeName} Diamond ${NumberWithCommas(diaInfo?.diaPcs, 0)} Piece Diamond Weight ${NumberWithCommas(diaInfo?.diaWt, 3)} cts`;
+                diamonds = `With   No. of ${diaInfo?.MaterialTypeName !== "" && diaInfo?.MaterialTypeName} Diamond ${NumberWithCommas(diaInfo?.diaPcs, 0)} Piece ${diaInfo?.MaterialTypeName !== "" && diaInfo?.MaterialTypeName} Diamond Weight ${NumberWithCommas(diaInfo?.diaWt, 3)} cts`;
             }
             if (diaInfo?.csWt !== 0) {
                 // colorStones = `With ColorStone ${e?.MetalPurity} weight ${NumberWithCommas(e?.NetWt, 3)} grams No of ColorStone ${NumberWithCommas(diaInfo?.csPcs, 0)} Piece ColorStone Weight ${NumberWithCommas(diaInfo?.csWt, 3)} cts`;
@@ -54,7 +55,7 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
                 designNo: e?.designno,
                 jewellery: 'Jewelry',
                 goldJewellery: 'Gold Jewelry',
-                description: `${e?.MetalPurity} Jewelry ${e?.Categoryname} With weight ${NumberWithCommas(e?.NetWt, 3)} grams ${diamonds} ${colorStones}`,
+                description: `${e?.MetalPurity} Jewelry ${e?.Categoryname} With ${e?.MetalType} weight ${NumberWithCommas(e?.NetWt, 3)} grams ${diamonds} ${colorStones}`,
                 pcs: 1,
                 piece: `${e?.Categoryname?.toLowerCase().includes("ear") ? "Pair" : "Piece"}`,
                 hkd: e?.TotalAmount,
@@ -69,7 +70,7 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
             const designNoB = parseInt(b?.id?.toString()?.match(/\d+/)[0]);
             return designNoA - designNoB;
         });
-        console.log('resultArr: ', resultArr);
+        // console.log('resultArr: ', resultArr);
         setData(resultArr);
         setHeader(json0Data);
         setTimeout(() => {
