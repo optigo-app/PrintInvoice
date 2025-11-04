@@ -53,56 +53,43 @@
 }
 
 .col2_inv2{
-    width: 20%;
-    padding: 4px;
+    width: 14%;
+    padding: 4px 3px;
 }
 .col3_inv2{
-    width: 8%;
-    padding: 4px;
+    width: 10%;
+    padding: 4px 1px;
 }
 .col4_inv2{
-    width: 8.50%;
-    padding: 4px;
-}
-.col5_inv2{
-    width: 10.50%;
-    padding: 4px;
-}
-.col6_inv2{
     width: 9.50%;
     padding: 4px;
 }
+.col5_inv2{
+    width: 11.50%;
+    padding: 4px;
+}
+.col6_inv2{
+    width: 10.50%;
+    padding: 4px;
+}
 .col7_inv2{
-    width: 9%;
+    width: 11%;
     padding: 4px;
 }
 .col8_inv2{
-    width: 8%;
+    width: 10%;
     padding: 4px;
 }
 .col9_inv2{
-    width: 8%;
+    width: 10%;
     padding: 4px;
 }
 .col10_inv2{
-    width: 8.40%;
+    width: 10%;
     padding: 4px;
 }
 .col11_inv2{
-    width: 10.10%;
-    padding: 4px;
-}
-
-.col2_inv2IG {
-    width: 14.10%;
-    padding: 4px;
-}
-.col9_inv2IG {
-    width: 8%;
-    padding: 4px;
-}
-.col10_inv2IG {
-    width: 8.40%;
+    width: 12.10%;
     padding: 4px;
 }
 
@@ -116,103 +103,44 @@
 
 
 .Sucol2_inv2{
-    width: 20%;
+    width: 18%;
     padding: 4px;
 }
 .Sucol3_inv2{
-    width: 7.90%;
+    width: 10.90%;
     padding: 4px;
 }
 .Sucol4_inv2{
-    width: 8.60%;
+    width: 11.60%;
     padding: 4px;
 }
 .Sucol5_inv2{
-    width: 10.50%;
+    width: 13.50%;
     padding: 4px;
 }
 .Sucol6_inv2{
-    width: 9.50%;
+    width: 12.50%;
     padding: 4px;
 }
 .Sucol7_inv2{
-    width: 8.90%;
+    width: 10.90%;
     padding: 4px;
 }
 .Sucol8_inv2{
-    width: 8.10%;
+    width: 10.10%;
     padding: 4px;
 }
 .Sucol9_inv2{
-    width: 7.90%;
+    width: 9.90%;
     padding: 4px;
 }
 .Sucol10_inv2{
-    width: 8.50%;
+    width: 10.50%;
     padding: 4px;
 }
 .Sucol11_inv2{
-    width: 10.10%;
+    width: 13.10%;
     padding: 4px;
-}
-
-.Sucol2_inv2IG {
-    width: 14.10%;
-    padding: 4px;
-}
-.Sucol9_inv2IG{
-    width: 7.90%;
-    padding: 4px;
-}
-.Sucol10_inv2IG{
-    width: 8.50%;
-    padding: 4px;
-}
-
-
-.FtSucol2_inv2{
-    width: 20%;
-    padding-left: 4px;
-}
-.FtSucol3_inv2{
-    width: 7.90%;
-}
-.FtSucol4_inv2{
-    width: 8.60%;
-}
-.FtSucol5_inv2{
-    width: 10.50%;
-}
-.FtSucol6_inv2{
-    width: 9.50%;
-}
-.FtSucol7_inv2{
-    width: 8.90%;
-}
-.FtSucol8_inv2{
-    width: 8.10%;
-}
-.FtSucol9_inv2{
-    width: 7.90%;
-}
-.FtSucol10_inv2{
-    width: 8.50%;
-}
-.FtSucol11_inv2{
-    width: 10.10%;
-    padding-right: 4px;
-}
-
-
-.FtSucol2_inv2IG {
-    width: 14.10%;
-    padding-left: 4px;
-}
-.FtSucol9_inv2IG {
-    width: 7.90%;
-}
-.FtSucol10_inv2IG {
-    width: 8.50%;
 }
 
 

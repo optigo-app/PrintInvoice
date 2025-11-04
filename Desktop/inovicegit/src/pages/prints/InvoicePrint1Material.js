@@ -45,7 +45,7 @@ const InvoicePrint1Material = ({
           ApiVer
         );
         if (data?.Status === "200") {
-          console.log("data",data);
+          // console.log("data",data);
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
             let address =
@@ -78,16 +78,6 @@ const InvoicePrint1Material = ({
     };
     sendData();
   }, []);
-
-  function PrintableText({ json0Data }) {
-    const htmlContent = json0Data?.Printlable?.replace(/\n/g, '');
-  
-    return (
-      <div
-        dangerouslySetInnerHTML={{ __html: htmlContent }}
-      />
-    );
-  }
 
   const totalCsWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
     const weight = parseFloat(item?.Weight);
@@ -144,46 +134,55 @@ const InvoicePrint1Material = ({
   const GrandTotal = 
     (totalAmount || 0) +
     (taxAmont?.CGSTTotalAmount || 0) +
+    (taxAmont?.IGSTTotalAmount || 0) +
     (taxAmont?.SGSTTotalAmount || 0);
 
   const EndGrandTotal = 
     (totalAmount || 0) +
     (taxAmont?.CGSTTotalAmount || 0) +
     (taxAmont?.SGSTTotalAmount || 0) +
+    (taxAmont?.IGSTTotalAmount || 0) +
     (taxAmont?.tax1Amount || 0) +
     (taxAmont?.tax2Amount || 0) +
-    (taxAmont?.tax3Amount || 0);
+    (taxAmont?.tax3Amount || 0) +
+    (taxAmont?.tax4Amount || 0) +
+    (taxAmont?.tax5Amount || 0);
   const amountStr = formatAmount(GrandTotal, 2);
   const isWide = amountStr.length >= 9;
 
-  // console.log("taxAmont", taxAmont);
-  // console.log("extraTaxAmont", extraTaxAmont);
-  // console.log("json0Data", json0Data);
-  console.log("finalD", finalD);
-
   function convertWithAnd(amount) {
     let words = toWords.convert(amount);
-
+    
     const pattern = /\bHundred\b\s+(?!(Thousand|Lakh|Crore|Only))(.+)/i;
     if (pattern.test(words)) {
       words = words.replace(pattern, (match, p1, p2) => {
         return `Hundred and ${p2}`;
       });
     }
-
+    
     return words;
   }
-
+  
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
-
+  
   const handleHeaderShow = (e) => {
     if (headerFlag) setHeaderFlag(false);
     else {
       setHeaderFlag(true);
     }
   };
+  
+  const getClassName = (taxAmont, conditionClass, defaultClass) => {
+    return `${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? conditionClass : defaultClass}`;
+  };
+
+  
+  // console.log("taxAmont", taxAmont);
+  // console.log("extraTaxAmont", extraTaxAmont);
+  // console.log("json0Data", json0Data);
+  // console.log("finalD", finalD);
 
   return (
     <>
@@ -221,6 +220,7 @@ const InvoicePrint1Material = ({
                 </b>
               </div>
 
+              {/** Main Header */}
               {headerFlag && (
                 <>
                   <div className="disflx justify-content-between" style={{ marginBottom: "10px" }}>
@@ -287,20 +287,55 @@ const InvoicePrint1Material = ({
               <div className="disflx brbxAll spacTpm spfntbH">
                 <div className="col1_inv2 spfntBld spbrRht spfntCen">DESCRIPTION</div>
                 <div className="disflx w90inOld">
-                  <div className={`${taxAmont?.tax3Amount !== 0 ? "col2_inv2IG" : "col2_inv2"} spfntBld`}>DESCRIPTION</div>
-                  <div className="col6_inv2 spfntBld spfnted">HSN#</div>
-                  <div className="col3_inv2 spfntBld spfnted">WEIGHT</div>
-                  <div className="col4_inv2 spfntBld spfnted">RATE</div>
-                  {taxAmont?.tax3Amount !== 0 ? "" : <div className="col5_inv2 spfntBld spfnted">AMOUNT</div>}
-                  <div className="col7_inv2 spfntBld spfnted">CGST%</div>
-                  <div className="col8_inv2 spfntBld spfnted">CGST</div>
-                  <div className="col9_inv2 spfntBld spfnted">SGST%</div>
-                  <div className="col10_inv2 spfntBld spfnted">SGST</div>
-                  {taxAmont?.tax3Amount !== 0 && ( <>
-                    <div className="col9_inv2IG spfntBld spfnted">IGST%</div>
-                    <div className="col10_inv2IG spfntBld spfnted">IGST</div>
+                  <div className={`
+                    ${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol2_inv2" : "col2_inv2"} spfntBld`}>DESCRIPTION</div>
+                  <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol6_inv2" : "col6_inv2"} spfntBld spfnted`}>HSN#</div>
+                  <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol3_inv2" : "col3_inv2"} spfntBld spfnted`}>WEIGHT</div>
+                  <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol4_inv2" : "col4_inv2"} spfntBld spfnted`}>RATE</div>
+                  {(taxAmont?.CGSTTotalAmount !== 0 ||
+                    taxAmont?.SGSTTotalAmount !== 0 ||
+                    taxAmont?.IGSTTotalAmount !== 0) && (
+                      <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol5_inv2" : "col5_inv2"} spfntBld spfnted`}>AMOUNT</div>
+                  )}
+                  {(taxAmont?.tax1Amount !== 0 || taxAmont?.CGSTTotalAmount !== 0) && (
+                    <>
+                      <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol7_inv2" : "col7_inv2"} spfntBld spfnted`}>
+                        {taxAmont?.tax1Amount !== 0 ? taxAmont?.tax1_taxname : "CGST"}%
+                      </div>
+                      <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol8_inv2" : "col8_inv2"} spfntBld spfnted`}>
+                        {taxAmont?.tax1Amount !== 0 ? taxAmont?.tax1_taxname : "CGST"}
+                      </div>
+                    </>
+                  )}
+                  {(taxAmont?.tax2Amount !== 0 || taxAmont?.SGSTTotalAmount !== 0) && (
+                    <>
+                      <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol9_inv2" : "col9_inv2"} spfntBld spfnted`}>
+                        {taxAmont?.tax2Amount !== 0 ? taxAmont?.tax2_taxname : "SGST"}%
+                      </div>
+                      <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol10_inv2" : "col10_inv2"} spfntBld spfnted`}>
+                        {taxAmont?.tax2Amount !== 0 ? taxAmont?.tax2_taxname : "SGST"}
+                      </div>
+                    </>
+                  )}
+                  {(taxAmont?.tax3Amount !== 0 || taxAmont?.IGSTTotalAmount !== 0) && (
+                    <>
+                      <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol9_inv2" : "col9_inv2"} spfntBld spfnted`}>
+                        {taxAmont?.tax3Amount !== 0 ? taxAmont?.tax3_taxname : "IGST"}%
+                      </div>
+                      <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol10_inv2" : "col10_inv2"} spfntBld spfnted`}>
+                        {taxAmont?.tax3Amount !== 0 ? taxAmont?.tax3_taxname : "IGST"}
+                      </div>
+                    </>
+                  )}
+                  {taxAmont?.tax4Amount !== 0 && ( <>
+                    <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol9_inv2" : "col9_inv2"} spfntBld spfnted`}>{taxAmont?.tax4_taxname}%</div>
+                    <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol10_inv2" : "col10_inv2"} spfntBld spfnted`}>{taxAmont?.tax4_taxname}</div>
                   </>)}
-                  <div className="col11_inv2 spfntBld spfnted">{taxAmont?.tax3Amount !== 0 ? "AMOUNT" : "TOTAL AMT"}</div>
+                  {taxAmont?.tax5Amount !== 0 && ( <>
+                    <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol9_inv2" : "col9_inv2"} spfntBld spfnted`}>{taxAmont?.tax5_taxname}%</div>
+                    <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol10_inv2" : "col10_inv2"} spfntBld spfnted`}>{taxAmont?.tax5_taxname}</div>
+                  </>)}
+                  <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol11_inv2" : "col11_inv2"} spfntBld spfnted`}>{taxAmont?.tax3Amount !== 0 ? "AMOUNT" : "TOTAL AMT"}</div>
                 </div>
               </div>
 
@@ -311,8 +346,8 @@ const InvoicePrint1Material = ({
                   {finalD?.map((e) => {
                     return (
                       <div className="disflx">
-                        <div className={`${taxAmont?.tax3Amount !== 0 ? "Sucol2_inv2IG" : "Sucol2_inv2"} spbrWord`}>
-                          {e?.ItemName?.toLowerCase() === "diamond" ? "CUT AND POLISHED DIAMOND" 
+                        <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol2_inv2" : "col2_inv2"} spbrWord`}>
+                          {e?.ItemName?.toLowerCase() === "diamond" ? "DIAMOND" 
                             : e?.ItemName?.toLowerCase() === "color stone" ? "STONE"   
                               : e?.ItemName?.toLowerCase() === "metal" && e?.shape?.toLowerCase() === "gold" ? `GOLD 24K`                           
                               : e?.ItemName?.toLowerCase() === "metal" && e?.shape?.toLowerCase() === "silver" ? "SILVER"                               
@@ -322,8 +357,8 @@ const InvoicePrint1Material = ({
                                         : e?.ItemName?.toLowerCase() === "finding" ? "F:" 
                                           : ""}
                         </div>
-                        <div className="Sucol6_inv2 spfnted">{e?.HSN_No === "" ?  "-"  : e?.HSN_No }</div>
-                        <div className="Sucol3_inv2 spfnted">
+                        <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol6_inv2" : "col6_inv2"} spfnted`}>{e?.HSN_No === "" ?  "-"  : e?.HSN_No }</div>
+                        <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol3_inv2" : "col3_inv2"} spfnted`}>
                           {fixedValues(
                             e?.ItemName?.toLowerCase() === "metal" && e?.shape?.toLowerCase() === "gold" 
                               ? e?.PureWeight 
@@ -332,21 +367,45 @@ const InvoicePrint1Material = ({
                               : e?.Weight,3
                           )}
                         </div>
-                        <div className="Sucol4_inv2 spfnted">{formatAmount(e?.Rate === "" ? "-" : e?.Rate,2)}</div>
-                        {taxAmont?.tax3Amount !== 0 ? "" : <div className="Sucol5_inv2 spfnted">{formatAmount(e?.Amount === "" ? "-" : e?.Amount,2)}</div>}
-                        <div className="Sucol7_inv2 spfnted">{fixedValues(e?.CGST === 0 ? taxAmont?.tax1_value : e?.CGST,3)}</div>
-                        <div className="Sucol8_inv2 spfnted">
-                          {formatAmount(e?.CGSTAmount === 0 ? e?.Amount * (taxAmont?.tax1_value / 100) : e?.CGSTAmount,2)}
-                        </div>
-                        <div className="Sucol9_inv2 spfnted">{fixedValues(e?.SGST === 0 ? taxAmont?.tax2_value : e?.SGST,3)}</div>
-                        <div className="Sucol10_inv2 spfnted">
-                          {formatAmount(e?.SGSTAmount === 0 ? e?.Amount * (taxAmont?.tax2_value / 100) : e?.SGSTAmount,2)}
-                        </div>
-                        {taxAmont?.tax3Amount !== 0 && ( <>
-                          <div className="Sucol9_inv2IG spfnted">{fixedValues(taxAmont?.tax3_value,3)}</div>
-                          <div className="Sucol10_inv2IG spfnted">{formatAmount(e?.Amount * (taxAmont?.tax3_value / 100),2)}</div>
+                        <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol4_inv2" : "col4_inv2"} spfnted`}>{formatAmount(e?.Rate === "" ? "-" : e?.Rate,2)}</div>
+                        {(taxAmont?.CGSTTotalAmount !== 0 ||
+                          taxAmont?.SGSTTotalAmount !== 0 ||
+                          taxAmont?.IGSTTotalAmount !== 0) && ( 
+                          <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol5_inv2" : "col5_inv2"} spfnted`}>{formatAmount(e?.Amount === "" ? "-" : e?.Amount,2)}</div> 
+                        )}
+                        {(taxAmont?.tax1Amount !== 0 || taxAmont?.CGSTTotalAmount !== 0) && (
+                          <>
+                            <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol7_inv2" : "col7_inv2"} spfnted`}>{fixedValues(e?.CGST === 0 ? taxAmont?.tax1_value : (taxAmont?.CGSTTotalAmount !== 0 ? e?.CGST : 0),3)}</div>
+                            <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol8_inv2" : "col8_inv2"} spfnted`}>
+                              {formatAmount(e?.CGSTAmount === 0 ? e?.Amount * (taxAmont?.tax1_value / 100) : (taxAmont?.CGSTTotalAmount !== 0 ? e?.CGSTAmount : 0),2)}
+                            </div>
+                          </>
+                        )}
+                        {(taxAmont?.tax2Amount !== 0 || taxAmont?.SGSTTotalAmount !== 0) && (
+                          <>
+                            <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol9_inv2" : "col9_inv2"} spfnted`}>{fixedValues(e?.SGST === 0 ? taxAmont?.tax2_value : (taxAmont?.SGSTTotalAmount !== 0 ? e?.SGST : 0),3)}</div>
+                            <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol10_inv2" : "col10_inv2"} spfnted`}>
+                              {formatAmount(e?.SGSTAmount === 0 ? e?.Amount * (taxAmont?.tax2_value / 100) : (taxAmont?.SGSTTotalAmount !== 0 ? e?.SGSTAmount : 0),2)}
+                            </div>
+                          </>
+                        )}
+                        {(taxAmont?.tax3Amount !== 0 || taxAmont?.IGSTTotalAmount !== 0) && (
+                          <>
+                            <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol9_inv2" : "col9_inv2"} spfnted`}>{fixedValues(e?.IGST === 0 ? taxAmont?.tax3_value : (taxAmont?.IGSTTotalAmount !== 0 ? e?.IGST : 0),3)}</div>
+                            <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol10_inv2" : "col10_inv2"} spfnted`}>
+                              {formatAmount(e?.IGSTAmount === 0 ? e?.Amount * (taxAmont?.tax3_value / 100) : (taxAmont?.IGSTTotalAmount !== 0 ? e?.IGSTAmount : 0),2)}
+                            </div>
+                          </>
+                        )}
+                        {taxAmont?.tax4Amount !== 0 && ( <>
+                          <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol9_inv2" : "col9_inv2"} spfnted`}>{fixedValues(taxAmont?.tax4_value,3)}</div>
+                          <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol10_inv2" : "col10_inv2"} spfnted`}>{formatAmount(e?.Amount * (taxAmont?.tax4_value / 100),2)}</div>
                         </>)}
-                        <div className="Sucol11_inv2 spfnted">{formatAmount(e?.Amount === "" ? "-" : e?.Amount + e?.CGSTAmount + e?.SGSTAmount,2)}</div>
+                        {taxAmont?.tax5Amount !== 0 && ( <>
+                          <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol9_inv2" : "col9_inv2"} spfnted`}>{fixedValues(taxAmont?.tax5_value,3)}</div>
+                          <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol10_inv2" : "col10_inv2"} spfnted`}>{formatAmount(e?.Amount * (taxAmont?.tax5_value / 100),2)}</div>
+                        </>)}
+                        <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol11_inv2" : "col11_inv2"} spfnted`}>{formatAmount(e?.Amount === "" ? "-" : e?.Amount + e?.CGSTAmount + e?.SGSTAmount + e?.IGSTAmount,2)}</div>
                       </div>
                     )
                   })}
@@ -357,27 +416,43 @@ const InvoicePrint1Material = ({
               <div className="disflx brbxAll spfntbH spveheit1">
                 <div className="col1_inv2 spfntBld spbrRht spfntCen"></div>
                 <div className="disflx w90inOld">
-                  <div className={`${taxAmont?.tax3Amount !== 0 ? "FtSucol2_inv2IG" : "FtSucol2_inv2"} spfntBld spVefntCen`}>TOTAL</div>
-                  <div className="FtSucol6_inv2"></div> 
-                  <div className="FtSucol3_inv2 spfnted spfntBld spVefntCen">
+                  <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol2_inv2" : "col2_inv2"} spfntBld spVefntCen`}>TOTAL</div>
+                  <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol6_inv2" : "col6_inv2"}`}></div> 
+                  <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol3_inv2" : "col3_inv2"} spfnted spfntBld spVefntCen`}>
                     {diamondAndCSWeight !== 0 && `${fixedValues(diamondAndCSWeight, 3)} ctw`} <br />
                     {remainingWeight !== 0 && `${fixedValues(remainingWeight + totalMetalWeight + totalMountWeight, 3)} gm`}
                   </div>
-                  <div className="FtSucol4_inv2"></div>
-                  {taxAmont?.tax3Amount !== 0 ? "" :  <div className="FtSucol5_inv2 spfnted spfntBld spVefntCen">{formatAmount(totalAmount,2)}</div>}
-                  <div className="FtSucol7_inv2"></div>
-                  <div className="FtSucol8_inv2 spfnted spfntBld spVefntCen">
-                    {formatAmount(taxAmont?.CGSTTotalAmount === 0 ? taxAmont?.tax1Amount : taxAmont?.CGSTTotalAmount,2)}
-                  </div>
-                  <div className={`FtSucol9_inv2 spfntBld ${isWide ? 'FtSucol9_inv2_wide' : 'FtSucol9_inv2_shrnk'}`}></div>
-                  <div className="FtSucol10_inv2 spfnted spfntBld spVefntCen">
-                    {formatAmount(taxAmont?.SGSTTotalAmount === 0 ? taxAmont?.tax2Amount : taxAmont?.SGSTTotalAmount,2)}
-                  </div>
-                  {taxAmont?.tax3Amount !== 0 && ( <>
-                    <div className={`FtSucol9_inv2IG spfntBld ${isWide ? 'FtSucol9_inv2_wide' : 'FtSucol9_inv2_shrnk'}`}></div>
-                    <div className="FtSucol10_inv2IG spfnted spfntBld spVefntCen">{formatAmount(taxAmont?.tax3Amount,2)}</div>
+                  <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol4_inv2" : "col4_inv2"}`}></div>
+                  {taxAmont?.tax3Amount !== 0 ? "" :  <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol5_inv2" : "col5_inv2"} spfnted spfntBld spVefntCen`}>{formatAmount(totalAmount,2)}</div>}
+                  {(taxAmont?.tax1Amount !== 0 || taxAmont?.CGSTTotalAmount !== 0) && ( <>
+                    <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol7_inv2" : "col7_inv2"}`}></div>
+                    <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol8_inv2" : "col8_inv2"} spfnted spfntBld spVefntCen`}>
+                      {formatAmount(taxAmont?.CGSTTotalAmount === 0 ? taxAmont?.tax1Amount : taxAmont?.CGSTTotalAmount,2)}
+                    </div>
                   </>)}
-                  <div className={`spfnted spfntBld spVefntCen FtSucol11_inv2 ${isWide ? 'FtSucol11_inv2_wide' : 'FtSucol11_inv2_shrnk'}`}>{amountStr}</div>
+                  {(taxAmont?.tax2Amount !== 0 || taxAmont?.SGSTTotalAmount !== 0) && ( <>
+                    <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol9_inv2" : "col9_inv2"} spfntBld ${isWide ? 'FtSucol9_inv2_wide' : 'FtSucol9_inv2_shrnk'}`}></div>
+                    <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol10_inv2" : "col10_inv2"} spfnted spfntBld spVefntCen`}>
+                      {formatAmount(taxAmont?.SGSTTotalAmount === 0 ? taxAmont?.tax2Amount : taxAmont?.SGSTTotalAmount,2)}
+                    </div>
+                  </>)}
+                  {(taxAmont?.tax3Amount !== 0 || taxAmont?.IGSTTotalAmount !== 0) && (
+                    <>
+                      <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol9_inv2" : "col9_inv2"} spfntBld ${isWide ? 'FtSucol9_inv2_wide' : 'FtSucol9_inv2_shrnk'}`}></div>
+                      <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol10_inv2" : "col10_inv2"} spfnted spfntBld spVefntCen`}>
+                        {formatAmount(taxAmont?.IGSTTotalAmount === 0 ? taxAmont?.tax3Amount : taxAmont?.IGSTTotalAmount,2)}
+                      </div>
+                    </>
+                  )}
+                  {taxAmont?.tax4Amount !== 0 && ( <>
+                    <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol9_inv2" : "col9_inv2"} spfntBld ${isWide ? 'FtSucol9_inv2_wide' : 'FtSucol9_inv2_shrnk'}`}></div>
+                    <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol10_inv2" : "col10_inv2"} spfnted spfntBld spVefntCen`}>{formatAmount(taxAmont?.tax4Amount,2)}</div>
+                  </>)}
+                  {taxAmont?.tax5Amount !== 0 && ( <>
+                    <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol9_inv2" : "col9_inv2"} spfntBld ${isWide ? 'FtSucol9_inv2_wide' : 'FtSucol9_inv2_shrnk'}`}></div>
+                    <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol10_inv2" : "col10_inv2"} spfnted spfntBld spVefntCen`}>{formatAmount(taxAmont?.tax5Amount,2)}</div>
+                  </>)}
+                  <div className={`spfnted spfntBld spVefntCen ${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol11_inv2" : "col11_inv2"} ${isWide ? 'FtSucol11_inv2_wide' : 'FtSucol11_inv2_shrnk'}`}>{amountStr}</div>
                 </div>
               </div>
 
@@ -414,6 +489,26 @@ const InvoicePrint1Material = ({
                     </div>
                     <div className="taxwdth2">
                       <p>{formatAmount(taxAmont?.tax3Amount,2)}</p>
+                    </div>
+                  </div>
+                )}
+                {taxAmont?.tax4_taxname !== "" && (
+                  <div className="disflx">
+                    <div className="taxwdth1 spacLft2">
+                      <p>{taxAmont?.tax4_taxname} @ {fixedValues(taxAmont?.tax4_value,3)} %</p>
+                    </div>
+                    <div className="taxwdth2">
+                      <p>{formatAmount(taxAmont?.tax4Amount,2)}</p>
+                    </div>
+                  </div>
+                )}
+                {taxAmont?.tax5_taxname !== "" && (
+                  <div className="disflx">
+                    <div className="taxwdth1 spacLft2">
+                      <p>{taxAmont?.tax5_taxname} @ {fixedValues(taxAmont?.tax5_value,3)} %</p>
+                    </div>
+                    <div className="taxwdth2">
+                      <p>{formatAmount(taxAmont?.tax5Amount,2)}</p>
                     </div>
                   </div>
                 )}
