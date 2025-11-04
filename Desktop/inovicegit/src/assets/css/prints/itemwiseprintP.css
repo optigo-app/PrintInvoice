@@ -140,6 +140,7 @@ html {
 .wdthHd{
     width: 25%;
 }
+
 .wdthHd1{
     width: 75%;
 }
@@ -147,6 +148,7 @@ html {
 .spfntBld{
     font-weight: bold;
 }
+
 .spfntsZ{
     font-size: 15px !important;
     line-height: 15px !important;
@@ -167,9 +169,25 @@ html {
     width: 40%;
     padding: 1px 3px;
 }
+
 .WdthAftrBlnc2 {
     width: 30%;
+    display: flex;
     padding: 1px 3px;
+}
+
+.SUBWdthAftrBlnc1 {
+    width: 40%;
+    padding: 1px 3px;
+}
+
+.SUBWdthAftrBlnc2 {
+    width: 60%;
+    padding: 1px 3px;
+}
+
+.spaceFrmlft {
+    padding-left: 15px;
 }
 
 .inExchngHeight {
@@ -216,6 +234,20 @@ html {
         line-height: 13px !important;
     }
 
+    .SUBWdthAftrBlnc1 {
+        width: 50%;
+        padding: 1px 3px;
+    }
+
+    .SUBWdthAftrBlnc2 {
+        width: 50%;
+        padding: 1px 3px;
+    }
+
+    .spaceFrmlft {
+        padding-left: 8px;
+    }
+
     @media (max-width: 160mm) {
         /* fits A5 */
         @page {
@@ -251,14 +283,37 @@ html {
         }
     
         .spfntsZ{
-            font-size: 11px !important;
-            line-height: 11px !important;
+            font-size: 10.50px !important;
+            line-height: 10.50px !important;
         }
+
         .wdthHd{
             width: 30%;
         }
+
         .wdthHd1{
             width: 70%;
+        }
+
+        .WdthAftrBlnc1 {
+            width: 20%;
+            padding: 1px 3px;
+        }
+        
+        .WdthAftrBlnc2 {
+            width: 40%;
+            display: flex;
+            padding: 1px 3px;
+        }
+        
+        .SUBWdthAftrBlnc1 {
+            width: 50%;
+            padding: 1px 3px;
+        }
+
+        .SUBWdthAftrBlnc2 {
+            width: 50%;
+            padding: 1px 3px;
         }
       }
     

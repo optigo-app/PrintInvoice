@@ -355,6 +355,15 @@
         font-size: 11px !important;
         line-height: 12px !important;
     }
+
+    .FTcol3_inv2{
+        width: 20.50%;
+        padding: 4px 1px;
+    }
+    .Ftcol6_inv2{
+        width: 0%;
+        padding: 4px;
+    }
 }
 @media print and (orientation: portrait) {
     .col1_inv2{
@@ -363,46 +372,4 @@
     .w90inOld{
         width: 90%;
     }
-    .FtSucol2_inv2{
-        width: 21%;
-        padding-left: 4px;
-    }
-    .FtSucol3_inv2{
-        width: 7.90%;
-    }
-    .FtSucol4_inv2{
-        width: 8.40%;
-    }
-    .FtSucol5_inv2{
-        width: 10.70%;
-    }
-    .FtSucol6_inv2{
-        width: 8.50%;
-    }
-    .FtSucol7_inv2{
-        width: 8.90%;
-    }
-    .FtSucol8_inv2{
-        width: 8.10%;
-    }
-    .FtSucol9_inv2_shrnk {
-        width: 7.90%;
-    }
-    .FtSucol9_inv2_wide{
-        width: 6.90%;
-    }
-    .FtSucol10_inv2{
-        width: 8.50%;
-    }
-    .FtSucol11_inv2{
-        width: 11.10%;
-        padding-right: 4px;
-    }
-    .FtSucol11_inv2_shrnk {
-        width: 10.10%;
-    }  
-    .FtSucol11_inv2_wide {
-        width: 11.10%;
-    }
-      
 }

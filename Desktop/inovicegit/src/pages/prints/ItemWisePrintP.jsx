@@ -46,6 +46,7 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [taxes, setTaxes] = useState([]);
   const [disocunt, setDiscount] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [generalLedgerData, setGeneralLedgerData] = useState(null);
 
   const loadData = (data) => {
     setjson0Data(data?.BillPrint_Json[0]);
@@ -93,12 +94,11 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       pkgWt += e?.PackageWt;
       discountAmount += e?.DiscountAmt;
       let findIndex = arr.findIndex(
-        (ele, ind) =>
-          ele?.SrJobno === e?.SrJobno
-          // ele?.Categoryname === e?.Categoryname &&
-          // ele?.Collectionname === e?.Collectionname &&
-          // ele?.Wastage === e?.Wastage &&
-          // ele?.MetalPurity === e?.MetalPurity
+        (ele, ind) => ele?.SrJobno === e?.SrJobno
+        // ele?.Categoryname === e?.Categoryname &&
+        // ele?.Collectionname === e?.Collectionname &&
+        // ele?.Wastage === e?.Wastage &&
+        // ele?.MetalPurity === e?.MetalPurity
       );
       otherAmounts += e?.TotalDiamondHandling + e?.OtherCharges + e?.MiscAmount;
       if (findIndex === -1) {
@@ -267,7 +267,7 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       });
     // tax end
     totals.totalAmt += totals.less;
-    totals.totalAmt = fixedValues(totals.totalAmt,2);
+    totals.totalAmt = fixedValues(totals.totalAmt, 2);
     // resultArr?.forEach((e, i) => {
     //   e.fineWts = (e?.NetWt * (e?.Tunch + e?.Wastage)) / 100;
     //   totals.fineWts +=  (e?.NetWt * (e?.Tunch + e?.Wastage)) / 100;
@@ -288,8 +288,10 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   useEffect(() => {
     const sendData = async () => {
+      setLoader(true);
       try {
-        const data = await apiCall(
+        // Call the first API
+        const data1 = await apiCall(
           token,
           invoiceNo,
           printName,
@@ -297,26 +299,49 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           evn,
           ApiVer
         );
-        if (data?.Status === "200") {
-          let isEmpty = isObjectEmpty(data?.Data);
+        if (data1?.Status === "200") {
+          const isEmpty = isObjectEmpty(data1?.Data);
           if (!isEmpty) {
-            loadData(data?.Data);
-            setLoader(false);
+            loadData(data1?.Data); // existing loader function
           } else {
-            setLoader(false);
-            setMsg("Data Not Found");
+            setMsg("Data Not Found for first API");
           }
         } else {
-          setLoader(false);
-          // setMsg(data?.Message);
-          const err = checkMsg(data?.Message);
-          console.log(data?.Message);
+          const err = checkMsg(data1?.Message);
           setMsg(err);
         }
+
+        //Call the second API
+        const secondUrl =
+          "http://nzen/jo/api-lib/App/BillOpeningClosingBalance_Json";
+        const data2 = await apiCall(
+          token,
+          invoiceNo,
+          printName,
+          secondUrl,
+          evn,
+          ApiVer
+        );
+
+        if (data2?.Status === "200") {
+          const arr = data2?.Data?.BillOpeningClosingBalance_Json;
+          if (arr?.length > 0) {
+            setGeneralLedgerData(arr[0]);
+          } else {
+            console.log("Data Not Found for second API");
+          }
+        } else {
+          const err2 = checkMsg(data2?.Message);
+          console.log(err2);
+        }
+
+        setLoader(false);
       } catch (error) {
-        console.error(error);
+        console.error("Error in API calls:", error);
+        setLoader(false);
       }
     };
+
     sendData();
   }, []);
 
@@ -326,12 +351,22 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     return <div dangerouslySetInnerHTML={{ __html: htmlContent }} />;
   }
 
-  const TotalfineWtss = (data || []).reduce((sum, item) => sum + (item?.fineWtss || 0),0);
-  const FinalTotalAmount = (data || []).reduce((sum, item) => sum + (item?.TotalAmount || 0),0);
-  const TotalDiscountAmt = (data || []).reduce((sum, item) => sum + (item?.DiscountAmt || 0),0);
+  const TotalfineWtss = (data || []).reduce(
+    (sum, item) => sum + (item?.fineWtss || 0),
+    0
+  );
+  const FinalTotalAmount = (data || []).reduce(
+    (sum, item) => sum + (item?.TotalAmount || 0),
+    0
+  );
+  const TotalDiscountAmt = (data || []).reduce(
+    (sum, item) => sum + (item?.DiscountAmt || 0),
+    0
+  );
   const FinalTotal = FinalTotalAmount + TotalDiscountAmt;
 
-  // console.log("data", data);
+  console.log("data", data);
+  // console.log("generalLedgerData", generalLedgerData);
   // console.log("json0Data", json0Data);
 
   return (
@@ -356,7 +391,9 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           <div className={`max_width_container mt-2 mx-auto px-1`}>
             <div className={``}>
               {/* Main Header */}
-              <div className={`w-100 fw-bold bgLightPink d-flex justify-content-center itemWisePrint1Font_16_total align-items-center brbxAll`}>
+              <div
+                className={`w-100 fw-bold bgLightPink d-flex justify-content-center itemWisePrint1Font_16_total align-items-center brbxAll`}
+              >
                 {json0Data?.PrintHeadLabel === ""
                   ? "INVOICE PRINT"
                   : json0Data?.PrintHeadLabel}
@@ -402,13 +439,14 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                   )}
                   {json0Data?.customeremail1 !== "" && (
-                    <div className="">
-                      {json0Data?.customeremail1}
-                    </div>
+                    <div className="">{json0Data?.customeremail1}</div>
                   )}
                 </div>
                 <div className="w30_inv2 spbrRht">
-                  <div className="d-flex itemWisePrintHead" style={{ paddingTop: "2px" }}>
+                  <div
+                    className="d-flex itemWisePrintHead"
+                    style={{ paddingTop: "2px" }}
+                  >
                     {json0Data?.InvoiceNo !== "" && (
                       <>
                         <div className="wdthHd spfntBld">INVOICE NO</div>
@@ -438,7 +476,9 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div
               className={`no_break bgLightPink d-flex spbrlFt spbrRht brBtom main_pad_item_wise_print itemWisePrintFont_11`}
             >
-              <div className={`metaltypeItemWisePrint1 spbrRht itemWisePrintHead`}>
+              <div
+                className={`metaltypeItemWisePrint1 spbrRht itemWisePrintHead`}
+              >
                 <p className="fw-bold" style={{ wordBreak: "normal" }}>
                   METAL TYPE
                 </p>
@@ -529,32 +569,42 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </p>
                     </div>
 
-                    <div className={`d-flex align-items-center justify-content-end pkgItemWisePrint1 spbrRht`}>
+                    <div
+                      className={`d-flex align-items-center justify-content-end pkgItemWisePrint1 spbrRht`}
+                    >
                       <p className="text-end">
                         {e?.SrJobno !== "" && e?.SrJobno}
                       </p>
                     </div>
 
-                    <div className={`d-flex align-items-center justify-content-end countItemWisePrint1 spbrRht`}>
+                    <div
+                      className={`d-flex align-items-center justify-content-end countItemWisePrint1 spbrRht`}
+                    >
                       <p className="text-end">
                         {NumberWithCommas(e?.count, 0)}
                       </p>
                     </div>
 
-                    <div className={`d-flex align-items-center justify-content-end gwtItemWisePrint1 spbrRht`}>
+                    <div
+                      className={`d-flex align-items-center justify-content-end gwtItemWisePrint1 spbrRht`}
+                    >
                       <p className="text-end">
                         {e?.grosswt !== 0 && NumberWithCommas(e?.grosswt, 3)}
                       </p>
                     </div>
 
-                    <div className={`d-flex align-items-center justify-content-end tnchItemWisePrint1 spbrRht`}>
+                    <div
+                      className={`d-flex align-items-center justify-content-end tnchItemWisePrint1 spbrRht`}
+                    >
                       <p className="text-end">
                         {e?.MetalPriceRatio + e?.Wastage !== 0 &&
                           NumberWithCommas(e?.MetalPriceRatio + e?.Wastage, 3)}
                       </p>
                     </div>
 
-                    <div className={`d-flex align-items-center justify-content-end spbrRht wastageItemWisePrint1`}>
+                    <div
+                      className={`d-flex align-items-center justify-content-end spbrRht wastageItemWisePrint1`}
+                    >
                       <p className="text-end">
                         {" "}
                         {e?.Wastage !== 0
@@ -563,21 +613,27 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </p>
                     </div>
 
-                    <div className={`d-flex align-items-center justify-content-end fineAmt1 spbrRht`}>
+                    <div
+                      className={`d-flex align-items-center justify-content-end fineAmt1 spbrRht`}
+                    >
                       <p className="text-end">
                         {/* {e?.FineWt !== 0 && e?.FineWt} */}
                         {NumberWithCommas(e?.fineWtss, 3)}
                       </p>
                     </div>
 
-                    <div className={`d-flex align-items-center justify-content-end makingItemWisePrint1 spbrRht`}>
+                    <div
+                      className={`d-flex align-items-center justify-content-end makingItemWisePrint1 spbrRht`}
+                    >
                       <p className="text-end">
                         {atob(printName).toLowerCase() !== "item wise print" &&
-                          NumberWithCommas(e?.MaKingCharge_Unit, 3)}
+                          NumberWithCommas(e?.MakingAmount, 3)}
                       </p>
                     </div>
 
-                    <div className={`d-flex align-items-center justify-content-end totalAmt1`}>
+                    <div
+                      className={`d-flex align-items-center justify-content-end totalAmt1`}
+                    >
                       <p className="text-end">
                         {e?.TotalAmount !== 0 &&
                           NumberWithCommas(e?.TotalAmount + e?.DiscountAmt, 2)}
@@ -590,17 +646,25 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div className="inExchngHeight spbrlFt spbrRht"></div>
 
             {/* Totals */}
-            <div className={`fw-bold w-100 no_break bgLightPink d-flex brTpm spbrlFt spbrRht brBtom itemWisePrintFont_11 d-flex flex-column`}>
+            <div
+              className={`fw-bold w-100 no_break bgLightPink d-flex brTpm spbrlFt spbrRht brBtom itemWisePrintFont_11 d-flex flex-column`}
+            >
               <div className="d-flex w-100">
                 <div className="WdthFrEqlCmon brBtom spbrRht"></div>
-                <div className="WdthFrEqlCmon brBtom spbrRht">Received Fine</div>
+                <div className="WdthFrEqlCmon brBtom spbrRht">
+                  Received Fine
+                </div>
                 <div className="WdthFrEqlCmon brBtom spbrRht">Sales Fine</div>
-                <div className="WdthAftrBlnc brBtom">{NumberWithCommas(FinalTotalAmount,2)}</div>
+                <div className="WdthAftrBlnc brBtom">
+                  {NumberWithCommas(FinalTotalAmount, 2)}
+                </div>
               </div>
               <div className="d-flex w-100">
                 <div className="WdthFrEqlCmon brBtom spbrRht"></div>
                 <div className="WdthFrEqlCmon brBtom spbrRht"></div>
-                <div className="WdthFrEqlCmon brBtom spbrRht">{fixedValues(TotalfineWtss,3)}</div>
+                <div className="WdthFrEqlCmon brBtom spbrRht">
+                  {fixedValues(TotalfineWtss, 3)}
+                </div>
                 <div className="WdthAftrBlnc brBtom"></div>
               </div>
               <div className="d-flex w-100">
@@ -625,26 +689,84 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className="WdthFrEqlCmon"></div>
                 <div className="WdthFrEqlCmon"></div>
                 <div className="WdthFrEqlCmon spbrRht">Bill Outstanding</div>
-                <div className="WdthAftrBlnc">{NumberWithCommas(FinalTotal,2)}</div>
+                <div className="WdthAftrBlnc">
+                  {NumberWithCommas(FinalTotal, 2)}
+                </div>
               </div>
             </div>
 
             {/* Opening Closing Balance */}
-            <div className={`fw-bold w-100 no_break d-flex itemWisePrintFont_11 d-flex flex-column`}>
+            <div
+              className={`fw-bold w-100 no_break d-flex itemWisePrintFont_11 d-flex flex-column`}
+            >
               <div className="d-flex w-100">
-                <div className="WdthAftrBlnc2">Opening Bal: </div>
+                <div className="WdthAftrBlnc2">
+                  <div className="SUBWdthAftrBlnc1">Opening Bal:</div>
+                  <div className="SUBWdthAftrBlnc2">
+                    {NumberWithCommas(generalLedgerData?.OpnAmt, 2)}
+                    <span className="spaceFrmlft">
+                      {generalLedgerData?.OpnAmtDrCr === "Dr"
+                        ? "BAKI"
+                        : generalLedgerData?.OpnAmtDrCr === "Cr"
+                        ? "JAMA"
+                        : ""}
+                    </span>
+                  </div>
+                </div>
                 <div className="WdthAftrBlnc1"></div>
-                <div className="WdthAftrBlnc2">Closing Bal: </div>
+                <div className="WdthAftrBlnc2">
+                  <div className="SUBWdthAftrBlnc1">Closing Bal:</div>
+                  <div className="SUBWdthAftrBlnc2">
+                    {NumberWithCommas(generalLedgerData?.BalAmt, 2)}
+                    <span className="spaceFrmlft">
+                      {generalLedgerData?.BalAmtDrCr === "Dr"
+                        ? "BAKI"
+                        : generalLedgerData?.BalAmtDrCr === "Cr"
+                        ? "JAMA"
+                        : ""}
+                    </span>
+                  </div>
+                </div>
               </div>
               <div className="d-flex w-100">
-                <div className="WdthAftrBlnc2">Opening Gold: </div>
+                <div className="WdthAftrBlnc2">
+                  <div className="SUBWdthAftrBlnc1">Opening Gold: </div>
+                  <div className="SUBWdthAftrBlnc2">
+                    {fixedValues(generalLedgerData?.OpnGold, 3)}
+                    <span className="spaceFrmlft">
+                      {generalLedgerData?.OpnGoldDrCr === "Dr"
+                        ? "BAKI"
+                        : generalLedgerData?.OpnGoldDrCr === "Cr"
+                        ? "JAMA"
+                        : ""}
+                    </span>
+                  </div>
+                </div>
                 <div className="WdthAftrBlnc1"></div>
-                <div className="WdthAftrBlnc2">Closing Gold bal: </div>
+                <div className="WdthAftrBlnc2">
+                  <div className="SUBWdthAftrBlnc1">Closing Gold bal:</div>
+                  <div className="SUBWdthAftrBlnc2">
+                    {fixedValues(generalLedgerData?.BalGold, 3)}
+                    <span className="spaceFrmlft">
+                      {generalLedgerData?.BalGoldDrCr === "Dr"
+                        ? "BAKI"
+                        : generalLedgerData?.BalGoldDrCr === "Cr"
+                        ? "JAMA"
+                        : ""}
+                    </span>
+                  </div>
+                </div>
               </div>
               <div className="d-flex w-100">
-                <div className="WdthAftrBlnc2">Delivery Person Name: {json0Data?.Name_Of_Transporter}</div>
+                <div className="WdthAftrBlnc2">
+                  <div className="SUBWdthAftrBlnc1">Delivery Person Name:</div>
+                  <div className="SUBWdthAftrBlnc2">{json0Data?.Name_Of_Transporter}</div>
+                </div>
                 <div className="WdthAftrBlnc1"></div>
-                <div className="WdthAftrBlnc2">Vehicle No.: {json0Data?.Vehicle_Number}</div>
+                <div className="WdthAftrBlnc2">
+                  <div className="SUBWdthAftrBlnc1">Vehicle No.:</div>
+                  <div className="SUBWdthAftrBlnc2">{json0Data?.Vehicle_Number}</div>
+                </div>
               </div>
             </div>
           </div>
