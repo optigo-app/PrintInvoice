@@ -343,6 +343,7 @@ export const EstimatePrints = [
   {printName: 'estimate print k', etpType: 'print', componentName: 'EstimatePrintK'},
   {printName: 'estimate 1', etpType: 'print', componentName: 'Estimation1'},
   {printName: 'packing list 7d group', etpType: 'print', componentName: 'PackingList7DGroup'},
+  {printName: 'detail print s', etpType: 'print', componentName: 'DetailPrintS'},
 ]
 
 export const HallMarkPrints = [
