@@ -779,14 +779,14 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
               </div>
               <div className="d-flex w-100">
-                <div className="WdthFrEqlCmon brBtom spbrRht">{json0Data?.Rate_Cut_Rate === 0 ? "" : `Rate Cut  Rate / 10gm : ${json0Data?.Rate_Cut_Rate}`}</div>
-                <div className="WdthFrEqlCmon brBtom spbrRht">{TotalReceivedFine === 0 ? "" : fixedValues(TotalReceivedFine,3)}</div>
+                <div className="WdthFrEqlCmon brBtom spbrRht">{(json0Data?.IsReceivedItem !== 1 || json0Data?.Rate_Cut_Rate === 0) ? "" : `Rate Cut  Rate / 10gm : ${json0Data?.Rate_Cut_Rate}`}</div>
+                <div className="WdthFrEqlCmon brBtom spbrRht">{(json0Data?.IsReceivedItem !== 1 || TotalReceivedFine === 0) ? "" : fixedValues(TotalReceivedFine,3)}</div>
                 <div className="WdthFrEqlCmon brBtom spbrRht">
                   {fixedValues(TotalfineWtss, 3)}
                 </div>
-                <div className="WdthAftrBlnc brBtom">{json0Data?.Rate_Cut_Rate === 0 ? "" : NumberWithCommas(ReceivedFineAmont,2)}</div>
+                <div className="WdthAftrBlnc brBtom">{(json0Data?.IsReceivedItem !== 1 || json0Data?.Rate_Cut_Rate === 0) ? "" : NumberWithCommas(ReceivedFineAmont,2)}</div>
               </div>
-              {json0Data?.Cash !== 0 && (
+              {(json0Data?.IsReceivedItem !== 1 && json0Data?.Cash !== 0) ? ( "" ) :(
                 <div className="d-flex w-100">
                   <div className="WdthFrEqlCmon brBtom spbrRht">Cash</div>
                   <div className="WdthFrEqlCmon brBtom spbrRht"></div>
@@ -794,7 +794,7 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="WdthAftrBlnc brBtom">{NumberWithCommas(json0Data?.Cash,2)}</div>
                 </div>
               )}
-              {json0Data?.Bank !== 0 && (
+              {(json0Data?.IsReceivedItem !== 1 && json0Data?.Bank !== 0) ? ( "" ) :(
                 <div className="d-flex w-100">
                   <div className="WdthFrEqlCmon brBtom spbrRht">Bank</div>
                   <div className="WdthFrEqlCmon brBtom spbrRht"></div>
@@ -802,7 +802,7 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="WdthAftrBlnc brBtom">{NumberWithCommas(json0Data?.Bank,2)}</div>
                 </div>
               )}
-              {json0Data?.Cheque !== 0 && (
+              {(json0Data?.IsReceivedItem !== 1 && json0Data?.Cheque !== 0) ? ( "" ) :(
                 <div className="d-flex w-100">
                   <div className="WdthFrEqlCmon brBtom spbrRht">Cheque</div>
                   <div className="WdthFrEqlCmon brBtom spbrRht"></div>
@@ -815,7 +815,7 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className="WdthFrEqlCmon"></div>
                 <div className="WdthFrEqlCmon spbrRht">Bill Outstanding</div>
                 <div className="WdthAftrBlnc">
-                  {NumberWithCommas(FinalTotal - (json0Data?.Cheque + json0Data?.Cash + json0Data?.Bank + ReceivedFineAmont),2)}
+                  {NumberWithCommas(json0Data?.IsReceivedItem !== 1 ? FinalTotal : FinalTotal - (json0Data?.Cheque + json0Data?.Cash + json0Data?.Bank + ReceivedFineAmont),2)}
                 </div>
               </div>
             </div>

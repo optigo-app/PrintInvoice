@@ -7,6 +7,7 @@ import {
   formatAmount,
   handleImageError,
   isObjectEmpty,
+  NumberWithCommas,
 } from "../../GlobalFunctions";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import Loader from "../../components/Loader";
@@ -26,7 +27,6 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
   const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
-
   const [secondarySize, setSecondarySize] = useState(false);
 
   useEffect(() => {
@@ -384,6 +384,16 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setIsImageWorking(false);
   };
 
+  function PrintableText({ result }) {
+    const htmlContent = result?.header?.Printlable?.replace(/\n/g, '<br />');
+  
+    return (
+      <div
+        dangerouslySetInnerHTML={{ __html: htmlContent }}
+      />
+    );
+  }
+
   console.log("resultresult", result);
 
   return (
@@ -494,9 +504,10 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className="fs_14_pcls fw-bold">
                   {result?.header?.customerfirmname}
                 </div>
-                {result?.header?.address?.map((e, i) => {
+                {result?.header?.Printlable !== "" && ( <div><PrintableText result={result} /></div> )}
+                {/* {result?.header?.address?.map((e, i) => {
                   return <div key={i}>{e}</div>;
-                })}
+                })} */}
                 {/* <div>{result?.header?.CustName}</div>
                     <div>{result?.header?.customercity}</div>
                     <div>{result?.header?.customercountry}{result?.header?.customerpincode}</div>
@@ -695,7 +706,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {e?.diamonds?.map((el, ind) => {
                           return (
                             <div className="d-flex w-100" key={ind}>
-                              <div className="dcol1_pcls start_center_pcls pdl_pcls">
+                              <div className="dcol1_pcls spbrWord start_center_pcls pdl_pcls">
                                 {el?.ShapeName +
                                   " " +
                                   el?.QualityName +
@@ -705,7 +716,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               <div className="dcol2_pcls start_center_pcls pdl_pcls">
                                 {secondarySize
                                   ? el?.SecondarySize
-                                  : el?.SizeName}
+                                  : el?.SizeName.toLowerCase() === "custom" ? `C: ${el?.CustomSize}`: el?.SizeName}
                               </div>
                               <div className="dcol3_pcls end_pcls pdr_pcls">
                                 {el?.Pcs}
@@ -756,7 +767,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <>
                               {el?.IsPrimaryMetal === 1 ? (
                                 <div className="d-flex w-100" key={ind}>
-                                  <div className="mcol1_pcls start_center_pcls pdl_pcls">
+                                  <div className="mcol1_pcls spbrWord start_center_pcls pdl_pcls">
                                     {el?.ShapeName + " " + el?.QualityName}
                                   </div>
                                   <div className="mcol2_pcls end_pcls pdr_pcls">
@@ -825,7 +836,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {data?.Supplier === "Customer" && (
                                 <div style={{ display: "flex" }}>
                                   <div style={{ width: "37%" }}>
-                                    <p>
+                                    <p className="spbrWord">
                                       {data?.FindingTypename +
                                         " " +
                                         data?.QualityName}
@@ -923,7 +934,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {e?.colorstone?.map((el, ind) => {
                           return (
                             <div className="d-flex w-100" key={ind}>
-                              <div className="dcol1_pcls start_center_pcls pdl_pcls">
+                              <div className="dcol1_pcls spbrWord start_center_pcls pdl_pcls">
                                 {el?.ShapeName +
                                   " " +
                                   el?.QualityName +
@@ -955,7 +966,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {e?.misc_0List?.map((el, ind) => {
                           return (
                             <div className="d-flex w-100" key={ind}>
-                              <div className="dcol1_pcls start_center_pcls pdl_pcls">
+                              <div className="dcol1_pcls spbrWord start_center_pcls pdl_pcls">
                                 {el?.ShapeName?.length !== 0 && "M : "}
                                 {el?.ShapeName + " " + el?.QualityName}
                               </div>
@@ -1039,7 +1050,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {e?.other_details_array?.map((ele, inds) => {
                           return (
                             <div className="d-flex w-100" key={inds}>
-                              <div className="w-75 start_center_pcls pdl_pcls text-break">
+                              <div className="w-75 spbrWord start_center_pcls pdl_pcls text-break">
                                 {ele?.label}
                               </div>
                               <div className="w-25 end_pcls pdr_pcls">
@@ -1053,7 +1064,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <>
                               {ele?.Amount !== 0 && (
                                 <div className="d-flex w-100" key={inds}>
-                                  <div className="w-50 start_center_pcls pdl_pcls text-break">
+                                  <div className="w-50 spbrWord start_center_pcls pdl_pcls text-break">
                                     {ele?.ShapeName}
                                   </div>
                                   <div className="w-50 end_pcls pdr_pcls">
@@ -1072,7 +1083,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <>
                               {ele?.Amount !== 0 && (
                                 <div className="d-flex w-100" key={inds}>
-                                  <div className="w-50 start_center_pcls pdl_pcls text-break">
+                                  <div className="w-50 spbrWord start_center_pcls pdl_pcls text-break">
                                     {ele?.ShapeName}
                                   </div>
                                   <div className="w-50 end_pcls pdr_pcls">
@@ -1091,7 +1102,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <>
                               {ele?.Amount !== 0 && (
                                 <div className="d-flex w-100" key={inds}>
-                                  <div className="w-50 start_center_pcls pdl_pcls text-break">
+                                  <div className="w-50 spbrWord start_center_pcls pdl_pcls text-break">
                                     {ele?.ShapeName}
                                   </div>
                                   <div className="w-50 end_pcls pdr_pcls">
@@ -1667,8 +1678,9 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="w-50 fw-bold">OTHER </div>
                       <div className="w-50 end_dp10">
                         {formatAmount(
-                          result?.mainTotal?.OtherCharges /
-                          result?.header?.CurrencyExchRate
+                          result?.mainTotal?.OtherCharges +
+                          result?.mainTotal?.misc?.IsHSCODE_1_amount +
+                          result?.mainTotal?.misc?.IsHSCODE_3_amount, 2
                         )}
                       </div>
                     </div>
@@ -1746,7 +1758,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       RATE IN 24KT
                     </div>
                     <div className="w-50 end_dp10 fsgdp10 tb_fs_pcls">
-                      {result?.header?.MetalRate24K?.toFixed(2)}
+                      {NumberWithCommas(result?.header?.MetalRate24K,2)}
                     </div>
                   </div>
                   <div>
