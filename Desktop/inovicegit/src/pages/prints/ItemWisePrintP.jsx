@@ -803,29 +803,33 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
                 <div className="WdthAftrBlnc brBtom">{(json0Data?.IsReceivedItem !== 1 || json0Data?.Rate_Cut_Rate === 0) ? "" : NumberWithCommas(ReceivedFineAmont,2)}</div>
               </div>
-              {(json0Data?.IsReceivedItem !== 1 && json0Data?.Cash !== 0) ? ( "" ) :(
-                <div className="d-flex w-100">
-                  <div className="WdthFrEqlCmon brBtom spbrRht">Cash</div>
-                  <div className="WdthFrEqlCmon brBtom spbrRht"></div>
-                  <div className="WdthFrEqlCmon brBtom spbrRht"></div>
-                  <div className="WdthAftrBlnc brBtom">{NumberWithCommas(json0Data?.Cash,2)}</div>
-                </div>
-              )}
-              {(json0Data?.IsReceivedItem !== 1 && json0Data?.Bank !== 0) ? ( "" ) :(
-                <div className="d-flex w-100">
-                  <div className="WdthFrEqlCmon brBtom spbrRht">Bank</div>
-                  <div className="WdthFrEqlCmon brBtom spbrRht"></div>
-                  <div className="WdthFrEqlCmon brBtom spbrRht"></div>
-                  <div className="WdthAftrBlnc brBtom">{NumberWithCommas(json0Data?.Bank,2)}</div>
-                </div>
-              )}
-              {(json0Data?.IsReceivedItem !== 1 && json0Data?.Cheque !== 0) ? ( "" ) :(
-                <div className="d-flex w-100">
-                  <div className="WdthFrEqlCmon brBtom spbrRht">Cheque</div>
-                  <div className="WdthFrEqlCmon brBtom spbrRht"></div>
-                  <div className="WdthFrEqlCmon brBtom spbrRht"></div>
-                  <div className="WdthAftrBlnc brBtom">{NumberWithCommas(json0Data?.Cheque,2)}</div>
-                </div>
+              {json0Data?.IsReceivedItem !== 1  ? ( "" ) : (
+                <>
+                  {json0Data?.Cash !== 0 && (
+                    <div className="d-flex w-100">
+                      <div className="WdthFrEqlCmon brBtom spbrRht">Cash</div>
+                      <div className="WdthFrEqlCmon brBtom spbrRht"></div>
+                      <div className="WdthFrEqlCmon brBtom spbrRht"></div>
+                      <div className="WdthAftrBlnc brBtom">{NumberWithCommas(json0Data?.Cash,2)}</div>
+                    </div>
+                  )}
+                  {json0Data?.Bank !== 0 && (
+                    <div className="d-flex w-100">
+                      <div className="WdthFrEqlCmon brBtom spbrRht">Bank</div>
+                      <div className="WdthFrEqlCmon brBtom spbrRht"></div>
+                      <div className="WdthFrEqlCmon brBtom spbrRht"></div>
+                      <div className="WdthAftrBlnc brBtom">{NumberWithCommas(json0Data?.Bank,2)}</div>
+                    </div>
+                  )}
+                  {json0Data?.Cheque !== 0 && (
+                    <div className="d-flex w-100">
+                      <div className="WdthFrEqlCmon brBtom spbrRht">Cheque</div>
+                      <div className="WdthFrEqlCmon brBtom spbrRht"></div>
+                      <div className="WdthFrEqlCmon brBtom spbrRht"></div>
+                      <div className="WdthAftrBlnc brBtom">{NumberWithCommas(json0Data?.Cheque,2)}</div>
+                    </div>
+                  )}
+                </>
               )}
               <div className="d-flex w-100">
                 <div className="WdthFrEqlCmon"></div>
