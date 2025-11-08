@@ -374,7 +374,7 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   // console.log("data", data);
   // console.log("generalLedgerData", generalLedgerData);
-  // console.log("json0Data", json0Data);
+  console.log("json0Data", json0Data);
 
   return (
     <>
@@ -413,8 +413,11 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       {json0Data?.CompanyFullName}
                     </div>
                   )}
-                  {json0Data?.customerAddress1 !== "" && (
-                    <div>{json0Data?.customerAddress1}</div>
+                  {json0Data?.CompanyAddress !== "" && (
+                    <div>{json0Data?.CompanyAddress}</div>
+                  )}
+                  {json0Data?.CompanyAddress2 !== "" && (
+                    <div>{json0Data?.CompanyAddress2}</div>
                   )}
                   <div className="">
                     {json0Data?.CompanyCity}{" "}
@@ -431,6 +434,7 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="">T {json0Data?.CompanyTellNo}</div>
                   )}
                 </div>
+
                 <div className="w2_inv2 itemWisePrintHead">
                   <div style={{ paddingTop: "2px" }}></div>
                   {json0Data?.customerfirmname !== "" && (
@@ -438,15 +442,28 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       {json0Data?.customerfirmname}
                     </div>
                   )}
-                  {json0Data?.Printlable !== "" && (
+                  {/* {json0Data?.Printlable !== "" && (
                     <div>
                       <PrintableText json0Data={json0Data} />
                     </div>
+                  )} */}
+                  {json0Data?.customerAddress1 !== "" && (
+                    <div className="">{json0Data?.customerAddress1}</div>
+                  )}
+                  {json0Data?.customerAddress2 !== "" && (
+                    <div className="">{json0Data?.customerAddress2}</div>
+                  )}
+                  {json0Data?.customerAddress3 !== "" && (
+                    <div className="">{json0Data?.customerAddress3}</div>
+                  )}
+                  {(json0Data?.customercity1 !== "" || json0Data?.customerpincode !== "" ) && (
+                    <div className="">{json0Data?.customercity1} {json0Data?.customerpincode}</div>
                   )}
                   {json0Data?.customeremail1 !== "" && (
                     <div className="">{json0Data?.customeremail1}</div>
                   )}
                 </div>
+
                 <div className="w30_inv2 spbrRht">
                   <div
                     className="d-flex itemWisePrintHead"
