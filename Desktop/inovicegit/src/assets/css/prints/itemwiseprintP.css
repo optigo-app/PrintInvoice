@@ -37,14 +37,14 @@ html {
 }
 
 .tnchItemWisePrint1 {
-    width: 8.35%;
-    min-width: 8.35%;
+    width: 8.80%;
+    min-width: 8.75%;
     padding: 1px 3px;
 }
 
 .wastageItemWisePrint1 {
-    width: 9.90%;
-    min-width: 9.90%;
+    width: 9.45%;
+    min-width: 9.50%;
     padding: 1px 3px;
 }
 
@@ -55,14 +55,14 @@ html {
 }
 
 .makingItemWisePrint1 {
-    width: 10.75%;
-    min-width: 10.75%;
+    width: 10.95%;
+    min-width: 10.95%;
     padding: 1px 3px;
 }
 
 .totalAmt1 {
-    width: 13%;
-    min-width: 13%;
+    width: 12.80%;
+    min-width: 12.80%;
     padding: 1px;
 }
 
@@ -191,7 +191,15 @@ html {
 }
 
 .inExchngHeight {
-    height: 100px;
+    height: 80px;
+}
+
+.inExchngMinHeight {
+    min-height: 18px;
+}
+
+.spcFrRecvdItm {
+    padding: 3px 0px;
 }
 
 @media print {
@@ -248,6 +256,10 @@ html {
         padding-left: 8px;
     }
 
+    .inExchngMinHeight {
+        min-height: 16px;
+    }
+
     @media (max-width: 160mm) {
         /* fits A5 */
         @page {
@@ -259,7 +271,7 @@ html {
         }
 
         .inExchngHeight {
-            height: 70px;
+            height: 60px;
         }
     
         .itemWisePrintHead {

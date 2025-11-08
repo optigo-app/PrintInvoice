@@ -311,14 +311,16 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           setMsg(err);
         }
 
-        //Call the second API
-        const secondUrl =
-          "http://nzen/jo/api-lib/App/BillOpeningClosingBalance_Json";
+        // Changing Only Last Name In First API's URL, As Told Per Mahesh Sir On 07/11/2025_4:00_PM
+        const firstApiUrl = urls;
+        const newUrl = firstApiUrl.replace('SaleBill_Json', 'BillOpeningClosingBalance_Json');
+        // console.log("newUrl", newUrl);
+        
         const data2 = await apiCall(
           token,
           invoiceNo,
           printName,
-          secondUrl,
+          newUrl,
           evn,
           ApiVer
         );
@@ -364,8 +366,13 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     0
   );
   const FinalTotal = FinalTotalAmount + TotalDiscountAmt;
+  
+  const FirstMetalFine = json0Data?.Tunch_1 === 0 ? 0 : (json0Data?.Metal_Wt_1 ?? 0) * (json0Data?.Tunch_1 ?? 0) / 100;
+  const SecondMetalFine = json0Data?.Tunch_2 === 0 ? 0 : (json0Data?.Metal_Wt_2 ?? 0) * (json0Data?.Tunch_2 ?? 0) / 100;
+  const TotalReceivedFine = FirstMetalFine + SecondMetalFine;
+  const ReceivedFineAmont = json0Data?.Rate_Cut_Rate / 10 * TotalReceivedFine;
 
-  console.log("data", data);
+  // console.log("data", data);
   // console.log("generalLedgerData", generalLedgerData);
   // console.log("json0Data", json0Data);
 
@@ -391,9 +398,7 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           <div className={`max_width_container mt-2 mx-auto px-1`}>
             <div className={``}>
               {/* Main Header */}
-              <div
-                className={`w-100 fw-bold bgLightPink d-flex justify-content-center itemWisePrint1Font_16_total align-items-center brbxAll`}
-              >
+              <div className={`w-100 fw-bold bgLightPink d-flex justify-content-center itemWisePrint1Font_16_total align-items-center brbxAll`}>
                 {json0Data?.PrintHeadLabel === ""
                   ? "INVOICE PRINT"
                   : json0Data?.PrintHeadLabel}
@@ -473,12 +478,8 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
 
             {/* Table Heading */}
-            <div
-              className={`no_break bgLightPink d-flex spbrlFt spbrRht brBtom main_pad_item_wise_print itemWisePrintFont_11`}
-            >
-              <div
-                className={`metaltypeItemWisePrint1 spbrRht itemWisePrintHead`}
-              >
+            <div className={`no_break bgLightPink d-flex spbrlFt spbrRht brBtom main_pad_item_wise_print itemWisePrintFont_11`}>
+              <div className={`metaltypeItemWisePrint1 spbrRht itemWisePrintHead`}>
                 <p className="fw-bold" style={{ wordBreak: "normal" }}>
                   METAL TYPE
                 </p>
@@ -643,7 +644,125 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 );
               })}
 
-            <div className="inExchngHeight spbrlFt spbrRht"></div>
+            {json0Data?.IsReceivedItem !== 1 ? ( 
+              <div className="w-100 inExchngHeight spbrlFt spbrRht"></div>
+            ) : ( 
+              <>
+                <div className="w-100 fw-bold d-flex justify-content-center spbrlFt brBtom spbrRht spfntsZ inExchngMinHeight spcFrRecvdItm">Received Item</div>
+                <div className="w-100 d-flex spbrlFt spbrRht itemWisePrintFont_tab_14 brBtom">
+                  <div className={`metaltypeItemWisePrint1 spbrRht inExchngMinHeight`}>
+                    <p className="" style={{ wordBreak: "normal" }}>
+                      {json0Data?.Metal_Type_1 !== "" && json0Data?.Metal_Type_1}
+                    </p>
+                  </div>
+
+                  <div className={`categoryItemWisePrint1 spbrRht`}>
+                    <p className="" style={{ wordBreak: "normal" }}>
+                      {json0Data?.Description_1 !== "" && json0Data?.Description_1}
+                    </p>
+                  </div>
+
+                  <div className={`pkgItemWisePrint1 spbrRht`}>
+                    <p className="" style={{ wordBreak: "normal" }}>
+                    </p>
+                  </div>
+
+                  <div className={`countItemWisePrint1 spbrRht`}>
+                    <p className="" style={{ wordBreak: "normal" }}>
+                    </p>
+                  </div>
+
+                  <div className={`gwtItemWisePrint1 spbrRht text-end`}>
+                    <p className="" style={{ wordBreak: "normal" }}>
+                      {json0Data?.Metal_Wt_1 === 0? "" : fixedValues(json0Data?.Metal_Wt_1,3)}
+                    </p>
+                  </div>
+
+                  <div className={`tnchItemWisePrint1 spbrRht text-end`}>
+                    <p className="" style={{ wordBreak: "normal" }}>
+                      {json0Data?.Tunch_1 === 0? "" : fixedValues(json0Data?.Tunch_1,3)}
+                    </p>
+                  </div>
+
+                  <div className={`wastageItemWisePrint1 spbrRht`}>
+                    <p className="" style={{ wordBreak: "normal" }}>
+                    </p>
+                  </div>
+
+                  <div className={`fineAmt1 spbrRht text-end`}>
+                    <p className="" style={{ wordBreak: "normal" }}>
+                      {FirstMetalFine === 0 ? "" : fixedValues(FirstMetalFine,3)}
+                    </p>
+                  </div>
+
+                  <div className={`makingItemWisePrint1 spbrRht`}>
+                    <p className="" style={{ wordBreak: "normal" }}>
+                    </p>
+                  </div>
+
+                  <div className={`totalAmt1`}>
+                    <p className="" style={{ wordBreak: "normal" }}>
+                    </p>
+                  </div>
+                </div>
+                <div className="w-100 d-flex spbrlFt spbrRht itemWisePrintFont_tab_14">
+                  <div className={`metaltypeItemWisePrint1 spbrRht inExchngMinHeight`}>
+                    <p className="" style={{ wordBreak: "normal" }}>
+                      {json0Data?.Metal_Type_2 !== "" && json0Data?.Metal_Type_2}
+                    </p>
+                  </div>
+
+                  <div className={`categoryItemWisePrint1 spbrRht`}>
+                    <p className="" style={{ wordBreak: "normal" }}>
+                      {json0Data?.Description_2 !== "" && json0Data?.Description_2}
+                    </p>
+                  </div>
+
+                  <div className={`pkgItemWisePrint1 spbrRht`}>
+                    <p className="" style={{ wordBreak: "normal" }}>
+                    </p>
+                  </div>
+
+                  <div className={`countItemWisePrint1 spbrRht`}>
+                    <p className="" style={{ wordBreak: "normal" }}>
+                    </p>
+                  </div>
+
+                  <div className={`gwtItemWisePrint1 spbrRht text-end`}>
+                    <p className="" style={{ wordBreak: "normal" }}>
+                      {json0Data?.Metal_Wt_2 === 0 ? "" : fixedValues(json0Data?.Metal_Wt_2,3)}
+                    </p>
+                  </div>
+
+                  <div className={`tnchItemWisePrint1 spbrRht text-end`}>
+                    <p className="" style={{ wordBreak: "normal" }}>
+                      {json0Data?.Tunch_2 === 0? "" : fixedValues(json0Data?.Tunch_2,3)}
+                    </p>
+                  </div>
+
+                  <div className={`wastageItemWisePrint1 spbrRht`}>
+                    <p className="" style={{ wordBreak: "normal" }}>
+                    </p>
+                  </div>
+
+                  <div className={`fineAmt1 spbrRht text-end`}>
+                    <p className="" style={{ wordBreak: "normal" }}>
+                      {SecondMetalFine === 0 ? "" : fixedValues(SecondMetalFine,3)}
+                    </p>
+                  </div>
+
+                  <div className={`makingItemWisePrint1 spbrRht`}>
+                    <p className="" style={{ wordBreak: "normal" }}>
+                    </p>
+                  </div>
+
+                  <div className={`totalAmt1`}>
+                    <p className="" style={{ wordBreak: "normal" }}>
+                    </p>
+                  </div>
+                </div>
+              </>
+            )}
 
             {/* Totals */}
             <div
@@ -660,37 +779,43 @@ const ItemWisePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
               </div>
               <div className="d-flex w-100">
-                <div className="WdthFrEqlCmon brBtom spbrRht"></div>
-                <div className="WdthFrEqlCmon brBtom spbrRht"></div>
+                <div className="WdthFrEqlCmon brBtom spbrRht">{json0Data?.Rate_Cut_Rate === 0 ? "" : `Rate Cut  Rate / 10gm : ${json0Data?.Rate_Cut_Rate}`}</div>
+                <div className="WdthFrEqlCmon brBtom spbrRht">{TotalReceivedFine === 0 ? "" : fixedValues(TotalReceivedFine,3)}</div>
                 <div className="WdthFrEqlCmon brBtom spbrRht">
                   {fixedValues(TotalfineWtss, 3)}
                 </div>
-                <div className="WdthAftrBlnc brBtom"></div>
+                <div className="WdthAftrBlnc brBtom">{json0Data?.Rate_Cut_Rate === 0 ? "" : NumberWithCommas(ReceivedFineAmont,2)}</div>
               </div>
-              <div className="d-flex w-100">
-                <div className="WdthFrEqlCmon brBtom spbrRht">Cash</div>
-                <div className="WdthFrEqlCmon brBtom spbrRht"></div>
-                <div className="WdthFrEqlCmon brBtom spbrRht"></div>
-                <div className="WdthAftrBlnc brBtom"></div>
-              </div>
-              <div className="d-flex w-100">
-                <div className="WdthFrEqlCmon brBtom spbrRht">Bank</div>
-                <div className="WdthFrEqlCmon brBtom spbrRht"></div>
-                <div className="WdthFrEqlCmon brBtom spbrRht"></div>
-                <div className="WdthAftrBlnc brBtom"></div>
-              </div>
-              <div className="d-flex w-100">
-                <div className="WdthFrEqlCmon brBtom spbrRht">Cheque</div>
-                <div className="WdthFrEqlCmon brBtom spbrRht"></div>
-                <div className="WdthFrEqlCmon brBtom spbrRht"></div>
-                <div className="WdthAftrBlnc brBtom"></div>
-              </div>
+              {json0Data?.Cash !== 0 && (
+                <div className="d-flex w-100">
+                  <div className="WdthFrEqlCmon brBtom spbrRht">Cash</div>
+                  <div className="WdthFrEqlCmon brBtom spbrRht"></div>
+                  <div className="WdthFrEqlCmon brBtom spbrRht"></div>
+                  <div className="WdthAftrBlnc brBtom">{NumberWithCommas(json0Data?.Cash,2)}</div>
+                </div>
+              )}
+              {json0Data?.Bank !== 0 && (
+                <div className="d-flex w-100">
+                  <div className="WdthFrEqlCmon brBtom spbrRht">Bank</div>
+                  <div className="WdthFrEqlCmon brBtom spbrRht"></div>
+                  <div className="WdthFrEqlCmon brBtom spbrRht"></div>
+                  <div className="WdthAftrBlnc brBtom">{NumberWithCommas(json0Data?.Bank,2)}</div>
+                </div>
+              )}
+              {json0Data?.Cheque !== 0 && (
+                <div className="d-flex w-100">
+                  <div className="WdthFrEqlCmon brBtom spbrRht">Cheque</div>
+                  <div className="WdthFrEqlCmon brBtom spbrRht"></div>
+                  <div className="WdthFrEqlCmon brBtom spbrRht"></div>
+                  <div className="WdthAftrBlnc brBtom">{NumberWithCommas(json0Data?.Cheque,2)}</div>
+                </div>
+              )}
               <div className="d-flex w-100">
                 <div className="WdthFrEqlCmon"></div>
                 <div className="WdthFrEqlCmon"></div>
                 <div className="WdthFrEqlCmon spbrRht">Bill Outstanding</div>
                 <div className="WdthAftrBlnc">
-                  {NumberWithCommas(FinalTotal, 2)}
+                  {NumberWithCommas(FinalTotal - (json0Data?.Cheque + json0Data?.Cash + json0Data?.Bank + ReceivedFineAmont),2)}
                 </div>
               </div>
             </div>
