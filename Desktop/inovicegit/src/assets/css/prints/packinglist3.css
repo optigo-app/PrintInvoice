@@ -106,7 +106,7 @@
 .end_pcls{
     display: flex;
     justify-content: flex-end;
-    align-items: center;
+    /* align-items: center; */
 }
 .start_center_pcls{
     display: flex;

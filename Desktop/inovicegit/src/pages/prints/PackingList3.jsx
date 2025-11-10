@@ -10,7 +10,6 @@ import {
   isObjectEmpty,
   NumberWithCommas,
 } from "../../GlobalFunctions";
-import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import Loader from "../../components/Loader";
 import "../../assets/css/prints/packinglist3.css";
 import Button from "./../../GlobalFunctions/Button";
@@ -399,8 +398,23 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     const calculation = e?.MaKingCharge_Unit * e?.totals?.metal?.Wt;
     return acc + (calculation || 0);
   }, 0);
+
+  const totalMetalSummaryAmount = result?.resultArray?.reduce((totalAcc, item) => {
+    const primaryMetal = item?.metal?.find(m => m?.IsPrimaryMetal === 1);
+    const primaryRate = primaryMetal?.Rate || 0;
   
-  console.log("resultresult", result);
+    const itemTotal = item?.metal?.reduce((acc, m) => {
+      const rateToUse = primaryRate;
+      const amount = (m?.Wt || 0) * (rateToUse || 0);
+      return acc + amount;
+    }, 0);
+  
+    return totalAcc + itemTotal;
+  }, 0);  
+  
+  // console.log("totalMetalSummaryAmount", totalMetalSummaryAmount);
+  // console.log("totalMakingAmount", totalMakingAmount);
+  // console.log("resultresult", result); 
 
   return (
     <>
@@ -786,10 +800,11 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                       {/* : (e?.NetWt - e?.totals?.finding?.Wt - e?.finding_customer_wt - e?.LossWt)?.toFixed(3)} //08/11/2025 */}
                                   </div>
                                   <div className="mcol4_pcls end_pcls pdr_pcls">
-                                    {formatAmount(
+                                    {formatAmount(el?.Rate)}
+                                    {/* {formatAmount(
                                       el?.Rate /
                                       result?.header?.CurrencyExchRate
-                                    )}
+                                    )} //10/11/2025 */}
                                   </div>
                                   <div className="mcol5_pcls end_pcls pdr_pcls fw-bold">
                                     {formatAmount(
@@ -799,9 +814,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         e?.specialFinding?.FindingTypename?.toLowerCase()?.includes(
                                           "hook"
                                         )
-                                        ? (e?.NetWt * e?.metal_rate) /
-                                        result?.header?.CurrencyExchRate
-                                        : (el?.Amount -  e?.LossAmt) / result?.header?.CurrencyExchRate
+                                        ? (e?.NetWt * e?.metal_rate) / result?.header?.CurrencyExchRate 
+                                        : (el?.Wt * el?.Rate) - e?.LossAmt
                                         // 08/11/2025
                                         // : (el?.Amount -
                                         //   (e?.totals?.finding?.Wt *
@@ -893,7 +907,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                             <div className="mcol5_pcls end_pcls pdr_pcls fw-bold">
                               {formatAmount(
-                                e?.LossAmt / result?.header?.CurrencyExchRate
+                                e?.LossAmt // / result?.header?.CurrencyExchRate 10/11/2025
                               )}
                             </div>
                           </div>
@@ -1374,13 +1388,12 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   })}
                   <div className="w-100 d-flex align-items-center tb_fs_pcls">
                     <div style={{ width: "50%" }} className="end_pcls pdr_pcls">
-                      {result?.header?.AddLess >= 0 ? "Add" : "Less"}
+                      {result?.header?.AddLess > 0 ? "Add" : result?.header?.AddLess < 0 ? "Less" : "" }
                     </div>
                     <div style={{ width: "50%" }} className="end_pcls pdr_pcls">
-                      {formatAmount(
-                        result?.header?.AddLess /
-                        result?.header?.CurrencyExchRate
-                      )}
+                    {result?.header?.AddLess !== 0 &&
+                      formatAmount(result?.header?.AddLess / result?.header?.CurrencyExchRate  
+                    )}
                     </div>
                   </div>
                   {result?.header?.FreightCharges !== 0 && (
@@ -1395,9 +1408,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         style={{ width: "50%" }}
                         className="end_pcls pdr_pcls"
                       >
-                        {formatAmount(
-                          result?.header?.FreightCharges /
-                          result?.header?.CurrencyExchRate
+                        {result?.header?.FreightCharges !== 0 && 
+                          formatAmount(result?.header?.FreightCharges / result?.header?.CurrencyExchRate
                         )}
                       </div>
                     </div>
@@ -1606,18 +1618,41 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {result?.mainTotal?.colorstone?.Wt?.toFixed(3)} cts
                       </div>
                     </div>
+                    <div className="d-flex justify-content-between px-1">
+                      <div className="w-50 fw-bold">MISC WT</div>
+                      <div className="w-50 end_dp10 pe-1">
+                        {result?.mainTotal?.misc?.Pcs} /{" "}
+                        {result?.mainTotal?.misc?.Wt?.toFixed(3)} gm
+                      </div>
+                    </div>
                   </div>
                   <div className="w-50 bright_dp10 tb_fs_pcls">
                     <div className="d-flex justify-content-between px-1">
                       <div className="w-50 fw-bold">GOLD</div>
                       <div className="w-50 end_dp10">
                         {formatAmount(
+                          totalMetalSummaryAmount - result?.mainTotal?.LossAmt
+                        )}
+                        {/* {formatAmount(
                           (result?.mainTotal?.metal?.Amount -
                             notGoldMetalTotal) /
                           result?.header?.CurrencyExchRate
-                        )}
+                        )} //10/11/2025 */}
                       </div>
                     </div>
+                    {result?.resultArray?.map((item, i) => {
+                      const primaryMetal = item?.metal?.find(m => m?.IsPrimaryMetal === 1);
+                      // console.log("primaryMetal", primaryMetal);
+                      
+                      return item?.metal
+                        ?.filter(m => m?.IsPrimaryMetal !== 1) 
+                        ?.map((m, j) => ( 
+                          <div className="d-flex justify-content-between px-1" key={`${i}-${j}`}> 
+                            <div className="w-50 fw-bold">{m?.ShapeName}</div> 
+                            <div className="w-50 end_dp10"> {formatAmount(primaryMetal?.Rate * m?.Wt)} </div> 
+                          </div>
+                        ));
+                    })}
                     {MetShpWise?.map((e, i) => {
                       return (
                         <div
@@ -1665,7 +1700,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="w-50 fw-bold">MAKING </div>
                       <div className="w-50 end_dp10">
                         {formatAmount(
-                          (result?.mainTotal?.MakingAmount +
+                          (totalMakingAmount +
                             result?.mainTotal?.diamonds?.SettingAmount +
                             result?.mainTotal?.colorstone?.SettingAmount) /
                           result?.header?.CurrencyExchRate
