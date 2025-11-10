@@ -4,6 +4,7 @@ import { useState } from "react";
 import {
   apiCall,
   checkMsg,
+  fixedValues,
   formatAmount,
   handleImageError,
   isObjectEmpty,
@@ -394,6 +395,11 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     );
   }
 
+  const totalMakingAmount = result?.resultArray?.reduce((acc, e) => {
+    const calculation = e?.MaKingCharge_Unit * e?.totals?.metal?.Wt;
+    return acc + (calculation || 0);
+  }, 0);
+  
   console.log("resultresult", result);
 
   return (
@@ -774,16 +780,10 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     {e?.grosswt?.toFixed(3)}
                                   </div>
                                   <div className="mcol3_pcls end_pcls pdr_pcls">
-                                    {e?.specialFinding?.FindingTypename?.toLowerCase()?.includes(
-                                      "chain"
-                                    ) ||
-                                      e?.specialFinding?.FindingTypename?.toLowerCase()?.includes(
-                                        "hook"
-                                      )
+                                    {e?.specialFinding?.FindingTypename?.toLowerCase()?.includes("chain") || e?.specialFinding?.FindingTypename?.toLowerCase()?.includes("hook")
                                       ? (e?.NetWt - e?.finding_customer_wt)?.toFixed(3)
-                                      : (
-                                        e?.NetWt - e?.totals?.finding?.Wt - e?.finding_customer_wt
-                                      )?.toFixed(3)}
+                                      : (el?.Wt - e?.finding_customer_wt - e?.LossWt)?.toFixed(3)}
+                                      {/* : (e?.NetWt - e?.totals?.finding?.Wt - e?.finding_customer_wt - e?.LossWt)?.toFixed(3)} //08/11/2025 */}
                                   </div>
                                   <div className="mcol4_pcls end_pcls pdr_pcls">
                                     {formatAmount(
@@ -801,11 +801,13 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         )
                                         ? (e?.NetWt * e?.metal_rate) /
                                         result?.header?.CurrencyExchRate
-                                        : (el?.Amount -
-                                          (e?.totals?.finding?.Wt *
-                                            e?.metal_rate +
-                                            e?.LossAmt)) /
-                                        result?.header?.CurrencyExchRate
+                                        : (el?.Amount -  e?.LossAmt) / result?.header?.CurrencyExchRate
+                                        // 08/11/2025
+                                        // : (el?.Amount -
+                                        //   (e?.totals?.finding?.Wt *
+                                        //     e?.metal_rate +
+                                        //     e?.LossAmt)) /
+                                        // result?.header?.CurrencyExchRate
                                     )}
                                   </div>
                                 </div>
@@ -816,7 +818,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   </div>
                                   <div className="mcol2_pcls end_pcls pdr_pcls"></div>
                                   <div className="mcol3_pcls end_pcls pdr_pcls">
-                                    {el?.Wt?.toFixed(3)}
+                                    {fixedValues(el?.Wt - e?.LossWt,3)}
                                   </div>
                                   <div className="mcol4_pcls end_pcls pdr_pcls">
                                     {formatAmount(el?.Rate)}
@@ -1039,10 +1041,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {formatAmount(e?.MaKingCharge_Unit)}
                             </div>
                             <div className="lcol1_pcls end_pcls pdr_pcls">
-                              {formatAmount(
-                                e?.MakingAmount /
-                                result?.header?.CurrencyExchRate
-                              )}
+                              {formatAmount(e?.MaKingCharge_Unit * e?.totals?.metal?.Wt ,2)}
                             </div>
                           </div>
                         )}
@@ -1174,8 +1173,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             e?.totals?.diamonds?.SettingAmount +
                             e?.totals?.colorstone?.SettingAmount +
                             e?.totals?.finding?.SettingAmount +
-                            e?.MakingAmount !==
-                            0 &&
+                            e?.MakingAmount !== 0 &&
                             formatAmount(
                               (e?.OtherCharges +
                                 e?.TotalDiamondHandling +
@@ -1185,7 +1183,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 e?.totals?.diamonds?.SettingAmount +
                                 e?.totals?.colorstone?.SettingAmount +
                                 e?.totals?.finding?.SettingAmount +
-                                e?.MakingAmount) /
+                                e?.MaKingCharge_Unit * e?.totals?.metal?.Wt) /
                               result?.header?.CurrencyExchRate
                             )}
                         </div>
@@ -1296,7 +1294,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           result?.mainTotal?.diamonds?.SettingAmount +
                           result?.mainTotal?.colorstone?.SettingAmount +
                           result?.mainTotal?.finding?.SettingAmount +
-                          result?.mainTotal?.MakingAmount +
+                          totalMakingAmount +
                           result?.mainTotal?.misc?.IsHSCODE_1_amount +
                           result?.mainTotal?.misc?.IsHSCODE_2_amount +
                           result?.mainTotal?.misc?.IsHSCODE_3_amount) /
