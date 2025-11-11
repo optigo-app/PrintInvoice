@@ -28,6 +28,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
   const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
   const [secondarySize, setSecondarySize] = useState(false);
+  const [processedMetalsWt, setProcessedMetalsWt] = useState([]);
+  const [processedMetalsAmount, setProcessedMetalsAmount] = useState([]);
 
   useEffect(() => {
     const sendData = async () => {
@@ -251,6 +253,85 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       }
     });
 
+    const processMetalsWt = (resultArray) => {
+      const metalsData = resultArray
+      ?.flatMap(el => el?.metal || [])
+      ?.filter(m => m?.IsPrimaryMetal === 0)
+      ?.map(m => {
+        const size = Number(m.SizeName) || 0;
+        const wt = Number(m.Wt) || 0;
+        const calc = (size * wt) / 100;
+  
+        return {
+          ...m,
+          SizeName: size,
+          calculatedValue: parseFloat(calc.toFixed(3)),
+        };
+      });
+    
+      const grouped = metalsData?.reduce((acc, m) => {
+        const key = `${m.ShapeName}_${m.QualityName}_${m.Colorname}`;
+        if (!acc[key]) {
+          acc[key] = {
+            ShapeName: m.ShapeName,
+            QualityName: m.QualityName,
+            Colorname: m.Colorname,
+            MergedWt: 0,
+          };
+        }
+        acc[key].MergedWt += m.calculatedValue || 0;
+        return acc;
+      }, {});
+    
+      return Object.values(grouped);
+    };
+    const processedWt = processMetalsWt(datas?.resultArray);
+    setProcessedMetalsWt(processedWt);
+
+    const processMetalsAmount = (resultArray) => {
+      const metalsData = resultArray?.flatMap((job) => {
+        const primaryMetal = job?.metal?.find((m) => m?.IsPrimaryMetal === 1);
+        const nonPrimaryMetals = job?.metal?.filter((m) => m?.IsPrimaryMetal !== 1);
+    
+        if (!primaryMetal || !nonPrimaryMetals?.length) return [];
+    
+        return nonPrimaryMetals.map((m) => {
+          const wt = Number(m.Wt) || 0;
+          const calculatedValue = (primaryMetal.Rate || 0) * wt;
+    
+          return {
+            ...m,
+            Wt: wt,
+            Rate: primaryMetal.Rate || 0,
+            calculatedValue: parseFloat(calculatedValue.toFixed(3)),
+          };
+        });
+      });
+    
+      const grouped = metalsData?.reduce((acc, m) => {
+        const key = `${m.ShapeName}_${m.QualityName}_${m.Colorname}`;
+        if (!acc[key]) {
+          acc[key] = {
+            ShapeName: m.ShapeName,
+            QualityName: m.QualityName,
+            Colorname: m.Colorname,
+            totalWt: 0,
+            totalAmount: 0,
+          };
+        }
+        acc[key].totalWt += m.Wt || 0; // sum Wt if needed
+        acc[key].totalAmount += m.calculatedValue || 0;
+        return acc;
+      }, {});
+    
+      return Object.values(grouped).map((g) => ({
+        ...g,
+        totalAmount: parseFloat(g.totalAmount.toFixed(3)), // round to 3 decimals
+      }));
+    };
+    const processedAmount = processMetalsAmount(datas?.resultArray);
+    setProcessedMetalsAmount(processedAmount);
+    
     setResult(datas);
 
     darr?.forEach((a) => {
@@ -414,6 +495,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   
   // console.log("totalMetalSummaryAmount", totalMetalSummaryAmount);
   // console.log("totalMakingAmount", totalMakingAmount);
+  // console.log("processedMetalsWt", processedMetalsWt);
+  // console.log("processedMetalsAmount", processedMetalsAmount);
   // console.log("resultresult", result); 
 
   return (
@@ -1570,6 +1653,19 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         gm
                       </div>
                     </div>
+                    {processedMetalsWt?.map((e, i) => {
+                      return (
+                        <div
+                          className="d-flex justify-content-between px-1"
+                          key={i}
+                        >
+                          <div className="w-50 fw-bold">{e?.ShapeName}</div>
+                          <div className="w-50 end_dp10 pe-1">
+                            {fixedValues(e?.MergedWt,3)} gm
+                          </div>
+                        </div>
+                      );
+                    })}
                     {MetShpWise?.map((e, i) => {
                       return (
                         <div
@@ -1640,18 +1736,18 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         )} //10/11/2025 */}
                       </div>
                     </div>
-                    {result?.resultArray?.map((item, i) => {
-                      const primaryMetal = item?.metal?.find(m => m?.IsPrimaryMetal === 1);
-                      // console.log("primaryMetal", primaryMetal);
-                      
-                      return item?.metal
-                        ?.filter(m => m?.IsPrimaryMetal !== 1) 
-                        ?.map((m, j) => ( 
-                          <div className="d-flex justify-content-between px-1" key={`${i}-${j}`}> 
-                            <div className="w-50 fw-bold">{m?.ShapeName}</div> 
-                            <div className="w-50 end_dp10"> {formatAmount(primaryMetal?.Rate * m?.Wt)} </div> 
+                    {processedMetalsAmount?.map((e, i) => {
+                      return (
+                        <div
+                          className="d-flex justify-content-between px-1"
+                          key={i}
+                        >
+                          <div className="w-50 fw-bold">{e?.ShapeName}</div>
+                          <div className="w-50 end_dp10">
+                            {NumberWithCommas(e?.totalAmount,2)}
                           </div>
-                        ));
+                        </div>
+                      );
                     })}
                     {MetShpWise?.map((e, i) => {
                       return (
