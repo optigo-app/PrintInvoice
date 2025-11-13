@@ -69,28 +69,58 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const loadData = (data) => {
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
-
+  
     const datas = OrganizeInvoicePrintData(
       data?.BillPrint_Json[0],
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
+    // console.log("datas", datas);
 
-    datas.header.PrintRemark = datas.header.PrintRemark?.replace(
-      /<br\s*\/?>/gi,
-      ""
-    );
+    if (!datas.labour) {
+      datas.labour = [];
+    }
 
+    if (datas?.resultArray && datas.resultArray.length > 0) {
+      datas.resultArray.forEach((item, index) => {
+        const netWt = item?.NetWt;
+        const makingChargeUnit = item?.MaKingCharge_Unit;
+
+        if (netWt && makingChargeUnit) {
+          const makingCharge = netWt * makingChargeUnit;
+
+          const labourObject = {
+            jobNo: item?.SrJobno || item?.GroupJob,
+            NetWt: netWt,
+            name: 'Labour',
+            MakingUnit: makingChargeUnit,
+            MakingCharge: makingCharge,
+          };
+
+          datas.labour.push(labourObject);
+          
+          // console.log(`Labour object for item ${index}:`, labourObject);
+        } else {
+          // console.log(`Skipping item at index ${index} due to missing NetWt or MaKingCharge_Unit`);
+        }
+      });
+    } else {
+      // console.log("No resultArray found or it's empty.");
+    }
+    
+    datas.header.PrintRemark = datas.header.PrintRemark?.replace(/<br\s*\/?>/gi,"");
+  
     let finalArr = [];
-
+    
     datas?.resultArray?.forEach((a) => {
       if (a?.GroupJob === "") {
-        finalArr.push(a);
+        finalArr.push({
+          ...a,
+        });
       } else {
         let b = cloneDeep(a);
-        let find_record = finalArr.findIndex(
-          (el) => el?.GroupJob === b?.GroupJob
-        );
+        let find_record = finalArr.findIndex((el) => el?.GroupJob === b?.GroupJob);
+    
         if (find_record === -1) {
           finalArr.push(b);
         } else {
@@ -99,6 +129,10 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           ) {
             finalArr[find_record].designno = b?.designno;
             finalArr[find_record].HUID = b?.HUID;
+          }
+          
+          if (!finalArr[find_record].DesignImage && b?.DesignImage) {
+            finalArr[find_record].DesignImage = b?.DesignImage;
           }
 
           finalArr[find_record].grosswt += b?.grosswt;
@@ -123,7 +157,9 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           ]?.flat();
           finalArr[find_record].metal = [
             ...finalArr[find_record]?.metal,
+            // console.log("finalArr[find_record]?.metal", finalArr[find_record]?.metal),
             ...b?.metal,
+            // console.log("b?.metal", b?.metal),
           ]?.flat();
           finalArr[find_record].misc = [
             ...finalArr[find_record]?.misc,
@@ -516,7 +552,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   // console.log("totalMakingAmount", totalMakingAmount);
   // console.log("processedMetalsWt", processedMetalsWt);
   // console.log("processedMetalsAmount", processedMetalsAmount);
-  // console.log("resultresult", result); 
+  console.log("resultresult", result); 
   // console.log("diamondArr", diamondArr); 
 
   return (
@@ -766,7 +802,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="col2_pcls start_top_pcls flex-column bright_pcls pt-1">
                       <div className="d-flex flex-wrap justify-content-between align-items-center w-100 text-break pdl_pcls pdr_pcls">
                         <div>{e?.designno}</div>
-                        <div>{e?.SrJobno}</div>
+                        <div>{e?.GroupJob !== "" ? e?.GroupJob : e?.SrJobno}</div>
                       </div>
                       <div className="d-flex flex-wrap justify-content-end w-100 text-break pdr_pcls">
                         {e?.MetalColor}
@@ -1144,18 +1180,34 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
                     <div className="col6_pcls  d-flex flex-column justify-content-between bright_pcls">
                       <div>
-                        {e?.MaKingCharge_Unit !== 0 && (
-                          <div className="d-flex w-100">
-                            <div className="lcol1_pcls start_center_pcls pdl_pcls">
-                              Labour
+                        {e?.GroupJob !== "" ? (
+                          result?.labour?.map((e) => (
+                            <div className="d-flex w-100">
+                              <div className="lcol1_pcls start_center_pcls pdl_pcls">
+                                {e?.name}
+                              </div>
+                              <div className="lcol1_pcls end_pcls pdr_pcls">
+                                {formatAmount(e?.MakingUnit)}
+                              </div>
+                              <div className="lcol1_pcls end_pcls pdr_pcls">
+                                {formatAmount(e?.MakingCharge,2)}
+                              </div>
                             </div>
-                            <div className="lcol1_pcls end_pcls pdr_pcls">
-                              {formatAmount(e?.MaKingCharge_Unit)}
+                          ))
+                        ) : (
+                          e?.MaKingCharge_Unit !== 0 && (
+                            <div className="d-flex w-100">
+                              <div className="lcol1_pcls start_center_pcls pdl_pcls">
+                                Labour
+                              </div>
+                              <div className="lcol1_pcls end_pcls pdr_pcls">
+                                {formatAmount(e?.MaKingCharge_Unit)}
+                              </div>
+                              <div className="lcol1_pcls end_pcls pdr_pcls">
+                                {formatAmount(e?.MaKingCharge_Unit * e?.totals?.metal?.Wt ,2)}
+                              </div>
                             </div>
-                            <div className="lcol1_pcls end_pcls pdr_pcls">
-                              {formatAmount(e?.MaKingCharge_Unit * e?.totals?.metal?.Wt ,2)}
-                            </div>
-                          </div>
+                          )
                         )}
 
                         {e?.other_details_array?.map((ele, inds) => {

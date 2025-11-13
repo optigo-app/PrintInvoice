@@ -10,14 +10,14 @@ import {
   isObjectEmpty,
   taxGenrator,
 } from "../../GlobalFunctions";
-import "../../assets/css/prints/retailPrint.css";
+import "../../assets/css/prints/retail.css";
 import Loader from "../../components/Loader";
 import { ToWords } from "to-words";
 import { cloneDeep, find, findIndex } from "lodash";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import NumToWord from "../../GlobalFunctions/NumToWord";
 
-const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
+const Retail = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [jsonData1, setJsonData1] = useState({});
   const [dataFill, setDataFill] = useState([]);
   const [total, setTotal] = useState({});
@@ -1029,7 +1029,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <div
                   className={`${styles.Wt} lossWtRetailPrintNoRate border-end p-1 d-flex align-items-end justify-content-around flex-column min_height_44_retail_print_1 ft_12_retailPrint`}
                 ><p className="fw-bold text-end">
-                    {gmwt !== 0 && `${gmwt?.toFixed(3)} gms`} <br /> {totWt !== 0 && `${totWt?.toFixed(3)} ctw`} 
+                    {totWt !== 0 && `${totWt?.toFixed(3)} ctw`} <br /> {gmwt !== 0 && `${gmwt?.toFixed(3)} gms`}  
                 </p>
                   {/* <p className="fw-bold lh-1 text-end fs_maintotal_wt_rp">
                     D + C : {fixedValues(total?.materialWeight, 3)} Ctw
@@ -1239,4 +1239,4 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   );
 };
 
-export default RetailPrint;
+export default Retail;
