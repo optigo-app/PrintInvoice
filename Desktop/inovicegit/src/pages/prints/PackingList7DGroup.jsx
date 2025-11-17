@@ -4,6 +4,7 @@ import { useState } from "react";
 import {
   apiCall,
   checkMsg,
+  fixedValues,
   formatAmount,
   handleImageError,
   handlePrint,
@@ -562,7 +563,7 @@ const PackingList7DGroup = ({
   // }, 0)
 
   // console.log("diamondDetails", diamondDetails);
-  // console.log("result", result);
+  console.log("result", result);
   
 
   return (
@@ -674,7 +675,7 @@ const PackingList7DGroup = ({
                   <div className="subdiv1dp10_pcl7 border-end fsgdp10_pcl7_2 border-start ">
                     <div className="px-1">{result?.header?.lblBillTo}</div>
                     <div
-                      className="px-1 fsgdp10_pcl7_3"
+                      className="px-1 fsgdp10_pcl7_3 spbrWord"
                       style={{ whiteSpace: "normal", wordBreak: "break-word" }}
                     >
                       <b>{result?.header?.customerfirmname}</b>
@@ -697,7 +698,7 @@ const PackingList7DGroup = ({
                       {result?.header?.Cust_CST_STATE_No}
                     </div>
                   </div>
-                  <div className="subdiv2dp10_pcl7 border-end fsgdp10_pcl7_2">
+                  <div className="subdiv2dp10_pcl7 border-end spbrWord fsgdp10_pcl7_2">
                     <div className="px-1">Ship To,</div>
                     <div className="px-1 fsgdp10_pcl7_3">
                       <b>{result?.header?.customerfirmname}</b>
@@ -1188,10 +1189,10 @@ const PackingList7DGroup = ({
                                     className="theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7"
                                     style={{ width: "18%" }}
                                   >
-                                    {formatAmount(
+                                    {fixedValues(
                                       e?.LossAmt /
                                         (e?.LossWt === 0 ? 1 : e?.LossWt)
-                                    )}
+                                    ,2)}
                                   </div>
                                   <div
                                     className={`theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7 pr_dp10_pcl7 fw-bold`}
@@ -1499,7 +1500,7 @@ const PackingList7DGroup = ({
                                 })}
                               </div>
                             </div>
-                            <div className="tbcol8dp10_pcl7 end_dp10_pcl7 fw-bold  pr_dp10_pcl7 border-start pad_top_pcl7 ">
+                            <div className="tbcol8dp10_pcl7 end_dp10_pcl7 fw-bold border-start pr_dp10_pcl7Ttl">
                               {formatAmount(
                                 e?.UnitCost / result?.header?.CurrencyExchRate
                               )}
@@ -1648,7 +1649,7 @@ const PackingList7DGroup = ({
                               </div>
                             </div>
                             <div
-                              className="col8dp10_pcl7 end_dp10_pcl7  d-flex align-items-center pr_dp10_pcl7 border-start bt_dp10_pcl7 "
+                              className="col8dp10_pcl7 end_dp10_pcl7  d-flex align-items-center pr_dp10_pcl7Ttl border-start bt_dp10_pcl7 "
                               style={{ backgroundColor: "#F5F5F5" }}
                             >
                               {/* {formatAmount(result?.finalAmount)} */}
@@ -1774,7 +1775,7 @@ const PackingList7DGroup = ({
                           0 
                         )}
                       </div>
-                      <div className="col8dp10_pcl7 end_dp10_pcl7  d-flex align-items-center pr_dp10_pcl7 border-start border-black">
+                      <div className="col8dp10_pcl7 end_dp10_pcl7 d-flex align-items-center pr_dp10_pcl7Ttl border-start border-black">
                         {formatAmount(
                           result?.mainTotal?.total_unitcost /
                             result?.header?.CurrencyExchRate
@@ -1805,7 +1806,7 @@ const PackingList7DGroup = ({
                           </div>
                           <div className="d-flex w-100 fsgdp10_pcl7">
                             <div className="w-50 bright_dp10_pcl7  bl_dp10_pcl7">
-                              <div className="d-flex justify-content-between px-1">
+                              <div className="d-flex justify-content-between ps-1">
                                 <div className="w-50 fw-bold">GOLD IN 24KT</div>
                                 <div className="w-50 end_dp10_pcl7 pe-1">
                                   {(
@@ -1818,7 +1819,7 @@ const PackingList7DGroup = ({
                               {MetShpWise?.map((e, i) => {
                                 return (
                                   <div
-                                    className="d-flex justify-content-between px-1"
+                                    className="d-flex justify-content-between ps-1"
                                     key={i}
                                   >
                                     <div className="w-50 fw-bold">
@@ -1830,25 +1831,25 @@ const PackingList7DGroup = ({
                                   </div>
                                 );
                               })}
-                              <div className="d-flex justify-content-between px-1">
+                              <div className="d-flex justify-content-between ps-1">
                                 <div className="w-50 fw-bold">GROSS WT</div>
                                 <div className="w-50 end_dp10_pcl7 pe-1">
                                   {result?.mainTotal?.grosswt?.toFixed(3)} gm
                                 </div>
                               </div>
-                              <div className="d-flex justify-content-between px-1">
+                              <div className="d-flex justify-content-between ps-1">
                                 <div className="w-50 fw-bold">NET WT</div>
                                 <div className="w-50 end_dp10_pcl7 pe-1">
                                   {result?.mainTotal?.metal?.Wt?.toFixed(3)} gm
                                 </div>
                               </div>
-                              <div className="d-flex justify-content-between px-1">
+                              <div className="d-flex justify-content-between ps-1">
                                 <div className="w-50 fw-bold">LOSS WT</div>
                                 <div className="w-50 end_dp10_pcl7 pe-1">
                                   {result?.mainTotal?.lossWt?.toFixed(3)} gm
                                 </div>
                               </div>
-                              <div className="d-flex justify-content-between px-1">
+                              <div className="d-flex justify-content-between ps-1">
                                 <div className="w-50 fw-bold">DIAMOND WT</div>
                                 <div className="w-50 end_dp10_pcl7 pe-1">
                                   {result?.mainTotal?.diamonds?.Pcs} /{" "}
@@ -1856,7 +1857,7 @@ const PackingList7DGroup = ({
                                   cts
                                 </div>
                               </div>
-                              <div className="d-flex justify-content-between px-1">
+                              <div className="d-flex justify-content-between ps-1">
                                 <div className="w-50 fw-bold">STONE WT</div>
                                 <div className="w-50 end_dp10_pcl7 pe-1">
                                   {result?.mainTotal?.colorstone?.Pcs} /{" "}
@@ -1866,7 +1867,7 @@ const PackingList7DGroup = ({
                                   cts
                                 </div>
                               </div>
-                              <div className="d-flex justify-content-between px-1">
+                              <div className="d-flex justify-content-between ps-1">
                                 <div className="w-50 fw-bold">MISC WT</div>
                                 <div className="w-50 end_dp10_pcl7 pe-1">
                                   {result?.mainTotal?.misc?.onlyIsHSCODE0_Pcs} /{" "}
@@ -2056,7 +2057,7 @@ const PackingList7DGroup = ({
                                   RATE IN 24KT
                                 </div>
                                 <div className="w-50 end_dp10_pcl7 fsgdp10_pcl7">
-                                  {result?.header?.MetalRate24K?.toFixed(2)}
+                                  {NumberWithCommas(result?.header?.MetalRate24K,2)}
                                 </div>
                               </div>
                               <div>
@@ -2213,15 +2214,26 @@ const PackingList7DGroup = ({
                     </div>
                   )}
                 </div> */}
+                <div className="w-100 ball_dp10_pcl7 px-1 mt-1 mb-1 note_sec_sum4 p-1">
+                  <p className="fw-bold font_15_sum4">Terms & Condition: </p>
+                  {
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: result?.header?.Declaration,
+                      }}
+                      className="summury4_notes_text"
+                    />
+                  }
+                </div>
                 <div className="d-flex justify-content-between mt-1">
                   <div
-                    className=" ball_dp10_pcl7 d-flex justify-content-center align-items-end pb-1 "
+                    className="ball_dp10_pcl7 d-flex justify-content-center align-items-end pb-1 "
                     style={{ minHeight: "50px", width: "50%" }}
                   >
                     <i>Created By</i>
                   </div>
                   <div
-                    className=" ball_dp10_pcl7 d-flex justify-content-center align-items-end pb-1"
+                    className="ball_dp10_pcl7 d-flex justify-content-center align-items-end pb-1"
                     style={{ minHeight: "50px", width: "50%" }}
                   >
                     <i>Checked By</i>

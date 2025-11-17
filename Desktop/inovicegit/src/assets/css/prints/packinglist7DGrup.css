@@ -284,6 +284,9 @@
 .pr_dp10_pcl7{
     padding-right: 2px !important;
 }
+.pr_dp10_pcl7Ttl {
+    padding-right: 1.5px;
+}
 .cfullname_pcl7{
     font-size: 16px;
     padding-top: 4px;
@@ -305,7 +308,29 @@
     word-wrap: break-word;
 }
 
+.font_15_sum4 {
+    line-height: 95%;
+    font-size: 14.5px;
+}
+
 @media print {
+
+    .summury4_notes_text {
+        font-size: 8px !important;
+    }
+    
+    .summury4_notes_text span {
+        font-size: 8px !important;
+    }
+
+    .font_15_sum4 {
+        line-height: 90%;
+        font-size: 11px !important;
+    }
+
+    .note_sec_sum4 {
+        page-break-inside: avoid;
+    }
 
     .containerdp10_pcl7{
         box-sizing: border-box;
@@ -418,10 +443,15 @@
     .pr_dp10_pcl7{
         padding-right: 1px !important;
     }
+
+    .pr_dp10_pcl7Ttl {
+        padding-right: 0px;
+    }
+
     .summarydp10_pcl7{
         border-top: 1px solid #989898;
-        
     }
+
     @page {
         margin: 4mm 1.55mm 1.5mm 1.5mm; /* top, right, bottom, left */
     }

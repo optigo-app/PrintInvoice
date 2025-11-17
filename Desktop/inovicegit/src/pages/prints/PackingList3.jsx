@@ -69,39 +69,54 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const loadData = (data) => {
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
-  
+    
+    // console.log("data", data);
     const datas = OrganizeInvoicePrintData(
       data?.BillPrint_Json[0],
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
-    // console.log("datas", datas);
+    // console.log("datas", datas);   
 
     if (!datas.labour) {
       datas.labour = [];
     }
 
     if (datas?.resultArray && datas.resultArray.length > 0) {
-      datas.resultArray.forEach((item, index) => {
-        const netWt = item?.NetWt;
-        const makingChargeUnit = item?.MaKingCharge_Unit;
-
-        if (netWt && makingChargeUnit) {
-          const makingCharge = netWt * makingChargeUnit;
-
-          const labourObject = {
-            jobNo: item?.SrJobno || item?.GroupJob,
-            NetWt: netWt,
-            name: 'Labour',
-            MakingUnit: makingChargeUnit,
-            MakingCharge: makingCharge,
-          };
-
-          datas.labour.push(labourObject);
-          
-          // console.log(`Labour object for item ${index}:`, labourObject);
+      datas.resultArray.forEach((item) => {
+        console.log("datas?.resultArray", datas?.resultArray);
+        
+        if (item?.GroupJob !== '' && item?.metal?.some(el => el?.IsPrimaryMetal === 1)) {
+          const primaryMetal = item?.metal?.find(el => el?.IsPrimaryMetal === 1);
+          // Get the weight of the primary metal
+          const metalWt = primaryMetal?.Wt || 0; 
+          const makingChargeUnit = item?.MaKingCharge_Unit;
+    
+          // Check if makingChargeUnit is 0, if so skip the labour creation
+          if (makingChargeUnit !== 0) {
+            const makingCharge = metalWt * makingChargeUnit;
+    
+            const labourObject = {
+              jobNo: item?.SrJobno || item?.GroupJob,
+              GroupjobNo: item?.GroupJob,
+              NetWt: item?.NetWt,
+              name: 'Labour',
+              MakingUnit: makingChargeUnit,
+              MakingCharge: makingCharge,
+              MetalWt: metalWt,
+            };
+    
+            if (!datas.labour) {
+              datas.labour = [];
+            }
+            datas.labour.push(labourObject);
+    
+            // console.log(`Labour object for item:`, labourObject);
+          } else {
+            // console.log(`Skipping item at index due to MaKingCharge_Unit being 0`);
+          }
         } else {
-          // console.log(`Skipping item at index ${index} due to missing NetWt or MaKingCharge_Unit`);
+          // console.log(`Skipping item at index due to GroupJob being empty or no primary metal found`);
         }
       });
     } else {
@@ -531,7 +546,11 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   }
 
   const totalMakingAmount = result?.resultArray?.reduce((acc, e) => {
-    const calculation = e?.MaKingCharge_Unit * e?.totals?.metal?.Wt;
+    const calculation = e?.MaKingCharge_Unit * (
+      e?.GroupJob !== '' 
+        ? (e?.totals?.metal?.Wt - e?.totals?.metal?.IsNotPrimaryMetalWt) 
+        : e?.totals?.metal?.Wt
+    );
     return acc + (calculation || 0);
   }, 0);
 
@@ -923,66 +942,80 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="col4_pcls  d-flex flex-column justify-content-between bright_pcls">
                       <div>
                         {e?.metal?.map((el, ind) => {
-                          return (
-                            <>
-                              {el?.IsPrimaryMetal === 1 ? (
-                                <div className="d-flex w-100" key={ind}>
-                                  <div className="mcol1_pcls spbrWord start_center_pcls pdl_pcls">
-                                    {el?.ShapeName + " " + el?.QualityName}
-                                  </div>
-                                  <div className="mcol2_pcls end_pcls pdr_pcls">
-                                    {e?.grosswt?.toFixed(3)}
-                                  </div>
-                                  <div className="mcol3_pcls end_pcls pdr_pcls">
-                                    {e?.specialFinding?.FindingTypename?.toLowerCase()?.includes("chain") || e?.specialFinding?.FindingTypename?.toLowerCase()?.includes("hook")
-                                      ? (e?.NetWt - e?.finding_customer_wt)?.toFixed(3)
-                                      : (el?.Wt - e?.finding_customer_wt - e?.LossWt)?.toFixed(3)}
-                                      {/* : (e?.NetWt - e?.totals?.finding?.Wt - e?.finding_customer_wt - e?.LossWt)?.toFixed(3)} //08/11/2025 */}
-                                  </div>
-                                  <div className="mcol4_pcls end_pcls pdr_pcls">
-                                    {el?.Rate?.toFixed(2)}
-                                    {/* {formatAmount(
-                                      el?.Rate /
-                                      result?.header?.CurrencyExchRate
-                                    )} //10/11/2025 */}
-                                  </div>
-                                  <div className="mcol5_pcls end_pcls pdr_pcls fw-bold">
-                                    {e?.specialFinding?.FindingTypename?.toLowerCase()?.includes(
-                                        "chain"
-                                      ) ||
-                                        e?.specialFinding?.FindingTypename?.toLowerCase()?.includes(
-                                          "hook"
-                                        )
-                                        ? ((e?.NetWt * e?.metal_rate) / result?.header?.CurrencyExchRate)?.toFixed(2) 
-                                        : ((el?.Wt * el?.Rate) - e?.LossAmt)?.toFixed(2)
-                                        // 08/11/2025
-                                        // : (el?.Amount -
-                                        //   (e?.totals?.finding?.Wt *
-                                        //     e?.metal_rate +
-                                        //     e?.LossAmt)) /
-                                        // result?.header?.CurrencyExchRate
-                                    }
-                                  </div>
+                          const isChainOrHook = e?.specialFinding?.FindingTypename?.toLowerCase()?.includes("chain") || 
+                                                e?.specialFinding?.FindingTypename?.toLowerCase()?.includes("hook");
+
+                          const weight = isChainOrHook 
+                            ? (e?.NetWt - e?.finding_customer_wt)?.toFixed(3)
+                            : (el?.Wt - e?.finding_customer_wt - e?.LossWt)?.toFixed(3);
+
+                          const amount = isChainOrHook
+                            ? ((e?.NetWt * e?.metal_rate) / result?.header?.CurrencyExchRate)?.toFixed(2)
+                            : ((el?.Wt * el?.Rate) - e?.LossAmt)?.toFixed(2);
+
+                          const rate = el?.Rate?.toFixed(2);
+                          const grossWeight = e?.grosswt?.toFixed(3);
+                          const shapeAndQuality = `${el?.ShapeName || 'Unknown Shape'} ${el?.QualityName || 'Unknown Quality'}`;
+
+                          if (e?.GroupJob !== '' && e?.GroupJob === el?.StockBarcode) {
+                            return (
+                              <div className="d-flex w-100" key={ind}>
+                                <div className="mcol1_pcls spbrWord start_center_pcls pdl_pcls">
+                                  {shapeAndQuality}
                                 </div>
-                              ) : (
-                                <div className="d-flex w-100" key={ind}>
-                                  <div className="mcol1_pcls start_center_pcls pdl_pcls">
-                                    {el?.ShapeName + " " + el?.QualityName}
-                                  </div>
-                                  <div className="mcol2_pcls end_pcls pdr_pcls"></div>
-                                  <div className="mcol3_pcls end_pcls pdr_pcls">
-                                    {fixedValues(el?.Wt - e?.LossWt,3)}
-                                  </div>
-                                  <div className="mcol4_pcls end_pcls pdr_pcls">
-                                    {el?.Rate?.toFixed(2)}
-                                  </div>
-                                  <div className="mcol5_pcls end_pcls pdr_pcls fw-bold">
-                                    {el?.Wt * el?.Rate?.toFixed(2)}
-                                  </div>
+                                <div className="mcol2_pcls end_pcls pdr_pcls">
+                                  {grossWeight}
                                 </div>
-                              )}
-                            </>
-                          );
+                                <div className="mcol3_pcls end_pcls pdr_pcls">
+                                  {weight}
+                                </div>
+                                <div className="mcol4_pcls end_pcls pdr_pcls">
+                                  {rate}
+                                </div>
+                                <div className="mcol5_pcls end_pcls pdr_pcls fw-bold">
+                                  {amount}
+                                </div>
+                              </div>
+                            );
+                          } else if (el?.IsPrimaryMetal === 1) {
+                            return (
+                              <div className="d-flex w-100" key={ind}>
+                                <div className="mcol1_pcls spbrWord start_center_pcls pdl_pcls">
+                                  {shapeAndQuality}
+                                </div>
+                                <div className="mcol2_pcls end_pcls pdr_pcls">
+                                  {grossWeight}
+                                </div>
+                                <div className="mcol3_pcls end_pcls pdr_pcls">
+                                  {weight}
+                                </div>
+                                <div className="mcol4_pcls end_pcls pdr_pcls">
+                                  {rate}
+                                </div>
+                                <div className="mcol5_pcls end_pcls pdr_pcls fw-bold">
+                                  {amount}
+                                </div>
+                              </div>
+                            );
+                          } else {
+                            return (
+                              <div className="d-flex w-100" key={ind}>
+                                <div className="mcol1_pcls start_center_pcls pdl_pcls">
+                                  {shapeAndQuality}
+                                </div>
+                                <div className="mcol2_pcls end_pcls pdr_pcls"></div>
+                                <div className="mcol3_pcls end_pcls pdr_pcls">
+                                  {fixedValues(el?.Wt - e?.LossWt, 3)}
+                                </div>
+                                <div className="mcol4_pcls end_pcls pdr_pcls">
+                                  {rate}
+                                </div>
+                                <div className="mcol5_pcls end_pcls pdr_pcls fw-bold">
+                                  {el?.Wt * el?.Rate?.toFixed(2)}
+                                </div>
+                              </div>
+                            );
+                          }
                         })}
 
                         <div style={{ margin: "0px 5px" }}>
@@ -1032,10 +1065,10 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
                         {e?.LossWt !== 0 && (
                           <div className="d-flex w-100 pt-1">
-                            <div className="mcol1_pcls start_center_pcls pdl_pcls">
+                            <div className="mcol1_pcls start_center_pcls pdl_pcls" style={{ width: "15%" }}>
                               Loss
                             </div>
-                            <div className="mcol2_pcls end_pcls pdr_pcls">
+                            <div className="mcol2_pcls end_pcls pdr_pcls" style={{ width: "22%" }}>
                               {e?.LossPer?.toFixed(3)} %
                             </div>
                             <div className="mcol3_pcls end_pcls pdr_pcls">
@@ -1181,16 +1214,16 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="col6_pcls  d-flex flex-column justify-content-between bright_pcls">
                       <div>
                         {e?.GroupJob !== "" ? (
-                          result?.labour?.map((e) => (
+                          result?.labour?.filter((el) => el?.GroupjobNo === e?.GroupJob)?.map((el) => (
                             <div className="d-flex w-100">
                               <div className="lcol1_pcls start_center_pcls pdl_pcls">
-                                {e?.name}
+                                {el?.name}
                               </div>
                               <div className="lcol1_pcls end_pcls pdr_pcls">
-                                {formatAmount(e?.MakingUnit)}
+                                {formatAmount(el?.MakingUnit)}
                               </div>
                               <div className="lcol1_pcls end_pcls pdr_pcls">
-                                {formatAmount(e?.MakingCharge,2)}
+                                {formatAmount(el?.MakingCharge,2)}
                               </div>
                             </div>
                           ))
@@ -1347,7 +1380,10 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 e?.totals?.diamonds?.SettingAmount +
                                 e?.totals?.colorstone?.SettingAmount +
                                 e?.totals?.finding?.SettingAmount +
-                                e?.MaKingCharge_Unit * e?.totals?.metal?.Wt) /
+                                (e?.GroupJob !== '' 
+                                  ? e?.MaKingCharge_Unit * (e?.totals?.metal?.Wt - e?.totals?.metal?.IsNotPrimaryMetalWt) 
+                                  : e?.MaKingCharge_Unit * e?.totals?.metal?.Wt
+                                )) /
                               result?.header?.CurrencyExchRate
                             )}
                         </div>
