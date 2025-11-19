@@ -55,7 +55,7 @@ const RetailInvoiceprint4 = ({
   const [bank, setBank] = useState([]);
   const [document, setDocument] = useState([]);
   function loadData(data) {
-    console.log("datadatadata", data);
+    // console.log("datadatadata", data);
     
     try {
       setHeaderData(data?.BillPrint_Json[0]);
@@ -231,7 +231,7 @@ const RetailInvoiceprint4 = ({
       totals.afterTax += totals?.beforeTax + data?.BillPrint_Json[0]?.AddLess;
       let debitCardinfo = ReceiveInBank(data?.BillPrint_Json[0]?.BankPayDet);
       setBank(debitCardinfo);
-      console.log("bank", debitCardinfo);
+      // console.log("bank", debitCardinfo);
       totals.netBalAmount =
         totals.afterTax - data?.BillPrint_Json[0]?.OldGoldAmount;
       debitCardinfo.length > 0 &&
@@ -239,7 +239,7 @@ const RetailInvoiceprint4 = ({
           totals.netBalAmount -= e.amount;
         });
       setTaxes(taxValue);
-      console.log("taxValue", taxValue);
+      // console.log("taxValue", taxValue);
 
       blankArr?.forEach((e, i) => {
         if (e?.GroupJob !== "") {

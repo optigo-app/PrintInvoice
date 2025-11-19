@@ -3,12 +3,13 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-import { apiCall, checkMsg, fixedValues, formatAmount, handleImageError, isObjectEmpty, NumberWithCommas } from '../../GlobalFunctions';
+import { apiCall, checkMsg, fixedValues, formatAmount, isObjectEmpty, NumberWithCommas } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import { MetalShapeNameWiseArr } from '../../GlobalFunctions/MetalShapeNameWiseArr';
 
 const InvoiceExcelV1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
+    // console.log("User has navigated to this file.");
     const [result, setResult] = useState(null);
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
@@ -222,7 +223,7 @@ const InvoiceExcelV1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         }, 500);
     }
 
-    console.log("result", result);
+    // console.log("result", result);
 
     // Style...
     const txtTop = {
@@ -317,7 +318,7 @@ const InvoiceExcelV1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         {e?.misc
                                             ?.filter((el) => el?.ShapeName?.includes("Certification_"))
                                             .map((el, id) => {
-                                                const shapeNameAfterCertification = el?.ShapeName?.split("Certification_")[1]; // Extract the part after 'Certification_'
+                                                const shapeNameAfterCertification = el?.ShapeName?.split("Certification_")[1];
                                                 return shapeNameAfterCertification ? <div key={id}>{shapeNameAfterCertification}</div> : null;
                                             })}
                                     </td>
