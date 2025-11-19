@@ -385,7 +385,7 @@ const RetailInvoicePrintS = ({
     sendData();
   }, []);
 
-  // console.log("data", data);
+  console.log("data", data);
   // console.log("headerData", headerData);
   // console.log("totalDmdWt", totalDmdWt);
   // console.log("totalClrWt", totalClrWt);
@@ -396,9 +396,20 @@ const RetailInvoicePrintS = ({
     image ? setImage(false) : setImage(true);
   };
 
-  const totalDmdWt = data?.reduce((acc, e) => acc + (e?.diamonds?.reduce((acc2, ele) => acc2 + ele?.Wt, 0) || 0), 0);
-  const totalClrWt = data?.reduce((acc, e) => acc + (e?.colorstones?.reduce((acc2, ele) => acc2 + ele?.Wt, 0) || 0), 0);
-  const totalMicsWt = data?.reduce((acc, e) => acc + (e?.miscs?.reduce((acc2, ele) => acc2 + ele?.Wt, 0) || 0), 0);  
+  const totalDmdWt = data?.reduce((acc, e) => {
+    const totalDiamondsWt = e?.diamonds?.reduce((acc2, ele) => acc2 + (ele?.Wt || 0), 0);
+    return acc + totalDiamondsWt;
+  }, 0);
+  
+  const totalClrWt = data?.reduce((acc, e) => {
+    const totalColorstonesWt = e?.colorstones?.reduce((acc2, ele) => acc2 + (ele?.Wt || 0), 0);
+    return acc + totalColorstonesWt;
+  }, 0);
+  
+  const totalMicsWt = data?.reduce((acc, e) => {
+    const totalMiscsWt = e?.miscs?.reduce((acc2, ele) => acc2 + (ele?.Wt || 0), 0);
+    return acc + totalMiscsWt;
+  }, 0);  
 
   const totalConverted = total?.afterTax / headerData?.CurrencyExchRate;
   const totalPayments =
@@ -605,15 +616,15 @@ const RetailInvoicePrintS = ({
                               {e?.MetalTypePurity} {e?.MetalColor} |{" "}
                               {e?.grosswt?.toFixed(3)} gms GW |{" "}
                               {e?.NetWt?.toFixed(3)} gms NW
-                              {totalDmdWt === 0
+                              {e?.diamondWt === 0
                               ? ""
-                              : ` | DIA : ${totalDmdWt.toFixed(3)} Cts `}
-                            {totalClrWt === 0
+                              : ` | DIA : ${e?.diamondWt.toFixed(3)} Cts `}
+                            {e?.colorStoneWt === 0
                               ? ""
-                              : ` | CS : ${totalClrWt.toFixed(3)} Cts `}
-                            {totalMicsWt === 0
+                              : ` | CS : ${e?.colorStoneWt.toFixed(3)} Cts `}
+                            {e?.miscsWt === 0
                               ? ""
-                              : ` | MISC : ${totalMicsWt.toFixed(3)} gms `}
+                              : ` | MISC : ${e?.miscsWt.toFixed(3)} gms `}
                               {/* | DIA: {e?.totals?.diamonds?.Wt?.toFixed(3)} Cts | CS: {e?.totals?.colorstone?.Wt?.toFixed(3)} Cts | MISC: {e?.totals?.misc?.Wt?.toFixed(3)} gms */}
                               <br />{e?.Categoryname} {e?.SubCategoryname}
                             </div>
