@@ -386,30 +386,12 @@ const RetailInvoicePrintS = ({
   }, []);
 
   console.log("data", data);
-  // console.log("headerData", headerData);
-  // console.log("totalDmdWt", totalDmdWt);
-  // console.log("totalClrWt", totalClrWt);
-  // console.log("totalMicsWt", totalMicsWt);
+  console.log("headerData", headerData);
   // console.log("total", total);
 
   const handleChangeImage = (e) => {
     image ? setImage(false) : setImage(true);
   };
-
-  const totalDmdWt = data?.reduce((acc, e) => {
-    const totalDiamondsWt = e?.diamonds?.reduce((acc2, ele) => acc2 + (ele?.Wt || 0), 0);
-    return acc + totalDiamondsWt;
-  }, 0);
-  
-  const totalClrWt = data?.reduce((acc, e) => {
-    const totalColorstonesWt = e?.colorstones?.reduce((acc2, ele) => acc2 + (ele?.Wt || 0), 0);
-    return acc + totalColorstonesWt;
-  }, 0);
-  
-  const totalMicsWt = data?.reduce((acc, e) => {
-    const totalMiscsWt = e?.miscs?.reduce((acc2, ele) => acc2 + (ele?.Wt || 0), 0);
-    return acc + totalMiscsWt;
-  }, 0);  
 
   const totalConverted = total?.afterTax / headerData?.CurrencyExchRate;
   const totalPayments =

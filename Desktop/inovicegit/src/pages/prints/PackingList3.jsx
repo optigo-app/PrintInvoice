@@ -75,7 +75,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           el.ShapeName === item.ShapeName &&
           el.QualityName === item.QualityName &&
           el.Colorname === item.Colorname &&
-          el.SizeName === item.SizeName
+          el.SizeName === item.SizeName &&
+          el.Rate === item.Rate
       );
   
       if (existingItemIndex !== -1) {
@@ -304,7 +305,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         }
       }
     });
-    
+
     finalArr.forEach((find_record) => {
       // Only merge if GroupJob is present
       if (find_record?.GroupJob !== "") {
