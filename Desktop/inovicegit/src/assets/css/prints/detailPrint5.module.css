@@ -1,6 +1,7 @@
 .detailPrint5 {
   word-break: normal;
   font-size: 12px;
+  line-height: 15px;
   font-family: Calibri;
 }
 .sumFont{
@@ -10,11 +11,15 @@
   padding-top: 3px;
 }
 .detailPrint5{
-  zoom: 1.5;
+  zoom: 1;
+}
+
+.detailPrint5TableHead {
+  font-size: 11px;
 }
 
 .detailPrint5Table {
-  font-size: 8px;
+  font-size: 10px;
 }
 
 .detailPrint5 p, .metal > div > div, .diamond > div > div, .stone > div > div, .labour > div > div > div > div > div, .totaltotal > div{
@@ -73,7 +78,7 @@
 }
 
 .min_height_15 {
-  min-height: 15px;
+  min-height: 18px;
 }
 
 .total {
@@ -91,6 +96,10 @@
 }
 
 @media print {
+  @page {
+    margin: 15px 20px;
+  }
+
   .print_sec_sum4 {
     display: none !important;
   }

@@ -65,7 +65,7 @@ const RetailInvoicePrintS = ({
       let blankArr = [];
       let totals = { ...total };
       let groupInfo = [];
-      data?.BillPrint_Json1.forEach((e, i) => {
+      data?.BillPrint_Json1.forEach((e) => {
         let obj = { ...e };
         totals.gwt += e?.grosswt;
         totals.beforeTax += e?.TotalAmount;
@@ -99,7 +99,7 @@ const RetailInvoicePrintS = ({
         }
         totals.otherCharge += +otherCharge.toFixed(2);
         let metalMaking = obj?.MetalAmount + obj?.MakingAmount;
-        data?.BillPrint_Json2.forEach((ele, ind) => {
+        data?.BillPrint_Json2.forEach((ele) => {
           if (e?.SrJobno === ele?.StockBarcode) {
             if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
               materials.unshift(ele);
@@ -148,6 +148,11 @@ const RetailInvoicePrintS = ({
               totals.stoneWt += ele?.Wt;
               materials.push(ele);
               totals.multiMetalMiscHsCode += ele?.Wt;
+            } else if (
+              ele?.MasterManagement_DiamondStoneTypeid === 3 &&
+              ele?.ShapeName?.includes("Certification_")
+            ) {
+              miscs?.push(ele);
             } else if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
               finding?.push(ele);
               findingWt += ele?.Wt;
@@ -594,21 +599,31 @@ const RetailInvoicePrintS = ({
                               )}
                               <div className="text-break lh_jts">{e?.Size}</div>
                             </div>
-                            <div className="col3_jts d-flex align-items-start justify-content-start p-1 brr_jts text-break">
-                              {e?.MetalTypePurity} {e?.MetalColor} |{" "}
-                              {e?.grosswt?.toFixed(3)} gms GW |{" "}
-                              {e?.NetWt?.toFixed(3)} gms NW
-                              {e?.diamondWt === 0
-                              ? ""
-                              : ` | DIA : ${e?.diamondWt.toFixed(3)} Cts `}
-                            {e?.colorStoneWt === 0
-                              ? ""
-                              : ` | CS : ${e?.colorStoneWt.toFixed(3)} Cts `}
-                            {e?.miscsWt === 0
-                              ? ""
-                              : ` | MISC : ${e?.miscsWt.toFixed(3)} gms `}
-                              {/* | DIA: {e?.totals?.diamonds?.Wt?.toFixed(3)} Cts | CS: {e?.totals?.colorstone?.Wt?.toFixed(3)} Cts | MISC: {e?.totals?.misc?.Wt?.toFixed(3)} gms */}
-                              <br />{e?.Categoryname} {e?.SubCategoryname}
+                            <div className="col3_jts d-flex flex-column align-items-start justify-content-start p-1 brr_jts text-break">
+                              <div className="d-flex align-items-start">
+                                {e?.MetalTypePurity} {e?.MetalColor} |{" "}
+                                {e?.grosswt?.toFixed(3)} gms GW |{" "}
+                                {e?.NetWt?.toFixed(3)} gms NW
+                                {e?.diamondWt === 0
+                                ? ""
+                                : ` | DIA : ${e?.diamondWt.toFixed(3)} Cts `}
+                                {e?.colorStoneWt === 0
+                                  ? ""
+                                  : ` | CS : ${e?.colorStoneWt.toFixed(3)} Cts `}
+                                {e?.miscsWt === 0
+                                  ? ""
+                                  : ` | MISC : ${e?.miscsWt.toFixed(3)} gms `}
+                              </div>
+                              <div className="d-flex align-items-start">{e?.Categoryname} {e?.SubCategoryname}</div>
+                              <div className="d-flex align-items-start">
+                                {e?.miscs
+                                  ?.filter((el) => el?.ShapeName?.includes("Certification_"))
+                                  .map((el, id) => {
+                                    const shapeNameAfterCertification = el?.ShapeName?.split("Certification_")[1]; // Extract the part after 'Certification_'
+                                    return shapeNameAfterCertification ? <div key={id}>{shapeNameAfterCertification}-</div> : null;
+                                })}
+                                {e?.CertificateNo}
+                              </div>
                             </div>
                             <div className="col4_jts d-flex align-items-start justify-content-end p-1">
                               <span
