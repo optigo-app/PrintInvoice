@@ -999,9 +999,12 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
                             if (e?.GroupJob !== '') {
                               const findingToExclude = e?.finding?.find(finding => finding?.StockBarcode !== e?.GroupJob);
+                              console.log("findingToExclude",findingToExclude);
                               
                               if (findingToExclude) {
                                 weight = (totalMetalWeight - findingToExclude?.Wt)?.toFixed(3);
+                              } else {
+                                weight = e?.metal?.reduce((acc, metal) => acc + (metal?.Wt || 0), 0).toFixed(3);
                               }
                             }
 
@@ -1013,7 +1016,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           const grossWeight = e?.grosswt?.toFixed(3);
                           const shapeAndQuality = `${el?.ShapeName || 'Unknown Shape'} ${el?.QualityName || 'Unknown Quality'}`;
 
-                          if (e?.GroupJob !== '' && e?.GroupJob === el?.StockBarcode) {
+                          if (e?.GroupJob !== '' && e?.GroupJob === el?.StockBarcode) { // When Group Job And Then Only Show Primary Job's Metal Name
                             return (
                               <div className="d-flex w-100" key={ind}>
                                 <div className="mcol1_pcls spbrWord start_center_pcls pdl_pcls">
@@ -1029,11 +1032,11 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   {rate}
                                 </div>
                                 <div className="mcol5_pcls end_pcls pdr_pcls fw-bold">
-                                  {(weight * rate)?.toFixed(2)}
+                                  {e?.GroupJob !== '' && e?.finding?.length === 0 ? e?.totals?.metal?.Amount?.toFixed(2) : (weight * rate)?.toFixed(2)}
                                 </div>
                               </div>
                             );
-                          } else if (e?.GroupJob !== '' && el?.IsPrimaryMetal === 0) {
+                          } else if (e?.GroupJob !== '' && el?.IsPrimaryMetal === 0) { // When Group Job and MultiMetal Then That Time Secondary Metal From Here 
                             return (
                               <div className="d-flex w-100" key={ind}>
                                 <div className="start_center_pcls mcol1_pcls spbrWord pdl_pcls">
@@ -1051,7 +1054,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
                               </div>
                             );
-                          } else if (e?.GroupJob === '' && el?.IsPrimaryMetal === 1) {
+                          } else if (e?.GroupJob === '' && el?.IsPrimaryMetal === 1) { // No Group Job That Time Only Primary Metal To Show
                             return (
                               <div className="d-flex w-100" key={ind}>
                                 <div className="pdl_pcls spbrWord mcol1_pcls start_center_pcls">
@@ -1072,13 +1075,11 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               </div>
                             );
                           } else {
-                            return (
-                              <div className="d-flex w-100" key={ind}>
-                              </div>
-                            );
+                            return (<></>);
                           }
                         })}
 
+                        {/* Finding */}
                         <div style={{ margin: "0px 2px" }}>
                           {e?.finding?.map((data, index) => (
                             <React.Fragment key={index}>
@@ -1137,6 +1138,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           ))}
                         </div>
 
+                        {/* Loss */}
                         {e?.LossWt !== 0 && (
                           <div className="d-flex w-100 pt-1">
                             <div className="mcol1_pcls start_center_pcls pdl_pcls" style={{ width: "15%" }}>
@@ -1158,6 +1160,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                           </div>
                         )}
+
+                        {/* Remark */}
                         {e?.JobRemark !== "" && (
                           <div className=" w-100 pt-2">
                             <div className="ps-1 start_center_pcls ">
@@ -1169,6 +1173,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                         )}
                       </div>
+
+                      {/* Per Job Total */}
                       <div className="d-flex w-100 btop_pcls bg_pcls fw-bold">
                         <div className="mcol1_pcls ">&nbsp;</div>
                         <div className="mcol2_pcls end_pcls pdr_pcls">
