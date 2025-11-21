@@ -4,6 +4,7 @@ import {
   NumberWithCommas,
   apiCall,
   checkMsg,
+  fixedValues,
   handleImageError,
   handlePrint,
   isObjectEmpty,
@@ -121,10 +122,10 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
             diamonds.push(ele);
-      
+          
             diamonds = diamonds.reduce((acc, diamond) => {
               const key = `${diamond?.MaterialTypeName}-${diamond?.ShapeName}-${diamond?.QualityName}-${diamond?.Colorname}-${diamond?.SizeName}`;
-              
+          
               if (acc[key]) {
                 acc[key].Pcs += diamond?.Pcs || 0;
                 acc[key].Wt += diamond?.Wt || 0;
@@ -132,22 +133,60 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               } else {
                 acc[key] = { ...diamond };
               }
-      
+          
               return acc;
             }, {});
-      
             diamonds = Object.values(diamonds);
-      
-            diamonds.forEach((diamond) => {
-              diaTotal.Wt += diamond?.Wt;
-              diaTotal.Amount += diamond?.Amount;
-              diaTotal.Pcs += diamond?.Pcs;
+          
+            diamonds.sort((a, b) => {
+              const sizeA = a.SizeName;
+              const sizeB = b.SizeName;
+          
+              const isStringA = isNaN(parseFloat(sizeA));
+              const isStringB = isNaN(parseFloat(sizeB));
+          
+              if (isStringA && isStringB) {
+                return sizeA.localeCompare(sizeB);
+              }
+          
+              if (isStringA) {
+                return -1;
+              }
+              if (isStringB) {
+                return 1;
+              }
+          
+              const numA = parseFloat(sizeA);
+              const numB = parseFloat(sizeB);
+              return numA - numB;
             });
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
             colorStones.push(ele);
             csTotal.Wt += ele?.Wt;
             csTotal.Amount += ele?.Amount;
             csTotal.Pcs += ele?.Pcs;
+            colorStones.sort((a, b) => {
+              const sizeA = a.SizeName;
+              const sizeB = b.SizeName;
+          
+              const isStringA = isNaN(parseFloat(sizeA));
+              const isStringB = isNaN(parseFloat(sizeB));
+          
+              if (isStringA && isStringB) {
+                return sizeA.localeCompare(sizeB);
+              }
+          
+              if (isStringA) {
+                return -1;
+              }
+              if (isStringB) {
+                return 1;
+              }
+          
+              const numA = parseFloat(sizeA);
+              const numB = parseFloat(sizeB);
+              return numA - numB;
+            });
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
             metals.push(ele);
             metalTotal.Wt += ele?.Wt;
@@ -355,8 +394,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   }
 
   // console.log("TotalDmdMetlWt", TotalDmdMetlWt);
-  console.log("headerData", headerData);
-  // console.log("data", data);
+  // console.log("headerData", headerData);
+  console.log("data", data);
   // console.log("total", total);
   // console.log("address", address);
 
@@ -389,9 +428,9 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
       </div>
       {/* header */}
-      <div className={`${style.headline} h-100 headerTitle headline_dp5 target_header`}>{headerData?.PrintHeadLabel}</div>
-        <div className={`h-100 target_header d-flex justify-content-between`}>
-          <div className={`h-100 p-2`}>
+      <div className={`headerTitle headline_dp5 target_header`}>{headerData?.PrintHeadLabel}</div>
+        <div className={`target_header d-flex justify-content-between`}>
+          <div className={`p-2`}>
             <div  style={{ fontWeight: "bold" }}>
               {headerData?.CompanyFullName}
             </div>
@@ -409,17 +448,24 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
           <div >Toll Free No:  {headerData?.CompanyTellNo}</div>
         </div>
-        <div style={{ width: "25%" }} className="h-100 d-flex justify-content-center align-items-center">
-          <div className="h-100">
-            <img src={headerData?.PrintLogo} alt="" onError={handleImageErrors} className="w-100 h-100 d-block" style={{ minHeight: "90px" }} />
-          </div>
+        <div className="d-flex justify-content-end pe-2 pt-2">
+          <img 
+            src={headerData?.PrintLogo} 
+            alt="" 
+            onError={handleImageErrors} 
+            className="w-100 h-auto ms-auto d-block object-fit-contain headImg_Pcl7" 
+            style={{ maxWidth: "230px" }}
+            height={120}
+            width={150} 
+          />
         </div>
       </div>
+
       {/* sub header */}
-      <div className="d-flex border mb-1 subHeadFont" style={{fontSize: "11px", lineHeight: "11px"}}>
-        <div className="col-4 border-end p-2">
+      <div className="d-flex border mb-1 FntSbHed">
+        <div className="col-4 border-end p-1">
           <p>{headerData?.lblBillTo}</p>
-          <p className="fw-semibold">{headerData?.customerfirmname}</p>
+          <p className="fw-semibold SPFntSbHed">{headerData?.customerfirmname}</p>
           <p>{headerData?.customerAddress2}</p>
           <p>{headerData?.customerAddress1}</p>
           <p>{headerData?.customerAddress3}</p>
@@ -440,12 +486,12 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </p>
           )}
         </div>
-        <div className="col-5 border-end p-2">
-          <p>Ship To,</p>
-          <p className="fw-semibold">{headerData?.customerfirmname}</p>
+        <div className="col-5 border-end p-1">
+          <p style={{ lineHeight: "6px", paddingTop: "4px" }}>Ship To,</p>
+          <p className="fw-semibold SPFntSbHed">{headerData?.customerfirmname}</p>
           <PrintableText headerData={headerData} />
         </div>
-        <div className="col-3 p-2">
+        <div className="col-3 p-1">
           <div className="d-flex">
             <div className="col-3">
               <p className="fw-semibold pe-2">BILL NO</p>
@@ -474,6 +520,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           )}
         </div>
       </div>
+
       {/* table Header */}
       <div className={`${style?.detailPrint5TableHead}`}>
         <div className="d-flex border lightGrey">
@@ -489,12 +536,12 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 Diamond
               </div>
               <div className="d-flex w-100">
-                <div className="col-2 border-end text-center">Code</div>
-                <div className="col-2 border-end text-center">Size</div>
-                <div className="col-2 border-end text-center">Pcs</div>
-                <div className="col-2 border-end text-center">Wt</div>
-                <div className="col-2 border-end text-center">Rate</div>
-                <div className="col-2 text-center">Amount</div>
+                <div className="WdthSpDCM1 border-end text-center">Code</div>
+                <div className="WdthSpDCM2 border-end text-center">Size</div>
+                <div className="WdthSpDCM3 border-end text-center">Pcs</div>
+                <div className="WdthSpDCM2 border-end text-center">Wt</div>
+                <div className="WdthSpDCM2 border-end text-center">Rate</div>
+                <div className={`WdthSpDCM1 text-center ${style?.detailPrint5TableHeadAMT}`}>Amount</div>
               </div>
             </div>
           </div>
@@ -528,12 +575,12 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 Stone
               </div>
               <div className="d-flex w-100">
-                <div className={`col-2 border-end text-center`}>Code</div>
-                <div className={`col-2 border-end text-center`}>Size</div>
-                <div className={`col-2 border-end text-center`}>Pcs</div>
-                <div className={`col-2 border-end text-center`}>Wt</div>
-                <div className={`col-2 border-end text-center`}>Rate</div>
-                <div className={`col-2 text-center`}>Amount</div>
+                <div className={`WdthSpDCM1 border-end text-center`}>Code</div>
+                <div className={`WdthSpDCM2 border-end text-center`}>Size</div>
+                <div className={`WdthSpDCM3 border-end text-center`}>Pcs</div>
+                <div className={`WdthSpDCM2 border-end text-center`}>Wt</div>
+                <div className={`WdthSpDCM2 border-end text-center`}>Rate</div>
+                <div className={`WdthSpDCM1 text-center ${style?.detailPrint5TableHeadAMT}`}>Amount</div>
               </div>
             </div>
           </div>
@@ -609,24 +656,24 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     Gross
                   </p>
                 </div>
-                <div className={`${style?.diamond} border-end position-relative pb-4`} >
+                <div className={`${style?.diamond} border-end position-relative pb-1`} >
                   {e?.diamonds.map((ele, ind) => {
                     return (
                       <div className="d-flex w-100" key={ind}>
-                        <div className={`col-2 spbrWord`}>
+                        <div className={`ATWdthSpDCM1 spbrWord`}>
                           {ele?.MaterialTypeName} {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}
                         </div>
-                        <div className={`col-2 ${style?.wordBreak} text-center`}>{ele?.SizeName}</div>
-                        <div className={`col-2 text-end ${style?.wordBreak}`}>
+                        <div className={`ATWdthSpDCM2 ${style?.wordBreak} text-center`}>{ele?.SizeName}</div>
+                        <div className={`ATWdthSpDCM3 text-end ${style?.wordBreak}`}>
                           {NumberWithCommas(ele?.Pcs, 0)}
                         </div>
-                        <div className={`col-2 text-end ${style?.wordBreak}`}>
+                        <div className={`ATWdthSpDCM4 text-end ${style?.wordBreak}`}>
                           {NumberWithCommas(ele?.Wt, 3)}
                         </div>
-                        <div className={`col-2 text-end ${style?.wordBreak}`}>
+                        <div className={`ATWdthSpDCM5 text-end ${style?.wordBreak}`}>
                           {NumberWithCommas(ele?.Rate, 2)}
                         </div>
-                        <div className={`col-2 text-end fw-bold ${style?.wordBreak}`}>
+                        <div className={`ATWdthSpDCM6 text-end fw-bold ${style?.wordBreak}`}>
                           {NumberWithCommas(ele?.Amount, 2)}
                         </div>
                       </div>
@@ -634,7 +681,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   })}
                 </div>
 
-                <div className={`${style?.metal} border-end position-relative pb-4`} >
+                <div className={`${style?.metal} border-end position-relative pb-1`} >
                   {e?.metals.map((ele, ind) => {
                     return (
                       <div className="d-flex w-100" key={ind}>
@@ -668,26 +715,26 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   )}
                 </div>
 
-                <div className={`${style?.stone} border-end position-relative pb-4`} >
+                <div className={`${style?.stone} border-end position-relative pb-1`} >
                   {e?.colorStones.map((ele, ind) => {
                     return (
                       <div className="d-flex w-100" key={ind}>
-                        <div className={`col-2 spbrWord`}>
+                        <div className={`ATWdthSpDCM1 spbrWord`}>
                           {ele?.MaterialTypeName} {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}
                         </div>
-                        <div className={`col-2 text-center ${style?.wordBreak}`}>
+                        <div className={`ATWdthSpDCM2 text-center ${style?.wordBreak}`}>
                           {ele?.SizeName}
                         </div>
-                        <div className={`col-2 ${style?.wordBreak} text-end`}>
+                        <div className={`ATWdthSpDCM3 ${style?.wordBreak} text-end`}>
                           {NumberWithCommas(ele?.Pcs, 0)}
                         </div>
-                        <div className={`col-2 ${style?.wordBreak} text-end`}>
+                        <div className={`ATWdthSpDCM4 ${style?.wordBreak} text-end`}>
                           {NumberWithCommas(ele?.Wt, 3)}
                         </div>
-                        <div className={`col-2 text-center ${style?.wordBreak}`}>
+                        <div className={`ATWdthSpDCM5 text-center ${style?.wordBreak}`}>
                           {NumberWithCommas(ele?.Rate, 2)}
                         </div>
-                        <div className={`col-2 fw-bold ${style?.wordBreak} text-end`}>
+                        <div className={`ATWdthSpDCM6 fw-bold ${style?.wordBreak} text-end`}>
                           {NumberWithCommas(ele?.Amount, 2)}
                         </div>
                       </div>
@@ -704,7 +751,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                   </div>
                 </div>
-                <div className={`${style?.labour} border-end text-center position-relative pb-4 ${style?.wordBreak}`} >
+                <div className={`${style?.labour} border-end text-center position-relative pb-1 ${style?.wordBreak}`} >
                   <div className="d-grid h-100 w-100">
                     <div>
                       <div className={`d-flex w-100 ${style?.wordBreak}`}>
@@ -720,7 +767,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                   </div>
                 </div>
-                <div className={`${style?.totalAmount}  text-end position-relative pb-4 ${style?.wordBreak}`} >
+                <div className={`${style?.totalAmount}  text-end position-relative pb-1 ${style?.wordBreak}`} >
                   <div className={`d-grid h-100 w-100`}>
                     <div>
                       <p className={`text-end fw-bold`}>
@@ -744,17 +791,14 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="col-2 text-end"></div>
                       <div className="col-2 text-end"></div>
                       <div className={`col-2 text-end fw-bold ${style?.wordBreak}`}>
-                        {e?.diaTotal?.Pcs !== 0 &&
-                          NumberWithCommas(e?.diaTotal?.Pcs, 0)}
+                        {e?.diamonds?.reduce?.((acc, ele) => acc + ele?.Pcs, 0)}
                       </div>
                       <div className={`col-2 text-end fw-bold ${style?.wordBreak}`}>
-                        {e?.diaTotal?.Wt !== 0 &&
-                          NumberWithCommas(e?.diaTotal?.Wt, 3)}
+                        {e?.diamonds?.reduce((acc, ele) => acc + (ele?.Wt || 0), 0) && fixedValues(e?.diamonds?.reduce((acc, ele) => acc + (ele?.Wt || 0), 0), 3)}
                       </div>
                       {/* <div className="col-2 text-end"></div> */}
                       <div className={`col-4 text-end fw-bold ${style?.wordBreak}`}>
-                        {e?.diaTotal?.Amount !== 0 &&
-                          NumberWithCommas(e?.diaTotal?.Amount, 2)}
+                        {e?.diamonds?.reduce((acc, ele) => acc + (ele?.Amount || 0), 0) && fixedValues(e?.diamonds?.reduce((acc, ele) => acc + (ele?.Amount || 0), 0), 3)}
                       </div>
                     </div>
                 </div>
@@ -995,193 +1039,203 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
         </div>
         {/* summary */}
-        <div className="d-flex" style={{fontSize: "10px"}}>
-          <div className="col-6">
-            <div className="d-flex">
-              <div className="col-8 border-start border-end">
-                <h6
-                  className={`fw-bold text-center border-bottom ${style?.min_height_15} d-flex justify-content-center align-items-center lightGrey`}
-                  style={{ fontSize: "11px" }}
-                >
-                  SUMMARY
-                </h6>
-                <div className="d-flex">
-                  <div className="col-6 border-end position-relative pb-3 px-1 sumFont">
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold">GOLD IN 24KT </p>
-                      <p>{NumberWithCommas((total?.gold24kt - notGoldMetalWtTotal), 3)} gm</p>
-                    </div>
-                    {
-                      MetShpWise?.map((e, i) => {
-                        return <div className="d-flex justify-content-between" key={i}> 
-                        <p className="fw-bold">{e?.ShapeName}</p>
-                        <p>{NumberWithCommas(e?.metalfinewt, 3)} gm</p>
+        <div className="SpBrders">
+          <div className="d-flex" style={{fontSize: "10px"}}>
+            <div className="col-6">
+              <div className="d-flex">
+                <div className="col-8 border-end">
+                  <h6
+                    className={`fw-bold text-center border-bottom ${style?.min_height_15} d-flex justify-content-center align-items-center lightGrey`}
+                    style={{ fontSize: "12px" }}
+                  >
+                    SUMMARY
+                  </h6>
+                  <div className="d-flex">
+                    <div className="col-6 border-start border-end position-relative pb-3 px-1 sumFont">
+                      <div className="d-flex justify-content-between">
+                        <p className="fw-bold">GOLD IN 24KT </p>
+                        <p>{NumberWithCommas((total?.gold24kt - notGoldMetalWtTotal), 3)} gm</p>
                       </div>
-                      })
-                    }
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold">GROSS WT</p>
-                      <p>{NumberWithCommas(total?.grosswt, 3)} gm</p>
-                    </div>
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold">*(G+D) WT</p>
-                      <p>{NumberWithCommas(total?.metalTotal?.Wt, 3)} gm</p>
-                    </div>
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold">NET WT</p>
-                      <p>{NumberWithCommas(total?.metalTotal?.NL, 3)} gm</p>
-                    </div>
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold">DIAMOND WT</p>
-                      <p>
-                        {NumberWithCommas(total?.diaTotal?.Pcs, 0)} /{" "}
-                        {NumberWithCommas(total?.diaTotal?.Wt, 3)} Cts
-                      </p>
-                    </div>
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold">STONE WT</p>
-                      <p>
-                        {NumberWithCommas(total?.csTotal?.Pcs, 0)} /{" "}
-                        {NumberWithCommas(total?.csTotal?.Wt, 3)} Cts
-                      </p>
-                    </div>
-                    <div
-                      className={`d-flex justify-content-between position-absolute left-0 border-bottom bottom-0 ${style?.min_height_15} border-top w-100 lightGrey end-0`}
-                      style={{minHeight: "18px"}}
-                    >
-                      <p></p>
-                      <p></p>
-                    </div>
-                  </div>
-                  <div className="col-6 border-end position-relative pb-3 px-1 sumFont">
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold">GOLD </p>
-                      <p>{NumberWithCommas((totalMetalAmount - notGoldMetalTotal), 2)}</p>
-                    </div>
-                    {
-                      MetShpWise?.map((e, i) => {
-                        return <div className="d-flex justify-content-between" key={i}> 
-                        <p className="fw-bold">{e?.ShapeName}</p>
-                        <p>{NumberWithCommas(e?.Amount, 2)}</p>
+                      {
+                        MetShpWise?.map((e, i) => {
+                          return <div className="d-flex justify-content-between" key={i}> 
+                          <p className="fw-bold">{e?.ShapeName}</p>
+                          <p>{NumberWithCommas(e?.metalfinewt, 3)} gm</p>
+                        </div>
+                        })
+                      }
+                      <div className="d-flex justify-content-between">
+                        <p className="fw-bold">GROSS WT</p>
+                        <p>{NumberWithCommas(total?.grosswt, 3)} gm</p>
                       </div>
-                      })
-                    }
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold">DIAMOND</p>
-                      <p>{NumberWithCommas(total?.diaTotal?.Amount, 2)}</p>
+                      <div className="d-flex justify-content-between">
+                        <p className="fw-bold">*(G+D) WT</p>
+                        <p>{NumberWithCommas(total?.metalTotal?.Wt, 3)} gm</p>
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        <p className="fw-bold">NET WT</p>
+                        <p>{NumberWithCommas(total?.metalTotal?.NL, 3)} gm</p>
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        <p className="fw-bold">DIAMOND WT</p>
+                        <p>
+                          {NumberWithCommas(total?.diaTotal?.Pcs, 0)} /{" "}
+                          {NumberWithCommas(total?.diaTotal?.Wt, 3)} Cts
+                        </p>
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        <p className="fw-bold">STONE WT</p>
+                        <p>
+                          {NumberWithCommas(total?.csTotal?.Pcs, 0)} /{" "}
+                          {NumberWithCommas(total?.csTotal?.Wt, 3)} Cts
+                        </p>
+                      </div>
+                      <div
+                        className={`d-flex justify-content-between position-absolute left-0 border-bottom bottom-0 ${style?.min_height_15} border-top w-100 lightGrey end-0`}
+                        style={{minHeight: "18px"}}
+                      >
+                        <p></p>
+                        <p></p>
+                      </div>
                     </div>
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold">CST</p>
-                      <p>{NumberWithCommas(total?.csTotal?.Amount, 2)}</p>
-                    </div>
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold">MAKING</p>
-                      <p>{NumberWithCommas(total?.MakingAmount, 2)}</p>
-                    </div>
-                    <div className="d-flex justify-content-between">
-                      <p className="fw-bold">OTHER</p>
-                      <p>{NumberWithCommas(total?.OtherCharges, 2)}</p>
-                    </div>
-                    <div className="d-flex justify-content-between">
-                      <p className="text-end fw-bold">
-                        {headerData?.AddLess > 0 ? "Add" : "Less"}
-                      </p>
-                      <p className="text-end">
-                        {NumberWithCommas(headerData?.AddLess, 2)}
-                      </p>
-                    </div>
-                    <div
-                      className={`d-flex justify-content-between border-bottom position-absolute left-0 bottom-0 ${style?.min_height_15} border-top w-100 lightGrey end-0 ps-1 pe-1`}
-                    >
-                      <p className="fw-bold">TOTAL</p>
-                      <p className="">{NumberWithCommas(total?.TotalAmount, 2)}</p>
+                    <div className="col-6 border-end position-relative pb-3 px-1 sumFont">
+                      <div className="d-flex justify-content-between">
+                        <p className="fw-bold">GOLD </p>
+                        <p>{NumberWithCommas((totalMetalAmount - notGoldMetalTotal), 2)}</p>
+                      </div>
+                      {
+                        MetShpWise?.map((e, i) => {
+                          return <div className="d-flex justify-content-between" key={i}> 
+                          <p className="fw-bold">{e?.ShapeName}</p>
+                          <p>{NumberWithCommas(e?.Amount, 2)}</p>
+                        </div>
+                        })
+                      }
+                      <div className="d-flex justify-content-between">
+                        <p className="fw-bold">DIAMOND</p>
+                        <p>{NumberWithCommas(total?.diaTotal?.Amount, 2)}</p>
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        <p className="fw-bold">CST</p>
+                        <p>{NumberWithCommas(total?.csTotal?.Amount, 2)}</p>
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        <p className="fw-bold">MAKING</p>
+                        <p>{NumberWithCommas(total?.MakingAmount, 2)}</p>
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        <p className="fw-bold">OTHER</p>
+                        <p>{NumberWithCommas(total?.OtherCharges, 2)}</p>
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        <p className="text-end fw-bold">
+                          {headerData?.AddLess > 0 ? "Add" : "Less"}
+                        </p>
+                        <p className="text-end">
+                          {NumberWithCommas(headerData?.AddLess, 2)}
+                        </p>
+                      </div>
+                      <div
+                        className={`d-flex justify-content-between border-bottom position-absolute left-0 bottom-0 ${style?.min_height_15} border-top w-100 lightGrey end-0 ps-1 pe-1`}
+                        style={{ minHeight: "17.9px"}}
+                      >
+                        <p className="fw-bold">TOTAL</p>
+                        <p className="">{NumberWithCommas(total?.TotalAmount, 2)}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-4 border-end border-bottom position-relative pb-3 sumFont">
-                <h6
-                  className={`${style?.min_height_15} ${style?.sumCent} border-bottom fw-bold lightGrey text-center justify-content-center align-items-center`}
-                  style={{ fontSize: "11px" }}
-                >
-                  Diamond Details
-                </h6>
-                {diamondDetail.map((e, i) => {
-                  return (
-                    <div
-                      className="d-flex justify-content-between px-1"
-                      key={i}
-                    >
-                      <p className="fw-bold">
-                        {e?.label === "OTHER" ? (
-                          e?.label
-                        ) : (
-                          <>
-                            {e?.label} {e?.QualityName} {e?.Colorname}
-                          </>
-                        )}{" "}
-                      </p>
-                      <p>
-                        {e?.Pcs} / {NumberWithCommas(e?.Wt, 3)} Cts
-                      </p>
-                    </div>
-                  );
-                })}
+                <div className="col-4 border-end border-bottom position-relative pb-3 sumFont">
+                  <h6
+                    className={`${style?.min_height_15} ${style?.sumCent} border-bottom fw-bold lightGrey text-center justify-content-center align-items-center`}
+                    style={{ fontSize: "12px" }}
+                  >
+                    Diamond Details
+                  </h6>
+                  {diamondDetail.map((e, i) => {
+                    return (
+                      <div
+                        className="d-flex justify-content-between px-1"
+                        key={i}
+                      >
+                        <p className="fw-bold">
+                          {e?.label === "OTHER" ? (
+                            e?.label
+                          ) : (
+                            <>
+                              {e?.label} {e?.QualityName} {e?.Colorname}
+                            </>
+                          )}{" "}
+                        </p>
+                        <p>
+                          {e?.Pcs} / {NumberWithCommas(e?.Wt, 3)} Cts
+                        </p>
+                      </div>
+                    );
+                  })}
 
-                <div
-                  className={`d-flex justify-content-between position-absolute left-0 bottom-0 ${style?.min_height_15} lightGrey border-top w-100`}
-                >
-                  <p></p>
-                  <p></p>
+                  <div
+                    className={`d-flex justify-content-between position-absolute left-0 bottom-0 ${style?.min_height_15} lightGrey border-top w-100`}
+                  >
+                    <p></p>
+                    <p></p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="col-2 border-bottom  h-100 border-end sumFont">
-            <h6
-              className={`fw-bold text-center justify-content-center align-items-center border-bottom ${style?.min_height_15} ${style?.sumCent} lightGrey`}
-              style={{ fontSize: "11px" }}
-            >
-              OTHER DETAILS
-            </h6>
-            <div>
-              {brokarage.map((e, i) => {
-                return <div className="d-flex justify-content-between px-1" key={i}>
-                  <p className="fw-bold">{e[0]} </p>
-                  <p>{e[1] && NumberWithCommas(e[1], 2)}</p>
-                </div>
-              })}
-              <div className="d-flex justify-content-between px-1">
-                <p className="fw-bold">RATE IN 24KT </p>
-                <p>{NumberWithCommas(headerData?.MetalRate24K, 2)}</p>
-              </div>
-
-            </div>
-          </div>
-          <div className={`col-2 border-bottom h-100 border-start ${style?.sumFont}`}>
-            {headerData?.PrintRemark !== "" && <>  <h6 className={`fw-bold text-center justify-content-center align-items-center border-bottom ${style?.sumCent} ${style?.min_height_15} lightGrey`} >
-                REMARK
+            <div className="col-2 border-bottom  h-100 border-end sumFont">
+              <h6
+                className={`fw-bold text-center justify-content-center align-items-center border-bottom ${style?.min_height_15} ${style?.sumCent} lightGrey`}
+                style={{ fontSize: "12px" }}
+              >
+                OTHER DETAILS
               </h6>
-              <div className={`${style?.min_height_15}`}>
-                <p className="px-1" dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></p>
-              </div></>}
-          </div>
-          <div className="col-2 d-flex sumFont">
-            <div
-              className={`d-flex border-end ${style?.height_createBy} w-100 h-100`}
-            >
-              <div className="col-6 d-flex align-items-end h-100 justify-content-center border-start border-end border-bottom" style={{minHeight: "130px", maxHeight: "130px"}}>
-                <p className="pb-1" style={{ fontSize: "11px" }}><i>Created By</i> </p>
+              <div>
+                {brokarage.map((e, i) => {
+                  return <div className="d-flex justify-content-between px-1" key={i}>
+                    <p className="fw-bold">{e[0]} </p>
+                    <p>{e[1] && NumberWithCommas(e[1], 2)}</p>
+                  </div>
+                })}
+                <div className="d-flex justify-content-between px-1">
+                  <p className="fw-bold">RATE IN 24KT </p>
+                  <p>{NumberWithCommas(headerData?.MetalRate24K, 2)}</p>
+                </div>
+
               </div>
-              <div className="col-6 d-flex align-items-end h-100 justify-content-center border-bottom" style={{minHeight: "130px", maxHeight: "130px"}}>
-                <p className="pb-1" style={{ fontSize: "11px" }}><i>Checked By</i> </p>
+            </div>
+            <div className={`col-2 border-bottom h-100 border-start ${style?.sumFont}`}>
+              {headerData?.PrintRemark !== "" && <>  
+                <h6 
+                  className={`fw-bold text-center justify-content-center align-items-center border-bottom ${style?.sumCent} ${style?.min_height_15} lightGrey`}
+                  style={{ fontSize: "12px"}}
+                >
+                  REMARK
+                </h6>
+                <div className={`${style?.min_height_15}`}>
+                  <p className="px-1" dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></p>
+                </div></>}
+            </div>
+            <div className="col-2 d-flex sumFont">
+              <div
+                className={`d-flex ${style?.height_createBy} w-100 h-100`}
+              >
+                <div className="col-6 d-flex align-items-end h-100 justify-content-center border-start border-end border-bottom" style={{minHeight: "135px", maxHeight: "135px"}}>
+                  <p className="pb-1" style={{ fontSize: "12px" }}><i>Created By</i> </p>
+                </div>
+                <div className="col-6 d-flex align-items-end h-100 justify-content-center border-bottom border-end" style={{minHeight: "135px", maxHeight: "135px"}}>
+                  <p className="pb-1" style={{ fontSize: "12px" }}><i>Checked By</i> </p>
+                </div>
               </div>
             </div>
           </div>
+          {headerData?.SalesRepPolicyTermsDescription !== '' && ( 
+          <div className="d-flex"><p className="fw-bold">TERMS INCLUDED:&nbsp;</p>{headerData?.SalesRepPolicyTermsDescription}</div>
+          )}
         </div>
-        <div className="d-flex SpBrders"><p className="fw-bold">TERMS INCLUDED:&nbsp;</p>{headerData?.SalesRepPolicyTermsDescription}</div>
+
         {/* pre generated text */}
-        <pre className="pre pt-3">**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS </pre>
+        <pre className="pre pt-3 FntFrPre">**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS </pre>
       </div>
     </div>
   ) : (

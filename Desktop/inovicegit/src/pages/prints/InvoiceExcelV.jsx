@@ -1,4 +1,5 @@
-    // http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=SlMvNjMzLzI1LTI2&evn=c2FsZQ==&pnm=SW52b2ljZSBFeGNlbCBW&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&ctv=NzE=&ifid=PackingList3&pid=undefined&etp=ZXhjZWw=
+//V // http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=SlMvNjMzLzI1LTI2&evn=c2FsZQ==&pnm=SW52b2ljZSBFeGNlbCBW&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&ctv=NzE=&ifid=PackingList3&pid=undefined&etp=ZXhjZWw=
+//V1 // http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=SlMvNjMzLzI1LTI2&evn=c2FsZQ==&pnm=SW52b2ljZSBFeGNlbCBWMQ==&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&ctv=NzE=&ifid=PackingList3&pid=undefined&etp=ZXhjZWw=
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -264,7 +265,7 @@ const InvoiceExcelV = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const totalNetWt = result?.resultArray?.reduce((acc, obj) => acc + obj.NetWt, 0);
 
     const decodedValue = atob(printName);
-    const shouldHide = decodedValue === "Invoice Excel V1";
+    const shouldHide = decodedValue !== "Invoice Excel V1";
 
     return (
         <>
@@ -273,14 +274,14 @@ const InvoiceExcelV = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     id="test-table-xls-button"
                     className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5 d-none"
                     table="table-to-xls"
-                    filename={shouldHide ? (`Invoice_ExcelV1_${result?.header?.InvoiceNo}_${Date.now()}`) : (`Invoice_ExcelV_${result?.header?.InvoiceNo}_${Date.now()}`)}
+                    filename={shouldHide ? (`Invoice_ExcelV_${result?.header?.InvoiceNo}_${Date.now()}`) : (`Invoice_ExcelV1_${result?.header?.InvoiceNo}_${Date.now()}`)}
                     sheet="tablexls"
                     buttonText="Download as XLS" />
                     <table id="table-to-xls" className='d-none'>
                         <tbody>
                             <tr>
                                 <th width={80} style={{ ...hdSty, ...brRight, ...brBotm, ...FntStyl, }}>SR NO</th>
-                                {shouldHide ? ("") : ( <th width={120} style={{ ...hdSty, ...brRight, ...brBotm, ...FntStyl, }}>IMAGES</th> )}
+                                {shouldHide ? (<th width={120} style={{ ...hdSty, ...brRight, ...brBotm, ...FntStyl, }}>IMAGES</th>) : ( "" )}
                                 <th width={100} style={{ ...hdSty, ...brRight, ...brBotm, ...FntStyl, }}>DESIGN CODE</th>
                                 <th width={140} style={{ ...hdSty, ...brRight, ...brBotm, ...FntStyl, }}>ITEM DESCRIPTION</th>
                                 <th width={100} style={{ ...hdSty, ...brRight, ...brBotm, ...FntStyl, }}>LAB</th>
@@ -315,7 +316,7 @@ const InvoiceExcelV = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 return <tr key={i}>
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, ...FntStyl, }}><div>{i + 1}</div></td>
 
-                                    {shouldHide ? ("") : ( 
+                                    {shouldHide ? ( 
                                         <td width={120} style={{ ...brRight, ...brBotm, ...txtTop, ...FntStyl, }}>
                                             {e?.DesignImage !== "" && 
                                                 <>
@@ -334,7 +335,7 @@ const InvoiceExcelV = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 </>
                                             }
                                         </td>
-                                    )}
+                                    ) : ( "" )}
 
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop, ...styBld, ...FntStyl, }}><div>{e?.designno}</div><div>{e?.SrJobno}</div></td>
 
@@ -476,7 +477,7 @@ const InvoiceExcelV = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             })}
                             <tr>
                                 <td width={80} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk, ...FntStyl, }}></td>
-                                {shouldHide ? ("") : ( <td width={120} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk, ...FntStyl, }}></td> )}
+                                {shouldHide ? (<td width={120} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk, ...FntStyl, }}></td>) : ( "" )}
                                 <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk, ...FntStyl, }}></td>
                                 <td width={140} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk, ...FntStyl, }}></td>
                                 <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk, ...FntStyl, }}></td>

@@ -5,7 +5,7 @@
   font-family: Calibri;
 }
 .sumFont{
-  font-size: 9px;
+  font-size: 10px;
 }
 .sumCent{
   padding-top: 3px;
@@ -18,8 +18,13 @@
   font-size: 11px;
 }
 
+.detailPrint5TableHeadAMT {
+  font-size: 11px;
+}
+
 .detailPrint5Table {
   font-size: 10px;
+  line-height: 12px;
 }
 
 .detailPrint5 p, .metal > div > div, .diamond > div > div, .stone > div > div, .labour > div > div > div > div > div, .totaltotal > div{
@@ -78,7 +83,7 @@
 }
 
 .min_height_15 {
-  min-height: 18px;
+  height: 17px;
 }
 
 .total {
@@ -97,7 +102,7 @@
 
 @media print {
   @page {
-    margin: 15px 20px;
+    margin: 15px 10px;
   }
 
   .print_sec_sum4 {
@@ -110,15 +115,24 @@
 
   .detailPrint5Table {
     font-size: 6px;
+    line-height: 8PX;
   }
-  .subHeadFont{
-    font-size: 8px;
-    line-height: 10px;
-  }
+
   .sumFont{
     font-size: 7px;
   }
+
   .detailPrint5{
     zoom: unset;
+  }
+
+  .detailPrint5TableHead {
+    font-size: 8.5px;
+  }
+
+  .detailPrint5TableHeadAMT {
+    font-size: 8px;
+    padding: 0;
+    margin: 0;
   }
 }
