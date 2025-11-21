@@ -115,15 +115,34 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       }
       let netWtLoss = 0;
       let count = 0;
-      data?.BillPrint_Json2.forEach((ele, ind) => {
+      data?.BillPrint_Json2.forEach((ele) => {
         if (ele?.StockBarcode === e?.SrJobno) {
           obj.MakingAmount += ele.SettingAmount;
+      
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
             diamonds.push(ele);
-            diaTotal.Wt += ele?.Wt;
-            diaTotal.Amount += ele?.Amount;
-            diaTotal.Pcs += ele?.Pcs;
-
+      
+            diamonds = diamonds.reduce((acc, diamond) => {
+              const key = `${diamond?.MaterialTypeName}-${diamond?.ShapeName}-${diamond?.QualityName}-${diamond?.Colorname}-${diamond?.SizeName}`;
+              
+              if (acc[key]) {
+                acc[key].Pcs += diamond?.Pcs || 0;
+                acc[key].Wt += diamond?.Wt || 0;
+                acc[key].Amount += diamond?.Amount || 0;
+              } else {
+                acc[key] = { ...diamond };
+              }
+      
+              return acc;
+            }, {});
+      
+            diamonds = Object.values(diamonds);
+      
+            diamonds.forEach((diamond) => {
+              diaTotal.Wt += diamond?.Wt;
+              diaTotal.Amount += diamond?.Amount;
+              diaTotal.Pcs += diamond?.Pcs;
+            });
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
             colorStones.push(ele);
             csTotal.Wt += ele?.Wt;
@@ -273,7 +292,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   
       // Both designnos are strings, compare them as strings
       return designNoA.localeCompare(designNoB);
-  });
+    });
 
     let brokr = (data?.BillPrint_Json[0]?.Brokerage.split("@-@"));
     brokr = brokr.map(ele => ele?.split('#-#'));
@@ -336,10 +355,10 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   }
 
   // console.log("TotalDmdMetlWt", TotalDmdMetlWt);
-  // console.log("headerData", headerData);
+  console.log("headerData", headerData);
   // console.log("data", data);
   // console.log("total", total);
-  console.log("address", address);
+  // console.log("address", address);
 
   
   return loader ? (
@@ -595,7 +614,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     return (
                       <div className="d-flex w-100" key={ind}>
                         <div className={`col-2 spbrWord`}>
-                          {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}
+                          {ele?.MaterialTypeName} {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}
                         </div>
                         <div className={`col-2 ${style?.wordBreak} text-center`}>{ele?.SizeName}</div>
                         <div className={`col-2 text-end ${style?.wordBreak}`}>
@@ -654,7 +673,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     return (
                       <div className="d-flex w-100" key={ind}>
                         <div className={`col-2 spbrWord`}>
-                          {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}
+                          {ele?.MaterialTypeName} {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}
                         </div>
                         <div className={`col-2 text-center ${style?.wordBreak}`}>
                           {ele?.SizeName}
@@ -979,7 +998,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div className="d-flex" style={{fontSize: "10px"}}>
           <div className="col-6">
             <div className="d-flex">
-              <div className="col-8 border-bottom border-start border-end">
+              <div className="col-8 border-start border-end">
                 <h6
                   className={`fw-bold text-center border-bottom ${style?.min_height_15} d-flex justify-content-center align-items-center lightGrey`}
                   style={{ fontSize: "11px" }}
@@ -1027,8 +1046,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </p>
                     </div>
                     <div
-                      className={`d-flex justify-content-between position-absolute left-0 bottom-0 ${style?.min_height_15} border-top w-100 lightGrey end-0`}
-                      style={{minHeight: "16px"}}
+                      className={`d-flex justify-content-between position-absolute left-0 border-bottom bottom-0 ${style?.min_height_15} border-top w-100 lightGrey end-0`}
+                      style={{minHeight: "18px"}}
                     >
                       <p></p>
                       <p></p>
@@ -1072,7 +1091,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </p>
                     </div>
                     <div
-                      className={`d-flex justify-content-between position-absolute left-0 bottom-0 ${style?.min_height_15} border-top w-100 lightGrey end-0 ps-1 pe-1`}
+                      className={`d-flex justify-content-between border-bottom position-absolute left-0 bottom-0 ${style?.min_height_15} border-top w-100 lightGrey end-0 ps-1 pe-1`}
                     >
                       <p className="fw-bold">TOTAL</p>
                       <p className="">{NumberWithCommas(total?.TotalAmount, 2)}</p>
@@ -1098,7 +1117,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           e?.label
                         ) : (
                           <>
-                            {e?.label} {e?.Colorname} {e?.QualityName}
+                            {e?.label} {e?.QualityName} {e?.Colorname}
                           </>
                         )}{" "}
                       </p>
@@ -1149,17 +1168,18 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
           <div className="col-2 d-flex sumFont">
             <div
-              className={`d-flex border-start border-end border-bottom ${style?.height_createBy} w-100 h-100`}
+              className={`d-flex border-end ${style?.height_createBy} w-100 h-100`}
             >
-              <div className="col-6 d-flex align-items-end h-100 justify-content-center border-end">
+              <div className="col-6 d-flex align-items-end h-100 justify-content-center border-start border-end border-bottom" style={{minHeight: "130px", maxHeight: "130px"}}>
                 <p className="pb-1" style={{ fontSize: "11px" }}><i>Created By</i> </p>
               </div>
-              <div className="col-6 d-flex align-items-end h-100 justify-content-center">
+              <div className="col-6 d-flex align-items-end h-100 justify-content-center border-bottom" style={{minHeight: "130px", maxHeight: "130px"}}>
                 <p className="pb-1" style={{ fontSize: "11px" }}><i>Checked By</i> </p>
               </div>
             </div>
           </div>
         </div>
+        <div className="d-flex SpBrders"><p className="fw-bold">TERMS INCLUDED:&nbsp;</p>{headerData?.SalesRepPolicyTermsDescription}</div>
         {/* pre generated text */}
         <pre className="pre pt-3">**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS </pre>
       </div>
