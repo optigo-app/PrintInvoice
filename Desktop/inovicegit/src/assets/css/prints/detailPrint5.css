@@ -74,6 +74,25 @@
   line-height: 12px;
 }
 
+.spFntCmpnyNam {
+  font-size: 16px;
+  line-height: 16px;
+}
+
+.SpFntSmryHed {
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.SpFntSmry {
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.heightCmon {
+  min-height: 16px;
+}
+
 @media print {
   @page {
     margin: 15px 10px;
@@ -132,5 +151,24 @@
   .SPFntSbHed {
     font-size: 10px;
     line-height: 10px;
+  }
+
+  .spFntCmpnyNam {
+    font-size: 13px;
+    line-height: 13px;
+  }
+
+  .SpFntSmryHed {
+    font-size: 9px;
+    line-height: 11px;
+  }
+  
+  .SpFntSmry {
+    font-size: 8px;
+    line-height: 10px;
+  }
+
+  .heightCmon {
+    min-height: 14px;
   }
 }

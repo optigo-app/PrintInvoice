@@ -428,10 +428,10 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
       </div>
       {/* header */}
-      <div className={`headerTitle headline_dp5 target_header`}>{headerData?.PrintHeadLabel}</div>
-        <div className={`target_header d-flex justify-content-between`}>
+      <div className={`headerTitle headline_dp5`}>{headerData?.PrintHeadLabel}</div>
+        <div className={`d-flex justify-content-between`}>
           <div className={`p-2`}>
-            <div  style={{ fontWeight: "bold" }}>
+            <div className="spFntCmpnyNam" style={{ fontWeight: "bold" }}>
               {headerData?.CompanyFullName}
             </div>
             <div >{headerData?.CompanyAddress}</div>
@@ -1040,18 +1040,17 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
         {/* summary */}
         <div className="SpBrders">
-          <div className="d-flex" style={{fontSize: "10px"}}>
+          <div className="d-flex">
             <div className="col-6">
               <div className="d-flex">
                 <div className="col-8 border-end">
                   <h6
-                    className={`fw-bold text-center border-bottom ${style?.min_height_15} d-flex justify-content-center align-items-center lightGrey`}
-                    style={{ fontSize: "12px" }}
+                    className={`fw-bold text-center border-bottom ${style?.min_height_15} d-flex justify-content-center align-items-center lightGrey SpFntSmryHed`}
                   >
                     SUMMARY
                   </h6>
-                  <div className="d-flex">
-                    <div className="col-6 border-start border-end position-relative pb-3 px-1 sumFont">
+                  <div className="d-flex SpFntSmry">
+                    <div className="col-6 border-start border-end position-relative pb-3 px-1">
                       <div className="d-flex justify-content-between">
                         <p className="fw-bold">GOLD IN 24KT </p>
                         <p>{NumberWithCommas((total?.gold24kt - notGoldMetalWtTotal), 3)} gm</p>
@@ -1092,13 +1091,12 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div
                         className={`d-flex justify-content-between position-absolute left-0 border-bottom bottom-0 ${style?.min_height_15} border-top w-100 lightGrey end-0`}
-                        style={{minHeight: "18px"}}
                       >
                         <p></p>
                         <p></p>
                       </div>
                     </div>
-                    <div className="col-6 border-end position-relative pb-3 px-1 sumFont">
+                    <div className="col-6 position-relative pb-3 px-1 sumFont">
                       <div className="d-flex justify-content-between">
                         <p className="fw-bold">GOLD </p>
                         <p>{NumberWithCommas((totalMetalAmount - notGoldMetalTotal), 2)}</p>
@@ -1137,7 +1135,6 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div
                         className={`d-flex justify-content-between border-bottom position-absolute left-0 bottom-0 ${style?.min_height_15} border-top w-100 lightGrey end-0 ps-1 pe-1`}
-                        style={{ minHeight: "17.9px"}}
                       >
                         <p className="fw-bold">TOTAL</p>
                         <p className="">{NumberWithCommas(total?.TotalAmount, 2)}</p>
@@ -1147,15 +1144,14 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
                 <div className="col-4 border-end border-bottom position-relative pb-3 sumFont">
                   <h6
-                    className={`${style?.min_height_15} ${style?.sumCent} border-bottom fw-bold lightGrey text-center justify-content-center align-items-center`}
-                    style={{ fontSize: "12px" }}
+                    className={`${style?.min_height_15} ${style?.sumCent} border-bottom fw-bold lightGrey text-center d-flex justify-content-center align-items-center SpFntSmryHed`}
                   >
                     Diamond Details
                   </h6>
                   {diamondDetail.map((e, i) => {
                     return (
                       <div
-                        className="d-flex justify-content-between px-1"
+                        className="d-flex justify-content-between SpFntSmry px-1"
                         key={i}
                       >
                         <p className="fw-bold">
@@ -1183,14 +1179,13 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
               </div>
             </div>
-            <div className="col-2 border-bottom  h-100 border-end sumFont">
+            <div className={`col-2 border-bottom h-100 sumFont ${headerData?.PrintRemark === "" && 'border-end'}`}>
               <h6
-                className={`fw-bold text-center justify-content-center align-items-center border-bottom ${style?.min_height_15} ${style?.sumCent} lightGrey`}
-                style={{ fontSize: "12px" }}
+                className={`fw-bold text-center d-flex justify-content-center align-items-center border-bottom ${style?.min_height_15} ${style?.sumCent} lightGrey SpFntSmryHed`}
               >
                 OTHER DETAILS
               </h6>
-              <div>
+              <div className="SpFntSmry">
                 {brokarage.map((e, i) => {
                   return <div className="d-flex justify-content-between px-1" key={i}>
                     <p className="fw-bold">{e[0]} </p>
@@ -1204,16 +1199,15 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
               </div>
             </div>
-            <div className={`col-2 border-bottom h-100 border-start ${style?.sumFont}`}>
+            <div className={`col-2 border-bottom border-start h-100 ${style?.sumFont}`}>
               {headerData?.PrintRemark !== "" && <>  
                 <h6 
-                  className={`fw-bold text-center justify-content-center align-items-center border-bottom ${style?.sumCent} ${style?.min_height_15} lightGrey`}
-                  style={{ fontSize: "12px"}}
+                  className={`fw-bold text-center justify-content-center align-items-center border-bottom ${style?.sumCent} ${style?.min_height_15} lightGrey SpFntSmryHed`}
                 >
                   REMARK
                 </h6>
-                <div className={`${style?.min_height_15}`}>
-                  <p className="px-1" dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></p>
+                <div className={`SpFntSmry`}>
+                  <p className="px-1 heightCmon" dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></p>
                 </div></>}
             </div>
             <div className="col-2 d-flex sumFont">
@@ -1221,10 +1215,10 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 className={`d-flex ${style?.height_createBy} w-100 h-100`}
               >
                 <div className="col-6 d-flex align-items-end h-100 justify-content-center border-start border-end border-bottom" style={{minHeight: "135px", maxHeight: "135px"}}>
-                  <p className="pb-1" style={{ fontSize: "12px" }}><i>Created By</i> </p>
+                  <p className="pb-1 SpFntSmryHed"><i>Created By</i> </p>
                 </div>
                 <div className="col-6 d-flex align-items-end h-100 justify-content-center border-bottom border-end" style={{minHeight: "135px", maxHeight: "135px"}}>
-                  <p className="pb-1" style={{ fontSize: "12px" }}><i>Checked By</i> </p>
+                  <p className="pb-1 SpFntSmryHed"><i>Checked By</i> </p>
                 </div>
               </div>
             </div>

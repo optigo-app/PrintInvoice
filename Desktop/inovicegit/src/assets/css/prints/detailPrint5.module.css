@@ -4,12 +4,7 @@
   line-height: 15px;
   font-family: Calibri;
 }
-.sumFont{
-  font-size: 10px;
-}
-.sumCent{
-  padding-top: 3px;
-}
+
 .detailPrint5{
   zoom: 1;
 }
@@ -39,10 +34,12 @@
   width: 3%;
   min-width: 3%;
 }
+
 .design {
   width: 10%;
   min-width: 10%;
 }
+
 .diamond{
   width: 22%;
   min-width: 22%;
@@ -110,7 +107,8 @@
   }
 
   .detailPrint5 {
-    font-size: 8px;
+    font-size: 9px;
+    line-height: 11px;
   }
 
   .detailPrint5Table {
@@ -134,5 +132,9 @@
     font-size: 8px;
     padding: 0;
     margin: 0;
+  }
+
+  .min_height_15 {
+    height: 14.5px;
   }
 }
