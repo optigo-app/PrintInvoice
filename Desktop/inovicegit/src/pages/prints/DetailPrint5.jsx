@@ -416,7 +416,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             id="imghs"
             onChange={(e) => setImage(!image)}
           />
-          <label className="form-check-label" htmlFor="imghs">With Image</label>
+          <label className="form-check-label" htmlFor="imghs" style={{ paddingTop: "3px" }}>With Image</label>
         </div>
         <div className="form-check ps-3">
           <input
@@ -522,8 +522,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       </div>
 
       {/* table Header */}
-      <div className={`${style?.detailPrint5TableHead}`}>
-        <div className="d-flex border lightGrey">
+      <div className={``}>
+        <div className={`d-flex border lightGrey ${style?.detailPrint5TableHead}`}>
           <div className={`${style?.srNo} border-end d-flex justify-content-center align-items-center fw-bold`} >
             Sr
           </div>
@@ -778,7 +778,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              <div className="d-flex border-bottom border-start border-end">
+              <div className={`PrJobFnt d-flex border-bottom border-start border-end`}>
                 <div className={`${style?.srNo} border-end text-center p-1 ${style?.wordBreak}`}>
                 </div>
                 <div className={`${style?.design} border-end px-1`}>

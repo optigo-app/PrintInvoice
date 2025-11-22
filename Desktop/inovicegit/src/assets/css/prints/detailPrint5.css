@@ -93,6 +93,11 @@
   min-height: 16px;
 }
 
+.PrJobFnt {
+  font-size: 10.5px !important;
+  line-height: 15px !important;
+}
+
 @media print {
   @page {
     margin: 15px 10px;
@@ -170,5 +175,10 @@
 
   .heightCmon {
     min-height: 14px;
+  }
+
+  .PrJobFnt {
+    font-size: 6.5px !important;
+    line-height: 8.5px !important;
   }
 }
