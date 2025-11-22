@@ -873,7 +873,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
               </div>
               {e?.DiscountAmt !== 0 && (
-                <div className={`d-flex border-bottom border-start border-end ${style?.wordBreak}`} key={i + "i"} >
+                <div className={`PrJobFnt d-flex border-bottom border-start border-end ${style?.wordBreak}`} key={i + "i"} >
                   <div
                     className={`${style?.srNo} border-end text-center p-1`}
                   ></div>
@@ -911,7 +911,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         })}
 
         {/* taxes */}
-        <div className="d-flex  border-bottom border-start border-end">
+        <div className="d-flex PrJobFnt border-bottom border-start border-end">
           <div className={`${style?.taxes} border-end `}>
             {discountAmt !== 0 && <p className="text-end">
               Total Discount
@@ -948,7 +948,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
         </div>
         {/* table total */}
-        <div className={`d-flex border-bottom border-start border-end lightGrey ${style?.wordBreak}`}>
+        <div className={`PrJobFnt d-flex border-bottom border-start border-end lightGrey ${style?.wordBreak}`}>
           <div className={`${style?.total} border-end`}>
             <p className="text-center fw-bold">TOTAL</p>
           </div>
