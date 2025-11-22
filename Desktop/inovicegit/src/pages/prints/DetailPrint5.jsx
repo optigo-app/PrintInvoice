@@ -84,7 +84,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setNotGoldMetalTotal(tot_met);
     setNotGoldMetalWtTotal(tot_met_wt);
 
-    data?.BillPrint_Json1.forEach((e, i) => {
+    data?.BillPrint_Json1.forEach((e) => {
       let obj = { ...e };
       let diamonds = [];
       let colorStones = [];
@@ -122,7 +122,9 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
             diamonds.push(ele);
-          
+            diaTotal.Pcs += ele?.Pcs;
+            diaTotal.Wt += ele?.Wt;
+            diaTotal.Amount += ele?.Amount;
             diamonds = diamonds.reduce((acc, diamond) => {
               const key = `${diamond?.MaterialTypeName}-${diamond?.ShapeName}-${diamond?.QualityName}-${diamond?.Colorname}-${diamond?.SizeName}`;
           
@@ -160,6 +162,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               const numB = parseFloat(sizeB);
               return numA - numB;
             });
+
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
             colorStones.push(ele);
             csTotal.Wt += ele?.Wt;
@@ -256,11 +259,11 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setOtherAmt(otherAmount);
     let diamondDetails = [];
 
-    data?.BillPrint_Json2.forEach((ele, ind) => {
+    data?.BillPrint_Json2.forEach((ele) => {
       if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
         if (ele?.ShapeName === "RND") {
           let findRnd = diamondDetails.findIndex(
-            (elem, index) =>
+            (elem) =>
               elem?.ShapeName === ele?.ShapeName &&
               elem?.Colorname === ele?.Colorname &&
               elem?.QualityName === ele?.QualityName
@@ -275,7 +278,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           }
         } else {
           let findOther = diamondDetails.findIndex(
-            (elem, index) => elem?.label === "OTHER"
+            (elem) => elem?.label === "OTHER"
           );
           if (findOther === -1) {
             let obj = { ...ele };
@@ -365,6 +368,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     sendData();
   }, []);
 
+  // In Metal Only Primary Metal's Weight And Amounts 20/11/2025
   const totalWeight = data?.map((e) => 
     e?.metals
       ?.filter((metl) => metl?.IsPrimaryMetal === 1)
@@ -395,7 +399,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   // console.log("TotalDmdMetlWt", TotalDmdMetlWt);
   // console.log("headerData", headerData);
-  console.log("data", data);
+  // console.log("data", data);
   // console.log("total", total);
   // console.log("address", address);
 
@@ -405,9 +409,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   ) : msg === "" ? (
     <div className={`container container-fluid max_width_container mt-1 ${style?.detailPrint5} pad_60_allPrint detailPrint5Container`} >
       {/* buttons */}
-      <div
-        className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`}
-      >
+      <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`}>
         <div className="form-check pe-3 pt-2">
           <input
             className="form-check-input border-dark"
@@ -663,7 +665,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className={`ATWdthSpDCM1 spbrWord`}>
                           {ele?.MaterialTypeName} {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}
                         </div>
-                        <div className={`ATWdthSpDCM2 ${style?.wordBreak} text-center`}>{ele?.SizeName}</div>
+                        <div className={`ATWdthSpDCM2 ${style?.wordBreak} text-end`}>{ele?.SizeName}</div>
                         <div className={`ATWdthSpDCM3 text-end ${style?.wordBreak}`}>
                           {NumberWithCommas(ele?.Pcs, 0)}
                         </div>
@@ -957,12 +959,11 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <div className="col-2 text-end"></div>
               <div className="col-2 text-end"></div>
               <div className="col-2 text-end fw-bold">
-                {total?.diaTotal?.Pcs !== 0 &&
-                  NumberWithCommas(total?.diaTotal?.Pcs, 0)}
+                {total?.diaTotal?.Pcs !== 0 && total?.diaTotal?.Pcs }
               </div>
               <div className="col-2 text-end fw-bold">
                 {total?.diaTotal?.Wt !== 0 &&
-                  NumberWithCommas(total?.diaTotal?.Wt, 3)}
+                  fixedValues(total?.diaTotal?.Wt, 3)}
               </div>
               {/* <div className="col-2 text-end"></div> */}
               <div className="col-4 fw-bold d-flex justify-content-end align-items-center">
@@ -977,11 +978,11 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               {/* <div className={`${style?.w_20} text-end`}></div> */}
               <div className={`${style?.w_20} text-end fw-bold`} style={{width:'40%'}}>
                 {TotalDmdMetlWt !== 0 &&
-                  NumberWithCommas(TotalDmdMetlWt, 3)}
+                  fixedValues(TotalDmdMetlWt, 3)}
               </div>
               <div className={`${style?.w_20} text-end fw-bold`}>
                 {totalWeightNl !== 0 &&
-                  NumberWithCommas(totalWeightNl, 3)}
+                  fixedValues(totalWeightNl, 3)}
               </div>
               {/* <div className={`${style?.w_20} text-end`}></div> */}
               <div className={`${style?.w_20} text-end fw-bold`} style={{width:'40%'}}>
@@ -996,12 +997,11 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <div className={`col-2 text-end`}></div>
               <div className={`col-2 text-end`}></div>
               <div className={`col-2 text-end fw-bold`}>
-                {total?.csTotal?.Pcs !== 0 &&
-                  NumberWithCommas(total?.csTotal?.Pcs, 0)}
+                {total?.csTotal?.Pcs !== 0 && total?.csTotal?.Pcs}
               </div>
               <div className={`col-2 text-end fw-bold`}>
                 {total?.csTotal?.Wt !== 0 &&
-                  NumberWithCommas(total?.csTotal?.Wt, 3)}
+                  fixedValues(total?.csTotal?.Wt, 3)}
               </div>
               {/* <div className={`col-2 text-end`}></div> */}
               <div className={`col-4 text-end fw-bold`}>

@@ -22,6 +22,7 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
         let resultArr = [];
         data?.BillPrint_Json1.forEach((e, i) => {
             // console.log("data?.BillPrint_Json1", e);
+            // console.log("data?.BillPrint_Json2", data?.BillPrint_Json2);
                 
             const diaInfo = data?.BillPrint_Json2.reduce((total, element) => {
                 if (e?.SrJobno === element?.StockBarcode) {
@@ -40,11 +41,11 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
             // console.log("diaInfo", diaInfo);
             let diamonds = '';
             let colorStones = '';
-            if (diaInfo?.diaWt !== 0) {
+            if (diaInfo?.diaWt != null && diaInfo?.diaWt !== 0) {
                 // diamonds = `With Diamond ${e?.MetalPurity} weight ${NumberWithCommas(e?.NetWt, 3)} grams No of Diamond ${NumberWithCommas(diaInfo?.diaPcs, 0)} Piece Diamond Weight ${NumberWithCommas(diaInfo?.diaWt, 3)} cts`;
-                diamonds = `With   No. of ${diaInfo?.MaterialTypeName !== "" && diaInfo?.MaterialTypeName} Diamond ${NumberWithCommas(diaInfo?.diaPcs, 0)} Piece ${diaInfo?.MaterialTypeName !== "" && diaInfo?.MaterialTypeName} Diamond Weight ${NumberWithCommas(diaInfo?.diaWt, 3)} cts`;
+                diamonds = `With   No. of ${diaInfo?.MaterialTypeName !== "" ? diaInfo?.MaterialTypeName : ""} Diamond ${NumberWithCommas(diaInfo?.diaPcs, 0)} Piece ${diaInfo?.MaterialTypeName !== "" ? diaInfo?.MaterialTypeName : ""} Diamond Weight ${NumberWithCommas(diaInfo?.diaWt, 3)} cts`;
             }
-            if (diaInfo?.csWt !== 0) {
+            if (diaInfo?.csWt != null && diaInfo?.csWt !== 0) {
                 // colorStones = `With ColorStone ${e?.MetalPurity} weight ${NumberWithCommas(e?.NetWt, 3)} grams No of ColorStone ${NumberWithCommas(diaInfo?.csPcs, 0)} Piece ColorStone Weight ${NumberWithCommas(diaInfo?.csWt, 3)} cts`;
                 colorStones = `With   No. of ColorStone ${NumberWithCommas(diaInfo?.csPcs, 0)} Piece ColorStone Weight ${NumberWithCommas(diaInfo?.csWt, 3)} cts`;
             }
