@@ -237,7 +237,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           dia2[findrec].Wt += ell?.Wt;
           dia2[findrec].Pcs += ell?.Pcs;
           dia2[findrec].Amount += ell?.Amount;
-          dia2[findrec].Rate += ell?.Rate;
+          // dia2[findrec].Rate += ell?.Rate; // CQ Fixed 22/11/2025
           // if(dia2[findrec]?.SizeName !== ell?.SizeName){
           //   // dia2[findrec].SizeName = 'Mix'
           //   dia2[findrec].SizeName = ell?.GroupName;
