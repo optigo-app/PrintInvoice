@@ -84,6 +84,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setNotGoldMetalTotal(tot_met);
     setNotGoldMetalWtTotal(tot_met_wt);
 
+    // console.log("data?.BillPrint_Json1", data?.BillPrint_Json1);
     data?.BillPrint_Json1.forEach((e) => {
       let obj = { ...e };
       let diamonds = [];
@@ -213,8 +214,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       totals.diaTotal.Amount += diaTotal.Amount;
       totals.diaTotal.Pcs += diaTotal.Pcs;
       totals.diaTotal.Wt += diaTotal.Wt;
-      // totals.gold24kt += e?.convertednetwt;
-      totals.gold24kt += e?.PureNetWt;
+      totals.gold24kt += e?.convertednetwt; // Calculation is "metalWt * Tunch / 100" if metal Is primary and rate is 0
+      // totals.gold24kt += e?.PureNetWt; // Bug Solving 24/11/2025
 
       totals.csTotal.Amount += csTotal.Amount;
       totals.csTotal.Pcs += csTotal.Pcs;
@@ -678,10 +679,10 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                         <div className={`ATWdthSpDCM2 ${style?.wordBreak} text-end`}>{ele?.SizeName}</div>
                         <div className={`ATWdthSpDCM3 text-end ${style?.wordBreak}`}>
-                          {NumberWithCommas(ele?.Pcs, 0)}
+                          {ele?.Pcs !== 0 ? ele?.Pcs : ""}
                         </div>
                         <div className={`ATWdthSpDCM4 text-end ${style?.wordBreak}`}>
-                          {NumberWithCommas(ele?.Wt, 3)}
+                          {fixedValues(ele?.Wt, 3)}
                         </div>
                         <div className={`ATWdthSpDCM5 text-end ${style?.wordBreak}`}>
                           {NumberWithCommas(ele?.Rate, 2)}
@@ -702,11 +703,11 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           {ele?.ShapeName} {ele?.QualityName}{" "}
                         </div>
                         <div className={`${style?.w_20} text-end  ${style?.wordBreak}`}>
-                          {NumberWithCommas(ele?.Wt, 3)}
+                          {fixedValues(ele?.Wt, 3)}
                         </div>
                         <div className={`${style?.w_20} text-end  ${style?.wordBreak}`}>
-                          {ind === 0 && NumberWithCommas(e?.netWtLoss, 3)}
-                          {ele?.IsPrimaryMetal === 0 && NumberWithCommas(ele?.Wt, 3)}
+                          {ind === 0 && fixedValues(e?.netWtLoss, 3)}
+                          {ele?.IsPrimaryMetal === 0 && fixedValues(ele?.Wt, 3)}
                         </div>
                         <div className={`${style?.w_20} text-end  ${style?.wordBreak}`}>
                           {NumberWithCommas(ele?.Rate, 2)}
@@ -739,10 +740,10 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           {ele?.SizeName}
                         </div>
                         <div className={`ATWdthSpDCM3 ${style?.wordBreak} text-end`}>
-                          {NumberWithCommas(ele?.Pcs, 0)}
+                          {ele?.Pcs}
                         </div>
                         <div className={`ATWdthSpDCM4 ${style?.wordBreak} text-end`}>
-                          {NumberWithCommas(ele?.Wt, 3)}
+                          {fixedValues(ele?.Wt, 3)}
                         </div>
                         <div className={`ATWdthSpDCM5 text-center ${style?.wordBreak}`}>
                           {NumberWithCommas(ele?.Rate, 2)}
@@ -804,14 +805,22 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="col-2 text-end"></div>
                       <div className="col-2 text-end"></div>
                       <div className={`col-2 text-end fw-bold ${style?.wordBreak}`}>
-                        {e?.diamonds?.reduce?.((acc, ele) => acc + ele?.Pcs, 0)}
+                        {e?.diamonds?.reduce((acc, ele) => acc + (ele?.Pcs || 0), 0) !== 0 ? e?.diamonds?.reduce((acc, ele) => acc + (ele?.Pcs || 0), 0) : null}
                       </div>
                       <div className={`col-2 text-end fw-bold ${style?.wordBreak}`}>
-                        {e?.diamonds?.reduce((acc, ele) => acc + (ele?.Wt || 0), 0) && fixedValues(e?.diamonds?.reduce((acc, ele) => acc + (ele?.Wt || 0), 0), 3)}
+                        {
+                          e?.diamonds?.reduce((acc, ele) => acc + (ele?.Wt || 0), 0) === 0 
+                            ? '0.000' 
+                            : fixedValues(e?.diamonds?.reduce((acc, ele) => acc + (ele?.Wt || 0), 0), 3)
+                        }
                       </div>
                       {/* <div className="col-2 text-end"></div> */}
                       <div className={`col-4 text-end fw-bold ${style?.wordBreak}`}>
-                        {e?.diamonds?.reduce((acc, ele) => acc + (ele?.Amount || 0), 0) && fixedValues(e?.diamonds?.reduce((acc, ele) => acc + (ele?.Amount || 0), 0), 3)}
+                        {
+                          e?.diamonds?.reduce((acc, ele) => acc + (ele?.Amount || 0), 0) === 0 
+                            ? '0.00' 
+                            : fixedValues(e?.diamonds?.reduce((acc, ele) => acc + (ele?.Amount || 0), 0), 3)
+                        }
                       </div>
                     </div>
                 </div>
@@ -842,17 +851,15 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className={`col-2 text-end`}></div>
                       <div className={`col-2 text-end`}></div>
                       <div className={`col-2 text-end fw-bold`}>
-                        {e?.csTotal?.Pcs !== 0 &&
-                          NumberWithCommas(e?.csTotal?.Pcs, 0)}
+                        {e?.csTotal?.Pcs !== 0 ? e?.csTotal?.Pcs : null}
                       </div>
                       <div className={`col-2 text-end fw-bold`}>
-                        {e?.csTotal?.Wt !== 0 &&
-                          NumberWithCommas(e?.csTotal?.Wt, 3)}
+                        {e?.csTotal?.Wt !== 0 ? fixedValues(e?.csTotal?.Wt, 3) : '0.000'}
                       </div>
                       {/* <div className={`col-2 text-end`}></div> */}
                       <div className={`col-4 text-end fw-bold`}>
-                        {e?.csTotal?.Amount !== 0 &&
-                          NumberWithCommas(e?.csTotal?.Amount, 2)}
+                        {e?.csTotal?.Amount !== 0 ?
+                          NumberWithCommas(e?.csTotal?.Amount, 2) : '0.00'}
                       </div>
                     </div>
                 </div>
@@ -970,14 +977,14 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <div className="col-2 text-end"></div>
               <div className="col-2 text-end"></div>
               <div className="col-2 text-end fw-bold">
-                {TotalPcsDMD !== 0 ? TotalPcsDMD : "" }
+                {TotalPcsDMD !== 0 ? TotalPcsDMD : '0' }
               </div>
               <div className="col-2 text-end fw-bold">
-                {TotalWtDMD !== 0 ? fixedValues(TotalWtDMD, 3) : ""}
+                {TotalWtDMD !== 0 ? fixedValues(TotalWtDMD, 3) : '0.000'}
               </div>
               {/* <div className="col-2 text-end"></div> */}
               <div className="col-4 fw-bold d-flex justify-content-end align-items-center">
-                {TotalAmtDMD !== 0 ? NumberWithCommas(TotalAmtDMD, 2) : ""}
+                {TotalAmtDMD !== 0 ? NumberWithCommas(TotalAmtDMD, 2) : '0.00'}
               </div>
             </div>
           </div>
@@ -1006,16 +1013,16 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <div className={`col-2 text-end`}></div>
               <div className={`col-2 text-end`}></div>
               <div className={`col-2 text-end fw-bold`}>
-                {TotalPcsCLR !== 0 ? TotalPcsCLR : ""}
+                {TotalPcsCLR !== 0 ? TotalPcsCLR : '0'}
               </div>
               <div className={`col-2 text-end fw-bold`}>
                 {TotalWtCLR !== 0 ?
-                  fixedValues(TotalWtCLR, 3) : ""}
+                  fixedValues(TotalWtCLR, 3) : '0.000'}
               </div>
               {/* <div className={`col-2 text-end`}></div> */}
               <div className={`col-4 text-end fw-bold`}>
                 {TotalAmtCLR !== 0 ?
-                  NumberWithCommas(TotalAmtCLR, 2) : ""}
+                  NumberWithCommas(TotalAmtCLR, 2) : '0.00'}
               </div>
             </div>
           </div>
