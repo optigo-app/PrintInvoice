@@ -1,5 +1,4 @@
 import React, { Suspense, useEffect, useState } from "react";
-import style from "../../assets/css/prints/manufacturemgt.module.css";
 import Loader from "../../components/Loader";
 import {
   apiCall,
@@ -12,10 +11,6 @@ const RepairPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
   const [msg, setMsg] = useState("");
   const [evns, setEvns] = useState(atob(evn).toLowerCase());
-  const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
   const importComponent = async (printData, data) => {
     try {
       const module = await import(`../prints/eventWisePrints/${printData?.evname}`);

@@ -132,10 +132,10 @@ const DetailPrintMaterial = ({token, invoiceNo, printName, urls, evn, ApiVer,}) 
   // const DueDate = getDueDate(json0Data?.EntryDate, json0Data?.OrderDue)
   const GrandTotal = totalAmount + totalEtraTaxAmount + taxAmont?.tax1Amount + taxAmont?.tax2Amount + taxAmont?.tax3Amount;;
 
-  console.log("taxAmont", taxAmont);
-  console.log("extraTaxAmont", extraTaxAmont);
+  // console.log("taxAmont", taxAmont);
+  // console.log("extraTaxAmont", extraTaxAmont);
   console.log("finalD", finalD);
-  console.log("json0Data", json0Data);
+  // console.log("json0Data", json0Data);
 
   return (
     <>
@@ -255,8 +255,10 @@ const DetailPrintMaterial = ({token, invoiceNo, printName, urls, evn, ApiVer,}) 
                     </div>
                     <div className="Sucol3_inv2 spbrRht">
                       {["mount"].includes(e?.ItemName?.toLowerCase())
-                        ? `${e?.MountCategory} / ${e?.MaterialRemark}`
-                        : e?.MaterialRemark
+                        ? `${e?.MountCategory !== '' ? e?.MountCategory : ""} / ${e?.MaterialRemark}`
+                        : ["finding"].includes(e?.ItemName?.toLowerCase())
+                          ? `${e?.FindingType !== '' ? e?.FindingType : ""}(${e?.FindingAccessories !== '' ? e?.FindingAccessories : ""}) / ${e?.MaterialRemark}`
+                          : e?.MaterialRemark
                       }
                     </div>
                     <div className="Sucol6_inv2 spbrRht spfnted">{e?.pieces === "" ? "-" : e?.pieces}</div>

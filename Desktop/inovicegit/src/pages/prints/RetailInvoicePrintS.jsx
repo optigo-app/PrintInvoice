@@ -232,8 +232,9 @@ const RetailInvoicePrintS = ({
           });
         }
       });
-      let taxValue = taxGenrator(data?.BillPrint_Json[0], totals?.total);
-      taxValue.forEach((e, i) => {
+      // let taxValue = taxGenrator(data?.BillPrint_Json[0], totals?.total); // CQ Solving 24/11/2025
+      let taxValue = taxGenrator(data?.BillPrint_Json[0], (totals?.total ?? 0) - (totals?.discount ?? 0));
+      taxValue.forEach((e) => {
         totals.afterTax += +e?.amount;
       });
       totals.afterTax += totals?.beforeTax + data?.BillPrint_Json[0]?.AddLess;
@@ -243,13 +244,13 @@ const RetailInvoicePrintS = ({
       totals.netBalAmount =
         totals.afterTax - data?.BillPrint_Json[0]?.OldGoldAmount;
       debitCardinfo.length > 0 &&
-        debitCardinfo.forEach((e, i) => {
+        debitCardinfo.forEach((e) => {
           totals.netBalAmount -= e.amount;
         });
       setTaxes(taxValue);
       // console.log("taxValue", taxValue);
 
-      blankArr?.forEach((e, i) => {
+      blankArr?.forEach((e) => {
         if (e?.GroupJob !== "") {
           let findRecord = groupInfo?.find(
             (ele, ind) => ele?.GroupJob === e?.GroupJob
@@ -282,7 +283,7 @@ const RetailInvoicePrintS = ({
         }
       });
       let resultArr = [];
-      blankArr.forEach((e, i) => {
+      blankArr.forEach((e) => {
         if (e?.GroupJob !== "") {
           let findIndex = resultArr.findIndex(
             (ele) =>
@@ -318,7 +319,7 @@ const RetailInvoicePrintS = ({
               e?.primaryMetal[0]?.Amount;
             let miscs = [...resultArr[findIndex]?.miscs, ...e?.miscs]?.flat();
             let misc = [];
-            miscs?.forEach((ele, ind) => {
+            miscs?.forEach((ele) => {
               if (misc?.length === 0) {
                 misc?.push(ele);
               } else {
@@ -390,9 +391,10 @@ const RetailInvoicePrintS = ({
     sendData();
   }, []);
 
-  console.log("data", data);
-  console.log("headerData", headerData);
-  // console.log("total", total);
+  // console.log("data", data);
+  // console.log("headerData", headerData);
+  console.log("total", total);
+  // console.log("taxes", taxes);
 
   const handleChangeImage = (e) => {
     image ? setImage(false) : setImage(true);

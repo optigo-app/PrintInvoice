@@ -354,7 +354,7 @@ const InvoicePrint1Material = ({
                                   : e?.ItemName?.toLowerCase() === "misc" ? "MISC" 
                                     : e?.ItemName?.toLowerCase() === "alloy" ? "ALLOY" 
                                       : e?.ItemName?.toLowerCase() === "mount" && e?.MountCategory !== "" ? `M ${e?.MountCategory}` 
-                                        : e?.ItemName?.toLowerCase() === "finding" ? "F:" 
+                                        : e?.ItemName?.toLowerCase() === "finding" ? `F: ${e?.FindingType !== '' ? e.FindingType: ""}`
                                           : ""}
                         </div>
                         <div className={`${taxAmont?.tax1Amount === 0 && taxAmont?.tax2Amount === 0 && taxAmont?.tax4Amount === 0 && taxAmont?.tax5Amount === 0 && taxAmont?.SGSTTotalAmount === 0 && taxAmont?.CGSTTotalAmount === 0 ? "Sucol6_inv2" : "col6_inv2"} spfnted`}>{e?.HSN_No === "" ?  "-"  : e?.HSN_No }</div>
