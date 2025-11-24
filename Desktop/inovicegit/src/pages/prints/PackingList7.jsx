@@ -84,7 +84,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setMetShpWise(met_shp_arr);
     let tot_met = 0;
     let tot_met_wt = 0;
-    met_shp_arr?.forEach((e, i) => {
+    met_shp_arr?.forEach((e) => {
       tot_met += e?.Amount;
       tot_met_wt += e?.metalfinewt;
     });
@@ -498,10 +498,10 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     });
 
     let diamondDetail = [];
-    data?.BillPrint_Json2?.forEach((e, i) => {
+    data?.BillPrint_Json2?.forEach((e) => {
       if (e?.MasterManagement_DiamondStoneTypeid === 1) {
         let findDiamond = diamondDetail?.findIndex(
-          (ele, ind) =>
+          (ele) =>
             ele?.ShapeName === e?.ShapeName &&
             ele?.QualityName === e?.QualityName &&
             ele?.Colorname === e?.Colorname
@@ -517,7 +517,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     });
     let findRND = [];
     let remaingDia = [];
-    diamondDetail?.forEach((ele, ind) => {
+    diamondDetail?.forEach((ele) => {
       if (ele?.ShapeName === "RND") {
         findRND.push(ele);
       } else {
@@ -621,7 +621,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       }
     }
   };
-  console.log("result", result);
+  // console.log("result", result);
 
   return (
     <>

@@ -12,7 +12,6 @@ import BagPrint3A from './bagPrints/BagPrint3A';
 import BagPrint5A from './bagPrints/BagPrint5A';
 import BagPrint6A from './bagPrints/BagPrint6A';
 import BagPrint10A from './bagPrints/BagPrint10A';
-import BagPrint13A from './bagPrints/BagPrint13A';
 import BagPrint7A from './bagPrints/BagPrint7A';
 import BagPrint4A from './bagPrints/BagPrint4A';
 import BagPrint11A from './bagPrints/BagPrint11A';

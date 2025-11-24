@@ -13,10 +13,6 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
     const [msg, setMsg] = useState("");
     const [header, setHeader] = useState({});
     const [data, setData] = useState([]);
-    const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
     const loadData = (data) => {
         let json0Data = data?.BillPrint_Json[0];
         let resultArr = [];
@@ -154,8 +150,6 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn, ApiVer }
                     <tbody>
                         {data.length > 0 && data.map((e, i) => {
                             return <tr key={i}>
-
-                      
                                 <td width="100"  style={{ border: '1px solid black', padding: '1px' }} className='text-danger'>  &nbsp;{NumberWithCommas(i + 1, 0)}</td>
                                 <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>&nbsp;{""+e?.barcode}</td>
                                 <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.designNo}</td>

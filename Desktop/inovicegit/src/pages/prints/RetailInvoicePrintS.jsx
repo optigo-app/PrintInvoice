@@ -393,7 +393,7 @@ const RetailInvoicePrintS = ({
 
   // console.log("data", data);
   // console.log("headerData", headerData);
-  console.log("total", total);
+  // console.log("total", total);
   // console.log("taxes", taxes);
 
   const handleChangeImage = (e) => {

@@ -77,7 +77,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setMetShpWise(met_shp_arr);
     let tot_met = 0;
     let tot_met_wt = 0;
-    met_shp_arr?.forEach((e, i) => {
+    met_shp_arr?.forEach((e) => {
       tot_met += e?.Amount;
       tot_met_wt += e?.metalfinewt;
     })    
@@ -397,6 +397,17 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     );
   }
 
+  const TotalPcsDMD = data?.reduce((acc, ele) => acc + (ele?.diamonds?.reduce?.((acc, ele) => acc + ele?.Pcs, 0)), 0);
+  const TotalWtDMD = data?.reduce((acc, ele) => acc + (ele?.diamonds?.reduce?.((acc, ele) => acc + ele?.Wt, 0)), 0);
+  const TotalAmtDMD = data?.reduce((acc, ele) => acc + (ele?.diamonds?.reduce?.((acc, ele) => acc + ele?.Amount, 0)), 0);
+  
+  const TotalAmtCLR = data?.reduce((acc, ele) => acc + (ele?.colorStones?.reduce?.((acc, ele) => acc + ele?.Amount, 0)), 0);
+  const TotalWtCLR = data?.reduce((acc, ele) => acc + (ele?.colorStones?.reduce?.((acc, ele) => acc + ele?.Wt, 0)), 0);
+  const TotalPcsCLR = data?.reduce((acc, ele) => acc + (ele?.colorStones?.reduce?.((acc, ele) => acc + ele?.Pcs, 0)), 0);
+
+  // console.log("TotalPcsDMD", TotalPcsDMD);
+  // console.log("TotalWtDMD", TotalWtDMD);
+  // console.log("TotalAmtDMD", TotalAmtDMD);
   // console.log("TotalDmdMetlWt", TotalDmdMetlWt);
   // console.log("headerData", headerData);
   // console.log("data", data);
@@ -959,16 +970,14 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <div className="col-2 text-end"></div>
               <div className="col-2 text-end"></div>
               <div className="col-2 text-end fw-bold">
-                {total?.diaTotal?.Pcs !== 0 && total?.diaTotal?.Pcs }
+                {TotalPcsDMD !== 0 ? TotalPcsDMD : "" }
               </div>
               <div className="col-2 text-end fw-bold">
-                {total?.diaTotal?.Wt !== 0 &&
-                  fixedValues(total?.diaTotal?.Wt, 3)}
+                {TotalWtDMD !== 0 ? fixedValues(TotalWtDMD, 3) : ""}
               </div>
               {/* <div className="col-2 text-end"></div> */}
               <div className="col-4 fw-bold d-flex justify-content-end align-items-center">
-                {total?.diaTotal?.Amount !== 0 &&
-                  NumberWithCommas(total?.diaTotal?.Amount, 2)}
+                {TotalAmtDMD !== 0 ? NumberWithCommas(TotalAmtDMD, 2) : ""}
               </div>
             </div>
           </div>
@@ -997,16 +1006,16 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <div className={`col-2 text-end`}></div>
               <div className={`col-2 text-end`}></div>
               <div className={`col-2 text-end fw-bold`}>
-                {total?.csTotal?.Pcs !== 0 && total?.csTotal?.Pcs}
+                {TotalPcsCLR !== 0 ? TotalPcsCLR : ""}
               </div>
               <div className={`col-2 text-end fw-bold`}>
-                {total?.csTotal?.Wt !== 0 &&
-                  fixedValues(total?.csTotal?.Wt, 3)}
+                {TotalWtCLR !== 0 ?
+                  fixedValues(TotalWtCLR, 3) : ""}
               </div>
               {/* <div className={`col-2 text-end`}></div> */}
               <div className={`col-4 text-end fw-bold`}>
-                {total?.csTotal?.Amount !== 0 &&
-                  NumberWithCommas(total?.csTotal?.Amount, 2)}
+                {TotalAmtCLR !== 0 ?
+                  NumberWithCommas(TotalAmtCLR, 2) : ""}
               </div>
             </div>
           </div>
