@@ -414,6 +414,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   // console.log("TotalDmdMetlWt", TotalDmdMetlWt);
   // console.log("headerData", headerData);
   // console.log("data", data);
+  // console.log("MetShpWise", MetShpWise);
   // console.log("total", total);
   // console.log("address", address);
 
@@ -1085,7 +1086,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         MetShpWise?.map((e, i) => {
                           return <div className="d-flex justify-content-between" key={i}> 
                           <p className="fw-bold">{e?.ShapeName}</p>
-                          <p>{NumberWithCommas(e?.metalfinewt, 3)} gm</p>
+                          <p>{e?.Rate === 0 ? NumberWithCommas(e?.metalfinewt, 3) : '0.000'} gm</p>
                         </div>
                         })
                       }
