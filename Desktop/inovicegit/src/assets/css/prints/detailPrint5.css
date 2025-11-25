@@ -98,13 +98,25 @@
   line-height: 15px !important;
 }
 
+.SpcAtRigt {
+  padding-right: 3px;
+}
+
 @media print {
   @page {
     margin: 15px 10px;
   }
 
+  .PgeBrakInsid {
+    page-break-inside: avoid;
+  }
+
   .headImg_Pcl7{
     width: 100px !important;
+  }
+
+  .SpcAtRigt {
+    padding-right: 2px;
   }
 
   .FntFrPre {

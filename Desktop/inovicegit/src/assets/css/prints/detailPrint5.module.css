@@ -66,6 +66,7 @@
 .totalAmount {
   width: 7%;
   min-width: 7%;
+  padding-right: 2px;
 }
 
 .w_20 {
@@ -89,8 +90,9 @@
 }
 
 .taxes {
-    width: 93%;
-    min-width: 93%;
+  width: 93%;
+  min-width: 93%;
+  padding-right: 2px;
 }
 
 .height_createBy{
@@ -104,6 +106,14 @@
 
   .print_sec_sum4 {
     display: none !important;
+  }
+
+  .taxes {
+    padding-right: 1px;
+  }
+
+  .totalAmount {
+    padding-right: 1px;
   }
 
   .detailPrint5 {

@@ -444,7 +444,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           />
         </div>
       </div>
-      {/* header */}
+
+      {/* Main Header */}
       <div className={`headerTitle headline_dp5`}>{headerData?.PrintHeadLabel}</div>
         <div className={`d-flex justify-content-between`}>
           <div className={`p-2`}>
@@ -478,7 +479,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
       </div>
 
-      {/* sub header */}
+      {/* Sub header */}
       <div className="d-flex border mb-1 FntSbHed">
         <div className="col-4 border-end p-1">
           <p>{headerData?.lblBillTo}</p>
@@ -538,9 +539,9 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
       </div>
 
-      {/* table Header */}
+      {/* Table Header */}
       <div className={``}>
-        <div className={`d-flex border lightGrey ${style?.detailPrint5TableHead}`}>
+        <div className={`d-flex border-start border-top border-end PgeBrakInsid lightGrey ${style?.detailPrint5TableHead}`}>
           <div className={`${style?.srNo} border-end d-flex justify-content-center align-items-center fw-bold`} >
             Sr
           </div>
@@ -627,11 +628,12 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
         </div>
 
-        {/* table data */}
+        {/* Table Data */}
         {data.map((e, i) => {
           return (
-            <React.Fragment key={i}>
-              <div className={`d-flex border-start border-end ${style?.detailPrint5Table}`}>
+            <div className="PgeBrakInsid SpBrders" key={i}>
+              {/* Per Job Details */}
+              <div className={`d-flex border-start border-top border-end ${style?.detailPrint5Table}`}>
                 <div className={`${style?.srNo} border-end text-center p-1 ${style?.wordBreak}`}>
                   {i + 1}
                 </div>
@@ -803,7 +805,9 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              <div className={`PrJobFnt d-flex border-bottom border-start border-end`}>
+
+              {/* Per Job Total */}
+              <div className={`PrJobFnt d-flex border-start border-end`}>
                 <div className={`${style?.srNo} border-end text-center p-1 ${style?.wordBreak}`}>
                 </div>
                 <div className={`${style?.design} border-end px-1`}>
@@ -905,8 +909,10 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                 </div>
               </div>
+
+              {/* Discount Row */}
               {e?.DiscountAmt !== 0 && (
-                <div className={`PrJobFnt d-flex border-bottom lightGrey border-start border-end ${style?.wordBreak}`} key={i + "i"} >
+                <div className={`PrJobFnt d-flex border-top lightGrey border-start border-end ${style?.wordBreak}`} key={i + "i"} >
                   <div
                     className={`${style?.srNo} border-end text-center p-1`}
                   ></div>
@@ -939,13 +945,13 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               )}
-            </React.Fragment>
+            </div>
           );
         })}
 
-        {/* taxes */}
-        <div className="d-flex PrJobFnt border-bottom border-start border-end">
-          <div className={`${style?.taxes} border-end `}>
+        {/* Taxes */}
+        <div className="d-flex PrJobFnt border-top PgeBrakInsid border-start border-end">
+          <div className={`${style?.taxes} border-end SpcAtRigt`}>
             {discountAmt !== 0 && <p className="text-end">
               Total Discount
             </p>}
@@ -960,7 +966,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               {headerData?.AddLess >= 0 ? "Add" : "Less"}
             </p>
           </div>
-          <div className={`${style?.totalAmount} `}>
+          <div className={`${style?.totalAmount} SpcAtRigt`}>
             {discountAmt !== 0 && <p className="text-end">
               {NumberWithCommas(discountAmt, 2)}
             </p>}
@@ -977,8 +983,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
         </div>
 
-        {/* table total */}
-        <div className={`PrJobFnt d-flex border-bottom border-start border-end lightGrey ${style?.wordBreak}`}>
+        {/* Table Total Row */}
+        <div className={`PrJobFnt d-flex border-top border-start PgeBrakInsid border-end lightGrey ${style?.wordBreak}`}>
           <div className={`${style?.total} border-end`}>
             <p className="text-center fw-bold">TOTAL</p>
           </div>
@@ -1065,18 +1071,21 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
         </div>
 
-        {/* summary */}
-        <div className="SpBrders">
+        {/* Summary */}
+        <div className="SpBrders PgeBrakInsid">
           <div className="d-flex">
+
+            {/* Summary */}
             <div className="col-6">
               <div className="d-flex">
                 <div className="col-8 border-end">
-                  <h6
-                    className={`fw-bold text-center border-bottom ${style?.min_height_15} d-flex justify-content-center align-items-center lightGrey SpFntSmryHed`}
-                  >
+                  {/* Summary Header */}
+                  <h6 className={`fw-bold text-center border-top ${style?.min_height_15} d-flex justify-content-center align-items-center lightGrey SpFntSmryHed`}>
                     SUMMARY
                   </h6>
+
                   <div className="d-flex SpFntSmry">
+                    {/* Material Wise Weight */}
                     <div className="col-6 border-start border-end position-relative pb-3 px-1">
                       <div className="d-flex justify-content-between">
                         <p className="fw-bold">GOLD IN 24KT </p>
@@ -1123,6 +1132,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <p></p>
                       </div>
                     </div>
+
+                    {/* Material Wise Amount */}
                     <div className="col-6 position-relative pb-3 px-1 sumFont">
                       <div className="d-flex justify-content-between">
                         <p className="fw-bold">GOLD </p>
@@ -1169,7 +1180,9 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                   </div>
                 </div>
-                <div className="col-4 border-end border-bottom position-relative pb-3 sumFont">
+
+                {/* Diamond Details */}
+                <div className="col-4 border-end border-top border-bottom position-relative pb-3 sumFont">
                   <h6
                     className={`${style?.min_height_15} ${style?.sumCent} border-bottom fw-bold lightGrey text-center d-flex justify-content-center align-items-center SpFntSmryHed`}
                   >
@@ -1206,7 +1219,9 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
               </div>
             </div>
-            <div className={`col-2 border-bottom h-100 sumFont ${headerData?.PrintRemark === "" && 'border-end'}`}>
+            
+            {/* Other Details */}
+            <div className={`col-2 border-top border-bottom h-100 sumFont ${headerData?.PrintRemark === "" && 'border-end'}`}>
               <h6
                 className={`fw-bold text-center d-flex justify-content-center align-items-center border-bottom ${style?.min_height_15} ${style?.sumCent} lightGrey SpFntSmryHed`}
               >
@@ -1226,7 +1241,9 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
               </div>
             </div>
-            <div className={`col-2 border-bottom border-start h-100 ${style?.sumFont}`}>
+
+            {/* Remark */}
+            <div className={`col-2 border-top border-bottom border-start h-100 ${style?.sumFont}`}>
               {headerData?.PrintRemark !== "" && <>  
                 <h6 
                   className={`fw-bold text-center justify-content-center align-items-center border-bottom ${style?.sumCent} ${style?.min_height_15} lightGrey SpFntSmryHed`}
@@ -1237,7 +1254,9 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <p className="px-1 heightCmon" dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></p>
                 </div></>}
             </div>
-            <div className="col-2 d-flex sumFont">
+
+            {/* Signature */}
+            <div className="col-2 d-flex border-top sumFont">
               <div
                 className={`d-flex ${style?.height_createBy} w-100 h-100`}
               >
@@ -1250,13 +1269,15 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
             </div>
           </div>
+
+          {/* Terms Description */}
           {headerData?.SalesRepPolicyTermsDescription !== '' && ( 
-          <div className="d-flex"><p className="fw-bold">TERMS INCLUDED:&nbsp;</p>{headerData?.SalesRepPolicyTermsDescription}</div>
+            <div className="d-flex"><p className="fw-bold">TERMS INCLUDED:&nbsp;</p>{headerData?.SalesRepPolicyTermsDescription}</div>
           )}
         </div>
 
-        {/* pre generated text */}
-        <pre className="pre pt-3 FntFrPre">**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS </pre>
+        {/* Pre Generated Text */}
+        <pre className="pre pt-3 FntFrPre">**  THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS </pre>
       </div>
     </div>
   ) : (
