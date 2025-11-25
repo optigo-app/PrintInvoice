@@ -218,7 +218,7 @@ export const QuotationPrints = [
   {printName: 'export print', etpType: 'print', componentName: 'ExportPrint'},
   {printName: 'detail print 7', etpType: 'print', componentName: 'DetailPrint7'},
   // {printName: 'print quotation', etpType: 'print', componentName: 'PrintQuotation'},
-
+  {printName: 'retail invoice print s', etpType: 'print', componentName: 'RetailInvoicePrintS'},
   {printName: 'print quotation', etpType: 'print', componentName: 'Quetioprint'},
   {printName: 'quotation print', etpType: 'print', componentName: 'Quetioprint'},
   {printName: 'packing list 7group s', etpType: 'print', componentName: 'PackingList7GroupS'},

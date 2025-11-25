@@ -409,6 +409,10 @@ const RetailInvoicePrintS = ({
 
   const difference = Math.round((totalConverted - totalPayments) * 100) / 100;
 
+  const decodedValue = atob(evn);
+  const IsNotEvenSale = decodedValue === "Quote";
+  
+
   return (
     <>
       {loader ? (
@@ -451,6 +455,7 @@ const RetailInvoicePrintS = ({
                     </b>{" "}
                   </div>
 
+                  {/* Main Header */}
                   <div className="d-flex printJL w-100">
                     <div className="col-10 p-2">
                       <div className="fslhJL">
@@ -506,7 +511,7 @@ const RetailInvoicePrintS = ({
                     </div>
                   </div>
 
-                  {/* header data */}
+                  {/* Sub Header */}
                   <div className="d-flex printJL border w-100 no_break">
                     <div className="col-8 p-2 b border-end">
                       {/* <div className="fslhJL">{headerData?.lblBillTo}</div> */}
@@ -550,7 +555,7 @@ const RetailInvoicePrintS = ({
                     <div className="col-4 p-2 position-relative">
                       <div className="d-flex">
                         <div className="col-6">
-                          <b className="JL13">INVOICE NO</b>
+                          <b className="JL13">{IsNotEvenSale ? "QUOTATION NO" : "INVOICE NO"}</b>
                         </div>
                         <div className="col-6">{headerData?.InvoiceNo}</div>
                       </div>
@@ -568,7 +573,8 @@ const RetailInvoicePrintS = ({
                       </div>
                     </div>
                   </div>
-
+                  
+                  {/* Product Details */}
                   <div className="table_jts printJL">
                     <div className="thead_jts fs2_jts1">
                       <div className="col1_jts center_jts brr_jts">SR NO</div>
@@ -641,6 +647,8 @@ const RetailInvoicePrintS = ({
                       })}
                     </div>
                   </div>
+                  
+                  {/* Total Row */}
                   <div className={`${style?.minHeight20RetailinvoicePrint3} border-start border-end border-bottom d-flex no_break`}>
                     <div className={`col1_jts border-end`}></div>
                     <div className={`col2_jts border-end p-1 d-flex`}>
@@ -659,7 +667,7 @@ const RetailInvoicePrintS = ({
                     </div>
                   </div>
 
-                  {/* tax */}
+                  {/* Taxes And Total */}
                   <div className="d-flex printJL border-start border-end border-bottom w-100 no_break">
                     <div
                       className={`d-flex justify-content-between flex-column border-end ${style?.wordsJewellryRetailInvoice4}`}
@@ -683,19 +691,19 @@ const RetailInvoicePrintS = ({
                           Only
                         </span>
                       </div>
-                      <div
-                        className={`${style?.RemarkJewelleryInvoicePrintC} p-2`}
-                      >
-                        <div className="d-flex ">
-                          Remarks :{" "}
-                          <div
-                            dangerouslySetInnerHTML={{
-                              __html: headerData?.Remark,
-                            }}
-                            className="fw-bold ps-1"
-                          ></div>
+                      {IsNotEvenSale ? ( "" ) : (
+                        <div className={`${style?.RemarkJewelleryInvoicePrintC} p-2`}>
+                          <div className="d-flex ">
+                            Remarks :{" "}
+                            <div
+                              dangerouslySetInnerHTML={{
+                                __html: headerData?.Remark,
+                              }}
+                              className="fw-bold ps-1"
+                            ></div>
+                          </div>
                         </div>
-                      </div>
+                      )} 
                     </div>
                     <div
                       className={`${style?.discountJewerryRetailInvoicePrint456} d-flex`}
@@ -831,8 +839,15 @@ const RetailInvoicePrintS = ({
                       </div>
                     </div>
                   </div>
+                  
+                  {/* Declaration For Quotation */}
+                  {IsNotEvenSale && (
+                    <div className="border-start border-end border-bottom spinst">
+                      <div dangerouslySetInnerHTML={{ __html: headerData?.Declaration, }}/>
+                    </div>
+                  )}
 
-                  {/* bank detail */}
+                  {/* Bank Details */}
                   <div className="border-start printJL border-end border-bottom d-flex no_break">
                     <div className="col-4 p-2 border-end">
                       <p className="fw-bold">Bank Detail</p>
