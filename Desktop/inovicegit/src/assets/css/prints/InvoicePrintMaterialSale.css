@@ -176,112 +176,139 @@ html {
 .Sucol2_inv2{
     width: 13%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol3_inv2{
     width: 6%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol4_inv2{
     width: 9.50%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol5_inv2{
     width: 7.40%;   
     padding: 4px;
+    align-content: center;
 }
 .Sucol6_inv2{
     width: 7.50%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol7_inv2{
     width: 7.10%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol8_inv2{
     width: 5.90%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol9_inv2{
     width: 6%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol10_inv2{
     width: 6.50%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol11_inv2{
     width: 8%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol12_inv2{
     width: 9%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol13_inv2{
     width: 11.10%;
     padding: 4px;
+    align-content: center;
 }
 
 
 .Sucol2_inv2lab {
     width: 11.34%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol3_inv2lab {
-    width: 5.57%;
+    width: 5.67%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol4_inv2lab {
-    width: 6.77%;
+    width: 6.57%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol5_inv2lab {
-    width: 4.57%;
+    width: 4.77%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol6_inv2lab {
-    width: 6.67%;
+    width: 6.57%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol7_inv2lab {
-    width: 5.67%;
+    width: 5.77%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol8_inv2lab {
-    width: 5.67%;
+    width: 5.57%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol9_inv2lab {
     width: 5.67%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol10_inv2lab {
     width: 5%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol11_inv2lab {
-    width: 6.57%;
+    width: 6.67%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol12_inv2lab {
     width: 6.67%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol13_inv2lab {
     width: 6.67%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol14_inv2lab {
     width: 6.67%;
     padding: 4px;
+    align-content: center;
 }
 .Sucol15_inv2lab {
-    width: 6.67%;
+    width: 6.57%;
     padding: 2px;
+    align-content: center;
 }
 .Sucol16_inv2lab {
     width: 6.77%;
     padding: 4px;
+    align-content: center;
 }
 
 
@@ -342,10 +369,10 @@ html {
 }
 
 .taxwdth{
-    width: 72.40%
+    width: 71.90%
 }
 .taxwdth1{
-    width: 16.50%;
+    width: 17%;
     text-align: end;
     padding-right: 5px;
     padding-top: 2px;
@@ -361,10 +388,10 @@ html {
 
 
 .taxwdthlab {
-    width: 66.70%
+    width: 66.60%
 }
 .taxwdth1lab {
-    width: 19.90%;
+    width: 20%;
     text-align: end;
     padding-right: 5px;
     padding-top: 2px;
@@ -391,6 +418,7 @@ html {
 }
 .spinst * {
     padding: 3px 5px;
+    padding-top: 0px;
     font-size: 12px !important;
     line-height: 13px !important;
     word-break: break-word !important;
@@ -439,78 +467,88 @@ html {
         line-height: 13px;
     }
     .spfntbH{
-        font-size: 11px;
-        line-height: 12px;
+        font-size: 10px;
+        line-height: 11px;
     }
+
     .col1_inv2{
-        width: 3.20%;
+        width: 3%;
     }
     .col2_inv2{
-        width: 16%;
+        width: 13%;
     }
     .col3_inv2{
-        width: 7%;
+        width: 6%;
     }
     .col4_inv2{
         width: 9.50%;
     }
     .col5_inv2{
-        width: 6.50%;
+        width: 7.50%;
     }
     .col6_inv2{
-        width: 8.50%;
+        width: 7.50%;
     }
     .col7_inv2{
         width: 7%;
     }
     .col8_inv2{
-        width: 7%;
+        width: 6%;
     }
     .col9_inv2{
-        width: 7%;
+        width: 6%;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
     }
     .col10_inv2{
         width: 6.50%;
     }
     .col11_inv2{
-        width: 9.80%;
+        width: 8%;
     }
     .col12_inv2{
-        width: 12%;
+        width: 9%;
+    }
+    .col13_inv2{
+        width: 11%;
     }
 
     .Sucol2_inv2{
-        width: 16%;
+        width: 13%;
     }
     .Sucol3_inv2{
-        width: 7%;
+        width: 6%;
     }
     .Sucol4_inv2{
-        width: 9.60%;
+        width: 9.50%;
     }
     .Sucol5_inv2{
-        width: 6.40%;
+        width: 7.40%;
     }
     .Sucol6_inv2{
-        width: 8.60%;
+        width: 7.60%;
     }
     .Sucol7_inv2{
-        width: 7%;
-    }
-    .Sucol8_inv2{
-        width: 7.10%;
-    }
-    .Sucol9_inv2{
         width: 6.90%;
     }
+    .Sucol8_inv2{
+        width: 6%;
+    }
+    .Sucol9_inv2{
+        width: 6%;
+    }
     .Sucol10_inv2{
-        width: 6.60%;
+        width: 6.50%;
     }
     .Sucol11_inv2{
-        width: 9.80%;
+        width: 8%;
     }
     .Sucol12_inv2{
-        width: 12.150%;
+        width: 9%;
+    }
+    .Sucol13_inv2{
+        width: 11.10%;
     }
 
     .col1_inv2lab {
@@ -518,103 +556,128 @@ html {
     }
     .col2_inv2lab {
         width: 10.34%;
+        padding: 1px;
     }
     .col3_inv2lab {
-        width: 6.67%;
+        width: 5.67%;
+        padding: 1px;
     }
     .col4_inv2lab {
         width: 6.67%;
+        padding: 1px;
     }
     .col5_inv2lab {
-        width: 6.67%;
+        width: 5.67%;
+        padding: 1px;
     }
     .col6_inv2lab {
         width: 6.67%;
+        padding: 1px;
     }
     .col7_inv2lab {
-        width: 6.67%;
+        width: 5.67%;
+        padding: 1px;
     }
     .col8_inv2lab {
-        width: 6.67%;
+        width: 5.67%;
+        padding: 1px;
     }
     .col9_inv2lab {
-        width: 6.67%;
+        width: 5.67%;
+        padding: 1px;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
     }
     .col10_inv2lab {
-        width: 6.67%;
+        width: 5%;
+        padding: 1px;
     }
     .col11_inv2lab {
         width: 6.67%;
+        padding: 1px;
     }
     .col12_inv2lab {
         width: 6.67%;
+        padding: 1px;
     }
     .col13_inv2lab {
         width: 6.67%;
+        padding: 1px;
     }
     .col14_inv2lab {
         width: 6.67%;
+        padding: 1px;
     }
     .col15_inv2lab {
         width: 6.67%;
+        padding: 1px;
+    }
+    .col16_inv2lab {
+        width: 6.67%;
+        padding: 1px;
     }
 
 
     .Sucol2_inv2lab {
         width: 10.34%;
-        padding: 4px;
+        padding: 1px;
     }
     .Sucol3_inv2lab {
-        width: 6.57%;
-        padding: 4px;
+        width: 5.67%;
+        padding: 1px;
     }
     .Sucol4_inv2lab {
-        width: 6.77%;
-        padding: 4px;
+        width: 6.57%;
+        padding: 1px;
     }
     .Sucol5_inv2lab {
-        width: 6.57%;
-        padding: 4px;
+        width: 5.67%;
+        padding: 1px;
     }
     .Sucol6_inv2lab {
         width: 6.67%;
-        padding: 4px;
+        padding: 1px;
     }
     .Sucol7_inv2lab {
-        width: 6.67%;
-        padding: 4px;
+        width: 5.67%;
+        padding: 1px;
     }
     .Sucol8_inv2lab {
-        width: 6.67%;
-        padding: 4px;
+        width: 5.67%;
+        padding: 1px;
     }
     .Sucol9_inv2lab {
-        width: 6.77%;
-        padding: 4px;
+        width: 5.67%;
+        padding: 1px;
     }
     .Sucol10_inv2lab {
-        width: 6.57%;
-        padding: 4px;
+        width: 5%;
+        padding: 1px;
     }
     .Sucol11_inv2lab {
-        width: 6.57%;
-        padding: 4px;
+        width: 6.67%;
+        padding: 1px;
     }
     .Sucol12_inv2lab {
-        width: 6.77%;
-        padding: 4px;
+        width: 6.57%;
+        padding: 1px;
     }
     .Sucol13_inv2lab {
-        width: 6.67%;
-        padding: 4px;
+        width: 6.77%;
+        padding: 1px;
     }
     .Sucol14_inv2lab {
-        width: 6.67%;
-        padding: 4px;
+        width: 6.57%;
+        padding: 1px;
     }
     .Sucol15_inv2lab {
         width: 6.77%;
-        padding: 4px;
+        padding: 1px;
+    }
+    .Sucol16_inv2lab {
+        width: 6.67%;
+        padding: 1px;
     }
 
 
@@ -627,13 +690,13 @@ html {
 
 
     .taxwdth{
-        width: 71.70%
+        width: 72%
     }
     .taxwdth1{
-        width: 16.30%;
+        width: 16.83%;
     }
     .taxwdth2{
-        width: 12.170%;
+        width: 11.170%;
     }
 
 

@@ -359,7 +359,7 @@ const InvoicePrintMaterial = ({
                         <div className="Sucol15_inv2lab spfnted spbrRht spbrWord">
                           {e?.ItemName?.toLowerCase() === "diamond" && e?.IsDiscountOnAmount === 0 && e?.Discount !== 0 ? `${formatAmount(e?.DiscountAmount,2)}(${e?.Discount}%)` :  e?.DiscountAmount !== 1 ? formatAmount(e?.DiscountAmount,2) : '0.00' }
                         </div>
-                        <div className="Sucol15_inv2lab spfnted spbrRht">
+                        <div className="Sucol16_inv2lab spfnted spbrRht">
                           {
                             e?.FinalAmount !== 0 
                               ? e?.ItemName?.toLowerCase() === "diamond" ? formatAmount(e?.FinalAmount - e?.DiscountAmount, 2) 
