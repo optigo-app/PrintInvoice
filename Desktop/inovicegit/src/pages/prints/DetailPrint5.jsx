@@ -1154,7 +1154,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className="d-flex justify-content-between">
                         <p className="text-end fw-bold">
-                          {headerData?.AddLess > 0 ? "Add" : "Less"}
+                          {headerData?.AddLess >= 0 ? "Add" : "Less"}
                         </p>
                         <p className="text-end">
                           {NumberWithCommas(headerData?.AddLess, 2)}
