@@ -631,7 +631,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         {/* Table Data */}
         {data.map((e, i) => {
           return (
-            <div className="PgeBrakInsid SpBrders" key={i}>
+            <div className="PgeBrakInsid SpBrdersBtom" key={i}>
               {/* Per Job Details */}
               <div className={`d-flex border-start border-top border-end ${style?.detailPrint5Table}`}>
                 <div className={`${style?.srNo} border-end text-center p-1 ${style?.wordBreak}`}>
