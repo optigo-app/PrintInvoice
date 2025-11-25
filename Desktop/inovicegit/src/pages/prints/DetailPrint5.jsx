@@ -398,6 +398,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     );
   }
 
+  const TotalLoss = data?.reduce((acc, ele) => acc + ele?.LossWt, 0);
+
   const TotalPcsDMD = data?.reduce((acc, ele) => acc + (ele?.diamonds?.reduce?.((acc, ele) => acc + ele?.Pcs, 0)), 0);
   const TotalWtDMD = data?.reduce((acc, ele) => acc + (ele?.diamonds?.reduce?.((acc, ele) => acc + ele?.Wt, 0)), 0);
   const TotalAmtDMD = data?.reduce((acc, ele) => acc + (ele?.diamonds?.reduce?.((acc, ele) => acc + ele?.Amount, 0)), 0);
@@ -411,7 +413,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   // console.log("TotalAmtDMD", TotalAmtDMD);
   // console.log("TotalDmdMetlWt", TotalDmdMetlWt);
   // console.log("headerData", headerData);
-  console.log("data", data);
+  // console.log("data", data);
   // console.log("total", total);
   // console.log("address", address);
 
@@ -573,7 +575,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   *Wt
                 </div>
                 <div className={`${style?.w_20} border-end text-center`}>
-                  N+L
+                  {TotalLoss !== 0 ? "N+L" : "Net Wt" }
                 </div>
                 <div className={`${style?.w_20} border-end text-center`}>
                   Rate

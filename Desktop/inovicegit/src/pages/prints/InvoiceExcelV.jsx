@@ -224,7 +224,7 @@ const InvoiceExcelV = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       }, 500);
     }
 
-    // console.log("result", result);
+    console.log("result", result);
     
     // Style...
     const FntStyl = {
@@ -395,11 +395,11 @@ const InvoiceExcelV = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </td>
 
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop, ...FntStyl, }}>
-                                        {fixedValues( (e?.totals?.diamonds?.Wt) + (e?.totals?.colorstone?.Wt) + (e?.totals?.misc?.Wt),3 )}
+                                        {fixedValues( (e?.totals?.diamonds?.Wt) + (e?.totals?.colorstone?.Wt),3 )}
                                     </td>
                                     
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop, ...FntStyl, }}>
-                                        { (e?.totals?.diamonds?.Pcs) + (e?.totals?.colorstone?.Pcs) + (e?.totals?.misc?.Pcs) }
+                                        { (e?.totals?.diamonds?.Pcs) + (e?.totals?.colorstone?.Pcs) }
                                     </td>
 
                                     <td width={100} style={{ ...brRight, ...brBotm, ...txtTop, ...FntStyl, }}>
