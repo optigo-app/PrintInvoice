@@ -188,7 +188,16 @@ const TaxInvoiceAMaterial = ({
   const rupeesInWords = toWords.convert(rupees);
   const paiseInWords = paise > 0 ? ` and ${toWords.convert(paise)} Paise` : '';
 
-  console.log("finalDfinalDfinalD", json0Data, finalD, taxAmont, extraTaxAmont);
+  const totalDiscountAMT = Array.isArray(finalD) 
+  ? finalD
+      .filter((e) => e?.ItemName?.toLowerCase() === "diamond")
+      .reduce((sum, item) => sum + (parseFloat(item?.DiscountAmount) || 0), 0)
+  : 0;
+
+  console.log("finalDfinalDfinalD", finalD);
+  // console.log("json0Data", json0Data);
+  // console.log("taxAmont", taxAmont);
+  // console.log("extraTaxAmont", extraTaxAmont);
 
   return (
     <>
@@ -562,24 +571,17 @@ const TaxInvoiceAMaterial = ({
                           </div>
                         </div>
                         <div
-                          className="designDetalPrint7 p-1"
+                          className="designDetalPrint7 p-1 text-end"
                           style={{ width: "15%" }}
                         >
-                          <div className="d-flex justify-content-between">
-                            <p
-                              style={{
-                                width: "100%",
-                                textAlign: "right",
-                                width: "15%",
-                              }}
-                            >
+                            <p>
                               {" "}
                               {/* {formatAmount(
                                 e?.DiscountAmt /
                                   finalD?.header?.CurrencyExchRate
                               )} */}
+                              {e?.ItemName?.toLowerCase() === "diamond" && e?.IsDiscountOnAmount === 0 && e?.DiscountAmount !== 0 ? `${formatAmount(e?.DiscountAmount,2)}(${e?.Discount}%)` :  e?.DiscountAmount !== 1 ? formatAmount(e?.DiscountAmount,2) : '0.00' }
                             </p>
-                          </div>
                         </div>
                         <div
                           className="designDetalPrint8"
@@ -587,7 +589,7 @@ const TaxInvoiceAMaterial = ({
                         >
                           <div className="d-flex justify-content-between">
                             <p style={{ width: "100%", textAlign: "right" }}>
-                              {formatAmount(e?.TotalAmount)}
+                              {e?.ItemName?.toLowerCase() === "diamond" ? formatAmount(e?.TotalAmount - e?.DiscountAmount) : formatAmount(e?.TotalAmount)}
                             </p>
                           </div>
                         </div>
@@ -642,7 +644,7 @@ const TaxInvoiceAMaterial = ({
                             justifyContent: "flex-end",
                           }}
                         >
-                          <b>{formatAmount(summary?.totalAmount)}</b>
+                          <b>{formatAmount(summary?.totalAmount - totalDiscountAMT)}</b>
                         </p>
                       </div>
                     </div>
@@ -658,7 +660,7 @@ const TaxInvoiceAMaterial = ({
                       <p>
                         <b>
                           {formatAmount(
-                            finalD?.mainTotal?.total_discount_amount
+                            totalDiscountAMT
                           )}
                         </b>
                       </p>
@@ -673,7 +675,7 @@ const TaxInvoiceAMaterial = ({
                     >
                       <p>Taxable Value</p>
                       <p>
-                        <b>{formatAmount(summary?.totalAmount)}</b>
+                        <b>{formatAmount(summary?.totalAmount - totalDiscountAMT)}</b>
                       </p>
                     </div>
 
@@ -735,7 +737,7 @@ const TaxInvoiceAMaterial = ({
                         <b>
                           {" "}
                           {formatAmount(
-                            summary?.totalAmount + totalEtraTaxAmount + taxAmont?.totaltaxAmount
+                            summary?.totalAmount + totalEtraTaxAmount + taxAmont?.totaltaxAmount -totalDiscountAMT
                           )}
                         </b>
                       </p>
