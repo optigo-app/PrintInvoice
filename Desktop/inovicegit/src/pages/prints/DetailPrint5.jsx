@@ -1079,7 +1079,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="col-6 border-start border-end position-relative pb-3 px-1">
                       <div className="d-flex justify-content-between">
                         <p className="fw-bold">GOLD IN 24KT </p>
-                        <p>{NumberWithCommas((total?.gold24kt - notGoldMetalWtTotal), 3)} gm</p>
+                        <p>{NumberWithCommas((total?.gold24kt), 3)} gm</p>
                       </div>
                       {
                         MetShpWise?.map((e, i) => {
