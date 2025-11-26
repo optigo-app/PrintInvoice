@@ -413,7 +413,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   // console.log("TotalAmtDMD", TotalAmtDMD);
   // console.log("TotalDmdMetlWt", TotalDmdMetlWt);
   // console.log("headerData", headerData);
-  // console.log("data", data);
+  console.log("data", data);
   // console.log("MetShpWise", MetShpWise);
   // console.log("total", total);
   // console.log("address", address);
@@ -924,9 +924,20 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className={`${style?.stone} border-end`}>
                     <p className="text-end fw-bold">
                       Discount {NumberWithCommas(e?.Discount, 2)}
-                      {!e?.isdiscountinamount
-                        ? "% @Total Amount	"
-                        : " On Amount	"}{" "}
+                      {e?.DiamondDiscountAmount 
+                        ? "% @Diamond Amount"
+                        : e?.MetalDiscountAmount
+                          ? "% @Metal Amount"
+                          : e?.StoneDiscountAmount 
+                            ? "% @Colorstone Amount"
+                            : e?.MiscDiscountAmount
+                              ? "% @Misc Amount"
+                              : e?.LabourDiscountAmount
+                                ? "% @Labour Amount"
+                                : e?.SolitaireDiscountAmount1
+                                  ? "% @Solitaire Amount"
+                                  : "% @Total Amount"
+                      } {/* e?.isdiscountinamount */}
                     </p>
                   </div>
 
