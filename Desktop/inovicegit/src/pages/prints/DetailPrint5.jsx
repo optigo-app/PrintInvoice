@@ -1243,7 +1243,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
 
             {/* Remark */}
-            <div className={`col-2 border-top border-bottom border-start h-100 ${style?.sumFont}`}>
+            <div className={`col-2 border-top ${headerData?.PrintRemark !== "" && 'border-bottom'} border-start h-100 ${style?.sumFont}`}>
               {headerData?.PrintRemark !== "" && <>
                 <h6
                   className={`fw-bold text-center justify-content-center align-items-center border-bottom ${style?.sumCent} ${style?.min_height_15} lightGrey SpFntSmryHed`}
@@ -1259,11 +1259,12 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div className="col-2 d-flex border-top sumFont">
               <div
                 className={`d-flex ${style?.height_createBy} w-100 h-100`}
+                style={{ minHeight: "119px", maxHeight: "119px" }}
               >
-                <div className="col-6 d-flex align-items-end h-100 justify-content-center border-start border-end border-bottom" style={{ minHeight: "135px", maxHeight: "135px" }}>
+                <div className="col-6 d-flex align-items-end h-100 justify-content-center border-start border-end border-bottom">
                   <p className="pb-1 SpFntSmryHed"><i>Created By</i> </p>
                 </div>
-                <div className="col-6 d-flex align-items-end h-100 justify-content-center border-bottom border-end" style={{ minHeight: "135px", maxHeight: "135px" }}>
+                <div className="col-6 d-flex align-items-end h-100 justify-content-center border-bottom border-end">
                   <p className="pb-1 SpFntSmryHed"><i>Checked By</i> </p>
                 </div>
               </div>
