@@ -16,7 +16,6 @@ import {
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import "../../assets/css/prints/detailprint10.css";
 import Loader from "../../components/Loader";
-import { OrganizeInvoicePrintData } from "../../GlobalFunctions/OrganizeInvoicePrintData";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 
 const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
@@ -83,7 +82,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setMetShpWise(met_shp_arr);
     let tot_met = 0;
     let tot_met_wt = 0;
-    met_shp_arr?.forEach((e, i) => {
+    met_shp_arr?.forEach((e) => {
       tot_met += e?.Amount;
       tot_met_wt += e?.metalfinewt;
     });
@@ -231,12 +230,12 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setIsImageWorking(false);
   };
 
-  console.log("resultresult", result);
+  // console.log("resultresult", result);
 
   let totalValueFianl = 0;
   {
     result?.resultArray?.map((e, i) => {
-      return e?.metal?.map((el, imet) => {
+      return e?.metal?.map((imet) => {
         const value = e?.DiamondCTWwithLoss / 5 + e?.NetWt || 0;
         if (findingFlag) {
           totalValueFianl += value;
@@ -745,7 +744,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               })}
                               {findingFlag && (
                                 <div style={{ margin: "0px 5px" }}>
-                                  {e?.all_m_d_c_m?.map((data, index) => {
+                                  {e?.all_m_d_c_m?.map((data) => {
                                     return (
                                       <div>
                                         {data?.FindingTypename !== "" && (

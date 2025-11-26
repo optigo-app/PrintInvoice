@@ -191,7 +191,7 @@ const RetailInvoicePrintS = ({
         obj.miscsAmount = miscsAmount;
         blankArr.push(obj);
         let findGroupinfo = groupInfo?.findIndex(
-          (ele, ind) => ele?.GroupJob === e?.GroupJob && e?.GroupJob !== ""
+          (ele) => ele?.GroupJob === e?.GroupJob && e?.GroupJob !== ""
         );
         if (findGroupinfo !== -1) {
           groupInfo[findGroupinfo].diamondWt += diamondWt;
@@ -396,7 +396,7 @@ const RetailInvoicePrintS = ({
   // console.log("total", total);
   // console.log("taxes", taxes);
 
-  const handleChangeImage = (e) => {
+  const handleChangeImage = () => {
     image ? setImage(false) : setImage(true);
   };
 
@@ -425,9 +425,7 @@ const RetailInvoicePrintS = ({
               <div
                 className={`container-fluid ${style?.jewelelryRetailInvoiceContainer} pad_60_allPrint position-relative px-1 ${style?.RetailInvoiceprint4}`}
               >
-                <div
-                  className={`btnpcl align-items-baseline position-absolute right-0 top-0 m-0 ${style?.right_retailInvoicePrintsBtn} d-flex`}
-                >
+                <div className={`btnpcl align-items-baseline position-absolute right-0 top-0 m-0 ${style?.right_retailInvoicePrintsBtn} d-flex`}>
                   <div className="form-check pe-3">
                     <input
                       className="form-check-input"
@@ -843,7 +841,7 @@ const RetailInvoicePrintS = ({
                   {/* Declaration For Quotation */}
                   {IsNotEvenSale && (
                     <div className="border-start border-end border-bottom spinst">
-                      <div dangerouslySetInnerHTML={{ __html: headerData?.Declaration, }}/>
+                      <div dangerouslySetInnerHTML={{ __html: headerData?.Declaration, }}></div>
                     </div>
                   )}
 

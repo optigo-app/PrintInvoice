@@ -222,6 +222,7 @@ export const QuotationPrints = [
   {printName: 'print quotation', etpType: 'print', componentName: 'Quetioprint'},
   {printName: 'quotation print', etpType: 'print', componentName: 'Quetioprint'},
   {printName: 'packing list 7group s', etpType: 'print', componentName: 'PackingList7GroupS'},
+  {printName: 'detail print 5', etpType: 'print', componentName: 'DetailPrint5'},
 ]
 
 export const MemoPrints = [
