@@ -1328,7 +1328,7 @@ const DesignsetPackinglist = ({
                                           return el?.IsHSCOE === 1 ||
                                             el?.IsHSCOE === 2 ||
                                             el?.IsHSCOE === 3 ? (
-                                            <div className="left_pcl_new2">
+                                            <div key={i} className="left_pcl_new2">
                                               {el?.Amount === 0
                                                 ? ""
                                                 : el?.IsHSCOE === 3

@@ -157,7 +157,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     let finalArr = [];
     let totalMetalWt = 0;
     let miscChargesTotals = 0
-    datas?.resultArray?.map((e, i) => {
+    datas?.resultArray?.map((e) => {
       let primaryMetalWt = 0;
       let otherMisc = e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling;
       let findMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
@@ -205,7 +205,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     let diamondDetail = [];
     data?.BillPrint_Json2?.forEach((e, i) => {
       if (e?.MasterManagement_DiamondStoneTypeid === 1) {
-        let findDiamond = diamondDetail?.findIndex((ele, ind) => ele?.ShapeName === e?.ShapeName && ele?.QualityName === e?.QualityName && ele?.Colorname === e?.Colorname);
+        let findDiamond = diamondDetail?.findIndex((ele) => ele?.ShapeName === e?.ShapeName && ele?.QualityName === e?.QualityName && ele?.Colorname === e?.Colorname);
         if (findDiamond === -1) {
           diamondDetail.push(e);
         } else {
@@ -217,7 +217,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     });
     let findRND = [];
     let remaingDia = [];
-    diamondDetail?.forEach((ele, ind) => {
+    diamondDetail?.forEach((ele) => {
       if (ele?.ShapeName === "RND") {
         findRND.push(ele);
       } else {
@@ -489,7 +489,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     let taxValue = taxGenrator(hr, totals?.totalAmount);
     setTaxes(taxValue);
     taxValue?.length > 0 &&
-      taxValue.forEach((e, i) => {
+      taxValue.forEach((e) => {
         totals.withDiscountTaxAmount += +e?.amount;
       });
     totals.withDiscountTaxAmount +=

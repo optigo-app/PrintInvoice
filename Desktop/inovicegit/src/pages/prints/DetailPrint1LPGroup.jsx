@@ -141,18 +141,18 @@ const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, })
     let totalMetalWt = 0;
     let miscChargesTotals = 0;
     let metalWts = 0;
-    datas?.resultArray?.map((e, i) => {
+    datas?.resultArray?.map((e) => {
       let primaryMetalWt = 0;
       let netWtlossWt = 0;
       let counts = 0;
       let str_discountOn = discountCriteria(e);
       let otherMisc = e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling;
-      let findMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
+      let findMetal = e?.metal?.find((ele) => ele?.IsPrimaryMetal === 1);
       if (findMetal !== undefined) {
         primaryMetalWt = findMetal?.Wt;
         totalMetalWt += findMetal?.Wt;
       }
-      e?.metal?.forEach((ele, ind) => {
+      e?.metal?.forEach((ele) => {
         if(ele?.IsPrimaryMetal === 1){
           netWtlossWt += ele?.Wt;
         }else{
@@ -167,7 +167,7 @@ const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, })
       obj.netWtlossWt = netWtlossWt;
       let miscChargesTotal = e?.OtherCharges + e?.TotalDiamondHandling;
       let miscChargesss = 0;
-      let miscCharges = data?.BillPrint_Json2?.filter((ele, ind) => {
+      let miscCharges = data?.BillPrint_Json2?.filter((ele) => {
         if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
           if (ele?.IsHSCOE !== 0 && ele?.StockBarcode === e?.SrJobno) {
             // miscChargesTotal += ele?.Amount;
@@ -197,7 +197,7 @@ const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, })
     let brok = brokarageDetail(data?.BillPrint_Json[0]?.Brokerage);
     setBrokarage(brok);
     let diamondDetail = [];
-    data?.BillPrint_Json2?.forEach((e, i) => {
+    data?.BillPrint_Json2?.forEach((e) => {
       if (e?.MasterManagement_DiamondStoneTypeid === 1) {
         let findDiamond = diamondDetail?.findIndex(
           (ele, ind) =>
@@ -216,7 +216,7 @@ const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, })
     });
     let findRND = [];
     let remaingDia = [];
-    diamondDetail?.forEach((ele, ind) => {
+    diamondDetail?.forEach((ele) => {
       if (ele?.ShapeName === "RND") {
         findRND.push(ele);
       } else {
@@ -244,7 +244,7 @@ const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, })
       }
     });
     let findOther = remaingDia?.findIndex(
-      (elee, index) => elee?.ShapeName === "OTHER"
+      (eleex) => elee?.ShapeName === "OTHER"
     );
     if (findRND?.length > 6) {
       let arr = findRND.slice(0, 6);

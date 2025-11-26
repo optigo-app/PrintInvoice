@@ -80,7 +80,7 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
         settingAmount: 0,
       }
       obj.puregoldWeightWithLoss = obj?.NetWt + obj?.LossWt;
-      data?.BillPrint_Json2.forEach((ele, ind) => {
+      data?.BillPrint_Json2.forEach((ele) => {
         if (ele?.StockBarcode === e?.SrJobno) {
           totalCol.settingAmount += (ele?.SettingAmount / data.BillPrint_Json[0]?.CurrencyExchRate);
           obj.puregoldWeightWithLoss += ele?.FineWt;
@@ -89,7 +89,7 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
             let obj = { ...ele };
             obj.Amount = ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate;
             obj.SettingAmount = ele?.SettingAmount / data?.BillPrint_Json[0]?.CurrencyExchRate;
-            let findIndex = elementsArr.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname && elem?.SizeName === ele?.SizeName);
+            let findIndex = elementsArr.findIndex((elem) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname && elem?.SizeName === ele?.SizeName);
             if (findIndex === -1) {
               elementsArr.push(obj);
             } else {
@@ -133,7 +133,7 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
               summaries.gold14k += ele?.Wt;
             }
 
-            let findRecord = metalsArr.findIndex((elem, index)=>elem?.label === ele?.ShapeName+" "+ele?.QualityName);
+            let findRecord = metalsArr.findIndex((elem)=>elem?.label === ele?.ShapeName+" "+ele?.QualityName);
             if(findRecord === -1){
               metalsArr.push({label: ele?.ShapeName+" "+ele?.QualityName, value: ele?.Wt});
             }else{
@@ -182,9 +182,9 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
     setGold(golds);
 
     let newArr = [];
-    resultAr.forEach((e, i) => {
+    resultAr.forEach((e) => {
       let obj = { ...e };
-      let findRecord = newArr.findIndex((ele, ind) => ele?.GroupJobid === e?.GroupJobid && e?.GroupJobid !== 0);
+      let findRecord = newArr.findIndex((ele) => ele?.GroupJobid === e?.GroupJobid && e?.GroupJobid !== 0);
       if (findRecord === -1) {
         newArr.push(obj);
       } else {
@@ -221,9 +221,9 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
 
         let materialArr = [newArr[findRecord].materials, e.materials];
         let materials = [];
-        materialArr.forEach((element, indexs) => {
-          element.forEach((ele, ind) => {
-            let findRecords = materials.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName &&
+        materialArr.forEach((element) => {
+          element.forEach((ele) => {
+            let findRecords = materials.findIndex((elem) => elem?.ShapeName === ele?.ShapeName &&
               elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate &&
               elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid);
             // newArr[findRecord].totalCol.pcs += ele?.Pcs;
@@ -248,7 +248,7 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
 
     let finalArr = [];
 
-    newArr.forEach((e, i) => {
+    newArr.forEach((e) => {
       let findRecord = goldRateFind.findIndex(elem => elem?.GroupJob === e?.GroupJob);
       let obj = {...e};
       if(findRecord === -1){
@@ -384,13 +384,13 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
       } 
     });
     metalsArr.reverse();
-    metalsArr.forEach((e, i)=>{
+    metalsArr.forEach((e)=>{
       goldArr.unshift({label: e?.label, value: `${fixedValues(e?.value, 3)} gm`})
     })
     // golds?.gold14k && goldArr.unshift({ label: "GOLD 14K: ", value: `${fixedValues(summaries?.gold14k, 3)} gm` });
     let totalArr = [];
     totalArr.push({ label: "Total", value: NumberWithCommas(totals?.totalJewelleryAmount, 2) });
-    taxValue.forEach((e, i) => {
+    taxValue.forEach((e) => {
       let obj = { ...e };
       totalArr.push({ label: `${e?.name} per ${e?.per}`, value: NumberWithCommas(+e?.amount / data.BillPrint_Json[0]?.CurrencyExchRate, 2) });
     });

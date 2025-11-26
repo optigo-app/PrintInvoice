@@ -211,7 +211,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       let colorstones = [];
       let dias = [];
       // eslint-disable-next-line array-callback-return
-      datas.json2.map((ele, ind) => {
+      datas.json2.map((ele) => {
         if (ele?.ShapeName === "Stamping" || ele?.ShapeName === "Hallmark") {
         } else {
           if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
@@ -229,7 +229,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       let dias_filter = [];
 
       // eslint-disable-next-line array-callback-return
-      miscs?.map((ele, ind) => {
+      miscs?.map((ele) => {
         let findMiscs = miscs_filter.findIndex(
           (elem, index) =>
             elem?.ShapeName === ele?.ShapeName && elem?.Rate === ele?.Rate
@@ -248,7 +248,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       });
 
       // eslint-disable-next-line array-callback-return
-      colorstones?.map((ele, ind) => {
+      colorstones?.map((ele) => {
         let findcs = colrStone_filter?.findIndex(
           (elem, index) =>
             elem?.ShapeName === ele?.ShapeName && elem?.Rate === ele?.Rate
@@ -266,7 +266,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         }
       });
 
-      dias?.map((ele, ind) => {
+      dias?.map((ele) => {
         let findcs = dias_filter?.findIndex(
           (elem, index) =>
             elem?.ShapeName === ele?.ShapeName && elem?.Rate === ele?.Rate
@@ -404,7 +404,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         }
       });
       setFineWtTotal(finewt_);
-      datas?.resultArray?.forEach((e, i) => {
+      datas?.resultArray?.forEach((e) => {
         let counts =
           e?.metal?.reduce(
             (acc, cObj) => (cObj?.IsPrimaryMetal === 0 ? acc + 1 : acc),

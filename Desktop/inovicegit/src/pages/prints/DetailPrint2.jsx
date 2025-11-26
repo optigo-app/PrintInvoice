@@ -32,7 +32,7 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         setMetShpWise(met_shp_arr);
         let tot_met = 0;
         let tot_met_wt = 0;
-        met_shp_arr?.forEach((e, i) => {
+        met_shp_arr?.forEach((e) => {
           tot_met += e?.Amount;
           tot_met_wt += e?.metalfinewt;
         })    
@@ -42,14 +42,14 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         let resultArr = [];
         let PrimaryMetalWts = 0;
         let PrimaryMetalAmounts = 0;
-        datas?.resultArray?.forEach((e, i) => {
+        datas?.resultArray?.forEach((e) => {
             let obj = cloneDeep(e);
             let diamonds = [];
             let PrimaryMetalWt = 0
             let PrimaryMetalAmount = 0
             // elem?.ShapeName === ele?.ShapeName && ele?.Colorname === elem?.Colorname && 
-            obj?.diamonds?.forEach((ele, ind) => {
-                let findDiamond = diamonds?.findIndex((elem, index) => ele?.QualityName === elem?.QualityName);
+            obj?.diamonds?.forEach((ele) => {
+                let findDiamond = diamonds?.findIndex((elem) => ele?.QualityName === elem?.QualityName);
                 if (findDiamond === -1) {
                     diamonds.push(ele);
                 } else {
@@ -59,7 +59,7 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 }
             });
             // PrimaryMetalWt += e?.metal?.reduce((acc, cObj) => cObj?.IsPrimaryMetal === 1 ? acc+ cObj?.Wt : acc, 0);
-            e?.metal?.forEach((ele, ind) => {
+            e?.metal?.forEach((ele) => {
                 if (ele?.IsPrimaryMetal === 1) {
                     PrimaryMetalWt += ele?.Wt;
                     PrimaryMetalAmount += ele?.Amount

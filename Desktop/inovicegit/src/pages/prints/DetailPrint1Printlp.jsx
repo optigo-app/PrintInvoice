@@ -136,7 +136,7 @@ const DetailPrint1Printlp = ({ token, invoiceNo, printName, urls, evn, ApiVer })
       
     setMetShpWise(met_shp_arr);
     let tot_met = 0;
-    met_shp_arr?.forEach((e, i) => {
+    met_shp_arr?.forEach((e) => {
       tot_met += e?.Amount;
     })    
     setNotGoldMetalTotal(tot_met);
@@ -145,8 +145,8 @@ const DetailPrint1Printlp = ({ token, invoiceNo, printName, urls, evn, ApiVer })
     let totalMetalWt = 0;
     let miscChargesTotals = 0;
     let categoriess = [];
-    datas?.resultArray?.map((e, i) => {
-      let findCategory = categoriess?.findIndex((ele, ind) => ele?.Categoryname === e?.Categoryname);
+    datas?.resultArray?.map((e) => {
+      let findCategory = categoriess?.findIndex((ele) => ele?.Categoryname === e?.Categoryname);
       if(findCategory === -1){
         categoriess?.push({Categoryname: e?.Categoryname, count: 1});
       }else{
@@ -154,7 +154,7 @@ const DetailPrint1Printlp = ({ token, invoiceNo, printName, urls, evn, ApiVer })
       }
       let primaryMetalWt = 0;
       let otherMisc = e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling;
-      let findMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
+      let findMetal = e?.metal?.find((ele) => ele?.IsPrimaryMetal === 1);
       if (findMetal !== undefined) {
         primaryMetalWt = findMetal?.Wt;
         totalMetalWt += findMetal?.Wt;
@@ -162,7 +162,7 @@ const DetailPrint1Printlp = ({ token, invoiceNo, printName, urls, evn, ApiVer })
       let obj = cloneDeep(e);
       let miscChargesTotal = e?.OtherCharges + e?.TotalDiamondHandling
       let miscChargesss = 0;
-      let miscCharges = data?.BillPrint_Json2?.filter((ele, ind) => {
+      let miscCharges = data?.BillPrint_Json2?.filter((ele) => {
         if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
           if (ele?.IsHSCOE !== 0 && ele?.StockBarcode === e?.SrJobno) {
             // miscChargesTotal += ele?.Amount;
@@ -194,7 +194,7 @@ const DetailPrint1Printlp = ({ token, invoiceNo, printName, urls, evn, ApiVer })
     let diamondDetail = [];
     data?.BillPrint_Json2?.forEach((e, i) => {
       if (e?.MasterManagement_DiamondStoneTypeid === 1) {
-        let findDiamond = diamondDetail?.findIndex((ele, ind) => ele?.ShapeName === e?.ShapeName && ele?.QualityName === e?.QualityName && ele?.Colorname === e?.Colorname);
+        let findDiamond = diamondDetail?.findIndex((ele) => ele?.ShapeName === e?.ShapeName && ele?.QualityName === e?.QualityName && ele?.Colorname === e?.Colorname);
         if (findDiamond === -1) {
           diamondDetail.push(e);
         } else {
@@ -206,7 +206,7 @@ const DetailPrint1Printlp = ({ token, invoiceNo, printName, urls, evn, ApiVer })
     });
     let findRND = [];
     let remaingDia = [];
-    diamondDetail?.forEach((ele, ind) => {
+    diamondDetail?.forEach((ele) => {
       if (ele?.ShapeName === "RND") {
         findRND.push(ele);
       } else {
@@ -478,7 +478,7 @@ const DetailPrint1Printlp = ({ token, invoiceNo, printName, urls, evn, ApiVer })
     let taxValue = taxGenrator(hr, totals?.totalAmount);
     setTaxes(taxValue);
     taxValue?.length > 0 &&
-      taxValue.forEach((e, i) => {
+      taxValue.forEach((e) => {
         totals.withDiscountTaxAmount += +e?.amount;
       });
     totals.withDiscountTaxAmount +=

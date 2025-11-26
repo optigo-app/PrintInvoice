@@ -413,7 +413,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   // console.log("TotalAmtDMD", TotalAmtDMD);
   // console.log("TotalDmdMetlWt", TotalDmdMetlWt);
   // console.log("headerData", headerData);
-  console.log("data", data);
+  // console.log("data", data);
   // console.log("MetShpWise", MetShpWise);
   // console.log("total", total);
   // console.log("address", address);

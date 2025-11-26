@@ -68,7 +68,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setMetShpWise(met_shp_arr);
     let tot_met = 0;
     let tot_met_wt = 0;
-    met_shp_arr?.forEach((e, i) => {
+    met_shp_arr?.forEach((e) => {
       tot_met += e?.Amount;
       tot_met_wt += e?.metalfinewt;
     })    
@@ -79,13 +79,13 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     let categories = [];
     let netWts = 0;
     let FineWts = 0;
-    datas?.resultArray.forEach((e, i) => {
+    datas?.resultArray.forEach((e) => {
       FineWts += e?.convertednetwt;
       let otherDetailsCharges = e?.TotalDiamondHandling + e?.OtherCharges;
       if (e?.metal?.length <= 1) {
         netWts += e?.NetWt + e?.LossWt;
       } else {
-        let findMetal = e?.metal?.findIndex((ele, ind) => ele?.IsPrimaryMetal === 1);
+        let findMetal = e?.metal?.findIndex((ele) => ele?.IsPrimaryMetal === 1);
         if (findMetal !== -1) {
           netWts += e?.metal[findMetal]?.Wt;
         }
@@ -99,7 +99,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         let obj = cloneDeep(e);
         obj.FineWt = 0;
         obj.otherDetailsCharges = otherDetailsCharges;
-        let findIndex = e?.metal?.findIndex((ele, ind) => ele?.IsPrimaryMetal === 1);
+        let findIndex = e?.metal?.findIndex((ele) => ele?.IsPrimaryMetal === 1);
         let primaryMetalAmount = 0;
         let primaryMetalWt = 0
         if (findIndex !== -1) {
@@ -112,12 +112,12 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         obj.primaryMetalWt = primaryMetalWt;
         resultArr.push(obj);
       } else {
-        let findRecord = resultArr.findIndex((ele, ind) => ele?.GroupJob === e?.GroupJob);
+        let findRecord = resultArr.findIndex((ele) => ele?.GroupJob === e?.GroupJob);
         if (findRecord === -1) {
           let primaryMetalAmount = 0;
           let primaryMetalWt = 0
           let FineWt = 0;
-          let findIndex = e?.metal?.findIndex((ele, ind) => ele?.IsPrimaryMetal === 1);
+          let findIndex = e?.metal?.findIndex((ele) => ele?.IsPrimaryMetal === 1);
           if (findIndex !== -1) {
             primaryMetalAmount = e?.metal[findIndex]?.Amount;
             primaryMetalWt = e?.metal[findIndex]?.Wt;
@@ -138,9 +138,9 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             resultArr[findRecord].HUID = e?.HUID;
             resultArr[findRecord].Size = e?.Size;
             // resultArr[findRecord].metal
-            let findPrimaryMetal = e?.metal.findIndex((elem, index) => elem?.IsPrimaryMetal === 1);
+            let findPrimaryMetal = e?.metal.findIndex((elem) => elem?.IsPrimaryMetal === 1);
             if (findPrimaryMetal !== -1) {
-              let FindRecMetal = resultArr[findRecord]?.metal.findIndex((elem, index) => elem?.IsPrimaryMetal === 1);
+              let FindRecMetal = resultArr[findRecord]?.metal.findIndex((elem) => elem?.IsPrimaryMetal === 1);
               if (FindRecMetal !== -1) {
                 resultArr[findRecord].metal[FindRecMetal].Rate = e?.metal[findPrimaryMetal].Rate;
               }

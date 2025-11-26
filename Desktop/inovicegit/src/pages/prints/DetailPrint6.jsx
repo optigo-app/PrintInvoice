@@ -288,7 +288,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
 
   }
-  const handleImgShow = (e) => {
+  const handleImgShow = () => {
     if (imgFlag) setImgFlag(false);
     else {
       setImgFlag(true);

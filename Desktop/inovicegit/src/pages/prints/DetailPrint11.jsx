@@ -50,7 +50,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     let summaries = { ...summary };
     let fineWt = 0;
     let goldsArr = [];
-    data?.BillPrint_Json1.forEach((e, i) => {
+    data?.BillPrint_Json1.forEach((e) => {
       let objects = {
         GroupJob: e?.GroupJob,
         netWt: e?.NetWt,
@@ -73,7 +73,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         settingAmount: 0,
       }
       obj.puregoldWeightWithLoss = obj?.NetWt + obj?.LossWt;
-      data?.BillPrint_Json2.forEach((ele, ind) => {
+      data?.BillPrint_Json2.forEach((ele) => {
         if (ele?.StockBarcode === e?.SrJobno) {
           // totalCol.settingAmount += (ele?.SettingAmount / data.BillPrint_Json[0]?.CurrencyExchRate);
           totalCol.settingAmount += (ele?.SettingAmount);
@@ -83,7 +83,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             let objects = { ...ele };
             // objects.Amount = ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate;
             // objects.SettingAmount = ele?.SettingAmount / data?.BillPrint_Json[0]?.CurrencyExchRate;
-            let findIndex = elementsArr.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName &&
+            let findIndex = elementsArr.findIndex((elem) => elem?.ShapeName === ele?.ShapeName &&
               elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname && ele?.Rate === elem?.Rate &&
               elem?.SizeName === ele?.SizeName && elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid);
             if (findIndex === -1) {
@@ -132,7 +132,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               golds.gold14k = true
               summaries.gold14k += ele?.Wt;
             }
-            let findRecord = goldsArr.findIndex((elem, index) => elem?.label === ele?.ShapeName + " " + ele?.QualityName);
+            let findRecord = goldsArr.findIndex((elem) => elem?.label === ele?.ShapeName + " " + ele?.QualityName);
             if (findRecord === -1) {
               goldsArr.push({ label: ele?.ShapeName + " " + ele?.QualityName, value: ele?.Wt });
             } else {
@@ -174,7 +174,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       }
     });
     let taxValue = taxGenrator(data?.BillPrint_Json[0], totals?.totalJewelleryAmount);
-    taxValue.length > 0 && taxValue.forEach((e, i) => {
+    taxValue.length > 0 && taxValue.forEach((e) => {
       totals.grandTotal += (+e?.amount / data.BillPrint_Json[0]?.CurrencyExchRate);
     });
     totals.grandTotal += data?.BillPrint_Json[0]?.AddLess + totals?.totalJewelleryAmount;
@@ -188,7 +188,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     let newArr = [];
     resultAr.forEach((e, i) => {
       let obj = { ...e };
-      let findRecord = newArr.findIndex((ele, ind) => ele?.GroupJobid === e?.GroupJobid && e?.GroupJobid !== 0);
+      let findRecord = newArr.findIndex((ele) => ele?.GroupJobid === e?.GroupJobid && e?.GroupJobid !== 0);
       if (findRecord === -1) {
         newArr.push(obj);
       } else {
@@ -228,9 +228,9 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         newArr[findRecord].totalCol.settingAmount += obj.totalCol.settingAmount;
         let materialArr = [newArr[findRecord].materials, e.materials];
         let materials = [];
-        materialArr.forEach((element, indexs) => {
-          element.forEach((ele, ind) => {
-            let findRecords = materials.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName &&
+        materialArr.forEach((element) => {
+          element.forEach((ele) => {
+            let findRecords = materials.findIndex((elem) => elem?.ShapeName === ele?.ShapeName &&
               elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate &&
               elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid);
 
@@ -249,7 +249,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       }
     });
     let finalArr = [];
-    newArr.forEach((e, i) => {
+    newArr.forEach((e) => {
       let findRecord = goldRateFind.findIndex(elem => elem?.GroupJob === e?.GroupJob);
       let obj = { ...e };
       if (findRecord === -1) {
@@ -263,7 +263,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     })
     setJson1Data(finalArr);
   }
-  const onchangeSetting = (e) => {
+  const onchangeSetting = () => {
     setSetting(!setting);
     setStyles(!setting === true ? "diamondDetail1" : "diamondDetail");
   }

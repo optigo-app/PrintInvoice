@@ -102,7 +102,7 @@ const DetailPrint11LExcel = ({
         settingAmount: 0,
       };
       obj.puregoldWeightWithLoss = obj?.NetWt + obj?.LossWt;
-      data?.BillPrint_Json2.forEach((ele, ind) => {
+      data?.BillPrint_Json2.forEach((ele) => {
         if (ele?.StockBarcode === e?.SrJobno) {
           totalCol.settingAmount +=
             ele?.SettingAmount / data.BillPrint_Json[0]?.CurrencyExchRate;
@@ -232,7 +232,7 @@ const DetailPrint11LExcel = ({
       totals?.totalJewelleryAmount
     );
     taxValue.length > 0 &&
-      taxValue.forEach((e, i) => {
+      taxValue.forEach((e) => {
         totals.grandTotal +=
           +e?.amount / data.BillPrint_Json[0]?.CurrencyExchRate;
       });
@@ -246,7 +246,7 @@ const DetailPrint11LExcel = ({
     setGold(golds);
 
     let newArr = [];
-    resultAr.forEach((e, i) => {
+    resultAr.forEach((e) => {
       let obj = { ...e };
       let findRecord = newArr.findIndex(
         (ele, ind) => ele?.GroupJobid === e?.GroupJobid && e?.GroupJobid !== 0
@@ -291,7 +291,7 @@ const DetailPrint11LExcel = ({
 
         let materialArr = [newArr[findRecord].materials, e.materials];
         let materials = [];
-        materialArr.forEach((element, indexs) => {
+        materialArr.forEach((element) => {
           element.forEach((ele, ind) => {
             let findRecords = materials.findIndex(
               (elem, index) =>
@@ -324,7 +324,7 @@ const DetailPrint11LExcel = ({
 
     let finalArr = [];
 
-    newArr.forEach((e, i) => {
+    newArr.forEach((e) => {
       let findRecord = goldRateFind.findIndex(
         (elem) => elem?.GroupJob === e?.GroupJob
       );
@@ -494,7 +494,7 @@ const DetailPrint11LExcel = ({
       value: discount,
     });
 
-    taxValue.forEach((e, i) => {
+    taxValue.forEach((e) => {
       let obj = { ...e };
       totalArr.push({
         label: `${e?.name} per ${e?.per}`,
@@ -1045,7 +1045,7 @@ const DetailPrint11LExcel = ({
   if (result?.resultArray && !result.resultArray[0]?.__isTransformed) {
     console.log("Transforming resultArray only once");
 
-    result.resultArray = result.resultArray.map((item, index) => {
+    result.resultArray = result.resultArray.map((item) => {
       const originalOtherDetails = item.other_details || [];
       const existingHallmark = originalOtherDetails.find(
         (d) => d.label?.trim().toLowerCase() === "hallmark charges"

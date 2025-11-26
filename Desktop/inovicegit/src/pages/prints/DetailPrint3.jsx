@@ -73,7 +73,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setMetShpWise(met_shp_arr);
     let tot_met = 0;
     let tot_met_wt = 0;
-    met_shp_arr?.forEach((e, i) => {
+    met_shp_arr?.forEach((e) => {
       tot_met += e?.Amount;
       tot_met_wt += e?.metalfinewt;
     });
@@ -81,7 +81,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setNotGoldMetalWtTotal(tot_met_wt);
 
     let mdtot = 0;
-    datas?.resultArray?.forEach((e, i) => {
+    datas?.resultArray?.forEach((e) => {
       mdtot += e?.totals?.diamonds?.Wt / 5 + e?.NetWt;
     });
 
@@ -111,21 +111,21 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setResult(datas);
     setLoader(false);
   };
-  const handleImgShow = (e) => {
+  const handleImgShow = () => {
     if (imgFlag) setImgFlag(false);
     else {
       setImgFlag(true);
     }
   };
 
-  const handleWithRate = (e) => {
+  const handleWithRate = () => {
     if (withRate) setWithRate(false);
     else {
       setWithRate(true);
     }
   };
 
-  const handleWithPcs = (e) => {
+  const handleWithPcs = () => {
     if (withPcs) setWithPcs(false);
     else {
       setWithPcs(true);

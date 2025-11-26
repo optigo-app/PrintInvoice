@@ -153,7 +153,7 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     return datas;
   };
 
-  const handleImgShow = (eve) => {
+  const handleImgShow = () => {
     setImgFlag(!imgFlag);
   };
 

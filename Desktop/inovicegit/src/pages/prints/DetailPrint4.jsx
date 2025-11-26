@@ -75,7 +75,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setMetShpWise(met_shp_arr);
     let tot_met = 0;
     let tot_met_wt = 0;
-    met_shp_arr?.forEach((e, i) => {
+    met_shp_arr?.forEach((e) => {
       tot_met += e?.Amount;
       tot_met_wt += e?.metalfinewt;
     })    
@@ -489,7 +489,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setResult(datas);
     setLoader(false);
   };
-  const handleImgShow = (e) => {
+  const handleImgShow = () => {
     if (imgFlag) setImgFlag(false);
     else {
       setImgFlag(true);
