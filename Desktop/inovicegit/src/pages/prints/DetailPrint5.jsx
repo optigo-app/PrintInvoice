@@ -418,6 +418,14 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   // console.log("total", total);
   // console.log("address", address);
 
+  const discountCriteria = [
+    { key: 'DiamondDiscountAmount', label: 'Diamond' },
+    { key: 'MetalDiscountAmount', label: 'Metal' },
+    { key: 'StoneDiscountAmount', label: 'Colorstone' },
+    { key: 'LabourDiscountAmount', label: 'Labour' },
+    { key: 'SolitaireDiscountAmount1', label: 'Solitaire' },
+    { key: 'MiscDiscountAmount', label: 'Misc' },
+  ];
 
   return loader ? (
     <Loader />
@@ -630,6 +638,12 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
         {/* Table Data */}
         {data.map((e, i) => {
+          {/* For Discount Criteria */}
+          const activeDiscounts = discountCriteria
+            .filter(({ key }) => e?.[key] > 0)
+            .map(({ label }) => label)
+            .join(', ');
+            
           return (
             <div className="PgeBrakInsid SpBrdersBtom" key={i}>
               {/* Per Job Details */}
@@ -924,7 +938,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className={`${style?.stone} border-end`}>
                     <p className="text-end fw-bold">
                       Discount {NumberWithCommas(e?.Discount, 2)}
-                      {e?.DiamondDiscountAmount 
+                      {/* {e?.DiamondDiscountAmount 
                         ? "% @Diamond Amount"
                         : e?.MetalDiscountAmount
                           ? "% @Metal Amount"
@@ -937,7 +951,9 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 : e?.SolitaireDiscountAmount1
                                   ? "% @Solitaire Amount"
                                   : "% @Total Amount"
-                      } {/* e?.isdiscountinamount */}
+                      }  */}
+                      {activeDiscounts ? `% @${activeDiscounts} Amount` : "% @Total Amount"}
+                      {/* e?.isdiscountinamount */}
                     </p>
                   </div>
 

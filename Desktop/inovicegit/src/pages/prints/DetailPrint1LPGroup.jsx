@@ -244,7 +244,7 @@ const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, })
       }
     });
     let findOther = remaingDia?.findIndex(
-      (eleex) => elee?.ShapeName === "OTHER"
+      (elee) => elee?.ShapeName === "OTHER"
     );
     if (findRND?.length > 6) {
       let arr = findRND.slice(0, 6);
