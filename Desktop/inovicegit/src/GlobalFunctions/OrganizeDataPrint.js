@@ -265,7 +265,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1, json3_1, invoiceNo,
 
       //json2
       json2?.length > 0 &&
-        json2?.forEach((j2, i) => {
+        json2?.forEach((j2) => {
 
           if (j1?.SrJobno === j2?.StockBarcode) {
             //for diamond

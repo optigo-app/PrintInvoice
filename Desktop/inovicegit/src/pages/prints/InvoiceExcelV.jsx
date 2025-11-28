@@ -337,7 +337,7 @@ const InvoiceExcelV = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         </td>
                                     ) : ( "" )}
 
-                                    <td width={100} style={{ ...brRight, ...brBotm, ...txtTop, ...styBld, ...FntStyl, }}><div>{e?.designno}</div><div>{e?.SrJobno}</div></td>
+                                    <td width={100} style={{ ...brRight, ...brBotm, ...txtTop, ...styBld, ...FntStyl, ...txtEnd }}><div>{e?.designno}</div><div>{`\u200B${e?.SrJobno}`}</div></td>
 
                                     <td width={140} style={{ ...brRight, ...brBotm, ...txtTop, ...FntStyl, }}>
                                         <div>{e?.Categoryname}</div>
