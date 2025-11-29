@@ -2214,17 +2214,19 @@ const PackingList7DGroup = ({
                     </div>
                   )}
                 </div> */}
-                <div className="w-100 ball_dp10_pcl7 px-1 mt-1 mb-1 note_sec_sum4 p-1">
-                  <p className="fw-bold font_15_sum4">Terms & Condition: </p>
-                  {
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: result?.header?.Declaration,
-                      }}
-                      className="summury4_notes_text"
-                    />
-                  }
-                </div>
+                {result?.header?.SalesRepPolicyTermsDescription !== "" ? (
+                  <div className="w-100 ball_dp10_pcl7 px-1 mt-1 mb-1 note_sec_sum4 p-1">
+                    <p className="fw-bold font_15_sum4">TERMS INCLUDED: </p>
+                    {
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: result?.header?.SalesRepPolicyTermsDescription,
+                        }}
+                        className="summury4_notes_text"
+                      />
+                    }
+                  </div>
+                ) : ( "" )}
                 <div className="d-flex justify-content-between mt-1">
                   <div
                     className="ball_dp10_pcl7 d-flex justify-content-center align-items-end pb-1 "

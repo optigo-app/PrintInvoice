@@ -310,7 +310,7 @@
 
 .font_15_sum4 {
     line-height: 95%;
-    font-size: 14.5px;
+    font-size: 13.3px;
 }
 
 @media print {
@@ -325,7 +325,7 @@
 
     .font_15_sum4 {
         line-height: 90%;
-        font-size: 11px !important;
+        font-size: 10.5px !important;
     }
 
     .note_sec_sum4 {
