@@ -1300,7 +1300,15 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
           {/* Terms Description */}
           {headerData?.SalesRepPolicyTermsDescription !== '' && (
-            <div className="d-flex"><p className="fw-bold">TERMS INCLUDED:&nbsp;</p>{headerData?.SalesRepPolicyTermsDescription}</div>
+            <div className="w-100 px-1 mt-1 mb-1">
+              <p className="fw-bold">TERMS INCLUDED:&nbsp;</p>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: headerData?.SalesRepPolicyTermsDescription,
+                }}
+                className=""
+              />
+            </div>
           )}
         </div>
 
