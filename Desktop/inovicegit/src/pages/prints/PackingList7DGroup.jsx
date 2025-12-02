@@ -1755,7 +1755,7 @@ const PackingList7DGroup = ({
                       {/* <div className="col6dp10_pcl7 end_dp10_pcl7  d-flex align-items-center brR_dp10_pcl7 pr_dp10_pcl7" style={{width:'5%', paddingRight:'1px'}}>
                         {formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}
                       </div> */}
-                      <div className="col7dp10_pcl7 end_dp10_pcl7  d-flex align-items-center  pr_dp10_pcl7  border-end-0">
+                      <div className="col7dp10_pcl7 end_dp10_pcl7 d-flex align-items-center pr_dp10_pcl7 border-end-0">
                         {formatAmount(
                           (
                             (result?.resultArray?.reduce((total, e) => {
@@ -1801,11 +1801,11 @@ const PackingList7DGroup = ({
                         </div>
                         <div style={{display: "flex", gap: "5px"}}>
                         <div className="d-flex flex-column sumdp10_pcl7">
-                          <div className="fw-bold bg_dp10_pcl7 w-100 centerdp10_pcl7  ball_dp10_pcl7">
+                          <div className="fw-bold bg_dp10_pcl7 w-100 centerdp10_pcl7 ball_dp10_pcl7">
                             SUMMARY
                           </div>
                           <div className="d-flex w-100 fsgdp10_pcl7">
-                            <div className="w-50 bright_dp10_pcl7  bl_dp10_pcl7">
+                            <div className="w-50 bright_dp10_pcl7 bl_dp10_pcl7">
                               <div className="d-flex justify-content-between ps-1">
                                 <div className="w-50 fw-bold">GOLD IN 24KT</div>
                                 <div className="w-50 end_dp10_pcl7 pe-1">

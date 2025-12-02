@@ -282,35 +282,52 @@
 .pr_dp10{
     padding-right: 2px !important;
 }
-.minH_sum_pcl3{
-    min-height: 131px;
-}
-.H_sum_pcl3{
-    min-height: 131px;
-}
 .h14_dp10{
     height: 14px;
 }
 
 .spbrWord {
-    word-break: break-word;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    word-wrap: break-word !important;
 }
+
+.WdthTrmInclded { 
+    width: 29%;
+    margin: 4px;
+}
+
+.SpBrders {
+    border-right: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+    border-left: 1px solid #f0f0f0;
+}
+
+.HeitFrDMDetls {
+    min-height: 98px !important;
+}
+
+.HeitFrSigntr {
+    height: 130px;
+}
+
 @media print {
+    @page {
+        margin: 5mm;
+    }
+     
     .fs_16_pcls{
         font-size: 10px;
     }
+
     .fs_14_pcls{
         font-size: 10px;
     }
 
-    .pakinglist_31_botom_total{
-        min-height: 0px !important;
-    }
     .fs_header_pcls{
         font-size: 9px;
     }
+
     .container_pcls{
         max-width: 1230px;
         margin: 0 auto;
@@ -320,10 +337,12 @@
         font-size: 6px;
         line-height: 9px;
     }
+
     .tb_fs_pcls{
         font-size: 6px;
         line-height: 7px;
     }
+
     .pbia_s{
         page-break-inside: avoid !important;
     }
@@ -335,6 +354,7 @@
         object-fit: contain;
         margin: 2px;
     }
+
     .d_none_pcl_s{
         display: none !important;
     }
@@ -346,38 +366,46 @@
         padding: 6px 0px 6px 4px !important;
         font-weight: bold;
     }
+
     .companylogo_pcls{
         height: 60px;
     }
+
     .whole_none_pcl3{
         display: none !important;
     }
+
     .pbia_pcl3{
         page-break-inside: avoid !important;
     }
+
     .com_fs_pcl3{
         font-size: 8.5px ;
     }
+
     .minH_pcl3{
         min-height: 4.5rem;
         border-right:1px solid #BDBDBD;
     }
+
     .resremark_pcl3 *{
         line-height: 10px !important;
     }
+
     .h14_dp10{
         height: 7.5px !important;
     }
 
-    .minH_sum_pcl3{
-        min-height: 70px;
-    }
-    .H_sum_pcl3{
-        height: 70px;
+    .WdthTrmInclded { 
+        width: 29.50%;
+        margin: 2px;
     }
 
-    @page {
-        margin: 5mm;
+    .HeitFrDMDetls {
+        min-height: 48.50px !important;
     }
-    
+
+    .HeitFrSigntr {
+        height: 68px !important;
+    }
 }
