@@ -1,3 +1,7 @@
+html {
+    scrollbar-gutter: stable;
+}
+
 /* .containerJewellery * {
     font-size: 12px;
     font-family: Calibri;
@@ -11,6 +15,7 @@
 
 .containerJewelleryMaxWidth {
     max-width: 836px !important;
+    margin-bottom: 300px;
     box-sizing: border-box;
 }
 
@@ -73,6 +78,10 @@
 
     @page {
         margin: 20px;
+    }
+
+    .containerJewelleryMaxWidth {
+        margin-bottom: 0px;
     }
 
     .spacer {

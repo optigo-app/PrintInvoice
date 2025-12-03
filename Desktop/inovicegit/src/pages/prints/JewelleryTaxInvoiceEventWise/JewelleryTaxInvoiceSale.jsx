@@ -57,6 +57,7 @@ const JewelleryTaxInvoiceSale = ({
   const [spacerStyle, setSpacerStyle] = useState({ height: '0px', pageBreakBefore: 'auto' });
 
   const loadData = (data) => {
+    // console.log("datadata", data);
     let json0Datas = data.BillPrint_Json[0];
 
     let custDetail = { ...customerDetail };
@@ -76,7 +77,7 @@ const JewelleryTaxInvoiceSale = ({
     let colorStoneWt = 0;
     let miscWt = 0;
     let grossWt = 0;
-    data?.BillPrint_Json1.forEach((e, i) => {
+    data?.BillPrint_Json1.forEach((e) => {
       let findRecord = metalArr.findIndex(
         (elem) => elem?.label === e?.MetalTypePurity
       );
@@ -99,28 +100,35 @@ const JewelleryTaxInvoiceSale = ({
       totalAmountBefore +=
         e?.TotalAmount / data?.BillPrint_Json[0].CurrencyExchRate;
       let metalColorCode = "";
-      data?.BillPrint_Json2.forEach((ele, ind) => {
+      data?.BillPrint_Json2.forEach((ele) => {
         if (obj?.SrJobno === ele?.StockBarcode) {
           if (
             (ele?.MasterManagement_DiamondStoneTypeid === 1 ||
               ele?.MasterManagement_DiamondStoneTypeid === 2) &&
-            ele?.IsHSCOE === 0
-          ) {
-            let findRecord = materials.findIndex(
-              (elem) =>
-                elem?.MasterManagement_DiamondStoneTypeid ===
-                ele?.MasterManagement_DiamondStoneTypeid &&
+              ele?.IsHSCOE === 0
+            ) {
+              let findRecord = materials.findIndex(
+                (elem) =>
+                  elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid &&
                 elem?.ShapeName === ele?.ShapeName &&
                 elem?.Colorname === ele?.Colorname &&
                 elem?.QualityName === ele?.QualityName &&
                 elem?.Rate === ele?.Rate
-            );
-            if (findRecord === -1) {
-              materials.push(ele);
-            } else {
+              );
+              if (findRecord === -1) {
+                // materials.push(ele);
+                materials.push({ 
+                  ...ele, 
+                  IsCenterStone: ele.IsCenterStone
+                });
+                // console.log("materials", materials);
+            } else { 
               materials[findRecord].Pcs += ele?.Pcs;
               materials[findRecord].Wt += ele?.Wt;
               materials[findRecord].Amount += ele?.Amount;
+              if (materials[findRecord].IsCenterStone === 0 && ele?.IsCenterStone === 1) {
+                materials[findRecord].IsCenterStone = 1;
+              }
             }
             if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
               diamondWt += ele?.Wt * obj?.Quantity;
@@ -322,6 +330,8 @@ const JewelleryTaxInvoiceSale = ({
       setData(originalData);
     }
   }, [showBoxNo])
+
+  // console.log("data", data);
 
   return loader ? (
     <Loader />
@@ -702,6 +712,7 @@ const JewelleryTaxInvoiceSale = ({
         {/* table data */}
         {data?.length > 0 &&
           data?.map((e, i) => {
+            // {console.log("data", data)}
             const groupedMaterials = e?.materials?.reduce((acc, ele) => {
               const key = `${ele?.Shape_Code}-${ele?.Color_Code}-${ele?.Quality_Code}`;
               if (acc[key]) {

@@ -8,14 +8,11 @@ import {
   handleImageError,
   isObjectEmpty,
 } from "../../GlobalFunctions";
-import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import Loader from "../../components/Loader";
 import "../../assets/css/prints/packinglist3AM.scss";
 import Button from "../../GlobalFunctions/Button";
-import QRCodeGenerator from "../../components/QRCodeGenerator";
 import { OrganizeInvoicePrintData } from "../../GlobalFunctions/OrganizeInvoicePrintData";
 import { cloneDeep, head } from "lodash";
-import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 
 const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
@@ -403,7 +400,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
      });
  
      let diamondDetail = [];
-     data?.BillPrint_Json2?.forEach((e, i) => {
+     data?.BillPrint_Json2?.forEach((e) => {
        if (e?.MasterManagement_DiamondStoneTypeid === 1) {
          let findDiamond = diamondDetail?.findIndex(
            (ele, ind) =>
@@ -422,7 +419,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
      });
      let findRND = [];
      let remaingDia = [];
-     diamondDetail?.forEach((ele, ind) => {
+     diamondDetail?.forEach((ele) => {
        if (ele?.ShapeName === "RND") {
          findRND.push(ele);
        } else {
