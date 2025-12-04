@@ -102,33 +102,40 @@ const JewelleryTaxInvoiceSale = ({
       let metalColorCode = "";
       data?.BillPrint_Json2.forEach((ele) => {
         if (obj?.SrJobno === ele?.StockBarcode) {
+
+          if (ele?.IsCenterStone === 1) {
+            materials.push(ele);
+            return;
+          }
+          
           if (
             (ele?.MasterManagement_DiamondStoneTypeid === 1 ||
               ele?.MasterManagement_DiamondStoneTypeid === 2) &&
-              ele?.IsHSCOE === 0
-            ) {
-              let findRecord = materials.findIndex(
-                (elem) =>
-                  elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid &&
+            ele?.IsHSCOE === 0 && ele?.IsCenterStone !== 1
+          ) {            
+            let findRecord = materials.findIndex(
+              (elem) =>
+                elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid &&
                 elem?.ShapeName === ele?.ShapeName &&
                 elem?.Colorname === ele?.Colorname &&
                 elem?.QualityName === ele?.QualityName &&
-                elem?.Rate === ele?.Rate
-              );
-              if (findRecord === -1) {
-                // materials.push(ele);
-                materials.push({ 
-                  ...ele, 
-                  IsCenterStone: ele.IsCenterStone
-                });
-                // console.log("materials", materials);
-            } else { 
+                elem?.Rate === ele?.Rate &&
+                elem?.IsCenterStone !== 1
+            );
+            if (findRecord === -1) {
+              materials.push(ele);
+              // materials.push({ 
+              //   ...ele, 
+              //   IsCenterStone: ele.IsCenterStone
+              // });
+              // console.log("materials", materials);
+            } else {
               materials[findRecord].Pcs += ele?.Pcs;
               materials[findRecord].Wt += ele?.Wt;
               materials[findRecord].Amount += ele?.Amount;
-              if (materials[findRecord].IsCenterStone === 0 && ele?.IsCenterStone === 1) {
-                materials[findRecord].IsCenterStone = 1;
-              }
+              // if (materials[findRecord].IsCenterStone === 0 && ele?.IsCenterStone === 1) {
+              //   materials[findRecord].IsCenterStone = 1;
+              // }
             }
             if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
               diamondWt += ele?.Wt * obj?.Quantity;
@@ -150,7 +157,7 @@ const JewelleryTaxInvoiceSale = ({
             }
           }
         }
-      });
+      });      
 
       obj.TotalAmount =
         obj.TotalAmount / data?.BillPrint_Json[0].CurrencyExchRate;
@@ -714,20 +721,26 @@ const JewelleryTaxInvoiceSale = ({
           data?.map((e, i) => {
             // {console.log("data", data)}
             const groupedMaterials = e?.materials?.reduce((acc, ele) => {
-              const key = `${ele?.Shape_Code}-${ele?.Color_Code}-${ele?.Quality_Code}`;
-              if (acc[key]) {
-                acc[key].Pcs += ele?.Pcs;
-                acc[key].Wt += ele?.Wt;
-              } else {
-                acc[key] = {
+              if (ele?.IsCenterStone === 1) {
+                acc[`center-stone-${ele?.StockBarcode}`] = {
                   ...ele,
-                  Pcs: ele?.Pcs,
-                  Wt: ele?.Wt,
                 };
+              } else {
+                const key = `${ele?.Shape_Code}-${ele?.Color_Code}-${ele?.Quality_Code}`;
+                if (acc[key]) {
+                  acc[key].Pcs += ele?.Pcs;
+                  acc[key].Wt += ele?.Wt;
+                } else {
+                  acc[key] = {
+                    ...ele,
+                    Pcs: ele?.Pcs,
+                    Wt: ele?.Wt,
+                  };
+                }
               }
               return acc;
             }, {});
-
+            // {console.log("data", data)}
             const mergedMaterials = Object.values(groupedMaterials);
 
             return (

@@ -1,10 +1,14 @@
+html {
+    scrollbar-gutter: stable;
+}
+
 .containerEstimate {
     max-width: 335mm !important;
     font-family: Calibri;
 }
 
 .containerEstimate *{
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .mainDetailEstimate {
@@ -81,9 +85,26 @@
     line-height: 120%;
 }
 
+.recordPrint * {
+    font-size: 9px;
+    word-break: break-all;
+    line-height: 10px;
+}
+
+.recordPrintWordSum {
+    font-size: 10px !important;
+    word-break: break-all;
+    line-height: 15px !important;
+}
+
 .width20EstimatePrint {
-    width: 16.67%;
-    min-width: 16.67%;
+    width: 18%;
+    min-width: 18%;
+}
+
+.width20Divided {
+    width: 10%;
+    min-width: 10%;
 }
 
 .width200EstimatePrint {
@@ -142,12 +163,17 @@
     height: calc(100% + 3rem) !important;
 }
 
-.min_height_24_estimatePrint{
-    min-height: 15px;
+.min_height_24_estimatePrint {
+    height: 15px;
 }
 
 .min_height_100EstimatePrint{
-    min-height: 100px;
+    min-height: 71px;
+}
+
+.minHeightSign {
+    min-height: 104px;
+    max-height: 104px;
 }
 
 .height_30_estimatePrint{
@@ -185,6 +211,7 @@
 .height_28_5_estimatePrint {
     min-height: 14.5px;
 }
+
 .height_29_5_estimatePrint {
     height: 14.5px;
 }
@@ -221,16 +248,65 @@
 .word_break_estimatePrint *{
     word-break: break-all;
 }
+
 .spBold{
     font-weight: bold;
 }
+
+.spbrWord {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
 @media print {
+    @page {
+        margin: 20px 15px;
+    }
+
+    .containerEstimate *{
+        font-size: 8px;
+    }
+
     .recordEstimatePrint {
         page-break-inside: avoid;
     }
+
+    .recordEstimatePrint * {
+        font-size: 6px;
+        word-break: break-all;
+        line-height: 120%;
+    }
+
+    .recordPrint * {
+        font-size: 6px;
+        word-break: break-all;
+        line-height: 7px;
+    }
+
+    .recordPrintWordSum {
+        font-size: 6.5px !important;
+        word-break: break-all;
+        line-height: 12px !important;
+    }
+
     .print_sec_sum4 {
         display: none !important;
-      }
+    }
+
+    .min_height_100EstimatePrint {
+        min-height: 50px !important;
+    }
+
+    .min_height_24_estimatePrint {
+        height: 10px;
+    }
+
+    .minHeightSign {
+        min-height: 75px;
+        max-height: 75px;
+    }
+
     .spBold{
         font-weight: bold;
     }
