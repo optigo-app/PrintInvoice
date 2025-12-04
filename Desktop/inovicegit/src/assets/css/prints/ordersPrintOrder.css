@@ -29,6 +29,16 @@ html {
     min-width: 10%;
 }
 
+.SpacHeadY {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.SpacSubHeadY {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
 .diamondEstimatePrint,
 .stoneEstimatePrint {
     /* width: 269.5px;
@@ -82,13 +92,20 @@ html {
     font-size: 9px;
     /* word-break: normal; */
     word-break: break-all;
-    line-height: 120%;
+    line-height: 100%;
+}
+
+.recordTaxTotals * {
+    font-size: 9px;
+    /* word-break: normal; */
+    word-break: break-all;
+    line-height: 100%;
 }
 
 .recordPrint * {
     font-size: 9px;
     word-break: break-all;
-    line-height: 10px;
+    line-height: 9px;
 }
 
 .recordPrintWordSum {
@@ -98,13 +115,23 @@ html {
 }
 
 .width20EstimatePrint {
-    width: 18%;
-    min-width: 18%;
+    width: 20%;
+    min-width: 20%;
+}
+
+.width20DividedSize {
+    width: 15%;
+    min-width: 15%;
+}
+
+.width20DividedWt {
+    width: 14%;
+    min-width: 14%;
 }
 
 .width20Divided {
-    width: 10%;
-    min-width: 10%;
+    width: 11%;
+    min-width: 11%;
 }
 
 .width200EstimatePrint {
@@ -231,7 +258,16 @@ html {
 }
 
 .p_1Estimate{
-    padding: 1px;
+    padding: 1px 2px 1px 1px;
+}
+
+.pSpaceTop {
+    padding-top: 2px;
+}
+
+.pSpaceTaxAmtY {
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
 .estimate_img{
@@ -249,7 +285,7 @@ html {
     word-break: break-all;
 }
 
-.spBold{
+.spBold {
     font-weight: bold;
 }
 
@@ -264,15 +300,27 @@ html {
         margin: 20px 15px;
     }
 
+    .spbrWord {
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        word-wrap: break-word !important;
+    }
+
     .containerEstimate *{
         font-size: 8px;
     }
 
-    .recordEstimatePrint {
+    .PageNotBrkPrint {
         page-break-inside: avoid;
     }
 
     .recordEstimatePrint * {
+        font-size: 6px;
+        word-break: break-all;
+        line-height: 100%;
+    }
+
+    .recordTaxTotals * {
         font-size: 6px;
         word-break: break-all;
         line-height: 120%;
@@ -281,7 +329,7 @@ html {
     .recordPrint * {
         font-size: 6px;
         word-break: break-all;
-        line-height: 7px;
+        line-height: 6px;
     }
 
     .recordPrintWordSum {
@@ -292,6 +340,10 @@ html {
 
     .print_sec_sum4 {
         display: none !important;
+    }
+
+    .height_28_5_estimatePrint {
+        min-height: 10.5px;
     }
 
     .min_height_100EstimatePrint {
