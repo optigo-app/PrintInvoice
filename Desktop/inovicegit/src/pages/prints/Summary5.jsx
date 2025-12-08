@@ -504,7 +504,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 {/* description */}
                 <div className="fw-bold border mt-2 p-1 fsgs5 pbiag">
-                  <div className="pb10s5">NOTE:</div>
+                  <div>NOTE:</div>
                   <div dangerouslySetInnerHTML={{ __html: result?.header?.Declaration, }} ></div>
                 </div>
                 {/* remarks */}
