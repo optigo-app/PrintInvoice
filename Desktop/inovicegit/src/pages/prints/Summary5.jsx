@@ -97,9 +97,9 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         e.misc = anomisc;
 
 
-        if(e?.misc?.length === 1 && e?.misc[0]?.IsHSCOE === 3){
-          e.misc = [];
-        }
+        // if(e?.misc?.length === 1 && e?.misc[0]?.IsHSCOE === 3){
+        //   e.misc = [];
+        // } // this was Certification_IGI and bug solved 08/12/25_12:20
 
 
         
@@ -134,14 +134,14 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
       e.colorstone = clr;
 
+      // console.log("e?.misc", e?.misc);
       e?.misc?.forEach((el) => {
-        if(el.QualityName !== ''){
+        if(el.QualityName !== '' && el.QualityName !== '-'){
           miscquc.push(el?.QualityName)
         }
       })
-
-
     });
+    // console.log("miscquc", miscquc);
     let newMisc = new Set(miscquc);
     let newMiscArray = [...newMisc];
     setShowDiaQuality(newMiscArray);
@@ -174,6 +174,9 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       }
     }
   };
+
+  // console.log("result", result);
+  
   return (
     <>
       {loader ? (
@@ -182,7 +185,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         <>
           {msg === "" ? (
             <>
-              <div className="containers5 mb-5 pb-5">
+              <div className="containers5 spacDisplayLooks">
                 {/* hide show and print button */}
                 <div className="d-flex justify-content-end align-items-center HSs5 fsgs5 mb-5 ">
                   <div className="mx-4"> <input type="checkbox" id="netwt" value="netwts5" checked={netwts5} onChange={(e) => handleHideShowS5(e)} />
@@ -200,7 +203,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 {/* company detail | header */}
                 {headers5 ? (
                   <div className="fsgs5 d-flex justify-content-between border-bottom p-1 fsgs5">
-                    <div>
+                    <div className="w-50 SmalLineHigt">
                       <div className="fw-bold fs-5"> {result?.header?.CompanyFullName} </div>
                       <div>{result?.header?.CompanyAddress}</div>
                       <div> {result?.header?.CompanyCity}- {result?.header?.CompanyPinCode}- {result?.header?.CompanyState}( {result?.header?.CompanyCountry})
@@ -210,7 +213,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <div> {result?.header?.CompanyEmail} |{" "} {result?.header?.CompanyWebsite} </div>
                       <div> {result?.header?.Company_VAT_GST_No} |{" "} {result?.header?.Company_CST_STATE}- {result?.header?.Company_CST_STATE_No} | PAN- {result?.header?.Pannumber} </div>
                     </div>
-                    <div className="d-flex justify-content-end">
+                    <div className="w-50 d-flex align-items-center justify-content-end">
                       {/* <img
                         src={result?.header?.PrintLogo}
                         alt="#companylogo"
@@ -232,7 +235,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   <div className=" fsgs5">
                     <div> {" "} DATE :{" "} <b className="fsgs5">{result?.header?.EntryDate}</b>{" "}
                     </div>
-                    <div className="fsgs5"> {" "} {result?.header?.HSN_No_Label}&nbsp;&nbsp; :{" "} <b className="fsgs5">{result?.header?.HSN_No}</b> </div>
+                    {result?.header?.HSN_No !== "" ? <div className="fsgs5"> {" "} {result?.header?.HSN_No_Label}&nbsp;&nbsp; :{" "} <b className="fsgs5">{result?.header?.HSN_No}</b> </div> : ""}
                   </div>
                 </div>
                 {/* sub header */}
@@ -300,14 +303,14 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {result?.resultArray?.map((e, i) => {
                       return (
                         <div
-                          className="d-flex border-start border-end border-bottom fsgs5 pbiag "
+                          className="d-flex border-start border-end border-bottom fsgs5 pbiag"
                           key={i}
                         >
                           {/* tabel result data */}
-                          <div className="col1s5 border-end Topcenters5  pb10s5">
+                          <div className="col1s5 border-end Topcenters5 pb10s5">
                             {i + 1}
                           </div>
-                          <div className="col2s5 border-end pb10s5 fw-bold">
+                          <div className="col2s5 border-end pb10s5 fw-bold MadSpacLft">
                             <div>{e?.designno}</div>
                             <div>{e?.SrJobno}</div>
                             <div className="d-flex justify-content-center">
@@ -325,83 +328,83 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div>Tunch : {(e?.Tunch - e?.Wastage)?.toFixed(3)}</div>
                           </div>
                 
-                          <div className="col3s5 border-end pb10s5" style={{ wordBreak: "break-word" }} >
+                          <div className="col3s5 border-end pb10s5 MadSpacLft" style={{ wordBreak: "break-word" }} >
                             { (e?.MetalType?.toLowerCase()) === 'gold' ? e?.MetalPurity : e?.MetalTypePurity} {e?.MetalColor}
                           </div>
-                          <div className="col4s5 border-end ends5 pb10s5">
+                          <div className="col4s5 border-end ends5 pb10s5 MadSpacRigt">
                             {e?.grosswt?.toFixed(3)}
                           </div>
                           {netwts5 ? (
-                            <div className="col5s5 border-end ends5 pb10s5">
+                            <div className="col5s5 border-end ends5 pb10s5 MadSpacRigt">
                               {e?.NetWt?.toFixed(3)}
                             </div>
                           ) : (
                             ""
                           )}
-                          <div className="col6s5 border-end ends5 pb10s5">
+                          <div className="col6s5 border-end ends5 pb10s5 MadSpacRigt">
                             <div>
                               {e?.misc?.map((e, i) => {
                                 return <div className="ends5" key={i}>{e?.Pcs}</div>;
                               })}
                             </div>
                           </div>
-                          <div className="col7s5 border-end ends5 pb10s5">
+                          <div className="col7s5 border-end ends5 pb10s5 MadSpacRigt">
                             <div>
                               {e?.misc?.map((e, i) => {
-                                return <div className="ends5" key={i}>{formatAmount(e?.Amount)}</div>;
+                                return <div className="ends5" key={i}>{e?.Amount}</div>;
                               })}
                             </div>
                           </div>
-                          <div className="col8s5 border-end ends5 pb10s5">
+                          <div className="col8s5 border-end ends5 pb10s5 MadSpacRigt">
                             <div>
                               {e?.misc?.map((e, i) => {
-                                return <div className="ends5" key={i}>{formatAmount(e?.Amount)}</div>;
+                                return <div className="ends5" key={i}>{e?.Amount}</div>;
                               })}
                             </div>
                           </div>
-                          <div className="col9s5 border-end ends5 pb10s5">
+                          <div className="col9s5 border-end ends5 pb10s5 MadSpacRigt">
                             <div>
                               {e?.colorstone?.map((e, i) => {
                                 return <div className="ends5" key={i}>{e?.Wt?.toFixed(3)}</div>;
                               })}
                             </div>
                           </div>
-                          <div className="col10s5 border-end ends5 pb10s5">
+                          <div className="col10s5 border-end ends5 pb10s5 MadSpacRigt">
                             <div>
                               {e?.colorstone?.map((e, i) => {
                                 return <div className="ends5" key={i}>{e?.cspcs}</div>;
                               })}
                             </div>
                           </div>
-                          <div className="col11s5 border-end ends5 pb10s5">
+                          <div className="col11s5 border-end ends5 pb10s5 MadSpacRigt">
                             <div>
                               {e?.colorstone?.map((e, i) => {
-                                return <div className="ends5" key={i}>{formatAmount(e?.Rate)}</div>;
+                                return <div className="ends5" key={i}>{e?.Rate}</div>;
                               })}
                             </div>
                           </div>
-                          <div className="col12s5 border-end ends5 pb10s5">
+                          <div className="col12s5 border-end ends5 pb10s5 MadSpacRigt">
                             <div>
                               {e?.colorstone?.map((e, i) => {
-                                return <div className="ends5" key={i}>{formatAmount(e?.Amount)}</div>;
+                                return <div className="ends5" key={i}>{e?.Amount}</div>;
                               })}
                             </div>
                           </div>
-                          <div className="col13s5 border-end ends5 pb10s5">
+                          <div className="col13s5 border-end ends5 pb10s5 MadSpacRigt">
                             {formatAmount(e?.MaKingCharge_Unit)}
                           </div>
-                          <div className="col14s5 border-end ends5 pb10s5">
+                          <div className="col14s5 border-end ends5 pb10s5 MadSpacRigt">
                             {formatAmount((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount))}
                             {/* {formatAmount((((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate))))} */}
                           </div>
-                          <div className="col15s5 border-end ends5 pb10s5">
+                          <div className="col15s5 border-end ends5 pb10s5 MadSpacRigt">
                             {(e?.Wastage?.toFixed(3))}
                           </div>
-                          <div className="col16s5 border-end ends5 pb10s5">
+                          <div className="col16s5 border-end ends5 pb10s5 MadSpacRigt">
                             {/* {formatAmount((e?.OtherCharges + e?.TotalDiamondHandling))} */}
                             {formatAmount(((e?.OtherCharges + e?.TotalDiamondHandling ) / (result?.header?.CurrencyExchRate)))}
                           </div>
-                          <div className="col17s5 ends5 pb10s5">
+                          <div className="col17s5 ends5 pb10s5 MadSpacRigt">
                             {formatAmount((e?.TotalAmount))}
                           </div>
                         </div>
@@ -479,20 +482,23 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   </div>
                   {/* grand total */}
                   <div className="mt-2 border bgs5 d-flex justify-content-between align-items-center p-1 fw-bold fsgs5 pbiag">
-                    <div>Gold in 24K : {result?.mainTotal?.convertednetwt?.toFixed(3)}</div>
-                    <div className="d-flex">{showDiaQuality?.map((e,i) => (<div key={i}>{e}, </div>))}</div>
-                    <div className="d-flex">
-                      {/* <div className="px-1">TOTAL IN {result?.header?.CurrencyCode}</div> */}
-                     <div>TOTAL IN HK$ </div>
-                     {/* <div className="px-1" dangerouslySetInnerHTML={{ __html: result?.header?.Currencysymbol }}></div> */}
-                     &nbsp;{" "}:{" "} &nbsp;<div className="px-1">{formatAmount((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate) + result?.header?.AddLess))} </div></div>
-                  </div>
+                    <div className="WdthDvisor d-flex justify-content-between">
+                      <div>Gold in 24K : {result?.mainTotal?.convertednetwt?.toFixed(3)}</div>
+                      <div className="d-flex">
+                        {showDiaQuality?.map((e, i) => (
+                          <div key={i}>
+                            {e}{i < showDiaQuality.length - 1 && ", "}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="WdthDvisor1 d-flex justify-content-end">
+                      <div>TOTAL IN HK$ </div>
+                      &nbsp;{" "}:{" "} &nbsp;<div className="px-1">{formatAmount((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate) + result?.header?.AddLess))} </div></div>
+                    </div>
                   {/* amount in words */}
                   <div className="mt-2 border bgs5 d-flex justify-content-between align-items-center p-1 fw-bold fsgs5 pbiag">
-                    {/* <div>{numberToWord((result?.finalAmount)?.toFixed(2))} Only /-</div> */}
-                    {/* <div>{toWords.convert(+(result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal)?.toFixed(2))} Only /-</div> */}
                     <div>{NumToWord((result?.mainTotal?.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)))}</div>
-                    {/* <div>TOTAL : {result?.header?.CurrencyCode}  */}
                     <div>TOTAL :  HKD  {formatAmount((result?.mainTotal?.total_amount + result?.header?.AddLess + result?.header?.TotalGSTAmount))}</div>
                   </div>
                 </div>
