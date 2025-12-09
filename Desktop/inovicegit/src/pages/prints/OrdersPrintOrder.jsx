@@ -211,6 +211,14 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
       totalSetttingAmount += e?.MakingAmount;
       let settingRate = 0;
       let obj = { ...e };
+      // 09/12/25_Bug-Solving
+      if (e?.TotalAmount != null && e?.Quantity != null) {
+        e.TotalAmount = e.TotalAmount * e.Quantity;
+      } 
+      if (e?.NetWt != null && e?.Quantity != null) {
+        e.NetWt = e.NetWt * e.Quantity;
+      } 
+      // 09/12/25_Bug-Solving
       obj.otherChargesTotal = obj?.OtherCharges + obj?.TotalDiamondHandling;
       obj.OtherCharges = obj?.OtherCharges + obj?.TotalDiamondHandling;
       let findingTotal = 0;
@@ -260,8 +268,14 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
               totals.goldAmount += ele?.Amount;
             }
             if (ele?.IsPrimaryMetal === 1) {
-              primaryMetalAmount += ele?.Amount;
-            }
+              primaryMetalAmount += (ele?.Amount ?? 0);
+              totals.finalMetalsTotal.amount += primaryMetalAmount;
+            }            
+            // 09/12/25_Bug-Solving
+            if (ele?.Amount != null && e?.Quantity != null) {
+              ele.Amount = ele.Amount * e.Quantity;
+            } 
+            // 09/12/25_Bug-Solving
             ele.Weight = e?.NetWt + e?.DiamondCTWwithLoss / 5;
             metalsTotal.weightWithDiamondLoss = ele.Weight;
             metalsTotal.Wt += ele.Wt;
@@ -383,7 +397,7 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
 
       let WtSpecial = e?.NetWt + diamondTotal.weight / 5 - findingTotal;
 
-      let metalNetWt = e?.NetWt + e?.LossWt - findingTotal;
+      let metalNetWt = e?.NetWt + e?.LossWt - findingTotal
       if (metals.length > 0) {
         metals.reduce((accumulator, currentObject) => {
           accumulator.amount += currentObject.Amount;
@@ -422,6 +436,14 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
           return accumulator;
         }, miscsTotal);
       }
+      // 09/12/25_Bug-Solving
+      if (obj?.TotalAmount != null && obj?.Quantity != null) {
+        obj.TotalAmount = obj.TotalAmount * obj.Quantity;
+      } 
+      if (obj?.NetWt != null && obj?.Quantity != null) {
+        obj.NetWt = obj.NetWt * obj.Quantity;
+      } 
+      // 09/12/25_Bug-Solving
       obj.WtSpecial = WtSpecial;
       obj.metalNetWt = metalNetWt;
       obj.otherAmountDetails = otherAmountDetails;
@@ -433,7 +455,6 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
       obj.miscsList = miscsList;
       obj.anotherFinding = anotherFinding;
       obj.primaryMetalAmount = primaryMetalAmount;
-      totals.finalMetalsTotal.amount += primaryMetalAmount;
       obj.colorStones = colorStones;
       obj.diamondTotal = diamondTotal;
       obj.metalsTotal = metalsTotal;
@@ -455,7 +476,6 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
       // totals.finalMetalsTotal.weight += metalsTotal.Wt;
       resultArr.push(obj);
     });
-
     setOtherCharges(othAmt);
     setMiscTotal(miscstotals);
     setColorStoneTotal(colorStoness);
@@ -1299,7 +1319,7 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
             {/* data */}
             <div className="PageNotBrkPrint">
               {json2Data.length > 0 &&
-                json2Data.map((e, i) => {
+                json2Data.map((e, i) => {                
                   return (
                     <div className={`d-flex border-bottom recordEstimatePrint overflow-hidden word_break_estimatePrint`}
                       key={i}
@@ -1564,21 +1584,16 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                           <div className="width200EstimatePrint p_1Estimate">
                             <p></p>
                           </div>
-                          {/* <div className='width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end fw-bold'>{fixedValues(e?.metalsTotal?.weightWithDiamondLoss, 3)}</p></div> */}
-                          <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
+                          <div className="d-flex align-items-center justify-content-end width200EstimatePrint p_1Estimate">
                             <p className="text-end fw-bold">
                               {fixedValues(e?.metalsTotal?.weight, 3)}
                             </p>
                           </div>
-                          {/* <div className='width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end fw-bold'>{fixedValues(e?.metalsTotal?.Wt, 3)}</p></div> */}
-                          <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
+                          <div className="p_1Estimate width200EstimatePrint d-flex align-items-center justify-content-end">
                             <p className="text-end fw-bold">
                               {fixedValues(e?.NetWt + e?.LossWt, 3)}
                             </p>
                           </div>
-                          {/* <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
-                              <p className="text-end fw-bold"></p>
-                            </div> */}
                           <div
                             className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end"
                             style={{ minWidth: "40%", width: "40%" }}
