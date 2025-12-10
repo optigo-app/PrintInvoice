@@ -976,7 +976,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   ele?.Amount !== 0 && (
                                     <p
                                       key={ind}
-                                      className={`${style?.min_height}`}
+                                      className={`${style?.min_height} ${style?.spbrWord} text-end`}
                                     >
                                       {ele?.ShapeName}
                                     </p>
@@ -984,7 +984,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 );
                               })}
                               {e?.otherMiscAmount !== 0 && (
-                                <p className={`${style?.min_height}`}>Other</p>
+                                <p className={`${style?.min_height} ${style?.spbrWord} text-end`}>Other</p>
                               )}
                               {e?.otherCharge?.map((ele, ind) => {
                                 return (
@@ -992,7 +992,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   ind <= 2 && (
                                     <p
                                       key={ind}
-                                      className={`${style?.min_height}`}
+                                      className={`${style?.min_height} ${style?.spbrWord} text-end`}
                                     >
                                       {ele?.label}
                                     </p>
@@ -1002,8 +1002,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
                               {e?.TotalDiamondHandling !== 0 && (
                                 <p
-                                  className={`${style?.min_height}`}
-                                  style={{ wordBreak: "normal" }}
+                                  className={`${style?.min_height} ${style?.spbrWord} text-end`}
                                 >
                                   Charges Handling
                                 </p>

@@ -222,6 +222,7 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
       obj.otherChargesTotal = obj?.OtherCharges + obj?.TotalDiamondHandling;
       obj.OtherCharges = (obj?.OtherCharges + obj?.TotalDiamondHandling) * e.Quantity;
       let findingTotal = 0;
+      let anotherFindingTotal = 0;
       let diamonds = [];
       let metals = [];
       let colorStones = [];
@@ -275,12 +276,12 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
               ele.Amount = ele.Amount * e.Quantity;
             } 
             // 09/12/25_Bug-Solving
-            ele.Weight = e?.NetWt + e?.DiamondCTWwithLoss / 5;
+            ele.Weight = e?.NetWt;
             metalsTotal.weightWithDiamondLoss = ele.Weight;
             metalsTotal.Wt += ele.Wt;
             totals.weightWithDiamondLoss += ele.Weight;
             totals.finalMetalsTotal.Wt += ele?.Wt;
-            metalsTotal.weight = ele.Weight;
+            metalsTotal.weight += ele.Weight;
             metals.push(ele);
           }
           if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
@@ -321,6 +322,8 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
             diamondDetails.pcs += ele?.Pcs;
             diamondDetails.wt += ele?.Wt;
             diamonds.push(ele);
+            metalsTotal.weight += ele?.Wt / 5;
+            totals.weightWithDiamondLoss += ele?.Wt / 5;
             totals.diaWt += ele?.Wt;
             totals.diaPcs += ele?.Pcs;
             totals.diamondAmount += ele?.Amount;
@@ -409,6 +412,17 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
               finding.push(ele);
               totals.findingWeight += ele?.Wt;
             }
+            if (ele?.Pcs != null && e?.Quantity != null) {
+              ele.Pcs = ele.Pcs * e.Quantity;
+            }
+            if (ele?.Wt != null && e?.Quantity != null) {
+              ele.Wt = ele.Wt * e.Quantity;
+            }
+            if (ele?.Amount != null && e?.Quantity != null) {
+              ele.Amount = ele.Amount * e.Quantity;
+            }
+            primaryMetalAmount += ele?.Amount
+            anotherFindingTotal += ele?.Wt
             anotherFinding.push(ele);
             // metalsTotal.weight += ele.Wt;
             // totals.weightWithDiamondLoss += ele.Wt;
@@ -431,9 +445,9 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
         }, diamondTotal);
       }
 
-      let WtSpecial = e?.NetWt + diamondTotal.weight / 5 - findingTotal;
+      let WtSpecial = e?.NetWt + diamondTotal.weight / 5 - findingTotal ;
 
-      let metalNetWt = e?.NetWt + e?.LossWt - findingTotal
+      let metalNetWt = e?.NetWt + e?.LossWt - (findingTotal + anotherFindingTotal);
       if (metals.length > 0) {
         metals.reduce((accumulator, currentObject) => {
           accumulator.amount += currentObject.Amount;
@@ -501,7 +515,7 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
       obj.settingRate = settingRate;
       obj.findingTotal = findingTotal;
       totals.totalamount += e?.TotalAmount;
-      totals.grosswt += e?.grosswt;
+      totals.grosswt += e?.grosswt * e?.Quantity;
       // 10/12/25_Bug-Solving
       if (typeof obj.MetalDiaWt === 'number' && typeof obj.Quantity === 'number') {
         obj.MetalDiaWt = obj.MetalDiaWt * obj.Quantity;
@@ -1188,15 +1202,34 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
   };
 
   const FinalTotalMetalAMT = json2Data?.map((e) => {
+    let totalMetals = 0;
+    let totalFindings = 0;
+    let totalAnotherFindings = 0;
+
     if (e?.metals && Array.isArray(e.metals)) {
-      return e.metals
+      totalMetals = e.metals
         .filter((metal) => metal?.IsPrimaryMetal === 1)
         .reduce((acc, metal) => {
           const amount = metal?.Amount ?? 0; 
           return acc + (typeof amount === 'number' ? amount : 0);
         }, 0);
     }
-    return 0;
+
+    if (e?.finding && Array.isArray(e.finding)) {
+      totalFindings = e.finding.reduce((acc, finding) => {
+        const amount = finding?.Amount ?? 0;
+        return acc + (typeof amount === 'number' ? amount : 0);
+      }, 0);
+    }
+
+    if (e?.anotherFinding && Array.isArray(e.anotherFinding)) {
+      totalAnotherFindings = e.anotherFinding.reduce((acc, finding) => {
+        const amount = finding?.Amount ?? 0;
+        return acc + (typeof amount === 'number' ? amount : 0);
+      }, 0);
+    }
+
+    return totalMetals + totalFindings + totalAnotherFindings;
   }).filter((total) => total > 0).reduce((acc, total) => acc + total, 0);
 
   const FinalTotalLabourAMT = json2Data?.map((e) => {
@@ -1210,6 +1243,7 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
     return 0;
   }).filter((total) => total > 0).reduce((acc, total) => acc + total, 0);
   
+  // console.log("notGoldMetalWtTotal", notGoldMetalWtTotal);  
   // console.log("FinalTotalLabourAMT", FinalTotalLabourAMT);  
   // console.log("FinalTotalMetalAMT", FinalTotalMetalAMT);  
   // console.log('json2Data' , json2Data);
@@ -1630,18 +1664,50 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                                 </div>
                               );
                             })}
-                          {e?.JobRemark !== "" && (
-                            <div className="pt-2 px-1">
-                              <p>Remark:</p>
-                              <p className="fw-bold"> {e?.JobRemark}</p>
-                            </div>
-                          )}
-                          {e?.OfficeUseWithHtml !== "" && (
-                            <div className="pt-1 px-1">
-                              <p>D Remark:</p>
-                              <p className="fw-bold" dangerouslySetInnerHTML={{ __html: e?.OfficeUseWithHtml }}></p>
-                            </div>
-                          )}
+                            {e?.anotherFinding.length > 0 &&
+                              e?.anotherFinding.map((ele, ind) => {
+                                return (
+                                  <div className="d-flex" key={ind}>
+                                    <div className="width_40_estimatePrint p_1Estimate">
+                                      <p className="spbrWord">
+                                        {ele?.ShapeName} {ele?.QualityName}
+                                      </p>
+                                    </div>
+                                    <div className="width_40_estimatePrint p_1Estimate">
+                                      <p className="text-end ">
+                                        {fixedValues(ele?.Wt, 3)}
+                                      </p>
+                                    </div>
+                                    <div className="width_40_estimatePrint p_1Estimate">
+                                      <p className="text-end ">
+                                        {fixedValues(ele?.Wt, 3)}
+                                      </p>
+                                    </div>
+                                    <div className="width_40_estimatePrint p_1Estimate">
+                                      <p className="text-end ">
+                                        {rateAmount ? NumberWithCommas(ele?.Rate, 2) : ""}
+                                      </p>
+                                    </div>
+                                    <div className="width_40_estimatePrint p_1Estimate">
+                                      <p className="text-end ">
+                                        {rateAmount ? NumberWithCommas(ele?.Amount, 2) : ""}
+                                      </p>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            {e?.JobRemark !== "" && (
+                              <div className="pt-2 px-1">
+                                <p>Remark:</p>
+                                <p className="fw-bold"> {e?.JobRemark}</p>
+                              </div>
+                            )}
+                            {e?.OfficeUseWithHtml !== "" && (
+                              <div className="pt-1 px-1">
+                                <p>D Remark:</p>
+                                <p className="fw-bold spbrWord" dangerouslySetInnerHTML={{ __html: e?.OfficeUseWithHtml }}></p>
+                              </div>
+                            )}
                         </div>
                         <div
                           className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top border_color_estimates ${e?.metals.length === 0 &&
@@ -1706,7 +1772,7 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                                   </div>
                                   <div className="width20EstimatePrint p_1Estimate">
                                     <p className="fw-bold text-end">
-                                      {rateAmount ? NumberWithCommas(ele?.Amount, 2) : ""}
+                                      {rateAmount ? NumberWithCommas(ele?.Amount / e?.Quantity, 2) : ""}
                                     </p>
                                   </div>
                                 </div>
@@ -1743,7 +1809,7 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                                   </div>
                                   <div className="width20EstimatePrint p_1Estimate">
                                     <p className="fw-bold text-end">
-                                      {rateAmount ? NumberWithCommas(ele?.Amount, 2) : ""}
+                                      {rateAmount ? NumberWithCommas(ele?.Amount / e?.Quantity, 2) : ""}
                                     </p>
                                   </div>
                                 </div>
@@ -2242,7 +2308,7 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                         <p className="fw-bold">GOLD</p>
                         <p>
                           {rateAmount ? NumberWithCommas(
-                            total?.finalMetalsTotal?.amount - notGoldMetalTotal,
+                            FinalTotalMetalAMT - notGoldMetalTotal,
                             2
                           ) : ""}
                         </p>
@@ -2274,11 +2340,11 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                       <div className="d-flex justify-content-between px-1">
                         <p className="fw-bold">MAKING</p>
                         {/* <p>{NumberWithCommas(total?.makingAmount, 2)}</p> */}
-                        <p>{rateAmount ? NumberWithCommas(total?.labourAmount, 2) : ""}</p>
+                        <p>{rateAmount ? NumberWithCommas(FinalTotalLabourAMT, 2) : ""}</p>
                       </div>
                       <div className="d-flex justify-content-between px-1">
                         <p className="fw-bold">OTHER</p>
-                        <p>{rateAmount ? NumberWithCommas(total?.otherAmount, 2) : ""}</p>
+                        <p>{rateAmount ? NumberWithCommas(otherCharges, 2) : ""}</p>
                       </div>
                       {json1Data?.AddLess !== 0 && (
                         <div className="d-flex justify-content-between px-1">

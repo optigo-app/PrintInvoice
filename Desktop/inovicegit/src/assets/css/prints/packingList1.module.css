@@ -115,6 +115,12 @@
     word-break: normal;
 }
 
+.spbrWord {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
 @media print{
 
     .packinhList1_top_line{
