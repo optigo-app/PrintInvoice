@@ -499,7 +499,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   onError={handleImageErrors}
                   height={120}
                   width={150}
-                  style={{ maxWidth: "116px" }}
+                  style={{ maxWidth: "108px" }}
                 />
               )}
               {/* <img src={json0Data?.PrintLogo} alt="" className={`logoimg  d-block mx-auto`} /> */}
@@ -512,7 +512,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               {json0Data?.PrintHeadLabel !== "" && (
                 <p
                   className={`fw-bold text-center pt-1 pb-2  `}
-                  style={{ fontSize: "18px" }}
+                  style={{ fontSize: "17px" }}
                 >
                   {json0Data?.PrintHeadLabel}
                 </p>
@@ -536,18 +536,18 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </p>
               </div>
               <div
-                className={`text-end  ${style?.font_12}`}
+                className={`text-end ${style?.font_11}`}
                 style={{ width: "180px", minWidth: "180px" }}
               >
                 <div className="d-flex justify-content-end pb-1">
-                  <p style={{ width: "90px" }}>Invoice No :</p>
-                  <p className="text-end fw-bold" style={{ width: "60px" }}>
+                  <p className={`${style?.font_11}`} style={{ width: "90px" }}>Invoice No :</p>
+                  <p className={`${style?.font_11} text-end fw-bold`} style={{ width: "70px" }}>
                     {json0Data?.InvoiceNo}
                   </p>
                 </div>
                 <div className="d-flex justify-content-end pb-2">
-                  <p style={{ width: "90px" }}>Date :</p>
-                  <p className="text-end fw-bold" style={{ width: "60px" }}>
+                  <p className={`${style?.font_11}`} style={{ width: "90px" }}>Date :</p>
+                  <p className={`${style?.font_11} text-end fw-bold`} style={{ width: "70px" }}>
                     {json0Data?.EntryDate}
                   </p>
                 </div>

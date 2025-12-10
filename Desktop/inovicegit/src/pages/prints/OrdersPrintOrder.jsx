@@ -259,7 +259,7 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
       };
       let primaryMetalAmount = 0;
       // totals.gold24Kt += e?.convertednetwt;
-      totals.gold24Kt += e?.PureNetWt;
+      totals.gold24Kt += e?.PureNetWt * e.Quantity;
       data?.BillPrint_Json2.forEach((ele) => {
         if (e?.SrJobno === ele?.StockBarcode) {
           if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
@@ -445,7 +445,7 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
         }, diamondTotal);
       }
 
-      let WtSpecial = e?.NetWt + diamondTotal.weight / 5 - findingTotal ;
+      let WtSpecial = e?.NetWt + diamondTotal.weight / 5 - (findingTotal + anotherFindingTotal);
 
       let metalNetWt = e?.NetWt + e?.LossWt - (findingTotal + anotherFindingTotal);
       if (metals.length > 0) {
