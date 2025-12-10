@@ -1,3 +1,7 @@
+html {
+    scrollbar-gutter: stable;
+}
+
 /* * {
     box-sizing: border-box;
     padding: 0;
@@ -273,6 +277,9 @@
     align-items: center !important;
 }
 
+.MinHeightLast {
+    min-height: 19.5px;
+}
 @media print {
     /* .main_qp1{
         zoom: 100%;
@@ -316,7 +323,9 @@
         padding-left: 30px !important;
     }
 
-
+    .MinHeightLast {
+        min-height: 15.5px;
+    }
 /* ========================================== */
     .print-container_printq {
         display: flex;
