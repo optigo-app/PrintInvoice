@@ -447,7 +447,7 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
 
       let WtSpecial = e?.NetWt + diamondTotal.weight / 5 - (findingTotal + anotherFindingTotal);
 
-      let metalNetWt = e?.NetWt + e?.LossWt - (findingTotal + anotherFindingTotal);
+      let metalNetWt = e?.NetWt - (findingTotal + anotherFindingTotal);
       if (metals.length > 0) {
         metals.reduce((accumulator, currentObject) => {
           accumulator.amount += currentObject.Amount;
@@ -1724,7 +1724,7 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                           </div>
                           <div className="p_1Estimate width200EstimatePrint d-flex align-items-center justify-content-end">
                             <p className="text-end fw-bold">
-                              {fixedValues(e?.NetWt + e?.LossWt, 3)}
+                              {fixedValues(e?.NetWt, 3)}
                             </p>
                           </div>
                           <div
@@ -2331,7 +2331,7 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                       </div>
                       <div className="d-flex justify-content-between px-1">
                         <p className="fw-bold">CST</p>
-                        <p>{rateAmount ? NumberWithCommas(total?.colorStoneAmount, 2) : ""}</p>
+                        <p>{rateAmount ? total?.colorStoneAmount === "0.000" ? "" : NumberWithCommas(total?.colorStoneAmount, 2) : ""}</p>
                       </div>
                       <div className="d-flex justify-content-between px-1">
                         <p className="fw-bold">MISC</p>
