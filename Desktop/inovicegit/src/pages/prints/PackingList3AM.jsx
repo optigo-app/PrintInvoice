@@ -4,6 +4,7 @@ import { useState } from "react";
 import {
   apiCall,
   checkMsg,
+  fixedValues,
   formatAmount,
   handleImageError,
   isObjectEmpty,
@@ -483,76 +484,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
      const sortedData = diarndotherarr5?.sort(customSort);
      setDiamondWise(sortedData);
      setResult(datas);
-     console.log("datas", datas);
-
-    // let mainArr2 = [];
-    // datas.resultArray?.forEach((e) => {
-    //   let find_cust = [];
-    //   let find_company_hook = [];
-    //   let find_company_chain = [];
-    //   let obj = cloneDeep(e);
-    //   e?.finding?.forEach((el, i) => {
-
-    //     if(el?.Supplier?.toLowerCase() === 'customer'){
-    //       find_cust.push(el);
-    //     }
-    //     if(el?.Supplier?.toLowerCase() === 'company' && el?.FindingTypename?.toLowerCase() === 'hook'){
-    //       find_company_hook.push(el);
-    //     }
-    //      if(el?.Supplier?.toLowerCase() === 'company' && el?.FindingTypename?.toLowerCase() === 'chain'){
-    //       find_company_hook.push(el);
-    //     }
-
-    //   })
-
-    //   obj.finding_cust = find_cust;
-    //   obj.find_company_chain = find_company_chain;
-    //   obj.find_company_hook = find_company_hook;
-
-    //   mainArr2.push(obj);
-
-    // })
-    // datas.resultArray = mainArr2;
-
-    // datas.resultArray?.forEach((e) => {
-    //   let wt_merge_find_cust = [];
-    //   let obj = cloneDeep(e);
-    //   obj?.finding_cust?.forEach((el) => {
-    //     let findrec = wt_merge_find_cust?.findIndex((al) => al?.Supplier?.toLowerCase() === 'customer')
-    //       if(findrec === -1){
-    //         wt_merge_find_cust.push(el);
-    //       }else{
-    //         wt_merge_find_cust[findrec].Wt += el?.Wt;
-    //       }
-    //   })
-
-    //   obj.finding_cust = wt_merge_find_cust;
-
-    //   let wt_merge_find_chain = [];
-    //   obj?.find_company_chain?.forEach((el) => {
-    //     let findrec = wt_merge_find_chain?.findIndex((al) => al?.FindingTypename?.toLowerCase() === 'chain')
-    //       if(findrec === -1){
-    //         wt_merge_find_chain.push(el);
-    //       }else{
-    //         wt_merge_find_chain[findrec].Wt += el?.Wt;
-    //       }
-    //   })
-
-    //   obj.find_company_chain = wt_merge_find_chain;
-
-    //   let wt_merge_find_hook = [];
-    //   obj?.find_company_hook?.forEach((el) => {
-    //     let findrec = wt_merge_find_hook?.findIndex((al) => al?.FindingTypename?.toLowerCase() === 'hook')
-    //       if(findrec === -1){
-    //         wt_merge_find_hook.push(el);
-    //       }else{
-    //         wt_merge_find_hook[findrec].Wt += el?.Wt;
-    //       }
-    //   })
-
-    //   obj.find_company_hook = wt_merge_find_hook;
-
-    // })
+    //  console.log("datas", datas);
   };
 
   // const handleImgShow = (e) => {
@@ -630,8 +562,10 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   // console.log("finalAmount", finalAmount);
   // console.log("decimalPart", decimalPart);
   // console.log("roundedAmount", roundedAmount);
-  console.log("resultresult", result);
+  // console.log("resultresult", result);
 
+  const isEventSale = atob(evn)?.toLowerCase() === "sale";
+  
   return (
       <>
         {loader ? (
@@ -1414,14 +1348,14 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
                       <div className="col6_pcls  d-flex flex-column justify-content-between bright_pcls">
                         <div>
-                          {e?.MaKingCharge_Unit !== 0 && (
+                          {e?.MakingAmount !== 0 && (
                             <div className="d-flex w-100">
                               <div className="lcol1_pcls start_center_pcls pdl_pcls">
                                 {rateAmount ? "Labour" : ""}
                               </div>
                               <div className="lcol1_pcls end_pcls pdr_pcls">
                                 {rateAmount
-                                  ? formatAmount(e?.MaKingCharge_Unit)
+                                  ? isEventSale && e?.MakingChargeDiscount !== 0 ? `${fixedValues(e?.MakingChargeDiscount,2)} %` : formatAmount(e?.MaKingCharge_Unit)
                                   : ""}
                               </div>
                               <div className="lcol1_pcls end_pcls pdr_pcls">
