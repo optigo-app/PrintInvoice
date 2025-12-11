@@ -33,6 +33,7 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
     cgstAmount: 0,
     sgstAmount: 0,
     finalAmount: 0,
+    totalLossWt: 0,
     weightWithDiamondLoss: 0,
     finalDiamondTotal: {
       pcs: 0,
@@ -516,6 +517,7 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
       obj.findingTotal = findingTotal;
       totals.totalamount += e?.TotalAmount;
       totals.grosswt += e?.grosswt * e?.Quantity;
+      totals.totalLossWt += e?.LossWt * e?.Quantity;
       // 10/12/25_Bug-Solving
       if (typeof obj.MetalDiaWt === 'number' && typeof obj.Quantity === 'number') {
         obj.MetalDiaWt = obj.MetalDiaWt * obj.Quantity;
@@ -1625,8 +1627,8 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                                     </p>
                                   </div>
                                   <div className="width_40_estimatePrint p_1Estimate">
-                                    <p className="text-end ">
-                                      {rateAmount ? NumberWithCommas(ele?.Amount, 2) : ""}
+                                    <p className="text-end fw-bold">
+                                      {rateAmount ? ind === 0 ? NumberWithCommas(e?.metalNetWt * ele?.Rate, 2) : NumberWithCommas(ele?.Wt * ele?.Rate, 2) : ""}
                                     </p>
                                   </div>
                                 </div>
@@ -1657,8 +1659,8 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                                     </p>
                                   </div>
                                   <div className="width_40_estimatePrint p_1Estimate">
-                                    <p className="text-end ">
-                                      {rateAmount ? NumberWithCommas(ele?.Amount, 2) : ""}
+                                    <p className="text-end fw-bold">
+                                      {rateAmount ? NumberWithCommas(ele?.Rate * ele?.Wt, 2) : ""}
                                     </p>
                                   </div>
                                 </div>
@@ -1689,13 +1691,41 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                                       </p>
                                     </div>
                                     <div className="width_40_estimatePrint p_1Estimate">
-                                      <p className="text-end ">
-                                        {rateAmount ? NumberWithCommas(ele?.Amount, 2) : ""}
+                                      <p className="text-end fw-bold">
+                                        {rateAmount ? NumberWithCommas(ele?.Rate * ele?.Wt, 2) : ""}
                                       </p>
                                     </div>
                                   </div>
                                 );
                               })}
+                              {
+                                e?.LossWt !== 0 && (
+                                  // Calculate the LossRate before returning JSX
+                                  (() => {
+                                    const LossRate = e?.metals?.filter((metal) => metal?.IsPrimaryMetal === 1)?.map((metal) => metal?.Rate);
+
+                                    return (
+                                      <div className="d-flex fontCLR">
+                                        <div className="width_40_estimatePrint p_1Estimate">
+                                          Loss
+                                        </div>
+                                        <div className="width_40_estimatePrint p_1Estimate text-end">
+                                          {e?.LossPer === 0 ? "" : e?.LossPer?.toFixed(3)} %
+                                        </div>
+                                        <div className="width_40_estimatePrint p_1Estimate text-end">
+                                          {e?.LossWt?.toFixed(3)}
+                                        </div>
+                                        <div className="width_40_estimatePrint p_1Estimate text-end">
+                                          {rateAmount ? NumberWithCommas(LossRate,2) : ""}
+                                        </div>
+                                        <div className="width_40_estimatePrint p_1Estimate fw-bold text-end">
+                                          {rateAmount ? NumberWithCommas(LossRate * e?.LossWt,2) : ""}
+                                        </div>
+                                      </div>
+                                    );
+                                  })()
+                                )
+                              }
                             {e?.JobRemark !== "" && (
                               <div className="pt-2 px-1">
                                 <p>Remark:</p>
@@ -1724,7 +1754,7 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                           </div>
                           <div className="p_1Estimate width200EstimatePrint d-flex align-items-center justify-content-end">
                             <p className="text-end fw-bold">
-                              {fixedValues(e?.NetWt, 3)}
+                              {fixedValues(e?.NetWt + e?.LossWt, 3)}
                             </p>
                           </div>
                           <div
@@ -2138,7 +2168,7 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                   <div className="width200EstimatePrint p_1Estimate h-100">
                     <p className="fw-bold fw-bold text-end">
                       {/* {fixedValues(total?.finalMetalsTotal?.Wt, 3)} */}
-                      {total?.gdWt !== 0 && NumberWithCommas(total?.gdWt, 3)}
+                      {total?.gdWt !== 0 && NumberWithCommas(total?.gdWt + total?.totalLossWt, 3)}
                     </p>
                   </div>
                   {/* <div className='width200EstimatePrint p_1Estimate h-100'><p className='fw-bold fw-bold text-end'>{NumberWithCommas(total?.finalMetalsTotal?.rate, 2)}</p></div> */}

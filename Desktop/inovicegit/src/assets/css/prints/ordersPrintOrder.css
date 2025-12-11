@@ -295,6 +295,10 @@ html {
     word-wrap: break-word;
 }
 
+.fontCLR {
+    color: #000;
+}
+
 @media print {
     @page {
         margin: 20px 15px;
