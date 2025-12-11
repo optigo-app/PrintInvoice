@@ -276,64 +276,6 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       });
       e.colorstone = clr2;
 
-      //colorstone
-      // let clr_rop0 = []; //wt
-      // let clr_rop1 = []; //pcs
-
-      // e?.colorstone?.forEach((el) => {
-      //   if(el?.isRateOnPcs === 0){
-      //     clr_rop0?.push(el)
-      //   }else{
-      //     clr_rop1?.push(el)
-      //   }
-      // })
-      // let clr2 = [];
-      // let clr2_2 = [];
-      // let clr_all = [];
-
-      // clr_rop0?.forEach((el) => {
-      //   let findrec = clr2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname)
-      //   if(findrec === -1){
-      //     clr2.push(el);
-      //   }else{
-      //       clr2[findrec].Wt += el?.Wt;
-      //       clr2[findrec].Pcs += el?.Pcs;
-      //       clr2[findrec].Amount += el?.Amount;
-      //       clr2[findrec].Rate += el?.Rate;
-      //       if(clr2[findrec]?.SizeName !== el?.SizeName){
-      //         clr2[findrec].SizeName = 'Mix'
-      //       }
-      //   }
-
-      // });
-
-      // clr_rop0 = clr2;
-
-      // // clr_all.push(clr_rop0)
-
-      // clr_rop1?.forEach((el) => {
-      //   let findrec = clr2_2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname)
-      //   if(findrec === -1){
-      //     clr2_2.push(el);
-      //   }else{
-      //       clr2_2[findrec].Wt += el?.Wt;
-      //       clr2_2[findrec].Pcs += el?.Pcs;
-      //       clr2_2[findrec].Amount += el?.Amount;
-      //       clr2_2[findrec].Rate += el?.Rate;
-      //       if(clr2_2[findrec]?.SizeName !== el?.SizeName){
-      //         clr2_2[findrec].SizeName = 'Mix'
-      //       }
-      //   }
-
-      // });
-
-      // clr_rop1 = clr2_2;
-
-      // clr_all.push(clr_rop0)
-      // clr_all.push(clr_rop1)
-
-      // e.colorstone = [...clr_all]?.flat();
-
       //misc
       let misc0 = [];
       e?.misc?.forEach((el) => {
@@ -344,32 +286,6 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       e.misc = misc0;
 
-      // CQ Was Solved 09/10/2025
-      // let met2 = [];
-      // e?.metal?.forEach((a) => {
-      //   if (e?.GroupJob !== "") {
-      //     let obj = { ...a };
-      //     obj.GroupJob = e?.GroupJob;
-      //     met2?.push(obj);
-      //   }
-      // });
-
-      // let met3 = [];
-      // met2?.forEach((a) => {
-      //   let findrec = met3?.findIndex(
-      //     (el) => el?.StockBarcode === el?.GroupJob
-      //   );
-      //   if (findrec === -1) {
-      //     met3?.push(a);
-      //   } else {
-      //     met3[findrec].Wt += a?.Wt;
-      //   }
-      // });
-      // if (e?.GroupJob === "") {
-      //   return;
-      // } else {
-      //   e.metal = met3;
-      // }
       if (e?.GroupJob !== "") {
         e.metal = e.metal?.map((a) => ({
           ...a,
@@ -622,7 +538,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     }
   };
   // console.log("result", result);
-
+  
   return (
     <>
       {loader ? (
@@ -736,6 +652,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                   )}
                 </div>
+
                 {/* subheader */}
                 <div className="subheaderdp10_pcl7">
                   <div className="subdiv1dp10_pcl7 border-end fsgdp10_pcl7_2 border-start ">
@@ -797,8 +714,8 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div> */}
                   </div>
                 </div>
-                {/* table */}
 
+                {/* table */}
                 <div className="tabledp10_pcl7">
                   {/* tablehead */}
                   <div
@@ -976,6 +893,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                     </div>
                   </div>
+
                   {/* table body */}
                   <div className="tbodydp10_pcl7 fsgdp10_pcl7 ">
                     {result?.resultArray?.map((e, i) => {
@@ -986,6 +904,8 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {/* {e?.SrNo} */}
                               {i + 1}
                             </div>
+
+                            {/* Design Details */}
                             <div className="tbcol2dp10_pcl7 d-flex justify-content-between">
                               {imgFlag && (
                                 <div
@@ -1930,10 +1850,15 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   </div>
                                 </div>
                                 <div className="d-flex justify-content-between px-1">
+                                  <div className="w-50 fw-bold">N + L</div>
+                                  <div className="w-50 end_dp10_pcl7 pe-1">
+                                    {result?.mainTotal?.metal?.Wt?.toFixed(3)}{" "}gm
+                                  </div>
+                                </div>
+                                <div className="d-flex justify-content-between px-1">
                                   <div className="w-50 fw-bold">NET WT</div>
                                   <div className="w-50 end_dp10_pcl7 pe-1">
-                                    {result?.mainTotal?.metal?.Wt?.toFixed(3)}{" "}
-                                    gm
+                                    {(result?.mainTotal?.metal?.Wt - result?.mainTotal?.lossWt)?.toFixed(3)}{" "}gm
                                   </div>
                                 </div>
                                 <div className="d-flex justify-content-between px-1">
