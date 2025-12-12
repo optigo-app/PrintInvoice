@@ -139,7 +139,7 @@ export const taxGenrator = (headerData, totalAmount) => {
   let blankArr = [];
   if (headerData?.TaxProfileid !== 0 && headerData?.GSTProfileid === 0) {
     let taxTypes = ["tax1", "tax2", "tax3", "tax4", "tax5"];
-    taxTypes?.forEach((e, i) => {
+    taxTypes?.forEach((e) => {
       if (headerData[`${e}_taxname`] !== "") {
         if (headerData[`${e}_IsOnDiscount`] === 1) {
           let obj = {
@@ -162,7 +162,7 @@ export const taxGenrator = (headerData, totalAmount) => {
     });
   } else if (headerData?.TaxProfileid !== 0 && headerData?.GSTProfileid === 1) {
     let arr = ["CGST", "SGST"];
-    arr?.forEach((e, i) => {
+    arr?.forEach((e) => {
       let obj = {
         name: e,
         per: `${headerData[e]?.toFixed(2)}%`,
@@ -186,7 +186,7 @@ export const taxGenrator2 = (headerData, totalAmount) => {
   let blankArr = [];
   if (headerData?.TaxProfileid !== 0 && headerData?.GSTProfileid === 0) {
     let taxTypes = ["tax1", "tax2", "tax3", "tax4", "tax5"];
-    taxTypes?.forEach((e, i) => {
+    taxTypes?.forEach((e) => {
       if (headerData[`${e}_taxname`] !== "") {
         if (headerData[`${e}_IsOnDiscount`] === 1) {
           let obj = {
@@ -209,7 +209,7 @@ export const taxGenrator2 = (headerData, totalAmount) => {
     });
   } else if (headerData?.TaxProfileid !== 0 && headerData?.GSTProfileid === 1) {
     let arr = ["CGST", "SGST"];
-    arr?.forEach((e, i) => {
+    arr?.forEach((e) => {
       let obj = {
         name: e,
         per: `${headerData[e]?.toFixed(2)}%`,
