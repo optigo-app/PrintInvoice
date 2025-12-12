@@ -508,7 +508,10 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     style={{ maxWidth: "108px" }}
                   />
                 )}
-                {/* <img src={json0Data?.PrintLogo} alt="" className={`logoimg  d-block mx-auto`} /> */}
+
+                <p className={`text-end pt-1 fw-bold ${style?.font_12} ${style?.packinhList1_top_line}`} >
+                  {json0Data?.CompanyFullName}
+                </p>
                 <p
                   className={`text-end pt-1 fw-bold ${style?.font_12} ${style?.packinhList1_top_line}`}
                 >
