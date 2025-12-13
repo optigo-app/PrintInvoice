@@ -822,9 +822,8 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           className={` ${style?.metal} border-end d-flex flex-wrap`}
                         >
                           <div
-                            className={`d-flex w-100 ${
-                              e?.JobRemark !== "" && "border-bottom"
-                            }`}
+                            className="d-flex w-100"
+                            /* ${ e?.JobRemark !== "" && "border-bottom"} Bug Solving 13/12/25_11:12 */
                           >
                             <div
                               className={`${style?.wid_20} border-end ${style?.no_word_break}`}
@@ -881,12 +880,12 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                               })}
                             </div>
                           </div>
-                          {e?.JobRemark !== "" && (
+                          {/* {e?.JobRemark !== "" && (
                             <div>
                               <p>Remark:</p>
                               <p className="fw-bold">{e?.JobRemark}</p>
                             </div>
-                          )}
+                          )} Bug Solving 13/12/25_11:12*/} 
                         </div>
 
                         {/* Stone */}

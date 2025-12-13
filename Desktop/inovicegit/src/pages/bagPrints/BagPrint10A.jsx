@@ -22,7 +22,6 @@ const BagPrint10A = ({ queries, headers }) => {
   useEffect(() => {
     if (Object.keys(queryParams).length !== 0) {
       atob(queryParams.imagepath);
-      console.log("queryParams.imagepath", atob(queryParams.imagepath));
     }
     const fetchData = async () => {
       try {
@@ -35,9 +34,7 @@ const BagPrint10A = ({ queries, headers }) => {
           url: queries.url,
           headers: headers,
         };
-        console.log("objs", objs);
         const allDatas = await GetData(objs);
-        console.log("allDatas", allDatas);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
 
         // eslint-disable-next-line array-callback-return
@@ -135,13 +132,9 @@ const BagPrint10A = ({ queries, headers }) => {
     fetchData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // useEffect(() => {
-  //   if (data?.length !== 0) {
-  //     setTimeout(() => {
-  //       window.print();
-  //     }, 5000);
-  //   }
-  // }, [data]);
+
+  // console.log("data", data);
+
   return (
     <>
       {data.length === 0 ? (

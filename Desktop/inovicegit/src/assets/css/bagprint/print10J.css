@@ -1,0 +1,228 @@
+html {
+    scrollbar-gutter: stable;
+}
+
+.container10A {
+    width: 360px;
+    height: 493px;
+    border: 2px solid black;
+    border-radius: 8px;
+    margin-left: 23px;
+    margin-bottom: 1rem;
+    font-family: Calibri;
+}
+
+.bag10Afinal {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.barcode10A {
+    /* display: flex;
+    position: relative; */
+}
+
+.barcode10A>.barcode_sticker {
+    height: 30px !important;
+    width: 210px !important;
+    object-fit: cover;
+    transform: rotate(90deg) !important;
+    position: absolute !important;
+    top: 320px !important;
+    left: 257px !important;
+    margin: 0px;
+    /* right: 13rem;
+    /* height: 20px;
+    width: 160px;
+    object-fit: cover;
+    transform: rotate(90deg);
+    position: relative;
+    top: 100px;
+    left: -65px; */
+}
+
+.imgManages {
+    width: 112px;
+    height: 95px;
+}
+
+.Wdth0 {
+    width: 70%;
+}
+
+.Wdth1 {
+    width: 30%;
+}
+
+.Wdth2 {
+    width: 55%;
+}
+
+.Wdth3 {
+    width: 45%;
+}
+
+.Wdth4 {
+    width: 89%;
+}
+
+.Wdth5 {
+    width: 11%;
+}
+
+.Wdth6 {
+    width: 56.50%;
+}
+
+.Wdth7 {
+    width: 22%;
+}
+
+.Wdth8 {
+    width: 35%;
+}
+
+.Wdth9 {
+    width: 21.67%;
+}
+
+.StcMangs {
+    width: 14.28%;
+    min-height: 22.50px;
+    max-height: 22.50px;
+    padding: 0px 0px;
+    color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.StcMangs1 {
+    width: 42.86%;
+    min-height: 22.50px;
+    max-height: 22.50px;
+    padding: 0px 0px;
+    color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.StcMangs2 {
+    min-height: 16.40px;
+    max-height: 16.40px;
+    padding: 0px 0px;
+    color: #000;
+    display: flex;
+    align-items: center;
+}
+
+.TrckTxtEnd {
+    display: flex;
+    justify-content: start;
+    align-items: end;
+    padding-left: 2px;
+}
+
+.TrckTxtStart {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding-left: 2px;
+}
+
+.TrckTxtCntr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.TxtStart {
+    justify-content: start;
+    padding-left: 1.5px;
+    font-size: 9px;
+    line-height: 9px;
+}
+
+.TxtEnd {
+    justify-content: end;
+    padding-right: 1.5px;
+    font-size: 9px;
+    line-height: 9px;
+}
+
+.Higt0 {
+    min-height: 35px;
+    max-height: 35px;
+}
+
+.FntSize0 {
+    font-size: 11px;
+    line-height: 15px;
+}
+
+.FntSize1 {
+    font-size: 10px;
+    line-height: 14px;
+}
+
+.SpacLft0 {
+    padding-left: 3px;
+}
+
+.SpacLft1 {
+    padding-right: 2px;
+}
+
+.SpacLft2 {
+    padding: 4px;
+}
+
+.SpacLft3 {
+    padding: 3px 0px 3px 3px;
+}
+
+.spBrderAl {
+    border: 2px solid #000;
+}
+
+.BrderLft {
+    border-left: 1px solid #000;
+}
+
+.BrderBtom {
+    border-bottom: 1px solid #000;
+}
+
+.BrderBtomDRK {
+    border-bottom: 2px solid #000;
+}
+
+.BrderRigt {
+    border-right: 1px solid #000;
+}
+
+.BrderRigtDRK {
+    border-right: 2px solid #000;
+}
+
+.BrderTop {
+    border-top: 1px solid #000;
+}
+
+.BrderTopDRK {
+    border-top: 2px solid #000;
+}
+
+.spbrWord {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+@media print {
+    @page {
+        margin: 35px 5px;
+    }
+}
