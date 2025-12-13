@@ -10,7 +10,7 @@ html {
 
 .container10A {
     width: 360px;
-    height: 493px;
+    height: 510px;
     border: 2px solid black;
     border-radius: 8px;
     margin-left: 23px;
@@ -87,17 +87,25 @@ html {
 }
 
 .Wdth8 {
-    width: 35%;
+    width: 38%;
 }
 
 .Wdth9 {
-    width: 21.67%;
+    width: 23.67%;
+}
+
+.Wdth10 {
+    width: 18.66%;
+}
+
+.Wdth11 {
+    width: 19.67%;
 }
 
 .StcMangs {
     width: 14.28%;
-    min-height: 22.50px;
-    max-height: 22.50px;
+    min-height: 24px;
+    max-height: 24px;
     padding: 0px 0px;
     color: #000;
     display: flex;
@@ -107,8 +115,8 @@ html {
 
 .StcMangs1 {
     width: 42.86%;
-    min-height: 22.50px;
-    max-height: 22.50px;
+    min-height: 24px;
+    max-height: 24px;
     padding: 0px 0px;
     color: #000;
     display: flex;
@@ -117,8 +125,8 @@ html {
 }
 
 .StcMangs2 {
-    min-height: 16.40px;
-    max-height: 16.40px;
+    min-height: 17.40px;
+    max-height: 17.40px;
     padding: 0px 0px;
     color: #000;
     display: flex;
@@ -230,7 +238,7 @@ html {
 
 @media print {
     @page {
-        margin: 35px 5px;
+        margin: 35px 5px 0px 5px;
     }
 
     .bag10Afinal {

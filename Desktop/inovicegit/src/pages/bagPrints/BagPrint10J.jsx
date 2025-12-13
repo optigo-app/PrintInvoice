@@ -368,7 +368,7 @@ const BagPrint10J = ({ queries, headers }) => {
 
                             {/* RFID NO */}
                             <div className="w-100 fw-bold FntSize1 BrderTopDRK">
-                              <div className='StcMangs TrckTxtStart'>RFID NO.</div>
+                              <div className='StcMangs TrckTxtStart' style={{ minHeight: "20.60px", maxHeight: "20.60px" }}>RFID NO.</div>
                             </div>
                           </div>
 
@@ -407,8 +407,8 @@ const BagPrint10J = ({ queries, headers }) => {
                                   <div className="Wdth6 fw-bold d-flex BrderRigtDRK">
                                     <div className="Wdth8 BrderRigt TrckTxtCntr">RM CODE</div>
                                     <div className="Wdth9 BrderRigt TrckTxtCntr">SIZE</div>
-                                    <div className="Wdth9 BrderRigt TrckTxtCntr">QTY</div>
-                                    <div className="Wdth9 TrckTxtCntr">WT.</div>
+                                    <div className="Wdth10 BrderRigt TrckTxtCntr">QTY</div>
+                                    <div className="Wdth11 TrckTxtCntr">WT.</div>
                                   </div>
                                   <div className="Wdth7 fw-bold TrckTxtCntr BrderRigtDRK">
                                     <div className="w-50 BrderRigt TrckTxtCntr">QTY</div>
@@ -439,10 +439,10 @@ const BagPrint10J = ({ queries, headers }) => {
                                         <div className="Wdth9 StcMangs2 BrderRigt TrckTxtCntr TxtStart spbrWord">
                                           {a?.Sizename}
                                         </div>
-                                        <div className="Wdth9 StcMangs2 BrderRigt TrckTxtCntr TxtEnd">
+                                        <div className="Wdth10 StcMangs2 BrderRigt TrckTxtCntr TxtEnd">
                                           {a?.ActualPcs}
                                         </div>
-                                        <div className="Wdth9 StcMangs2 TrckTxtCntr"></div>
+                                        <div className="Wdth11 StcMangs2 TrckTxtCntr"></div>
                                       </div>
                                       <div className="Wdth7 fw-bold TrckTxtCntr BrderRigtDRK">
                                         <div className="w-50 StcMangs2 BrderRigt TrckTxtCntr"></div>
@@ -469,8 +469,8 @@ const BagPrint10J = ({ queries, headers }) => {
                                       <div className="Wdth6 d-flex BrderRigtDRK">
                                         <div className="Wdth8 StcMangs2 BrderRigt TrckTxtCntr"></div>
                                         <div className="Wdth9 StcMangs2 BrderRigt TrckTxtCntr"></div>
-                                        <div className="Wdth9 StcMangs2 BrderRigt TrckTxtCntr"></div>
-                                        <div className="Wdth9 StcMangs2 TrckTxtCntr"></div>
+                                        <div className="Wdth10 StcMangs2 BrderRigt TrckTxtCntr"></div>
+                                        <div className="Wdth11 StcMangs2 TrckTxtCntr"></div>
                                       </div>
                                       <div className="Wdth7 fw-bold TrckTxtCntr BrderRigtDRK">
                                         <div className="w-50 StcMangs2 BrderRigt TrckTxtCntr"></div>
@@ -498,7 +498,7 @@ const BagPrint10J = ({ queries, headers }) => {
 
                             {/* RFID NO */}
                             <div className="w-100 fw-bold FntSize1 BrderTopDRK">
-                              <div className='StcMangs TrckTxtStart'>RFID NO.</div>
+                              <div className='StcMangs TrckTxtStart' style={{ minHeight: "20.60px", maxHeight: "20.60px" }}>RFID NO.</div>
                             </div>
                           </div>
                         </>
