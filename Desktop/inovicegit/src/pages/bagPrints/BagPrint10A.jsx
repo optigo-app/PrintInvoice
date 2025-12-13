@@ -666,6 +666,7 @@ const BagPrint10A = ({ queries, headers }) => {
                         </div>
                       </div>
                     )}
+                    
                     <div className="print10A">
                       <div className="container10A">
                         <div className="header10AD">

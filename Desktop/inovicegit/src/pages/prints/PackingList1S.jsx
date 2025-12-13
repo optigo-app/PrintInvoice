@@ -16,7 +16,7 @@ import {
 import Loader from "../../components/Loader";
 import style from "../../assets/css/prints/packingList1S.module.css";
 
-const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
+const PackingList1S = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
   const [msg, setMsg] = useState("");
   const [json0Data, setJson0Data] = useState({});
@@ -1722,4 +1722,4 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   );
 };
 
-export default PackingList1;
+export default PackingList1S;
