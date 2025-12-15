@@ -34,6 +34,7 @@ const BagPrint10J = ({ queries, headers }) => {
           headers: headers,
         };
         const allDatas = await GetData(objs);
+        console.log("allDatas", allDatas);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
         // console.log("datas", datas);
         
@@ -143,7 +144,7 @@ const BagPrint10J = ({ queries, headers }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // console.log("data", data);
+  console.log("data", data);
 
   return (
     <>
@@ -160,12 +161,10 @@ const BagPrint10J = ({ queries, headers }) => {
             </button>
           </div>
           <div className="bag10Afinal">
-            {data?.length > 0 &&
-              data?.map((e, i) => {
+            {data?.map((e, i) => {
                 return (
                   <React.Fragment key={i}>
-                    {e?.additional?.pages?.length > 0 && 
-                      e?.additional?.pages?.map((ele, index) => {
+                    {(e?.additional?.pages?.length > 0 ? e?.additional?.pages : [{}]).map((ele, index) => {
                       return (
                         <>
                           {/* Left Side */}
@@ -358,9 +357,8 @@ const BagPrint10J = ({ queries, headers }) => {
                               {/* Barcode */}
                               <div className="Wdth5">
                                 <div className="barcode10A">
-                                  {e?.additional?.SerialJobno !== undefined && 
-                                    e?.additional?.SerialJobno === e?.data?.rd?.serialjobno && (
-                                    <BarcodeGenerator data={e?.additional?.SerialJobno} />
+                                  {e?.data?.rd?.serialjobno !== undefined && (
+                                    <BarcodeGenerator data={e?.data?.rd?.serialjobno} />
                                   )}
                                 </div>
                               </div>
@@ -368,7 +366,7 @@ const BagPrint10J = ({ queries, headers }) => {
 
                             {/* RFID NO */}
                             <div className="w-100 fw-bold FntSize1 BrderTopDRK">
-                              <div className='StcMangs TrckTxtStart' style={{ minHeight: "20.60px", maxHeight: "20.60px" }}>RFID NO.</div>
+                              <div className='StcMangs TrckTxtStart' style={{ minHeight: "20.60px", maxHeight: "20.60px"   }}>RFID NO.</div>
                             </div>
                           </div>
 
@@ -422,7 +420,7 @@ const BagPrint10J = ({ queries, headers }) => {
 
                                 {/* Table Data */}
                                 {ele?.data?.map((a, i) => {
-                                  const TheDataLen = e?.additional?.pages?.[0]?.data?.length ?? 0;
+                                  const TheDataLen = e?.additional?.pages?.data?.length ?? 0;
                                   // console.log("TheDataLen", TheDataLen);
                                   const TheDif = TheDataLen <= 21 ? 21 - TheDataLen : 0;
                                   // console.log("TheDif", TheDif);
@@ -457,8 +455,8 @@ const BagPrint10J = ({ queries, headers }) => {
                                 })}
 
                                 {/* Empty Rows */}
-                                {Array.from({ length: 21 - (e?.additional?.pages?.[0]?.data?.length || 0) }, (_, index) => {
-                                  const TheDataLen = e?.additional?.pages?.[0]?.data?.length ?? 0;
+                                {Array.from({ length: 21 - (e?.additional?.pages?.data?.length || 0) }, (_, index) => {
+                                  const TheDataLen = e?.additional?.pages?.data?.length ?? 0;
                                   // console.log("TheDataLen", TheDataLen);
                                   const TheDif = TheDataLen <= 21 ? 21 - TheDataLen : 0;
                                   // console.log("TheDif", TheDif);
@@ -489,8 +487,8 @@ const BagPrint10J = ({ queries, headers }) => {
                               {/* Barcode */}
                               <div className="Wdth5">
                                 <div className="barcode10AR">
-                                  {e?.additional?.SerialJobno !== undefined && (
-                                    <BarcodeGenerator data={e?.additional?.SerialJobno} />
+                                  {e?.data?.rd?.serialjobno !== undefined && (
+                                    <BarcodeGenerator data={e?.data?.rd?.serialjobno} />
                                   )}
                                 </div>
                               </div>
