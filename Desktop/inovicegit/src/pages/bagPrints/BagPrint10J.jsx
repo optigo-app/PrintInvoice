@@ -420,7 +420,7 @@ const BagPrint10J = ({ queries, headers }) => {
 
                                 {/* Table Data */}
                                 {ele?.data?.map((a, i) => {
-                                  const TheDataLen = e?.additional?.pages?.data?.length ?? 0;
+                                  const TheDataLen = e?.additional?.pages?.[0]?.data?.length ?? 0;
                                   // console.log("TheDataLen", TheDataLen);
                                   const TheDif = TheDataLen <= 21 ? 21 - TheDataLen : 0;
                                   // console.log("TheDif", TheDif);
@@ -455,8 +455,8 @@ const BagPrint10J = ({ queries, headers }) => {
                                 })}
 
                                 {/* Empty Rows */}
-                                {Array.from({ length: 21 - (e?.additional?.pages?.data?.length || 0) }, (_, index) => {
-                                  const TheDataLen = e?.additional?.pages?.data?.length ?? 0;
+                                {Array.from({ length: 21 - (e?.additional?.pages?.[0]?.data?.length || 0) }, (_, index) => {
+                                  const TheDataLen = e?.additional?.pages?.[0]?.data?.length ?? 0;
                                   // console.log("TheDataLen", TheDataLen);
                                   const TheDif = TheDataLen <= 21 ? 21 - TheDataLen : 0;
                                   // console.log("TheDif", TheDif);
