@@ -1062,30 +1062,49 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
 
       e?.diamonds?.forEach((el) => {
         let eem = cloneDeep(el);
-        let findrec = finalArr3?.findIndex(
-          (a) =>
-            a?.Rate === eem?.Rate &&
-            a?.ShapeName === eem?.ShapeName &&
-            a?.SizeName === eem?.SizeName &&
-            a?.QualityName === eem?.QualityName &&
-            a?.Colorname === eem?.Colorname
-        );
-        if (findrec === -1) {
-          // let obj = {...eem};
-          // obj.wt = eem?.Wt;
-          // obj.pcs = eem?.Pcs;
-          // obj.amount = eem?.Amount;
-          finalArr3.push(eem);
-        } else {
-          finalArr3[findrec].Wt += eem?.Wt;
-          finalArr3[findrec].Pcs += eem?.Pcs;
-          finalArr3[findrec].Amount += eem?.Amount;
-          finalArr3[findrec].SizeName = eem?.SizeName;
-          finalArr3[findrec].Amount += eem?.Amount;
-        }
-      });
 
-      e.diamonds = finalArr3;
+        // Sorting based on SizeName here
+        const sizeA = eem?.SizeName;
+        const parseSize = (size) => {
+            if (!size) return 0;
+            if (size.includes('-')) {
+                const [start, end] = size.split('-').map(parseFloat);
+                return (start + end) / 2;
+            }
+            return parseFloat(size.replace('mm', ''));
+        };
+
+        const sizeParsed = parseSize(sizeA);
+
+        // Sorting diamonds based on SizeName (numeric sorting)
+        finalArr3.push({ ...eem, sizeParsed });
+    });
+
+    // Sort diamonds by the parsed size before grouping them
+    finalArr3.sort((a, b) => a.sizeParsed - b.sizeParsed);
+
+    // Now group diamonds based on other fields as you had before
+    e.diamonds = finalArr3.reduce((acc, diamond) => {
+        let findrec = acc.findIndex(
+            (a) =>
+                a?.Rate === diamond?.Rate &&
+                a?.ShapeName === diamond?.ShapeName &&
+                a?.SizeName === diamond?.SizeName &&
+                a?.QualityName === diamond?.QualityName &&
+                a?.Colorname === diamond?.Colorname
+        );
+
+        if (findrec === -1) {
+            acc.push(diamond);
+        } else {
+            acc[findrec].Wt += diamond?.Wt;
+            acc[findrec].Pcs += diamond?.Pcs;
+            acc[findrec].Amount += diamond?.Amount;
+            acc[findrec].SizeName = diamond?.SizeName;
+        }
+
+        return acc;
+    }, []);
 
       let clr = [];
 
@@ -1420,11 +1439,11 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
             </div>
 
             {/* Data */}
-            <div className="PageNotBrkPrint">
+            <div className="">
               {json2Data.length > 0 &&
                 json2Data.map((e, i) => {                
                   return (
-                    <div className={`d-flex border-bottom recordEstimatePrint overflow-hidden word_break_estimatePrint`}
+                    <div className={`d-flex border-bottom PageNotBrkPrint BrdrTop recordEstimatePrint overflow-hidden word_break_estimatePrint`}
                       key={i}
                       style={{
                         borderLeft: "1px solid black",

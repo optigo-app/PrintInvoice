@@ -34,7 +34,7 @@ const BagPrint10J = ({ queries, headers }) => {
           headers: headers,
         };
         const allDatas = await GetData(objs);
-        console.log("allDatas", allDatas);
+        // console.log("allDatas", allDatas);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
         // console.log("datas", datas);
         
@@ -144,7 +144,7 @@ const BagPrint10J = ({ queries, headers }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log("data", data);
+  // console.log("data", data);
 
   return (
     <>
@@ -210,9 +210,8 @@ const BagPrint10J = ({ queries, headers }) => {
 
                             {/* Instuction */}
                             <div className="w-100 Higt0 BrderBtomDRK FntSize0 SpacLft0 SpacLft1">
-                              <div className="d-flex">
-                                <div className="fw-bold">INSTRUCTION :&nbsp;</div>
-                                <div className="fw-bold"></div>
+                              <div className="d-flex FntSize2">
+                                <div className="fw-bold spbrWord">INSTRUCTION :&nbsp;{e?.data?.rd?.ProductInstruction?.slice(0, 174)}</div>
                               </div>
                             </div>
 
@@ -385,9 +384,8 @@ const BagPrint10J = ({ queries, headers }) => {
 
                             {/* Instuction */}
                             <div className="w-100 Higt0 BrderBtomDRK FntSize0 SpacLft0 SpacLft1">
-                              <div className="d-flex">
-                                <div className="fw-bold">INSTRUCTION :&nbsp;</div>
-                                <div className="fw-bold">{e?.data?.rd?.QuoteRemark?.slice(0, 149)}</div>
+                              <div className="d-flex FntSize2">
+                                <div className="fw-bold spbrWord">INSTRUCTION :&nbsp;{e?.data?.rd?.QuoteRemark?.slice(0, 149)}</div>
                               </div>
                             </div>
 
