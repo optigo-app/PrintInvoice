@@ -1066,13 +1066,14 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
         // Sorting based on SizeName here
         const sizeA = eem?.SizeName;
         const parseSize = (size) => {
-            if (!size) return 0;
-            if (size.includes('-')) {
-                const [start, end] = size.split('-').map(parseFloat);
-                return (start + end) / 2;
-            }
-            return parseFloat(size.replace('mm', ''));
+          if (!size) return 0;
+          if (size.includes('-')) {
+              const [start] = size.split('-').map(parseFloat);
+              return start;
+          }
+          return parseFloat(size.replace('mm', ''));
         };
+      
 
         const sizeParsed = parseSize(sizeA);
 
@@ -1267,7 +1268,7 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
   // console.log("notGoldMetalWtTotal", notGoldMetalWtTotal);  
   // console.log("FinalTotalLabourAMT", FinalTotalLabourAMT);  
   // console.log("FinalTotalMetalAMT", FinalTotalMetalAMT);  
-  // console.log('json2Data' , json2Data);
+  console.log('json2Data' , json2Data);
   // console.log('json1Data' , json1Data);
   // console.log('total', total);
   
