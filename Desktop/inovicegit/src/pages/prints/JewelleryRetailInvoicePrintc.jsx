@@ -458,7 +458,9 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn, 
                     </div>
                     <div className="fslhJL">{headerData?.customeremail1}</div>
                     <div className="fslhJL">Phno: {headerData?.customermobileno}</div>
-                    <div className="fslhJL">{headerData?.vat_cst_pan}</div>
+                    {headerData?.CustGstNo !== "" && <div className="fslhJL">{headerData?.CustGstNo}</div> }
+                    {headerData?.CustPanno !== "" && <div className="fslhJL">{headerData?.CustPanno}</div> }
+                    {headerData?.aadharno !== "" && <div className="fslhJL">{headerData?.aadharno}</div> }
                     <div className="fslhJL">{headerData?.Cust_CST_STATE}-{headerData?.Cust_CST_STATE_No}</div>
                   </div>
                   <div className="col-4 p-2 position-relative pb-1">
