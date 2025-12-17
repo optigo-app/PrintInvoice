@@ -1,15 +1,12 @@
 .container_pcls {
-  position: absolute;
-  width: 100%;
-  width: 64vw; 
-  width: 1230px !important;
   box-sizing: border-box;
-  padding: 10px;
-  padding-bottom: 5rem;
+  word-break: break-all;
   font-size: 12px;
   line-height: 14px;
+  max-width: 1230px;
+  margin: 0 auto;
+  padding-bottom: 5rem;
   font-family: Calibri, sans-serif !important;
-  /* margin: 0 auto; */
 }
 
 .headText_pcls {
@@ -161,16 +158,25 @@
 
 .fs_16_pcls {
   font-size: 16px;
+  line-height: 16px;
 }
 
 .fs_14_pcls {
-  font-size: 14px;
+  font-size: 13px;
+  line-height: 14px;
 }
 
 /* table head */
 
 .tb_fs_pcls {
   font-size: 11px;
+}
+
+.tb_fs_pclsINS * {
+  font-size: 11px;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .tb_fs_pcls1 {
@@ -367,7 +373,7 @@
 
 .instruct {
   width: 82%;
-  font-size: 12px;
+  font-size: 13px;
   display: block;
   padding: 5px 0px 5px 5px;
 }
@@ -408,12 +414,18 @@
 }
 
 @media print {
+  @page {
+    margin: 5mm;
+  }
+
   .fs_16_pcls {
-    font-size: 10px;
+    font-size: 12px !important;
+    line-height: 12px !important;
   }
 
   .fs_14_pcls {
-    font-size: 10px;
+    font-size: 9px !important;
+    line-height: 10px !important;
   }
 
   .spbrWord {
@@ -431,28 +443,33 @@
   }
 
   .container_pcls {
+    box-sizing: border-box;
+    word-break: break-all;
     max-width: 1230px;
     margin: 0 auto;
-    box-sizing: border-box;
     padding: 0px;
-    padding-bottom: 5rem;
-    font-size: 6px;
+    font-size: 7.5px;
     line-height: 9px;
   }
 
   .tb_fs_pcls {
-    font-size: 6px;
-    line-height: 7px;
-  }
-
-  .tb_fs_pcls1 {
     font-size: 7px;
     line-height: 8px;
   }
 
+  .tb_fs_pclsINS * {
+    font-size: 8px;
+    line-height: 9px;
+  }
+
+  .tb_fs_pcls1 {
+    font-size: 8px;
+    line-height: 9px;
+  }
+
   .instruct {
-    font-size: 11px;
-    line-height: 12px;
+    font-size: 9px;
+    line-height: 10px;
   }
 
   .pbia_s {
@@ -492,7 +509,7 @@
   }
 
   .com_fs_pcl3 {
-    font-size: 8.5px;
+    font-size: 9.5px;
   }
 
   .minH_pcl3 {
@@ -514,9 +531,5 @@
 
   .H_sum_pcl3 {
     height: 70px;
-  }
-
-  @page {
-    margin: 5mm;
   }
 }
