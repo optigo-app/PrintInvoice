@@ -1268,7 +1268,7 @@ const OrdersPrintOrder = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
   // console.log("notGoldMetalWtTotal", notGoldMetalWtTotal);  
   // console.log("FinalTotalLabourAMT", FinalTotalLabourAMT);  
   // console.log("FinalTotalMetalAMT", FinalTotalMetalAMT);  
-  console.log('json2Data' , json2Data);
+  // console.log('json2Data' , json2Data);
   // console.log('json1Data' , json1Data);
   // console.log('total', total);
   
