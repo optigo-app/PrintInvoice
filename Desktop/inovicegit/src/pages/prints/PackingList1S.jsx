@@ -475,10 +475,6 @@ const PackingList1S = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     }, []);
   };
 
-  const FinalTotalMisc = data?.reduce((total, e) => {
-    return total + (e?.misc?.reduce((innerAcc, ele) => innerAcc + (ele?.Amount || 0), 0) || 0);
-  }, 0) || 0;
-
   function PrintableText({ json0Data }) {
     const htmlContent = json0Data?.Printlable?.replace(/\n/g, '<br />');
   
@@ -489,8 +485,18 @@ const PackingList1S = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     );
   }
 
+  function extractTextFromHTML(htmlString) {
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = htmlString;
+    
+    return tempDiv.textContent || tempDiv.innerText || "";
+  }
+    
+  const plainText = extractTextFromHTML(json0Data?.Declaration);
+  // console.log("plainText", plainText);
+
   // console.log("FinalTotalMisc", FinalTotalMisc);
-  console.log("data", data);
+  // console.log("data", data);
   // console.log("json0Data", json0Data);
   
   return (
@@ -1820,7 +1826,7 @@ const PackingList1S = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             </div>
 
             {/* Instruction */}
-            {json0Data?.Declaration !== "" && (
+            {plainText && (
               <div className={`${style?.intru_qrC} mt-1 ${style?.pbia_pcl3}`}>
                 <div className={`fw-bold ${style?.instruct}`}>Terms & Condition:</div>
                 <div className={`${style?.tb_fs_pclsINS}`}
