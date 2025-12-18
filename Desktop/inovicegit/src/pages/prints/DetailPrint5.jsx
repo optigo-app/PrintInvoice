@@ -427,6 +427,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     { key: 'MiscDiscountAmount', label: 'Misc' },
   ];
 
+  const IsEvnQuote = atob(evn)?.toLowerCase() === "quote";
+
   return loader ? (
     <Loader />
   ) : msg === "" ? (
@@ -547,8 +549,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
       </div>
 
-      {/* Table Header */}
       <div className={``}>
+        {/* Table Header */}
         <div className={`d-flex border-start border-top border-end PgeBrakInsid lightGrey ${style?.detailPrint5TableHead}`}>
           <div className={`${style?.srNo} border-end d-flex justify-content-center align-items-center fw-bold`} >
             Sr
@@ -651,6 +653,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className={`${style?.srNo} border-end text-center p-1 ${style?.wordBreak}`}>
                   {i + 1}
                 </div>
+
                 <div className={`${style?.design} border-end p-1`}>
                   <div className="d-flex justify-content-between">
                     <p> {e?.designno} </p>
@@ -690,6 +693,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     Gross
                   </p>
                 </div>
+
                 <div className={`${style?.diamond} border-end position-relative pb-1`} >
                   {e?.diamonds.map((ele, ind) => {
                     return (
@@ -708,7 +712,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           {NumberWithCommas(ele?.Rate, 2)}
                         </div>
                         <div className={`ATWdthSpDCM6 text-end fw-bold ${style?.wordBreak}`}>
-                          {NumberWithCommas(ele?.Amount, 2)}
+                          {IsEvnQuote ? NumberWithCommas(ele?.Amount / headerData?.CurrencyExchRate, 2) : NumberWithCommas(ele?.Amount, 2)}
                         </div>
                       </div>
                     );
@@ -736,7 +740,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           {ele?.Rate?.toFixed(2)}
                         </div>
                         <div className={`${style?.w_20} text-end ${style?.wordBreak}`}>
-                          {ele?.IsPrimaryMetal !== 1 ? <p className="fw-bold">{ele?.Amount?.toFixed(2)}</p> : <p>{ele?.Amount?.toFixed(2)}</p>}
+                          {ele?.IsPrimaryMetal !== 1 ? <p className="fw-bold">{IsEvnQuote ? (ele?.Amount / headerData?.CurrencyExchRate)?.toFixed(2) : ele?.Amount?.toFixed(2)}</p> : <p>{IsEvnQuote ? (ele?.Amount / headerData?.CurrencyExchRate)?.toFixed(2) : ele?.Amount?.toFixed(2)}</p>}
                         </div>
                       </div>
                     );
@@ -772,7 +776,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           {NumberWithCommas(ele?.Rate, 2)}
                         </div>
                         <div className={`ATWdthSpDCM6 fw-bold ${style?.wordBreak} text-end`}>
-                          {NumberWithCommas(ele?.Amount, 2)}
+                          {IsEvnQuote ? NumberWithCommas(ele?.Amount / headerData?.CurrencyExchRate, 2) : NumberWithCommas(ele?.Amount, 2)}
                         </div>
                       </div>
                     );
@@ -783,7 +787,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="d-grid h-100 w-100">
                     <div>
                       <p className="text-end">
-                        {NumberWithCommas(e?.otherAmt, 2)}
+                        {IsEvnQuote ? NumberWithCommas(e?.otherAmt / headerData?.CurrencyExchRate, 2) : NumberWithCommas(e?.otherAmt, 2)}
                       </p>
                     </div>
                   </div>
@@ -813,7 +817,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div>
                       <p className={`text-end fw-bold`}>
                         {e?.TotalAmount !== 0 &&
-                          NumberWithCommas(e?.UnitCost, 2)}
+                          IsEvnQuote ? NumberWithCommas(e?.UnitCost / headerData?.CurrencyExchRate, 2) : NumberWithCommas(e?.UnitCost, 2)}
                       </p>
                     </div>
                   </div>
@@ -848,7 +852,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       {
                         e?.diamonds?.reduce((acc, ele) => acc + (ele?.Amount || 0), 0) === 0
                           ? '0.00'
-                          : fixedValues(e?.diamonds?.reduce((acc, ele) => acc + (ele?.Amount || 0), 0), 2)
+                          : IsEvnQuote ? fixedValues(e?.diamonds?.reduce((acc, ele) => acc + (ele?.Amount || 0), 0) / headerData?.CurrencyExchRate, 2)
+                            : fixedValues(e?.diamonds?.reduce((acc, ele) => acc + (ele?.Amount || 0), 0), 2)
                       }
                     </div>
                   </div>
@@ -868,8 +873,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                     {/* <div className={`${style?.w_20} text-end`}></div> */}
                     <div className={`${style?.w_20} text-end fw-bold`} style={{ width: '40%' }}>
-                      {e?.metals?.filter((e) => e?.IsPrimaryMetal === 1)
-                        ?.map((e) => NumberWithCommas(e?.Amount, 2))
+                      {e?.metals?.filter((e) => e?.IsPrimaryMetal === 1)?.map((e) => 
+                        IsEvnQuote ? NumberWithCommas(e?.Amount / headerData?.CurrencyExchRate, 2) : NumberWithCommas(e?.Amount, 2))
                       }
                     </div>
                   </div>
@@ -888,7 +893,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {/* <div className={`col-2 text-end`}></div> */}
                     <div className={`col-4 text-end fw-bold`}>
                       {e?.csTotal?.Amount !== 0 ?
-                        NumberWithCommas(e?.csTotal?.Amount, 2) : '0.00'}
+                        IsEvnQuote ? NumberWithCommas(e?.csTotal?.Amount / headerData?.CurrencyExchRate, 2) : NumberWithCommas(e?.csTotal?.Amount, 2) : '0.00'}
                     </div>
                   </div>
                 </div>
@@ -896,7 +901,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className={`${style?.otherAmount} border-end border-top text-end lightGrey`} >
                   <div className={`d-flex w-100 justify-content-end ${style?.wordBreak}`}>
                     <p className={` text-end fw-bold`}>
-                      {NumberWithCommas(e?.otherAmt, 2)}
+                      {IsEvnQuote ? NumberWithCommas(e?.otherAmt / headerData?.CurrencyExchRate, 2) : NumberWithCommas(e?.otherAmt, 2)}
                     </p>
                   </div>
                 </div>
@@ -918,7 +923,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="w-100">
                     <p className={`text-end fw-bold`}>
                       {e?.TotalAmount !== 0 &&
-                        NumberWithCommas(e?.UnitCost, 2)}
+                        IsEvnQuote ? NumberWithCommas(e?.UnitCost / headerData?.CurrencyExchRate, 2) : NumberWithCommas(e?.UnitCost, 2)}
                     </p>
                   </div>
                 </div>
@@ -1000,7 +1005,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             {taxes.map((e, i) => {
               return (
                 <p className="text-end" key={i}>
-                  {e?.amount}
+                  {IsEvnQuote ? e?.amount/ headerData?.CurrencyExchRate : e?.amount}
                 </p>
               );
             })}
@@ -1027,7 +1032,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
               {/* <div className="col-2 text-end"></div> */}
               <div className="col-4 fw-bold d-flex justify-content-end align-items-center">
-                {TotalAmtDMD !== 0 ? NumberWithCommas(TotalAmtDMD, 2) : '0.00'}
+                {TotalAmtDMD !== 0 ? IsEvnQuote ? NumberWithCommas(TotalAmtDMD / headerData?.CurrencyExchRate, 2) : NumberWithCommas(TotalAmtDMD, 2) : '0.00'}
               </div>
             </div>
           </div>
@@ -1046,7 +1051,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               {/* <div className={`${style?.w_20} text-end`}></div> */}
               <div className={`${style?.w_20} text-end fw-bold`} style={{ width: '40%' }}>
                 {totalMetalAmount !== 0 &&
-                  NumberWithCommas(totalMetalAmount, 2)}
+                  IsEvnQuote ? NumberWithCommas(totalMetalAmount / headerData?.CurrencyExchRate, 2) : NumberWithCommas(totalMetalAmount, 2)}
               </div>
             </div>
           </div>
@@ -1065,7 +1070,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               {/* <div className={`col-2 text-end`}></div> */}
               <div className={`col-4 text-end fw-bold`}>
                 {TotalAmtCLR !== 0 ?
-                  NumberWithCommas(TotalAmtCLR, 2) : '0.00'}
+                  IsEvnQuote ? NumberWithCommas(TotalAmtCLR / headerData?.CurrencyExchRate, 2) : NumberWithCommas(TotalAmtCLR, 2) : '0.00'}
               </div>
             </div>
           </div>
@@ -1075,7 +1080,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <p className="text-end fw-bold">
                 {" "}
                 {total?.OtherCharges !== 0 &&
-                  NumberWithCommas(total?.OtherCharges, 2)}
+                  IsEvnQuote ? NumberWithCommas(total?.OtherCharges / headerData?.CurrencyExchRate, 2) : NumberWithCommas(total?.OtherCharges, 2)}
               </p>
             </div>
           </div>
@@ -1084,7 +1089,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               {/* <div className={`col-6 text-end`}></div> */}
               <div className={`col-12 text-end fw-bold`}>
                 {total?.MakingAmount !== 0 &&
-                  NumberWithCommas(total?.MakingAmount, 2)}
+                  IsEvnQuote ? NumberWithCommas(total?.MakingAmount / headerData?.CurrencyExchRate, 2) : NumberWithCommas(total?.MakingAmount, 2)}
               </div>
             </div>
           </div>
@@ -1092,7 +1097,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div>
               <p className={`text-end fw-bold`}>
                 {total?.TotalAmount !== 0 &&
-                  NumberWithCommas(total?.TotalAmount, 2)}
+                  IsEvnQuote ? NumberWithCommas(total?.TotalAmount / headerData?.CurrencyExchRate, 2) : NumberWithCommas(total?.TotalAmount, 2)}
               </p>
             </div>
           </div>
@@ -1164,31 +1169,31 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="col-6 position-relative pb-3 px-1 sumFont">
                       <div className="d-flex justify-content-between">
                         <p className="fw-bold">GOLD </p>
-                        <p>{NumberWithCommas((totalMetalAmount - notGoldMetalTotal), 2)}</p>
+                        <p>{IsEvnQuote ? NumberWithCommas((totalMetalAmount - notGoldMetalTotal) / headerData?.CurrencyExchRate, 2) : NumberWithCommas((totalMetalAmount - notGoldMetalTotal), 2)}</p>
                       </div>
                       {
                         MetShpWise?.map((e, i) => {
                           return <div className="d-flex justify-content-between" key={i}>
                             <p className="fw-bold">{e?.ShapeName}</p>
-                            <p>{NumberWithCommas(e?.Amount, 2)}</p>
+                            <p>{IsEvnQuote ? NumberWithCommas(e?.Amount / headerData?.CurrencyExchRate, 2) : NumberWithCommas(e?.Amount, 2)}</p>
                           </div>
                         })
                       }
                       <div className="d-flex justify-content-between">
                         <p className="fw-bold">DIAMOND</p>
-                        <p>{NumberWithCommas(total?.diaTotal?.Amount, 2)}</p>
+                        <p>{IsEvnQuote ? NumberWithCommas(total?.diaTotal?.Amount / headerData?.CurrencyExchRate, 2) : NumberWithCommas(total?.diaTotal?.Amount, 2)}</p>
                       </div>
                       <div className="d-flex justify-content-between">
                         <p className="fw-bold">CST</p>
-                        <p>{NumberWithCommas(total?.csTotal?.Amount, 2)}</p>
+                        <p>{IsEvnQuote ? NumberWithCommas(total?.csTotal?.Amount / headerData?.CurrencyExchRate, 2) : NumberWithCommas(total?.csTotal?.Amount, 2)}</p>
                       </div>
                       <div className="d-flex justify-content-between">
                         <p className="fw-bold">MAKING</p>
-                        <p>{NumberWithCommas(total?.MakingAmount, 2)}</p>
+                        <p>{IsEvnQuote ? NumberWithCommas(total?.MakingAmount / headerData?.CurrencyExchRate, 2) : NumberWithCommas(total?.MakingAmount, 2)}</p>
                       </div>
                       <div className="d-flex justify-content-between">
                         <p className="fw-bold">OTHER</p>
-                        <p>{NumberWithCommas(total?.OtherCharges, 2)}</p>
+                        <p>{IsEvnQuote ? NumberWithCommas(total?.OtherCharges / headerData?.CurrencyExchRate, 2) : NumberWithCommas(total?.OtherCharges, 2)}</p>
                       </div>
                       <div className="d-flex justify-content-between">
                         <p className="text-end fw-bold">
@@ -1202,7 +1207,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         className={`d-flex justify-content-between border-bottom position-absolute left-0 bottom-0 ${style?.min_height_15} border-top w-100 lightGrey end-0 ps-1 pe-1`}
                       >
                         <p className="fw-bold">TOTAL</p>
-                        <p className="">{NumberWithCommas(total?.TotalAmount, 2)}</p>
+                        <p className="">{IsEvnQuote ? NumberWithCommas(total?.TotalAmount / headerData?.CurrencyExchRate, 2) : NumberWithCommas(total?.TotalAmount, 2)}</p>
                       </div>
                     </div>
                   </div>

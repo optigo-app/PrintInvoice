@@ -125,6 +125,76 @@ html {
     word-wrap: break-word;
 }
 
+.headText_pcls  {
+    width: 100%;
+    font-size: 18px !important;
+    min-height: 30px !important;
+    max-height: 30px !important;
+    background-color: #939292 !important;
+    color: #fff !important;
+    font-weight: bold;
+    padding-left: 4px;
+}
+
+.com_fs_pcl3 * {
+    font-size: 9px !important;
+}
+
+.mainHeadWD {
+    display: flex;
+    justify-content: space-between;
+}
+
+.fs_16_pcls {
+    font-size: 16px !important;
+    line-height: 11px !important;
+}
+
+.fs_14_pcls {
+    font-size: 12px !important;
+    line-height: 13px !important;
+}
+
+.brall_pcls {
+    border: 1px solid #dee2e6;
+}
+
+.bright_pcls {
+    border-right: 1px solid #dee2e6;
+}
+
+.billbox_pcls {
+    width: 120px;
+}
+
+.intru_qrC {
+    width: 100%;
+    min-height: 70px;
+    border: 1px solid #dee2e6;
+    margin-top: 4px;
+    padding: 5px 5px 5px 5px;
+}
+
+.instruct {
+    width: 99%;
+    display: block !important;
+    font-size: 12px !important;
+    line-height: 12px !important;
+}
+
+.tb_fs_pclsINS * {
+    width: 99%;
+    font-size: 10px !important;
+    line-height: 10px !important;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.CheckBxFnt {
+    font-size: 11px !important;
+}
+
 @media print{
     .packinhList1_top_line{
         font-size: 9px !important;
@@ -162,7 +232,52 @@ html {
     .rowHeader * {
         font-size: 6.5px;
     }
+
+    .com_fs_pcl3 * {
+        font-size: 7px !important;
+    }
+
+    .fs_16_pcls {
+        font-size: 9px !important;
+        line-height: 6px !important;
+    }
+
+    .fs_14_pcls {
+        font-size: 8px !important;
+        line-height: 9px !important;
+    }
+
+    .headText_pcls  {
+        font-size: 12px !important;
+        min-height: 20px !important;
+        max-height: 20px !important;
+    }
+
+    .intru_qrC {
+        min-height: 55px;
+        margin-top: 4px;
+        padding: 3px 3px 3px 3px;
+    }
+    
+    .instruct {
+        display: block !important;
+        font-size: 7px !important;
+        line-height: 8px !important;
+    }
+    
+    .tb_fs_pclsINS * {
+        font-size: 6px !important;
+        line-height: 7px !important;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+    }
+
+    .pbia_pcl3 {
+        page-break-inside: avoid !important;
+    }
 }
+
 @media print and (orientation: landscape) {
     .packinhList1_top_line{
         font-size: 9px !important;
@@ -194,5 +309,39 @@ html {
     }
     .rowHeader *{
         font-size: 8px;
+    }
+
+    .com_fs_pcl3 * {
+        font-size: 8px !important;
+    }
+
+    .fs_16_pcls {
+        font-size: 10px !important;
+        line-height: 7px !important;
+    }
+
+    .fs_14_pcls {
+        font-size: 9px !important;
+        line-height: 10px !important;
+    }
+
+    .intru_qrC {
+        min-height: 55px;
+        margin-top: 4px;
+        padding: 3px 3px 3px 3px;
+    }
+    
+    .instruct {
+        display: block !important;
+        font-size: 9px !important;
+        line-height: 10px !important;
+    }
+    
+    .tb_fs_pclsINS * {
+        font-size: 8px !important;
+        line-height: 9px !important;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
     }
 }
