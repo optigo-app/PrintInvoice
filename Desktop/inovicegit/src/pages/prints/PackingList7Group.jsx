@@ -500,7 +500,7 @@ const PackingList7Group = ({
     const sortedData = diarndotherarr5?.sort(customSort);
     setDiamondWise(sortedData);
     setResult(datas);
-    console.log("datas", datas);
+    // console.log("datas", datas);
   }
 
   const handleCheckbox = () => {
@@ -548,6 +548,8 @@ const PackingList7Group = ({
     }
   };
 
+  // console.log("result", result);
+  
   return (
     <>
       {loader ? (
@@ -1036,7 +1038,7 @@ const PackingList7Group = ({
                                     key={idia}
                                   >
                                     <div
-                                      className="theadsubcol1_dp10_pcl7"
+                                      className="theadsubcol1_dp10_pcl7 spbrWord" 
                                       style={{
                                         wordBreak: "break-word",
                                         paddingLeft: "2px",
@@ -1044,9 +1046,9 @@ const PackingList7Group = ({
                                     >
                                       {el?.ShapeName} {""}
                                       { imgFlag3
-                                        ? `${el?.QualityName} ${el?.Colorname}
-                                          `
-                                        : ""}
+                                        ? `${el?.QualityName} ${el?.Colorname}`
+                                        : ""
+                                      }
                                     </div>
                                     <div
                                       className="theadsubcol1_dp10_pcl7 text-start ps-1"
@@ -1161,7 +1163,7 @@ const PackingList7Group = ({
                                     Loss Wt
                                   </div>
                                   <div className="theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7">
-                                    {e?.LossPer?.toFixed(3)} %
+                                    {e?.MetalLossIn === 0 && `${e?.LossPer?.toFixed(3)} %`}
                                   </div>
                                   <div className="theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7 ">
                                     {e?.LossWt?.toFixed(3)}
