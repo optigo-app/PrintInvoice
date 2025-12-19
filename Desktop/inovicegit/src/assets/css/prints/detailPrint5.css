@@ -102,6 +102,12 @@
   padding-right: 3px;
 }
 
+.headImg_Pcl7{
+  width: auto;
+  max-width: 230px;
+  max-height: 105px;
+}
+
 @media print {
   @page {
     margin: 15px 10px;
@@ -116,7 +122,9 @@
   }
 
   .headImg_Pcl7{
-    width: 100px !important;
+    width: auto;
+    max-width: 100px;
+    max-height: 80px;
   }
 
   .SpcAtRigt {
