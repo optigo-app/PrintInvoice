@@ -16,10 +16,6 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [MetShpWise, setMetShpWise] = useState([]);
     const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
     const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
-    const [isImageWorking, setIsImageWorking] = useState(true);
-    const handleImageErrors = () => {
-        setIsImageWorking(false);
-    };
 
     useEffect(() => {
         const sendData = async () => {
@@ -233,27 +229,11 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const brTopLit = {
         borderTop: "0.5px solid #000000",
     };
-    const spSTy = {
-        backgroundColor: "#F1F1F1",
-        fontWeight: "bold",
-    }
     const hdSty = {
         backgroundColor: "#F5F5F5",
     };
     const styBld = {
         fontWeight: "bold",
-    }
-    const txtCen = {
-        textAlign: "center",
-    }
-    const spFnt = {
-        color: "red"
-    }
-    const spbgClr = {
-        backgroundColor: "yellow"
-    }
-    const spBgclr = {
-        backgroundColor: "rgb(253, 199, 174)"
     }
     const totalGrosswt = result?.resultArray?.reduce((acc, obj) => acc + obj.grosswt, 0);
     const totalDiaWeight = result?.resultArray?.map((e) => 
@@ -289,7 +269,35 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <tr>
                                 <td />
                                 <td />
-                                <td colSpan={14}></td>
+                                <td colSpan={14}>
+                                    {result?.header?.customerAddress2 &&
+                                        `${result.header.customerAddress2}`}
+                                    {result?.header?.customerAddress1 &&
+                                        ` ${result.header.customerAddress1}`}
+                                    {result?.header?.customerAddress3 &&
+                                        ` ${result.header.customerAddress3}`}
+                                    {result?.header?.customercity1 &&
+                                        ` ${result.header.customercity1}`}
+                                    {(result?.header?.PinCode !== "" && result.header.customercity1 !== "") && (` - `)}
+                                    {result?.header?.PinCode !== "" && `${result.header.PinCode}`}
+                                    {(result?.header?.customeremail1 !== "" && result.header.PinCode !== "") && (`, `)}
+                                    {result?.header?.customeremail1 && `${result.header.customeremail1}`}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td height={40} style={{ ...styBld, }}>Date</td>
+                                <td style={{ textAlign: "left" }}>{result?.header?.EntryDate}</td>
+                                <td />
+                                <td height={40} style={{ ...styBld, }}>Client</td>
+                                <td colSpan={3} style={{ textAlign: "left" }}>{result?.header?.CompanyFullName}</td>
+                                <td />
+                                <td height={40} style={{ ...styBld, }}>Supplier</td>
+                                <td colSpan={2} />
+                                <td height={40} colSpan={2} style={{ ...styBld, }}>Job Card No.</td>
+                                <td colSpan={2} style={{ textAlign: "left" }}>{result?.header?.InvoiceNo}</td>
+                                <td />
+                                <td height={40} colSpan={2} style={{ ...styBld, }}>Delivery Date</td>
+                                <td colSpan={2} />
                             </tr>
                             <tr>
                                 <th width={40} style={{ ...brRight, ...brTop, ...hdSty }}>Sr.</th>
@@ -336,17 +344,17 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
                             {result?.resultArray?.map((e, i) => {
                                 return <tr key={i}>
-                                    <td width={40} style={{ ...brRight, ...brBotm, ...txtTop }}><div>{i + 1}</div></td>
+                                    <td width={40} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "center" }}><div>{i + 1}</div></td>
 
                                     <td width={180} style={{ ...brRight, ...brBotm, ...txtTop }}>
                                         <div>{e?.Categoryname}</div>
                                     </td>
 
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
+                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
                                         <div>{e?.designno}</div>
                                     </td>
 
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
+                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
                                         <div>{`\u00A0 ${e?.SrJobno}`}</div>
                                     </td>
 
@@ -355,27 +363,27 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 0)?.map((el, id) => (<div key={id}>{fixedValues(el?.Wt,3)}</div>))}
+                                        {<div>{fixedValues(e?.diamonds?.filter((e) => e?.IsCenterStone === 0).reduce((acc, ele) => acc + ele?.Wt, 0), 3)}</div>}
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 0)?.map((el, id) => (<div key={id}>{el?.Pcs}</div>))}
+                                        {<div>{e?.diamonds?.filter((e) => e?.IsCenterStone === 0).reduce((acc, ele) => acc + ele?.Pcs, 0)}</div>}
                                     </td>
 
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 0)?.map((el, id) => (<div key={id}>{el?.QualityName}{`\u00A0`}</div>))}
+                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
+                                        {<div>{e?.diamonds?.filter((e) => e?.IsCenterStone === 0 && e?.QualityName!== "").map((ele) => ele?.QualityName).join(', ')}</div>}
                                     </td>
 
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 0)?.map((el, id) => (<div key={id}>{el?.Colorname}</div>))}
+                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
+                                        {<div>{e?.diamonds?.filter((e) => e?.IsCenterStone === 0 && e?.Colorname !== "").map((ele) => ele?.Colorname).join(', ')}</div>}
                                     </td>
 
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 0)?.map((el, id) => (<div key={id}>{el?.MaterialTypeName}</div>))}
+                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
+                                        {<div>{e?.diamonds?.filter((e) => e?.IsCenterStone === 0 && e?.MaterialTypeName !== "").map((ele) => ele?.MaterialTypeName).join(', ')}</div>}
                                     </td>
 
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 0)?.map((el, id) => (<div key={id}>{el?.ShapeName}</div>))}
+                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
+                                        {<div>{e?.diamonds?.filter((e) => e?.IsCenterStone === 0 && e?.ShapeName !== "").map((ele) => ele?.ShapeName).join(', ')}</div>}
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
@@ -387,19 +395,19 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 1)?.map((el, id) => (<div key={id}>{fixedValues(el?.Wt,3)}</div>))}
+                                        {<div>{fixedValues(e?.diamonds?.filter((e) => e?.IsCenterStone === 1).reduce((acc, ele) => acc + ele?.Wt, 0), 3)}</div>}
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 1)?.map((el, id) => (<div key={id}>{el?.Pcs}</div>))}
+                                        {<div>{e?.diamonds?.filter((e) => e?.IsCenterStone === 1).reduce((acc, ele) => acc + ele?.Pcs, 0)}</div>}
                                     </td>
 
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 1)?.map((el, id) => (<div key={id}>{el?.QualityName}</div>))}
+                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
+                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 1 && e?.QualityName !== "").map((ele) => ele?.QualityName).join(', ')}
                                     </td>
 
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 1)?.map((el, id) => (<div key={id}>{el?.Colorname}</div>))}
+                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
+                                        {<div>{e?.diamonds?.filter((e) => e?.IsCenterStone === 1 && e?.Colorname !== "").map((ele) => ele?.Colorname).join(', ')}</div>}
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}></td>
