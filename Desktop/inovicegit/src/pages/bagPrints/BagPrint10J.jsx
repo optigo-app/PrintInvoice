@@ -430,7 +430,7 @@ const BagPrint10J = ({ queries, headers }) => {
                                     <div key={i} className={`w-100 d-flex ${isLastRow ? '' : 'BrderBtom'}`}>
                                       <div className="Wdth6 d-flex BrderRigtDRK">
                                         <div className="Wdth8 StcMangs2 BrderRigt TrckTxtCntr TxtStart spbrWord">
-                                          {a?.Shapecode}&nbsp;{a?.ColorCode}
+                                          {a?.Shapecode} {a?.ColorCode}
                                         </div>
                                         <div className="Wdth9 StcMangs2 BrderRigt TrckTxtCntr TxtStart spbrWord">
                                           {a?.Sizename}

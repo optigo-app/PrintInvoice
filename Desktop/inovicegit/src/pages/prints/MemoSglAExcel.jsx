@@ -112,52 +112,6 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             }
         });
         
-        console.log("Solitaire Data: ", Solitaire);  // Log Solitaire data to check if the `SrJobno` exists
-
-    // Ensure `resultArray` exists before processing
-    if (!datas?.resultArray) {
-        console.error("resultArray is undefined or missing in the data object.");
-        return;
-    }
-
-    // Log the structure of resultArray
-    console.log("resultArray structure: ", datas?.resultArray);
-
-    // Log each SrJobno in Solitaire to see if it's correct
-    Solitaire.forEach((solitaireItem, index) => {
-        console.log(`Solitaire SrJobno [${index}]: `, solitaireItem?.SrJobno);
-    });
-
-    // Now that we have `Solitaire` filled, we can start adding it to `resultArray`
-    console.log("Processing resultArray...");  // Log the start of processing resultArray
-    datas?.resultArray?.forEach((resultItem) => {
-        // Initialize the `solitaire` array for each result item if it doesn't exist
-        resultItem.solitaire = resultItem.solitaire || [];
-
-        // Log the SrJobno of the current resultItem being processed
-        console.log(`Processing resultItem with SrJobno: ${resultItem?.SrJobno}`);  // Log each result item
-
-        // Compare and log SrJobno from both resultItem and solitaireItem
-        Solitaire.forEach((solitaireItem) => {
-            console.log("Comparing SrJobno in resultItem and solitaireItem: ");
-            console.log("resultItem SrJobno: ", resultItem?.SrJobno, typeof resultItem?.SrJobno);
-            console.log("solitaireItem SrJobno: ", solitaireItem?.SrJobno, typeof solitaireItem?.SrJobno);
-
-            // Ensure SrJobno is compared as string to avoid type mismatch issues
-            if (String(solitaireItem?.SrJobno) === String(resultItem?.SrJobno)) {
-                console.log(`Matching SrJobno found: ${solitaireItem?.SrJobno}`);  // Log when a match is found
-                // Push the matching solitaire item into the result item's `solitaire` array
-                resultItem.solitaire.push(solitaireItem);
-            }
-        });
-
-        // Log the updated resultItem after processing solitaire
-        console.log(`Updated resultItem with SrJobno ${resultItem?.SrJobno}: `, resultItem?.solitaire);
-    });
-
-    // Log the final resultArray to check if it's updated correctly
-    console.log("Updated resultArray with solitaire data: ", datas?.resultArray);
-        
         diaonlyrndarr1.forEach((e) => {
             let findRecord = diaonlyrndarr3.findIndex(
                 (a) =>
@@ -302,8 +256,22 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         backgroundColor: "rgb(253, 199, 174)"
     }
     const totalGrosswt = result?.resultArray?.reduce((acc, obj) => acc + obj.grosswt, 0);
-    const totalNetWt = result?.resultArray?.reduce((acc, obj) => acc + obj.NetWt, 0);
-    const totalqty = result?.resultArray?.reduce((acc, obj) => acc + obj.Quantity, 0);
+    const totalDiaWeight = result?.resultArray?.map((e) => 
+        e?.diamonds?.filter((diamond) => diamond?.IsCenterStone === 0)
+          .reduce((acc, diamond) => acc + (diamond?.Wt || 0), 0)).reduce((acc, weight) => acc + weight, 0);
+    
+   const totalDiaPcs = result?.resultArray?.map((e) => 
+        e?.diamonds?.filter((diamond) => diamond?.IsCenterStone === 0)
+          .reduce((acc, diamond) => acc + (diamond?.Pcs || 0), 0)).reduce((acc, weight) => acc + weight, 0);
+   
+   const totalSolWt = result?.resultArray?.map((e) => 
+        e?.diamonds?.filter((diamond) => diamond?.IsCenterStone === 1)
+          .reduce((acc, diamond) => acc + (diamond?.Wt || 0), 0)).reduce((acc, weight) => acc + weight, 0);
+    
+   const totalSolPcs = result?.resultArray?.map((e) => 
+        e?.diamonds?.filter((diamond) => diamond?.IsCenterStone === 1)
+          .reduce((acc, diamond) => acc + (diamond?.Pcs || 0), 0)).reduce((acc, weight) => acc + weight, 0);
+    
 
     return (
         <>
@@ -387,27 +355,27 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        <div>{fixedValues(e?.totals?.diamonds?.Wt, 3)}</div>
+                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 0)?.map((el, id) => (<div key={id}>{fixedValues(el?.Wt,3)}</div>))}
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        <div>{e?.totals?.diamonds?.Pcs}</div>
+                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 0)?.map((el, id) => (<div key={id}>{el?.Pcs}</div>))}
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {e?.diamonds?.map((el, id) => (<div key={id}>{el?.QualityName}{`\u00A0`}</div>))}
+                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 0)?.map((el, id) => (<div key={id}>{el?.QualityName}{`\u00A0`}</div>))}
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {e?.diamonds?.map((el, id) => (<div key={id}>{el?.Colorname}{`\u00A0`}</div>))}
+                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 0)?.map((el, id) => (<div key={id}>{el?.Colorname}</div>))}
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {e?.diamonds?.map((el, id) => (<div key={id}>{el?.MaterialTypeName}{`\u00A0`}</div>))}
+                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 0)?.map((el, id) => (<div key={id}>{el?.MaterialTypeName}</div>))}
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {e?.diamonds?.map((el, id) => (<div key={id}>{el?.ShapeName}{`\u00A0`}</div>))}
+                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 0)?.map((el, id) => (<div key={id}>{el?.ShapeName}</div>))}
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
@@ -419,116 +387,66 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        <div></div>
+                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 1)?.map((el, id) => (<div key={id}>{fixedValues(el?.Wt,3)}</div>))}
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        <div></div>
+                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 1)?.map((el, id) => (<div key={id}>{el?.Pcs}</div>))}
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        <div></div>
+                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 1)?.map((el, id) => (<div key={id}>{el?.QualityName}</div>))}
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        <div></div>
+                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 1)?.map((el, id) => (<div key={id}>{el?.Colorname}</div>))}
                                     </td>
 
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        <div></div>
-                                    </td>
-
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        <div></div>
-                                    </td>
-
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        <div></div>
-                                    </td>
+                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}></td>
+                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}></td>
+                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}></td>
                                 </tr>
                             })}
 
-                            {/* <tr>
-                                <td width={80} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={80} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}>TOTAL</td>
-                                <td width={80} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}>
-                                    {totalqty}
+                            <tr>
+                                <td width={40} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
+                                <td width={180} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
+                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
+                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
+
+                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}>
+                                    <div>{totalGrosswt?.toFixed(3)}</div>
                                 </td>
-                                <td width={120} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={140} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}>
-                                    {totalGrosswt?.toFixed(3)}
+
+                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}>
+                                    {totalDiaWeight?.toFixed(3)}
                                 </td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}>
-                                    {totalNetWt?.toFixed(3)}
+
+                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}>
+                                    {totalDiaPcs}
                                 </td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}>
-                                    {formatAmount(result?.mainTotal?.metal?.IsPrimaryMetal_Amount)}
+
+                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
+                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
+                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
+                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
+                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
+                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
+
+                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}>
+                                    {totalSolWt?.toFixed(3)}
                                 </td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}>
-                                    { (result?.mainTotal?.diamonds?.Pcs) + (result?.mainTotal?.colorstone?.Pcs) + (result?.mainTotal?.misc?.Pcs) }
+
+                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}>
+                                    {totalSolPcs}
                                 </td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}>
-                                    {fixedValues( (result?.mainTotal?.diamonds?.Wt) + (result?.mainTotal?.colorstone?.Wt) + (result?.mainTotal?.misc?.Wt),3 )}
-                                </td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}>
-                                    {formatAmount( (result?.mainTotal?.diamonds?.Amount) + (result?.mainTotal?.colorstone?.Amount) + (result?.mainTotal?.misc?.Amount) )}
-                                </td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}>
-                                    {formatAmount( (result?.mainTotal?.diamonds?.Amount) + (result?.mainTotal?.colorstone?.Amount) + (result?.mainTotal?.misc?.Amount) )}
-                                </td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}>
-                                    {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
-                                </td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}>
-                                    {result?.mainTotal?.diamonds?.Pcs}
-                                </td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}>
-                                    { (result?.mainTotal?.colorstone?.Wt) + (result?.mainTotal?.misc?.Wt) }
-                                </td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}>
-                                    { (result?.mainTotal?.colorstone?.Pcs) + (result?.mainTotal?.misc?.Pcs) }
-                                </td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}>
-                                    {result?.mainTotal?.total_labour?.labour_amount}
-                                </td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}>
-                                    {formatAmount( (result?.finalAmount) - (result?.allTaxesTotal) )}
-                                </td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk, ...spBgclr }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk }}></td>
-                                <td width={100} style={{ ...txtCen, ...spFnt, ...styBld, ...brTop, ...brBotmdrk, ...brRight }}></td>
-                            </tr> */}
+
+                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
+                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
+                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
+                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
+                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
+                            </tr>
                         </tbody>
                     </table>
                 </>
