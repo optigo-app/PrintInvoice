@@ -385,7 +385,7 @@ const BagPrint10J = ({ queries, headers }) => {
                             {/* Instuction */}
                             <div className="w-100 Higt0 BrderBtomDRK FntSize0 SpacLft0 SpacLft1">
                               <div className="d-flex FntSize2">
-                                <div className="fw-bold spbrWord">INSTRUCTION :&nbsp;{e?.data?.rd?.QuoteRemark?.slice(0, 149)}</div>
+                                <div className="fw-bold spbrWord">INSTRUCTION :&nbsp;{e?.data?.rd?.QuoteRemark?.slice(0, 174)}</div>
                               </div>
                             </div>
 
