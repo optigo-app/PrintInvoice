@@ -196,6 +196,11 @@ html {
     font-size: 11px !important;
 }
 
+.fsgdp10_pcl7_3{
+    font-size: 14px;
+    line-height: 15px;
+}
+
 @media print{
     .packinhList1_top_line{
         font-size: 9px !important;

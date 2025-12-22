@@ -74,6 +74,10 @@ const PackingList1S = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   };
 
   const loadData = (data) => {
+
+    let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
+    data.BillPrint_Json[0].address = address;
+
     let exchangerate = data?.BillPrint_Json[0]?.CurrencyExchRate;
     setJson0Data(data?.BillPrint_Json[0]);
     let newArr = [];
@@ -475,16 +479,6 @@ const PackingList1S = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     }, []);
   };
 
-  function PrintableText({ json0Data }) {
-    const htmlContent = json0Data?.Printlable?.replace(/\n/g, '<br />');
-  
-    return (
-      <div
-        dangerouslySetInnerHTML={{ __html: htmlContent }}
-      />
-    );
-  }
-
   function extractTextFromHTML(htmlString) {
     const tempDiv = document.createElement("div");
     tempDiv.innerHTML = htmlString;
@@ -554,46 +548,48 @@ const PackingList1S = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               {json0Data?.PrintHeadLabel === "" ? "PACKING LIST" : json0Data?.PrintHeadLabel}
             </div>
 
-            {/* comapny header */}
+            {/* Comapny Header */}
             <div className={`px-1 ${style?.spbrWord} ${style?.com_fs_pcl3} ${style?.mainHeadWD}`}>
                 <div className={`justify-content-start ${style?.spbrWord} ${style?.fs_14_pcls}`}>
                   <div className={`${style?.fs_16_pcls} fw-bold py-1 ${style?.spbrWord}`}>
                     {json0Data?.CompanyFullName}
                   </div>
                   <div>
-                          <span>{json0Data?.CompanyAddress}</span>
-                          <span>{json0Data?.CompanyAddress2}</span>{" "}
-                          {json0Data?.CompanyCity}{" "}
-                          {json0Data?.CompanyCity}-
-                          {json0Data?.CompanyPinCode},{" "}
-                          {json0Data?.CompanyState}(
-                          {json0Data?.CompanyCountry}){" "}
-                        </div>
-                        {/* <div>{json0Data?.CompanyAddress2}</div> */}
-                        {/* <div>{json0Data?.CompanyCity}</div> */}
-                        <div>
-                          <span>T {json0Data?.CompanyTellNo}</span>{" "}
-                          <span>
-                            {json0Data?.CompanyEmail} |{" "}
-                            {json0Data?.CompanyWebsite} | {" "}
-                          </span>
-                          {json0Data?.Company_VAT_GST_No} |{" "}
-                          {json0Data?.Company_CST_STATE}-
-                          {json0Data?.Company_CST_STATE_No} | PAN-
-                          {json0Data?.Pannumber}
-                        </div>
-                        {/* <div>T {json0Data?.CompanyTellNo}</div> */}
-                        {/* <div>
-                          {json0Data?.CompanyEmail} |{" "}
-                          {json0Data?.CompanyWebsite}
-                        </div> */}
-                        <div>
-                          {/* {json0Data?.Company_VAT_GST_No} |{" "}
-                          {json0Data?.Company_CST_STATE}-
-                          {json0Data?.Company_CST_STATE_No} | PAN-
-                          {json0Data?.Pannumber} */}
-                        </div>
+                    <span>{json0Data?.CompanyAddress !== "" && `${json0Data?.CompanyAddress}`}</span>
+                    <span>{json0Data?.CompanyAddress2 !== "" && `${json0Data?.CompanyAddress2}`}</span>{" "}
+                    {json0Data?.CompanyCity}{" "}
+                    {json0Data?.CompanyCity}
+                    {json0Data?.CompanyPinCode !== "" && `- ${json0Data?.CompanyPinCode}`}{" "}
+                    {json0Data?.CompanyState !== "" && `, ${json0Data?.CompanyState}`}(
+                    {json0Data?.CompanyCountry}){" "}
+                  </div>
+                  {/* <div>{json0Data?.CompanyAddress2}</div> */}
+                  {/* <div>{json0Data?.CompanyCity}</div> */}
+                  <div>
+                    <span>{json0Data?.CompanyTellNo !== "" && `T : ${json0Data?.CompanyTellNo}`}</span>{" "}
+                    <span>
+                      {json0Data?.CompanyEmail !== "" && `${json0Data?.CompanyEmail}`}{" "}
+                      {json0Data?.CompanyWebsite !== "" && `| ${json0Data?.CompanyWebsite}`}{" "}
+                    </span>
+                      {json0Data?.Company_VAT_GST_No !== "" && `| ${json0Data?.Company_VAT_GST_No}`}{" "}
+                      {json0Data?.Company_CST_STATE !== "" && `| ${json0Data?.Company_CST_STATE}`}
+                      {json0Data?.Company_CST_STATE_No !== "" && `-${json0Data?.Company_CST_STATE_No}`}
+                      {json0Data?.Pannumber !== "" && ` | PAN- ${json0Data?.Pannumber}`}
+                  </div>
+                  {/* <div>T {json0Data?.CompanyTellNo}</div> */}
+                  {/* <div>
+                    {json0Data?.CompanyEmail} |{" "}
+                    {json0Data?.CompanyWebsite}
+                  </div> */}
+                  <div>
+                    {/* {json0Data?.Company_VAT_GST_No} |{" "}
+                    {json0Data?.Company_CST_STATE}-
+                    {json0Data?.Company_CST_STATE_No} | PAN-
+                    {json0Data?.Pannumber} */}
+                  </div>
                 </div>
+
+                {/* Company Logo */}
                 {json0Data?.PrintLogo !== "" && (
                   <img
                     src={json0Data?.PrintLogo}
@@ -609,47 +605,53 @@ const PackingList1S = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
             {/* customer header */}
             <div className={`d-flex mt-1 mb-1 ${style?.brall_pcls} ${style?.spbrWord}`}>
+              <div className={`${style?.bright_pcls} p-1 ${style?.com_fs_pcl3}`} style={{ width: "35%" }}>
+                <div>{json0Data?.lblBillTo}</div>
                 <div
-                  className={`${style?.bright_pcls} p-1 ${style?.com_fs_pcl3}`}
-                  style={{ width: "35%" }}
+                  className={`px-1 ${style?.fsgdp10_pcl7_3}`}
+                  style={{ whiteSpace: "normal", wordBreak: "break-word" }}
                 >
-                  <div>{json0Data?.lblBillTo}</div>
-                  <div className={`${style?.fs_14_pcls} fw-bold`}>
-                    {json0Data?.customerfirmname}
+                  <b className={`${style?.fs_14_pcls}`}>{json0Data?.customerfirmname}</b>
+                    {json0Data?.customerAddress2 &&
+                      `, ${json0Data.customerAddress2}`}
+                    {json0Data?.customerAddress1 &&
+                      ` ${json0Data.customerAddress1}`}
+                    {json0Data?.customerAddress3 &&
+                      ` ${json0Data.customerAddress3}`}
+                    {json0Data?.customercity1 &&
+                      ` ${json0Data.customercity1}`}
+                    {json0Data?.PinCode && ` - ${json0Data.PinCode}`}
                   </div>
-                  <div>{json0Data?.customerAddress2}</div>
-                  <div>{json0Data?.customerAddress1}</div>
-                  <div>
-                    {json0Data?.customercity1}
-                    {json0Data?.customerpincode}
-                  </div>
-                  <div>{json0Data?.customeremail1}</div>
-                  <div>{json0Data?.vat_cst_pan}</div>
-                  <div>
+                  <div className="px-1">
+                    {json0Data?.customeremail1}{" "}
+                    {json0Data?.vat_cst_pan}
                     {json0Data?.Cust_CST_STATE}-
                     {json0Data?.Cust_CST_STATE_No}
                   </div>
+              </div>
+              <div className={`${style?.bright_pcls} p-1 ${style?.com_fs_pcl3}`} style={{ width: "35%" }}>
+                <div>Ship To,</div>
+                <div className={`px-1 ${style?.fsgdp10_pcl7_3}`}>
+                  <b className={`${style?.fs_14_pcls}`}>{json0Data?.customerfirmname}</b>
+                    {json0Data?.address?.map((e, i) => {
+                      return (
+                        <div key={i}>
+                          {e}
+                        </div>
+                      );
+                    })}
                 </div>
-                <div
-                  className={`${style?.bright_pcls} p-1 ${style?.com_fs_pcl3}`}
-                  style={{ width: "35%" }}
-                >
-                  <div>Ship To,</div>
-                  <div className={`${style?.fs_14_pcls} fw-bold`}>
-                    {json0Data?.customerfirmname}
-                  </div>
-                    {json0Data?.Printlable !== "" && ( <div><PrintableText json0Data={json0Data} /></div> )}
-                  </div>
-                <div className={`p-1 ${style?.com_fs_pcl3}`} style={{ width: "30%" }}>
-                  <div className={`d-flex align-items-center`}>
-                    <div className={`fw-bold ${style?.billbox_pcls}`}>INVOICE NO </div>
-                    <div>{json0Data?.InvoiceNo}</div>
-                  </div>
-                  <div className={`d-flex align-items-center`}>
-                    <div className={`fw-bold ${style?.billbox_pcls}`}>DATE </div>
-                    <div>{json0Data?.EntryDate}</div>
-                  </div>
+              </div>
+              <div className={`p-1 ${style?.com_fs_pcl3}`} style={{ width: "30%" }}>
+                <div className={`d-flex align-items-center`}>
+                  <div className={`fw-bold ${style?.billbox_pcls}`}>INVOICE NO </div>
+                  <div>{json0Data?.InvoiceNo}</div>
                 </div>
+                <div className={`d-flex align-items-center`}>
+                  <div className={`fw-bold ${style?.billbox_pcls}`}>DATE </div>
+                  <div>{json0Data?.EntryDate}</div>
+                </div>
+              </div>
             </div>
 
             {/* Table Header */}
@@ -1596,9 +1598,7 @@ const PackingList1S = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               })}
 
             {/* Final Total Row */}
-            <div
-              className={`border-start ${style?.pbia_pcl3} border-end border-grey no_break ${style?.rowWisePad} ${style?.word_break}`}
-            >
+            <div className={`border-start ${style?.pbia_pcl3} border-end border-grey no_break ${style?.rowWisePad} ${style?.word_break}`}>
               <div className={`d-flex border-bottom lightGrey ${data?.find((e) => e?.DiscountAmt === 0) ? "border-top" : ""}`}>
                 <div
                   className={`${style?.pad_1} fw-bold ${style?.total} text-center border-end d-flex align-items-center justify-content-center`}
@@ -1787,9 +1787,7 @@ const PackingList1S = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             </div>
 
             {/* Taxes & Total */}
-            <div
-              className={`${style?.pbia_pcl3} d-flex border-start border-end border-bottom border-grey no_break ${style?.rowWisePad} ${style?.word_break}`}
-            >
+            <div className={`${style?.pbia_pcl3} d-flex border-start border-end border-bottom border-grey no_break ${style?.rowWisePad} ${style?.word_break}`}>
               <div className={`${style?.pad_1}  ${style?.discount} text-end `}>
                 <p className="">Total Discount</p>
                 {taxes?.map((e, i) => {
