@@ -560,25 +560,39 @@ const PackingList1S = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   <div className={`${style?.fs_16_pcls} fw-bold py-1 ${style?.spbrWord}`}>
                     {json0Data?.CompanyFullName}
                   </div>
-                  <div>{json0Data?.CompanyAddress}</div>
-                  <div>{json0Data?.CompanyAddress2}</div>
                   <div>
-                    {json0Data?.CompanyCity}-
-                    {json0Data?.CompanyPinCode},
-                    {json0Data?.CompanyState}(
-                    {json0Data?.CompanyCountry})
-                  </div>
-                  <div>T {json0Data?.CompanyTellNo}</div>
-                  <div>
-                    {json0Data?.CompanyEmail} | +
-                    {json0Data?.CompanyWebsite}
-                  </div>
-                  <div>
-                    {json0Data?.Company_VAT_GST_No} |{" "}
-                    {json0Data?.Company_CST_STATE} -{" "}
-                    {json0Data?.Company_CST_STATE_No} | PAN -{" "}
-                    {json0Data?.Com_pannumber}
-                  </div>
+                          <span>{json0Data?.CompanyAddress}</span>
+                          <span>{json0Data?.CompanyAddress2}</span>{" "}
+                          {json0Data?.CompanyCity}{" "}
+                          {json0Data?.CompanyCity}-
+                          {json0Data?.CompanyPinCode},{" "}
+                          {json0Data?.CompanyState}(
+                          {json0Data?.CompanyCountry}){" "}
+                        </div>
+                        {/* <div>{json0Data?.CompanyAddress2}</div> */}
+                        {/* <div>{json0Data?.CompanyCity}</div> */}
+                        <div>
+                          <span>T {json0Data?.CompanyTellNo}</span>{" "}
+                          <span>
+                            {json0Data?.CompanyEmail} |{" "}
+                            {json0Data?.CompanyWebsite} | {" "}
+                          </span>
+                          {json0Data?.Company_VAT_GST_No} |{" "}
+                          {json0Data?.Company_CST_STATE}-
+                          {json0Data?.Company_CST_STATE_No} | PAN-
+                          {json0Data?.Pannumber}
+                        </div>
+                        {/* <div>T {json0Data?.CompanyTellNo}</div> */}
+                        {/* <div>
+                          {json0Data?.CompanyEmail} |{" "}
+                          {json0Data?.CompanyWebsite}
+                        </div> */}
+                        <div>
+                          {/* {json0Data?.Company_VAT_GST_No} |{" "}
+                          {json0Data?.Company_CST_STATE}-
+                          {json0Data?.Company_CST_STATE_No} | PAN-
+                          {json0Data?.Pannumber} */}
+                        </div>
                 </div>
                 {json0Data?.PrintLogo !== "" && (
                   <img
