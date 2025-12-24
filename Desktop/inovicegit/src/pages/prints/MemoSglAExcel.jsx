@@ -215,19 +215,19 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         verticalAlign: "top",
     };
     const brRight = {
-        borderRight: "0.5px solid #000000",
+        borderRight: "2px solid #000000",
     };
     const brBotm = {
-        borderBottom: "0.5px solid #000000",
+        borderBottom: "2px solid #000000",
     };
     const brBotmdrk = {
-        borderBottom: "1px solid #000000",
+        borderBottom: "2px solid #000000",
     };
     const brTop = {
-        borderTop: "1px solid #000000",
+        borderTop: "2px solid #000000",
     };
     const brTopLit = {
-        borderTop: "0.5px solid #000000",
+        borderTop: "1px solid #000000",
     };
     const hdSty = {
         backgroundColor: "#F5F5F5",
@@ -371,19 +371,51 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
-                                        {<div>{e?.diamonds?.filter((e) => e?.IsCenterStone === 0 && e?.QualityName!== "").map((ele) => ele?.QualityName).join(', ')}</div>}
+                                        <div>
+                                            {[
+                                                ...new Set(
+                                                e?.diamonds
+                                                    .filter(d => d.QualityName && d.IsCenterStone !== 1)
+                                                    .map(d => d.QualityName)
+                                                )
+                                            ].join(', ')}
+                                        </div>
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
-                                        {<div>{e?.diamonds?.filter((e) => e?.IsCenterStone === 0 && e?.Colorname !== "").map((ele) => ele?.Colorname).join(', ')}</div>}
+                                        <div>
+                                            {[
+                                                ...new Set(
+                                                e?.diamonds
+                                                    .filter(d => d.Colorname && d.IsCenterStone !== 1)
+                                                    .map(d => d.Colorname)
+                                                )
+                                            ].join(', ')}
+                                        </div>
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
-                                        {<div>{e?.diamonds?.filter((e) => e?.IsCenterStone === 0 && e?.MaterialTypeName !== "").map((ele) => ele?.MaterialTypeName).join(', ')}</div>}
+                                        <div>
+                                            {[
+                                                ...new Set(
+                                                e?.diamonds
+                                                    .filter(d => d.MaterialTypeName && d.IsCenterStone !== 1)
+                                                    .map(d => d.MaterialTypeName)
+                                                )
+                                            ].join(', ')}
+                                        </div>
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
-                                        {<div>{e?.diamonds?.filter((e) => e?.IsCenterStone === 0 && e?.ShapeName !== "").map((ele) => ele?.ShapeName).join(', ')}</div>}
+                                        <div>
+                                            {[
+                                                ...new Set(
+                                                e?.diamonds
+                                                    .filter(d => d.ShapeName && d.IsCenterStone !== 1)
+                                                    .map(d => d.ShapeName)
+                                                )
+                                            ].join(', ')}
+                                        </div>
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
@@ -403,11 +435,27 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
-                                        {e?.diamonds?.filter((e) => e?.IsCenterStone === 1 && e?.QualityName !== "").map((ele) => ele?.QualityName).join(', ')}
+                                        <div>
+                                            {[
+                                                ...new Set(
+                                                e?.diamonds
+                                                    .filter(d => d.QualityName && d.IsCenterStone === 1)
+                                                    .map(d => d.QualityName)
+                                                )
+                                            ].join(', ')}
+                                        </div>
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
-                                        {<div>{e?.diamonds?.filter((e) => e?.IsCenterStone === 1 && e?.Colorname !== "").map((ele) => ele?.Colorname).join(', ')}</div>}
+                                        <div>
+                                            {[
+                                                ...new Set(
+                                                e?.diamonds
+                                                    .filter(d => d.Colorname && d.IsCenterStone === 1)
+                                                    .map(d => d.Colorname)
+                                                )
+                                            ].join(', ')}
+                                        </div>
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}></td>
