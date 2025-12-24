@@ -572,20 +572,9 @@ const PackingList1S = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       {json0Data?.CompanyWebsite !== "" && `| ${json0Data?.CompanyWebsite}`}{" "}
                     </span>
                       {json0Data?.Company_VAT_GST_No !== "" && `| ${json0Data?.Company_VAT_GST_No}`}{" "}
-                      {json0Data?.Company_CST_STATE !== "" && `| ${json0Data?.Company_CST_STATE}`}
+                      {json0Data?.Company_CST_STATE_No !== "" && `| ${json0Data?.Company_CST_STATE}`}
                       {json0Data?.Company_CST_STATE_No !== "" && `-${json0Data?.Company_CST_STATE_No}`}
                       {json0Data?.Pannumber !== "" && ` | PAN- ${json0Data?.Pannumber}`}
-                  </div>
-                  {/* <div>T {json0Data?.CompanyTellNo}</div> */}
-                  {/* <div>
-                    {json0Data?.CompanyEmail} |{" "}
-                    {json0Data?.CompanyWebsite}
-                  </div> */}
-                  <div>
-                    {/* {json0Data?.Company_VAT_GST_No} |{" "}
-                    {json0Data?.Company_CST_STATE}-
-                    {json0Data?.Company_CST_STATE_No} | PAN-
-                    {json0Data?.Pannumber} */}
                   </div>
                 </div>
 
@@ -623,10 +612,10 @@ const PackingList1S = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {json0Data?.PinCode && ` - ${json0Data.PinCode}`}
                   </div>
                   <div className="px-1">
-                    {json0Data?.customeremail1}{" "}
-                    {json0Data?.vat_cst_pan}
-                    {json0Data?.Cust_CST_STATE}-
-                    {json0Data?.Cust_CST_STATE_No}
+                    {json0Data?.customeremail1 !== "" && json0Data?.customeremail1}&nbsp;
+                    {json0Data?.vat_cst_pan !== " " && json0Data?.vat_cst_pan} 
+                    {json0Data?.Cust_CST_STATE_No !== "" && `${json0Data?.Cust_CST_STATE}`}
+                    {json0Data?.Cust_CST_STATE_No !== "" && `- ${json0Data?.Cust_CST_STATE_No}`}
                   </div>
               </div>
               <div className={`${style?.bright_pcls} p-1 ${style?.com_fs_pcl3}`} style={{ width: "35%" }}>
