@@ -1,3 +1,7 @@
+html {
+    scrollbar-gutter: stable;
+}
+
 .containerDetailPrint1 {
     max-width: 1200px !important;
     padding: 0 5px !important;
@@ -249,8 +253,18 @@
     line-height: 11px !important;
 }
 
+.FntLnHit {
+    line-height: 15px !important;
+}
+
 .SpacAtTp {
     padding-top: 3px;
+}
+
+.spbrWord {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 @media print {
@@ -297,6 +311,16 @@
     .Fntdt * {
         font-size: 8px !important;
         line-height: 9px !important;
+    }
+
+    .FntLnHit {
+        line-height: 11px !important;
+    }
+
+    .spbrWord {
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        word-wrap: break-word !important;
     }
 }
 

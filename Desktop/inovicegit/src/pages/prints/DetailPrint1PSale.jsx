@@ -544,7 +544,10 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
 
   calculatedData.push(other);
 
-  console.log('finalDfinalD', finalD);
+  // console.log('finalDfinalD', finalD);
+  // console.log('json0Data', json0Data);
+  // console.log('address', address);
+  console.log('total', total);
 
   return (
     <>
@@ -583,7 +586,7 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
             </div>
 
             {/* Company Details */}
-            <div className="d-flex align-items-center pb-2 border-bottom  recordDetailPrint1">
+            <div className="d-flex align-items-center pb-2 border-bottom recordDetailPrint1">
               <div className="col-6">
                 <h2 className="fw-bold detailPrint1L_font_16 pb-1">{json0Data?.CompanyFullName}</h2>
                 {json0Data?.CompanyAddress !== "" && (<p className="lhDetailPrint1 pb-1">{json0Data?.CompanyAddress}</p>)}
@@ -611,7 +614,7 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
             </div>
 
             {/* Customer Details */}
-            <div className="d-flex border-start border-end  border-bottom mb-1 recordDetailPrint1">
+            <div className="d-flex border-start border-end border-bottom mb-1 recordDetailPrint1">
               <div className="col-4 border-end  p-1">
                 <p className="lhDetailPrint1">{json0Data?.lblBillTo}</p>
                 <p className="lhDetailPrint1 fw-bold detailPrint1L_font_14">
@@ -620,22 +623,32 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                 {json0Data?.customerAddress2 !== "" && (<p className="lhDetailPrint1 pb-1">{json0Data?.customerAddress2}</p>)}
                 {json0Data?.customerAddress1 !== "" && (<p className="lhDetailPrint1 pb-1">{json0Data?.customerAddress1}</p>)}
                 {json0Data?.customerAddress3 !== "" && (<p className="lhDetailPrint1 pb-1">{json0Data?.customerAddress3}</p>)}
-                <p className="lhDetailPrint1 pb-1">
-                  {json0Data?.customercity}
-                  {json0Data?.customerpincode}
-                </p>
+                {(json0Data?.customercity1 !== "" || json0Data?.PinCode !== "") && (
+                  <p className="lhDetailPrint1 pb-1">
+                      {json0Data?.customercity1 && ` ${json0Data.customercity1}`}
+                    {json0Data?.PinCode && ` - ${json0Data.PinCode}`}
+                  </p>
+                )}
                 {json0Data?.customeremail1 !== "" && (<p className="lhDetailPrint1 pb-1">{json0Data?.customeremail1}</p>)}
                 {json0Data?.vat_cst_pan !== "" && (<p className="lhDetailPrint1 pb-1">{json0Data?.vat_cst_pan}</p>)}
                 {json0Data?.Cust_CST_STATE_No !== "" && (<p className="lhDetailPrint1 pb-1">
                   {json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No}
                 </p>)}
               </div>
-              <div className="col-4 border-end  p-1">
+              <div className="col-4 border-end p-1">
                 <p className="lhDetailPrint1">Ship To,</p>
                 <p className="lhDetailPrint1 fw-bold detailPrint1L_font_14">
                   {json0Data?.customerfirmname}
                 </p>
-                {json0Data?.CustName !== "" && (<p className="lhDetailPrint1 pb-1">{json0Data?.CustName}</p>)}
+                {address?.map((e, i) => {
+                  return (
+                    <p key={i} className="FntLnHit pb-1 spbrWord">
+                      {e}
+                    </p>
+                  );
+                })}
+
+                {/* {json0Data?.CustName !== "" && (<p className="lhDetailPrint1 pb-1">{json0Data?.CustName}</p>)}
                 {json0Data?.customerstreet !== "" && (<p className="lhDetailPrint1 pb-1">{json0Data?.customerstreet}</p>)}
                 <p className="lhDetailPrint1 pb-1">
                   {json0Data?.customercity} {json0Data?.State}
@@ -645,7 +658,7 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                 </p>
                 <p className="lhDetailPrint1 pb-1">
                   {json0Data?.customermobileno !== "" && ( `Mobile No : ${json0Data?.customermobileno}` )}
-                </p>
+                </p> */}
               </div>
               <div className="col-4 p-1 ps-2">
                 {json0Data?.InvoiceNo !== "" && (
@@ -875,7 +888,7 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                                   key={ind}
                                 >
                                   <p className="WdthCod paddingRightDetailPrint1 text-break">
-                                    {ele?.ShapeName} {ele?.QualityName}{" "}
+                                    {ele?.MaterialTypeName !== "" && ele?.MaterialTypeName} {ele?.ShapeName} {ele?.QualityName}{" "}
                                     {ele?.Colorname}
                                   </p>
                                   <p className="WdthSiz text-center paddingRightDetailPrint1 text-break">
@@ -976,7 +989,7 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                               return (
                                 <div className={`d-flex`} key={ind}>
                                   <p className="WdthCod paddingRightDetailPrint1 text-break">
-                                    {ele?.ShapeName} {ele?.QualityName}{" "}
+                                    {ele?.MaterialTypeName !== "" && ele?.MaterialTypeName} {ele?.ShapeName} {ele?.QualityName}{" "}
                                     {ele?.Colorname}
                                   </p>
                                   <p className="WdthSiz text-center paddingRightDetailPrint1 text-break">
@@ -1192,7 +1205,7 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
             {/* Taxes & Totals */}
             <div className="d-flex w-100 border-bottom  border-start recordDetailPrint1 detailPrint1L_font_11">
               <div className="cgstDetailPrint1 text-end border-end  paddingLeftDetailPrint1 paddingRightDetailPrint1 py-1">
-                <p className="">Total Discount</p>
+                {total?.discountTotalAmount !== 0 && (<p className="">Total Discount</p>)}
                 {json0Data?.Privilege_discount !== 0 && (
                   <p className="">Privilege Card Discount</p>
                 )}
@@ -1209,7 +1222,7 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                 )}
               </div>
               <div className="cgstTotalDetailPrint1 text-end border-end  paddingLeftDetailPrint1 paddingRightDetailPrint1 py-1">
-                <p>{(total?.discountTotalAmount).toFixed(2)}</p>
+                {total?.discountTotalAmount !== 0 && (<p>{(total?.discountTotalAmount).toFixed(2)}</p>)}
                 {json0Data?.Privilege_discount !== 0 && (
                   <p>- {json0Data?.Privilege_discount}</p>
                 )}
