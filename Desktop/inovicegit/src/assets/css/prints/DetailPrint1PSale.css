@@ -253,6 +253,11 @@ html {
     line-height: 11px !important;
 }
 
+.FntdtInst * {
+    font-size: 12px !important;
+    line-height: 14px !important;
+}
+
 .FntLnHit {
     line-height: 15px !important;
 }
@@ -261,10 +266,31 @@ html {
     padding-top: 3px;
 }
 
+.SpacForInst {
+    padding-top: 2px;
+    padding-left: 4px;
+    padding-bottom: 2px;
+}
+
+.FntForInst {
+    font-size: 14px;
+    line-height: 15px;
+}
+
+.SpacForInstExt {
+    padding-left: 3px;
+}
+
 .spbrWord {
     word-break: break-word;
     overflow-wrap: break-word;
     word-wrap: break-word;
+}
+
+.SpBrders {
+    border-right: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+    border-left: 1px solid #f0f0f0;
 }
 
 @media print {
@@ -321,6 +347,30 @@ html {
         word-break: break-word !important;
         overflow-wrap: break-word !important;
         word-wrap: break-word !important;
+    }
+
+    .SpacForInst {
+        padding-top: 1px;
+        padding-left: 2px;
+        padding-bottom: 1px;
+    }
+    
+    .SpacForInstExt {
+        padding-left: 0px;
+    }
+
+    .FntForInst {
+        font-size: 12px;
+        line-height: 13px;
+    }
+
+    .FntdtInst * {
+        font-size: 10px !important;
+        line-height: 11px !important;
+    }
+
+    .createdByDetailPrint1 {
+        min-height: 96px;
     }
 }
 
