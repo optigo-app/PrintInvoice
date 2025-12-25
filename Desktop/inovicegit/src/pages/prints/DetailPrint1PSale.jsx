@@ -851,16 +851,6 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                               {NumberWithCommas(e?.Tunch, 3)}
                             </span>
                           </p>
-
-                          {
-                            e?.CertificateNo !== '' && <p className="text-center">
-                              Cert#{" "}
-                              <span className="fw-bold">
-                                {e?.CertificateNo}
-                              </span>
-                            </p>
-                          }
-
                           <p className="text-center">
                             Gross Wt:{" "}
                             <span className="fw-bold">
