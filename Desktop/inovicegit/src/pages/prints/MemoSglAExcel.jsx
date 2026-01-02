@@ -287,7 +287,7 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <tr>
                                 <td height={40} style={{ ...styBld, }}>Date</td>
                                 <td style={{ textAlign: "left" }}>{result?.header?.EntryDate}</td>
-                                <td />
+                                
                                 <td height={40} style={{ ...styBld, }}>Client</td>
                                 <td colSpan={3} style={{ textAlign: "left" }}>{result?.header?.CompanyFullName}</td>
                                 <td />
@@ -302,7 +302,6 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <tr>
                                 <th width={40} style={{ ...brRight, ...brTop, ...hdSty }}>Sr.</th>
                                 <th width={180} style={{ ...brRight, ...brTop, ...hdSty }}>Product</th>
-                                <th width={80} style={{ ...brRight, ...brTop, ...hdSty }}>Style</th>
                                 <th width={80} style={{ ...brRight, ...brTop, ...hdSty }}>Customer</th>
                                 <th width={80} style={{ ...brRight, ...brTop, ...hdSty }}>Gross</th>
                                 <th width={80} style={{ ...brRight, ...brTop, ...hdSty }}>Dia</th>
@@ -322,7 +321,6 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <tr>
                                 <th width={40} style={{ ...brRight, ...brBotmdrk, ...hdSty }}></th>
                                 <th width={180} style={{ ...brRight, ...brBotmdrk, ...hdSty }}></th>
-                                <th width={80} style={{ ...brRight, ...brBotmdrk, ...hdSty }}>No.</th>
                                 <th width={80} style={{ ...brRight, ...brBotmdrk, ...hdSty }}>ID</th>
                                 <th width={80} style={{ ...brRight, ...brBotmdrk, ...hdSty }}>Wt.</th>
                                 <th width={80} style={{ ...brRight, ...brBotmdrk, ...hdSty }}>Wt.</th>
@@ -351,11 +349,7 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
-                                        <div>{e?.designno}</div>
-                                    </td>
-
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
-                                        <div>{`\u00A0 ${e?.SrJobno}`}</div>
+                                        <div>{e?.designno} {`\u00A0 ${e?.SrJobno}`}</div>
                                     </td>
 
                                     <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
@@ -467,7 +461,6 @@ const InvoiceExcelO = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <tr>
                                 <td width={40} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
                                 <td width={180} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
-                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
                                 <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
 
                                 <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}>
