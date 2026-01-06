@@ -458,6 +458,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           if(finalArr[find_record]?.GroupJob !== finalArr[find_record]?.SrJobno){
               finalArr[find_record].designno = b?.designno;
               finalArr[find_record].HUID = b?.HUID; 
+              finalArr[find_record].DesignImage = b?.DesignImage;
           }
           finalArr[find_record].grosswt += b?.grosswt;
           finalArr[find_record].NetWt += b?.NetWt;
