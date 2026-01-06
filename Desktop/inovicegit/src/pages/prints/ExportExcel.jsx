@@ -7,7 +7,7 @@ import { apiCall, checkMsg, fixedValues, formatAmount, handleImageError, isObjec
 import Loader from '../../components/Loader';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import { MetalShapeNameWiseArr } from '../../GlobalFunctions/MetalShapeNameWiseArr';
-import { fontFamily } from '@mui/system';
+import { fontFamily, fontSize } from '@mui/system';
 
 const ExportExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [result, setResult] = useState(null);
@@ -212,11 +212,63 @@ const ExportExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         }
       });
       
-    //   datas?.resultArray?.map((e) => {
-    //     e?.diamonds?.map((el) => {
-    //         el?.ShapeName
-    //     })
-    //   })
+        datas.resultArray = datas.resultArray.map((e) => {
+            let groupedDiamonds = [];
+        
+            e.diamonds.forEach((diamond) => {
+                let found = groupedDiamonds.findIndex(
+                    (d) =>
+                        d?.ShapeName === diamond?.ShapeName &&
+                        d?.QualityName === diamond?.QualityName &&
+                        d?.Colorname === diamond?.Colorname
+                );
+
+                if (found === -1) {
+                    groupedDiamonds.push({ ...diamond, count: 1, });
+                } else {
+                    groupedDiamonds[found].Wt += diamond?.Wt;
+                    groupedDiamonds[found].Pcs += diamond?.Pcs;
+                    // groupedDiamonds[found].Rate += diamond?.Rate;
+                    groupedDiamonds[found].Amount += diamond?.Amount;
+
+                    const totalRate = groupedDiamonds[found].Rate + diamond?.Rate;
+                    const count = groupedDiamonds[found].count + 1;
+                    groupedDiamonds[found].Rate = totalRate / count;
+                    groupedDiamonds[found].count += 1;
+                }
+            });
+
+            e.diamonds = groupedDiamonds; 
+            return e;
+        });
+
+        datas.resultArray = datas.resultArray.map((e) => {
+            let groupedcolorstone = [];
+        
+            e.colorstone.forEach((clr) => {
+                let found = groupedcolorstone.findIndex(
+                    (d) =>
+                        d?.ShapeName === clr?.ShapeName
+                );
+
+                if (found === -1) {
+                    groupedcolorstone.push({ ...clr, count: 1, });
+                } else {
+                    groupedcolorstone[found].Wt += clr?.Wt;
+                    groupedcolorstone[found].Pcs += clr?.Pcs;
+                    // groupedDiamonds[found].Rate += clr?.Rate;
+                    groupedcolorstone[found].Amount += clr?.Amount;
+
+                    const totalRate = groupedcolorstone[found].Rate + clr?.Rate;
+                    const count = groupedcolorstone[found].count + 1;
+                    groupedcolorstone[found].Rate = totalRate / count;
+                    groupedcolorstone[found].count += 1;
+                }
+            });
+
+            e.colorstone = groupedcolorstone; 
+            return e;
+        });
 
       diarndotherarr5 = [...diaonlyrndarr6, diaObj];
       setDiamondWise(diarndotherarr5);
@@ -234,7 +286,7 @@ const ExportExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         verticalAlign: "top",
     };
     const brRight = {
-        borderRight: "0.5px solid #000000",
+        borderRight: "1px solid #000000",
     };
     const brBotmdrk = {
         borderBottom: "1px solid #000000",
@@ -244,6 +296,12 @@ const ExportExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     }
     const txtCen = {
         textAlign: "center",
+    }
+    const fntSize = {
+        fontSize: "18px"
+    }
+    const fntSize1 = {
+        fontSize: "16px"
     }
 
     const totalGrosswt = result?.resultArray?.reduce((acc, obj) => acc + obj.grosswt, 0);
@@ -262,103 +320,103 @@ const ExportExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <table id="table-to-xls" className='d-none'>
                         <tbody>
                             <tr>
-                                <th width={100} height={25} style={{ ...brRight, ...brBotmdrk, }}>U CODE</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>DATE</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>BILL NO</th>
-                                <th width={80} style={{ ...brRight, ...brBotmdrk, }}>SR NO</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>STYLE NO</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>SUP STYLE</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>ITEM</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>G.WT</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>N.WT</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>PURITY</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>G RATE</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>G AMT</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>SHAPE</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>QLTY</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>CLR</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>PCS</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>CTS</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>D RATE</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>D AMT</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>T D PCS</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>T D WT</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>CS</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>CS PCS</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>CS WT</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>CS RATE</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>CS AMT</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>T CS PCS</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>T CS AMT</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>T D AMT</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>L RATE</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, }}>LBR AMT</th>
-                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...styBld, }}>TOTAL US$</th>
+                                <th width={100} height={45} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>U CODE</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>DATE</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>BILL NO</th>
+                                <th width={80} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>SR NO</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>STYLE NO</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>SUP STYLE</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>ITEM</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>G.WT</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>N.WT</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>PURITY</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>G RATE</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>G AMT</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>SHAPE</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>QLTY</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>CLR</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>PCS</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>CTS</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>D RATE</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>D AMT</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>T D PCS</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>T D WT</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>CS</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>CS PCS</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>CS WT</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>CS RATE</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>CS AMT</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>T CS PCS</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>T CS AMT</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>T D AMT</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>L RATE</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...fntSize }}>LBR AMT</th>
+                                <th width={100} style={{ ...brRight, ...brBotmdrk, ...styBld, ...fntSize }}>TOTAL US$</th>
                             </tr>
 
                             <tr>
-                                <td width={100} height={35} style={{ ...txtCen, ...styBld, }}></td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}></td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}></td>
-                                <td width={80} style={{ ...txtCen, ...styBld, }}>Total</td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}></td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}></td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}></td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}>
+                                <td width={100} height={35} style={{ ...txtCen, ...styBld, ...fntSize1 }}></td>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}></td>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}></td>
+                                <td width={80} style={{ ...txtCen, ...styBld, ...fntSize1 }}>Total</td>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}></td>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}></td>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}></td>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}>
                                     {totalGrosswt?.toFixed(3)}
                                 </td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}>
                                     {totalNetWt?.toFixed(3)}
                                 </td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}></td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}></td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}></td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}></td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}></td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}></td>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}></td>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}></td>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}></td>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}></td>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}>
                                     {/* {fixedValues( () + (result?.mainTotal?.colorstone?.Wt),3 )} */}
                                 </td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}>
                                     {result?.mainTotal?.diamonds?.Pcs}
                                 </td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}>
                                     {fixedValues(result?.mainTotal?.diamonds?.Wt,3)}
                                 </td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}></td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}></td>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}>
                                     {formatAmount(result?.mainTotal?.diamonds?.Amount,2)}
                                 </td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}>
                                     {result?.mainTotal?.diamonds?.Pcs}
                                 </td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}>
                                     {fixedValues(result?.mainTotal?.diamonds?.Wt,3)}
                                 </td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}></td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}></td>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}>
                                     {result?.mainTotal?.colorstone?.Pcs}
                                 </td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}>
                                     {fixedValues(result?.mainTotal?.colorstone?.Wt,3)}
                                 </td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}></td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}></td>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}>
                                     {formatAmount(result?.mainTotal?.colorstone?.Amount,2)}
                                 </td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}>
                                     {result?.mainTotal?.colorstone?.Pcs}
                                 </td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}>
                                     {formatAmount(result?.mainTotal?.colorstone?.Amount,2)}
                                 </td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}>
                                     {formatAmount(result?.mainTotal?.diamonds?.Amount,2)}
                                 </td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}></td>
-                                <td width={100} style={{ ...txtCen, ...styBld, }}>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}></td>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}>
                                     {formatAmount(result?.mainTotal?.total_labour?.labour_amount,2)}
                                 </td>
-                                <td width={100} style={{ ...txtCen, ...styBld }}>
+                                <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}>
                                     {formatAmount(result?.mainTotal?.metal?.Amount + result?.mainTotal?.colorstone?.Amount + result?.mainTotal?.diamonds?.Amount + result?.mainTotal?.total_labour?.labour_amount,2 )}
                                 </td>
                             </tr>
