@@ -148,7 +148,7 @@ const InvoicePrint2Material = ({
   // console.log("taxAmont", taxAmont);
   // console.log("extraTaxAmont", extraTaxAmont);
   // console.log("finalD", finalD);
-  // console.log("json0Data", json0Data);
+  console.log("json0Data", json0Data);
 
   const allowedNamesForRate = ["Metal", "METAL", "metal", "MOUNT", "Mount", "mount", "FINDING", "Finding", "finding", "Alloy", "ALLOY", "alloy"];
 
@@ -217,7 +217,7 @@ const InvoicePrint2Material = ({
               <div className="disflx brbxAll">
                 <div className="w1_inv2 spbrRht spfnthead">
                   <div style={{ paddingTop: "2px" }}>Bill To,</div>
-                  {json0Data?.customerfirmname !== "" && ( <div className="spfntsZ spfntBld">{json0Data?.customerfirmname}</div> )}
+                  {json0Data?.customerfirmname !== "" && json0Data?.IsshowCustomerName === 0 ? <div className="spfntsZ spfntBld">{json0Data?.customerfirmname}</div> : <div className="spfntsZ spfntBld">{json0Data?.CustName}</div>}
                   {json0Data?.customerAddress1 !== "" && ( <div>{json0Data?.customerAddress1}</div> )}
                   {json0Data?.customerAddress2 !== "" && ( <div>{json0Data?.customerAddress2}</div> )}
                   {json0Data?.PinCode !== "" && ( <div>{json0Data?.PinCode}</div> )}
