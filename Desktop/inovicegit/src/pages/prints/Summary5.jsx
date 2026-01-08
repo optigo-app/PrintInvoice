@@ -230,7 +230,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 )}
                 {/* invoice number details */}
                 <div className="mt-2 border  d-flex justify-content-between p-1 fsgs5">
-                  <div className="fsgs5"> {" "} TAX INVOICE# :{" "} <b className="fsgs5">{result?.header?.InvoiceNo}</b>
+                  <div className="fsgs5"> {" "}{headers5 ? "TAX INVOICE# " : "ESTIMATE#" } :{" "} <b className="fsgs5">{result?.header?.InvoiceNo}</b>
                   </div>
                   <div className=" fsgs5">
                     <div> {" "} DATE :{" "} <b className="fsgs5">{result?.header?.EntryDate}</b>{" "}
@@ -474,9 +474,9 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       })}
                       <div className="d-flex justify-content-between px-1 fw-bold">
                         <div>
-                          {result?.header?.AddLess > 0 ? "Add" : "Less"}
+                          {result?.header?.AddLess > 0 ? "Add" : result?.header?.AddLess < 0 ? 'Less' : ""}
                         </div>
-                        <div>{result?.header?.AddLess}</div>
+                        <div>{result?.header?.AddLess !== 0 && result?.header?.AddLess}</div>
                       </div>
                     </div>
                   </div>
@@ -511,6 +511,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <div className="my-2 fsgs5 pbiag ">
                   <b>REMARKS:</b> <span dangerouslySetInnerHTML={{__html:result?.header?.PrintRemark}}></span> 
                 </div>
+                <div className="py-1 pbias2 fsh2_s2"><span className="fw-bold">TERMS INCLUDED</span> : {result?.header?.SalesRepPolicyTermsDescription}</div>
                 {/* bank details | footer */}
                 <div className="d-flex border fsgs5 pbiag">
                   <div className="border-end  p-1 wp1s5">

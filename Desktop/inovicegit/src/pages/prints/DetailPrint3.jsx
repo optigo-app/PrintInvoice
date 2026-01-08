@@ -90,7 +90,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       e?.diamonds?.forEach((el) => {
         let findRecord = diamond_grouping?.findIndex(
           (a) =>
-            a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName
+            a?.QualityName === el?.QualityName
         );
         if (findRecord === -1) {
           let obj = { ...el };
@@ -846,10 +846,10 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               GOLD IN 24KT
                             </div>
                             <div className="border-secondary border-end pad_e_dp3 pe-2">
-                              {(
-                                result?.mainTotal?.total_purenetwt -
+                              {result?.mainTotal?.metal?.FineWt > 0 ? (
+                                result?.mainTotal?.metal?.FineWt -
                                 notGoldMetalWtTotal
-                              )?.toFixed(3)}{" "}
+                              )?.toFixed(3) : "0.00"}{" "}
                               gm
                             </div>
                           </div>

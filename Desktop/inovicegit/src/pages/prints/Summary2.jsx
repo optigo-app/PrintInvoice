@@ -143,9 +143,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     }
   };
 
-
-  // console.log("result",result);
-
+  console.log("result",result);
 
   return (
     <>
@@ -421,7 +419,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         )
                       })
                     }
-                    <div className="d-flex justify-content-between "><div className="w-50 d-flex justify-content-start fw-bold" style={{paddingLeft:'3px'}}>{result?.header?.AddLess > 0 ? 'Add' : 'Less'}</div><div className="w-50 d-flex justify-content-end fw-bold">{result?.header?.AddLess}</div></div>
+                    <div className="d-flex justify-content-between "><div className="w-50 d-flex justify-content-start fw-bold" style={{paddingLeft:'3px'}}>{result?.header?.AddLess > 0 ? 'Add' : result?.header?.AddLess < 0 ? 'Less' : ""}</div><div className="w-50 d-flex justify-content-end fw-bold">{result?.header?.AddLess !== 0 && result?.header?.AddLess}</div></div>
                   </div>
                 </div>
                 {/* grand total */}
@@ -456,9 +454,9 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   <div className="p-1 fsh2_s2 danger_s2" dangerouslySetInnerHTML={{ __html: result?.header?.Declaration }}></div>
                 </div>
                 {/* remarks */}
-                <div className="py-1 pbias2 fsh2_s2"><b className="fsgs2 fsh2_s2">REMARKS:</b> <span dangerouslySetInnerHTML={{__html:result?.header?.PrintRemark}}></span></div>
+                <div className="py-1 pbias2 fsh2_s2"><b className="fsgs2 fsh2_s2">REMARKS :</b> <span dangerouslySetInnerHTML={{__html:result?.header?.PrintRemark}}></span></div>
                 {/* footer */}
-                <div className="fw-bold py-1 pbias2 fsh2_s2">TERMS INCLUDED : </div>
+                <div className="py-1 pbias2 fsh2_s2"><span className="fw-bold">TERMS INCLUDED</span> : {result?.header?.SalesRepPolicyTermsDescription}</div>
                 <div className="d-flex border mt-1 fw-bold pbias2 fsh2_s2" style={{ height: "5rem" }}>
                   <div className="w-50 d-flex justify-content-center align-items-end border-end fsh2_s2">RECEIVER'S SIGNATURE & SEAL</div>
                   <div className="w-50 d-flex justify-content-center align-items-end fsh2_s2">for,Classmate corporation Pvt Ltd</div>
