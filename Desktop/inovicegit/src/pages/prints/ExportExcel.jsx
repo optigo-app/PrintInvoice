@@ -307,6 +307,10 @@ const ExportExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const totalGrosswt = result?.resultArray?.reduce((acc, obj) => acc + obj.grosswt, 0);
     const totalNetWt = result?.resultArray?.reduce((acc, obj) => acc + obj.NetWt, 0);
 
+    const total_labour_Amount = result?.resultArray?.reduce((acc, e) => {
+      return acc + (e?.MaKingCharge_Unit * e?.NetWt);
+    }, 0);
+    
     return (
         <>
             {loader ? <Loader /> : msg === "" ?
@@ -414,10 +418,10 @@ const ExportExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 </td>
                                 <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}></td>
                                 <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}>
-                                    {formatAmount(result?.mainTotal?.total_labour?.labour_amount,2)}
+                                    {formatAmount(total_labour_Amount,2)}
                                 </td>
                                 <td width={100} style={{ ...txtCen, ...styBld, ...fntSize1 }}>
-                                    {formatAmount(result?.mainTotal?.metal?.Amount + result?.mainTotal?.colorstone?.Amount + result?.mainTotal?.diamonds?.Amount + result?.mainTotal?.total_labour?.labour_amount,2 )}
+                                    {formatAmount(result?.mainTotal?.metal?.Amount + result?.mainTotal?.colorstone?.Amount + result?.mainTotal?.diamonds?.Amount + total_labour_Amount,2 )}
                                 </td>
                             </tr>
 
@@ -559,7 +563,7 @@ const ExportExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </td>
 
                                     <td width={100} style={{ ...txtTop, ...txtCen, }}>
-                                        {formatAmount(e?.MakingAmount,2)}
+                                        {formatAmount(e?.MaKingCharge_Unit * e?.NetWt,2)}
                                     </td>
 
                                     <td width={100} style={{ ...txtTop, ...txtCen, }}>
