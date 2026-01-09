@@ -63,7 +63,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           SizeName: 0
         };
       let sizeWt =0
-      datas?.json2?.forEach((ele, ind) => {
+      datas?.json2?.forEach((ele) => {
         if (ele?.MasterManagement_DiamondStoneTypeid === 5 && ele?.StockBarcode === e?.SrJobno) {
           findings.Wt += ele?.Wt 
           findings.SizeName += +ele?.SizeName;
@@ -232,7 +232,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       let colrStone_filter = [];
 
       // eslint-disable-next-line array-callback-return
-      miscs?.map((ele, ind) => {
+      miscs?.map((ele) => {
         let b = cloneDeep(ele);
         let findMiscs = miscs_filter.findIndex(
           (elem, index) =>
@@ -253,7 +253,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       });
 
       // eslint-disable-next-line array-callback-return
-      colorstones?.map((ele, ind) => {
+      colorstones?.map((ele) => {
         let findcs = colrStone_filter?.findIndex(
           (elem, index) =>
             elem?.ShapeName === ele?.ShapeName && elem?.isRateOnPcs === ele?.isRateOnPcs
@@ -455,11 +455,19 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         if(find_record === -1){
           finalArr.push(b);
         }else{
-          if(finalArr[find_record]?.GroupJob !== finalArr[find_record]?.SrJobno){
-              finalArr[find_record].designno = b?.designno;
-              finalArr[find_record].HUID = b?.HUID; 
-              finalArr[find_record].DesignImage = b?.DesignImage;
+          if (
+            // finalArr[find_record]?.GroupJob === finalArr[find_record]?.SrJobno  //CQ For DesignNo jbsvs 09/01/26
+            b?.GroupJob === b?.SrJobno
+          ) {
+            finalArr[find_record].designno = b?.designno;
+            finalArr[find_record].HUID = b?.HUID;
           }
+
+          //CQ For Image jbsvs 09/01/26
+          if (!finalArr[find_record].DesignImage && b?.DesignImage) {
+            finalArr[find_record].DesignImage = b?.DesignImage;
+          }
+
           finalArr[find_record].grosswt += b?.grosswt;
           finalArr[find_record].NetWt += b?.NetWt;
           finalArr[find_record].LossWt += b?.LossWt;
@@ -606,6 +614,40 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     }
   }
 
+  //For CQ In jbsvs,Take Client Data and Bring Here With This useEffect And Track The Problem 
+  //Create mockData.json in public folder paste there client data and here with this useEffect, done Tracking 
+  // useEffect(() => {
+  //   const sendData = async () => {
+  //     let data;
+  
+  //     try {
+  //       // Fetching the mock JSON file (just like an API call)
+  //       const response = await fetch("/mockData.json");
+  //       data = await response.json();
+  
+  //       if (data?.Status === "200") {
+  //         let isEmpty = isObjectEmpty(data?.Data);
+  //         if (!isEmpty) {
+  //           loadData(data?.Data); // Your existing data processing function
+  //           setLoader(false);
+  //         } else {
+  //           setLoader(false);
+  //           setMsg("Data Not Found");
+  //         }
+  //       } else {
+  //         setLoader(false);
+  //         setMsg(data?.Message || "An error occurred");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching mock data:", error);
+  //       setLoader(false);
+  //       setMsg("Error loading mock data");
+  //     }
+  //   };
+  
+  //   sendData();
+  // }, []);
+
     useEffect(() => {
       const sendData = async () => {
         try {
@@ -711,8 +753,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       }
     };
 
-
-
+    console.log("result", result);
 
   return (
     <>
