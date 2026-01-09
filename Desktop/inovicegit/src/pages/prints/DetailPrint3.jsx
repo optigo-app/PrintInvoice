@@ -225,14 +225,16 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           {result?.header?.EntryDate}
                         </div>
                       </div>
-                      <div className="d-flex w-100">
-                        <div className="w-50 end_dp3">
-                          {result?.header?.HSN_No_Label}&nbsp;&nbsp;&nbsp;:
+                      {result?.header?.HSN_No !== "" && (
+                        <div className="d-flex w-100">
+                          <div className="w-50 end_dp3">
+                            {result?.header?.HSN_No_Label}&nbsp;&nbsp;&nbsp;:
+                          </div>
+                          <div className="fw-bold w-50 start_dp3">
+                            {result?.header?.HSN_No}
+                          </div>
                         </div>
-                        <div className="fw-bold w-50 start_dp3">
-                          {result?.header?.HSN_No}
-                        </div>
-                      </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -1007,12 +1009,14 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                     </div>
                     <div
-                      className="border-secondary border-top"
+                      className="border-secondary"
                       style={{ width: "35%" }}
                     >
-                      <div className="summary_dp3_head border-secondary border border-start-0 border-top-0 fw-bold">
-                        Remark
-                      </div>
+                      {result?.header?.PrintRemark !== "" && (
+                        <div className="summary_dp3_head border-secondary border border-start-0 border-top-0 fw-bold">
+                          Remark
+                        </div>
+                      )}
                       <div
                         className="border-secondary border-bottom border-end pad_s_dp3 ps-2 text-break"
                         dangerouslySetInnerHTML={{

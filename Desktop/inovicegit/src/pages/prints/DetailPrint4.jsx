@@ -489,12 +489,16 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setResult(datas);
     setLoader(false);
   };
+
   const handleImgShow = () => {
     if (imgFlag) setImgFlag(false);
     else {
       setImgFlag(true);
     }
   };
+
+  console.log("result", result);
+  
   return (
     <>
       {loader ? (
@@ -1139,7 +1143,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
               {/* summary & footer */}
               <div className="SpBrders PgeBrakInsid">
-                <div className="d-flex justify-content-between align-items-start fs_dp4 border-bottom">
+                <div className="d-flex justify-content-between align-items-start fs_dp4">
                   <div className="d-flex" style={{ width: "80%" }}>
                     <div
                       className="border-bottom border-secondary"
@@ -1267,7 +1271,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {formatAmount(result?.header?.AddLess)}
                             </div>
                           </div>
-                          <div className="summary_dp4_head d-flex justify-content-between  border-secondary border border-bottom-0 border-start-0 bgc_dp4">
+                          <div className="summary_dp4_head d-flex justify-content-between  border-secondary border border-start-0 bgc_dp4">
                             <div className="pad_s_dp4 fw-bold">TOTAL</div>
                             <div className="pad_e_dp4">
                               {formatAmount((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)))}
@@ -1323,12 +1327,15 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                     </div>
                     <div className="" style={{ width: "20%" }}>
-                      <div className="summary_dp4_head border-secondary border border-start-0 border-top-0 border-end-0 fw-bold">
-                        Remark
-                      </div>
-                      <div className="border-secondary border-bottom border-end-0 pad_s_dp4 text-break" dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark }}>
-                      </div>
-
+                      {result?.header?.PrintRemark !== "" && (
+                        <>
+                          <div className="summary_dp4_head border-secondary border border-start-0 border-top-0 border-end-0 fw-bold">
+                            Remark
+                          </div>
+                          <div className="border-secondary border-bottom border-end-0 pad_s_dp4 text-break" dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark }}>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
                   <div className="check_dp4 border-secondary border border-bottom d-flex justify-content-center align-items-end border-top-0" style={{ width: "20%" }}>

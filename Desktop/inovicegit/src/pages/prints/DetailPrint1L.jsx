@@ -278,7 +278,7 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
       }
     });
-
+    
     remaingDia.sort((a, b) => {
       if (a.ShapeName !== b.ShapeName) {
         return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
@@ -288,6 +288,7 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
       }
     });
+
     if (findRND?.length > 6) {
       let arr = findRND;
       let anotherArr = remaingDia;
@@ -304,6 +305,12 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       let smallArr = [...remaingDia];
       let largeArr = [...remaingDia];
       let finalArr = [...arr, ...smallArr];
+      let finalArrRND = [];
+      finalArr?.forEach((ele) => {
+        if (ele?.ShapeName === "RND") {
+          finalArrRND.push(ele);
+        }
+      })
 
       let obj = { ...largeArr[0] };
       obj.Pcs = 0;
@@ -315,7 +322,7 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         obj.Amount += cobj?.Amount;
       }, obj);
       obj.ShapeName = "OTHER";
-      resultArr = [...finalArr, obj];
+      resultArr = [...finalArrRND, obj];
     }
 
     setDiamondDetails(resultArr);
