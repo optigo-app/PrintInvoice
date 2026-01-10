@@ -228,7 +228,7 @@ const InvoicePrint2Material = ({
                 </div>
                 <div className="w2_inv2 spbrRht spfnthead">
                   <div style={{ paddingTop: "2px" }}>Ship To,</div>
-                  {json0Data?.customerfirmname !== "" && (<div className="spfntsZ spfntBld">{json0Data?.customerfirmname}</div>)}
+                  {json0Data?.customerfirmname !== "" && json0Data?.IsshowCustomerName === 0 ? <div className="spfntsZ spfntBld">{json0Data?.customerfirmname}</div> : <div className="spfntsZ spfntBld">{json0Data?.CustName}</div>}
                   {json0Data?.Printlable !== "" && ( <div><PrintableText json0Data={json0Data} /></div> )}
                 </div>
                 <div className="w30_inv2 spfnthead">
