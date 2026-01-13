@@ -392,7 +392,7 @@ const RetailInvoicePrintS = ({
   }, []);
 
   // console.log("data", data);
-  // console.log("headerData", headerData);
+  console.log("headerData", headerData);
   // console.log("total", total);
   // console.log("taxes", taxes);
 
@@ -545,6 +545,11 @@ const RetailInvoicePrintS = ({
                       <div className="fslhJL">
                         Phno: {headerData?.customermobileno}
                       </div>
+                      {headerData?.CustGstNo !== "" && (
+                        <div className="fslhJL">
+                          GSTIN - {headerData?.CustGstNo}
+                        </div>
+                      )}
                       <div className="fslhJL">
                         {headerData?.Cust_CST_STATE !== '' ? `${headerData?.Cust_CST_STATE} -` : ""}
                         {headerData?.Cust_CST_STATE_No}
