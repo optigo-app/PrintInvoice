@@ -13,7 +13,6 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
-  const [otherAmt, setOtherAmt] = useState(0);
   const [diamondWise, setDiamondWise] = useState([]);
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
@@ -57,7 +56,7 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   }, []);
 
   function loadData(data) {
-    console.log("datadata", data);
+    // console.log("datadata", data);
 
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
@@ -190,7 +189,6 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     //after groupjob
     datas?.resultArray?.forEach((e) => {
       //diamond
-      let otherAmt = 0;
       let dia2 = [];
       let dia1_ = [];
       let dia2_ = [];
@@ -201,7 +199,6 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           dia2_.push(el);
         }
       });
-      otherAmt += e?.OtherCharges + e?.TotalDiamondHandling;
       let dia1_g = [];
       dia1_?.forEach((ell) => {
         let bll = cloneDeep(ell);
@@ -210,7 +207,8 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             a?.ShapeName === bll?.ShapeName &&
             a?.QualityName === bll?.QualityName &&
             a?.Colorname === bll?.Colorname &&
-            a?.SizeName === bll?.SizeName
+            a?.SizeName === bll?.SizeName &&
+            a?.MaterialTypeName === bll?.MaterialTypeName
         );
         if (findrec === -1) {
           dia1_g.push(bll);
@@ -228,7 +226,8 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             a?.ShapeName === bll?.ShapeName &&
             a?.QualityName === bll?.QualityName &&
             a?.Colorname === bll?.Colorname &&
-            a?.GroupName === bll?.GroupName
+            a?.GroupName === bll?.GroupName &&
+            a?.MaterialTypeName === bll?.MaterialTypeName
         );
         if (findrec === -1) {
           dia2_g.push(bll);
@@ -246,6 +245,28 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       dia2 = [...dia1_g, ...dia2_g_];
 
       e.diamonds = dia2;
+
+      let groupedcolorstone = [];
+
+      e.colorstone.forEach((clr) => {
+        let found = groupedcolorstone.findIndex(
+          (d) =>
+            d?.ShapeName === clr?.ShapeName &&
+            d?.QualityName === clr?.QualityName &&
+            d?.Colorname === clr?.Colorname &&
+            d?.Colorname === clr?.Colorname
+        );
+
+        if (found === -1) {
+          groupedcolorstone.push({ ...clr, count: 1, });
+        } else {
+          groupedcolorstone[found].Wt += clr?.Wt;
+          groupedcolorstone[found].Pcs += clr?.Pcs;
+          groupedcolorstone[found].Amount += clr?.Amount;
+        }
+      });
+
+      e.colorstone = groupedcolorstone;
 
       let misc0 = [];
       e?.misc?.forEach((el) => {
@@ -479,10 +500,6 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     }
 
     setDiamondDetails(resultArr);
-
-    diarndotherarr5 = [...diaonlyrndarr6, diaObj];
-    const sortedData = diarndotherarr5?.sort(customSort);
-    setDiamondWise(sortedData);
     setResult(datas);
     // console.log("datas", datas);
     setTimeout(() => {
@@ -520,6 +537,9 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   }
   const txtCen = {
     textAlign: "center",
+  }
+  const txtAtSta = {
+    textAlign: "left",
   }
   const fntSize = {
     fontSize: "18px"
@@ -725,28 +745,53 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               </tr>
 
               {result?.resultArray?.map((e, i) => {
-                const hallmarkAmounts = e?.stone_misc?.filter(el => el?.ShapeName === "Hallmark")
-                .map((el) => el?.Amount || 0);
+                // Colorstones & Diamonds Count
+                let colorstones = e?.colorstone || [];
+                let diamonds = e?.diamonds || [];
+
+                const totalItems = colorstones.length + diamonds.length;
+
+                if (totalItems > 6) {
+                  if (colorstones.length <= 6) {
+                    diamonds = diamonds.slice(0, 6 - colorstones.length);
+                  } else {
+                    colorstones = colorstones.slice(0, 6);
+                    diamonds = [];
+                  }
+                }
+
+                const allItems = [...colorstones, ...diamonds];
+                const emptyCells = Array(6 - allItems.length).fill({
+                  ShapeName: "",
+                  QualityName: "",
+                  Colorname: "",
+                  Pcs: 0,
+                  Wt: 0
+                });
+                const finalItems = [...allItems, ...emptyCells];
+                console.log("finalItems", finalItems);
 
                 // Calculate other amounts
+                const hallmarkAmounts = e?.stone_misc?.filter(el => el?.ShapeName === "Hallmark")
+                  .map((el) => el?.Amount || 0);
+
                 const settingAmount = e?.totals?.finding?.SettingAmount || 0;
                 const otherDetailsAmount = e?.other_details?.reduce((sum, el) => sum + (el?.amtval || 0), 0);
                 const diamondSettingAmount = e?.totals?.diamonds?.SettingAmount || 0;
                 const colorstoneSettingAmount = e?.totals?.colorstone?.SettingAmount || 0;
                 const totalDiamondHandling = e?.TotalDiamondHandling || 0;
-
-                // Calculate misc amount
                 const miscAmount = e?.miscList_IsHSCODE123?.filter(el => el?.IsHSCOE === 3)
-                        .reduce((sum, el) => sum + (el?.Amount || 0), 0);
+                  .reduce((sum, el) => sum + (el?.Amount || 0), 0);
 
                 const eleWiseOthrAmt = hallmarkAmounts.reduce((sum, amount) => sum + amount, 0) + settingAmount + otherDetailsAmount + diamondSettingAmount + colorstoneSettingAmount + totalDiamondHandling + miscAmount;
 
-                return ( 
+                return (
                   <tr key={i}>
                     <td height={25}></td>
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td style={{ ...txtAtSta }}>{`Apparel & Accessories > Jewelry > ${e?.Categoryname}`}</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -759,13 +804,12 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td>{e?.designno}</td>
+                    <td style={{ ...txtAtSta }}>{e?.designno}</td>
                     <td></td>
                     <td></td>
                     <td></td> {/* Variant Inventory Qty */}
                     <td></td>
-                    <td>{e?.TotalAmount}</td>
+                    <td style={{ ...txtAtSta }}>{formatAmount(e?.TotalAmount, 2)}</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -793,7 +837,7 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>{e?.MetalColor}</td>
+                    <td style={{ ...txtAtSta }}>{e?.MetalColor}</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -803,13 +847,20 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>{}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 0 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? "" : em?.QualityName : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 1 && em?.MasterManagement_DiamondStoneTypeid !== 2 ? em?.QualityName : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 0 ? em?.Colorname : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 1 ? em?.Colorname : "")}</td>
                     <td></td>
+                    <td style={{ ...txtAtSta }}>{e?.SubCategoryname}</td>
                     <td></td>
                     <td></td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 0 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? em?.QualityName : em?.MasterManagement_DiamondStoneTypeid === 1 && em?.MaterialTypeName === "" ? "Diamond" : em?.MaterialTypeName : "")}</td>
                     <td></td>
                     <td></td>
+                    <td style={{ ...txtAtSta }}>{e?.MetalPurity}</td>
                     <td></td>
+                    <td style={{ ...txtAtSta }}>{fixedValues(e?.grosswt, 3)}</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -819,6 +870,8 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 0 ? em?.Pcs : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 1 ? em?.Pcs : "")}</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -827,9 +880,33 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 1 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? em?.QualityName : em?.MasterManagement_DiamondStoneTypeid === 1 && em?.MaterialTypeName === "" ? "Diamond" : em?.MaterialTypeName : "")}</td>
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 0 ? em?.ShapeName : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 1 ? em?.ShapeName : "")}</td>
+                    <td style={{ ...txtAtSta }}>{e?.Collectionname}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 2 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 3)} ct` : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 2 && em?.MasterManagement_DiamondStoneTypeid !== 2 ? em?.QualityName : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 2 ? em?.Colorname : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 2 ? em?.ShapeName : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 2 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? em?.QualityName : em?.MasterManagement_DiamondStoneTypeid === 1 && em?.MaterialTypeName === "" ? "Diamond" : em?.MaterialTypeName : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 3 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 3)} ct` : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 3 && em?.MasterManagement_DiamondStoneTypeid !== 2 ? em?.QualityName : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 3 ? em?.Colorname : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 3 ? em?.ShapeName : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 3 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? em?.QualityName : em?.MasterManagement_DiamondStoneTypeid === 1 && em?.MaterialTypeName === "" ? "Diamond": em?.MaterialTypeName : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 4 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 3)} ct` : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 4 && em?.MasterManagement_DiamondStoneTypeid !== 2 ? em?.QualityName : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 4 ? em?.Colorname : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 4 ? em?.ShapeName : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 4 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? em?.QualityName : em?.MasterManagement_DiamondStoneTypeid === 1 && em?.MaterialTypeName === "" ? "Diamond": em?.MaterialTypeName : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 5 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 3)} ct` : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 5 && em?.MasterManagement_DiamondStoneTypeid !== 2 ? em?.QualityName : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 5 ? em?.Colorname : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 5 ? em?.ShapeName : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 5 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? em?.QualityName : em?.MasterManagement_DiamondStoneTypeid === 1 && em?.MaterialTypeName === "" ? "Diamond": em?.MaterialTypeName : "")}</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -847,6 +924,8 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 0 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 3)} ct` : "")}</td>
+                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 1 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 3)} ct` : "")}</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -877,46 +956,11 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>{NumberWithCommas(e?.totals?.diamonds?.Amount,2)}</td>
-                    <td>{NumberWithCommas(e?.totals?.colorstone?.Amount,2)}</td>
-                    <td>{NumberWithCommas(e?.MakingAmount,2)}</td>
-                    <td>{NumberWithCommas(eleWiseOthrAmt,2)}</td>
-                    <td>{NumberWithCommas(e?.totals?.metal?.Amount,2)}</td>
+                    <td style={{ ...txtAtSta }}>{NumberWithCommas(e?.totals?.diamonds?.Amount, 2)}</td>
+                    <td style={{ ...txtAtSta }}>{NumberWithCommas(e?.totals?.colorstone?.Amount, 2)}</td>
+                    <td style={{ ...txtAtSta }}>{NumberWithCommas(e?.MakingAmount, 2)}</td>
+                    <td style={{ ...txtAtSta }}>{NumberWithCommas(eleWiseOthrAmt, 2)}</td>
+                    <td style={{ ...txtAtSta }}>{NumberWithCommas(e?.totals?.metal?.Amount, 2)}</td>
                   </tr>
                 )
               })}
