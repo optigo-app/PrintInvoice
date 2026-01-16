@@ -113,7 +113,7 @@ export const printConditions = [
   {printName: 'retail invoice print 5', etpType: 'print', componentName: 'RetailInvoicePrint5'},
   {printName: 'retail invoice print 6', etpType: 'print', componentName: 'RetailInvoicePrint6'},
   {printName: 'retail invoice print 7', etpType: 'print', componentName: 'RetailInvoicePrint7'},
-  {printName: 'retail', etpType: 'print', componentName: 'RetailPrint'},
+  {printName: 'retail', etpType: 'print', componentName: 'RetailOnlyPrint'},
   {printName: 'retail print', etpType: 'print', componentName: 'RetailPrint'},
   {printName: 'retail print 1', etpType: 'print', componentName: 'RetailPrint1'},
   {printName: 'retail print 2', etpType: 'print', componentName: 'RetailPrint2'},
@@ -390,6 +390,7 @@ export const excelConditions = [
   { printName: "invoice excel v1", etpType: "excel", componentName: "InvoiceExcelV"}, // Vivek.....
   { printName: "memo sgl a", etpType: "excel", componentName: "MemoSglAExcel"}, // Vivek.....
   { printName: "export excel", etpType: "excel", componentName: "ExportExcel"}, // Vivek.....
+  { printName: "excel 1", etpType: "excel", componentName: "Excel1Quote"}, // Vivek.....
 ];
 
 export const alterationArray = [

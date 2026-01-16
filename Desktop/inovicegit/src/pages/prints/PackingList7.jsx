@@ -110,11 +110,12 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           ) {
             finalArr[find_record].designno = b?.designno;
             finalArr[find_record].HUID = b?.HUID;
+            finalArr[find_record].DesignImage = b?.DesignImage; // CQ Solving PSJewels 16/01/26
           }
 
-          if (!finalArr[find_record].DesignImage && b?.DesignImage) {
-            finalArr[find_record].DesignImage = b?.DesignImage;
-          }
+          // if (!finalArr[find_record].DesignImage && b?.DesignImage) {
+          //   finalArr[find_record].DesignImage = b?.DesignImage;
+          // }
 
           finalArr[find_record].grosswt += b?.grosswt;
           finalArr[find_record].NetWt += b?.NetWt;
@@ -210,9 +211,9 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     
     // CQ Was Solving 09/10/2025
     // finalArr.forEach((item, idx) => {
-    //   console.log(`🎯 Record ${idx} GroupJob: ${item.GroupJob} has metal count:`, item.metal?.length);
+    //   console.log(`Record ${idx} GroupJob: ${item.GroupJob} has metal count:`, item.metal?.length);
     // });
-    // console.log("✅ Final finalArr stringified:\n", JSON.stringify(finalArr, null, 2));
+    // console.log("Final finalArr stringified:\n", JSON.stringify(finalArr, null, 2));
     // CQ Was Solving 09/10/2025
 
     datas.resultArray = finalArr;
@@ -537,7 +538,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       }
     }
   };
-  // console.log("result", result);
+  console.log("result", result);
   
   return (
     <>
