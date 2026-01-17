@@ -1107,9 +1107,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     <div className="theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7">
                                       {/* {(e?.NetWt + e?.LossWt)?.toFixed(3)} */}
                                       {/* { el?.IsPrimaryMetal === 1 ? ((el?.Wt - (e?.LossWt + e?.totals?.finding?.Wt))?.toFixed(3)) : (el?.Wt?.toFixed(3))} */}
-                                      {el?.IsPrimaryMetal === 1
-                                        ? (el?.Wt - e?.LossWt)?.toFixed(3)
-                                        : el?.Wt?.toFixed(3)}
+                                      {el?.IsPrimaryMetal === 1 ? (el?.Wt - e?.LossWt)?.toFixed(3) : el?.Wt?.toFixed(3)}
                                     </div>
                                     <div
                                       className="theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7"

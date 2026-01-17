@@ -587,7 +587,7 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <th width={300} style={{ ...fntSize }}>Variant SKU</th>
                 <th width={200} style={{ ...fntSize }}>Variant Grams</th>
                 <th width={250} style={{ ...fntSize }}>Variant Inventory Tracker</th>
-                <th width={250} style={{ ...fntSize, background: "red" }}>Variant Inventory Qty</th>
+                <th width={250} style={{ ...fntSize }}>Variant Inventory Qty</th>
                 <th width={250} style={{ ...fntSize }}>Variant Inventory Policy</th>
                 <th width={300} style={{ ...fntSize }}>Variant Fulfillment Service</th>
                 <th width={150} style={{ ...fntSize }}>Variant Price</th>
@@ -806,7 +806,7 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <td style={{ ...txtAtSta }}>{e?.designno}</td>
                     <td></td>
                     <td></td>
-                    <td></td> {/* Variant Inventory Qty */}
+                    <td style={{ ...txtAtSta }}>{e?.designcount}</td>
                     <td></td>
                     <td></td>
                     <td style={{ ...txtAtSta }}>{formatAmount(e?.TotalAmount, 2)}</td>
