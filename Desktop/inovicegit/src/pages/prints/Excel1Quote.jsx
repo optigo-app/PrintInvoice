@@ -13,7 +13,6 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
-  const [diamondWise, setDiamondWise] = useState([]);
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
   const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
@@ -576,9 +575,9 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <th width={350} style={{ ...fntSize }}>Type</th>
                 <th width={1500} style={{ ...fntSize }}>Tags</th>
                 <th width={100} style={{ ...fntSize }}>Published</th>
-                <th width={250} style={{ ...fntSize }}>Optional Name</th>
-                <th width={200} style={{ ...fntSize }}>Optional Value</th>
-                <th width={300} style={{ ...fntSize }}>Optional Linked TO</th>
+                <th width={250} style={{ ...fntSize }}>Option1 Name</th>
+                <th width={200} style={{ ...fntSize }}>Option1 Value</th>
+                <th width={300} style={{ ...fntSize }}>Option1 Linked TO</th>
                 <th width={250} style={{ ...fntSize }}>Option2 Name</th>
                 <th width={200} style={{ ...fntSize }}>Option2 Value</th>
                 <th width={300} style={{ ...fntSize }}>Option2 Linked To</th>
@@ -598,7 +597,7 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <th width={300} style={{ ...fntSize }}>Unit Price Total Measure</th>
                 <th width={300} style={{ ...fntSize }}>Unit Price Total Measure Unit</th>
                 <th width={300} style={{ ...fntSize }}>Unit Price Base Measure</th>
-                <th width={300} style={{ ...fntSize }}>Unit Price Base Measure</th>
+                <th width={300} style={{ ...fntSize }}>Unit Price Base Measure Unit</th>
                 <th width={200} style={{ ...fntSize }}>Variant Barcode</th>
                 <th width={900} style={{ ...fntSize }}>Image Src</th>
                 <th width={200} style={{ ...fntSize }}>Image Position</th>
@@ -809,8 +808,8 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <td></td>
                     <td></td> {/* Variant Inventory Qty */}
                     <td></td>
-                    <td style={{ ...txtAtSta }}>{formatAmount(e?.TotalAmount, 2)}</td>
                     <td></td>
+                    <td style={{ ...txtAtSta }}>{formatAmount(e?.TotalAmount, 2)}</td>
                     <td></td>
                     <td></td>
                     <td></td>

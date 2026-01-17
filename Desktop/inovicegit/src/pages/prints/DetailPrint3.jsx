@@ -58,6 +58,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     sendData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const loadData = (data) => {
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
@@ -111,6 +112,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setResult(datas);
     setLoader(false);
   };
+  
   const handleImgShow = () => {
     if (imgFlag) setImgFlag(false);
     else {
@@ -132,7 +134,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     }
   };
 
-  console.log("resultresult", result);
+  // console.log("resultresult", result);
 
   return (
     <>
@@ -575,12 +577,12 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     <div className="col_w_dp3 end_dp3">
                                       {e?.totals?.diamonds?.Wt?.toFixed(3) ===
                                       "0.000"
-                                        ? ""
+                                        ? "0.000"
                                         : e?.totals?.diamonds?.Wt?.toFixed(3)}
                                     </div>
                                     <div className="col_w_dp3 end_dp3 fw-bold">
                                       {e?.totals?.diamonds?.Amount === 0.0
-                                        ? ""
+                                        ? "0.00"
                                         : formatAmount(
                                             e?.totals?.diamonds?.Amount
                                           )}
@@ -594,12 +596,12 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     <div className="col_w_dp3 end_dp3">
                                       {e?.totals?.diamonds?.Wt?.toFixed(3) ===
                                       "0.000"
-                                        ? ""
+                                        ? "0.000"
                                         : e?.totals?.diamonds?.Wt?.toFixed(3)}
                                     </div>
                                     <div className="col_w_dp3 end_dp3">
                                       {e?.totals?.diamonds?.Amount === 0.0
-                                        ? ""
+                                        ? "0.00"
                                         : formatAmount(
                                             e?.totals?.diamonds?.Amount
                                           )}
@@ -662,12 +664,12 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <div className="col_w_dp3 end_dp3">
                                     {e?.totals?.colorstone?.Wt?.toFixed(3) ===
                                     "0.000"
-                                      ? ""
+                                      ? "0.000"
                                       : e?.totals?.colorstone?.Wt?.toFixed(3)}
                                   </div>
                                   <div className="col_w_dp3 end_dp3">
                                     {e?.totals?.colorstone?.Amount === 0.0
-                                      ? ""
+                                      ? "0.00"
                                       : formatAmount(
                                           e?.totals?.colorstone?.Amount
                                         )}
@@ -719,7 +721,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   {/* tax total */}
                   <div className="d-flex justify-content-end align-items-start border-black border-start border-end border-top-0 border-bottom-secondary fs_dp3 dp3_pgia">
                     <div style={{ width: "20%" }}>
-                      {result?.allTaxes?.map((el, ind) => {
+                      {/* {result?.allTaxes?.map((el, ind) => {
                         return (
                           <div className="d-flex" key={ind}>
                             <div className="w-50 end_top_dp3">
@@ -732,7 +734,14 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                           </div>
                         );
-                      })}
+                      })} */}
+                      {/* Bud Solved 17/01/26 showing total tax instead of showing each tax name with tax amount */}
+                      <div className="d-flex">
+                        <div className="w-50 end_top_dp3">Taxes</div>
+                        <div className="w-50 end_top_dp3">
+                          {formatAmount(result?.allTaxesTotal)}
+                        </div>
+                      </div>
                       <div className="d-flex">
                         <div className="w-50 end_top_dp3">Add/Less</div>
                         <div className="w-50 end_top_dp3">
