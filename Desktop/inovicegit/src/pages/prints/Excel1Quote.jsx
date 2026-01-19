@@ -607,7 +607,7 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <th width={1500} style={{ ...fntSize }}>SEO Description</th>
                 <th width={550} style={{ ...fntSize }}>Google Shopping / Google Product Category</th>
                 <th width={300} style={{ ...fntSize }}>Google Shopping / Gender</th>
-                <th width={350} style={{ ...fntSize }}>Google Shopping / Age Grouping</th>
+                <th width={350} style={{ ...fntSize }}>Google Shopping / Age Group</th>
                 <th width={300} style={{ ...fntSize }}>Google Shopping / MPN</th>
                 <th width={300} style={{ ...fntSize }}>Google Shopping / Condition</th>
                 <th width={350} style={{ ...fntSize }}>Google Shopping / Custom Product</th>
@@ -768,7 +768,8 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   Wt: 0
                 });
                 const finalItems = [...allItems, ...emptyCells];
-                console.log("finalItems", finalItems);
+                const totalWeight = finalItems.reduce((acc, item) => acc + item.Wt, 0);
+                // console.log(totalWeight);
 
                 // Calculate other amounts
                 const hallmarkAmounts = e?.stone_misc?.filter(el => el?.ShapeName === "Hallmark")
@@ -876,7 +877,7 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
+                    <td style={{ ...txtAtSta }}>{e?.MetalColor}</td>
                     <td></td>
                     <td></td>
                     <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 1 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? em?.QualityName : em?.MasterManagement_DiamondStoneTypeid === 1 && em?.MaterialTypeName === "" ? "Diamond" : em?.MaterialTypeName : "")}</td>
@@ -922,7 +923,7 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
+                    <td style={{ ...txtAtSta }}>{fixedValues(totalWeight,3)}</td>
                     <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 0 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 3)} ct` : "")}</td>
                     <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 1 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 3)} ct` : "")}</td>
                     <td></td>
