@@ -923,7 +923,7 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td style={{ ...txtAtSta }}>{fixedValues(totalWeight,3)}</td>
+                    <td style={{ ...txtAtSta }}>{totalWeight !== 0 ? `${fixedValues(totalWeight,3)} ct` : ""}</td>
                     <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 0 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 3)} ct` : "")}</td>
                     <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 1 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 3)} ct` : "")}</td>
                     <td></td>
@@ -956,11 +956,11 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td style={{ ...txtAtSta }}>{NumberWithCommas(e?.totals?.diamonds?.Amount, 2)}</td>
-                    <td style={{ ...txtAtSta }}>{NumberWithCommas(e?.totals?.colorstone?.Amount, 2)}</td>
-                    <td style={{ ...txtAtSta }}>{NumberWithCommas(e?.MakingAmount, 2)}</td>
-                    <td style={{ ...txtAtSta }}>{NumberWithCommas(eleWiseOthrAmt, 2)}</td>
-                    <td style={{ ...txtAtSta }}>{NumberWithCommas(e?.totals?.metal?.Amount, 2)}</td>
+                    <td style={{ ...txtAtSta }}>{e?.totals?.diamonds?.Amount !== 0 ? `${formatAmount(e?.totals?.diamonds?.Amount, 2)}` : "0"}</td>
+                    <td style={{ ...txtAtSta }}>{e?.totals?.colorstone?.Amount !== 0 ? `${formatAmount(e?.totals?.colorstone?.Amount, 2)}` : "0"}</td>
+                    <td style={{ ...txtAtSta }}>{e?.MakingAmount !== 0 ? `${formatAmount(e?.MakingAmount, 2)}` : "0"}</td>
+                    <td style={{ ...txtAtSta }}>{eleWiseOthrAmt !== 0 ? `${formatAmount(eleWiseOthrAmt, 2)}` : "0"}</td>
+                    <td style={{ ...txtAtSta }}>{e?.totals?.metal?.Amount !== 0 ? `${formatAmount(e?.totals?.metal?.Amount, 2)}` : "0"}</td>
                   </tr>
                 )
               })}

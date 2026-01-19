@@ -217,7 +217,8 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           //   elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate);
           let findDiamond = diamonds?.findIndex((elem) => elem?.MaterialTypeName === ele?.MaterialTypeName 
             // && elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && 
-            // elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate
+            // elem?.QualityName === ele?.QualityName 
+            && elem?.Rate === ele?.Rate //Bug Solving 19/01/26 for show diamond seeting differently
           );
           if (findDiamond === -1) {
             // let findDiamonds = diamonds?.findIndex((elem, index) => elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate && elem?.MaterialTypeName === ele?.MaterialTypeName);
@@ -400,8 +401,8 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   }, []);
 
   // console.log("json0", json0);
-  // console.log("mainData", mainData);
-  console.log("datass", datass);
+  console.log("mainData", mainData);
+  // console.log("datass", datass);
   
   return (
     loader ? <Loader /> : msg === "" ? <div className='container portraitContainer inoviceprintContainer max_width_container pad_60_allPrint mt-2 px-1 invp_830 invp_830_fs'>
@@ -525,14 +526,14 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
               })}
               {(datass?.mainTotal?.total_Making_Amount + datass?.mainTotal?.diamonds?.SettingAmount +
-                datass?.mainTotal?.colorstone?.SettingAmount  + datass?.mainTotal?.total_diamondHandling) === 0 ? '' : 
+                datass?.mainTotal?.colorstone?.SettingAmount  + datass?.mainTotal?.total_diamondHandling + datass?.mainTotal?.misc?.Amount) === 0 ? '' : 
                 <div className="d-flex pb-1 no_break">
                   <div className="px-1 col-4 text-uppercase invp_830_fs"><p className='invp_830_fs spbrWord'>{mainData?.labour?.label}</p></div>
                   <div className="px-1 col-3 text-end invp_830_fs"><p></p></div>
                   <div className="px-1 col-2 text-end invp_830_fs"><p className='invp_830_fs'>{mainData?.labour?.primaryWt !== 0 && NumberWithCommas((mainData?.labour?.rate), 0)}</p></div>
                   <div className="px-1 col-3 text-end invp_830_fs">
                     <p className='invp_830_fs'>{NumberWithCommas(datass?.mainTotal?.total_Making_Amount + datass?.mainTotal?.diamonds?.SettingAmount +
-                    datass?.mainTotal?.colorstone?.SettingAmount  + datass?.mainTotal?.total_diamondHandling, 2)}</p>
+                    datass?.mainTotal?.colorstone?.SettingAmount  + datass?.mainTotal?.total_diamondHandling + datass?.mainTotal?.misc?.Amount, 2)}</p>
                   </div>
                 </div>
               }
