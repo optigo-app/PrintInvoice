@@ -5,6 +5,7 @@ import {
   apiCall,
   checkMsg,
   fixedValues,
+  formatAmount,
   handleImageError,
   handlePrint,
   isObjectEmpty,
@@ -84,7 +85,7 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       textInNumbers: "",
       goldWeight: 0,
     };
-    datas?.resultArray?.forEach((e, i) => {
+    datas?.resultArray?.forEach((e) => {
       let obj = cloneDeep(e);
       makingSetting +=
         (e?.totals?.diamonds?.SettingAmount +
@@ -98,9 +99,9 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         obj?.totals?.diamonds?.SettingAmount +
         obj?.totals?.colorstone?.SettingAmount;
       let diamonds = [];
-      obj?.diamonds?.forEach((ele, ind) => {
+      obj?.diamonds?.forEach((ele) => {
         let findDiamond = diamonds?.findIndex(
-          (elem, index) => elem?.QualityName === ele?.QualityName
+          (elem) => elem?.QualityName === ele?.QualityName
         );
         if (findDiamond === -1) {
           diamonds?.push(ele);
@@ -111,9 +112,9 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         }
       });
       let colorstone = [];
-      obj?.colorstone?.forEach((ele, ind) => {
+      obj?.colorstone?.forEach((ele) => {
         let findColorStone = colorstone?.findIndex(
-          (elem, index) => elem?.QualityName === ele?.QualityName
+          (elem) => elem?.QualityName === ele?.QualityName
         );
         if (findColorStone === -1) {
           colorstone?.push(ele);
@@ -124,10 +125,10 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         }
       });
       let misc = [];
-      obj?.misc?.forEach((ele, ind) => {
+      obj?.misc?.forEach((ele) => {
         totalObj.goldWeight += ele?.Wt + ele?.ServWt;
         let findmisc = misc?.findIndex(
-          (elem, index) => elem?.ShapeName === ele?.ShapeName
+          (elem) => elem?.ShapeName === ele?.ShapeName
         );
         if (findmisc === -1) {
           misc?.push(ele);
@@ -140,7 +141,7 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       });
       // let count = 0;
       let secondaryWt = 0;
-      e?.metal?.forEach((ele, ind) => {
+      e?.metal?.forEach((ele) => {
         if (ele?.IsPrimaryMetal !== 1) {
           secondaryWt += ele?.Wt;
         }
@@ -156,7 +157,7 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       obj.misc = misc;
       obj.SettingAmount = SettingAmount;
       let findObjs = resultArr?.findIndex(
-        (ele, ind) => ele?.GroupJob === e?.GroupJob && e?.GroupJob !== ""
+        (ele) => ele?.GroupJob === e?.GroupJob && e?.GroupJob !== ""
       );
       diasCsMiscPcs +=
         obj?.diamonds?.reduce((acc, cObj) => acc + cObj?.Pcs, 0) +
@@ -181,10 +182,10 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         });
       } else {
         let primaryMetal = obj?.metal?.findIndex(
-          (elem, index) => elem?.IsPrimaryMetal === 1
+          (elem) => elem?.IsPrimaryMetal === 1
         );
         let primaryMetal2 = resultArr[findObjs]?.metal?.findIndex(
-          (elem, index) => elem?.IsPrimaryMetal === 1
+          (elem) => elem?.IsPrimaryMetal === 1
         );
         if (primaryMetal !== -1 && primaryMetal2 !== -1) {
           resultArr[findObjs].metal[primaryMetal2].Wt +=
@@ -232,9 +233,9 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
           ...obj?.diamonds,
         ]?.flat();
         let blankDiamonds = [];
-        allDiamonds?.forEach((ele, ind) => {
+        allDiamonds?.forEach((ele) => {
           let findDiamonds = blankDiamonds?.findIndex(
-            (elem, index) => elem?.QualityName === ele?.QualityName
+            (elem) => elem?.QualityName === ele?.QualityName
           );
           if (findDiamonds === -1) {
             blankDiamonds?.push(ele);
@@ -250,9 +251,9 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
           ...obj?.colorstone,
         ]?.flat();
         let blankcolorStones = [];
-        allColorStone?.forEach((ele, ind) => {
+        allColorStone?.forEach((ele) => {
           let findColorStoness = blankcolorStones?.findIndex(
-            (elem, index) => elem?.ShapeName === ele?.ShapeName
+            (elem) => elem?.ShapeName === ele?.ShapeName
           );
           if (findColorStoness === -1) {
             blankcolorStones?.push(ele);
@@ -265,9 +266,9 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
 
         let allMiscs = [...resultArr[findObjs]?.misc, ...obj?.misc]?.flat();
         let blankMisc = [];
-        allMiscs?.forEach((ele, ind) => {
+        allMiscs?.forEach((ele) => {
           let findmiscss = blankMisc?.findIndex(
-            (elem, index) => elem?.ShapeName === ele?.ShapeName
+            (elem) => elem?.ShapeName === ele?.ShapeName
           );
           if (findmiscss === -1) {
             blankMisc?.push(ele);
@@ -362,7 +363,7 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             gmwt += el?.Wt;
         })
         e?.metal?.forEach((el) => {
-            gmwt += el?.Wt;
+            gmwt += el?.Wt + e?.totals?.diamonds?.Wt / 5;
         })
         e?.diamonds?.forEach((el) => {
             ctwwt += el?.dwt;
@@ -379,17 +380,16 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     let tot_wt2 = 0;
     datas?.resultArray?.forEach((e) => {
             e?.diamonds?.forEach((el) => {
-                tot_pcs2 += el?.dpcs;
-                tot_wt2 += el?.dwt;
+                tot_pcs2 += Number(el?.dpcs) || 0;;
+                tot_wt2 += Number(el?.Wt) || 0;;
             })
            
     })
     datas?.resultArray?.forEach((e) => {
             e?.colorstone?.forEach((el) => {
-                tot_pcs2 += el?.cspcs;
-                tot_wt2 += el?.cswt;
+                tot_pcs2 += Number(el?.cspcs) || 0;;
+                tot_wt2 += Number(el?.Wt) || 0;;
             })
-           
     })
     setTotPcs(tot_pcs2)
     setTotWt(tot_wt2)
@@ -442,10 +442,32 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     sendData();
   }, []);
 
+  function convertWithAnd(amount) {
+    let formattedAmount = formatAmount(amount, 2).replace(/,/g, '');
+    let [integerPart, decimalPart] = formattedAmount.split('.');
+    let words = toWords.convert(integerPart);
+    if (decimalPart) {
+        words += ` point ${toWords.convert(decimalPart)}`;
+    }
+    
+    const pattern = /\bHundred\b\s+(?!(Thousand|Lakh|Crore|Only))(.+)/i;
+    if (pattern.test(words)) {
+      words = words.replace(pattern, (match, p1, p2) => {
+        return `Hundred and ${p2}`;
+      });
+    }
+    
+    return words;
+  }
+
+  const totalFineWt = finalD?.resultArray
+  ?.filter((e) => e?.totals?.metal?.Rate === 0)
+  .reduce((acc, e) => acc + e?.totals?.metal?.FineWt, 0);
+  
   // console.log("jsonData1", jsonData1);
   // console.log("resultArrayC", resultArrayC);
   // console.log("total", total);
-  console.log("finalD", finalD);
+  // console.log("finalD", finalD);
   // console.log("taxes", taxes);
 
   return (
@@ -726,7 +748,7 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                               >
                                 {/* <p className='text-end'>{NumberWithCommas(e?.netWtLossWt, 3)}</p> */}
                                 <p className="text-end">
-                                  {NumberWithCommas(e?.NetWt, 3)}
+                                  {NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3)}
                                 </p>
                               </div>
                               {rate && (
@@ -1031,7 +1053,7 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 <div
                   className={`${styles.Wt} lossWtRetailPrintNoRate border-end p-1 d-flex align-items-end justify-content-around flex-column min_height_44_retail_print_1 ft_12_retailPrint`}
                 ><p className="fw-bold text-end">
-                    {gmwt !== 0 && `${gmwt?.toFixed(3)} gms`} <br /> {totWt !== 0 && `${totWt?.toFixed(3)} ctw`} 
+                    {totWt !== 0 && `${totWt?.toFixed(3)} ctw`} <br /> {gmwt !== 0 && `${gmwt?.toFixed(3)} gms`}
                 </p>
                   {/* <p className="fw-bold lh-1 text-end fs_maintotal_wt_rp">
                     D + C : {fixedValues(total?.materialWeight, 3)} Ctw
@@ -1103,31 +1125,20 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
           {/* grand total */}
           <div className="d-flex border-start border-end border-bottom no_break">
             {/* <div className="totalInWordsRetailPrint p-1 d-flex flex-column align-items-start justify-content-end p-1 border-end"> */}
-            <div className="col-8 p-1 d-flex flex-column align-items-start justify-content-end p-1 border-end">
-              <p className="ft_12_retailPrint">
-                In Words {jsonData1?.Currencyname}
-              </p>
-              <p className="fw-bold ft_12_retailPrint">
-                {/* {toWords?.convert(+fixedValues((finalD?.mainTotal?.total_amount / jsonData1?.CurrencyExchRate) +
-                            taxes?.reduce((acc, cObj) => acc + (+fixedValues(+cObj?.amount / jsonData1?.CurrencyExchRate, 2)), 0) + (jsonData1?.AddLess / jsonData1?.CurrencyExchRate), 2))}  */}
-                {NumToWord(
-                  +fixedValues(
-                    finalD?.mainTotal?.total_amount /
-                      jsonData1?.CurrencyExchRate +
-                      taxes?.reduce(
-                        (acc, cObj) =>
-                          acc +
-                          +fixedValues(
-                            +cObj?.amount / jsonData1?.CurrencyExchRate,
-                            2
-                          ),
-                        0
-                      ) +
-                      jsonData1?.AddLess / jsonData1?.CurrencyExchRate,
-                    2
-                  )
-                )}{" "}
-              </p>
+            <div className="col-8 p-1 d-flex flex-column align-items-start justify-content-between p-1 border-end">
+              <div className="ft_12_retailPrint"> 
+                {totalFineWt !== 0 && (<div>Finat Wt: <span className="fw-bold">{fixedValues(totalFineWt ,3)} gm</span></div>)}
+              </div>
+              <div>
+                <p className="ft_12_retailPrint">
+                  In Words {jsonData1?.Currencyname}
+                </p>
+                <p className="fw-bold ft_12_retailPrint">
+                  {convertWithAnd(Number(finalD?.mainTotal?.total_amount / jsonData1?.CurrencyExchRate +
+                    taxes?.reduce((acc, cObj) => acc + Number(cObj?.amount / jsonData1?.CurrencyExchRate, 2),0) + jsonData1?.AddLess / jsonData1?.CurrencyExchRate, 2)
+                  )}{" "}only
+                </p>
+              </div>
             </div>
             {/* <div className="cgstRetailPrint p-1 text-end p-1 border-end"> */}
             <div className="col-2 py-1 text-end border-end ft_12_retailPrint">
@@ -1201,14 +1212,26 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
               className="pt-2"
             ></div>
           </div>
-          <div className="note border-start border-end border-bottom p-1 no_break">
-            <p>
-              <span className="fw-bold">REMARKS : </span>
-              <span
-                dangerouslySetInnerHTML={{ __html: jsonData1?.PrintRemark }}
-              ></span>
-            </p>
-          </div>
+          {(jsonData1?.PrintRemark === "" && jsonData1?.SalesRepPolicyTermsDescription === "") ? "" : 
+            <div className="note border-start border-end border-bottom p-1 no_break">
+              {jsonData1?.PrintRemark !== "" && (
+                <p>
+                  <span className="fw-bold">REMARKS : </span>
+                  <span
+                    dangerouslySetInnerHTML={{ __html: jsonData1?.PrintRemark }}
+                  ></span>
+                </p>
+              )}
+              {jsonData1?.SalesRepPolicyTermsDescription !== "" && (
+                <p>
+                  <span className="fw-bold">TERMS INCLUDED : </span>
+                  <span
+                    dangerouslySetInnerHTML={{ __html: jsonData1?.SalesRepPolicyTermsDescription }}
+                  ></span>
+                </p>
+              )}
+            </div>
+          }
           {/* bank detail */}
           <div className="word_break_normal_retail_print d-flex border-start border-end border-bottom no_break ft_12_retailPrint">
             <div className="col-4 p-2 border-end">
