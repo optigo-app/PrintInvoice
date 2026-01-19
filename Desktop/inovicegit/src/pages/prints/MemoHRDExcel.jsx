@@ -1,4 +1,4 @@
-// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=Sk1JLzQxMC8yMDI1&evn=bWVtbw==&pnm=TWVtbyBTR0wgQQ==&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&ctv=NzE=&ifid=PackingList3&pid=undefined&etp=ZXhjZWw=
+// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=Sk1JLzQyNC8yMDI1&evn=bWVtbw==&pnm=TWVtbyBIUkQ=&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&ctv=NzE=&ifid=PackingList3&pid=undefined&etp=ZXhjZWw=
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -8,7 +8,7 @@ import Loader from '../../components/Loader';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import { MetalShapeNameWiseArr } from '../../GlobalFunctions/MetalShapeNameWiseArr';
 
-const MemoSglAExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
+const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [result, setResult] = useState(null);
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
@@ -208,7 +208,7 @@ const MemoSglAExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         }, 500);
     }
 
-    // console.log("result", result);
+    console.log("result", result);
 
     // Style...
     const txtTop = {
@@ -260,7 +260,7 @@ const MemoSglAExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     id="test-table-xls-button"
                     className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5 d-none"
                     table="table-to-xls"
-                    filename={`Memo_SGL_A_${result?.header?.InvoiceNo}_${Date.now()}`}
+                    filename={`Memo_HRD_${result?.header?.InvoiceNo}_${Date.now()}`}
                     sheet="tablexls"
                     buttonText="Download as XLS" />
                     <table id="table-to-xls" className='d-none'>
@@ -504,4 +504,4 @@ const MemoSglAExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     )
 }
 
-export default MemoSglAExcel;
+export default MemoHRDExcel;
