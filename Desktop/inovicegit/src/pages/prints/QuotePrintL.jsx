@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { apiCall, checkMsg, formatAmount, handleImageError,  isObjectEmpty } from '../../GlobalFunctions';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import Loader from '../../components/Loader';
-import "../../assets/css/prints/quoteprintlp.css";
+import "../../assets/css/prints/quoteprintl.css";
 import { cloneDeep } from 'lodash';
 
-const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
+const QuotePrintL = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
@@ -900,7 +900,7 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   )
 }
 
-export default QuotePrintLP
+export default QuotePrintL
 // import React from 'react'
 // import { useEffect } from 'react';
 // import { useState } from 'react';

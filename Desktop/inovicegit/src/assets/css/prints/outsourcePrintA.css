@@ -1,3 +1,7 @@
+html {
+    scrollbar-gutter: stable;
+}
+
 .estimate_img{
     height: 169.5px;
     width: 264px;
@@ -153,7 +157,7 @@
 }
 .SuBspfntszDCM{
     font-size: 10px;
-    line-height: 11px;
+    line-height: 10px;
 }
 .SuspfntszDCM{
     font-size: 10px;
@@ -244,7 +248,7 @@
     }
     .SuBspfntszDCM{
         font-size: 9.5px;
-        line-height: 10px;
+        line-height: 9.5px;
     }
     .spBtomspc{
         margin-bottom: 5rem;
@@ -259,7 +263,7 @@
     }
     .SuBspfntszDCM{
         font-size: 10px;
-        line-height: 11px;
+        line-height: 10px;
     }
     .SuspfntszDCM{
         font-size: 10px;

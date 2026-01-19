@@ -573,8 +573,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       />
     );
   }
-
-  const isEventSale = atob(evn)?.toLowerCase() === "sale";
+  
+  console.log("result", result);
   
   return (
       <>
@@ -936,7 +936,9 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             return (
                               <div className="d-flex w-100" key={idia}>
                                 <div className="dcol1_pcls start_center_pcls spbrWord pdl_pcls">
-                                  {el?.ShapeName +
+                                  {el?.MaterialTypeName + 
+                                    " " + 
+                                    el?.ShapeName +
                                     " " +
                                     el?.QualityName +
                                     " " +
@@ -1352,7 +1354,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               </div>
                               <div className="lcol1_pcls end_pcls pdr_pcls">
                                 {rateAmount
-                                  ? isEventSale && e?.MakingChargeDiscount !== 0 ? `${fixedValues(e?.MakingChargeDiscount,2)} %` : formatAmount(e?.MaKingCharge_Unit)
+                                  ? e?.MakingChargeDiscount !== 0 ? `${fixedValues(e?.MakingChargeDiscount,2)} %` : formatAmount(e?.MaKingCharge_Unit)
                                   : ""}
                               </div>
                               <div className="lcol1_pcls end_pcls pdr_pcls">
