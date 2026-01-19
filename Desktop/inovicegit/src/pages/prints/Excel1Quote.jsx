@@ -507,52 +507,15 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     }, 500);
   }
 
-  const customSort = (a, b) => {
-    if (a?.ShapeName === "OTHER" && b?.ShapeName !== "OTHER") {
-      return 1; // "OTHER" comes after any other ShapeName
-    } else if (a?.ShapeName !== "OTHER" && b?.ShapeName === "OTHER") {
-      return -1; // Any other ShapeName comes before "OTHER"
-    } else {
-      // If ShapeNames are equal, compare by QualityName
-      if (a?.QualityName < b?.QualityName) {
-        return -1;
-      } else if (a?.QualityName > b?.QualityName) {
-        return 1;
-      } else {
-        // If QualityNames are equal, compare by Colorname
-        return a?.Colorname?.localeCompare(b?.Colorname);
-      }
-    }
-  };
-
-  console.log("result", result);
+  // console.log("result", result);
 
   // Style...
-  const txtTop = {
-    verticalAlign: "top",
-  };
-  const styBld = {
-    fontWeight: "bold",
-  }
-  const txtCen = {
-    textAlign: "center",
-  }
   const txtAtSta = {
     textAlign: "left",
   }
   const fntSize = {
-    fontSize: "18px"
+    fontSize: "14px"
   }
-  const fntSize1 = {
-    fontSize: "16px"
-  }
-
-  const totalGrosswt = result?.resultArray?.reduce((acc, obj) => acc + obj.grosswt, 0);
-  const totalNetWt = result?.resultArray?.reduce((acc, obj) => acc + obj.NetWt, 0);
-
-  const total_labour_Amount = result?.resultArray?.reduce((acc, e) => {
-    return acc + (e?.MaKingCharge_Unit * e?.NetWt);
-  }, 0);
 
   return (
     <>
@@ -567,180 +530,180 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           <table id="table-to-xls" className='d-none'>
             <tbody>
               <tr>
-                <th width={900} height={35} style={{ ...fntSize }}>Handle</th>
-                <th width={900} style={{ ...fntSize }}>Title</th>
-                <th width={1500} style={{ ...fntSize }}>Body (HTML)</th>
-                <th width={250} style={{ ...fntSize }}>Vendor</th>
-                <th width={400} style={{ ...fntSize }}>Product Category</th>
-                <th width={350} style={{ ...fntSize }}>Type</th>
-                <th width={1500} style={{ ...fntSize }}>Tags</th>
-                <th width={100} style={{ ...fntSize }}>Published</th>
-                <th width={250} style={{ ...fntSize }}>Option1 Name</th>
-                <th width={200} style={{ ...fntSize }}>Option1 Value</th>
-                <th width={300} style={{ ...fntSize }}>Option1 Linked TO</th>
-                <th width={250} style={{ ...fntSize }}>Option2 Name</th>
-                <th width={200} style={{ ...fntSize }}>Option2 Value</th>
-                <th width={300} style={{ ...fntSize }}>Option2 Linked To</th>
-                <th width={150} style={{ ...fntSize }}>Option3 Name</th>
-                <th width={150} style={{ ...fntSize }}>Option3 Value</th>
-                <th width={200} style={{ ...fntSize }}>Option3 Linked To</th>
-                <th width={300} style={{ ...fntSize }}>Variant SKU</th>
-                <th width={200} style={{ ...fntSize }}>Variant Grams</th>
-                <th width={250} style={{ ...fntSize }}>Variant Inventory Tracker</th>
-                <th width={250} style={{ ...fntSize }}>Variant Inventory Qty</th>
-                <th width={250} style={{ ...fntSize }}>Variant Inventory Policy</th>
-                <th width={300} style={{ ...fntSize }}>Variant Fulfillment Service</th>
-                <th width={150} style={{ ...fntSize }}>Variant Price</th>
-                <th width={250} style={{ ...fntSize }}>Variant Compare At Price</th>
-                <th width={300} style={{ ...fntSize }}>Variant Requires Shipping</th>
-                <th width={200} style={{ ...fntSize }}>Variant Taxable</th>
-                <th width={300} style={{ ...fntSize }}>Unit Price Total Measure</th>
-                <th width={300} style={{ ...fntSize }}>Unit Price Total Measure Unit</th>
-                <th width={300} style={{ ...fntSize }}>Unit Price Base Measure</th>
-                <th width={300} style={{ ...fntSize }}>Unit Price Base Measure Unit</th>
-                <th width={200} style={{ ...fntSize }}>Variant Barcode</th>
-                <th width={900} style={{ ...fntSize }}>Image Src</th>
-                <th width={200} style={{ ...fntSize }}>Image Position</th>
-                <th width={200} style={{ ...fntSize }}>Image Alt Text</th>
-                <th width={120} style={{ ...fntSize }}>Gift Card</th>
-                <th width={650} style={{ ...fntSize }}>SEO Title</th>
-                <th width={1500} style={{ ...fntSize }}>SEO Description</th>
-                <th width={550} style={{ ...fntSize }}>Google Shopping / Google Product Category</th>
-                <th width={300} style={{ ...fntSize }}>Google Shopping / Gender</th>
-                <th width={350} style={{ ...fntSize }}>Google Shopping / Age Group</th>
-                <th width={300} style={{ ...fntSize }}>Google Shopping / MPN</th>
-                <th width={300} style={{ ...fntSize }}>Google Shopping / Condition</th>
-                <th width={350} style={{ ...fntSize }}>Google Shopping / Custom Product</th>
-                <th width={350} style={{ ...fntSize }}>Google Shopping / Custom Label 0</th>
-                <th width={350} style={{ ...fntSize }}>Google Shopping / Custom Label 1</th>
-                <th width={350} style={{ ...fntSize }}>Google Shopping / Custom Label 2</th>
-                <th width={350} style={{ ...fntSize }}>Google Shopping / Custom Label 3</th>
-                <th width={350} style={{ ...fntSize }}>Google Shopping / Custom Label 4</th>
-                <th width={800} style={{ ...fntSize }}>Actual Metal Color (Catawiki) (product.metafields.custom.actual_metal_color_catawiki)</th>
-                <th width={800} style={{ ...fntSize }}>Band Color Rings Etsy (product.metafields.custom.band_color_rings_etsy)</th>
-                <th width={600} style={{ ...fntSize }}>Bracelets width (product.metafields.custom.bracelets_width)</th>
-                <th width={650} style={{ ...fntSize }}>Bracelet Length (product.metafields.custom.bracelet_length)</th>
-                <th width={900} style={{ ...fntSize }}>Can be personalised Etsy (product.metafields.custom.can_be_personalised_etsy)</th>
-                <th width={800} style={{ ...fntSize }}>Catawiki Price (Euro) (product.metafields.custom.catawiki_price_euro1)</th>
-                <th width={550} style={{ ...fntSize }}>Chain Style (product.metafields.custom.chain_style)</th>
-                <th width={650} style={{ ...fntSize }}>Closure Bracelet, Necklace (product.metafields.custom.closure_)</th>
-                <th width={650} style={{ ...fntSize }}>Closure Earrings (product.metafields.custom.closure_earrings)</th>
-                <th width={850} style={{ ...fntSize }}>Cutting type of surrounding stone (product.metafields.custom.cutting_type_of_surrounding_stone)</th>
-                <th width={850} style={{ ...fntSize }}>Cut Type Etsy/ Main Sone Cut (product.metafields.custom.cut_type_etsy_main_sone_cut)</th>
-                <th width={850} style={{ ...fntSize }}>Diamond Clarity of Main Stone (product.metafields.custom.diamond_clarity_of_main_stone)</th>
-                <th width={850} style={{ ...fntSize }}>Diamond clarity of surrounding stone (product.metafields.custom.diamond_clarity_of_surrounding_stone1)</th>
-                <th width={850} style={{ ...fntSize }}>Diamond colour grade of main stone (product.metafields.custom.diamond_colour_grade_of_main_stone)</th>
-                <th width={950} style={{ ...fntSize }}>Diamond colour grade of surrounding stones (product.metafields.custom.diamond_colour_grade_of_surrounding_stones)</th>
-                <th width={450} style={{ ...fntSize }}>Drop Length (product.metafields.custom.drop_length)</th>
-                <th width={500} style={{ ...fntSize }}>Etsy Category (product.metafields.custom.etsy_category)</th>
-                <th width={1800} style={{ ...fntSize }}>Etsy Description (product.metafields.custom.etsy_description)</th>
-                <th width={800} style={{ ...fntSize }}>Etsy Meta Tittle (product.metafields.custom.etsy_meta_tittle)</th>
-                <th width={700} style={{ ...fntSize }}>Gemstone / MainStone (product.metafields.custom.gemstone_mainstone1) (Stone 1)</th>
-                <th width={550} style={{ ...fntSize }}>Gem Color Etsy (product.metafields.custom.gem_color_etsy)</th>
-                <th width={700} style={{ ...fntSize }}>Gem Color / Main Stone Color (product.metafields.custom.gem_color_main_stone_color)</th>
-                <th width={650} style={{ ...fntSize }}>Gold Purity (9,10,14,18) S4 (product.metafields.custom.gold_purity_9_10_14_18_s4)</th>
-                <th width={500} style={{ ...fntSize }}>Gold Solidity (product.metafields.custom.gold_solidity)</th>
-                <th width={600} style={{ ...fntSize }}>Gross Weight (Catawiki) (product.metafields.custom.gross_weight_catawiki1)</th>
-                <th width={650} style={{ ...fntSize }}>Highlights Etsy Description (product.metafields.custom.highlights_etsy_description)</th>
-                <th width={700} style={{ ...fntSize }}>Is there more then 2 stones (product.metafields.custom.is_there_more_then_2_stones)</th>
-                <th width={500} style={{ ...fntSize }}>Jewelry Style (product.metafields.custom.jewelry_style)</th>
-                <th width={650} style={{ ...fntSize }}>Laboratory Report Catawiki (product.metafields.custom.laboratory_report_catawiki)</th>
-                <th width={650} style={{ ...fntSize }}>Laboratory Report Number (product.metafields.custom.laboratory_report_number)</th>
-                <th width={500} style={{ ...fntSize }}>Length (product.metafields.custom.length)</th>
-                <th width={550} style={{ ...fntSize }}>Location (product.metafields.custom.location)</th>
-                <th width={600} style={{ ...fntSize }}>Material (Select 3) (product.metafields.custom.material_select_3)</th>
-                <th width={600} style={{ ...fntSize }}>Necklace length (product.metafields.custom.necklace_length)</th>
-                <th width={800} style={{ ...fntSize }}>Number of Diamond Main stone (product.metafields.custom.number_of_diamond_main_stone)</th>
-                <th width={850} style={{ ...fntSize }}>Number of Diamond Surrounding Stone (product.metafields.custom.number_of_diamond_surrounding_stone)</th>
-                <th width={600} style={{ ...fntSize }}>Number of Strands (product.metafields.custom.number_of_strands)</th>
-                <th width={600} style={{ ...fntSize }}>Object Catawiki (C) (product.metafields.custom.object_catawiki_c)</th>
-                <th width={650} style={{ ...fntSize }}>Occasion Etsy Description (product.metafields.custom.occasion_etsy_description)</th>
-                <th width={600} style={{ ...fntSize }}>Pendant Height (product.metafields.custom.pendant_height)</th>
-                <th width={600} style={{ ...fntSize }}>Pendant Width (product.metafields.custom.pendant_width)</th>
-                <th width={600} style={{ ...fntSize }}>Primary Colour  (product.metafields.custom.primary_colour)</th>
-                <th width={600} style={{ ...fntSize }}>Product badge (product.metafields.custom.product_badge)</th>
-                <th width={700} style={{ ...fntSize }}>Recipient Etsy / Gender (product.metafields.custom.recipient_etsy_gender)</th>
-                <th width={700} style={{ ...fntSize }}>Secondary Stone Catawiki (product.metafields.custom.secondary_stone_catawiki)</th>
-                <th width={700} style={{ ...fntSize }}>Setting Etsy (Select 3) (product.metafields.custom.setting_etsy_select_3)</th>
-                <th width={600} style={{ ...fntSize }}>Shank Type Etsy (product.metafields.custom.shank_type_etsy)</th>
-                <th width={500} style={{ ...fntSize }}>Shape Etsy (product.metafields.custom.shape_etsy)</th>
-                <th width={700} style={{ ...fntSize }}>Shape of mainstone (catawiki) (product.metafields.custom.shape_of_mainstone_catawiki)</th>
-                <th width={700} style={{ ...fntSize }}>Shape of surrounding stone (product.metafields.custom.shape_of_surrounding_stone1)</th>
-                <th width={600} style={{ ...fntSize }}>Shop Section Etsy (product.metafields.custom.shop_section_etsy)</th>
-                <th width={550} style={{ ...fntSize }}>Stone 3 Carat (product.metafields.custom.stone_3_carat)</th>
-                <th width={550} style={{ ...fntSize }}>Stone 3 Clarity (product.metafields.custom.stone_3_clarity)</th>
-                <th width={550} style={{ ...fntSize }}>Stone 3 Color (product.metafields.custom.stone_3_color)</th>
-                <th width={550} style={{ ...fntSize }}>Stone 3 Shape (product.metafields.custom.stone_3_shape)</th>
-                <th width={600} style={{ ...fntSize }}>Stone 3 Type of stone (product.metafields.custom.stone_3_type_of_stone)</th>
-                <th width={550} style={{ ...fntSize }}>Stone 4 Carat (product.metafields.custom.stone_4_carat)</th>
-                <th width={550} style={{ ...fntSize }}>Stone 4 Clarity (product.metafields.custom.stone_4_clarity)</th>
-                <th width={550} style={{ ...fntSize }}>Stone 4 Color (product.metafields.custom.stone_4_color)</th>
-                <th width={550} style={{ ...fntSize }}>Stone 4 Shape (product.metafields.custom.stone_4_shape)</th>
-                <th width={600} style={{ ...fntSize }}>Stone 4 Type of Stone (product.metafields.custom.stone_4_type_of_stone)</th>
-                <th width={550} style={{ ...fntSize }}>Stone 5 Carat (product.metafields.custom.stone_5_carat)</th>
-                <th width={550} style={{ ...fntSize }}>Stone 5 Clarity (product.metafields.custom.stone_5_clarity)</th>
-                <th width={550} style={{ ...fntSize }}>Stone 5 Color (product.metafields.custom.stone_5_color)</th>
-                <th width={550} style={{ ...fntSize }}>Stone 5 Shape (product.metafields.custom.stone_5_shape)</th>
-                <th width={600} style={{ ...fntSize }}>Stone 5 Type of stone (product.metafields.custom.stone_5_type_of_stone)</th>
-                <th width={550} style={{ ...fntSize }}>Stone 6 Carat (product.metafields.custom.stone_6_carat)</th>
-                <th width={550} style={{ ...fntSize }}>Stone 6 Clarity (product.metafields.custom.stone_6_clarity)</th>
-                <th width={550} style={{ ...fntSize }}>Stone 6 Color (product.metafields.custom.stone_6_color)</th>
-                <th width={550} style={{ ...fntSize }}>Stone 6 Shape (product.metafields.custom.stone_6_shape)</th>
-                <th width={600} style={{ ...fntSize }}>Stone 6 Type of Stone (product.metafields.custom.stone_6_type_of_stone)</th>
-                <th width={550} style={{ ...fntSize }}>Stone Source Etsy (product.metafields.custom.stone_source_etsy)</th>
-                <th width={500} style={{ ...fntSize }}>Style Esty (product.metafields.custom.style_esty)</th>
-                <th width={550} style={{ ...fntSize }}>Tag for Etsy 1 (product.metafields.custom.tag_for_etsy_1)</th>
-                <th width={550} style={{ ...fntSize }}>Tag for Etsy 10 (product.metafields.custom.tag_for_etsy_10)</th>
-                <th width={550} style={{ ...fntSize }}>Tag for Etsy 11 (product.metafields.custom.tag_for_etsy_11)</th>
-                <th width={550} style={{ ...fntSize }}>Tag for Etsy 12 (product.metafields.custom.tag_for_etsy_12)</th>
-                <th width={550} style={{ ...fntSize }}>Tag for Etsy 13 (product.metafields.custom.tag_for_etsy_13)</th>
-                <th width={550} style={{ ...fntSize }}>Tag for Etsy 2 (product.metafields.custom.tag_for_etsy_2)</th>
-                <th width={550} style={{ ...fntSize }}>Tag for Etsy 3 (product.metafields.custom.tag_for_etsy_3)</th>
-                <th width={550} style={{ ...fntSize }}>Tag for Etsy 4 (product.metafields.custom.tag_for_etsy_4)</th>
-                <th width={550} style={{ ...fntSize }}>Tag for Etsy 5 (product.metafields.custom.tag_for_etsy_5)</th>
-                <th width={550} style={{ ...fntSize }}>Tag for Etsy 6 (product.metafields.custom.tag_for_etsy_6)</th>
-                <th width={550} style={{ ...fntSize }}>Tag for Etsy 7 (product.metafields.custom.tag_for_etsy_7)</th>
-                <th width={550} style={{ ...fntSize }}>Tag for Etsy 8 (product.metafields.custom.tag_for_etsy_8)</th>
-                <th width={550} style={{ ...fntSize }}>Tag for Etsy 9 (product.metafields.custom.tag_for_etsy_9)</th>
-                <th width={500} style={{ ...fntSize }}>Theme Etsy (product.metafields.custom.theme_etsy)</th>
-                <th width={750} style={{ ...fntSize }}>Total carat weight of all stone (product.metafields.custom.total_carat_weight_of_all_stone1)</th>
-                <th width={750} style={{ ...fntSize }}>Total Carat Weight of main stone (product.metafields.custom.total_carat_weight_of_main_stone)</th>
-                <th width={900} style={{ ...fntSize }}>Total Carat Weight of Surrounding stone (product.metafields.custom.total_carat_weight_of_surrounding_stone)</th>
-                <th width={900} style={{ ...fntSize }}>Transparency of main stone (catawiki) (product.metafields.custom.transparency_of_main_stone_catawiki)</th>
-                <th width={850} style={{ ...fntSize }}>Transparency of surrounding stone (product.metafields.custom.transparency_of_surrounding_stone)</th>
-                <th width={700} style={{ ...fntSize }}>Treatment of mainstone (product.metafields.custom.treatment_of_mainstone)</th>
-                <th width={750} style={{ ...fntSize }}>Treatment of surrounding stones (product.metafields.custom.treatment_of_surrounding_stones)</th>
-                <th width={500} style={{ ...fntSize }}>v360_url (product.metafields.custom.v360_url)</th>
-                <th width={550} style={{ ...fntSize }}>Wedding theme (product.metafields.custom.wedding_theme)</th>
-                <th width={700} style={{ ...fntSize }}>Why Us Etsy Descriptions (product.metafields.custom.why_us_etsy_descriptions)</th>
-                <th width={450} style={{ ...fntSize }}>Width (product.metafields.custom.width)</th>
-                <th width={650} style={{ ...fntSize }}>EComposer product countdown end at (product.metafields.ecomposer.countdown)</th>
-                <th width={750} style={{ ...fntSize }}>EComposer product countdown start at (product.metafields.ecomposer.countdown_from)</th>
-                <th width={650} style={{ ...fntSize }}>Google: Custom Product (product.metafields.mm-google-shopping.custom_product)</th>
-                <th width={500} style={{ ...fntSize }}>Age group (product.metafields.shopify.age-group)</th>
-                <th width={550} style={{ ...fntSize }}>Bracelet design (product.metafields.shopify.bracelet-design)</th>
-                <th width={500} style={{ ...fntSize }}>Color (product.metafields.shopify.color-pattern)</th>
-                <th width={550} style={{ ...fntSize }}>Earring design (product.metafields.shopify.earring-design)</th>
-                <th width={1200} style={{ ...fntSize }}>Jewelry material (product.metafields.shopify.jewelry-material)</th>
-                <th width={600} style={{ ...fntSize }}>Jewelry type (product.metafields.shopify.jewelry-type)</th>
-                <th width={600} style={{ ...fntSize }}>Necklace design (product.metafields.shopify.necklace-design)</th>
-                <th width={600} style={{ ...fntSize }}>Ring design (product.metafields.shopify.ring-design)</th>
-                <th width={550} style={{ ...fntSize }}>Ring size (product.metafields.shopify.ring-size)</th>
-                <th width={550} style={{ ...fntSize }}>Target gender (product.metafields.shopify.target-gender)</th>
-                <th width={1400} style={{ ...fntSize }}>Complementary products (product.metafields.shopify--discovery--product_recommendation.complementary_products)</th>
-                <th width={1400} style={{ ...fntSize }}>Related products (product.metafields.shopify--discovery--product_recommendation.related_products)</th>
-                <th width={950} style={{ ...fntSize }}>Related products settings (product.metafields.shopify--discovery--product_recommendation.related_products_display)</th>
-                <th width={800} style={{ ...fntSize }}>Search product boosts (product.metafields.shopify--discovery--product_search_boost.queries)</th>
-                <th width={700} style={{ ...fntSize }}>Variant Image</th>
-                <th width={200} style={{ ...fntSize }}>Variant Weight Unit</th>
-                <th width={150} style={{ ...fntSize }}>Variant Tax Code</th>
-                <th width={150} style={{ ...fntSize }}>Cost per item</th>
-                <th width={100} style={{ ...fntSize }}>Status</th>
-                <th width={250} style={{ ...fntSize }}>total diamond amount</th>
-                <th width={250} style={{ ...fntSize }}>total colorstone amount</th>
-                <th width={150} style={{ ...fntSize }}>making amount</th>
-                <th width={150} style={{ ...fntSize }}>other amount</th>
-                <th width={150} style={{ ...fntSize }}>metal amount</th>
+                <td width={900} height={25} style={{ ...fntSize }}>Handle</td>
+                <td width={900} style={{ ...fntSize }}>Title</td>
+                <td width={1500} style={{ ...fntSize }}>Body (HTML)</td>
+                <td width={250} style={{ ...fntSize }}>Vendor</td>
+                <td width={400} style={{ ...fntSize }}>Product Category</td>
+                <td width={350} style={{ ...fntSize }}>Type</td>
+                <td width={1500} style={{ ...fntSize }}>Tags</td>
+                <td width={100} style={{ ...fntSize }}>Published</td>
+                <td width={250} style={{ ...fntSize }}>Option1 Name</td>
+                <td width={200} style={{ ...fntSize }}>Option1 Value</td>
+                <td width={300} style={{ ...fntSize }}>Option1 Linked TO</td>
+                <td width={250} style={{ ...fntSize }}>Option2 Name</td>
+                <td width={200} style={{ ...fntSize }}>Option2 Value</td>
+                <td width={300} style={{ ...fntSize }}>Option2 Linked To</td>
+                <td width={150} style={{ ...fntSize }}>Option3 Name</td>
+                <td width={150} style={{ ...fntSize }}>Option3 Value</td>
+                <td width={200} style={{ ...fntSize }}>Option3 Linked To</td>
+                <td width={300} style={{ ...fntSize }}>Variant SKU</td>
+                <td width={200} style={{ ...fntSize }}>Variant Grams</td>
+                <td width={250} style={{ ...fntSize }}>Variant Inventory Tracker</td>
+                <td width={250} style={{ ...fntSize }}>Variant Inventory Qty</td>
+                <td width={250} style={{ ...fntSize }}>Variant Inventory Policy</td>
+                <td width={300} style={{ ...fntSize }}>Variant Fulfillment Service</td>
+                <td width={150} style={{ ...fntSize }}>Variant Price</td>
+                <td width={250} style={{ ...fntSize }}>Variant Compare At Price</td>
+                <td width={300} style={{ ...fntSize }}>Variant Requires Shipping</td>
+                <td width={200} style={{ ...fntSize }}>Variant Taxable</td>
+                <td width={300} style={{ ...fntSize }}>Unit Price Total Measure</td>
+                <td width={300} style={{ ...fntSize }}>Unit Price Total Measure Unit</td>
+                <td width={300} style={{ ...fntSize }}>Unit Price Base Measure</td>
+                <td width={300} style={{ ...fntSize }}>Unit Price Base Measure Unit</td>
+                <td width={200} style={{ ...fntSize }}>Variant Barcode</td>
+                <td width={900} style={{ ...fntSize }}>Image Src</td>
+                <td width={200} style={{ ...fntSize }}>Image Position</td>
+                <td width={200} style={{ ...fntSize }}>Image Alt Text</td>
+                <td width={120} style={{ ...fntSize }}>Gift Card</td>
+                <td width={650} style={{ ...fntSize }}>SEO Title</td>
+                <td width={1500} style={{ ...fntSize }}>SEO Description</td>
+                <td width={550} style={{ ...fntSize }}>Google Shopping / Google Product Category</td>
+                <td width={300} style={{ ...fntSize }}>Google Shopping / Gender</td>
+                <td width={350} style={{ ...fntSize }}>Google Shopping / Age Group</td>
+                <td width={300} style={{ ...fntSize }}>Google Shopping / MPN</td>
+                <td width={300} style={{ ...fntSize }}>Google Shopping / Condition</td>
+                <td width={350} style={{ ...fntSize }}>Google Shopping / Custom Product</td>
+                <td width={350} style={{ ...fntSize }}>Google Shopping / Custom Label 0</td>
+                <td width={350} style={{ ...fntSize }}>Google Shopping / Custom Label 1</td>
+                <td width={350} style={{ ...fntSize }}>Google Shopping / Custom Label 2</td>
+                <td width={350} style={{ ...fntSize }}>Google Shopping / Custom Label 3</td>
+                <td width={350} style={{ ...fntSize }}>Google Shopping / Custom Label 4</td>
+                <td width={800} style={{ ...fntSize }}>Actual Metal Color (Catawiki) (product.metafields.custom.actual_metal_color_catawiki)</td>
+                <td width={800} style={{ ...fntSize }}>Band Color Rings Etsy (product.metafields.custom.band_color_rings_etsy)</td>
+                <td width={600} style={{ ...fntSize }}>Bracelets width (product.metafields.custom.bracelets_width)</td>
+                <td width={650} style={{ ...fntSize }}>Bracelet Length (product.metafields.custom.bracelet_length)</td>
+                <td width={900} style={{ ...fntSize }}>Can be personalised Etsy (product.metafields.custom.can_be_personalised_etsy)</td>
+                <td width={800} style={{ ...fntSize }}>Catawiki Price (Euro) (product.metafields.custom.catawiki_price_euro1)</td>
+                <td width={550} style={{ ...fntSize }}>Chain Style (product.metafields.custom.chain_style)</td>
+                <td width={650} style={{ ...fntSize }}>Closure Bracelet, Necklace (product.metafields.custom.closure_)</td>
+                <td width={650} style={{ ...fntSize }}>Closure Earrings (product.metafields.custom.closure_earrings)</td>
+                <td width={850} style={{ ...fntSize }}>Cutting type of surrounding stone (product.metafields.custom.cutting_type_of_surrounding_stone)</td>
+                <td width={850} style={{ ...fntSize }}>Cut Type Etsy/ Main Sone Cut (product.metafields.custom.cut_type_etsy_main_sone_cut)</td>
+                <td width={850} style={{ ...fntSize }}>Diamond Clarity of Main Stone (product.metafields.custom.diamond_clarity_of_main_stone)</td>
+                <td width={850} style={{ ...fntSize }}>Diamond clarity of surrounding stone (product.metafields.custom.diamond_clarity_of_surrounding_stone1)</td>
+                <td width={850} style={{ ...fntSize }}>Diamond colour grade of main stone (product.metafields.custom.diamond_colour_grade_of_main_stone)</td>
+                <td width={950} style={{ ...fntSize }}>Diamond colour grade of surrounding stones (product.metafields.custom.diamond_colour_grade_of_surrounding_stones)</td>
+                <td width={450} style={{ ...fntSize }}>Drop Length (product.metafields.custom.drop_length)</td>
+                <td width={500} style={{ ...fntSize }}>Etsy Category (product.metafields.custom.etsy_category)</td>
+                <td width={1800} style={{ ...fntSize }}>Etsy Description (product.metafields.custom.etsy_description)</td>
+                <td width={800} style={{ ...fntSize }}>Etsy Meta Tittle (product.metafields.custom.etsy_meta_tittle)</td>
+                <td width={700} style={{ ...fntSize }}>Gemstone / MainStone (product.metafields.custom.gemstone_mainstone1) (Stone 1)</td>
+                <td width={550} style={{ ...fntSize }}>Gem Color Etsy (product.metafields.custom.gem_color_etsy)</td>
+                <td width={700} style={{ ...fntSize }}>Gem Color / Main Stone Color (product.metafields.custom.gem_color_main_stone_color)</td>
+                <td width={650} style={{ ...fntSize }}>Gold Purity (9,10,14,18) S4 (product.metafields.custom.gold_purity_9_10_14_18_s4)</td>
+                <td width={500} style={{ ...fntSize }}>Gold Solidity (product.metafields.custom.gold_solidity)</td>
+                <td width={600} style={{ ...fntSize }}>Gross Weight (Catawiki) (product.metafields.custom.gross_weight_catawiki1)</td>
+                <td width={650} style={{ ...fntSize }}>Highlights Etsy Description (product.metafields.custom.highlights_etsy_description)</td>
+                <td width={700} style={{ ...fntSize }}>Is there more then 2 stones (product.metafields.custom.is_there_more_then_2_stones)</td>
+                <td width={500} style={{ ...fntSize }}>Jewelry Style (product.metafields.custom.jewelry_style)</td>
+                <td width={650} style={{ ...fntSize }}>Laboratory Report Catawiki (product.metafields.custom.laboratory_report_catawiki)</td>
+                <td width={650} style={{ ...fntSize }}>Laboratory Report Number (product.metafields.custom.laboratory_report_number)</td>
+                <td width={500} style={{ ...fntSize }}>Length (product.metafields.custom.length)</td>
+                <td width={550} style={{ ...fntSize }}>Location (product.metafields.custom.location)</td>
+                <td width={600} style={{ ...fntSize }}>Material (Select 3) (product.metafields.custom.material_select_3)</td>
+                <td width={600} style={{ ...fntSize }}>Necklace length (product.metafields.custom.necklace_length)</td>
+                <td width={800} style={{ ...fntSize }}>Number of Diamond Main stone (product.metafields.custom.number_of_diamond_main_stone)</td>
+                <td width={850} style={{ ...fntSize }}>Number of Diamond Surrounding Stone (product.metafields.custom.number_of_diamond_surrounding_stone)</td>
+                <td width={600} style={{ ...fntSize }}>Number of Strands (product.metafields.custom.number_of_strands)</td>
+                <td width={600} style={{ ...fntSize }}>Object Catawiki (C) (product.metafields.custom.object_catawiki_c)</td>
+                <td width={650} style={{ ...fntSize }}>Occasion Etsy Description (product.metafields.custom.occasion_etsy_description)</td>
+                <td width={600} style={{ ...fntSize }}>Pendant Height (product.metafields.custom.pendant_height)</td>
+                <td width={600} style={{ ...fntSize }}>Pendant Width (product.metafields.custom.pendant_width)</td>
+                <td width={600} style={{ ...fntSize }}>Primary Colour  (product.metafields.custom.primary_colour)</td>
+                <td width={600} style={{ ...fntSize }}>Product badge (product.metafields.custom.product_badge)</td>
+                <td width={700} style={{ ...fntSize }}>Recipient Etsy / Gender (product.metafields.custom.recipient_etsy_gender)</td>
+                <td width={700} style={{ ...fntSize }}>Secondary Stone Catawiki (product.metafields.custom.secondary_stone_catawiki)</td>
+                <td width={700} style={{ ...fntSize }}>Setting Etsy (Select 3) (product.metafields.custom.setting_etsy_select_3)</td>
+                <td width={600} style={{ ...fntSize }}>Shank Type Etsy (product.metafields.custom.shank_type_etsy)</td>
+                <td width={500} style={{ ...fntSize }}>Shape Etsy (product.metafields.custom.shape_etsy)</td>
+                <td width={700} style={{ ...fntSize }}>Shape of mainstone (catawiki) (product.metafields.custom.shape_of_mainstone_catawiki)</td>
+                <td width={700} style={{ ...fntSize }}>Shape of surrounding stone (product.metafields.custom.shape_of_surrounding_stone1)</td>
+                <td width={600} style={{ ...fntSize }}>Shop Section Etsy (product.metafields.custom.shop_section_etsy)</td>
+                <td width={550} style={{ ...fntSize }}>Stone 3 Carat (product.metafields.custom.stone_3_carat)</td>
+                <td width={550} style={{ ...fntSize }}>Stone 3 Clarity (product.metafields.custom.stone_3_clarity)</td>
+                <td width={550} style={{ ...fntSize }}>Stone 3 Color (product.metafields.custom.stone_3_color)</td>
+                <td width={550} style={{ ...fntSize }}>Stone 3 Shape (product.metafields.custom.stone_3_shape)</td>
+                <td width={600} style={{ ...fntSize }}>Stone 3 Type of stone (product.metafields.custom.stone_3_type_of_stone)</td>
+                <td width={550} style={{ ...fntSize }}>Stone 4 Carat (product.metafields.custom.stone_4_carat)</td>
+                <td width={550} style={{ ...fntSize }}>Stone 4 Clarity (product.metafields.custom.stone_4_clarity)</td>
+                <td width={550} style={{ ...fntSize }}>Stone 4 Color (product.metafields.custom.stone_4_color)</td>
+                <td width={550} style={{ ...fntSize }}>Stone 4 Shape (product.metafields.custom.stone_4_shape)</td>
+                <td width={600} style={{ ...fntSize }}>Stone 4 Type of Stone (product.metafields.custom.stone_4_type_of_stone)</td>
+                <td width={550} style={{ ...fntSize }}>Stone 5 Carat (product.metafields.custom.stone_5_carat)</td>
+                <td width={550} style={{ ...fntSize }}>Stone 5 Clarity (product.metafields.custom.stone_5_clarity)</td>
+                <td width={550} style={{ ...fntSize }}>Stone 5 Color (product.metafields.custom.stone_5_color)</td>
+                <td width={550} style={{ ...fntSize }}>Stone 5 Shape (product.metafields.custom.stone_5_shape)</td>
+                <td width={600} style={{ ...fntSize }}>Stone 5 Type of stone (product.metafields.custom.stone_5_type_of_stone)</td>
+                <td width={550} style={{ ...fntSize }}>Stone 6 Carat (product.metafields.custom.stone_6_carat)</td>
+                <td width={550} style={{ ...fntSize }}>Stone 6 Clarity (product.metafields.custom.stone_6_clarity)</td>
+                <td width={550} style={{ ...fntSize }}>Stone 6 Color (product.metafields.custom.stone_6_color)</td>
+                <td width={550} style={{ ...fntSize }}>Stone 6 Shape (product.metafields.custom.stone_6_shape)</td>
+                <td width={600} style={{ ...fntSize }}>Stone 6 Type of Stone (product.metafields.custom.stone_6_type_of_stone)</td>
+                <td width={550} style={{ ...fntSize }}>Stone Source Etsy (product.metafields.custom.stone_source_etsy)</td>
+                <td width={500} style={{ ...fntSize }}>Style Esty (product.metafields.custom.style_esty)</td>
+                <td width={550} style={{ ...fntSize }}>Tag for Etsy 1 (product.metafields.custom.tag_for_etsy_1)</td>
+                <td width={550} style={{ ...fntSize }}>Tag for Etsy 10 (product.metafields.custom.tag_for_etsy_10)</td>
+                <td width={550} style={{ ...fntSize }}>Tag for Etsy 11 (product.metafields.custom.tag_for_etsy_11)</td>
+                <td width={550} style={{ ...fntSize }}>Tag for Etsy 12 (product.metafields.custom.tag_for_etsy_12)</td>
+                <td width={550} style={{ ...fntSize }}>Tag for Etsy 13 (product.metafields.custom.tag_for_etsy_13)</td>
+                <td width={550} style={{ ...fntSize }}>Tag for Etsy 2 (product.metafields.custom.tag_for_etsy_2)</td>
+                <td width={550} style={{ ...fntSize }}>Tag for Etsy 3 (product.metafields.custom.tag_for_etsy_3)</td>
+                <td width={550} style={{ ...fntSize }}>Tag for Etsy 4 (product.metafields.custom.tag_for_etsy_4)</td>
+                <td width={550} style={{ ...fntSize }}>Tag for Etsy 5 (product.metafields.custom.tag_for_etsy_5)</td>
+                <td width={550} style={{ ...fntSize }}>Tag for Etsy 6 (product.metafields.custom.tag_for_etsy_6)</td>
+                <td width={550} style={{ ...fntSize }}>Tag for Etsy 7 (product.metafields.custom.tag_for_etsy_7)</td>
+                <td width={550} style={{ ...fntSize }}>Tag for Etsy 8 (product.metafields.custom.tag_for_etsy_8)</td>
+                <td width={550} style={{ ...fntSize }}>Tag for Etsy 9 (product.metafields.custom.tag_for_etsy_9)</td>
+                <td width={500} style={{ ...fntSize }}>Theme Etsy (product.metafields.custom.theme_etsy)</td>
+                <td width={750} style={{ ...fntSize }}>Total carat weight of all stone (product.metafields.custom.total_carat_weight_of_all_stone1)</td>
+                <td width={750} style={{ ...fntSize }}>Total Carat Weight of main stone (product.metafields.custom.total_carat_weight_of_main_stone)</td>
+                <td width={900} style={{ ...fntSize }}>Total Carat Weight of Surrounding stone (product.metafields.custom.total_carat_weight_of_surrounding_stone)</td>
+                <td width={900} style={{ ...fntSize }}>Transparency of main stone (catawiki) (product.metafields.custom.transparency_of_main_stone_catawiki)</td>
+                <td width={850} style={{ ...fntSize }}>Transparency of surrounding stone (product.metafields.custom.transparency_of_surrounding_stone)</td>
+                <td width={700} style={{ ...fntSize }}>Treatment of mainstone (product.metafields.custom.treatment_of_mainstone)</td>
+                <td width={750} style={{ ...fntSize }}>Treatment of surrounding stones (product.metafields.custom.treatment_of_surrounding_stones)</td>
+                <td width={500} style={{ ...fntSize }}>v360_url (product.metafields.custom.v360_url)</td>
+                <td width={550} style={{ ...fntSize }}>Wedding theme (product.metafields.custom.wedding_theme)</td>
+                <td width={700} style={{ ...fntSize }}>Why Us Etsy Descriptions (product.metafields.custom.why_us_etsy_descriptions)</td>
+                <td width={450} style={{ ...fntSize }}>Width (product.metafields.custom.width)</td>
+                <td width={650} style={{ ...fntSize }}>EComposer product countdown end at (product.metafields.ecomposer.countdown)</td>
+                <td width={750} style={{ ...fntSize }}>EComposer product countdown start at (product.metafields.ecomposer.countdown_from)</td>
+                <td width={650} style={{ ...fntSize }}>Google: Custom Product (product.metafields.mm-google-shopping.custom_product)</td>
+                <td width={500} style={{ ...fntSize }}>Age group (product.metafields.shopify.age-group)</td>
+                <td width={550} style={{ ...fntSize }}>Bracelet design (product.metafields.shopify.bracelet-design)</td>
+                <td width={500} style={{ ...fntSize }}>Color (product.metafields.shopify.color-pattern)</td>
+                <td width={550} style={{ ...fntSize }}>Earring design (product.metafields.shopify.earring-design)</td>
+                <td width={1200} style={{ ...fntSize }}>Jewelry material (product.metafields.shopify.jewelry-material)</td>
+                <td width={600} style={{ ...fntSize }}>Jewelry type (product.metafields.shopify.jewelry-type)</td>
+                <td width={600} style={{ ...fntSize }}>Necklace design (product.metafields.shopify.necklace-design)</td>
+                <td width={600} style={{ ...fntSize }}>Ring design (product.metafields.shopify.ring-design)</td>
+                <td width={550} style={{ ...fntSize }}>Ring size (product.metafields.shopify.ring-size)</td>
+                <td width={550} style={{ ...fntSize }}>Target gender (product.metafields.shopify.target-gender)</td>
+                <td width={1400} style={{ ...fntSize }}>Complementary products (product.metafields.shopify--discovery--product_recommendation.complementary_products)</td>
+                <td width={1400} style={{ ...fntSize }}>Related products (product.metafields.shopify--discovery--product_recommendation.related_products)</td>
+                <td width={950} style={{ ...fntSize }}>Related products settings (product.metafields.shopify--discovery--product_recommendation.related_products_display)</td>
+                <td width={800} style={{ ...fntSize }}>Search product boosts (product.metafields.shopify--discovery--product_search_boost.queries)</td>
+                <td width={700} style={{ ...fntSize }}>Variant Image</td>
+                <td width={200} style={{ ...fntSize }}>Variant Weight Unit</td>
+                <td width={150} style={{ ...fntSize }}>Variant Tax Code</td>
+                <td width={150} style={{ ...fntSize }}>Cost per item</td>
+                <td width={100} style={{ ...fntSize }}>Status</td>
+                <td width={250} style={{ ...fntSize }}>total diamond amount</td>
+                <td width={250} style={{ ...fntSize }}>total colorstone amount</td>
+                <td width={150} style={{ ...fntSize }}>making amount</td>
+                <td width={150} style={{ ...fntSize }}>other amount</td>
+                <td width={150} style={{ ...fntSize }}>metal amount</td>
               </tr>
 
               {result?.resultArray?.map((e, i) => {
@@ -791,7 +754,7 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td style={{ ...txtAtSta }}>{`Apparel & Accessories > Jewelry > ${e?.Categoryname}`}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{`Apparel & Accessories > Jewelry > ${e?.Categoryname}`}</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -804,13 +767,13 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td style={{ ...txtAtSta }}>{e?.designno}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{e?.designno}</td>
                     <td></td>
                     <td></td>
-                    <td style={{ ...txtAtSta }}>{e?.designcount}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{e?.designcount}</td>
                     <td></td>
                     <td></td>
-                    <td style={{ ...txtAtSta }}>{formatAmount(e?.TotalAmount, 2)}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{formatAmount(e?.TotalAmount, 2)}</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -837,7 +800,7 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td style={{ ...txtAtSta }}>{e?.MetalColor}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{e?.MetalColor}</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -847,20 +810,20 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 0 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? "" : em?.QualityName : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 1 && em?.MasterManagement_DiamondStoneTypeid !== 2 ? em?.QualityName : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 0 ? em?.Colorname : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 1 ? em?.Colorname : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 0 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? "" : em?.QualityName : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 1 && em?.MasterManagement_DiamondStoneTypeid !== 2 ? em?.QualityName : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 0 ? em?.Colorname : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 1 ? em?.Colorname : "")}</td>
                     <td></td>
-                    <td style={{ ...txtAtSta }}>{e?.SubCategoryname}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{e?.SubCategoryname}</td>
                     <td></td>
                     <td></td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 0 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? em?.QualityName : em?.MasterManagement_DiamondStoneTypeid === 1 && em?.MaterialTypeName === "" ? "Diamond" : em?.MaterialTypeName : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 0 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? em?.QualityName : em?.MasterManagement_DiamondStoneTypeid === 1 && em?.MaterialTypeName === "" ? "Diamond" : em?.MaterialTypeName : "")}</td>
                     <td></td>
                     <td></td>
-                    <td style={{ ...txtAtSta }}>{e?.MetalPurity}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{e?.MetalPurity}</td>
                     <td></td>
-                    <td style={{ ...txtAtSta }}>{fixedValues(e?.grosswt, 3)}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{fixedValues(e?.grosswt, 3)}g</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -870,43 +833,43 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 0 ? em?.Pcs : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 1 ? em?.Pcs : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 0 ? em?.Pcs : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 1 ? em?.Pcs : "")}</td>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td style={{ ...txtAtSta }}>{e?.MetalColor}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{e?.MetalColor}</td>
                     <td></td>
                     <td></td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 1 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? em?.QualityName : em?.MasterManagement_DiamondStoneTypeid === 1 && em?.MaterialTypeName === "" ? "Diamond" : em?.MaterialTypeName : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 1 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? em?.QualityName : em?.MasterManagement_DiamondStoneTypeid === 1 && em?.MaterialTypeName === "" ? "Diamond" : em?.MaterialTypeName : "")}</td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 0 ? em?.ShapeName : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 1 ? em?.ShapeName : "")}</td>
-                    <td style={{ ...txtAtSta }}>{e?.Collectionname}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 2 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 3)} ct` : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 2 && em?.MasterManagement_DiamondStoneTypeid !== 2 ? em?.QualityName : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 2 ? em?.Colorname : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 2 ? em?.ShapeName : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 2 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? em?.QualityName : em?.MasterManagement_DiamondStoneTypeid === 1 && em?.MaterialTypeName === "" ? "Diamond" : em?.MaterialTypeName : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 3 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 3)} ct` : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 3 && em?.MasterManagement_DiamondStoneTypeid !== 2 ? em?.QualityName : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 3 ? em?.Colorname : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 3 ? em?.ShapeName : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 3 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? em?.QualityName : em?.MasterManagement_DiamondStoneTypeid === 1 && em?.MaterialTypeName === "" ? "Diamond": em?.MaterialTypeName : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 4 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 3)} ct` : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 4 && em?.MasterManagement_DiamondStoneTypeid !== 2 ? em?.QualityName : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 4 ? em?.Colorname : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 4 ? em?.ShapeName : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 4 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? em?.QualityName : em?.MasterManagement_DiamondStoneTypeid === 1 && em?.MaterialTypeName === "" ? "Diamond": em?.MaterialTypeName : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 5 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 3)} ct` : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 5 && em?.MasterManagement_DiamondStoneTypeid !== 2 ? em?.QualityName : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 5 ? em?.Colorname : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 5 ? em?.ShapeName : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 5 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? em?.QualityName : em?.MasterManagement_DiamondStoneTypeid === 1 && em?.MaterialTypeName === "" ? "Diamond": em?.MaterialTypeName : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 0 ? em?.ShapeName : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 1 ? em?.ShapeName : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{e?.Collectionname}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 2 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 2)} ct` : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 2 && em?.MasterManagement_DiamondStoneTypeid !== 2 ? em?.QualityName : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 2 ? em?.Colorname : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 2 ? em?.ShapeName : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 2 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? em?.QualityName : em?.MasterManagement_DiamondStoneTypeid === 1 && em?.MaterialTypeName === "" ? "Diamond" : em?.MaterialTypeName : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 3 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 2)} ct` : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 3 && em?.MasterManagement_DiamondStoneTypeid !== 2 ? em?.QualityName : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 3 ? em?.Colorname : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 3 ? em?.ShapeName : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 3 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? em?.QualityName : em?.MasterManagement_DiamondStoneTypeid === 1 && em?.MaterialTypeName === "" ? "Diamond": em?.MaterialTypeName : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 4 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 2)} ct` : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 4 && em?.MasterManagement_DiamondStoneTypeid !== 2 ? em?.QualityName : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 4 ? em?.Colorname : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 4 ? em?.ShapeName : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 4 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? em?.QualityName : em?.MasterManagement_DiamondStoneTypeid === 1 && em?.MaterialTypeName === "" ? "Diamond": em?.MaterialTypeName : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 5 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 2)} ct` : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 5 && em?.MasterManagement_DiamondStoneTypeid !== 2 ? em?.QualityName : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 5 ? em?.Colorname : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 5 ? em?.ShapeName : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 5 ? em?.MasterManagement_DiamondStoneTypeid === 2 ? em?.QualityName : em?.MasterManagement_DiamondStoneTypeid === 1 && em?.MaterialTypeName === "" ? "Diamond": em?.MaterialTypeName : "")}</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -923,9 +886,9 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td style={{ ...txtAtSta }}>{totalWeight !== 0 ? `${fixedValues(totalWeight,3)} ct` : ""}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 0 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 3)} ct` : "")}</td>
-                    <td style={{ ...txtAtSta }}>{finalItems.map((em, i) => i === 1 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 3)} ct` : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{totalWeight !== 0 ? `${fixedValues(totalWeight,2)} ct` : ""}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 0 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 2)} ct` : "")}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{finalItems.map((em, i) => i === 1 && em?.Wt !== 0 ? `${fixedValues(em?.Wt, 2)} ct` : "")}</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -956,11 +919,11 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td style={{ ...txtAtSta }}>{e?.totals?.diamonds?.Amount !== 0 ? `${formatAmount(e?.totals?.diamonds?.Amount, 2)}` : "0"}</td>
-                    <td style={{ ...txtAtSta }}>{e?.totals?.colorstone?.Amount !== 0 ? `${formatAmount(e?.totals?.colorstone?.Amount, 2)}` : "0"}</td>
-                    <td style={{ ...txtAtSta }}>{e?.MakingAmount !== 0 ? `${formatAmount(e?.MakingAmount, 2)}` : "0"}</td>
-                    <td style={{ ...txtAtSta }}>{eleWiseOthrAmt !== 0 ? `${formatAmount(eleWiseOthrAmt, 2)}` : "0"}</td>
-                    <td style={{ ...txtAtSta }}>{e?.totals?.metal?.Amount !== 0 ? `${formatAmount(e?.totals?.metal?.Amount, 2)}` : "0"}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{e?.totals?.diamonds?.Amount !== 0 ? `${formatAmount(e?.totals?.diamonds?.Amount, 2)}` : "0"}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{e?.totals?.colorstone?.Amount !== 0 ? `${formatAmount(e?.totals?.colorstone?.Amount, 2)}` : "0"}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{e?.MakingAmount !== 0 ? `${formatAmount(e?.MakingAmount, 2)}` : "0"}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{eleWiseOthrAmt !== 0 ? `${formatAmount(eleWiseOthrAmt, 2)}` : "0"}</td>
+                    <td style={{ ...txtAtSta, ...fntSize }}>{e?.totals?.metal?.Amount !== 0 ? `${formatAmount(e?.totals?.metal?.Amount, 2)}` : "0"}</td>
                   </tr>
                 )
               })}
