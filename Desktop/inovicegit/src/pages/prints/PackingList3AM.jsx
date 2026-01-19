@@ -562,7 +562,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   // console.log("finalAmount", finalAmount);
   // console.log("decimalPart", decimalPart);
   // console.log("roundedAmount", roundedAmount);
-  // console.log("resultresult", result);
+  console.log("resultresult", result);
 
   function PrintableText({ result }) {
     const htmlContent = result?.header?.Printlable?.replace(/\n/g, '<br />');
@@ -573,8 +573,6 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       />
     );
   }
-  
-  console.log("result", result);
   
   return (
       <>
@@ -745,7 +743,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <div className="mt-1 ">
                 {/* table header */}
                 <div
-                  className="d-flex thead_pcls bbottom_pcls tb_fs_pcls"
+                  className="d-flex thead_pcls bbottom_pcls tb_fs_pcls_head"
                   style={{
                     borderTop: "1px solid black",
                     borderLeft: "1px solid black",
@@ -2017,7 +2015,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                   </div>
                 </div>
-                <div className="dia_sum_dp10 d-flex flex-column justify-content-between  fsgdp10 H_sum_pcl3">
+                <div className="dia_sum_dp10 d-flex flex-column justify-content-between fsgdp10 minH_sum_pcl3">
                   <div className="h_bd10 centerdp10 bg_dp10 fw-bold ball_dp10 tb_fs_pcls">
                     Diamond Detail
                   </div>
@@ -2096,7 +2094,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                   )}
                 </div>
-                <div className="disColunm check_dp10 ball_dp10 pb-1 fsgdp10 tb_fs_pcls1 H_sum_pcl3">
+                <div className="disColunm check_dp10 ball_dp10 pb-1 fsgdp10 tb_fs_pcls1 minH_sum_pcl3">
                   <div style={{ padding: "5px" }}>
                     <div className="w-100 fw-bold text-center">
                       Bank Details
@@ -2168,7 +2166,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     For {result?.header?.CompanyFullName}
                   </p>
                   <img
-                    src={result?.header?.digital_signature}
+                    src={result?.header?.DigitalSignature}
                     height="80px"
                     width="80px"
                   />
