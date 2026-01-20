@@ -598,7 +598,7 @@ const Excel1Quote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <td width={500} style={{ ...fntSize }}>Etsy Category (product.metafields.custom.etsy_category)</td>
                 <td width={1800} style={{ ...fntSize }}>Etsy Description (product.metafields.custom.etsy_description)</td>
                 <td width={800} style={{ ...fntSize }}>Etsy Meta Tittle (product.metafields.custom.etsy_meta_tittle)</td>
-                <td width={700} style={{ ...fntSize }}>Gemstone / MainStone (product.metafields.custom.gemstone_mainstone1) (Stone 1)</td>
+                <td width={700} style={{ ...fntSize }}>Gemstone / MainStone (product.metafields.custom.gemstone_mainstone1)</td>
                 <td width={550} style={{ ...fntSize }}>Gem Color Etsy (product.metafields.custom.gem_color_etsy)</td>
                 <td width={700} style={{ ...fntSize }}>Gem Color / Main Stone Color (product.metafields.custom.gem_color_main_stone_color)</td>
                 <td width={650} style={{ ...fntSize }}>Gold Purity (9,10,14,18) S4 (product.metafields.custom.gold_purity_9_10_14_18_s4)</td>

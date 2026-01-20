@@ -247,7 +247,7 @@ const MemoIgi2Excel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <th width={130} style={{ ...brRight, ...brTop, ...hdSty, ...brBotm }}>Gross Weight</th>
                                 <th width={130} style={{ ...brRight, ...brTop, ...hdSty, ...brBotm }}>Diamond Weight</th>
                                 <th width={130} style={{ ...brRight, ...brTop, ...hdSty, ...brBotm }}>No Of Diamonds</th>
-                                <th width={130} style={{ ...brRight, ...brTop, ...hdSty, ...brBotm }}>Jewellery Description</th>
+                                <th width={130} style={{ ...brRight, ...brTop, ...hdSty, ...brBotm }}>Jewelry Description</th>
                                 <th width={130} style={{ ...brRight, ...brTop, ...hdSty, ...brBotm }}>Metal Color</th>
                                 <th width={130} style={{ ...brRight, ...brTop, ...hdSty, ...brBotm }}>Metal Type</th>
                                 <th width={130} style={{ ...brRight, ...brTop, ...hdSty, ...brBotm }}>Shape</th>
