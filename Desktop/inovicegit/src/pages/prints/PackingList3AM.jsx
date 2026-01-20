@@ -68,6 +68,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   }, []);
 
   const loadData = (data) => {
+    // console.log("data", data);
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
 
@@ -210,7 +211,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
              a?.ShapeName === bll?.ShapeName &&
              a?.QualityName === bll?.QualityName &&
              a?.Colorname === bll?.Colorname &&
-             a?.SizeName === bll?.SizeName
+             a?.SizeName === bll?.SizeName &&
+             a?.MaterialTypeName === bll?.MaterialTypeName
          );
          if (findrec === -1) {
            dia1_g.push(bll);
@@ -562,7 +564,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   // console.log("finalAmount", finalAmount);
   // console.log("decimalPart", decimalPart);
   // console.log("roundedAmount", roundedAmount);
-  console.log("resultresult", result);
+  // console.log("resultresult", result);
 
   function PrintableText({ result }) {
     const htmlContent = result?.header?.Printlable?.replace(/\n/g, '<br />');

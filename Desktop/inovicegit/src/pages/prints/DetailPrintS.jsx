@@ -41,10 +41,6 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     WtCtw:0
   });
   const [fineWtTotal, setFineWtTotal] = useState(0);
-  const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
   async function loadData(data) {
     try {
       let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
@@ -753,7 +749,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       }
     };
 
-    console.log("result", result);
+    // console.log("result", result);
 
   return (
     <>
@@ -1153,11 +1149,25 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className="w_subcoldp7 dp7cen2 brdp7"> </div>
 
                                 <div className="w_subcoldp7 dp7cen2 fw-bold" style={{ width: "25%" }}>
-                                   { (e?.totals?.total_diamond_colorstone_misc_amount + e?.totals?.metal?.withoutPrimaryMetal_Amount) === 0 ? ''
-                                    :  formatAmount(((e?.totals?.total_diamond_colorstone_misc_amount / result?.header?.CurrencyExchRate) + 
-                                    (e?.totals?.metal?.withoutPrimaryMetal_Amount / result?.header?.CurrencyExchRate)))} </div>
+                                  { 
+                                    ( 
+                                      (e?.totals?.diamonds?.Amount || 0) + 
+                                      (e?.totals?.metal?.withoutPrimaryMetal_Amount || 0) + 
+                                      (e?.totals?.colorstone?.Amount || 0) + 
+                                      (e?.totals?.misc?.Amount || 0)
+                                    ) === 0 
+                                    ? '' 
+                                    : formatAmount(
+                                        (
+                                          (e?.totals?.diamonds?.Amount || 0) + 
+                                          (e?.totals?.metal?.withoutPrimaryMetal_Amount || 0) + 
+                                          (e?.totals?.colorstone?.Amount || 0) + 
+                                          (e?.totals?.misc?.Amount || 0)
+                                        ) / (result?.header?.CurrencyExchRate || 1) // Avoid division by zero
+                                      )
+                                  }
+                                </div>
                               </div>
-
                             </div>
                           </div>
                           <div className="rcol12dp7 dp7cen2 bldp7">
