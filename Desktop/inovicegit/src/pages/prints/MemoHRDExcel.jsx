@@ -1,4 +1,4 @@
-// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=Sk1JLzQyNC8yMDI1&evn=bWVtbw==&pnm=TWVtbyBIUkQ=&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&ctv=NzE=&ifid=PackingList3&pid=undefined&etp=ZXhjZWw=
+// http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=Sk1JLzQvMjAyNQ==&evn=bWVtbw==&pnm=TWVtbyBIUkQ=&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&ctv=NzE=&ifid=PackingList3&pid=undefined&etp=ZXhjZWw=
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -214,20 +214,20 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const txtTop = {
         verticalAlign: "top",
     };
+    const txtCen = {
+        textAlign: "center",
+    }
     const brRight = {
-        borderRight: "2px solid #000000",
+        borderRight: "0.5px solid #000000",
     };
     const brBotm = {
-        borderBottom: "2px solid #000000",
-    };
-    const brBotmdrk = {
-        borderBottom: "2px solid #000000",
+        borderBottom: "0.5px solid #000000",
     };
     const brTop = {
-        borderTop: "2px solid #000000",
+        borderTop: "0.5px solid #000000",
     };
-    const brTopLit = {
-        borderTop: "1px solid #000000",
+    const brLeft = {
+        borderLeft: "0.5px solid #000000",
     };
     const hdSty = {
         backgroundColor: "#F5F5F5",
@@ -235,6 +235,19 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const styBld = {
         fontWeight: "bold",
     }
+    const fntSize = {
+        fontSize: "18px"
+    }
+    const fntSize1 = {
+        fontSize: "16px"
+    }
+    const fntSize2 = {
+        fontSize: "14px"
+    }
+    const txtAtSta = {
+        textAlign: "left",
+      }
+
     const totalGrosswt = result?.resultArray?.reduce((acc, obj) => acc + obj.grosswt, 0);
     const totalDiaWeight = result?.resultArray?.map((e) => 
         e?.diamonds?.filter((diamond) => diamond?.IsCenterStone === 0)
@@ -265,146 +278,162 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     buttonText="Download as XLS" />
                     <table id="table-to-xls" className='d-none'>
                         <tbody>
-                            <tr />
                             <tr>
-                                <td />
-                                <td />
-                                <td colSpan={14}>
-                                    {result?.header?.customerAddress2 &&
-                                        `${result.header.customerAddress2}`}
-                                    {result?.header?.customerAddress1 &&
-                                        ` ${result.header.customerAddress1}`}
-                                    {result?.header?.customerAddress3 &&
-                                        ` ${result.header.customerAddress3}`}
-                                    {result?.header?.customercity1 &&
-                                        ` ${result.header.customercity1}`}
-                                    {(result?.header?.PinCode !== "" && result.header.customercity1 !== "") && (` - `)}
-                                    {result?.header?.PinCode !== "" && `${result.header.PinCode}`}
-                                    {(result?.header?.customeremail1 !== "" && result.header.PinCode !== "") && (`, `)}
-                                    {result?.header?.customeremail1 && `${result.header.customeremail1}`}
+                                <td colSpan={9} height={30} style={{ ...brBotm, ...styBld, ...fntSize, ...txtCen, ...brRight }}>
+                                    {result?.header?.CompanyFullName}
+                                </td>
+                            </tr> 
+
+                            <tr>
+                                <td colSpan={9} height={25} style={{ ...brBotm, ...brRight }}></td>
+                            </tr>
+
+                            <tr>
+                                <td colSpan={9} height={25} style={{ ...brBotm, ...fntSize1, ...txtCen, ...brRight }}>
+                                    {result?.header?.CompanyAddress}
                                 </td>
                             </tr>
+
                             <tr>
-                                <td height={40} style={{ ...styBld, }}>Date</td>
-                                <td style={{ textAlign: "left" }}>{result?.header?.EntryDate}</td>
-                                
-                                <td height={40} style={{ ...styBld, }}>Client</td>
-                                <td colSpan={3} style={{ textAlign: "left" }}>{result?.header?.CompanyFullName}</td>
-                                <td />
-                                <td height={40} style={{ ...styBld, }}>Supplier</td>
-                                <td colSpan={2} />
-                                <td height={40} colSpan={2} style={{ ...styBld, }}>Job Card No.</td>
-                                <td colSpan={2} style={{ textAlign: "left" }}>{result?.header?.InvoiceNo}</td>
-                                <td />
-                                <td height={40} colSpan={2} style={{ ...styBld, }}>Delivery Date</td>
-                                <td colSpan={2} />
+                                <td colSpan={9} height={25} style={{ ...brBotm, ...fntSize1, ...txtCen, ...brRight }}>
+                                    {result?.header?.CompanyAddress2}
+                                </td>
                             </tr>
+
                             <tr>
-                                <th width={40} style={{ ...brRight, ...brTop, ...hdSty }}>Sr.</th>
-                                <th width={180} style={{ ...brRight, ...brTop, ...hdSty }}>Product</th>
-                                <th width={80} style={{ ...brRight, ...brTop, ...hdSty }}>Customer</th>
-                                <th width={80} style={{ ...brRight, ...brTop, ...hdSty }}>Gross</th>
-                                <th width={80} style={{ ...brRight, ...brTop, ...hdSty }}>Dia</th>
-                                <th width={80} style={{ ...brRight, ...brTop, ...hdSty }}>Dia</th>
-                                <th width={80} style={{ ...brRight, ...brTop, ...hdSty }}>Dia Clarity</th>
-                                <th width={80} style={{ ...brRight, ...brTop, ...hdSty }}>Dia Color</th>
-                                <th width={80} style={{ ...brRight, ...brTop, ...hdSty }}>Diamind</th>
-                                <th width={80} style={{ ...brRight, ...brTop, ...hdSty }}>Cut</th>
-                                <th width={80} style={{ ...brRight, ...brTop, ...hdSty }}>Stamp</th>
-                                <th width={80} style={{ ...brRight, ...brTop, ...hdSty }}>Metal</th>
-                                <th width={80} style={{ ...brRight, ...brTop, ...hdSty }}>Sol Dia</th>
-                                <th width={80} style={{ ...brRight, ...brTop, ...hdSty }}>Sol Dia</th>
-                                <th width={80} style={{ ...brRight, ...brTop, ...hdSty }}>Sol Dia</th>
-                                <th width={80} style={{ ...brRight, ...brTop, ...hdSty }}>Sol Dia</th>
-                                <th colSpan={3} width={240} style={{ ...brRight, ...brTop, ...hdSty }}>For Office Use</th>
+                                <td colSpan={9} height={25} style={{ ...brBotm, ...fntSize1, ...txtCen, ...brRight }}>
+                                    GST NO: {result?.header?.Company_VAT_GST_No}
+                                </td>
+                                <td width={100} />
+                                <td width={100} style={{ ...brTop, ...brRight, ...brLeft, ...styBld }}>Natural</td>
+                                <td width={100} style={{ ...brTop, ...brRight }}>YES</td>
+                                <td width={100} style={{ ...brTop, ...brRight, ...styBld }}>BIG CERT</td>
+                                <td width={100} style={{ ...brTop, ...brRight }}>NO</td>
                             </tr>
+
                             <tr>
-                                <th width={40} style={{ ...brRight, ...brBotmdrk, ...hdSty }}></th>
-                                <th width={180} style={{ ...brRight, ...brBotmdrk, ...hdSty }}></th>
-                                <th width={80} style={{ ...brRight, ...brBotmdrk, ...hdSty }}>ID</th>
-                                <th width={80} style={{ ...brRight, ...brBotmdrk, ...hdSty }}>Wt.</th>
-                                <th width={80} style={{ ...brRight, ...brBotmdrk, ...hdSty }}>Wt.</th>
-                                <th width={80} style={{ ...brRight, ...brBotmdrk, ...hdSty }}>Pcs</th>
-                                <th width={80} style={{ ...brRight, ...brBotmdrk, ...hdSty }}>LL</th>
-                                <th width={80} style={{ ...brRight, ...brBotmdrk, ...hdSty }}>LL</th>
-                                <th width={80} style={{ ...brRight, ...brBotmdrk, ...hdSty }}>Type</th>
-                                <th width={80} style={{ ...brRight, ...brBotmdrk, ...hdSty }}></th>
-                                <th width={80} style={{ ...brRight, ...brBotmdrk, ...hdSty }}></th>
-                                <th width={80} style={{ ...brRight, ...brBotmdrk, ...hdSty }}></th>
-                                <th width={80} style={{ ...brRight, ...brBotmdrk, ...hdSty }}>Wt.</th>
-                                <th width={80} style={{ ...brRight, ...brBotmdrk, ...hdSty }}>Pcs.</th>
-                                <th width={80} style={{ ...brRight, ...brBotmdrk, ...hdSty }}>Clarity LL</th>
-                                <th width={80} style={{ ...brRight, ...brBotmdrk, ...hdSty }}>Color LL</th>
-                                <th width={80} style={{ ...brRight, ...brBotmdrk, ...brTopLit, ...hdSty }}>SGL NO.</th>
-                                <th width={80} style={{ ...brRight, ...brBotmdrk, ...brTopLit, ...hdSty }}>Clarity SGL</th>
-                                <th width={80} style={{ ...brRight, ...brBotmdrk, ...brTopLit, ...hdSty }}>Color SGL</th>
+                                <td colSpan={9} height={25} style={{ ...brBotm, ...fntSize1, ...txtCen, ...brRight }}>
+                                    TO: {result?.header?.customerfirmname} {result?.header?.customerAddress1} {result?.header?.customerAddress2}
+                                </td>
+                                <td width={100} />
+                                <td width={100} style={{ ...brTop, ...brRight, ...brLeft, ...styBld }}>LAB GROWN</td>
+                                <td width={100} style={{ ...brTop, ...brRight }}>NO</td>
+                                <td width={100} style={{ ...brTop, ...brRight, ...styBld }}>SMALL CERT</td>
+                                <td width={100} style={{ ...brTop, ...brRight }}>YES</td>
+                            </tr>
+
+                            <tr>
+                                <td colSpan={9} height={25} style={{ ...brBotm, ...fntSize1, ...txtCen, ...brRight }}>
+                                    {result?.header?.customercity1} {result?.header?.customerpincode} {result?.header?.State} T: {result?.header?.customermobileno1}
+                                </td>
+                                <td width={100} />
+                                <td width={100} style={{ ...brTop, ...brRight, ...brLeft, ...styBld }}>AUTHENTICITY</td>
+                                <td width={100} style={{ ...brTop, ...brRight }}>NO</td>
+                                <td width={100} style={{ ...brTop, ...brRight, ...styBld }}>CARD</td>
+                                <td width={100} style={{ ...brTop, ...brRight }}>NO</td>
+                            </tr>
+
+                            <tr>
+                                <td colSpan={2} height={25} style={{ ...brBotm, ...fntSize1, ...txtCen, ...brRight, ...styBld }}>
+                                    Date
+                                </td>
+                                <td style={{ ...brBotm, ...brRight }}>{result?.header?.InvoiceNo}</td>
+                                <td colSpan={6} style={{ ...brBotm, ...brRight }} />
+                                <td width={100} />
+                                <td width={100} style={{ ...brTop, ...brRight, ...brLeft, ...styBld }}>XRF-METAL</td>
+                                <td width={100} style={{ ...brTop, ...brRight }}>NO</td>
+                                <td width={100} style={{ ...brTop, ...brRight, ...styBld }}>PHOTO (Provided)</td>
+                                <td width={100} style={{ ...brTop, ...brRight }}>NO</td>
+                            </tr>
+
+                            <tr>
+                                <td height={25} style={{ ...brBotm, ...brRight }}></td>
+                                <td style={{ ...brBotm, ...brRight }} />
+                                <td style={{ ...brBotm, ...brRight }} />
+                                <td colSpan={6} style={{ ...brBotm, ...brRight }} />
+                                <td width={100} />
+                                <td width={100} style={{ ...brTop, ...brBotm, ...brRight, ...brLeft, ...styBld }}>DATE</td>
+                                <td width={100} style={{ ...brTop, ...brBotm, ...brRight }}>NO</td>
+                                <td width={100} style={{ ...brTop, ...brBotm, ...brRight, ...styBld }}>SYMMETRY</td>
+                                <td width={100} style={{ ...brTop, ...brBotm, ...brRight }}>YES</td>
+                            </tr>
+
+                            <tr>
+                                <td height={25} style={{ ...brBotm, ...brRight }}></td>
+                                <td style={{ ...brBotm, ...brRight }} />
+                                <td style={{ ...brBotm, ...brRight }} />
+                                <td colSpan={6} style={{ ...brBotm, ...brRight }} />
+                            </tr>
+
+                            <tr>
+                                <td colSpan={2} height={25} style={{ ...brBotm, ...brRight, ...fntSize1, ...styBld, ...txtCen }}>Company Representative</td>
+                                <td style={{ ...brBotm, ...brRight }} />
+                                <td colSpan={6} style={{ ...brBotm, ...brRight }} />
+                                <td colSpan={7} style={{ ...brBotm }}/>
+                                <td colSpan={7} style={{ ...brTop, ...brRight, ...brLeft, ...fntSize1, ...txtCen, ...brBotm }}>For HRD Use Only</td>
+                            </tr>
+
+                            <tr>
+                                <th width={80} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Sr. No</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>SAMPLE CODE (By Hrd)</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Job No.</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Style No. Of Product (Mentioned on The Report)</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Jewellery Type</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Gross Jewel Weight (In gms)</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Metal Type/Purity/Color</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>CRITERIA</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>SHAPE</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Diamond Quantity (Numbers) As Per Shape</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Total Diamond cts Weight</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Stars & Meeles cts Weight</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Pointers cts Weight</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Solitaires cts Weight</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Total</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Gemstone / Color Stones (Type)</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>HRD COLOR</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>HRD CLARITY</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>HRD SYMM</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>HRD SETTING</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>INSCRIPT ION ON JEWEL</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>COMMENT / REMARK / REJECT</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Graders</th>>
                             </tr>
 
                             {result?.resultArray?.map((e, i) => {
                                 return <tr key={i}>
-                                    <td width={40} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "center" }}><div>{i + 1}</div></td>
+                                    <td height={25} style={{ ...brRight, ...brBotm, ...fntSize2, ...txtCen }}>
+                                        {i + 1}
+                                    </td>
 
-                                    <td width={180} style={{ ...brRight, ...brBotm, ...txtTop }}>
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
+
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}>
+                                        <div>{`\u00A0 ${e?.SrJobno}`}</div>
+                                    </td>
+
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}>
+                                        <div>{e?.designno}</div>
+                                    </td>
+
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}>
                                         <div>{e?.Categoryname}</div>
                                     </td>
 
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
-                                        <div>{e?.designno} {`\u00A0 ${e?.SrJobno}`}</div>
-                                    </td>
-
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}>
                                         <div>{fixedValues(e?.grosswt, 3)}</div>
                                     </td>
 
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {<div>{fixedValues(e?.diamonds?.filter((e) => e?.IsCenterStone === 0).reduce((acc, ele) => acc + ele?.Wt, 0), 3)}</div>}
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}>
+                                        <div>{e?.MetalTypePurity} {e?.MetalColor}</div>
                                     </td>
 
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {<div>{e?.diamonds?.filter((e) => e?.IsCenterStone === 0).reduce((acc, ele) => acc + ele?.Pcs, 0)}</div>}
-                                    </td>
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
 
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}>
                                         <div>
                                             {[
                                                 ...new Set(
-                                                e?.diamonds
-                                                    .filter(d => d.QualityName && d.IsCenterStone !== 1)
-                                                    .map(d => d.QualityName)
-                                                )
-                                            ].join(', ')}
-                                        </div>
-                                    </td>
-
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
-                                        <div>
-                                            {[
-                                                ...new Set(
-                                                e?.diamonds
-                                                    .filter(d => d.Colorname && d.IsCenterStone !== 1)
-                                                    .map(d => d.Colorname)
-                                                )
-                                            ].join(', ')}
-                                        </div>
-                                    </td>
-
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
-                                        <div>
-                                            {[
-                                                ...new Set(
-                                                e?.diamonds
-                                                    .filter(d => d.MaterialTypeName && d.IsCenterStone !== 1)
-                                                    .map(d => d.MaterialTypeName)
-                                                )
-                                            ].join(', ')}
-                                        </div>
-                                    </td>
-
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
-                                        <div>
-                                            {[
-                                                ...new Set(
-                                                e?.diamonds
+                                                    e?.diamonds
                                                     .filter(d => d.ShapeName && d.IsCenterStone !== 1)
                                                     .map(d => d.ShapeName)
                                                 )
@@ -412,90 +441,35 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         </div>
                                     </td>
 
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        <div>{e?.MetalPurity}</div>
-                                    </td>
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
 
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        <div>{e?.MetalType}</div>
-                                    </td>
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
 
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {<div>{fixedValues(e?.diamonds?.filter((e) => e?.IsCenterStone === 1).reduce((acc, ele) => acc + ele?.Wt, 0), 3)}</div>}
-                                    </td>
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
 
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}>
-                                        {<div>{e?.diamonds?.filter((e) => e?.IsCenterStone === 1).reduce((acc, ele) => acc + ele?.Pcs, 0)}</div>}
-                                    </td>
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
 
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
-                                        <div>
-                                            {[
-                                                ...new Set(
-                                                e?.diamonds
-                                                    .filter(d => d.QualityName && d.IsCenterStone === 1)
-                                                    .map(d => d.QualityName)
-                                                )
-                                            ].join(', ')}
-                                        </div>
-                                    </td>
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
 
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop, textAlign: "left" }}>
-                                        <div>
-                                            {[
-                                                ...new Set(
-                                                e?.diamonds
-                                                    .filter(d => d.Colorname && d.IsCenterStone === 1)
-                                                    .map(d => d.Colorname)
-                                                )
-                                            ].join(', ')}
-                                        </div>
-                                    </td>
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
 
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}></td>
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}></td>
-                                    <td width={80} style={{ ...brRight, ...brBotm, ...txtTop }}></td>
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
+
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
+
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
+
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
+
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
+
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
+
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
+
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
                                 </tr>
                             })}
-
-                            <tr>
-                                <td width={40} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
-                                <td width={180} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
-                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
-
-                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}>
-                                    <div>{totalGrosswt?.toFixed(3)}</div>
-                                </td>
-
-                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}>
-                                    {totalDiaWeight?.toFixed(3)}
-                                </td>
-
-                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}>
-                                    {totalDiaPcs}
-                                </td>
-
-                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
-                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
-                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
-                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
-                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
-                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
-
-                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}>
-                                    {totalSolWt?.toFixed(3)}
-                                </td>
-
-                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}>
-                                    {totalSolPcs}
-                                </td>
-
-                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
-                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
-                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
-                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
-                                <td width={80} style={{ ...brRight, ...brBotmdrk, ...brTop, ...txtTop }}></td>
-                            </tr>
                         </tbody>
                     </table>
                 </>
