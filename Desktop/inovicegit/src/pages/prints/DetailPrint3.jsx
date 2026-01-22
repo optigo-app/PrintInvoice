@@ -62,15 +62,15 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const loadData = (data) => {
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
-
+  
     const datas = OrganizeDataPrint(
       data?.BillPrint_Json[0],
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
-
+  
     let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
-
+  
     setMetShpWise(met_shp_arr);
     let tot_met = 0;
     let tot_met_wt = 0;
@@ -80,18 +80,17 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     });
     setNotGoldMetalTotal(tot_met);
     setNotGoldMetalWtTotal(tot_met_wt);
-
+  
     let mdtot = 0;
     datas?.resultArray?.forEach((e) => {
       mdtot += e?.totals?.diamonds?.Wt / 5 + e?.NetWt;
     });
-
+  
     datas?.resultArray?.forEach((e) => {
       let diamond_grouping = [];
       e?.diamonds?.forEach((el) => {
         let findRecord = diamond_grouping?.findIndex(
-          (a) =>
-            a?.QualityName === el?.QualityName
+          (a) => a?.QualityName === el?.QualityName
         );
         if (findRecord === -1) {
           let obj = { ...el };
@@ -107,9 +106,22 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       });
       e.diamonds = diamond_grouping;
     });
-
+    
+    const sortedArray = datas.resultArray.sort((a, b) => {
+      const aGroupJobMatches = a.GroupJob && a.GroupJob === a.SrJobno;
+      const bGroupJobMatches = b.GroupJob && b.GroupJob === b.SrJobno;
+  
+      if (aGroupJobMatches && !bGroupJobMatches) {
+        return -1;
+      }
+      if (!aGroupJobMatches && bGroupJobMatches) {
+        return 1;
+      }
+      return 0;
+    });
+  
     setMdwt(mdtot);
-    setResult(datas);
+    setResult({ ...datas, resultArray: sortedArray });
     setLoader(false);
   };
   
