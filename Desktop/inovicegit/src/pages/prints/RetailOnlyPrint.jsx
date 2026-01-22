@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  CapitalizeWords,
   NumberWithCommas,
   apiCall,
   checkMsg,
@@ -14,9 +13,8 @@ import {
 import "../../assets/css/prints/retailOnlyPrint.css";
 import Loader from "../../components/Loader";
 import { ToWords } from "to-words";
-import { cloneDeep, find, findIndex } from "lodash";
+import { cloneDeep } from "lodash";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
-import NumToWord from "../../GlobalFunctions/NumToWord";
 
 const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [jsonData1, setJsonData1] = useState({});
@@ -59,6 +57,7 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
+
   const loadData = (data) => {
     let datas = OrganizeDataPrint(
       data?.BillPrint_Json[0],
@@ -469,6 +468,7 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
   // console.log("total", total);
   // console.log("finalD", finalD);
   // console.log("taxes", taxes);
+  // console.log("dataFill", dataFill);
 
   return (
     <>
@@ -584,8 +584,6 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 <p className="line_height_110 ft_12_retailPrint">
                   {jsonData1?.CustName}
                 </p>
-
-                {/* <p className=''>{jsonData1?.customerAddress2}</p> */}
                 <p className="line_height_110 ft_12_retailPrint">
                   {jsonData1?.customercity}, {jsonData1?.State}
                 </p>
@@ -690,14 +688,16 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
           {dataFill.map((e, i) => {
             return (
               <>
-                {" "}
                 <div
                   className="d-flex border-start border-end no_break ft_12_retailPrint"
                   key={i}
                 >
+                  {/* Sr# */}
                   <div className="srNoRetailPrint border-end p-1 d-flex justify-content-center align-items-center border-bottom ">
                     <p className="fw-bold">{NumberWithCommas(i + 1, 0)}</p>
                   </div>
+
+                  {/* Product Description */}
                   <div className="poductDiscriptionRetailPrint border-end p-1 border-bottom ">
                     <p style={{ wordBreak: "normal" }}>
                       {e?.SubCategoryname} {e?.Categoryname}{" "}
@@ -722,6 +722,8 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                       <span className="fw-normal">Gross</span>
                     </p>
                   </div>
+
+                  {/* Material Description */} 
                   <div className="materialDescriptionRetailPrint border-end">
                     <div className="d-grid h-100">
                       {e?.metal?.map((ele, ind) => {
@@ -788,6 +790,7 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                           )
                         );
                       })}
+
                       {e?.diamonds?.map((ele, ind) => {
                         return (
                           <div className={`d-flex border-bottom`} key={ind}>
@@ -852,6 +855,7 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                           </div>
                         );
                       })}
+
                       {e?.colorstone?.map((ele, ind) => {
                         return (
                           <div className={`d-flex border-bottom`} key={ind}>
@@ -916,6 +920,7 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                           </div>
                         );
                       })}
+
                       {e?.misc?.map((ele, ind) => {
                         return (
                           <div className={`d-flex border-bottom`} key={ind}>
@@ -982,6 +987,8 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                       })}
                     </div>
                   </div>
+                  
+                  {/* Making */}
                   <div
                     className={`makingRetailPrint border-end border-bottom  p-1 d-flex ${
                       pName === "retail print 1"
@@ -1003,6 +1010,8 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                       )}
                     </p>
                   </div>
+
+                  {/* Others */}    
                   <div className="othersRetailPrint border-end p-1 border-bottom  d-flex align-items-center justify-content-end">
                     <p className="text-end">
                       {NumberWithCommas(
@@ -1012,6 +1021,8 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                       )}
                     </p>
                   </div>
+
+                  {/* Total */}    
                   <div className="totalRetailPrint border-bottom p-1 d-flex align-items-center justify-content-end">
                     <p className="text-end">
                       {NumberWithCommas(
@@ -1055,25 +1066,6 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 ><p className="fw-bold text-end">
                     {totWt !== 0 && `${totWt?.toFixed(3)} ctw`} <br /> {gmwt !== 0 && `${gmwt?.toFixed(3)} gms`}
                 </p>
-                  {/* <p className="fw-bold lh-1 text-end fs_maintotal_wt_rp">
-                    D + C : {fixedValues(total?.materialWeight, 3)} Ctw
-                  </p>
-                  {/* <p className='fw-bold lh-1 text-end'>{fixedValues(total?.goldWeight - (finalD?.mainTotal?.diamonds?.Wt / 5), 3)} gm</p> 
-                  <p className="fw-bold lh-1 text-end fs_maintotal_wt_rp">
-                    Metal :{" "}
-                    {fixedValues(
-                      finalD?.mainTotal?.metal?.Wt - finalD?.mainTotal?.lossWt,
-                      3
-                    )}{" "}
-                    gm
-                  </p>
-                  <p className="fw-bold lh-1 text-end fs_maintotal_wt_rp">
-                    Misc :{" "}
-                    {resultArrayC?.mainTotal?.misc?.onlyIsHSCODE0_Wt?.toFixed(
-                      3
-                    )}{" "}
-                    gm
-                  </p> */}
                 </div>
                 {rate && (
                   <div
@@ -1212,6 +1204,7 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
               className="pt-2"
             ></div>
           </div>
+
           {(jsonData1?.PrintRemark === "" && jsonData1?.SalesRepPolicyTermsDescription === "") ? "" : 
             <div className="note border-start border-end border-bottom p-1 no_break">
               {jsonData1?.PrintRemark !== "" && (
@@ -1232,6 +1225,7 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
               )}
             </div>
           }
+
           {/* bank detail */}
           <div className="word_break_normal_retail_print d-flex border-start border-end border-bottom no_break ft_12_retailPrint">
             <div className="col-4 p-2 border-end">
