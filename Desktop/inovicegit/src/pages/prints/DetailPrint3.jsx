@@ -147,6 +147,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   };
 
   // console.log("resultresult", result);
+  const isloss = result?.resultArray?.every(e => e?.LossWt === 0) ? 1 : 0;
 
   return (
     <>
@@ -299,7 +300,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             width: withRate ? "15%" : "25%",
                           }}
                         >
-                          N+L
+                          {isloss === 0 ? "N+L" : "Net Wt"}
                         </div>
                         {withRate && (
                           <div
@@ -333,8 +334,8 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="center_dp3 col_w_dp3">Amount</div>
                       </div>
                     </div>
-                    <div className="col6_dp3 border-secondary border-end center_dp3">
-                      Other <br /> Amount
+                    <div className="col6_dp3 border-secondary border-end center_dp3 spbrWord lneHigt" style={{ textAlign: 'center' }}>
+                      Other Amount
                     </div>
                     <div className="col7_dp3 border-secondary border-end">
                       <div className="h-50 center_dp3 w-100">Labour</div>

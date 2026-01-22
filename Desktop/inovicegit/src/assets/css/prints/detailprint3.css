@@ -132,6 +132,17 @@ html {
 .w_27_dp3{
     width: 27% !important;
 }
+
+.spbrWord {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.lneHigt {
+    line-height: 13px;
+}
+
 @media print {
     .containerdp3 {
         max-width: 1200px;
