@@ -45,7 +45,7 @@ const JewelleryTaxInvoiceSale = ({
   const [json0Data, setJson0Data] = useState({});
   const [customerDetail, setCustomerDetail] = useState({
     pan: "",
-    gst: "",
+    gst: "", 
   });
   const [msg, setMsg] = useState("");
   const [addressVal, setAddressVal] = useState("");
@@ -537,7 +537,7 @@ const JewelleryTaxInvoiceSale = ({
                       className=""
                       style={{ fontSize: "11.1px", lineHeight: "15px" }}
                     >
-                      Tel : {json0Data?.customermobileno}
+                      Tel : {json0Data?.country_code && "+"}{json0Data?.country_code}{" "}{json0Data?.customermobileno}
                     </div>
                   )}
                   <div

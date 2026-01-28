@@ -354,6 +354,7 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     let gmwt = 0;
     let ctwwt = 0;
     datas?.resultArray?.forEach((e) => {
+      console.log('e: ', e);
         e?.misc?.forEach((el) => {
             totmiscwt += el?.Wt;
             gmwt += el?.Wt;
@@ -362,7 +363,8 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             gmwt += el?.Wt;
         })
         e?.metal?.forEach((el) => {
-            gmwt += el?.Wt + e?.totals?.diamonds?.Wt / 5;
+            gmwt += el?.Wt; 
+            // + e?.totals?.diamonds?.Wt / 5;
         })
         e?.diamonds?.forEach((el) => {
             ctwwt += el?.dwt;

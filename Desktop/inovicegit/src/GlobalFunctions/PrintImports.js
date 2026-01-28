@@ -163,6 +163,7 @@ export const printConditions = [
 ];
 
 export const SaleReturn = [
+  {printName: 'jewellery tax invoice', etpType: 'print', componentName: 'JewelleryTaxInvoice'},
   {printName: 'detail print', etpType: 'print', componentName: 'DetailPrint5'},
   {printName: 'invoice print 8', etpType: 'print', componentName: 'InvoicePrint10'},
   {printName: 'estimate print', etpType: 'print', componentName: 'EstimatePrint'},
@@ -192,7 +193,6 @@ export const SaleReturn = [
   {printName: 'retail print 3', etpType: 'print', componentName: 'RetailPrint3'},
   {printName: 'retail print', etpType: 'print', componentName: 'RetailPrint'},
   {printName: 'jewellery invoice 2', etpType: 'print', componentName: 'JewelleryInvoice2'},
-  {printName: 'jewellery tax invoice', etpType: 'print', componentName: 'JewelleryTaxInvoice'},
   {printName: 'summary 2', etpType: 'print', componentName: 'Summary2'},
   {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrint'},
   {printName: 'tax invoice 1', etpType: 'print', componentName: 'TaxInvoice1'},
@@ -393,6 +393,9 @@ export const excelConditions = [
   { printName: "excel 1", etpType: "excel", componentName: "Excel1Quote"}, // Vivek.....
   { printName: "memo hrd", etpType: "excel", componentName: "MemoHRDExcel"}, // Vivek.....
   { printName: "memo igi 2", etpType: "excel", componentName: "MemoIgi2Excel"}, // Vivek.....
+
+  //SaleTallyExcel...
+  
 ];
 
 export const alterationArray = [

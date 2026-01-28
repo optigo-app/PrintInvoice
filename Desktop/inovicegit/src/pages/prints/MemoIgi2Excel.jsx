@@ -353,8 +353,8 @@ const MemoIgi2Excel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             {[
                                                 ...new Set(
                                                     e?.colorstone
-                                                    .filter(d => d.Shape_Code)
-                                                    .map(d => d.Shape_Code)
+                                                    .filter(d => d.ShapeName)
+                                                    .map(d => d.ShapeName)
                                                 )
                                             ].join(', ')}
                                         </div>

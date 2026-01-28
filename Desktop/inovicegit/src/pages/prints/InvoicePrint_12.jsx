@@ -90,7 +90,6 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     setHeaderss(headersss);
   };
 
-  // Function to check margin and update state
   const checkMargin = () => {
     const element = document.getElementById('myElement');
     if (element) {
@@ -120,8 +119,8 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
           setLoader(false);
           // setMsg(data?.Message);
           const err = checkMsg(data?.Message);
-                    console.log(data?.Message);
-                    setMsg(err);
+          console.log(data?.Message);
+          setMsg(err);
         }
       } catch (error) {
         console.error(error);
@@ -129,16 +128,16 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     };
     sendData();
     checkMargin();
-        // Listen for changes in margin using MutationObserver
-        const element = document.getElementById('myElement');
-        if (element) {
-          const observer = new MutationObserver(checkMargin);
-          observer.observe(element, { attributes: true, attributeFilter: ['style'] });
-          return () => {
-            observer.disconnect();
-          };
-        }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Listen for changes in margin using MutationObserver
+    const element = document.getElementById('myElement');
+    if (element) {
+      const observer = new MutationObserver(checkMargin);
+      observer.observe(element, { attributes: true, attributeFilter: ['style'] });
+      return () => {
+        observer.disconnect();
+      };
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // useEffect to check margin when component mounts and on subsequent updates
@@ -154,56 +153,89 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         </div>
       </div>
       {/* Title */}
-   
+
       {/* header */}
       {/* {headerData?.IsEinvoice !== 1 ? */}
-      { headerData?.IsEinvoice === 1 && <div>{headerss}</div> }
+      {headerData?.IsEinvoice === 1 && <div>{headerss}</div>}
 
-         <>
-        { headerData?.IsEinvoice !== 1 &&
-         <div className="py-1">
-          <h4 className="text-center fs-5 fw-semibold">
-           {headerData?.PrintHeadLabel}
-         </h4>
-       </div>
-         }
-      <div className="d-flex border p-2">
-        <div className="col-8">
-          <p>{headerData?.lblBillTo}</p>
-          <p className="fs-6 fw-semibold">{headerData?.customerfirmname}</p>
-          <p>{headerData?.customerAddress1}</p>
-          <p>{headerData?.customerAddress2}</p>
-          <p>
-            {headerData?.customercity1}
-            {headerData?.customerpincode}
-          </p>
-          <p>{headerData?.customeremail1}</p>
-          <p>{headerData?.vat_cst_pan}</p>
-          <p>{headerData?.Cust_CST_STATE_No_}</p>
-        </div>
-        <div className="col-4 d-flex ">
-          <div className="col-4">
-            <p className="fw-semibold">Bill No </p>
-            <p className="fw-semibold">DATE </p>
-            <p className="fw-semibold">HSN/SAC </p>
-            <p className="fw-semibold">{headerData?.Company_CST_STATE}</p>
-            <p className="fw-semibold">PAN </p>
-            <p className="fw-semibold">GSTIN </p>
-            <p className="fw-semibold">MSME NO </p>
-            <p className="fw-semibold">TERMS </p>
+      <>
+        <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex', alignItems: 'center', width: '40%' }}>
+            <img src={headerData?.InvoicePrintLogo}
+              style={{
+                maxWidth: "116px"
+              }} />
           </div>
+          <div>
+            <img src={headerData?.PrintLogo}
+              style={{
+                maxWidth: "116px"
+              }}
+              className="header_logo_print"
+            />
+          </div>
+        </div>
+        <div>
+          <div className="fs_16_pcls fw-bold py-1 spbrWord align-items-center" style={{ textAlign: "center" }}>
+            {headerData.CompanyFullName}
+            {headerData.CompanyAddress}
+            {headerData.CompanyAddress2}
+            {headerData.CompanyCity}-
+            {headerData.CompanyPinCode},
+            {headerData.CompanyState}(
+            {headerData.CompanyCountry})
+            T {headerData.CompanyTellNo}{" "}
+            {headerData.CompanyEmail} |
+            {headerData.CompanyWebsite}
+          </div>
+        </div>
+        {headerData?.IsEinvoice !== 1 &&
+          <div className="py-1">
+            <h4 className="text-center fs-5 fw-semibold" style={{
+              backgroundColor: "#939292",
+              color: 'white'
+            }}>
+              {headerData?.PrintHeadLabel}
+            </h4>
+          </div>
+        }
+        <div className="d-flex border p-2">
           <div className="col-8">
-            <p>: {headerData?.InvoiceNo}</p>
-            <p>: {headerData?.EntryDate}</p>
-            <p>: {headerData?.HSN_No}</p>
-            <p>: {headerData?.Company_CST_STATE_No}</p>
-            <p>: {headerData?.Pannumber}</p>
-            <p>: {headerData?.Company_VAT_GST_No.replace("GSTIN-", "")}</p>
-            <p>: {headerData?.MSME}</p>
-            <p>: {headerData?.DueDays} Days</p>
+            <p>{headerData?.lblBillTo}</p>
+            <p className="fs-6 fw-semibold">{headerData?.customerfirmname}</p>
+            <p>{headerData?.customerAddress1}</p>
+            <p>{headerData?.customerAddress2}</p>
+            <p>
+              {headerData?.customercity1}
+              {headerData?.customerpincode}
+            </p>
+            <p>{headerData?.customeremail1}</p>
+            <p>{headerData?.vat_cst_pan}</p>
+            <p>{headerData?.Cust_CST_STATE_No_}</p>
           </div>
-        </div>
-      </div> </>
+          <div className="col-4 d-flex ">
+            <div className="col-4">
+              <p className="fw-semibold">Bill No </p>
+              <p className="fw-semibold">DATE </p>
+              <p className="fw-semibold">HSN/SAC </p>
+              <p className="fw-semibold">{headerData?.Company_CST_STATE}</p>
+              <p className="fw-semibold">PAN </p>
+              <p className="fw-semibold">GSTIN </p>
+              <p className="fw-semibold">MSME NO </p>
+              <p className="fw-semibold">TERMS </p>
+            </div>
+            <div className="col-8">
+              <p>: {headerData?.InvoiceNo}</p>
+              <p>: {headerData?.EntryDate}</p>
+              <p>: {headerData?.HSN_No}</p>
+              <p>: {headerData?.Company_CST_STATE_No}</p>
+              <p>: {headerData?.Pannumber}</p>
+              <p>: {headerData?.Company_VAT_GST_No.replace("GSTIN-", "")}</p>
+              <p>: {headerData?.MSME}</p>
+              <p>: {headerData?.DueDays} Days</p>
+            </div>
+          </div>
+        </div> </>
       {/* : headerss} */}
 
 
@@ -482,6 +514,11 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         </div>
         <div className={footerStyle.block2f3} style={{ width: "33.33%" }}>
           <div className={`${footerStyle.linesf3} fw-normal`}>Signature</div>
+          <img
+            src={headerData?.DigitalSignature}
+            height="130px"
+            width="130px"
+          />
           <div className={footerStyle.linesf3}>{headerData?.CompanyFullName}</div>
         </div>
       </div>

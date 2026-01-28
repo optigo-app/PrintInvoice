@@ -4,6 +4,16 @@
   font-family: Calibri;
 }
 
+
+.invoice12_headertext h4{
+  font-size: 20px;
+  background-color: #939292;
+  color: #fff;
+  padding: 8px 0px 8px 6px !important;
+  font-weight: bold;
+  width: 100%;
+}
+
 .Sr {
   width: 4%;
   min-width: 4%;
@@ -68,7 +78,12 @@ min-width: 68.8%;
     display: none !important;
   }
 
-  .InvoicePrint_12{
+  /* .InvoicePrint_12{
     padding-top: 150px;
+  } */
+
+  .header_logo_print{
+    height: 20px !important;
+    width: 70px !important;
   }
 }
