@@ -18,6 +18,7 @@ import NumToWord from "../../GlobalFunctions/NumToWord";
 const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const toWords = new ToWords();
   const [result, setResult] = useState(null);
+  console.log('result: ', result);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [netwts5, setnetwts5] = useState(true);
@@ -51,8 +52,8 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           setLoader(false);
           // setMsg(data?.Message);
           const err = checkMsg(data?.Message);
-                    console.log(data?.Message);
-                    setMsg(err);
+          console.log(data?.Message);
+          setMsg(err);
         }
       } catch (error) {
         console.log(error);
@@ -84,25 +85,25 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     let miscquc = [];
     datas?.resultArray?.forEach((e) => {
 
-      let findRecord = cateWise?.findIndex( (el) => el?.Categoryname === e?.Categoryname );
+      let findRecord = cateWise?.findIndex((el) => el?.Categoryname === e?.Categoryname);
       if (findRecord === -1) {
         cateWise.push(e);
       } else {
         cateWise[findRecord].Quantity += e?.Quantity;
       }
       let hs0and3 = [];
-      
-
-       let anomisc =  e?.misc?.filter((el) => el?.IsHSCOE === 0 || el?.IsHSCOE === 3)
-        e.misc = anomisc;
 
 
-        // if(e?.misc?.length === 1 && e?.misc[0]?.IsHSCOE === 3){
-        //   e.misc = [];
-        // } // this was Certification_IGI and bug solved 08/12/25_12:20
+      let anomisc = e?.misc?.filter((el) => el?.IsHSCOE === 0 || el?.IsHSCOE === 3)
+      e.misc = anomisc;
 
 
-        
+      // if(e?.misc?.length === 1 && e?.misc[0]?.IsHSCOE === 3){
+      //   e.misc = [];
+      // } // this was Certification_IGI and bug solved 08/12/25_12:20
+
+
+
       e?.misc?.forEach((a) => {
         if (a?.ShapeName === 'Stamping' || a?.ShapeName === 'Hallmark') { }
         else {
@@ -117,14 +118,14 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
       e?.colorstone?.forEach((a) => {
         let findrec = clr?.findIndex((el) => el?.ShapeName === a?.ShapeName && el?.QualityName === a?.QualityName && el?.Colorname === a?.Colorname && el?.isRateOnPcs === a?.isRateOnPcs && el?.Rate === a?.Rate && el?.SizeName === a?.SizeName)
-        if(findrec === -1){
-          let obj = {...a};
+        if (findrec === -1) {
+          let obj = { ...a };
           obj.cspcs = a?.Pcs;
           obj.cswt = a?.Wt;
           obj.Rate = a?.Rate;
           obj.csamt = a?.Amount;
           clr.push(obj);
-        }else{
+        } else {
           clr[findrec].cspcs += a?.Pcs;
           clr[findrec].cswt += a?.Wt;
           clr[findrec].Rate += a?.Rate;
@@ -136,7 +137,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
       // console.log("e?.misc", e?.misc);
       e?.misc?.forEach((el) => {
-        if(el.QualityName !== '' && el.QualityName !== '-'){
+        if (el.QualityName !== '' && el.QualityName !== '-') {
           miscquc.push(el?.QualityName)
         }
       })
@@ -176,7 +177,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   };
 
   // console.log("result", result);
-  
+
   return (
     <>
       {loader ? (
@@ -230,7 +231,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 )}
                 {/* invoice number details */}
                 <div className="mt-2 border  d-flex justify-content-between p-1 fsgs5">
-                  <div className="fsgs5"> {" "}{headers5 ? "TAX INVOICE# " : "ESTIMATE#" } :{" "} <b className="fsgs5">{result?.header?.InvoiceNo}</b>
+                  <div className="fsgs5"> {" "}{headers5 ? "TAX INVOICE# " : "ESTIMATE#"} :{" "} <b className="fsgs5">{result?.header?.InvoiceNo}</b>
                   </div>
                   <div className=" fsgs5">
                     <div> {" "} DATE :{" "} <b className="fsgs5">{result?.header?.EntryDate}</b>{" "}
@@ -243,7 +244,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   <div className="me-2 fw-bold">TO,</div>
                   <div>
                     <div className="fw-bold"> {result?.header?.customerfirmname} </div>
-                     <div>{result?.header?.customerstreet}</div>
+                    <div>{result?.header?.customerstreet}</div>
                     <div>{result?.header?.customerregion}</div>
                     <div> {result?.header?.customercity} {result?.header?.customerpincode} </div>
                     <div>Phno. {result?.header?.customermobileno}</div>
@@ -327,9 +328,9 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             </div>
                             <div>Tunch : {(e?.Tunch - e?.Wastage)?.toFixed(3)}</div>
                           </div>
-                
+
                           <div className="col3s5 border-end pb10s5 MadSpacLft" style={{ wordBreak: "break-word" }} >
-                            { (e?.MetalType?.toLowerCase()) === 'gold' ? e?.MetalPurity : e?.MetalTypePurity} {e?.MetalColor}
+                            {(e?.MetalType?.toLowerCase()) === 'gold' ? e?.MetalPurity : e?.MetalTypePurity} {e?.MetalColor}
                           </div>
                           <div className="col4s5 border-end ends5 pb10s5 MadSpacRigt">
                             {e?.grosswt?.toFixed(3)}
@@ -402,7 +403,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           </div>
                           <div className="col16s5 border-end ends5 pb10s5 MadSpacRigt">
                             {/* {formatAmount((e?.OtherCharges + e?.TotalDiamondHandling))} */}
-                            {formatAmount(((e?.OtherCharges + e?.TotalDiamondHandling ) / (result?.header?.CurrencyExchRate)))}
+                            {formatAmount(((e?.OtherCharges + e?.TotalDiamondHandling) / (result?.header?.CurrencyExchRate)))}
                           </div>
                           <div className="col17s5 ends5 pb10s5 MadSpacRigt">
                             {formatAmount((e?.TotalAmount))}
@@ -495,7 +496,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className="WdthDvisor1 d-flex justify-content-end">
                       <div>TOTAL IN HK$ </div>
                       &nbsp;{" "}:{" "} &nbsp;<div className="px-1">{formatAmount((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate) + result?.header?.AddLess))} </div></div>
-                    </div>
+                  </div>
                   {/* amount in words */}
                   <div className="mt-2 border bgs5 d-flex justify-content-between align-items-center p-1 fw-bold fsgs5 pbiag">
                     <div>{NumToWord((result?.mainTotal?.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)))}</div>
@@ -509,9 +510,12 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 {/* remarks */}
                 <div className="my-2 fsgs5 pbiag ">
-                  <b>REMARKS:</b> <span dangerouslySetInnerHTML={{__html:result?.header?.PrintRemark}}></span> 
+                  <b>REMARKS:</b> <span dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark }}></span>
                 </div>
-                <div className="py-1 pbias2 fsh2_s2"><span className="fw-bold">TERMS INCLUDED</span> : {result?.header?.SalesRepPolicyTermsDescription}</div>
+                <div className="py-1 pbias2 fsh2_s2"><span className="fw-bold">TERMS INCLUDED</span> :
+                  <span dangerouslySetInnerHTML={{ __html: result?.header?.SalesRepPolicyTermsDescription }}></span>
+                  {/* {result?.header?.SalesRepPolicyTermsDescription} */}
+                </div>
                 {/* bank details | footer */}
                 <div className="d-flex border fsgs5 pbiag">
                   <div className="border-end  p-1 wp1s5">
