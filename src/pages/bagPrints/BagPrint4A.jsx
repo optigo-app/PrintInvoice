@@ -118,10 +118,7 @@ const BagPrint4A = ({ queries, headers }) => {
           misc.ActualWeight = +misc.ActualWeight?.toFixed(3);
           f.ActualPcs = +f.ActualPcs?.toFixed(3);
           f.ActualWeight = +f.ActualWeight?.toFixed(3);
-          // diaArr?.push(dia);
-          // clsArr?.push(clr);
-          // miscArr?.push(misc);
-          // fArr?.push(f);
+          
 
           let blankArr = a?.rd1?.filter((e, i) => e?.MasterManagement_DiamondStoneTypeid !== 0);
 
@@ -802,15 +799,20 @@ const BagPrint4A = ({ queries, headers }) => {
                                   SLS. INS.
                                 </div>
                               </div>
-                              <div className="part_3_container_4A_record border_bottom4A">
-                                <div className="lh4A dept_4A border_right4A d-flex align-items-center">
+                             <div style={{display:"flex"}}>
+                             <div className="part_3_container_4A_record border_bottom4A" style={{width:"60%"}}>
+                                <div className="lh4A dept_4A border_right4A d-flex align-items-center"  >
                                   PRD. INS.
                                 </div>
                               </div>
-                              <div className="part_3_container_4A_record ">
-                                {/* <div className=" dept_4A border_right4A d-flex align-items-center">
+                              <div className="part_3_container_4A_record border_bottom4A" style={{width:"40%",borderLeft:"1px solid #000"}}>
+                              <div className=" dept_4A border_right4A d-flex align-items-center">
                                   QC. INS.
-                                </div> */}
+                                </div>
+                              </div>
+                             </div>
+                              <div className="part_3_container_4A_record ">
+                               
                                 <p
                                   style={{
                                     padding: '0px 10px',
@@ -819,7 +821,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                   }}>
                                   {data[0]?.data?.ishallmark === 1 && "Hallmark, "}
                                   {data[0]?.data?.Ustamping ? `Stamping - ${data[0]?.data?.Ustamping}, ` : ""}
-                                  {data[0]?.data?.Certificate ? `Certification - ${data[0]?.data?.Certificate}` : ""}
+                                  {data[0]?.data?.Certificate ? `Certi# - ${data[0]?.data?.Certificate}` : ""}
                                 </p>
                               </div>
                             </div>
