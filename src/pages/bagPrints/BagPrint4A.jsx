@@ -13,7 +13,7 @@ import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
 
 const BagPrint4A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
-  console.log('data: ', data[0]?.data);
+  console.log('data: ', data);
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
   const resultString = GetUniquejob(queryParams?.str_srjobno);
@@ -819,9 +819,12 @@ const BagPrint4A = ({ queries, headers }) => {
                                     fontSize: '14px',
                                     fontWeight: 600
                                   }}>
-                                  {data[0]?.data?.ishallmark === 1 && "Hallmark, "}
-                                  {data[0]?.data?.Ustamping ? `Stamping - ${data[0]?.data?.Ustamping}, ` : ""}
-                                  {data[0]?.data?.Certificate ? `Certi# - ${data[0]?.data?.Certificate}` : ""}
+                                 
+                                 
+                                 
+                                  {e?.data?.ishallmark == 1 && "Hallmark, "}
+                                  {e?.data.Ustamping ? `Stamping - ${e?.data?.Ustamping}, ` : ""}
+                                  {e?.data?.Certificate ? `Certi# - ${e?.data?.Certificate}` : ""}
                                 </p>
                               </div>
                             </div>
