@@ -36,6 +36,8 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     setIsImageWorking(false);
   };
   useEffect(() => {
+    
+     
     const sendData = async () => {
       try {
         const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
@@ -137,15 +139,17 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
       // console.log("e?.misc", e?.misc);
       e?.misc?.forEach((el) => {
-        if (el.QualityName !== '' && el.QualityName !== '-') {
-          miscquc.push(el?.QualityName)
+        if (el.Quality_Code !== '' && el.Quality_Code !== '-') {
+          miscquc.push(el?.Quality_Code)
         }
       })
     });
+    
     // console.log("miscquc", miscquc);
     let newMisc = new Set(miscquc);
     let newMiscArray = [...newMisc];
     setShowDiaQuality(newMiscArray);
+    
     setMiscTotal(miscobj);
     // setCategoryNameWise(cateWise);
     setResult(datas);
@@ -248,7 +252,9 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div>{result?.header?.customerregion}</div>
                     <div> {result?.header?.customercity} {result?.header?.customerpincode} </div>
                     <div>Phno. {result?.header?.customermobileno}</div>
-                    <div> {result?.header?.vat_cst_pan} |{" "} {result?.header?.Cust_CST_STATE}- {result?.header?.Cust_CST_STATE_No} </div>
+                    {/* <div> {result?.header?.vat_cst_pan} {" "} {"|"+result?.header?.Cust_CST_STATE+"-"} {result?.header?.Cust_CST_STATE_No} </div> */}
+                    <div> {result?.header?.vat_cst_pan} {" "} {result?.header?.Cust_CST_STATE && (<> {" | "}{result?.header?.Cust_CST_STATE+"- "}</>)}  {result?.header?.Cust_CST_STATE_No && (<> {result?.header?.Cust_CST_STATE_No}</>)} </div>
+                   
                   </div>
                 </div>
                 {/* table */}
@@ -483,9 +489,11 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   </div>
                   {/* grand total */}
                   <div className="mt-2 border bgs5 d-flex justify-content-between align-items-center p-1 fw-bold fsgs5 pbiag">
-                    <div className="WdthDvisor d-flex justify-content-between">
+                    <div className="WdthDvisor d-flex justify-content-between" style={{width:"33%"}}>
                       <div>Gold in 24K : {result?.mainTotal?.convertednetwt?.toFixed(3)}</div>
                       <div className="d-flex">
+                         
+                        
                         {showDiaQuality?.map((e, i) => (
                           <div key={i}>
                             {e}{i < showDiaQuality.length - 1 && ", "}
