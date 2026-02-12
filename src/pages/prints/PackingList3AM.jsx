@@ -842,6 +842,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
               {/* table data */}
               {result?.resultArray?.map((e, i) => {
+                {}
+                 
                 return (
                   <div
                     className="d-flex tbody_pcls bbottom_pcls tb_fs_pcls pbia_pcl3 border-top"
@@ -1361,8 +1363,9 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {rateAmount ? "Labour" : ""}
                             </div>
                             <div className="lcol1_pcls end_pcls pdr_pcls">
+                             
                               {rateAmount
-                                ? e?.MakingChargeDiscount !== 0 ? `${fixedValues(e?.MakingChargeDiscount, 2)} %` : formatAmount(e?.MaKingCharge_Unit)
+                                ? e?.MakingChargeDiscount !== 0 ? `${fixedValues(e?.MakingChargeDiscount, 2)} ${e?.MakingChargeOnid==4 ? "":"%"}` : `${formatAmount(e?.MaKingCharge_Unit)} ${e?.MakingChargeOnid==4 ? "":"%"}`
                                 : ""}
                             </div>
                             <div className="lcol1_pcls end_pcls pdr_pcls">
