@@ -513,14 +513,27 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     );
   }
 
+  // const totalMakingAmount = result?.resultArray?.reduce((acc, e) => {
+  //   const calculation = e?.MaKingCharge_Unit * (e?.GroupJob !== '' 
+  //       ? (e?.totals?.metal?.Wt - e?.totals?.metal?.IsNotPrimaryMetalWt) 
+  //       : e?.totals?.metal?.Wt
+  //   );
+  //   return acc + (calculation || 0);
+  // }, 0);
   const totalMakingAmount = result?.resultArray?.reduce((acc, e) => {
-    const calculation = e?.MaKingCharge_Unit * (
-      e?.GroupJob !== '' 
-        ? (e?.totals?.metal?.Wt - e?.totals?.metal?.IsNotPrimaryMetalWt) 
-        : e?.totals?.metal?.Wt
-    );
+
+    const weight = e?.GroupJob !== ''
+      ? (e?.totals?.metal?.Wt - e?.totals?.metal?.IsNotPrimaryMetalWt)
+      : e?.totals?.metal?.Wt;
+  
+    const calculation = e?.MakingChargeOnid == 4
+      ? e?.MaKingCharge_Unit
+      : e?.MaKingCharge_Unit * weight;
+  
     return acc + (calculation || 0);
+  
   }, 0);
+  
 
   const totalMetalSummaryAmount = result?.resultArray?.reduce((totalAcc, item) => {
     const primaryMetal = item?.metal?.find(m => m?.IsPrimaryMetal === 1);
@@ -1319,7 +1332,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 {formatAmount(e?.MaKingCharge_Unit)}
                               </div>
                               <div className="lcol1_pcls end_pcls pdr_pcls">
-                                {formatAmount(e?.MaKingCharge_Unit * e?.totals?.metal?.Wt ,2)}
+                                {/* {formatAmount(e?.MaKingCharge_Unit * e?.totals?.metal?.Wt ,2)} */}
+                                 {e?.MakingChargeOnid==4 ? formatAmount(e?.MaKingCharge_Unit) : formatAmount(e?.MaKingCharge_Unit * e?.totals?.metal?.Wt ,2)}
                               </div>
                             </div>
                           )
@@ -1464,7 +1478,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 e?.totals?.finding?.SettingAmount +
                                 (e?.GroupJob !== '' 
                                   ? e?.MaKingCharge_Unit * (e?.totals?.metal?.Wt - e?.totals?.metal?.IsNotPrimaryMetalWt) 
-                                  : e?.MaKingCharge_Unit * e?.totals?.metal?.Wt
+                                  // : e?.MaKingCharge_Unit * e?.totals?.metal?.Wt
+                                  : e?.MakingChargeOnid==4 ? formatAmount(e?.MaKingCharge_Unit) : formatAmount(e?.MaKingCharge_Unit * e?.totals?.metal?.Wt)
                                 )) /
                               result?.header?.CurrencyExchRate
                             )}
