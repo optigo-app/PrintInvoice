@@ -118,7 +118,7 @@ const BagPrint4A = ({ queries, headers }) => {
           misc.ActualWeight = +misc.ActualWeight?.toFixed(3);
           f.ActualPcs = +f.ActualPcs?.toFixed(3);
           f.ActualWeight = +f.ActualWeight?.toFixed(3);
-          
+
 
           let blankArr = a?.rd1?.filter((e, i) => e?.MasterManagement_DiamondStoneTypeid !== 0);
 
@@ -799,32 +799,41 @@ const BagPrint4A = ({ queries, headers }) => {
                                   SLS. INS.
                                 </div>
                               </div>
-                             <div style={{display:"flex"}}>
-                             <div className="part_3_container_4A_record border_bottom4A" style={{width:"60%"}}>
-                                <div className="lh4A dept_4A border_right4A d-flex align-items-center"  >
-                                  PRD. INS.
+                              <div style={{ display: "flex" }}>
+                                <div className="part_3_container_4A_record border_bottom4A" style={{ width: "60%" }}>
+                                  <div className="lh4A dept_4A border_right4A d-flex align-items-center"  >
+                                    PRD. INS.
+                                  </div>
+                                </div>
+                                <div className="part_3_container_4A_record border_bottom4A" style={{ width: "40%", borderLeft: "1px solid #000" }}>
+                                  <div className=" dept_4A border_right4A d-flex align-items-center">
+                                    QC. INS.
+                                  </div>
                                 </div>
                               </div>
-                              <div className="part_3_container_4A_record border_bottom4A" style={{width:"40%",borderLeft:"1px solid #000"}}>
-                              <div className=" dept_4A border_right4A d-flex align-items-center">
-                                  QC. INS.
-                                </div>
-                              </div>
-                             </div>
                               <div className="part_3_container_4A_record ">
-                               
+
                                 <p
                                   style={{
                                     padding: '0px 10px',
                                     fontSize: '14px',
                                     fontWeight: 600
                                   }}>
-                                 
-                                 
-                                 
-                                  {e?.data?.ishallmark == 1 && "Hallmark, "}
+
+
+
+                                  {/* {e?.data?.ishallmark == 1 && "Hallmark, "}
                                   {e?.data.Ustamping ? `Stamping - ${e?.data?.Ustamping}, ` : ""}
-                                  {e?.data?.Certificate ? `Certi# - ${e?.data?.Certificate}` : ""}
+                                  {e?.data?.Certificate ? `Certi# - ${e?.data?.Certificate}` : ""} */}
+                                  {
+                                    [
+                                      e?.data?.ishallmark == 1 && "Hallmark",
+                                      e?.data?.Ustamping && `Stamping - ${e?.data?.Ustamping}`,
+                                      e?.data?.Certificate && `Certi# - ${e?.data?.Certificate}`
+                                    ]
+                                      .filter(Boolean)
+                                      .join(", ")
+                                  }
                                 </p>
                               </div>
                             </div>
