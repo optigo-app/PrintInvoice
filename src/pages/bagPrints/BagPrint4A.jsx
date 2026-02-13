@@ -816,7 +816,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                 <p
                                   style={{
                                     padding: '0px 10px',
-                                    fontSize: '14px',
+                                    fontSize: '13px',
                                     fontWeight: 600
                                   }}>
 
@@ -828,8 +828,8 @@ const BagPrint4A = ({ queries, headers }) => {
                                   {
                                     [
                                       e?.data?.ishallmark == 1 && "Hallmark",
-                                      e?.data?.Ustamping && `Stamping - ${e?.data?.Ustamping}`,
-                                      e?.data?.Certificate && `Certi# - ${e?.data?.Certificate}`
+                                      e?.data?.Ustamping && `Stamp - ${e?.data?.Ustamping?.slice(0, 8)}`,
+                                      e?.data?.Certificate && `Certi# - ${e?.data?.Certificate.slice(0, 8)}`
                                     ]
                                       .filter(Boolean)
                                       .join(", ")
