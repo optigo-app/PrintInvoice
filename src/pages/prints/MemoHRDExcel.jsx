@@ -456,7 +456,7 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             </tr>
 
                             <tr>
-                                <td colSpan={2} height={25} style={{ ...brBotm, ...brRight, ...fntSize1, ...styBld, ...txtCen }}>Company Representative</td>
+                                <td colSpan={2} style={{ ...brBotm, ...brRight, ...fntSize1, ...styBld }}>Company Representative/s</td>
                                 <td style={{ ...brBotm, ...brRight }} />
                                 <td colSpan={6} style={{ ...brBotm, ...brRight }} />
                                 <td colSpan={7} style={{ ...brBotm }} />
@@ -464,28 +464,28 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             </tr>
 
                             <tr>
-                                <th width={80} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Sr. No</th>
-                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>SAMPLE CODE (By Hrd)</th>
+                                <th width={80} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Sr. No.</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>SAMPLE CODE (By HRD)</th>
                                 <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Job No.</th>
-                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Style No. Of Product (Mentioned on The Report)</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Style No. Of Product (mentioned on The report)</th>
                                 <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Jewellery Type</th>
-                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Gross Jewel Weight (In gms)</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Gross Jewel Weight (in gms)</th>
                                 <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Metal Type/Purity/Color</th>
                                 <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>CRITERIA</th>
                                 <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>SHAPE</th>
                                 <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Diamond Quantity (Numbers) As Per Shape</th>
-                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Total Diamond cts Weight</th>
-                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Stars & Meeles cts Weight</th>
-                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Pointers cts Weight</th>
-                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Solitaires cts Weight</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Total Diamond cts weight</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Stars & Meeles cts weight</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Pointers  cts weight</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Solitaires  cts weight</th>
                                 <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Total</th>
                                 <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Gemstone / Color Stones (Type)</th>
                                 <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>HRD COLOR</th>
                                 <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>HRD CLARITY</th>
                                 <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>HRD SYMM</th>
-                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>HRD SETTING</th>
-                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>INSCRIPT ION ON JEWEL</th>
-                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>COMMENT / REMARK / REJECT</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>HRD Setting</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>INSCRIPTION ON JEWEL</th>
+                                <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>COMMENT/REMARK/REJECT</th>
                                 <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Graders</th>
                             </tr>
 
