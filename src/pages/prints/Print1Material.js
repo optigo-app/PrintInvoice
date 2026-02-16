@@ -94,6 +94,43 @@ const Print1Material = ({
     return sum;
   }, 0);
 
+  const ShapeWiseTotalWeight = (Array.isArray(finalD) ? finalD : []).reduce(
+    (acc, item) => {
+      if (item?.ItemName !== "METAL") return acc;
+  
+      const shape = item?.shape || "UNKNOWN";
+      const weight = parseFloat(item?.Weight) || 0;
+      const pureWeight = parseFloat(item?.PureWeight) || 0;
+  
+      // Total weight
+      acc.totalWeight += weight;
+      acc.totalPureWeight += pureWeight;
+  
+      // Shape-wise aggregation
+      if (!acc.shapeWise[shape]) {
+        acc.shapeWise[shape] = {
+          shape,
+          totalWeight: 0,
+          totalPureWeight: 0,
+        };
+      }
+  
+      acc.shapeWise[shape].totalWeight += weight;
+      acc.shapeWise[shape].totalPureWeight += pureWeight;
+  
+      return acc;
+    },
+    {
+      totalWeight: 0,
+      totalPureWeight: 0,
+      shapeWise: {},
+    }
+  );
+
+  const toProperCase = (str) =>
+    str?.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
+  
+
   const metalAndMiscWeight = totalMetalWeight + totalMiscWeight;
   
   const remainingWeight = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
@@ -204,6 +241,7 @@ const Print1Material = ({
 
               {/** table Body */}
               {finalD?.map((e, i) => {
+
                 return (
                   <div key={i} className="disflx spbrlFt brBtom spfntbH">
                     <div className="Sucol1_inv2 spbrRht spfntCen">{i + 1}</div>
@@ -245,12 +283,24 @@ const Print1Material = ({
               </div>
               
               {/** Total */}
-              <div className="sprmrk disflx spbgClr brbxAll">
-                <div className="sptxtVcen">Gold In 24K : <b>{fixedValues(totalMetalWeight,3)}</b></div>
-                <div className="spfntBld sptxtVcen">TOTAL IN HK$ : {NumberWithCommas(GrandTotal,2)}</div>
+              <div className="sprmrk disflx spbgClr brbxAll" style={{alignItems:"flex-start"}}>
+                {/* <div className="sptxtVcen">Gold In 24K : <b>{fixedValues(totalMetalWeight,3)}</b></div> */}
+                <div>
+                {
+                  
+                  Object.values(ShapeWiseTotalWeight.shapeWise).map(item => (
+                    <div key={item.shape} className="sptxtVcen" style={{marginBottom: "4px"}}>
+                     <b> {toProperCase(item.shape)} Pure Weight: {fixedValues(item.totalPureWeight, 3)}</b>
+                    </div>
+                  ))
+                }
+                </div>
+               
+                {/* <div className="sptxtVcen">Gold In 24K : <b>{fixedValues(totalMetalWeight,3)}</b></div> */}
+                <div className="spfntBld sptxtVcen">TOTAL  : {NumberWithCommas(GrandTotal,2)}</div>
               </div>
               <div className="sprmrk brbxAll spfnted">
-                <div className="spfntBld">TOTAL IN : HKD {NumberWithCommas(GrandTotal,2)}</div>
+                <div className="spfntBld">TOTAL :  {NumberWithCommas(GrandTotal,2)}</div>
               </div>
               
               {/** Instuction */} 

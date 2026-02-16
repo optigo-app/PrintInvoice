@@ -260,6 +260,7 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             stars: {},
             pointers: {},
             solitaires: {},
+            totalDiamondCtw: 0,
 
         };
         
@@ -271,7 +272,6 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 d.IsCenterStone !== 1
             )
             .forEach(d => {
-                
                 
                 // const p = Number(d.pointer || 0);
                 // const shape = d.ShapeName || "OTHER";
@@ -294,6 +294,9 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 const shape = d.ShapeName || "OTHER";
                 const wt = Number(d.Wt || 0);
                 const pcs = Number(d.Pcs || 0);
+
+                out.totalDiamondCtw += wt;
+
 
                 if (p >= 0.0001 && p <= 0.1000) {  // 0.0001 - 0.1000   
                     if (!out.small[shape]) out.small[shape] = { pcs: 0, ctw: 0 };
@@ -362,7 +365,7 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     filename={`Memo_HRD_${result?.header?.InvoiceNo}_${Date.now()}`}
                     sheet="tablexls"
                     buttonText="Download as XLS" />
-                    <table id="table-to-xls" className='d-none' >
+                    <table id="table-to-xls"   >
                         {/* <table id="table-to-xls" className='d-none'> */}
                         <tbody>
                             <tr>
@@ -509,6 +512,8 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     .map(([key, value]) => `${key} ${value.pcs}/${value.ctw.toFixed(2)}`)
                                     .join(', ');
 
+                                const totalDiamondCtw = dia.totalDiamondCtw.toFixed(2);
+
 
 
                                 const smallCtw = Object.values(dia.small)
@@ -563,16 +568,14 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
                                     </td>
 
-                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}>
-                                        {/* {smallCtw} */}
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtEnd }}>
+                                        {totalDiamondCtw}
                                     </td>
 
                                     <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}>
-
                                         {
                                             starts.map((item, ind) => (<div style={{...txtAtEnd}}  key={ind}>{item.wt.toFixed(2)}</div>))
                                         }
-
                                     </td>
 
                                     <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}>
