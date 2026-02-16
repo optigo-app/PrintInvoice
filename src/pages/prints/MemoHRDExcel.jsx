@@ -427,7 +427,7 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <td colSpan={2} height={25} style={{ ...brBotm, ...fntSize1, ...txtCen, ...brRight, ...styBld }}>
                                     Date
                                 </td>
-                                <td style={{ ...brBotm, ...brRight }}>{result?.header?.InvoiceNo}</td>
+                                <td style={{ ...brBotm, ...brRight }}>{result?.header?.EntryDate}</td>
                                 <td colSpan={6} style={{ ...brBotm, ...brRight }} />
                                 <td width={100} />
                                 <td width={100} style={{ ...brTop, ...brRight, ...brLeft, ...styBld }}>XRF-METAL</td>
