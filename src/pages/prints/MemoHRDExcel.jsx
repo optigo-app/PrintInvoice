@@ -202,10 +202,10 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         // console.log("datas", datas);
         setResult(datas);
 
-        // setTimeout(() => {
-        //     const button = document.getElementById('test-table-xls-button');
-        //     button.click();
-        // }, 500);
+        setTimeout(() => {
+            const button = document.getElementById('test-table-xls-button');
+            button.click();
+        }, 500);
     }
 
 
@@ -246,13 +246,24 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const txtAtSta = {
         textAlign: "left",
     }
+    const txtAtEnd = {
+        textAlign: "right",
+    }
 
     const getDiamondCriteriaWise = (diamonds = []) => {
         const out = {
-            small: {},     // 0.001 – 0.05
-            stars: 0,      // 0.051 – 0.209
-            pointers: 0,   // 0.21 – 0.999
+            // small: {},     // 0.001 – 0.05
+            // stars: 0,      // 0.051 – 0.209
+            // pointers: 0,   // 0.21 – 0.999
+
+            small: {},
+            stars: {},
+            pointers: {},
+            solitaires: {},
+
         };
+        
+        console.log("TCL: getDiamondCriteriaWise diamonds-> ",diamonds )
 
         diamonds
             .filter(d =>
@@ -260,26 +271,84 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 d.IsCenterStone !== 1
             )
             .forEach(d => {
+                
+                
+                // const p = Number(d.pointer || 0);
+                // const shape = d.ShapeName || "OTHER";
+                // const wt = Number(d.Wt || 0);
+                // const pcs = Number(d.Pcs || 0);
+
+                // if (p >= 0.001 && p <= 0.05) {
+                //     if (!out.small[shape]) out.small[shape] = { pcs: 0, ctw: 0 };
+                //     out.small[shape].pcs += pcs;
+                //     out.small[shape].ctw += wt;
+                // }
+                // else if (p >= 0.051 && p <= 0.209) {
+                //     out.stars += wt;
+                // }
+                // else if (p >= 0.21 && p <= 0.999) {
+                //     out.pointers += wt;
+                // }
+             
                 const p = Number(d.pointer || 0);
                 const shape = d.ShapeName || "OTHER";
                 const wt = Number(d.Wt || 0);
                 const pcs = Number(d.Pcs || 0);
 
-                if (p >= 0.001 && p <= 0.05) {
+                if (p >= 0.0001 && p <= 0.1000) {  // 0.0001 - 0.1000   
                     if (!out.small[shape]) out.small[shape] = { pcs: 0, ctw: 0 };
+                    if (!out.stars[shape]) out.stars[shape] = { wt: 0 };
                     out.small[shape].pcs += pcs;
                     out.small[shape].ctw += wt;
+                    out.stars[shape].wt += wt;
+                   
                 }
-                else if (p >= 0.051 && p <= 0.209) {
-                    out.stars += wt;
-                }
-                else if (p >= 0.21 && p <= 0.999) {
-                    out.pointers += wt;
+                else if (p >= 0.1001 && p <= 0.9999) {  //0.1001- 0.9999
+                    if (!out.pointers[shape]) out.pointers[shape] = { pcs: 0, ctw: 0 };
+                    out.pointers[shape].pcs += pcs;
+                    out.pointers[shape].ctw += wt;
+                }else if (p >= 1.000) { 
+                    if (!out.solitaires[shape]) out.solitaires[shape] = { pcs: 0, ctw: 0 };
+                    out.solitaires[shape].pcs += pcs;
+                    out.solitaires[shape].ctw += wt;    
                 }
             });
 
+     
+        return out;
+        
+    };
+
+    const getColorstoneCriteriaWise = (colorstone = []) => {
+      const out={
+        small: {},
+      }
+       
+
+        colorstone
+            .filter(d =>
+                d.MasterManagement_DiamondStoneTypeid === 2 &&
+                d.IsCenterStone !== 1
+            )
+            .forEach(d => {
+                const color = d.Colorname || "OTHER";
+                const shape = d.QualityName || "OTHER";
+                const wt = Number(d.Wt || 0);
+                const pcs = Number(d.Pcs || 0);
+ 
+                    if (!out.small[color+'/'+shape]) out.small[color+'/'+shape] = { pcs: 0, ctw: 0 };
+                  
+                    out.small[color+'/'+shape].pcs += pcs;
+                    out.small[color+'/'+shape].ctw += wt;
+                
+            });
+
+        
         return out;
     };
+
+
+   
 
 
     console.log("result", result);
@@ -293,8 +362,8 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     filename={`Memo_HRD_${result?.header?.InvoiceNo}_${Date.now()}`}
                     sheet="tablexls"
                     buttonText="Download as XLS" />
-                    <table id="table-to-xls">
-                    {/* <table id="table-to-xls" className='d-none'> */}
+                    <table id="table-to-xls" className='d-none' >
+                        {/* <table id="table-to-xls" className='d-none'> */}
                         <tbody>
                             <tr>
                                 <td colSpan={9} height={30} style={{ ...brBotm, ...styBld, ...fntSize, ...txtCen, ...brRight }}>
@@ -419,15 +488,34 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
                             {result?.resultArray?.map((e, i) => {
                                 const dia = getDiamondCriteriaWise(e?.diamonds || []);
+                                const cst = getColorstoneCriteriaWise(e?.colorstone || []);
+                                
+                                 
                                 const shapeText = Object.keys(dia.small).join(", ") || "-";
-                                const qtyText = Object.values(dia.small)
-                                    .reduce((a, b) => a + b.pcs, 0);
+                                // const qtyText = Object.values(dia.small)
+                                //     .reduce((a, b) => a + b.pcs, 0);
+                                const qtyText = Object.values(dia.small);
+                                const starts = Object.values(dia.stars);
+                                 
+                                const pointers = Object.entries(dia.pointers)
+                                    .map(([key, value]) => `${key} ${value.pcs}/${value.ctw.toFixed(2)}`)
+                                    .join(', ');
+
+                                const solitaires = Object.entries(dia.solitaires)
+                                    .map(([key, value]) => `${key} ${value.pcs}/${value.ctw.toFixed(2)}`)
+                                    .join(', ');
+
+                                const cstShow = Object.entries(cst.small)
+                                    .map(([key, value]) => `${key} ${value.pcs}/${value.ctw.toFixed(2)}`)
+                                    .join(', ');
+
+
 
                                 const smallCtw = Object.values(dia.small)
                                     .reduce((a, b) => a + b.ctw, 0)
                                     .toFixed(2);
 
-                                return <tr key={i}>
+                                return <tr key={i} style={{verticalAlign:"top"}}>
                                     <td height={25} style={{ ...brRight, ...brBotm, ...fntSize2, ...txtCen }}>
                                         {i + 1}
                                     </td>
@@ -457,7 +545,7 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
 
                                     <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}>
-                                        {shapeText}
+                                        {shapeText.split(', ').map((s, i) => <div  key={i}>{s}</div>)}
                                         {/* {[
                                                 ...new Set(
                                                     e?.diamonds
@@ -468,23 +556,40 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </td>
 
                                     <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}>
-                                        {qtyText || "-"}
+                                        {/* {qtyText || "-"} */}
+                                        {
+                                            qtyText.map((item, ind) => (<div style={{...txtAtEnd}} key={ind}>{item.pcs}</div>))
+                                        }
 
                                     </td>
 
                                     <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}>
-                                        {smallCtw}
+                                        {/* {smallCtw} */}
                                     </td>
 
-                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}>
 
-                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
+                                        {
+                                            starts.map((item, ind) => (<div style={{...txtAtEnd}}  key={ind}>{item.wt.toFixed(2)}</div>))
+                                        }
 
-                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
+                                    </td>
 
-                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}>
+                                         {pointers}
+                                    </td>
 
-                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}>
+                                        {solitaires}
+                                    </td>
+
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}>
+                                         
+                                    </td>
+
+                                    <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}>
+                                    {cstShow}
+                                    </td>
 
                                     <td style={{ ...brRight, ...brBotm, ...fntSize2, ...txtAtSta }}></td>
 
