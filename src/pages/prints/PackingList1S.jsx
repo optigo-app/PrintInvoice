@@ -492,6 +492,16 @@ const PackingList1S = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   // console.log("FinalTotalMisc", FinalTotalMisc);
   // console.log("data", data);
   // console.log("json0Data", json0Data);
+
+  const discountCriteria = [
+    { key: 'DiamondDiscount', isAmountKey: 'IsDiamondDiscInAmount', label: 'Diamond' ,disAmount:"DiamondDiscountAmount" },
+    { key: 'MetalDiscount', isAmountKey: 'IsMetalDiscInAmount', label: 'Metal' ,disAmount:"MetalDiscountAmount" },
+    { key: 'StoneDiscount', isAmountKey: 'IsStoneDiscInAmount', label: 'Colorstone' ,disAmount:"StoneDiscountAmount" },
+    { key: 'LabourDiscount', isAmountKey: 'IsLabourDiscInAmount', label: 'Labour' ,disAmount:"LabourDiscountAmount" },
+    { key: 'SolitaireDiscount', isAmountKey: 'IsSolitaireDiscInAmount', label: 'Solitaire' ,disAmount:"SolitaireDiscountAmount1" },
+    { key: 'MiscDiscount', isAmountKey: 'IsMiscDiscInAmount', label: 'Misc' ,disAmount:"MiscDiscountAmount" },
+  ];
+
   
   return (
     <>
@@ -777,6 +787,16 @@ const PackingList1S = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             {/* Table Data */}
             {data?.length > 0 &&
               data?.map((e, i) => {
+                const discountDisplay = discountCriteria
+                .filter(({ key }) => e?.[key] > 0) // Only include non-zero discounts
+                .map(({ key, isAmountKey, label,disAmount }) => {
+                  const num = Number(e[key]); // ensure it's a number
+                  const am= Number(e[disAmount])
+                  const decimals = e[isAmountKey] === 1 ? 3 : 2; // 0 => 3 decimals, 1 => 2 decimals
+                  const val = num.toFixed(decimals); // fixed decimals
+                  return e[isAmountKey] === 0 ? `${val}% @${label} Amount ` : `${val} @${label} Amount`;
+                })
+                .join(', ');
                 return (
                   <div
                     key={i}
@@ -1536,20 +1556,7 @@ const PackingList1S = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           >
                             {/* <p className={` w-100 fw-bold`}>Discount {e?.Discount}% On Amount</p> */}
                             <p className="fw-bold text-end">
-                              Discount {e?.Discount}% @
-                              {e?.IsCriteriabasedAmount === 1
-                                ? e?.discountElements?.map((ele, ind) => {
-                                    return (
-                                      <React.Fragment key={ind}>
-                                        {ele?.label}{" "}
-                                        {ind !== e?.discountElements?.length - 1
-                                          ? ","
-                                          : ""}
-                                      </React.Fragment>
-                                    );
-                                  })
-                                : "Total "}
-                              Amount{" "}
+                            Discount {discountDisplay || `${NumberWithCommas(e?.Discount, 2)} @ Total Amount`}
                             </p>
                           </div>
                           <div

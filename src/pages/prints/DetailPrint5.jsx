@@ -419,15 +419,23 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   // console.log("total", total);
   // console.log("address", address);
 
-  const discountCriteria = [
-    { key: 'DiamondDiscountAmount', label: 'Diamond' },
-    { key: 'MetalDiscountAmount', label: 'Metal' },
-    { key: 'StoneDiscountAmount', label: 'Colorstone' },
-    { key: 'LabourDiscountAmount', label: 'Labour' },
-    { key: 'SolitaireDiscountAmount1', label: 'Solitaire' },
-    { key: 'MiscDiscountAmount', label: 'Misc' },
-  ];
+  // const discountCriteria = [
+  //   { key: 'DiamondDiscountAmount', label: 'Diamond' },
+  //   { key: 'MetalDiscountAmount', label: 'Metal' },
+  //   { key: 'StoneDiscountAmount', label: 'Colorstone' },
+  //   { key: 'LabourDiscountAmount', label: 'Labour' },
+  //   { key: 'SolitaireDiscountAmount1', label: 'Solitaire' },
+  //   { key: 'MiscDiscountAmount', label: 'Misc' },
+  // ];
 
+  const discountCriteria = [
+    { key: 'DiamondDiscount', isAmountKey: 'IsDiamondDiscInAmount', label: 'Diamond' ,disAmount:"DiamondDiscountAmount" },
+    { key: 'MetalDiscount', isAmountKey: 'IsMetalDiscInAmount', label: 'Metal' ,disAmount:"MetalDiscountAmount" },
+    { key: 'StoneDiscount', isAmountKey: 'IsStoneDiscInAmount', label: 'Colorstone' ,disAmount:"StoneDiscountAmount" },
+    { key: 'LabourDiscount', isAmountKey: 'IsLabourDiscInAmount', label: 'Labour' ,disAmount:"LabourDiscountAmount" },
+    { key: 'SolitaireDiscount', isAmountKey: 'IsSolitaireDiscInAmount', label: 'Solitaire' ,disAmount:"SolitaireDiscountAmount1" },
+    { key: 'MiscDiscount', isAmountKey: 'IsMiscDiscInAmount', label: 'Misc' ,disAmount:"MiscDiscountAmount" },
+  ];
   const IsEvnQuote = atob(evn)?.toLowerCase() === "quote";
 
   return loader ? (
@@ -483,7 +491,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             alt=""
             onError={handleImageErrors}
             className="w-100 h-auto ms-auto d-block object-fit-contain headImg_Pcl7"
-            style={{ }}
+            style={{}}
             height={120}
             width={150}
           />
@@ -641,12 +649,26 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
         {/* Table Data */}
         {data.map((e, i) => {
-          {/* For Discount Criteria */}
-          const activeDiscounts = discountCriteria
+          {/* For Discount Criteria */ }
+
+          console.log("TCL: discountCriteria", discountCriteria)
+          // const activeDiscounts = discountCriteria
+          //   .filter(({ key }) => e?.[key] > 0)
+          //   .map(({ label }) => label)
+          //   .join(', ');
+
+
+          const discountDisplay = discountCriteria
             .filter(({ key }) => e?.[key] > 0)
-            .map(({ label }) => label)
+            .map(({ key, isAmountKey, label,disAmount }) => {
+              const num = Number(e[key]);  
+              const am= Number(e[disAmount])
+              const decimals = e[isAmountKey] === 1 ? 3 : 2;  
+              const val = num.toFixed(decimals);  
+              return e[isAmountKey] === 0 ? `${val}% @${label} Amount ` : `${val} @${label} Amount`;
+            })
             .join(', ');
-            
+
           return (
             <div className="PgeBrakInsid SpBrdersBtom" key={i}>
               {/* Per Job Details */}
@@ -874,7 +896,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                     {/* <div className={`${style?.w_20} text-end`}></div> */}
                     <div className={`${style?.w_20} text-end fw-bold`} style={{ width: '40%' }}>
-                      {e?.metals?.filter((e) => e?.IsPrimaryMetal === 1)?.map((e) => 
+                      {e?.metals?.filter((e) => e?.IsPrimaryMetal === 1)?.map((e) =>
                         IsEvnQuote ? NumberWithCommas(e?.Amount / headerData?.CurrencyExchRate, 2) : NumberWithCommas(e?.Amount, 2))
                       }
                     </div>
@@ -939,7 +961,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className={`${style?.metal} border-end`}></div>
                   <div className={`${style?.stone} border-end`}>
                     <p className="text-end fw-bold">
-                      Discount {NumberWithCommas(e?.Discount, 2)}
+                      {/* Discount {NumberWithCommas(e?.Discount, 2)} */}
                       {/* {e?.DiamondDiscountAmount 
                         ? "% @Diamond Amount"
                         : e?.MetalDiscountAmount
@@ -954,7 +976,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   ? "% @Solitaire Amount"
                                   : "% @Total Amount"
                       }  */}
-                      {activeDiscounts ? `% @${activeDiscounts} Amount` : "% @Total Amount"}
+                      {/* {activeDiscounts ? `% @${activeDiscounts} Amount` : "% @Total Amount"} */}
+                      Discount {discountDisplay || `${NumberWithCommas(e?.Discount, 2)} @ Total Amount`}
                       {/* e?.isdiscountinamount */}
                     </p>
                   </div>
@@ -999,7 +1022,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             {taxes.map((e, i) => {
               return (
                 <p className="text-end" key={i}>
-                  {IsEvnQuote ? formatAmount(e?.amount / headerData?.CurrencyExchRate ,2) : formatAmount(e?.amount,2)}
+                  {IsEvnQuote ? formatAmount(e?.amount / headerData?.CurrencyExchRate, 2) : formatAmount(e?.amount, 2)}
                 </p>
               );
             })}

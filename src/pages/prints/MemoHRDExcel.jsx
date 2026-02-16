@@ -255,7 +255,7 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             // small: {},     // 0.001 – 0.05
             // stars: 0,      // 0.051 – 0.209
             // pointers: 0,   // 0.21 – 0.999
-
+            
             small: {},
             stars: {},
             pointers: {},
@@ -316,7 +316,6 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     out.solitaires[shape].ctw += wt;    
                 }
             });
-
      
         return out;
         
@@ -327,7 +326,6 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         small: {},
       }
        
-
         colorstone
             .filter(d =>
                 d.MasterManagement_DiamondStoneTypeid === 2 &&
@@ -349,10 +347,6 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         
         return out;
     };
-
-
-   
-
 
     console.log("result", result);
     return (
