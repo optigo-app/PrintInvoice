@@ -187,6 +187,15 @@ const InvoicePrint2Material = ({
           <div className="w-full flex items-center justify-center">
             <div className="container_inv2">
               {/* Header */}
+              {json0Data?.PrintHeadLbl
+                &&(
+                  <div className="headlineJL w-100 p-2">
+                <b style={{ fontSize: "20px" }}>
+                  {json0Data?.PrintHeadLbl}
+                </b>
+              </div>
+                )
+              }
               {headerFlag && (
                 <div className="disflx justify-content-between" style={{ marginBottom: "10px" }}>
                   <div className="spfnthead" style={{ paddingLeft: "5px" }}>
@@ -324,7 +333,7 @@ const InvoicePrint2Material = ({
                 <div className="Sucol9_inv2 spfnted spfntBld spbrRht">{totalAmount ? formatAmount(totalAmount, 2) : ''}</div>
               </div>
 
-              {/** Tax Amount */}
+              {/** Tax Amount */} 
               {extraTaxAmont?.map?.((e, i) => {
                 return (
                   <div className="disflx spfntbH">
