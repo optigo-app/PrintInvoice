@@ -29,7 +29,7 @@ const Print1Material = ({
   const [taxAmont , setTaxAmount] = useState();
   const [extraTaxAmont , setExtraTaxAmount] = useState();
   const [headFlag, setHeadFlag] = useState(true);
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
   useEffect(() => {
     const sendData = async () => {
       try {
@@ -126,6 +126,9 @@ const Print1Material = ({
       shapeWise: {},
     }
   );
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
 
   const toProperCase = (str) =>
     str?.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
@@ -204,10 +207,35 @@ const Print1Material = ({
                   </b>
                 </div>
               )}
+              <div className="disflx justify-content-between" style={{ marginBottom: "10px" }}>
+                  <div className="spfnthead" style={{ paddingLeft: "5px" }}>
+                    {json0Data?.CompanyFullName !== "" && ( <div className="spfntBld" style={{ fontSize: "15px" }}>{json0Data?.CompanyFullName}</div> )}
+                    {json0Data?.CompanyAddress !== "" && (<div className="">{json0Data?.CompanyAddress}</div>)}
+                    <div className="">{json0Data?.CompanyAddress2}</div>
+                    <div className="">{json0Data?.CompanyCity} {json0Data?.CompanyCity && json0Data?.CompanyPinCode !== "" && ("-")} {json0Data?.CompanyPinCode !== "" && (`${json0Data?.CompanyPinCode},`)} {json0Data?.CompanyState}{json0Data?.CompanyCountry !== "" && (`(${json0Data?.CompanyCountry})`)}</div>
+                    {json0Data?.CompanyTellNo !== "" && (<div className="">T {json0Data?.CompanyTellNo} {json0Data?.CompanyTollFreeNo ?` | TOLL FREE ${json0Data?.CompanyTollFreeNo}`:""}</div>)}
+                    <div className="">{json0Data?.CompanyEmail} {json0Data?.CompanyWebsite && json0Data?.CompanyEmail !== "" && ("|")} {json0Data?.CompanyWebsite}</div>
+                    <div className="">{json0Data?.Company_VAT_GST_No !== "" && (`${json0Data?.Company_VAT_GST}-${json0Data?.Company_VAT_GST_No}`)} {json0Data?.Company_VAT_GST_No && json0Data?.Company_CST_STATE_No !== "" && ("|")} {json0Data?.Company_CST_STATE_No !== "" && (`${json0Data?.Company_CST_STATE}-${json0Data?.Company_CST_STATE_No}`)} {json0Data?.Company_CST_STATE_No && json0Data?.ComPanCard !== "" && ("|")} {json0Data?.ComPanCard !== "" && ( `PAN-${json0Data?.ComPanCard} `)}</div>
+                  </div>
+
+                  {typeof json0Data?.PrintLogo === 'string' && json0Data.PrintLogo.trim() !== '' && (
+                    <div>
+                      <img 
+                        src={json0Data.PrintLogo} 
+                        alt="#companylogo"  
+                        className="cmpnyLogo" 
+                        width={85}
+                        height={85}
+                        onError={handleImageErrors}
+                      />
+                    </div>
+                  )}
+
+                </div>
               <div className="disflx brbxAll">
                 <div className="w1_inv2 spTpMrgHD spfnthead disflx">
                   <div className="spfntBld">To,</div>
-                  <div className="spfntsZ spfntBld" style={{ paddingLeft: "4px" }}>{json0Data?.customerfirmname}</div>
+                  <div className="spfntsZ spfntBld" style={{ paddingLeft: "4px" }}>{json0Data?.Customercode}</div>
                 </div>
                 <div className="w2_inv2">
                 </div>
@@ -277,7 +305,7 @@ const Print1Material = ({
               <div className="disflx spbrlFt brBtom spfntbH">
                 <div className="SeSucol1_inv2 spbrRht spfntBld"><b>TOTAL</b></div>
                 <div className="SeSucol6_inv2 spbrRht spfnted spfntBld"><b>{totalPieces}</b></div>
-                <div className="SeSucol7_inv2 spfnted spfntBld spbrRht spbrWord"><b>{fixedValues(remainingWeight,3)} gm <br />  {metalAndMiscWeight ?fixedValues(metalAndMiscWeight,3)+" gm":""} </b></div>
+                <div className="SeSucol7_inv2 spfnted spfntBld spbrRht spbrWord"><b>{fixedValues(remainingWeight,3)} ctw <br />  {metalAndMiscWeight ?fixedValues(metalAndMiscWeight,3)+" gm":""} </b></div>
                 <div className="SeSucol8_inv2 spfnted spbrRht"></div>
                 <div className="SeSucol9_inv2 spfnted spfntBld spbrRht"><b>{formatAmount(totalAmount,2)}</b></div>
               </div>
