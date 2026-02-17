@@ -255,7 +255,7 @@ const Print1Material = ({
                           : e?.ItemName === "MISC" 
                             ? `MISC:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}`
                             : e?.ItemName === "FINDING" 
-                              ? `FINDING:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}`
+                              ? `FINDING:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}${formatAmount(e?.Tunch,3)}`
                               : e?.ItemName === "ALLOY" 
                                 ? `ALLOY:${e?.shape}${e?.shape ? '/' : ''}${e?.quality}${e?.quality ? '/' : ''}${e?.color}${e?.color ? '/' : ''}${e?.size}`
                                 : e?.ItemName === "MOUNT" 
@@ -277,7 +277,7 @@ const Print1Material = ({
               <div className="disflx spbrlFt brBtom spfntbH">
                 <div className="SeSucol1_inv2 spbrRht spfntBld"><b>TOTAL</b></div>
                 <div className="SeSucol6_inv2 spbrRht spfnted spfntBld"><b>{totalPieces}</b></div>
-                <div className="SeSucol7_inv2 spfnted spfntBld spbrRht spbrWord"><b>{fixedValues(remainingWeight,3)} ctw <br /> {fixedValues(metalAndMiscWeight,3)} gm</b></div>
+                <div className="SeSucol7_inv2 spfnted spfntBld spbrRht spbrWord"><b>{fixedValues(remainingWeight,3)} gm <br />  {metalAndMiscWeight ?fixedValues(metalAndMiscWeight,3)+" gm":""} </b></div>
                 <div className="SeSucol8_inv2 spfnted spbrRht"></div>
                 <div className="SeSucol9_inv2 spfnted spfntBld spbrRht"><b>{formatAmount(totalAmount,2)}</b></div>
               </div>
