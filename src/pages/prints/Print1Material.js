@@ -191,6 +191,8 @@ const Print1Material = ({
     (totalAmount || 0) +
     (totalEtraTaxAmount || 0) +
     (taxAmont?.tax1Amount || 0) +
+    (taxAmont?.CGSTTotalAmount || 0) +
+    (taxAmont?.SGSTTotalAmount || 0) +
     (taxAmont?.tax2Amount || 0) +
     (taxAmont?.tax4Amount || 0) +
     (taxAmont?.tax5Amount || 0) +
