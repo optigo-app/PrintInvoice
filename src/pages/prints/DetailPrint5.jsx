@@ -953,7 +953,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
 
               {/* Per Job Discount */}
-              {e?.DiscountAmt !== 0 && (
+              {e?.discountDisplay !== 0 && (
                 <div className={`PrJobFnt d-flex border-top lightGrey border-start border-end ${style?.wordBreak}`} key={i + "i"} >
                   <div className={`${style?.srNo} border-end text-center p-1`}></div>
                   <div className={`${style?.design} border-end p-1`}></div>
