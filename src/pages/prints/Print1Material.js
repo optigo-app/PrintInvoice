@@ -326,7 +326,10 @@ const Print1Material = ({
                 <div className="w1_inv2 spTpMrgHD spfnthead ">
                   <div className="disflx">
                   <div className="spfntBld">To,</div>
-                  <div className="spfntsZ spfntBld" style={{ paddingLeft: "4px" }}>{json0Data?.Customercode}</div>
+                  <div className="spfntsZ spfntBld" style={{ paddingLeft: "4px" }}>
+                  {json0Data?.IsPrint_ShortCustomerDetails === 0 ? json0Data?.customerfirmname : json0Data?.Customercode}
+                    
+                   </div>
                   </div>
                   <div>
                   {json0Data?.IsPrint_ShortCustomerDetails === 0 && (
