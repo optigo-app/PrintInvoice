@@ -691,8 +691,8 @@ const [generalLedgerData, setGeneralLedgerData] = useState(null);
                                 </div>
 
                                 <div className='col7_pcls   d-flex flex-column justify-content-between' style={{width:!diaFlag ? '12%' : '6%'}}>
-                                    <div className='start_pcls pdr_pcls fw-bold'>{formatAmount((( e?.TotalAmount - (diaFlag ? 0 : e?.DiamondAmount))  / result?.header?.CurrencyExchRate))}</div>
-                                    <div className='start_pcls btop_pcls bg_pcls pdr_pcls fw-bold'>&nbsp;{formatAmount((( e?.TotalAmount - (diaFlag ? 0 : e?.DiamondAmount)) / result?.header?.CurrencyExchRate))}</div>
+                                    <div className='start_pcls pdr_pcls fw-bold'>{formatAmount((( e?.TotalAmount)  / result?.header?.CurrencyExchRate))}</div>
+                                    <div className='start_pcls btop_pcls bg_pcls pdr_pcls fw-bold'>&nbsp;{formatAmount((( e?.TotalAmount ) / result?.header?.CurrencyExchRate))}</div>
                                 </div>
 
                             </div>
@@ -745,11 +745,11 @@ const [generalLedgerData, setGeneralLedgerData] = useState(null);
                                 result?.mainTotal?.misc?.IsHSCODE_3_amount)) / result?.header?.CurrencyExchRate))}</div>
                         </div>
                     </div>
-                    <div className='col7_pcls end_pcls pdr_pcls' style={{width:!diaFlag ? '12%' : '6%'}}>{formatAmount(((( result?.mainTotal?.TotalAmount - (diaFlag ? 0 : result?.mainTotal?.DiamondAmount)) + result?.mainTotal?.DiscountAmt) / result?.header?.CurrencyExchRate))}</div>
+                    <div className='col7_pcls end_pcls pdr_pcls' style={{width:!diaFlag ? '12%' : '6%'}}>{formatAmount(((( result?.mainTotal?.TotalAmount ) + result?.mainTotal?.DiscountAmt) / result?.header?.CurrencyExchRate))}</div>
                 </div>
                 {/* taxes and grand total */}
                 <div className='d-flex justify-content-end align-items-end' style={{borderBottom:'1px solid black', borderLeft:'1px solid black', borderRight:'1px solid black'}}>
-                    <div style={{width:"86%",paddingLeft:"10px",paddingBottom:"10px"}}>
+                    <div className='GoldRet-cont' style={{width:"86%",paddingLeft:"7px",paddingBottom:" 7px"}}>
                         <div className='GoldRet' style={{fontWeight:"bold",fontSize:"16px",marginBottom:"3px"}}>Balance Gold: <span>{formatAmount(generalLedgerData?.BalGold)}</span></div>
                         <div className='GoldRet' style={{fontWeight:"bold",fontSize:"16px"}}>Balance Amount: <span>{formatAmount(generalLedgerData?.BalAmt)}</span></div>
                     </div>
@@ -760,7 +760,7 @@ const [generalLedgerData, setGeneralLedgerData] = useState(null);
                         </div>
                         <div className='w-100 d-flex align-items-center tb_fs_pcls' >
                             <div style={{width:'50%'}} className='end_pcls pdr_pcls'>Total Amount</div>
-                            <div style={{width:'50%'}} className='end_pcls pdr_pcls'>{formatAmount((result?.mainTotal?.TotalAmount - (diaFlag ? 0 : result?.mainTotal?.DiamondAmount) / result?.header?.CurrencyExchRate))}</div>
+                            <div style={{width:'50%'}} className='end_pcls pdr_pcls'>{formatAmount((result?.mainTotal?.TotalAmount  / result?.header?.CurrencyExchRate))}</div>
                         </div>
                         { result?.allTaxes?.map((e, i) => {
                             return <div className='w-100 d-flex align-items-center tb_fs_pcls' key={i}>
@@ -778,7 +778,7 @@ const [generalLedgerData, setGeneralLedgerData] = useState(null);
                         </div>
                         <div className='w-100 d-flex align-items-center tb_fs_pcls fw-bold'>
                             <div style={{width:'50%'}} className='end_pcls pdr_pcls'>Final Amount</div>
-                            <div style={{width:'50%'}} className='end_pcls pdr_pcls'>{formatAmount(( (((result?.mainTotal?.TotalAmount - (diaFlag ? 0 : result?.mainTotal?.DiamondAmount) + result?.header?.AddLess + result?.header?.FreightCharges)/ result?.header?.CurrencyExchRate) + result?.allTaxesTotal)))}</div>
+                            <div style={{width:'50%'}} className='end_pcls pdr_pcls'>{formatAmount(( (((result?.mainTotal?.TotalAmount  + result?.header?.AddLess + result?.header?.FreightCharges)/ result?.header?.CurrencyExchRate) + result?.allTaxesTotal)))}</div>
                         </div>
                     </div>
                 </div>
