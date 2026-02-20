@@ -87,7 +87,8 @@
 /* table head */
 
 .tb_fs_pcls{
-    font-size: 11px;
+    font-size: 12px;
+ 
 }
 
 .thead_pcls{
@@ -208,6 +209,11 @@
     font-size: 14px;
 }
 
+/* .linHig10{
+    line-height: 10px;
+    padding-top: 3px;
+} */
+
 @media print {
     .fs_16_pcls{
         font-size: 13px;
@@ -228,8 +234,8 @@
         line-height: 9px;
     }
     .tb_fs_pcls{
-        font-size: 6px;
-        line-height: 7px;
+        font-size: 9px;
+        line-height: 8px;
     }
     .pbia_s{
         page-break-inside: avoid !important;
@@ -267,5 +273,7 @@
     .fs_h_head2{
         font-size: 10px;
     }
-    
+    .GoldRet{
+        font-size: 14px !important;
+    }
 }
