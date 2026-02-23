@@ -1030,7 +1030,9 @@ const JewelleryTaxInvoiceSale = ({
                   className="d-flex align-items-center justify-content-start ps-1"
                   style={{ fontSize: "12.8px", height: "25px" }}
                 >
-                  Delivery Charges
+                  {/* Delivery Charges  */}
+                  {result?.header?.ModeOfDel}
+
                 </div>
               )}
             </div>
