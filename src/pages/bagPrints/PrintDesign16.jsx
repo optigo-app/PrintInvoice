@@ -645,7 +645,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       fontWeight: "900",
                                       textAlign: "center",
                                       paddingLeft: "0.79375mm",
-                                      width: "14.345958333mm",
+                                      width: "16.345958333mm",
                                       fontSize: "11.5px",
                                     }}
                                   >
@@ -656,10 +656,10 @@ const PrintDesign16 = ({ queries, headers }) => {
                                     style={{
                                       height: "3.7041666667mm",
                                       fontWeight: "900",
-                                      paddingTop: "2px",
+                                      paddingTop: "0px",
                                       paddingLeft: "0.79375mm",
                                       width: "10.7mm",
-                                      fontSize: "13.5px",
+                                      fontSize: "11px",
                                     }}
                                   >
                                     WT

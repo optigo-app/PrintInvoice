@@ -252,9 +252,6 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
     const getDiamondCriteriaWise = (diamonds = []) => {
         const out = {
-            // small: {},     // 0.001 – 0.05
-            // stars: 0,      // 0.051 – 0.209
-            // pointers: 0,   // 0.21 – 0.999
             
             small: {},
             stars: {},
@@ -264,7 +261,7 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
         };
         
-        console.log("TCL: getDiamondCriteriaWise diamonds-> ",diamonds )
+   
 
         diamonds
             .filter(d =>
@@ -302,7 +299,7 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             });
 
             
-            console.log("TCL: getDiamondCriteriaWise -> out",out )
+            
      
         return out;
         

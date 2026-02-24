@@ -538,7 +538,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       }
     }
   };
-  console.log("result", result);
+ 
   
   return (
     <>
@@ -1649,6 +1649,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             >
                               {/* {formatAmount( result?.mainTotal?.total_labour?.labour_amount + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.total_TotalCsSetcost )} */}
                               <div>
+                             { console.log("TCL:e?.totals?.finding ", e?.totals?.finding)}
                                 {formatAmount(
                                   (e?.MakingAmount +
                                     e?.totals?.misc?.isHSCODE123_amt +
