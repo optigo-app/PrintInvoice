@@ -29,8 +29,13 @@ const InvoicePrintN = ({
   const [data, setdata] = useState([]);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
+    const [summary, setSummary] = useState([]);
   const toWords = new ToWords();
   const [image, setImage] = useState(true);
+  const [summ, setSummy] = useState(true);
+   
+  const [retail, setRetail] = useState(true);
+  const [customerAddress, setCustomerAddress] = useState([]);
   const [total, setTotal] = useState({
     gwt: 0,
     stoneWt: 0,
@@ -59,10 +64,30 @@ const InvoicePrintN = ({
 
     try {
       setHeaderData(data?.BillPrint_Json[0]);
+
+      let custAddress = data?.BillPrint_Json[0]?.Printlable.split("\n");
+      setCustomerAddress(custAddress);
       let blankArr = [];
+      let diamondWt = 0;
+    let colorStoneWt = 0;
+    let grossWt = 0;
+      let metalArr = [];
       let totals = { ...total };
       let groupInfo = [];
       data?.BillPrint_Json1.forEach((e, i) => {
+        let findRecord = metalArr.findIndex(
+          (elem) => elem?.label === e?.MetalTypePurity
+        );
+        if (findRecord === -1) {
+          metalArr.push({
+            label: e?.MetalTypePurity,
+            value: e?.NetWt * e?.Quantity,
+            gm: true,
+          });
+        } else {
+          metalArr[findRecord].value += e?.NetWt * e?.Quantity;
+        }
+        grossWt += e?.grosswt * e?.Quantity;
         let obj = { ...e };
         totals.gwt += e?.grosswt;
         totals.beforeTax += e?.TotalAmount;
@@ -80,10 +105,10 @@ const InvoicePrintN = ({
         let miscs = [];
         let finding = [];
         let diamondAmount = 0;
-        let diamondWt = 0;
+        // let diamondWt = 0;
         let diamondRate = 0;
         let colorStoneAmount = 0;
-        let colorStoneWt = 0;
+        // let colorStoneWt = 0;
         let colorStoneRate = 0;
         let miscsAmount = 0;
         let miscsWt = 0;
@@ -182,6 +207,8 @@ const InvoicePrintN = ({
         obj.hallmarkingCount = hallmarkingCount;
         obj.miscsAmount = miscsAmount;
         blankArr.push(obj);
+
+
         let findGroupinfo = groupInfo?.findIndex(
           (ele, ind) => ele?.GroupJob === e?.GroupJob && e?.GroupJob !== ""
         );
@@ -224,6 +251,12 @@ const InvoicePrintN = ({
           });
         }
       });
+
+      metalArr.push({ label: "Diamond Wt", value: diamondWt, gm: false });
+      metalArr.push({ label: "Stone Wt", value: colorStoneWt, gm: false });
+      metalArr.push({ label: "Gross Wt", value: grossWt, gm: true });
+
+      setSummary(metalArr);
       let taxValue = taxGenrator(data?.BillPrint_Json[0], totals?.total);
       taxValue.forEach((e, i) => {
         totals.afterTax += +e?.amount;
@@ -388,6 +421,15 @@ const InvoicePrintN = ({
     image ? setImage(false) : setImage(true);
   };
 
+  const handleChangeSummary = (e) => {
+    summ ? setSummy(false) : setSummy(true);
+  };
+ 
+  const handleChangeRetail = (e) => {
+    retail ? setRetail(false) : setRetail(true);
+  };
+
+
   const totalConverted = total?.afterTax / headerData?.CurrencyExchRate;
   const totalPayments =
     headerData?.OldGoldAmount +
@@ -397,64 +439,64 @@ const InvoicePrintN = ({
 
   const difference = Math.round((totalConverted - totalPayments) * 100) / 100;
 
-//   const diaTotal= data.map((e,i)=>{
-//      const tl=e?.diamonds.reduce((acc,d)=>{
-//         return acc + d?.RMwt * d?.Rate
-//      },0);
+  //   const diaTotal= data.map((e,i)=>{
+  //      const tl=e?.diamonds.reduce((acc,d)=>{
+  //         return acc + d?.RMwt * d?.Rate
+  //      },0);
 
-//      return tl
-//   })
+  //      return tl
+  //   })
 
-//   const csTotal= data.map((e,i)=>{
-//     const tl=e?.colorstones.reduce((acc,d)=>{
-//        return acc + d?.RMwt * d?.Rate
-//     },0);
+  //   const csTotal= data.map((e,i)=>{
+  //     const tl=e?.colorstones.reduce((acc,d)=>{
+  //        return acc + d?.RMwt * d?.Rate
+  //     },0);
 
-//     return tl
-//  })
+  //     return tl
+  //  })
 
-//  let jobtotal=0
-//   data.forEach((e,i)=>{
-//     jobtotal+=e.MetalAmount
-  
-// })
+  //  let jobtotal=0
+  //   data.forEach((e,i)=>{
+  //     jobtotal+=e.MetalAmount
 
-const totalsWithMat = data.reduce(
-  (acc, e) => {
-    // Diamond Total
-    acc.diaTotal += (e?.diamonds ?? []).reduce(
-      (sum, d) => sum + (d?.RMwt ?? 0) * (d?.Rate ?? 0),
-      0
-    );
+  // })
 
-    // Color Stone Total
-    acc.csTotal += (e?.colorstones ?? []).reduce(
-      (sum, d) => sum + (d?.RMwt ?? 0) * (d?.Rate ?? 0),
-      0
-    );
+  const totalsWithMat = data.reduce(
+    (acc, e) => {
+      // Diamond Total
+      acc.diaTotal += (e?.diamonds ?? []).reduce(
+        (sum, d) => sum + (d?.RMwt ?? 0) * (d?.Rate ?? 0),
+        0
+      );
 
-    // Metal Total
-    acc.jobTotal += e?.MetalAmount ?? 0;
+      // Color Stone Total
+      acc.csTotal += (e?.colorstones ?? []).reduce(
+        (sum, d) => sum + (d?.RMwt ?? 0) * (d?.Rate ?? 0),
+        0
+      );
 
-    return acc;
-  },
-  {
-    diaTotal: 0,
-    csTotal: 0,
-    jobTotal: 0
-  }
-);
+      // Metal Total
+      acc.jobTotal += e?.MetalAmount ?? 0;
 
-const grandTotalWithMat = Object.values(totalsWithMat).reduce(
-  (acc, value) => acc + (value ?? 0),
-  0
-);
+      return acc;
+    },
+    {
+      diaTotal: 0,
+      csTotal: 0,
+      jobTotal: 0
+    }
+  );
 
- 
+  const grandTotalWithMat = Object.values(totalsWithMat).reduce(
+    (acc, value) => acc + (value ?? 0),
+    0
+  );
 
 
-  
- 
+
+
+
+
 
   const mergeByKey = ({
     data = [],
@@ -484,7 +526,7 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
     );
   };
 
- 
+
   return (
     <>
       {loader ? (
@@ -499,17 +541,53 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
               >
                 <div
                   className={`btnpcl align-items-baseline position-absolute right-0 top-0 m-0 ${style?.right_retailInvoicePrintsBtn} d-flex`}
+                  style={{ right: "-330px" }}
                 >
+
                   <div className="form-check pe-3">
                     <input
                       className="form-check-input"
+                      id="retail"
+                      type="checkbox"
+                      checked={retail}
+                      onChange={handleChangeRetail}
+                    />
+                    <label
+                      className="form-check-label pt-1"
+                      htmlFor="flexCheckDefault"
+                      for="retail"
+                    >
+                      Retail
+                    </label>
+                  </div>
+
+                   
+                  <div className="form-check pe-3">
+                    <input
+                      className="form-check-input"
+                      id="image"
+                      type="checkbox"
+                      checked={summ}
+                      onChange={handleChangeSummary}
+                    />
+                    <label
+                      className="form-check-label pt-1"
+                      for="image"
+                    >
+                      Summary
+                    </label>
+                  </div>
+                  <div className="form-check pe-3">
+                    <input
+                      className="form-check-input"
+                      id="image"
                       type="checkbox"
                       checked={image}
                       onChange={handleChangeImage}
                     />
                     <label
                       className="form-check-label pt-1"
-                      htmlFor="flexCheckDefault"
+                      for="image"
                     >
                       With Image
                     </label>
@@ -522,6 +600,7 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
                     <b style={{ fontSize: "20px" }}>
                       {" "}
                       {headerData?.PrintHeadLabel}{" "}
+                      {retail ? "RETAIL INVOICE" : "TAX INVOICE"}
                     </b>{" "}
                   </div>
                   <div className="d-flex w-100">
@@ -543,10 +622,7 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
                         {headerData?.CompanyCity}-{headerData?.CompanyPinCode},
                         {headerData?.CompanyState}({headerData?.CompanyCountry})
                       </div>
-                      <div className="fslhJL">
-                        T {headerData?.CompanyTellNo} | TOLL FREE{" "}
-                        {headerData?.CompanyTollFreeNo}
-                      </div>
+                      
                       <div className="fslhJL">
                         {headerData?.CompanyEmail} |{headerData?.CompanyWebsite}
                       </div>
@@ -558,6 +634,11 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
                           `| ${headerData?.Company_CST_STATE}-${headerData?.Company_CST_STATE_No}`}
                         {headerData?.Com_pannumber !== "" &&
                           ` | PAN-${headerData?.Com_pannumber}`}
+                      </div>
+                      <div className="fslhJL">
+                        T {headerData?.CompanyTellNo} 
+                        {/* | TOLL FREE{" "}
+                        {headerData?.CompanyTollFreeNo} */}
                       </div>
                     </div>
                     <div className="col-2 d-flex align-items-center justify-content-center">
@@ -580,9 +661,9 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
                   </div>
                   {/* header data */}
                   <div className="d-flex border w-100 no_break">
-                    <div className="col-8 p-2 b border-end">
+                    <div className={`col-${!retail ? 4 : 8} p-2 b border-end`}>
                       {/* <div className="fslhJL">{headerData?.lblBillTo}</div> */}
-                      <div className="fslhJL">To,</div>
+                      <div className="fslhJL"> Bill To,</div>
                       <div className="fslhJL">
                         <b className="JL13" style={{ fontSize: "14px" }}>
                           {headerData?.CustName}
@@ -624,10 +705,24 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
                         {headerData?.Cust_CST_STATE_No}
                       </div>
                     </div>
+
+                    { !retail && (
+                      <div className="col-4 p-2 border-end">
+                        <p>Ship To,</p>
+                        <p className={`fw-bold ${style?.font_14}`}>
+                          {headerData?.customerfirmname}
+                        </p>
+                        {customerAddress.map((e, i) => {
+                          return <p key={i}>{e}</p>;
+                        })}
+                      </div>
+                    )}
+
+
                     <div className="col-4 p-2 position-relative">
                       <div className="d-flex">
                         <div className="col-6">
-                          <b className="JL13">INVOICE NO</b>
+                          <b className="JL13">Bill No</b>
                         </div>
                         <div className="col-6">{headerData?.InvoiceNo}</div>
                       </div>
@@ -639,34 +734,35 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
                       </div>
                       <div className="d-flex">
                         <div className="col-6">
+                          <b className="JL13">DUE DATE</b>
+                        </div>
+                        <div className="col-6">{headerData?.DueDate}</div>
+                      </div>
+                      <div className="d-flex">
+                        <div className="col-6">
+                          <b className="JL13">DUE DAYS</b>
+                        </div>
+                        <div className="col-6">{headerData?.DueDays}</div>
+                      </div>
+                      <div className="d-flex">
+                        <div className="col-6">
                           <b className="JL13">HSN</b>
                         </div>
                         <div className="col-6">{headerData?.HSN_No}</div>
                       </div>
+
                       <div className="d-flex">
                         <div className="col-6">
-                          <b className="JL13">Reverse Charge</b>
+                          <b className="JL13">NAME OF GOODS</b>
                         </div>
-                        <div className="col-6 d-flex">
-                          <div className="d-flex pe-1">
-                            <input
-                              type="checkbox"
-                              name=""
-                              id=""
-                              className="me-1"
-                            />
-                            <p className="pe-1">Yes</p>
-                          </div>
-                          <div className="d-flex">
-                            <input
-                              type="checkbox"
-                              name=""
-                              id=""
-                              className="me-1"
-                            />
-                            <p className="pe-1">No</p>
-                          </div>
+                        <div className="col-6">{headerData?.NameOfGoods}</div>
+                      </div>
+                      <div className="d-flex">
+                        <div className="col-6">
+                          <b className="JL13">PLACE OF SUPPLY
+                          </b>
                         </div>
+                        <div className="col-6">{headerData?.customerstate}</div>
                       </div>
                       {document?.map((e, i) => {
                         return (
@@ -709,7 +805,7 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
                       </div>
                       <div
                         className={`${style?.materialJewerryRetailInvoicePrint}`}
-                        style={{width:"60%"}}
+                        style={{ width: "60%" }}
                       >
 
                         <div className="d-flex">
@@ -720,44 +816,44 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
                           </div>
                           <div
                             className={`col-2 d-flex align-items-center justify-content-center `}
-                            style={{width:"13%"}}
+                            style={{ width: "13%" }}
                           >
                             <p className="fw-bold p-1">HSN</p>
                           </div>
                           <div
                             className={`col-2 d-flex align-items-center justify-content-center `}
-                            style={{width:"7%"}}
+                            style={{ width: "7%" }}
                           >
                             <p className="fw-bold p-1">QTY</p>
                           </div>
                           <div
                             className={`col-2 d-flex align-items-center justify-content-center  p-1 flex-column`}
-                            style={{width:"14%"}}
+                            style={{ width: "14%" }}
                           >
                             <p className="fw-bold">Gross. Wt</p>
 
                           </div>
                           <div
                             className={`col-2 d-flex align-items-center justify-content-center `}
-                            style={{width:"11%"}}
+                            style={{ width: "11%" }}
                           >
                             <p className="fw-bold p-1">Net Wt.</p>
                           </div>
                           <div
                             className={`col-2 d-flex align-items-center justify-content-center `}
-                            style={{width:"12%"}}
+                            style={{ width: "12%" }}
                           >
                             <p className="fw-bold p-1">Pcs</p>
                           </div>
                           <div
                             className={`col-2 d-flex align-items-center justify-content-center `}
-                            style={{width:"12%"}}
+                            style={{ width: "12%" }}
                           >
                             <p className="fw-bold p-1">Wt.</p>
                           </div>
                           <div
                             className={`col-2 d-flex align-items-center justify-content-center`}
-                            style={{width:"14%"}}
+                            style={{ width: "14%" }}
                           >
                             <p className="fw-bold p-1">Rate</p>
                           </div>
@@ -765,13 +861,13 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
                       </div>
                       <div
                         className={`${style?.othersJewerryRetailInvoicePrint}   d-flex align-items-center justify-content-center`}
-                        style={{width:"6%"}}
+                        style={{ width: "6%" }}
                       >
                         <p className="fw-bold"> V.A</p>
                       </div>
                       <div
                         className={`${style?.othersJewerryRetailInvoicePrint}   d-flex align-items-center justify-content-center`}
-                        style={{width:"8%"}}
+                        style={{ width: "8%" }}
                       >
                         <p className="fw-bold"> V.A</p>
                       </div>
@@ -792,274 +888,317 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
                     data.map((e, i) => {
                       console.log("TCL: e", e)
                       return (
-                        <div
-                          className="border-start border-end border-bottom d-flex no_break"
-                          key={i}
-                        >
+                        <>
                           <div
-                            className={`${style?.srNoJewerryRetailInvoicePrint} border-end p-1 d-flex align-items-center justify-content-center`}
+                            className="border-start border-end   d-flex no_break"
+                            key={i}
                           >
-                            <p className="">{i + 1}</p>
-                          </div>
-                          <div
-                            className={`${style?.productJewerryRetailInvoicePrint} border-end p-1 `}
-                          >
-                            <p className="" style={{ wordBreak: "normal" }}>
-                              {e?.SubCategoryname} {e?.Categoryname}
-                            </p>
-                            <p className="" style={{ wordBreak: "normal" }}>
-                              {e?.designno} | {e?.SrJobno}
-                            </p>
-                            {/* {image && (
-                              <img
-                                src={e?.DesignImage}
-                                alt=""
-                                onError={handleImageError}
-                                lazy="eagar"
-                                className={`w-100 mx-auto d-block p-1 ${style?.imageJewelleryC}`}
-                                style={{ maxWidth: "75px", maxHeight: "75px" }}
-                              />
-                            )} */}
-                            {e?.HUID !== "" && (
-                              <p
-                                style={{ wordBreak: "normal" }}
-                                className={`text-center ${!image && "pt-3"}`}
-                              >
-                                HUID-{e?.HUID}
+                            <div
+                              className={`${style?.srNoJewerryRetailInvoicePrint} border-end p-1 d-flex align-items-center justify-content-center`}
+                            >
+                              <p className="">{i + 1}</p>
+                            </div>
+                            <div
+                              className={`${style?.productJewerryRetailInvoicePrint} border-end p-1 `}
+                            >
+                              <p className="" style={{ wordBreak: "normal" }}>
+                                {e?.SubCategoryname} {e?.Categoryname}
                               </p>
-                            )}
-                          </div>
-                          <div
-                            className={`${style?.materialJewerryRetailInvoicePrint}  `}
-                            style={{width:"60%"}}
-                          >
-                            <div className="d-grid h-100">
-                              {e?.primaryMetal?.map((ele, ind) => {
-                                return (
-                                  <div
-                                    className={`d-flex`}
-                                    key={ind}
-                                  >
+                              <p className="" style={{ wordBreak: "normal" }}>
+                                {e?.designno} | {e?.SrJobno}
+                              </p>
+                              {image && (
+                                <img
+                                  src={e?.DesignImage}
+                                  alt=""
+                                  onError={handleImageError}
+                                  lazy="eagar"
+                                  className={`w-100 mx-auto d-block p-1 ${style?.imageJewelleryC}`}
+                                  style={{ maxWidth: "75px", maxHeight: "75px" }}
+                                />
+                              )}
+                              {e?.HUID !== "" && (
+                                <p
+                                  style={{ wordBreak: "normal" }}
+                                  className={`text-center ${!image && "pt-3"}`}
+                                >
+                                  HUID-{e?.HUID}
+                                </p>
+                              )}
+                            </div>
+                            <div
+                              className={`${style?.materialJewerryRetailInvoicePrint}  `}
+                              style={{ width: "60%" }}
+                            >
+                              <div className=" h-100">
+                                {e?.primaryMetal?.map((ele, ind) => {
+                                  return (
                                     <div
-                                      className={`col-2  d-flex align-items-center`}
+                                      className={`d-flex`}
+                                      key={ind}
                                     >
-                                      <p className="p-1 lh-1">
-                                        {ele?.ShapeName}
-                                      </p>
-                                    </div>
-                                    <div
-                                      className={`col-2  d-flex align-items-center justify-content-center`}
-                                      style={{ wordBreak: "normal",textAlign:"right",width:"13%" }}
-                                       
-                                    >
-                                      <p
-                                        className="p-1 lh-1"
-                                        style={{ wordBreak: "normal" }}
+                                      <div
+                                        className={`col-2  d-flex align-items-start`}
                                       >
-                                        {e?.HSNNo}
-                                      </p>
+                                        <p className="p-1 lh-1">
+                                          {ele?.ShapeName}
+                                        </p>
+                                      </div>
+                                      <div
+                                        className={`col-2  d-flex align-items-start justify-content-center`}
+                                        style={{ wordBreak: "normal", textAlign: "right", width: "13%" }}
+
+                                      >
+                                        <p
+                                          className="p-1 lh-1"
+                                          style={{ wordBreak: "normal" }}
+                                        >
+                                          {e?.HSNNo}
+                                        </p>
+                                      </div>
+                                      <div
+                                        className={`col-2 d-flex align-items-start justify-content-center `}
+                                        style={{ width: "7%" }}
+                                      >
+                                        <p className=" p-1">{e?.BulkPurchaseQTY}</p>
+                                      </div>
+                                      <div
+                                        className={`col-2  d-flex align-items-start justify-content-end`}
+                                        style={{ width: "14%" }}
+                                      >
+                                        <p className=" p-1 text-end lh-1">
+                                          {fixedValues(e?.grosswt, 3)}
+                                        </p>
+                                      </div>
+
+                                      <div
+                                        className={`col-2  d-flex align-items-start justify-content-end`}
+                                        style={{ width: "11%" }}
+                                      >
+                                        <p className=" p-1 text-end lh-1">
+                                          {e?.otherMetals?.length === 0
+                                            ? NumberWithCommas(
+                                              e?.NetWt + e?.LossWt,
+                                              3
+                                            )
+                                            : NumberWithCommas(ele?.Wt, 3)}
+                                        </p>
+                                      </div>
+                                      <div
+                                        className={`col-2 d-flex align-items-start justify-content-center  `}
+                                        style={{ width: "12%" }}
+                                      >
+                                        <p className="fw-bold p-1"></p>
+                                      </div>
+                                      <div
+                                        className={`col-2 d-flex align-items-start justify-content-center  `}
+                                        style={{ width: "12%" }}
+                                      >
+                                        <p className="fw-bold p-1"></p>
+                                      </div>
+                                      <div
+                                        className={`col-2 d-flex align-items-start justify-content-end`}
+                                        style={{ width: "14%" }}
+                                      >
+                                        <p className=" p-1 text-end lh-1">
+                                          {NumberWithCommas(
+                                            ele?.Rate /
+                                            headerData?.CurrencyExchRate,
+                                            2
+                                          )}
+                                        </p>
+                                      </div>
                                     </div>
-                                    <div
-                                       className={`col-2 d-flex align-items-center justify-content-center `}
-                                       style={{width:"7%"}}
-                                       >
-                                      <p className=" p-1">{e?.BulkPurchaseQTY}</p>
-                          </div>
-                                    <div
-                                      className={`col-2  d-flex align-items-center justify-content-end`}
-                                      style={{width:"14%"}}
-                                    >
-                                      <p className=" p-1 text-end lh-1">
-                                        {fixedValues(e?.grosswt, 3) }
-                                      </p>
+                                  );
+                                })}
+                                {e?.diamondWt !== 0 && (() => {
+                                  const mergedDiamonds = mergeByKey({
+                                    data: e?.diamonds,
+                                    groupKey: "Rate",
+                                    sumFields: ["Pcs", "RMwt", "Amount"]
+                                  });
+
+                                  return mergedDiamonds.map((d, i) => (
+                                    // <div key={i}>
+                                    //   Diamond {d.Pcs} {d.RMwt} {d.Rate}
+                                    // </div>
+                                    <div className={`d-flex `}>
+                                      <div
+                                        className={`col-2  d-flex align-items-center`}
+                                      >
+                                        <p className="p-1 lh-1">DIAMOND</p>
+                                      </div>
+                                      <div
+                                        className={`col-2  d-flex align-items-center`}
+                                        style={{ width: "13%" }}
+                                      >
+                                        <p className="p-1 lh-1"></p>
+                                      </div>
+                                      <div
+                                        className={`col-2 d-flex align-items-center justify-content-center `}
+                                        style={{ width: "7%" }}
+                                      >
+                                        <p className="fw-bold p-1"></p>
+                                      </div>
+                                      <div
+                                        className={`col-2  d-flex align-items-center justify-content-end`}
+                                        style={{ width: "14%" }}
+                                      >
+                                        <p className=" p-1 text-end lh-1"></p>
+                                      </div>
+                                      <div
+                                        className={`col-2  p-1 d-flex align-items-center justify-content-end`}
+                                        style={{ width: "11%" }}
+                                      >
+                                        <p className=" text-end lh-1">
+
+                                        </p>
+                                      </div>
+
+                                      <div
+                                        className={`col-2 d-flex align-items-center justify-content-center `}
+                                        style={{ width: "12%" }}
+                                      >
+                                        <p className=" p-1">{NumberWithCommas(d.Pcs)}{" "}</p>
+                                      </div>
+                                      <div
+                                        className={`col-2 d-flex align-items-center justify-content-center `}
+                                        style={{ width: "12%" }}
+                                      >
+                                        <p className=" p-1">{NumberWithCommas(d.RMwt, 2)}{" Ctw"}</p>
+                                      </div>
+                                      <div
+                                        className={`col-2  d-flex align-items-center justify-content-end`}
+                                        style={{ width: "14%" }}
+                                      >
+                                        <p className=" p-1 text-end lh-1" >{NumberWithCommas(d.Rate, 2)}{" "}</p>
+                                      </div>
+
                                     </div>
-                                    
-                                    <div
-                                      className={`col-2  d-flex align-items-center justify-content-end`}
-                                      style={{width:"11%"}}
-                                    >
-                                      <p className=" p-1 text-end lh-1">
-                                        {e?.otherMetals?.length === 0
-                                          ? NumberWithCommas(
-                                            e?.NetWt + e?.LossWt,
-                                            3
-                                          ) 
-                                          : NumberWithCommas(ele?.Wt, 3) }
-                                      </p>
+                                  ));
+                                })()}
+
+                                {e?.colorStoneWt !== 0 && (() => {
+                                  const mergedCS = mergeByKey({
+                                    data: e?.colorstones,
+                                    groupKey: "Rate",
+                                    sumFields: ["Pcs", "RMwt", "Amount"]
+                                  });
+
+                                  return mergedCS.map((d, i) => (
+                                    // <div key={i}>
+                                    //   Diamond {d.Pcs} {d.RMwt} {d.Rate}
+                                    // </div>
+                                    <div className={`d-flex `}>
+                                      <div
+                                        className={`col-2  d-flex align-items-center`}
+                                      >
+                                        <p className="p-1 lh-1">COLORSTONE</p>
+                                      </div>
+                                      <div
+                                        className={`col-2  d-flex align-items-center`}
+                                        style={{ width: "13%" }}
+                                      >
+                                        <p className="p-1 lh-1"></p>
+                                      </div>
+                                      <div
+                                        className={`col-2 d-flex align-items-center justify-content-center `}
+                                        style={{ width: "7%" }}
+                                      >
+                                        <p className="fw-bold p-1"></p>
+                                      </div>
+                                      <div
+                                        className={`col-2  d-flex align-items-center justify-content-end`}
+                                        style={{ width: "14%" }}
+                                      >
+                                        <p className=" p-1 text-end lh-1"></p>
+                                      </div>
+                                      <div
+                                        className={`col-2  p-1 d-flex align-items-center justify-content-end`}
+                                        style={{ width: "11%" }}
+                                      >
+                                        <p className=" text-end lh-1">
+
+                                        </p>
+                                      </div>
+
+                                      <div
+                                        className={`col-2 d-flex align-items-center justify-content-center `}
+                                        style={{ width: "12%" }}
+                                      >
+                                        <p className=" p-1">{NumberWithCommas(d.Pcs)}{" "}</p>
+                                      </div>
+                                      <div
+                                        className={`col-2 d-flex align-items-center justify-content-center `}
+                                        style={{ width: "12%" }}
+                                      >
+                                        <p className=" p-1">{NumberWithCommas(d.RMwt, 2)}{" Ctw"}</p>
+                                      </div>
+                                      <div
+                                        className={`col-2  d-flex align-items-center justify-content-end`}
+                                        style={{ width: "14%" }}
+                                      >
+                                        <p className=" p-1 text-end lh-1" >{NumberWithCommas(d.Rate, 2)}{" "}</p>
+                                      </div>
+
                                     </div>
-                                    <div
-                            className={`col-2 d-flex align-items-center justify-content-center  `}
-                            style={{width:"12%"}}
-                          >
-                            <p className="fw-bold p-1"></p>
-                          </div>
-                          <div
-                            className={`col-2 d-flex align-items-center justify-content-center  `}
-                            style={{width:"12%"}}
-                          >
-                            <p className="fw-bold p-1"></p>
-                          </div>
-                                    <div
-                                      className={`col-2 d-flex align-items-start justify-content-end`}
-                                      style={{width:"14%"}}
-                                    >
-                                      <p className=" p-1 text-end lh-1">
-                                        {NumberWithCommas(
-                                          ele?.Rate /
-                                          headerData?.CurrencyExchRate,
-                                          2
-                                        )}
-                                      </p>
+                                  ));
+                                })()}
+
+
+                                {e?.miscs?.map((ele, ind) => {
+                                  return (
+                                    <div className={`d-flex border-bottom`}>
+                                      <div
+                                        className={`col-2 border-end d-flex align-items-center`}
+                                      >
+                                        <p className="p-1 lh-1">MISC</p>
+                                      </div>
+                                      <div
+                                        className={`col-2 border-end d-flex align-items-center`}
+                                        style={{ width: "13%" }}
+                                      >
+                                        <p className="p-1 lh-1"></p>
+                                      </div>
+                                      <div
+                                        className={`col-2 border-end d-flex align-items-center justify-content-end`}
+                                      >
+                                        <p className=" p-1 text-end lh-1"></p>
+                                      </div>
+                                      <div
+                                        className={`col-2 border-end p-1 d-flex align-items-center justify-content-end`}
+                                      >
+                                        <p className=" text-end lh-1">
+                                          {NumberWithCommas(ele?.Wt, 3)}
+                                        </p>
+                                      </div>
+                                      <div
+                                        className={`col-2 border-end d-flex align-items-center justify-content-end`}
+                                      >
+                                        <p className=" p-1 text-end lh-1"></p>
+                                      </div>
+                                      <div
+                                        className={`col-2 d-flex align-items-center justify-content-end`}
+                                      >
+                                        <p className=" p-1 text-end lh-1">
+                                          {NumberWithCommas(
+                                            ele?.Amount / ele?.Wt,
+                                            2
+                                          )}
+                                        </p>
+                                      </div>
                                     </div>
-                                  </div>
-                                );
-                              })}
-                              {e?.diamondWt !== 0 && (() => {
-                                const mergedDiamonds = mergeByKey({
-                                  data: e?.diamonds,
-                                  groupKey: "Rate",
-                                  sumFields: ["Pcs", "RMwt", "Amount"]
-                                });
-
-                                return mergedDiamonds.map((d, i) => (
-                                  // <div key={i}>
-                                  //   Diamond {d.Pcs} {d.RMwt} {d.Rate}
-                                  // </div>
-                                  <div className={`d-flex `}>
-                                  <div
-                                    className={`col-2  d-flex align-items-center`}
-                                  >
-                                    <p className="p-1 lh-1">DIAMOND</p>
-                                  </div>
-                                  <div
-                                    className={`col-2  d-flex align-items-center`}
-                                    style={{width:"13%"}}
-                                  >
-                                    <p className="p-1 lh-1"></p>
-                                  </div>
-                                  <div
-                            className={`col-2 d-flex align-items-center justify-content-center `}
-                            style={{width:"7%"}}
-                          >
-                            <p className="fw-bold p-1"></p>
-                          </div>
-                                  <div
-                                    className={`col-2  d-flex align-items-center justify-content-end`}
-                                    style={{width:"14%"}}
-                                  >
-                                    <p className=" p-1 text-end lh-1"></p>
-                                  </div>
-                                  <div
-                                    className={`col-2  p-1 d-flex align-items-center justify-content-end`}
-                                    style={{width:"11%"}}
-                                  >
-                                    <p className=" text-end lh-1">
-                                      
-                                    </p>
-                                  </div>
-
-                                  <div
-                            className={`col-2 d-flex align-items-center justify-content-center `}
-                            style={{width:"12%"}}
-                          >
-                            <p className=" p-1">{NumberWithCommas(d.Pcs)}{" "}</p>
-                          </div>
-                          <div
-                            className={`col-2 d-flex align-items-center justify-content-center `}
-                            style={{width:"12%"}}
-                          >
-                            <p className=" p-1">{NumberWithCommas(d.RMwt, 2)}{ " Ctw"}</p>
-                          </div>
-                                  <div
-                                    className={`col-2  d-flex align-items-center justify-content-end`}
-                                    style={{width:"14%"}}
-                                  >
-                                    <p className=" p-1 text-end lh-1" >{NumberWithCommas(d.Rate, 2)}{" "}</p>
-                                  </div>
-                                  
-                                </div>
-                                ));
-                              })()}
-
-                            {e?.colorStoneWt !== 0 && (() => {
-                                const mergedCS = mergeByKey({
-                                  data: e?.colorstones,
-                                  groupKey: "Rate",
-                                  sumFields: ["Pcs", "RMwt", "Amount"]
-                                });
-
-                                return mergedCS.map((d, i) => (
-                                  // <div key={i}>
-                                  //   Diamond {d.Pcs} {d.RMwt} {d.Rate}
-                                  // </div>
-                                  <div className={`d-flex `}>
-                                  <div
-                                    className={`col-2  d-flex align-items-center`}
-                                  >
-                                    <p className="p-1 lh-1">COLORSTONE</p>
-                                  </div>
-                                  <div
-                                    className={`col-2  d-flex align-items-center`}
-                                    style={{width:"13%"}}
-                                  >
-                                    <p className="p-1 lh-1"></p>
-                                  </div>
-                                  <div
-                            className={`col-2 d-flex align-items-center justify-content-center `}
-                            style={{width:"7%"}}
-                          >
-                            <p className="fw-bold p-1"></p>
-                          </div>
-                                  <div
-                                    className={`col-2  d-flex align-items-center justify-content-end`}
-                                    style={{width:"14%"}}
-                                  >
-                                    <p className=" p-1 text-end lh-1"></p>
-                                  </div>
-                                  <div
-                                    className={`col-2  p-1 d-flex align-items-center justify-content-end`}
-                                    style={{width:"11%"}}
-                                  >
-                                    <p className=" text-end lh-1">
-                                      
-                                    </p>
-                                  </div>
-
-                                  <div
-                            className={`col-2 d-flex align-items-center justify-content-center `}
-                            style={{width:"12%"}}
-                          >
-                            <p className=" p-1">{NumberWithCommas(d.Pcs)}{" "}</p>
-                          </div>
-                          <div
-                            className={`col-2 d-flex align-items-center justify-content-center `}
-                            style={{width:"12%"}}
-                          >
-                            <p className=" p-1">{NumberWithCommas(d.RMwt, 2)}{ " Ctw"}</p>
-                          </div>
-                                  <div
-                                    className={`col-2  d-flex align-items-center justify-content-end`}
-                                    style={{width:"14%"}}
-                                  >
-                                    <p className=" p-1 text-end lh-1" >{NumberWithCommas(d.Rate, 2)}{" "}</p>
-                                  </div>
-                                  
-                                </div>
-                                ));
-                              })()}
-
-                              
-                              {e?.miscs?.map((ele, ind) => {
-                                return (
+                                  );
+                                })}
+                                {e?.otherMetals?.length !== 0 && (
                                   <div className={`d-flex border-bottom`}>
                                     <div
                                       className={`col-2 border-end d-flex align-items-center`}
                                     >
-                                      <p className="p-1 lh-1">MISC</p>
+                                      <p className="p-1 lh-1"></p>
                                     </div>
                                     <div
                                       className={`col-2 border-end d-flex align-items-center`}
-                                      style={{width:"13%"}}
                                     >
                                       <p className="p-1 lh-1"></p>
                                     </div>
@@ -1072,7 +1211,13 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
                                       className={`col-2 border-end p-1 d-flex align-items-center justify-content-end`}
                                     >
                                       <p className=" text-end lh-1">
-                                        {NumberWithCommas(ele?.Wt, 3)}
+                                        {NumberWithCommas(
+                                          e?.otherMetals?.reduce(
+                                            (acc, cObj) => acc + cObj?.Wt,
+                                            0
+                                          ),
+                                          3
+                                        )}
                                       </p>
                                     </div>
                                     <div
@@ -1083,121 +1228,73 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
                                     <div
                                       className={`col-2 d-flex align-items-center justify-content-end`}
                                     >
-                                      <p className=" p-1 text-end lh-1">
-                                        {NumberWithCommas(
-                                          ele?.Amount / ele?.Wt,
-                                          2
-                                        )}
-                                      </p>
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                              {e?.otherMetals?.length !== 0 && (
-                                <div className={`d-flex border-bottom`}>
-                                  <div
-                                    className={`col-2 border-end d-flex align-items-center`}
-                                  >
-                                    <p className="p-1 lh-1"></p>
-                                  </div>
-                                  <div
-                                    className={`col-2 border-end d-flex align-items-center`}
-                                  >
-                                    <p className="p-1 lh-1"></p>
-                                  </div>
-                                  <div
-                                    className={`col-2 border-end d-flex align-items-center justify-content-end`}
-                                  >
-                                    <p className=" p-1 text-end lh-1"></p>
-                                  </div>
-                                  <div
-                                    className={`col-2 border-end p-1 d-flex align-items-center justify-content-end`}
-                                  >
-                                    <p className=" text-end lh-1">
-                                      {NumberWithCommas(
-                                        e?.otherMetals?.reduce(
-                                          (acc, cObj) => acc + cObj?.Wt,
-                                          0
-                                        ),
-                                        3
-                                      )}
-                                    </p>
-                                  </div>
-                                  <div
-                                    className={`col-2 border-end d-flex align-items-center justify-content-end`}
-                                  >
-                                    <p className=" p-1 text-end lh-1"></p>
-                                  </div>
-                                  <div
-                                    className={`col-2 d-flex align-items-center justify-content-end`}
-                                  >
-                                    <p className=" p-1 text-end lh-1"></p>
-                                  </div>
-                                </div>
-                              )}
-                              {e?.findingWt !== 0 && (
-                                <div className={`d-flex border-bottom`}>
-                                  <div
-                                    className={`col-2 border-end d-flex align-items-center`}
-                                  >
-                                    <p className="p-1 lh-1"></p>
-                                  </div>
-                                  <div
-                                    className={`col-2 border-end d-flex align-items-center`}
-                                  >
-                                    <p className="p-1 lh-1"></p>
-                                  </div>
-                                  <div
-                                    className={`col-2 border-end d-flex align-items-center justify-content-end`}
-                                  >
-                                    <p className=" p-1 text-end lh-1"></p>
-                                  </div>
-                                  <div
-                                    className={`col-2 border-end p-1 d-flex align-items-center justify-content-end`}
-                                  >
-                                    <p className=" text-end lh-1">
-                                      {NumberWithCommas(e?.findingWt, 3)}
-                                    </p>
-                                  </div>
-                                  <div
-                                    className={`col-2 border-end d-flex align-items-center justify-content-end`}
-                                  >
-                                    <p className=" p-1 text-end lh-1"></p>
-                                  </div>
-                                  <div
-                                    className={`col-2 d-flex align-items-center justify-content-end`}
-                                  >
-                                    <p className=" p-1 text-end lh-1"></p>
-                                  </div>
-                                </div>
-                              )}
-                              {e?.primaryMetal?.length === 0 &&
-                                e?.diamondWt === 0 &&
-                                e?.colorStoneWt === 0 &&
-                                e?.miscsWt === 0 &&
-                                e?.findingWt !== 0 && (
-                                  <div className="d-flex">
-                                    <div className={` border-end`}>
-                                      <p className="p-1 lh-1"></p>
-                                    </div>
-                                    <div className={` border-end`}>
-                                      <p className="p-1 lh-1"></p>
-                                    </div>
-                                    <div className={` border-end`}>
-                                      <p className="p-1 text-end lh-1"></p>
-                                    </div>
-                                    <div className={` border-end p-1 `}>
-                                      <p className="text-end lh-1"></p>
-                                    </div>
-                                    <div className={`border-end `}>
-                                      <p className="p-1 text-end lh-1"></p>
-                                    </div>
-                                    <div className={` `}>
-                                      <p className="p-1 text-end lh-1"></p>
+                                      <p className=" p-1 text-end lh-1"></p>
                                     </div>
                                   </div>
                                 )}
-                              {/* 
+                                {e?.findingWt !== 0 && (
+                                  <div className={`d-flex border-bottom`}>
+                                    <div
+                                      className={`col-2 border-end d-flex align-items-center`}
+                                    >
+                                      <p className="p-1 lh-1"></p>
+                                    </div>
+                                    <div
+                                      className={`col-2 border-end d-flex align-items-center`}
+                                    >
+                                      <p className="p-1 lh-1"></p>
+                                    </div>
+                                    <div
+                                      className={`col-2 border-end d-flex align-items-center justify-content-end`}
+                                    >
+                                      <p className=" p-1 text-end lh-1"></p>
+                                    </div>
+                                    <div
+                                      className={`col-2 border-end p-1 d-flex align-items-center justify-content-end`}
+                                    >
+                                      <p className=" text-end lh-1">
+                                        {NumberWithCommas(e?.findingWt, 3)}
+                                      </p>
+                                    </div>
+                                    <div
+                                      className={`col-2 border-end d-flex align-items-center justify-content-end`}
+                                    >
+                                      <p className=" p-1 text-end lh-1"></p>
+                                    </div>
+                                    <div
+                                      className={`col-2 d-flex align-items-center justify-content-end`}
+                                    >
+                                      <p className=" p-1 text-end lh-1"></p>
+                                    </div>
+                                  </div>
+                                )}
+                                {e?.primaryMetal?.length === 0 &&
+                                  e?.diamondWt === 0 &&
+                                  e?.colorStoneWt === 0 &&
+                                  e?.miscsWt === 0 &&
+                                  e?.findingWt !== 0 && (
+                                    <div className="d-flex">
+                                      <div className={` border-end`}>
+                                        <p className="p-1 lh-1"></p>
+                                      </div>
+                                      <div className={` border-end`}>
+                                        <p className="p-1 lh-1"></p>
+                                      </div>
+                                      <div className={` border-end`}>
+                                        <p className="p-1 text-end lh-1"></p>
+                                      </div>
+                                      <div className={` border-end p-1 `}>
+                                        <p className="text-end lh-1"></p>
+                                      </div>
+                                      <div className={`border-end `}>
+                                        <p className="p-1 text-end lh-1"></p>
+                                      </div>
+                                      <div className={` `}>
+                                        <p className="p-1 text-end lh-1"></p>
+                                      </div>
+                                    </div>
+                                  )}
+                                {/* 
                         {e?.materials.length > 0 ? e?.materials.map((ele, ind) => {
                           return <div className={`d-flex ${ind !== e?.materials.length - 1 && 'border-bottom'}`} key={ind}>
                             <div className={`col-2 border-end d-flex align-items-center`}><p className="p-1 lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 ? ele?.ShapeName : ele?.MasterManagement_DiamondStoneTypeName}</p></div>
@@ -1215,62 +1312,62 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
                           <div className={`border-end `}><p className="p-1 text-end lh-1"></p></div>
                           <div className={` `}><p className="p-1 text-end lh-1"></p></div>
                         </div>} */}
+                              </div>
                             </div>
-                          </div>
-                          <div
-                            className={`${style?.metalMakingJewerryRetailInvoicePrint}  align-items-start d-flex justify-content-end`}
-                            style={{width:"6%"}}
-                          >
-                            <p className="text-end p-1">
-                              {e?.Wastage !== 0 ? `${NumberWithCommas(e?.Wastage, 2)}` : "0.00"}
-                            </p>
-                          </div>
-                          <div
-                            className={`${style?.othersJewerryRetailInvoicePrint}  align-items-start d-flex justify-content-end`}
-                            style={{width:"8%"}}
-                          >
-                            <p className=" text-end p-1">
-
-
-                              {
-
-
-                                NumberWithCommas(
-                                  (e?.MakingAmount ?? 0) +
-                                  (e?.miscsAmount ?? 0) +
-                                  (e?.OtherCharges ?? 0) +
-                                  // (e?.TotalDiamondHandling ?? 0) +
-                                  (e?.TotalCsSetcost ?? 0) +
-                                  (e?.TotalDiaSetcost ?? 0) +
-                                  (e?.totals?.finding?.SettingAmount ?? 0) / headerData?.CurrencyExchRate
-                                  , 2
-                                )
-                              }
-                            </p>
-                          </div>
-                          <div
-                            className={`${style?.othersJewerryRetailInvoicePrint}  align-items-start d-flex justify-content-end`}
-                          >
-                            <p className=" text-end p-1">
-                              {/* {NumberWithCommas(e?.OtherCharges, 2)} */}
-                              {NumberWithCommas(e?.TotalDiamondHandling, 2)}
-                            </p>
-                          </div>
-                          <div
-                            className={`${style?.totalJewerryRetailInvoicePrint} `}
-                          >
-                           
-                            {e?.primaryMetal?.map((ele, ind) => {
-                                return (
-                                   
-                                
-                                  <p className=" text-end p-1">
-                                    
-                                  {NumberWithCommas((e?.otherMetals?.length === 0 ? e?.NetWt + e?.LossWt : ele?.Wt) * (ele?.Rate /headerData?.CurrencyExchRate),2)}
+                            <div
+                              className={`${style?.metalMakingJewerryRetailInvoicePrint}  align-items-start d-flex justify-content-end`}
+                              style={{ width: "6%" }}
+                            >
+                              <p className="text-end p-1">
+                                {e?.Wastage !== 0 ? `${NumberWithCommas(e?.Wastage, 2)}` : "0.00"}
                               </p>
+                            </div>
+                            <div
+                              className={`${style?.othersJewerryRetailInvoicePrint}  align-items-start d-flex justify-content-end`}
+                              style={{ width: "8%" }}
+                            >
+                              <p className=" text-end p-1">
+
+
+                                {
+
+
+                                  NumberWithCommas(
+                                    (e?.MakingAmount ?? 0) +
+                                    (e?.miscsAmount ?? 0) +
+                                    (e?.OtherCharges ?? 0) +
+                                    // (e?.TotalDiamondHandling ?? 0) +
+                                    (e?.TotalCsSetcost ?? 0) +
+                                    (e?.TotalDiaSetcost ?? 0) +
+                                    (e?.totals?.finding?.SettingAmount ?? 0) / headerData?.CurrencyExchRate
+                                    , 2
+                                  )
+                                }
+                              </p>
+                            </div>
+                            <div
+                              className={`${style?.othersJewerryRetailInvoicePrint}  align-items-start d-flex justify-content-end`}
+                            >
+                              <p className=" text-end p-1">
+                                {/* {NumberWithCommas(e?.OtherCharges, 2)} */}
+                                {NumberWithCommas(e?.TotalDiamondHandling, 2)}
+                              </p>
+                            </div>
+                            <div
+                              className={`${style?.totalJewerryRetailInvoicePrint} `}
+                            >
+
+                              {e?.primaryMetal?.map((ele, ind) => {
+                                return (
+
+
+                                  <p className=" text-end p-1">
+
+                                    {NumberWithCommas((e?.otherMetals?.length === 0 ? e?.NetWt + e?.LossWt : ele?.Wt) * (ele?.Rate / headerData?.CurrencyExchRate), 2)}
+                                  </p>
                                 );
                               })}
-                            {e?.diamondWt !== 0 && (() => {
+                              {e?.diamondWt !== 0 && (() => {
                                 const mergedDiamonds = mergeByKey({
                                   data: e?.diamonds,
                                   groupKey: "Rate",
@@ -1279,12 +1376,12 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
 
                                 return mergedDiamonds.map((d, i) => (
                                   <p className=" text-end p-1">
-                                      {NumberWithCommas(d?.RMwt*d?.Rate,2)}
+                                    {NumberWithCommas(d?.RMwt * d?.Rate, 2)}
                                   </p>
-                                 ));
-                                })()
-                            }
-                            {e?.diamondWt !== 0 && (() => {
+                                ));
+                              })()
+                              }
+                              {e?.diamondWt !== 0 && (() => {
                                 const mergedDiamonds = mergeByKey({
                                   data: e?.colorstones,
                                   groupKey: "Rate",
@@ -1293,16 +1390,114 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
 
                                 return mergedDiamonds.map((d, i) => (
                                   <p className=" text-end p-1">
-                                      {NumberWithCommas(d?.RMwt*d?.Rate,2)}
+                                    {(d?.RMwt * d?.Rate, 2)}
                                   </p>
-                                 ));
-                                })()
-                            }
+                                ));
+                              })()
+                              }
 
-                            
-                          
+
+
+                            </div>
                           </div>
-                        </div>
+
+                          <div className="border-start border-end border-bottom d-flex" style={{ borderTop: "none"}}>
+                            <div
+                              className={`${style?.srNoJewerryRetailInvoicePrint} border-end    p-1 d-flex align-items-center justify-content-center`}
+                            >
+                              <p className="fw-bold"> </p>
+                            </div>
+                            <div
+                              className={`${style?.productJewerryRetailInvoicePrint} border-end p-1 fw-bold d-flex align-items-center justify-content-center`}
+                            >
+                              <p className="fw-bold"> </p>
+                            </div>
+                            <div
+                              className={`${style?.materialJewerryRetailInvoicePrint}`}
+                              style={{ width: "60%" }}
+                            >
+
+                              <div className="d-flex">
+                                <div
+                                  className={`col-2 d-flex align-items-center justify-content-center`}
+                                >
+                                  <p className="fw-bold p-1"></p>
+                                </div>
+                                <div
+                                  className={`col-2 d-flex align-items-center justify-content-center `}
+                                  style={{ width: "13%" }}
+                                >
+                                  <p className="fw-bold p-1"> </p>
+                                </div>
+                                <div
+                                  className={`col-2 d-flex align-items-center justify-content-center `}
+                                  style={{ width: "7%" }}
+                                >
+                                  <p className="fw-bold p-1"> </p>
+                                </div>
+                                <div
+                                  className={`col-2 d-flex align-items-center justify-content-center  p-1 flex-column`}
+                                  style={{ width: "14%" }}
+                                >
+                                  <p className="fw-bold"> </p>
+
+                                </div>
+                                <div
+                                  className={`col-2 d-flex align-items-center justify-content-center `}
+                                  style={{ width: "11%" }}
+                                >
+                                  <p className="fw-bold p-1"> </p>
+                                </div>
+                                <div
+                                  className={`col-2 d-flex align-items-center justify-content-center `}
+                                  style={{ width: "12%" }}
+                                >
+                                  <p className="fw-bold p-1"> </p>
+                                </div>
+                                <div
+                                  className={`col-2 d-flex align-items-center justify-content-center `}
+                                  style={{ width: "12%" }}
+                                >
+                                  <p className="fw-bold p-1"> </p>
+                                </div>
+                                <div
+                                  className={`col-2 d-flex align-items-center justify-content-center`}
+                                  style={{ width: "14%" }}
+                                >
+                                  <p className="fw-bold p-1"> </p>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              className={`${style?.othersJewerryRetailInvoicePrint}   d-flex align-items-center justify-content-center`}
+                              style={{ width: "6%" }}
+                            >
+                              <p className="fw-bold">  </p>
+                            </div>
+                            <div
+                              className={`${style?.othersJewerryRetailInvoicePrint}   d-flex align-items-center justify-content-center`}
+                              style={{ width: "8%" }}
+                            >
+                              <p className="fw-bold">  </p>
+                            </div>
+                            <div
+                              className={`${style?.othersJewerryRetailInvoicePrint}  d-flex align-items-center justify-content-center`}
+                            >
+                              <p className="fw-bold"> </p>
+                            </div>
+                            <div
+                              className={`${style?.totalJewerryRetailInvoicePrint} d-flex align-items-center justify-content-end`}
+                              style={{paddingRight:"4px"}}
+                            >
+                              <p className="fw-bold">
+                                {NumberWithCommas(
+                                  (e.UnitCost) 
+                                ,2)}
+                              </p>
+                            </div>
+                          </div>
+                        </>
+
                       );
                     })}
                   {/* total */}
@@ -1310,14 +1505,14 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
                     className={`${style?.minHeight20RetailinvoicePrint3} border-start border-end border-bottom d-flex no_break`}
                   >
                     <div
-                      className={`${style?.srNoJewerryRetailInvoicePrint} border-end p-1`} style={{width:"5.6%"}}
+                      className={`${style?.srNoJewerryRetailInvoicePrint} border-end p-1`} style={{ width: "5.6%" }}
                     >
                       <p className="fw-bold"></p>
                     </div>
                     <div
                       className={`${style?.srNoJewerryRetailInvoicePrint} border-end p-1`}
-                      style={{width:"23.6%"}}
-                      
+                      style={{ width: "23.6%" }}
+
                     >
                       <p className="fw-bold"></p>
                     </div>
@@ -1330,7 +1525,7 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
                     </div>
                     <div
                       className={`${style?.materialJewerryRetailInvoicePrint}   d-flex`}
-                              style={{width:"60%"}} 
+                      style={{ width: "60%" }}
                     >
                       <div
                         className={`${style?.w_20JewerryRetailInvoicePrint}  d-flex align-items-center justify-content-end`}
@@ -1343,17 +1538,17 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
                       <div
                         className={`${style?.w_20JewerryRetailInvoicePrint}  d-flex align-items-center justify-content-end`}
                       >
-                        
+
                       </div>
                       <div
                         className={`${style?.w_20JewerryRetailInvoicePrint}   p-1 flex-column d-flex align-items-end justify-content-center`}
                       >
-                        
+
                       </div>
                       <div
                         className={`${style?.w_20JewerryRetailInvoicePrint}    d-flex align-items-center justify-content-end`}
                       >
-                        
+
                       </div>
                       <div
                         className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-end`}
@@ -1368,24 +1563,30 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
                     </div>
                     <div
                       className={`${style?.othersJewerryRetailInvoicePrint}   d-flex align-items-center justify-content-end`}
-                    > 
+                    >
                     </div>
                     <div
                       className={`${style?.totalJewerryRetailInvoicePrint} d-flex align-items-center justify-content-end`}
+                      style={{ width: "12%" }}
                     >
                       <p className="fw-bold text-end p-1">
-                        
-                       { NumberWithCommas(grandTotalWithMat,2)}
+
+                        {NumberWithCommas(
+                                                  total?.total / headerData?.CurrencyExchRate,
+                                                  2
+                                                )}
                       </p>
                     </div>
                   </div>
                   {/* tax */}
                   <div className="d-flex border-start border-end border-bottom w-100 no_break">
                     <div
-                      className={`d-flex justify-content-between flex-column border-end ${style?.wordsJewellryRetailInvoice4}`}
+                      className={`d-flex justify-content-between align-items-start  border-end  `}
+                      style={{width:"66%"}}
                     >
                       <div
-                        className={`${style?.wordsJewerryRetailInvoicePrint}p-2 d-flex align-items-center pt-5`}
+                        className={`${style?.wordsJewerryRetailInvoicePrint}p-2 d-flex align-items-center  `   }
+                        style={{height:"100%"}}
                       >
                         <div className="p-2 pt-4">
                           <p>In Words {headerData?.Currencyname}</p>
@@ -1409,11 +1610,41 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
                           </p>
                         </div>
                       </div>
+                        
                       <div
                         className={`${style?.RemarkJewelleryInvoicePrintC} p-2`}
                       >
-                       
+
                       </div>
+                     {summ &&
+                         <div
+                         className="col_r_2 p-1 border-start "
+                         style={{ width: "37%",height:"100%"  }}
+                       >
+                         {summary.map((e, i) => {
+                           return (
+                             <React.Fragment key={i}>
+                               {e?.value === 0 ? (
+                                 ""
+                               ) : (
+                                 <div
+                                   className="d-flex"
+                                    
+                                   key={i}
+                                 >
+                                   <p key={i} className="remark_fs fs_jti_Sale" style={{ minWidth: '50%' }}>
+                                     {e?.label}:{" "}
+                                   </p>
+                                   <p className="remark_fs fs_jti_Sale">
+                                     {NumberWithCommas(e?.value, 3)} {e?.gm ? "gm" : "cts"}
+                                   </p>
+                                 </div>
+                               )}
+                             </React.Fragment>
+                           );
+                         })}
+           </div>
+                     }
                     </div>
                     <div
                       className={`${style?.discountJewerryRetailInvoicePrint456} d-flex`}
@@ -1438,22 +1669,37 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
                             {headerData?.AddLess >= 0 ? "Add" : "Less"}
                           </p>
                         )}
-                        <p className="pb-1 px-1 text-end">
+
+                           
+
+                          {
+                          headerData?.FreightCharges !== 0 &&
+                          <p className="pb-1 px-1 text-end">
+                          { headerData?.ModeOfDel }
+                        </p>
+                        }
+
+
+                        
+                        {
+                          retail &&
+
+                          <>
+                          <p className="pb-1 px-1 text-end">
                           Total Amt after Tax
                         </p>
-                        <p className="pb-1 px-1 text-end">Old Gold</p>
-                        <p className="pb-1 px-1 text-end">Recv. in Cash</p>
-                        {bank.length > 0 &&
-                          bank.map((e, i) => {
-                            return (
-                              <p className="pb-1 px-1 text-end" key={i}>
-                                Recv. in Bank ({e?.label})
-                              </p>
-                            );
-                          })}
-                        {/* <p className="pb-1 px-1">Recv. in Bank</p> */}
-                        <p className="pb-1 px-1 text-end">Advance</p>
-                        <p className="pb-1 px-1 text-end">Net Bal. Amount</p>
+                           <p className="pb-1 px-1 text-end">Old Gold</p>
+                   
+                   
+                   <p className="pb-1 px-1 text-end">Recv. in Cash</p>
+                   
+                 
+                  
+                   {/* <p className="pb-1 px-1">Recv. in Bank</p> */}
+                   <p className="pb-1 px-1 text-end">Advance</p>
+                   <p className="pb-1 px-1 text-end">Net Bal. Amount</p>
+                          </>
+                        }
                         <p className="fw-bold p-1 border-top text-end">
                           GRAND TOTAL
                         </p>
@@ -1490,16 +1736,34 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
                             )}
                           </p>
                         )} {/** Add/Less */}
+
+                        {
+                          headerData?.FreightCharges !== 0 &&
+                          <p className="pb-1 px-1 text-end">
+                          {NumberWithCommas(
+                            headerData?.FreightCharges  ,
+                            2
+                          )}
+                        </p>
+                        }
+
+                          
+                        
+
+                       {
+                        retail &&
+
+                        <>
                         <p className="pb-1 px-1 text-end">
                           {NumberWithCommas(
-                            total?.afterTax / headerData?.CurrencyExchRate,
+                            total?.afterTax +  headerData?.FreightCharges ||0  / headerData?.CurrencyExchRate,
                             2
                           )} {/** After Tax */}
                         </p>
                         <p className="pb-1 px-1 text-end">
                           {NumberWithCommas(headerData?.OldGoldAmount, 2)} {/** Old Gold */}
                         </p>
-                        <p className="pb-1 px-1 text-end">
+                         <p className="pb-1 px-1 text-end">
                           {NumberWithCommas(headerData?.CashReceived, 2)} {/** Amount That Receive In Cash */}
                         </p>
                         {bank.length > 0 &&
@@ -1515,29 +1779,40 @@ const grandTotalWithMat = Object.values(totalsWithMat).reduce(
                           {NumberWithCommas(headerData?.AdvanceAmount, 2
                           )} {/** Advance Given Amount */}
                         </p>
+
+
+                        
                         <p className="pb-1 px-1 text-end">
                           {
                             NumberWithCommas(difference, 2)
                           } {/** Net Balance Amount */}
                         </p>
+                        </>
+                       }
+
+
+
+
+
                         <p className="fw-bold text-end p-1 border-top">
                           <span
                             dangerouslySetInnerHTML={{
                               __html: headerData?.Currencysymbol,
                             }}
                           ></span>
-                          {NumberWithCommas(
-                            total?.beforeTax / headerData?.CurrencyExchRate +
-                            taxes?.reduce(
-                              (acc, cObj) =>
-                                acc +
-                                +cObj?.amount / headerData?.CurrencyExchRate,
-                              0
-                            ) +
-                            headerData?.AddLess /
-                            headerData?.CurrencyExchRate,
-                            2
-                          )} {/** Grand Total */}
+                           {NumberWithCommas(
+                                                      (total?.beforeTax / headerData?.CurrencyExchRate +
+                                                      
+                                                        taxes?.reduce(
+                                                          (acc, cObj) =>
+                                                            acc +
+                                                            +cObj?.amount / headerData?.CurrencyExchRate,
+                                                          0
+                                                        ) +
+                                                        headerData?.AddLess /
+                                                          headerData?.CurrencyExchRate)+headerData?.FreightCharges ||0 ,
+                                                      2
+                                                    )} {/** Grand Total */}
                         </p>
                       </div>
                     </div>
