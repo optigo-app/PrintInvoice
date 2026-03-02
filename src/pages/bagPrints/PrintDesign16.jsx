@@ -225,6 +225,8 @@ const PrintDesign16 = ({ queries, headers }) => {
               };
               miData.push(miDataObject);
             }
+            
+            console.log("TCL: fetchData -> finData", finData)
             let originlData = [...diamondData, ...clrData,...miData,...finData];
             let chData = [];
             let count = 0;
@@ -1397,7 +1399,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                           <b>{a?.Shapename}</b>
                                         ) : (
                                           a?.MasterManagement_DiamondStoneTypeid ===5 ?(
-                                              a?.Shapename?.slice(0, 15) +" "+a?.Quality +" "+a?.MetalColor
+                                              `${a?.Shapename ?? ""} ${a?.Quality ?? ""} ${a?.MetalColor ?? ""}`.trim().slice(0, 45)
                                           ):(
                                             a?.Shapename?.slice(0, 15)
                                           )

@@ -819,6 +819,7 @@ const InvoicePrint11Clone = ({ token, invoiceNo, printName, urls, evn, ApiVer })
           </div>
           <div className={footerStyle.block2f3} style={{ width: "33.33%" }}>
             <div className={`${`${style?.fsremark_10}`} fw-normal`}>Signature</div>
+            <img src={headerData?.DigitalSignature} alt="" />
             <div className={`${style?.fsremark_10}`}>{headerData?.CompanyFullName}</div>
           </div>
         </div>

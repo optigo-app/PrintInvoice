@@ -252,13 +252,11 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
     const getDiamondCriteriaWise = (diamonds = []) => {
         const out = {
-            
             small: {},
             stars: {},
             pointers: {},
             solitaires: {},
             totalDiamondCtw: 0,
-
         };
         
    
@@ -277,6 +275,8 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
                 out.totalDiamondCtw += wt;
 
+                    
+                  
 
                 if (p >= 0.0001 && p <= 0.1000) {  // 0.0001 - 0.1000   
                     if (!out.small[shape]) out.small[shape] = { pcs: 0, ctw: 0 };
@@ -297,6 +297,10 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     out.solitaires[shape].ctw += wt;    
                 }
             });
+
+            
+            console.log("TCL: getDiamondCriteriaWise out-> ", out)
+            console.log("TCL: getDiamondCriteriaWise p-> ", diamonds)
 
             
             
@@ -466,7 +470,7 @@ const MemoHRDExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>COMMENT/REMARK/REJECT</th>
                                 <th width={100} style={{ ...brRight, ...brBotm, ...fntSize1, }}>Graders</th>
                             </tr>
-
+  
                             {result?.resultArray?.map((e, i) => {
                                 const dia = getDiamondCriteriaWise(e?.diamonds || []);
                                 const cst = getColorstoneCriteriaWise(e?.colorstone || []);
