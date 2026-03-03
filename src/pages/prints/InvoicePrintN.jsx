@@ -950,12 +950,12 @@ console.log("TCL: result", result)
                         </div>
                         <div className="col-6">{result?.header?.DueDays}</div>
                       </div>
-                      <div className="d-flex">
+                      {/* <div className="d-flex">
                         <div className="col-6">
                           <b className="JL13">HSN</b>
                         </div>
                         <div className="col-6">{result?.header?.HSN_No}</div>
-                      </div>
+                      </div> */}
 
                       <div className="d-flex">
                         <div className="col-6">
@@ -1181,14 +1181,15 @@ console.log("TCL: result", result)
                                           className={`col-2 d-flex align-items-start justify-content-center `}
                                           style={{ width: "7%" }}
                                         >
-                                          <p className=" p-1">{e?.BulkPurchaseQTY}</p>
+                                          <p className=" p-1">{d.IsPrimaryMetal === 1 ? e?.BulkPurchaseQTY : ""}</p>
                                         </div>
                                         <div
                                           className={`col-2  d-flex align-items-start justify-content-end`}
                                           style={{ width: "14%" }}
                                         >
                                           <p className=" p-1 text-end lh-1">
-                                            {fixedValues(e?.grosswt, 3)}
+                                            
+                                            {d.IsPrimaryMetal === 1 ? fixedValues(e?.grosswt, 3) : ""}
                                           </p>
                                         </div>
 
@@ -1398,7 +1399,7 @@ console.log("TCL: result", result)
                                         className={`col-2 d-flex align-items-center justify-content-center `}
                                         style={{ width: "15%" }}
                                       >
-                                        <p className="p-1">{NumberWithCommas(Number(d?.RMwt) || 0, 2)} ctw</p>
+                                        <p className="p-1">{NumberWithCommas(Number(d?.RMwt) || 0, 2)} gm</p>
                                       </div>
                                       <div
                                         className={`col-2  d-flex align-items-center justify-content-center`}
@@ -1458,7 +1459,7 @@ console.log("TCL: result", result)
                                         className={`col-2 d-flex align-items-center justify-content-center `}
                                         style={{ width: "15%" }}
                                       >
-                                        <p className="p-1">{NumberWithCommas(Number(d?.RMwt) || 0, 2)} ctw</p>
+                                        <p className="p-1">{NumberWithCommas(Number(d?.RMwt) || 0, 2)} gm</p>
                                       </div>
                                       <div
                                         className={`col-2  d-flex align-items-center justify-content-center`}
@@ -1684,11 +1685,6 @@ console.log("TCL: result", result)
                                   </p>
                                 ))
                               )}
-
-
-
-
-
                             </div>
                           </div>
 
@@ -1701,7 +1697,7 @@ console.log("TCL: result", result)
                             </div>
                             <div
                               className={`${style?.productJewerryRetailInvoicePrint} border-end p-1 fw-bold d-flex align-items-center justify-content-center`}
-                              style={{ width: "15.4%" }}
+                              style={{ width: "15.3%" }}
                             >
                               <p className="fw-bold"> </p>
                             </div>
@@ -2077,11 +2073,10 @@ console.log("TCL: result", result)
                         )} {/** Add/Less */}
 
                         {
-                          result?.header?.FreightCharges !== 0 &&
+                          result?.header?.FreightCharges  !== 0 &&
                           <p className="pb-1 px-1 text-end">
                             {NumberWithCommas(
-                              result?.header?.FreightCharges,
-                              2
+                              result?.header?.FreightCharges,2
                             )}
                           </p>
                         }
