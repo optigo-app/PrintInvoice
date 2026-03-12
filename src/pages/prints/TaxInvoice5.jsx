@@ -399,6 +399,20 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <p className="fw-bold">REMARKS : </p>
         <p dangerouslySetInnerHTML={{__html:headerData?.PrintRemark}}></p>
       </div>
+        {/* Terms Description */}
+        {headerData?.SalesRepPolicyTermsDescription !== '' && (
+                <div className="border-start border-end border-bottom w-100 px-1 d-flex">
+                  <p className=""><b>TERMS INCLUDED:</b>&nbsp;
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: headerData?.SalesRepPolicyTermsDescription,
+                    }}
+                    className=""
+                    />
+                  </p>
+                  
+              </div>
+              )}
       {/* declaration */}
       <div
         className={`border-start border-end border-bottom p-2 no_break ${style?.declti}`}

@@ -82,7 +82,7 @@ export default function ShipmentTagOptigo({ token, invoiceNo, printName, urls, e
                   <div className="address-block">
                     <strong className="brBtom" style={{ fontSize: "7px" }}>FROM:</strong>
                     <div className="spbrWord spBold" style={{ fontSize: "6px" }}>{e?.ShippingFrom}</div>
-                    {e?.ShippingFromPrintlable !== "" && <div style={{ fontSize: "6px" }} dangerouslySetInnerHTML={{ __html: e?.ShippingFromPrintlable }}/>}
+                    {e?.ShippingFromPrintlable !== "" && <div className="wordwarper" style={{ fontSize: "6px" }} dangerouslySetInnerHTML={{ __html: e?.ShippingFromPrintlable }}/>}
                   </div>
                 </div>
                 <div className="party2 to">

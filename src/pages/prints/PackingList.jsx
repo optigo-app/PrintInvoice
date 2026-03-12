@@ -171,6 +171,15 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       }
   }
 
+  const discountCriteria = [
+    { key: 'DiamondDiscount', isAmountKey: 'IsDiamondDiscInAmount', label: 'Diamond' ,disAmount:"DiamondDiscountAmount" },
+    { key: 'MetalDiscount', isAmountKey: 'IsMetalDiscInAmount', label: 'Metal' ,disAmount:"MetalDiscountAmount" },
+    { key: 'StoneDiscount', isAmountKey: 'IsStoneDiscInAmount', label: 'Colorstone' ,disAmount:"StoneDiscountAmount" },
+    { key: 'LabourDiscount', isAmountKey: 'IsLabourDiscInAmount', label: 'Labour' ,disAmount:"LabourDiscountAmount" },
+    { key: 'SolitaireDiscount', isAmountKey: 'IsSolitaireDiscInAmount', label: 'Solitaire' ,disAmount:"SolitaireDiscountAmount1" },
+    { key: 'MiscDiscount', isAmountKey: 'IsMiscDiscInAmount', label: 'Misc' ,disAmount:"MiscDiscountAmount" },
+  ];
+
   return (
     <>
       {loader ? (
@@ -192,10 +201,10 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {isImageWorking && (result?.header?.PrintLogo !== "" && <img src={result?.header?.PrintLogo} alt="" className='w-100 h-auto ms-auto d-block object-fit-contain' onError={handleImageErrors} height={120} width={150} style={{maxWidth: "100px"}} />)}
                   </div>
                   <div className="addresspcl fspcl">
-                    {result?.header?.CompanyAddress}
-                    {result?.header?.CompanyAddress2}
+                    {result?.header?.CompanyAddress}{" "}
+                    {result?.header?.CompanyAddress2}{" "}
                     {result?.header?.CompanyCity} -{" "}
-                    {result?.header?.CompanyPinCode}
+                    {result?.header?.CompanyPinCode}{" "}
                   </div>
                   <div className="pclheaderplist mb_5_pcl fs_head_pcl">
                     {result?.header?.PrintHeadLabel}
@@ -282,6 +291,18 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       </thead>
                       {/* <tbody> */}
                         {result?.resultArray?.map((e, i) => {
+                          const discountDisplay = discountCriteria
+                          .filter(({ key }) => e?.[key] > 0)
+                          .map(({ key, isAmountKey, label,disAmount }) => {
+                            const num = Number(e[key]);  
+                            const am= Number(e[disAmount])
+                            const decimals = e[isAmountKey] === 1 ? 3 : 2;  
+                            const val = num.toFixed(decimals);  
+                            return e[isAmountKey] === 0 ? `${val}% @${label} Amount ` : `${val} @${label} Amount`;
+                          })
+                          .join(', ');
+                          
+                         
                           return (
                             <tr key={i}>
                               {/* <td> */}
@@ -307,7 +328,12 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             e?.diamonds?.map((ele, ind) => {
                                               
                                               return (
-                                                <div className="leftpcl fspcl text-break" key={ind} > {ele?.ShapeName} { diaQlty && ele?.QualityName} </div>
+                                                // <div className="leftpcl fspcl text-break" key={ind} > {ele?.ShapeName} { diaQlty && ele?.QualityName} </div>
+                                                <div className="leftpcl fspcl text-break" key={ind} > <span
+                                                dangerouslySetInnerHTML={{
+                                                  __html: ele?.Shape_Code === "RND" ? ele?.Shape_Code : "&nbsp;",
+                                                }}
+                                              />{ diaQlty && ele?.QualityName} </div>
                                                 // <div className=" fspcl text-break" key={i} ></div>
                                                 );
                                               })
@@ -323,7 +349,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                               // eslint-disable-next-line array-callback-return
                                               e?.diamonds?.map((ele, i) => {
                                                 return (
-                                                  <div className=" fspcl text-break " key={i} > {ele?.SizeName} </div>
+                                                  <div className=" fspcl text-break " key={i} > {ele?.SizeName =="Custom" ?"C:"+ele?.CustomSize:ele?.SizeName } </div>
                                                   );
                                                   // }
                                                 })
@@ -660,12 +686,14 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </div>
                                   </div>
 
-                                  {e?.DiscountAmt === 0 ? ( "" ) : (
+                                  {e?.discountDisplay === "" ? ( "" ) : (
                                     <div className="tbodyrowpcltot2 fspcl" style={{ borderTop: "1px solid #989898"}} >
                                       <div className="lopcltotrowtb dispcltotrowtb " style={{ width: "95%" }} >
-                                        <div className="discpclcs fwboldpcl fspcl2 d-flex justify-content-end pe-2"> Discount { e?.Discount === 0 ? '-' : <span className='text-break'>
-                                            { `${formatAmount(e?.Discount)} % On ${e?.str_discountOn}` }
-                                        </span> } </div>
+                                        <div className="discpclcs fwboldpcl fspcl2 d-flex justify-content-end pe-2"style={{ width: "93%" }}>  
+                                        <span className='text-break' style={{fontSize:'10px'}}>
+                                            Discount {discountDisplay || `${formatAmount(e?.Discount, 2)} @ Total Amount`}
+                                        </span>
+                                          </div>
                                         <div className="disvalpclcs  fwboldpcl fspcl d-flex justify-content-end end_pcl_new end_p_pcl_new" style={{ borderRight: "0px", width:'10.5%' }} >
                                           {formatAmount((e?.DiscountAmt/(result?.header?.CurrencyExchRate)))}
                                         </div>
@@ -676,6 +704,8 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                       </div>
                                     </div>
                                   )}
+
+                                
                                 </div>
                               {/* </td> */}
                             </tr>

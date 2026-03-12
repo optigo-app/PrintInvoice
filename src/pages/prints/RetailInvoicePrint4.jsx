@@ -268,6 +268,9 @@ const RetailInvoiceprint4 = ({
             e.hallmarkingCount = findRecord?.hallmarkingCount;
             e.findingWt = findRecord?.findingWt;
             e.otherCharge = findRecord?.otherCharge;
+
+            
+            
           }
         } else {
           // totals.diamondColorStoneWt += e?.diamondWt + e?.colorStoneWt;

@@ -44,6 +44,7 @@ const InvoicePrintN = ({
   const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
   const [diamondDetails, setDiamondDetails] = useState([]);
 
+
   const [retail, setRetail] = useState(true);
   const [customerAddress, setCustomerAddress] = useState([]);
   const [total, setTotal] = useState({
@@ -71,9 +72,125 @@ const InvoicePrintN = ({
   const [document, setDocument] = useState([]);
   function loadData(data) {
     // console.log("data", data);
-
+    let totals = { ...total };
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
+    let metalArr = [];
+    let totalAmountBefore = 0;
+    let diamondWt = 0;
+    let colorStoneWt = 0;
+    let miscWt = 0;
+    let grossWt = 0;
+    data?.BillPrint_Json1.forEach((e) => {
+      let findRecord = metalArr.findIndex(
+        (elem) => elem?.label === e?.MetalTypePurity
+      );
+      if (findRecord === -1) {
+    
+        metalArr.push({
+          label: e?.MetalTypePurity,
+          value: e?.NetWt * e?.Quantity,
+          gm: true,
+        });
+      } else {
+        metalArr[findRecord].value += e?.NetWt * e?.Quantity;
+      }
+      grossWt += e?.grosswt * e?.Quantity;
+      let diamondWts = 0;
+      let colorStoneWts = 0;
+      let miscWts = 0;
+      let obj = { ...e };
+      let miscWt = 0;
+      let materials = [];
+      totalAmountBefore +=
+        e?.TotalAmount / data?.BillPrint_Json[0].CurrencyExchRate;
+      let metalColorCode = "";
+      data?.BillPrint_Json2.forEach((ele) => {
+        if (obj?.SrJobno === ele?.StockBarcode) {
+
+          if (ele?.IsCenterStone === 1) {
+            materials.push(ele);
+            return;
+          }
+
+          if (
+            (ele?.MasterManagement_DiamondStoneTypeid === 1 ||
+              ele?.MasterManagement_DiamondStoneTypeid === 2) &&
+            ele?.IsHSCOE === 0 && ele?.IsCenterStone !== 1
+          ) {
+            let findRecord = materials.findIndex(
+              (elem) =>
+                elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid &&
+                elem?.ShapeName === ele?.ShapeName &&
+                elem?.Colorname === ele?.Colorname &&
+                elem?.QualityName === ele?.QualityName &&
+                elem?.Rate === ele?.Rate &&
+                elem?.IsCenterStone !== 1
+            );
+            if (findRecord === -1) {
+              materials.push(ele);
+              // materials.push({ 
+              //   ...ele, 
+              //   IsCenterStone: ele.IsCenterStone
+              // });
+              // console.log("materials", materials);
+            } else {
+              materials[findRecord].Pcs += ele?.Pcs;
+              materials[findRecord].Wt += ele?.Wt;
+              materials[findRecord].Amount += ele?.Amount;
+              // if (materials[findRecord].IsCenterStone === 0 && ele?.IsCenterStone === 1) {
+              //   materials[findRecord].IsCenterStone = 1;
+              // }
+            }
+            if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+              diamondWt += ele?.Wt * obj?.Quantity;
+              diamondWts += ele?.Wt;
+            }
+            if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
+              colorStoneWt += ele?.Wt * obj?.Quantity;
+              colorStoneWts += ele?.Wt;
+            }
+            if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
+              miscWt += ele?.Wt;
+              miscWts += ele?.Wt;
+            }
+          } else if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
+            if (ele?.IsPrimaryMetal === 1) {
+              metalColorCode = ele?.MetalColorCode;
+            } else if (metalColorCode === "") {
+              metalColorCode = ele?.MetalColorCode;
+            }
+          }
+        }
+      });
+
+      obj.TotalAmount =
+        obj.TotalAmount / data?.BillPrint_Json[0].CurrencyExchRate;
+      obj.diamondWts = diamondWts;
+      obj.colorStoneWts = colorStoneWts;
+      obj.miscWts = miscWts;
+      obj.materials = materials;
+      obj.metalColorCode = metalColorCode;
+
+      obj.miscWt = miscWt * obj?.Quantity;
+
+      totals.gwt += e?.grosswt * e?.Quantity;
+      totals.beforeTax +=
+        (e?.TotalAmount / data?.BillPrint_Json[0].CurrencyExchRate);
+      totals.nwt += e?.NetWt * e?.Quantity;
+      totals.others += e?.OtherCharges;
+      totals.total += e?.UnitCost;
+      totals.discount += e?.DiscountAmt;
+
+    });
+
+    metalArr.push({ label: "Diamond Wt", value: diamondWt, gm: false });
+    metalArr.push({ label: "Stone Wt", value: colorStoneWt, gm: false });
+    metalArr.push({ label: "Gross Wt", value: grossWt, gm: true });
+    
+    console.log("TCL: loadData -> metalArr",metalArr )
+    setSummary(metalArr);
+
 
     const datas = OrganizeDataPrint(
       data?.BillPrint_Json[0],
@@ -94,6 +211,8 @@ const InvoicePrintN = ({
     setNotGoldMetalWtTotal(tot_met_wt);
 
     //grouping of jobs and isGroupJob is 1
+    let debitCardinfo = ReceiveInBank(data?.BillPrint_Json[0]?.BankPayDet);
+    setBank(debitCardinfo);
 
     let finalArr = [];
     datas?.resultArray?.forEach((a) => {
@@ -499,6 +618,24 @@ const InvoicePrintN = ({
     diarndotherarr5 = [...diaonlyrndarr6, diaObj];
     const sortedData = diarndotherarr5?.sort(customSort);
     // setDiamonds(sortedData);
+    let taxValue = taxGenrator(data?.BillPrint_Json[0], totals?.total);
+
+    taxValue.forEach((e) => {
+      totals.afterTax += +e?.amount;
+    });
+
+    totals.afterTax += totals?.beforeTax + data?.BillPrint_Json[0]?.AddLess;
+
+    totals.netBalAmount =
+      totals.afterTax - data?.BillPrint_Json[0]?.OldGoldAmount;
+    totals.gwt = grossWt;
+    totals.diamondWt = diamondWt;
+    totals.colorStoneWt = colorStoneWt;
+    totals.miscWt = miscWt;
+    totals.beforeTax = totalAmountBefore;
+    setTotal(totals);
+
+    console.log("TCL: loadData ->total ", totals)
     setDiamondWise(sortedData);
 
     setResult(datas);
@@ -573,7 +710,14 @@ const InvoicePrintN = ({
 
   console.log("TCL: result?.resultArray?", result?.resultArray)
 
-  const totalConverted = total?.afterTax / result?.header?.CurrencyExchRate;
+  const totalConverted =
+    (result?.mainTotal?.total_amount /
+      result?.header?.CurrencyExchRate +
+      result?.allTaxesTotal +
+      result?.header?.FreightCharges /
+      result?.header?.CurrencyExchRate +
+      result?.header?.AddLess /
+      result?.header?.CurrencyExchRate) / result?.header?.CurrencyExchRate;
   const totalPayments =
     result?.header?.OldGoldAmount +
     result?.header?.CashReceived +
@@ -581,6 +725,8 @@ const InvoicePrintN = ({
     bank?.reduce((acc, cObj) => acc + +cObj?.amount, 0);
 
   const difference = Math.round((totalConverted - totalPayments) * 100) / 100;
+
+
 
   //   const diaTotal= data.map((e,i)=>{
   //      const tl=e?.diamonds.reduce((acc,d)=>{
@@ -638,72 +784,48 @@ const InvoicePrintN = ({
 
 
 
-
-
-
-  // const mergeByKey = ({
-  //   data = [],
-  //   groupKey = "Rate",
-  //   sumFields = ["Pcs", "RMwt", "Amount","ShapeName"]
-  // }) => {
-  //   return Object.values(
-  //     (data ?? []).reduce((acc, item) => {
-  //       const key = item?.[groupKey] ?? 0;
-
-  //       if (!acc[key]) {
-  //         acc[key] = { [groupKey]: key };
-
-  //         // initialize sum fields
-  //         sumFields.forEach(field => {
-  //           acc[key][field] = 0;
-  //         });
-  //       }
-
-  //       // sum dynamic fields
-  //       sumFields.forEach(field => {
-  //         acc[key][field] += item?.[field] ?? 0;
-  //       });
-
-  //       return acc;
-  //     }, {})
-  //   );
-  // };
-
   const mergeByKey = ({
     data = [],
     groupKey = "Rate",
     sumFields = ["Pcs", "RMwt", "Amount"],
     stringFields = ["ShapeName", "QualityName"],
-    flagFields = ["IsPrimaryMetal"]   // <-- NEW
+    flagFields = ["IsPrimaryMetal"],
+    valueFields = ["metalWastage","isRateOnPcs"]   // <-- added
   }) => {
+
     const grouped = (data ?? []).reduce((acc, item) => {
       const key = item?.[groupKey] ?? 0;
 
       if (!acc[key]) {
         acc[key] = { [groupKey]: key };
 
-        // initialize numeric fields
+
         sumFields.forEach(field => {
           acc[key][field] = 0;
         });
 
-        // initialize string fields
+
         stringFields.forEach(field => {
           acc[key][field] = [];
         });
 
-        // initialize flag fields
+
         flagFields.forEach(field => {
           acc[key][field] = 0;
         });
+
+
+        valueFields.forEach(field => {
+          acc[key][field] = item?.[field] ?? 0;
+        });
       }
 
-      // sum numeric fields
+
       sumFields.forEach(field => {
         acc[key][field] += Number(item?.[field] ?? 0);
       });
 
-      // collect unique strings
+
       stringFields.forEach(field => {
         const value = item?.[field];
         if (value && !acc[key][field].includes(value)) {
@@ -711,7 +833,7 @@ const InvoicePrintN = ({
         }
       });
 
-      // OR logic for flags
+
       flagFields.forEach(field => {
         if (Number(item?.[field]) === 1) {
           acc[key][field] = 1;
@@ -729,7 +851,53 @@ const InvoicePrintN = ({
     });
   };
 
-console.log("TCL: result", result)
+
+  function mergeMetalData(dataString) {
+    if (!dataString) return [];
+
+    // extract all [ ... ] blocks
+    const matches = dataString.match(/\[(.*?)\]/g) || [];
+
+    const objects = matches.map(item => {
+      const clean = item.replace(/[\[\]]/g, "");
+      const obj = {};
+
+      clean.split(",").forEach(pair => {
+        let [key, value] = pair.split(":").map(v => v.trim());
+
+        if (!key) return;
+
+        if (key === "NetWt" || key === "TotalAmount") {
+          obj[key] = parseFloat(value);
+        } else {
+          obj[key] = value;
+        }
+      });
+
+      return obj;
+    });
+
+    // merge by MetalType + purity
+    const merged = {};
+
+    objects.forEach(item => {
+      const key = `${item.MetalType}_${item.purity}`;
+
+      if (!merged[key]) {
+        merged[key] = { ...item };
+      } else {
+        merged[key].NetWt += item.NetWt;
+        merged[key].TotalAmount += item.TotalAmount;
+      }
+    });
+
+    return Object.values(merged);
+  }
+
+  const oldgolddata = mergeMetalData(result?.header?.oldgoldDetails);
+
+
+  console.log("TCL: result", result)
   return (
     <>
       {loader ? (
@@ -898,7 +1066,7 @@ console.log("TCL: result", result)
                       <div className="fslhJL">
                         Phno: {result?.header?.customermobileno}
                       </div>
-                      <div className="fslhJL" style={{whiteSpace:"normal",wordBreak:"normal",overflowWrap:"break-word"}}>
+                      <div className="fslhJL" style={{ whiteSpace: "normal", wordBreak: "normal", overflowWrap: "break-word" }}>
                         {result?.header?.vat_cst_pan}{" "}
                         {result?.header?.aadharno !== "" &&
                           `| Aadhar-${result?.header?.aadharno}`}
@@ -913,15 +1081,15 @@ console.log("TCL: result", result)
                       <div className="col-4 p-2 border-end">
                         <p>Ship To,</p>
                         <b>{result?.header?.customerfirmname}</b>
-                      {result?.header?.address?.map((e, i) => {
-                        return (
-                          <div className="" key={i}>
-                            {e}
-                          </div>
-                        );
-                      })}
-                    </div>
-                   
+                        {result?.header?.address?.map((e, i) => {
+                          return (
+                            <div className="" key={i}>
+                              {e}
+                            </div>
+                          );
+                        })}
+                      </div>
+
                     )}
 
 
@@ -1140,9 +1308,13 @@ console.log("TCL: result", result)
                               style={{ width: "55%" }}
                             >
                               <div className=" h-100">
+                                {console.log("TCL: emat", e)}
 
 
-                                {Array.isArray(e?.metal) && e.metal.length > 0 && (
+                                {/* {Array.isArray(e?.metal) && e.metal.length > 0 && (
+                                     
+                                   
+
                                   mergeByKey({
                                     data: e.metal,
                                     groupKey: "Rate",
@@ -1188,7 +1360,7 @@ console.log("TCL: result", result)
                                           style={{ width: "14%" }}
                                         >
                                           <p className=" p-1 text-end lh-1">
-                                            
+
                                             {d.IsPrimaryMetal === 1 ? fixedValues(e?.grosswt, 3) : ""}
                                           </p>
                                         </div>
@@ -1211,7 +1383,9 @@ console.log("TCL: result", result)
                                           className={`col-2 d-flex align-items-start justify-content-center  `}
                                           style={{ width: "15%" }}
                                         >
-                                          <p className="fw-bold p-1"></p>
+                                          <p className="fw-bold p-1">
+
+                                          </p>
                                         </div>
                                         <div
                                           className={`col-2 d-flex align-items-start justify-content-center`}
@@ -1225,9 +1399,104 @@ console.log("TCL: result", result)
                                             )}
                                           </p>
                                         </div>
+                                        <div
+                                          className={"col-2 d-flex align-items-start justify-content-center"}
+                                          style={{ width: "5%" }}
+                                        >
+                                          <p className=""> {NumberWithCommas(d.metalWastage, 2)}</p>
+                                        </div>
                                       </div>
                                     ))
-                                )}
+                                )} */}
+                                {Array.isArray(e?.metal) && e.metal.length > 0 && (() => {
+
+                                  const totalFindingRMwt = (e?.finding || []).reduce(
+                                    (sum, f) => sum + Number(f?.RMwt || 0),
+                                    0
+                                  );
+
+                                  return mergeByKey({
+                                    data: e.metal,
+                                    groupKey: "Rate",
+                                    sumFields: ["Pcs", "RMwt", "Amount"]
+                                  })
+                                    ?.sort((a, b) => (b?.IsPrimaryMetal ?? 0) - (a?.IsPrimaryMetal ?? 0))
+                                    ?.map((d, i) => (
+                                      <div key={i} className="d-flex">
+
+                                        {/* Metal Name */}
+                                        <div className="col-2 d-flex align-items-center">
+                                          <p className="p-1 lh-1">
+                                            {d?.ShapeName?.length >= 8 ? (
+                                              <>
+                                                {d?.ShapeName}
+                                                <br />
+                                                {d?.QualityName}
+                                              </>
+                                            ) : (
+                                              `${d?.ShapeName ?? ""} ${d?.QualityName ?? ""}`
+                                            )}
+                                          </p>
+                                        </div>
+
+                                        {/* HSN */}
+                                        <div className="col-2 d-flex align-items-start justify-content-center" style={{ width: "10%" }}>
+                                          <p className="p-1 lh-1">{e?.HSNNo}</p>
+                                        </div>
+
+                                        {/* Qty */}
+                                        <div className="col-2 d-flex align-items-start justify-content-center" style={{ width: "7%" }}>
+                                          <p className="p-1">{d.IsPrimaryMetal === 1 ? e?.BulkPurchaseQTY : ""}</p>
+                                        </div>
+
+                                        {/* Gross Wt */}
+                                        <div className="col-2 d-flex align-items-start justify-content-end" style={{ width: "14%" }}>
+                                          <p className="p-1 text-end lh-1">
+                                            {d.IsPrimaryMetal === 1 ? fixedValues(e?.grosswt, 3) : ""}
+                                          </p>
+                                        </div>
+
+                                        {/* Net Wt (minus findings) */}
+                                        <div className="col-2 d-flex align-items-start justify-content-end" style={{ width: "11%" }}>
+                                          <p className="p-1 text-end lh-1">
+                                            {NumberWithCommas(
+                                              d?.IsPrimaryMetal === 1
+                                                ? d?.RMwt - totalFindingRMwt
+                                                : d?.RMwt,
+                                              3
+                                            )}
+                                          </p>
+                                        </div>
+
+                                        {/* Empty */}
+                                        <div className="col-2 d-flex align-items-start justify-content-center" style={{ width: "11%" }}>
+                                          <p className="fw-bold p-1"></p>
+                                        </div>
+
+                                        <div className="col-2 d-flex align-items-start justify-content-center" style={{ width: "15%" }}>
+                                          <p className="fw-bold p-1"></p>
+                                        </div>
+
+                                        {/* Rate */}
+                                        <div className="col-2 d-flex align-items-start justify-content-center" style={{ width: "17%" }}>
+                                          <p className="p-1 text-end lh-1">
+                                            {NumberWithCommas(
+                                              d?.Rate / result?.header?.CurrencyExchRate,
+                                              2
+                                            )}
+                                          </p>
+                                        </div>
+
+                                        {/* Wastage */}
+                                        <div className="col-2 d-flex align-items-start justify-content-center" style={{ width: "8%" }}>
+                                          {/* <p className="p-1">{NumberWithCommas(e?.Wastage, 2)}</p> */}
+                                          <p className="p-1">{d.IsPrimaryMetal === 1 ? NumberWithCommas(e?.Wastage, 2) : NumberWithCommas(d?.metalWastage, 2)}</p>
+                                        </div>
+
+                                      </div>
+                                    ));
+
+                                })()}
 
 
                                 {Array.isArray(e?.diamonds) && e.diamonds.length > 0 && (
@@ -1238,30 +1507,30 @@ console.log("TCL: result", result)
                                   })?.map((d, i) => (
                                     <div className={`d-flex `}>
                                       <div
-                                        className={`col-2  d-flex align-items-center`}
+                                        className={`col-2  d-flex `}
                                       >
                                         <p className="p-1 lh-1">DIAMOND</p>
                                       </div>
                                       <div
-                                        className={`col-2  d-flex align-items-center`}
+                                        className={`col-2  d-flex `}
                                         style={{ width: "10%" }}
                                       >
                                         <p className="p-1 lh-1"></p>
                                       </div>
                                       <div
-                                        className={`col-2 d-flex align-items-center justify-content-center `}
+                                        className={`col-2 d-flex  justify-content-center `}
                                         style={{ width: "7%" }}
                                       >
                                         <p className="fw-bold p-1"></p>
                                       </div>
                                       <div
-                                        className={`col-2  d-flex align-items-center justify-content-end`}
+                                        className={`col-2  d-flex  justify-content-end`}
                                         style={{ width: "14%" }}
                                       >
                                         <p className=" p-1 text-end lh-1"></p>
                                       </div>
                                       <div
-                                        className={`col-2  p-1 d-flex align-items-center justify-content-end`}
+                                        className={`col-2  p-1 d-flex  justify-content-end`}
                                         style={{ width: "11%" }}
                                       >
                                         <p className=" text-end lh-1">
@@ -1270,22 +1539,30 @@ console.log("TCL: result", result)
                                       </div>
 
                                       <div
-                                        className={`col-2 d-flex align-items-center justify-content-center `}
+                                        className={`col-2 d-flex  justify-content-center `}
                                         style={{ width: "11%" }}
                                       >
                                         <p className="p-1">{NumberWithCommas(Number(d.Pcs) || 0)}</p>
                                       </div>
                                       <div
-                                        className={`col-2 d-flex align-items-center justify-content-center `}
+                                        className={`col-2 d-flex  justify-content-center `}
                                         style={{ width: "15%" }}
                                       >
                                         <p className="p-1">{NumberWithCommas(Number(d.RMwt) || 0, 2)} ctw</p>
                                       </div>
                                       <div
-                                        className={`col-2  d-flex align-items-center justify-content-center`}
+                                        className={`col-2  d-flex  justify-content-center`}
                                         style={{ width: "17%" }}
                                       >
-                                        <p className="p-1 text-end lh-1">{NumberWithCommas(Number(d.Rate) || 0, 2)}</p>                                      </div>
+                                        <p className="p-1 text-end lh-1">{NumberWithCommas(Number(d.Rate) || 0, 2)}</p>
+
+                                      </div>
+                                      <div
+                                        className={`col-2  d-flex  justify-content-center`}
+                                        style={{ width: "5%" }}
+                                      >
+                                        <p></p>
+                                      </div>
                                     </div>
                                   ))
                                 )}
@@ -1298,30 +1575,30 @@ console.log("TCL: result", result)
                                   })?.map((d, i) => (
                                     <div className={`d-flex `}>
                                       <div
-                                        className={`col-2  d-flex align-items-center`}
+                                        className={`col-2  d-flex `}
                                       >
                                         <p className="p-1 lh-1">COLORSTONE</p>
                                       </div>
                                       <div
-                                        className={`col-2  d-flex align-items-center`}
+                                        className={`col-2  d-flex `}
                                         style={{ width: "10%" }}
                                       >
                                         <p className="p-1 lh-1"></p>
                                       </div>
                                       <div
-                                        className={`col-2 d-flex align-items-center justify-content-center `}
+                                        className={`col-2 d-flex  justify-content-center `}
                                         style={{ width: "7%" }}
                                       >
                                         <p className="fw-bold p-1"></p>
                                       </div>
                                       <div
-                                        className={`col-2  d-flex align-items-center justify-content-end`}
+                                        className={`col-2  d-flex  justify-content-end`}
                                         style={{ width: "14%" }}
                                       >
                                         <p className=" p-1 text-end lh-1"></p>
                                       </div>
                                       <div
-                                        className={`col-2  p-1 d-flex align-items-center justify-content-end`}
+                                        className={`col-2  p-1 d-flex  justify-content-end`}
                                         style={{ width: "11%" }}
                                       >
                                         <p className=" text-end lh-1">
@@ -1330,22 +1607,28 @@ console.log("TCL: result", result)
                                       </div>
 
                                       <div
-                                        className={`col-2 d-flex align-items-center justify-content-center `}
+                                        className={`col-2 d-flex  justify-content-center `}
                                         style={{ width: "11%" }}
                                       >
                                         <p className="p-1">{NumberWithCommas(Number(d?.Pcs) || 0)}</p>
                                       </div>
                                       <div
-                                        className={`col-2 d-flex align-items-center justify-content-center `}
+                                        className={`col-2 d-flex  justify-content-center `}
                                         style={{ width: "15%" }}
                                       >
                                         <p className="p-1">{NumberWithCommas(Number(d?.RMwt) || 0, 2)} ctw</p>
                                       </div>
                                       <div
-                                        className={`col-2  d-flex align-items-center justify-content-center`}
+                                        className={`col-2  d-flex  justify-content-center`}
                                         style={{ width: "17%" }}
                                       >
-                                        <p className="p-1 text-end lh-1">{NumberWithCommas(Number(d?.Rate) || 0, 2)}</p>                                      </div>
+                                        <p className="p-1 text-end lh-1">{NumberWithCommas(Number(d?.Rate) || 0, 2)}</p>                           </div>
+                                      <div
+                                        className={`col-2  d-flex  justify-content-center`}
+                                        style={{ width: "5%" }}
+                                      >
+                                        <p className="">  </p>
+                                      </div>
                                     </div>
                                   ))
                                 )}
@@ -1363,25 +1646,25 @@ console.log("TCL: result", result)
                                         <p className="p-1 lh-1">MISC</p>
                                       </div>
                                       <div
-                                        className={`col-2  d-flex align-items-center`}
+                                        className={`col-2  d-flex `}
                                         style={{ width: "10%" }}
                                       >
                                         <p className="p-1 lh-1"></p>
                                       </div>
                                       <div
-                                        className={`col-2 d-flex align-items-center justify-content-center `}
+                                        className={`col-2 d-flex  justify-content-center `}
                                         style={{ width: "7%" }}
                                       >
                                         <p className="fw-bold p-1"></p>
                                       </div>
                                       <div
-                                        className={`col-2  d-flex align-items-center justify-content-end`}
+                                        className={`col-2  d-flex  justify-content-end`}
                                         style={{ width: "14%" }}
                                       >
                                         <p className=" p-1 text-end lh-1"></p>
                                       </div>
                                       <div
-                                        className={`col-2  p-1 d-flex align-items-center justify-content-end`}
+                                        className={`col-2  p-1 d-flex  justify-content-end`}
                                         style={{ width: "11%" }}
                                       >
                                         <p className=" text-end lh-1">
@@ -1390,22 +1673,28 @@ console.log("TCL: result", result)
                                       </div>
 
                                       <div
-                                        className={`col-2 d-flex align-items-center justify-content-center `}
+                                        className={`col-2 d-flex  justify-content-center `}
                                         style={{ width: "11%" }}
                                       >
                                         <p className="p-1">{NumberWithCommas(Number(d?.Pcs) || 0)}</p>
                                       </div>
                                       <div
-                                        className={`col-2 d-flex align-items-center justify-content-center `}
+                                        className={`col-2 d-flex  justify-content-center `}
                                         style={{ width: "15%" }}
                                       >
                                         <p className="p-1">{NumberWithCommas(Number(d?.RMwt) || 0, 2)} gm</p>
                                       </div>
                                       <div
-                                        className={`col-2  d-flex align-items-center justify-content-center`}
+                                        className={`col-2  d-flex  justify-content-center`}
                                         style={{ width: "17%" }}
                                       >
-                                        <p className="p-1 text-end lh-1">{NumberWithCommas(Number(d?.Rate) || 0, 2)}</p>                                      </div>
+                                        <p className="p-1 text-end lh-1">{NumberWithCommas(Number(d?.Rate) || 0, 2)}</p>                   </div>
+                                      <div
+                                        className={`col-2  d-flex  justify-content-center`}
+                                        style={{ width: "5%" }}
+                                      >
+                                        <p className=""> </p>
+                                      </div>
                                     </div>
                                   ))
                                 )}
@@ -1414,13 +1703,16 @@ console.log("TCL: result", result)
                                   mergeByKey({
                                     data: e.finding,
                                     groupKey: "Rate",
+                                    stringFields: ["ShapeName", "QualityName"],
                                     sumFields: ["Pcs", "RMwt", "Amount"]
                                   })?.map((d, i) => (
+
                                     <div className={`d-flex `}>
+                                      {console.log("findinf", d)}
                                       <div
                                         className={`col-2  d-flex align-items-center`}
                                       >
-                                        <p className="p-1 lh-1">FINDING</p>
+                                        <p className="p-1 lh-1">FINDING <br /> {d?.ShapeName + " " + d?.QualityName}</p>
                                       </div>
                                       <div
                                         className={`col-2  d-flex align-items-center`}
@@ -1429,19 +1721,19 @@ console.log("TCL: result", result)
                                         <p className="p-1 lh-1"></p>
                                       </div>
                                       <div
-                                        className={`col-2 d-flex align-items-center justify-content-center `}
+                                        className={`col-2 d-flex  justify-content-center `}
                                         style={{ width: "7%" }}
                                       >
                                         <p className="fw-bold p-1"></p>
                                       </div>
                                       <div
-                                        className={`col-2  d-flex align-items-center justify-content-end`}
+                                        className={`col-2  d-flex  justify-content-end`}
                                         style={{ width: "14%" }}
                                       >
                                         <p className=" p-1 text-end lh-1"></p>
                                       </div>
                                       <div
-                                        className={`col-2  p-1 d-flex align-items-center justify-content-end`}
+                                        className={`col-2  p-1 d-flex  justify-content-end`}
                                         style={{ width: "11%" }}
                                       >
                                         <p className=" text-end lh-1">
@@ -1450,22 +1742,30 @@ console.log("TCL: result", result)
                                       </div>
 
                                       <div
-                                        className={`col-2 d-flex align-items-center justify-content-center `}
+                                        className={`col-2 d-flex  justify-content-center `}
                                         style={{ width: "11%" }}
                                       >
                                         <p className="p-1">{NumberWithCommas(Number(d?.Pcs) || 0)}</p>
                                       </div>
                                       <div
-                                        className={`col-2 d-flex align-items-center justify-content-center `}
+                                        className={`col-2 d-flex  justify-content-center `}
                                         style={{ width: "15%" }}
                                       >
                                         <p className="p-1">{NumberWithCommas(Number(d?.RMwt) || 0, 2)} gm</p>
                                       </div>
                                       <div
-                                        className={`col-2  d-flex align-items-center justify-content-center`}
+                                        className={`col-2  d-flex  justify-content-center`}
                                         style={{ width: "17%" }}
                                       >
-                                        <p className="p-1 text-end lh-1">{NumberWithCommas(Number(d?.Rate) || 0, 2)}</p>                                      </div>
+                                        {/* <p className="p-1 text-end lh-1">{NumberWithCommas(Number(d?.Rate) || 0, 2)}</p>                 */}
+                                        <p className="p-1 text-end lh-1">{NumberWithCommas(Number(e?.primary_metal_rate) || 0, 2)}</p>                
+                                        </div>
+                                      <div
+                                        className={"col-2  d-flex  justify-content-center"}
+                                        style={{ width: "8%" }}
+                                      >
+                                        <p className="p-1"> {NumberWithCommas(d.metalWastage, 2)}</p>
+                                      </div>
                                     </div>
                                   ))
                                 )}
@@ -1575,9 +1875,7 @@ console.log("TCL: result", result)
                               className={`${style?.metalMakingJewerryRetailInvoicePrint}  align-items-start d-flex justify-content-center`}
                               style={{ width: "5%" }}
                             >
-                              <p className="text-end p-1">
-                                {e?.Wastage !== 0 ? `${NumberWithCommas(e?.Wastage, 2)}` : "0.00"}
-                              </p>
+
                             </div>
                             <div
                               className={`${style?.othersJewerryRetailInvoicePrint}  align-items-start d-flex justify-content-center`}
@@ -1620,7 +1918,8 @@ console.log("TCL: result", result)
                                 );
                               })}
 
-                              {Array.isArray(e?.metal) && e.metal.length > 0 && (
+                              {/* {Array.isArray(e?.metal) && e.metal.length > 0 && (
+
                                 mergeByKey({
                                   data: e.metal,
                                   groupKey: "Rate",
@@ -1630,7 +1929,30 @@ console.log("TCL: result", result)
                                     {NumberWithCommas(d?.RMwt * d?.Rate, 2)}
                                   </p>
                                 ))
-                              )}
+                              )} */}
+
+                              {Array.isArray(e?.metal) && e.metal.length > 0 && (() => {
+
+                                const totalFindingRMwt = (e?.finding || []).reduce(
+                                  (sum, f) => sum + Number(f?.RMwt || 0),
+                                  0
+                                );
+
+                                return mergeByKey({
+                                  data: e.metal,
+                                  groupKey: "Rate",
+                                  sumFields: ["Pcs", "RMwt", "Amount"]
+                                })
+                                  ?.map((d, i) => (
+                                    <p className=" text-end p-1">
+                                      {NumberWithCommas(
+                                        ((d?.IsPrimaryMetal === 1 ? (d?.RMwt - totalFindingRMwt) : d?.RMwt) * d?.Rate),
+                                        2
+                                      )}
+                                    </p>
+                                  ))
+
+                              })()}
 
 
                               {Array.isArray(e?.diamonds) && e.diamonds.length > 0 && (
@@ -1640,7 +1962,7 @@ console.log("TCL: result", result)
                                   sumFields: ["Pcs", "RMwt", "Amount"]
                                 })?.map((d, i) => (
                                   <p className=" text-end p-1">
-                                    {NumberWithCommas(d?.RMwt * d?.Rate, 2)}
+                                    {NumberWithCommas(d?.isRateOnPcs == 1 ? d?.Pcs * d?.Rate : d?.RMwt * d?.Rate, 2)} 
                                   </p>
                                 ))
                               )}
@@ -1652,10 +1974,13 @@ console.log("TCL: result", result)
                                   sumFields: ["Pcs", "RMwt", "Amount"]
                                 })?.map((d, i) => (
                                   <p className=" text-end p-1">
-                                    {NumberWithCommas(d?.RMwt * d?.Rate, 2)}
+                                    {NumberWithCommas(d?.isRateOnPcs == 1 ? d?.Pcs * d?.Rate : d?.RMwt * d?.Rate, 2)}
                                   </p>
                                 ))
                               )}
+
+                              
+                             
 
 
 
@@ -1666,8 +1991,10 @@ console.log("TCL: result", result)
                                   groupKey: "Rate",
                                   sumFields: ["Pcs", "RMwt", "Amount"]
                                 })?.map((d, i) => (
+                                  
                                   <p className=" text-end p-1">
-                                    {NumberWithCommas(d?.RMwt * d?.Rate, 2)}
+                                     {console.log("TCL:xvdvfvbfbgfbg e ",d)}
+                                    {NumberWithCommas(d?.isRateOnPcs == 1 ? d?.Pcs * d?.Rate : d?.RMwt * d?.Rate, 2)}
                                   </p>
                                 ))
                               )}
@@ -1681,7 +2008,8 @@ console.log("TCL: result", result)
                                   sumFields: ["Pcs", "RMwt", "Amount"]
                                 })?.map((d, i) => (
                                   <p className=" text-end p-1">
-                                    {NumberWithCommas(d?.RMwt * d?.Rate, 2)}
+                                    {/* {NumberWithCommas(d?.RMwt * d?.Rate, 2)} */}
+                                    {NumberWithCommas(d?.RMwt * e?.primary_metal_rate, 2)}
                                   </p>
                                 ))
                               )}
@@ -1873,14 +2201,11 @@ console.log("TCL: result", result)
                       className={`d-flex justify-content-between align-items-start  border-end  `}
                       style={{ width: "66%" }}
                     >
-                      <div
-                        className={`${style?.wordsJewerryRetailInvoicePrint}p-2 d-flex align-items-center  `}
-                        style={{ height: "100%" }}
-                      >
+                      <div className={`${style?.wordsJewerryRetailInvoicePrint}p-2 d-flex align-items-end  `} style={{ height: "100%" }}>
 
                         <div className="p-2 pt-4">
                           <p>In Words</p>
-                          <p className="fw-bold" style={{whiteSpace:"normal",wordBreak:"normal",overflowWrap:"break-word"}}>
+                          <p className="fw-bold" style={{ whiteSpace: "normal", wordBreak: "normal", overflowWrap: "break-word" }}>
                             {toWords.convert(
                               +(
 
@@ -1909,18 +2234,18 @@ console.log("TCL: result", result)
                           className="col_r_2 p-1 border-start "
                           style={{ width: "44%", height: "100%" }}
                         >
-                          {/* {summary.map((e, i) => {
+                          {summary.map((e, i) => {
                             return (
                               <React.Fragment key={i}>
                                 {e?.value === 0 ? (
                                   ""
                                 ) : (
                                   <div
-                                    className="d-flex"
-
+                                    className="d-flex justify-content-between"
+                                    style={{ width: "100%" }}
                                     key={i}
                                   >
-                                    <p key={i} className="remark_fs fs_jti_Sale" style={{ minWidth: '50%' }}>
+                                    <p key={i} className="remark_fs fs_jti_Sale" >
                                       {e?.label}:{" "}
                                     </p>
                                     <p className="remark_fs fs_jti_Sale">
@@ -1930,53 +2255,8 @@ console.log("TCL: result", result)
                                 )}
                               </React.Fragment>
                             );
-                          })} */}
-                           
-                                <div className="d-flex">
-                            <p className="remark_fs fs_jti_Sale" style={{ minWidth: '50%' }}>
-                            GOLD IN 22KT
-                            </p>
-                            <p className="remark_fs fs_jti_Sale">
-                            {(
-                                      result?.mainTotal?.total_purenetwt -
-                                      notGoldMetalWtTotal
-                                    )?.toFixed(3)}{" "}
-                                    gm
-                            </p>
-                          </div>
-                         
-                          <div className="d-flex">
-                            <p className="remark_fs fs_jti_Sale" style={{ minWidth: '50%' }}>
-                              DIAMOND WT
-                            </p>
-                            <p className="remark_fs fs_jti_Sale">
-                               
-                              {result?.mainTotal?.diamonds?.Wt?.toFixed(
-                                3
-                              )}{" "}
-                              cts
-                            </p>
-                          </div>
-                          <div className="d-flex">
-                            <p className="remark_fs fs_jti_Sale" style={{ minWidth: '50%' }}>
-                              STONE WT
-                            </p>
-                            <p className="remark_fs fs_jti_Sale">
-                        
-                              {result?.mainTotal?.colorstone?.Wt?.toFixed(
-                                3
-                              )}{" "}
-                              cts
-                            </p>
-                          </div>
-                          <div className="d-flex">
-                            <p className="remark_fs fs_jti_Sale" style={{ minWidth: '50%' }}>
-                              GROSS WT
-                            </p>
-                            <p className="remark_fs fs_jti_Sale">
-                              {result?.mainTotal?.grosswt?.toFixed(3)} gm
-                            </p>
-                          </div>
+                          })}
+
                         </div>
                       }
                     </div>
@@ -2022,11 +2302,26 @@ console.log("TCL: result", result)
                             <p className="pb-1 px-1 text-end">
                               Total Amt after Tax
                             </p>
-                            <p className="pb-1 px-1 text-end">Old Gold</p>
+                            {/* <p className="pb-1 px-1 text-end">Old Gold</p> */}
+
+                            {oldgolddata.length > 0 && oldgolddata.map((e, i) => {
+                              return (
+                                <p className="pb-1 px-1 text-end" key={i}>
+                                  {"Old " + e?.MetalType} {e?.NetWt + " gm"}
+                                </p>
+                              );
+                            })}
 
 
                             <p className="pb-1 px-1 text-end">Recv. in Cash</p>
-                            {/* <p className="pb-1 px-1">Recv. in Bank</p> */}
+                            {bank.length > 0 &&
+                              bank.map((e, i) => {
+                                return (
+                                  <p className="pb-1 px-1 text-end" key={i}>
+                                    Recv. in Bank ({e?.label})
+                                  </p>
+                                );
+                              })}
                             <p className="pb-1 px-1 text-end">Advance</p>
                             <p className="pb-1 px-1 text-end">Net Bal. Amount</p>
                           </>
@@ -2057,7 +2352,7 @@ console.log("TCL: result", result)
                             >
                               <div className="pb-1 px-1 text-end">
                                 {" "}
-                                {NumberWithCommas(e?.amountInNumber)}{" "}
+                                {NumberWithCommas(e?.amountInNumber, 2)}{" "}
                               </div>
                             </div>
                           );
@@ -2073,10 +2368,10 @@ console.log("TCL: result", result)
                         )} {/** Add/Less */}
 
                         {
-                          result?.header?.FreightCharges  !== 0 &&
+                          result?.header?.FreightCharges !== 0 &&
                           <p className="pb-1 px-1 text-end">
                             {NumberWithCommas(
-                              result?.header?.FreightCharges,2
+                              result?.header?.FreightCharges, 2
                             )}
                           </p>
                         }
@@ -2101,9 +2396,16 @@ console.log("TCL: result", result)
                                 2
                               )}  {/** After Tax */}
                             </p>
-                            <p className="pb-1 px-1 text-end">
-                              {NumberWithCommas(result?.header?.OldGoldAmount, 2)} {/** Old Gold */}
-                            </p>
+                            {/* <p className="pb-1 px-1 text-end">
+                              {NumberWithCommas(result?.header?.OldGoldAmount, 2)}  
+                            </p> */}
+                            {oldgolddata.length > 0 && oldgolddata.map((e, i) => {
+                              return (
+                                <p className="pb-1 px-1 text-end" key={i}>
+                                  {NumberWithCommas(e?.TotalAmount, 2)}
+                                </p>
+                              );
+                            })}
                             <p className="pb-1 px-1 text-end">
                               {NumberWithCommas(result?.header?.CashReceived, 2)} {/** Amount That Receive In Cash */}
                             </p>
@@ -2125,13 +2427,7 @@ console.log("TCL: result", result)
 
                             <p className="pb-1 px-1 text-end">
                               {
-                                NumberWithCommas(result?.mainTotal?.total_amount /
-                                  result?.header?.CurrencyExchRate +
-                                  result?.allTaxesTotal +
-                                  result?.header?.FreightCharges /
-                                  result?.header?.CurrencyExchRate +
-                                  result?.header?.AddLess /
-                                  result?.header?.CurrencyExchRate, 2)
+                                NumberWithCommas(difference, 2)
                               } {/** Net Balance Amount */}
                             </p>
                           </>

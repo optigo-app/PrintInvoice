@@ -11,6 +11,8 @@ const RepairPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
   const [msg, setMsg] = useState("");
   const [evns, setEvns] = useState(atob(evn).toLowerCase());
+
+  
   const importComponent = async (printData, data) => {
     try {
       const module = await import(`../prints/eventWisePrints/${printData?.evname}`);
@@ -23,8 +25,11 @@ const RepairPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   const evnComponent = async (data) => {
     let module = await import(`../../GlobalFunctions/PrintImports`);
+    
     let conditions = module.alterationArray;
     let findPrint = conditions.find((e) => evns === e?.label);
+    
+    console.log("TCL: evnComponent -> ", findPrint)
     if (findPrint) {
       const component = await importComponent(findPrint, data);
       setImportedComponent(component);
@@ -67,7 +72,7 @@ const RepairPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     </>
   ) : (
     <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
-      {msg}
+      {msg} 
     </p>
   );
 };

@@ -734,6 +734,7 @@ const RetailInvoicePrintS = ({
                         <p className="pb-1 px-1 text-end">
                           Total Amt after Tax
                         </p>
+                        {/* {headerData?.OldGoldAmount === 0 ? "" : <p className="pb-1 px-1 text-end">Old Gold</p> } */}
                         {headerData?.OldGoldAmount === 0 ? "" : <p className="pb-1 px-1 text-end">Old Gold</p> }
                         {headerData?.CashReceived === 0 ? "" : <p className="pb-1 px-1 text-end">Recv. in Cash</p>}
                         {bank.length > 0 &&
@@ -793,9 +794,10 @@ const RetailInvoicePrintS = ({
                         </p>
                         {headerData?.OldGoldAmount === 0 ? "" : 
                           <p className="pb-1 px-1 text-end">
-                            {NumberWithCommas(headerData?.OldGoldAmount, 2)} {/** Old Gold */}
+                            {NumberWithCommas(headerData?.OldGoldAmount, 2)}  
                           </p>
                         }
+                        
                         {headerData?.CashReceived === 0 ? "" : 
                           <p className="pb-1 px-1 text-end">
                             {NumberWithCommas(headerData?.CashReceived, 2)} {/** Amount That Receive In Cash */}

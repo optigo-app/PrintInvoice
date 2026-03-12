@@ -10,7 +10,7 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     const [msg, setMsg] = useState("");
     const [loader, setLoader] = useState(true);
     const toWords = new ToWords();
-     
+     const [generalLedgerData, setGeneralLedgerData] = useState(null);
   useEffect(() => {
     const sendData = async () => {
       try {
@@ -31,6 +31,32 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     console.log(data?.Message);
                     setMsg(err);
         }
+
+          // Changing Only Last Name In First API's URL, As Told Per Mahesh Sir On 07/11/2025_4:00_PM
+          const firstApiUrl = urls;
+          const newUrl = firstApiUrl.replace('SaleBill_Json', 'BillOpeningClosingBalance_Json');
+          // console.log("newUrl", newUrl);
+          
+          const data2 = await apiCall(
+            token,
+            invoiceNo,
+            printName,
+            newUrl,
+            evn,
+            ApiVer
+          );
+  
+          if (data2?.Status === "200") {
+            const arr = data2?.Data?.BillOpeningClosingBalance_Json;
+            if (arr?.length > 0) {
+              setGeneralLedgerData(arr[0]);
+            } else {
+              console.log("Data Not Found for second API");
+            }
+          } else {
+            const err2 = checkMsg(data2?.Message);
+            console.log(err2);
+          }
       } catch (error) {
         console.error(error);
       }
@@ -284,7 +310,7 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className='w-25 p-1'>Balance Amount</div>
                                 <div className='w-25 p-1'></div>
                                 <div className='w-25 p-1'></div>
-                                <div className='w-25 p-1 end_ri'>{formatAmount(result?.header?.LedgerBal)}</div>
+                                <div className='w-25 p-1 end_ri'>{formatAmount(generalLedgerData?.BalAmt)}</div>
                             </div>
                             <div style={{marginTop:'8rem'}} className='p-1'>
                                 <div>For : {result?.header?.CompanyFullName}</div> 
@@ -315,6 +341,14 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div>NOTE:</div>
                         <div dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></div>
                     </div>
+                    <div className=' border border-black p-1 border-top-0 pbia note_ri'>
+                        <div> <b>TERMS INCLUDED:</b> 
+                        <span dangerouslySetInnerHTML={{__html:result?.header?.SalesRepPolicyTermsDescription}}></span>
+                        
+                        </div>
+                         
+                    </div>
+
                 </div> : <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
                 {msg}
               </p>

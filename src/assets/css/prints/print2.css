@@ -95,6 +95,7 @@ html {
     max-width: 180px;
     border: 1px solid black;
     margin: 5px;
+    margin-bottom: 10px;
 }
 
 .text_center_qp1 {
@@ -280,10 +281,58 @@ html {
 .MinHeightLast {
     min-height: 19.5px;
 }
+
+/* set bg img css */
+.print-wrapper{
+    position: relative;
+  }
+  
+  /* Background Layer */
+  .print-bg{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  /* Content */
+  .print-container_printq{
+    position: relative;
+    z-index: 2;
+    padding: 10px;
+  }
+  
+  /* Item Card */
+  .item-card{
+    break-inside: avoid;
+  }
+  
 @media print {
     /* .main_qp1{
         zoom: 100%;
       } */
+      .print-bg{
+        position: fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background-size: cover;
+        background-position:center;
+        background-repeat:no-repeat;
+    
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+       
+      
+    
     .print_btn_qp1 {
         display: none !important;
       }
@@ -331,6 +380,10 @@ html {
         display: flex;
         flex-wrap: wrap;
         /* page-break-after: always; */
+        -webkit-print-color-adjust: exact; /* Chrome/Safari */
+        print-color-adjust: exact;         /* Firefox/Edge */
+        /* min-height: 3508px; */
+
       }
 
        .block_print2q {

@@ -26,9 +26,10 @@ const AllDesignPrint = () => {
   let printName = atob(printname)?.toLowerCase();
   let etpType = atob(etp)?.toLowerCase();
   let evnname = atob(eventName).toLowerCase();
-
+ 
   const importComponent = async (name) => {
     console.log('name: ', name);
+    
     try {
       const module = await import(`./prints/${name}`);
       // const module = await import(`./SalesPrint/SalePrint1`);
@@ -45,6 +46,7 @@ const AllDesignPrint = () => {
       const SV = queryParams.get("SV");
       const fdate = queryParams.get("fdate");
       const tdate = queryParams.get("tdate");
+     
       return (
         <AnotherComponent
           billNumber={billNum}
@@ -68,11 +70,13 @@ const AllDesignPrint = () => {
   const takePrint = async () => {
     let module = await import(`../GlobalFunctions/PrintImports`);
     let conditions = [];
+   
     switch (etpType) {
       case "excel":
         conditions = module.excelConditions;
         break;
       case "print":
+  
         conditions = checkEvName(etpType, evnname, module);
         break;
       case "alteration":
@@ -81,11 +85,14 @@ const AllDesignPrint = () => {
       case "alteration receive":
         conditions = module.alterationReceiveConditions;
         break;
-      default:
-        break;
-    }
-
+        default:
+          break;
+        }
+        
+       
+ 
     let findPrint = conditions.find((e) => printName?.toLowerCase() === e?.printName?.toLowerCase());
+    
     if (findPrint) {
       const component = await importComponent(findPrint.componentName);
       setImportedComponent(component);
@@ -158,6 +165,7 @@ const AllDesignPrint = () => {
       'issue_to_manufacturer': module?.Issue_To_Manufacturer || [],
       'customer return': module?.CustomerReturn || [],
       'materialissue': module?.MaterialIssue || [],
+      'materialreturn': module?.MaterialReturn || [],
       'jewelleymemo': module?.JewelleyMemo || [],
       'memomaterialissue': module?.MemoMaterialIssue || [],
       'materialpurchasereturn': module?.MaterialPurchaseReturn || [],

@@ -14,6 +14,7 @@ const JewelleryTaxInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
     const [isImageWorking, setIsImageWorking] = useState(true);
     const [purityWise, setPurityWise] = useState([]);
     const [grossNetFlag, setGrossNetFlag] = useState(true);
+      const [generalLedgerData, setGeneralLedgerData] = useState(null);
     
       
       useEffect(() => {
@@ -41,6 +42,37 @@ const JewelleryTaxInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
               }
           };
           sendData();
+          const sendData2 = async () => {
+            const firstApiUrl = urls;
+        const newUrl = firstApiUrl.replace('SaleBill_Json', 'BillOpeningClosingBalance_Json');
+              try {
+                const data2 = await apiCall(
+                    token,
+                    invoiceNo,
+                    printName,
+                    newUrl,
+                    evn,
+                    ApiVer
+                  );
+          
+                  if (data2?.Status === "200") {
+                    const arr = data2?.Data?.BillOpeningClosingBalance_Json;
+                    
+                    console.log("TCL:data2?.Data?.BillOpeningClosingBalance_Json ", data2 )
+                    if (arr?.length > 0) {
+                      setGeneralLedgerData(arr[0]);
+                    } else {
+                      console.log("Data Not Found for second API");
+                    }
+                  } else {
+                    const err2 = checkMsg(data2?.Message);
+                    console.log(err2);
+                  }
+              } catch (error) {
+                  console.error(error);
+              }
+          };
+          sendData2();
       // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
   
@@ -377,14 +409,14 @@ const JewelleryTaxInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                     <div className='brall_jts d-flex pbia_jts brall_jti2 mt-1 fs_jti2 pbia_jti2'>
                         <div className='w33_jts p-1 fs_jts brr_jti2 text-break'>
                         <div className='fw-bold'>Payment Details</div>
-                        <div>
+                        {/* <div>
                             {
                                 result?.header?.mainarr?.map((e, i) => {
                                     return <div key={i}>{e?.name}({e?.docno}) : <span className='fw-bold'>{formatAmount(e?.amount)}</span></div>
                                 })
                             }
-                        </div>
-                        <div>Balance : <span className='fw-bold'>{formatAmount(result?.header?.LedgerBal)}</span></div>
+                        </div> */}
+                        <div>Balance : <span className='fw-bold'>{formatAmount(generalLedgerData?.BalAmt,2)}</span></div>
                         <div className='fw-bold text-decoration-underline'>REMARKS:</div><div dangerouslySetInnerHTML={{__html:result?.header?.PrintRemark}}></div>
                         </div>
                         <div className='w33_jts p-1 fs_jts brr_jti2 text-break'>

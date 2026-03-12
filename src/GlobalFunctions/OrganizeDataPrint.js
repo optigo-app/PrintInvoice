@@ -562,6 +562,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1, json3_1, invoiceNo,
   //alltax
   allTax?.length > 0 &&
     allTax?.forEach((e) => {
+      
       const [dollars, cents] = (((e?.amount)))?.split(".");
       const dollarsInWords = numberToWords.toWords(parseInt(dollars));
       const centsInWords = cents

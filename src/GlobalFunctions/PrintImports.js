@@ -1,4 +1,9 @@
 
+//pname Y3VzdG9tZXIgcmVjZWl2ZQ== , evenm Q3VzdG9tZXJfUmVjZWl2ZQ== ,
+export const Customer_Receive = [
+  {printName: 'customer receive', etpType: 'print', componentName: 'CustomerReceive'},
+];
+
 export const printConditions = [
   {printName: 'bill sticker', etpType: 'print', componentName: 'BillSticker'},
   {printName: 'customer daily statement', etpType: 'print', componentName: 'CustomerDailyStatement'},
@@ -104,7 +109,7 @@ export const printConditions = [
   {printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group'},
   {printName: 'packing list 7group s', etpType: 'print', componentName: 'PackingList7GroupS'},
   {printName: 'packing list 7d group', etpType: 'print', componentName: 'PackingList7DGroup'},
-  {printName: 'repair print', etpType: 'print', componentName: 'RepairPrint'},
+  {printName: 'repair print', etpType: 'print', componentName: 'RepairPrintSale'},
   {printName: 'retail invoice', etpType: 'print', componentName: 'RetailInvoice'},
   {printName: 'retail invoice 2', etpType: 'print', componentName: 'RetailInvoice2_3'},
   {printName: 'retail invoice 3', etpType: 'print', componentName: 'RetailInvoice2_3'},
@@ -161,6 +166,7 @@ export const printConditions = [
   {printName: 'material sale print', etpType: 'print', componentName: 'MaterialSalePrint'},
   {printName: 'estimate print k', etpType: 'print', componentName: 'EstimatePrintK'},
   {printName: 'estimate 1', etpType: 'print', componentName: 'Estimation1'},
+ 
 ];
 
 export const SaleReturn = [
@@ -189,7 +195,7 @@ export const SaleReturn = [
   {printName: 'detail print s', etpType: 'print', componentName: 'DetailPrintS'},
   {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
   {printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group'},
-  {printName: 'repair print', etpType: 'print', componentName: 'RepairPrint'},
+  {printName: 'Repair Print', etpType: 'print', componentName: 'RepairPrintSale'},
   {printName: 'retail print 2', etpType: 'print', componentName: 'RetailPrint2'},
   {printName: 'retail print 3', etpType: 'print', componentName: 'RetailPrint3'},
   {printName: 'retail print', etpType: 'print', componentName: 'RetailPrint'},
@@ -454,19 +460,21 @@ export const fgPurchase = [
   {printName: 'packing list 7 d group', etpType: 'print', componentName: 'PackingList7DGroup'}, 
 ];
 
-export const fgPurchaseReturn = [
-  {printName: 'summary 2', etpType: 'print', componentName: 'Summary2'},
-  {printName: 'retail print', etpType: 'print', componentName: 'RetailPrint'},
-  {printName: 'jewellery invoice 2', etpType: 'print', componentName: 'JewelleryInvoice2'},
-  {printName: 'item wise print', etpType: 'print', componentName: 'ItemWisePrint'},
-  {printName: 'item wise print1', etpType: 'print', componentName: 'ItemWisePrint'},
-  {printName: 'item wise print2', etpType: 'print', componentName: 'ItemWisePrint'},
-  {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrint'},
-];
+// export const fgPurchaseReturn = [
+//   {printName: 'summary 2', etpType: 'print', componentName: 'Summary2'},
+//   {printName: 'retail print', etpType: 'print', componentName: 'RetailPrint'},
+//   {printName: 'jewellery invoice 2', etpType: 'print', componentName: 'JewelleryInvoice2'},
+//   {printName: 'item wise print', etpType: 'print', componentName: 'ItemWisePrint'},
+//   {printName: 'item wise print1', etpType: 'print', componentName: 'ItemWisePrint'},
+//   {printName: 'item wise print2', etpType: 'print', componentName: 'ItemWisePrint'},
+//   {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrint'},
+// ];
 
 export const Issue_To_Manufacturer = [
   {printName: 'shipmenttag', etpType: 'print', componentName: 'ShipmentTagOptigo'},
 ];
+
+
 
 export const CustomerReturn = [
   {printName: 'shipmenttag', etpType: 'print', componentName: 'ShipmentTagOptigo'},
@@ -474,6 +482,7 @@ export const CustomerReturn = [
 
 export const MaterialIssue = [
   {printName: 'shipmenttag', etpType: 'print', componentName: 'ShipmentTagOptigo'},
+  {printName: 'Print', etpType: 'print', componentName: 'MaterialIssuePrint'},  // amish
 ];
 
 export const JewelleyMemo = [
@@ -482,6 +491,10 @@ export const JewelleyMemo = [
 
 export const MemoMaterialIssue = [
   {printName: 'shipmenttag', etpType: 'print', componentName: 'ShipmentTagOptigo'},
+];
+
+export const MaterialReturn = [
+  {printName: 'Print', etpType: 'print', componentName: 'MaterialReturnPrint'},
 ];
 
 export const MaterialPurchaseReturn = [

@@ -543,28 +543,32 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 {jsonData1?.customerAddress2}
               </p>
               <p className="line_height_110 ft_12_retailPrint">
-                {jsonData1?.customercity}
+                {jsonData1?.customercity1}
                 {jsonData1?.customerpincode}
               </p>
               <p className="line_height_110 ft_12_retailPrint">
                 {jsonData1?.customeremail1}
               </p>
               <p className="line_height_110 ft_12_retailPrint">
-                {jsonData1?.vat_cst_pan}
+               
+                 GSTIN-{jsonData1?.Cust_VAT_GST_No} | {jsonData1?.vat_cst_pan}
+              </p>
+              <p className="line_height_110 ft_12_retailPrint">
+                Aadhaar-{jsonData1?.aadharno}
               </p>
               <p className="line_height_110 ft_12_retailPrint">
                 {jsonData1?.Cust_CST_STATE}-{jsonData1?.Cust_CST_STATE_No}
               </p>
+              
             </div>
             <div className="col-4 p-1 border-end">
               <p className="line_height_110 ft_12_retailPrint">Ship To, </p>
               <p className="fw-bold">{jsonData1?.customerfirmname}</p>
-              <p className="line_height_110 ft_12_retailPrint">
+              {/* <p className="line_height_110 ft_12_retailPrint">
                 {jsonData1?.CustName}
-              </p>
-
-              {/* <p className=''>{jsonData1?.customerAddress2}</p> */}
-              <p className="line_height_110 ft_12_retailPrint">
+              </p> */}
+ 
+              {/* <p className="line_height_110 ft_12_retailPrint">
                 {jsonData1?.customercity}, {jsonData1?.State}
               </p>
               <p className="line_height_110 ft_12_retailPrint">
@@ -573,7 +577,11 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               </p>
               <p className="line_height_110 ft_12_retailPrint">
                 Mobile No. : {jsonData1?.customermobileno1}
-              </p>
+              </p> */}
+              
+              <div style={{ whiteSpace: "pre-line",lineHeight:"110%" }}>
+              {jsonData1?.Printlable}
+</div>
             </div>
             <div
               className="col-4 p-1 position-relative"
@@ -665,6 +673,8 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
           {/* data */}
           {dataFill.map((e, i) => {
+            
+            console.log("TCL: e", e)
             return (
               <>
                 {" "}
@@ -1102,7 +1112,13 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           {/* grand total */}
           <div className="d-flex border-start border-end border-bottom no_break">
             {/* <div className="totalInWordsRetailPrint p-1 d-flex flex-column align-items-start justify-content-end p-1 border-end"> */}
-            <div className="col-8 p-1 d-flex flex-column align-items-start justify-content-end p-1 border-end">
+
+            
+            <div className="col-8 p-1 d-flex flex-column align-items-start justify-content-between p-1 border-end">
+              <div>
+                <p>Fine Wt: <span className="fw-bold">{NumberWithCommas(finalD?.mainTotal?.convertednetwt, 3)+" gm"}</span></p>
+              </div>
+              <div>
               <p className="ft_12_retailPrint">
                 In Words {jsonData1?.Currencyname}
               </p>
@@ -1125,8 +1141,9 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       jsonData1?.AddLess / jsonData1?.CurrencyExchRate,
                     2
                   )
-                )}{" "}
+                )}{" Only"}
               </p>
+              </div>
             </div>
             {/* <div className="cgstRetailPrint p-1 text-end p-1 border-end"> */}
             <div className="col-2 py-1 text-end border-end ft_12_retailPrint">

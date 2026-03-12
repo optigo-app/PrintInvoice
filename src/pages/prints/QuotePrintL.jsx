@@ -177,6 +177,8 @@ const QuotePrintL = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     },0)
     
   }
+  
+  console.log("TCL: result ", result)
 
   return (
     <>
@@ -259,8 +261,8 @@ const QuotePrintL = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       {result?.header?.customercity1}-{result?.header?.PinCode}
                     </div>
                     <div className="px-1">{result?.header?.customeremail1}</div>
-                    <div className="px-1"> GSTIN - {result?.header?.vat_cst_pan}</div>
-                    <div className="px-1"> {result?.header?.Cust_CST_STATE} - {result?.header?.Cust_CST_STATE_No} </div>
+                    <div className="px-1"> {result?.header?.vat_cst_pan.length !=0 ? "GSTIN - "+result?.header?.vat_cst_pan : ""}</div>
+                    <div className="px-1"> {  result?.header?.Cust_CST_STATE_No.length !=0 ?  result?.header?.Cust_CST_STATE +"-"+ result?.header?.Cust_CST_STATE_No : ""} </div>
                   </div>
                   <div className="subdiv2dp10 border-end fsgdp10">
                     {/* <div className="px-1">Ship To,</div> */}
@@ -769,7 +771,8 @@ const QuotePrintL = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                             <div className="d-flex justify-content-between px-1 fsg2dp10">
                               <div className="w-50 fw-bold fsg2dp10">NET WT</div>
-                              <div className="w-50 end_dp10 pe-1"> {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)} gm </div>
+                              <div className="w-50 end_dp10 pe-1"> {result?.mainTotal?.netwt?.toFixed(3)} gm </div>
+                              {/* <div className="w-50 end_dp10 pe-1"> {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)} gm </div> */}
                             </div>
                             <div className="d-flex justify-content-between px-1 fsg2dp10">
                               <div className="w-50 fw-bold fsg2dp10">DIAMOND WT</div>

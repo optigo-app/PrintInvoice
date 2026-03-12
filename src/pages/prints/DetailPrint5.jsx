@@ -651,7 +651,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         {data.map((e, i) => {
           {/* For Discount Criteria */ }
 
-          console.log("TCL: discountCriteria", discountCriteria)
+          
           // const activeDiscounts = discountCriteria
           //   .filter(({ key }) => e?.[key] > 0)
           //   .map(({ label }) => label)
