@@ -710,14 +710,18 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {result?.header?.EntryDate}
                       </span>
                     </div>
-                    <div className="fsgdp7 lhdp7 d-flex justify-content-between">
-                      <span className="w-50 fw-bold">
-                        {result?.header?.HSN_No_Label}
-                      </span>
-                      <span className="w-50 d-flex justify-content-start">
-                        {result?.header?.HSN_No}
-                      </span>
-                    </div>
+
+                    {result?.header?.HSN_No &&(
+                        <div className="fsgdp7 lhdp7 d-flex justify-content-between">
+                        <span className="w-50 fw-bold">
+                          {result?.header?.HSN_No_Label}
+                        </span>
+                        <span className="w-50 d-flex justify-content-start">
+                          {result?.header?.HSN_No}
+                        </span>
+                      </div>
+                    )}
+                    
                     <div className="fsgdp7 lhdp7 d-flex justify-content-between">
                       <span className="w-50 fw-bold">Delivery Mode</span>
                       <span className="w-50 d-flex justify-content-start">
@@ -730,7 +734,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {result?.header?.SalPerName?.split(" ")[0]}
                       </span>
                     </div>
-                    <div>
+                    {/* <div>
                       <div className="d-flex">
                         <div className="fw-bold w-50">Due Date :</div>
                         <div className="w-50">{result?.header?.DueDate}</div>
@@ -739,7 +743,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="fw-bold w-50">Terms :</div>
                         <div className="w-50">{result?.header?.DueDays}</div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
 

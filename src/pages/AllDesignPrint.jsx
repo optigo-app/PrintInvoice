@@ -46,6 +46,7 @@ const AllDesignPrint = () => {
       const SV = queryParams.get("SV");
       const fdate = queryParams.get("fdate");
       const tdate = queryParams.get("tdate");
+ 
      
       return (
         <AnotherComponent
@@ -78,6 +79,7 @@ const AllDesignPrint = () => {
       case "print":
   
         conditions = checkEvName(etpType, evnname, module);
+    
         break;
       case "alteration":
         conditions = module.alterationConditions;
@@ -93,8 +95,10 @@ const AllDesignPrint = () => {
  
     let findPrint = conditions.find((e) => printName?.toLowerCase() === e?.printName?.toLowerCase());
     
+ 
     if (findPrint) {
       const component = await importComponent(findPrint.componentName);
+     
       setImportedComponent(component);
     }
   };

@@ -110,6 +110,9 @@ const SummaryPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       setResult(datas);
     }
 
+    
+    console.log("TCL: SummaryPrint -> ", result)
+
     return (
     <>
     {
@@ -245,24 +248,26 @@ const SummaryPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <tbody className='w-100'>
                  {
                   brandNameData?.map((e, i) => {
+                    
+                    console.log("TCL: SummaryPrint -> eeeeeeeee", e)
                     return <tr className='d-flex border border-black border-top-0    w-100' key={i}>
-                    <td className='col1h_ps border-black border-end center_sp'>Category</td>
-                    <td className='col2h_ps border-black border-end end_sp pe-1'>Pcs</td>
-                    <td className='col3h_ps border-black border-end end_sp pe-1'>LB</td>
+                    <td className='col1h_ps border-black border-end center_sp'>{e?.BrandName}</td>
+                    <td className='col2h_ps border-black border-end end_sp pe-1'>{e?.BulkPurchaseQTY}</td>
+                    <td className='col3h_ps border-black border-end end_sp pe-1'></td>
                     <td className='col4h_ps border-black border-end end_sp pe-1 text-break'></td>
-                    <td className='col5h_ps border-black border-end center_sp'>Per</td>
-                    <td className='col6h_ps border-black border-end center_sp'>TAX(%)</td>
-                    <td className='col7h_ps border-black border-end end_sp pe-1'>Gross</td>
+                    <td className='col5h_ps border-black border-end center_sp'></td>
+                    <td className='col6h_ps border-black border-end center_sp'>{result?.header?.SGST &&"SGST @" + result?.header?.SGST+"%"} {result?.header?.CGST &&"CGST @" + result?.header?.CGST+"%"}</td>
+                    <td className='col7h_ps border-black border-end end_sp pe-1'>{e?.grosswt}</td>
                     <td className='col8h_ps border-black border-end end_sp pe-1'>Black Beads</td>
-                    <td className='col9h_ps border-black border-end end_sp pe-1'>Stone</td>
+                    <td className='col9h_ps border-black border-end end_sp pe-1'>{formatAmount(e?.totals?.colorstone?.Amount,2)}</td>
                     <td className='col10h_ps border-black border-end end_sp pe-1'>Kundan</td>
                     <td className='col11h_ps border-black border-end end_sp pe-1'>{e?.NetWt?.toFixed(3)}</td>
-                    <td className='col12h_ps border-black border-end end_sp pe-1'>Final Wt</td>
-                    <td className='col13h_ps border-black border-end end_sp pe-1'>%</td>
-                    <td className='col14h_ps border-black border-end end_sp pe-1'>Wastage</td>
+                    <td className='col12h_ps border-black border-end end_sp pe-1'>{result?.mainTotal?.grosswt.toFixed(3)}</td>
+                    <td className='col13h_ps border-black border-end end_sp pe-1'>{e?.MetalPriceRatio?.toFixed(2)}</td>
+                    <td className='col14h_ps border-black border-end end_sp pe-1'>{e?.Wastage?.toFixed(2)}</td>
                     <td className='col15h_ps p-0'>
                       <tr className='w-100 h-100 d-flex'>
-                        <td className='w-50 end_sp pe-1 border-black border-end'>Fine</td>
+                        <td className='w-50 end_sp pe-1 border-black border-end'>{e?.convertednetwt?.toFixed(2)}</td>
                         <td className='w-50 d-flex align-items-center justify-content-end pe-1'>{formatAmount(e?.TotalAmount)}</td>
                       </tr>
                     </td>
@@ -272,21 +277,21 @@ const SummaryPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                  <tr className='d-flex border border-black border-top-0  fw-bold bg_sp w-100' >
                     <th className='col1h_ps border-black border-end center_sp'>TOTAL</th>
                     <th className='col2h_ps border-black border-end d-flex align-items-center justify-content-end pe-1'>{mainTotal?.Quantity}</th>
-                    <th className='col3h_ps border-black border-end end_sp pe-1'>LB</th>
+                    <th className='col3h_ps border-black border-end end_sp pe-1'></th>
                     <th className='col4h_ps border-black border-end center_sp ps-2 text-break'></th>
-                    <th className='col5h_ps border-black border-end center_sp'>Per</th>
-                    <th className='col6h_ps border-black border-end center_sp'>TAX(%)</th>
+                    <th className='col5h_ps border-black border-end center_sp'></th>
+                    <th className='col6h_ps border-black border-end center_sp'></th>
                     <th className='col7h_ps border-black border-end end_sp pe-1'>{result?.mainTotal?.grosswt?.toFixed(3)}</th>
                     <th className='col8h_ps border-black border-end end_sp pe-1'></th>
-                    <th className='col9h_ps border-black border-end end_sp pe-1'>Stone</th>
+                    <th className='col9h_ps border-black border-end end_sp pe-1'> </th>
                     <th className='col10h_ps border-black border-end end_sp pe-1'>Kundan</th>
                     <th className='col11h_ps border-black border-end end_sp pe-1'>{mainTotal?.NetWt?.toFixed(3)}</th>
-                    <th className='col12h_ps border-black border-end end_sp pe-1'>Final Wt</th>
-                    <th className='col13h_ps border-black border-end end_sp pe-1'>%</th>
-                    <th className='col14h_ps border-black border-end end_sp pe-1'>Wastage</th>
+                    <th className='col12h_ps border-black border-end end_sp pe-1'>{result?.mainTotal?.grosswt.toFixed(3)}</th>
+                    <th className='col13h_ps border-black border-end end_sp pe-1'></th>
+                    <th className='col14h_ps border-black border-end end_sp pe-1'>{result?.mainTotal?.total_Wastage?.toFixed(2)}</th>
                     <th className='col15h_ps p-0'>
                       <tr className='w-100 h-100 d-flex'>
-                        <th className='w-50 end_sp pe-1 border-black border-end'>Fine</th>
+                        <th className='w-50 end_sp pe-1 border-black border-end'> {result?.mainTotal?.convertednetwt?.toFixed(2)}</th>
                         <th className='w-50 d-flex align-items-center justify-content-end pe-1'>{formatAmount(result?.mainTotal?.total_amount)}</th>
                       </tr>
                     </th>

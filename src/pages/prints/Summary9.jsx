@@ -298,7 +298,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             {/* {checkBox?.header && header} */}
             {checkBox?.header && <>  {headerData?.PrintHeadLabel !== "" && <div className={`${style1.headline} headerTitle target_header`}>{headerData?.PrintHeadLabel}</div>}
                 <div className={`${style1.companyDetails} target_header ${style?.font_13_5}`}>
-                    <div className={`${style1.companyhead} p-2`}>
+                    <div className={`${style1.companyhead} p-2`} style={{lineHeight:"1"}}>
                         <div className={`${style1.lines} ${style?.font_20}`} style={{ fontWeight: "bold" }}>
                             {headerData?.CompanyFullName}
                         </div>

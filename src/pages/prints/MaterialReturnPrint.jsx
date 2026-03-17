@@ -245,10 +245,42 @@ function MaterialReturnPrint({ token, invoiceNo, printName, urls, evn, ApiVer })
     return acc;
   }, { totalWeight: 0, totalPureWeight: 0, totalAmount: 0 });
 
+  const customOrder = [3,4,5,1,2,7];
 
+  const MergeData = Object.values(
+    groupedData.reduce((acc, item) => {
+      const id = item.ItemId;
+  
+      if (!acc[id]) {
+        acc[id] = {
+          ItemId: id,
+          ItemName: item.ItemName,
+          items: [],
+          total: {
+            totalpcs: 0,
+            totalCtw: 0,
+            totalAmount: 0,
+            totalPureWt: 0
+          }
+        };
+      }
+  
+      acc[id].items.push(item);
+  
+      acc[id].total.totalpcs += item.pieces || 0;
+      acc[id].total.totalCtw += item.Weight || 0;
+      acc[id].total.totalPureWt += item.PureWeight || 0;
+      acc[id].total.totalAmount += item.Amount || 0;
+  
+      return acc;
+    }, {})
+  ).sort((a, b) => customOrder.indexOf(a.ItemId) - customOrder.indexOf(b.ItemId));
+  
+  console.log(MergeData);
 
+ 
 
-
+ 
 
 
   const containerStyle = {
@@ -312,7 +344,7 @@ function MaterialReturnPrint({ token, invoiceNo, printName, urls, evn, ApiVer })
                   {/* Company + Logo */}
                   <div className="disflx justify-content-between" style={{ marginBottom: "10px", display: "flex", justifyContent: "space-between" }}>
                     <div className="spfnthead" style={{ paddingLeft: "5px" }}>
-                      {json0Data?.CompanyFullName !== "" && (<div className="spfntBld" style={{ fontSize: "15px" }}>{json0Data?.CompanyFullName}</div>)}
+                      {json0Data?.companyname !== "" && (<div className="spfntBld" style={{ fontSize: "15px",fontWeight:"bold" }}>{json0Data?.companyname}</div>)}
                       {json0Data?.CompanyAddress !== "" && (<div className="">{json0Data?.CompanyAddress}</div>)}
                       <div className="">{json0Data?.CompanyAddress2}</div>
                       <div className="">{json0Data?.CompanyCity} {json0Data?.CompanyCity && json0Data?.CompanyPinCode !== "" && ("-")} {json0Data?.CompanyPinCode !== "" && (`${json0Data?.CompanyPinCode},`)} {json0Data?.CompanyState}{json0Data?.CompanyCountry !== "" && (`(${json0Data?.CompanyCountry})`)}</div>
@@ -376,62 +408,135 @@ function MaterialReturnPrint({ token, invoiceNo, printName, urls, evn, ApiVer })
                     </div>
                   </div>
         
-                  {/* Metal Table */}
-                  <div id="divJobData" style={{ marginTop: "15px" }}>
-                    <div
-                      style={{
-                        border: "1px solid #C2C2C2",
-                        width: "100%"
-                      }}
-                    >
-                      {/* Header */}
-                      <div
-                        style={{
-                          padding: "10px",
-                          fontWeight: "bold",
-                          borderBottom: "1px solid #C2C2C2"
-                        }}
-                      >
-                        Metal
-                      </div>
-        
-                      {/* Column Header */}
-                      <div
-                        style={{
-                          display: "flex",
-                          backgroundColor: "#DFDFDF",
-                          fontWeight: "bold"
-                        }}
-                      >
-                        <div style={{ ...printtableTD, width: "17%" }}>Item</div>
-                        <div style={{ ...printtableTD, width: "17%" }}>Type</div>
-                        <div style={{ ...printtableTD, width: "16%" }}>Color</div>
-                        <div style={{ ...printtableTD, width: "17%" }}>HSN#</div>
-                        <div style={{ ...printtableTD, width: "16%", }}>Gm.</div>
-                        <div style={{ ...printtableTD, width: "17%", borderRight: "0px" }}>Amt.</div>
-                      </div>
-        
-                      {/* Data Row */}
-                      {finalD?.length > 0 && finalD.map((item, index) => (
-                        <div style={{ display: "flex" }}>
-                          <div style={{ ...printtableTD, width: "17%" }}>{item?.shape}</div>
-                          <div style={{ ...printtableTD, width: "17%" }}>{item?.purity}</div>
-                          <div style={{ ...printtableTD, width: "16%" }}>{item?.color}</div>
-                          <div style={{ ...printtableTD, width: "17%" }}>{item?.HSN_No}</div>
-                          <div style={{ ...printtableTD, width: "16%", textAlign: "right" }}>{item?.Weight.toFixed(3)}</div>
-                          <div style={{ ...printtableTD, width: "17%", textAlign: "right", borderRight: "0px" }}>{item?.Amount.toFixed(2)}</div>
-                        </div>
-                      ))}
-        
-        
-                      {/* Total */}
-                      <div style={{ display: "flex", fontWeight: "bold" }}>
-                        <div style={{ ...printtableTD, width: "67%", borderBottom: "0px" }}>Total</div>
-                        <div style={{ ...printtableTD, width: "16%", textAlign: "right", borderBottom: "0px" }}>{totals.totalWeight.toFixed(3)}</div>
-                        <div style={{ ...printtableTD, width: "17%", textAlign: "right", borderBottom: "0px", borderRight: "0px" }}>{totals.totalAmount.toFixed(2)}</div>
-                      </div>
-                    </div>
-                  </div>
+                   
+
+                  
+                  {MergeData?.length > 0 && MergeData.map((e, index) => (
+                                <div key={index} style={{ width: "100%", border: "1px solid #C2C2C2", borderCollapse: "collapse", marginTop: "15px" }}>
+
+                                    {/* Header Title */}
+                                    <div style={{ padding: "10px", fontWeight: "bold", borderBottom: "1px solid #C2C2C2", fontSize: "20px", color: "#6F6F6F" }}>
+                                        {e.ItemName
+                                            ?.toLowerCase()
+                                            .split(" ")
+                                            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                                            .join(" ")
+                                        }
+                                    </div>
+
+                                    {/* Column Header */}
+                                    {(e.ItemId === 1 || e.ItemId === 2) ? (
+                                        <div style={{ display: "flex", background: "#DFDFDF", fontWeight: "bold", borderBottom: "1px solid #C2C2C2" }}>
+                                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>PO#</div>
+                                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>Job/Design#</div>
+                                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>Item</div>
+                                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>Type/Purity</div>
+                                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>Color</div>
+                                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>HSN#</div>
+                                            <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right" }}>Gm.</div>
+                                            <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right" }}>Pure Wt.</div>
+                                            <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right", borderRight: "0px" }}>Amt.</div>
+                                        </div>
+                                    ) : (
+                                        <div style={{ display: "flex", background: "#DFDFDF", fontWeight: "bold", borderBottom: "1px solid #C2C2C2" }}>
+                                            <div style={{ ...printtableTD, width: "9%", padding: "5px" }}>PO#</div>
+                                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>Job/Design#</div>
+                                            <div style={{ ...printtableTD, width: "10%", padding: "5px" }}> {e.ItemId == 5 ? "Item" : "Type"}</div>
+                                            <div style={{ ...printtableTD, width: e.ItemId == 5 ? "11%" : "10%", padding: "5px" }}>{e.ItemId == 5 ? "Type/Purity" : "Shape"}</div>
+                                            <div style={{ ...printtableTD, width: "10%", padding: "5px" }}>{e.ItemId == 5 ? "F.Type" : "Quality"}</div>
+                                            <div style={{ ...printtableTD, width: "10%", padding: "5px" }}> {e.ItemId == 5 ? "Accessories" : "Color"} </div>
+                                            <div style={{ ...printtableTD, width: "10%", padding: "5px" }}>{e.ItemId == 5 ? "Color" : "Size"}Size</div>
+                                            <div style={{ ...printtableTD, width: "10%", padding: "5px" }}>HSN#</div>
+                                            <div style={{ ...printtableTD, width: "10%", padding: "5px", textAlign: "right" }}>{e.ItemId == 5 ? "Gm." : "Pcs"}</div>
+                                            <div style={{ ...printtableTD, width: "10%", padding: "5px", textAlign: "right" }}>{e.ItemId == 5 ? "Pure Wt" : e.ItemId === 3 || e.ItemId === 4 ? "Ctw" : "Wt"}</div>
+                                            <div style={{ ...printtableTD, width: "10%", padding: "5px", textAlign: "right", borderRight: "0px" }}>Amt.</div>
+                                        </div>
+                                    )}
+
+                                    {/* Items */}
+                                    {e.items?.length > 0 && e.items.map((item, idx) => (
+                                        (e.ItemId === 1 || e.ItemId === 2) ? (
+                                            <div key={idx} style={{ display: "flex", borderBottom: "1px solid #C2C2C2" }}>
+                                                <div style={{ ...printtableTD, width: "11%", padding: "5px",borderBottom:"0px" }}> </div>
+                                                <div style={{ ...printtableTD, width: "11%", padding: "5px",borderBottom:"0px" }}> </div>
+                                                <div style={{ ...printtableTD, width: "11%", padding: "5px" ,borderBottom:"0px" }}>{item?.shape}</div>
+                                                <div style={{ ...printtableTD, width: "11%", padding: "5px" ,borderBottom:"0px" }}>{item?.purity}/{item?.Tunch}</div>
+                                                <div style={{ ...printtableTD, width: "11%", padding: "5px" ,borderBottom:"0px" }}>{item?.color}</div>
+                                                <div style={{ ...printtableTD, width: "11%", padding: "5px" ,borderBottom:"0px" }}>{item?.HSN_No}</div>
+                                                <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right" ,borderBottom:"0px" }}>{item?.Weight.toFixed(3)}</div>
+                                                <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right" ,borderBottom:"0px" }}>{item?.PureWeight.toFixed(3)}</div>
+                                                <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right", borderRight: "0px" ,borderBottom:"0px" }}>{item?.Amount.toFixed(2)}</div>
+                                            </div>
+                                        ) : (
+                                            <div key={idx} style={{ display: "flex", borderBottom: "1px solid #C2C2C2" }}>
+                                                <div style={{ ...printtableTD, width: "9%", padding: "5px" ,borderBottom:"0px" }}> </div>
+                                                <div style={{ ...printtableTD, width: "11%", padding: "5px" ,borderBottom:"0px" }}> </div>
+                                                <div style={{ ...printtableTD, width: "10%", padding: "5px" ,borderBottom:"0px" }}>{e.ItemId == 5 ? item?.shape : ""} </div>
+                                                <div style={{ ...printtableTD, width: "10%", padding: "5px" ,borderBottom:"0px" }}>{e.ItemId == 5 ? item?.purity + "/" + item?.Tunch : item?.shape}</div>
+                                                <div style={{ ...printtableTD, width: "10%", padding: "5px" ,borderBottom:"0px" }}>{e.ItemId == 5 ? item?.FindingType : item?.purity}   </div>
+                                                <div style={{ ...printtableTD, width: "10%", padding: "5px" ,borderBottom:"0px" }}>{e.ItemId == 5 ? item?.FindingAccessories : item?.color}</div>
+                                                <div style={{ ...printtableTD, width: "10%", padding: "5px" ,borderBottom:"0px" }}>   {e.ItemId == 5 ? item?.color : item?.size}  </div>
+                                                <div style={{ ...printtableTD, width: "10%", padding: "5px" ,borderBottom:"0px" }}>{item?.HSN_No}</div>
+                                                <div style={{ ...printtableTD, width: "10%", padding: "5px", textAlign: "right" ,borderBottom:"0px" }}>{e.ItemId == 5 ? item?.Weight.toFixed(3) : item?.pieces}  </div>
+                                                <div style={{ ...printtableTD, width: "10%", padding: "5px", textAlign: "right" ,borderBottom:"0px" }}> {e.ItemId == 5 ? item?.PureWeight : item?.Weight.toFixed(3)}  { }</div>
+                                                <div style={{ ...printtableTD, width: "10%", padding: "5px", textAlign: "right", borderRight: "0px" ,borderBottom:"0px" }}>{item?.Amount.toFixed(2)}</div>
+                                            </div>
+                                        )
+                                    ))}
+
+                                    {/* Total Row */}
+                                    {/* <div style={{ display: "flex", fontWeight: "bold" }}>
+                                        <div style={{ ...printtableTD, width: e.ItemId !== 1 ? "90%" : "66%", padding: "5px" }}>Total</div>
+                                        <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right" }}>{e.ItemId !== 1  ? e.total.totalpcs : e.total.totalCtw.toFixed(3)}</div>
+                                        <div style={{ ...printtableTD, width: e.ItemId !== 1 ? "10.9%" : "11%", padding: "5px", textAlign: "right" }}>{e.ItemId !== 1   ? e.total.totalCtw.toFixed(3) : e.total.totalPureWt.toFixed(3)}</div>
+                                        <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right", borderRight: "0px" }}>{e.total.totalAmount.toFixed(2)}</div>
+                                    </div> */}
+                                    {/* Total Row */}
+                                    <div style={{ display: "flex", fontWeight: "bold" }}>
+                                        <div style={{
+                                            ...printtableTD,
+                                            width: [1, 2].includes(e.ItemId) ? "66%" : "90.5%",
+                                            padding: "5px",
+                                            borderBottom:"0px"
+                                        }}>
+                                            Total
+                                        </div>
+
+                                        <div style={{
+                                            ...printtableTD,
+                                            width: "11%",
+                                            padding: "5px",
+                                            textAlign: "right",
+                                             borderBottom:"0px"
+                                        }}>
+                                            {[1, 2, 5].includes(e.ItemId) ? e.total.totalCtw.toFixed(3) : e.total.totalpcs}
+                                        </div>
+
+                                        <div style={{
+                                            ...printtableTD,
+                                            width: [1, 2, 5].includes(e.ItemId) ? "11%" : "10.9%",
+                                            padding: "5px",
+                                            textAlign: "right",
+                                             borderBottom:"0px"
+                                        }}>
+                                            {[1, 2, 5].includes(e.ItemId) ? e.total.totalPureWt.toFixed(3) : e.total.totalCtw.toFixed(3)}
+                                        </div>
+
+                                        <div style={{
+                                            ...printtableTD,
+                                            width: "11%",
+                                            padding: "5px",
+                                            textAlign: "right",
+                                            borderRight: "0px",
+                                             borderBottom:"0px"
+                                        }}>
+                                            {e.total.totalAmount.toFixed(2)}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            ))}
+
         
                   {/* Remark */}
                   <div

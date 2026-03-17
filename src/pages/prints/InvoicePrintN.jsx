@@ -43,6 +43,7 @@ const InvoicePrintN = ({
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
   const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
   const [diamondDetails, setDiamondDetails] = useState([]);
+  const [json1, setJson1] = useState([]);
 
 
   const [retail, setRetail] = useState(true);
@@ -86,10 +87,10 @@ const InvoicePrintN = ({
         (elem) => elem?.label === e?.MetalTypePurity
       );
       if (findRecord === -1) {
-    
+
         metalArr.push({
           label: e?.MetalTypePurity,
-          value: e?.NetWt * e?.Quantity,
+          value: e?.NetWt * e?.Quantity+e?.LossWt,
           gm: true,
         });
       } else {
@@ -105,6 +106,7 @@ const InvoicePrintN = ({
       totalAmountBefore +=
         e?.TotalAmount / data?.BillPrint_Json[0].CurrencyExchRate;
       let metalColorCode = "";
+      setJson1(data?.BillPrint_Json1)
       data?.BillPrint_Json2.forEach((ele) => {
         if (obj?.SrJobno === ele?.StockBarcode) {
 
@@ -187,8 +189,6 @@ const InvoicePrintN = ({
     metalArr.push({ label: "Diamond Wt", value: diamondWt, gm: false });
     metalArr.push({ label: "Stone Wt", value: colorStoneWt, gm: false });
     metalArr.push({ label: "Gross Wt", value: grossWt, gm: true });
-    
-    console.log("TCL: loadData -> metalArr",metalArr )
     setSummary(metalArr);
 
 
@@ -215,11 +215,13 @@ const InvoicePrintN = ({
     setBank(debitCardinfo);
 
     let finalArr = [];
+    console.log("TCL: loadData ->  datas?.resultArray",  datas?.resultArray)
     datas?.resultArray?.forEach((a) => {
       if (a?.GroupJob === "") {
         finalArr.push(a);
       } else {
         let b = cloneDeep(a);
+        console.log("TCL: loadData -> b", b)
         let find_record = finalArr.findIndex(
           (el) => el?.GroupJob === b?.GroupJob
         );
@@ -233,10 +235,7 @@ const InvoicePrintN = ({
             finalArr[find_record].HUID = b?.HUID;
             finalArr[find_record].DesignImage = b?.DesignImage; // CQ Solving PSJewels 16/01/26
           }
-
-          // if (!finalArr[find_record].DesignImage && b?.DesignImage) {
-          //   finalArr[find_record].DesignImage = b?.DesignImage;
-          // }
+ 
 
           finalArr[find_record].grosswt += b?.grosswt;
           finalArr[find_record].NetWt += b?.NetWt;
@@ -248,7 +247,10 @@ const InvoicePrintN = ({
           finalArr[find_record].OtherCharges += b?.OtherCharges;
           finalArr[find_record].TotalDiamondHandling += b?.TotalDiamondHandling;
           finalArr[find_record].Quantity += b?.Quantity;
-          finalArr[find_record].Wastage += b?.Wastage;
+          
+// keep original wastage of main record
+          finalArr[find_record].Wastage = finalArr[find_record].Wastage;
+          
           finalArr[find_record].totals.metal.IsPrimaryMetal += b?.totals?.metal?.IsPrimaryMetal;
           finalArr[find_record].totals.metal.Wt += b?.totals?.metal?.Wt;
           finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
@@ -634,8 +636,6 @@ const InvoicePrintN = ({
     totals.miscWt = miscWt;
     totals.beforeTax = totalAmountBefore;
     setTotal(totals);
-
-    console.log("TCL: loadData ->total ", totals)
     setDiamondWise(sortedData);
 
     setResult(datas);
@@ -664,7 +664,6 @@ const InvoicePrintN = ({
           setLoader(false);
           // setMsg(data?.Message);
           const err = checkMsg(data?.Message);
-          console.log(data?.Message);
           setMsg(err);
         }
       } catch (error) {
@@ -691,7 +690,6 @@ const InvoicePrintN = ({
     }
   };
 
-  console.log("TCL: loadData ->datas ", datas.resultArray)
   // console.log("data", data);
   // console.log("result?.header", result?.header);
   // console.log("total", total);
@@ -707,8 +705,6 @@ const InvoicePrintN = ({
   const handleChangeRetail = (e) => {
     retail ? setRetail(false) : setRetail(true);
   };
-
-  console.log("TCL: result?.resultArray?", result?.resultArray)
 
   const totalConverted =
     (result?.mainTotal?.total_amount /
@@ -790,7 +786,7 @@ const InvoicePrintN = ({
     sumFields = ["Pcs", "RMwt", "Amount"],
     stringFields = ["ShapeName", "QualityName"],
     flagFields = ["IsPrimaryMetal"],
-    valueFields = ["metalWastage","isRateOnPcs"]   // <-- added
+    valueFields = ["metalWastage", "isRateOnPcs", "grosswt", "StockBarcode", "GroupJob","Hid","metalWastage1"]   // <-- added
   }) => {
 
     const grouped = (data ?? []).reduce((acc, item) => {
@@ -898,6 +894,10 @@ const InvoicePrintN = ({
 
 
   console.log("TCL: result", result)
+  const totalLossWt = result?.resultArray?.reduce(
+    (sum, item) => sum + Number(item?.LossWt || 0),
+    0
+  );
   return (
     <>
       {loader ? (
@@ -1262,7 +1262,6 @@ const InvoicePrintN = ({
                   {/* data */}
                   {result?.resultArray?.length > 0 &&
                     result?.resultArray?.map((e, i) => {
-                      console.log("TCL: e", e?.diamonds)
                       return (
                         <>
                           <div
@@ -1282,7 +1281,7 @@ const InvoicePrintN = ({
                                 {e?.SubCategoryname} {e?.Categoryname}
                               </p>
                               <p className="" style={{ wordBreak: "normal" }}>
-                                {e?.designno} | {e?.SrJobno}
+                                {e?.designno} | {e?.GroupJob ? e?.GroupJob : e?.SrJobno}
                               </p>
                               {image && (
                                 <img
@@ -1308,13 +1307,7 @@ const InvoicePrintN = ({
                               style={{ width: "55%" }}
                             >
                               <div className=" h-100">
-                                {console.log("TCL: emat", e)}
-
-
                                 {/* {Array.isArray(e?.metal) && e.metal.length > 0 && (
-                                     
-                                   
-
                                   mergeByKey({
                                     data: e.metal,
                                     groupKey: "Rate",
@@ -1409,7 +1402,6 @@ const InvoicePrintN = ({
                                     ))
                                 )} */}
                                 {Array.isArray(e?.metal) && e.metal.length > 0 && (() => {
-
                                   const totalFindingRMwt = (e?.finding || []).reduce(
                                     (sum, f) => sum + Number(f?.RMwt || 0),
                                     0
@@ -1423,7 +1415,6 @@ const InvoicePrintN = ({
                                     ?.sort((a, b) => (b?.IsPrimaryMetal ?? 0) - (a?.IsPrimaryMetal ?? 0))
                                     ?.map((d, i) => (
                                       <div key={i} className="d-flex">
-
                                         {/* Metal Name */}
                                         <div className="col-2 d-flex align-items-center">
                                           <p className="p-1 lh-1">
@@ -1452,7 +1443,7 @@ const InvoicePrintN = ({
                                         {/* Gross Wt */}
                                         <div className="col-2 d-flex align-items-start justify-content-end" style={{ width: "14%" }}>
                                           <p className="p-1 text-end lh-1">
-                                            {d.IsPrimaryMetal === 1 ? fixedValues(e?.grosswt, 3) : ""}
+                                            {d?.GroupJob  ? d?.GroupJob == d?.StockBarcode ?   d.IsPrimaryMetal === 1 ? fixedValues(e?.grosswt, 3) : ""  :""    : d.IsPrimaryMetal === 1 ? fixedValues(e?.grosswt, 3) : ""}
                                           </p>
                                         </div>
 
@@ -1490,7 +1481,16 @@ const InvoicePrintN = ({
                                         {/* Wastage */}
                                         <div className="col-2 d-flex align-items-start justify-content-center" style={{ width: "8%" }}>
                                           {/* <p className="p-1">{NumberWithCommas(e?.Wastage, 2)}</p> */}
-                                          <p className="p-1">{d.IsPrimaryMetal === 1 ? NumberWithCommas(e?.Wastage, 2) : NumberWithCommas(d?.metalWastage, 2)}</p>
+                                          <p className="p-1">
+                                            {
+                                              d.IsPrimaryMetal === 1
+                                                ? NumberWithCommas(
+                                                  (d?.metalWastage1 ), // convert array → string
+                                                  2
+                                                )
+                                                : NumberWithCommas(d?.metalWastage, 2)
+                                              }
+                                          </p>
                                         </div>
 
                                       </div>
@@ -1700,15 +1700,12 @@ const InvoicePrintN = ({
                                 )}
 
                                 {Array.isArray(e?.finding) && e.finding.length > 0 && (
-                                  mergeByKey({
-                                    data: e.finding,
-                                    groupKey: "Rate",
-                                    stringFields: ["ShapeName", "QualityName"],
-                                    sumFields: ["Pcs", "RMwt", "Amount"]
-                                  })?.map((d, i) => (
+
+
+                                  e?.finding?.map((d, i) => (
+
 
                                     <div className={`d-flex `}>
-                                      {console.log("findinf", d)}
                                       <div
                                         className={`col-2  d-flex align-items-center`}
                                       >
@@ -1758,8 +1755,8 @@ const InvoicePrintN = ({
                                         style={{ width: "17%" }}
                                       >
                                         {/* <p className="p-1 text-end lh-1">{NumberWithCommas(Number(d?.Rate) || 0, 2)}</p>                 */}
-                                        <p className="p-1 text-end lh-1">{NumberWithCommas(Number(e?.primary_metal_rate) || 0, 2)}</p>                
-                                        </div>
+                                        <p className="p-1 text-end lh-1">{NumberWithCommas(Number(e?.primary_metal_rate) || 0, 2)}</p>
+                                      </div>
                                       <div
                                         className={"col-2  d-flex  justify-content-center"}
                                         style={{ width: "8%" }}
@@ -1962,7 +1959,7 @@ const InvoicePrintN = ({
                                   sumFields: ["Pcs", "RMwt", "Amount"]
                                 })?.map((d, i) => (
                                   <p className=" text-end p-1">
-                                    {NumberWithCommas(d?.isRateOnPcs == 1 ? d?.Pcs * d?.Rate : d?.RMwt * d?.Rate, 2)} 
+                                    {NumberWithCommas(d?.isRateOnPcs == 1 ? d?.Pcs * d?.Rate : d?.RMwt * d?.Rate, 2)}
                                   </p>
                                 ))
                               )}
@@ -1979,8 +1976,8 @@ const InvoicePrintN = ({
                                 ))
                               )}
 
-                              
-                             
+
+
 
 
 
@@ -1991,9 +1988,8 @@ const InvoicePrintN = ({
                                   groupKey: "Rate",
                                   sumFields: ["Pcs", "RMwt", "Amount"]
                                 })?.map((d, i) => (
-                                  
+
                                   <p className=" text-end p-1">
-                                     {console.log("TCL:xvdvfvbfbgfbg e ",d)}
                                     {NumberWithCommas(d?.isRateOnPcs == 1 ? d?.Pcs * d?.Rate : d?.RMwt * d?.Rate, 2)}
                                   </p>
                                 ))
@@ -2002,11 +1998,7 @@ const InvoicePrintN = ({
 
 
                               {Array.isArray(e?.finding) && e.finding.length > 0 && (
-                                mergeByKey({
-                                  data: e.finding,
-                                  groupKey: "Rate",
-                                  sumFields: ["Pcs", "RMwt", "Amount"]
-                                })?.map((d, i) => (
+                                e?.finding?.map((d, i) => (
                                   <p className=" text-end p-1">
                                     {/* {NumberWithCommas(d?.RMwt * d?.Rate, 2)} */}
                                     {NumberWithCommas(d?.RMwt * e?.primary_metal_rate, 2)}

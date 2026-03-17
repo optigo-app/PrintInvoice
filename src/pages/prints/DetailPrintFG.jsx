@@ -119,6 +119,8 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       return numericA - numericB;
     });
     setData(datas);
+    
+    
   };
 
   useEffect(() => {
@@ -484,8 +486,10 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="pad_bot_29_estimatePrint">
                         {item?.metal?.length > 0 &&
                           item.metal.map((ele, ind) => (
-                           
+                            
+                            
                             <div className="d-flex" key={ind}>
+                            { console.log("TCL: eleeleeleele", ele)}
                                {console.log(`TCL: ele metal`, item)}
                               <div className="width_40_estimatePrint spbrWord p_1Estimate">
                                 {ele?.IsPrimaryMetal === 1 && (
@@ -496,7 +500,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <p className="text-end">
                                 <p className="text-end">
                                   {/* {fixedValues( (item?.DiamondCTWwithLoss/5)+Number(item?.NetWt) ,2)} */}
-                                  {fixedValues( (item?.DiamondCTWwithLoss/5)+Number(ele?.Wt) ,2)}
+                                  {fixedValues( (item?.DiamondCTWwithLoss/5)+Number(item?.grosswt) ,2)}
                                 </p>
                                 </p>
                               </div>
@@ -556,12 +560,12 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 spBrdrTop ">
                         <div className="width200EstimatePrint p_1Estimate" style={{width:"18%",minWidth:"18%"}} /> 
                         <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{width:"15.66%",minWidth:"15.66%"}}>
-                          {/* <p className="text-end spBold">{fixedValues((item?.DiamondCTWwithLoss/5)+Number(item?.NetWt), 2)}</p> */}
-                          <p className="text-end spBold">{fixedValues((item?.DiamondCTWwithLoss/5)+Number(item?.totals?.primaryMetalWt), 2)}</p>
+                          <p className="text-end spBold">{fixedValues((item?.DiamondCTWwithLoss/5)+Number(item?.NetWt), 2)}</p>
+                          {/* <p className="text-end spBold">{fixedValues((item?.DiamondCTWwithLoss/5)+Number(item?.totals?.primaryMetalWt), 2)}</p> */}
                         </div>
                         <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{width:"15.66%",minWidth:"15.66%"}}>
-                          {/* <p className="text-end spBold">{fixedValues(item?.NetWt + item?.LossWt, 2)}</p> */}
-                          <p className="text-end spBold">{fixedValues(item?.totals?.primaryMetalWt + item?.LossWt, 2)}</p>
+                          <p className="text-end spBold">{fixedValues(item?.NetWt + item?.LossWt, 2)}</p>
+                          {/* <p className="text-end spBold">{fixedValues(item?.totals?.primaryMetalWt + item?.LossWt, 2)}</p> */}
                         </div>
                         <div
                           className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end"
@@ -821,7 +825,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             {/* {data?.weightWithDiamondLoss !== 0 && fixedValues(data.weightWithDiamondLoss, 3)} */}
                             {/* {NumberWithCommas(data?.mainTotal?.grosswt, 2)} */}
                             {/* {fixedValues((data?.mainTotal?.diamonds?.Wt/5)+data?.mainTotal?.netwt,2)} */}
-                            {fixedValues((data?.mainTotal?.diamonds?.Wt/5)+data?.mainTotal?.metal?.Wt,2)}
+                            {fixedValues((data?.mainTotal?.diamonds?.Wt/5)+data?.mainTotal?.grosswt,2)}
                           </p>
                         </div>
                         <div className="width200EstimatePrint p_1Estimate h-100">

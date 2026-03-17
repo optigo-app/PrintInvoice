@@ -150,7 +150,7 @@ function MaterialIssuePrint({
         return sum;
     }, 0);
 
-console.log("TCL: remainingWeight", remainingWeight,metalAndMiscWeight,totalMetalWeight)
+    console.log("TCL: remainingWeight", remainingWeight, metalAndMiscWeight, totalMetalWeight)
     const WeightDiaCS = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
         const weight = parseFloat(item?.Weight);
         if (item?.ItemName == 'DIAMOND' || item?.ItemName == 'COLOR STONE') {
@@ -159,7 +159,7 @@ console.log("TCL: remainingWeight", remainingWeight,metalAndMiscWeight,totalMeta
         return sum;
     }, 0);
 
- 
+
 
     const totalPieces = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
         const pieces = parseFloat(item?.pieces);
@@ -227,6 +227,9 @@ console.log("TCL: remainingWeight", remainingWeight,metalAndMiscWeight,totalMeta
         );
     }, [finalD]);
 
+
+    console.log("TCL: groupedData", groupedData)
+
     const getItemDisplay = (e) => {
         switch (e?.ItemName) {
             case "FINDING":
@@ -239,6 +242,41 @@ console.log("TCL: remainingWeight", remainingWeight,metalAndMiscWeight,totalMeta
                 return "";
         }
     };
+
+
+
+    const customOrder = [3, 4, 5, 1, 2, 7];
+
+    const MergeData = Object.values(
+        groupedData.reduce((acc, item) => {
+            const id = item.ItemId;
+
+            if (!acc[id]) {
+                acc[id] = {
+                    ItemId: id,
+                    ItemName: item.ItemName,
+                    items: [],
+                    total: {
+                        totalpcs: 0,
+                        totalCtw: 0,
+                        totalAmount: 0,
+                        totalPureWt: 0
+                    }
+                };
+            }
+
+            acc[id].items.push(item);
+
+            acc[id].total.totalpcs += item.pieces || 0;
+            acc[id].total.totalCtw += item.Weight || 0;
+            acc[id].total.totalPureWt += item.PureWeight || 0;
+            acc[id].total.totalAmount += item.Amount || 0;
+
+            return acc;
+        }, {})
+    ).sort((a, b) => customOrder.indexOf(a.ItemId) - customOrder.indexOf(b.ItemId));
+
+    console.log(MergeData);
 
 
     const containerStyle = {
@@ -261,56 +299,56 @@ console.log("TCL: remainingWeight", remainingWeight,metalAndMiscWeight,totalMeta
         acc.totalPureWeight += item.PureWeight || 0;
         acc.totalAmount += item.Amount || 0;
         return acc;
-      }, { totalWeight: 0, totalPureWeight: 0, totalAmount: 0 });
-      
-   
+    }, { totalWeight: 0, totalPureWeight: 0, totalAmount: 0 });
 
-      return (
-    <>
-          {loader ? (
-            <Loader />
-          ) : msg === "" ? (
-            <div>
-            <div style={{display:"flex",justifyContent:"center",margin:"20px 0px"}}>
-                <div className="prnt_btn">
-                              <input
+
+
+    return (
+        <>
+            {loader ? (
+                <Loader />
+            ) : msg === "" ? (
+                <div>
+                    <div style={{ display: "flex", justifyContent: "center", margin: "20px 0px" }}>
+                        <div className="prnt_btn">
+                            <input
                                 type="button"
                                 className="btn_white blue mt-0"
                                 value="Print"
                                 onClick={(e) => handlePrint(e)}
-                              />
-                </div>
-                </div>
-            <div id="OrderQ" style={containerStyle}>
-
-                
-                <div
-                    style={{
-
-
-                        fontFamily: "Calibri",
-                        WebkitPrintColorAdjust: "exact",
-                        MozPrintColorAdjust: "exact"
-                    }}
-                >
-                    {/* Header */}
-                    <div
-                        style={{
-                            fontSize: "25px",
-                            backgroundColor: "#939292",
-                            color: "#FFF",
-                            padding: "4px 0px 5px 6px",
-                            fontWeight: "bold",
-                            width: "805px",
-                            textAlign: "left",
-                            lineHeight: "25px"
-                        }}
-                    >
-                        MATERIAL ISSUE
+                            />
+                        </div>
                     </div>
+                    <div id="OrderQ" style={containerStyle}>
 
-                    {/* Company + Logo */}
-                    {/* <div style={{ display: "flex", width: "100%", marginTop: "10px" }}>
+
+                        <div
+                            style={{
+
+
+                                fontFamily: "Calibri",
+                                WebkitPrintColorAdjust: "exact",
+                                MozPrintColorAdjust: "exact"
+                            }}
+                        >
+                            {/* Header */}
+                            <div
+                                style={{
+                                    fontSize: "25px",
+                                    backgroundColor: "#939292",
+                                    color: "#FFF",
+                                    padding: "4px 0px 5px 6px",
+                                    fontWeight: "bold",
+
+                                    textAlign: "left",
+                                    lineHeight: "25px"
+                                }}
+                            >
+                                MATERIAL ISSUE
+                            </div>
+
+                            {/* Company + Logo */}
+                            {/* <div style={{ display: "flex", width: "100%", marginTop: "10px" }}>
                         <div style={{ width: "630px" }}>
                             <h3 id="companyname" style={{ margin: "0px" }}>
                                 orail25
@@ -335,233 +373,290 @@ console.log("TCL: remainingWeight", remainingWeight,metalAndMiscWeight,totalMeta
                         </div>
                     </div> */}
 
-                    <div className="disflx justify-content-between" style={{ marginBottom: "10px", display: "flex", justifyContent: "space-between" }}>
-                        <div className="spfnthead" style={{ paddingLeft: "5px" }}>
-                            {json0Data?.CompanyFullName !== "" && (<div className="spfntBld" style={{ fontSize: "15px" }}>{json0Data?.CompanyFullName}</div>)}
-                            {json0Data?.CompanyAddress !== "" && (<div className="">{json0Data?.CompanyAddress}</div>)}
-                            <div className="">{json0Data?.CompanyAddress2}</div>
-                            <div className="">{json0Data?.CompanyCity} {json0Data?.CompanyCity && json0Data?.CompanyPinCode !== "" && ("-")} {json0Data?.CompanyPinCode !== "" && (`${json0Data?.CompanyPinCode},`)} {json0Data?.CompanyState}{json0Data?.CompanyCountry !== "" && (`(${json0Data?.CompanyCountry})`)}</div>
-                            {json0Data?.CompanyTellNo !== "" && (<div className="">T {json0Data?.CompanyTellNo} {json0Data?.CompanyTollFreeNo ? ` | TOLL FREE ${json0Data?.CompanyTollFreeNo}` : ""}</div>)}
-                            <div className="">{json0Data?.CompanyEmail} {json0Data?.CompanyWebsite && json0Data?.CompanyEmail !== "" && ("|")} {json0Data?.CompanyWebsite}</div>
-                            <div className="">{json0Data?.Company_VAT_GST_No !== "" && (`${json0Data?.Company_VAT_GST}-${json0Data?.Company_VAT_GST_No}`)} {json0Data?.Company_VAT_GST_No && json0Data?.Company_CST_STATE_No !== "" && ("|")} {json0Data?.Company_CST_STATE_No !== "" && (`${json0Data?.Company_CST_STATE}-${json0Data?.Company_CST_STATE_No}`)} {json0Data?.Company_CST_STATE_No && json0Data?.ComPanCard !== "" && ("|")} {json0Data?.ComPanCard !== "" && (`PAN-${json0Data?.ComPanCard} `)}</div>
-                        </div>
-
-                        {typeof json0Data?.PrintLogo === 'string' && json0Data.PrintLogo.trim() !== '' && (
-                            <div>
-                                <img
-                                    src={json0Data.PrintLogo}
-                                    alt="#companylogo"
-                                    className="cmpnyLogo"
-                                    width={85}
-                                    height={85}
-                                    onError={handleImageErrors}
-                                />
-                            </div>
-                        )}
-
-                    </div>
-
-                    {/* From + Invoice */}
-                    <div
-                        style={{
-                            border: "1px solid #C2C2C2",
-                            width: "100%",
-                            marginTop: "10px",
-                            padding: "10px"
-                        }}
-                    >
-                        <div style={{ display: "flex", width: "100%" }}>
-                            {/* From */}
-                            <div style={{ width: "60%" }}>
-                                <div>
-                                    <b>To ,</b> {json0Data?.IsPrint_ShortCustomerDetails === 0 ? json0Data?.customerfirmname : json0Data?.Customercode}
+                            <div className="disflx justify-content-between" style={{ marginBottom: "10px", display: "flex", justifyContent: "space-between" }}>
+                                <div className="spfnthead" style={{ paddingLeft: "5px" }}>
+                                    {json0Data?.companyname !== "" && (<div className="spfntBld" style={{ fontSize: "15px" }}>{json0Data?.companyname}</div>)}
+                                    {json0Data?.CompanyAddress !== "" && (<div className="">{json0Data?.CompanyAddress}</div>)}
+                                    <div className="">{json0Data?.CompanyAddress2}</div>
+                                    <div className="">{json0Data?.CompanyCity} {json0Data?.CompanyCity && json0Data?.CompanyPinCode !== "" && ("-")} {json0Data?.CompanyPinCode !== "" && (`${json0Data?.CompanyPinCode},`)} {json0Data?.CompanyState}{json0Data?.CompanyCountry !== "" && (`(${json0Data?.CompanyCountry})`)}</div>
+                                    {json0Data?.CompanyTellNo !== "" && (<div className="">T {json0Data?.CompanyTellNo} {json0Data?.CompanyTollFreeNo ? ` | TOLL FREE ${json0Data?.CompanyTollFreeNo}` : ""}</div>)}
+                                    <div className="">{json0Data?.CompanyEmail} {json0Data?.CompanyWebsite && json0Data?.CompanyEmail !== "" && ("|")} {json0Data?.CompanyWebsite}</div>
+                                    <div className="">{json0Data?.Company_VAT_GST_No !== "" && (`${json0Data?.Company_VAT_GST}-${json0Data?.Company_VAT_GST_No}`)} {json0Data?.Company_VAT_GST_No && json0Data?.Company_CST_STATE_No !== "" && ("|")} {json0Data?.Company_CST_STATE_No !== "" && (`${json0Data?.Company_CST_STATE}-${json0Data?.Company_CST_STATE_No}`)} {json0Data?.Company_CST_STATE_No && json0Data?.ComPanCard !== "" && ("|")} {json0Data?.ComPanCard !== "" && (`PAN-${json0Data?.ComPanCard} `)}</div>
                                 </div>
 
+                                {typeof json0Data?.PrintLogo === 'string' && json0Data.PrintLogo.trim() !== '' && (
+                                    <div>
+                                        <img
+                                            src={json0Data.PrintLogo}
+                                            alt="#companylogo"
+                                            className="cmpnyLogo"
+                                            width={85}
+                                            height={85}
+                                            onError={handleImageErrors}
+                                        />
+                                    </div>
+                                )}
 
                             </div>
 
-                            {/* Invoice Info */}
-                            <div style={{ width: "40%" }}>
-                                <div style={{ display: "flex", fontSize: "14px" }}>
-                                    <div style={{ width: "90px", fontWeight: "bold" }}>OUTWARD</div>
-                                    <div>:</div>
-                                    <div id="Memono" style={{ marginLeft: "6px" }}>
-                                        {json0Data?.MaterialBillNo}
+                            {/* From + Invoice */}
+                            <div
+                                style={{
+                                    border: "1px solid #C2C2C2",
+                                    width: "100%",
+                                    marginTop: "10px",
+                                    padding: "10px"
+                                }}
+                            >
+                                <div style={{ display: "flex", width: "100%" }}>
+                                    {/* From */}
+                                    <div style={{ width: "60%" }}>
+                                        <div>
+                                            <b>To ,</b> {json0Data?.IsPrint_ShortCustomerDetails === 0 ? json0Data?.customerfirmname : json0Data?.Customercode}
+                                        </div>
+
+
+                                    </div>
+
+                                    {/* Invoice Info */}
+                                    <div style={{ width: "40%" }}>
+                                        <div style={{ display: "flex", fontSize: "14px" }}>
+                                            <div style={{ width: "90px", fontWeight: "bold" }}>OUTWARD</div>
+                                            <div>:</div>
+                                            <div id="Memono" style={{ marginLeft: "6px" }}>
+                                                {json0Data?.MaterialBillNo}
+                                            </div>
+                                        </div>
+
+                                        <div style={{ display: "flex", fontSize: "14px", marginTop: "5px" }}>
+                                            <div style={{ width: "90px", fontWeight: "bold" }}>DATE</div>
+                                            <div>:</div>
+                                            <div id="invoicedate" style={{ marginLeft: "6px" }}>
+                                                {json0Data?.EntryDate1}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div style={{ display: "flex", fontSize: "14px", marginTop: "5px" }}>
-                                    <div style={{ width: "90px", fontWeight: "bold" }}>DATE</div>
-                                    <div>:</div>
-                                    <div id="invoicedate" style={{ marginLeft: "6px" }}>
-                                        {json0Data?.EntryDate1}
+                            {/* Metal Table */}
+
+                            {MergeData?.length > 0 && MergeData.map((e, index) => (
+                                <div key={index} style={{ width: "100%", border: "1px solid #C2C2C2", borderCollapse: "collapse", marginTop: "15px" }}>
+
+                                    {/* Header Title */}
+                                    <div style={{ padding: "10px", fontWeight: "bold", borderBottom: "1px solid #C2C2C2", fontSize: "20px", color: "#6F6F6F" }}>
+                                        {e.ItemName
+                                            ?.toLowerCase()
+                                            .split(" ")
+                                            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                                            .join(" ")
+                                        }
                                     </div>
+
+                                    {/* Column Header */}
+                                    {(e.ItemId === 1 || e.ItemId === 2) ? (
+                                        <div style={{ display: "flex", background: "#DFDFDF", fontWeight: "bold", borderBottom: "1px solid #C2C2C2" }}>
+                                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>PO#</div>
+                                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>Job/Design#</div>
+                                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>Item</div>
+                                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>Type/Purity</div>
+                                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>Color</div>
+                                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>HSN#</div>
+                                            <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right" }}>Gm.</div>
+                                            <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right" }}>Pure Wt.</div>
+                                            <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right", borderRight: "0px" }}>Amt.</div>
+                                        </div>
+                                    ) : (
+                                        <div style={{ display: "flex", background: "#DFDFDF", fontWeight: "bold", borderBottom: "1px solid #C2C2C2" }}>
+                                            <div style={{ ...printtableTD, width: "9%", padding: "5px" }}>PO#</div>
+                                            <div style={{ ...printtableTD,width: e.ItemId == 5 ? "12%" : "11%", padding: "5px" }}>Job/Design#</div>
+                                            <div style={{ ...printtableTD, width: "10%", padding: "5px" }}> {e.ItemId == 5 ? "Item" : "Type"}</div>
+                                            <div style={{ ...printtableTD, width: e.ItemId == 5 ? "11%" : "10%", padding: "5px" }}>{e.ItemId == 5 ? "Type/Purity" : "Shape"}</div>
+                                            <div style={{ ...printtableTD, width: "10%", padding: "5px" }}>{e.ItemId == 5 ? "F.Type" : "Quality"}</div>
+                                            <div style={{ ...printtableTD, width: e.ItemId == 5 ? "11%" : "10%", padding: "5px" }}> {e.ItemId == 5 ? "Accessories" : "Color"} </div>
+                                            <div style={{ ...printtableTD, width: "10%", padding: "5px" }}>{e.ItemId == 5 ? "Color" : "Size"}Size</div>
+                                            <div style={{ ...printtableTD, width: "10%", padding: "5px" }}>HSN#</div>
+                                            <div style={{ ...printtableTD, width: "10%", padding: "5px", textAlign: "right" }}>{e.ItemId == 5 ? "Gm." : "Pcs"}</div>
+                                            <div style={{ ...printtableTD, width: "10%", padding: "5px", textAlign: "right" }}>{e.ItemId == 5 ? "Pure Wt" : e.ItemId === 3 || e.ItemId === 4 ? "Ctw" : "Wt"}</div>
+                                            <div style={{ ...printtableTD, width: "10%", padding: "5px", textAlign: "right", borderRight: "0px" }}>Amt.</div>
+                                        </div>
+                                    )}
+
+                                    {/* Items */}
+                                    {e.items?.length > 0 && e.items.map((item, idx) => (
+                                        (e.ItemId === 1 || e.ItemId === 2) ? (
+                                            <div key={idx} style={{ display: "flex", borderBottom: "1px solid #C2C2C2" }}>
+                                                <div style={{ ...printtableTD, width: "11%", padding: "5px" }}> </div>
+                                                <div style={{ ...printtableTD, width: "11%", padding: "5px" }}> </div>
+                                                <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>{item?.shape}</div>
+                                                <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>{item?.purity}/{item?.Tunch}</div>
+                                                <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>{item?.color}</div>
+                                                <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>{item?.HSN_No}</div>
+                                                <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right" }}>{item?.Weight.toFixed(3)}</div>
+                                                <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right" }}>{item?.PureWeight.toFixed(3)}</div>
+                                                <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right", borderRight: "0px" }}>{item?.Amount.toFixed(2)}</div>
+                                            </div>
+                                        ) : (
+                                            <div key={idx} style={{ display: "flex", borderBottom: "1px solid #C2C2C2" }}>
+                                                <div style={{ ...printtableTD, width: "9%", padding: "5px" }}> </div>
+                                                <div style={{ ...printtableTD,width: e.ItemId == 5 ? "12%" : "11%", padding: "5px" }}> </div>
+                                                <div style={{ ...printtableTD, width: "10%", padding: "5px" }}>{e.ItemId == 5 ? item?.shape : ""} </div>
+                                                <div style={{ ...printtableTD,width: e.ItemId == 5 ? "11%" : "10%", padding: "5px" }}>{e.ItemId == 5 ? item?.purity + "/" + item?.Tunch : item?.shape}</div>
+                                                <div style={{ ...printtableTD, width: "10%", padding: "5px" }}>{e.ItemId == 5 ? item?.FindingType : item?.purity}   </div>
+                                                <div style={{ ...printtableTD, width: e.ItemId == 5 ? "11%" : "10%", padding: "5px" }}>{e.ItemId == 5 ? item?.FindingAccessories : item?.color}</div>
+                                                <div style={{ ...printtableTD, width: "10%", padding: "5px" }}>   {e.ItemId == 5 ? item?.color : item?.size}  </div>
+                                                <div style={{ ...printtableTD, width: "10%", padding: "5px" }}>{item?.HSN_No}</div>
+                                                <div style={{ ...printtableTD, width: "10%", padding: "5px", textAlign: "right" }}>{e.ItemId == 5 ? item?.Weight.toFixed(3) : item?.pieces}  </div>
+                                                <div style={{ ...printtableTD, width: "10%", padding: "5px", textAlign: "right" }}> {e.ItemId == 5 ? item?.PureWeight : item?.Weight.toFixed(3)}  { }</div>
+                                                <div style={{ ...printtableTD, width: "10%", padding: "5px", textAlign: "right", borderRight: "0px" }}>{item?.Amount.toFixed(2)}</div>
+                                            </div>
+                                        )
+                                    ))}
+
+                                    {/* Total Row */}
+                                    {/* <div style={{ display: "flex", fontWeight: "bold" }}>
+                                        <div style={{ ...printtableTD, width: e.ItemId !== 1 ? "90%" : "66%", padding: "5px" }}>Total</div>
+                                        <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right" }}>{e.ItemId !== 1  ? e.total.totalpcs : e.total.totalCtw.toFixed(3)}</div>
+                                        <div style={{ ...printtableTD, width: e.ItemId !== 1 ? "10.9%" : "11%", padding: "5px", textAlign: "right" }}>{e.ItemId !== 1   ? e.total.totalCtw.toFixed(3) : e.total.totalPureWt.toFixed(3)}</div>
+                                        <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right", borderRight: "0px" }}>{e.total.totalAmount.toFixed(2)}</div>
+                                    </div> */}
+                                    {/* Total Row */}
+                                    <div style={{ display: "flex", fontWeight: "bold" }}>
+                                        <div style={{
+                                            ...printtableTD,
+                                            width: [1, 2].includes(e.ItemId) ? "66%" : [5].includes(e.ItemId)?"94%":"90%",
+                                            padding: "5px"
+                                        }}>
+                                            Total
+                                        </div>
+
+                                        <div style={{
+                                            ...printtableTD,
+                                            width: "11%",
+                                            padding: "5px",
+                                            textAlign: "right"
+                                        }}>
+                                            {[1, 2, 5].includes(e.ItemId) ? e.total.totalCtw.toFixed(3) : e.total.totalpcs}
+                                        </div>
+
+                                        <div style={{
+                                            ...printtableTD,
+                                            width: [1, 2, 5].includes(e.ItemId) ? "11%" : "10.9%",
+                                            padding: "5px",
+                                            textAlign: "right"
+                                        }}>
+                                            {[1, 2, 5].includes(e.ItemId) ? e.total.totalPureWt.toFixed(3) : e.total.totalCtw.toFixed(3)}
+                                        </div>
+
+                                        <div style={{
+                                            ...printtableTD,
+                                            width: "11%",
+                                            padding: "5px",
+                                            textAlign: "right",
+                                            borderRight: "0px"
+                                        }}>
+                                            {e.total.totalAmount.toFixed(2)}
+                                        </div>
+                                    </div>
+
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Metal Table */}
-                    <div style={{ width: "100%", border: "1px solid #C2C2C2", borderCollapse: "collapse",marginTop:"20px" }}>
-
-                        {/* Header Title */}
-                        <div style={{ padding: "10px", fontWeight: "bold", borderBottom: "1px solid #C2C2C2", fontSize: "20px", color: "#6F6F6F" }}>
-                            Metal
-                        </div>
-
-                        {/* Column Header */}
-                        <div style={{ display: "flex", background: "#DFDFDF", fontWeight: "bold", borderBottom: "1px solid #C2C2C2" }}>
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>PO#</div>
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>Job/Design#</div>
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>Item</div>
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>Type/Purity</div>
-
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px", display: "none" }}>F.Type</div>
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px", display: "none" }}>Accessories</div>
-
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>Color</div>
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>HSN#</div>
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>Gm.</div>
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>Pure Wt.</div>
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px", borderRight: "0px" }}>Amt.</div>
-                        </div>
-
-                        {/* Row 1 */}
-                        {/* {finalD?.map((item, index) => (
-                            <div style={{ display: "flex", borderBottom: "1px solid #C2C2C2" }} key={index}>
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>{item?.PONo}</div>
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>{item?.JobNo}</div>
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>GOLD</div>
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>22K/92.000</div>
-
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px", display: "none" }}>{"{{findingtypename}}"}</div>
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px", display: "none" }}>{"{{findingAccessories}}"}</div>
-
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>P</div>
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>7108</div>
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right" }}>2.000</div>
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right" }}>1.840</div>
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right", borderRight: "0px" }}>0.00</div>
-                        </div>
-                        )} */}
-
-                        {finalD?.length > 0 && finalD.map((item, index) => (
-                            <div key={index} style={{ display: "flex", borderBottom: "1px solid #C2C2C2" }}>
-                                <div style={{ ...printtableTD, width: "11%", padding: "5px" }}> </div>
-                                <div style={{ ...printtableTD, width: "11%", padding: "5px" }}> </div>
-                                <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>{item?.shape}</div>
-                                <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>{item?.purity}/{item?.Tunch}</div>
-                                <div style={{ ...printtableTD, width: "11%", padding: "5px", display: "none" }}>{item?.FindingType}</div>
-                                <div style={{ ...printtableTD, width: "11%", padding: "5px", display: "none" }}>{item?.FindingAccessories}</div>
-                                <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>{item?.color}</div>
-                                <div style={{ ...printtableTD, width: "11%", padding: "5px" }}>{item?.HSN_No}</div>
-                                <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right" }}>{item?.Weight.toFixed(3)}</div>
-                                <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right" }}>{item?.PureWeight.toFixed(3)}</div>
-                                <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right", borderRight: "0px" }}>{item?.Amount.toFixed(2)}</div>
-                            </div>
-                        ))}
+                            ))}
 
 
+                            {json0Data?.Remark && (
+                                <div
+                                    style={{
+                                        fontSize: "13px",
+                                        width: "100%",
+                                        maxWidth: "100%",
+                                        minWidth: "100%",
+                                        wordWrap: "break-word",
+                                        lineHeight: "16px",
+                                        wordSpacing: "1px",
+                                        marginTop: "5px"
+                                    }}
+                                >
+                                    <b style={{ fontSize: "15px" }}>Remark: </b>
+                                    {json0Data?.Remark || ""}
+                                </div>
+                            )}
 
-                        {/* Total Row */}
-                        <div style={{ display: "flex", fontWeight: "bold" }}>
-                            <div style={{ ...printtableTD, width: "66%", padding: "5px" }}>Total</div>
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right" }}>{totals.totalWeight.toFixed(3)}</div>
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right" }}>{totals.totalPureWeight.toFixed(3)}</div>
-                            <div style={{ ...printtableTD, width: "11%", padding: "5px", textAlign: "right", borderRight: "0px" }}>{totals.totalAmount.toFixed(2)}</div>
-                        </div>
 
-                    </div>
-
-                    <div
-                        style={{
-                            fontSize: "13px",
-                            width: "100%",
-                            maxWidth: "100%",
-                            minWidth: "100%",
-                            wordWrap: "break-word",
-                            lineHeight: "16px",
-                            wordSpacing: "1px",
-                            marginTop: "5px"
-                        }}
-                    >
-                        <b style={{ fontSize: "15px" }}>Remark: </b>
-                        {json0Data?.Remark || ""}
-                    </div>
-                    <div style={{ width: "100%", border: "1px solid #C2C2C2", margin: "10px 0", padding: "20px 5px" }}>
-                        {/* <div style={{ fontWeight: "bold", fontSize: "14px", marginBottom: "6px" }}>
+                            <div style={{ width: "100%", border: "1px solid #C2C2C2", margin: "10px 0", padding: "20px 5px" }}>
+                                {/* <div style={{ fontWeight: "bold", fontSize: "14px", marginBottom: "6px" }}>
                             NOTE :
                         </div> */}
 
-                        <div
-                            style={{
-                                fontSize: "10px",
-                                fontFamily: "Calibri",
-                                color: "#212529",
-                                wordBreak: "break-all",
-                                overflowWrap: "break-word",
-                                lineHeight: "12px",
-                                width: "99%",
+                                <div
+                                    style={{
+                                        fontSize: "10px",
+                                        fontFamily: "Calibri",
+                                        color: "#212529",
+                                        wordBreak: "break-all",
+                                        overflowWrap: "break-word",
+                                        lineHeight: "12px",
+                                        width: "99%",
 
 
-                            }}
-                        >
-                            <div dangerouslySetInnerHTML={{ __html: json0Data?.Declaration }} />
-                            
+                                    }}
+                                >
+                                    <div dangerouslySetInnerHTML={{ __html: json0Data?.Declaration }} />
+
+                                </div>
+                            </div>
+
+                            {/* Footer */}
+                            <div
+                                style={{
+
+                                    paddingTop: "10px",
+                                    display: "flex",
+                                    border: "1px solid #DCDCDC",
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        width: "50%",
+                                        height: "80px",
+                                        display: "flex",
+                                        alignItems: "flex-end",
+                                        justifyContent: "center",
+                                        paddingBottom: "10px",
+                                        borderRight: "1px solid #DCDCDC",
+                                        textAlign: "center",
+                                    }}
+                                >
+                                    RECEIVER's NAME & SIGNATURE
+                                </div>
+
+                                <div
+                                    style={{
+                                        width: "50%",
+                                        height: "80px",
+                                        display: "flex",
+                                        alignItems: "flex-end",
+                                        justifyContent: "center",
+                                        paddingBottom: "10px",
+                                        textAlign: "center",
+                                    }}
+                                >
+                                    For, <span id="CompanyFullName_sign">orail25</span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Footer */}
-                    <div
-                        style={{
-
-                            paddingTop: "10px",
-                            display: "flex",
-                            border: "1px solid #DCDCDC",
-                        }}
-                    >
-                        <div
-                            style={{
-                                width: "50%",
-                                height: "80px",
-                                display: "flex",
-                                alignItems: "flex-end",
-                                justifyContent: "center",
-                                paddingBottom: "10px",
-                                borderRight: "1px solid #DCDCDC",
-                                textAlign: "center",
-                            }}
-                        >
-                            RECEIVER's NAME & SIGNATURE
-                        </div>
-
-                        <div
-                            style={{
-                                width: "50%",
-                                height: "80px",
-                                display: "flex",
-                                alignItems: "flex-end",
-                                justifyContent: "center",
-                                paddingBottom: "10px",
-                                textAlign: "center",
-                            }}
-                        >
-                            For, <span id="CompanyFullName_sign">orail25</span>
-                        </div>
+                        <br />
+                        <br />
                     </div>
                 </div>
-
-                <br />
-                <br />
-            </div>
-        </div>
-          ) : (
-            <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
-              {msg}
-            </p>
-          )}
-        </> 
-      )
+            ) : (
+                <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
+                    {msg}
+                </p>
+            )}
+        </>
+    )
 }
 
 export default MaterialIssuePrint

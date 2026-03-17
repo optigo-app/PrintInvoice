@@ -421,7 +421,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   {result?.header?.CompanyFullName}
                                 </div>
                                 <div>
-                                  { result?.header?.CompanyAddress?.split( "," )[0] }
+                                  { result?.header?.CompanyAddress }
                                 </div>
                                 <div>
                                   {result?.header?.CompanyCity} -{" "}
@@ -573,8 +573,8 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             </div>
                             <div className="wtbsum1 alignrightsum1 pe-1">
                               {/* {NumberWithCommas(e?.otherMisc, 2)} */}
-                              {e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount === 0.0 ? "" : 
-                              formatAmount( ((e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount)/(result?.header?.CurrencyExchRate)) )}
+                              {e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount === 0.0 ? "0.00" : 
+                              formatAmount( ((e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount)/(result?.header?.CurrencyExchRate)) ||0 ,2 )}
                             </div>
                             <div className="wtbsum1 brightsum1 alignrightsum1 pe-1 fsrtis1">
                               <p className="fsrtis1" dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol, }} ></p>
@@ -720,7 +720,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           {summaryDetail?.map((e, i) => {
                             return (
                               // <div key={i} className="d-flex arrSum1">
-                              <div key={i} className="d-flex arrSum1 w-25 pe-2">
+                              <div key={i} className="d-flex arrSum1 pe-2" style={{width:"200px"}}>
                                 <div
                                   className="summwsum1 fs13sum1 fw-normal fsrtis1 text-break"
                                   style={{ width: "70%", lineHeight: "9px" }}
@@ -797,21 +797,36 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className="notessum1 p-1 fsrtis1 pgbia">
                       <div className="noteSum1 fsrtis1">NOTE :</div>
                       <div
-                        className="noteDemosum1 fsrtis1"
+                        className=" fsrtis1"
                         dangerouslySetInnerHTML={{
                           __html: headerData?.Declaration,
                         }}
                       ></div>
                     </div>
-                    <div className="remarkSum1 fsrtis1">
-                      REMARKS IF ANY :
-                      <p
-                        className="remarkValSum1 fsrtis1"
+                    { headerData?.PrintRemark && (
+                        <div className="remarkSum1 fsrtis1">
+                        REMARKS IF ANY :
+                        <p
+                          className="remarkValSum1 fsrtis1"
+                          dangerouslySetInnerHTML={{
+                            __html: headerData?.PrintRemark,
+                          }}
+                        ></p>{" "}
+                      </div>
+                    )}
+                    
+
+                    <div className="fsrtis1 " style={{lineHeight:"1",margin:"3px 0"}}>
+                      <b>TERMS INCLUDED :</b>
+                      <span
+                        className=""
                         dangerouslySetInnerHTML={{
-                          __html: headerData?.PrintRemark,
+                          __html: headerData?.SalesRepPolicyTermsDescription,
                         }}
-                      ></p>{" "}
+                      ></span>{" "}
                     </div>
+
+
                   </div>
                     </td>
                   </tr>
