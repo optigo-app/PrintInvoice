@@ -27,6 +27,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [address, setAddress] = useState([]);
   const [headerData, setHeaderData] = useState({});
   const [image, setImage] = useState(true);
+  const [imgFlag, setImageFlag] = useState(true);
   const [pnm, setPnm] = useState(atob(printName).toLowerCase());
   const toWords = new ToWords();
   const [isImageWorking, setIsImageWorking] = useState(true);
@@ -119,8 +120,8 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       return numericA - numericB;
     });
     setData(datas);
-    
-    
+
+
   };
 
   useEffect(() => {
@@ -150,9 +151,16 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     sendData();
   }, []);
 
+  const handleImgShow = () => {
+    if (imgFlag) setImageFlag(false);
+    else {
+      setImageFlag(true);
+    }
+  };
+
 
   const categoryCounts = Array.isArray(data?.resultArray)
-  ? Object.values(
+    ? Object.values(
       data.resultArray.reduce((acc, curr) => {
         const cat = curr?.Categoryname;
         if (cat) {
@@ -163,7 +171,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         return acc;
       }, {})
     )
-  : [];
+    : [];
 
   console.log("data", data);
   const totalOtherChargis = data?.resultArray?.reduce((acc, curr) => acc + curr?.OtherCharges, 0);
@@ -176,6 +184,21 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div className="container containerEstimate pad_60_allPrint">
           {/* print button */}
           <div className="d-flex justify-content-end align-items-center print_sec_sum4 pb-4 mt-5 w-100">
+            <div className="mb-1 me-2 justify-content-center align-items-center">
+              <input
+                type="checkbox"
+                className="me-1"
+                value={imgFlag}
+                checked={imgFlag}
+                onChange={(e) => handleImgShow(e)}
+                id="imgshowdp3"
+              />
+              <label htmlFor="imgshowdp3" style={{ fontSize: "13px" }}>
+                {" "}
+                <div className="pb-2">With Image </div>
+              </label>
+            </div>
+
             <div className="form-check ps-3">
               <input
                 type="button"
@@ -340,52 +363,53 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               {Array.isArray(data?.resultArray) && data.resultArray.length > 0 &&
                 data.resultArray.map((item, index) => (
                   <div key={index} className="d-flex spBrdrBtom recordEstimatePrint overflow-hidden word_break_estimatePrint" style={{ borderLeft: "1px solid black", borderRight: "1px solid black" }}>
-                    
+
                     <div className="srNoEstimatePrint spBrdrRigt p_1Estimate ">
                       <p className="text-center">{index + 1}</p>
                     </div>
-                    
+
                     {/* Design Info */}
                     <div className="designEstimatePrint spBrdrRigt   d-flex justify-content-between flex-column">
-                        <div className="d-flex justify-content-between p_1Estimate">
-                          <div>{item?.designno}</div>
-                          <div className="text-end">{item?.SrJobno}</div>
-                        </div>
-                        {/* <div
+                      <div className="d-flex justify-content-between p_1Estimate">
+                        <div>{item?.designno}</div>
+                        <div className="text-end">{item?.SrJobno}</div>
+                      </div>
+                      {/* <div
                           style={{ textAlign: "center", fontWeight: "bold" }}
                         >
                           {item?.Categoryname}
                         </div> */}
-                        <div className="pb-2 p_1Estimate">
-                          {image && (
+                      <div className="pb-2 p_1Estimate">
+                        {
+                          imgFlag && (
                             <>
-                              {/* {imageLoading && <Loader2 />} */}
+
                               {
                                 <img
-                                src={item?.DesignImage}
-                                alt=""
-                                className="estimate_img mx-auto d-block text-center"
-                                onError={handleImageError}
+                                  src={item?.DesignImage}
+                                  alt=""
+                                  className="estimate_img mx-auto d-block text-center"
+                                  onError={handleImageError}
                                 />
                               }
                             </>
                           )}
+                      </div>
+                      {item?.Tunch !== 0 &&
+                        <div
+                          style={{ textAlign: "center" }}
+                        >
+                          Tunch: {fixedValues(item?.Tunch, 3)}
                         </div>
-                        {item?.Tunch !== 0 && 
-                          <div
-                            style={{ textAlign: "center" }}
-                          >
-                            Tunch: {fixedValues(item?.Tunch,3)}
-                          </div>
-                        }
-                        <div className="spBrdrTop ">
-                          <p
-                            className="w-100 spBold"
-                            style={{ padding: "1px 0px 1px 5px", textAlign: "center" }}
-                          >
-                            {  fixedValues(item?.grosswt,3)} gm Gross
-                          </p>
-                          {/* {item?.Size !== "" && (
+                      }
+                      <div className="spBrdrTop ">
+                        <p
+                          className="w-100 spBold"
+                          style={{ padding: "1px 0px 1px 5px", textAlign: "center" }}
+                        >
+                          {fixedValues(item?.grosswt, 3)} gm Gross
+                        </p>
+                        {/* {item?.Size !== "" && (
                             <p className="w-100 ps-1 spBold">
                               Size : {item?.Size}
                             </p>
@@ -395,102 +419,102 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               PR Date : {item?.PromiseDate}
                             </p>
                           )} */}
-                        </div>
+                      </div>
                     </div>
 
                     {/* Diamond */}
                     <div className="diamondEstimatePrint spBrdrRigt position-relative ">
-                        <div className="pad_bot_29_estimatePrint">
-                          {item?.diamonds.length > 0 &&
-                            item?.diamonds.map((ele, ind) => {
-                              return (
-                                <div className="d-flex " key={ind}>
-                                  <div className="width20EstimatePrint p_1Estimate">
-                                    <p className="spbrWord">
-                                      {ele?.ShapeName} {ele?.QualityName}{" "}
-                                      {ele?.Colorname}
-                                    </p>
-                                  </div>
-                                  <div className="width20EstimatePrint p_1Estimate">
-                                    <p className="">{ele?.SizeName}</p>
-                                  </div>
-                                  <div className="width20EstimatePrint p_1Estimate" style={{ width: "10%", minWidth: "10%" }}>
-                                    <p className="text-end">
-                                      {NumberWithCommas(ele?.Pcs, 0)}
-                                    </p>
-                                  </div>
-                                  <div className="width20EstimatePrint p_1Estimate">
-                                    <p className="text-end">
-                                      {fixedValues(ele?.Wt, 3)}
-                                    </p>
-                                  </div>
-                                  <div className="width20EstimatePrint p_1Estimate">
-                                    <p className="text-end">
-                                      {ele?.Supplier.slice(0,4)}
-                                    </p>
-                                  </div>
-                                  <div className="width20EstimatePrint p_1Estimate">
-                                    <p className="text-end">
-                                      {NumberWithCommas(ele?.Rate, 2)}
-                                    </p>
-                                  </div>
-                                  <div className="width20EstimatePrint p_1Estimate" style={{ width: "16.67%", minWidth: "16.67%" }}>
-                                    <p className="spBold text-end">
-                                      {NumberWithCommas(ele?.Amount, 2)}
-                                    </p>
-                                  </div>
+                      <div className="pad_bot_29_estimatePrint">
+                        {item?.diamonds.length > 0 &&
+                          item?.diamonds.map((ele, ind) => {
+                            return (
+                              <div className="d-flex " key={ind}>
+                                <div className="width20EstimatePrint p_1Estimate">
+                                  <p className="spbrWord">
+                                    {ele?.ShapeName} {ele?.QualityName}{" "}
+                                    {ele?.Colorname}
+                                  </p>
                                 </div>
-                              );
-                            })}
-                        </div>
-                        <div
-                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 spBrdrTop  
+                                <div className="width20EstimatePrint p_1Estimate">
+                                  <p className="">{ele?.SizeName}</p>
+                                </div>
+                                <div className="width20EstimatePrint p_1Estimate" style={{ width: "10%", minWidth: "10%" }}>
+                                  <p className="text-end">
+                                    {NumberWithCommas(ele?.Pcs, 0)}
+                                  </p>
+                                </div>
+                                <div className="width20EstimatePrint p_1Estimate">
+                                  <p className="text-end">
+                                    {fixedValues(ele?.Wt, 3)}
+                                  </p>
+                                </div>
+                                <div className="width20EstimatePrint p_1Estimate">
+                                  <p className="text-end">
+                                    {ele?.Supplier.slice(0, 4)}
+                                  </p>
+                                </div>
+                                <div className="width20EstimatePrint p_1Estimate">
+                                  <p className="text-end">
+                                    {NumberWithCommas(ele?.Rate, 2)}
+                                  </p>
+                                </div>
+                                <div className="width20EstimatePrint p_1Estimate" style={{ width: "16.67%", minWidth: "16.67%" }}>
+                                  <p className="spBold text-end">
+                                    {NumberWithCommas(ele?.Amount, 2)}
+                                  </p>
+                                </div>
+                              </div>
+                            );
+                          })}
+                      </div>
+                      <div
+                        className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 spBrdrTop  
                             spBrdrTop height_28_5_estimatePrint `}
-                        >
-                          <div className="width20EstimatePrint p_1Estimate">
-                            <p className="spBold"></p>
-                          </div>
-                          <div className="width20EstimatePrint p_1Estimate">
-                            <p className="spBold"></p>
-                          </div>
-                          <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "10%", minWidth: "10%" }}>
-                            <p className="text-end spBold">
-                              {item?.totals?.diamonds?.Pcs !== 0 && (
-                                <>{NumberWithCommas(item?.totals?.diamonds?.Pcs, 0)}</>
-                              )}
-                            </p>
-                          </div>
-                          <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
-                            <p className="text-end spBold">
-                              { 
-                                <>{fixedValues(item?.totals?.diamonds?.Wt, 3)}</>
-                              }
-                            </p>
-                          </div>
-                          <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
-                            <p className="text-end spBold"></p>
-                          </div>
-                          <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
-                            <p className="text-end spBold"></p>
-                          </div>
-                          <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "16.67%", minWidth: "16.67%" }}>
-                            <p className="text-end spBold">
-                                  {NumberWithCommas(item?.totals?.diamonds?.Amount, 2)}
-                            </p>
-                          </div>
+                      >
+                        <div className="width20EstimatePrint p_1Estimate">
+                          <p className="spBold"></p>
                         </div>
+                        <div className="width20EstimatePrint p_1Estimate">
+                          <p className="spBold"></p>
+                        </div>
+                        <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "10%", minWidth: "10%" }}>
+                          <p className="text-end spBold">
+                            {item?.totals?.diamonds?.Pcs !== 0 && (
+                              <>{NumberWithCommas(item?.totals?.diamonds?.Pcs, 0)}</>
+                            )}
+                          </p>
+                        </div>
+                        <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
+                          <p className="text-end spBold">
+                            {
+                              <>{fixedValues(item?.totals?.diamonds?.Wt, 3)}</>
+                            }
+                          </p>
+                        </div>
+                        <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
+                          <p className="text-end spBold"></p>
+                        </div>
+                        <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
+                          <p className="text-end spBold"></p>
+                        </div>
+                        <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "16.67%", minWidth: "16.67%" }}>
+                          <p className="text-end spBold">
+                            {NumberWithCommas(item?.totals?.diamonds?.Amount, 2)}
+                          </p>
+                        </div>
+                      </div>
                     </div>
 
-                    {/* Metal */}    
+                    {/* Metal */}
                     <div className="metalEstimatePrint spBrdrRigt position-relative ">
                       <div className="pad_bot_29_estimatePrint">
                         {item?.metal?.length > 0 &&
                           item.metal.map((ele, ind) => (
-                            
-                            
+
+
                             <div className="d-flex" key={ind}>
-                            { console.log("TCL: eleeleeleele", ele)}
-                               {console.log(`TCL: ele metal`, item)}
+                              {console.log("TCL: eleeleeleele", ele)}
+                              {console.log(`TCL: ele metal`, item)}
                               <div className="width_40_estimatePrint spbrWord p_1Estimate">
                                 {ele?.IsPrimaryMetal === 1 && (
                                   <p>{ele?.ShapeName} {ele?.QualityName} ({ele?.MetalColorCode})</p>
@@ -498,10 +522,10 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               </div>
                               <div className="width_40_estimatePrint p_1Estimate">
                                 <p className="text-end">
-                                <p className="text-end">
-                                  {/* {fixedValues( (item?.DiamondCTWwithLoss/5)+Number(item?.NetWt) ,2)} */}
-                                  {fixedValues( (item?.DiamondCTWwithLoss/5)+Number(item?.grosswt) ,2)}
-                                </p>
+                                  <p className="text-end">
+                                    {/* {fixedValues( (item?.DiamondCTWwithLoss/5)+Number(item?.NetWt) ,2)} */}
+                                    {fixedValues((item?.DiamondCTWwithLoss / 5) + Number(ele?.Wt), 2)}
+                                  </p>
                                 </p>
                               </div>
                               <div className="width_40_estimatePrint p_1Estimate">
@@ -513,7 +537,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               </div>
                               <div className="width_40_estimatePrint p_1Estimate" style={{ width: "14%", minWidth: "14%" }}>
                                 <p className="text-end">
-                                  {ele?.Supplier.slice(0,4)}
+                                  {ele?.Supplier.slice(0, 4)}
                                 </p>
                               </div>
                               <div className="width_40_estimatePrint p_1Estimate">
@@ -524,7 +548,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               </div>
                             </div>
                           ))}
-                        
+
                         {/* Finding */}
                         {/* {item?.finding?.length > 0 &&
                           item.finding.map((ele, ind) => (
@@ -558,12 +582,12 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
 
                       <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 spBrdrTop ">
-                        <div className="width200EstimatePrint p_1Estimate" style={{width:"18%",minWidth:"18%"}} /> 
-                        <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{width:"15.66%",minWidth:"15.66%"}}>
-                          <p className="text-end spBold">{fixedValues((item?.DiamondCTWwithLoss/5)+Number(item?.NetWt), 2)}</p>
+                        <div className="width200EstimatePrint p_1Estimate" style={{ width: "18%", minWidth: "18%" }} />
+                        <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "15.66%", minWidth: "15.66%" }}>
+                          <p className="text-end spBold">{fixedValues((item?.DiamondCTWwithLoss / 5) + Number(item?.NetWt), 2)}</p>
                           {/* <p className="text-end spBold">{fixedValues((item?.DiamondCTWwithLoss/5)+Number(item?.totals?.primaryMetalWt), 2)}</p> */}
                         </div>
-                        <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{width:"15.66%",minWidth:"15.66%"}}>
+                        <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "15.66%", minWidth: "15.66%" }}>
                           <p className="text-end spBold">{fixedValues(item?.NetWt + item?.LossWt, 2)}</p>
                           {/* <p className="text-end spBold">{fixedValues(item?.totals?.primaryMetalWt + item?.LossWt, 2)}</p> */}
                         </div>
@@ -595,7 +619,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <p className="text-end">{ele?.Wt > 0 && fixedValues(ele?.Wt, 2)}</p>
                               </div>
                               <div className="width20EstimatePrint p_1Estimate">
-                                <p className="text-end">{ele?.Supplier.slice(0,4)}</p>
+                                <p className="text-end">{ele?.Supplier.slice(0, 4)}</p>
                               </div>
                               <div className="width20EstimatePrint p_1Estimate">
                                 <p className="text-end">{NumberWithCommas(ele?.Rate, 2)}</p>
@@ -639,17 +663,17 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="width20EstimatePrint p_1Estimate" />
                         <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "10%", minWidth: "10%" }}>
                           <p className="text-end spBold">
-                            {(item?.totals?.colorstone?.length > 0 
+                            {(item?.totals?.colorstone?.length > 0
                               // || item?.totals?.misc?.length > 0
                             ) &&
                               NumberWithCommas(item?.totals?.colorstone?.Pcs
-                              //  + item?.totals?.misc?.Pcs
-                               , 0)}
+                                //  + item?.totals?.misc?.Pcs
+                                , 0)}
                           </p>
                         </div>
                         <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
                           <p className="text-end spBold">
-                            {(item?.totals?.colorstone?.length > 0 
+                            {(item?.totals?.colorstone?.length > 0
                               // || item?.totals?.misc?.length > 0 
                             ) &&
                               fixedValues(item?.totals?.colorstone?.Wt
@@ -692,19 +716,19 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="labourEstimatePrint spBrdrRigt position-relative ">
                       <div className="h-100 d-grid pad_bot_29_estimatePrint">
                         <div className="d-flex ">
-                         
-                            <>
-                              <div className="w-50 p_1Estimate">
-                                <p>{NumberWithCommas(item?.MaKingCharge_Unit, 2)||0}</p>
-                                {/* <p>Labour</p> */}
-                                {/* {item?.settingAmount !== 0 && <p>Labour</p>} */}
-                              </div>
-                              <div className="w-50 text-end p_1Estimate ">
-                                <p>{NumberWithCommas(item?.MakingAmount, 2) ||0}</p>
-                                {/* {item?.settingAmount !== 0 && <p>{NumberWithCommas(item?.settingAmount, 2)}</p>} */}
-                              </div>
-                            </>
-                         
+
+                          <>
+                            <div className="w-50 p_1Estimate">
+                              <p>{NumberWithCommas(item?.MaKingCharge_Unit, 2) || 0}</p>
+                              {/* <p>Labour</p> */}
+                              {/* {item?.settingAmount !== 0 && <p>Labour</p>} */}
+                            </div>
+                            <div className="w-50 text-end p_1Estimate ">
+                              <p>{NumberWithCommas(item?.MakingAmount, 2) || 0}</p>
+                              {/* {item?.settingAmount !== 0 && <p>{NumberWithCommas(item?.settingAmount, 2)}</p>} */}
+                            </div>
+                          </>
+
                         </div>
                       </div>
                       <div
@@ -752,307 +776,307 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
 
             {/* Tax & Add/Less*/}
-            <div className="d-flex recordEstimatePrint justify-content-end align-items-center brb_dp10 tbrowdp10 pt-1" 
+            <div className="d-flex recordEstimatePrint justify-content-end align-items-center brb_dp10 tbrowdp10 pt-1"
               style={{ borderLeft: "1px solid black", borderRight: "1px solid black" }}>
-                    <div style={{ width: "13%" }}>
-                      <div>
-                        {data?.allTaxes?.map((e, i) => {
-                          return (
-                            <div
-                              className="d-flex justify-content-between"
-                              key={i}
-                            >
-                              <div className="w-50 text-end">
-                                {e?.name} {e?.per}
-                              </div>
-                              <div className="w-50 text-end pr_dp10 p_1Estimate">
-                                {formatAmount(e?.amountInNumber)}
-                              </div>
-                            </div>
-                          );
-                        })}
-                        <div className="d-flex justify-content-between">
-                          <div className="w-50 text-end">
-                            {data?.header?.AddLess > 0 ? "Add" : data?.header?.AddLess === 0 ? "" : "Less"}
-                          </div>
-                          <div className="w-50 text-end pr_dp10 p_1Estimate">
-                            {data?.header?.AddLess !== 0 && data?.header?.AddLess}
-                          </div>
+              <div style={{ width: "13%" }}>
+                <div>
+                  {data?.allTaxes?.map((e, i) => {
+                    return (
+                      <div
+                        className="d-flex justify-content-between"
+                        key={i}
+                      >
+                        <div className="w-50 text-end">
+                          {e?.name} {e?.per}
+                        </div>
+                        <div className="w-50 text-end pr_dp10 p_1Estimate">
+                          {formatAmount(e?.amountInNumber)}
                         </div>
                       </div>
+                    );
+                  })}
+                  <div className="d-flex justify-content-between">
+                    <div className="w-50 text-end">
+                      {data?.header?.AddLess > 0 ? "Add" : data?.header?.AddLess === 0 ? "" : "Less"}
                     </div>
+                    <div className="w-50 text-end pr_dp10 p_1Estimate">
+                      {data?.header?.AddLess !== 0 && data?.header?.AddLess}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Final Total */}
-              <div className="d-flex recordEstimatePrint overflow-hidden spBrdrRigtBlk spBrdrTopBlk spBrdrLftBlk spBrdrBtomBlk totalBgEstimatePrint">
-                    <div className="totalEstimatePrint spBrdrRigt totalBgEstimatePrint ">
-                      <p className="text-center spBold h-100">Total</p>
-                    </div>
-                    <div className="diamondEstimatePrint spBrdrRigt ">
-                      <div className="d-flex w-100">
-                        <div className="width20EstimatePrint p_1Estimate h-100">
-                          <p></p>
-                        </div>
-                        <div className="width20EstimatePrint p_1Estimate h-100">
-                          <p></p>
-                        </div>
-                        <div className="width20EstimatePrint p_1Estimate h-100" style={{ width: "10%", minWidth: "10%" }}>
-                          <p className="text-end spBold">
-                            {data?.mainTotal?.diamonds?.Pcs > 0 && NumberWithCommas(data?.mainTotal?.diamonds?.Pcs, 0)}
-                          </p>
-                        </div>
-                        <div className="width20EstimatePrint p_1Estimate h-100">
-                          <p className="text-end spBold">
-                            {data?.mainTotal?.diamonds?.Wt > 0 && NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)}
-                          </p>
-                        </div>
-                        <div className="width20EstimatePrint p_1Estimate h-100"></div>
-                        <div className="width20EstimatePrint p_1Estimate h-100"></div>
-                        <div className="width20EstimatePrint p_1Estimate h-100" style={{ width: "16.67%", minWidth: "16.67%" }}>
-                          <p className="text-end spBold">
-                            {NumberWithCommas(data?.mainTotal?.diamonds?.Amount, 2)}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="metalEstimatePrint spBrdrRigt ">
-                      <div className="d-flex totalBgEstimatePrint bottom-0 w-100">
-                        <div className="width200EstimatePrint p_1Estimate h-100" style={{width:"14%",minWidth:"14%"}}>
-                          <p className="spBold"></p>
-                        </div>
-                        <div className="width200EstimatePrint p_1Estimate h-100">
-                          <p className="spBold text-end">
-                            {/* {data?.weightWithDiamondLoss !== 0 && fixedValues(data.weightWithDiamondLoss, 3)} */}
-                            {/* {NumberWithCommas(data?.mainTotal?.grosswt, 2)} */}
-                            {/* {fixedValues((data?.mainTotal?.diamonds?.Wt/5)+data?.mainTotal?.netwt,2)} */}
-                            {fixedValues((data?.mainTotal?.diamonds?.Wt/5)+data?.mainTotal?.grosswt,2)}
-                          </p>
-                        </div>
-                        <div className="width200EstimatePrint p_1Estimate h-100">
-                          <p className="spBold text-end">
-                            {(data?.mainTotal?.metal?.Wt !== 0 || data?.mainTotal?.metal?.Wt !== 0) && 
-                              fixedValues(data?.mainTotal?.metal?.Wt  , 3)}
-                          </p>
-                        </div>
-                        <div
-                          className="width200EstimatePrint p_1Estimate h-100"
-                          style={{ minWidth: "46%", width: "46%" }}
-                        >
-                          <p className="spBold text-end">
-                            {NumberWithCommas(data?.mainTotal?.metal?.Amount + data?.mainTotal?.finding?.Amount, 2)}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="stoneEstimatePrint spBrdrRigt ">
-                      <div className="d-flex totalBgEstimatePrint bottom-0 w-100">
-                        <div className="width20EstimatePrint p_1Estimate h-100">
-                          <p className="spBold"></p>
-                        </div>
-                        <div className="width20EstimatePrint p_1Estimate h-100">
-                          <p className="spBold"></p>
-                        </div>
-                        <div className="width20EstimatePrint p_1Estimate h-100" style={{ width: "10%", minWidth: "10%" }}>
-                          <p className="text-end spBold">
-                            {(data?.mainTotal?.colorstone?.Pcs !== 0 || data?.mainTotal?.misc?.Pcs !== 0) &&
-                              (data?.mainTotal?.colorstone?.Pcs  )}
-                                {/* (data?.mainTotal?.colorstone?.Pcs + data?.mainTotal?.misc?.Pcs)} */}
-                          </p>
-                        </div>
-                        <div className="width20EstimatePrint p_1Estimate h-100">
-                          <p className="text-end spBold">
-                            {(data?.mainTotal?.colorstone?.Wt !== 0 || data?.mainTotal?.misc?.Wt !== 0) && 
-                              fixedValues(data?.mainTotal?.colorstone.Wt + data?.mainTotal?.misc?.Wt, 3)}
-                          </p>
-                        </div>
-                        <div className="width20EstimatePrint p_1Estimate h-100"></div>
-                        <div className="width20EstimatePrint p_1Estimate h-100"></div>
-                        <div className="width20EstimatePrint p_1Estimate h-100" style={{ width: "16.67%", minWidth: "16.67%" }}>
-                          <p className="text-end spBold">
-                            {NumberWithCommas(data?.mainTotal?.colorstone?.Amount + data?.mainTotal?.misc?.Amount, 2)}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="OtherAmountEstimatePrint spBrdrRigt ">
-                      <div className="totalBgEstimatePrint bottom-0 w-100 h-100">
-                        <div className="h-100 text-end p_1Estimate">
-                          <p className="spBold">
-                            {NumberWithCommas(data?.mainTotal?.total_other, 2)}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="labourEstimatePrint spBrdrRigt ">
-                      <div className="d-flex w-100 h-100 justify-content-end">
-                        <div className="p_1Estimate spBold">
-                          <p>
-                            {NumberWithCommas(data?.mainTotal?.total_Making_Amount, 2)}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="totalAmountEstimatePrint d-flex">
-                      <div className="totalBgEstimatePrint w-100 h-100">
-                        <div className="text-end p_1Estimate">
-                          <p className="spBold">
-                            <span
-                              dangerouslySetInnerHTML={{
-                                __html: headerData?.Currencysymbol,
-                              }}
-                            ></span>
-                            {data?.finalAmount !== 0 && NumberWithCommas(data.finalAmount, 2)}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+            <div className="d-flex recordEstimatePrint overflow-hidden spBrdrRigtBlk spBrdrTopBlk spBrdrLftBlk spBrdrBtomBlk totalBgEstimatePrint">
+              <div className="totalEstimatePrint spBrdrRigt totalBgEstimatePrint ">
+                <p className="text-center spBold h-100">Total</p>
               </div>
+              <div className="diamondEstimatePrint spBrdrRigt ">
+                <div className="d-flex w-100">
+                  <div className="width20EstimatePrint p_1Estimate h-100">
+                    <p></p>
+                  </div>
+                  <div className="width20EstimatePrint p_1Estimate h-100">
+                    <p></p>
+                  </div>
+                  <div className="width20EstimatePrint p_1Estimate h-100" style={{ width: "10%", minWidth: "10%" }}>
+                    <p className="text-end spBold">
+                      {data?.mainTotal?.diamonds?.Pcs > 0 && NumberWithCommas(data?.mainTotal?.diamonds?.Pcs, 0)}
+                    </p>
+                  </div>
+                  <div className="width20EstimatePrint p_1Estimate h-100">
+                    <p className="text-end spBold">
+                      {data?.mainTotal?.diamonds?.Wt > 0 && NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)}
+                    </p>
+                  </div>
+                  <div className="width20EstimatePrint p_1Estimate h-100"></div>
+                  <div className="width20EstimatePrint p_1Estimate h-100"></div>
+                  <div className="width20EstimatePrint p_1Estimate h-100" style={{ width: "16.67%", minWidth: "16.67%" }}>
+                    <p className="text-end spBold">
+                      {NumberWithCommas(data?.mainTotal?.diamonds?.Amount, 2)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="metalEstimatePrint spBrdrRigt ">
+                <div className="d-flex totalBgEstimatePrint bottom-0 w-100">
+                  <div className="width200EstimatePrint p_1Estimate h-100" style={{ width: "14%", minWidth: "14%" }}>
+                    <p className="spBold"></p>
+                  </div>
+                  <div className="width200EstimatePrint p_1Estimate h-100">
+                    <p className="spBold text-end">
+                      {/* {data?.weightWithDiamondLoss !== 0 && fixedValues(data.weightWithDiamondLoss, 3)} */}
+                      {/* {NumberWithCommas(data?.mainTotal?.grosswt, 2)} */}
+                      {/* {fixedValues((data?.mainTotal?.diamonds?.Wt/5)+data?.mainTotal?.netwt,2)} */}
+                      {fixedValues((data?.mainTotal?.diamonds?.Wt / 5) + data?.mainTotal?.grosswt, 2)}
+                    </p>
+                  </div>
+                  <div className="width200EstimatePrint p_1Estimate h-100">
+                    <p className="spBold text-end">
+                      {(data?.mainTotal?.metal?.Wt !== 0 || data?.mainTotal?.metal?.Wt !== 0) &&
+                        fixedValues(data?.mainTotal?.metal?.Wt, 3)}
+                    </p>
+                  </div>
+                  <div
+                    className="width200EstimatePrint p_1Estimate h-100"
+                    style={{ minWidth: "46%", width: "46%" }}
+                  >
+                    <p className="spBold text-end">
+                      {NumberWithCommas(data?.mainTotal?.metal?.Amount + data?.mainTotal?.finding?.Amount, 2)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="stoneEstimatePrint spBrdrRigt ">
+                <div className="d-flex totalBgEstimatePrint bottom-0 w-100">
+                  <div className="width20EstimatePrint p_1Estimate h-100">
+                    <p className="spBold"></p>
+                  </div>
+                  <div className="width20EstimatePrint p_1Estimate h-100">
+                    <p className="spBold"></p>
+                  </div>
+                  <div className="width20EstimatePrint p_1Estimate h-100" style={{ width: "10%", minWidth: "10%" }}>
+                    <p className="text-end spBold">
+                      {(data?.mainTotal?.colorstone?.Pcs !== 0 || data?.mainTotal?.misc?.Pcs !== 0) &&
+                        (data?.mainTotal?.colorstone?.Pcs)}
+                      {/* (data?.mainTotal?.colorstone?.Pcs + data?.mainTotal?.misc?.Pcs)} */}
+                    </p>
+                  </div>
+                  <div className="width20EstimatePrint p_1Estimate h-100">
+                    <p className="text-end spBold">
+                      {(data?.mainTotal?.colorstone?.Wt !== 0 || data?.mainTotal?.misc?.Wt !== 0) &&
+                        fixedValues(data?.mainTotal?.colorstone.Wt + data?.mainTotal?.misc?.Wt, 3)}
+                    </p>
+                  </div>
+                  <div className="width20EstimatePrint p_1Estimate h-100"></div>
+                  <div className="width20EstimatePrint p_1Estimate h-100"></div>
+                  <div className="width20EstimatePrint p_1Estimate h-100" style={{ width: "16.67%", minWidth: "16.67%" }}>
+                    <p className="text-end spBold">
+                      {NumberWithCommas(data?.mainTotal?.colorstone?.Amount + data?.mainTotal?.misc?.Amount, 2)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="OtherAmountEstimatePrint spBrdrRigt ">
+                <div className="totalBgEstimatePrint bottom-0 w-100 h-100">
+                  <div className="h-100 text-end p_1Estimate">
+                    <p className="spBold">
+                      {NumberWithCommas(data?.mainTotal?.total_other, 2)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="labourEstimatePrint spBrdrRigt ">
+                <div className="d-flex w-100 h-100 justify-content-end">
+                  <div className="p_1Estimate spBold">
+                    <p>
+                      {NumberWithCommas(data?.mainTotal?.total_Making_Amount, 2)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="totalAmountEstimatePrint d-flex">
+                <div className="totalBgEstimatePrint w-100 h-100">
+                  <div className="text-end p_1Estimate">
+                    <p className="spBold">
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: headerData?.Currencysymbol,
+                        }}
+                      ></span>
+                      {data?.finalAmount !== 0 && NumberWithCommas(data.finalAmount, 2)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-              <div className="d-flex w-100 recordEstimatePrint overflow-hidden align-items-start " style={{ gap: "3px"}}>
-                {/* Summary Section */}
-                <div className="min_height_100EstimatePrint spBrdrLft spBrdrRigt spBrdrBtom position-relative col-2 ">
-                        <div className="totalBgEstimatePrint text-center spBrdrBtom ">
-                          <p className="spBold p-1">SUMMARY</p>
-                        </div>
+            <div className="d-flex w-100 recordEstimatePrint overflow-hidden align-items-start " style={{ gap: "3px" }}>
+              {/* Summary Section */}
+              <div className="min_height_100EstimatePrint spBrdrLft spBrdrRigt spBrdrBtom position-relative col-2 ">
+                <div className="totalBgEstimatePrint text-center spBrdrBtom ">
+                  <p className="spBold p-1">SUMMARY</p>
+                </div>
 
-                        <div className="d-flex h-100 pb-3">
-                          <div className="d-flex w-100 justify-content-between">
-                            {/* LEFT COLUMN */}
-                            <div className="w-100 h-100 pb-2 ">
-                              <div className="d-flex justify-content-between px-1">
-                                <p className="spBold">GOLD IN 24KT</p>
-                                <p>{fixedValues(data?.mainTotal?.metal?.FineWt, 2)} gm</p>
-                              </div>
-                              <div className="d-flex justify-content-between px-1">
-                                <p className="spBold">GROSS WT</p>
-                                <p>{fixedValues(Number(data?.mainTotal?.grosswt), 3)} gm</p>
-                              </div>
-                              <div className="d-flex justify-content-between px-1">
-                                <p className="spBold">*WT</p>
-                                <p>{fixedValues((data?.mainTotal?.diamonds?.Wt/5)+data?.mainTotal?.metal?.Wt,2)} gm</p>
-                              </div>
-                              <div className="d-flex justify-content-between px-1">
-                                <p className="spBold">NET WT</p>
-                                <p>{fixedValues(data?.mainTotal?.metal?.Wt, 2)} gm</p>
-                              </div>
-                              <div className="d-flex justify-content-between px-1">
-                                <p className="spBold">DIAMOND WT</p>
-                                <p>
-                                  {NumberWithCommas(data?.mainTotal?.diamonds?.Pcs, 0)} /{" "}
-                                  {NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)} cts
-                                </p>
-                              </div>
-                              <div className="d-flex justify-content-between px-1">
-                                <p className="spBold">STONE WT</p>
-                                <p>
-                                  {NumberWithCommas(data?.mainTotal?.colorstone?.Pcs, 0)} /{" "}
-                                  {fixedValues(data?.mainTotal?.colorstone?.Wt, 3)} cts
-                                </p>
-                              </div>
-                              {/* <div className="d-flex justify-content-between px-1">
+                <div className="d-flex h-100 pb-3">
+                  <div className="d-flex w-100 justify-content-between">
+                    {/* LEFT COLUMN */}
+                    <div className="w-100 h-100 pb-2 ">
+                      <div className="d-flex justify-content-between px-1">
+                        <p className="spBold">GOLD IN 24KT</p>
+                        <p>{fixedValues(data?.mainTotal?.metal?.FineWt, 2)} gm</p>
+                      </div>
+                      <div className="d-flex justify-content-between px-1">
+                        <p className="spBold">GROSS WT</p>
+                        <p>{fixedValues(Number(data?.mainTotal?.grosswt), 3)} gm</p>
+                      </div>
+                      <div className="d-flex justify-content-between px-1">
+                        <p className="spBold">*WT</p>
+                        <p>{fixedValues((data?.mainTotal?.diamonds?.Wt / 5) + data?.mainTotal?.metal?.Wt, 2)} gm</p>
+                      </div>
+                      <div className="d-flex justify-content-between px-1">
+                        <p className="spBold">NET WT</p>
+                        <p>{fixedValues(data?.mainTotal?.metal?.Wt, 2)} gm</p>
+                      </div>
+                      <div className="d-flex justify-content-between px-1">
+                        <p className="spBold">DIAMOND WT</p>
+                        <p>
+                          {NumberWithCommas(data?.mainTotal?.diamonds?.Pcs, 0)} /{" "}
+                          {NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)} cts
+                        </p>
+                      </div>
+                      <div className="d-flex justify-content-between px-1">
+                        <p className="spBold">STONE WT</p>
+                        <p>
+                          {NumberWithCommas(data?.mainTotal?.colorstone?.Pcs, 0)} /{" "}
+                          {fixedValues(data?.mainTotal?.colorstone?.Wt, 3)} cts
+                        </p>
+                      </div>
+                      {/* <div className="d-flex justify-content-between px-1">
                                 <p className="spBold">MISC WT</p>
                                 <p>
                                   {NumberWithCommas(data?.mainTotal?.misc?.Pcs, 0)} /{" "}
                                   {fixedValues(data?.mainTotal?.misc?.Wt, 3)} gm
                                 </p>
                               </div> */}
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Bottom Row */}
-                        <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 w-100 spBrdrTop ">
-                          <div className="px-1 min_height_24_estimatePrint w-50">
-                            <div className="d-flex justify-content-between align-items-center h-100">
-                              <div className="spBold"></div>
-                            </div>
-                          </div>
-                        </div>
-                </div>
-                      
-                {/* Diamond Detail */}
-                <div className="min_height_100EstimatePrint spBrdrLft spBrdrRigt spBrdrBtom position-relative col-2 ">
-                  <div className="totalBgEstimatePrint text-center spBrdrBtom ">
-                          <p className="spBold p-1">Diamond Detail</p>
-                        </div>
-
-                        <div className="d-flex h-100 pb-3">
-                          <div className="d-flex w-100 justify-content-between">
-                            {/* LEFT COLUMN */}
-                            <div className="w-100 h-100 pb-2 ">
-                              <div className="d-flex flex-column px-1">
-                                {data?.resultArray?.flatMap((e) =>
-                                  e?.diamonds?.map((el, i) => (
-                                    <div key={i} className="d-flex justify-content-between">
-                                      <p className="col-6 spBold spbrWord m-0">
-                                        {el?.ShapeName + " " + el?.Colorname + " " + (el?.SizeName.startsWith("C:") ? "Custom" :   el?.SizeName)}
-                                      </p>
-                                      <p className="col-4 spbrWord m-0 text-end">
-                                        {el?.Pcs} / {fixedValues(el?.Wt, 3)} cts
-                                      </p>
-                                    </div>
-                                  ))
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 w-100 spBrdrTop ">
-                          <div className="px-1 min_height_24_estimatePrint w-50">
-                            <div className="d-flex justify-content-between align-items-center h-100">
-                              <div className="spBold"></div>
-                            </div>
-                          </div>
-                        </div>
-                </div>
-                      
-                {/* Category Wise Summary */}      
-                <div className="min_height_100EstimatePrint spBrdrLft spBrdrRigt spBrdrBtom position-relative col-2 ">
-                  <div className="totalBgEstimatePrint text-center spBrdrBtom ">
-                    <p className="spBold p-1">Summary</p>
-                  </div>
-
-                  <div className="d-flex h-100 pb-3">
-                    <div className="d-flex w-100 justify-content-between">
-                      <div className="w-100 h-100 pb-2 ">
-                      <div className="d-flex flex-column px-1">
-                                {categoryCounts?.map((el) =>
-                                    <div className="d-flex justify-content-between">
-                                      <p className="col-6 spBold spbrWord m-0">
-                                        {el?.Categoryname}
-                                      </p>
-                                      <p className="col-4 spbrWord m-0 text-end">
-                                        {el?.count}
-                                      </p>
-                                    </div>
-                                )}
-                              </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 w-100 spBrdrTop ">
-                    <div className="px-1 min_height_24_estimatePrint w-50">
-                      <div className="d-flex justify-content-between align-items-center h-100">
-                        <div className="spBold"></div>
-                      </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="spWdthLst"></div>
-
-                {/* Checked By Section */}
-                <div className="col-1 min_height_100EstimatePrint d-flex align-items-end justify-content-center spBrdrLft spBrdrRigt spBrdrBtom ">
-                  <div className="d-flex h-100 w-100">
-                    <div className="position-relative d-flex justify-content-center align-items-end w-100">
-                      <i className="w-100 text-center">Checked By</i>
+                {/* Bottom Row */}
+                <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 w-100 spBrdrTop ">
+                  <div className="px-1 min_height_24_estimatePrint w-50">
+                    <div className="d-flex justify-content-between align-items-center h-100">
+                      <div className="spBold"></div>
                     </div>
                   </div>
                 </div>
               </div>
+
+              {/* Diamond Detail */}
+              <div className="min_height_100EstimatePrint spBrdrLft spBrdrRigt spBrdrBtom position-relative col-2 ">
+                <div className="totalBgEstimatePrint text-center spBrdrBtom ">
+                  <p className="spBold p-1">Diamond Detail</p>
+                </div>
+
+                <div className="d-flex h-100 pb-3">
+                  <div className="d-flex w-100 justify-content-between">
+                    {/* LEFT COLUMN */}
+                    <div className="w-100 h-100 pb-2 ">
+                      <div className="d-flex flex-column px-1">
+                        {data?.resultArray?.flatMap((e) =>
+                          e?.diamonds?.map((el, i) => (
+                            <div key={i} className="d-flex justify-content-between">
+                              <p className="col-6 spBold spbrWord m-0">
+                                {el?.ShapeName + " " + el?.Colorname + " " + (el?.SizeName.startsWith("C:") ? "Custom" : el?.SizeName)}
+                              </p>
+                              <p className="col-4 spbrWord m-0 text-end">
+                                {el?.Pcs} / {fixedValues(el?.Wt, 3)} cts
+                              </p>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 w-100 spBrdrTop ">
+                  <div className="px-1 min_height_24_estimatePrint w-50">
+                    <div className="d-flex justify-content-between align-items-center h-100">
+                      <div className="spBold"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Category Wise Summary */}
+              <div className="min_height_100EstimatePrint spBrdrLft spBrdrRigt spBrdrBtom position-relative col-2 ">
+                <div className="totalBgEstimatePrint text-center spBrdrBtom ">
+                  <p className="spBold p-1">Summary</p>
+                </div>
+
+                <div className="d-flex h-100 pb-3">
+                  <div className="d-flex w-100 justify-content-between">
+                    <div className="w-100 h-100 pb-2 ">
+                      <div className="d-flex flex-column px-1">
+                        {categoryCounts?.map((el) =>
+                          <div className="d-flex justify-content-between">
+                            <p className="col-6 spBold spbrWord m-0">
+                              {el?.Categoryname}
+                            </p>
+                            <p className="col-4 spbrWord m-0 text-end">
+                              {el?.count}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 w-100 spBrdrTop ">
+                  <div className="px-1 min_height_24_estimatePrint w-50">
+                    <div className="d-flex justify-content-between align-items-center h-100">
+                      <div className="spBold"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="spWdthLst"></div>
+
+              {/* Checked By Section */}
+              <div className="col-1 min_height_100EstimatePrint d-flex align-items-end justify-content-center spBrdrLft spBrdrRigt spBrdrBtom ">
+                <div className="d-flex h-100 w-100">
+                  <div className="position-relative d-flex justify-content-center align-items-end w-100">
+                    <i className="w-100 text-center">Checked By</i>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
       ) : (
         <p className="text-danger fs-2 spBold mt-5 text-center w-50 mx-auto">

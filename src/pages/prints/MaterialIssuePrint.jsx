@@ -324,8 +324,6 @@ function MaterialIssuePrint({
 
                         <div
                             style={{
-
-
                                 fontFamily: "Calibri",
                                 WebkitPrintColorAdjust: "exact",
                                 MozPrintColorAdjust: "exact"
@@ -641,7 +639,7 @@ function MaterialIssuePrint({
                                         textAlign: "center",
                                     }}
                                 >
-                                    For, <span id="CompanyFullName_sign">orail25</span>
+                                    For, <span id="CompanyFullName_sign">{json0Data?.companyname}</span>
                                 </div>
                             </div>
                         </div>

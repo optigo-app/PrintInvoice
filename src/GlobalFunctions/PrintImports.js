@@ -494,6 +494,7 @@ export const JewelleyMemo = [
 
 export const MemoMaterialIssue = [
   {printName: 'shipmenttag', etpType: 'print', componentName: 'ShipmentTagOptigo'},
+  {printName: 'Memo Material Issue', etpType: 'print', componentName: 'MemoMaterialIssue'},
 ];
 
 export const MaterialReturn = [
