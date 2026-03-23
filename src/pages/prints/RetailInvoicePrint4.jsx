@@ -723,8 +723,7 @@ const RetailInvoiceprint4 = ({
                             )}
                           </div>
                           <div
-                            className={`${style?.materialJewerryRetailInvoicePrint} border-end`}
-                          >
+                            className={`${style?.materialJewerryRetailInvoicePrint} border-end`} >
                             <div className="d-grid h-100">
                               {e?.primaryMetal?.map((ele, ind) => {
                                 return (
@@ -1030,24 +1029,7 @@ const RetailInvoiceprint4 = ({
                                     </div>
                                   </div>
                                 )}
-                              {/* 
-                        {e?.materials.length > 0 ? e?.materials.map((ele, ind) => {
-                          return <div className={`d-flex ${ind !== e?.materials.length - 1 && 'border-bottom'}`} key={ind}>
-                            <div className={`col-2 border-end d-flex align-items-center`}><p className="p-1 lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 ? ele?.ShapeName : ele?.MasterManagement_DiamondStoneTypeName}</p></div>
-                            <div className={`col-2 border-end d-flex align-items-center`}><p className="p-1 lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && ele?.QualityName}{((ind === 0 && e?.Tunch !== 0) && ` / ${NumberWithCommas(e?.Tunch, 2)}%`)}</p></div>
-                            <div className={`col-2 border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.grosswt, 3)}</p></div>
-                            <div className={`col-2 border-end p-1 d-flex align-items-center justify-content-end`}><p className=" text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid !== 4 && fixedValues(ele?.Wt, 3)}</p></div>
-                            <div className={`col-2 border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.MetalDiaWt, 3)}</p></div>
-                            <div className={`col-2 d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 ? NumberWithCommas(ele?.Rate, 2) : NumberWithCommas(ele?.Amount / ele?.Wt, 2)}</p></div>
-                          </div>
-                        }) : <div className="d-flex">
-                          <div className={` border-end`}><p className="p-1 lh-1"></p></div>
-                          <div className={` border-end`}><p className="p-1 lh-1"></p></div>
-                          <div className={` border-end`}><p className="p-1 text-end lh-1"></p></div>
-                          <div className={` border-end p-1 `}><p className="text-end lh-1"></p></div>
-                          <div className={`border-end `}><p className="p-1 text-end lh-1"></p></div>
-                          <div className={` `}><p className="p-1 text-end lh-1"></p></div>
-                        </div>} */}
+
                             </div>
                           </div>
                           <div

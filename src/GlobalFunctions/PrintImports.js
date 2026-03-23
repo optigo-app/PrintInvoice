@@ -48,7 +48,7 @@ export const printConditions = [
   {printName: 'export print 2', etpType: 'print', componentName: 'ExportPrint2'},
   {printName: 'invoice print', etpType: 'print', componentName: 'InvoicePrint'},
   {printName: 'invoice print 10', etpType: 'print', componentName: 'InvoicePrint10'},
-  {printName: 'Invoice Print N', etpType: 'print', componentName: 'InvoicePrintN'}, // amish
+  {printName: 'Invoice Print N', etpType: 'print', componentName: 'InvoicePrintN'}, // amish....
   // {printName: 'invoice print 11', etpType: 'print', componentName: 'InvoicePrint11'},
   {printName: 'invoice print 11', etpType: 'print', componentName: 'InvoicePrint11'},
   {printName: 'invoice print 12', etpType: 'print', componentName: 'InvoicePrint_12'},
@@ -74,9 +74,7 @@ export const printConditions = [
   {printName: 'jewellery invoice 3', etpType: 'print', componentName: 'JewelleryInvoice3'},
   {printName: 'jewellery item wise', etpType: 'print', componentName: 'HallmarkItemWisePrint'},
   {printName: 'jewellery retail invoice c', etpType: 'print', componentName: 'JewelleryRetailInvoicePrintc'},
-
   {printName: 'jewellery tax invoice b2b', etpType: 'print', componentName: 'JewelleryTaxInvoiceAB2B'},   
-  
   {printName: 'jewellery tax invoice', etpType: 'print', componentName: 'JewelleryTaxInvoice'},
   {printName: 'jewellery tax invoice 1', etpType: 'print', componentName: 'JewelleryTaxInvoice1'},
   {printName: 'jewellery tax invoice 2', etpType: 'print', componentName: 'JewelleryTaxInvoice2'},
@@ -96,13 +94,11 @@ export const printConditions = [
   {printName: 'packing list 1', etpType: 'print', componentName: 'PackingList1'},
   {printName: 'packing list 1 s', etpType: 'print', componentName: 'PackingList1S'},
   {printName: 'packing list 2', etpType: 'print', componentName: 'PackingList2'},
-
   {printName: 'packing list 3', etpType: 'print', componentName: 'PackingList3'},
   {printName: 'packing list 3 am', etpType: 'print', componentName: 'PackingList3AM'},
   {printName: 'packing list 3a', etpType: 'print', componentName:'PackingList3A'},
   {printName: 'packing list e', etpType: 'print', componentName: 'PackingListE'},
   {printName: 'packing list s', etpType: 'print', componentName: 'PackingListS'},
-
   {printName: 'packing list 4', etpType: 'print', componentName: 'PackingList4'},
   {printName: 'packing list 6', etpType: 'print', componentName: 'Packinglist6'},
   {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
@@ -161,7 +157,6 @@ export const printConditions = [
   {printName: 'tax invoice 6', etpType: 'print', componentName: 'TaxInvoice5'},
   {printName: 'print 2', etpType: 'print', componentName: 'Print2'},
   {printName: 'Invoice Print D', etpType: 'print', componentName: 'InvoicePrintD'},
-
   {printName: 'tax invoice a', etpType: 'print', componentName: 'TaxInvoiceA'},
   {printName: 'material sale print', etpType: 'print', componentName: 'MaterialSalePrint'},
   {printName: 'estimate print k', etpType: 'print', componentName: 'EstimatePrintK'},
@@ -224,7 +219,7 @@ export const QuotationPrints = [
   {printName: 'packing list 3', etpType: 'print', componentName: 'PackingList3Quote'},
   {printName: 'summary 4', etpType: 'print', componentName: 'Summary4Quote'},
   // {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrint'},
-  {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrintQuote'},  //amish
+  {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrintQuote'},  //amish....
   {printName: 'detail print 12', etpType: 'print', componentName: 'DetailPrint12Quote'},
   {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
   {printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group'},
@@ -485,7 +480,7 @@ export const CustomerReturn = [
 
 export const MaterialIssue = [
   {printName: 'shipmenttag', etpType: 'print', componentName: 'ShipmentTagOptigo'},
-  {printName: 'Print', etpType: 'print', componentName: 'MaterialIssuePrint'},  // amish
+  {printName: 'Print', etpType: 'print', componentName: 'MaterialIssuePrint'},  // amish.....
 ];
 
 export const JewelleyMemo = [
