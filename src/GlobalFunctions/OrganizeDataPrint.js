@@ -591,26 +591,26 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1, json3_1, invoiceNo,
   
   totalAmount = (+totalAmount)?.toFixed(2);
   totalAmount = (+totalAmount) + (+header?.AddLess);
-  // totalAmount = (+totalAmount) + (+header?.AddLess) + (+header?.FreightCharges);
+ 
 
   let headerObj = { ...header };
 
   headerObj.BrokerageDetails = brArr;
 
-  // resultArray.sort((a, b) => a.designno - b.designno);
+ 
   const customSort = (a, b) => {
 
     if (isNaN(a?.designno) && isNaN(b?.designno)) {
-      // If both are non-numeric, compare as strings
+      
       return (a?.designno)?.localeCompare(b?.designno);
     } else if (isNaN(a?.designno)) {
-      // If only 'a' is non-numeric, place it at the end
+    
       return 1;
     } else if (isNaN(b?.designno)) {
-      // If only 'b' is non-numeric, place it at the end
+ 
       return -1;
     } else {
-      // If both are numeric, compare as numbers
+    
       return a?.designno - b?.designno;
     }
   };
