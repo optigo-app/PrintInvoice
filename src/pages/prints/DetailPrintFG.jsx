@@ -121,99 +121,99 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     // });
 
     //after groupjob
-        datas?.resultArray?.forEach((e) => {
-          //diamond
-          let dia2 = [];
-          let dia1_ = [];
-          let dia2_ = [];
-          e?.diamonds?.forEach((el) => {
-            if (el?.GroupName === "") {
-              dia1_.push(el);
-            } else {
-              dia2_.push(el);
-            }
-          });
-          let dia1_g = [];
-          dia1_?.forEach((ell) => {
-            let bll = cloneDeep(ell);
-            let findrec = dia1_g.findIndex(
-              (a) =>
-                a?.ShapeName === bll?.ShapeName &&
-                a?.QualityName === bll?.QualityName &&
-                a?.Colorname === bll?.Colorname &&
-                a?.SizeName === bll?.SizeName &&
-                a?.MaterialTypeName === bll?.MaterialTypeName // Added
-              );
-            if (findrec === -1) {
-              dia1_g.push(bll);
-            } else {
-              dia1_g[findrec].Wt += bll?.Wt;
-              dia1_g[findrec].Pcs += bll?.Pcs;
-              dia1_g[findrec].Amount += bll?.Amount;
-            }
-          });
-          let dia2_g = [];
-          dia2_?.forEach((ell) => {
-            let bll = cloneDeep(ell);
-            let findrec = dia2_g.findIndex(
-              (a) =>
-                a?.ShapeName === bll?.ShapeName &&
-                a?.QualityName === bll?.QualityName &&
-                a?.Colorname === bll?.Colorname &&
-                a?.GroupName === bll?.GroupName 
-            );
-            if (findrec === -1) {
-              dia2_g.push(bll);
-            } else {
-              dia2_g[findrec].Wt += bll?.Wt;
-              dia2_g[findrec].Pcs += bll?.Pcs;
-              dia2_g[findrec].Amount += bll?.Amount;
-            }
-          });
-          let dia2_g_ = [];
-          dia2_g?.forEach((e) => {
-            e.SizeName = e?.GroupName;
-            dia2_g_.push(e);
-          });
-          dia2 = [...dia1_g, ...dia2_g_];
-    
-          e.diamonds = dia2;
-    
-          let misc0 = [];
-          e?.misc?.forEach((el) => {
-            if (el?.IsHSCOE === 0) {
-              misc0?.push(el);
-            }
-          });
-    
-          e.misc = misc0;
-    
-          let met2 = [];
-          e?.metal?.forEach((a) => {
-            if (e?.GroupJob !== "") {
-              let obj = { ...a };
-              obj.GroupJob = e?.GroupJob;
-              met2?.push(obj);
-            }
-          });
-    
-          let met3 = [];
-          met2?.forEach((a) => {
-            let findrec = met3?.findIndex(
-              (el) => el?.StockBarcode === el?.GroupJob
-            );
-            if (findrec === -1) {
-              met3?.push(a);
-            } else {
-              met3[findrec].Wt += a?.Wt;
-            }
-          });
-          if (e?.GroupJob === "") {
-            return;
-          } else {
-            e.metal = met3;
-          }
-        });
+    datas?.resultArray?.forEach((e) => {
+      //diamond
+      let dia2 = [];
+      let dia1_ = [];
+      let dia2_ = [];
+      e?.diamonds?.forEach((el) => {
+        if (el?.GroupName === "") {
+          dia1_.push(el);
+        } else {
+          dia2_.push(el);
+        }
+      });
+      let dia1_g = [];
+      dia1_?.forEach((ell) => {
+        let bll = cloneDeep(ell);
+        let findrec = dia1_g.findIndex(
+          (a) =>
+            a?.ShapeName === bll?.ShapeName &&
+            a?.QualityName === bll?.QualityName &&
+            a?.Colorname === bll?.Colorname &&
+            a?.SizeName === bll?.SizeName &&
+            a?.MaterialTypeName === bll?.MaterialTypeName // Added
+        );
+        if (findrec === -1) {
+          dia1_g.push(bll);
+        } else {
+          dia1_g[findrec].Wt += bll?.Wt;
+          dia1_g[findrec].Pcs += bll?.Pcs;
+          dia1_g[findrec].Amount += bll?.Amount;
+        }
+      });
+      let dia2_g = [];
+      dia2_?.forEach((ell) => {
+        let bll = cloneDeep(ell);
+        let findrec = dia2_g.findIndex(
+          (a) =>
+            a?.ShapeName === bll?.ShapeName &&
+            a?.QualityName === bll?.QualityName &&
+            a?.Colorname === bll?.Colorname &&
+            a?.GroupName === bll?.GroupName
+        );
+        if (findrec === -1) {
+          dia2_g.push(bll);
+        } else {
+          dia2_g[findrec].Wt += bll?.Wt;
+          dia2_g[findrec].Pcs += bll?.Pcs;
+          dia2_g[findrec].Amount += bll?.Amount;
+        }
+      });
+      let dia2_g_ = [];
+      dia2_g?.forEach((e) => {
+        e.SizeName = e?.GroupName;
+        dia2_g_.push(e);
+      });
+      dia2 = [...dia1_g, ...dia2_g_];
+
+      e.diamonds = dia2;
+
+      let misc0 = [];
+      e?.misc?.forEach((el) => {
+        if (el?.IsHSCOE === 0) {
+          misc0?.push(el);
+        }
+      });
+
+      e.misc = misc0;
+
+      let met2 = [];
+      e?.metal?.forEach((a) => {
+        if (e?.GroupJob !== "") {
+          let obj = { ...a };
+          obj.GroupJob = e?.GroupJob;
+          met2?.push(obj);
+        }
+      });
+
+      let met3 = [];
+      met2?.forEach((a) => {
+        let findrec = met3?.findIndex(
+          (el) => el?.StockBarcode === el?.GroupJob
+        );
+        if (findrec === -1) {
+          met3?.push(a);
+        } else {
+          met3[findrec].Wt += a?.Wt;
+        }
+      });
+      if (e?.GroupJob === "") {
+        return;
+      } else {
+        e.metal = met3;
+      }
+    });
     setData(datas);
 
 
@@ -302,7 +302,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
 
 
-  
+
   return (
     <>
       {loader ? (
@@ -482,7 +482,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
               </div>
               <div className="totalAmountEstimatePrint d-flex align-items-center justify-content-center flex-wrap">
-                <p className="text-center spBold">Amount </p>
+                <p className="text-center spBold">Amount</p>
               </div>
             </div>
             {/* data */}
@@ -536,16 +536,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         >
                           {fixedValues(item?.grosswt, 3)} gm Gross
                         </p>
-                        {/* {item?.Size !== "" && (
-                            <p className="w-100 ps-1 spBold">
-                              Size : {item?.Size}
-                            </p>
-                          )}
-                          {item?.PromiseDate !== "" && item?.PromiseDate !== null && (
-                            <p className="w-100 ps-1 spBold">
-                              PR Date : {item?.PromiseDate}
-                            </p>
-                          )} */}
+                       
                       </div>
                     </div>
 
@@ -635,13 +626,11 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {/* Metal */}
                     <div className="metalEstimatePrint spBrdrRigt position-relative ">
                       <div className="pad_bot_29_estimatePrint">
-                         
+                        {console.log("metal", item?.metal)}
                         {item?.metal?.length > 0 &&
                           item.metal.filter((ele) => ele?.IsPrimaryMetal === 1).map((ele, ind) => (
-
-
                             <div className="d-flex" key={ind}>
-                          
+
                               <div className="width_40_estimatePrint spbrWord p_1Estimate">
                                 {ele?.IsPrimaryMetal === 1 && (
                                   <p>{ele?.ShapeName} {ele?.QualityName} ({ele?.MetalColorCode.slice(0, 2)})</p>
@@ -651,7 +640,8 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <p className="text-end">
                                   <p className="text-end">
                                     {/* {fixedValues( (item?.DiamondCTWwithLoss/5)+Number(item?.NetWt) ,2)} */}
-                                    {formatAmount(((item?.DiamondCTWwithLoss / 5) + Number(ele?.Wt)).toFixed(3) + (item?.totals?.finding?.Wt || 0),2)}
+                                    {/* {formatAmount(((item?.DiamondCTWwithLoss / 5) + Number(ele?.Wt)).toFixed(3) + (item?.totals?.finding?.Wt || 0),2)} */}
+                                    {formatAmount(Math.round(fixedValues(Number((item?.DiamondCTWwithLoss / 5) + Number(ele?.Wt)) + (item?.totals?.finding?.Wt || 0), 3) * 100) / 100, 2)}
                                   </p>
                                 </p>
                               </div>
@@ -659,7 +649,8 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <p className="text-end">
                                   {/* {fixedValues(item?.totals?.metal?.Wt, 2)} */}
                                   {/* {fixedValues(Number(item?.NetWt), 2)} */}
-                                  { Math.round( fixedValues(Number(ele?.Wt) + (item?.totals?.finding?.Wt || 0), 3)*100)/100}
+                                  {/* { Math.round( fixedValues(Number(ele?.Wt) + (item?.totals?.finding?.Wt || 0), 3)*100)/100} */}
+                                  {formatAmount(Math.round(fixedValues(Number(ele?.Wt) + (item?.totals?.finding?.Wt || 0), 3) * 100) / 100, 2)}
                                 </p>
                               </div>
                               <div className="width_40_estimatePrint p_1Estimate" style={{ width: "14%", minWidth: "14%" }}>
@@ -712,11 +703,22 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="width200EstimatePrint p_1Estimate" style={{ width: "18%", minWidth: "18%" }} />
                         <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "15.66%", minWidth: "15.66%" }}>
                           {/* <p className="text-end spBold">{fixedValues((item?.DiamondCTWwithLoss / 5) + Number(item?.NetWt), 2)}</p> */}
-                          <p className="text-end spBold">{fixedValues(((item?.DiamondCTWwithLoss / 5) + Number(item?.totals?.primaryMetalWt)).toFixed(3) + Number(item?.totals?.finding?.Wt || 0),2)}</p>
+                          {/* <p className="text-end spBold">{fixedValues(((item?.DiamondCTWwithLoss / 5) + Number(item?.totals?.primaryMetalWt)).toFixed(3) + Number(item?.totals?.finding?.Wt || 0),2)}</p> */}
+                          <p className="text-end spBold"> {
+                            fixedValues(
+                              (
+                                (item?.DiamondCTWwithLoss / 5) +
+                                Number(item?.totals?.primaryMetalWt || 0) +
+                                (item?.totals?.finding?.Wt || 0)
+                              ).toFixed(3),
+                              2
+                            )
+                          }</p>
                         </div>
                         <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "15.66%", minWidth: "15.66%" }}>
                           {/* <p className="text-end spBold">{fixedValues(item?.NetWt + item?.LossWt, 2)}</p> */}
-                          <p className="text-end spBold">{ Math.round( fixedValues(item?.totals?.primaryMetalWt + item?.totals?.finding?.Wt || 0, 3)*100)/100}</p>
+                          {/* <p className="text-end spBold">{Math.round(fixedValues(item?.totals?.primaryMetalWt + item?.totals?.finding?.Wt || 0, 2) * 100) / 100}</p> */}
+                          <p className="text-end spBold">{formatAmount(Math.round(fixedValues((Number(item?.totals?.primaryMetalWt || 0) + Number(item?.totals?.finding?.Wt || 0)), 2) * 100) / 100, 2)}</p>
                         </div>
                         <div
                           className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end"
@@ -734,7 +736,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           item.colorstone.map((ele, ind) => (
                             <div className="d-flex" key={ind}>
                               <div className="width20EstimatePrint spbrWord p_1Estimate">
-                                <p>{ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}</p>
+                                <p>{ele?.MaterialTypeName} {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}</p>
                               </div>
                               <div className="width20EstimatePrint p_1Estimate">
                                 <p>{ele?.SizeName}</p>
@@ -968,10 +970,10 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
               <div className="metalEstimatePrint spBrdrRigt ">
                 <div className="d-flex totalBgEstimatePrint bottom-0 w-100">
-                  <div className="width200EstimatePrint p_1Estimate h-100" style={{ width: "14%", minWidth: "14%" }}>
+                  <div className="width200EstimatePrint p_1Estimate h-100" style={{ width: "16%", minWidth: "16%" }}>
                     <p className="spBold"></p>
                   </div>
-                  <div className="width200EstimatePrint p_1Estimate h-100">
+                  <div className="width200EstimatePrint p_1Estimate h-100" style={{width:"17%",minWidth:"17%"}}>
                     <p className="spBold text-end">
                       {/* {data?.weightWithDiamondLoss !== 0 && fixedValues(data.weightWithDiamondLoss, 3)} */}
                       {/* {NumberWithCommas(data?.mainTotal?.grosswt, 2)} */}
@@ -979,15 +981,15 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       {fixedValues((data?.mainTotal?.diamonds?.Wt / 5) + data?.mainTotal?.metal?.IsPrimaryMetal + data?.mainTotal?.finding?.Wt, 2)}
                     </p>
                   </div>
-                  <div className="width200EstimatePrint p_1Estimate h-100">
+                  <div className="width200EstimatePrint p_1Estimate h-100" style={{width:"17%",minWidth:"17%"}}>
                     <p className="spBold text-end">
                       {(data?.mainTotal?.metal?.Wt !== 0 || data?.mainTotal?.metal?.Wt !== 0) &&
-                        fixedValues(data?.mainTotal?.metal?.IsPrimaryMetal + data?.mainTotal?.finding?.Wt, 3)}
+                        fixedValues(data?.mainTotal?.metal?.IsPrimaryMetal + data?.mainTotal?.finding?.Wt, 2)}
                     </p>
                   </div>
                   <div
                     className="width200EstimatePrint p_1Estimate h-100"
-                    style={{ minWidth: "46%", width: "46%" }}
+                    style={{ minWidth: "48%", width: "48%" }}
                   >
                     <p className="spBold text-end">
                       {NumberWithCommas(data?.mainTotal?.metal?.Amount + data?.mainTotal?.finding?.Amount, 2)}

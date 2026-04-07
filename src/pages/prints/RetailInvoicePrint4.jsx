@@ -54,6 +54,9 @@ const RetailInvoiceprint4 = ({
   const [taxes, setTaxes] = useState([]);
   const [bank, setBank] = useState([]);
   const [document, setDocument] = useState([]);
+
+
+  
   function loadData(data) {
     // console.log("datadatadata", data);
 
