@@ -299,7 +299,8 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   };
 
 
-
+console.log("TCL: tptal",data.mainTotal )
+ 
 
 
 
@@ -650,7 +651,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   {/* {fixedValues(item?.totals?.metal?.Wt, 2)} */}
                                   {/* {fixedValues(Number(item?.NetWt), 2)} */}
                                   {/* { Math.round( fixedValues(Number(ele?.Wt) + (item?.totals?.finding?.Wt || 0), 3)*100)/100} */}
-                                  {formatAmount(Math.round(fixedValues(Number(ele?.Wt) + (item?.totals?.finding?.Wt || 0), 3) * 100) / 100, 2)}
+                                  {formatAmount(Math.round(fixedValues(Number(ele?.Wt) + (item?.LossWt|| 0)+(item?.totals?.finding?.Wt || 0), 3) * 100) / 100, 2)}
                                 </p>
                               </div>
                               <div className="width_40_estimatePrint p_1Estimate" style={{ width: "14%", minWidth: "14%" }}>
@@ -718,7 +719,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "15.66%", minWidth: "15.66%" }}>
                           {/* <p className="text-end spBold">{fixedValues(item?.NetWt + item?.LossWt, 2)}</p> */}
                           {/* <p className="text-end spBold">{Math.round(fixedValues(item?.totals?.primaryMetalWt + item?.totals?.finding?.Wt || 0, 2) * 100) / 100}</p> */}
-                          <p className="text-end spBold">{formatAmount(Math.round(fixedValues((Number(item?.totals?.primaryMetalWt || 0) + Number(item?.totals?.finding?.Wt || 0)), 2) * 100) / 100, 2)}</p>
+                          <p className="text-end spBold">{formatAmount(Math.round(fixedValues((Number(item?.totals?.primaryMetalWt || 0) + (item?.LossWt|| 0)+ Number(item?.totals?.finding?.Wt || 0)), 2) * 100) / 100, 2)}</p>
                         </div>
                         <div
                           className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end"
@@ -827,7 +828,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="h-100 d-grid pad_bot_29_estimatePrint">
                         <div className="p_1Estimate ">
                           <div className="w-100 d-flex align-items-center justify-content-end spBold">
-                            {NumberWithCommas(item?.OtherCharges, 2)}
+                            {NumberWithCommas(item?.OtherCharges+item?.TotalDiamondHandling, 2)}
                           </div>
                         </div>
                       </div>
@@ -836,7 +837,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         style={{ height: "14.5px" }}
                       >
                         <div className="text-end p_1Estimate">
-                          <div className="spBold">{NumberWithCommas(item?.OtherCharges, 2)}</div>
+                          <div className="spBold">{NumberWithCommas(item?.OtherCharges+item?.TotalDiamondHandling, 2)}</div>
                         </div>
                       </div>
                     </div>
@@ -984,7 +985,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="width200EstimatePrint p_1Estimate h-100" style={{width:"17%",minWidth:"17%"}}>
                     <p className="spBold text-end">
                       {(data?.mainTotal?.metal?.Wt !== 0 || data?.mainTotal?.metal?.Wt !== 0) &&
-                        fixedValues(data?.mainTotal?.metal?.IsPrimaryMetal + data?.mainTotal?.finding?.Wt, 2)}
+                        fixedValues(data?.mainTotal?.metal?.IsPrimaryMetal + (data?.mainTotal?.lossWt|| 0)+  data?.mainTotal?.finding?.Wt, 2)}
                     </p>
                   </div>
                   <div
@@ -1031,7 +1032,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className="totalBgEstimatePrint bottom-0 w-100 h-100">
                   <div className="h-100 text-end p_1Estimate">
                     <p className="spBold">
-                      {NumberWithCommas(data?.mainTotal?.total_other, 2)}
+                      {NumberWithCommas(data?.mainTotal?.total_other + data?.mainTotal?.total_diamondHandling, 2)}
                     </p>
                   </div>
                 </div>

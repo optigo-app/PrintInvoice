@@ -1,4 +1,4 @@
-/* Container and wrapper */
+
 .j-inv-container {
     max-width: 1200px;
     width: 100%;
@@ -12,8 +12,6 @@
 .j-inv-body-wrapper {
     border: 1px solid #000;
 }
-
-/* Header Section */
 .j-inv-logo-section {
     display: flex;
     justify-content: center;
@@ -67,30 +65,39 @@
 .j-inv-min-h-80 { min-height: 80px; }
 .j-inv-min-h-100 { min-height: 100px; }
 .j-inv-h-150 { height: 150px; }
-.j-inv-h-40 { height: 40px; }
+.j-inv-h-40 { min-height: 40px; }
 .j-inv-large { font-size: 13px; }
 .j-inv-bg-light { background: #f9f9f9; }
 .j-inv-flex-between { display: flex; justify-content: space-between; padding: 2px 8px; }
 .j-inv-col-sr      { width: 5.37%;  }  
 .j-inv-col-code    { width: 10.75%; }  
 .j-inv-col-hsn     { width: 8.06%;  }  
-.j-inv-col-desc    { width: 25.9%; }   
+.j-inv-col-desc    { width: 25.9%;  }   
 .j-inv-col-qty     { width: 5.37%;  }  
 .j-inv-col-rate    { width: 9.40%;  }  
 .j-inv-col-disc    { width: 8.06%;  }  
 .j-inv-col-gst     { width: 5.37%;  }  
 .j-inv-col-gst-amt { width: 9.40%;  }  
 .j-inv-col-net     { width: 12.15%; }  
-.j-inv-col-total     { width: 50%; }   
 
- 
+.j-inv-col-sr-taxamt      { width: 5.37%;  }  
+.j-inv-col-code-taxamt    { width: 10.75%; }  
+.j-inv-col-hsn-taxamt     { width: 5%;  }  
+.j-inv-col-desc-taxamt    { width: 25%;  }   
+.j-inv-col-qty-taxamt     { width: 4%;  }  
+.j-inv-col-rate-taxamt    { width: 9.40%;  }  
+.j-inv-col-disc-taxamt    { width: 8.06%;  }  
+.j-inv-col-gst-taxamt     { width: 5.37%;  }  
+.j-inv-col-gst-amt-taxamt { width: 9.40%;  }  
+.j-inv-col-tabamt-taxamt{ width: 7%; }
+.j-inv-col-net-taxamt     { width: 10%; }  
+.j-inv-col-total  { width: 50%; }   
+.j-inv-col-total-taxamt  { width: 46.1%; }   
 .j-inv-container {
     width: 95%;           
     max-width: 800px;     
     margin: 20px auto;
 }
- 
- 
 .j-inv-table-row {
     display: flex;
     width: 100%;
@@ -98,7 +105,6 @@
 .j-inv-col-ttloqty{
     width: 5.5%;
 }
-
 @media print {
     .j-inv-btn{
         display: none !important;
@@ -106,5 +112,8 @@
     .j-inv-col-desc    { width: 25.8% !important; }   
     .j-inv-col-ttloqty{
         width: 5.3% !important;
+    }
+    .j-inv-col-qty-taxamt {
+        width: 3.9% !important;
     }
 }

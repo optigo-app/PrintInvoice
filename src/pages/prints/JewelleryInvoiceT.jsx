@@ -32,6 +32,7 @@ const JewelleryInvoiceT = ({
     const [loader, setLoader] = useState(true);
     const toWords = new ToWords();
     const [image, setImage] = useState(true);
+    const [taxamt, setTaxamt] = useState(true);
     const [total, setTotal] = useState({
         Qty: 0,
         gwt: 0,
@@ -74,7 +75,7 @@ const JewelleryInvoiceT = ({
                 totals.others += e?.OtherCharges;
                 totals.total += e?.UnitCost;
                 totals.discount += e?.DiscountAmt;
-                totals.Qty += e?.Quantity;  
+                totals.Qty += e?.Quantity;
                 let hallmarkingCount = 0;
                 let materials = [];
                 let primaryMetal = [];
@@ -236,7 +237,7 @@ const JewelleryInvoiceT = ({
             let debitCardinfo = ReceiveInBank(data?.BillPrint_Json[0]?.BankPayDet);
             setBank(debitCardinfo);
             // console.log("bank", debitCardinfo);
-            
+
             totals.netBalAmount =
                 totals.afterTax - data?.BillPrint_Json[0]?.OldGoldAmount;
             debitCardinfo.length > 0 &&
@@ -394,6 +395,10 @@ const JewelleryInvoiceT = ({
         image ? setImage(false) : setImage(true);
     };
 
+    const handleChangeTaxamt = (e) => {
+        taxamt ? setTaxamt(false) : setTaxamt(true);
+    };
+
     const totalConverted = total?.afterTax / headerData?.CurrencyExchRate;
     const totalPayments =
         headerData?.OldGoldAmount +
@@ -405,51 +410,51 @@ const JewelleryInvoiceT = ({
 
     const formatPaymentData = (rawData) => {
         if (!rawData) return [];
-      
-    
+
         const mergedMap = rawData.split("@-@").reduce((acc, item) => {
-          const parts = item.split("#-#");
-          const label = parts[0]?.trim() || "";
-          const id = parts[1]?.trim() || "";
-          const amount = parseFloat(parts[2]) || 0;
-          const key = `${label}_${id}`;
-      
-          if (acc[key]) {
-            acc[key].amount += amount;
-          } else {
-            acc[key] = { label, id, amount };
-          }
-      
-          return acc;
+            const parts = item.split("#-#");
+            const label = parts[0]?.trim() || "";
+            const id = parts[1]?.trim() || "";
+            const amount = parseFloat(parts[2]) || 0;
+
+
+            const key = label;
+
+            if (acc[key]) {
+                acc[key].amount += amount;
+            } else {
+                acc[key] = { label, id, amount };
+            }
+
+            return acc;
         }, {});
+
         return Object.values(mergedMap).map(item => ({
-          label: item.label,
-          id: item.id,
-          amount: item.amount.toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })
+            label: item.label,
+            id: item.id,
+            amount: item.amount.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            })
         }));
-      };
-    
-       const pay_details = formatPaymentData(headerData?.InvPayDet)
+    };
 
-  
-  console.log("TCL: resultArr",total )
-  // Calculate the Grand Total for all items in the data array
-const totalBillAmount = data.reduce((acc, e) => {
-    // 1. Convert everything to numbers
-    const cgst = Number(headerData.CGST) || 0;
-    const sgst = Number(headerData.SGST) || 0;
-    const igst = Number(headerData.IGST) || 0;
-    const unitCost = Number(e.UnitCost) || 0;
-    const gst = (cgst + sgst) > 0 ? (cgst + sgst) : igst;
-    const gstAmt = (unitCost * gst) / 100;
-    const rowNet = unitCost + gstAmt;
+    const pay_details = formatPaymentData(headerData?.InvPayDet)
 
-  
-    return acc + rowNet;
-}, 0);  
+
+    const totalBillAmount = data.reduce((acc, e) => {
+        // 1. Convert everything to numbers
+        const cgst = Number(headerData.CGST) || 0;
+        const sgst = Number(headerData.SGST) || 0;
+        const igst = Number(headerData.IGST) || 0;
+        const TotalAmount = Number(e.TotalAmount) || 0;
+        const gst = (cgst + sgst) > 0 ? (cgst + sgst) : igst;
+        const gstAmt = (TotalAmount * gst) / 100;
+        const rowNet = TotalAmount + gstAmt;
+
+
+        return acc + rowNet;
+    }, 0);
 
 
 
@@ -463,17 +468,34 @@ const totalBillAmount = data.reduce((acc, e) => {
                     {msg === "" ? (
                         <>
                             {" "}
-                            <div className="j-inv-container" style={{position:"relative"}}>
-                               <div className='j-inv-btn' style={{position:"absolute",top:"10px",right:"-50px"}}>
-                               <Button />
-                               </div>
+                            <div className="j-inv-container" style={{ position: "relative" }}>
+                                <div className='j-inv-btn' style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginBottom: "10px" }}>
+                                    <div className="form-check pe-3" style={{ display: "flex", alignItems: "center", gap: "5px" }} >
+                                        <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            id='flexCheckDefault'
+                                            checked={taxamt}
+                                            onChange={handleChangeTaxamt}
+                                            style={{ cursor: "pointer" }}
+                                        />
+                                        <label
+                                            className="form-check-label pt-1"
+                                            htmlFor="flexCheckDefault"
+                                            style={{ cursor: "pointer", textSelection: "none" }}
+                                        >
+                                            Taxable Amt.
+                                        </label>
+                                    </div>
+                                    <Button />
+                                </div>
                                 {/* Header Logo Box */}
                                 <div className="j-inv-logo-section">
                                     {isImageWorking && headerData?.PrintLogo !== "" && (
                                         <img
                                             src={headerData?.PrintLogo}
                                             alt=""
-                                            style={{ width: "80px", height: "80px",padding:"10px" }}
+                                            style={{ width: "80px", height: "80px", padding: "10px" }}
                                             className={``}
                                             onError={handleImageErrors}
                                             height={120}
@@ -527,8 +549,8 @@ const totalBillAmount = data.reduce((acc, e) => {
                                     </div>
 
                                     {/* Table Header */}
-                                    <div className="j-inv-table-row j-inv-bold j-inv-border-b j-inv-bg-light" style={{ borderTop: "1px solid black" }}>
-                                        <div className="j-inv-cell j-inv-col-sr j-inv-border-r">Sr. No.</div>
+                                    {/* <div className="j-inv-table-row j-inv-bold j-inv-border-b j-inv-bg-light" style={{ borderTop: "1px solid black" }}>
+                                        <div className="j-inv-cell j-inv-col-sr  j-inv-border-r" >Sr. No.</div>
                                         <div className="j-inv-cell j-inv-col-code j-inv-border-r">Product Code</div>
                                         <div className="j-inv-cell j-inv-col-hsn j-inv-border-r">HSN / SAC</div>
                                         <div className="j-inv-cell j-inv-col-desc j-inv-border-r">Description of Goods</div>
@@ -538,56 +560,80 @@ const totalBillAmount = data.reduce((acc, e) => {
                                         <div className="j-inv-cell j-inv-col-gst j-inv-border-r">Gst%</div>
                                         <div className="j-inv-cell j-inv-col-gst-amt j-inv-border-r">Gst Amt.</div>
                                         <div className="j-inv-cell j-inv-col-net">Net Amount</div>
+                                    </div> */}
+
+                                    <div className="j-inv-table-row j-inv-bold j-inv-border-b j-inv-bg-light" style={{ borderTop: "1px solid black" }}>
+                                        <div className={`j-inv-cell ${taxamt ? 'j-inv-col-sr-taxamt' : 'j-inv-col-sr'} j-inv-border-r`}>Sr. No.</div>
+                                        <div className={`j-inv-cell ${taxamt ? 'j-inv-col-code-taxamt' : 'j-inv-col-code'} j-inv-border-r`}>Product Code</div>
+                                        <div className={`j-inv-cell ${taxamt ? 'j-inv-col-hsn-taxamt' : 'j-inv-col-hsn'} j-inv-border-r`}>HSN / SAC</div>
+                                        <div className={`j-inv-cell ${taxamt ? 'j-inv-col-desc-taxamt' : 'j-inv-col-desc'} j-inv-border-r`}>Description of Goods</div>
+                                        <div className={`j-inv-cell ${taxamt ? 'j-inv-col-qty-taxamt' : 'j-inv-col-qty'} j-inv-border-r`}>Qty</div>
+                                        <div className={`j-inv-cell ${taxamt ? 'j-inv-col-rate-taxamt' : 'j-inv-col-rate'} j-inv-border-r`}>Rate</div>
+                                        <div className={`j-inv-cell ${taxamt ? 'j-inv-col-disc-taxamt' : 'j-inv-col-disc'} j-inv-border-r`}>Disc.</div>
+                                        {
+                                            taxamt && (
+                                                <div className={`j-inv-cell ${taxamt ? 'j-inv-col-tabamt-taxamt' : 'j-inv-col-tabamt'} j-inv-border-r`}>Taxable <br /> Amt.</div>
+                                            )
+                                        }
+                                        <div className={`j-inv-cell ${taxamt ? 'j-inv-col-gst-taxamt' : 'j-inv-col-gst'} j-inv-border-r`}>Gst%</div>
+                                        <div className={`j-inv-cell ${taxamt ? 'j-inv-col-gst-amt-taxamt' : 'j-inv-col-gst-amt'} j-inv-border-r`}>Gst Amt.</div>
+                                        <div className={`j-inv-cell ${taxamt ? 'j-inv-col-net-taxamt' : 'j-inv-col-net'}`}>Net Amount</div>
                                     </div>
 
                                     {/* Dynamic Items */}
                                     {data.length > 0 &&
                                         data.map((e, i) => {
 
+                                            console.log("TCL: formatPaymentData -> ", e)
                                             const cgst = Number(headerData.CGST) || 0;
                                             const sgst = Number(headerData.SGST) || 0;
                                             const igst = Number(headerData.IGST) || 0;
-                                            const unitCost = Number(e.UnitCost) || 0;
-
-                                            // 2. Determine the GST percentage
+                                            const TotalAmount = Number(e.TotalAmount) || 0;
                                             const gst = (cgst + sgst) > 0 ? (cgst + sgst) : igst;
-
-                                            // 3. Calculate the GST Amount
-                                            const gstAmt = (unitCost * gst) / 100;
+                                            const gstAmt = (TotalAmount * gst) / 100;
                                             return (
-                                                <div className="j-inv-table-row"    key={i}> {/* Remove alignItems style here */}
-                                                    <div className="j-inv-cell j-inv-col-sr j-inv-border-r">{i + 1}</div>
-                                                    <div className="j-inv-cell j-inv-col-code j-inv-border-r">{e.designno}</div>
-                                                    <div className="j-inv-cell j-inv-col-hsn j-inv-border-r">{e.HSNNo}</div>
-                                                    {/* Added j-inv-align-top to this specific cell for text alignment */}
-                                                    <div className="j-inv-cell j-inv-col-desc j-inv-border-r j-inv-text-left  j-inv-align-top">
+                                                <div className="j-inv-table-row" key={i}> {/* Remove alignItems style here */}
+                                                    <div className={`j-inv-cell ${taxamt ? 'j-inv-col-sr-taxamt' : 'j-inv-col-sr'} j-inv-border-r`}>{i + 1}</div>
+                                                    <div className={`j-inv-cell ${taxamt ? 'j-inv-col-code-taxamt' : 'j-inv-col-code'} j-inv-border-r`}>{e.designno}</div>
+                                                    <div className={`j-inv-cell ${taxamt ? 'j-inv-col-hsn-taxamt' : 'j-inv-col-hsn'} j-inv-border-r`}>{e.HSNNo}</div>
+                                                    <div className={`j-inv-cell ${taxamt ? 'j-inv-col-desc-taxamt' : 'j-inv-col-desc'} j-inv-border-r j-inv-text-left  j-inv-align-top`}>
                                                         {e.MetalTypePurity + " - " + e.Categoryname} <br /> {e.SrJobno}
                                                     </div>
-                                                    <div className="j-inv-cell j-inv-col-qty j-inv-border-r">{e.Quantity}</div>
-                                                    <div className="j-inv-cell j-inv-col-rate j-inv-border-r">{fixedValues(e.UnitCost, 2)}</div>
-                                                    <div className="j-inv-cell j-inv-col-disc j-inv-border-r">{fixedValues(e.DiscountAmt, 2)}</div>
-                                                    <div className="j-inv-cell j-inv-col-gst j-inv-border-r">{gst}</div>
-                                                    <div className="j-inv-cell j-inv-col-gst-amt j-inv-border-r">{fixedValues(gstAmt, 2)}</div>
-                                                    <div className="j-inv-cell j-inv-col-net j-inv-text-right j-inv-p-r-5">
+                                                    <div className={`j-inv-cell ${taxamt ? 'j-inv-col-qty-taxamt' : 'j-inv-col-qty'} j-inv-border-r`}>{e.Quantity}</div>
+                                                    <div className={`j-inv-cell ${taxamt ? 'j-inv-col-rate-taxamt' : 'j-inv-col-rate'} j-inv-border-r`}>{fixedValues(e.UnitCost, 2)}</div>
+                                                    <div className={`j-inv-cell ${taxamt ? 'j-inv-col-disc-taxamt' : 'j-inv-col-disc'} j-inv-border-r`}>{fixedValues(e.DiscountAmt, 2)}</div>
+                                                    {
+                                                        taxamt && (
+                                                            <div className={`j-inv-cell ${taxamt ? 'j-inv-col-tabamt-taxamt' : 'j-inv-col-tabamt'} j-inv-border-r`}>{fixedValues(e.TotalAmount, 2)}</div>
+                                                        )
+                                                    }
+                                                    <div className={`j-inv-cell ${taxamt ? 'j-inv-col-gst-taxamt' : 'j-inv-col-gst'} j-inv-border-r`}>{gst}</div>
+                                                    <div className={`j-inv-cell ${taxamt ? 'j-inv-col-gst-amt-taxamt' : 'j-inv-col-gst-amt'} j-inv-border-r`}>{fixedValues(gstAmt, 2)}</div>
+                                                    <div className={`j-inv-cell ${taxamt ? 'j-inv-col-net-taxamt' : 'j-inv-col-net'} j-inv-text-right j-inv-p-r-5`}>
                                                         {fixedValues(Number(e.UnitCost) + gstAmt, 2)}
                                                     </div>
                                                 </div>
                                             );
                                         })}
-                                    {/* Dummy Rows Logic: Ensures at least 5 rows total */}
+
                                     {data.length < 12 &&
                                         Array.from({ length: 12 - data.length }).map((_, index) => (
                                             <div className="j-inv-table-row" key={`dummy-${index}`}>
-                                                <div className="j-inv-cell j-inv-col-sr j-inv-border-r"></div>
-                                                <div className="j-inv-cell j-inv-col-code j-inv-border-r"></div>
-                                                <div className="j-inv-cell j-inv-col-hsn j-inv-border-r"></div>
-                                                <div className="j-inv-cell j-inv-col-desc j-inv-border-r"></div>
-                                                <div className="j-inv-cell j-inv-col-qty j-inv-border-r"></div>
-                                                <div className="j-inv-cell j-inv-col-rate j-inv-border-r"></div>
-                                                <div className="j-inv-cell j-inv-col-disc j-inv-border-r"></div>
-                                                <div className="j-inv-cell j-inv-col-gst j-inv-border-r"></div>
-                                                <div className="j-inv-cell j-inv-col-gst-amt j-inv-border-r"></div>
-                                                <div className="j-inv-cell j-inv-col-net j-inv-text-right j-inv-p-r-5"></div>
+                                                <div className={`j-inv-cell ${taxamt ? 'j-inv-col-sr-taxamt' : 'j-inv-col-sr'} j-inv-border-r`}></div>
+                                                <div className={`j-inv-cell ${taxamt ? 'j-inv-col-code-taxamt' : 'j-inv-col-code'} j-inv-border-r`}></div>
+                                                <div className={`j-inv-cell ${taxamt ? 'j-inv-col-hsn-taxamt' : 'j-inv-col-hsn'} j-inv-border-r`}></div>
+                                                <div className={`j-inv-cell ${taxamt ? 'j-inv-col-desc-taxamt' : 'j-inv-col-desc'} j-inv-border-r`}></div>
+                                                <div className={`j-inv-cell ${taxamt ? 'j-inv-col-qty-taxamt' : 'j-inv-col-qty'} j-inv-border-r`}></div>
+                                                <div className={`j-inv-cell ${taxamt ? 'j-inv-col-rate-taxamt' : 'j-inv-col-rate'} j-inv-border-r`}></div>
+                                                <div className={`j-inv-cell ${taxamt ? 'j-inv-col-disc-taxamt' : 'j-inv-col-disc'} j-inv-border-r`}></div>
+                                                {
+                                                    taxamt && (
+                                                        <div className={`j-inv-cell ${taxamt ? 'j-inv-col-tabamt-taxamt' : 'j-inv-col-tabamt'} j-inv-border-r`}></div>
+                                                    )
+                                                }
+                                                <div className={`j-inv-cell ${taxamt ? 'j-inv-col-gst-taxamt' : 'j-inv-col-gst'} j-inv-border-r`}></div>
+                                                <div className={`j-inv-cell ${taxamt ? 'j-inv-col-gst-amt-taxamt' : 'j-inv-col-gst-amt'} j-inv-border-r`}></div>
+                                                <div className={`j-inv-cell ${taxamt ? 'j-inv-col-net-taxamt' : 'j-inv-col-net'} j-inv-text-right j-inv-p-r-5`}></div>
                                             </div>
                                         ))}
 
@@ -595,9 +641,9 @@ const totalBillAmount = data.reduce((acc, e) => {
 
 
                                     <div className="j-inv-table-row j-inv-border-b" style={{ borderTop: "1px solid #000" }}>
-                                        <div className="j-inv-cell   j-inv-text-left j-inv-p-l-5 j-inv-border-r j-inv-col-total" >Total c/f :</div>
-                                        <div className="j-inv-cell j-inv-w-40 j-inv-border-r j-inv-col-ttloqty" style={{width:"5.5%"}}>{total?.Qty}</div>
-                                        <div className="j-inv-cell j-inv-w-300 j-inv-text-right j-inv-p-r-5" style={{ width: "44%", textAlign: "right" }}> {NumberWithCommas(
+                                        <div className={`j-inv-cell   j-inv-text-left j-inv-p-l-5   ${taxamt ? ' j-inv-col-total-taxamt' : ' j-inv-col-total'}`} >Total c/f :</div>
+                                        <div className="j-inv-cell j-inv-w-40    " style={{ width: taxamt ? "4%" : "5.5%" }}>{total?.Qty}</div>
+                                        <div className="j-inv-cell j-inv-w-300 j-inv-text-right j-inv-p-r-5" style={{ width: taxamt ? "50%" : "44%", textAlign: "right" }}> {NumberWithCommas(
                                             totalBillAmount,
                                             2
                                         )}</div>
@@ -608,8 +654,8 @@ const totalBillAmount = data.reduce((acc, e) => {
                                             <div className="j-inv-p-5 j-inv-border-b j-inv-h-40">
                                                 <span className=" ">Amount In Words {headerData?.Currencyname}:</span><br />
 
-                                                <p className="fw-bold">
-                                                    {toWords.convert(
+                                                <p className="fw-bold" style={{lineHeight: "1"}} >
+                                                    {toWords.convert(   
                                                         +(
                                                             total?.beforeTax /
                                                             headerData?.CurrencyExchRate +
@@ -630,59 +676,59 @@ const totalBillAmount = data.reduce((acc, e) => {
                                             <div className="j-inv-p-5">
                                                 <div className="j-inv-bold">Payment Mode :</div>
                                                 <div className="j-inv-grid-2 j-inv-py-5">
-                                                {pay_details?.map((e, i) => {
-                                                return <div key={i}>{e?.label}  {e?.id ? `(${e?.id})` : ''}  : <span className=''>{e?.amount}</span></div>
-                                            })}
-                                                     
+                                                    {pay_details?.map((e, i) => {
+                                                        return <div key={i}>{e?.label}   : <span className=''>{e?.amount}</span></div>
+                                                    })}
+                                                    <div>Advance : <span className=''>{NumberWithCommas(headerData?.AdvanceAmount, 2   )}</span></div>
+                                                    <div>Credit Amt : <span className=''>{difference}</span></div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="j-inv-flex-col">
                                             <div className="j-inv-flex-between j-inv-p-2"><span>Total Rs :</span><span> {NumberWithCommas(
-                                                                        total?.beforeTax / headerData?.CurrencyExchRate +
-                                                                        taxes?.reduce(
-                                                                          (acc, cObj) =>
-                                                                            acc +
-                                                                            +cObj?.amount / headerData?.CurrencyExchRate,
-                                                                          0
-                                                                        ) +
-                                                                        headerData?.AddLess /
-                                                                        headerData?.CurrencyExchRate,
-                                                                        2
-                                                                      )} </span></div>
+                                                total?.beforeTax / headerData?.CurrencyExchRate +
+                                                taxes?.reduce(
+                                                    (acc, cObj) =>
+                                                        acc +
+                                                        +cObj?.amount / headerData?.CurrencyExchRate,
+                                                    0
+                                                ) +
+                                                headerData?.AddLess /
+                                                headerData?.CurrencyExchRate,
+                                                2
+                                            )} </span></div>
                                             <div className="j-inv-flex-between j-inv-p-2"><span>Bill Disc :</span><span>{NumberWithCommas(total?.discount, 2)}</span></div>
-                                            <div className="j-inv-flex-between j-inv-p-2"><span>Packing/Other Charges :</span><span>{fixedValues(headerData?.InsuranceAmount,2)}</span></div>
-                                            <div className="j-inv-flex-between j-inv-p-2"><span>IGST Amount :</span><span> {fixedValues(headerData?.TotalGSTAmount,2)}</span></div>
-                                            <div className="j-inv-flex-between j-inv-p-2"><span>Delivery Charge :</span><span>{fixedValues(headerData?.FreightCharges,2)}</span></div>
+                                            <div className="j-inv-flex-between j-inv-p-2"><span>Packing/Other Charges :</span><span>{fixedValues(headerData?.InsuranceAmount, 2)}</span></div>
+                                            <div className="j-inv-flex-between j-inv-p-2"><span>IGST Amount :</span><span> {fixedValues(headerData?.TotalGSTAmount, 2)}</span></div>
+                                            <div className="j-inv-flex-between j-inv-p-2"><span>Delivery Charge :</span><span>{fixedValues(headerData?.FreightCharges, 2)}</span></div>
                                             <div className="j-inv-flex-between j-inv-p-2 j-inv-bold j-inv-border-t j-inv-large">
                                                 <span>Grand Total :</span><span> {NumberWithCommas(
-                                                                            total?.beforeTax / headerData?.CurrencyExchRate +
-                                                                            taxes?.reduce(
-                                                                              (acc, cObj) =>
-                                                                                acc +
-                                                                                +cObj?.amount / headerData?.CurrencyExchRate,
-                                                                              0
-                                                                            ) +
-                                                                            headerData?.AddLess /
-                                                                            headerData?.CurrencyExchRate,
-                                                                            2
-                                                                          )} </span>
+                                                    total?.beforeTax / headerData?.CurrencyExchRate +
+                                                    taxes?.reduce(
+                                                        (acc, cObj) =>
+                                                            acc +
+                                                            +cObj?.amount / headerData?.CurrencyExchRate,
+                                                        0
+                                                    ) +
+                                                    headerData?.AddLess /
+                                                    headerData?.CurrencyExchRate,
+                                                    2
+                                                )} </span>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className="j-inv-p-5 j-inv-border-b">Bill Remarks : {headerData?.Remark}</div>
-                                    <div className="" style={{display:"flex"}}>
-                                        <div className="j-inv-flex-col j-inv-border-r j-inv-p-5 j-inv-min-h-100" style={{width: '70%'}}>
-                                            <div className="j-inv-bold">Terms & Conditions :</div> 
+                                    <div className="" style={{ display: "flex" }}>
+                                        <div className="j-inv-flex-col j-inv-border-r j-inv-p-5 j-inv-min-h-100" style={{ width: '70%' }}>
+                                            <div className="j-inv-bold">Terms & Conditions :</div>
                                             <div
-                                                                  dangerouslySetInnerHTML={{
-                                                                    __html: headerData?.Declaration,
-                                                                  }}
-                                                                 
+                                                dangerouslySetInnerHTML={{
+                                                    __html: headerData?.Declaration,
+                                                }}
                                             ></div>
                                         </div>
-                                        <div className="j-inv-flex-col j-inv-p-5 j-inv-text-center" style={{width: '30%'}}>
+                                        <div className="j-inv-flex-col j-inv-p-5 j-inv-text-center" style={{ width: '30%' }}>
                                             <div>For, <span className="j-inv-bold"> {headerData?.CompanyFullName}</span></div>
                                             <div className="j-inv-m-t-40">Signature & Date</div>
                                         </div>

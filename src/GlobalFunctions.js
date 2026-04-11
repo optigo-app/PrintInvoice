@@ -54,7 +54,7 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn, ApiVer) =>
     Eventname: evn,
     ApiVer: ApiVer
   };
- 
+
   // const header = {
   //   "Authorization": "Bearer 40815062023094801060"
   // }
@@ -80,6 +80,8 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn, ApiVer) =>
   }
 
 };
+
+ 
 
 //global function of saleTallyApiCall calling
 export const saleTallyApiCall = async (urls, token, printName,  evn, ApiVer , fdate, tdate ) => {

@@ -11,6 +11,7 @@ export const printConditions = [
   {printName: 'detail print', etpType: 'print', componentName: 'DetailPrint5'},
   {printName: 'detail print1 (l)', etpType: 'print', componentName: 'DetailPrint1L'},
   {printName: 'detail print1 (p)', etpType: 'print', componentName: 'DetailPrint1PSale'},
+  {printName: 'Detail Print1 (P) CJ', etpType: 'print', componentName: 'DetailPrint1PCJSale'},
   {printName: 'detail print1 (p) k', etpType: 'print', componentName: 'DetailPrint1'},
   {printName: 'detail print c', etpType: 'print', componentName: 'DetailPrintC'},
   // {printName: 'print (l)', etpType: 'print', componentName: 'DetailPrint1Printlp'},
@@ -514,6 +515,12 @@ export const outsourcePrint = [
   {printName: 'outsource job print', etpType: 'print', componentName: 'OutsourceJobPrint'},
   {printName: 'outsource job print 2', etpType: 'print', componentName: 'OutsourceJobPrint2'},
 ];
+
+
+export const salesjobs = [
+  {printName: 'Sales Job Print', etpType: 'print', componentName: 'SalesJobPrint'},  // amish....
+];
+
 
 export const Jewellery_Book = [
   {printName: 'print1', etpType: 'print', componentName: 'Print1JewelleryBook'},
