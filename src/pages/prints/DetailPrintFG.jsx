@@ -642,7 +642,7 @@ console.log("TCL: tptal",data.mainTotal )
                                   <p className="text-end">
                                     {/* {fixedValues( (item?.DiamondCTWwithLoss/5)+Number(item?.NetWt) ,2)} */}
                                     {/* {formatAmount(((item?.DiamondCTWwithLoss / 5) + Number(ele?.Wt)).toFixed(3) + (item?.totals?.finding?.Wt || 0),2)} */}
-                                    {formatAmount(Math.round(fixedValues(Number((item?.DiamondCTWwithLoss / 5) + Number(ele?.Wt)) + (item?.totals?.finding?.Wt || 0), 3) * 100) / 100, 2)}
+                                    {formatAmount(Math.round(fixedValues(Number((item?.DiamondCTWwithLoss / 5) + Number(ele?.Wt))  , 3) * 100) / 100, 2)}
                                   </p>
                                 </p>
                               </div>
@@ -651,7 +651,7 @@ console.log("TCL: tptal",data.mainTotal )
                                   {/* {fixedValues(item?.totals?.metal?.Wt, 2)} */}
                                   {/* {fixedValues(Number(item?.NetWt), 2)} */}
                                   {/* { Math.round( fixedValues(Number(ele?.Wt) + (item?.totals?.finding?.Wt || 0), 3)*100)/100} */}
-                                  {formatAmount(Math.round(fixedValues(Number(ele?.Wt) + (item?.LossWt|| 0)+(item?.totals?.finding?.Wt || 0), 3) * 100) / 100, 2)}
+                                  {formatAmount(Math.round(fixedValues(Number(ele?.Wt) + (item?.LossWt|| 0) , 3) * 100) / 100, 2)}
                                 </p>
                               </div>
                               <div className="width_40_estimatePrint p_1Estimate" style={{ width: "14%", minWidth: "14%" }}>
@@ -709,8 +709,7 @@ console.log("TCL: tptal",data.mainTotal )
                             fixedValues(
                               (
                                 (item?.DiamondCTWwithLoss / 5) +
-                                Number(item?.totals?.primaryMetalWt || 0) +
-                                (item?.totals?.finding?.Wt || 0)
+                                Number(item?.totals?.primaryMetalWt || 0)  
                               ).toFixed(3),
                               2
                             )
@@ -719,7 +718,7 @@ console.log("TCL: tptal",data.mainTotal )
                         <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "15.66%", minWidth: "15.66%" }}>
                           {/* <p className="text-end spBold">{fixedValues(item?.NetWt + item?.LossWt, 2)}</p> */}
                           {/* <p className="text-end spBold">{Math.round(fixedValues(item?.totals?.primaryMetalWt + item?.totals?.finding?.Wt || 0, 2) * 100) / 100}</p> */}
-                          <p className="text-end spBold">{formatAmount(Math.round(fixedValues((Number(item?.totals?.primaryMetalWt || 0) + (item?.LossWt|| 0)+ Number(item?.totals?.finding?.Wt || 0)), 2) * 100) / 100, 2)}</p>
+                          <p className="text-end spBold">{formatAmount(Math.round(fixedValues((Number(item?.totals?.primaryMetalWt || 0) + (item?.LossWt|| 0) ), 2) * 100) / 100, 2)}</p>
                         </div>
                         <div
                           className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end"
@@ -979,13 +978,13 @@ console.log("TCL: tptal",data.mainTotal )
                       {/* {data?.weightWithDiamondLoss !== 0 && fixedValues(data.weightWithDiamondLoss, 3)} */}
                       {/* {NumberWithCommas(data?.mainTotal?.grosswt, 2)} */}
                       {/* {fixedValues((data?.mainTotal?.diamonds?.Wt/5)+data?.mainTotal?.netwt,2)} */}
-                      {fixedValues((data?.mainTotal?.diamonds?.Wt / 5) + data?.mainTotal?.metal?.IsPrimaryMetal + data?.mainTotal?.finding?.Wt, 2)}
+                      {fixedValues((data?.mainTotal?.diamonds?.Wt / 5) + data?.mainTotal?.metal?.IsPrimaryMetal  , 2)}
                     </p>
                   </div>
                   <div className="width200EstimatePrint p_1Estimate h-100" style={{width:"17%",minWidth:"17%"}}>
                     <p className="spBold text-end">
                       {(data?.mainTotal?.metal?.Wt !== 0 || data?.mainTotal?.metal?.Wt !== 0) &&
-                        fixedValues(data?.mainTotal?.metal?.IsPrimaryMetal + (data?.mainTotal?.lossWt|| 0)+  data?.mainTotal?.finding?.Wt, 2)}
+                        fixedValues(data?.mainTotal?.metal?.IsPrimaryMetal + (data?.mainTotal?.lossWt|| 0) , 2)}
                     </p>
                   </div>
                   <div

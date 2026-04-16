@@ -25,6 +25,7 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [imgFlag, setImgFlag] = useState(true);
+  const [labamtFlag, setLabamtFlag] = useState(true);
   const [catcount, setCatCount] = useState(0);
   const [miscWise_total, setMiscWise_total] = useState({
     Pcs: 0,
@@ -748,6 +749,12 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         setImgFlag(true);
       }
     };
+    const handleLabamtShow = (e) => {
+      if (labamtFlag) setLabamtFlag(false);
+      else {
+        setLabamtFlag(true);
+      }
+    };
 
     // console.log("result", result);
 
@@ -762,6 +769,18 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <div className="containerdp7 pb-5 mb-5">
                 {/* image show flag */}
                 <div className="d-flex justify-content-end align-items-center my-5 fsgdp7 hidebtn">
+                   
+                  <input
+                    type="checkbox"
+                    checked={labamtFlag}
+                    id="showLabamt"
+                    onChange={handleLabamtShow}
+                    className="mx-2"
+                  />
+                  <label htmlFor="showLabamt" className="me-2 user-select-none">
+                  Labour Amt
+                  </label>
+         
                   <input
                     type="checkbox"
                     checked={imgFlag}
@@ -870,6 +889,15 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                       </div>
                     </div>
+
+                    {
+                      labamtFlag && (
+                        <div className="col8dp7 dp7cen d-flex flex-column">
+                        <span>labour <br /> Amount</span>
+                      </div>
+                      )
+                    }
+                   
                     <div className="col8dp7 dp7cen d-flex flex-column">
                       <span>FINE WT</span>
                     </div>
@@ -1113,6 +1141,13 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     </div>}
                             </div>
                           </div>
+
+                          {labamtFlag && (
+                            <div className="rcol12dp7 dp7cen2" style={{borderRight:"none"}}>
+                             
+                              {formatAmount((e?.MakingAmount / result?.header?.CurrencyExchRate))}
+                            </div>
+                          )}
                           <div className="rcol12dp7 dp7cen2 bldp7">
                            
                             {e?.fineWtss?.toFixed(3)}
@@ -1170,9 +1205,13 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               </div>
                             </div>
                           </div>
-                          <div className="rcol12dp7 dp7cen2 bldp7">
-                     
-                          </div>
+                          <div className="rcol12dp7 dp7cen2 bldp7"> </div>
+
+                          {
+                            labamtFlag && (
+                              <div className="rcol12dp7 dp7cen2 bldp7"> </div>
+                            )
+                          }
                           <div className="rcol13dp7 dp7cen2 border-end-0">
                                
                           </div>
@@ -1214,9 +1253,17 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           result?.header?.CurrencyExchRate) + (result?.mainTotal?.metal?.withoutPrimaryMetal_Amount / result?.header?.CurrencyExchRate))
                       )}
                   </div>
+                  {
+                    labamtFlag && (
+                      <div className="totcol6dp7 dp7cen2">
+                      {result?.mainTotal?.total_Making_Amount === 0 ? 0 : result?.mainTotal?.total_Making_Amount?.toFixed(3)}
+                  </div>
+                    )}
                   <div className="totcol6dp7 dp7cen2">
                       {fineWtTotal === 0 ? 0 : fineWtTotal?.toFixed(3)}
                   </div>
+ 
+                 
                   <div className="totcol7dp7 dp7cen2">
                     {formatAmount((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate))}
                   </div>

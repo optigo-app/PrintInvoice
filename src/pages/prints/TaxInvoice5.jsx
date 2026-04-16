@@ -396,8 +396,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       </div>
       {/* remarks */}
       <div className="border-start border-end border-bottom p-2 no_break">
-        <p className="fw-bold">REMARKS : </p>
-        <p dangerouslySetInnerHTML={{__html:headerData?.PrintRemark}}></p>
+        <p > <span className="fw-bold">REMARKS :</span> <span dangerouslySetInnerHTML={{__html:headerData?.Remark}}></span></p>
       </div>
         {/* Terms Description */}
         {headerData?.SalesRepPolicyTermsDescription !== '' && (

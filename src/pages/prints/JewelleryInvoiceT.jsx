@@ -600,7 +600,7 @@ const JewelleryInvoiceT = ({
                                                         {e.MetalTypePurity + " - " + e.Categoryname} <br /> {e.SrJobno}
                                                     </div>
                                                     <div className={`j-inv-cell ${taxamt ? 'j-inv-col-qty-taxamt' : 'j-inv-col-qty'} j-inv-border-r`}>{e.Quantity}</div>
-                                                    <div className={`j-inv-cell ${taxamt ? 'j-inv-col-rate-taxamt' : 'j-inv-col-rate'} j-inv-border-r`}>{fixedValues(e.UnitCost, 2)}</div>
+                                                    <div className={`j-inv-cell ${taxamt ? 'j-inv-col-rate-taxamt' : 'j-inv-col-rate'} j-inv-border-r`}>{ `${taxamt ?fixedValues(e.UnitCost, 2):fixedValues(e.TotalAmount, 2) }`  }</div>
                                                     <div className={`j-inv-cell ${taxamt ? 'j-inv-col-disc-taxamt' : 'j-inv-col-disc'} j-inv-border-r`}>{fixedValues(e.DiscountAmt, 2)}</div>
                                                     {
                                                         taxamt && (
@@ -610,7 +610,7 @@ const JewelleryInvoiceT = ({
                                                     <div className={`j-inv-cell ${taxamt ? 'j-inv-col-gst-taxamt' : 'j-inv-col-gst'} j-inv-border-r`}>{gst}</div>
                                                     <div className={`j-inv-cell ${taxamt ? 'j-inv-col-gst-amt-taxamt' : 'j-inv-col-gst-amt'} j-inv-border-r`}>{fixedValues(gstAmt, 2)}</div>
                                                     <div className={`j-inv-cell ${taxamt ? 'j-inv-col-net-taxamt' : 'j-inv-col-net'} j-inv-text-right j-inv-p-r-5`}>
-                                                        {fixedValues(Number(e.UnitCost) + gstAmt, 2)}
+                                                        {fixedValues(e.TotalAmount + gstAmt, 2)}
                                                     </div>
                                                 </div>
                                             );
@@ -728,6 +728,7 @@ const JewelleryInvoiceT = ({
                                                 }}
                                             ></div>
                                         </div>
+                                        
                                         <div className="j-inv-flex-col j-inv-p-5 j-inv-text-center" style={{ width: '30%' }}>
                                             <div>For, <span className="j-inv-bold"> {headerData?.CompanyFullName}</span></div>
                                             <div className="j-inv-m-t-40">Signature & Date</div>

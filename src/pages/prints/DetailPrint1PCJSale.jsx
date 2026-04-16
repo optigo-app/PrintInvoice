@@ -1129,7 +1129,7 @@ const DetailPrint1PCJSale = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                                         </div>
 
                                         {/* Discount */}
-                                        {e?.discountDisplay !== 0 && <div className="d-flex w-100">
+                                        {e?.DiscountAmt  > 0 && <div className="d-flex w-100">
                                             <div className="srNoDetailprint11 border-end border-start  border-bottom" style={{ width: "2%" }}>
                                                 <p className=" p-1"></p>
                                             </div>

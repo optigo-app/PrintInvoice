@@ -1003,6 +1003,7 @@ const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, })
                         </div>
                       </div>
                     </div>
+                    {console.log("metal",e?.metal)}
                     <div className={`${ dpp ? "metalGoldDetailPrint1p" : "metalGoldDetailPrint1l" } border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`} >
                       <div className="h-100 paddingBottomTotalDetailPrint1">
                         {e?.metal.length > 0 &&

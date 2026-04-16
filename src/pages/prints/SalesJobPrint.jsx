@@ -1350,7 +1350,7 @@ const SalesJobPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
                         <div className="spbrdRght spbrdrBtom barcode_second" style={{ width: "10%", alignContent: "center" }}>
                           <BarcodeGenerator
-                            data={e?.J_JobNo}
+                            data={e?.TJobNo}
                           />
                         </div>
                       </div>
