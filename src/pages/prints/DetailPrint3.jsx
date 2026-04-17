@@ -263,7 +263,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="col2_dp3 border-secondary border-end center_dp3">
                       Design
                     </div>
-                    <div className="col3_dp3 border-secondary border-end">
+                    <div className="col3_dp3 border-secondary border-end" style={{width:"16.5%"}}>
                       <div className="w-100 center_dp3 h-50">Diamond</div>
                       <div className="d-flex w-100 border-secondary border-top h-50">
                         <div className="center_dp3 col_w_dp3 border-secondary border-end">
@@ -275,7 +275,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="center_dp3 col_w_dp3">Amount</div>
                       </div>
                     </div>
-                    <div className="col4_dp3 border-secondary border-end">
+                    <div className="col4_dp3 border-secondary border-end" style={{width:"27%"}}>
                       <div className="center_dp3 h-50 w-100">Metal</div>
                       <div className="d-flex h-50 w-100 border-secondary border-top">
                         <div
@@ -382,7 +382,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
                               )}
                             </div>
-                            <div className="col3_dp3 border-secondary border-end">
+                            <div className="col3_dp3 border-secondary border-end" style={{width:"16.5%"}}>
                               {withPcs == true ? (
                                 <div>
                                   <div className="d-flex">
@@ -426,7 +426,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
                               )}
                             </div>
-                            <div className="col4_dp3 border-secondary border-end">
+                            <div className="col4_dp3 border-secondary border-end" style={{width:"27%"}}>
                               <div>
                                 {e?.metal?.map((el, ind) => {
                                   return (
@@ -578,7 +578,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 {e?.grosswt?.toFixed(3)} gm Gross
                               </div>
                             </div>
-                            <div className="col3_dp3 border-secondary border-end">
+                            <div className="col3_dp3 border-secondary border-end" style={{width:"16.5%"}}>
                               {withPcs == true ? (
                                 <div>
                                   <div className="d-flex">
@@ -623,7 +623,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
                               )}
                             </div>
-                            <div className="col4_dp3 border-secondary border-end">
+                            <div className="col4_dp3 border-secondary border-end" style={{width:"27%"}}>
                               <div>
                                 <div className="d-flex w-100">
                                   <div
@@ -734,7 +734,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   {/* tax total */}
                   <div className="d-flex justify-content-end align-items-start border-black border-start border-end border-top-0 border-bottom-secondary fs_dp3 dp3_pgia">
                     <div style={{ width: "20%" }}>
-                      {/* {result?.allTaxes?.map((el, ind) => {
+                      {result?.allTaxes?.map((el, ind) => {
                         return (
                           <div className="d-flex" key={ind}>
                             <div className="w-50 end_top_dp3">
@@ -747,14 +747,14 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                           </div>
                         );
-                      })} */}
+                      })}
                       {/* Bud Solved 17/01/26 showing total tax instead of showing each tax name with tax amount */}
-                      <div className="d-flex">
+                      {/* <div className="d-flex">
                         <div className="w-50 end_top_dp3">Taxes</div>
                         <div className="w-50 end_top_dp3">
                           {formatAmount(result?.allTaxesTotal)}
                         </div>
-                      </div>
+                      </div> */}
                       <div className="d-flex">
                         <div className="w-50 end_top_dp3">Add/Less</div>
                         <div className="w-50 end_top_dp3">
@@ -769,7 +769,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="col2_dp3 border-secondary border-end center_dp3 fw-bold">
                       TOTAL
                     </div>
-                    <div className="col3_dp3 border-secondary border-end">
+                    <div className="col3_dp3 border-secondary border-end" style={{width:"16.5%"}}>
                       <div>
                         <div className="d-flex">
                           <div className="col_w_dp3 start_dp3">
@@ -784,7 +784,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                       </div>
                     </div>
-                    <div className="col4_dp3 border-secondary border-end">
+                    <div className="col4_dp3 border-secondary border-end" style={{width:"27%"}}>
                       <div>
                         <div className="d-flex">
                           <div className="w-25 start_dp3"></div>
@@ -871,8 +871,8 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                             <div className="border-secondary border-end pad_e_dp3 pe-2">
                               {result?.mainTotal?.metal?.FineWt > 0 ? (
-                                result?.mainTotal?.metal?.FineWt -
-                                notGoldMetalWtTotal
+                                // result?.mainTotal?.metal?.FineWt - notGoldMetalWtTotal
+                                result?.mainTotal?.metal?.FineWt 
                               )?.toFixed(3) : "0.00"}{" "}
                               gm
                             </div>
@@ -1039,12 +1039,17 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           Remark
                         </div>
                       )}
-                      <div
-                        className="border-secondary border-bottom border-end pad_s_dp3 ps-2 text-break"
-                        dangerouslySetInnerHTML={{
-                          __html: result?.header?.PrintRemark,
-                        }}
-                      ></div>
+                      {
+                        result?.header?.PrintRemark !== "" &&(
+                          <div
+                          className="border-secondary border-bottom border-end pad_s_dp3 ps-2 text-break"
+                          dangerouslySetInnerHTML={{
+                            __html: result?.header?.PrintRemark,
+                          }}
+                        ></div>
+                        )
+                      }
+                     
                     </div>
                   </div>
                   <div

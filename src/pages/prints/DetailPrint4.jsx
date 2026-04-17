@@ -705,7 +705,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 return (
                                   <div className="d-flex fs_dp4" key={ind}>
                                     <div className="dia_col_w_dp4 start_dp4" style={{ width: "35%" }} > {el?.QualityName} {el?.Colorname} </div>
-                                    <div className="dia_col_w_dp4 end_dp4" style={{ width: "10%" }} > {el?.dpcs} </div>
+                                    <div className="dia_col_w_dp4 end_dp4 lh_dp4_amt" style={{ width: "10%" }} > {el?.dpcs} </div>
                                     <div className="dia_col_w_dp4 end_dp4 lh_dp4_amt" style={{ width: "15%" }} > {el?.dwt?.toFixed(3)} </div>
                                     <div className="dia_col_w_dp4 end_dp4 lh_dp4_amt">
                                       {formatAmount((el?.damt / (el?.isRateOnPcs === 1 ? (el?.dpcs === 0 ? 1 : el?.dpcs) : (el?.dwt === 0 ? 1 : el?.dwt))))}

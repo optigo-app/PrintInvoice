@@ -505,13 +505,12 @@ const TaxInvoice5S = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {[
                       headerData?.CompanyAddress,
                       headerData?.CompanyAddress2,
-                      headerData?.CompanyCity,
-                      headerData?.CompanyPinCode
+                      headerData?.CompanyCity +
+                      (headerData?.CompanyPinCode ? " - " + headerData?.CompanyPinCode : ""),
                     ]
                       .filter(Boolean)
                       .join(", ")}
                   </p>
-
                   {(headerData?.CompanyTellNo ||
                     headerData?.CompanyEmail ||
                     headerData?.CompanyWebsite) && (

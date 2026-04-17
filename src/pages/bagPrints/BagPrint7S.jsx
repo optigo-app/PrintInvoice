@@ -12,6 +12,7 @@ import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
 import { checkInstruction } from "../../GlobalFunctions";
 import { GetChunkData } from "../../GlobalFunctions/GetChunkData";
 import img from "../../assets/img/default.jpg";
+import { borderBottom } from "@mui/system";
 
 const BagPrint7S = ({ queries, headers }) => {
   const [data, setData] = useState([]);
@@ -352,6 +353,7 @@ const BagPrint7S = ({ queries, headers }) => {
                                     <div
                                       style={{
                                         backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
+                                        borderTopLeftRadius: "6px",
                                       }}
                                     >
                                       <div className="head7AjobInfoJobNO">
@@ -421,80 +423,80 @@ const BagPrint7S = ({ queries, headers }) => {
                                     </div>
                                     <div className="mat7AInfo">
                                       <div className="pcswt7AH">
-                                        <div className="net7A">
+                                        <div className="net7A height17 wid60">
                                           <b>Net Wt.</b>
                                         </div>
-                                        <div className="net7A justify-content-end pe-1">
+                                        <div className="net7A height17 justify-content-end pe-1">
                                           {e?.data?.rd?.netwt}
                                         </div>
-                                        <div className="net7A">
+                                        <div className="net7A height17">
                                           <b>Gr Wt.</b>
                                         </div>
-                                        <div className="net7A justify-content-end pe-1">
+                                        <div className="net7A height17 justify-content-end pe-1" style={{borderRight:"none"}}>
                                           {e?.data?.rd?.ActualGrossweight?.toFixed(
                                             3
                                           )}
                                         </div>
                                       </div>
                                       <div className="pcswt7AH">
-                                        <div className="net7A">
+                                        <div className="net7A height17 wid60">
                                           <b>Dia Pcs:</b>
                                         </div>
-                                        <div className="net7A justify-content-end pe-1">
+                                        <div className="net7A height17 justify-content-end pe-1">
                                           {e?.additional?.dia?.ActualPcs}
                                         </div>
-                                        <div className="net7A">
+                                        <div className="net7A height17">
                                           <b>Dia Wt.</b>
                                         </div>
-                                        <div className="net7A justify-content-end pe-1">
+                                        <div className="net7A height17 justify-content-end pe-1" style={{borderRight:"none"}}>
                                           {e?.additional?.dia?.ActualWeight?.toFixed(
                                             3
                                           )}
                                         </div>
                                       </div>
                                       <div className="pcswt7AH">
-                                        <div className="net7A">
+                                        <div className="net7A height17 wid60">
                                           <b>Clr Pcs:</b>
                                         </div>
-                                        <div className="net7A justify-content-end pe-1">
+                                        <div className="net7A height17 justify-content-end pe-1">
                                           {e?.additional?.clr?.ActualPcs}
                                         </div>
-                                        <div className="net7A">
+                                        <div className="net7A height17">
                                           <b>Clr Wt.</b>
                                         </div>
-                                        <div className="net7A justify-content-end pe-1">
+                                        <div className="net7A height17 justify-content-end pe-1" style={{borderRight:"none"}}>
                                           {e?.additional?.clr?.ActualWeight?.toFixed(
                                             3
                                           )}
                                         </div>
                                       </div>
                                       <div className="pcswt7AH">
-                                        <div className="net7A">
+                                        <div className="net7A height17 wid60">
                                           <b>Misc Pcs:</b>
                                         </div>
-                                        <div className="net7A justify-content-end pe-1">
+                                        <div className="net7A height17 justify-content-end pe-1">
                                           {e?.additional?.misc?.ActualPcs}
                                         </div>
-                                        <div className="net7A">
+                                        <div className="net7A height17">
                                           <b>Misc Wt.</b>
                                         </div>
-                                        <div className="net7A justify-content-end pe-1">
+                                        <div className="net7A height17 justify-content-end pe-1" style={{borderRight:"none"}}>
                                           {e?.additional?.misc?.ActualWeight?.toFixed(
                                             3
                                           )}
                                         </div>
                                       </div>
                                       <div className="pcswt7AH">
-                                        <div className="net7A">
+                                        <div className="net7A height17 wid60">
                                           <b>Plating</b>
                                         </div>
-                                        <div className="net7A justify-content-end pe-1">
+                                        <div className="net7A height17 justify-content-end pe-1">
 
                                         </div>
-                                        <div className="net7A">
+                                        <div className="net7A height17">
                                           <b>Stamping</b>
                                         </div>
-                                        <div className="net7A justify-content-end pe-1" style={{ borderRight: "none" }}>
+                                        <div className="net7A  height17 justify-content-end pe-1" style={{ borderRight: "none" }}>
 
                                         </div>
                                       </div>
@@ -538,20 +540,20 @@ const BagPrint7S = ({ queries, headers }) => {
                                         >
                                           <p
                                             className="w7A d-flex justify-content-center align-items-center pe-1"
-                                            style={{ width: "61px" }}
+                                            style={{ width: "60.5px" }}
                                           >
                                             <b>Type</b>
                                           </p>
                                           <p
                                             className="w7A d-flex justify-content-center align-items-center pe-1"
-                                            style={{ width: "63px" }}
+                                            style={{ width: "62.5px" }}
                                           >
                                             <b>Purity</b>
                                           </p>
                                           <p
                                             className="w7A d-flex justify-content-center align-items-center pe-1"
                                             style={{
-                                              width: "62px",
+                                              width: "62.5px",
                                               borderRight: "0px"
                                               , borderRight: "1px solid #989898"
                                             }}
@@ -575,7 +577,7 @@ const BagPrint7S = ({ queries, headers }) => {
                                                       <div
                                                         className="w7A d-flex justify-content-start align-items-center"
                                                         style={{
-                                                          width: "61px",
+                                                          width: "60.5px",
                                                           paddingLeft: "1px",
                                                         }}
                                                       >
@@ -584,7 +586,7 @@ const BagPrint7S = ({ queries, headers }) => {
                                                       <div
                                                         className="w7A d-flex justify-content-start align-items-center"
                                                         style={{
-                                                          width: "63px",
+                                                          width: "62.5px",
                                                           paddingLeft: "1px",
                                                         }}
                                                       >
@@ -593,7 +595,7 @@ const BagPrint7S = ({ queries, headers }) => {
                                                       <div
                                                         className="w7A d-flex justify-content-start align-items-center"
                                                         style={{
-                                                          width: "62px",
+                                                          width: "63px",
                                                           paddingLeft: "1px"
 
                                                           , borderRight: "1px solid #989898"
@@ -634,7 +636,7 @@ const BagPrint7S = ({ queries, headers }) => {
                                           </div>
                                         </div>
                                         <div className="entryVal7A width161" style={{ width: "161px" }}>
-                                          <div className="tableHead7C">
+                                          <div className="tableHead7C" style={{borderBottom:"none"}}>
                                             <div className="dept7AD w7A70">
                                               CAS
                                             </div>
@@ -655,7 +657,7 @@ const BagPrint7S = ({ queries, headers }) => {
                                             </div>
                                             <div
                                               className="dept7AD w7A70"
-                                              style={{ borderBottom: "0px" }}
+                                           
                                             >
                                               RHODIUM
                                             </div>
@@ -670,14 +672,15 @@ const BagPrint7S = ({ queries, headers }) => {
                                                     className="dis7A" style={{ borderRight: "none" }}
                                                     key={index}
                                                   >
-                                                    <div className="dept7AE" style={{ width: "45.5px" }}></div>
-                                                    <div className="dept7AE" style={{ width: "45.5px" }}></div>
+                                                    <div className="dept7AE" style={{ width: "45.5px",height:"16px" }}></div>
+                                                    <div className="dept7AE" style={{ width: "45.5px",height:"16px" }}></div>
 
                                                     <div
                                                       className="dept7AE"
                                                       style={{
 
                                                         width: "46px",
+                                                        height:"16px"
                                                       }}
                                                     ></div>
                                                   </div>
@@ -820,7 +823,7 @@ const BagPrint7S = ({ queries, headers }) => {
                                             <div
                                               className="spw7AD d-flex justify-content-start align-items-center  "
                                               style={{
-                                                width: "40%",
+                                                width: "39.3%",
                                                 paddingLeft: "1px",
                                                 paddingTop: "1.5px",
                                                 height: "16px",
@@ -912,6 +915,7 @@ const BagPrint7S = ({ queries, headers }) => {
                               <div
                                 style={{
                                   backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
+                                  borderTopLeftRadius: "6px",
                                 }}
                               >
                                 <div className="head7AjobInfoJobNO">
@@ -973,78 +977,78 @@ const BagPrint7S = ({ queries, headers }) => {
 
                               <div className="mat7AInfo">
                                 <div className="pcswt7AH">
-                                  <div className="net7A">
+                                  <div className="net7A height17 wid60" >
                                     <b>Net Wt.</b>
                                   </div>
-                                  <div className="net7A justify-content-end pe-1">
+                                  <div className="net7A justify-content-end pe-1 height17">
                                     {e?.data?.rd?.netwt?.toFixed(3)}
                                   </div>
-                                  <div className="net7A">
+                                  <div className="net7A height17">
                                     <b>Gr Wt.</b>
                                   </div>
-                                  <div className="net7A justify-content-end pe-1">
+                                  <div className="net7A justify-content-end pe-1 height17" style={{borderRight:"none"}}>
                                     {e?.data?.rd?.ActualGrossweight.toFixed(3)}
                                   </div>
                                 </div>
                                 <div className="pcswt7AH">
-                                  <div className="net7A">
+                                  <div className="net7A height17  wid60">
                                     <b>Dia Pcs:</b>
                                   </div>
-                                  <div className="net7A justify-content-end pe-1">
+                                  <div className="net7A justify-content-end pe-1 height17">
                                     {e?.additional?.dia?.ActualPcs}
                                   </div>
-                                  <div className="net7A">
+                                  <div className="net7A height17">
                                     <b>Dia Wt.</b>
                                   </div>
-                                  <div className="net7A justify-content-end pe-1">
+                                  <div className="net7A justify-content-end pe-1 height17" style={{borderRight:"none"}}>
                                     {e?.additional?.dia?.ActualWeight.toFixed(
                                       3
                                     )}
                                   </div>
                                 </div>
                                 <div className="pcswt7AH">
-                                  <div className="net7A">
+                                  <div className="net7A height17 wid60">
                                     <b>Clr Pcs:</b>
                                   </div>
-                                  <div className="net7A justify-content-end pe-1">
+                                  <div className="net7A justify-content-end pe-1 height17">
                                     {e?.additional?.clr?.ActualPcs}
                                   </div>
-                                  <div className="net7A">
+                                  <div className="net7A height17">
                                     <b>Clr Wt.</b>
                                   </div>
-                                  <div className="net7A justify-content-end pe-1">
+                                  <div className="net7A justify-content-end pe-1 height17" style={{borderRight:"none"}}>
                                     {e?.additional?.clr?.ActualWeight.toFixed(
                                       3
                                     )}
                                   </div>
                                 </div>
                                 <div className="pcswt7AH">
-                                  <div className="net7A">
+                                  <div className="net7A height17 wid60">
                                     <b>Misc Pcs:</b>
                                   </div>
-                                  <div className="net7A justify-content-end pe-1">
+                                  <div className="net7A justify-content-end pe-1 height17">
                                     {e?.additional?.misc?.ActualPcs}
                                   </div>
-                                  <div className="net7A">
+                                  <div className="net7A height17">
                                     <b>Misc Wt.</b>
                                   </div>
-                                  <div className="net7A justify-content-end pe-1">
+                                  <div className="net7A justify-content-end pe-1 height17" style={{borderRight:"none"}}>
                                     {e?.additional?.misc?.ActualWeight.toFixed(
                                       3
                                     )}
                                   </div>
                                 </div>
                                 <div className="pcswt7AH">
-                                  <div className="net7A">
+                                  <div className="net7A height17 wid60">
                                     <b>Plating</b>
                                   </div>
-                                  <div className="net7A justify-content-end pe-1">
+                                  <div className="net7A justify-content-end pe-1 height17">
 
                                   </div>
-                                  <div className="net7A">
+                                  <div className="net7A height17">
                                     <b>Stamping</b>
                                   </div>
-                                  <div className="net7A justify-content-end pe-1" style={{ borderRight: "none" }}>
+                                  <div className="net7A justify-content-end pe-1 height17" style={{ borderRight: "none" }}>
 
                                   </div>
                                 </div>
@@ -1083,19 +1087,19 @@ const BagPrint7S = ({ queries, headers }) => {
                               <div className="d-flex justify-content-between align-items-center dup7Aemt">
                                 <div
                                   className="w7A d-flex justify-content-center align-items-center pe-1"
-                                  style={{ width: "61px", fontSize: "9px" }}
+                                  style={{ width: "60.5px", fontSize: "9px" }}
                                 >
                                   Type
                                 </div>
                                 <div
                                   className="w7A d-flex justify-content-center align-items-center pe-1"
-                                  style={{ width: "63px", fontSize: "9px" }}
+                                  style={{ width: "62.5px", fontSize: "9px" }}
                                 >
                                   Purity
                                 </div>
                                 <div
                                   className="w7A d-flex justify-content-center align-items-center pe-1"
-                                  style={{ width: "62px", fontSize: "9px", borderRight: "1px solid #989898" }}
+                                  style={{ width: "62.5px", fontSize: "9px", borderRight: "1px solid #989898" }}
                                 >
                                   Color
                                 </div>
@@ -1113,7 +1117,7 @@ const BagPrint7S = ({ queries, headers }) => {
 
                               </div>
                               <div className="entryVal7A width161" >
-                                <div className="tableHead7C">
+                                <div className="tableHead7C" style={{borderBottom:"none"}}>
                                   <div className="dept7AD w7A70">
                                     CAS
                                   </div>
@@ -1134,7 +1138,7 @@ const BagPrint7S = ({ queries, headers }) => {
                                   </div>
                                   <div
                                     className="dept7AD w7A70"
-                                    style={{ borderBottom: "0px" }}
+                                    
                                   >
                                     RHODIUM
                                   </div>
@@ -1144,12 +1148,12 @@ const BagPrint7S = ({ queries, headers }) => {
                                   {Array.from({ length: 7 }, (_, index) => {
                                     return (
                                       <div className="dis7A" style={{ borderRight: "none" }} key={index}>
-                                        <div className="dept7AE" style={{ width: "45.5px" }}></div>
-                                        <div className="dept7AE" style={{ width: "45.5px" }}></div>
+                                        <div className="dept7AE" style={{ width: "45.5px",height:"16px" }}></div>
+                                        <div className="dept7AE" style={{ width: "45.5px",height:"16px" }}></div>
 
                                         <div
                                           className="dept7AE"
-                                          style={{ width: "46px" }}
+                                          style={{ width: "46px",height:"16px" }}
                                         ></div>
                                       </div>
                                     );

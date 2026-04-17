@@ -5,6 +5,7 @@ import Footer1 from "./components/footers/Footer1";
 import Header1 from "./components/headers/Header1";
 import Header2 from "./components/headers/Header2";
 import Header3 from "./components/headers/Header3";
+import Header5 from "./components/headers/Header5";
 import Subhead1 from "./components/subheaders/subhead1/Subhead1";
 import Subhead2 from "./components/subheaders/subhead2/Subhead2";
 import { exportToExcel } from "react-json-to-excel";
@@ -347,6 +348,10 @@ export const HeaderComponent = (headNo, headerData) => {
     case "5":
       headerComponent = <EInvoiceHeader data={headerData} />;
       break;
+
+      case "6":
+        headerComponent = <Header5 data={headerData} />;
+        break;
 
     default:
       headerComponent = <Header1 data={headerData} />;

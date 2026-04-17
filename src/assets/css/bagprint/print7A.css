@@ -354,7 +354,12 @@
 .width161{
     width: 161px !important;
 }
-
+.height17{
+    height: 17px;
+}
+.wid60{
+    width: 60.5px;
+}
 @media print {
     /* .container7A:nth-child(4n+4) {
         page-break-after: always !important;
