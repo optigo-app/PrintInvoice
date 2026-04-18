@@ -74,23 +74,23 @@
 .j-inv-col-hsn     { width: 8.06%;  }  
 .j-inv-col-desc    { width: 25.9%;  }   
 .j-inv-col-qty     { width: 5.37%;  }  
-.j-inv-col-rate    { width: 9.40%;  }  
+.j-inv-col-rate    { width: 13.40%;  }  
 .j-inv-col-disc    { width: 8.06%;  }  
 .j-inv-col-gst     { width: 5.37%;  }  
-.j-inv-col-gst-amt { width: 9.40%;  }  
-.j-inv-col-net     { width: 12.15%; }  
+.j-inv-col-gst-amt { width: 10.40%;  }  
+.j-inv-col-net     { width: 15.15%; }  
 
 .j-inv-col-sr-taxamt      { width: 5.37%;  }  
 .j-inv-col-code-taxamt    { width: 10.75%; }  
 .j-inv-col-hsn-taxamt     { width: 5%;  }  
 .j-inv-col-desc-taxamt    { width: 25%;  }   
 .j-inv-col-qty-taxamt     { width: 4%;  }  
-.j-inv-col-rate-taxamt    { width: 9.40%;  }  
+.j-inv-col-rate-taxamt    { width: 13.40%;  }  
 .j-inv-col-disc-taxamt    { width: 8.06%;  }  
 .j-inv-col-gst-taxamt     { width: 5.37%;  }  
-.j-inv-col-gst-amt-taxamt { width: 9.40%;  }  
-.j-inv-col-tabamt-taxamt{ width: 7%; }
-.j-inv-col-net-taxamt     { width: 10%; }  
+.j-inv-col-gst-amt-taxamt { width: 10.40%;  }  
+.j-inv-col-tabamt-taxamt{ width: 9%; }
+.j-inv-col-net-taxamt     { width: 13%; }  
 .j-inv-col-total  { width: 50%; }   
 .j-inv-col-total-taxamt  { width: 46.1%; }   
 .j-inv-container {

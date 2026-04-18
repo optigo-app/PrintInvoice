@@ -509,7 +509,7 @@ const InvoicePrint_10_11 = ({
       {/* buttons */}
       <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`} >
         <div className={`form-check ps-3 ${style?.printBtn}`}>
-          <input type="button" className="btn_white blue py-2 mt-2" value="Print vfv" onClick={(e) => handlePrint(e)} />
+          <input type="button" className="btn_white blue py-2 mt-2" value="Print" onClick={(e) => handlePrint(e)} />
         </div>
       </div>
       {/* header */}

@@ -35,6 +35,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [isImageWorking, setIsImageWorking] = useState(true);
 
   const [diaQlty, setDiaQlty] = useState(false);
+  const [grosswt2dec, setGrosswt2dec] = useState(false);
 
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -170,6 +171,13 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         setDiaQlty(true);
       }
   }
+  const checkGrosswt2dec = () => {
+      if(grosswt2dec){
+        setGrosswt2dec(false);
+      }else{
+        setGrosswt2dec(true);
+      }
+  }
 
   const discountCriteria = [
     { key: 'DiamondDiscount', isAmountKey: 'IsDiamondDiscInAmount', label: 'Diamond' ,disAmount:"DiamondDiscountAmount" },
@@ -191,7 +199,11 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               <div className="btnpcl">
                 <div className="mx-3 d-flex align-items-center">
                   <input type="checkbox" value={diaQlty} onChange={() => checkDiaQlty()} id="diaqlty" />
-                  <label htmlFor="diaqlty" className="mx-2 user-select-none fspcl">Diamond Quality</label>
+                  <label htmlFor="diaqlty" className="mx-2 user-select-none fspcl">Diamond Quality </label>
+                </div>
+                <div className="mx-3 d-flex align-items-center">
+                  <input type="checkbox" value={grosswt2dec} onChange={() => checkGrosswt2dec()} id="grosswt2dec" />
+                  <label htmlFor="grosswt2dec" className="mx-2 user-select-none fspcl">Gr. Wt. 2 decimals </label>
                 </div>
                  <Button /> 
               </div>
@@ -429,10 +441,10 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 {/* </div> */}
                                               </div>
                                               <div className="dcolsthpcl h-100 fspcl p_2_pcl end_pcl_new end_p_pcl_new" style={{ width: "18%" }} >
-                                                {e?.grosswt?.toFixed(3)}
+                                                {e?.grosswt?.toFixed(  grosswt2dec ? 2 : 3)}
                                               </div>
                                               <div className="dcolsthpcl end_pcl_new end_p_pcl_new fspcl p_2_pcl" style={{ width: "18%" }} >
-                                                { (e?.totals?.metal?.IsPrimaryMetal)?.toFixed(3) }
+                                                { (e?.totals?.metal?.IsPrimaryMetal)?.toFixed( grosswt2dec ? 2 : 3) }
                                               </div>
                                               <div className="dcolsthpcl fspcl p_2_pcl" style={{ width: "20%" }} >
                                                 {
@@ -489,8 +501,8 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                           </div>
                                           <div style={{ width: "18%" }} className="be_1_pcl d-flex justify-content-end pt-1" >
                                             <div className="d-flex flex-column justify-content-between h-100 w-100" >
-                                              <div className="w-100 end_pcl_new end_p_pcl_new"> {e?.grosswt?.toFixed(3)}</div>
-                                              <div className="fw-bold bg_pcl br_top_pcl w-100 end_pcl_new end_p_pcl_new"> {e?.grosswt?.toFixed(3)}</div>
+                                              <div className="w-100 end_pcl_new end_p_pcl_new"> {e?.grosswt?.toFixed( grosswt2dec ? 2 : 3)}</div>
+                                              <div className="fw-bold bg_pcl br_top_pcl w-100 end_pcl_new end_p_pcl_new"> {e?.grosswt?.toFixed( grosswt2dec ? 2 : 3)}</div>
                                             </div>
                                           </div>
                                           <div style={{ width: "18%" }} className="be_1_pcl d-flex justify-content-end pt-1" >
@@ -733,7 +745,7 @@ items-center end_p_pcl_new" style={{  width: "22%" }} >
                       <div className="diapcltotrowtb">
                         <div className="dcolsthpcl" style={{ width: "22%" }} ></div>
                         <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{  width: "18%" }} >
-                          {result?.mainTotal?.grosswt?.toFixed(3)}
+                          {result?.mainTotal?.grosswt?.toFixed( grosswt2dec ? 2 : 3)}
                         </div>
                         <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{  width: "18%" }} >
                           {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}

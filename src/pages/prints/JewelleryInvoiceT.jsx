@@ -32,7 +32,8 @@ const JewelleryInvoiceT = ({
     const [loader, setLoader] = useState(true);
     const toWords = new ToWords();
     const [image, setImage] = useState(true);
-    const [taxamt, setTaxamt] = useState(true);
+    const [taxamt, setTaxamt] = useState(false);
+    const [disamt, setDisamt] = useState(false);
     const [total, setTotal] = useState({
         Qty: 0,
         gwt: 0,
@@ -74,7 +75,21 @@ const JewelleryInvoiceT = ({
                 totals.nwt += e?.MetalDiaWt;
                 totals.others += e?.OtherCharges;
                 totals.total += e?.UnitCost;
-                totals.discount += e?.DiscountAmt;
+                
+                
+                if (e?.isdiscountinamount == 1 ) {
+
+                    totals.discount += e?.DiscountAmt;
+                } else {
+                    
+                    const cgst = Number(data?.BillPrint_Json[0].CGST) || 0;
+                    const sgst = Number(data?.BillPrint_Json[0].SGST) || 0;
+                    const igst = Number(data?.BillPrint_Json[0].IGST) || 0;
+                    const TotalAmount = Number(e.TotalAmount) || 0;
+                    const gst = (cgst + sgst) > 0 ? (cgst + sgst) : igst;
+                    const gstAmt = (TotalAmount * gst) / 100;
+                    totals.discount += e?.NewMRP - (e?.TotalAmount + gstAmt)
+                }
                 totals.Qty += e?.Quantity;
                 let hallmarkingCount = 0;
                 let materials = [];
@@ -398,6 +413,9 @@ const JewelleryInvoiceT = ({
     const handleChangeTaxamt = (e) => {
         taxamt ? setTaxamt(false) : setTaxamt(true);
     };
+    const handleChangeDisamt = (e) => {
+        disamt ? setDisamt(false) : setDisamt(true);
+    };
 
     const totalConverted = total?.afterTax / headerData?.CurrencyExchRate;
     const totalPayments =
@@ -470,7 +488,7 @@ const JewelleryInvoiceT = ({
                             {" "}
                             <div className="j-inv-container" style={{ position: "relative" }}>
                                 <div className='j-inv-btn' style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginBottom: "10px" }}>
-                                    <div className="form-check pe-3" style={{ display: "flex", alignItems: "center", gap: "5px" }} >
+                                    {/* <div className="form-check pe-3" style={{ display: "flex", alignItems: "center", gap: "5px" }} >
                                         <input
                                             className="form-check-input"
                                             type="checkbox"
@@ -487,6 +505,23 @@ const JewelleryInvoiceT = ({
                                             Taxable Amt.
                                         </label>
                                     </div>
+                                    <div className="form-check pe-3" style={{ display: "flex", alignItems: "center", gap: "5px" }} >
+                                        <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            id='discountAmt'
+                                            checked={disamt}
+                                            onChange={handleChangeDisamt}
+                                            style={{ cursor: "pointer" }}
+                                        />
+                                        <label
+                                            className="form-check-label pt-1"
+                                            htmlFor="discountAmt"
+                                            style={{ cursor: "pointer", textSelection: "none" }}
+                                        >
+                                            Discount Amt.
+                                        </label>
+                                    </div> */}
                                     <Button />
                                 </div>
                                 {/* Header Logo Box */}
@@ -569,7 +604,12 @@ const JewelleryInvoiceT = ({
                                         <div className={`j-inv-cell ${taxamt ? 'j-inv-col-desc-taxamt' : 'j-inv-col-desc'} j-inv-border-r`}>Description of Goods</div>
                                         <div className={`j-inv-cell ${taxamt ? 'j-inv-col-qty-taxamt' : 'j-inv-col-qty'} j-inv-border-r`}>Qty</div>
                                         <div className={`j-inv-cell ${taxamt ? 'j-inv-col-rate-taxamt' : 'j-inv-col-rate'} j-inv-border-r`}>Rate</div>
-                                        <div className={`j-inv-cell ${taxamt ? 'j-inv-col-disc-taxamt' : 'j-inv-col-disc'} j-inv-border-r`}>Disc.</div>
+                                        {
+                                            disamt &&(
+                                                <div className={`j-inv-cell ${taxamt ? 'j-inv-col-disc-taxamt' : 'j-inv-col-disc'} j-inv-border-r`}>Disc.</div>
+                                            )
+                                        }
+                                         
                                         {
                                             taxamt && (
                                                 <div className={`j-inv-cell ${taxamt ? 'j-inv-col-tabamt-taxamt' : 'j-inv-col-tabamt'} j-inv-border-r`}>Taxable <br /> Amt.</div>
@@ -577,7 +617,7 @@ const JewelleryInvoiceT = ({
                                         }
                                         <div className={`j-inv-cell ${taxamt ? 'j-inv-col-gst-taxamt' : 'j-inv-col-gst'} j-inv-border-r`}>Gst%</div>
                                         <div className={`j-inv-cell ${taxamt ? 'j-inv-col-gst-amt-taxamt' : 'j-inv-col-gst-amt'} j-inv-border-r`}>Gst Amt.</div>
-                                        <div className={`j-inv-cell ${taxamt ? 'j-inv-col-net-taxamt' : 'j-inv-col-net'}`}>Net Amount</div>
+                                        <div  className={`j-inv-cell text-center ${taxamt ? 'j-inv-col-net-taxamt' : 'j-inv-col-net'}`}>Net Amount</div>
                                     </div>
 
                                     {/* Dynamic Items */}
@@ -600,8 +640,13 @@ const JewelleryInvoiceT = ({
                                                         {e.MetalTypePurity + " - " + e.Categoryname} <br /> {e.SrJobno}
                                                     </div>
                                                     <div className={`j-inv-cell ${taxamt ? 'j-inv-col-qty-taxamt' : 'j-inv-col-qty'} j-inv-border-r`}>{e.Quantity}</div>
-                                                    <div className={`j-inv-cell ${taxamt ? 'j-inv-col-rate-taxamt' : 'j-inv-col-rate'} j-inv-border-r`}>{ `${taxamt ?fixedValues(e.UnitCost, 2):fixedValues(e.TotalAmount, 2) }`  }</div>
-                                                    <div className={`j-inv-cell ${taxamt ? 'j-inv-col-disc-taxamt' : 'j-inv-col-disc'} j-inv-border-r`}>{fixedValues(e.DiscountAmt, 2)}</div>
+                                                    <div className={`j-inv-cell ${taxamt ? 'j-inv-col-rate-taxamt' : 'j-inv-col-rate'} j-inv-border-r`}>{`${taxamt ? fixedValues(e.UnitCost, 2) : fixedValues(e.TotalAmount, 2)}`}</div>
+                                                    {
+                                                        disamt &&(
+                                                            <div className={`j-inv-cell ${taxamt ? 'j-inv-col-disc-taxamt' : 'j-inv-col-disc'} j-inv-border-r`}>{fixedValues(e.DiscountAmt, 2)}</div>
+                                                        )
+                                                    }
+                                                    {/* <div className={`j-inv-cell ${taxamt ? 'j-inv-col-disc-taxamt' : 'j-inv-col-disc'} j-inv-border-r`}>{fixedValues(e.DiscountAmt, 2)}</div> */}
                                                     {
                                                         taxamt && (
                                                             <div className={`j-inv-cell ${taxamt ? 'j-inv-col-tabamt-taxamt' : 'j-inv-col-tabamt'} j-inv-border-r`}>{fixedValues(e.TotalAmount, 2)}</div>
@@ -625,7 +670,12 @@ const JewelleryInvoiceT = ({
                                                 <div className={`j-inv-cell ${taxamt ? 'j-inv-col-desc-taxamt' : 'j-inv-col-desc'} j-inv-border-r`}></div>
                                                 <div className={`j-inv-cell ${taxamt ? 'j-inv-col-qty-taxamt' : 'j-inv-col-qty'} j-inv-border-r`}></div>
                                                 <div className={`j-inv-cell ${taxamt ? 'j-inv-col-rate-taxamt' : 'j-inv-col-rate'} j-inv-border-r`}></div>
-                                                <div className={`j-inv-cell ${taxamt ? 'j-inv-col-disc-taxamt' : 'j-inv-col-disc'} j-inv-border-r`}></div>
+                                                {
+                                                    disamt &&(
+                                                        <div className={`j-inv-cell ${taxamt ? 'j-inv-col-disc-taxamt' : 'j-inv-col-disc'} j-inv-border-r`}></div>
+                                                    )
+                                                }
+ 
                                                 {
                                                     taxamt && (
                                                         <div className={`j-inv-cell ${taxamt ? 'j-inv-col-tabamt-taxamt' : 'j-inv-col-tabamt'} j-inv-border-r`}></div>
@@ -654,8 +704,8 @@ const JewelleryInvoiceT = ({
                                             <div className="j-inv-p-5 j-inv-border-b j-inv-h-40">
                                                 <span className=" ">Amount In Words {headerData?.Currencyname}:</span><br />
 
-                                                <p className="fw-bold" style={{lineHeight: "1"}} >
-                                                    {toWords.convert(   
+                                                <p className="fw-bold" style={{ lineHeight: "1" }} >
+                                                    {toWords.convert(
                                                         +(
                                                             total?.beforeTax /
                                                             headerData?.CurrencyExchRate +
@@ -679,7 +729,7 @@ const JewelleryInvoiceT = ({
                                                     {pay_details?.map((e, i) => {
                                                         return <div key={i}>{e?.label}   : <span className=''>{e?.amount}</span></div>
                                                     })}
-                                                    <div>Advance : <span className=''>{NumberWithCommas(headerData?.AdvanceAmount, 2   )}</span></div>
+                                                    <div>Advance : <span className=''>{NumberWithCommas(headerData?.AdvanceAmount, 2)}</span></div>
                                                     <div>Credit Amt : <span className=''>{difference}</span></div>
                                                 </div>
                                             </div>
@@ -728,7 +778,7 @@ const JewelleryInvoiceT = ({
                                                 }}
                                             ></div>
                                         </div>
-                                        
+
                                         <div className="j-inv-flex-col j-inv-p-5 j-inv-text-center" style={{ width: '30%' }}>
                                             <div>For, <span className="j-inv-bold"> {headerData?.CompanyFullName}</span></div>
                                             <div className="j-inv-m-t-40">Signature & Date</div>
