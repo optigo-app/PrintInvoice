@@ -801,6 +801,11 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               {result?.resultArray?.map((e, i) => {
                 console.log("TCL: metal e", e.metal)
                 // Calculate extra charges safely
+                const labourTotal = e?.GroupJob !== ""
+                  ? (result?.labour?.filter((el) => el?.GroupjobNo === e?.GroupJob)
+                    ?.reduce((sum, item) => sum + (item.MakingCharge || 0), 0) || 0)
+                  : 0;
+
                 const extraCharge =
                   (e?.OtherCharges || 0) +
                   (e?.TotalDiamondHandling || 0) +
@@ -810,6 +815,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   (e?.totals?.diamonds?.SettingAmount || 0) +
                   (e?.totals?.colorstone?.SettingAmount || 0) +
                   (e?.totals?.finding?.SettingAmount || 0) +
+                  labourTotal +
 
                   (
                     e?.GroupJob !== ""
@@ -983,7 +989,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 {el?.Wt?.toFixed(3)}
                               </div>
 
-                              <div className="dcol5_pcls end_pcls pdr_pcls">
+                              <div className="dcol5_pcls end_pcls pdr_pcls" style={{ textAlign: "right" }}>
                                 {formatAmount(el?.Rate)}
                               </div>
 

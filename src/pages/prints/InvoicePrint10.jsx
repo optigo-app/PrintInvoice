@@ -513,7 +513,8 @@ const InvoicePrint_10_11 = ({
         </div>
       </div>
       {/* header */}
-      {headerData?.IsEinvoice !== 1 ? <><div className={`${style2.headline} headerTitle`}>
+      {headerData?.IsEinvoice !== 1 ? 
+      <><div className={`${style2.headline} headerTitle`}>
         {headerData?.PrintHeadLabel}
       </div>
         <div className={`${style?.font_12} ${style2.companyDetails} ${style?.head_line_invp1011}`}>

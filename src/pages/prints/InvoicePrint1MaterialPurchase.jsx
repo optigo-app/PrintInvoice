@@ -1,6 +1,6 @@
 // http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=TVMvNDk0LzIwMjQ=&evn=TWF0ZXJpYWwgU2FsZQ==&pnm=SW52b2ljZSBQcmludA==&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvTWF0ZXJpYWxCaWxsX0pzb24=&ctv=NzE=&ifid=TaxInvoiceA&pid=undefined
 import React, { useEffect } from "react";
-import "../../assets/css/prints/InvoicePrintMaterialSale.css";
+import "../../assets/css/prints/InvoicePrintMaterialPurchase.css";
 import { useState } from "react";
 import {
   NumberWithCommas,
@@ -14,7 +14,7 @@ import {
 import Loader from "../../components/Loader";
 import { ToWords } from "to-words";
 
-const InvoicePrintMaterial = ({
+const InvoicePrint1MaterialPurchase = ({
   token,
   invoiceNo,
   printName,
@@ -51,18 +51,18 @@ const InvoicePrintMaterial = ({
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
             let address =
-              data?.Data?.MaterialBill_Json[0]?.Printlable?.split("\r\n");
+              data?.Data?.MaterialPurchasePrint_Json[0]?.Printlable?.split("\r\n");
             setCustAddress(address);
             // console.log("data", data);
 
-            setJson0Data(data?.Data?.MaterialBill_Json[0]);
-            const sortedItems = [...(data?.Data?.MaterialBill_Json1 || [])].sort(
+            setJson0Data(data?.Data?.MaterialPurchasePrint_Json[0]);
+            const sortedItems = [...(data?.Data?.MaterialPurchasePrint_Json1 || [])].sort(
               (a, b) => parseFloat(a?.ItemId || 0) - parseFloat(b?.ItemId || 0)
             );
             setFinalD(sortedItems);
-            setTaxAmount(data?.Data?.MaterialBill_Json2[0]);
-            setExtraTaxAmount(data?.Data?.MaterialBill_Json3);
-            // console.log("data?.Data?.MaterialBill_Json3", data?.Data?.MaterialBill_Json3);
+            setTaxAmount(data?.Data?.MaterialPurchasePrint_Json2[0]);
+            setExtraTaxAmount(data?.Data?.MaterialPurchasePrint_Json3);
+            // console.log("data?.Data?.MaterialPurchasePrint_Json3", data?.Data?.MaterialPurchasePrint_Json3);
           
             setLoader(false);
           } else {
@@ -117,7 +117,7 @@ const InvoicePrintMaterial = ({
   }, 0);
 
   const totalPieces = (Array.isArray(finalD) ? finalD : []).reduce((sum, item) => {
-    const pieces = parseFloat(item?.pieces);
+    const pieces = parseFloat(item?.Pieces);
     return sum + (isNaN(pieces) ? 0 : pieces);
   }, 0);
 
@@ -160,6 +160,30 @@ const InvoicePrintMaterial = ({
   const isFindingOrMount = Array.isArray(finalD) ? finalD.some((e) => allowedNames.includes(e?.ItemName?.toLowerCase())) : false;
 
   const allowedNamesForRate = ["Metal", "METAL", "metal", "MOUNT", "Mount", "mount", "FINDING", "Finding", "finding"];
+
+
+console.log("TCL: extraTaxAmont", extraTaxAmont)
+  
+
+const MergedTaxAmount = Object.values(
+  (extraTaxAmont || []).reduce((acc, item) => {
+    if (!item?.TaxName) return acc;
+
+    // Extract tax type (CGST / SGST)
+    const taxType = item.TaxName.split('@')[0];
+
+    if (!acc[taxType]) {
+      acc[taxType] = {
+        TaxName: taxType,
+        TaxAmount: 0
+      };
+    }
+
+    acc[taxType].TaxAmount += item.TaxAmount || 0;
+
+    return acc;
+  }, {})
+);
 
   return (
     <>
@@ -251,16 +275,14 @@ const InvoicePrintMaterial = ({
                       <div className="wdthHd1">{json0Data?.EntryDate}</div>
                     </>) }
                   </div>
-                  <div className="disflx">
-                    <div className="wdthHd spfntBld">DUE DAYS</div>
-                    <div className="wdthHd1">{json0Data?.OrderDue}</div>
-                  </div>
+                 
                 </div>
               </div>
 
               {/** Table Header */}
               <div className="disflx brbxAll spfntbH" style={{ marginTop: "5px" }}>
-                {isFindingOrMount ? (
+                {/* {isFindingOrMount ? ( */}
+                {false ? (
                   <>
                     <div className="col1_inv2lab spfntBld spbrRht spfntCen">Sr#</div>
                     <div className="col2_inv2lab spfntBld spfntCen spbrRht">Description</div>
@@ -270,13 +292,13 @@ const InvoicePrintMaterial = ({
                     <div className="spbrRht col6_inv2lab spfntBld spfntCen">Color</div>
                     <div className="col7_inv2lab spfntBld spbrRht spfntCen">Size</div>
                     <div className="col8_inv2lab spbrRht spfntBld spfntCen">Weight</div>
-                    <div className="col9_inv2lab spbrRht spfntBld spfntCen">Pure Wt</div>
+         
                     <div className="col10_inv2lab spbrRht spfntBld spfntCen">Pieces</div>
                     <div className="col11_inv2lab spfntBld spbrRht spfntCen">Rate</div>
                     <div className="col12_inv2lab spfntBld spfntCen spbrRht">Amount</div>
                     <div className="col13_inv2lab spfntBld spfntCen spbrRht">Lab.<br />Rate</div>
                     <div className="col14_inv2lab spfntBld spbrWord spfntCen spbrRht">Lab<br />Amount</div>
-                    <div className="col15_inv2lab spfntBld spfntCen spbrRht">Discount</div>
+                    {/* <div className="col15_inv2lab spfntBld spfntCen spbrRht">Discount</div> */}
                     <div className="col16_inv2lab spfntBld spbrWord spfntCen">Taxable Amount</div>
                   </>
                 ) : (
@@ -289,10 +311,10 @@ const InvoicePrintMaterial = ({
                     <div className="spbrRht col6_inv2 spfntBld spfntCen">Color</div>
                     <div className="col7_inv2 spfntBld spbrRht spfntCen">Size</div>
                     <div className="col8_inv2 spbrRht spfntBld spfntCen">Weight</div>
-                    <div className="col9_inv2 spbrRht spfntBld spfntCen">Pure Wt</div>
+               
                     <div className="col10_inv2 spbrRht spfntBld spfntCen">Pieces</div>
                     <div className="col11_inv2 spfntBld spbrRht spfntCen">Rate</div>
-                    <div className="col12_inv2 spfntBld spbrRht spfntCen">Discount</div>
+                    {/* <div className="col12_inv2 spfntBld spbrRht spfntCen">Discount</div> */}
                     <div className="col13_inv2 spfntBld spfntCen">Taxable Amount</div>
                   </>
                 )
@@ -302,7 +324,8 @@ const InvoicePrintMaterial = ({
               {/** table Body */}
               {finalD?.map((e, i) => {
                 return (
-                  isFindingOrMount ? (
+                  // isFindingOrMount ? (
+                  false ? (
                     <>
                       <div key={i} className="disflx spbrlFt brBtom spfntbH">
                         <div className="col1_inv2lab spbrRht spfntCen">{i + 1}</div>
@@ -340,21 +363,25 @@ const InvoicePrintMaterial = ({
                         <div className="Sucol6_inv2lab spbrRht spbrWord">{e?.color === "" ? "-" : e?.color}</div>
                         <div className="Sucol7_inv2lab spbrRht spbrWord">{e?.size === "" ? "-" : e?.size}</div>
                         <div className="Sucol8_inv2lab spfnted spbrRht">{fixedValues(e?.Weight === "" ? "-" : e?.Weight, 3)}</div>
-                        <div className="Sucol9_inv2lab spfnted spbrRht">{fixedValues(e?.PureWeight === "" ? "-" : e?.PureWeight, 3)}</div>
-                        <div className="Sucol10_inv2lab spfnted spbrRht">{e?.pieces === "" ? "-" : e?.pieces}</div>
+                        {/* <div className="Sucol9_inv2lab spfnted spbrRht">{fixedValues(e?.PureWeight === "" ? "-" : e?.PureWeight, 3)}</div> */}
+                        <div className="Sucol10_inv2lab spfnted spbrRht">{e?.Pieces === "" ? "-" : e?.Pieces}</div>
                         <div className="Sucol11_inv2lab spfnted spbrRht">
                         {formatAmount(
                           e?.Rate === "" ? "-"
-                            :   e?.Rate
+                            : allowedNamesForRate.includes(e?.ItemName)
+                              ? (e?.Weight * e?.Rate * e?.Tunch / 100) / e?.Weight
+                              : ["diamond", "color stone"].includes(e?.ItemName?.toLowerCase())
+                                ? (e?.Amount - e?.LabourAmt) / e?.Weight
+                                : e?.Rate
                           , 2
                         )}
                         </div>
                         <div className="Sucol12_inv2lab spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.Amount - e?.LabourAmt, 2)}</div>
                         <div className="Sucol13_inv2lab spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.LabourRate, 2)}</div>
                         <div className="Sucol14_inv2lab spfnted spbrRht">{formatAmount(e?.Amount === "" ? "-" : e?.LabourAmt, 2)}</div>
-                        <div className="Sucol15_inv2lab spfnted spbrRht spbrWord">
+                        {/* <div className="Sucol15_inv2lab spfnted spbrRht spbrWord">
                           {e?.ItemName?.toLowerCase() === "diamond" && e?.IsDiscountOnAmount === 0 && e?.Discount !== 0 ? `${formatAmount(e?.DiscountAmount,2)}(${e?.Discount}%)` :  e?.DiscountAmount !== 1 ? formatAmount(e?.DiscountAmount,2) : '0.00' }
-                        </div>
+                        </div> */}
                         <div className="Sucol16_inv2lab spfnted spbrRht">
                           {
                             e?.FinalAmount !== 0 
@@ -402,16 +429,15 @@ const InvoicePrintMaterial = ({
                         <div className="Sucol6_inv2 spbrRht spbrWord">{e?.color === "" ? "-" : e?.color}</div>
                         <div className="Sucol7_inv2 spbrRht spbrWord">{e?.size === "" ? "-" : e?.size}</div>
                         <div className="Sucol8_inv2 spfnted spbrRht">{fixedValues(e?.Weight === "" ? "-" : e?.Weight, 3)}</div>
-                        <div className="Sucol9_inv2 spfnted spbrRht">{fixedValues(e?.PureWeight === "" ? "-" : e?.PureWeight, 3)}</div>
-                        <div className="Sucol10_inv2 spfnted spbrRht">{e?.pieces === "" ? "-" : e?.pieces}</div>
+                        {/* <div className="Sucol9_inv2 spfnted spbrRht">{fixedValues(e?.PureWeight === "" ? "-" : e?.PureWeight, 3)}</div> */}
+                      
+                        <div className="Sucol10_inv2 spfnted spbrRht">{e?.Pieces === "" ? "-" : e?.Pieces}</div>
                         <div className="Sucol11_inv2 spfnted spbrRht">
-                          {formatAmount(e?.Rate === "" ? "-"
-                            : e?.Rate, 2
-                          )}
+                          {formatAmount(e?.Rate === "" ? "-": e?.Rate  ,2)}
                         </div>
-                        <div className="Sucol12_inv2 spfnted spbrRht spbrWord">
+                        {/* <div className="Sucol12_inv2 spfnted spbrRht spbrWord">
                           {e?.ItemName?.toLowerCase() === "diamond" && e?.IsDiscountOnAmount === 0 && e?.Discount !== 0 ? `${formatAmount(e?.DiscountAmount,2)}(${e?.Discount}%)` :  e?.DiscountAmount !== 1 ? formatAmount(e?.DiscountAmount,2) : '0.00' }
-                        </div>
+                        </div> */}
                         <div className="Sucol13_inv2 spfnted spbrRht">
                           {e?.Amount === "" ? "-" :
                               e?.ItemName?.toLowerCase() === "diamond" ? formatAmount(e?.Amount - e?.DiscountAmount)
@@ -427,7 +453,8 @@ const InvoicePrintMaterial = ({
 
               {/** Table Total */}
               <div className="disflx spbrlFt brBtom spfntbH">
-                {isFindingOrMount ? (
+                {/* {isFindingOrMount ? ( */}
+                {false ? (
                   <>
                     <div className="col1_inv2lab spbrRht"></div>
                     <div className="Sucol2_inv2lab spbrRht"></div>
@@ -437,10 +464,10 @@ const InvoicePrintMaterial = ({
                     <div className="Sucol6_inv2lab spbrRht"></div>
                     <div className="Sucol7_inv2lab spbrRht"></div>
                     <div className="Sucol8_inv2lab spfnted spfntBld spbrRht">{fixedValues(totalWeight, 3)}</div>
-                    <div className="Sucol9_inv2lab spfnted spfntBld spbrRht">{fixedValues(totalPureWeight, 3)}</div>
+                    {/* <div className="Sucol9_inv2lab spfnted spfntBld spbrRht">{fixedValues(totalPureWeight, 3)}</div> */}
                     <div className="Sucol10_inv2lab spfnted spfntBld spbrRht">{totalPieces}</div>
                     <div className="Sucol11_inv2lab spfnted spbrRht"></div>
-                    <div className="Sucol12_inv2lab spfnted spfntBld spbrRht">{formatAmount(totalAmount - totalLabAmount, 2)}</div>
+                    {/* <div className="Sucol12_inv2lab spfnted spfntBld spbrRht">{formatAmount(totalAmount - totalLabAmount, 2)}</div> */}
                     <div className="Sucol13_inv2lab spfnted spfntBld spbrRht"></div>
                     <div className="Sucol14_inv2lab spfnted spfntBld spbrRht">{formatAmount(totalLabAmount, 2)}</div>
                     <div className="Sucol15_inv2lab spfnted spfntBld spbrRht">{totalDiscountAMT !== 0 ? formatAmount(totalDiscountAMT,2) : '0.00'}</div>
@@ -456,10 +483,10 @@ const InvoicePrintMaterial = ({
                     <div className="Sucol6_inv2 spbrRht"></div>
                     <div className="Sucol7_inv2 spbrRht"></div>
                     <div className="Sucol8_inv2 spfnted spfntBld spbrRht">{fixedValues(totalWeight, 3)}</div>
-                    <div className="Sucol9_inv2 spfnted spfntBld spbrRht">{fixedValues(totalPureWeight, 3)}</div>
+                    {/* <div className="Sucol9_inv2 spfnted spfntBld spbrRht">{fixedValues(totalPureWeight, 3)}</div> */}
                     <div className="Sucol10_inv2 spfnted spfntBld spbrRht">{totalPieces}</div>
                     <div className="Sucol11_inv2 spfnted spbrRht"></div>
-                    <div className="Sucol12_inv2 spfnted spfntBld spbrRht">{totalDiscountAMT !== 0 ? formatAmount(totalDiscountAMT,2) : '0.00'}</div>
+                    {/* <div className="Sucol12_inv2 spfnted spfntBld spbrRht">{totalDiscountAMT !== 0 ? formatAmount(totalDiscountAMT,2) : '0.00'}</div> */}
                     <div className="Sucol13_inv2 spfnted spfntBld spbrRht">{formatAmount(totalAmount - totalDiscountAMT, 2)}</div>
 
                   </>
@@ -467,10 +494,12 @@ const InvoicePrintMaterial = ({
               </div>
 
               {/** Tax Amount */}
-              {extraTaxAmont?.map((e, i) => {
+              {console.log("extraTaxAmont",extraTaxAmont)}
+              {MergedTaxAmount?.map((e, i) => {
                 return (
                   <div key={i} className="disflx spfntbH">
-                    {isFindingOrMount ? (
+                    {/* {isFindingOrMount ? ( */}
+                    {false ? (
                       <>
                         <div className="taxwdthlab spbrlFt spbrRht"></div>
                         <div className="taxwdth1lab spbrRht">
@@ -496,8 +525,8 @@ const InvoicePrintMaterial = ({
               })}
               {extraTaxAmont?.length === 0 && (
                 <div className="disflx spfntbH pagBrkIsid">
-                  {isFindingOrMount ? (<div className="taxwdthlab spbrlFt spbrRht"></div>) : (<div className="taxwdth spbrlFt spbrRht"></div>)}
-                  <div className={`${isFindingOrMount ? "taxwdth1lab" : "taxwdth1"} spbrRht`}>
+                  {false ? (<div className="taxwdthlab spbrlFt spbrRht"></div>) : (<div className="taxwdth spbrlFt spbrRht"></div>)}
+                  <div className={`${false ? "taxwdth1lab" : "taxwdth1"} spbrRht`}>
                     {taxAmont?.tax1_taxname !== "" && (
                       <div className="spacLft2 spfntBld">
                         <p>{taxAmont?.tax1_value ? `${taxAmont?.tax1_taxname} @ ${fixedValues(taxAmont?.tax1_value, 3)} %` : ""}</p>
@@ -533,7 +562,7 @@ const InvoicePrintMaterial = ({
                       </>
                     )}
                   </div>
-                  <div className={`${isFindingOrMount ? "taxwdth2lab" : "taxwdth2"} spbrRht`}>
+                  <div className={`${false ? "taxwdth2lab" : "taxwdth2"} spbrRht`}>
                     {Number(taxAmont?.tax1Amount) > 0 && (
                       <div className="spacLft2 spfntBld">
                         <p>{formatAmount(taxAmont.tax1Amount, 2)}</p>
@@ -575,7 +604,8 @@ const InvoicePrintMaterial = ({
 
               {/**Grand Total */}
               <div className="disflx spfntbH brBtom">
-                <div className={`${isFindingOrMount ? "taxwdthlab" : "taxwdth"} spbrlFt spbrRht`} style={{ paddingLeft: "5px", paddingTop: "5px" }}>
+              {/* isFindingOrMount = false  */}
+                <div className={`${false ? "taxwdthlab" : "taxwdth"} spbrlFt spbrRht`} style={{ paddingLeft: "5px", paddingTop: "5px" }}>
                   {Number(GrandTotal) > 0 && (
                     <>
                       <p>In Words {json0Data?.CurrName}</p>
@@ -583,10 +613,10 @@ const InvoicePrintMaterial = ({
                     </>
                   )}
                 </div>
-                <div className={`${isFindingOrMount ? "taxwdth1lab" : "taxwdth1"} spbrRht spfntBld grtHet brTpm`} style={{ alignItems: "center" }}>
+                <div className={`${false ? "taxwdth1lab" : "taxwdth1"} spbrRht spfntBld grtHet brTpm`} style={{ alignItems: "center" }}>
                   {Number(GrandTotal) !== 0 && !isNaN(Number(GrandTotal)) && ("GRAND TOTAL")}
                 </div>
-                <div className={`${isFindingOrMount ? "taxwdth2lab" : "taxwdth2"} spbrRht spfntBld grtHet brTpm`}>
+                <div className={`${false ? "taxwdth2lab" : "taxwdth2"} spbrRht spfntBld grtHet brTpm`}>
                   {Number(GrandTotal) !== 0 && !isNaN(Number(GrandTotal)) && (
                     <>
                       <span dangerouslySetInnerHTML={{ __html: json0Data?.CurrSymbol }} />
@@ -596,6 +626,10 @@ const InvoicePrintMaterial = ({
                 </div>
               </div>
 
+              <div className="brbxAll" style={{ borderTop: "none" ,fontSize:"14px", padding:"0 5px " }}>
+                  <b>REMARKS:</b> <span dangerouslySetInnerHTML={{ __html: json0Data?.Remark }}></span>
+                </div>
+
               {/** Instuction */}
               {json0Data?.Declaration && (
                 <div className="brbxAll" style={{ borderTop: "none" }}>
@@ -604,19 +638,12 @@ const InvoicePrintMaterial = ({
               )}
 
               <div className="disflx brbxAll spfntbH" style={{ borderTop: "none" }}>
-                <div className="spbnkdtl spbrRht">
-                  <div className="spfntBld">Bank Detail</div>
-                  <div>Bank Name:<span>{json0Data?.bankname}</span></div>
-                  <div>Branch:<span>{json0Data?.bankaddress}</span></div>
-                  <div>Account Name:<span>{json0Data?.accountname}</span></div>
-                  <div>Account No:<span>{json0Data?.accountnumber}</span></div>
-                  <div>RTGS/NEFT IFSC:<span>{json0Data?.rtgs_neft_ifsc}</span></div>
-                </div>
-                <div className="spbnkdtl1 spbrRht">
+                 
+                <div className="spbnkdtl1 spbrRht" style={{ width: "50%",minHeight:"100px" }}>
                   <div>Signature</div>
                   <div className="spfntBld">{json0Data?.customerfirmname}</div>
                 </div>
-                <div className="spbnkdtl1">
+                <div className="spbnkdtl1" style={{ width: "50%",minHeight:"100px" }}>
                   <div>Signature</div>
                   <div className="spfntBld">{json0Data?.CompanyFullName}</div>
                 </div>
@@ -633,4 +660,4 @@ const InvoicePrintMaterial = ({
   );
 };
 
-export default InvoicePrintMaterial;
+export default InvoicePrint1MaterialPurchase;

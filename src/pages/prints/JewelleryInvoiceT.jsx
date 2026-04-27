@@ -75,21 +75,49 @@ const JewelleryInvoiceT = ({
                 totals.nwt += e?.MetalDiaWt;
                 totals.others += e?.OtherCharges;
                 totals.total += e?.UnitCost;
-                
-                
-                if (e?.isdiscountinamount == 1 ) {
 
-                    totals.discount += e?.DiscountAmt;
+                // totals.discount += e?.DiscountAmt;
+
+
+                // if(totals.discount==0){
+
+                // }else{
+                //     if (e?.isdiscountinamount == 1 ) {
+
+                //         totals.discount += e?.DiscountAmt;
+                //     } else {
+                //         if(totals.discount!=0){}
+
+                //         const cgst = Number(data?.BillPrint_Json[0].CGST) || 0;
+                //         const sgst = Number(data?.BillPrint_Json[0].SGST) || 0;
+                //         const igst = Number(data?.BillPrint_Json[0].IGST) || 0;
+                //         const TotalAmount = Number(e.TotalAmount) || 0;
+                //         const gst = (cgst + sgst) > 0 ? (cgst + sgst) : igst;
+                //         const gstAmt = (TotalAmount * gst) / 100;
+                //         totals.discount += e?.NewMRP - (e?.TotalAmount + gstAmt)
+                //     }
+                // }
+
+                if (e?.DiscountAmt == 0) {
+
                 } else {
-                    
-                    const cgst = Number(data?.BillPrint_Json[0].CGST) || 0;
-                    const sgst = Number(data?.BillPrint_Json[0].SGST) || 0;
-                    const igst = Number(data?.BillPrint_Json[0].IGST) || 0;
-                    const TotalAmount = Number(e.TotalAmount) || 0;
-                    const gst = (cgst + sgst) > 0 ? (cgst + sgst) : igst;
-                    const gstAmt = (TotalAmount * gst) / 100;
-                    totals.discount += e?.NewMRP - (e?.TotalAmount + gstAmt)
+                    if (e?.isdiscountinamount == 1) {    //isdiscountinamount == 1
+
+                        totals.discount += e?.DiscountAmt;
+                    } else {                   //isdiscountinamount == 0
+
+                        const cgst = Number(data?.BillPrint_Json[0].CGST) || 0;
+                        const sgst = Number(data?.BillPrint_Json[0].SGST) || 0;
+                        const igst = Number(data?.BillPrint_Json[0].IGST) || 0;
+                        const TotalAmount = Number(e.TotalAmount) || 0;
+                        const gst = (cgst + sgst) > 0 ? (cgst + sgst) : igst;
+                        const gstAmt = (TotalAmount * gst) / 100;
+                        totals.discount += e?.NewMRP - (e?.TotalAmount + gstAmt)
+                    }
+
                 }
+
+
                 totals.Qty += e?.Quantity;
                 let hallmarkingCount = 0;
                 let materials = [];
@@ -579,7 +607,12 @@ const JewelleryInvoiceT = ({
                                         )}
 
                                         <div>{headerData?.PinCode} </div>
-                                        <div ><span className="j-inv-bold">Customer GSTIN</span> : {headerData?.vat_cst_pan}</div>
+
+                                        {headerData?.vat_cst_pan?.trim() && (
+                                            <div>
+                                                <span className="j-inv-bold">Customer GSTIN</span> : {headerData.vat_cst_pan.trim()}
+                                            </div>
+                                        )}
                                         <div ><span className="j-inv-bold">Contact No. :</span> {headerData?.customermobileno1}</div>
                                     </div>
 
@@ -605,11 +638,11 @@ const JewelleryInvoiceT = ({
                                         <div className={`j-inv-cell ${taxamt ? 'j-inv-col-qty-taxamt' : 'j-inv-col-qty'} j-inv-border-r`}>Qty</div>
                                         <div className={`j-inv-cell ${taxamt ? 'j-inv-col-rate-taxamt' : 'j-inv-col-rate'} j-inv-border-r`}>Rate</div>
                                         {
-                                            disamt &&(
+                                            disamt && (
                                                 <div className={`j-inv-cell ${taxamt ? 'j-inv-col-disc-taxamt' : 'j-inv-col-disc'} j-inv-border-r`}>Disc.</div>
                                             )
                                         }
-                                         
+
                                         {
                                             taxamt && (
                                                 <div className={`j-inv-cell ${taxamt ? 'j-inv-col-tabamt-taxamt' : 'j-inv-col-tabamt'} j-inv-border-r`}>Taxable <br /> Amt.</div>
@@ -617,7 +650,7 @@ const JewelleryInvoiceT = ({
                                         }
                                         <div className={`j-inv-cell ${taxamt ? 'j-inv-col-gst-taxamt' : 'j-inv-col-gst'} j-inv-border-r`}>Gst%</div>
                                         <div className={`j-inv-cell ${taxamt ? 'j-inv-col-gst-amt-taxamt' : 'j-inv-col-gst-amt'} j-inv-border-r`}>Gst Amt.</div>
-                                        <div  className={`j-inv-cell text-center ${taxamt ? 'j-inv-col-net-taxamt' : 'j-inv-col-net'}`}>Net Amount</div>
+                                        <div className={`j-inv-cell text-center ${taxamt ? 'j-inv-col-net-taxamt' : 'j-inv-col-net'}`}>Net Amount</div>
                                     </div>
 
                                     {/* Dynamic Items */}
@@ -642,7 +675,7 @@ const JewelleryInvoiceT = ({
                                                     <div className={`j-inv-cell ${taxamt ? 'j-inv-col-qty-taxamt' : 'j-inv-col-qty'} j-inv-border-r`}>{e.Quantity}</div>
                                                     <div className={`j-inv-cell ${taxamt ? 'j-inv-col-rate-taxamt' : 'j-inv-col-rate'} j-inv-border-r`}>{`${taxamt ? fixedValues(e.UnitCost, 2) : fixedValues(e.TotalAmount, 2)}`}</div>
                                                     {
-                                                        disamt &&(
+                                                        disamt && (
                                                             <div className={`j-inv-cell ${taxamt ? 'j-inv-col-disc-taxamt' : 'j-inv-col-disc'} j-inv-border-r`}>{fixedValues(e.DiscountAmt, 2)}</div>
                                                         )
                                                     }
@@ -661,8 +694,8 @@ const JewelleryInvoiceT = ({
                                             );
                                         })}
 
-                                    {data.length < 12 &&
-                                        Array.from({ length: 12 - data.length }).map((_, index) => (
+                                    {data.length < 7 &&
+                                        Array.from({ length: 7 - data.length }).map((_, index) => (
                                             <div className="j-inv-table-row" key={`dummy-${index}`}>
                                                 <div className={`j-inv-cell ${taxamt ? 'j-inv-col-sr-taxamt' : 'j-inv-col-sr'} j-inv-border-r`}></div>
                                                 <div className={`j-inv-cell ${taxamt ? 'j-inv-col-code-taxamt' : 'j-inv-col-code'} j-inv-border-r`}></div>
@@ -671,11 +704,11 @@ const JewelleryInvoiceT = ({
                                                 <div className={`j-inv-cell ${taxamt ? 'j-inv-col-qty-taxamt' : 'j-inv-col-qty'} j-inv-border-r`}></div>
                                                 <div className={`j-inv-cell ${taxamt ? 'j-inv-col-rate-taxamt' : 'j-inv-col-rate'} j-inv-border-r`}></div>
                                                 {
-                                                    disamt &&(
+                                                    disamt && (
                                                         <div className={`j-inv-cell ${taxamt ? 'j-inv-col-disc-taxamt' : 'j-inv-col-disc'} j-inv-border-r`}></div>
                                                     )
                                                 }
- 
+
                                                 {
                                                     taxamt && (
                                                         <div className={`j-inv-cell ${taxamt ? 'j-inv-col-tabamt-taxamt' : 'j-inv-col-tabamt'} j-inv-border-r`}></div>
@@ -727,10 +760,13 @@ const JewelleryInvoiceT = ({
                                                 <div className="j-inv-bold">Payment Mode :</div>
                                                 <div className="j-inv-grid-2 j-inv-py-5">
                                                     {pay_details?.map((e, i) => {
-                                                        return <div key={i}>{e?.label}   : <span className=''>{e?.amount}</span></div>
+                                                        return <div key={i}>{e?.label}   : <span className=''>{NumberWithCommas(
+                                                            parseFloat(String(e?.amount || 0).replace(/,/g, "").trim()) || 0,
+                                                            2
+                                                          )}</span></div>
                                                     })}
                                                     <div>Advance : <span className=''>{NumberWithCommas(headerData?.AdvanceAmount, 2)}</span></div>
-                                                    <div>Credit Amt : <span className=''>{difference}</span></div>
+                                                    <div>Credit Amt : <span className=''>{NumberWithCommas(difference, 2)}</span></div>
                                                 </div>
                                             </div>
                                         </div>

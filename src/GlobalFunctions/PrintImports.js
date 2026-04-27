@@ -88,6 +88,7 @@ export const printConditions = [
   { printName: 'labour summary print', etpType: 'print', componentName: 'LabourSummary' },
   { printName: 'labour summary', etpType: 'print', componentName: 'LabourSummary' },
   { printName: 'misc print 1', etpType: 'print', componentName: 'MiscPrint1' },
+  { printName: 'misc print', etpType: 'print', componentName: 'MiscPrint' },  // amish....
   { printName: 'misc detail print', etpType: 'print', componentName: 'MiscDetailPrint' },
   // {printName: 'print (l)', etpType: 'print', componentName: 'QuotePrintLP', evName: 'quote'},
   // {printName: 'print (p)', etpType: 'print', componentName: 'QuotePrintLP', evName: 'quote'},
@@ -449,7 +450,9 @@ export const MaterialSale = [
   { printName: 'print1', etpType: 'print', componentName: 'Print1Material' },
   { printName: 'solitaire invoice', etpType: 'print', componentName: 'SolitairInvoiceMaterial' },
 ]
-
+export const MaterialPurchase = [
+  { printName: 'Invoice Print 1', etpType: 'print', componentName: 'InvoicePrint1MaterialPurchase' },
+]
 export const fgPurchase = [
   { printName: 'item wise print', etpType: 'print', componentName: 'ItemWisePrint' },
   { printName: 'summary print', etpType: 'print', componentName: 'SummaryPrintFG' },

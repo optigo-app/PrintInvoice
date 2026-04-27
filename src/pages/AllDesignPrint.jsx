@@ -77,7 +77,7 @@ const AllDesignPrint = () => {
         conditions = module.excelConditions;
         break;
       case "print":
-  
+        console.log("TCL: takePrint -> ", module )
         conditions = checkEvName(etpType, evnname, module);
     
         break;
@@ -95,6 +95,7 @@ const AllDesignPrint = () => {
  
     let findPrint = conditions.find((e) => printName?.toLowerCase() === e?.printName?.toLowerCase());
     
+ 
  
     if (findPrint) {
       const component = await importComponent(findPrint.componentName);
@@ -176,6 +177,7 @@ const AllDesignPrint = () => {
       'product_alteration': module?.Product_Alteration || [],
       'jewellerybook': module?.Jewellery_Book|| [],
       'salesjobs': module?.salesjobs || [],
+      'material purchase': module?.MaterialPurchase || [], 
     };
   
     return eventMappings[evnname] || [];

@@ -731,6 +731,8 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                   <div className="materialDescriptionRetailPrint border-end">
                     <div className="d-grid h-100">
                       {e?.metal?.map((ele, ind) => {
+                        
+                        console.log("TCL: metal ",i+1,ele )
                         return (
                           ele?.IsPrimaryMetal === 1 && (
                             <div className={`d-flex border-bottom`} key={ind}>
@@ -752,9 +754,9 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                               <div
                                 className={`${styles.Wt} lossWtRetailPrintNoRate border-end p-1 d-flex align-items-center justify-content-end`}
                               >
-                                {/* <p className='text-end'>{NumberWithCommas(e?.netWtLossWt, 3)}</p> */}
+                                <p className='text-end'>{NumberWithCommas(e?.netWtLossWt, 3)}</p>
                                 <p className="text-end">
-                                  {NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3)}
+                                  {/* {NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3)} */}
                                 </p>
                               </div>
                               {rate && (

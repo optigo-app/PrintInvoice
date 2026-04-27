@@ -113,4 +113,7 @@
     .detailprint8 *{
         font-size: 9px !important;
     }
+    .detailprint8 .fnt-print {
+        font-size: 20px !important;
+      }
 }

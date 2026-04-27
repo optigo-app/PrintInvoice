@@ -110,8 +110,7 @@ const SummaryPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       setResult(datas);
     }
 
-    
-    console.log("TCL: SummaryPrint -> ", result)
+ 
 
     return (
     <>
@@ -229,7 +228,7 @@ const SummaryPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <th className='col5h_ps border-black border-end center_sp'>Per</th>
                     <th className='col6h_ps border-black border-end center_sp'>TAX(%)</th>
                     <th className='col7h_ps border-black border-end center_sp'>Gross</th>
-                    <th className='col8h_ps border-black border-end center_sp'>Black Beads</th>
+                    <th className='col8h_ps border-black border-end center_sp' style={{wordBreak:"break-word",textAlign:"center"}}>Black Beads</th>
                     <th className='col9h_ps border-black border-end center_sp'>Stone</th>
                     <th className='col10h_ps border-black border-end center_sp'>Kundan</th>
                     <th className='col11h_ps border-black border-end center_sp'>Net Wt</th>
@@ -238,7 +237,7 @@ const SummaryPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <th className='col14h_ps border-black border-end center_sp'>Wastage</th>
                     <th className='col15h_ps p-0'>
                       <tr className='w-100 center_sp border-black border-bottom'>Final</tr>
-                      <tr className='w-100 d-flex'>
+                      <tr className='w-100 d-flex' style={{height:"65%"}}>
                         <th className='w-50 center_sp border-black border-end'>Fine</th>
                         <th className='w-50 center_sp'>Cash</th>
                       </tr>
@@ -303,18 +302,25 @@ const SummaryPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   result?.allTaxes?.map((e, i) => {
                     return(
                       <div className='d-flex justify-content-between align-items-center border-start border-end border-black border-bottom bg_sp' key={i}>
-                          <div className='col1h_ps border-black border-end d-flex align-items-center justify-content-start ps-1 fw-bold'>{e?.name} @ {e?.per}</div><div className='col17h_ps border-start border-black d-flex align-items-center justify-content-end pe-1 fw-bold'>{e?.amount}</div>
+                          <div className='col1h_ps border-black border-end d-flex align-items-center justify-content-start ps-1 fw-bold'>{e?.name} @ {e?.per}</div><div className='col17h_ps border-start border-black d-flex align-items-center justify-content-end pe-1 fw-bold' style={{width:"14.2%"}}>{e?.amount}</div>
                       </div>
                     )
                   })
                 }
                     <div className='d-flex justify-content-between align-items-center border-start border-end border-black border-bottom bg_sp'>
-                        <div className='col1h_ps border-black border-end d-flex align-items-center justify-content-start ps-1 fw-bold'>ADD/LESS</div><div className='col17h_ps border-start border-black d-flex align-items-center justify-content-end pe-1 fw-bold'>{result?.header?.AddLess}</div>
+                        <div className='col1h_ps border-black border-end d-flex align-items-center justify-content-start ps-1 fw-bold'>ADD/LESS</div><div style={{width:"14.2%"}} className='col17h_ps border-start border-black d-flex align-items-center justify-content-end pe-1 fw-bold'>{result?.header?.AddLess}</div>
                     </div>
               </div>
               <div className='d-flex justify-content-between align-items-center border-start border-end border-black border-bottom bg_sp pbia_sp'>
                   <div className='col1h_ps border-black border-end center_sp fw-bold d-flex align-items-center justify-content-start ps-1'>GRAND TOTAL</div>
-                  <div className='col17h_ps border-start border-black d-flex align-items-center justify-content-end pe-1 fw-bold'>{formatAmount((result?.finalAmount))}</div>
+                  <div style={{width:"14.2%"}} className='col17h_ps border-start border-black d-flex align-items-center justify-content-end pe-1 fw-bold'>{formatAmount((result?.finalAmount))}</div>
+              </div>
+
+              <div>
+              <div className="py-1 pbias2 fsh2_s2" style={{lineHeight: '1.2'}}><span className="fw-bold">TERMS INCLUDED</span> :
+                  <span dangerouslySetInnerHTML={{ __html: result?.header?.SalesRepPolicyTermsDescription }}></span>
+                  {/* {result?.header?.SalesRepPolicyTermsDescription} */}
+                </div>
               </div>
             </div>
           </div>

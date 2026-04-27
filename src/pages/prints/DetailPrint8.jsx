@@ -221,7 +221,7 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       {/* Title */}
       <div className={`bgGrey text-white px-2 ${style?.min_height_title}`}>
         <h4
-          className=" fw-bold min_height_title d-flex align-items-center text-white"
+          className=" fw-bold min_height_title d-flex align-items-center text-white fnt-print"
           style={{ fontSize: "20px", lineHeight: "100%" }}
         >
           {headerData?.PrintHeadLabel}
@@ -797,6 +797,11 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       <div className="border-start py-1 px-2 border-end border-bottom d-flex">
         <p className="fw-bold pe-1">REMARKS :</p>
         <p className="ps-1" dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></p>
+
+        <div className="py-1 pbias2 fsh2_s2"><span className="fw-bold">TERMS INCLUDED</span> :
+                  <span dangerouslySetInnerHTML={{ __html: headerData?.SalesRepPolicyTermsDescription }}></span>
+                  
+        </div>
       </div>
 
       {/* footer */}

@@ -285,8 +285,8 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <p className="p-1">{e?.MetalType?.toLowerCase() !== "gold" && e?.MetalType} {e?.MetalPurity} </p>
             </div>
             {pnm === "tax invoice 6" && (
-              <div className={`${style?.Diamond} border-end`}>
-                <p className="p-1">{headerData?.HSN_No}</p>
+              <div className={`${style?.Diamond} border-end text-center`}>
+                <p className="p-1">{e?.HSNNo}</p>
               </div>
             )}
             <div className={`${style?.Gross} border-end`}>
@@ -406,7 +406,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       </div>
       {/* remarks */}
       <div className="border-start border-end border-bottom p-2 no_break">
-        <p > <span className="fw-bold">REMARKS :</span> <span dangerouslySetInnerHTML={{ __html: headerData?.Remark }}></span></p>
+        <p > <span className="fw-bold">REMARKS :</span> <span dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></span></p>
       </div>
       {/* Terms Description */}
       {headerData?.SalesRepPolicyTermsDescription !== '' && (

@@ -389,9 +389,9 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div>
                         {e?.metal?.map((ele, ind) => {
                           return ele?.IsPrimaryMetal === 1 && <div className="d-flex w-100 border-bottom" key={ind}>
-                            <div style={{ width: "56px" }} className="text-break"><p className={`${style?.pad_1} text-break w-100`}>{ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}</p></div>
+                            <div style={{ width: "56px" }} className="text-break"><p className={`${style?.pad_1} text-break w-100`}>{ele?.ShapeName} {ele?.QualityName}</p></div>
                             <div style={{ width: "49px" }} className=""><p className={`${style?.pad_1}  text-end`}>{NumberWithCommas(e?.NetWt, 3)}</p></div>
-                            <div style={{ width: "46px" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(ele?.Rate, 0)}</p></div>
+                            <div style={{ width: "46px" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(ele?.Rate, 2)}</p></div>
                             <div style={{ width: "68px" }} className=""><p className={`${style?.pad_1} text-end fw-bold`}>{NumberWithCommas(ele?.Amount, 2)}</p></div>
                           </div>
                         })}

@@ -899,7 +899,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="tbodydp10_pcl7 fsgdp10_pcl7 ">
                     {result?.resultArray?.map((e, i) => {
 
-                      {console.log("e",e)}
+                      
                       return (
                         <div className="summarydp10_pcl7" key={i}>
                           <div className="tbrowdp10_pcl7 h-100 ">

@@ -95,7 +95,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     datas?.resultArray?.forEach((el) => {
       let dia = [];
       el?.diamonds?.forEach((a) => {
-          let findrecord = dia?.findIndex((ele) => ele?.QualityName === a?.QualityName)
+          let findrecord = dia?.findIndex((ele) => ele?.QualityName === a?.QualityName && ele?.Rate === a?.Rate)
           if(findrecord === -1){
             let obj = {...a};
             obj.dwt = a?.Wt;

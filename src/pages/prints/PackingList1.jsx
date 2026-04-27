@@ -228,7 +228,10 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             object.rate += ele?.Rate;
             object.amount += ele?.Amount;
             metalAmount += ele?.Amount;
-            rowWiseMetalTotal.Amount += ele?.Amount;
+            if(ele?.IsPrimaryMetal ==1){
+
+              rowWiseMetalTotal.Amount += ele?.Amount;
+            }
             if (i === 0) {
               metalTotal.Pcs += ele?.Pcs;
               metalTotal.Amount += ele?.Amount;
@@ -452,6 +455,15 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   };
 
   // console.log("data", data);
+  
+  const discountCriteria = [
+    { key: 'DiamondDiscount', isAmountKey: 'IsDiamondDiscInAmount', label: 'Diamond' ,disAmount:"DiamondDiscountAmount" },
+    { key: 'MetalDiscount', isAmountKey: 'IsMetalDiscInAmount', label: 'Metal' ,disAmount:"MetalDiscountAmount" },
+    { key: 'StoneDiscount', isAmountKey: 'IsStoneDiscInAmount', label: 'Colorstone' ,disAmount:"StoneDiscountAmount" },
+    { key: 'LabourDiscount', isAmountKey: 'IsLabourDiscInAmount', label: 'Labour' ,disAmount:"LabourDiscountAmount" },
+    { key: 'SolitaireDiscount', isAmountKey: 'IsSolitaireDiscInAmount', label: 'Solitaire' ,disAmount:"SolitaireDiscountAmount1" },
+    { key: 'MiscDiscount', isAmountKey: 'IsMiscDiscInAmount', label: 'Misc' ,disAmount:"MiscDiscountAmount" },
+  ];
   
   return (
     <>
@@ -688,6 +700,17 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             {/* Table Data */}
             {data?.length > 0 &&
               data?.map((e, i) => {
+                
+                const discountDisplay = discountCriteria
+                .filter(({ key }) => e?.[key] > 0)
+                .map(({ key, isAmountKey, label,disAmount }) => {
+                  const num = Number(e[key]);  
+                  const am= Number(e[disAmount])
+                  const decimals = e[isAmountKey] === 1 ? 3 : 2;  
+                  const val = num.toFixed(decimals);  
+                  return e[isAmountKey] === 0 ? `${val}% @${label} Amount ` : `${val} @${label} Amount`;
+                })
+                .join(', ');
                 return (
                   <div
                     key={i}
@@ -1167,6 +1190,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             >
                               <p className={`fw-bold w-100 border-top  `}></p>
                             </div>
+                            {console.log("e?.rowWiseMetalTotal", e?.rowWiseMetalTotal)}
                             <div className={`${style?.wid_20} text-end`}>
                               <p className={`fw-bold w-100 border-top  `}>
                                 {e?.rowWiseMetalTotal.Amount !== 0 &&
@@ -1388,21 +1412,10 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             className={` ${style?.discounts} border-end d-flex flex-wrap lightGrey text-end w-100`}
                           >
                             {/* <p className={` w-100 fw-bold`}>Discount {e?.Discount}% On Amount</p> */}
+
+
                             <p className="fw-bold text-end">
-                              Discount {e?.Discount}% @
-                              {e?.IsCriteriabasedAmount === 1
-                                ? e?.discountElements?.map((ele, ind) => {
-                                    return (
-                                      <React.Fragment key={ind}>
-                                        {ele?.label}{" "}
-                                        {ind !== e?.discountElements?.length - 1
-                                          ? ","
-                                          : ""}
-                                      </React.Fragment>
-                                    );
-                                  })
-                                : "Total "}
-                              Amount{" "}
+                              Discount {discountDisplay || `${NumberWithCommas(e?.Discount, 2)} @ Total Amount`}
                             </p>
                           </div>
                           <div

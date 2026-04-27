@@ -69,10 +69,10 @@
 .j-inv-large { font-size: 13px; }
 .j-inv-bg-light { background: #f9f9f9; }
 .j-inv-flex-between { display: flex; justify-content: space-between; padding: 2px 8px; }
-.j-inv-col-sr      { width: 5.37%;  }  
-.j-inv-col-code    { width: 10.75%; }  
-.j-inv-col-hsn     { width: 8.06%;  }  
-.j-inv-col-desc    { width: 25.9%;  }   
+.j-inv-col-sr      { width: 6%;  }  
+.j-inv-col-code    { width: 11.3%; }  
+.j-inv-col-hsn     { width: 9%;  }  
+.j-inv-col-desc    { width: 23.8%;  }   
 .j-inv-col-qty     { width: 5.37%;  }  
 .j-inv-col-rate    { width: 13.40%;  }  
 .j-inv-col-disc    { width: 8.06%;  }  
@@ -109,7 +109,7 @@
     .j-inv-btn{
         display: none !important;
     }
-    .j-inv-col-desc    { width: 25.8% !important; }   
+    .j-inv-col-desc    { width: 23.7% !important; }   
     .j-inv-col-ttloqty{
         width: 5.3% !important;
     }

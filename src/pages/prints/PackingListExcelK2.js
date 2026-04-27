@@ -215,6 +215,21 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
         }, 500);
     }
 
+    let diaWt = 0;
+    let labGrownWt = 0;
+    
+    (result?.resultArray || []).forEach(job => {
+      (job?.diamonds || []).forEach(d => {
+        const type = (d?.MaterialTypeName || "").toLowerCase();
+        const wt = d?.Wt || 0;
+        if (["labgrown"].includes(type)) {
+          labGrownWt += wt;
+        } else {
+          diaWt += wt;
+        }
+      });
+    });
+
     return (
         <>
             {loader ? (
@@ -404,7 +419,11 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                                 </tr>
                                                 <tr>
                                                     <td />
-                                                    <td colSpan={12} style={{ textTransform: 'upperCase' }}>Total Diamond Weight: {item?.totalDiamondWt?.toFixed(3)} CARATS</td>
+                                                    <td colSpan={12} style={{ textTransform: 'upperCase' }}>Total Diamond Weight: {diaWt?.toFixed(3)} CARATS</td>
+                                                </tr>
+                                                <tr>
+                                                    <td />
+                                                    <td colSpan={10} style={{ textTransform: 'upperCase' }}>Total Lab Grown Diamond Weight: {labGrownWt?.toFixed(3)} CARATS</td>
                                                 </tr>
                                                 <tr>
                                                     <td />
