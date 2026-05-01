@@ -870,7 +870,7 @@ const JewelleryTaxInvoiceSale = ({
                         <>
                           {" "}
                           | {atob(evn) === "memo" && "DIA :"}{" "}
-                          {NumberWithCommas(e?.diamondWts, 3)} Cts
+                          {NumberWithCommas((e?.diamondWts +e?.labGrownWts), 3)} Cts
                         </>
                       )}
                       {e?.colorStoneWts !== 0 && (

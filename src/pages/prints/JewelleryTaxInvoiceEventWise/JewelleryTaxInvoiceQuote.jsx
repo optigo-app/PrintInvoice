@@ -521,7 +521,7 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
                     {NumberWithCommas(e?.grosswt, 3)} gms GW |{" "}
                     {NumberWithCommas(e?.NetWt, 3)} gms NW
                     {e?.diamondWts !== 0 && (
-                      <> |  {NumberWithCommas(e?.diamondWts, 3)} Cts</>
+                      <> |  {NumberWithCommas(e?.diamondWts +e?.labGrownWts, 3)} Cts</>
                     )}
                     {e?.colorStoneWts !== 0 && (
                       <> |  {NumberWithCommas(e?.colorStoneWts, 3)} Cts</>
@@ -536,14 +536,14 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
                                              <span className="text-break">
                                                {ele?.MasterManagement_DiamondStoneTypeid === 1 &&
                                                  (ele?.IsCenterStone === 1
-                                                   ? "CenterStone"
+                                                   ? "CenterStone :"
                                                    : ele?.MaterialTypeName === "LabGrown"
-                                                     ? "Lab Grown Diamond"
-                                                     : "Diamond")}
+                                                     ? "Lab Grown Diamond :"
+                                                     : "Diamond :")}
                                                {ele?.MasterManagement_DiamondStoneTypeid === 2 &&
-                                                 "Colorstone"}
+                                                 "Colorstone :"}
                                                {ele?.MasterManagement_DiamondStoneTypeid === 3 &&
-                                                 "Misc"}
+                                                 "Misc :"} 
                                              </span>
                                                 
                                              {ele?.MasterManagement_DiamondStoneTypeid != 4 && (
