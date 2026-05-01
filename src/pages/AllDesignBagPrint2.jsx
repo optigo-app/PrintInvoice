@@ -10,6 +10,8 @@ const AllDesignBagPrint2 = () => {
   const [importedComponent, setImportedComponent] = useState(null);
   const queryParams = queryString?.parse(location.search);
   const printName = queryParams?.printname?.toLowerCase();
+  
+ 
   const queries = {
     YearCode: queryParams.YearCode,
     appuserid: queryParams.appuserid,
@@ -20,7 +22,8 @@ const AllDesignBagPrint2 = () => {
     version: queryParams.version,
     url: queryParams.report_api_url,
     pageStart: +queryParams.start_page,
-    report_sv: queryParams?.report_sv
+    report_sv: queryParams?.report_sv,
+    rfbag: queryParams?.rfbag,
   };
   const headers = {
     "Content-Type": "application/json",
@@ -43,7 +46,7 @@ const AllDesignBagPrint2 = () => {
     let module = await import("../GlobalFunctions/BagPrintImport");
     let conditions = module?.bagPrintConditions;
     let findBagPrint = conditions?.find((e) => e?.printName === printName);
-    // console.log('findBagPrintfindBagPrint', findBagPrint);
+   
     if (findBagPrint) {
       const component = await ImportComponent(findBagPrint?.componentName);
       setImportedComponent(component);

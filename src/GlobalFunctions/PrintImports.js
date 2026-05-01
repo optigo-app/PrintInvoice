@@ -208,6 +208,7 @@ export const SaleReturn = [
   { printName: 'tax invoice 5', etpType: 'print', componentName: 'TaxInvoice5' },
   { printName: 'packing list 7 d group', etpType: 'print', componentName: 'PackingList7DGroup' },
   { printName: 'tax invoice 5 S', etpType: 'print', componentName: 'TaxInvoice5S' },  // amish .........
+  
 ]
 
 export const QuotationPrints = [
@@ -451,7 +452,9 @@ export const MaterialSale = [
   { printName: 'solitaire invoice', etpType: 'print', componentName: 'SolitairInvoiceMaterial' },
 ]
 export const MaterialPurchase = [
-  { printName: 'Invoice Print 1', etpType: 'print', componentName: 'InvoicePrint1MaterialPurchase' },
+  { printName: 'Invoice Print 1', etpType: 'print', componentName: 'InvoicePrint1MaterialPurchase' }, // amish...
+  { printName: 'Invoice Print', etpType: 'print', componentName: 'InvoicePrintMaterialPurchase' }, // amish...
+  { printName: 'Print', etpType: 'print', componentName: 'PrintMaterialPurchase' }, // amish...
 ]
 export const fgPurchase = [
   { printName: 'item wise print', etpType: 'print', componentName: 'ItemWisePrint' },

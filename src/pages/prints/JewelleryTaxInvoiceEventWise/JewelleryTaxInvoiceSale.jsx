@@ -36,7 +36,7 @@ const JewelleryTaxInvoiceSale = ({
   const [isImageWorking, setIsImageWorking] = useState(true);
   const handleImageErrors = () => {
     setIsImageWorking(false);
-  };
+  };   
   const [totalAmount, settotalAmount] = useState({
     before: 0,
     after: 0,
@@ -74,6 +74,7 @@ const JewelleryTaxInvoiceSale = ({
     let totalAmountBefore = 0;
     let metalArr = [];
     let diamondWt = 0;
+    let labGrownWt = 0;
     let colorStoneWt = 0;
     let miscWt = 0;
     let grossWt = 0;
@@ -92,6 +93,7 @@ const JewelleryTaxInvoiceSale = ({
       }
       grossWt += e?.grosswt * e?.Quantity;
       let diamondWts = 0;
+      let labGrownWts = 0;
       let colorStoneWts = 0;
       let miscWts = 0;
       let obj = { ...e };
@@ -152,8 +154,13 @@ const JewelleryTaxInvoiceSale = ({
 
             }
             if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
-              diamondWt += ele?.Wt * obj?.Quantity;
-              diamondWts += ele?.Wt;
+              if(ele?.MaterialTypeName === "LabGrown"){
+                labGrownWt += ele?.Wt * obj?.Quantity;
+                labGrownWts += ele?.Wt;
+              }else{
+                diamondWt += ele?.Wt * obj?.Quantity;
+                diamondWts += ele?.Wt;
+              }
             }
             if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
               colorStoneWt += ele?.Wt * obj?.Quantity;
@@ -176,6 +183,7 @@ const JewelleryTaxInvoiceSale = ({
       obj.TotalAmount =
         obj.TotalAmount / data?.BillPrint_Json[0].CurrencyExchRate;
       obj.diamondWts = diamondWts;
+      obj.labGrownWts = labGrownWts;
       obj.colorStoneWts = colorStoneWts;
       obj.miscWts = miscWts;
       obj.materials = materials;
@@ -185,6 +193,7 @@ const JewelleryTaxInvoiceSale = ({
       resultArr.push(obj);
     });
     metalArr.push({ label: "Diamond Wt", value: diamondWt, gm: false });
+    metalArr.push({ label: "Lab Grown Wt", value: labGrownWt, gm: false });
     metalArr.push({ label: "Stone Wt", value: colorStoneWt, gm: false });
     metalArr.push({ label: "Gross Wt", value: grossWt, gm: true });
     let miscQunWt = 0;

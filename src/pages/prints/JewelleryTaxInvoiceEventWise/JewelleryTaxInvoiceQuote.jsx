@@ -27,6 +27,8 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
   const [summary2, setSummary2] = useState([]);
   const [imgFlag, setImgFlag] = useState(false);
   const [isImageWorking, setIsImageWorking] = useState(true);
+  const [materials, setMaterials] = useState([]);
+
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -66,6 +68,7 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
     let totalAmountBefore = 0;
     let metalArr = [];
     let diamondWt = 0;
+    let labGrownWt = 0;
     let colorStoneWt = 0;
     let miscWt = 0;
     let grossWt = 0;
@@ -80,6 +83,7 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
       }
       grossWt += (e?.grosswt * e?.Quantity);
       let diamondWts = 0;
+      let labGrownWts = 0;
       let colorStoneWts = 0;
       let miscWts = 0;
       let obj = { ...e };
@@ -88,6 +92,7 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
       totalAmountBefore +=
         e?.TotalAmount / data?.BillPrint_Json[0].CurrencyExchRate;
       let metalColorCode = "";
+      setMaterials(data?.BillPrint_Json2);
       data?.BillPrint_Json2.forEach((ele, ind) => {
         if (obj?.SrJobno === ele?.StockBarcode) {
           // if ((ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 2 || ele?.MasterManagement_DiamondStoneTypeid === 3) && ele?.IsHSCOE === 0) {
@@ -113,9 +118,18 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
               materials[findRecord].Wt += ele?.Wt;
               materials[findRecord].Amount += ele?.Amount;
             }
+            // if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+            //   diamondWt += (ele?.Wt * obj?.Quantity) ;
+            //   diamondWts += ele?.Wt;
+            // }
             if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
-              diamondWt += (ele?.Wt * obj?.Quantity) ;
-              diamondWts += ele?.Wt;
+              if(ele?.MaterialTypeName === "LabGrown"){
+                labGrownWt += ele?.Wt * obj?.Quantity;
+                labGrownWts += ele?.Wt;
+              }else{
+                diamondWt += ele?.Wt * obj?.Quantity;
+                diamondWts += ele?.Wt;
+              }
             }
             if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
               colorStoneWt += (ele?.Wt * obj?.Quantity);
@@ -138,6 +152,7 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
       obj.TotalAmount =
         obj.TotalAmount / data?.BillPrint_Json[0].CurrencyExchRate;
       obj.diamondWts = diamondWts;
+      obj.labGrownWts = labGrownWts;
       obj.colorStoneWts = colorStoneWts;
       obj.miscWts = miscWts;
       obj.materials = materials;
@@ -151,6 +166,7 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
     //   return  miscQunWt += a?.miscWt;
     // })
     metalArr.push({ label: "Diamond Wt", value: (diamondWt), gm: false });
+    metalArr.push({ label: "Lab Grown Wt", value: labGrownWt, gm: false });
     metalArr.push({ label: "Stone Wt", value: colorStoneWt, gm: false });
     metalArr.push({ label: "Gross Wt", value: grossWt, gm: true });
   
@@ -451,8 +467,39 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
           </div>
         </div>
         {/* table data */}
+        
+    
         {data?.length > 0 &&
           data?.map((e, i) => {
+            
+             
+            const groupedMaterials = (materials?.filter((item) => item?.DesignNo === e?.designno) || []).reduce((acc, ele) => {
+              if (ele?.IsCenterStone === 1) {
+                acc[`center-stone-${ele?.StockBarcode}`] = { ...ele };
+                return acc;
+              }
+              const materialType =
+                ele?.MaterialTypeName === "LabGrown" ? "LabGrown" : "OTHER";
+              const isDiamond = ele?.MasterManagement_DiamondStoneTypeid === 1;
+
+              const key = isDiamond
+                ? `${materialType}-${ele?.Shape_Code}-${ele?.Color_Code}-${ele?.Quality_Code}`
+                : `${ele?.Shape_Code}-${ele?.Color_Code}-${ele?.Quality_Code}`;
+
+              if (acc[key]) {
+                acc[key].Pcs += ele?.Pcs || 0;
+                acc[key].Wt += ele?.Wt || 0;
+              } else {
+                acc[key] = {
+                  ...ele,
+                  Pcs: ele?.Pcs || 0,
+                  Wt: ele?.Wt || 0,
+                };
+              }
+
+              return acc;
+            }, {});
+            const mergedMaterials = Object.values(groupedMaterials);
             return (
               <div className="d-flex border-start border-end border-bottom no_break border-top" key={i} >
                 <div className="col-1 p-1 border-end">
@@ -484,27 +531,42 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
                     )} */}
                   </p>
                   
-                  {e?.materials?.length > 0 &&
-                    e?.materials?.map((ele, ind) => {
-                      return (
-                        <p key={ind} className="text-break">
-                         
-                            <span className="text-break">
-                              {ele?.MasterManagement_DiamondStoneTypeid === 1 &&
-                                ( ele?.IsCenterStone === 1 ? "CenterStone" :  "Diamond")}
-                              {ele?.MasterManagement_DiamondStoneTypeid === 2 &&
-                                "Colorstone"}
-                              {ele?.MasterManagement_DiamondStoneTypeid === 3 &&
-                                "Misc"}
-                            </span>
-                          {/* )} */}
-                          : {NumberWithCommas(ele?.Pcs, 0)} Pcs | {NumberWithCommas(ele?.Wt, 3)} 
-                          {ele?.MasterManagement_DiamondStoneTypeid === 3 ? "gms" : "Cts"} | 
-                         {ele?.ShapeName}{ele?.MasterManagement_DiamondStoneTypeid !== 3 && <span className="text-break"> 
-                          {" "} {ele?.Colorname} {ele?.QualityName}</span>}
-                        </p>
-                      );
-                    })}
+                    {mergedMaterials?.map((ele, ind) => (
+                                           <p key={ind} className="text-break text_break_value_sub">
+                                             <span className="text-break">
+                                               {ele?.MasterManagement_DiamondStoneTypeid === 1 &&
+                                                 (ele?.IsCenterStone === 1
+                                                   ? "CenterStone"
+                                                   : ele?.MaterialTypeName === "LabGrown"
+                                                     ? "Lab Grown Diamond"
+                                                     : "Diamond")}
+                                               {ele?.MasterManagement_DiamondStoneTypeid === 2 &&
+                                                 "Colorstone"}
+                                               {ele?.MasterManagement_DiamondStoneTypeid === 3 &&
+                                                 "Misc"}
+                                             </span>
+                                                
+                                             {ele?.MasterManagement_DiamondStoneTypeid != 4 && (
+                                                   
+                                                   <span style={{ fontSize: "10.5px" }}>
+                                                     {" "}
+                                                     {NumberWithCommas(ele?.Pcs, 0)} Pcs |{" "}
+                                                     {NumberWithCommas(ele?.Wt, 3)}
+                                                     {ele?.MasterManagement_DiamondStoneTypeid === 3
+                                                       ? " gms"
+                                                       : " Cts"}{" "}
+                                                     | {ele?.ShapeName}
+                                                     {ele?.MasterManagement_DiamondStoneTypeid !== 3 && (
+                                                       <span style={{ fontSize: "10.5px" }}>
+                                                         {" "}
+                                                         {ele?.Color_Code} {ele?.Quality_Code}
+                                                       </span>
+                                                     )}
+                                                   </span>
+                                                  )}
+                                             
+                                           </p>
+                                         ))}
                     {e?.JobRemark !== "" && (
                     <div>
                       <p className="text-decoration-underline fw-bold">

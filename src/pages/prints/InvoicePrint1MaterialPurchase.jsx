@@ -353,10 +353,10 @@ const MergedTaxAmount = Object.values(
                         </div>
                         <div className="Sucol5_inv2lab spbrRht spbrWord">
                           {e?.quality === "" ? "-"
-                            : e?.ItemName === "METAL" && e?.shape === "Gold" ? "24K"
-                              : e?.ItemName === "METAL" && e?.shape === "gold" ? "24K"
-                                : e?.ItemName === "METAL" && e?.shape === "GOLD" ? "24K"
-                                  : e?.ItemName === "MOUNT" ? "24K"
+                            : e?.ItemName === "METAL" && e?.shape === "Gold" ? e?.quality
+                              : e?.ItemName === "METAL" && e?.shape === "gold" ? e?.quality
+                                : e?.ItemName === "METAL" && e?.shape === "GOLD" ? e?.quality
+                                  : e?.ItemName === "MOUNT" ?e?.quality
                                     : e?.quality
                           }
                         </div>
@@ -420,9 +420,9 @@ const MergedTaxAmount = Object.values(
                         </div>
                         <div className="Sucol5_inv2 spbrRht spbrWord">
                           {e?.quality === "" ? "-"
-                            : e?.ItemName === "METAL" && e?.shape === "Gold" ? "24K"
-                              : e?.ItemName === "METAL" && e?.shape === "gold" ? "24K"
-                                : e?.ItemName === "METAL" && e?.shape === "GOLD" ? "24K"
+                            : e?.ItemName === "METAL" && e?.shape === "Gold" ? e?.quality
+                              : e?.ItemName === "METAL" && e?.shape === "gold" ? e?.quality
+                                : e?.ItemName === "METAL" && e?.shape === "GOLD" ? e?.quality
                                   : e?.quality
                           }
                         </div>
@@ -439,10 +439,7 @@ const MergedTaxAmount = Object.values(
                           {e?.ItemName?.toLowerCase() === "diamond" && e?.IsDiscountOnAmount === 0 && e?.Discount !== 0 ? `${formatAmount(e?.DiscountAmount,2)}(${e?.Discount}%)` :  e?.DiscountAmount !== 1 ? formatAmount(e?.DiscountAmount,2) : '0.00' }
                         </div> */}
                         <div className="Sucol13_inv2 spfnted spbrRht">
-                          {e?.Amount === "" ? "-" :
-                              e?.ItemName?.toLowerCase() === "diamond" ? formatAmount(e?.Amount - e?.DiscountAmount)
-                              : allowedNamesForRate.includes(e?.ItemName) ? formatAmount((e?.Weight * e?.Rate * e?.Tunch / 100),2)
-                              : formatAmount(e?.Amount,2)
+                          {e?.FinalAmount === "" ? "-" : formatAmount(e?.FinalAmount ,2)
                           }
                         </div>
                       </div>

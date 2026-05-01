@@ -578,8 +578,12 @@ const JewelleryInvoiceT = ({
 
                                             <div>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},
                                                 {" "}{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
-                                            <div> T {headerData?.CompanyTellNo} | TOLL FREE{" "}
-                                                {headerData?.CompanyTollFreeNo}</div>
+                                            <div>
+                                                {[
+                                                    headerData?.CompanyTellNo && `T ${headerData.CompanyTellNo}`,
+                                                    headerData?.CompanyTollFreeNo && `TOLL FREE ${headerData.CompanyTollFreeNo}`
+                                                ].filter(Boolean).join(" | ")}
+                                            </div>
                                             <div>{headerData?.CompanyEmail} |{headerData?.CompanyWebsite}</div>
                                         </div>
                                         <div className="j-inv-flex-col j-inv-p-5">
@@ -763,7 +767,7 @@ const JewelleryInvoiceT = ({
                                                         return <div key={i}>{e?.label}   : <span className=''>{NumberWithCommas(
                                                             parseFloat(String(e?.amount || 0).replace(/,/g, "").trim()) || 0,
                                                             2
-                                                          )}</span></div>
+                                                        )}</span></div>
                                                     })}
                                                     <div>Advance : <span className=''>{NumberWithCommas(headerData?.AdvanceAmount, 2)}</span></div>
                                                     <div>Credit Amt : <span className=''>{NumberWithCommas(difference, 2)}</span></div>

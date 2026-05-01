@@ -4,6 +4,7 @@ import "../../assets/css/prints/InvoicePrintMaterialSale.css";
 import { useState } from "react";
 import {
   NumberWithCommas,
+  HeaderComponent,
   apiCall,
   checkMsg,
   fixedValues,
@@ -32,6 +33,7 @@ const InvoicePrintMaterial = ({
   const toWords = new ToWords();
   const [headFlag, setHeadFlag] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
+  const [headerss, setHeaderss] = useState(null);
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -53,6 +55,8 @@ const InvoicePrintMaterial = ({
             let address =
               data?.Data?.MaterialBill_Json[0]?.Printlable?.split("\r\n");
             setCustAddress(address);
+                            let headersss = HeaderComponent("3", data?.Data?.MaterialBill_Json[0],true);
+                            setHeaderss(headersss);
             // console.log("data", data);
 
             setJson0Data(data?.Data?.MaterialBill_Json[0]);
@@ -190,7 +194,11 @@ const InvoicePrintMaterial = ({
 
           <div className="w-full flex items-center justify-center">
             <div className="container_inv2">
-              <div className="headlineJL w-100 p-2">
+
+
+            {json0Data?.iseinvoice != 1 ?
+            <>
+             <div className="headlineJL w-100 p-2">
                 <b style={{ fontSize: "20px" }}>
                   {json0Data?.PrintHeadLbl}
                 </b>
@@ -220,6 +228,12 @@ const InvoicePrintMaterial = ({
 
                 </div>
               )}
+            </>
+            :
+            headerss
+            }
+
+             
               {/** Header */}
               <div className="disflx brbxAll">
                 <div className="w1_inv2 spbrRht spfnthead">

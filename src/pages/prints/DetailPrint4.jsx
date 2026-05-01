@@ -497,7 +497,16 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     }
   };
 
-  console.log("result", result);
+  const discountCriteria = [
+    { key: 'DiamondDiscount', isAmountKey: 'IsDiamondDiscInAmount', label: 'Diamond' ,disAmount:"DiamondDiscountAmount" },
+    { key: 'MetalDiscount', isAmountKey: 'IsMetalDiscInAmount', label: 'Metal' ,disAmount:"MetalDiscountAmount" },
+    { key: 'StoneDiscount', isAmountKey: 'IsStoneDiscInAmount', label: 'Colorstone' ,disAmount:"StoneDiscountAmount" },
+    { key: 'LabourDiscount', isAmountKey: 'IsLabourDiscInAmount', label: 'Labour' ,disAmount:"LabourDiscountAmount" },
+    { key: 'SolitaireDiscount', isAmountKey: 'IsSolitaireDiscInAmount', label: 'Solitaire' ,disAmount:"SolitaireDiscountAmount1" },
+    { key: 'MiscDiscount', isAmountKey: 'IsMiscDiscInAmount', label: 'Misc' ,disAmount:"MiscDiscountAmount" },
+  ];
+
+ 
   
   return (
     <>
@@ -667,6 +676,17 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 {/* table body */}
                 <div>
                   {result?.resultArray?.map((e, i) => {
+                     const discountDisplay = discountCriteria
+                     .filter(({ key }) => e?.[key] > 0)
+                     .map(({ key, isAmountKey, label,disAmount }) => {
+                       const num = Number(e[key]);  
+                       const am= Number(e[disAmount])
+                       const decimals = e[isAmountKey] === 1 ? 3 : 2;  
+                       const val = num.toFixed(decimals);  
+                       return e[isAmountKey] === 0 ? `${val}% @${label} Amount ` : `${val} @${label} Amount`;
+                     })
+                     .join(', ');
+         
                     return (
                       <div className="fs_dp4" key={i}>
                         <div className="d-flex border-secondary border-start border-end border-bottom w-100">
@@ -995,7 +1015,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className="col5_dp4 border-secondary border-end">
                               <div>
                                 <div className="d-flex end_dp4">
-                                  Discount {formatAmount(e?.Discount)}% @ {e?.str_discountOn}
+                                  Discount {discountDisplay || `${formatAmount(e?.Discount, 2)} @ Total Amount`}
                                 </div>
                               </div>
                             </div>

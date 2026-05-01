@@ -148,6 +148,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   // console.log("resultresult", result);
   const isloss = result?.resultArray?.every(e => e?.LossWt === 0) ? 1 : 0;
+  
 
   return (
     <>

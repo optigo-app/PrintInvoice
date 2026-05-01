@@ -325,7 +325,7 @@ export const fixedValues = (value, zeroes) =>
     : (+value)?.toFixed(zeroes);
 
 //call of header
-export const HeaderComponent = (headNo, headerData) => {
+export const HeaderComponent = (headNo, headerData,isMaterial) => {
   let headerComponent;
 
   switch (headNo) {
@@ -338,7 +338,7 @@ export const HeaderComponent = (headNo, headerData) => {
       break;
 
     case "3":
-      headerComponent = <Header3 data={headerData} />;
+      headerComponent = <Header3 data={headerData} isMaterial={isMaterial} />;
       break;
 
     case "4":

@@ -34,7 +34,7 @@ const InvoicePrint3Material = ({
   const [headFlag, setHeadFlag] = useState(true);
   const [rateFlag, setRateFlag] = useState(false);
   const [isImageWorking, setIsImageWorking] = useState(true);
-    const [headerss, setHeaderss] = useState(null);
+    const [headerss, setHeaderss] = useState(null);  
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -57,7 +57,7 @@ const InvoicePrint3Material = ({
               data?.Data?.MaterialBill_Json[0]?.Printlable?.split("\r\n");
             setCustAddress(address);
             // console.log("data", data);
-                let headersss = HeaderComponent("3", data?.Data?.MaterialBill_Json[0]);
+                let headersss = HeaderComponent("3", data?.Data?.MaterialBill_Json[0],true);
                 setHeaderss(headersss);
             setJson0Data(data?.Data?.MaterialBill_Json[0]);
             const sortedItems = [...(data?.Data?.MaterialBill_Json1 || [])].sort(
