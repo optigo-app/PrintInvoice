@@ -162,7 +162,7 @@ const InvoicePrint1MaterialPurchase = ({
   const allowedNamesForRate = ["Metal", "METAL", "metal", "MOUNT", "Mount", "mount", "FINDING", "Finding", "finding"];
 
 
-console.log("TCL: extraTaxAmont", extraTaxAmont)
+// console.log("TCL: extraTaxAmont", taxAmont)
   
 
 const MergedTaxAmount = Object.values(

@@ -3,7 +3,7 @@ import queryString from "query-string";
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "../../assets/css/bagprint/print20A.css";
-import BarcodeGenerator from "../../components/BarcodeGenerator";
+
 import Loader from "../../components/Loader";
 import { GetStockData } from "../../GlobalFunctions/GetStockData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
@@ -13,6 +13,8 @@ import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import { GetChunkData } from "../../GlobalFunctions/GetChunkData";
 import { checkArr, checkInstruction } from "../../GlobalFunctions";
 import BarcodeStickerGen from './BarcodeStickerGen';
+import BarcodeGenratorStcok from "../../components/BarcodeGenratorStcok";
+import { borderTop } from "@mui/system";
 function DiamondStock({ queries, headers }) {
       const [data, setData] = useState([]);
       const location = useLocation();
@@ -20,8 +22,7 @@ function DiamondStock({ queries, headers }) {
       const resultString = GetUniquejob(queryParams?.str_srjobno);
       const chunkSize10 = 10;
       
-      console.log("TCL: DiamondStock -> ", queries?.rfbag)
-
+ 
      useEffect(() => {
       
     
@@ -52,137 +53,127 @@ function DiamondStock({ queries, headers }) {
       }, []);
 
       
-      const containerStyle = {
-        display: 'flex',
-        fontFamily: 'Arial, sans-serif',
-        backgroundColor: 'white',
-        padding: '20px',
-        border: '1px solid #ddd',
-        width: 'fit-content',
-        gap: '20px',
+      const labelContainer = {
+        width: "35mm",
+        height: "65mm",
+        // border: "1px solid #000",
+        borderRadius: "6px",
+        boxSizing: "border-box",
+        fontFamily: "Arial, sans-serif",
+        display: "flex",
+        flexDirection: "column",
+        // justifyContent: "space-between",
+        margin: "10px",
       };
-    
-      const leftColumnStyle = {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '12px',
+      
+      const headerStyle = {
+        fontSize: "14px",
+        fontWeight: "bold",
+        // marginBottom: "3px",
       };
-    
-      const rowStyle = {
-        display: 'flex',
-        alignItems: 'baseline',
-        fontSize: '24px',
+      
+      const divider = {
+        height: "1px",
+        background: "#000",
+        marginBottom: "4px",
       };
-    
-      const labelStyle = {
-        color: '#888',
-        width: '120px',
-        fontWeight: 'normal',
+      
+      const contentRow = {
+        display: "flex",
       };
-    
-      const valueStyle = {
-        color: '#000',
-        fontWeight: 'bold',
-        fontSize: '28px',
+      
+      const leftText = {
+        flex: 1,
+        fontSize: "9px",
       };
-    
-      const barcodeContainerStyle = {
-        display: 'flex',
-        alignItems: 'center',
-        gap: '10px',
+      
+      const row = {
+        display: "flex",
+        marginBottom: "2px",
       };
-    
-      // Simulated barcode using CSS gradients
-       
-    
-      const serialStyle = {
-        writingMode: 'vertical-rl',
-        textOrientation: 'mixed',
-        fontSize: '42px',
-        fontWeight: 'bold',
-        letterSpacing: '2px',
-        transform: 'rotate(180deg)',
+      
+      const label = {
+        width: "30px",
       };
-
-      const styleBarcode = {
-        objectFit: 'cover',
-        position: 'absolute',
-        height: '20px',
-        left: '13.55rem',
-        top: '100px',
-        transform: 'rotate(90deg)',
-        width: '200px'
+      
+      const colon = {
+        width: "8px",
+        textAlign: "center",
       };
+      
+      const value = {
+        flex: 1,
+        fontWeight: "bold",
+      };
+      
+      const barcodeWrapper = {
+        width: "35px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      };
+      
+      const barcodeStyle = {
+        transform: "rotate(90deg)",
+        width: "120px",
+      };
+      
+      const footer = {
+        // background: "#000",
+        // color: "#fff",
+        // borderTop: "1px solid #000",
+        textAlign: "center",
+        fontSize: "12px",
+        padding: "3px 0",
+        borderBottomLeftRadius: "5px",
+        borderBottomRightRadius: "5px",
+      };
+      
     
   return (
-    <div>
+    <div style={{ display: "flex", flexWrap: "wrap" }}>
     {data?.map((item, index) => (
-      <div key={index}>
-           <div style={containerStyle}>
-      {/* Data Section */}
-      <div style={leftColumnStyle}>
-        <h1 style={{ fontSize: '36px', margin: '0 0 10px 0', letterSpacing: '2px' }}>{item?.itemname}</h1>
+      <div key={index} style={labelContainer}>
         
-        <div style={rowStyle}>
-          <span style={labelStyle}>M.Type :</span>
-          <span style={valueStyle}>{item?.materialtypename}</span>
+        {/* TOP */}
+        <div>
+          <div style={{...headerStyle, padding: "0 6px"}}>{item?.itemname}</div>
+          <div style={divider}></div>
+
+          <div style={contentRow}>
+            
+            {/* LEFT TEXT */}
+            <div style={{...leftText, padding: "0 6px"}}  >
+              <div style={row}><span style={label}>M.Type</span><span style={colon}>:</span><span style={value}>{item?.materialtypename}</span></div>
+              <div style={row}><span style={label}>Lot#</span><span style={colon}>:</span><span style={value}>{item?.job}</span></div>
+              <div style={row}><span style={label}>Shape</span><span style={colon}>:</span><span style={value}>{item?.shape}</span></div>
+              <div style={row}><span style={label}>Clarity</span><span style={colon}>:</span><span style={value}>{item?.clarity}</span></div>
+              <div style={row}><span style={label}>Color</span><span style={colon}>:</span><span style={value}>{item?.color}</span></div>
+              <div style={row}><span style={label}>Size</span><span style={colon}>:</span><span style={value}>{item?.size}</span></div>
+              <div style={row}><span style={label}>Wt(ctw)</span><span style={colon}>:</span><span style={value}>{item?.TotalRemainingWeight}</span></div>
+              <div style={row}><span style={label}>Pcs</span><span style={colon}>:</span><span style={value}>{item?.TotalRemainingPcs}</span></div>
+              <div style={row}><span style={label}>Cust</span><span style={colon}>:</span><span style={value}>{item?.istoreCust_Customercode}</span></div>
+            </div>
+
+            {/* RIGHT BARCODE */}
+            <div style={barcodeWrapper}>
+              <div style={{...barcodeStyle,marginRight:"0px"}}  >
+ 
+                 <BarcodeGenratorStcok data={item?.rfbag} />
+              </div>
+            </div>
+
+          </div>
         </div>
 
-        <div style={rowStyle}>
-          <span style={labelStyle}>Lot# :</span>
-          <span style={valueStyle}>DS2804</span>
+        {/* FOOTER */}
+        <div style={footer}>
+          {item?.rfbag}
         </div>
 
-        <div style={rowStyle}>
-          <span style={labelStyle}>Shape :</span>
-          <span style={valueStyle}>{item?.shape}</span>
-        </div>
-
-        <div style={rowStyle}>
-          <span style={labelStyle}>Clarity :</span>
-          <span style={valueStyle}>{item?.clarity}</span>
-        </div>
-
-        <div style={rowStyle}>
-          <span style={labelStyle}>Color :</span>
-          <span style={valueStyle}>{item?.color}</span>
-        </div>
-
-        <div style={rowStyle}>
-          <span style={labelStyle}>Size :</span>
-          <span style={valueStyle}>{item?.size}</span>
-        </div>
-
-        <div style={rowStyle}>
-          <span style={labelStyle}>Wt(ctw) :</span>
-          <span style={valueStyle}>{item?.TotalRemainingWeight}</span>
-        </div>
-
-        <div style={rowStyle}>
-          <span style={labelStyle}>Pcs :</span>
-          <span style={valueStyle}>{item?.TotalRemainingPcs}</span>
-        </div>
-
-        <div style={rowStyle}>
-          <span style={labelStyle}>Cust :</span>
-          <span style={valueStyle}>{item?.istoreCust_Customercode}</span>
-        </div>
-      </div>
-
-      {/* Barcode Section */}
-      <div style={barcodeContainerStyle}>
-        <div style={styleBarcode}>
-        {/* <BarcodeStickerGen data={item?.rfbag} /> */}
-        {/* <BarcodeGenerator data={item?.rfbag}/> */}
-        </div>
-        <div style={serialStyle}>{item?.rfbag}</div>
-      </div>
-    </div>
       </div>
     ))}
-
-  
-    </div>
+  </div>
   )
 }
 

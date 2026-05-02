@@ -31,6 +31,7 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
   const [ctwwt, setCtwwt] = useState(null);
   const [totPcs, setTotPcs] = useState(0);
   const [totWt, setTotWt] = useState(0);
+  const [headerflag, setHeaderflag] = useState(true);
 
   const [resultArrayC, setResultArryC] = useState();
   let pName = atob(printName).toLowerCase();
@@ -472,6 +473,14 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
   // console.log("taxes", taxes);
   // console.log("dataFill", dataFill);
 
+  const handleHeaderShow = (e) => {
+    if (headerflag) setHeaderflag(false);
+    else {
+      setHeaderflag(true);
+    }
+  };
+
+
   return (
     <>
       {loader ? (
@@ -495,6 +504,17 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 With Rate
               </label>
             </div>
+            <div className="form-check pe-3 mb-0">
+                <input
+                  className="border-dark me-2"
+                  id="header"
+                  type="checkbox"
+                  checked={headerflag}
+                  onChange={(e) => handleHeaderShow(e)}
+                  name="header"
+                />
+                <label for="header" className="pt-1">Header</label>
+              </div>
             <div className="printBtn_sec text-end position-absolute printBtnRetailPrint">
               <input
                 type="button"
@@ -513,7 +533,9 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
           </div>
 
           {/* company address */}
-          <div className="mt-2 px-1 d-flex no_break">
+          {
+            headerflag &&(
+              <div className="mt-2 px-1 d-flex no_break">
             <div className="col-6">
               <h6 className="fw-bold">{jsonData1?.CompanyFullName}</h6>
               <p className="ft_12_retailPrint">{jsonData1?.CompanyAddress}</p>
@@ -549,6 +571,7 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
               )}
             </div>
           </div>
+)}
 
           {/* bill to */}
           <div className="d-flex border mt-2 no_break">
@@ -822,7 +845,7 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                               className={`${styles.Wt} lossWtRetailPrintNoRate border-end p-1 d-flex align-items-center justify-content-end`}
                             >
                               <p className="text-end">
-                                {NumberWithCommas(ele?.Wt, 3)}
+                                {NumberWithCommas(ele?.Wt, 3) }
                               </p>
                             </div>
                             {rate && (
@@ -839,8 +862,8 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                       jsonData1?.CurrencyExchRate /
                                       ele?.Wt,
                                       2
-                                    )
-                                    : "0.00"}
+                                    )+ (ele?.isRateOnPcs ? "/PC" : "")
+                                    : "0.00" }
                                 </p>
                               </div>
                             )}
@@ -903,8 +926,8 @@ const RetailOnlyPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                       jsonData1?.CurrencyExchRate /
                                       ele?.Wt,
                                       2
-                                    )
-                                    : "0.00"}
+                                    )+ (ele?.isRateOnPcs ? "/PC" : "")
+                                    : "0.00" }
                                 </p>
                               </div>
                             )}

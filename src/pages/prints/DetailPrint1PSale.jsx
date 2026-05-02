@@ -27,6 +27,7 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
   const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
+  const [headerflag, setHeaderflag] = useState(true);
 
   const [brokarage, setBrokarage] = useState([]);
   const [msg, setMsg] = useState("");
@@ -544,6 +545,15 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
 
   calculatedData.push(other);
 
+ 
+
+  const handleHeaderShow = (e) => {
+    if (headerflag) setHeaderflag(false);
+    else {
+      setHeaderflag(true);
+    }
+  };
+
   // console.log('finalDfinalD', finalD);
   // console.log('json0Data', json0Data);
   // console.log('address', address);
@@ -568,6 +578,17 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                 />
                 <label className="pt-1">With Image</label>
               </div>
+              <div className="form-check d-flex align-items-center detailPrint1L_font_13">
+                <input
+                  className="border-dark me-2"
+                  id="header"
+                  type="checkbox"
+                  checked={headerflag}
+                  onChange={(e) => handleHeaderShow(e)}
+                  name="header"
+                />
+                <label for="header" className="pt-1">Header</label>
+              </div>
               <div className="form-check detailPrint1L_font_14">
                 <input
                   type="button"
@@ -586,35 +607,40 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
             </div>
 
             {/* Company Details */}
-            <div className="d-flex align-items-center pb-2 border-bottom recordDetailPrint1">
-              <div className="col-6">
-                <h2 className="fw-bold detailPrint1L_font_16 pb-1">{json0Data?.CompanyFullName}</h2>
-                {json0Data?.CompanyAddress !== "" && (<p className="lhDetailPrint1 pb-1">{json0Data?.CompanyAddress}</p>)}
-                {json0Data?.CompanyAddress2 !== "" && (<p className="lhDetailPrint1 pb-1">{json0Data?.CompanyAddress2}</p>)}
-                <p className="lhDetailPrint1 pb-1">
-                  {json0Data?.CompanyCity !== "" && `${json0Data?.CompanyCity}`}{json0Data?.CompanyPinCode !== "" && `-${json0Data?.CompanyPinCode},`}
-                  {json0Data?.CompanyState !== "" && `${json0Data?.CompanyState}`}{json0Data?.CompanyCountry !== "" && `${(json0Data?.CompanyCountry)}`}
-                </p>
-                {json0Data?.CompanyTellNo !== "" && (<p className="lhDetailPrint1 pb-1">T {json0Data?.CompanyTellNo}</p>)}
-                <p className="lhDetailPrint1 pb-1">
-                  {json0Data?.CompanyEmail} {json0Data?.CompanyWebsite !== "" && `| ${json0Data?.CompanyWebsite}`}
-                </p>
-                <p className="lhDetailPrint1 pb-1">
-                  {json0Data?.Company_VAT_GST_No} 
-                  {json0Data?.Company_CST_STATE_No !== "" && `| ${json0Data?.Company_CST_STATE}`}
-                  {json0Data?.Company_CST_STATE_No !== "" && `-${json0Data?.Company_CST_STATE_No}`} {json0Data?.Pannumber !== "" && `| PAN-${json0Data?.Pannumber}`}
-                </p>
+            {
+              headerflag &&(
+                <div className="d-flex align-items-center pb-2 border-bottom recordDetailPrint1">
+                <div className="col-6">
+                  <h2 className="fw-bold detailPrint1L_font_16 pb-1">{json0Data?.CompanyFullName}</h2>
+                  {json0Data?.CompanyAddress !== "" && (<p className="lhDetailPrint1 pb-1">{json0Data?.CompanyAddress}</p>)}
+                  {json0Data?.CompanyAddress2 !== "" && (<p className="lhDetailPrint1 pb-1">{json0Data?.CompanyAddress2}</p>)}
+                  <p className="lhDetailPrint1 pb-1">
+                    {json0Data?.CompanyCity !== "" && `${json0Data?.CompanyCity}`}{json0Data?.CompanyPinCode !== "" && `-${json0Data?.CompanyPinCode},`}
+                    {json0Data?.CompanyState !== "" && `${json0Data?.CompanyState}`}{json0Data?.CompanyCountry !== "" && `${(json0Data?.CompanyCountry)}`}
+                  </p>
+                  {json0Data?.CompanyTellNo !== "" && (<p className="lhDetailPrint1 pb-1">T {json0Data?.CompanyTellNo}</p>)}
+                  <p className="lhDetailPrint1 pb-1">
+                    {json0Data?.CompanyEmail} {json0Data?.CompanyWebsite !== "" && `| ${json0Data?.CompanyWebsite}`}
+                  </p>
+                  <p className="lhDetailPrint1 pb-1">
+                    {json0Data?.Company_VAT_GST_No} 
+                    {json0Data?.Company_CST_STATE_No !== "" && `| ${json0Data?.Company_CST_STATE}`}
+                    {json0Data?.Company_CST_STATE_No !== "" && `-${json0Data?.Company_CST_STATE_No}`} {json0Data?.Pannumber !== "" && `| PAN-${json0Data?.Pannumber}`}
+                  </p>
+                </div>
+                <div className="col-6">
+                  {isImageWorking && (json0Data?.PrintLogo !== "" &&
+                    <img src={json0Data?.PrintLogo} alt=""
+                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} />)}
+                </div>
               </div>
-              <div className="col-6">
-                {isImageWorking && (json0Data?.PrintLogo !== "" &&
-                  <img src={json0Data?.PrintLogo} alt=""
-                    className='w-25 h-auto ms-auto d-block object-fit-contain'
-                    onError={handleImageErrors} height={120} width={150} />)}
-              </div>
-            </div>
+              )
+            }
+           
 
             {/* Customer Details */}
-            <div className="d-flex border-start border-end border-bottom mb-1 recordDetailPrint1">
+            <div className="d-flex border-start border-end border-bottom mb-1 recordDetailPrint1" style={{borderTop: headerflag ? "" : "1px solid #dee2e6"}}>
               <div className="col-4 border-end  p-1">
                 <p className="lhDetailPrint1">{json0Data?.lblBillTo}</p>
                 <p className="lhDetailPrint1 fw-bold detailPrint1L_font_14">
@@ -868,6 +894,7 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                         <div className="h-100 paddingBottomTotalDetailPrint1">
                           {e?.diamonds.length > 0 &&
                             e?.diamonds.map((ele, ind) => {
+                              {console.log("diamod",ele)}
                               return (
                                 <div
                                   className={`d-flex justify-content-between `}
@@ -887,7 +914,7 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                                     {fixedValues(ele?.Wt, 3)}
                                   </p>
                                   <p className="Wdth text-end paddingRightDetailPrint1">
-                                    {NumberWithCommas(ele?.Rate, 2)}
+                                    {NumberWithCommas(ele?.Rate, 2) + (ele?.isRateOnPcs ? "/PC" : "")}
                                   </p>
                                   <p className={`WdthAmt text-end fw-bold`}>
                                     {NumberWithCommas(ele?.Amount, 2)}
@@ -988,7 +1015,7 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                                     {fixedValues(ele?.Wt, 3)}
                                   </p>
                                   <p className="Wdth text-end paddingRightDetailPrint1">
-                                    {NumberWithCommas(ele?.Rate, 2)}
+                                    {NumberWithCommas(ele?.Rate, 2)+ (ele?.isRateOnPcs ? "/PC" : "")}
                                   </p>
                                   <p
                                     className={`WdthAmt text-end fw-bold`}
@@ -1066,8 +1093,8 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                           <div className="d-flex ">
                             <div className="col-5 ">
                               <p className="text-center">
-                                {e?.MaKingCharge_Unit !== 0 &&
-                                  NumberWithCommas(e?.MaKingCharge_Unit, 2)}
+                                {e?.MakingChargeDiscount > 0 ? NumberWithCommas(e?.MakingChargeDiscount, 2)+" %"   :
+                                  NumberWithCommas(  e?.MaKingCharge_Unit, 2)}
                               </p>
                             </div>
                             <div className="col-7">

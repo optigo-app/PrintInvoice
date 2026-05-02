@@ -146,8 +146,13 @@
     border-left: 1px solid #f0f0f0;
     border-right: 1px solid #f0f0f0;
 }
-
+.headerfontsize{
+    font-size: 15px;
+}
 @media print {
+    .headerfontsize{
+        font-size: 11px;
+    }
     .printHide_dp4{
         display: none !important;
     }

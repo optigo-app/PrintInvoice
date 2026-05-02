@@ -19,10 +19,12 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [withPcs, setWithPcs] = useState(false);
   const [withRate, setWithRate] = useState(false);
   const [mdwt, setMdwt] = useState(0);
+  const [headerflag, setHeaderflag] = useState(false);
 
   const [MetShpWise, setMetShpWise] = useState([]);
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
   const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
+    const [isImageWorking, setIsImageWorking] = useState(true);
 
   useEffect(() => {
     const sendData = async () => {
@@ -62,15 +64,15 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const loadData = (data) => {
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
-  
+
     const datas = OrganizeDataPrint(
       data?.BillPrint_Json[0],
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
-  
+
     let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
-  
+
     setMetShpWise(met_shp_arr);
     let tot_met = 0;
     let tot_met_wt = 0;
@@ -80,12 +82,12 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     });
     setNotGoldMetalTotal(tot_met);
     setNotGoldMetalWtTotal(tot_met_wt);
-  
+
     let mdtot = 0;
     datas?.resultArray?.forEach((e) => {
       mdtot += e?.totals?.diamonds?.Wt / 5 + e?.NetWt;
     });
-  
+
     datas?.resultArray?.forEach((e) => {
       let diamond_grouping = [];
       e?.diamonds?.forEach((el) => {
@@ -106,11 +108,11 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       });
       e.diamonds = diamond_grouping;
     });
-    
+
     const sortedArray = datas.resultArray.sort((a, b) => {
       const aGroupJobMatches = a.GroupJob && a.GroupJob === a.SrJobno;
       const bGroupJobMatches = b.GroupJob && b.GroupJob === b.SrJobno;
-  
+
       if (aGroupJobMatches && !bGroupJobMatches) {
         return -1;
       }
@@ -119,12 +121,12 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       }
       return 0;
     });
-  
+
     setMdwt(mdtot);
     setResult({ ...datas, resultArray: sortedArray });
     setLoader(false);
   };
-  
+
   const handleImgShow = () => {
     if (imgFlag) setImgFlag(false);
     else {
@@ -146,9 +148,20 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     }
   };
 
+  const handleHeaderShow = () => {
+    if (headerflag) setHeaderflag(false);
+    else {
+      setHeaderflag(true);
+    }
+  };
+
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
+
   // console.log("resultresult", result);
   const isloss = result?.resultArray?.every(e => e?.LossWt === 0) ? 1 : 0;
-  
+
 
   return (
     <>
@@ -203,6 +216,20 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="pb-2">With Image </div>
                     </label>
                   </div>
+                  <div className="mb-1 me-2 justify-content-center align-items-center">
+                    <input
+                      type="checkbox"
+                      className="me-1"
+                      value={headerflag}
+                      checked={headerflag}
+                      onChange={(e) => handleHeaderShow(e)}
+                      id="header"
+                    />
+                    <label htmlFor="header" style={{ fontSize: "13px" }}>
+                      {" "}
+                      <div className="pb-2">Header </div>
+                    </label>
+                  </div>
                   <div className="mb-3">
                     <button
                       className="btn_white blue py-1"
@@ -212,48 +239,83 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </button>
                   </div>
                 </div>
-                {/* header */}
-                <div>
-                  <div className="headlabeldp3 fw-bold">
-                    {result?.header?.PrintHeadLabel}
-                  </div>
-                  <div className="d-flex justify-content-between align-items-center fs_dp3">
-                    <div className="w-25">
-                      <div className="ps-2">To,</div>
-                      <div className="fw-bold ps-2 fs14_dp3">
-                        {result?.header?.Customercode}
-                      </div>
-                    </div>
-                    <div className="w-25">
-                      <div className="d-flex w-100">
-                        <div className="w-50 end_dp3">
-                          Invoice#&nbsp;&nbsp;&nbsp;:
-                        </div>
-                        <div className="fw-bold w-50 start_dp3">
-                          {result?.header?.InvoiceNo}
-                        </div>
-                      </div>
-                      <div className="d-flex w-100">
-                        <div className="w-50 end_dp3">
-                          Date&nbsp;&nbsp;&nbsp;:
-                        </div>
-                        <div className="fw-bold w-50 start_dp3">
-                          {result?.header?.EntryDate}
-                        </div>
-                      </div>
-                      {result?.header?.HSN_No !== "" && (
-                        <div className="d-flex w-100">
-                          <div className="w-50 end_dp3">
-                            {result?.header?.HSN_No_Label}&nbsp;&nbsp;&nbsp;:
-                          </div>
-                          <div className="fw-bold w-50 start_dp3">
-                            {result?.header?.HSN_No}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
+
+                 {/* Company Details */}
+            {
+              headerflag &&(
+                <div className="d-flex align-items-center pb-2 border-bottom recordDetailPrint1">
+                <div className="col-6 headerfontsize" style={{lineHeight:"0.9"}}>
+                  <h2 className="fw-bold detailPrint1L_font_16 pb-1">{result?.header?.CompanyFullName}</h2>
+                  {result?.header?.CompanyAddress !== "" && (<p className="lhDetailPrint1 pb-1">{result?.header?.CompanyAddress}</p>)}
+                  {result?.header?.CompanyAddress2 !== "" && (<p className="lhDetailPrint1 pb-1">{result?.header?.CompanyAddress2}</p>)}
+                  <p className="lhDetailPrint1 pb-1">
+                    {result?.header?.CompanyCity !== "" && `${result?.header?.CompanyCity}`}{result?.header?.CompanyPinCode !== "" && `-${result?.header?.CompanyPinCode},`}
+                    {result?.header?.CompanyState !== "" && `${result?.header?.CompanyState}`}{result?.header?.CompanyCountry !== "" && `${(result?.header?.CompanyCountry)}`}
+                  </p>
+                  {result?.header?.CompanyTellNo !== "" && (<p className="lhDetailPrint1 pb-1">T {result?.header?.CompanyTellNo}</p>)}
+                  <p className="lhDetailPrint1 pb-1">
+                    {result?.header?.CompanyEmail} {result?.header?.CompanyWebsite !== "" && `| ${result?.header?.CompanyWebsite}`}
+                  </p>
+                  <p className="lhDetailPrint1 pb-1">
+                    {result?.header?.Company_VAT_GST_No} 
+                    {result?.header?.Company_CST_STATE_No !== "" && `| ${result?.header?.Company_CST_STATE}`}
+                    {result?.header?.Company_CST_STATE_No !== "" && `-${result?.header?.Company_CST_STATE_No}`} {result?.header?.Pannumber !== "" && `| PAN-${result?.header?.Pannumber}`}
+                  </p>
                 </div>
+                <div className="col-6">
+                  {isImageWorking && (result?.header?.PrintLogo !== "" &&
+                    <img src={result?.header?.PrintLogo} alt=""
+                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} />)}
+                </div>
+              </div>
+              )
+            }
+
+<>
+                    <div>
+                      <div className="headlabeldp3 fw-bold">
+                        {result?.header?.PrintHeadLabel}
+                      </div>
+                      <div className="d-flex justify-content-between align-items-center fs_dp3">
+                        <div className="w-25">
+                          <div className="ps-2">To,</div>
+                          <div className="fw-bold ps-2 fs14_dp3">
+                            {result?.header?.Customercode}
+                          </div>
+                        </div>
+                        <div className="w-25">
+                          <div className="d-flex w-100">
+                            <div className="w-50 end_dp3">
+                              Invoice#&nbsp;&nbsp;&nbsp;:
+                            </div>
+                            <div className="fw-bold w-50 start_dp3">
+                              {result?.header?.InvoiceNo}
+                            </div>
+                          </div>
+                          <div className="d-flex w-100">
+                            <div className="w-50 end_dp3">
+                              Date&nbsp;&nbsp;&nbsp;:
+                            </div>
+                            <div className="fw-bold w-50 start_dp3">
+                              {result?.header?.EntryDate}
+                            </div>
+                          </div>
+                          {result?.header?.HSN_No !== "" && (
+                            <div className="d-flex w-100">
+                              <div className="w-50 end_dp3">
+                                {result?.header?.HSN_No_Label}&nbsp;&nbsp;&nbsp;:
+                              </div>
+                              <div className="fw-bold w-50 start_dp3">
+                                {result?.header?.HSN_No}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div> {/* Changed from <div/> to </div> */}
+                  </>
+
                 {/* table */}
                 <div>
                   {/* table head */}
@@ -264,7 +326,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="col2_dp3 border-secondary border-end center_dp3">
                       Design
                     </div>
-                    <div className="col3_dp3 border-secondary border-end" style={{width:"16.5%"}}>
+                    <div className="col3_dp3 border-secondary border-end" style={{ width: "16.5%" }}>
                       <div className="w-100 center_dp3 h-50">Diamond</div>
                       <div className="d-flex w-100 border-secondary border-top h-50">
                         <div className="center_dp3 col_w_dp3 border-secondary border-end">
@@ -276,7 +338,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="center_dp3 col_w_dp3">Amount</div>
                       </div>
                     </div>
-                    <div className="col4_dp3 border-secondary border-end" style={{width:"27%"}}>
+                    <div className="col4_dp3 border-secondary border-end" style={{ width: "27%" }}>
                       <div className="center_dp3 h-50 w-100">Metal</div>
                       <div className="d-flex h-50 w-100 border-secondary border-top">
                         <div
@@ -383,7 +445,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
                               )}
                             </div>
-                            <div className="col3_dp3 border-secondary border-end" style={{width:"16.5%"}}>
+                            <div className="col3_dp3 border-secondary border-end" style={{ width: "16.5%" }}>
                               {withPcs == true ? (
                                 <div>
                                   <div className="d-flex">
@@ -394,7 +456,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     </div>
                                     <div className="col_w_dp3 end_dp3">
                                       {e?.totals?.diamonds?.Wt?.toFixed(3) ===
-                                      "0.000"
+                                        "0.000"
                                         ? ""
                                         : e?.totals?.diamonds?.Wt?.toFixed(3)}
                                     </div>
@@ -402,8 +464,8 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                       {e?.totals?.diamonds?.Amount === 0.0
                                         ? ""
                                         : formatAmount(
-                                            e?.totals?.diamonds?.Amount
-                                          )}
+                                          e?.totals?.diamonds?.Amount
+                                        )}
                                     </div>
                                   </div>
                                 </div>
@@ -427,7 +489,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
                               )}
                             </div>
-                            <div className="col4_dp3 border-secondary border-end" style={{width:"27%"}}>
+                            <div className="col4_dp3 border-secondary border-end" style={{ width: "27%" }}>
                               <div>
                                 {e?.metal?.map((el, ind) => {
                                   return (
@@ -515,12 +577,12 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         e?.totals?.colorstone?.Wt?.toFixed(
                                           3
                                         ) === "0.000"
-                                      ? ""
-                                      : "COLORSTONE"}
+                                        ? ""
+                                        : "COLORSTONE"}
                                   </div>
                                   <div className="col_w_dp3 end_dp3">
                                     {e?.totals?.colorstone?.Wt?.toFixed(3) ===
-                                    "0.000"
+                                      "0.000"
                                       ? ""
                                       : e?.totals?.colorstone?.Wt?.toFixed(3)}
                                   </div>
@@ -528,8 +590,8 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     {e?.totals?.colorstone?.Amount === 0.0
                                       ? ""
                                       : formatAmount(
-                                          e?.totals?.colorstone?.Amount
-                                        )}
+                                        e?.totals?.colorstone?.Amount
+                                      )}
                                   </div>
                                 </div>
                                 {/* {
@@ -548,21 +610,21 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className="col6_dp3 border-secondary border-end end_top_dp3">
                               {formatAmount(
                                 e?.OtherCharges +
-                                  e?.TotalDiamondHandling +
-                                  e?.MiscAmount
+                                e?.TotalDiamondHandling +
+                                e?.MiscAmount
                               )}
                             </div>
                             <div className="col7_dp3 border-secondary border-end">
                               <div className="d-flex">
                                 <div className="w-50 d-flex justify-content-center align-items-center">
-                                  {formatAmount(e?.MaKingCharge_Unit)}
+                                  { e?.MakingChargeDiscount >0 ? formatAmount(e?.MakingChargeDiscount, 2)+" %"   :  formatAmount(e?.MaKingCharge_Unit)}
                                 </div>
                                 {/* <div className="w-50 end_top_dp3">{formatAmount(e?.totals?.makingAmount_settingAmount)}</div></div> */}
                                 <div className="w-50 end_top_dp3">
                                   {formatAmount(
                                     e?.MakingAmount +
-                                      e?.totals?.diamonds?.SettingAmount +
-                                      e?.totals?.colorstone?.SettingAmount
+                                    e?.totals?.diamonds?.SettingAmount +
+                                    e?.totals?.colorstone?.SettingAmount
                                   )}
                                 </div>
                               </div>
@@ -579,7 +641,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 {e?.grosswt?.toFixed(3)} gm Gross
                               </div>
                             </div>
-                            <div className="col3_dp3 border-secondary border-end" style={{width:"16.5%"}}>
+                            <div className="col3_dp3 border-secondary border-end" style={{ width: "16.5%" }}>
                               {withPcs == true ? (
                                 <div>
                                   <div className="d-flex">
@@ -590,7 +652,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     </div>
                                     <div className="col_w_dp3 end_dp3">
                                       {e?.totals?.diamonds?.Wt?.toFixed(3) ===
-                                      "0.000"
+                                        "0.000"
                                         ? "0.000"
                                         : e?.totals?.diamonds?.Wt?.toFixed(3)}
                                     </div>
@@ -598,8 +660,8 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                       {e?.totals?.diamonds?.Amount === 0.0
                                         ? "0.00"
                                         : formatAmount(
-                                            e?.totals?.diamonds?.Amount
-                                          )}
+                                          e?.totals?.diamonds?.Amount
+                                        )}
                                     </div>
                                   </div>
                                 </div>
@@ -609,7 +671,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     <div className="col_w_dp3 start_dp3"></div>
                                     <div className="col_w_dp3 end_dp3">
                                       {e?.totals?.diamonds?.Wt?.toFixed(3) ===
-                                      "0.000"
+                                        "0.000"
                                         ? "0.000"
                                         : e?.totals?.diamonds?.Wt?.toFixed(3)}
                                     </div>
@@ -617,14 +679,14 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                       {e?.totals?.diamonds?.Amount === 0.0
                                         ? "0.00"
                                         : formatAmount(
-                                            e?.totals?.diamonds?.Amount
-                                          )}
+                                          e?.totals?.diamonds?.Amount
+                                        )}
                                     </div>
                                   </div>
                                 </div>
                               )}
                             </div>
-                            <div className="col4_dp3 border-secondary border-end" style={{width:"27%"}}>
+                            <div className="col4_dp3 border-secondary border-end" style={{ width: "27%" }}>
                               <div>
                                 <div className="d-flex w-100">
                                   <div
@@ -655,12 +717,12 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     }}
                                   >
                                     {e?.totals?.metal?.IsPrimaryMetal_Amount ===
-                                    0.0
+                                      0.0
                                       ? ""
                                       : formatAmount(
-                                          e?.totals?.metal
-                                            ?.IsPrimaryMetal_Amount
-                                        )}
+                                        e?.totals?.metal
+                                          ?.IsPrimaryMetal_Amount
+                                      )}
                                   </div>
                                 </div>
                               </div>
@@ -677,7 +739,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   </div>
                                   <div className="col_w_dp3 end_dp3">
                                     {e?.totals?.colorstone?.Wt?.toFixed(3) ===
-                                    "0.000"
+                                      "0.000"
                                       ? "0.000"
                                       : e?.totals?.colorstone?.Wt?.toFixed(3)}
                                   </div>
@@ -685,8 +747,8 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     {e?.totals?.colorstone?.Amount === 0.0
                                       ? "0.00"
                                       : formatAmount(
-                                          e?.totals?.colorstone?.Amount
-                                        )}
+                                        e?.totals?.colorstone?.Amount
+                                      )}
                                   </div>
                                 </div>
                               </div>
@@ -695,13 +757,13 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.OtherCharges +
                                 e?.TotalDiamondHandling +
                                 e?.MiscAmount ===
-                              0.0
+                                0.0
                                 ? ""
                                 : formatAmount(
-                                    e?.OtherCharges +
-                                      e?.TotalDiamondHandling +
-                                      e?.MiscAmount
-                                  )}
+                                  e?.OtherCharges +
+                                  e?.TotalDiamondHandling +
+                                  e?.MiscAmount
+                                )}
                             </div>
                             <div className="col7_dp3 border-secondary border-end">
                               <div className="d-flex">
@@ -712,13 +774,13 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   {e?.MakingAmount +
                                     e?.totals?.diamonds?.SettingAmount +
                                     e?.totals?.colorstone?.SettingAmount ===
-                                  0.0
+                                    0.0
                                     ? ""
                                     : formatAmount(
-                                        e?.MakingAmount +
-                                          e?.totals?.diamonds?.SettingAmount +
-                                          e?.totals?.colorstone?.SettingAmount
-                                      )}
+                                      e?.MakingAmount +
+                                      e?.totals?.diamonds?.SettingAmount +
+                                      e?.totals?.colorstone?.SettingAmount
+                                    )}
                                 </div>
                               </div>
                             </div>
@@ -770,7 +832,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="col2_dp3 border-secondary border-end center_dp3 fw-bold">
                       TOTAL
                     </div>
-                    <div className="col3_dp3 border-secondary border-end" style={{width:"16.5%"}}>
+                    <div className="col3_dp3 border-secondary border-end" style={{ width: "16.5%" }}>
                       <div>
                         <div className="d-flex">
                           <div className="col_w_dp3 start_dp3">
@@ -785,7 +847,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                       </div>
                     </div>
-                    <div className="col4_dp3 border-secondary border-end" style={{width:"27%"}}>
+                    <div className="col4_dp3 border-secondary border-end" style={{ width: "27%" }}>
                       <div>
                         <div className="d-flex">
                           <div className="w-25 start_dp3"></div>
@@ -796,7 +858,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               3
                             )}
                           </div>
-                          <div className="end_dp3" style={{width: withRate ? "77%" : "27%"}}>
+                          <div className="end_dp3" style={{ width: withRate ? "77%" : "27%" }}>
                             {formatAmount(
                               result?.mainTotal?.metal?.IsPrimaryMetal_Amount
                             )}
@@ -824,8 +886,8 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="col6_dp3 border-secondary border-end end_top_dp3">
                       {formatAmount(
                         result?.mainTotal?.totalMiscAmount +
-                          result?.mainTotal?.total_other +
-                          result?.mainTotal?.total_diamondHandling
+                        result?.mainTotal?.total_other +
+                        result?.mainTotal?.total_diamondHandling
                       )}
                     </div>
                     {/* <div className="col6_dp3 border-secondary border-end end_top_dp3">{formatAmount((result?.mainTotal?.total_other_charges + result?.mainTotal?.total_diamondHandling))}</div> */}
@@ -835,8 +897,8 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="w-100 end_top_dp3">
                           {formatAmount(
                             result?.mainTotal?.total_Making_Amount +
-                              result?.mainTotal?.diamonds?.SettingAmount +
-                              result?.mainTotal?.colorstone?.SettingAmount
+                            result?.mainTotal?.diamonds?.SettingAmount +
+                            result?.mainTotal?.colorstone?.SettingAmount
                           )}
                         </div>
                       </div>
@@ -844,9 +906,9 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="col8_dp3 end_top_dp3">
                       {formatAmount(
                         result?.mainTotal.total_amount +
-                          result?.header?.AddLess +
-                          result?.allTaxesTotal *
-                            result?.header?.CurrencyExchRate
+                        result?.header?.AddLess +
+                        result?.allTaxesTotal *
+                        result?.header?.CurrencyExchRate
                       )}
                     </div>
                   </div>
@@ -873,7 +935,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className="border-secondary border-end pad_e_dp3 pe-2">
                               {result?.mainTotal?.metal?.FineWt > 0 ? (
                                 // result?.mainTotal?.metal?.FineWt - notGoldMetalWtTotal
-                                result?.mainTotal?.metal?.FineWt 
+                                result?.mainTotal?.metal?.FineWt
                               )?.toFixed(3) : "0.00"}{" "}
                               gm
                             </div>
@@ -950,7 +1012,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className="border-secondary border-end pad_e_dp3 pe-2">
                               {formatAmount(
                                 result?.mainTotal?.MetalAmount -
-                                  notGoldMetalTotal
+                                notGoldMetalTotal
                               )}
                             </div>
                           </div>
@@ -994,8 +1056,8 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className="border-secondary border-end pad_e_dp3 pe-2">
                               {formatAmount(
                                 result?.mainTotal?.total_Making_Amount +
-                                  result?.mainTotal?.diamonds?.SettingAmount +
-                                  result?.mainTotal?.colorstone?.SettingAmount
+                                result?.mainTotal?.diamonds?.SettingAmount +
+                                result?.mainTotal?.colorstone?.SettingAmount
                               )}
                             </div>
                           </div>
@@ -1022,9 +1084,9 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className="pad_e_dp3 pe-2">
                               {formatAmount(
                                 result?.mainTotal.total_amount +
-                                  result?.header?.AddLess +
-                                  result?.allTaxesTotal *
-                                    result?.header?.CurrencyExchRate
+                                result?.header?.AddLess +
+                                result?.allTaxesTotal *
+                                result?.header?.CurrencyExchRate
                               )}
                             </div>
                           </div>
@@ -1041,16 +1103,16 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                       )}
                       {
-                        result?.header?.PrintRemark !== "" &&(
+                        result?.header?.PrintRemark !== "" && (
                           <div
-                          className="border-secondary border-bottom border-end pad_s_dp3 ps-2 text-break"
-                          dangerouslySetInnerHTML={{
-                            __html: result?.header?.PrintRemark,
-                          }}
-                        ></div>
+                            className="border-secondary border-bottom border-end pad_s_dp3 ps-2 text-break"
+                            dangerouslySetInnerHTML={{
+                              __html: result?.header?.PrintRemark,
+                            }}
+                          ></div>
                         )
                       }
-                     
+
                     </div>
                   </div>
                   <div
@@ -1076,7 +1138,8 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </p>
           )}
         </>
-      )}
+      )
+      }
     </>
   );
 };

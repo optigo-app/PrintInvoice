@@ -21,7 +21,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [imgFlag, setImgFlag] = useState(true);
   const [mdwt, setMdwt] = useState(0);
   const [isImageWorking, setIsImageWorking] = useState(true);
-
+  const [headerflag, setHeaderflag] = useState(false);
   const [jobWIseTotal, setJobWiseTotal] = useState(null);
   const [jobwisemisc, setJobwisemisc] = useState(0);
 
@@ -497,6 +497,15 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     }
   };
 
+  const handleHeaderShow = () => {
+    if (headerflag) setHeaderflag(false);
+    else {
+      setHeaderflag(true);
+    }
+  };
+
+ 
+
   const discountCriteria = [
     { key: 'DiamondDiscount', isAmountKey: 'IsDiamondDiscInAmount', label: 'Diamond' ,disAmount:"DiamondDiscountAmount" },
     { key: 'MetalDiscount', isAmountKey: 'IsMetalDiscInAmount', label: 'Metal' ,disAmount:"MetalDiscountAmount" },
@@ -528,6 +537,17 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   />
                   <label htmlFor="imgshowdp4"> With Image </label>
                 </div>
+                <div className="mb-3 me-2 justify-content-center align-items-center">
+                  <input
+                    type="checkbox"
+                    className="me-2"
+                    value={headerflag}
+                    checked={headerflag}
+                    onChange={(e) => handleHeaderShow(e)}
+                    id="headershowdp4"
+                  />
+                  <label htmlFor="headershowdp4"> Header </label>
+                </div>
                 <div className="mb-3">
                   <button
                     className="btn_white blue py-1"
@@ -538,6 +558,36 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
               </div>
               {/* header */}
+              {
+              headerflag &&(
+                <div className="d-flex align-items-center pb-2 border-bottom recordDetailPrint1">
+                <div className="col-6 headerfontsize" style={{lineHeight:"0.9"}}>
+                  <h2 className="fw-bold detailPrint1L_font_16 pb-1">{result?.header?.CompanyFullName}</h2>
+                  {result?.header?.CompanyAddress !== "" && (<p className="lhDetailPrint1 pb-1">{result?.header?.CompanyAddress}</p>)}
+                  {result?.header?.CompanyAddress2 !== "" && (<p className="lhDetailPrint1 pb-1">{result?.header?.CompanyAddress2}</p>)}
+                  <p className="lhDetailPrint1 pb-1">
+                    {result?.header?.CompanyCity !== "" && `${result?.header?.CompanyCity}`}{result?.header?.CompanyPinCode !== "" && `-${result?.header?.CompanyPinCode},`}
+                    {result?.header?.CompanyState !== "" && `${result?.header?.CompanyState}`}{result?.header?.CompanyCountry !== "" && `${(result?.header?.CompanyCountry)}`}
+                  </p>
+                  {result?.header?.CompanyTellNo !== "" && (<p className="lhDetailPrint1 pb-1">T {result?.header?.CompanyTellNo}</p>)}
+                  <p className="lhDetailPrint1 pb-1">
+                    {result?.header?.CompanyEmail} {result?.header?.CompanyWebsite !== "" && `| ${result?.header?.CompanyWebsite}`}
+                  </p>
+                  <p className="lhDetailPrint1 pb-1">
+                    {result?.header?.Company_VAT_GST_No} 
+                    {result?.header?.Company_CST_STATE_No !== "" && `| ${result?.header?.Company_CST_STATE}`}
+                    {result?.header?.Company_CST_STATE_No !== "" && `-${result?.header?.Company_CST_STATE_No}`} {result?.header?.Pannumber !== "" && `| PAN-${result?.header?.Pannumber}`}
+                  </p>
+                </div>
+                <div className="col-6">
+                  {isImageWorking && (result?.header?.PrintLogo !== "" &&
+                    <img src={result?.header?.PrintLogo} alt=""
+                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} />)}
+                </div>
+              </div>
+              )
+            }
               <div>
                 <div className="headlabeldp4 fw-bold">
                   {result?.header?.PrintHeadLabel}
@@ -728,7 +778,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     <div className="dia_col_w_dp4 end_dp4 lh_dp4_amt" style={{ width: "10%" }} > {el?.dpcs} </div>
                                     <div className="dia_col_w_dp4 end_dp4 lh_dp4_amt" style={{ width: "15%" }} > {el?.dwt?.toFixed(3)} </div>
                                     <div className="dia_col_w_dp4 end_dp4 lh_dp4_amt">
-                                      {formatAmount((el?.damt / (el?.isRateOnPcs === 1 ? (el?.dpcs === 0 ? 1 : el?.dpcs) : (el?.dwt === 0 ? 1 : el?.dwt))))}
+                                      {formatAmount((el?.damt / (el?.isRateOnPcs === 1 ? (el?.dpcs === 0 ? 1 : el?.dpcs) : (el?.dwt === 0 ? 1 : el?.dwt)))) + (el?.isRateOnPcs ? "/PC" : "")}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4 fw-bold lh_dp4_amt">
                                       {formatAmount(el?.damt)}
@@ -811,7 +861,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                       {el?.cswt?.toFixed(3)}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4 lh_dp4_amt">
-                                      {formatAmount(((el?.csamt) / (el?.isRateOnPcs === 1 ? (el?.cspcs === 0 ? 1 : el?.cspcs) : (el?.cswt === 0 ? 1 : el?.cswt))))}
+                                      {formatAmount(((el?.csamt) / (el?.isRateOnPcs === 1 ? (el?.cspcs === 0 ? 1 : el?.cspcs) : (el?.cswt === 0 ? 1 : el?.cswt)))) + (el?.isRateOnPcs ? "/PC" : "")}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4 fw-bold lh_dp4_amt">
                                       {formatAmount(el?.csamt)}
@@ -861,8 +911,8 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                           <div className="col7_dp4 border-secondary border-end fs_dp4">
                             <div className="d-flex">
-                              <div className=" end_top_dp4 fs_dp4" style={{ width: '35%' }}>
-                                {formatAmount(e?.MaKingCharge_Unit)}
+                              <div className=" end_top_dp4 fs_dp4" style={{ width: '36%' }}>
+                                { e?.MakingChargeDiscount > 0 ? formatAmount(e?.MakingChargeDiscount, 2)+" %"   : formatAmount(e?.MaKingCharge_Unit)}
                               </div>
                               <div className=" end_top_dp4 fs_dp4" style={{ width: '65%' }}>
                                 {formatAmount((((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount))))}

@@ -104,15 +104,21 @@ const JewelleryInvoiceT = ({
                     if (e?.isdiscountinamount == 1) {    //isdiscountinamount == 1
 
                         totals.discount += e?.DiscountAmt;
-                    } else {                   //isdiscountinamount == 0
+                    } else {     
+                        if( e?.NewMRP ==0)  {
+                            totals.discount += e?.DiscountAmt;
+                        }            //isdiscountinamount == 0
+                        else{
+                            const cgst = Number(data?.BillPrint_Json[0].CGST) || 0;
+                            const sgst = Number(data?.BillPrint_Json[0].SGST) || 0;
+                            const igst = Number(data?.BillPrint_Json[0].IGST) || 0;
+                            const TotalAmount = Number(e.TotalAmount) || 0;
+                            const gst = (cgst + sgst) > 0 ? (cgst + sgst) : igst;
+                            const gstAmt = (TotalAmount * gst) / 100;
+                            totals.discount += e?.NewMRP - (e?.TotalAmount + gstAmt)
+                        }
 
-                        const cgst = Number(data?.BillPrint_Json[0].CGST) || 0;
-                        const sgst = Number(data?.BillPrint_Json[0].SGST) || 0;
-                        const igst = Number(data?.BillPrint_Json[0].IGST) || 0;
-                        const TotalAmount = Number(e.TotalAmount) || 0;
-                        const gst = (cgst + sgst) > 0 ? (cgst + sgst) : igst;
-                        const gstAmt = (TotalAmount * gst) / 100;
-                        totals.discount += e?.NewMRP - (e?.TotalAmount + gstAmt)
+                        
                     }
 
                 }

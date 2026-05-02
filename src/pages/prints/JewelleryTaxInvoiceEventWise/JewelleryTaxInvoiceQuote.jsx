@@ -27,7 +27,7 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
   const [summary2, setSummary2] = useState([]);
   const [imgFlag, setImgFlag] = useState(false);
   const [isImageWorking, setIsImageWorking] = useState(true);
-  const [materials, setMaterials] = useState([]);
+  const [myMaterials, setMyMaterials] = useState([]);
 
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -92,7 +92,7 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
       totalAmountBefore +=
         e?.TotalAmount / data?.BillPrint_Json[0].CurrencyExchRate;
       let metalColorCode = "";
-      setMaterials(data?.BillPrint_Json2);
+      setMyMaterials(data?.BillPrint_Json2);
       data?.BillPrint_Json2.forEach((ele, ind) => {
         if (obj?.SrJobno === ele?.StockBarcode) {
           // if ((ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 2 || ele?.MasterManagement_DiamondStoneTypeid === 3) && ele?.IsHSCOE === 0) {
@@ -473,7 +473,9 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
           data?.map((e, i) => {
             
              
-            const groupedMaterials = (materials?.filter((item) => item?.DesignNo === e?.designno) || []).reduce((acc, ele) => {
+            console.log("TCL: groupedMaterials -> ", myMaterials)
+            const groupedMaterials = (myMaterials?.filter((item) => item?.DesignNo === e?.designno) || []).reduce((acc, ele) => {
+              
               if (ele?.IsCenterStone === 1) {
                 acc[`center-stone-${ele?.StockBarcode}`] = { ...ele };
                 return acc;
@@ -488,12 +490,12 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
 
               if (acc[key]) {
                 acc[key].Pcs += ele?.Pcs || 0;
-                acc[key].Wt += ele?.Wt || 0;
+                acc[key].Wt += ele?.RMwt || 0;
               } else {
                 acc[key] = {
                   ...ele,
                   Pcs: ele?.Pcs || 0,
-                  Wt: ele?.Wt || 0,
+                  Wt: ele?.RMwt || 0,
                 };
               }
 
@@ -529,7 +531,7 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
                     {/* {e?.miscWts !== 0 && (
                       <> |  {NumberWithCommas(e?.miscWts, 3)} gms</>
                     )} */}
-                  </p>
+                  </p>{console.log("mergedMaterials",mergedMaterials)}
                   
                     {mergedMaterials?.map((ele, ind) => (
                                            <p key={ind} className="text-break text_break_value_sub">
