@@ -169,14 +169,14 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
       </div>
       {/* header */}
-     
+
 
       {/* header with barcode */}
       {headerData?.IsEinvoice !== 1 ? <>
         <div>
           <div className={`px-2 pb-1 ${style?.fstitle_ti5}`} style={{ fontSize: "24px", fontWeight: "700", textDecoration: "underline #000 3px" }}>{headerData?.PrintHeadLabel}</div>
           <div className={`${style2.companyDetails} ${style?.lhheaderti5}`}>
-   
+
             <div className={`${style2.companyhead} ${style?.lhheaderti5} p-2 `}>
               <div className={`${style2.lines} ${style?.font_16}`} style={{ fontWeight: "bold" }}>
                 {headerData?.CompanyFullName}
@@ -184,10 +184,49 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <div className={`${style2.lines} ${style?.lhheaderti5}`}>{headerData?.CompanyAddress}</div>
               <div className={`${style2.lines} ${style?.lhheaderti5}`}>{headerData?.CompanyAddress2}</div>
               <div className={`${style2.lines} ${style?.lhheaderti5}`}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
-              <div className={`px-1 fw-bold ${style?.font_16}`} >
-                {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
+              <div className={`px-1 fw-bold ${style?.font_16}`}>
+                {/* GST No */}
+                {headerData?.Company_VAT_GST_No && (
+                  <>{headerData.Company_VAT_GST_No}</>
+                )}
+
+                {/* Separator */}
+                {headerData?.Company_VAT_GST_No &&
+                  (headerData?.Company_CST_STATE ||
+                    headerData?.Company_CST_STATE_No) &&
+                  " | "}
+
+                {/* CST State */}
+                {(headerData?.Company_CST_STATE ||
+                  headerData?.Company_CST_STATE_No) && (
+                    <>
+                      {headerData?.Company_CST_STATE}
+                      {headerData?.Company_CST_STATE &&
+                        headerData?.Company_CST_STATE_No &&
+                        "-"}
+                      {headerData?.Company_CST_STATE_No}
+                    </>
+                  )}
+
+                {/* Separator */}
+                {headerData?.Pannumber &&
+                  (headerData?.Company_VAT_GST_No ||
+                    headerData?.Company_CST_STATE ||
+                    headerData?.Company_CST_STATE_No) &&
+                  " | "}
+
+                {/* PAN */}
+                {headerData?.Pannumber && (
+                  <>PAN-{headerData.Pannumber}</>
+                )}
               </div>
-              <div className={`px-1  ${style?.lhheaderti5}`}>CIN-{headerData?.CINNO}</div>
+
+              {/* CIN */}
+              {headerData?.CINNO && (
+                <div className={`px-1 ${style?.lhheaderti5}`}>
+                  CIN-{headerData.CINNO}
+                </div>
+              )}
             </div>
           </div>
 

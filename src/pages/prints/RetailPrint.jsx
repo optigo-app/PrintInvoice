@@ -377,24 +377,28 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     setMisctotPcs(totmiscwt)
 
     let tot_pcs2 = 0;
-    let tot_wt2 = 0;
-    datas?.resultArray?.forEach((e) => {
-            e?.diamonds?.forEach((el) => {
-                tot_pcs2 += el?.dpcs;
-                tot_wt2 += el?.dwt;
-            })
-           
-    })
-    datas?.resultArray?.forEach((e) => {
-            e?.colorstone?.forEach((el) => {
-                tot_pcs2 += el?.cspcs;
-                tot_wt2 += el?.cswt;
-            })
-           
-    })
-    setTotPcs(tot_pcs2)
-    setTotWt(tot_wt2)
+let tot_wt2 = 0;
+
+datas?.resultArray?.forEach((e) => {
+  e?.diamonds?.forEach((el) => {
+    tot_pcs2 += Number(el?.Pcs || 0);
+    tot_wt2 += Number(el?.Wt || 0);
+  });
+
+  e?.colorstone?.forEach((el) => {
+    tot_pcs2 += Number(el?.Pcs || 0);
+    tot_wt2 += Number(el?.Wt || 0);
+  });
+});
+
+console.log("TCL: datas?.resultArray", datas?.resultArray)
+
+setTotPcs(tot_pcs2);
+setTotWt(tot_wt2);
   };
+
+  
+ 
 
   const handleChange = (e) => {
     rate ? setRate(false) : setRate(true);
@@ -449,6 +453,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   console.log("finalD", finalD);
   // console.log("taxes", taxes);
 
+   
   return (
     <>
       {loader ? (
@@ -1040,7 +1045,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <div
                   className={`${styles.Wt} lossWtRetailPrintNoRate border-end p-1 d-flex align-items-end justify-content-around flex-column min_height_44_retail_print_1 ft_12_retailPrint`}
                 ><p className="fw-bold text-end">
-                    {gmwt !== 0 && `${gmwt?.toFixed(3)} gms`} <br /> {totWt !== 0 && `${totWt?.toFixed(3)} ctw`} 
+                    {gmwt !== 0 && `${gmwt?.toFixed(3)} gms`} <br /> { Number(totWt) !== 0 && `${Number(totWt)?.toFixed(3)} ctw`} 
                 </p>
                   {/* <p className="fw-bold lh-1 text-end fs_maintotal_wt_rp">
                     D + C : {fixedValues(total?.materialWeight, 3)} Ctw

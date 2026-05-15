@@ -122,9 +122,7 @@ const JewelleryInvoiceT = ({
                     }
 
                 }
-
-
-                totals.Qty += e?.Quantity;
+                totals.Qty +=  e?.BulkPurchaseQTY ?e.BulkPurchaseQTY:e?.Quantity;
                 let hallmarkingCount = 0;
                 let materials = [];
                 let primaryMetal = [];
@@ -323,7 +321,6 @@ const JewelleryInvoiceT = ({
                         e.hallmarkingCount = findRecord?.hallmarkingCount;
                         e.findingWt = findRecord?.findingWt;
                         e.otherCharge = findRecord?.otherCharge;
-
 
 
                     }
@@ -682,7 +679,7 @@ const JewelleryInvoiceT = ({
                                                     <div className={`j-inv-cell ${taxamt ? 'j-inv-col-desc-taxamt' : 'j-inv-col-desc'} j-inv-border-r j-inv-text-left  j-inv-align-top`}>
                                                         {e.MetalTypePurity + " - " + e.Categoryname} <br /> {e.SrJobno}
                                                     </div>
-                                                    <div className={`j-inv-cell ${taxamt ? 'j-inv-col-qty-taxamt' : 'j-inv-col-qty'} j-inv-border-r`}>{e.Quantity}</div>
+                                                    <div className={`j-inv-cell ${taxamt ? 'j-inv-col-qty-taxamt' : 'j-inv-col-qty'} j-inv-border-r`}>{e.BulkPurchaseQTY ?e.BulkPurchaseQTY:e?.Quantity}</div>
                                                     <div className={`j-inv-cell ${taxamt ? 'j-inv-col-rate-taxamt' : 'j-inv-col-rate'} j-inv-border-r`}>{`${taxamt ? fixedValues(e.UnitCost, 2) : fixedValues(e.TotalAmount, 2)}`}</div>
                                                     {
                                                         disamt && (
@@ -813,8 +810,10 @@ const JewelleryInvoiceT = ({
                                             </div>
                                         </div>
                                     </div>
+                                    {headerData?.Remark && (
+                                        <div className="j-inv-p-5 j-inv-border-b">  Bill Remarks : {headerData?.Remark}</div>
 
-                                    <div className="j-inv-p-5 j-inv-border-b">Bill Remarks : {headerData?.Remark}</div>
+                                    )}
                                     <div className="" style={{ display: "flex" }}>
                                         <div className="j-inv-flex-col j-inv-border-r j-inv-p-5 j-inv-min-h-100" style={{ width: '70%' }}>
                                             <div className="j-inv-bold">Terms & Conditions :</div>

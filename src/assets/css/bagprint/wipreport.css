@@ -1,0 +1,13 @@
+
+.print_header{
+    /* display: none; */
+}
+
+@media print{
+     .filter{
+        display: none !important;
+     }
+     .print_header{
+        display: block !important;
+    }
+}

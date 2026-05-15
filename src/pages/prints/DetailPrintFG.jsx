@@ -301,9 +301,6 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
 console.log("TCL: tptal",data.mainTotal )
  
-
-
-
   return (
     <>
       {loader ? (
@@ -618,7 +615,7 @@ console.log("TCL: tptal",data.mainTotal )
                         </div>
                         <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "16.67%", minWidth: "16.67%" }}>
                           <p className="text-end spBold">
-                            {NumberWithCommas(item?.totals?.diamonds?.Amount, 2)}
+                            {NumberWithCommas( 1, 2)}
                           </p>
                         </div>
                       </div>
@@ -1086,7 +1083,7 @@ console.log("TCL: tptal",data.mainTotal )
                       </div>
                       <div className="d-flex justify-content-between px-1">
                         <p className="spBold">NET WT</p>
-                        <p>{fixedValues(data?.mainTotal?.metal?.IsPrimaryMetal + data?.mainTotal?.finding?.Wt, 2)} gm</p>
+                        <p>{fixedValues(data?.mainTotal?.metal?.IsPrimaryMetal + data?.mainTotal?.finding?.Wt + (data?.mainTotal?.lossWt || 0), 2)} gm</p>
                       </div>
                       <div className="d-flex justify-content-between px-1">
                         <p className="spBold">DIAMOND WT</p>

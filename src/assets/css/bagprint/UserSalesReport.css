@@ -1,0 +1,54 @@
+.report-container {
+    /* Define base widths here */
+    --w-sr: 54px;
+    --w-designation: 153px;
+    --w-user: 120px;
+    --w-stat: 90px;
+    --w-group: calc(var(--w-stat) * 3); /* 270px */
+    
+    width: 100%;
+    font-family: Arial, sans-serif;
+    overflow-x: auto;
+  }
+  
+  .report-row {
+    display: flex;
+    width: max-content; /* Ensures rows don't collapse */
+    min-width: 100%;
+  }
+  
+  .cell {
+    padding: 5px 8px;
+    border: 1px solid #C7C7C7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    box-sizing: border-box;
+    height: 32px;
+  }
+  
+  .cell-header { font-weight: bold; }
+  .cell-number { justify-content: flex-end; }
+  .cell-text { justify-content: flex-start; }
+  
+  /* Reusable Width Classes */
+  .col-sr { width: var(--w-sr); }
+  .col-designation { width: var(--w-designation); }
+  .col-user { width: var(--w-user); }
+  .col-stat { width: var(--w-stat); }
+  .col-group { width: var(--w-group); }
+  
+  /* --- PRINT VIEW OVERRIDES --- */
+  @media print {
+    .report-container {
+      --w-sr: 18px;
+      --w-designation: 70px;
+      --w-user: 30px;
+      --w-stat: 40px;
+    }
+    .cell {
+      font-size: 11px;
+      border-color: #000;
+    }
+  }

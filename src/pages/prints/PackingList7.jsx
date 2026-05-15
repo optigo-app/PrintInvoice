@@ -46,6 +46,8 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
+            
+           
             loadData(data?.Data);
             setLoader(false);
           } else {
@@ -78,6 +80,8 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
+
+    console.log("TCL: sendData -> datas", datas)
 
     let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
 
@@ -540,6 +544,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   };
  
   
+  console.log("TCL: result?.resultArray", result?.resultArray )
   return (
     <>
       {loader ? (

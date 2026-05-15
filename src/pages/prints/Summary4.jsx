@@ -926,12 +926,14 @@ const metalSummarey=getTunchWiseSummary(BillPrintJson1);
                             <p> {1 + i} </p>{" "}
                           </div>
                           <div className="border-end summury4_col2 p-1">
+                            <div style={{display:'flex',justifyContent:"space-between"}}>
                             <p className="fw-bold">{e?.SrJobno} - </p>
                             {e?.Categoryname && (
-                              <p className="fw-bold design_name_show">
+                              <p className="fw-bold design_name_show" style={{wordBreak:'break-all'}}>
                                 {e?.Categoryname}
                               </p>
                             )}
+                            </div>
                             {image && (
                               <div
                                 style={{

@@ -215,43 +215,43 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 <div></div>
                 {/* headers */}
-                
+
                 {headerflag && (
-                    <div className="headers2 d-flex justify-content-between p-2 border-bottom ">
-                  <div className="subdiv1s2 w-75">
-                    <div className="fw-bold fsh_s2">
-                      {result?.header?.CompanyFullName}
+                  <div className="headers2 d-flex justify-content-between p-2 border-bottom ">
+                    <div className="subdiv1s2 w-75">
+                      <div className="fw-bold fsh_s2">
+                        {result?.header?.CompanyFullName}
+                      </div>
+                      <div className="lhs2 fsh2_s2">{result?.header?.CompanyAddress}</div>
+                      <div className="lhs2 fsh2_s2">
+                        {result?.header?.CompanyAddress2}
+                      </div>
+                      <div className="lhs2 fsh2_s2">
+                        {result?.header?.CompanyCity}-
+                        {result?.header?.CompanyPinCode},
+                        {result?.header?.CompanyState}({result?.header?.CompanyCountry})
+                      </div>
+                      <div className="lhs2 fsh2_s2">
+                        T {result?.header?.CompanyTellNo} | TOLL FREE{" "} {result?.header?.CompanyTollFreeNo}{" "}
+                      </div>
+                      <div className="lhs2 fsh2_s2">{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</div>
+                      <div className="lhs2 fsh2_s2">
+                        {result?.header?.Company_VAT_GST_No} |{" "}
+                        {result?.header?.Company_CST_STATE}-
+                        {result?.header?.Company_CST_STATE_No} | PAN-
+                        {result?.header?.Pannumber}
+                      </div>
                     </div>
-                    <div className="lhs2 fsh2_s2">{result?.header?.CompanyAddress}</div>
-                    <div className="lhs2 fsh2_s2">
-                      {result?.header?.CompanyAddress2}
-                    </div>
-                    <div className="lhs2 fsh2_s2">
-                      {result?.header?.CompanyCity}-
-                      {result?.header?.CompanyPinCode},
-                      {result?.header?.CompanyState}({result?.header?.CompanyCountry})
-                    </div>
-                    <div className="lhs2 fsh2_s2">
-                      T {result?.header?.CompanyTellNo} | TOLL FREE{" "} {result?.header?.CompanyTollFreeNo}{" "}
-                    </div>
-                    <div className="lhs2 fsh2_s2">{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</div>
-                    <div className="lhs2 fsh2_s2">
-                      {result?.header?.Company_VAT_GST_No} |{" "}
-                      {result?.header?.Company_CST_STATE}-
-                      {result?.header?.Company_CST_STATE_No} | PAN-
-                      {result?.header?.Pannumber}
-                    </div>
-                  </div>
-                  <div className="subdiv1s2 w-25 d-flex justify-content-end">
-                    {/* <img
+                    <div className="subdiv1s2 w-25 d-flex justify-content-end">
+                      {/* <img
                       src={result?.header?.PrintLogo}
                       className="printlogos2"
                       alt="comapanylogo"
                     /> */}
-                    {isImageWorking && (result?.header?.PrintLogo !== "" &&
-                      <img src={result?.header?.PrintLogo} alt="" className="printlogos2" onError={handleImageErrors} />)} </div>
-                </div>
-                    )}
+                      {isImageWorking && (result?.header?.PrintLogo !== "" &&
+                        <img src={result?.header?.PrintLogo} alt="" className="printlogos2" onError={handleImageErrors} />)} </div>
+                  </div>
+                )}
                 {/* sub headers */}
                 <div className="subhead1s2 border mt-2 p-1 d-flex justify-content-between">
                   <div className="fsh3_s2_">
@@ -283,9 +283,43 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <div>Phno:-{result?.header?.customermobileno}</div>
                       <div>
 
-                        {result?.header?.CustGstNo === '' ? 'VAT' : 'GSTIN'} - {result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo} |
-                        {result?.header?.Cust_CST_STATE} - {result?.header?.Cust_CST_STATE_No} |
-                        PAN - {result?.header?.CustPanno}
+                        {(result?.header?.Cust_VAT_GST_No || result?.header?.CustGstNo) && (
+                          <>
+                            {result?.header?.CustGstNo === "" ? "VAT" : "GSTIN"} -{" "}
+                            {result?.header?.CustGstNo === ""
+                              ? result?.header?.Cust_VAT_GST_No
+                              : result?.header?.CustGstNo}
+                          </>
+                        )}
+
+                        {/* Separator */}
+                        {(result?.header?.Cust_VAT_GST_No || result?.header?.CustGstNo) &&
+                          (result?.header?.Cust_CST_STATE ||
+                            result?.header?.Cust_CST_STATE_No) &&
+                          " | "}
+
+                        {/* CST State */}
+                        {(result?.header?.Cust_CST_STATE ||
+                          result?.header?.Cust_CST_STATE_No) && (
+                            <>
+                              {result?.header?.Cust_CST_STATE}
+                              {result?.header?.Cust_CST_STATE &&
+                                result?.header?.Cust_CST_STATE_No &&
+                                " - "}
+                              {result?.header?.Cust_CST_STATE_No}
+                            </>
+                          )}
+
+                        {/* Separator */}
+                        {(result?.header?.CustPanno &&
+                          (result?.header?.Cust_CST_STATE ||
+                            result?.header?.Cust_CST_STATE_No)) &&
+                          " | "}
+
+                        {/* PAN */}
+                        {result?.header?.CustPanno && (
+                          <>PAN - {result.header.CustPanno}</>
+                        )}
                         {/* {result?.header?.Cust_CST_STATE}-
                         {result?.header?.Cust_CST_STATE_No} 
                         {result?.header?.vat_cst_pan} */}
@@ -460,7 +494,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 {/* summary */}
                 <div className="border mt-2 pbias2 fsh2_s2">
                   <div className="fw-bold bgcs2 p-1 d-flex flex-wrap" >Summary Detail</div>
-                  <div className="d-flex flex-wrap p-1" style={{ minHeight: "50px" }}>
+                  <div className="d-flex flex-wrap p-1" style={{ minHeight: "50px" ,flexDirection:'column'}}>
                     {
                       categoryNameWise?.map((e, i) => {
                         return (

@@ -699,8 +699,8 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 {/* price */}
                                 <div className="pcltbr1c7 fwboldpcl fspcl pt-1" style={{ borderRight: "0px" }} >
                                   <div className="d-flex flex-column justify-content-between h-100  w-100">
-                                    <div className="end_pcl_new end_p_pcl_new">{formatAmount((e?.UnitCost / (result?.header?.CurrencyExchRate)))}</div>
-                                    <div className="bg_pcl br_top_pcl end_pcl_new end_p_pcl_new">{formatAmount((e?.UnitCost / (result?.header?.CurrencyExchRate)))}</div>
+                                    <div className="end_pcl_new end_p_pcl_new">{formatAmount(((e?.UnitCost + e?.DiscountAmt) / (result?.header?.CurrencyExchRate)))}</div>
+                                    <div className="bg_pcl br_top_pcl end_pcl_new end_p_pcl_new">{formatAmount(((e?.UnitCost+e?.DiscountAmt) / (result?.header?.CurrencyExchRate)))}</div>
                                   </div>
                                 </div>
                               </div>

@@ -413,7 +413,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         </div>
       </div>
       {/* heading */}
-      <div className="bgGrey text-uppercase fs-5 fw-bold text-white mb_2 no_break invp_830_fs invp_830_fs_head_label" style={{ padding: "0.7rem" }}>{json0?.PrintHeadLabel}</div>
+      <div className="bgGrey text-uppercase fs-5 fw-bold text-white mb_2 no_break invp_830_fs invp_830_fs_head_label" style={{ padding: "0.7rem" }}>{evn==="sale return"? json0?.E_InvoiceType: json0?.PrintHeadLabel}</div>
       {/* address */}
       <div className="w-100 d-flex justify-content-between no_break" style={{ padding: "6px" }}>
         <div className='col-10 invp_830_fs'>

@@ -583,15 +583,41 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             </div>
           </div>
           <div className="d-flex justify-content-center pb-2">
-            <p className="pe-1">{BillPrint_Json?.Company_VAT_GST_No}</p>
-            <p className="ps-1 pe-1">|</p>
-            <p className="ps-1 pe-1">
-              {BillPrint_Json?.Company_CST_STATE}-
-              {BillPrint_Json?.Company_CST_STATE_No}
-            </p>
+            {BillPrint_Json?.Company_VAT_GST_No && (
+              <p className="pe-1">
+                {BillPrint_Json.Company_VAT_GST_No}
+              </p>
+            )}
 
-            {BillPrint_Json?.Com_pannumber !== "" && <p className="pe-1 ps-1"> | </p>}
-            {BillPrint_Json?.Com_pannumber !== "" && <p className="ps-1">PAN-{BillPrint_Json?.Com_pannumber}</p>}
+            {BillPrint_Json?.Company_VAT_GST_No &&
+              (BillPrint_Json?.Company_CST_STATE ||
+                BillPrint_Json?.Company_CST_STATE_No) && (
+                <p className="ps-1 pe-1">|</p>
+              )}
+
+            {( 
+              BillPrint_Json?.Company_CST_STATE_No) && (
+                <p className="ps-1 pe-1">
+                  {BillPrint_Json?.Company_CST_STATE}
+                  {BillPrint_Json?.Company_CST_STATE &&
+                    BillPrint_Json?.Company_CST_STATE_No &&
+                    "-"}
+                  {BillPrint_Json?.Company_CST_STATE_No}
+                </p>
+              )}
+
+            {BillPrint_Json?.Company_CST_STATE_No &&
+              (BillPrint_Json?.Company_VAT_GST_No ||
+                BillPrint_Json?.Company_CST_STATE ||
+                BillPrint_Json?.Company_CST_STATE_No) && (
+                <p className="pe-1 ps-1">|</p>
+              )}
+
+            {BillPrint_Json?.Com_pannumber && (
+              <p className="ps-1">
+                PAN-{BillPrint_Json.Com_pannumber}
+              </p>
+            )}
           </div>
           <div className="taxinvoice1Head fw-bold text-center mb-1" style={{ fontSize: "20px", minHeight: "33px" }}>
             {BillPrint_Json?.PrintHeadLabel}

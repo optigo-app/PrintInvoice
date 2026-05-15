@@ -32,6 +32,7 @@ const JewelleryTaxInvoiceSale = ({
   const [tax, settax] = useState([]);
   const [summary, setSummary] = useState([]);
   const [imgFlag, setImgFlag] = useState(false);
+  const [pandingflag, setPandingflag] = useState(false);
   const [showBoxNo, setShowBoxNo] = useState(false);
   const [isImageWorking, setIsImageWorking] = useState(true);
   const handleImageErrors = () => {
@@ -193,7 +194,7 @@ const JewelleryTaxInvoiceSale = ({
       resultArr.push(obj);
     });
     metalArr.push({ label: "Diamond Wt", value: diamondWt, gm: false });
-    metalArr.push({ label: "Lab Grown Wt", value: labGrownWt, gm: false });
+    metalArr.push({ label: "Lab Grown Dia. Wt", value: labGrownWt, gm: false });
     metalArr.push({ label: "Stone Wt", value: colorStoneWt, gm: false });
     metalArr.push({ label: "Gross Wt", value: grossWt, gm: true });
     let miscQunWt = 0;
@@ -323,6 +324,13 @@ const JewelleryTaxInvoiceSale = ({
     }
   };
 
+  const handlePandingflag = (e) => {
+    if (pandingflag) setPandingflag(false);
+    else {
+      setPandingflag(true);
+    }
+  };
+
   const handleShowBoxNo = (e) => {
     if (showBoxNo) setShowBoxNo(false);
     else {
@@ -363,6 +371,13 @@ const JewelleryTaxInvoiceSale = ({
 
   // console.log("data", data);
 
+  const filteredData =
+  atob(evn) === "memo"
+    ? pandingflag
+      ? data?.filter((item) => item?.IsEdit == 1)
+      : data
+    : data;
+
   return loader ? (
     <Loader />
   ) : msg === "" ? (
@@ -402,6 +417,25 @@ const JewelleryTaxInvoiceSale = ({
                 Header
               </label>
             </div>
+
+
+            {atob(evn) === "memo" &&(
+                
+            <div className="px-2">
+            <input
+              type="checkbox"
+              onChange={handlePandingflag}
+              value={pandingflag}
+              checked={pandingflag}
+              id="pandingflag"
+            />
+            <label htmlFor="pandingflag" className="user-select-none mx-1">
+            pending   
+            </label>
+          </div>
+            )}
+
+
 
             <div className="form-check ps-3 ">
               <input
@@ -740,8 +774,8 @@ const JewelleryTaxInvoiceSale = ({
           </div>
 
           {/* table data */}
-          {data?.length > 0 &&
-            data?.map((e, i) => {
+          {filteredData?.length > 0 &&
+            filteredData?.map((e, i) => {
               // {console.log("data", data)}
 
               console.log("TCL: e?.materials", e)
@@ -1030,7 +1064,7 @@ const JewelleryTaxInvoiceSale = ({
                       ) : (
                         <div
                           className="d-flex"
-                          style={{ width: "70%" }}
+                          style={{ width: "80%" ,justifyContent:"space-between"}}
                           key={i}
                         >
                           <p key={i} className="remark_fs fs_jti_Sale" style={{ minWidth: '60%' }}>

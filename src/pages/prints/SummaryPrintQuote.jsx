@@ -667,6 +667,8 @@ const SummaryPrintQuote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                     >
                       <b>{result?.header?.customerfirmname}</b> 
 
+                      
+
                       {result?.header?.customerAddress2 &&
                         `, ${result.header.customerAddress2}`}
                         <br />
@@ -685,6 +687,9 @@ const SummaryPrintQuote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                       {result?.header?.vat_cst_pan}
                       {result?.header?.Cust_CST_STATE}-
                       {result?.header?.Cust_CST_STATE_No}
+                    </div>
+                    <div  className="px-1">
+                    {result?.header?.customermobileno && `phone:- ${result.header.customermobileno}`}
                     </div>
                     </div>
                   </div>
@@ -836,9 +841,9 @@ const SummaryPrintQuote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                         Charges
                       </div>
                     </div> */}
-                    <div className="col7dp10_pcl7 border-end border-black">
+                    <div className="col7dp10_pcl7 border-end border-black" style={{width:"8%"}}>
                       <div className="h-50 centerdp10_pcl7 fw-bold w-100 bb_dp10_pcl7">
-                        Labour & Other Charges
+                        Other
                       </div>
                       <div className="d-flex justify-content-between align-items-center h-50   w-100">
                         {/* <div className="w-50 h-100 centerdp10_pcl7 bright_dp10_pcl7">
@@ -846,19 +851,31 @@ const SummaryPrintQuote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                         </div> */}
                         <div
                           className=" h-100 centerdp10_pcl7  bright_dp10_pcl7"
-                          style={{ width: "33.33%" }}
+                          style={{ width: "100%" }}
                         >
-                          Charges
+                          Amount
                         </div>
+                         
+                      </div>
+                    </div>
+                    <div className="col7dp10_pcl7 border-end border-black">
+                      <div className="h-50 centerdp10_pcl7 fw-bold w-100 bb_dp10_pcl7">
+                        Labour 
+                      </div>
+                      <div className="d-flex justify-content-between align-items-center h-50   w-100">
+                        {/* <div className="w-50 h-100 centerdp10_pcl7 bright_dp10_pcl7">
+                          Rate
+                        </div> */}
+                        
                         <div
                           className=" h-100 centerdp10_pcl7  bright_dp10_pcl7"
-                          style={{ width: "33.33%" }}
+                          style={{ width: "50%" }}
                         >
                           Rate
                         </div>
                         <div
                           className=" h-100 centerdp10_pcl7 "
-                          style={{ width: "33.33%" }}
+                          style={{ width: "50%" }}
                         >
                           Amount
                         </div>
@@ -999,7 +1016,7 @@ const SummaryPrintQuote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                                 )}
 
                                 <div className="" style={{display:"flex",justifyContent:"center",alignItems:"center",gap:"5px", marginTop: imgFlag ? "0":"10px"}}>
-                                  <b>10.800 gm</b> Gross
+                                  <b>{e?.grosswt.toFixed(3)} gm</b> Gross
                                 </div>
                                 </div>
                              
@@ -1301,13 +1318,17 @@ const SummaryPrintQuote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                                 );
                               })}
                             </div>
-                            {/* <div className="tbcol6dp10_pcl7 end_dp10_pcl7 p-1 pr_dp10_pcl7">
-                            {formatAmount(
+
+                            <div className="tbcol7dp10_pcl7 border-end border-black" style={{width:"8%"}}>
+                              <div  className="d-flex justify-content-end flex-column pad_top_pcl7" style={{ textAlign:'right'}}>
+                              {formatAmount(
                               e?.OtherCharges +
                                 e?.MiscAmount +
                                 e?.TotalDiamondHandling
                             )}
-                          </div> */}
+                              </div>
+                            </div>
+                            
                             <div className="tbcol7dp10_pcl7 border-end border-black">
                               <div className="d-flex flex-column pad_top_pcl7">
                                 {/* <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
@@ -1316,152 +1337,55 @@ const SummaryPrintQuote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
 
                                 {e?.MakingAmount !== 0 && (
                                   <div className="d-flex align-items-center w-100 fsgdp10_pcl7">
+                                    
                                     <div
-                                      style={{ width: "33.33%" }}
-                                      className=" text-start fsgdp10_pcl7"
-                                    >
-                                      Labour
-                                    </div>
-                                    <div
-                                      style={{ width: "33.33%" }}
+                                      style={{ width: "50%" }}
                                       className="pr_dp10_pcl7 text-end fsgdp10_pcl7"
                                     >
-                                      {formatAmount(e?.MaKingCharge_Unit, 0)}
+                                      {formatAmount(e?.MaKingCharge_Unit, 2)}
                                     </div>
                                     <div
-                                      style={{ width: "33.33%" }}
+                                      style={{ width: "50%" }}
                                       className="pr_dp10_pcl7 text-end fsgdp10_pcl7"
                                     >
                                       {formatAmount(
                                         e?.MakingAmount /
                                           result?.header?.CurrencyExchRate,
-                                        0
+                                        2
                                       )}
                                     </div>
                                   </div>
                                 )}
-                                {e?.stone_misc
-                                    .filter(el => el?.ShapeName === "Hallmark")
-                                    .map((el, ics) => (
-                                    <div className="d-flex pad_top_pcl7" key={ics}>
-                                      <div style={{ width: "33.33%" }} className=" text-start fsgdp10_pcl7">
-                                        {el?.ShapeName}
-                                      </div>
-                                      <div style={{ width: "33.33%" }} className="pr_dp10_pcl7 text-end"></div>
-                                      <div style={{ width: "33.33%" }} className="pr_dp10_pcl7 text-end fsgdp10_pcl7">
-                                        {( el?.Amount )?.toFixed(0)}
-                                      </div>
-                                    </div>
-                                ))}
+                                
                                 {e?.totals?.finding?.SettingAmount !== 0 && (
                                   <div className="d-flex align-items-center w-100 fsgdp10_pcl7">
+                                     
                                     <div
-                                      style={{ width: "33.33%" }}
-                                      className=" text-start fsgdp10_pcl7"
-                                    >
-                                      Labour
-                                    </div>
-                                    <div
-                                      style={{ width: "33.33%" }}
+                                      style={{ width: "50%" }}
                                       className="pr_dp10_pcl7 text-end fsgdp10_pcl7"
                                     >
                                       {formatAmount(
                                         e?.totals?.finding?.SettingRate,
-                                        0
+                                        2
                                       )}
                                     </div>
                                     <div
-                                      style={{ width: "33.33%" }}
+                                      style={{ width: "50%" }}
                                       className="pr_dp10_pcl7 text-end fsgdp10_pcl7"
                                     >
                                       {formatAmount(
                                         e?.totals?.finding?.SettingAmount /
                                           result?.header?.CurrencyExchRate,
-                                        0
+                                        2
                                       )}
                                     </div>
                                   </div>
                                 )}
-                                {e?.other_details?.map((el, ind) => {
-                                  return (
-                                    <div
-                                      className="d-flex align-items-center w-100 fsgdp10_pcl7"
-                                      key={ind}
-                                    >
-                                      <div
-                                        style={{ width: "58%" }}
-                                        className=" text-start text-break fsgdp10_pcl7 spbrWord"
-                                      >
-                                        {el?.label}
-                                      </div>
-                                      <div
-                                        style={{ width: "5%" }}
-                                        className="pr_dp10_pcl7 text-end"
-                                      ></div>
-                                      <div
-                                        style={{ width: "38.33%" }}
-                                        className="pr_dp10_pcl7 text-end fsgdp10_pcl7"
-                                      >
-                                        {formatAmount(el?.amtval, 0)}
-                                      </div>
-                                    </div>
-                                  );
-                                })}
-                                {e?.totals?.diamonds?.SettingAmount +
-                                  e?.totals?.colorstone?.SettingAmount !==
-                                  0 && (
-                                  <div className="d-flex align-items-center w-100 fsgdp10_pcl7">
-                                    <div className="w-50 text-start fsgdp10_pcl7">
-                                      Setting
-                                    </div>
-                                    <div className="w-50 pr_dp10_pcl7 text-end fsgdp10_pcl7">
-                                      {formatAmount(
-                                        (e?.totals?.diamonds?.SettingAmount +
-                                          e?.totals?.colorstone
-                                            ?.SettingAmount) /
-                                          result?.header?.CurrencyExchRate,
-                                        0
-                                      )}
-                                    </div>
-                                  </div>
-                                )}
-                                {e?.TotalDiamondHandling !== 0 && (
-                                  <div className="d-flex align-items-center w-100 fsgdp10_pcl7">
-                                    <div className="w-50  text-start fsgdp10_pcl7">
-                                      Handling
-                                    </div>
-                                    <div className="w-50 pr_dp10_pcl7 text-end fsgdp10_pcl7">
-                                      {formatAmount(
-                                        e?.TotalDiamondHandling /
-                                          result?.header?.CurrencyExchRate,
-                                        0
-                                      )}
-                                    </div>
-                                  </div>
-                                )}
+                                
+                             
+                                
 
-                                {e?.miscList_IsHSCODE123?.map((e) => {
-                                  return (
-                                    <div className="d-flex align-items-center w-100 fsgdp10_pcl7">
-                                      {e?.Amount !== 0 && (
-                                        <div className="text-start fsgdp10_pcl7" style={{ width: "65%" }}>
-                                          {e?.IsHSCOE === 3 && e?.ShapeName}
-                                        </div>
-                                      )}
-                                      {e?.Amount !== 0 && (
-                                        <div className="pr_dp10_pcl7 text-end fsgdp10_pcl7" style={{ width: "35%" }}>
-                                          {e?.IsHSCOE === 3 &&
-                                            formatAmount(
-                                              e?.Amount /
-                                                result?.header
-                                                  ?.CurrencyExchRate,
-                                              0
-                                            )}
-                                        </div>
-                                      )}
-                                    </div>
-                                  );
-                                })}
+                              
 
                                 {/* <div className="w-100 end_dp10_pcl7  pr_dp10_pcl7">
                                 {formatAmount( ((e?.MakingAmount + e?.totals?.finding?.SettingAmount + e?.TotalDiaSetcost + e?.TotalCsSetcost) / result?.header?.CurrencyExchRate) )}
@@ -1616,6 +1540,30 @@ const SummaryPrintQuote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                             {/* <div className="col6dp10_pcl7 end_dp10_pcl7  d-flex align-items-center brR_dp10_pcl7 pr_dp10_pcl7" style={{width:'5%', paddingRight:'1px'}}>
                       {formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}
                     </div> */}
+                     <div
+                              className="col7dp10_pcl7 end_dp10_pcl7  d-flex align-items-center  pr_dp10_pcl7  bt_dp10_pcl7"
+                              style={{
+                                backgroundColor: "#F5F5F5",
+                                borderRight: "1px solid black",
+                                width:"8%"
+                              }}
+                            >
+                              {/* {formatAmount( result?.mainTotal?.total_labour?.labour_amount + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.total_TotalCsSetcost )} */}
+                              
+                             
+                              <div>
+                             
+                             {formatAmount(
+                               (  e?.totals?.misc?.isHSCODE123_amt +
+                                 e?.OtherCharges +
+                                 e?.TotalDiamondHandling +
+                                 e?.TotalCsSetcost +
+                                 e?.TotalDiaSetcost ) /
+                                 result?.header?.CurrencyExchRate,
+                               2
+                             )}
+                           </div>
+                            </div>
                             <div
                               className="col7dp10_pcl7 end_dp10_pcl7  d-flex align-items-center  pr_dp10_pcl7  bt_dp10_pcl7"
                               style={{
@@ -1624,18 +1572,16 @@ const SummaryPrintQuote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                               }}
                             >
                               {/* {formatAmount( result?.mainTotal?.total_labour?.labour_amount + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.total_TotalCsSetcost )} */}
+                              
+                             
                               <div>
-                             { console.log("TCL:e?.totals?.finding ", e?.totals?.finding)}
+                            
                                 {formatAmount(
                                   (e?.MakingAmount +
-                                    e?.totals?.misc?.isHSCODE123_amt +
-                                    e?.OtherCharges +
-                                    e?.TotalDiamondHandling +
-                                    e?.TotalCsSetcost +
-                                    e?.TotalDiaSetcost +
+                                    
                                     e?.totals?.finding?.SettingAmount) /
                                     result?.header?.CurrencyExchRate,
-                                  0
+                                  2
                                 )}
                               </div>
                             </div>
@@ -1748,17 +1694,25 @@ const SummaryPrintQuote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                       {/* <div className="col6dp10_pcl7 end_dp10_pcl7  d-flex align-items-center brR_dp10_pcl7 pr_dp10_pcl7" style={{width:'5%', paddingRight:'1px'}}>
                         {formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}
                       </div> */}
-                      <div className="col7dp10_pcl7 end_dp10_pcl7  d-flex align-items-center  pr_dp10_pcl7  border-end-0">
+                       <div className="col7dp10_pcl7 end_dp10_pcl7  d-flex align-items-center  pr_dp10_pcl7  " style={{width:"8%",borderRight:"1px solid black"}}>
                         {formatAmount(
-                          (result?.mainTotal?.total_Making_Amount +
-                            result?.mainTotal?.total_diamondHandling +
+                          ( result?.mainTotal?.total_diamondHandling +
                             result?.mainTotal?.misc?.isHSCODE123_amt +
                             result?.mainTotal?.total_TotalDiaSetcost +
                             result?.mainTotal?.total_TotalCsSetcost +
-                            result?.mainTotal?.finding?.SettingAmount +
-                            result?.mainTotal?.total_other_charges) /
+                            result?.mainTotal?.total_other_charges+
+                            result?.mainTotal?.finding?.SettingAmount) /
                             result?.header?.CurrencyExchRate,
-                          0
+                          2
+                        )}
+                      </div>
+                      <div className="col7dp10_pcl7 end_dp10_pcl7  d-flex align-items-center  pr_dp10_pcl7  border-end-0">
+                        {formatAmount(
+                          (result?.mainTotal?.total_Making_Amount 
+                            
+                           ) /
+                            result?.header?.CurrencyExchRate,
+                          2
                         )}
                       </div>
                       <div className="col8dp10_pcl7 end_dp10_pcl7  d-flex align-items-center pr_dp10_pcl7 border-start border-black">

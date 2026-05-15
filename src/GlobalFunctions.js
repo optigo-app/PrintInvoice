@@ -47,7 +47,6 @@ export const CapitalizeWords = (text) => {
 
 //global function of api calling
 export const apiCall = async (token, invoiceNo, printName, urls, evn, ApiVer) => {
-
   const body = {
     token: token,
     invoiceno: invoiceNo,
@@ -55,25 +54,7 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn, ApiVer) =>
     Eventname: evn,
     ApiVer: ApiVer
   };
-
-  // const header = {
-  //   "Authorization": "Bearer 40815062023094801060"
-  // }
-  // const bodies = {
-  //   "con": "{\"id\":\"\",\"mode\":\"store_init\"}",
-  //   "p": "",
-  //   "f": "formname (init)"
-  // }
-
-  // const headers = {
-  //   "Authorization": "Bearer optigo_json_api",
-  //   "domain": "zen",
-  //   // "Content-Type": "application/json",
-  //   "version": "v4",
-  //   "YearCode": "",
-  // };
   try {
-    // const responses = await axios.post("http://zen/api/", bodies, {headers: headers});
     const response = await axios.post(urls, body);
     return response?.data;
   } catch (error) {

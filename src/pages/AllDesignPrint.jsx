@@ -77,9 +77,9 @@ const AllDesignPrint = () => {
         conditions = module.excelConditions;
         break;
       case "print":
-        console.log("TCL: takePrint -> ", module )
+        console.log("TCL: takePrint -> conditions", evnname)
         conditions = checkEvName(etpType, evnname, module);
-    
+         
         break;
       case "alteration":
         conditions = module.alterationConditions;
@@ -178,6 +178,8 @@ const AllDesignPrint = () => {
       'jewellerybook': module?.Jewellery_Book|| [],
       'salesjobs': module?.salesjobs || [],
       'material purchase': module?.MaterialPurchase || [], 
+      'customer receive': module?.Customer_Receive || [], 
+      'material sale return': module?.MaterialSaleReturn || [], 
     };
   
     return eventMappings[evnname] || [];

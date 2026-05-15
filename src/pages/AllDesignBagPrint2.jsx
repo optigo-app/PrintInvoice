@@ -11,6 +11,7 @@ const AllDesignBagPrint2 = () => {
   const queryParams = queryString?.parse(location.search);
   const printName = queryParams?.printname?.toLowerCase();
   
+  console.log("TCL: printName", printName)
  
   const queries = {
     YearCode: queryParams.YearCode,
@@ -34,8 +35,11 @@ const AllDesignBagPrint2 = () => {
   };
   const ImportComponent = async (name) => {
     try {
+
+      
       const module = await import(`./bagPrints/${name}`);
       const AnotherComponent = module?.default;
+  
       return <AnotherComponent queries={queries} headers={headers} />;
     } catch (error) {
       console.log(error);
@@ -45,10 +49,13 @@ const AllDesignBagPrint2 = () => {
   const takeBagPrints = async () => {
     let module = await import("../GlobalFunctions/BagPrintImport");
     let conditions = module?.bagPrintConditions;
+       
+      
     let findBagPrint = conditions?.find((e) => e?.printName === printName);
-   
+    
     if (findBagPrint) {
       const component = await ImportComponent(findBagPrint?.componentName);
+    
       setImportedComponent(component);
     }
   };

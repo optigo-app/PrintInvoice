@@ -137,7 +137,7 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </div>
                                 </div>
                                 {/* company details */}
-                                <div className={`text-center ${style?.font_12}`}>
+                                <div className={`text-center ${style?.font_12}`} style={{display:"flex",flexDirection:"column", alignItems: "center"}}>
                                     {/* <img src={headerData?.PrintLogo} alt="" className='imgWidth' style={{ maxWidth: "115px" }} /> */}
                                     {isImageWorking && (headerData?.PrintLogo !== "" &&
                                         <img src={headerData?.PrintLogo} alt=""

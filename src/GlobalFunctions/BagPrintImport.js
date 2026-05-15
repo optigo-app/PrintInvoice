@@ -33,5 +33,8 @@ export const bagPrintConditions = [
   { printName: "searchmaterial", componentName: "SearchMaterial" },
   { printName: "multipartbagprint", componentName: "MultiPart" },
   { printName: "diamond_stock", componentName: "DiamondStock" },
+  { printName: "wipprint", componentName: "WIPReport" },
+  { printName: "stockbook", componentName: "Stockbook" },
+  { printName: "usersalesreport", componentName: "UserSalesReport" },
  
 ];
