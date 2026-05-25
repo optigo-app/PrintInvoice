@@ -1,0 +1,811 @@
+
+import "../../assets/css/prints/NewInvoicePrint.css";
+import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import {
+    apiCall,
+    checkMsg,
+    fixedValues,
+    formatAmount,
+    handleImageError,
+    handlePrint,
+    isObjectEmpty,
+    NumberWithCommas,
+} from "../../GlobalFunctions";
+import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
+ 
+import Loader from "../../components/Loader";
+import { cloneDeep } from "lodash";
+import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
+
+export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn, ApiVer }) {
+    const [result, setResult] = useState(null);
+    const [msg, setMsg] = useState("");
+    const [loader, setLoader] = useState(true);
+    const [diamondWise, setDiamondWise] = useState([]);
+
+    const evname = atob(evn);
+    const [MetShpWise, setMetShpWise] = useState([]);
+    const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
+    const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
+    const [diamondDetails, setDiamondDetails] = useState([]);
+
+
+    useEffect(() => {
+        const sendData = async () => {
+            try {
+                const data = await apiCall(
+                    token,
+                    invoiceNo,
+                    printName,
+                    urls,
+                    evn,
+                    ApiVer
+                );
+
+                if (data?.Status === "200") {
+                    let isEmpty = isObjectEmpty(data?.Data);
+                    if (!isEmpty) {
+
+
+                        loadData(data?.Data);
+                        setLoader(false);
+                    } else {
+                        setLoader(false);
+                        setMsg("Data Not Found");
+                    }
+                } else {
+                    setLoader(false);
+                    // setMsg(data?.Message);
+                    const err = checkMsg(data?.Message);
+                    console.log(data?.Message);
+                    setMsg(err);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        sendData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    function loadData(data) {
+        // console.log("data", data);
+
+        let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
+        data.BillPrint_Json[0].address = address;
+
+        const datas = OrganizeDataPrint(
+            data?.BillPrint_Json[0],
+            data?.BillPrint_Json1,
+            data?.BillPrint_Json2
+        );
+
+        console.log("TCL: sendData -> datas", datas)
+
+        let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
+
+        setMetShpWise(met_shp_arr);
+        let tot_met = 0;
+        let tot_met_wt = 0;
+        met_shp_arr?.forEach((e) => {
+            tot_met += e?.Amount;
+            tot_met_wt += e?.metalfinewt;
+        });
+        setNotGoldMetalTotal(tot_met);
+        setNotGoldMetalWtTotal(tot_met_wt);
+
+        //grouping of jobs and isGroupJob is 1
+
+        let finalArr = [];
+        datas?.resultArray?.forEach((a) => {
+            if (a?.GroupJob === "") {
+                finalArr.push(a);
+            } else {
+                let b = cloneDeep(a);
+                let find_record = finalArr.findIndex(
+                    (el) => el?.GroupJob === b?.GroupJob
+                );
+                if (find_record === -1) {
+                    finalArr.push(b);
+                } else {
+                    if (
+                        finalArr[find_record]?.GroupJob !== finalArr[find_record]?.SrJobno
+                    ) {
+                        finalArr[find_record].designno = b?.designno;
+                        finalArr[find_record].HUID = b?.HUID;
+                        finalArr[find_record].DesignImage = b?.DesignImage; // CQ Solving PSJewels 16/01/26
+                    }
+
+                    // if (!finalArr[find_record].DesignImage && b?.DesignImage) {
+                    //   finalArr[find_record].DesignImage = b?.DesignImage;
+                    // }
+
+                    finalArr[find_record].grosswt += b?.grosswt;
+                    finalArr[find_record].NetWt += b?.NetWt;
+                    finalArr[find_record].LossWt += b?.LossWt;
+                    finalArr[find_record].TotalAmount += b?.TotalAmount;
+                    finalArr[find_record].DiscountAmt += b?.DiscountAmt;
+                    finalArr[find_record].UnitCost += b?.UnitCost;
+                    finalArr[find_record].MakingAmount += b?.MakingAmount;
+                    finalArr[find_record].OtherCharges += b?.OtherCharges;
+                    finalArr[find_record].TotalDiamondHandling += b?.TotalDiamondHandling;
+                    finalArr[find_record].Quantity += b?.Quantity;
+                    finalArr[find_record].Wastage += b?.Wastage;
+                    finalArr[find_record].totals.metal.IsPrimaryMetal += b?.totals?.metal?.IsPrimaryMetal;
+                    finalArr[find_record].totals.metal.Wt += b?.totals?.metal?.Wt;
+                    finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
+                    // finalArr[find_record].diamonds_d = [...finalArr[find_record]?.diamonds ,...b?.diamonds]?.flat();
+                    finalArr[find_record].diamonds = [
+                        ...finalArr[find_record]?.diamonds,
+                        ...b?.diamonds,
+                    ]?.flat();
+                    // finalArr[find_record].colorstone_d = [...finalArr[find_record]?.colorstone ,...b?.colorstone]?.flat();
+                    finalArr[find_record].colorstone = [
+                        ...finalArr[find_record]?.colorstone,
+                        ...b?.colorstone,
+                    ]?.flat();
+                    // finalArr[find_record].metal_d = [...finalArr[find_record]?.metal ,...b?.metal]?.flat();
+
+                    // CQ Was Solved 09/10/2025
+                    // finalArr[find_record].metal = [
+                    //   ...(finalArr[find_record]?.metal || []),
+                    //   ...(b?.metal || [])
+                    // ].flat();
+                    if (!finalArr[find_record].metal) {
+                        finalArr[find_record].metal = [];
+                    }
+                    if (Array.isArray(b?.metal)) {
+                        finalArr[find_record].metal.push(...cloneDeep(b.metal));
+                    }
+                    // console.log("finalArr[find_record]?.metal", finalArr[find_record]?.metal);
+                    // CQ Was Solved 09/10/2025
+
+                    finalArr[find_record].misc = [
+                        ...finalArr[find_record]?.misc,
+                        ...b?.misc,
+                    ]?.flat();
+                    finalArr[find_record].finding = [
+                        ...finalArr[find_record]?.finding,
+                        ...b?.finding,
+                    ]?.flat();
+
+                    finalArr[find_record].totals.finding.Wt += b?.totals?.finding?.Wt;
+                    finalArr[find_record].totals.finding.Pcs += b?.totals?.finding?.Pcs;
+                    finalArr[find_record].totals.finding.Amount +=
+                        b?.totals?.finding?.Amount;
+                    finalArr[find_record].totals.diamonds.Pcs += b?.totals?.diamonds?.Pcs;
+                    finalArr[find_record].totals.diamonds.Amount +=
+                        b?.totals?.diamonds?.Amount;
+
+                    finalArr[find_record].totals.colorstone.Wt +=
+                        b?.totals?.colorstone?.Wt;
+                    finalArr[find_record].totals.colorstone.Pcs +=
+                        b?.totals?.colorstone?.Pcs;
+                    finalArr[find_record].totals.colorstone.Amount +=
+                        b?.totals?.colorstone?.Amount;
+
+                    finalArr[find_record].totals.misc.Wt += b?.totals?.misc?.Wt;
+                    finalArr[find_record].totals.misc.allservwt +=
+                        b?.totals?.misc?.allservwt;
+                    finalArr[find_record].totals.misc.Pcs += b?.totals?.misc?.Pcs;
+                    finalArr[find_record].totals.misc.Amount += b?.totals?.misc?.Amount;
+
+                    finalArr[find_record].totals.metal.Amount += b?.totals?.metal?.Amount;
+                    finalArr[find_record].totals.metal.IsPrimaryMetal +=
+                        b?.totals?.metal?.IsPrimaryMetal;
+                    finalArr[find_record].totals.metal.IsPrimaryMetal_Amount +=
+                        b?.totals?.metal?.IsPrimaryMetal_Amount;
+
+                    finalArr[find_record].totals.misc.withouthscode1_2_pcs +=
+                        b?.totals?.misc?.withouthscode1_2_pcs;
+                    finalArr[find_record].totals.misc.withouthscode1_2_wt +=
+                        b?.totals?.misc?.withouthscode1_2_wt;
+                    finalArr[find_record].totals.misc.onlyHSCODE3_amt +=
+                        b?.totals?.misc?.onlyHSCODE3_amt;
+                    finalArr[find_record].totals.misc.onlyIsHSCODE0_Wt +=
+                        b?.totals?.misc?.onlyIsHSCODE0_Wt;
+                    finalArr[find_record].totals.misc.onlyIsHSCODE0_Pcs +=
+                        b?.totals?.misc?.onlyIsHSCODE0_Pcs;
+                    finalArr[find_record].totals.misc.onlyIsHSCODE0_Amount +=
+                        b?.totals?.misc?.onlyIsHSCODE0_Amount;
+                }
+            }
+        });
+
+        // CQ Was Solving 09/10/2025
+        // finalArr.forEach((item, idx) => {
+        //   console.log(`Record ${idx} GroupJob: ${item.GroupJob} has metal count:`, item.metal?.length);
+        // });
+        // console.log("Final finalArr stringified:\n", JSON.stringify(finalArr, null, 2));
+        // CQ Was Solving 09/10/2025
+
+        datas.resultArray = finalArr;
+
+        //after groupjob
+        datas?.resultArray?.forEach((e) => {
+            let dia2 = [];
+            e?.diamonds?.forEach((el) => {
+                // let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.GroupName === el?.GroupName)
+                let findrec = dia2?.findIndex(
+                    (a) =>
+                        a?.ShapeName === el?.ShapeName &&
+                        a?.QualityName === el?.QualityName &&
+                        a?.Colorname === el?.Colorname &&
+                        a?.SizeName === el?.SizeName &&
+                        a?.Rate === el?.Rate
+                );
+                let ell = cloneDeep(el);
+                if (findrec === -1) {
+                    dia2.push(ell);
+                } else {
+                    dia2[findrec].Wt += ell?.Wt;
+                    dia2[findrec].Pcs += ell?.Pcs;
+                    dia2[findrec].Amount += ell?.Amount;
+                    // dia2[findrec].Rate += ell?.Rate; // CQ Fixed 22/11/2025
+                    // if(dia2[findrec]?.SizeName !== ell?.SizeName){
+                    //   // dia2[findrec].SizeName = 'Mix'
+                    //   dia2[findrec].SizeName = ell?.GroupName;
+                    // }
+                }
+            });
+            e.diamonds = dia2;
+
+            //diamond
+            let clr2 = [];
+
+            e?.colorstone?.forEach((el) => {
+                // let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.GroupName === el?.GroupName)
+                let findrec = clr2?.findIndex(
+                    (a) =>
+                        a?.ShapeName === el?.ShapeName &&
+                        a?.QualityName === el?.QualityName &&
+                        a?.Colorname === el?.Colorname &&
+                        a?.SizeName === el?.SizeName &&
+                        a?.Rate === el?.Rate &&
+                        a?.isRateOnPcs === el?.isRateOnPcs
+                );
+                let ell = cloneDeep(el);
+                if (findrec === -1) {
+                    clr2.push(ell);
+                } else {
+                    clr2[findrec].Wt += ell?.Wt;
+                    clr2[findrec].Pcs += ell?.Pcs;
+                    clr2[findrec].Amount += ell?.Amount;
+                    clr2[findrec].Rate += ell?.Rate;
+                    // if(dia2[findrec]?.SizeName !== ell?.SizeName){
+                    //   // dia2[findrec].SizeName = 'Mix'
+                    //   dia2[findrec].SizeName = ell?.GroupName;
+                    // }
+                }
+            });
+            e.colorstone = clr2;
+
+            //misc
+            let misc0 = [];
+            e?.misc?.forEach((el) => {
+                if (el?.IsHSCOE === 0) {
+                    misc0?.push(el);
+                }
+            });
+
+            e.misc = misc0;
+
+            if (e?.GroupJob !== "") {
+                e.metal = e.metal?.map((a) => ({
+                    ...a,
+                    GroupJob: e.GroupJob,
+                }));
+            }
+            // CQ Was Solved 09/10/2025
+
+        });
+
+        let diaObj = {
+            ShapeName: "OTHERS",
+            wtWt: 0,
+            wtWts: 0,
+            pcPcs: 0,
+            pcPcss: 0,
+            rRate: 0,
+            rRates: 0,
+            amtAmount: 0,
+            amtAmounts: 0,
+        };
+
+        let diaonlyrndarr1 = [];
+        let diaonlyrndarr2 = [];
+        let diaonlyrndarr3 = [];
+        let diaonlyrndarr4 = [];
+        let diarndotherarr5 = [];
+        let diaonlyrndarr6 = [];
+        datas?.json2?.forEach((e) => {
+            if (e?.MasterManagement_DiamondStoneTypeid === 1) {
+                if (e.ShapeName?.toLowerCase() === "rnd") {
+                    diaonlyrndarr1.push(e);
+                } else {
+                    diaonlyrndarr2.push(e);
+                }
+            }
+        });
+
+        diaonlyrndarr1?.forEach((e) => {
+            let findRecord = diaonlyrndarr3.findIndex(
+                (a) =>
+                    e?.StockBarcode === a?.StockBarcode &&
+                    e?.ShapeName === a?.ShapeName &&
+                    e?.QualityName === a?.QualityName &&
+                    e?.Colorname === a?.Colorname
+            );
+
+            if (findRecord === -1) {
+                let obj = { ...e };
+                obj.wtWt = e?.Wt;
+                obj.pcPcs = e?.Pcs;
+                obj.rRate = e?.Rate;
+                obj.amtAmount = e?.Amount;
+                diaonlyrndarr3.push(obj);
+            } else {
+                diaonlyrndarr3[findRecord].wtWt += e?.Wt;
+                diaonlyrndarr3[findRecord].pcPcs += e?.Pcs;
+                diaonlyrndarr3[findRecord].rRate += e?.Rate;
+                diaonlyrndarr3[findRecord].amtAmount += e?.Amount;
+            }
+        });
+
+        diaonlyrndarr2?.forEach((e) => {
+            let findRecord = diaonlyrndarr4.findIndex(
+                (a) =>
+                    e?.StockBarcode === a?.StockBarcode &&
+                    e?.ShapeName === a?.ShapeName &&
+                    e?.QualityName === a?.QualityName &&
+                    e?.Colorname === a?.Colorname
+            );
+
+            if (findRecord === -1) {
+                let obj = { ...e };
+                obj.wtWt = e?.Wt;
+                obj.wtWts = e?.Wt;
+                obj.pcPcs = e?.Pcs;
+                obj.pcPcss = e?.Pcs;
+                obj.rRate = e?.Rate;
+                obj.rRates = e?.Rate;
+                obj.amtAmount = e?.Amount;
+                obj.amtAmounts = e?.Amount;
+                diaonlyrndarr4.push(obj);
+            } else {
+                diaonlyrndarr4[findRecord].wtWt += e?.Wt;
+                diaonlyrndarr4[findRecord].wtWts += e?.Wt;
+                diaonlyrndarr4[findRecord].pcPcs += e?.Pcs;
+                diaonlyrndarr4[findRecord].pcPcss += e?.Pcs;
+                diaonlyrndarr4[findRecord].rRate += e?.Rate;
+                diaonlyrndarr4[findRecord].rRates += e?.Rate;
+                diaonlyrndarr4[findRecord].amtAmount += e?.Amount;
+                diaonlyrndarr4[findRecord].amtAmounts += e?.Amount;
+            }
+        });
+
+        diaonlyrndarr4?.forEach((e) => {
+            diaObj.wtWt += e?.wtWt;
+            diaObj.wtWts += e?.wtWts;
+            diaObj.pcPcs += e?.pcPcs;
+            diaObj.pcPcss += e?.pcPcss;
+            diaObj.rRate += e?.rRate;
+            diaObj.rRates += e?.rRates;
+            diaObj.amtAmount += e?.amtAmount;
+            diaObj.amtAmounts += e?.amtAmounts;
+        });
+
+        diaonlyrndarr3?.forEach((e) => {
+            let find_record = diaonlyrndarr6?.findIndex(
+                (a) =>
+                    e?.ShapeName === a?.ShapeName &&
+                    e?.QualityName === a?.QualityName &&
+                    e?.Colorname === a?.Colorname
+            );
+            if (find_record === -1) {
+                let obj = { ...e };
+                obj.wtWts = e?.wtWt;
+                obj.pcPcss = e?.pcPcs;
+                obj.rRates = e?.rRate;
+                obj.amtAmounts = e?.amtAmount;
+                diaonlyrndarr6.push(obj);
+            } else {
+                diaonlyrndarr6[find_record].wtWts += e?.wtWt;
+                diaonlyrndarr6[find_record].pcPcss += e?.pcPcs;
+                diaonlyrndarr6[find_record].rRates += e?.rRate;
+                diaonlyrndarr6[find_record].amtAmounts += e?.amtAmount;
+            }
+        });
+
+        let diamondDetail = [];
+        data?.BillPrint_Json2?.forEach((e) => {
+            if (e?.MasterManagement_DiamondStoneTypeid === 1) {
+                let findDiamond = diamondDetail?.findIndex(
+                    (ele) =>
+                        ele?.ShapeName === e?.ShapeName &&
+                        ele?.QualityName === e?.QualityName &&
+                        ele?.Colorname === e?.Colorname
+                );
+                if (findDiamond === -1) {
+                    diamondDetail.push(e);
+                } else {
+                    diamondDetail[findDiamond].Pcs += e?.Pcs;
+                    diamondDetail[findDiamond].Wt += e?.Wt;
+                    diamondDetail[findDiamond].Amount += e?.Amount;
+                }
+            }
+        });
+        let findRND = [];
+        let remaingDia = [];
+        diamondDetail?.forEach((ele) => {
+            if (ele?.ShapeName === "RND") {
+                findRND.push(ele);
+            } else {
+                remaingDia.push(ele);
+            }
+        });
+
+        let resultArr = [];
+        findRND.sort((a, b) => {
+            if (a.ShapeName !== b.ShapeName) {
+                return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
+            } else if (a.QualityName !== b.QualityName) {
+                return a.QualityName.localeCompare(b.QualityName); // If ShapeName is same, sort by QualityName
+            } else {
+                return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
+            }
+        });
+
+        remaingDia.sort((a, b) => {
+            if (a.ShapeName !== b.ShapeName) {
+                return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
+            } else if (a.QualityName !== b.QualityName) {
+                return a.QualityName.localeCompare(b.QualityName); // If ShapeName is same, sort by QualityName
+            } else {
+                return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
+            }
+        });
+        if (findRND?.length > 6) {
+            let arr = findRND.slice(0, 6);
+            let anotherArr = [...findRND.slice(6), remaingDia].flat();
+            let obj = { ...anotherArr[0] };
+            anotherArr?.reduce((acc, cobj) => {
+                obj.Pcs += cobj?.Pcs;
+                obj.Wt += cobj?.Wt;
+                obj.Amount += cobj?.Amount;
+            }, obj);
+            obj.ShapeName = "OTHER";
+            resultArr = [...arr, obj].flat();
+        } else {
+            let arr = [...findRND].flat();
+            let smallArr = [...remaingDia.slice(0, 6 - findRND?.length)].flat();
+            let largeArr = [...remaingDia.slice(6 - findRND?.length)].flat();
+            let finalArr = [...arr, ...smallArr].flat();
+
+            let obj = { ...largeArr[0] };
+            obj.Pcs = 0;
+            obj.Wt = 0;
+            obj.Amount = 0;
+            largeArr?.reduce((acc, cobj) => {
+                obj.Pcs += cobj?.Pcs;
+                obj.Wt += cobj?.Wt;
+                obj.Amount += cobj?.Amount;
+            }, obj);
+            obj.ShapeName = "OTHER";
+            resultArr = [...finalArr, obj].flat();
+        }
+
+        setDiamondDetails(resultArr);
+
+        diarndotherarr5 = [...diaonlyrndarr6, diaObj];
+        const sortedData = diarndotherarr5?.sort(customSort);
+        // setDiamonds(sortedData);
+        setDiamondWise(sortedData);
+
+        setResult(datas);
+    }
+
+    const customSort = (a, b) => {
+        if (a?.ShapeName === "OTHER" && b?.ShapeName !== "OTHER") {
+            return 1; // "OTHER" comes after any other ShapeName
+        } else if (a?.ShapeName !== "OTHER" && b?.ShapeName === "OTHER") {
+            return -1; // Any other ShapeName comes before "OTHER"
+        } else {
+            // If ShapeNames are equal, compare by QualityName
+            if (a?.QualityName < b?.QualityName) {
+                return -1;
+            } else if (a?.QualityName > b?.QualityName) {
+                return 1;
+            } else {
+                // If QualityNames are equal, compare by Colorname
+                return a?.Colorname?.localeCompare(b?.Colorname);
+            }
+        }
+    };
+
+
+    const totalQty = (result?.resultArray || []).reduce(
+        (sum, item) => sum + (Number(item?.BulkPurchaseQTY ? item?.BulkPurchaseQTY :item?.Quantity) || 0),
+        0
+      );
+    return (
+        <>
+            {loader ? (
+                <Loader />
+            ) : (
+                <>
+                    {msg === "" ? (
+                        <>
+                            <div className="invoice-page">
+                                 <div className="printbtn" style={{display:"flex",justifyContent:"flex-end",marginBottom:"10px"}}>
+                                                                <button
+                                                                                    className="btn_white blue mb-0 hidedp10_pcl7 m-0 p-2"
+                                                                                    onClick={(e) => handlePrint(e)}
+                                                                                  >
+                                                                                    Print
+                                                                                  </button>
+                                                                </div>
+                                <div className="invoice-container">
+
+                                    {/* Header */}
+                                    <div className="invoice-header">
+                                        <div className="invoice-title"> {result?.header?.PrintHeadLabel}</div>
+                                        <div className="invoice-trn">TRN: 104044214500003</div>
+                                    </div>
+
+                                    {/* Bill To */}
+                                    <div className="bill-section">
+                                        <div className="section-label"> {result?.header?.lblBillTo}:</div>
+
+                                        <div className="bill-text">
+                                            {result?.header?.customerfirmname}
+                                            <br />
+                                            {result?.header?.customerAddress1}
+                                            <br />
+                                            {result?.header?.customerAddress2}
+                                            <br />
+                                            {result?.header?.customerAddress3}
+                                            <br />
+                                            {result?.header?.customercity1}
+                                            
+                                          
+                                    
+                                            <br />
+                                            {result?.header?.customermobileno1}
+                                            <br />
+                                            TRN - 104154817100003
+                                        </div>
+                                    </div>
+
+                                    {/* Meta */}
+                                    <div className="meta-box">
+
+                                        <div className="meta-col large">
+                                            <div className="meta-head">INVOICE NO</div>
+                                            <div className="meta-value">{result?.header?.InvoiceNo}</div>
+                                        </div>
+
+                                        <div className="meta-col large">
+                                            <div className="meta-head">INVOICE REFERENCE</div>
+                                            <div className="meta-value"></div>
+                                        </div>
+
+                                        <div className="meta-col">
+                                            <div className="meta-head">DATE</div>
+                                            <div className="meta-value">{result?.header?.EntryDate}</div>
+                                        </div>
+
+                                    </div>
+
+                                    {/* Second Meta */}
+                                    <div className="meta-box second">
+
+                                        <div className="meta-col">
+                                            <div className="meta-head">SHIPPING CARRIER</div>
+                                            <div className="meta-value"></div>
+                                        </div>
+
+                                        <div className="meta-col">
+                                            <div className="meta-head">TRACKING NO</div>
+                                            <div className="meta-value"></div>
+                                        </div>
+
+                                        <div className="meta-col">
+                                            <div className="meta-head">INSURANCE BY</div>
+                                            <div className="meta-value"></div>
+                                        </div>
+
+                                        <div className="meta-col">
+                                            <div className="meta-head">INSURANCE REFERENCE</div>
+                                            <div className="meta-value"></div>
+                                        </div>
+
+                                    </div>
+
+                                    {/* Table */}
+                                    <div className="table-wrapper">
+
+                                        {/* Header */}
+                                        <div className="table-row table-header">
+
+                                            <div className="w-sno">S.NO</div>
+                                            <div className="w-lot">LOT NO</div>
+                                            <div className="w-img">IMAGE</div>
+                                            <div className="w-desc">DESCRIPTION OF GOODS</div>
+                                            <div className="w-small">DIAMOND CARAT</div>
+                                            <div className="w-small">COLOR <br /> STONE <br /> CARAT</div>
+                                            <div className="w-card">CARD / SHEET</div>
+                                            <div className="w-pcs">PCS</div>
+                                            <div className="w-small">AVERAGE (GMS)</div>
+                                            <div className="w-small">TOTAL (GMS)</div>
+                                            <div className="w-price">PRICE PER <br /> UNIT (AED)</div>
+                                            <div className="w-price">NET AMOUNT (AED)</div>
+                                            <div className="w-price no-border">VAT AMOUNT (AED)</div>
+
+                                        </div>
+
+                                        {/* Row */}
+
+                                        {result?.resultArray?.map((e, i) => {
+
+                                            return (
+                                                <div className="table-row">
+
+                                                    <div className="table-cell w-sno div-center">{i + 1}</div>
+
+                                                    <div className="table-cell w-lot div-center">{e?.SrJobno}</div>
+
+                                                    <div className="table-cell w-img div-center">
+                                                        <div className="img-box">
+                                                            <img
+                                                                src={e?.DesignImage}
+                                                                // src={e?.GroupJob === "" ? e?.DesignImage : result?.json1?.map((el) => el?.DesignImage)}
+                                                                onError={(e) => handleImageError(e)}
+                                                                alt="design"
+                                                                className=" "
+                                                            />
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="table-cell w-desc desc-cell" style={{ padding: "0px" }}>
+
+                                                        <div style={{ display: "flex", borderBottom: "1px solid #bdbdbd" }}>
+                                                            <div style={{ borderRight: "1px solid #bdbdbd", width: "35%", padding: "3px 5px" }}>
+                                                                ITEM
+                                                            </div>
+                                                            <div style={{ width: "65%", padding: "3px 5px" }}>
+                                                                {e?.designno}
+                                                            </div>
+                                                        </div>
+                                                        <div style={{ display: "flex", borderBottom: "1px solid #bdbdbd" }}>
+                                                            <div style={{ borderRight: "1px solid #bdbdbd", width: "35%", padding: "3px 5px" }}>
+                                                                CATEGORY
+                                                            </div>
+                                                            <div style={{ width: "65%", padding: "3px 5px" }}>
+                                                               {e?.Categoryname}
+                                                            </div>
+                                                        </div>
+                                                        <div style={{ display: "flex" }}>
+                                                            <div style={{ borderRight: "1px solid #bdbdbd", width: "35%", padding: "3px 5px" }}>
+                                                                METAL
+                                                            </div>
+                                                            <div style={{ width: "65%", padding: "3px 5px" }}>
+                                                                {e?.MetalPurity}
+                                                            </div>
+                                                        </div>
+
+
+
+                                                    </div>
+
+                                                    <div className="table-cell w-small div-center">{e?.totals?.diamonds?.Wt.toFixed(2)}</div>
+
+                                                    <div className="table-cell w-small div-center">{e?.totals?.colorstone?.Wt.toFixed(2)}</div>
+
+                                                    <div className="table-cell w-card div-center">
+                                                        <div className="checkbox"></div>
+                                                    </div>
+
+                                                    <div className="table-cell w-pcs div-center"> {e?.BulkPurchaseQTY ? e?.BulkPurchaseQTY : e?.Quantity}</div>
+
+                                                    <div className="table-cell w-small div-center"> {e?.grosswt?.toFixed(2)}</div>
+
+                                                    <div className="table-cell w-small div-center">{e?.NetWt?.toFixed(2)}</div>
+
+                                                    <div className="table-cell w-price div-center">{e?.UnitCost?.toFixed(2)}</div>
+
+                                                    <div className="table-cell w-price div-center">{e?.UnitCost?.toFixed(2)}</div>
+
+                                                    <div className="table-cell w-price no-border div-center">0.00</div>
+
+                                                </div>
+
+                                            )
+                                        })}
+
+
+
+                                        {/* total  */}
+                                        <div className="table-row">
+
+                                            <div className="table-cell   div-center" style={{ width: "43%" }}>total</div>
+
+                                            <div className="table-cell w-small div-center">{result?.mainTotal?.diamonds?.Wt.toFixed(2)}</div>
+
+                                            <div className="table-cell w-small div-center">{result?.mainTotal?.colorstone?.Wt.toFixed(2)}</div>
+
+                                            <div className="table-cell w-card div-center">
+                                                {/* <div className="checkbox"></div> */}
+                                            </div>
+
+                                            <div className="table-cell w-pcs div-center">{totalQty}</div>
+
+                                            <div className="table-cell w-small div-center"> {result?.mainTotal?.grosswt?.toFixed(2)}</div>
+                                             
+
+                                            <div className="table-cell w-small div-center">{result?.mainTotal?.netwt?.toFixed(2)}</div>
+
+                                            <div className="table-cell w-price div-center">{result?.mainTotal?.total_unitcost?.toFixed(2)}</div>
+
+                                            <div className="table-cell w-price div-center">{result?.mainTotal?.total_unitcost?.toFixed(2)}</div>
+
+                                            <div className="table-cell w-price no-border div-center">0.00</div>
+
+                                        </div>
+                                        <div className="table-row">
+
+                                            <div className="table-cell   div-center" style={{ width: "84%" }}> 1</div>
+
+
+
+                                            <div className="table-cell w-price div-center"> 1</div>
+
+                                            <div className="table-cell w-price no-border div-center"> 1</div>
+
+                                        </div>
+                                        <div className="table-row">
+
+                                            <div className="table-cell   div-center" style={{ width: "84%" }}> VAT 5%</div>
+
+
+
+                                            <div className="table-cell w-price div-center"> 343434</div>
+
+                                            <div className="table-cell w-price no-border div-center"> </div>
+
+                                        </div>
+
+                                        <div className="table-row">
+
+                                            <div className="table-cell   div-center" style={{ width: "18%" }}> VAT 5%</div>
+
+
+
+                                            <div className="table-cell w-price div-center" style={{ width: "74%" }}> 343434</div>
+
+                                            <div className="table-cell w-price no-border div-center"> </div>
+
+                                        </div>
+
+
+
+
+                                    </div>
+                                    <p className="instruction">* the gold have been duly recived and check *</p>
+
+                                </div>
+                            </div>
+
+                        </>
+                    ) : (
+                        <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
+                            {msg}
+                        </p>
+                    )}
+                </>
+            )}
+        </>
+    );
+}

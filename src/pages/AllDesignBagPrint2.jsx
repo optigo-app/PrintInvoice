@@ -25,6 +25,8 @@ const AllDesignBagPrint2 = () => {
     pageStart: +queryParams.start_page,
     report_sv: queryParams?.report_sv,
     rfbag: queryParams?.rfbag,
+    spno: queryParams?.spno,
+    wip_id: queryParams?.wip_id,
   };
   const headers = {
     "Content-Type": "application/json",

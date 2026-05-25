@@ -1,0 +1,70 @@
+.beluxecontainer{
+    width: 1200px;
+    margin: 0 auto;
+    font-family: Calibri !important;
+}
+
+.logobar{
+    display: flex;
+    align-items: center;
+    border: 1px solid #dbdbdb;
+    padding: 5px 4px;
+}
+.logobar img{
+    width: 60px;
+}
+.brandname p{
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.title{
+    border: 1px solid #dbdbdb;
+     border-top: none;
+     padding: 5px 4px;
+}
+
+.tblrow {
+    display: flex;
+    border: 1px solid #dbdbdb;
+    border-top: none;   
+    align-items: stretch; /* ← change from center to stretch */
+}
+.srcol{
+ width: 5%;
+}
+.stycol{ width: 10%;}
+.imgcol{width: 10% }
+.descol{ width: 25.1%;}
+.qtycol{ width:12.5%;}
+.tagcol{ width:12.5%;}
+.discol{ width:12.5%;}
+.tlcol{ width:12.5%;}
+
+.colpad {
+    padding: 5px;
+    text-align: center;
+    display: flex;           /* ← add */
+    align-items: center;     /* ← add (keeps text vertically centered) */
+    justify-content: center; /* ← add (keeps text horizontally centered) */
+}
+.border_right{border-right: 1px solid #dbdbdb;}
+
+.imgcol img{
+    width: 70px;
+   
+}
+.total{
+    width: 50%;    
+}
+ 
+
+@media print {
+    .beluxecontainer{
+        width: 100% !important;
+        font-size: 10px;
+    }
+    .printbtn{
+        display: none !important;
+    }
+}

@@ -504,7 +504,6 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     }
   };
 
- 
 
   const discountCriteria = [
     { key: 'DiamondDiscount', isAmountKey: 'IsDiamondDiscInAmount', label: 'Diamond' ,disAmount:"DiamondDiscountAmount" },
@@ -516,7 +515,6 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   ];
 
  
-  
   return (
     <>
       {loader ? (
@@ -557,10 +555,15 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </button>
                 </div>
               </div>
-              {/* header */}
+             
+              <div>
+                <div className="headlabeldp4 fw-bold">
+                  {result?.header?.PrintHeadLabel}
+                </div>
+                 {/* header */}
               {
               headerflag &&(
-                <div className="d-flex align-items-center pb-2 border-bottom recordDetailPrint1">
+                <div className="d-flex align-items-center pb-2 border-bottom recordDetailPrint1" style={{marginBottom:"10px"}}>
                 <div className="col-6 headerfontsize" style={{lineHeight:"0.9"}}>
                   <h2 className="fw-bold detailPrint1L_font_16 pb-1">{result?.header?.CompanyFullName}</h2>
                   {result?.header?.CompanyAddress !== "" && (<p className="lhDetailPrint1 pb-1">{result?.header?.CompanyAddress}</p>)}
@@ -588,10 +591,6 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
               )
             }
-              <div>
-                <div className="headlabeldp4 fw-bold">
-                  {result?.header?.PrintHeadLabel}
-                </div>
                 <div className="d-flex justify-content-between align-items-center fs_dp4">
                   <div className="w-25">
                     <div className="ps-2">To,</div>
@@ -882,7 +881,9 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         {(el?.IsHSCOE === 1 || el?.IsHSCOE === 2 || el?.IsHSCOE === 3) ? el?.servwt_cert?.toFixed(3) : el?.mswt?.toFixed(3)}
                                       </div>
                                       <div className="dia_col_w_dp4 end_dp4 lh_dp4_amt">
-                                        {el?.ShapeName?.includes("Certification") ? formatAmount((el?.isRateOnPcs === 0 ? (el?.msamt / (el?.servwt_cert === 0 ? 1 : el?.servwt_cert)) : (el?.msamt / (el?.servwt_cert === 0 ? 1 : el?.servwt_cert)))) : formatAmount((el?.isRateOnPcs === 0 ? (el?.msamt / (el?.mswt === 0 ? 1 : el?.mswt)) : (el?.msamt / (el?.mspcs === 0 ? 1 : el?.mspcs))))}
+                                        {el?.ShapeName?.includes("Certification") ? formatAmount((el?.isRateOnPcs === 0 ? (el?.msamt / (el?.servwt_cert === 0 ? 1 : el?.servwt_cert)) : (el?.msamt / (el?.servwt_cert === 0 ? 1 : el?.servwt_cert)))) : formatAmount((el?.isRateOnPcs === 0 ? (el?.msamt / (el?.mswt === 0 ? 1 : el?.mswt)) : (el?.msamt / (el?.mspcs === 0 ? 1 : el?.mspcs)))) }
+
+                                        { el?.isRateOnPcs==1? "/PC":""}
                                       </div>
                                       <div className="dia_col_w_dp4 end_dp4 fw-bold lh_dp4_amt">
                                         {formatAmount(el?.msamt)}

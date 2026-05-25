@@ -240,10 +240,17 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
 
-                 {/* Company Details */}
+            
+
+<>
+                    <div>
+                      <div className="headlabeldp3 fw-bold">
+                        {result?.header?.PrintHeadLabel}
+                      </div>
+                           {/* Company Details */}
             {
               headerflag &&(
-                <div className="d-flex align-items-center pb-2 border-bottom recordDetailPrint1">
+                <div className="d-flex align-items-center pb-2 border-bottom recordDetailPrint1" style={{marginBottom:"10px"}}>
                 <div className="col-6 headerfontsize" style={{lineHeight:"0.9"}}>
                   <h2 className="fw-bold detailPrint1L_font_16 pb-1">{result?.header?.CompanyFullName}</h2>
                   {result?.header?.CompanyAddress !== "" && (<p className="lhDetailPrint1 pb-1">{result?.header?.CompanyAddress}</p>)}
@@ -271,12 +278,6 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
               )
             }
-
-<>
-                    <div>
-                      <div className="headlabeldp3 fw-bold">
-                        {result?.header?.PrintHeadLabel}
-                      </div>
                       <div className="d-flex justify-content-between align-items-center fs_dp3">
                         <div className="w-25">
                           <div className="ps-2">To,</div>

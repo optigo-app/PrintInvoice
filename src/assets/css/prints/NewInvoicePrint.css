@@ -1,0 +1,239 @@
+.invoice-page {
+    background: #fff;
+  }
+  
+  .invoice-container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 40px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .invoice-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .invoice-title {
+    font-size: 28px;
+    font-weight: 700;
+  }
+  
+  .invoice-trn {
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .bill-section {
+    margin-bottom: 20px;
+  }
+  
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  
+  .bill-text {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  
+  .meta-box {
+    display: flex;
+    border: 1px solid #bdbdbd;
+  }
+  
+  .meta-box.second {
+    border-top: none;
+    margin-bottom: 20px;
+  }
+  
+  .meta-col {
+    flex: 1;
+    border-right: 1px solid #bdbdbd;
+  }
+  
+  .meta-col.large {
+    flex: 2;
+  }
+  
+  .meta-col:last-child {
+    border-right: none;
+  }
+  
+  .meta-head {
+    background: #dee2e6;
+    padding: 5px 10px;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  
+  .meta-value {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+  
+  .table-wrapper {
+    border: 1px solid #bdbdbd;
+  }
+  
+  .table-row {
+    display: flex;
+  }
+  
+  .table-header {
+    background: #dee2e6;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  
+  .table-header div {
+    padding: 8px 5px;
+    border-right: 1px solid #bdbdbd;
+    text-align: center;
+  }
+  
+  .table-cell {
+    border-right: 1px solid #bdbdbd;
+    border-top: 1px solid #bdbdbd;
+    padding: 6px;
+    font-size: 11px;
+    text-align: center;
+  }
+  
+  .no-border {
+    border-right: none !important;
+  }
+  
+  .desc-cell {
+    text-align: left;
+  }
+  
+  .sub-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: #666;
+    display: inline-block;
+    width: 70px;
+  }
+  
+  .img-box {
+    width: 55px;
+ 
+    background: #eee;
+    border-radius: 4px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: #aaa;
+  }
+  
+  .checkbox {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid #555;
+    border-radius: 2px;
+    margin: auto;
+  }
+  
+  /* widths */
+  
+  .w-sno {
+    width: 4%;
+  }
+  
+  .w-lot {
+    width: 7%;
+  }
+  
+  .w-img {
+    width: 7%;
+  }
+  
+  .w-desc {
+    flex: 1;
+  }
+  
+  .w-small {
+    width: 6%;
+  }
+  
+  .w-card {
+    width: 5%;
+  }
+  
+  .w-pcs {
+    width: 4%;
+  }
+  
+  .w-price {
+    width: 8%;
+  }
+
+
+  .div-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .instruction{
+    font-size: 14px;
+    padding: 5px;
+    color: #575757;
+  }
+
+  .printbtn{
+    width: 1200px !important;
+    margin: 0 auto;
+  }
+  @media print {
+    .printbtn{
+      display: none !important;
+  }
+
+  .sub-label {
+    font-size: 7px !important;
+ 
+  }
+  
+  .table-cell {
+ 
+    font-size: 9px !important;
+ 
+  }
+  
+  .table-header {
+ 
+    font-size: 8px !important;
+ 
+  }
+  
+  .meta-value {
+ 
+    font-size: 9px !important;
+  }
+  
+  .meta-head {
+ 
+    font-size: 8px !important;
+ 
+  }
+  
+  .bill-text {
+    font-size: 9px !important;
+ 
+  }
+
+  .section-label {
+    font-size: 9px !important;
+ 
+  }
+  .table-cell {
+    font-size: 9px !important;
+ 
+  }
+}
+  

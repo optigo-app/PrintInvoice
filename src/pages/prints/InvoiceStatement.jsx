@@ -151,7 +151,7 @@ const InvoiceStatement = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
 
     const subText = {
         fontSize: "10px",
-        color: "red",
+     
     };
 
     const groupBySubCategory = (data) => {
@@ -226,6 +226,24 @@ const InvoiceStatement = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
 
     console.log("TCL: InvoiceStatement -> data?.resultArray fgfyh", groupedData)
     console.log("TCL: InvoiceStatement -> data?.resultArray fgfyh", grandTotal)
+
+
+    const voucher = headerData?.CashPayDet?.split("|").map((item) => {
+        const [voucher_lable, voucher_amount] = item.split("-");
+      
+        return {
+          voucher_lable,
+          voucher_amount: Number(voucher_amount),
+        };
+      });
+      
+
+      const total_voucher = voucher?.reduce(
+        (sum, item) => sum + Number(item.voucher_amount),
+        0
+      );
+   
+
     return (
         loader ? <Loader /> : msg === "" ? <div className={`container max_width_container pad_60_allPrint mt-2 ${style?.CustomerDailyStatement} px-1`}>
             {/* print button */}
@@ -315,52 +333,30 @@ const InvoiceStatement = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
 
                                         {/* Cash */}
                                         <td style={tdStyle} align="right">
-                                            {group?.cash?.toLocaleString()}
+                                            {group?.cash?.toFixed(2)}
                                         </td>
                                     </tr>
                               
                         ))}
 
                         {/* Cash Receive rows */}
-                        <tr>
-                            <td style={td}>V264<br /><span style={subText}>Cash Receive</span></td>
-                            <td style={td}></td>
-                            <td style={td}></td>
-                            <td style={td}></td>
-                            <td style={td}></td>
-                            <td style={td}></td>
-                            <td style={td}></td>
-                            <td style={td}></td>
-                            <td style={td}></td>
-                            <td style={td}>-50.00</td>
-                        </tr>
+                        {voucher?.map((v,i)=>(
+                                  <tr>
+                                  <td style={td}>{v?.voucher_lable}<br /><span style={subText}>Cash Receive</span></td>
+                                  <td style={td}></td>
+                                  <td style={td}></td>
+                                  <td style={td}></td>
+                                  <td style={td}></td>
+                                  <td style={td}></td>
+                                  <td style={td}></td>
+                                  <td style={td}></td>
+                                  <td style={td}></td>
+                                  <td style={{...td, textAlign: "right"}}>-{v?.voucher_amount?.toFixed(2)}</td>
+                              </tr>
+                        ))}
+                      
 
-                        <tr>
-                            <td style={td}>V265<br /><span style={subText}>Cash Receive</span></td>
-                            <td style={td}></td>
-                            <td style={td}></td>
-                            <td style={td}></td>
-                            <td style={td}></td>
-                            <td style={td}></td>
-                            <td style={td}></td>
-                            <td style={td}></td>
-                            <td style={td}></td>
-                            <td style={td}>-515.00</td>
-                        </tr>
-
-                        <tr>
-                            <td style={td}>V266<br /><span style={subText}>Cash Receive</span></td>
-                            <td style={td}></td>
-                            <td style={td}></td>
-                            <td style={td}></td>
-                            <td style={td}></td>
-                            <td style={td}></td>
-                            <td style={td}></td>
-                            <td style={td}></td>
-                            <td style={td}></td>
-                            <td style={td}>-500.00</td>
-                        </tr>
-
+                        
                         {/* Total Row */}
                         <tr>
                             <td style={{ ...td, fontWeight: "bold" }}>Total</td>
@@ -370,11 +366,12 @@ const InvoiceStatement = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                             <td style={{ ...td, textAlign: "right" }} align="right">{grandTotal?.stonewt?.toFixed(3)}</td>
                             <td style={{ ...td, textAlign: "right" }} align="right">{grandTotal?.netwt?.toFixed(3)}</td>
                             <td style={{ ...td, textAlign: "right" }} align="right"></td>
-                            <td style={{ ...td, textAlign: "right" }} align="right">{grandTotal?.Wastage?.toFixed(2)}</td>
+                            {/* <td style={{ ...td, textAlign: "right" }} align="right">{grandTotal?.Wastage?.toFixed(2)}</td> */}
+                            <td style={{ ...td, textAlign: "right" }} align="right"> </td>
                             <td style={{ ...td, textAlign: "right" }} align="right">
                                 {grandTotal?.fine?.toFixed(3)}
                             </td>
-                            <td style={{ ...td, textAlign: "right" }}>{grandTotal?.cash?.toLocaleString()}</td>
+                            <td style={{ ...td, textAlign: "right" }}>{(grandTotal?.cash - total_voucher)?.toFixed(2)}</td>
                         </tr>
                     </tbody>
                 </table>

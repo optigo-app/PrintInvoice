@@ -1,6 +1,6 @@
 
 .print_header{
-    /* display: none; */
+    display: none;
 }
 
 @media print{
@@ -9,5 +9,8 @@
      }
      .print_header{
         display: block !important;
+    }
+    .line-height1{
+        line-height: 1.4;
     }
 }

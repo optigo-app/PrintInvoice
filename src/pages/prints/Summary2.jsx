@@ -236,10 +236,23 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       </div>
                       <div className="lhs2 fsh2_s2">{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</div>
                       <div className="lhs2 fsh2_s2">
-                        {result?.header?.Company_VAT_GST_No} |{" "}
+                        {/* {result?.header?.Company_VAT_GST_No} |{" "}
                         {result?.header?.Company_CST_STATE}-
                         {result?.header?.Company_CST_STATE_No} | PAN-
-                        {result?.header?.Pannumber}
+                        {result?.header?.Pannumber} */}
+                        {[
+                          result?.header?.Company_VAT_GST_No,
+
+                          result?.header?.Company_CST_STATE_No
+                            ? `${result?.header?.Company_CST_STATE}-${result?.header?.Company_CST_STATE_No}`
+                            : null,
+
+                          result?.header?.Pannumber
+                            ? `PAN-${result?.header?.Pannumber}`
+                            : null,
+                        ]
+                          .filter(Boolean)
+                          .join(" | ")}
                       </div>
                     </div>
                     <div className="subdiv1s2 w-25 d-flex justify-content-end">
@@ -409,7 +422,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             {
                               e?.diamonds?.map((el) => {
                                 return (
-                                  <div className="tops2 pe-1">{formatAmount(((el?.damt / el?.dwt) / (result?.header?.CurrencyExchRate)))}</div>
+                                  <div className="tops2 pe-1"> {  formatAmount(((el?.damt / el?.dwt) / (result?.header?.CurrencyExchRate))) }</div>
                                 )
                               })
                             }
@@ -494,7 +507,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 {/* summary */}
                 <div className="border mt-2 pbias2 fsh2_s2">
                   <div className="fw-bold bgcs2 p-1 d-flex flex-wrap" >Summary Detail</div>
-                  <div className="d-flex flex-wrap p-1" style={{ minHeight: "50px" ,flexDirection:'column'}}>
+                  <div className="d-flex flex-wrap p-1" style={{ minHeight: "50px", flexDirection: 'column' }}>
                     {
                       categoryNameWise?.map((e, i) => {
                         return (

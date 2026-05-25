@@ -1,9 +1,6 @@
 import axios from "axios";
- 
 
- 
-
-export const GetWipData = async (queries,sp ) => {
+export const GetWipData = async (queries ) => {
 
     
     console.log("TCL: GetWipData ->queries ", queries)
@@ -16,14 +13,15 @@ export const GetWipData = async (queries,sp ) => {
     };
   const body={
     "con": "{\"id\": \"\", \"mode\": \"WIPprint\", \"appuserid\": \""+queries?.appuserid+"\"}",
-    "p": "{\"wip_id\": \""+queries?.rfbag+"\"}",
+    "p": "{\"wip_id\": \""+queries?.wip_id+"\"}",
     "f": "DynamicReport ( get sp list )"
   }
   try {
     const response = await axios.post( queries?.url, body, { headers: header });
     
-    // console.log("TCL: GetWipData -> ", response.data)
+    console.log("TCL: GetWipData -> response", response.data)
     return response?.data;
+
   } catch (error) {
     console.error("error is..", error);
   }
