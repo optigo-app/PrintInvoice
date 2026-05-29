@@ -670,34 +670,30 @@ export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn
                                                     </div>
 
                                                     <div className="table-cell w-desc desc-cell" style={{ padding: "0px" }}>
-
                                                         <div style={{ display: "flex", borderBottom: "1px solid #bdbdbd" }}>
-                                                            <div style={{ borderRight: "1px solid #bdbdbd", width: "35%", padding: "3px 5px" }}>
+                                                            <div style={{ borderRight: "1px solid #bdbdbd", width: "40%", padding: "3px 5px" }}>
                                                                 ITEM
                                                             </div>
-                                                            <div style={{ width: "65%", padding: "3px 5px" }}>
+                                                            <div style={{ width: "60%", padding: "3px 5px" }}>
                                                                 {e?.designno}
                                                             </div>
                                                         </div>
                                                         <div style={{ display: "flex", borderBottom: "1px solid #bdbdbd" }}>
-                                                            <div style={{ borderRight: "1px solid #bdbdbd", width: "35%", padding: "3px 5px" }}>
+                                                            <div style={{ borderRight: "1px solid #bdbdbd", width: "40%", padding: "3px 5px" }}>
                                                                 CATEGORY
                                                             </div>
-                                                            <div style={{ width: "65%", padding: "3px 5px" }}>
+                                                            <div style={{ width: "60%", padding: "3px 5px" }}>
                                                                {e?.Categoryname}
                                                             </div>
                                                         </div>
                                                         <div style={{ display: "flex" }}>
-                                                            <div style={{ borderRight: "1px solid #bdbdbd", width: "35%", padding: "3px 5px" }}>
+                                                            <div style={{ borderRight: "1px solid #bdbdbd", width: "40%", padding: "3px 5px" }}>
                                                                 METAL
                                                             </div>
-                                                            <div style={{ width: "65%", padding: "3px 5px" }}>
+                                                            <div style={{ width: "60%", padding: "3px 5px" }}>
                                                                 {e?.MetalPurity}
                                                             </div>
                                                         </div>
-
-
-
                                                     </div>
 
                                                     <div className="table-cell w-small div-center">{e?.totals?.diamonds?.Wt.toFixed(2)}</div>
@@ -714,11 +710,11 @@ export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn
 
                                                     <div className="table-cell w-small div-center">{e?.NetWt?.toFixed(2)}</div>
 
-                                                    <div className="table-cell w-price div-center">{e?.UnitCost?.toFixed(2)}</div>
+                                                    <div className="table-cell w-price div-center">{NumberWithCommas(e?.UnitCost,2)}</div>
 
-                                                    <div className="table-cell w-price div-center">{e?.UnitCost?.toFixed(2)}</div>
+                                                    <div className="table-cell w-price div-center">{NumberWithCommas(e?.UnitCost,2)}</div>
 
-                                                    <div className="table-cell w-price no-border div-center">0.00</div>
+                                                    <div className="table-cell w-price no-border div-center">{NumberWithCommas((e?.UnitCost * 0.95),2)}</div>
 
                                                 </div>
 
@@ -730,7 +726,7 @@ export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn
                                         {/* total  */}
                                         <div className="table-row">
 
-                                            <div className="table-cell   div-center" style={{ width: "43%" }}>total</div>
+                                            <div className="table-cell   div-center" style={{ width: "38%" }}>Total</div>
 
                                             <div className="table-cell w-small div-center">{result?.mainTotal?.diamonds?.Wt.toFixed(2)}</div>
 
@@ -747,22 +743,22 @@ export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn
 
                                             <div className="table-cell w-small div-center">{result?.mainTotal?.netwt?.toFixed(2)}</div>
 
-                                            <div className="table-cell w-price div-center">{result?.mainTotal?.total_unitcost?.toFixed(2)}</div>
+                                            <div className="table-cell w-price div-center">{NumberWithCommas(result?.mainTotal?.total_unitcost,2)}</div>
 
-                                            <div className="table-cell w-price div-center">{result?.mainTotal?.total_unitcost?.toFixed(2)}</div>
+                                            <div className="table-cell w-price div-center">{NumberWithCommas(result?.mainTotal?.total_unitcost,2)}</div>
 
-                                            <div className="table-cell w-price no-border div-center">0.00</div>
+                                            <div className="table-cell w-price no-border div-center">  {NumberWithCommas((result?.mainTotal?.total_unitcost * 0.95),2)}</div>
 
                                         </div>
-                                        <div className="table-row">
+                                        <div className="table-row" style={{height:"28px"}}>
 
-                                            <div className="table-cell   div-center" style={{ width: "84%" }}> 1</div>
+                                            <div className="table-cell   div-center" style={{ width: "84%" }}> </div>
 
 
 
-                                            <div className="table-cell w-price div-center"> 1</div>
+                                            <div className="table-cell w-price div-center"> </div>
 
-                                            <div className="table-cell w-price no-border div-center"> 1</div>
+                                            <div className="table-cell w-price no-border div-center"> {" "}</div>
 
                                         </div>
                                         <div className="table-row">

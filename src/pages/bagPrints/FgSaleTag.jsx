@@ -80,6 +80,15 @@ export default function FgSaleTag({ headers }) {
                  ) : (
                    <>
                        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+
+                          <div className="printbtn" style={{display:"flex",justifyContent:"flex-end",marginBottom:"10px"}}>
+                                                                        <button
+                                                                                            className="btn_white blue mb-0 hidedp10_pcl7 m-0 p-2"
+                                                                                            onClick={(e) => handlePrint(e)}
+                                                                                          >
+                                                                                            Print
+                                                                                          </button>
+                                                                        </div>
                 
                 
                 {data?.map((e,i)=>(

@@ -21,4 +21,7 @@
         height: 25mm;
         margin: 0;
      }
+     .printbtn{
+        display: none !important;
+    }
 }

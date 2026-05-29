@@ -1583,7 +1583,7 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                     <p className="fw-bold text-center border-start border-end border-bottom  w-100 border-start lightGrey">
                       OTHER DETAILS
                     </p>
-                    {Brokerage.map((e, i) => {
+                    {Brokerage?.map((e, i) => {
                       const key = Object.keys(e)[0];
                       const value = e[key];
                       return (

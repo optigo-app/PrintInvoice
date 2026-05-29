@@ -299,8 +299,11 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   };
 
 
-console.log("TCL: tptal",data.mainTotal )
- 
+  const totalmount = data?.resultArray?.reduce((acc, curr) => acc + curr?.TotalMountAmount, 0);
+
+
+  console.log("TCL: tptal", data.mainTotal)
+
   return (
     <>
       {loader ? (
@@ -534,7 +537,7 @@ console.log("TCL: tptal",data.mainTotal )
                         >
                           {fixedValues(item?.grosswt, 3)} gm Gross
                         </p>
-                       
+
                       </div>
                     </div>
 
@@ -615,7 +618,7 @@ console.log("TCL: tptal",data.mainTotal )
                         </div>
                         <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "16.67%", minWidth: "16.67%" }}>
                           <p className="text-end spBold">
-                            {NumberWithCommas( 1, 2)}
+                            {NumberWithCommas(1, 2)}
                           </p>
                         </div>
                       </div>
@@ -624,7 +627,7 @@ console.log("TCL: tptal",data.mainTotal )
                     {/* Metal */}
                     <div className="metalEstimatePrint spBrdrRigt position-relative ">
                       <div className="pad_bot_29_estimatePrint">
-                        {console.log("metal", item?.metal)}
+
                         {item?.metal?.length > 0 &&
                           item.metal.filter((ele) => ele?.IsPrimaryMetal === 1).map((ele, ind) => (
                             <div className="d-flex" key={ind}>
@@ -639,7 +642,7 @@ console.log("TCL: tptal",data.mainTotal )
                                   <p className="text-end">
                                     {/* {fixedValues( (item?.DiamondCTWwithLoss/5)+Number(item?.NetWt) ,2)} */}
                                     {/* {formatAmount(((item?.DiamondCTWwithLoss / 5) + Number(ele?.Wt)).toFixed(3) + (item?.totals?.finding?.Wt || 0),2)} */}
-                                    {formatAmount(Math.round(fixedValues(Number((item?.DiamondCTWwithLoss / 5) + Number(ele?.Wt))  , 3) * 100) / 100, 2)}
+                                    {formatAmount(Math.round(fixedValues(Number((item?.DiamondCTWwithLoss / 5) + Number(ele?.Wt)), 3) * 100) / 100, 2)}
                                   </p>
                                 </p>
                               </div>
@@ -648,7 +651,7 @@ console.log("TCL: tptal",data.mainTotal )
                                   {/* {fixedValues(item?.totals?.metal?.Wt, 2)} */}
                                   {/* {fixedValues(Number(item?.NetWt), 2)} */}
                                   {/* { Math.round( fixedValues(Number(ele?.Wt) + (item?.totals?.finding?.Wt || 0), 3)*100)/100} */}
-                                  {formatAmount(Math.round(fixedValues(Number(ele?.Wt) + (item?.LossWt|| 0) , 3) * 100) / 100, 2)}
+                                  {formatAmount(Math.round(fixedValues(Number(ele?.Wt) + (item?.LossWt || 0)-(item?.MountWeight), 3) * 100) / 100, 2)}
                                 </p>
                               </div>
                               <div className="width_40_estimatePrint p_1Estimate" style={{ width: "14%", minWidth: "14%" }}>
@@ -665,29 +668,53 @@ console.log("TCL: tptal",data.mainTotal )
                             </div>
                           ))}
 
-                        {/* Finding */}
-                        {/* {item?.finding?.length > 0 &&
-                          item.finding.map((ele, ind) => (
-                            <div className="d-flex" key={ind}>
-                              <div className="width_40_estimatePrint p_1Estimate">
-                                {ele?.IsPrimaryMetal === 1 && (
-                                  <p>{ele?.FindingAccessories}</p>
-                                )}
-                              </div>
-                              <div className="width_40_estimatePrint p_1Estimate">
-                                <p className="text-end">{fixedValues(ele?.Wt, 3)}</p>
-                              </div>
-                              <div className="width_40_estimatePrint p_1Estimate">
-                                <p className="text-end">{fixedValues(ele?.Wt, 3)}</p>
-                              </div>
-                              <div className="width_40_estimatePrint p_1Estimate">
-                                <p className="text-end">{NumberWithCommas(ele?.Rate, 2)}</p>
-                              </div>
-                              <div className="width_40_estimatePrint p_1Estimate">
-                                <p className="text-end spBold">{NumberWithCommas(ele?.Amount, 2)}</p>
-                              </div>
+                        {item?.MountWeight > 0 && (
+                          <div className="d-flex">
+
+                            <div className="width_40_estimatePrint spbrWord p_1Estimate">
+
+                              <p>{item?.MetalType} {item?.MetalPurity} ({item?.MetalColor.slice(0, 2)})</p>
+
                             </div>
-                          ))} */}
+                            <div className="width_40_estimatePrint p_1Estimate">
+                              <p className="text-end">
+                                <p className="text-end">
+
+                                </p>
+                              </p>
+                            </div>
+                            <div className="width_40_estimatePrint p_1Estimate">
+                              <p className="text-end">
+
+                                {formatAmount(item?.MountWeight, 2)}
+                              </p>
+                            </div>
+                            <div className="width_40_estimatePrint p_1Estimate" style={{ width: "14%", minWidth: "14%" }}>
+                              <p className="text-end">
+                                {/* {item?.MountSupplier.slice(0, 4)} */}
+                                {
+                                  Number(item?.MountWeight?.toString()?.trim()) !== 0
+                                    ? (
+                                      item?.MountSupplier?.toString()?.toLowerCase()?.trim() === "from stock"
+                                        ? "Stock"
+                                        : item?.MountSupplier?.toString()?.trim()?.length > 4
+                                          ? item?.MountSupplier?.toString()?.trim()?.substring(0, 4)
+                                          : item?.MountSupplier?.toString()?.trim()
+                                    )
+                                    : ""
+                                }
+                              </p>
+                            </div>
+                            <div className="width_40_estimatePrint p_1Estimate">
+                              <p className="text-end">{NumberWithCommas(item?.MountRate, 2)}</p>
+                            </div>
+                            <div className="width_40_estimatePrint p_1Estimate" style={{ width: "19.32%", minWidth: "19.32%" }}>
+                              <p className="text-end spBold">{NumberWithCommas(item?.TotalMountAmount, 2)}</p>
+                            </div>
+                          </div>
+                        )}
+
+                      
 
                         {item?.JobRemark && (
                           <div className="pt-2 px-1">
@@ -706,7 +733,7 @@ console.log("TCL: tptal",data.mainTotal )
                             fixedValues(
                               (
                                 (item?.DiamondCTWwithLoss / 5) +
-                                Number(item?.totals?.primaryMetalWt || 0)  
+                                Number(item?.totals?.primaryMetalWt || 0)
                               ).toFixed(3),
                               2
                             )
@@ -715,13 +742,13 @@ console.log("TCL: tptal",data.mainTotal )
                         <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "15.66%", minWidth: "15.66%" }}>
                           {/* <p className="text-end spBold">{fixedValues(item?.NetWt + item?.LossWt, 2)}</p> */}
                           {/* <p className="text-end spBold">{Math.round(fixedValues(item?.totals?.primaryMetalWt + item?.totals?.finding?.Wt || 0, 2) * 100) / 100}</p> */}
-                          <p className="text-end spBold">{formatAmount(Math.round(fixedValues((Number(item?.totals?.primaryMetalWt || 0) + (item?.LossWt|| 0) ), 2) * 100) / 100, 2)}</p>
+                          <p className="text-end spBold">{formatAmount(Math.round(fixedValues((Number(item?.totals?.primaryMetalWt || 0) + (item?.LossWt || 0) ), 2) * 100) / 100, 2)}</p>
                         </div>
                         <div
                           className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end"
                           style={{ minWidth: "50.5%", width: "50.5%" }}
                         >
-                          <p className="text-end spBold">{NumberWithCommas(item?.totals?.metal?.Amount + item?.totals?.finding?.Amount, 2)}</p>
+                          <p className="text-end spBold">{NumberWithCommas(item?.totals?.metal?.Amount + item?.totals?.finding?.Amount + item?.TotalMountAmount, 2)}</p>
                         </div>
                       </div>
                     </div>
@@ -824,7 +851,7 @@ console.log("TCL: tptal",data.mainTotal )
                       <div className="h-100 d-grid pad_bot_29_estimatePrint">
                         <div className="p_1Estimate ">
                           <div className="w-100 d-flex align-items-center justify-content-end spBold">
-                            {NumberWithCommas(item?.OtherCharges+item?.TotalDiamondHandling, 2)}
+                            {NumberWithCommas(item?.OtherCharges + item?.TotalDiamondHandling, 2)}
                           </div>
                         </div>
                       </div>
@@ -833,7 +860,7 @@ console.log("TCL: tptal",data.mainTotal )
                         style={{ height: "14.5px" }}
                       >
                         <div className="text-end p_1Estimate">
-                          <div className="spBold">{NumberWithCommas(item?.OtherCharges+item?.TotalDiamondHandling, 2)}</div>
+                          <div className="spBold">{NumberWithCommas(item?.OtherCharges + item?.TotalDiamondHandling, 2)}</div>
                         </div>
                       </div>
                     </div>
@@ -970,18 +997,18 @@ console.log("TCL: tptal",data.mainTotal )
                   <div className="width200EstimatePrint p_1Estimate h-100" style={{ width: "16%", minWidth: "16%" }}>
                     <p className="spBold"></p>
                   </div>
-                  <div className="width200EstimatePrint p_1Estimate h-100" style={{width:"17%",minWidth:"17%"}}>
+                  <div className="width200EstimatePrint p_1Estimate h-100" style={{ width: "17%", minWidth: "17%" }}>
                     <p className="spBold text-end">
                       {/* {data?.weightWithDiamondLoss !== 0 && fixedValues(data.weightWithDiamondLoss, 3)} */}
                       {/* {NumberWithCommas(data?.mainTotal?.grosswt, 2)} */}
                       {/* {fixedValues((data?.mainTotal?.diamonds?.Wt/5)+data?.mainTotal?.netwt,2)} */}
-                      {fixedValues((data?.mainTotal?.diamonds?.Wt / 5) + data?.mainTotal?.metal?.IsPrimaryMetal  , 2)}
+                      {fixedValues((data?.mainTotal?.diamonds?.Wt / 5) + data?.mainTotal?.metal?.IsPrimaryMetal, 2)}
                     </p>
                   </div>
-                  <div className="width200EstimatePrint p_1Estimate h-100" style={{width:"17%",minWidth:"17%"}}>
+                  <div className="width200EstimatePrint p_1Estimate h-100" style={{ width: "17%", minWidth: "17%" }}>
                     <p className="spBold text-end">
                       {(data?.mainTotal?.metal?.Wt !== 0 || data?.mainTotal?.metal?.Wt !== 0) &&
-                        fixedValues(data?.mainTotal?.metal?.IsPrimaryMetal + (data?.mainTotal?.lossWt|| 0) , 2)}
+                        fixedValues(data?.mainTotal?.metal?.IsPrimaryMetal + (data?.mainTotal?.lossWt || 0), 2)}
                     </p>
                   </div>
                   <div
@@ -989,7 +1016,7 @@ console.log("TCL: tptal",data.mainTotal )
                     style={{ minWidth: "48%", width: "48%" }}
                   >
                     <p className="spBold text-end">
-                      {NumberWithCommas(data?.mainTotal?.metal?.Amount + data?.mainTotal?.finding?.Amount, 2)}
+                      {NumberWithCommas(data?.mainTotal?.metal?.Amount + data?.mainTotal?.finding?.Amount + totalmount, 2)}
                     </p>
                   </div>
                 </div>

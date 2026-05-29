@@ -104,11 +104,11 @@ const JewelleryInvoiceT = ({
                     if (e?.isdiscountinamount == 1) {    //isdiscountinamount == 1
 
                         totals.discount += e?.DiscountAmt;
-                    } else {     
-                        if( e?.NewMRP ==0)  {
+                    } else {
+                        if (e?.NewMRP == 0) {
                             totals.discount += e?.DiscountAmt;
                         }            //isdiscountinamount == 0
-                        else{
+                        else {
                             const cgst = Number(data?.BillPrint_Json[0].CGST) || 0;
                             const sgst = Number(data?.BillPrint_Json[0].SGST) || 0;
                             const igst = Number(data?.BillPrint_Json[0].IGST) || 0;
@@ -118,11 +118,11 @@ const JewelleryInvoiceT = ({
                             totals.discount += e?.NewMRP - (e?.TotalAmount + gstAmt)
                         }
 
-                        
+
                     }
 
                 }
-                totals.Qty +=  e?.BulkPurchaseQTY ?e.BulkPurchaseQTY:e?.Quantity;
+                totals.Qty += e?.BulkPurchaseQTY ? e.BulkPurchaseQTY : e?.Quantity;
                 let hallmarkingCount = 0;
                 let materials = [];
                 let primaryMetal = [];
@@ -587,7 +587,21 @@ const JewelleryInvoiceT = ({
                                                     headerData?.CompanyTollFreeNo && `TOLL FREE ${headerData.CompanyTollFreeNo}`
                                                 ].filter(Boolean).join(" | ")}
                                             </div>
-                                            <div>{headerData?.CompanyEmail} |{headerData?.CompanyWebsite}</div>
+                                            <div>{headerData?.CompanyEmail} {headerData?.CompanyWebsite ? " | " : ""} {headerData?.CompanyWebsite}</div>
+                                            <div> {[
+                                                headerData?.Company_VAT_GST_No &&
+                                                `GST-${headerData.Company_VAT_GST_No}`,
+
+                                                headerData?.Company_CST_STATE &&
+                                                headerData?.Company_CST_STATE_No &&
+                                                `${headerData.Company_CST_STATE}-${headerData.Company_CST_STATE_No}`,
+
+                                                headerData?.Pannumber &&
+                                                `PAN-${headerData.Pannumber}`
+                                                ]
+                                                .filter(Boolean)
+                                                .join(" | ")}</div>
+
                                         </div>
                                         <div className="j-inv-flex-col j-inv-p-5">
                                             <div><span className="j-inv-bold" style={{ marginRight: "10px" }}>Invoice No. :</span>{headerData?.InvoiceNo}</div>
@@ -679,7 +693,7 @@ const JewelleryInvoiceT = ({
                                                     <div className={`j-inv-cell ${taxamt ? 'j-inv-col-desc-taxamt' : 'j-inv-col-desc'} j-inv-border-r j-inv-text-left  j-inv-align-top`}>
                                                         {e.MetalTypePurity + " - " + e.Categoryname} <br /> {e.SrJobno}
                                                     </div>
-                                                    <div className={`j-inv-cell ${taxamt ? 'j-inv-col-qty-taxamt' : 'j-inv-col-qty'} j-inv-border-r`}>{e.BulkPurchaseQTY ?e.BulkPurchaseQTY:e?.Quantity}</div>
+                                                    <div className={`j-inv-cell ${taxamt ? 'j-inv-col-qty-taxamt' : 'j-inv-col-qty'} j-inv-border-r`}>{e.BulkPurchaseQTY ? e.BulkPurchaseQTY : e?.Quantity}</div>
                                                     <div className={`j-inv-cell ${taxamt ? 'j-inv-col-rate-taxamt' : 'j-inv-col-rate'} j-inv-border-r`}>{`${taxamt ? fixedValues(e.UnitCost, 2) : fixedValues(e.TotalAmount, 2)}`}</div>
                                                     {
                                                         disamt && (

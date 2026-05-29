@@ -20,7 +20,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const toWords = new ToWords();
   const [categoryNameWise, setCategoryNameWise] = useState([]);
   const [headerflag, setHeaderflag] = useState(true);
-
+  const [footerflag, setFooterflag] = useState(true);
   // eslint-disable-next-line no-unused-vars
   const [classIs, setClassIs] = useState({
     col1: "thcol1s2",
@@ -154,6 +154,13 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     }
   };
 
+  const handleFooterShow = (e) => {
+    if (footerflag) setFooterflag(false);
+    else {
+      setFooterflag(true);
+    }
+  };
+
 
   return (
     <>
@@ -199,6 +206,17 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       name="header"
                     />
                     <label for="header" className="pt-1">Header</label>
+                  </div>
+                  <div className="px-1">
+                    <input
+                      className=" mx-1"
+                      id="footer"
+                      type="checkbox"
+                      checked={footerflag}
+                      onChange={(e) => handleFooterShow(e)}
+                      name="footer"
+                    />
+                    <label for="footer" className="pt-1">Footer</label>
                   </div>
                   <div className="px-1">
                     <input
@@ -422,7 +440,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             {
                               e?.diamonds?.map((el) => {
                                 return (
-                                  <div className="tops2 pe-1"> {  formatAmount(((el?.damt / el?.dwt) / (result?.header?.CurrencyExchRate))) }</div>
+                                  <div className="tops2 pe-1"> {formatAmount(((el?.damt / el?.dwt) / (result?.header?.CurrencyExchRate)))}</div>
                                 )
                               })
                             }
@@ -520,19 +538,25 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   </div>
 
                 </div>
+
+                {footerflag && (
+                  <>
+                    <div className="border mt-2 pbias2 fsh2_s2">
+                      <div className="fw-bold p-2 pt-3 ps-1" style={{ fontSize: '16px' }}>NOTE:</div>
+                      <div className="p-1 fsh2_s2 danger_s2" dangerouslySetInnerHTML={{ __html: result?.header?.Declaration }}></div>
+                    </div>
+                    {/* remarks */}
+                    {result?.header?.PrintRemark !== "" && (<div className="py-1 pbias2 fsh2_s2"><b className="fsgs2 fsh2_s2">REMARKS :</b> <span dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark }}></span></div>)}
+                    {/* footer */}
+                    {result?.header?.SalesRepPolicyTermsDescription !== "" && (<div className="py-1 pbias2 fsh2_s2"><span className="fw-bold">TERMS INCLUDED</span> : <span dangerouslySetInnerHTML={{ __html: result?.header?.SalesRepPolicyTermsDescription }}></span></div>)}
+                    <div className="d-flex border mt-1 fw-bold pbias2 fsh2_s2" style={{ height: "5rem" }}>
+                      <div className="w-50 d-flex justify-content-center align-items-end border-end fsh2_s2">RECEIVER'S SIGNATURE & SEAL</div>
+                      <div className="w-50 d-flex justify-content-center align-items-end fsh2_s2">for,Classmate corporation Pvt Ltd</div>
+                    </div>
+                  </>
+                )}
                 {/* notes  */}
-                <div className="border mt-2 pbias2 fsh2_s2">
-                  <div className="fw-bold p-2 pt-3 ps-1" style={{ fontSize: '16px' }}>NOTE:</div>
-                  <div className="p-1 fsh2_s2 danger_s2" dangerouslySetInnerHTML={{ __html: result?.header?.Declaration }}></div>
-                </div>
-                {/* remarks */}
-                {result?.header?.PrintRemark !== "" && (<div className="py-1 pbias2 fsh2_s2"><b className="fsgs2 fsh2_s2">REMARKS :</b> <span dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark }}></span></div>)}
-                {/* footer */}
-                {result?.header?.SalesRepPolicyTermsDescription !== "" && (<div className="py-1 pbias2 fsh2_s2"><span className="fw-bold">TERMS INCLUDED</span> : <span dangerouslySetInnerHTML={{ __html: result?.header?.SalesRepPolicyTermsDescription }}></span></div>)}
-                <div className="d-flex border mt-1 fw-bold pbias2 fsh2_s2" style={{ height: "5rem" }}>
-                  <div className="w-50 d-flex justify-content-center align-items-end border-end fsh2_s2">RECEIVER'S SIGNATURE & SEAL</div>
-                  <div className="w-50 d-flex justify-content-center align-items-end fsh2_s2">for,Classmate corporation Pvt Ltd</div>
-                </div>
+
 
               </div>
             </>

@@ -257,6 +257,7 @@ export const MemoPrints = [
   { printName: 'detail print 12', etpType: 'print', componentName: 'DetailPrint12' },
   { printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7' },
   { printName: 'detail print 1', etpType: 'print', componentName: 'DetailPrint1' },
+  { printName: 'detail print1 (p)', etpType: 'print', componentName: 'DetailPrint1PSale' },
   { printName: 'Detail Print 1', etpType: 'print', componentName: 'DetailPrint1' },
   { printName: 'detail print 11', etpType: 'print', componentName: 'DetailPrint11' },
   { printName: 'packing list 7group', etpType: 'print', componentName: 'PackingList7Group' },
@@ -267,6 +268,7 @@ export const MemoPrints = [
   { printName: 'packing list 3', etpType: 'print', componentName: 'PackingList3' },
   { printName: 'detail print (l)', etpType: 'print', componentName: 'DetailPrintLMemo' },
   { printName: 'detail print (p)', etpType: 'print', componentName: 'DetailPrintPMemo' },
+  
   { printName: 'item wise print', etpType: 'print', componentName: 'ItemWisePrint' },
   { printName: 'item wise print2', etpType: 'print', componentName: 'ItemWisePrint' },
   { printName: 'detail print3', etpType: 'print', componentName: 'DetailPrint3' },
@@ -431,7 +433,7 @@ export const alterationArray = [
   { label: "alteration receive", evname: "RepairAlterationReceive", componentName: 'RepairAlterationReceive' },
   { printName: 'repair print', evname: 'alteration', etpType: 'print', componentName: 'RepairPrint' },
   { printName: 'print', evname: 'alteration', etpType: 'print', componentName: 'ProductAlterationPrint' },
-  { printName: 'product alteration receive', evname: 'alteration', etpType: 'print', componentName: 'ProductAlterationReceivePrint' },
+ 
 ];
 
 export const quoteArray = [
@@ -444,6 +446,8 @@ export const ordersArray = [
   { printName: 'order print', etpType: 'print', componentName: 'OrdersPrintOrder' },
   { printName: 'order print am', etpType: 'print', componentName: 'OrderPrintAM' },
   { printName: 'jewellery tax summary c', etpType: 'print', componentName: 'JewelleryTaxSummaryC' },
+  { printName: 'Design Print', etpType: 'print', componentName: 'DesignPrint' },
+  { printName: 'Req. Print', etpType: 'print', componentName: 'RequestPrint' },
 ];
 
 export const MaterialSale = [
@@ -476,7 +480,7 @@ export const MaterialSaleReturn = [
   { printName: 'print', etpType: 'print', componentName: 'Print1Material' },
   { printName: 'solitaire invoice', etpType: 'print', componentName: 'SolitairInvoiceMaterial' },
 ]
- 
+
 
 export const MaterialPurchase = [
   { printName: 'Invoice Print 1', etpType: 'print', componentName: 'InvoicePrint1MaterialPurchase' }, // amish...

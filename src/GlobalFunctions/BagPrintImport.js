@@ -3,6 +3,7 @@ export const bagPrintConditions = [
   { printName: "bagprint2a", componentName: "BagPrint2A" },
   { printName: "bagprint3a", componentName: "BagPrint3A" },
   { printName: "bagprint4a", componentName: "BagPrint4A" },
+
   { printName: "titanbagprint", componentName: "TitanBagPrint" },
   { printName: "bagprint4b", componentName: "BagPrint4B" },
   { printName: "bagprint4c", componentName: "BagPrint4C" },
@@ -18,6 +19,7 @@ export const bagPrintConditions = [
   { printName: "bagprint12a", componentName: "BagPrint12A" },
   { printName: "bagprint13a", componentName: "BagPrint13A" },
   { printName: "bagprint14a", componentName: "BagPrint14A" },
+  { printName: "bagprint14n", componentName: "BagPrint14N" },
   { printName: "bagprint15a", componentName: "BagPrint15A" },
   { printName: "bagprint16", componentName: "PrintDesign16" },
   { printName: "bagprint0", componentName: "PrintDesign0" },
@@ -38,5 +40,6 @@ export const bagPrintConditions = [
   { printName: "qualitytagprint", componentName: "FgSaleTag" },
   { printName: "stockbook", componentName: "Stockbook" },
   { printName: "usersaleprint", componentName: "UserSalesReport" },
+ 
  
 ];

@@ -9,7 +9,7 @@ const BarcodeGenratorStcok= ({ data }) => {
       JsBarcode(svgRef.current, data, {
         format: "CODE128",     // best for alphanumeric
         width: 1.5,              // line thickness
-        height: 15,            // barcode height
+        height: 30,            // barcode height
         displayValue: false,   // hide text (since you show below)
         margin: 0,
       });

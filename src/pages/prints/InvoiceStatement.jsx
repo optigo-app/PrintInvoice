@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import style from "../../assets/css/prints/CustomerDailyStatement.module.css"
+import style from "../../assets/css/prints/InvoiceStatement.css"
 import { NumberWithCommas, apiCall, checkMsg, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
@@ -151,7 +151,7 @@ const InvoiceStatement = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
 
     const subText = {
         fontSize: "10px",
-     
+
     };
 
     const groupBySubCategory = (data) => {
@@ -176,7 +176,7 @@ const InvoiceStatement = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                 };
             }
 
-            // 👉 calculate stone weight from diamond + colorstone
+           
             const stoneWt =
                 (e?.totals?.misc?.Wt || 0);
 
@@ -185,7 +185,7 @@ const InvoiceStatement = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
             map[key].grosswt += e?.grosswt || 0;
             map[key].netwt += e?.NetWt || 0;
             map[key].stonewt += stoneWt;
-            map[key].fine += e?.PureNetWt || 0;
+            map[key].fine += e?.MetalAmount == 0 ? e?.PureNetWt || 0 : 0 ;
             map[key].cash += e?.TotalAmount || 0;
             map[key].purity = e?.MetalPriceRatio || 0; // or avg if needed
             map[key].Wastage += e?.Wastage || 0; // or avg if needed
@@ -224,30 +224,29 @@ const InvoiceStatement = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
 
 
 
-    console.log("TCL: InvoiceStatement -> data?.resultArray fgfyh", groupedData)
-    console.log("TCL: InvoiceStatement -> data?.resultArray fgfyh", grandTotal)
+
 
 
     const voucher = headerData?.CashPayDet?.split("|").map((item) => {
         const [voucher_lable, voucher_amount] = item.split("-");
-      
-        return {
-          voucher_lable,
-          voucher_amount: Number(voucher_amount),
-        };
-      });
-      
 
-      const total_voucher = voucher?.reduce(
+        return {
+            voucher_lable,
+            voucher_amount: Number(voucher_amount),
+        };
+    });
+
+
+    const total_voucher = voucher?.reduce(
         (sum, item) => sum + Number(item.voucher_amount),
         0
-      );
-   
+    );
+  
 
     return (
-        loader ? <Loader /> : msg === "" ? <div className={`container max_width_container pad_60_allPrint mt-2 ${style?.CustomerDailyStatement} px-1`}>
+        loader ? <Loader /> : msg === "" ? <div className={`containerInvoiceStatement    pad_60_allPrint mt-2   px-1`}>
             {/* print button */}
-            <div className={`d-flex justify-content-center mb-4 align-items-center ${style?.print_sec_sum4} pt-4 pb-4 `}>
+            <div className={`d-flex justify-content-center mb-4 align-items-center  pt-4 pb-4 print-dis-none`}>
                 <div className="form-check ps-3 mt-2">
                     <input
                         type="button"
@@ -258,15 +257,15 @@ const InvoiceStatement = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                 </div>
             </div>
             {/* customer details */}
-            <div style={{ border: "1px solid black", padding: "12px" }}>
-                <div className="d-flex">
+            <div style={{ border: "1px solid #bdbdbd", padding: "12px" }}>
+                <div className="d-flex" style={{fontSize:"13px",marginBottom:"6px"}}>
                     <p>Bill Statement of:<span className='ps-3 fw-bold pe-4'>{headerData?.Customercode}</span></p>
                     <p>Date: <span className="ps-3 fw-bold">{headerData?.EntryDate}</span></p>
                 </div>
 
                 <table style={{ borderCollapse: "collapse", width: "100%", fontSize: "12px" }}>
                     <thead>
-                        <tr>
+                        <tr style={{ backgroundColor: "#f1f1f1d6" }}>
                             <th style={th} rowSpan={2}>Bill#</th>
                             <th style={th} rowSpan={2}>
                                 Item <br />
@@ -285,8 +284,7 @@ const InvoiceStatement = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                             <th style={th} colSpan="2">Final</th>
                         </tr>
 
-                        <tr>
-
+                        <tr style={{ backgroundColor: "#f1f1f1d6" }}>
                             <th style={th}>Fine</th>
                             <th style={th}>Cash</th>
                         </tr>
@@ -295,70 +293,70 @@ const InvoiceStatement = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                     <tbody>
                         {/* Row group 1 */}
                         {groupedData?.map((group, i) => (
-                             
-                                    <tr key={i}>
-                                        {/* Bill# only once */}
-                                        {i === 0 && (
-                                            <td rowSpan={groupedData.length} style={{ ...tdStyle }}>
-                                                {`${headerData?.InvoiceNo}`}
-                                            </td>
-                                        )}
 
-                                        {/* Subcategory */}
-                                        <td style={tdStyle}>
-                                            {group.SubCategoryname}
-                                        </td>
+                            <tr key={i}>
+                                {/* Bill# only once */}
+                                {i === 0 && (
+                                    <td rowSpan={groupedData.length} style={{ ...tdStyle }}>
+                                        {`${headerData?.InvoiceNo}`}
+                                    </td>
+                                )}
 
-                                        <td style={tdStyle} align="right">{group?.pcs}</td>
-                                        <td style={tdStyle} align="right">{group?.grosswt?.toFixed(3)}</td>
+                                {/* Subcategory */}
+                                <td style={tdStyle}>
+                                    {group.SubCategoryname}
+                                </td>
 
-                                        {/* Stone wt */}
-                                        <td style={tdStyle} align="right">
-                                            {(
-                                                (group?.stonewt || 0)
-                                            ).toFixed(3)}
-                                        </td>
+                                <td style={tdStyle} align="right">{group?.pcs}</td>
+                                <td style={tdStyle} align="right">{group?.grosswt?.toFixed(3)}</td>
 
-                                        {/* Net wt */}
-                                        <td style={tdStyle} align="right">{group?.netwt?.toFixed(3)}</td>
+                                {/* Stone wt */}
+                                <td style={tdStyle} align="right">
+                                    {(
+                                        (group?.stonewt || 0)
+                                    ).toFixed(3)}
+                                </td>
 
-                                        {/* Purity */}
-                                        <td style={tdStyle} align="right">{group?.purity}</td>
+                                {/* Net wt */}
+                                <td style={tdStyle} align="right">{group?.netwt?.toFixed(3)}</td>
 
-                                        {/* Wastage */}
-                                        <td style={tdStyle} align="right">{group?.Wastage?.toFixed(2)}</td>
+                                {/* Purity */}
+                                <td style={tdStyle} align="right">{group?.purity}</td>
 
-                                        {/* Fine */}
-                                        <td style={tdStyle} align="right"> {group?.fine?.toFixed(3)}</td>
+                                {/* Wastage */}
+                                <td style={tdStyle} align="right">{group?.Wastage?.toFixed(2)}</td>
 
-                                        {/* Cash */}
-                                        <td style={tdStyle} align="right">
-                                            {group?.cash?.toFixed(2)}
-                                        </td>
-                                    </tr>
-                              
+                                {/* Fine */}
+                                <td style={tdStyle} align="right"> {group?.fine?.toFixed(3)}</td>
+
+                                {/* Cash */}
+                                <td style={tdStyle} align="right">
+                                    {group?.cash?.toFixed(2)}
+                                </td>
+                            </tr>
+
                         ))}
 
                         {/* Cash Receive rows */}
-                        {voucher?.map((v,i)=>(
-                                  <tr>
-                                  <td style={td}>{v?.voucher_lable}<br /><span style={subText}>Cash Receive</span></td>
-                                  <td style={td}></td>
-                                  <td style={td}></td>
-                                  <td style={td}></td>
-                                  <td style={td}></td>
-                                  <td style={td}></td>
-                                  <td style={td}></td>
-                                  <td style={td}></td>
-                                  <td style={td}></td>
-                                  <td style={{...td, textAlign: "right"}}>-{v?.voucher_amount?.toFixed(2)}</td>
-                              </tr>
+                        {voucher?.map((v, i) => (
+                            <tr>
+                                <td style={td}>{v?.voucher_lable}<br /><span style={subText}>Cash Receive</span></td>
+                                <td style={td}></td>
+                                <td style={td}></td>
+                                <td style={td}></td>
+                                <td style={td}></td>
+                                <td style={td}></td>
+                                <td style={td}></td>
+                                <td style={td}></td>
+                                <td style={td}></td>
+                                <td style={{ ...td, textAlign: "right" }}>-{v?.voucher_amount?.toFixed(2)}</td>
+                            </tr>
                         ))}
-                      
 
-                        
+
+
                         {/* Total Row */}
-                        <tr>
+                        <tr style={{ backgroundColor: "#f1f1f1d6" }}>
                             <td style={{ ...td, fontWeight: "bold" }}>Total</td>
                             <td style={td}></td>
                             <td style={{ ...td, textAlign: "right" }} align="right">{grandTotal?.pcs}</td>
@@ -376,24 +374,28 @@ const InvoiceStatement = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                     </tbody>
                 </table>
 
-                <div style={{
-                    border: "1px solid black",
-                    paddingLeft: "10px",
-                    paddingBottom: "10px",
-                    marginTop: "3px",
-                }}>
-                    <div> <b>Remarks :</b> <span>{headerData?.Remark}</span></div>
-                </div>
+                {headerData?.Remark && (
+                    <div style={{
+                        border: "1px solid black",
+                        paddingLeft: "10px",
+                        paddingBottom: "10px",
+                        marginTop: "3px",
+                    }}>
+                        <div> <b>Remarks :</b> <span>{headerData?.Remark}</span></div>
+                    </div>
+                )}
+
+
 
                 {/* summary */}
-                <table style={{ borderCollapse: "collapse", width: "60%", textAlign: "center", marginTop: "3px" }}>
+                <table style={{ borderCollapse: "collapse", width: "64.5%", textAlign: "center", marginTop: "3px" }}>
                     <thead>
-                        <tr>
+                        <tr style={{ backgroundColor: "#f1f1f1d6" }}>
                             <th colSpan="6" style={{ border: "1px solid black", padding: "6px" }}>
                                 PRODUCT SUMMARY
                             </th>
                         </tr>
-                        <tr>
+                        <tr style={{ backgroundColor: "#f1f1f1d6" }}>
                             <th style={thStyle}>CATEGORY</th>
                             <th style={thStyle}>PIECES</th>
                             <th style={thStyle}>GORSS WT</th>
@@ -405,7 +407,7 @@ const InvoiceStatement = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
 
                     <tbody>
                         {category?.map((item, ind) => (
-                            <tr key={ind}>
+                            <tr key={ind} style={{ backgroundColor: item?.Categoryname === "Total" ? "#f1f1f1d6" : "" }}>
                                 <td style={{
                                     ...tdStyle,
                                     fontWeight: item?.Categoryname === "Total" ? "bold" : "normal",
@@ -418,14 +420,7 @@ const InvoiceStatement = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                             </tr>
                         ))}
 
-                        {/* <tr key={ind}>
-                                <td style={tdStyle}>Total</td>
-                                <td style={tdStyle}>{item?.pcs}</td>
-                                <td style={tdStyle}>{item?.grosswt?.toFixed(3)}</td>
-                                <td style={tdStyle}>{item?.netwt?.toFixed(3)}</td>
-                                <td style={tdStyle}>{item?.wastage?.toFixed(3)}</td>
-                                <td style={tdStyle}>{item?.fine?.toFixed(3)}</td>
-                            </tr> */}
+                       
 
 
 

@@ -94,7 +94,7 @@ const AllDesignPrint = () => {
        
  
     let findPrint = conditions.find((e) => printName?.toLowerCase() === e?.printName?.toLowerCase());
-    
+ 
  
  
     if (findPrint) {
