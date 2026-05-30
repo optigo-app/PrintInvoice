@@ -389,9 +389,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div className="subdiv2dp10 border-end fsgdp10">
                     <div className="px-1">Ship To,</div>
-                    <div className="px-1 fw-bold">
-                      {result?.header?.customerfirmname}
-                    </div>
+                    
                     {result?.header?.address?.map((e, i) => {
                       return (
                         <div className="px-1" key={i}>
