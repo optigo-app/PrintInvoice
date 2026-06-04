@@ -183,7 +183,7 @@ function BagPrint14N({ queries, headers }) {
                                         <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>Party:</div><div className='firstpart_one_chunk_val workbreak'> {e?.data?.rd?.CustomerCode}</div></div>
                                         <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>Design:</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.Designcode}`}</div></div>
 
-                                        <div className='firstpart_one_1'><div className='firstpart_one_chunk ' style={{ borderRight: "none", }}>Size:  {e?.data?.rd?.Size}</div><div className='firstpart_one_chunk_val workbreak' style={{ borderRight: "none",justifyContent:"flex-end",paddingRight:"7px" }}> Sale Rep:</div></div>
+                                        <div className='firstpart_one_1'><div className='firstpart_one_chunk ' style={{ borderRight: "none", }}>Size:  {e?.data?.rd?.Size}</div><div className='firstpart_one_chunk_val workbreak' style={{ borderRight: "none",justifyContent:"flex-end",paddingRight:"7px" }}> Sales Rep:</div></div>
                                         <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>Net Wt.:</div><div className='firstpart_one_chunk_val workbreak'> {e?.data?.rd?.netwt}</div></div>
                                         <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>Dia. Pcs:</div><div className='firstpart_one_chunk_val workbreak'>{e?.additional?.dia?.ActualPcs} </div></div>
                                         <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>Clr Pcs:</div><div className='firstpart_one_chunk_val workbreak'>   {e?.additional?.clr?.ActualPcs}</div></div>
@@ -234,7 +234,7 @@ function BagPrint14N({ queries, headers }) {
                                   <div className='firstpart_footer'>
                                     <div className='footer_one'>
                                       <div className='firstpart_one_1'>
-                                        <div className='firstpart_one_chunk _color' style={{ fontWeight: "bold", justifyContent: "center", color: "black" }}>Order Proccess</div>
+                                        <div className='firstpart_one_chunk _color' style={{ fontWeight: "bold", justifyContent: "center", color: "black" }}>Order Process</div>
                                         <div className='firstpart_one_chunk_val _color' style={{ width: "365px", justifyContent: "center", fontWeight: "bold", color: "black" }}>Prepade By</div>
                                         <div className='firstpart_one_chunk_val _color' style={{ width: "124px", justifyContent: "center", fontWeight: "bold", color: "black",borderTop:"1.5px solid #9B9B9B" }}>Confirmed By</div>
                                         <div className='firstpart_one_chunk_val _color' style={{ width: "99px", justifyContent: "center", borderRight: "none", fontWeight: "bold", color: "black",borderTop:"1.5px solid #9B9B9B" }}>Date</div>
@@ -260,14 +260,14 @@ function BagPrint14N({ queries, headers }) {
                                       </div>
                                       <div style={{ display: "flex" }}>
                                         < div className='firstpart_one_1 text-break'>
-                                          <div className='firstpart_one_chunk workbreak text-break' style={{ justifyContent: "center" }}><b>Proccess</b></div>
+                                          <div className='firstpart_one_chunk workbreak text-break' style={{ justifyContent: "center" }}><b>Process</b></div>
                                           <div className='firstpart_one_chunk_val workbreak text-break' style={{ justifyContent: "center", fontWeight: "bold",width:"90px" }}>No Of Pcs</div>
                                         </div>
                                         <div className='firstpart_one_2'>
                                           <div className="semi workbreak text-break" style={{ fontWeight: 'bold', justifyContent: "center",width:"90px" }}>F Pcs</div>
-                                          <div className="semi workbreak text-break" style={{ fontWeight: 'bold', justifyContent: "center",width:"90px" }}>Total PCS</div>
+                                          <div className="semi workbreak text-break" style={{ fontWeight: 'bold', justifyContent: "center",width:"90px" }}>Total Pcs</div>
                                           <div className="semi workbreak text-break" style={{ fontWeight: 'bold', justifyContent: "center",width:"95px" }}>G. Wt</div>
-                                          <div className="semi workbreak text-break" style={{ fontWeight: 'bold', justifyContent: "center",width:"124px" }}>Qc Sign</div>
+                                          <div className="semi workbreak text-break" style={{ fontWeight: 'bold', justifyContent: "center",width:"124px" }}>QC Sign</div>
                                           <div className="semi workbreak text-break" style={{ fontWeight: 'bold', borderRight: "none", justifyContent: "center",width:"98px" }}>Date</div>
                                         </div>
 
@@ -324,8 +324,8 @@ function BagPrint14N({ queries, headers }) {
                                       <div style={{ display: "flex" }}>
                                         < div className='firstpart_one_1 text-break'>
                                           <div className='firstpart_one_chunk workbreak text-break' style={{ width: "25px" ,justifyContent:"center"}}> 3</div>
-                                          <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "103px" }}>Screw Type & Hook</div>
-                                          <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "206px" }}> </div>
+                                          <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "103px" }}>Screw Type , Hook</div>
+                                          <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "206px" }}> </div> 
                                           <div className='firstpart_one_chunk workbreak text-break' style={{ width: "25px" ,justifyContent:"center"}}> 8</div>
                                           <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "136px" }}>Length of Article</div>
                                           <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "222px", borderRight: "none" }}> </div>
@@ -339,7 +339,7 @@ function BagPrint14N({ queries, headers }) {
                                           <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "103px" }}>Screw Length</div>
                                           <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "206px" }}> </div>
                                           <div className='firstpart_one_chunk workbreak text-break' style={{ width: "25px",justifyContent:"center" }}> 9</div>
-                                          <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "136px" }}>Wight of Article</div>
+                                          <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "136px" }}>Weight of Article</div>
                                           <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "222px", borderRight: "none" }}> </div>
                                         </div>
 
@@ -348,7 +348,7 @@ function BagPrint14N({ queries, headers }) {
                                       <div style={{ display: "flex" }}>
                                         < div className='firstpart_one_1 text-break'>
                                           <div className='firstpart_one_chunk workbreak text-break' style={{ width: "25px" ,borderBottom:"1px solid #000",justifyContent:"center"}}> 5</div>
-                                          <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "103px" ,borderBottom:"1px solid #000"}}>Setting Ok or Not</div>
+                                          <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "103px" ,borderBottom:"1px solid #000"}}>Setting OK or NOT</div>
                                           <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "206px",borderBottom:"1px solid #000" }}> </div>
                                           <div className='firstpart_one_chunk workbreak text-break' style={{ width: "25px",borderBottom:"1px solid #000",justifyContent:"center" }}> 10</div>
                                           <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "136px",borderBottom:"1px solid #000" }}> Stamping(Pcs,Ctw)</div>

@@ -16,6 +16,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1, json3_1, invoiceNo,
   let resultArray = [];
   let jobnodup = [];
   let maintotal = {
+    total_mountWeight: 0,
     diamonds: {
       Wt: 0,
       Pcs: 0,
@@ -33,6 +34,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1, json3_1, invoiceNo,
     metal: {
       Wt: 0,
       Pcs: 0,
+      RMwt: 0,
       Rate: 0,
       Amount: 0,
       FineWt: 0,
@@ -120,6 +122,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1, json3_1, invoiceNo,
     total_TotalDiaSetcost: 0,
     total_MakingAmount_Setting_Amount: 0,
     total_otherCharge_Diamond_Handling: 0,
+    total_mountWeight: 0,
   };
 
   //json1 array
@@ -172,6 +175,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1, json3_1, invoiceNo,
         metal: {
           Wt: 0,
           Pcs: 0,
+          RMwt: 0,
           Rate: 0,
           Amount: 0,
           FineWt: 0,
@@ -261,7 +265,9 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1, json3_1, invoiceNo,
       maintotal.total_TotalDiaSetcost += j1?.TotalDiaSetcost;
       maintotal.total_otherCharge_Diamond_Handling += j1?.TotalDiamondHandling + j1?.OtherCharges + j1?.MiscAmount;
       
+      maintotal.total_mountWeight += j1?.MountWeight;
       
+ 
 
       //json2
       json2?.length > 0 &&
@@ -315,11 +321,13 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1, json3_1, invoiceNo,
 
               jobwise_totals.metal.Wt += j2?.Wt;
               jobwise_totals.metal.Pcs += j2?.Pcs;
+              jobwise_totals.metal.RMwt += j2?.RMwt;
               jobwise_totals.metal.Rate += j2?.Rate;
               jobwise_totals.metal.Amount += j2?.Amount;
               jobwise_totals.metal.FineWt += j2?.FineWt;
               jobwise_totals.metal.length += 1;
               maintotal.metal.Wt += j2?.Wt;
+              maintotal.metal.RMwt += j2?.RMwt;
               maintotal.metal.total_FineWt += +j2?.FineWt;
               maintotal.metal.FineWt += +j2?.FineWt;
               maintotal.metal.Pcs += j2?.Pcs;

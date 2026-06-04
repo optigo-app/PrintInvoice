@@ -601,7 +601,7 @@ const JewelleryInvoiceT1 = ({
                                         <img
                                             src={headerData?.PrintLogo}
                                             alt=""
-                                            style={{ height: "110px", padding: "10px" }}
+                                            style={{ height: "125px",width:"170px", padding: "5px" }}
                                             className={``}
                                             onError={handleImageErrors}
                                             height={120}
@@ -615,7 +615,7 @@ const JewelleryInvoiceT1 = ({
 
                                     <div className="j-inv-grid-2 j-inv-border-b">
                                         <div className="j-inv-flex-col j-inv-border-r j-inv-p-5">
-                                            <div className="j-inv-bold">Company Details :</div>
+                                            <div className="j-inv-bold">Company Details -</div>
                                             <div className="j-inv-bold j-inv-large">{headerData?.CompanyFullName}{" "}</div>
                                             <div>{headerData?.CompanyAddress + ", "} {headerData?.CompanyAddress2}</div>
 
@@ -651,7 +651,7 @@ const JewelleryInvoiceT1 = ({
 
                                     <div style={{ display: "flex" }}>
                                         <div className="j-inv-flex-col  j-inv-p-5 j-inv-min-h-80" style={{ borderRight: "1px solid black", width: "50%" }}>
-                                            <div className="j-inv-bold">Bill To,</div>
+                                            <div className="j-inv-bold">Bill To -</div>
                                             <div>{headerData?.CustName}</div>
                                             {headerData?.customerstreet?.length > 0 ? (
                                                 <div className="fslhJL">
@@ -685,7 +685,7 @@ const JewelleryInvoiceT1 = ({
 
 
                                         <div className="j-inv-flex-col  j-inv-p-5 j-inv-min-h-80" style={{ width: "50%" }}>
-                                            <div className="j-inv-bold">Ship To,</div>
+                                            <div className="j-inv-bold">Ship To -</div>
                                          
                                             {headerData?.address?.map((e, i) => {
                                                 return (
@@ -728,8 +728,8 @@ const JewelleryInvoiceT1 = ({
                                                 <div className={`j-inv-cell ${taxamt ? 'j-inv-col-tabamt-taxamt' : 'j-inv-col-tabamt'} j-inv-border-r`}>Taxable <br /> Amt.</div>
                                             )
                                         }
-                                        <div className={`j-inv-cell ${taxamt ? 'j-inv-col-gst-taxamt' : 'j-inv-col-gst'} j-inv-border-r`}>Gst%</div>
-                                        <div className={`j-inv-cell ${taxamt ? 'j-inv-col-gst-amt-taxamt' : 'j-inv-col-gst-amt'} j-inv-border-r`}>Gst Amt.</div>
+                                        <div className={`j-inv-cell ${taxamt ? 'j-inv-col-gst-taxamt' : 'j-inv-col-gst'} j-inv-border-r`}>GST%</div>
+                                        <div className={`j-inv-cell ${taxamt ? 'j-inv-col-gst-amt-taxamt' : 'j-inv-col-gst-amt'} j-inv-border-r`}>GST Amount</div>
                                         <div className={`j-inv-cell text-center ${taxamt ? 'j-inv-col-net-taxamt' : 'j-inv-col-net'}`}>Net Amount</div>
                                     </div>
 
@@ -840,16 +840,17 @@ const JewelleryInvoiceT1 = ({
                                                 <div className="j-inv-bold">Payment Mode :</div>
                                                 <div className="j-inv-grid-2 j-inv-py-5">
                                                     {pay_details?.map((e, i) => {
+                                                        console.log("TCL: formatPaymentData -> eeeemmmm",e )
                                                         return <div key={i}>{e?.label}   : <span className=''>{NumberWithCommas(
                                                             parseFloat(String(e?.amount || 0).replace(/,/g, "").trim()) || 0,
                                                             2
                                                         )}</span></div>
                                                     })}
-                                                    {headerData?.AdvanceAmount &&(
+                                                    {headerData?.AdvanceAmount > 0 &&(
                                                         <div>Advance : <span className=''>{NumberWithCommas(headerData?.AdvanceAmount, 2)}</span></div>
 
                                                     )}
-                                                    {difference &&(
+                                                    {difference > 0 &&(
                                                         <div>Credit Amt : <span className=''>{NumberWithCommas(difference, 2)}</span></div>
 
                                                     )}
@@ -905,17 +906,17 @@ const JewelleryInvoiceT1 = ({
                                                 background: "#f5f5f5",
                                                 fontWeight: "bold",
                                                 borderBottom: "1px solid #ccc",
-                                                alignItems: "center"
+                                         
                                             }}
                                         >
                                             <div style={{...cellStyle,borderBottom:"1px solid #000"}}>HSN  Code</div>
                                             <div style={{ ...cellStyle, width: "7%",borderBottom:"1px solid #000" }}>Qty</div>
                                             <div style={{...cellStyle,borderBottom:"1px solid #000"}}>CGST%</div>
-                                            <div style={{...cellStyle,borderBottom:"1px solid #000"}}>CGST  Amt</div>
+                                            <div style={{...cellStyle,borderBottom:"1px solid #000"}}>CGST  Amount</div>
                                             <div style={{...cellStyle,borderBottom:"1px solid #000"}}>SGST%</div>
-                                            <div style={{...cellStyle,borderBottom:"1px solid #000"}}>SGST Amt</div>
+                                            <div style={{...cellStyle,borderBottom:"1px solid #000"}}>SGST Amount</div>
                                             <div style={{...cellStyle,borderBottom:"1px solid #000"}}>IGST%</div>
-                                            <div style={{...cellStyle,borderBottom:"1px solid #000"}}>IGST AMT</div>
+                                            <div style={{...cellStyle,borderBottom:"1px solid #000"}}>IGST Amount</div>
                                             <div style={{ ...cellStyle, width: "13%",borderBottom:"1px solid #000" }}>Taxable AMT</div>
                                             <div style={{...cellStyle,borderBottom:"1px solid #000"}}>Total</div>
                                         </div>
@@ -968,7 +969,7 @@ const JewelleryInvoiceT1 = ({
                                     )}
                                     <div className="" style={{ display: "flex" }}>
                                         <div className="j-inv-flex-col j-inv-border-r j-inv-p-5 j-inv-min-h-100" style={{ width: '70%' }}>
-                                            <div className="j-inv-bold">Terms & Conditions :</div>
+                                             
                                             <div
                                                 dangerouslySetInnerHTML={{
                                                     __html: headerData?.Declaration,

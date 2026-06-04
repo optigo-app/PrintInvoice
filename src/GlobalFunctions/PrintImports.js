@@ -269,7 +269,6 @@ export const MemoPrints = [
   { printName: 'packing list 3', etpType: 'print', componentName: 'PackingList3' },
   { printName: 'detail print (l)', etpType: 'print', componentName: 'DetailPrintLMemo' },
   { printName: 'detail print (p)', etpType: 'print', componentName: 'DetailPrintPMemo' },
-  
   { printName: 'item wise print', etpType: 'print', componentName: 'ItemWisePrint' },
   { printName: 'item wise print2', etpType: 'print', componentName: 'ItemWisePrint' },
   { printName: 'detail print3', etpType: 'print', componentName: 'DetailPrint3' },

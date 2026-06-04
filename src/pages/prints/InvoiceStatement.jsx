@@ -58,7 +58,7 @@ const InvoiceStatement = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
             categoryMap[key].grosswt += e?.grosswt || 0;
             categoryMap[key].netwt += e?.NetWt || 0;
             categoryMap[key].wastage += e?.Wastage || 0;
-            categoryMap[key].fine += e?.PureNetWt || 0;
+            categoryMap[key].fine += e?.MetalAmount==0 ?  e?.PureNetWt: 0;
         });
 
         // convert object → array
@@ -227,20 +227,21 @@ const InvoiceStatement = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
 
 
 
-    const voucher = headerData?.CashPayDet?.split("|").map((item) => {
-        const [voucher_lable, voucher_amount] = item.split("-");
+    const voucher = headerData?.CashPayDet
+    ? headerData.CashPayDet.split("|").map((item) => {
+          const [voucher_lable, voucher_amount] = item.split("-");
 
-        return {
-            voucher_lable,
-            voucher_amount: Number(voucher_amount),
-        };
-    });
+          return {
+              voucher_lable,
+              voucher_amount: Number(voucher_amount),
+          };
+      })
+    : [];
 
-
-    const total_voucher = voucher?.reduce(
-        (sum, item) => sum + Number(item.voucher_amount),
-        0
-    );
+const total_voucher = voucher.reduce(
+    (sum, item) => sum + item.voucher_amount,
+    0
+);
   
 
     return (
@@ -380,12 +381,11 @@ const InvoiceStatement = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                         paddingLeft: "10px",
                         paddingBottom: "10px",
                         marginTop: "3px",
+                        fontSize: "12px",
                     }}>
                         <div> <b>Remarks :</b> <span>{headerData?.Remark}</span></div>
                     </div>
                 )}
-
-
 
                 {/* summary */}
                 <table style={{ borderCollapse: "collapse", width: "64.5%", textAlign: "center", marginTop: "3px" }}>

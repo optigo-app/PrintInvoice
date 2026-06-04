@@ -714,7 +714,7 @@ export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn
 
                                                     <div className="table-cell w-price div-center">{NumberWithCommas(e?.UnitCost,2)}</div>
 
-                                                    <div className="table-cell w-price no-border div-center">{NumberWithCommas((e?.UnitCost * 0.95),2)}</div>
+                                                    <div className="table-cell w-price no-border div-center">{NumberWithCommas((e?.UnitCost * 1.05),2)}</div>
 
                                                 </div>
 
@@ -747,7 +747,7 @@ export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn
 
                                             <div className="table-cell w-price div-center">{NumberWithCommas(result?.mainTotal?.total_unitcost,2)}</div>
 
-                                            <div className="table-cell w-price no-border div-center">  {NumberWithCommas((result?.mainTotal?.total_unitcost * 0.95),2)}</div>
+                                            <div className="table-cell w-price no-border div-center">  {NumberWithCommas((result?.mainTotal?.total_unitcost * 1.05),2)}</div>
 
                                         </div>
                                         <div className="table-row" style={{height:"28px"}}>
@@ -767,7 +767,7 @@ export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn
 
 
 
-                                            <div className="table-cell w-price div-center"> 343434</div>
+                                            <div className="table-cell w-price div-center"> {NumberWithCommas((result?.mainTotal?.total_unitcost *(5/100)),2)}</div>
 
                                             <div className="table-cell w-price no-border div-center"> </div>
 

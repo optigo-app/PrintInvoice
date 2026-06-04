@@ -302,7 +302,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const totalmount = data?.resultArray?.reduce((acc, curr) => acc + curr?.TotalMountAmount, 0);
 
 
-  console.log("TCL: tptal", data.mainTotal)
+ 
 
   return (
     <>
@@ -641,8 +641,10 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <p className="text-end">
                                   <p className="text-end">
                                     {/* {fixedValues( (item?.DiamondCTWwithLoss/5)+Number(item?.NetWt) ,2)} */}
-                                    {/* {formatAmount(((item?.DiamondCTWwithLoss / 5) + Number(ele?.Wt)).toFixed(3) + (item?.totals?.finding?.Wt || 0),2)} */}
-                                    {formatAmount(Math.round(fixedValues(Number((item?.DiamondCTWwithLoss / 5) + Number(ele?.Wt)), 3) * 100) / 100, 2)}
+                                    {/* {formatAmount(((item?.DiamondCTWwithLoss / 5) + Number(ele?.RMwt)).toFixed(3) + (item?.totals?.finding?.Wt || 0),2)} */}
+                                    {/* {formatAmount(Math.round(fixedValues(Number((item?.DiamondCTWwithLoss / 5) + Number(ele?.Wt)), 3) * 100) / 100, 2)}
+                                     */}
+                                      {formatAmount(Math.round(fixedValues((item?.DiamondCTWwithLoss / 5)+Number(ele?.Wt) + (item?.LossWt || 0)-(item?.MountWeight), 3) * 100) / 100, 2)}
                                   </p>
                                 </p>
                               </div>
@@ -734,10 +736,20 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               (
                                 (item?.DiamondCTWwithLoss / 5) +
                                 Number(item?.totals?.primaryMetalWt || 0)
+                             -(item?.MountWeight)
                               ).toFixed(3),
                               2
                             )
                           }</p>
+                          {/* <p className="text-end spBold"> {
+                            fixedValues(
+                              (
+                                (item?.DiamondCTWwithLoss / 5) +
+                                Number(item?.totals?.metal?.RMwt || 0)
+                              ).toFixed(3),
+                              2
+                            )
+                          }</p> */}
                         </div>
                         <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "15.66%", minWidth: "15.66%" }}>
                           {/* <p className="text-end spBold">{fixedValues(item?.NetWt + item?.LossWt, 2)}</p> */}
@@ -1002,7 +1014,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       {/* {data?.weightWithDiamondLoss !== 0 && fixedValues(data.weightWithDiamondLoss, 3)} */}
                       {/* {NumberWithCommas(data?.mainTotal?.grosswt, 2)} */}
                       {/* {fixedValues((data?.mainTotal?.diamonds?.Wt/5)+data?.mainTotal?.netwt,2)} */}
-                      {fixedValues((data?.mainTotal?.diamonds?.Wt / 5) + data?.mainTotal?.metal?.IsPrimaryMetal, 2)}
+                      {fixedValues((data?.mainTotal?.diamonds?.Wt / 5) + data?.mainTotal?.metal?.IsPrimaryMetal  - data?.mainTotal?.total_mountWeight, 2)}
                     </p>
                   </div>
                   <div className="width200EstimatePrint p_1Estimate h-100" style={{ width: "17%", minWidth: "17%" }}>
