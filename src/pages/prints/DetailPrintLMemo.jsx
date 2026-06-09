@@ -287,7 +287,7 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
 
               e?.diamonds?.forEach((e, i) => {
                 let obj = cloneDeep(e);
-                let findrec = dia?.findIndex((a) => a?.ShapeName === obj?.ShapeName && a?.QualityName === obj?.QualityName && a?.Colorname === obj?.Colorname);
+                let findrec = dia?.findIndex((a) => a?.ShapeName === obj?.ShapeName && a?.QualityName === obj?.QualityName && a?.Colorname === obj?.Colorname && a?.IsSolGem === obj?.IsSolGem);
                 if(findrec === -1){
                   dia.push(obj);
                 }else{
@@ -301,7 +301,7 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
 
               e?.colorstone?.forEach((e) => {
                 let obj = cloneDeep(e);
-                let findrec = clr?.findIndex((a) => a?.ShapeName === obj?.ShapeName && a?.QualityName === obj?.QualityName && a?.Colorname === obj?.Colorname);
+                let findrec = clr?.findIndex((a) => a?.ShapeName === obj?.ShapeName && a?.QualityName === obj?.QualityName && a?.Colorname === obj?.Colorname && a?.IsSolGem === obj?.IsSolGem);
                 if(findrec === -1){
                   clr.push(obj);
                 }else{
@@ -919,6 +919,7 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                                   key={ind}
                                 >
                                   <p className="col-4 paddingRightDetailPrint1 text-break">
+                                    {ele?.IsSolGem === 1 ? "S:" : ""}
                                   {ele?.ShapeName} { showQlty && <> {ele?.QualityName}{" "}
                                     {ele?.Colorname}</>}
                                   </p>
@@ -1023,6 +1024,7 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                               return (
                                 <div className={`d-flex`} key={ind}>
                                   <p className="col-4 paddingRightDetailPrint1 text-break">
+                                  {ele?.IsSolGem === 1 ? "G:" : ""}
                                   {ele?.ShapeName} { showQlty && <> {ele?.QualityName}{" "}
                                     {ele?.Colorname}</>}
                                   </p>
@@ -1207,14 +1209,7 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                       {(finalD?.mainTotal?.colorstone?.Wt)?.toFixed(3)}
                     </p>
                   </div>
-                  {/* <div className="col-2 text-end d-flex justify-content-end align-items-center h-100  paddingRightDetailPrint1">
-                    <p className="fw-bold"></p>
-                  </div>
-                  <div className="col-2 text-end d-flex justify-content-end align-items-center h-100 ">
-                    <p className="fw-bold">
-                      {NumberWithCommas(total?.colorStoneAmount, 2)}
-                    </p>
-                  </div> */}
+                  
                 </div>
               </div>
             </div>
@@ -1237,220 +1232,4 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
 
 export default DetailPrintLMemo;
 
-            // {/* summary */}
-            // <div className="d-flex w-100 pt-1 recordDetailPrint1 detailPrint1L_font_11">
-            //   <div className="col-4 pe-1">
-            //     <p className="border-start  fw-bold text-center border-bottom  w-100 border-end border-top lightGrey">
-            //       SUMMARY
-            //     </p>
-            //     <div className="d-flex border-end ">
-            //       <div className="border-start col-6 border-end  position-relative summaryPadBotDetailPrint1 d-flex flex-column">
-            //         <div className="d-flex justify-content-between">
-            //           <p className="fw-bold px-1 pt-1">GOLD IN 24KT</p>
-            //           <p className="px-1 pt-1">
-            //             {" "}
-            //             {/* {(detailtPrintR || detailtPrintL || detailtPrintp) ?  */}
-            //             {(detailtPrintR) ? 
-            //             NumberWithCommas((summary?.gold24Kt - notGoldMetalWtTotal), 3) : fixedValues((finalD?.mainTotal?.total_purenetwt - notGoldMetalWtTotal), 3)} gm
-            //           </p>
-            //         </div>
-            //         {
-            //           MetShpWise?.map((e, i) => {
-            //             return <div className="d-flex justify-content-between" key={i}>
-            //             <p className="fw-bold px-1 pt-1">{e?.ShapeName}</p>
-            //             <p className="px-1 pt-1"> {(detailtPrintR) ?  NumberWithCommas(e?.metalfinewt, 3) : fixedValues(e?.metalfinewt, 3)} gm </p>
-            //           </div>
-            //           })
-            //         }
-            //         <div className="d-flex justify-content-between">
-            //           <p className="fw-bold px-1 pt-1">GROSS WT</p>
-            //           <p className="px-1 pt-1">
-            //             {" "}
-            //             {fixedValues(summary?.grossWt, 3)} gm
-            //           </p>
-            //         </div>
-            //         <div className="d-flex justify-content-between">
-            //           <p className="fw-bold px-1 pt-1">*(G+D) WT</p>
-            //           {/* <p classNamxe= pt-1'p-1'> {fixedValues(summary?.gDWt, 3)} gm</p> */}
-            //           <p className="px-1 pt-1">
-            //             {NumberWithCommas(finalD?.mainTotal?.netwt + (finalD?.mainTotal?.diamonds?.Wt / 5), 3)} gm
-            //           </p>
-            //         </div>
-            //         <div className="d-flex justify-content-between">
-            //           <p className="fw-bold px-1 pt-1">NET WT</p>
-            //           <p className="px-1 pt-1"> {fixedValues(finalD?.mainTotal?.metal?.IsPrimaryMetal, 3)} gm</p>
-            //         </div>
-            //         <div className="d-flex justify-content-between">
-            //           <p className="fw-bold px-1 pt-1">DIAMOND WT</p>
-            //           <p className="px-1 pt-1">
-            //             {NumberWithCommas(finalD?.mainTotal?.diamonds?.Pcs, 0)} / {NumberWithCommas(finalD?.mainTotal?.diamonds?.Wt, 3)} cts
-            //             {/* {NumberWithCommas(summary?.diamondpcs, 0)} /{" "} {fixedValues(summary?.diamondWt, 3)} cts */}
-            //           </p>
-            //         </div>
-            //         <div className="d-flex justify-content-between">
-            //           <p className="fw-bold px-1 pt-1">STONE WT</p>
-            //           <p className="px-1 pt-1">
-            //             {" "}
-            //             {NumberWithCommas(summary?.stonePcs, 0)} /{" "}
-            //             {fixedValues(summary?.stoneWt, 3)} cts
-            //           </p>
-            //         </div>
-            //         {json0Data?.Privilege_discount !== 0 && (
-            //           <div className="d-flex justify-content-between">
-            //             <p className="fw-bold px-1 pt-1">Privilege Discount</p>
-            //             <p className="px-1 pt-1">- {json0Data?.Privilege_discount}</p>
-            //           </div>
-            //         )}
-            //         <div className="d-flex justify-content-between border-top  position-absolute w-100 border-bottom bottom-0 totalLineDetailPrint1 lightGrey">
-            //           <p className="fw-bold px-1 pt-1"> </p>
-            //           <p className="px-1 pt-1"> </p>
-            //         </div>
-            //       </div>
-            //       <div className="col-6 position-relative summaryPadBotDetailPrint1  d-flex flex-column">
-            //         <div className="d-flex justify-content-between">
-            //           <p className="fw-bold px-1 pt-1">GOLD</p>
-            //           <p className="px-1 pt-1">
-            //             {" "}
-            //             {NumberWithCommas((finalD?.mainTotal?.MetalAmount - notGoldMetalTotal), 2)}
-            //           </p>
-            //         </div>
-            //           {
-            //             MetShpWise?.map((e, i) => {
-            //               return <div className="d-flex justify-content-between">
-            //                <React.Fragment key={i}><p className="fw-bold px-1 pt-1">{e?.ShapeName}</p>
-            //               <p className="px-1 pt-1">
-            //                 {" "}
-            //                 {NumberWithCommas(e?.Amount, 2)}
-            //               </p>
-            //               </React.Fragment>
-            //           </div>
-            //             })
-            //           }
-            //         <div className="d-flex justify-content-between">
-            //           <p className="fw-bold px-1 pt-1">DIAMOND</p>
-            //           <p className="px-1 pt-1">
-            //             {" "}
-            //             {NumberWithCommas(finalD?.mainTotal?.diamonds?.Amount, 2)}
-            //           </p>
-            //         </div>
-            //         <div className="d-flex justify-content-between">
-            //           <p className="fw-bold px-1 pt-1">CST</p>
-            //           <p className="px-1 pt-1">
-            //             {NumberWithCommas(finalD?.mainTotal?.colorstone?.Amount, 2)}
-            //           </p>
-            //         </div>
-            //         <div className="d-flex justify-content-between">
-            //           <p className="fw-bold px-1 pt-1">MAKING</p>
-            //           <p className="px-1 pt-1">
-            //             {" "}
-            //             {/* {NumberWithCommas(summary?.makingAmount, 2)} */}
-            //             {NumberWithCommas(total?.labourAmount, 2)}
-            //           </p>
-            //         </div>
-            //         <div className="d-flex justify-content-between">
-            //           <p className="fw-bold px-1 pt-1">OTHER</p>
-            //           <p className="px-1 pt-1">
-            //             {" "}
-            //             {NumberWithCommas(finalD?.mainTotal?.miscChargesTotals, 2)}
-            //           </p>
-            //         </div>
-            //         <div className="d-flex justify-content-between">
-            //           <p className="fw-bold px-1 pt-1">LESS</p>
-            //           <p className="px-1 pt-1">
-            //             {" "}
-            //             {NumberWithCommas(summary?.addLess, 2)}
-            //           </p>
-            //         </div>
-            //         <div className="d-flex justify-content-between border-top  position-absolute w-100 border-bottom  bottom-0 totalLineDetailPrint1 lightGrey">
-            //           <p className="fw-bold p-1">TOTAL</p>
-            //           <p className="px-1 p-1">
-            //             {NumberWithCommas(total?.withDiscountTaxAmount, 2)}
-            //           </p>
-            //         </div>
-            //       </div>
-            //     </div>
-            //   </div>
-            //   {/* summaryPadBotDetailPrint1 */}
-            //   <div className="col-2   pe-1">
-            //     <div className={`border-end border-start border-top ${diamondDetails?.length === 1 && `d-flex flex-column justify-content-between h-100`}`}>
-            //       <p className="fw-bold text-center border-bottom  w-100 lightGrey">
-            //         Diamond Detail
-            //       </p>
-            //       <div className="d-flex flex-column justify-content-start h-100">
-            //         {diamondDetails?.map((e, i) => {
-            //           return e?.Wt !== undefined && <React.Fragment key={i}>
-            //             <div className={`d-flex justify-content-between px-1 pb-1  align-items-center ${i === 0 && "pt-1"}`}>
-            //               <p className="fw-bold">{e?.ShapeName === "OTHER" ? e?.ShapeName : <>{e?.ShapeName} {e?.QualityName} {e?.Colorname}</>}</p>
-            //               <p>
-            //                 {NumberWithCommas(e?.Pcs, 0)}/{NumberWithCommas(e?.Wt, 3)} Cts
-            //               </p>
-            //             </div>
-            //           </React.Fragment>
-            //         })}
-            //       </div>
-
-            //       <div className="d-flex justify-content-between border-top  w-100 border-bottom totalLineDetailPrint1 lightGrey">
-            //         <p className="fw-bold p-1"></p>
-            //         <p className="p-1"></p>
-            //       </div>
-            //     </div>
-            //   </div>
-            //   <div className="col-2 pe-1">
-            //     <div className="border-bottom  border-top">
-            //       <p className="fw-bold text-center border-start border-end border-bottom  w-100 border-start lightGrey">
-            //         OTHER DETAILS
-            //       </p>
-            //       {checkBox?.brokarage && brokarage.map((e, i) => {
-            //         return (
-            //           <div
-            //             className="d-flex border-start border-end "
-            //             key={i}
-            //           >
-            //             <div className="col-6">
-            //               <p className="fw-bold p-1">{e?.label}</p>
-            //             </div>
-            //             <div className="col-6">
-            //               <p className="text-end p-1">{e?.value}</p>
-            //             </div>
-            //           </div>
-            //         );
-            //       })}
-            //       <div className="d-flex border-start border-end ">
-            //         <div className="col-6">
-            //           <p className="fw-bold p-1">RATE IN 24KT</p>
-            //         </div>
-            //         <div className="col-6">
-            //           <p className="text-end p-1">
-            //             {NumberWithCommas(json0Data?.MetalRate24K, 2)}
-            //           </p>
-            //         </div>
-            //       </div>
-            //     </div>
-            //   </div>
-            //   <div className="col-2 pe-1">
-            //     <div className="border  border-top">
-            //       <p className="fw-bold text-center border-start border-bottom  w-100 border-start lightGrey">
-            //         REMARK
-            //       </p>
-            //       <p
-            //         dangerouslySetInnerHTML={{ __html: json0Data?.PrintRemark }}
-            //         className="pb-3 pt-1 ps-1 pe-1"
-            //       ></p>
-            //     </div>
-            //   </div>
-            //   <div className="col-2">
-            //     <div className="d-flex  border-start border-end border-bottom createdByDetailPrint1 border-top">
-            //       <div className="col-6 border-end  d-flex align-items-end justify-content-center">
-            //         <i> Created By</i>
-            //       </div>
-            //       <div className="col-6 d-flex align-items-end justify-content-center">
-            //         <i> Checked By</i>
-            //       </div>
-            //     </div>
-            //   </div>
-            // </div>
-            // <div className="fs_dp4 text-secondary pt-3 detailPrint1L_font_12">
-            //   ** THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US
-            //   IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF
-            //   TRANSACTIONS
-            // </div>
+          

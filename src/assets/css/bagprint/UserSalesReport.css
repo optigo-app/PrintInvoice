@@ -6,7 +6,7 @@
   --w-group: calc(var(--w-stat) * 3);
 
   width: 100%;
-  font-family: Arial, sans-serif;
+  font-family: times new roman, times, serif, sans-serif !important;
   overflow-x: auto;
 }
 
@@ -24,8 +24,6 @@
   font-size: 13px;
   box-sizing: border-box;
   min-height: 32px;
-
-  /* important */
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

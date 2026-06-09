@@ -17,6 +17,9 @@ import { cloneDeep } from "lodash";
 import { OrganizeDataPrint } from "../../../GlobalFunctions/OrganizeDataPrint";
 
 const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
+
+  
+ 
   const [loader, setLoader] = useState(true);
   
   const [result, setResult] = useState();
@@ -57,7 +60,8 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
      const datas = OrganizeDataPrint(
           data?.BillPrint_Json[0],
           data?.BillPrint_Json1,
-          data?.BillPrint_Json2
+          data?.BillPrint_Json2,
+ 
         );
     console.log("TCL: loadDatas", datas)
     let json0Datas = data.BillPrint_Json[0];
@@ -79,6 +83,8 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
     let totalAmountBefore = 0;
     let metalArr = [];
     let diamondWt = 0;
+    let solitaireWt = 0;
+    let gemstoneWt = 0;
     let labGrownWt = 0;
     let colorStoneWt = 0;
     let miscWt = 0;
@@ -96,6 +102,8 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
       let diamondWts = 0;
       let labGrownWts = 0;
       let colorStoneWts = 0;
+      let solitaireWts = 0;
+      let gemstoneWts = 0;
       let miscWts = 0;
       let obj = { ...e };
       let miscWt = 0;
@@ -124,6 +132,7 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
                 elem?.ShapeName === ele?.ShapeName &&
                 elem?.Colorname === ele?.Colorname &&
                 elem?.QualityName === ele?.QualityName &&
+                elem?.IsSolGem === ele?.IsSolGem &&
                 elem?.Rate === ele?.Rate
             );
             if (findRecord === -1) {
@@ -138,17 +147,28 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
             //   diamondWts += ele?.Wt;
             // }
             if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
-              if(ele?.MaterialTypeName === "LabGrown"){
+           
+              if (ele?.MaterialTypeName === "LabGrown") {
                 labGrownWt += ele?.Wt * obj?.Quantity;
                 labGrownWts += ele?.Wt;
-              }else{
+              } else {
+                if (ele?.IsSolGem === 1) {
+                  solitaireWt += ele?.Wt * obj?.Quantity;
+                  solitaireWts += ele?.Wt;
+                }else{
                 diamondWt += ele?.Wt * obj?.Quantity;
                 diamondWts += ele?.Wt;
+                }
               }
             }
             if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
-              colorStoneWt += (ele?.Wt * obj?.Quantity);
+              if (ele?.IsSolGem === 1) {
+                gemstoneWt += ele?.Wt * obj?.Quantity;
+                gemstoneWts += ele?.Wt;
+              }else{
+              colorStoneWt += ele?.Wt * obj?.Quantity;
               colorStoneWts += ele?.Wt;
+              }
             }
             if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
               miscWt += (ele?.Wt );
@@ -169,6 +189,8 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
       obj.diamondWts = diamondWts;
       obj.labGrownWts = labGrownWts;
       obj.colorStoneWts = colorStoneWts;
+      obj.solitaireWts = solitaireWts;
+      obj.gemstoneWts = gemstoneWts;
       obj.miscWts = miscWts;
       obj.materials = materials;
       obj.metalColorCode = metalColorCode;
@@ -181,8 +203,10 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
     //   return  miscQunWt += a?.miscWt;
     // })
     metalArr.push({ label: "Diamond Wt", value: (diamondWt), gm: false });
+    metalArr.push({ label: "Solitaire Wt", value: solitaireWt, gm: false });
     metalArr.push({ label: "Lab Grown Dia. Wt", value: labGrownWt, gm: false });
     metalArr.push({ label: "Stone Wt", value: colorStoneWt, gm: false });
+    metalArr.push({ label: "Gemstone Wt", value: gemstoneWt, gm: false });
     metalArr.push({ label: "Gross Wt", value: grossWt, gm: true });
   
     if (!estimate) {
@@ -483,8 +507,36 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
     
         {data?.length > 0 &&
           data?.map((e, i) => {
-            const groupedMaterials = (myMaterials?.filter((item) => item?.DesignNo === e?.designno) || []).reduce((acc, ele) => {
+            // const groupedMaterials = (myMaterials?.filter((item) => item?.DesignNo === e?.designno) || []).reduce((acc, ele) => {
               
+            //   if (ele?.IsCenterStone === 1) {
+            //     acc[`center-stone-${ele?.StockBarcode}`] = { ...ele };
+            //     return acc;
+            //   }
+            //   const materialType =
+            //     ele?.MaterialTypeName === "LabGrown" ? "LabGrown" : "OTHER";
+            //   const isDiamond = ele?.MasterManagement_DiamondStoneTypeid === 1;
+
+            //   const key = isDiamond
+            //     ? `${materialType}-${ele?.Shape_Code}-${ele?.Color_Code}-${ele?.Quality_Code}`
+            //     : `${ele?.Shape_Code}-${ele?.Color_Code}-${ele?.Quality_Code}`;
+
+            //   if (acc[key]) {
+            //     acc[key].Pcs += ele?.Pcs || 0;
+            //     acc[key].Wt += ele?.RMwt || 0;
+            //   } else {
+            //     acc[key] = {
+            //       ...ele,
+            //       Pcs: ele?.Pcs || 0,
+            //       Wt: ele?.RMwt || 0,
+            //     };
+            //   }
+
+            //   return acc;
+            // }, {});
+            // const mergedMaterials = Object.values(groupedMaterials);
+
+            const groupedMaterials = (e?.materials || []).reduce((acc, ele) => {
               if (ele?.IsCenterStone === 1) {
                 acc[`center-stone-${ele?.StockBarcode}`] = { ...ele };
                 return acc;
@@ -494,23 +546,25 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
               const isDiamond = ele?.MasterManagement_DiamondStoneTypeid === 1;
 
               const key = isDiamond
-                ? `${materialType}-${ele?.Shape_Code}-${ele?.Color_Code}-${ele?.Quality_Code}`
-                : `${ele?.Shape_Code}-${ele?.Color_Code}-${ele?.Quality_Code}`;
+                ? `${materialType}-${ele?.Shape_Code}-${ele?.Color_Code}-${ele?.Quality_Code}-${ele?.IsSolGem}`
+                : `${ele?.Shape_Code}-${ele?.Color_Code}-${ele?.Quality_Code}-${ele?.IsSolGem}`;
 
               if (acc[key]) {
                 acc[key].Pcs += ele?.Pcs || 0;
-                acc[key].Wt += ele?.RMwt || 0;
+                acc[key].Wt += ele?.Wt || 0;
               } else {
                 acc[key] = {
                   ...ele,
                   Pcs: ele?.Pcs || 0,
-                  Wt: ele?.RMwt || 0,
+                  Wt: ele?.Wt || 0,
                 };
               }
 
               return acc;
             }, {});
             const mergedMaterials = Object.values(groupedMaterials);
+
+
             return (
               <div className="d-flex border-start border-end border-bottom no_break border-top" key={i} >
                 <div className="col-1 p-1 border-end">
@@ -544,17 +598,22 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
                     {mergedMaterials?.map((ele, ind) => (
                                            <p key={ind} className="text-break text_break_value_sub">
                                              <span className="text-break">
-                                               {ele?.MasterManagement_DiamondStoneTypeid === 1 &&
-                                                 (ele?.IsCenterStone === 1
-                                                   ? "CenterStone :"
-                                                   : ele?.MaterialTypeName === "LabGrown"
-                                                     ? "Lab Grown Diamond :"
-                                                     : "Diamond :")}
-                                               {ele?.MasterManagement_DiamondStoneTypeid === 2 &&
-                                                 "Colorstone :"}
-                                               {ele?.MasterManagement_DiamondStoneTypeid === 3 &&
-                                                 "Misc :"} 
-                                             </span>
+                            {ele?.MasterManagement_DiamondStoneTypeid === 1
+                              ? ele?.IsSolGem === 1
+                                ? "Diamond: S"
+                                : ele?.IsCenterStone === 1
+                                  ? "CenterStone"
+                                  : ele?.MaterialTypeName === "LabGrown"
+                                    ? "Lab Grown Diamond"
+                                    : "Diamond"
+                              : ele?.MasterManagement_DiamondStoneTypeid === 2
+                                ? ele?.IsSolGem === 1
+                                  ? "Colorstone: G"
+                                  : "Colorstone"
+                                : ele?.MasterManagement_DiamondStoneTypeid === 3
+                                  ? "Misc"
+                                  : ""}
+                          </span> :
                                                 
                                              {ele?.MasterManagement_DiamondStoneTypeid != 4 && (
                                                    

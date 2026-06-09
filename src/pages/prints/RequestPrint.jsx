@@ -477,6 +477,10 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         acc[typeKey].totalPcs += Number(item.Pcs || 0);
         acc[typeKey].totalWt += Number(item.Wt || 0);
 
+        if(item.MasterManagement_DiamondStoneTypeName ==="COLOR STONE"){
+            item.MasterManagement_DiamondStoneTypeName="COLOR_STONE"
+        }
+
         // METAL MERGE LOGIC
         if (item.MasterManagement_DiamondStoneTypeName === "METAL") {
             const existingMetal = acc[typeKey].data.find(
@@ -506,7 +510,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     }, {});
 
 
-    console.log("TCL: groupedData", diamondFlag)
+    console.log("TCL: groupedData", groupedData)
 
 
     return loader ? (
@@ -734,7 +738,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             }}
                         >
                             {[
-                                "DIAMOND",
+                                d?.IsSolGem ===1 ?"SOLITAIRE": "DIAMOND",
                                 d?.MaterialTypeName || "",
                                 d?.ShapeName || "",
                                 d?.QualityName || "",
@@ -851,7 +855,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             }}
                         >
                             {[
-                                "DIAMOND",
+                                d?.IsSolGem ===1 ?"GEMSTONE": "COLOR STONE",
                                 d?.MaterialTypeName || "",
                                 d?.ShapeName || "",
                                 d?.QualityName || "",
@@ -864,7 +868,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     key={index}
                                     style={{
                                         border: "1px solid #E0E0E0",
-                                        padding: "10px",
+                                        padding: "8px",
                                         textAlign: index >= 6 ? "right" : "left",
                                         minHeight: "40px",
                                     }}
@@ -967,7 +971,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             }}
                         >
                             {[
-                                "DIAMOND",
+                                "MISC",
                                 d?.MaterialTypeName || "",
                                 d?.ShapeName || "",
                                 d?.QualityName || "",

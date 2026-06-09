@@ -57,7 +57,8 @@ const QuotePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       const datas = OrganizeDataPrint(
         data?.BillPrint_Json[0],
         data?.BillPrint_Json1,
-        data?.BillPrint_Json2
+        data?.BillPrint_Json2,
+     
       );
       let catNameWise = [];
       datas?.resultArray?.forEach((a) => {
@@ -177,6 +178,10 @@ const QuotePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     },0)
     
   }
+
+
+  
+  console.log("TCL: result", result)
 
   return (
     <>
@@ -452,6 +457,7 @@ const QuotePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               return (
                                 <div className="d-flex" key={idia}>
                                   <div className="theadsubcol1_dp10 " style={{wordBreak:'break-word',paddingLeft:'2px'}}>
+                                    {el?.IsSolGem === 1 ? "S:" : ""}
                                      {el?.MaterialTypeName} {el?.ShapeName} {el?.QualityName}&nbsp;
                                     {el?.Colorname}
                                   </div>
@@ -562,6 +568,7 @@ const QuotePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               return (
                                 <div className="d-flex" key={ics}>
                                   <div className="theadsubcol1_dp10 " style={{wordBreak:'break-word', paddingLeft:'2px', width:'21.66%'}}>
+                                  {el?.IsSolGem === 1 ? "G:" : ""}
                                     { el?.MaterialTypeName + " " + el?.ShapeName + " " + el?.QualityName + " " + el?.Colorname} </div>
                                   <div className="theadsubcol1_dp10 text-center">
                                     {el?.SizeName}
@@ -776,15 +783,30 @@ const QuotePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className="d-flex justify-content-between px-1 fsg2dp10">
                               <div className="w-50 fw-bold fsg2dp10">DIAMOND WT</div>
                               <div className="w-50 end_dp10 pe-1 fsg2dp10">
-                                {result?.mainTotal?.diamonds?.Pcs} /{" "}
-                                {result?.mainTotal?.diamonds?.Wt?.toFixed(3)} cts
+                                {result?.mainTotal?.diamonds?.Pcs - result?.mainTotal?.solitaire?.Pcs} /{" "}
+                                {(result?.mainTotal?.diamonds?.Wt - result?.mainTotal?.solitaire?.Wt).toFixed(3)} cts
+                              </div>
+                            </div>
+                            <div className="d-flex justify-content-between px-1 fsg2dp10">
+                              <div className="w-50 fw-bold fsg2dp10">SOLITAIRE WT</div>
+                              <div className="w-50 end_dp10 pe-1 fsg2dp10">
+                                {result?.mainTotal?.solitaire?.Pcs} /{" "}
+                                {result?.mainTotal?.solitaire?.Wt?.toFixed(3)} cts
                               </div>
                             </div>
                             <div className="d-flex justify-content-between px-1">
                               <div className="w-50 fw-bold fsg2dp10">STONE WT</div>
                               <div className="w-50 end_dp10 pe-1 fsg2dp10">
-                                {result?.mainTotal?.colorstone?.Pcs} /{" "}
-                                {result?.mainTotal?.colorstone?.Wt?.toFixed(3)}{" "}
+                                {result?.mainTotal?.colorstone?.Pcs-result?.mainTotal?.gemstone?.Pcs} /{" "}
+                                {(result?.mainTotal?.colorstone?.Wt-result?.mainTotal?.gemstone?.Wt).toFixed(3)}{" "}
+                                cts
+                              </div>
+                            </div>
+                            <div className="d-flex justify-content-between px-1">
+                              <div className="w-50 fw-bold fsg2dp10">GEMSTONE WT</div>
+                              <div className="w-50 end_dp10 pe-1 fsg2dp10">
+                                {result?.mainTotal?.gemstone?.Pcs} /{" "}
+                                {result?.mainTotal?.gemstone?.Wt?.toFixed(3)}{" "}
                                 cts
                               </div>
                             </div>
@@ -827,7 +849,15 @@ const QuotePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               <div className="w-50 fw-bold fsg2dp10">DIAMOND</div>
                               <div className="w-50 end_dp10 fsg2dp10">
                                 {formatAmount(
-                                  (mainTotal?.diamond_Amt)
+                                  (mainTotal?.diamond_Amt-result?.mainTotal?.solitaire?.Amount)
+                                )}
+                              </div>
+                            </div>
+                            <div className="d-flex justify-content-between px-1">
+                              <div className="w-50 fw-bold fsg2dp10">SOLITAIRE</div>
+                              <div className="w-50 end_dp10 fsg2dp10">
+                                {formatAmount(
+                                  (result?.mainTotal?.solitaire?.Amount)
                                 )}
                               </div>
                             </div>
@@ -835,7 +865,15 @@ const QuotePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               <div className="w-50 fw-bold fsg2dp10">CST</div>
                               <div className="w-50 end_dp10 fsg2dp10">
                                 {formatAmount(
-                                  (mainTotal?.colorstone_Amt)
+                                  (mainTotal?.colorstone_Amt-result?.mainTotal?.gemstone?.Amount)
+                                )}
+                              </div>
+                            </div>
+                            <div className="d-flex justify-content-between px-1">
+                              <div className="w-50 fw-bold fsg2dp10">GEMSTONE</div>
+                              <div className="w-50 end_dp10 fsg2dp10">
+                                {formatAmount(
+                                  (result?.mainTotal?.gemstone?.Amount)
                                 )}
                               </div>
                             </div>

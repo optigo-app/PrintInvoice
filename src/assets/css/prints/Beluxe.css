@@ -36,10 +36,10 @@
 .stycol{ width: 10%;}
 .imgcol{width: 10% }
 .descol{ width: 25.1%;}
-.qtycol{ width:12.5%;}
-.tagcol{ width:12.5%;}
-.discol{ width:12.5%;}
-.tlcol{ width:12.5%;}
+.qtycol{ width:6.5%;}   
+.tagcol{ width:14.5%;}
+.discol{ width:14.5%;}
+.tlcol{ width:14.5%;}
 
 .colpad {
     padding: 5px;
@@ -62,7 +62,7 @@
 @media print {
     .beluxecontainer{
         width: 100% !important;
-        font-size: 10px;
+        font-size: 13px;
     }
     .printbtn{
         display: none !important;

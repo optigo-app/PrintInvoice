@@ -237,7 +237,7 @@ function BagPrint14N({ queries, headers }) {
                                         <div className='firstpart_one_chunk _color' style={{ fontWeight: "bold", justifyContent: "center", color: "black" }}>Order Process</div>
                                         <div className='firstpart_one_chunk_val _color' style={{ width: "365px", justifyContent: "center", fontWeight: "bold", color: "black" }}>Prepade By</div>
                                         <div className='firstpart_one_chunk_val _color' style={{ width: "124px", justifyContent: "center", fontWeight: "bold", color: "black",borderTop:"1.5px solid #9B9B9B" }}>Confirmed By</div>
-                                        <div className='firstpart_one_chunk_val _color' style={{ width: "99px", justifyContent: "center", borderRight: "none", fontWeight: "bold", color: "black",borderTop:"1.5px solid #9B9B9B" }}>Date</div>
+                                        <div className='firstpart_one_chunk_val _color' style={{ width: "99px", justifyContent: "center", borderRight: "none", fontWeight: "bold", color: "black",borderTop:"1.5px solid #9B9B9B" }}></div>
                                       </div>
 
                                     </div>
@@ -261,14 +261,14 @@ function BagPrint14N({ queries, headers }) {
                                       <div style={{ display: "flex" }}>
                                         < div className='firstpart_one_1 text-break'>
                                           <div className='firstpart_one_chunk workbreak text-break' style={{ justifyContent: "center" }}><b>Process</b></div>
-                                          <div className='firstpart_one_chunk_val workbreak text-break' style={{ justifyContent: "center", fontWeight: "bold",width:"90px" }}>No Of Pcs</div>
+                                          <div className='firstpart_one_chunk_val workbreak text-break' style={{ justifyContent: "center", fontWeight: "bold",width:"90px" }}>Date</div>
                                         </div>
                                         <div className='firstpart_one_2'>
-                                          <div className="semi workbreak text-break" style={{ fontWeight: 'bold', justifyContent: "center",width:"90px" }}>F Pcs</div>
-                                          <div className="semi workbreak text-break" style={{ fontWeight: 'bold', justifyContent: "center",width:"90px" }}>Total Pcs</div>
-                                          <div className="semi workbreak text-break" style={{ fontWeight: 'bold', justifyContent: "center",width:"95px" }}>G. Wt</div>
+                                          <div className="semi workbreak text-break" style={{ fontWeight: 'bold', justifyContent: "center",width:"90px" }}>Name</div>
+                                          <div className="semi workbreak text-break" style={{ fontWeight: 'bold', justifyContent: "center",width:"90px" }}>Issued Wt.</div>
+                                          <div className="semi workbreak text-break" style={{ fontWeight: 'bold', justifyContent: "center",width:"95px" }}>Return Wt.</div>
                                           <div className="semi workbreak text-break" style={{ fontWeight: 'bold', justifyContent: "center",width:"124px" }}>QC Sign</div>
-                                          <div className="semi workbreak text-break" style={{ fontWeight: 'bold', borderRight: "none", justifyContent: "center",width:"98px" }}>Date</div>
+                                          <div className="semi workbreak text-break" style={{ fontWeight: 'bold', borderRight: "none", justifyContent: "center",width:"98px" }}></div>
                                         </div>
 
                                       </div>
@@ -303,7 +303,7 @@ function BagPrint14N({ queries, headers }) {
                                           <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "103px" }}>As per Design</div>
                                           <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "206px" }}> </div>
                                           <div className='firstpart_one_chunk workbreak text-break' style={{ width: "25px",justifyContent:"center" }}> 6</div>
-                                          <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "136px" }}>Screw type, Hook Type </div>
+                                          <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "136px" }}>No. of {" "} Stone </div>
                                           <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "222px", borderRight: "none" }}> </div>
                                         </div>
 
@@ -315,7 +315,7 @@ function BagPrint14N({ queries, headers }) {
                                           <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "103px" }}>Metal purity & Color</div>
                                           <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "206px" }}> </div>
                                           <div className='firstpart_one_chunk workbreak text-break' style={{ width: "25px" ,justifyContent:"center"}}> 7</div>
-                                          <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "136px" }}>Screw Length</div>
+                                          <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "136px" }}>No. of {" "}  Diamond</div>
                                           <div className='firstpart_one_chunk_val workbreak text-break' style={{ width: "222px", borderRight: "none" }}> </div>
                                         </div>
 

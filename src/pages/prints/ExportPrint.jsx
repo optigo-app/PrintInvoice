@@ -89,14 +89,17 @@ const ExportPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <p className='fw-bold'>{NumberWithCommas(i + 1, 0)}</p>
                                 <p className='fw-bold'>{e?.designno}</p>
                             </div>
-                            {checkBox?.mrp && (
-                                 <div className="d-flex justify-content-end w-100 px-1">
-                                 <p className='fw-bold'>{e?.UnitCost}</p>
-                                
-                             </div>
-                            )}
                             
-                            { atob(evn)?.toLowerCase() === 'quote' ? '' : <div className={`fw-bold px-1 ${style?.lh_ep}`}>{e?.SrJobno} </div>}
+                                 <div className="d-flex  w-100 px-1" style={{justifyContent:"space-between"}}>
+                                    { atob(evn)?.toLowerCase() === 'quote' ? '' : <div className={`fw-bold ${style?.lh_ep}`}>{e?.SrJobno} </div>}
+
+
+                                    {checkBox?.mrp && (
+                                    <p className='fw-bold'>{e?.UnitCost}</p>
+                                 )}
+                                
+                                  </div>
+                            
                         </div>
                     </div>
                 </div>

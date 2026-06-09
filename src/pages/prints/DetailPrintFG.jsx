@@ -142,6 +142,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             a?.QualityName === bll?.QualityName &&
             a?.Colorname === bll?.Colorname &&
             a?.SizeName === bll?.SizeName &&
+            a?.isSolGem === bll?.isSolGem &&
             a?.MaterialTypeName === bll?.MaterialTypeName // Added
         );
         if (findrec === -1) {
@@ -160,7 +161,8 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             a?.ShapeName === bll?.ShapeName &&
             a?.QualityName === bll?.QualityName &&
             a?.Colorname === bll?.Colorname &&
-            a?.GroupName === bll?.GroupName
+            a?.GroupName === bll?.GroupName &&
+            a?.isSolGem === bll?.isSolGem 
         );
         if (findrec === -1) {
           dia2_g.push(bll);
@@ -175,6 +177,8 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         e.SizeName = e?.GroupName;
         dia2_g_.push(e);
       });
+      
+      console.log("TCL: loadData -> ",dia1_g )
       dia2 = [...dia1_g, ...dia2_g_];
 
       e.diamonds = dia2;
@@ -277,8 +281,9 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       const shape = el?.ShapeName || "";
       const color = el?.Colorname || "";
+    
       const size = el?.SizeName?.startsWith("C:") ? "Custom" : el?.SizeName || "";
-      const key = `${shape} ${color} ${size}`.trim();
+      const key = `${shape} ${color} ${size} `.trim();
 
       if (acc[key]) {
 
@@ -546,10 +551,13 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="pad_bot_29_estimatePrint">
                         {item?.diamonds.length > 0 &&
                           item?.diamonds.map((ele, ind) => {
+                            
+                            console.log("TCL: getMergedDiamonds -> ",ele )
                             return (
                               <div className="d-flex " key={ind}>
                                 <div className="width20EstimatePrint p_1Estimate">
                                   <p className="spbrWord">
+                                    {ele?.IsSolGem ==1?"S:":""}
                                     {ele?.ShapeName} {ele?.QualityName}{" "}
                                     {ele?.Colorname}
                                   </p>
@@ -772,7 +780,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           item.colorstone.map((ele, ind) => (
                             <div className="d-flex" key={ind}>
                               <div className="width20EstimatePrint spbrWord p_1Estimate">
-                                <p>{ele?.MaterialTypeName} {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}</p>
+                                <p>{ele?.IsSolGem == 1?"G:":""}{ele?.MaterialTypeName} {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}</p>
                               </div>
                               <div className="width20EstimatePrint p_1Estimate">
                                 <p>{ele?.SizeName}</p>
@@ -1127,15 +1135,29 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="d-flex justify-content-between px-1">
                         <p className="spBold">DIAMOND WT</p>
                         <p>
-                          {NumberWithCommas(data?.mainTotal?.diamonds?.Pcs, 0)} /{" "}
-                          {NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)} cts
+                          {NumberWithCommas(data?.mainTotal?.diamonds?.Pcs -data?.mainTotal?.solitaire?.Pcs, 0)} /{" "}
+                          {NumberWithCommas(data?.mainTotal?.diamonds?.Wt -data?.mainTotal?.solitaire?.Wt, 3)} cts
+                        </p>
+                      </div>
+                      <div className="d-flex justify-content-between px-1">
+                        <p className="spBold">SOLITAIRE WT</p>
+                        <p>
+                          {NumberWithCommas(data?.mainTotal?.solitaire?.Pcs, 0)} /{" "}
+                          {NumberWithCommas(data?.mainTotal?.solitaire?.Wt, 3)} cts
                         </p>
                       </div>
                       <div className="d-flex justify-content-between px-1">
                         <p className="spBold">STONE WT</p>
                         <p>
-                          {NumberWithCommas(data?.mainTotal?.colorstone?.Pcs, 0)} /{" "}
-                          {fixedValues(data?.mainTotal?.colorstone?.Wt, 3)} cts
+                          {NumberWithCommas(data?.mainTotal?.colorstone?.Pcs - data?.mainTotal?.gemstone?.Pcs, 0)} /{" "}
+                          {fixedValues(data?.mainTotal?.colorstone?.Wt - data?.mainTotal?.gemstone?.Wt, 3)} cts
+                        </p>
+                      </div>
+                      <div className="d-flex justify-content-between px-1">
+                        <p className="spBold">GEMSTONE WT</p>
+                        <p>
+                          {NumberWithCommas(data?.mainTotal?.gemstone?.Pcs, 0)} /{" "}
+                          {fixedValues(data?.mainTotal?.gemstone?.Wt, 3)} cts
                         </p>
                       </div>
                       {/* <div className="d-flex justify-content-between px-1">

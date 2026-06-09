@@ -567,7 +567,7 @@ function Beluxe({ token, invoiceNo, printName, urls, evn, ApiVer }) {
 
                                 <div className="companyDetails">
                                     <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                        <div style={{ width: "25%", border: "1px solid #dbdbdb", borderTop: "none" ,borderBottom:"none"}}>
+                                        <div style={{ width: "45%", border: "1px solid #dbdbdb", borderTop: "none" ,borderBottom:"none"}}>
                                             <h3 style={{ borderBottom: "1px solid #dbdbdb", padding: "5px " }}> {result?.header?.CompanyFullName}</h3>
                                             <div className="address" style={{ padding: "5px  " }}>
                                                 <b>Address:</b>
@@ -607,8 +607,8 @@ function Beluxe({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                         </div>
                                     </div>
                                     <div style={{ display: "flex" }}>
-                                        <div style={{ border: "1px solid #dbdbdb", padding: "5px", width: "25%",  }}>Contact Number: {result?.header?.CompanyTellNo} </div>
-                                        <div style={{ border: "1px solid #dbdbdb", padding: "5px", width: "45%", borderRight: "1px solid #dbdbdb", borderLeft: "none" }}>  </div>
+                                        <div style={{ border: "1px solid #dbdbdb", padding: "5px", width: "45%",  }}>Contact Number: {result?.header?.CompanyTellNo} </div>
+                                        <div style={{ border: "1px solid #dbdbdb", padding: "5px", width: "25%", borderRight: "1px solid #dbdbdb", borderLeft: "none" }}>  </div>
                                         <div style={{ borderBottom: "1px solid #dbdbdb", width: "30%", borderRight: "1px solid #dbdbdb" }}>
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                                 <div style={{ width: "50%", borderRight: "1px solid #dbdbdb", padding: "5px" }}>ISSUED BY</div>
@@ -616,8 +616,8 @@ function Beluxe({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                             </div> </div>
                                     </div>
                                     <div style={{ display: "flex" }}>
-                                        <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px", width: "25%", borderRight: "1px solid #dbdbdb", borderLeft: "1px solid #dbdbdb" }}>Email: {result?.header?.CompanyEmail} </div>
-                                        <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px", width: "45%", borderRight: "1px solid #dbdbdb" }}>  </div>
+                                        <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px", width: "45%", borderRight: "1px solid #dbdbdb", borderLeft: "1px solid #dbdbdb" }}>Email: {result?.header?.CompanyEmail} </div>
+                                        <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px", width: "25%", borderRight: "1px solid #dbdbdb" }}>  </div>
                                         <div style={{ borderBottom: "1px solid #dbdbdb", width: "30%", borderRight: "1px solid #dbdbdb" }}>
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                                 <div style={{ width: "50%", borderRight: "1px solid #dbdbdb", padding: "5px" }}>Customer Code</div>
