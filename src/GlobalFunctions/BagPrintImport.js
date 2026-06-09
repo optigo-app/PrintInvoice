@@ -40,6 +40,6 @@ export const bagPrintConditions = [
   { printName: "qualitytagprint", componentName: "FgSaleTag" },
   { printName: "stockbook", componentName: "Stockbook" },
   { printName: "usersaleprint", componentName: "UserSalesReport" },
- 
+  { printName: "bagprint17s", componentName: "BagPrint17S" },
  
 ];

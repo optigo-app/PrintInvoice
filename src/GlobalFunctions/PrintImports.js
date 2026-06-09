@@ -21,6 +21,7 @@ export const printConditions = [
   { printName: 'detail print1 group(p)', etpType: 'print', componentName: 'DetailPrint1LPGroup' },
   { printName: 'detail print2', etpType: 'print', componentName: 'DetailPrint2' },
   { printName: 'detail print3', etpType: 'print', componentName: 'DetailPrint3' },
+  { printName: 'detail print3n', etpType: 'print', componentName: 'DetailPrint3N' },
   { printName: 'detail print4', etpType: 'print', componentName: 'DetailPrint4' },
   { printName: 'detail print 5', etpType: 'print', componentName: 'DetailPrint5' },
   { printName: 'detail print 6', etpType: 'print', componentName: 'DetailPrint6' },

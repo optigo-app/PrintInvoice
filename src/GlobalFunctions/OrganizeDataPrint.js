@@ -5,8 +5,9 @@ import { ToWords } from "to-words";
 import { deepClone } from "@mui/x-data-grid/utils/utils";
 export const OrganizeDataPrint = (header2, json1_1, json2_1, json3_1, invoiceNo, printName, evn) => {
 
-  
+ 
 
+ 
   const toWords = new ToWords();
   let header = cloneDeep(header2);
   let json1 = cloneDeep(json1_1);
@@ -24,7 +25,21 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1, json3_1, invoiceNo,
       Amount: 0,
       SettingAmount: 0
     },
+    solitaire:{
+      Wt: 0,
+      Pcs: 0,
+      Rate: 0,
+      Amount: 0,
+      SettingAmount: 0
+    },
     colorstone: {
+      Wt: 0,
+      Pcs: 0,
+      Rate: 0,
+      Amount: 0,
+      SettingAmount: 0
+    },
+    gemstone:{
       Wt: 0,
       Pcs: 0,
       Rate: 0,
@@ -163,7 +178,25 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1, json3_1, invoiceNo,
           FineWt: 0,
           length: 0,
         },
+        solitaire: {
+          Wt: 0,
+          Pcs: 0,
+          Rate: 0,
+          Amount: 0,
+          SettingAmount: 0,
+          FineWt: 0,
+          length: 0,
+        },
         colorstone: {
+          Wt: 0,
+          Pcs: 0,
+          Rate: 0,
+          Amount: 0,
+          SettingAmount: 0,
+          FineWt: 0,
+          length: 0,
+        },
+        gemstone: {
           Wt: 0,
           Pcs: 0,
           Rate: 0,
@@ -294,6 +327,21 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1, json3_1, invoiceNo,
               maintotal.diamonds.Amount += j2?.Amount;
               maintotal.diamonds.SettingAmount += +j2?.SettingAmount;
             }
+            if (j2?.MasterManagement_DiamondStoneTypeid === 1 && j2?.IsSolGem === 1) {
+              jobwise_totals.solitaire.Wt += j2?.Wt;
+              jobwise_totals.solitaire.Pcs += j2?.Pcs;
+              jobwise_totals.solitaire.Rate += j2?.Rate;
+              jobwise_totals.solitaire.Amount += j2?.Amount;
+              jobwise_totals.solitaire.length += 1;
+            }
+            
+            if (j2?.MasterManagement_DiamondStoneTypeid === 1 && j2?.IsSolGem === 1) {
+              maintotal.solitaire.Wt += j2?.Wt;
+              maintotal.solitaire.Pcs += j2?.Pcs;
+              maintotal.solitaire.Rate += j2?.Rate;
+              maintotal.solitaire.Amount += j2?.Amount;
+              maintotal.solitaire.length += 1;
+            }
             //for colorstone
             if (j2?.MasterManagement_DiamondStoneTypeid === 2) {
               all_m_d_c_m.push(j2)
@@ -313,6 +361,21 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1, json3_1, invoiceNo,
               maintotal.colorstone.Rate += j2?.Rate;
               maintotal.colorstone.Amount += j2?.Amount;
               maintotal.colorstone.SettingAmount += +j2?.SettingAmount;
+            }
+            if (j2?.MasterManagement_DiamondStoneTypeid === 2 && j2?.IsSolGem === 1) {
+              jobwise_totals.gemstone.Wt += j2?.Wt;
+              jobwise_totals.gemstone.Pcs += j2?.Pcs;
+              jobwise_totals.gemstone.Rate += j2?.Rate;
+              jobwise_totals.gemstone.Amount += j2?.Amount;
+              jobwise_totals.gemstone.length += 1;
+            }
+            if(j2?.MasterManagement_DiamondStoneTypeid === 2 && j2?.IsSolGem === 1){
+              maintotal.gemstone.Wt += j2?.Wt;
+              maintotal.gemstone.Pcs += j2?.Pcs;
+              maintotal.gemstone.Rate += j2?.Rate;
+              maintotal.gemstone.Amount += j2?.Amount;
+              maintotal.gemstone.SettingAmount += +j2?.SettingAmount;
+              
             }
             //for metal
             if (j2?.MasterManagement_DiamondStoneTypeid === 4) {

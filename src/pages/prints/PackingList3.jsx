@@ -970,6 +970,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           ?.map((el, ind) => (
                             <div className="d-flex w-100" key={ind}>
                               <div className="dcol1_pcls spbrWord start_center_pcls pdl_pcls">
+                              {el?.IsSolGem === 1 ? "S:" : ""}
                                 {el?.ShapeName + " " + el?.QualityName + " " + el?.Colorname}
                               </div>
 
@@ -1317,6 +1318,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           return (
                             <div className="d-flex w-100" key={ind}>
                               <div className="dcol1_pcls spbrWord start_center_pcls pdl_pcls">
+                              {el?.IsSolGem === 1 ? "G:" : ""}
                                 {el?.ShapeName +
                                   " " +
                                   el?.QualityName +
@@ -1896,15 +1898,29 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="d-flex justify-content-between px-1">
                         <div className="w-50 fw-bold">DIAMOND WT</div>
                         <div className="w-50 end_dp10 pe-1">
-                          {result?.mainTotal?.diamonds?.Pcs} /{" "}
-                          {result?.mainTotal?.diamonds?.Wt?.toFixed(3)} cts
+                           {NumberWithCommas(result?.mainTotal?.diamonds?.Pcs -result?.mainTotal?.solitaire?.Pcs, 0)} / {NumberWithCommas(result?.mainTotal?.diamonds?.Wt - result?.mainTotal?.solitaire?.Wt, 3)} cts
+                                            
                         </div>
                       </div>
                       <div className="d-flex justify-content-between px-1">
                         <div className="w-50 fw-bold">STONE WT</div>
                         <div className="w-50 end_dp10 pe-1">
-                          {result?.mainTotal?.colorstone?.Pcs} /{" "}
-                          {result?.mainTotal?.colorstone?.Wt?.toFixed(3)} cts
+                          {result?.mainTotal?.colorstone?.Pcs - result?.mainTotal?.gemstone?.Pcs} /{" "}
+                          {(result?.mainTotal?.colorstone?.Wt - result?.mainTotal?.gemstone?.Wt)?.toFixed(3)} cts
+                        </div>
+                      </div>
+                      <div className="d-flex justify-content-between px-1">
+                        <div className="w-50 fw-bold">SOLITAIRE WT</div>
+                        <div className="w-50 end_dp10 pe-1">
+                          {result?.mainTotal?.solitaire?.Pcs  } /{" "}
+                          {result?.mainTotal?.solitaire?.Wt?.toFixed(3)} cts
+                        </div>
+                      </div>
+                      <div className="d-flex justify-content-between px-1">
+                        <div className="w-50 fw-bold">GEMSTONE WT</div>
+                        <div className="w-50 end_dp10 pe-1">
+                          {result?.mainTotal?.gemstone?.Pcs} /{" "}
+                          {result?.mainTotal?.gemstone?.Wt?.toFixed(3)} cts
                         </div>
                       </div>
                       <div className="d-flex justify-content-between px-1">
@@ -1994,7 +2010,31 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   result?.mainTotal?.diamonds?.Amount
                                 )} */}
                           {formatAmount(
-                            result?.mainTotal?.diamonds?.Amount /
+                            result?.mainTotal?.diamonds?.Amount - result?.mainTotal?.solitaire?.Amount /
+                            result?.header?.CurrencyExchRate
+                          )}
+                        </div>
+                      </div>
+                      <div className="d-flex justify-content-between px-1">
+                        <div className="w-50 fw-bold">SOLITAIRE</div>
+                        <div className="w-50 end_dp10">
+                          {/* {formatAmount(
+                                  result?.mainTotal?.diamonds?.Amount
+                                )} */}
+                          {formatAmount(
+                            result?.mainTotal?.solitaire?.Amount /
+                            result?.header?.CurrencyExchRate
+                          )}
+                        </div>
+                      </div>
+                      <div className="d-flex justify-content-between px-1">
+                        <div className="w-50 fw-bold">GEMSTONE</div>
+                        <div className="w-50 end_dp10">
+                          {/* {formatAmount(
+                                  result?.mainTotal?.diamonds?.Amount
+                                )} */}
+                          {formatAmount(
+                            result?.mainTotal?.gemstone?.Amount /
                             result?.header?.CurrencyExchRate
                           )}
                         </div>
@@ -2003,7 +2043,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="w-50 fw-bold">CST</div>
                         <div className="w-50 end_dp10">
                           {formatAmount(
-                            result?.mainTotal?.colorstone?.Amount /
+                            result?.mainTotal?.colorstone?.Amount - result?.mainTotal?.gemstone?.Amount/
                             result?.header?.CurrencyExchRate
                           )}
                         </div>

@@ -42,7 +42,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [header, setHeader] = useState(true);
   const [makingColumShow, setMakingColumShow] = useState(false);
   const [image, setimage] = useState(true);
-  const [summary, setSummary] = useState(true);
+  const [summary, setSummary] = useState(false);
   const [metalType, setMetaltype] = useState([]);
   const [result, setResult] = useState(null);
   const [MetShpWise, setMetShpWise] = useState([]);
@@ -116,32 +116,63 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     setSummaryDetail(countsArray);
   };
 
+  // const countDiamondRate = (materialId, arr) => {
+  //   let findArr = findMaterialWise(
+  //     "MasterManagement_DiamondStoneTypeid",
+  //     materialId,
+  //     arr
+  //   );
+  //   const rateSumMap = {};
+  //   findArr.forEach((item) => {
+  //     const { Rate, Wt, Amount } = item;
+  //     if (!rateSumMap[Rate]) {
+  //       rateSumMap[Rate] = {
+  //         totalWeight: 0,
+  //         totalAmount: 0,
+  //       };
+  //     }
+  //     rateSumMap[Rate].totalWeight += Wt;
+  //     rateSumMap[Rate].totalAmount += Amount;
+  //   });
+
+  //   const result = Object.keys(rateSumMap).map((rate) => ({
+  //     rate: rate,
+  //     totalWeight: rateSumMap[rate].totalWeight.toFixed(3),
+  //     totalAmount: rateSumMap[rate].totalAmount.toFixed(3),
+  //   }));
+  //   return result;
+  // };
+
   const countDiamondRate = (materialId, arr) => {
     let findArr = findMaterialWise(
       "MasterManagement_DiamondStoneTypeid",
       materialId,
       arr
     );
+  
     const rateSumMap = {};
+  
     findArr.forEach((item) => {
-      const { Rate, Wt, Amount } = item;
-      if (!rateSumMap[Rate]) {
-        rateSumMap[Rate] = {
+      const { Rate, Wt, Amount, IsSolGem } = item;
+  
+      const key = `${Rate}_${IsSolGem}`;
+  
+      if (!rateSumMap[key]) {
+        rateSumMap[key] = {
+          Rate,
+          IsSolGem,
           totalWeight: 0,
           totalAmount: 0,
         };
       }
-      rateSumMap[Rate].totalWeight += Wt;
-      rateSumMap[Rate].totalAmount += Amount;
+  
+      rateSumMap[key].totalWeight += Number(Wt || 0);
+      rateSumMap[key].totalAmount += Number(Amount || 0);
     });
-
-    const result = Object.keys(rateSumMap).map((rate) => ({
-      rate: rate,
-      totalWeight: rateSumMap[rate].totalWeight.toFixed(3),
-      totalAmount: rateSumMap[rate].totalAmount.toFixed(3),
-    }));
-    return result;
+  
+    return Object.values(rateSumMap);
   };
+  
 
   const countTotalAmount = (arr) => {
     const totalSum = arr.reduce(
@@ -207,68 +238,123 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const rateSumMap = {};
     if (materialId === 1) {
       findArr.forEach((item) => {
-        const { Rate, Wt, Amount } = item;
-        let record = json1Arr.find((e, i) => e.SrJobno === item?.StockBarcode);
-        if (!rateSumMap[Rate]) {
-          rateSumMap[Rate] = {
+        const { Rate, Wt, Amount, IsSolGem } = item;
+    
+        let record = json1Arr.find(
+          (e) => e.SrJobno === item?.StockBarcode
+        );
+    
+        const key = `${Rate}_${IsSolGem}`; // Separate Diamond & Solitaire
+    
+        if (!rateSumMap[key]) {
+          rateSumMap[key] = {
             totalWeight: 0,
             totalAmount: 0,
-            name: "DIAMOND",
-            discount: record.Discount,
+            name: IsSolGem === 1 ? "SOLITAIRE" : "DIAMOND",
+            discount: record?.Discount || 0,
+            rate: Rate,
+            IsSolGem,
           };
         }
-        rateSumMap[Rate].totalWeight += Wt;
-        rateSumMap[Rate].totalAmount += Amount;
-        rateSumMap[Rate].name = "DIAMOND";
-        rateSumMap[Rate].discount = record.Discount;
+    
+        rateSumMap[key].totalWeight += Number(Wt || 0);
+        rateSumMap[key].totalAmount += Number(Amount || 0);
       });
-
-      const result = Object.keys(rateSumMap).map((rate) => ({
-        rate: rate,
-        totalWeight: rateSumMap[rate].totalWeight.toFixed(3),
-        totalAmount: rateSumMap[rate].totalAmount.toFixed(3),
-        name: "DIAMOND",
-        discount: rateSumMap[rate].discount,
+    
+      const result = Object.values(rateSumMap).map((item) => ({
+        rate: item.rate,
+        totalWeight: item.totalWeight.toFixed(3),
+        totalAmount: item.totalAmount.toFixed(3),
+        name: item.name,
+        discount: item.discount,
+        IsSolGem: item.IsSolGem,
       }));
-
+    
       let obj = { ...lastDiamondTableTotal };
-      result.forEach((e, i) => {
-        obj.diaCtw += +e?.totalWeight;
-        obj.diamondAmount += +e?.totalAmount;
+    
+      result.forEach((e) => {
+        obj.diaCtw += +e.totalWeight;
+        obj.diamondAmount += +e.totalAmount;
       });
+    
       setLastDiamondTableTotal(obj);
       setLastDiamondTable(result);
     }
+    // if (materialId === 2) {
+    //   findArr.forEach((item) => {
+    //     const { Rate, Wt, Amount } = item;
+    //     let record = json1Arr.find((e, i) => e.SrJobno === item?.StockBarcode);
+    //     if (!rateSumMap[Rate]) {
+    //       rateSumMap[Rate] = {
+    //         totalWeight: 0,
+    //         totalAmount: 0,
+    //         name: "COLOR STONE",
+    //         discount: record.Discount,
+    //       };
+    //     }
+    //     rateSumMap[Rate].totalWeight += Wt;
+    //     rateSumMap[Rate].totalAmount += Amount;
+    //     rateSumMap[Rate].name = "COLOR STONE";
+    //     rateSumMap[Rate].discount = record.Discount;
+    //   });
+
+    //   const result = Object.keys(rateSumMap).map((rate) => ({
+    //     rate: rate,
+    //     totalWeight: rateSumMap[rate].totalWeight.toFixed(3),
+    //     totalAmount: rateSumMap[rate].totalAmount.toFixed(3),
+    //     name: "COLOR STONE",
+    //     discount: rateSumMap[rate].discount,
+    //   }));
+    //   let obj = { ...lastColorStoneTableTotal };
+    //   result.forEach((e, i) => {
+    //     obj.clrCtw += +e?.totalWeight;
+    //     obj.colorStoneAmount += +e?.totalAmount;
+    //   });
+    //   setLastColorStoneTableTotal(obj);
+    //   setLastColorStoneTable(result);
+    // }
+
     if (materialId === 2) {
       findArr.forEach((item) => {
-        const { Rate, Wt, Amount } = item;
-        let record = json1Arr.find((e, i) => e.SrJobno === item?.StockBarcode);
-        if (!rateSumMap[Rate]) {
-          rateSumMap[Rate] = {
+        const { Rate, Wt, Amount, IsSolGem } = item;
+    
+        let record = json1Arr.find(
+          (e) => e.SrJobno === item?.StockBarcode
+        );
+    
+        const key = `${Rate}_${IsSolGem}`;
+    
+        if (!rateSumMap[key]) {
+          rateSumMap[key] = {
+            rate: Rate,
+            IsSolGem,
             totalWeight: 0,
             totalAmount: 0,
-            name: "COLOR STONE",
-            discount: record.Discount,
+            name: IsSolGem === 1 ? "GEMSTONE" : "COLOR STONE",
+            discount: record?.Discount || 0,
           };
         }
-        rateSumMap[Rate].totalWeight += Wt;
-        rateSumMap[Rate].totalAmount += Amount;
-        rateSumMap[Rate].name = "COLOR STONE";
-        rateSumMap[Rate].discount = record.Discount;
+    
+        rateSumMap[key].totalWeight += Number(Wt || 0);
+        rateSumMap[key].totalAmount += Number(Amount || 0);
       });
-
-      const result = Object.keys(rateSumMap).map((rate) => ({
-        rate: rate,
-        totalWeight: rateSumMap[rate].totalWeight.toFixed(3),
-        totalAmount: rateSumMap[rate].totalAmount.toFixed(3),
-        name: "COLOR STONE",
-        discount: rateSumMap[rate].discount,
+    
+      const result = Object.values(rateSumMap).map((item) => ({
+        rate: item.rate,
+        totalWeight: item.totalWeight.toFixed(3),
+        totalAmount: item.totalAmount.toFixed(3),
+        name: item.name,
+        discount: item.discount,
+        IsSolGem: item.IsSolGem,
       }));
+    
       let obj = { ...lastColorStoneTableTotal };
-      result.forEach((e, i) => {
-        obj.clrCtw += +e?.totalWeight;
-        obj.colorStoneAmount += +e?.totalAmount;
+    
+      result.forEach((e) => {
+        obj.clrCtw += +e.totalWeight;
+        obj.colorStoneAmount += +e.totalAmount;
       });
+    
       setLastColorStoneTableTotal(obj);
       setLastColorStoneTable(result);
     }
@@ -988,6 +1074,7 @@ const metalSummarey=getTunchWiseSummary(BillPrintJson1);
                               e.diamondsRate.map((ele, indd) => {
                                 return (
                                   <p key={indd}>
+                                    {ele?.IsSolGem===1? "S:":""}
                                     {fixedValues(ele?.totalWeight, 3)}
                                   </p>
                                 );
@@ -1039,6 +1126,7 @@ const metalSummarey=getTunchWiseSummary(BillPrintJson1);
                               e.colorStoneRate.map((ele, indd) => {
                                 return (
                                   <p key={indd}>
+                                    {ele?.IsSolGem===1? "G:":""}
                                     {fixedValues(ele?.totalWeight, 3)}
                                   </p>
                                 );
@@ -1379,15 +1467,29 @@ const metalSummarey=getTunchWiseSummary(BillPrintJson1);
                         <div className="d-flex w-100">
                           <div className="w-50 fw-bold ps-2">DIAMOND WT</div>
                           <div className="w-50 text-end pe-2">
-                            {totalSummary?.diamondpcs} /{" "}
-                            {fixedValues(total?.diaWt, 3)} ctw
+                             {NumberWithCommas(result?.mainTotal?.diamonds?.Pcs -result?.mainTotal?.solitaire?.Pcs, 0)} / {NumberWithCommas(result?.mainTotal?.diamonds?.Wt - result?.mainTotal?.solitaire?.Wt, 3)} cts
+                                                   
                           </div>
                         </div>
-                        <div className="d-flex w-100 mb-3">
+                        <div className="d-flex w-100">
+                          <div className="w-50 fw-bold ps-2">SOLITAIRE WT</div>
+                          <div className="w-50 text-end pe-2">
+                          {result?.mainTotal?.solitaire?.Pcs  } /{" "}
+                          {result?.mainTotal?.solitaire?.Wt?.toFixed(3)} cts
+                          </div>
+                        </div>
+                        <div className="d-flex w-100">
                           <div className="w-60 fw-bold ps-2">STONE WT</div>
                           <div className="w-40 text-end pe-2">
-                            {totalSummary?.colorStonePcs} /{" "}
-                            {fixedValues(total?.csWt, 3)} ctw
+                          {result?.mainTotal?.colorstone?.Pcs - result?.mainTotal?.gemstone?.Pcs} /{" "}
+                          {(result?.mainTotal?.colorstone?.Wt - result?.mainTotal?.gemstone?.Wt)?.toFixed(3)} cts
+                          </div>
+                        </div>
+                        <div className="d-flex w-100 mb-1">
+                          <div className="w-50 fw-bold ps-2">GEMSTONE WT</div>
+                          <div className="w-50 text-end pe-2">
+                          {result?.mainTotal?.gemstone?.Pcs} /{" "}
+                          {result?.mainTotal?.gemstone?.Wt?.toFixed(3)} cts
                           </div>
                         </div>
                       </div>
@@ -1416,13 +1518,37 @@ const metalSummarey=getTunchWiseSummary(BillPrintJson1);
                         <div className="d-flex w-100">
                           <div className="w-50 fw-bold ps-2">DIAMOND</div>
                           <div className="w-50 text-end pe-2">
-                            {NumberWithCommas(total?.diaAmt, 2)}
+                           {formatAmount(
+                                                       result?.mainTotal?.diamonds?.Amount - result?.mainTotal?.solitaire?.Amount /
+                                                       result?.header?.CurrencyExchRate
+                               ,2)}
+                          </div>
+                        </div>
+                        <div className="d-flex w-100">
+                          <div className="w-50 fw-bold ps-2">SOLITAIRE</div>
+                          <div className="w-50 text-end pe-2">
+                             {formatAmount(
+                                                        result?.mainTotal?.solitaire?.Amount /
+                                                        result?.header?.CurrencyExchRate
+                                                      ,2)}
                           </div>
                         </div>
                         <div className="d-flex w-100">
                           <div className="w-50 fw-bold ps-2">CST</div>
                           <div className="w-50 text-end pe-2">
-                            {NumberWithCommas(total.csAmt, 2)}
+                             {formatAmount(
+                                                       result?.mainTotal?.colorstone?.Amount - result?.mainTotal?.gemstone?.Amount/
+                                                       result?.header?.CurrencyExchRate
+                                                     ,2)}
+                          </div>
+                        </div>
+                        <div className="d-flex w-100">
+                          <div className="w-50 fw-bold ps-2">GEMSTONE</div>
+                          <div className="w-50 text-end pe-2">
+                            {formatAmount(
+                                                        result?.mainTotal?.gemstone?.Amount /
+                                                        result?.header?.CurrencyExchRate
+                                                      ,2)}
                           </div>
                         </div>
                         <div className="d-flex w-100">

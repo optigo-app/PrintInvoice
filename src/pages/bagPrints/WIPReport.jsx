@@ -326,6 +326,17 @@ export default function WIPReport({ queries, headers }) {
 
                                                 <div style={{ fontWeight: "bold" }}>{item?.size || ""}</div>
                                             </div>
+                                            <div
+                                                style={{
+                                                    display: "flex",
+
+                                                }}
+                                                className="line-height1"
+                                            >
+                                                <div style={{ width: "90px" }}>Metal:</div>
+
+                                                <div style={{ fontWeight: "bold" }}>{item?.MetalType+" "+item?.MetalColor || ""}</div>
+                                            </div>
 
                                             <div
                                                 style={{

@@ -100,7 +100,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       let diamonds = [];
       obj?.diamonds?.forEach((ele, ind) => {
         let findDiamond = diamonds?.findIndex(
-          (elem, index) => elem?.QualityName === ele?.QualityName
+          (elem, index) => elem?.QualityName === ele?.QualityName && elem?.IsSolGem === ele?.IsSolGem
         );
         if (findDiamond === -1) {
           diamonds?.push(ele);
@@ -113,7 +113,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       let colorstone = [];
       obj?.colorstone?.forEach((ele, ind) => {
         let findColorStone = colorstone?.findIndex(
-          (elem, index) => elem?.QualityName === ele?.QualityName
+          (elem, index) => elem?.QualityName === ele?.QualityName && elem?.IsSolGem === ele?.IsSolGem
         );
         if (findColorStone === -1) {
           colorstone?.push(ele);
@@ -234,7 +234,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         let blankDiamonds = [];
         allDiamonds?.forEach((ele, ind) => {
           let findDiamonds = blankDiamonds?.findIndex(
-            (elem, index) => elem?.QualityName === ele?.QualityName
+            (elem, index) => elem?.QualityName === ele?.QualityName  && elem?.IsSolGem === ele?.IsSolGem
           );
           if (findDiamonds === -1) {
             blankDiamonds?.push(ele);
@@ -252,7 +252,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         let blankcolorStones = [];
         allColorStone?.forEach((ele, ind) => {
           let findColorStoness = blankcolorStones?.findIndex(
-            (elem, index) => elem?.ShapeName === ele?.ShapeName
+            (elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.IsSolGem === ele?.IsSolGem
           );
           if (findColorStoness === -1) {
             blankcolorStones?.push(ele);
@@ -788,6 +788,7 @@ setTotWt(tot_wt2);
                             >
                               <p>
                                 {ele?.MasterManagement_DiamondStoneTypeName}
+                                {ele?.IsSolGem==1? ": S":""}
                               </p>
                             </div>
                             <div
@@ -851,7 +852,7 @@ setTotWt(tot_wt2);
                               className={`${styles.Material} border-end p-1 d-flex align-items-center`}
                             >
                               <p>
-                                {ele?.MasterManagement_DiamondStoneTypeName}
+                                {ele?.MasterManagement_DiamondStoneTypeName}{ele?.IsSolGem==1? ": G":""}
                               </p>
                             </div>
                             <div

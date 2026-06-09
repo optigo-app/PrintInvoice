@@ -872,6 +872,29 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
 
 
 
+                // const mergedDiaData = Object.values(
+                //   e?.diamonds?.reduce((acc, item) => {
+                //     const key = [
+                //       item.MaterialTypeName,
+                //       item.ShapeName,
+                //       item.QualityName,
+                //       item.Colorname,
+                //       item.SizeName,
+                //     ].join("_");
+
+                //     if (!acc[key]) {
+                //       acc[key] = { ...item };
+                //     } else {
+                //       acc[key].Pcs += Number(item.Pcs || 0);
+                //       acc[key].Wt += Number(item.Wt || 0);
+                //       acc[key].FineWt += Number(item.FineWt || 0);
+                //       acc[key].Rate += Number(item.Rate || 0);
+                //       acc[key].Amount += Number(item.Amount || 0);
+                //     }
+
+                //     return acc;
+                //   }, {})
+                // );
                 const mergedDiaData = Object.values(
                   e?.diamonds?.reduce((acc, item) => {
                     const key = [
@@ -880,8 +903,9 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                       item.QualityName,
                       item.Colorname,
                       item.SizeName,
+                      item.IsSolGem, // Added
                     ].join("_");
-
+                
                     if (!acc[key]) {
                       acc[key] = { ...item };
                     } else {
@@ -891,7 +915,7 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                       acc[key].Rate += Number(item.Rate || 0);
                       acc[key].Amount += Number(item.Amount || 0);
                     }
-
+                
                     return acc;
                   }, {})
                 );
@@ -966,6 +990,7 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                                   key={ind}
                                 >
                                   <p className="WdthCod paddingRightDetailPrint1 text-break">
+                                    {ele?.IsSolGem === 1 ? "S:" : ""}
                                     {ele?.MaterialTypeName !== "" && ele?.MaterialTypeName} {ele?.ShapeName} {ele?.QualityName}{" "}
                                     {ele?.Colorname}
                                   </p>
@@ -1067,6 +1092,7 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                               return (
                                 <div className={`d-flex`} key={ind}>
                                   <p className="WdthCod paddingRightDetailPrint1 text-break">
+                                  {ele?.IsSolGem === 1 ? "G:" : ""}
                                     {ele?.MaterialTypeName !== "" && ele?.MaterialTypeName} {ele?.ShapeName} {ele?.QualityName}{" "}
                                     {ele?.Colorname}
                                   </p>
@@ -1462,15 +1488,28 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                       <div className="d-flex justify-content-between">
                         <p className="fw-bold px-1">DIAMOND WT</p>
                         <p className="px-1">
-                          {NumberWithCommas(finalD?.mainTotal?.diamonds?.Pcs, 0)} / {NumberWithCommas(finalD?.mainTotal?.diamonds?.Wt, 3)} cts
+                          {NumberWithCommas(finalD?.mainTotal?.diamonds?.Pcs -finalD?.mainTotal?.solitaire?.Pcs, 0)} / {NumberWithCommas(finalD?.mainTotal?.diamonds?.Wt - finalD?.mainTotal?.solitaire?.Wt, 3)} cts
                         </p>
                       </div>
                       <div className="d-flex justify-content-between">
                         <p className="fw-bold px-1">STONE WT</p>
                         <p className="px-1">
-                          {" "}
-                          {NumberWithCommas(summary?.stonePcs, 0)} /{" "}
-                          {fixedValues(summary?.stoneWt, 3)} cts
+                        {NumberWithCommas(finalD?.mainTotal?.colorstone?.Pcs -finalD?.mainTotal?.gemstone?.Pcs, 0)} / {NumberWithCommas(finalD?.mainTotal?.colorstone?.Wt - finalD?.mainTotal?.gemstone?.Wt, 3)} cts
+               
+                        </p>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <p className="fw-bold px-1">SOLITAIRE WT</p>
+                        <p className="px-1">
+                        {NumberWithCommas(finalD?.mainTotal?.solitaire?.Pcs, 0)} / {NumberWithCommas(finalD?.mainTotal?.solitaire?.Wt, 3)} cts
+                        </p>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <p className="fw-bold px-1">GEMSTONE WT</p>
+                        <p className="px-1">
+                          {NumberWithCommas(finalD?.mainTotal?.gemstone?.Pcs, 0)} / {NumberWithCommas(finalD?.mainTotal?.gemstone?.Wt, 3)} cts
                         </p>
                       </div>
                       {json0Data?.Privilege_discount !== 0 && (
@@ -1510,13 +1549,27 @@ const DetailPrint1PSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                         <p className="fw-bold px-1">DIAMOND</p>
                         <p className="px-1">
                           {" "}
-                          {NumberWithCommas(finalD?.mainTotal?.diamonds?.Amount, 2)}
+                          {NumberWithCommas(finalD?.mainTotal?.diamonds?.Amount - finalD?.mainTotal?.solitaire?.Amount, 2)}
+                        </p>
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        <p className="fw-bold px-1">SOLITAIRE</p>
+                        <p className="px-1">
+                          {" "}
+                          {NumberWithCommas(finalD?.mainTotal?.solitaire?.Amount, 2)}
+                        </p>
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        <p className="fw-bold px-1">GEMSTONE</p>
+                        <p className="px-1">
+                          {" "}
+                          {NumberWithCommas(finalD?.mainTotal?.gemstone?.Amount, 2)}
                         </p>
                       </div>
                       <div className="d-flex justify-content-between">
                         <p className="fw-bold px-1">CST</p>
                         <p className="px-1">
-                          {NumberWithCommas(finalD?.mainTotal?.colorstone?.Amount, 2)}
+                          {NumberWithCommas(finalD?.mainTotal?.colorstone?.Amount - finalD?.mainTotal?.gemstone?.Amount, 2)}
                         </p>
                       </div>
                       <div className="d-flex justify-content-between">

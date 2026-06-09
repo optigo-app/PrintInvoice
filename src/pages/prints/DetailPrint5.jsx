@@ -29,6 +29,16 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       Wt: 0,
       Amount: 0,
     },
+    solTotal: {
+      Pcs: 0,
+      Wt: 0,
+      Amount: 0,
+    },
+    gemTotal: {
+      Pcs: 0,
+      Wt: 0,
+      Amount: 0,
+    },
     metalTotal: {
       Wt: 0,
       NL: 0,
@@ -97,6 +107,16 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         Wt: 0,
         Amount: 0,
       };
+      let solTotal = {
+        Pcs: 0,
+        Wt: 0,
+        Amount: 0,
+      };
+      let gemTotal = {
+        Pcs: 0,
+        Wt: 0,
+        Amount: 0,
+      };
       let metalTotal = {
         Wt: 0,
         NL: 0,
@@ -127,8 +147,10 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             diaTotal.Pcs += ele?.Pcs;
             diaTotal.Wt += ele?.Wt;
             diaTotal.Amount += ele?.Amount;
+          
+
             diamonds = diamonds.reduce((acc, diamond) => {
-              const key = `${diamond?.MaterialTypeName}-${diamond?.ShapeName}-${diamond?.QualityName}-${diamond?.Colorname}-${diamond?.SizeName}`;
+              const key = `${diamond?.MaterialTypeName}-${diamond?.ShapeName}-${diamond?.QualityName}-${diamond?.Colorname}-${diamond?.SizeName}-${diamond?.IsSolGem}`;
 
               if (acc[key]) {
                 acc[key].Pcs += diamond?.Pcs || 0;
@@ -170,6 +192,11 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             csTotal.Wt += ele?.Wt;
             csTotal.Amount += ele?.Amount;
             csTotal.Pcs += ele?.Pcs;
+            if(ele?.IsSolGem ===1){
+              gemTotal.Pcs += ele?.Pcs;
+              gemTotal.Wt += ele?.Wt;
+              gemTotal.Amount += ele?.Amount;
+            } 
             colorStones.sort((a, b) => {
               const sizeA = a.SizeName;
               const sizeB = b.SizeName;
@@ -215,12 +242,18 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       totals.diaTotal.Amount += diaTotal.Amount;
       totals.diaTotal.Pcs += diaTotal.Pcs;
       totals.diaTotal.Wt += diaTotal.Wt;
+      totals.solTotal.Amount += e?.solitair_totalamount;
+      totals.solTotal.Pcs += e?.solitair_pieces;
+      totals.solTotal.Wt += e?.solitair_weight ;
       totals.gold24kt += e?.convertednetwt; // Calculation is "metalWt * Tunch / 100" if metal Is primary and rate is 0
       // totals.gold24kt += e?.PureNetWt; // Bug Solving 24/11/2025
 
       totals.csTotal.Amount += csTotal.Amount;
       totals.csTotal.Pcs += csTotal.Pcs;
       totals.csTotal.Wt += csTotal.Wt;
+      totals.gemTotal.Amount += gemTotal.Amount;
+      totals.gemTotal.Pcs += gemTotal.Pcs;
+      totals.gemTotal.Wt += gemTotal.Wt;
 
       totals.OtherCharges += otherAmt;
       totals.MaKingCharge_Unit += obj?.MaKingCharge_Unit;
@@ -249,6 +282,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       obj.metals = metals;
       obj.findingSetting = findingSetting;
       obj.diaTotal = diaTotal;
+      obj.solTotal = solTotal;
+      obj.gemTotal = gemTotal;
       obj.metalTotal = metalTotal;
       obj.csTotal = csTotal;
       obj.otherAmt = otherAmt;
@@ -268,7 +303,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             (elem) =>
               elem?.ShapeName === ele?.ShapeName &&
               elem?.Colorname === ele?.Colorname &&
-              elem?.QualityName === ele?.QualityName
+              elem?.QualityName === ele?.QualityName &&
+              elem?.IsSolGem === ele?.IsSolGem
           );
           if (findRnd === -1) {
             let obj = { ...ele };
@@ -452,7 +488,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             id="imghs"
             onChange={(e) => setImage(!image)}
           />
-          <label className="form-check-label" htmlFor="imghs" style={{ paddingTop: "3px" }}>With Image</label>
+          <label className="form-check-label" htmlFor="imghs" style={{ paddingTop: "3px" }}>With Image me</label>
         </div>
         <div className="form-check ps-3">
           <input
@@ -722,6 +758,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     return (
                       <div className="d-flex w-100" key={ind}>
                         <div className={`ATWdthSpDCM1 spbrWord`}>
+                          {ele?.IsSolGem ===1 ? "S:":""}
                           {ele?.MaterialTypeName} {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}
                         </div>
                         <div className={`ATWdthSpDCM2 ${style?.wordBreak} text-end`}>{ele?.SizeName}</div>
@@ -784,6 +821,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     return (
                       <div className="d-flex w-100" key={ind}>
                         <div className={`ATWdthSpDCM1 spbrWord`}>
+                        {ele?.IsSolGem ===1 ? "G:":""}
                           {ele?.MaterialTypeName} {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}
                         </div>
                         <div className={`ATWdthSpDCM2 text-center ${style?.wordBreak}`}>
@@ -1163,15 +1201,29 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="d-flex justify-content-between">
                         <p className="fw-bold">DIAMOND WT</p>
                         <p>
-                          {NumberWithCommas(total?.diaTotal?.Pcs, 0)} /{" "}
-                          {NumberWithCommas(total?.diaTotal?.Wt, 3)} Cts
+                          {NumberWithCommas(total?.diaTotal?.Pcs - total?.solTotal?.Pcs, 0)} /{" "}
+                          {NumberWithCommas(total?.diaTotal?.Wt - total?.solTotal?.Wt, 3)} Cts
+                        </p>
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        <p className="fw-bold">SOLITAIRE WT</p>
+                        <p>
+                          {NumberWithCommas(total?.solTotal?.Pcs, 0)} /{" "}
+                          {NumberWithCommas(total?.solTotal?.Wt, 3)} Cts
                         </p>
                       </div>
                       <div className="d-flex justify-content-between">
                         <p className="fw-bold">STONE WT</p>
                         <p>
-                          {NumberWithCommas(total?.csTotal?.Pcs, 0)} /{" "}
-                          {NumberWithCommas(total?.csTotal?.Wt, 3)} Cts
+                          {NumberWithCommas(total?.csTotal?.Pcs - total?.gemTotal?.Pcs, 0)} /{" "}
+                          {NumberWithCommas(total?.csTotal?.Wt - total?.gemTotal?.Wt , 3)} Cts
+                        </p>
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        <p className="fw-bold">GEMSTONE WT</p>
+                        <p>
+                          {NumberWithCommas(total?.gemTotal?.Pcs, 0)} /{" "}
+                          {NumberWithCommas(total?.gemTotal?.Wt, 3)} Cts
                         </p>
                       </div>
                       <div
@@ -1198,11 +1250,19 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       }
                       <div className="d-flex justify-content-between">
                         <p className="fw-bold">DIAMOND</p>
-                        <p>{IsEvnQuote ? NumberWithCommas(total?.diaTotal?.Amount / headerData?.CurrencyExchRate, 2) : NumberWithCommas(total?.diaTotal?.Amount, 2)}</p>
+                        <p>{IsEvnQuote ? NumberWithCommas(total?.diaTotal?.Amount - total?.solTotal?.Amount / headerData?.CurrencyExchRate, 2) : NumberWithCommas(total?.diaTotal?.Amount - total?.solTotal?.Amount, 2)}</p>
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        <p className="fw-bold">SOLITAIRE</p>
+                        <p>{IsEvnQuote ? NumberWithCommas(total?.solTotal?.Amount / headerData?.CurrencyExchRate, 2) : NumberWithCommas(total?.solTotal?.Amount, 2)}</p>
                       </div>
                       <div className="d-flex justify-content-between">
                         <p className="fw-bold">CST</p>
-                        <p>{IsEvnQuote ? NumberWithCommas(total?.csTotal?.Amount / headerData?.CurrencyExchRate, 2) : NumberWithCommas(total?.csTotal?.Amount, 2)}</p>
+                        <p>{IsEvnQuote ? NumberWithCommas(total?.csTotal?.Amount - total?.gemTotal?.Amount / headerData?.CurrencyExchRate, 2) : NumberWithCommas(total?.csTotal?.Amount - total?.gemTotal?.Amount, 2)}</p>
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        <p className="fw-bold">GEMSTONE</p>
+                        <p>{IsEvnQuote ? NumberWithCommas(total?.gemTotal?.Amount / headerData?.CurrencyExchRate, 2) : NumberWithCommas(total?.gemTotal?.Amount, 2)}</p>
                       </div>
                       <div className="d-flex justify-content-between">
                         <p className="fw-bold">MAKING</p>

@@ -91,6 +91,20 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     Amount: 0,
   });
 
+  const [solitaireTotal, setSolitaireTotal] = useState({
+    pcs: 0,
+    weight: 0,
+    amount: 0,
+  });
+
+  const [gemstoneTotal, setGemstoneTotal] = useState({
+    pcs: 0,
+    weight: 0,
+    amount: 0,
+  });
+
+ 
+
   const [colorStoneMiscTotal, setColorStoneMiscTotal] = useState({
     Wt: 0,
     Pcs: 0,
@@ -183,6 +197,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       wt: 0,
     };
     let diamondTotals = { ...diamondTotal };
+    let solitaireTotals = { ...solitaireTotal };
+    let gemstoneTotals = { ...gemstoneTotal };
     let colorStoneTotals = { ...colorStoneMiscTotal };
     let colorStoness = { ...ColorStoneTotal };
     let miscstotals = { ...miscTotal };
@@ -224,6 +240,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         rate: 0,
         amount: 0,
       };
+    
       let metalsTotal = {
         pcs: 0,
         weight: 0,
@@ -238,6 +255,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         rate: 0,
         amount: 0,
       };
+      
       let miscsTotal = {
         pcs: 0,
         weight: 0,
@@ -325,6 +343,16 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   ele?.Colorname,
               });
             }
+          }
+          if (ele?.MasterManagement_DiamondStoneTypeid === 1 && ele?.IsSolGem === 1) {
+            solitaireTotals.pcs += ele?.Pcs;
+            solitaireTotals.weight += ele?.Wt;
+            solitaireTotals.amount += ele?.Amount;
+          }
+          if (ele?.MasterManagement_DiamondStoneTypeid === 2 && ele?.IsSolGem === 1) {
+            gemstoneTotals.pcs += ele?.Pcs;
+            gemstoneTotals.weight += ele?.Wt;
+            gemstoneTotals.amount += ele?.Amount;
           }
           if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
             if (ele?.IsHSCOE === 0) {
@@ -456,6 +484,9 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     setMiscTotal(miscstotals);
     setColorStoneTotal(colorStoness);
     setDiamondTotal(diamondTotals);
+    setSolitaireTotal(solitaireTotals);
+    setGemstoneTotal(gemstoneTotals);
+
     setColorStoneMiscTotal(colorStoneTotals);
     setDiamondDetailss(diamondDetails);
     totals.cgstAmount =
@@ -950,6 +981,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
 
     
+    console.log("TCL: caiculateMaterial -> gemstoneTotal", gemstoneTotal)
+    
 
     finalArr2?.forEach((e) => {
 
@@ -957,25 +990,27 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
       e?.diamonds?.forEach((el) => {
         let eem = cloneDeep(el);
-        let findrec = finalArr3?.findIndex((a) => a?.Rate === eem?.Rate && 
-        a?.ShapeName === eem?.ShapeName && 
-        a?.SizeName === eem?.SizeName && 
-        a?.QualityName === eem?.QualityName &&
-        a?.Colorname === eem?.Colorname)
-        if(findrec === -1){
-          // let obj = {...eem};
-          // obj.wt = eem?.Wt;
-          // obj.pcs = eem?.Pcs;
-          // obj.amount = eem?.Amount;
+      
+        let findrec = finalArr3?.findIndex(
+          (a) =>
+            a?.Rate === eem?.Rate &&
+            a?.ShapeName === eem?.ShapeName &&
+            a?.SizeName === eem?.SizeName &&
+            a?.QualityName === eem?.QualityName &&
+            a?.Colorname === eem?.Colorname &&
+            a?.IsSolGem === eem?.IsSolGem // Added
+        );
+      
+        if (findrec === -1) {
           finalArr3.push(eem);
-        }else{
+        } else {
           finalArr3[findrec].Wt += eem?.Wt;
           finalArr3[findrec].Pcs += eem?.Pcs;
           finalArr3[findrec].Amount += eem?.Amount;
           finalArr3[findrec].SizeName = eem?.SizeName;
         }
-      })
-
+      });
+      
       e.diamonds = finalArr3;
 
       let clr = [];
@@ -986,7 +1021,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         a?.ShapeName === eem?.ShapeName && 
         a?.SizeName === eem?.SizeName && 
         a?.QualityName === eem?.QualityName &&
-        a?.Colorname === eem?.Colorname)
+        a?.Colorname === eem?.Colorname &&
+        a?.IsSolGem === eem?.IsSolGem) // Added)
         if(findrec === -1){
           // let obj = {...eem};
           // obj.wt = eem?.Wt;
@@ -1328,6 +1364,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <div className="d-flex " key={ind}>
                                   <div className="width20EstimatePrint p_1Estimate">
                                     <p className="">
+                                      {ele?.IsSolGem === 1 ? "S:" : ""}
                                       {ele?.ShapeName} {ele?.QualityName}{" "}
                                       {ele?.Colorname}
                                     </p>
@@ -1511,6 +1548,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <div className="d-flex " key={ind}>
                                   <div className="width20EstimatePrint p_1Estimate">
                                     <p>
+                                    {ele?.IsSolGem === 1 ? "G:" : ""}
                                       {ele?.ShapeName} {ele?.QualityName}{" "}
                                       {ele?.Colorname}
                                     </p>
@@ -1965,16 +2003,32 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <div className="d-flex justify-content-between px-1">
                         <p className="fw-bold">DIAMOND WT</p>
                         <p>
-                          {NumberWithCommas(total?.diaPcs, 0)} /{" "}
-                          {NumberWithCommas(diamondTotal?.Wt, 3)}{" "}
+                          {NumberWithCommas(total?.diaPcs-solitaireTotal?.pcs, 0)} /{" "}
+                          {NumberWithCommas(diamondTotal?.Wt-solitaireTotal?.weight, 3)}{" "}
+                          cts
+                        </p>
+                      </div>
+                      <div className="d-flex justify-content-between px-1">
+                        <p className="fw-bold">SOLITAIRE WT</p>
+                        <p>
+                          {NumberWithCommas(solitaireTotal?.pcs, 0)} /{" "}
+                          {NumberWithCommas(solitaireTotal?.weight, 3)}{" "}
                           cts
                         </p>
                       </div>
                       <div className="d-flex justify-content-between px-1">
                         <p className="fw-bold">STONE WT</p>
                         <p>
-                          {NumberWithCommas(ColorStoneTotal?.Pcs, 0)} /{" "}
-                          {fixedValues(ColorStoneTotal?.Wt, 3)}{" "}
+                          {NumberWithCommas(ColorStoneTotal?.Pcs - gemstoneTotal?.pcs, 0)} /{" "}
+                          {fixedValues(ColorStoneTotal?.Wt - gemstoneTotal?.weight, 3)}{" "}
+                          cts
+                        </p>
+                      </div>
+                      <div className="d-flex justify-content-between px-1">
+                        <p className="fw-bold">GEMSTONE WT</p>
+                        <p>
+                          {NumberWithCommas(gemstoneTotal?.pcs)} /{" "}
+                          {NumberWithCommas(gemstoneTotal?.weight, 3)}{" "}
                           cts
                         </p>
                       </div>
@@ -2006,11 +2060,19 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       }
                       <div className="d-flex justify-content-between px-1">
                         <p className="fw-bold">DIAMOND</p>
-                        <p>{NumberWithCommas(total?.diamondAmount, 2)}</p>
+                        <p>{NumberWithCommas(total?.diamondAmount - solitaireTotal?.amount, 2)}</p>
+                      </div>
+                      <div className="d-flex justify-content-between px-1">
+                        <p className="fw-bold">SOLITAIRE</p>
+                        <p>{NumberWithCommas(solitaireTotal?.amount, 2)}</p>
                       </div>
                       <div className="d-flex justify-content-between px-1">
                         <p className="fw-bold">CST</p>
-                        <p>{NumberWithCommas(total?.colorStoneAmount, 2)}</p>
+                        <p>{NumberWithCommas(total?.colorStoneAmount - gemstoneTotal?.amount, 2)}</p>
+                      </div>
+                      <div className="d-flex justify-content-between px-1">
+                        <p className="fw-bold">GEMSTONE</p>
+                        <p>{NumberWithCommas(gemstoneTotal?.amount, 2)}</p>
                       </div>
                       <div className="d-flex justify-content-between px-1">
                         <p className="fw-bold">MISC</p>

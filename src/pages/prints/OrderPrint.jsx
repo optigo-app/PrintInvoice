@@ -98,6 +98,18 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     Amount: 0,
   });
 
+  const [solitairTotal, setSolitaireTotal] = useState({
+    Wt: 0,
+    Pcs: 0,
+    Amount: 0,
+  });
+
+  const [gemstoneTotal, setGemstoneTotal] = useState({
+    Wt: 0,
+    Pcs: 0,
+    Amount: 0,
+  });
+
   const [colorStoneMiscTotal, setColorStoneMiscTotal] = useState({
     Wt: 0,
     Pcs: 0,
@@ -202,6 +214,8 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       wt: 0,
     };
     let diamondTotals = { ...diamondTotal };
+    let solitaireTotals = { ...solitairTotal };
+    let gemstoneTotals = { ...gemstoneTotal };
     let colorStoneTotals = { ...colorStoneMiscTotal };
     let colorStoness = { ...ColorStoneTotal };
     let miscstotals = { ...miscTotal };
@@ -299,6 +313,11 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             colorStoness.Pcs += ele?.Pcs;
             colorStoness.Amount += ele?.Amount;
           }
+          if (ele?.MasterManagement_DiamondStoneTypeid === 2 && ele?.IsSolGem === 1) {
+            gemstoneTotals.Pcs += ele?.Pcs;
+            gemstoneTotals.Wt += ele?.Wt;
+            gemstoneTotals.Amount += ele?.Amount;
+          }
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
             diamondTotals.Pcs += ele?.Pcs;
             diamondTotals.Wt += ele?.Wt;
@@ -314,7 +333,8 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 return (
                   el.data.ShapeName === ele.ShapeName &&
                   el.data.QualityName === ele.QualityName &&
-                  el.data.Colorname === ele.Colorname
+                  el.data.Colorname === ele.Colorname  &&
+                  el.data.IsSolGem === ele?.IsSolGem
                 );
               });
               if (findRecord !== -1) {
@@ -346,6 +366,11 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   ele?.Colorname,
               });
             }
+          }
+          if (ele?.MasterManagement_DiamondStoneTypeid === 1 && ele?.IsSolGem === 1) {
+            solitaireTotals.Pcs += ele?.Pcs;
+            solitaireTotals.Wt += ele?.Wt;
+            solitaireTotals.Amount += ele?.Amount;
           }
           if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
             if (ele?.IsHSCOE === 0) {
@@ -477,6 +502,8 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     setMiscTotal(miscstotals);
     setColorStoneTotal(colorStoness);
     setDiamondTotal(diamondTotals);
+    setSolitaireTotal(solitaireTotals);
+    setGemstoneTotal(gemstoneTotals);
     setColorStoneMiscTotal(colorStoneTotals);
     setDiamondDetailss(diamondDetails);
     totals.cgstAmount =
@@ -1009,7 +1036,8 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             a?.ShapeName === eem?.ShapeName &&
             a?.SizeName === eem?.SizeName &&
             a?.QualityName === eem?.QualityName &&
-            a?.Colorname === eem?.Colorname
+            a?.Colorname === eem?.Colorname &&
+            a?.IsSolGem === eem?.IsSolGem
         );
         if (findrec === -1) {
           // let obj = {...eem};
@@ -1038,7 +1066,8 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             a?.ShapeName === eem?.ShapeName &&
             a?.SizeName === eem?.SizeName &&
             a?.QualityName === eem?.QualityName &&
-            a?.Colorname === eem?.Colorname
+            a?.Colorname === eem?.Colorname &&
+            a?.IsSolGem === eem?.IsSolGem
         );
         if (findrec === -1) {
           // let obj = {...eem};
@@ -1360,6 +1389,7 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <div className="d-flex " key={ind}>
                                   <div className="width20EstimatePrint p_1Estimate">
                                     <p className="">
+                                      {ele?.IsSolGem === 1 ? "S:" : ""}
                                       {ele?.ShapeName} {ele?.QualityName}{" "}
                                       {ele?.Colorname}
                                     </p>
@@ -1550,6 +1580,7 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <div className="d-flex " key={ind}>
                                   <div className="width20EstimatePrint p_1Estimate">
                                     <p>
+                                      {ele?.IsSolGem === 1 ? "G:" : ""}
                                       {ele?.ShapeName} {ele?.QualityName}{" "}
                                       {ele?.Colorname}
                                     </p>
@@ -2112,15 +2143,29 @@ const OrderPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <div className="d-flex justify-content-between px-1">
                         <p className="fw-bold">DIAMOND WT</p>
                         <p>
-                          {NumberWithCommas(total?.diaPcs, 0)} /{" "}
-                          {NumberWithCommas(diamondTotal?.Wt, 3)} cts
+                          {NumberWithCommas(total?.diaPcs-solitairTotal?.Pcs, 0)} /{" "}
+                          {NumberWithCommas(diamondTotal?.Wt - solitairTotal?.Wt, 3)} cts
+                        </p>
+                      </div>
+                      <div className="d-flex justify-content-between px-1">
+                        <p className="fw-bold">Solitaire WT</p>
+                        <p>
+                          {NumberWithCommas(solitairTotal?.Pcs, 0)} /{" "}
+                          {NumberWithCommas(solitairTotal?.Wt, 3)} cts
                         </p>
                       </div>
                       <div className="d-flex justify-content-between px-1">
                         <p className="fw-bold">STONE WT</p>
                         <p>
-                          {NumberWithCommas(ColorStoneTotal?.Pcs, 0)} /{" "}
-                          {fixedValues(ColorStoneTotal?.Wt, 2)} cts
+                          {NumberWithCommas(ColorStoneTotal?.Pcs - gemstoneTotal?.Pcs, 0)} /{" "}
+                          {fixedValues(ColorStoneTotal?.Wt - gemstoneTotal?.Wt, 2)} cts
+                        </p>
+                      </div>
+                      <div className="d-flex justify-content-between px-1">
+                        <p className="fw-bold">Gemstone WT</p>
+                        <p>
+                          {NumberWithCommas(gemstoneTotal?.Pcs, 0)} /{" "}
+                          {NumberWithCommas(gemstoneTotal?.Wt, 3)} cts
                         </p>
                       </div>
                       <div className="d-flex justify-content-between px-1">

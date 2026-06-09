@@ -233,6 +233,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             a?.QualityName === el?.QualityName &&
             a?.Colorname === el?.Colorname &&
             a?.SizeName === el?.SizeName &&
+            a?.IsSolGem === el?.IsSolGem &&
             a?.Rate === el?.Rate
         );
         let ell = cloneDeep(el);
@@ -263,6 +264,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             a?.Colorname === el?.Colorname &&
             a?.SizeName === el?.SizeName &&
             a?.Rate === el?.Rate &&
+            a?.IsSolGem === el?.IsSolGem &&
             a?.isRateOnPcs === el?.isRateOnPcs
         );
         let ell = cloneDeep(el);
@@ -544,7 +546,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   };
  
   
-  console.log("TCL: result?.resultArray", result?.resultArray )
+  console.log("TCL: result?.resultArray", result )
   return (
     <>
       {loader ? (
@@ -1046,6 +1048,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         paddingLeft: "2px",
                                       }}
                                     >
+                                      {el?.IsSolGem === 1 ? "S:" : ""}
                                       {el?.ShapeName} {el?.QualityName}&nbsp;
                                       {el?.Colorname}
                                     </div>
@@ -1233,6 +1236,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         width: "21.66%",
                                       }}
                                     >
+                                      {el?.IsSolGem === 1 ? "G:" : ""}
                                       {el?.ShapeName +
                                         " " +
                                         el?.QualityName +
@@ -1879,18 +1883,34 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className="d-flex justify-content-between px-1">
                                   <div className="w-50 fw-bold">DIAMOND WT</div>
                                   <div className="w-50 end_dp10_pcl7 pe-1">
-                                    {result?.mainTotal?.diamonds?.Pcs} /{" "}
-                                    {result?.mainTotal?.diamonds?.Wt?.toFixed(
+                                    {result?.mainTotal?.diamonds?.Pcs - result?.mainTotal?.solitaire?.Pcs} /{" "}
+                                    {(result?.mainTotal?.diamonds?.Wt - result?.mainTotal?.solitaire?.Wt)?.toFixed(
                                       3
                                     )}{" "}
                                     cts
                                   </div>
                                 </div>
                                 <div className="d-flex justify-content-between px-1">
+                                  <div className="w-50 fw-bold">SOLITAIRE WT</div>
+                                  <div className="w-50 end_dp10_pcl7 pe-1">
+                                    {NumberWithCommas(result?.mainTotal?.solitaire?.Pcs, 0)} / {NumberWithCommas(result?.mainTotal?.solitaire?.Wt, 3)} cts
+                                  </div>
+                                </div>
+                                <div className="d-flex justify-content-between px-1">
                                   <div className="w-50 fw-bold">STONE WT</div>
                                   <div className="w-50 end_dp10_pcl7 pe-1">
-                                    {result?.mainTotal?.colorstone?.Pcs} /{" "}
-                                    {result?.mainTotal?.colorstone?.Wt?.toFixed(
+                                    {result?.mainTotal?.colorstone?.Pcs - result?.mainTotal?.gemstone?.Pcs} /{" "}
+                                    {(result?.mainTotal?.colorstone?.Wt - result?.mainTotal?.gemstone?.Wt)?.toFixed(
+                                      3
+                                    )}{" "}
+                                    cts
+                                  </div>
+                                </div>
+                                <div className="d-flex justify-content-between px-1">
+                                  <div className="w-50 fw-bold">GEMSTONE WT</div>
+                                  <div className="w-50 end_dp10_pcl7 pe-1">
+                                    {result?.mainTotal?.gemstone?.Pcs} /{" "}
+                                    {result?.mainTotal?.gemstone?.Wt?.toFixed(
                                       3
                                     )}{" "}
                                     cts
@@ -1941,7 +1961,17 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <div className="w-50 fw-bold">DIAMOND</div>
                                   <div className="w-50 end_dp10_pcl7">
                                     {formatAmount(
-                                      result?.mainTotal?.diamonds?.Amount /
+                                      result?.mainTotal?.diamonds?.Amount - result?.mainTotal?.solitaire?.Amount /
+                                        result?.header?.CurrencyExchRate,
+                                      0
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="d-flex justify-content-between px-1">
+                                  <div className="w-50 fw-bold">SOLITAIRE</div>
+                                  <div className="w-50 end_dp10_pcl7">
+                                    {formatAmount(
+                                      result?.mainTotal?.solitaire?.Amount /
                                         result?.header?.CurrencyExchRate,
                                       0
                                     )}
@@ -1951,7 +1981,17 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <div className="w-50 fw-bold">CST</div>
                                   <div className="w-50 end_dp10_pcl7">
                                     {formatAmount(
-                                      result?.mainTotal?.colorstone?.Amount /
+                                      result?.mainTotal?.colorstone?.Amount - result?.mainTotal?.gemstone?.Amount /
+                                        result?.header?.CurrencyExchRate,
+                                      0
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="d-flex justify-content-between px-1">
+                                  <div className="w-50 fw-bold">GEMSTONE</div>
+                                  <div className="w-50 end_dp10_pcl7">
+                                    {formatAmount(
+                                      result?.mainTotal?.gemstone?.Amount /
                                         result?.header?.CurrencyExchRate,
                                       0
                                     )}
