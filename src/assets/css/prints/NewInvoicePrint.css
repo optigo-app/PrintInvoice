@@ -63,10 +63,11 @@
 }
 
 .meta-head {
-  background: #dee2e6;
+  background: #f5f5f5;
   padding: 5px 10px;
   font-size: 10px;
   font-weight: 700;
+  border-bottom: 1px solid #bdbdbd;
 }
 
 .meta-value {
@@ -193,6 +194,77 @@
 .printbtn {
   width: 1200px !important;
   margin: 0 auto;
+}
+ 
+
+/* bottom table footer  */
+
+/* Container Box */
+.ob-form-container {
+  border-top: 1px solid #bdbdbd;
+  border-left: 1px solid #bdbdbd;
+  width: 100%;
+  margin-top: 10px;
+  box-sizing: border-box;
+}
+
+/* Structural Layouts */
+.ob-form-row {
+  display: flex;
+  width: 100%;
+}
+
+.ob-form-col-50 {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+}
+
+/* Cell Variations */
+.ob-form-cell {
+  border-bottom: 1px solid #bdbdbd;
+  border-right: 1px solid #bdbdbd;
+  padding: 4px 8px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.ob-form-cell.ob-form-sub-header-bg {
+  padding: 2px 8px;
+  background-color: #f2f2f2;
+}
+
+/* Unique Cell Sizing & Alignments */
+.ob-form-w-50 { width: 50%; }
+.ob-form-w-65 { width: 65%; }
+.ob-form-w-35 { width: 35%; }
+
+.ob-form-h-30  { height: 30px; }
+.ob-form-h-80  { height: 80px; }
+.ob-form-h-120 { height: 120px; }
+
+.ob-form-center-content {
+  justify-content: center;
+}
+
+/* Typography styles */
+.ob-form-cell-header {
+  font-size: 11px;
+  font-weight: bold;
+  font-family: sans-serif;
+  text-transform: uppercase;
+  color: #333;
+ 
+  background: #f2f2f2;
+  padding: 3px 0px
+}
+
+.ob-form-cell-text {
+  font-size: 13px;
+  font-family: sans-serif;
+  color: #000;
+  min-height: 20px;
 }
 
 @media print {
