@@ -14,7 +14,7 @@ import {
     NumberWithCommas,
 } from "../../GlobalFunctions";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
- 
+
 import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
@@ -527,9 +527,9 @@ export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn
 
 
     const totalQty = (result?.resultArray || []).reduce(
-        (sum, item) => sum + (Number(item?.BulkPurchaseQTY ? item?.BulkPurchaseQTY :item?.Quantity) || 0),
+        (sum, item) => sum + (Number(item?.BulkPurchaseQTY ? item?.BulkPurchaseQTY : item?.Quantity) || 0),
         0
-      );
+    );
     return (
         <>
             {loader ? (
@@ -539,14 +539,14 @@ export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn
                     {msg === "" ? (
                         <>
                             <div className="invoice-page">
-                                 <div className="printbtn" style={{display:"flex",justifyContent:"flex-end",marginBottom:"10px"}}>
-                                                                <button
-                                                                                    className="btn_white blue mb-0 hidedp10_pcl7 m-0 p-2"
-                                                                                    onClick={(e) => handlePrint(e)}
-                                                                                  >
-                                                                                    Print
-                                                                                  </button>
-                                                                </div>
+                                <div className="printbtn" style={{ display: "flex", justifyContent: "flex-end", marginBottom: "10px" }}>
+                                    <button
+                                        className="btn_white blue mb-0 hidedp10_pcl7 m-0 p-2"
+                                        onClick={(e) => handlePrint(e)}
+                                    >
+                                        Print
+                                    </button>
+                                </div>
                                 <div className="invoice-container">
 
                                     {/* Header */}
@@ -569,9 +569,9 @@ export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn
                                             {result?.header?.customerAddress3}
                                             <br />
                                             {result?.header?.customercity1}
-                                            
-                                          
-                                    
+
+
+
                                             <br />
                                             {result?.header?.customermobileno1}
                                             <br />
@@ -683,7 +683,7 @@ export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn
                                                                 CATEGORY
                                                             </div>
                                                             <div style={{ width: "60%", padding: "3px 5px" }}>
-                                                               {e?.Categoryname}
+                                                                {e?.Categoryname}
                                                             </div>
                                                         </div>
                                                         <div style={{ display: "flex" }}>
@@ -710,11 +710,11 @@ export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn
 
                                                     <div className="table-cell w-small div-center">{e?.NetWt?.toFixed(2)}</div>
 
-                                                    <div className="table-cell w-price div-center">{NumberWithCommas(e?.UnitCost,2)}</div>
+                                                    <div className="table-cell w-price div-center">{NumberWithCommas(e?.UnitCost, 2)}</div>
 
-                                                    <div className="table-cell w-price div-center">{NumberWithCommas(e?.UnitCost,2)}</div>
+                                                    <div className="table-cell w-price div-center">{NumberWithCommas(e?.UnitCost, 2)}</div>
 
-                                                    <div className="table-cell w-price no-border div-center">{NumberWithCommas((e?.UnitCost * 1.05),2)}</div>
+                                                    <div className="table-cell w-price no-border div-center">{NumberWithCommas((e?.UnitCost * 1.05), 2)}</div>
 
                                                 </div>
 
@@ -724,7 +724,7 @@ export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn
 
 
                                         {/* total  */}
-                                        <div className="table-row">
+                                        <div className="table-row" >
 
                                             <div className="table-cell   div-center" style={{ width: "38%" }}>Total</div>
 
@@ -739,20 +739,20 @@ export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn
                                             <div className="table-cell w-pcs div-center">{totalQty}</div>
 
                                             <div className="table-cell w-small div-center"> {result?.mainTotal?.grosswt?.toFixed(2)}</div>
-                                             
+
 
                                             <div className="table-cell w-small div-center">{result?.mainTotal?.netwt?.toFixed(2)}</div>
 
-                                            <div className="table-cell w-price div-center">{NumberWithCommas(result?.mainTotal?.total_unitcost,2)}</div>
+                                            <div className="table-cell w-price div-center">{NumberWithCommas(result?.mainTotal?.total_unitcost, 2)}</div>
 
-                                            <div className="table-cell w-price div-center">{NumberWithCommas(result?.mainTotal?.total_unitcost,2)}</div>
+                                            <div className="table-cell w-price div-center">{NumberWithCommas(result?.mainTotal?.total_unitcost, 2)}</div>
 
-                                            <div className="table-cell w-price no-border div-center">  {NumberWithCommas((result?.mainTotal?.total_unitcost * 1.05),2)}</div>
+                                            <div className="table-cell w-price no-border div-center">  {NumberWithCommas((result?.mainTotal?.total_unitcost * 1.05), 2)}</div>
 
                                         </div>
-                                        <div className="table-row" style={{height:"28px"}}>
+                                        <div className="table-row" style={{ height: "28px",fontWeight:"bold" }}>
 
-                                            <div className="table-cell   div-center" style={{ width: "84%" }}> </div>
+                                            <div className="table-cell   div-center" style={{ width: "84%" }}> SPECIAL DISCOUNT </div>
 
 
 
@@ -761,21 +761,33 @@ export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn
                                             <div className="table-cell w-price no-border div-center"> {" "}</div>
 
                                         </div>
-                                        <div className="table-row">
+                                        <div className="table-row" style={{ fontWeight:"bold" }}>
 
                                             <div className="table-cell   div-center" style={{ width: "84%" }}> VAT 5%</div>
 
 
 
-                                            <div className="table-cell w-price div-center"> {NumberWithCommas((result?.mainTotal?.total_unitcost *(5/100)),2)}</div>
+                                            <div className="table-cell w-price div-center"> {NumberWithCommas((result?.mainTotal?.total_unitcost * (5 / 100)), 2)}</div>
 
                                             <div className="table-cell w-price no-border div-center"> </div>
 
                                         </div>
 
-                                        <div className="table-row">
+                                        <div className="table-row" style={{ fontWeight:"bold" }}>
 
-                                            <div className="table-cell   div-center" style={{ width: "18%" }}> VAT 5%</div>
+                                            <div className="table-cell   div-center" style={{ width: "84%" }}> TOTAL (AED)</div>
+
+
+
+                                            <div className="table-cell w-price div-center">  </div>
+
+                                            <div className="table-cell w-price no-border div-center"> </div>
+
+                                        </div>
+
+                                        <div className="table-row" style={{ fontWeight:"bold" }}>
+
+                                            <div className="table-cell   div-center" style={{ width: "18%" }}> TOTAL AMOUNT IN WORD </div>
 
 
 
@@ -791,6 +803,111 @@ export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn
                                     </div>
                                     <p className="instruction">* the gold have been duly recived and check *</p>
 
+                                    <div className="ob-form-container">
+
+                                        {/* ROW 1: Payment and Bank Details */}
+                                        <div className="ob-form-row">
+                                            {/* Left Half (Payment Term & Reference) */}
+                                            <div className="ob-form-col-50">
+                                                <div className="ob-form-row">
+                                                    <div className="ob-form-cell ob-form-w-50 ob-form-h-80" style={{padding:"0px"}}>
+                                                        <div className="ob-form-cell-header" style={{padding:"5px",borderBottom:"1px solid #bdbdbd"}}>Payment Term/Method</div>
+                                                        <div className="ob-form-cell-text"></div>
+                                                    </div>
+                                                    <div className="ob-form-cell ob-form-w-50 ob-form-h-80" style={{padding:"0px"}}>
+                                                        <div className="ob-form-cell-header" style={{padding:"5px",borderBottom:"1px solid #bdbdbd"}}>Payment Reference</div>
+                                                        <div className="ob-form-cell-text"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Right Half (Bank Details) */}
+                                            <div className="ob-form-cell ob-form-col-50 ob-form-h-80" style={{padding:"0px"}}>
+                                                <div className="ob-form-cell-header" style={{padding:"5px",borderBottom:"1px solid #bdbdbd"}}>Bank Details</div>
+                                                <div className="ob-form-cell-text"></div>
+                                            </div>
+                                        </div>
+
+                                        {/* ROW 2: Name of Authorized Signatory */}
+                                        <div className="ob-form-row">
+                                            {/* Left Signatory */}
+                                            <div className="ob-form-col-50">
+                                                <div className="ob-form-cell ob-form-sub-header-bg">
+                                                    <div className="ob-form-cell-header">Name of Authorized Signatory</div>
+                                                </div>
+                                                <div className="ob-form-row">
+                                                    <div className="ob-form-cell ob-form-w-65 ob-form-h-30 ob-form-center-content">
+                                                        <div className="ob-form-cell-text">SATISH</div>
+                                                    </div>
+                                                    <div className="ob-form-cell ob-form-w-35 ob-form-h-30 ob-form-center-content">
+                                                        <div className="ob-form-cell-text">NAIR</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Right Signatory */}
+                                            <div className="ob-form-col-50">
+                                                <div className="ob-form-cell ob-form-sub-header-bg">
+                                                    <div className="ob-form-cell-header">Name of Authorized Signatory</div>
+                                                </div>
+                                                <div className="ob-form-row">
+                                                    <div className="ob-form-cell ob-form-w-65 ob-form-h-30 ob-form-center-content">
+                                                        <div className="ob-form-cell-text">MEHREEN</div>
+                                                    </div>
+                                                    <div className="ob-form-cell ob-form-w-35 ob-form-h-30 ob-form-center-content">
+                                                        <div className="ob-form-cell-text">SYED</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* ROW 3: Signatory Company */}
+                                        <div className="ob-form-row">
+                                            {/* Left Company */}
+                                            <div className="ob-form-col-50">
+                                                <div className="ob-form-cell ob-form-sub-header-bg">
+                                                    <div className="ob-form-cell-header">Signatory Company</div>
+                                                </div>
+                                                <div className="ob-form-cell ob-form-h-30">
+                                                    <div className="ob-form-cell-text"></div>
+                                                </div>
+                                            </div>
+
+                                            {/* Right Company */}
+                                            <div className="ob-form-col-50">
+                                                <div className="ob-form-cell ob-form-sub-header-bg">
+                                                    <div className="ob-form-cell-header">Signatory Company</div>
+                                                </div>
+                                                <div className="ob-form-cell ob-form-h-30 ob-form-center-content">
+                                                    <div className="ob-form-cell-text">LOREAL MODEL</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* ROW 4: Signature Blocks */}
+                                        <div className="ob-form-row">
+                                            {/* Left Signature */}
+                                            <div className="ob-form-col-50">
+                                                <div className="ob-form-cell ob-form-sub-header-bg">
+                                                    <div className="ob-form-cell-header">Signature</div>
+                                                </div>
+                                                <div className="ob-form-cell ob-form-h-120">
+                                                    <div className="ob-form-cell-text"></div>
+                                                </div>
+                                            </div>
+
+                                            {/* Right Signature */}
+                                            <div className="ob-form-col-50">
+                                                <div className="ob-form-cell ob-form-sub-header-bg">
+                                                    <div className="ob-form-cell-header">Signature</div>
+                                                </div>
+                                                <div className="ob-form-cell ob-form-h-120">
+                                                    <div className="ob-form-cell-text"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
 
