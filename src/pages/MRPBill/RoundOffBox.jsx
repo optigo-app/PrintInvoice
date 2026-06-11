@@ -1,11 +1,9 @@
-import React from "react";
 import {
     Box,
     Typography,
     TextField,
     ToggleButtonGroup,
     ToggleButton,
-    Button,
 } from "@mui/material";
 
 const RoundOffBox = ({
@@ -13,12 +11,34 @@ const RoundOffBox = ({
     roundUpTotalAmount,
     roundType,
     roundValue,
+    dueDays,
+    selectedTaxProfile,
     pendingNote = true,
     onToggleChange,
     onValueChange,
     onRoundup,
+    onDueDaysChange,
 }) => {
-    console.log('pendingNote: ', pendingNote);
+    const subtotal = typeof totalAmount === 'number' ? totalAmount : (parseFloat(totalAmount) || 0);
+    let totalTax = 0;
+    if (selectedTaxProfile) {
+        [1, 2, 3, 4, 5].forEach((n) => {
+            const taxValue = parseFloat(selectedTaxProfile[`tax${n}_value`] || 0);
+            if (taxValue > 0 && selectedTaxProfile[`tax${n}_taxname`]) {
+                totalTax += (subtotal * taxValue) / 100;
+            }
+        });
+    }
+    const totalWithTax = subtotal + totalTax;
+    const roundoffValue = roundValue ? parseFloat(roundValue) : 0;
+    const finalAmount = roundType === 'less' ? totalWithTax - roundoffValue : totalWithTax + roundoffValue;
+
+    const hasTaxes = selectedTaxProfile && [1, 2, 3, 4, 5].some((n) => {
+        const taxValue = parseFloat(selectedTaxProfile[`tax${n}_value`] || 0);
+        const taxName = selectedTaxProfile[`tax${n}_taxname`];
+        return taxValue > 0 && taxName;
+    });
+
     return (
         <Box
             sx={{
@@ -36,13 +56,52 @@ const RoundOffBox = ({
                 position: "relative",
             }}
         >
+            {/* Subtotal */}
+            {hasTaxes && (
+                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                    <Typography fontSize={14} color="text.secondary">
+                        Subtotal
+                    </Typography>
+                    <Typography fontSize={20} fontWeight={600}>
+                        {subtotal.toFixed(2)}
+                    </Typography>
+                </Box>
+            )}
+
+            {/* Tax Breakdown */}
+            {hasTaxes && (
+                <Box sx={{ backgroundColor: "#f5f5f5", borderRadius: 1, px: 1.5, py: 1, display: "flex", flexDirection: "column", gap: 0.75 }}>
+                    <Typography fontSize={12} fontWeight={600} color="text.primary" sx={{ mb: 0.25 }}>
+                        Tax Breakdown
+                    </Typography>
+                    {[1, 2, 3, 4, 5].map((n) => {
+                        const taxName = selectedTaxProfile[`tax${n}_taxname`];
+                        const taxValue = parseFloat(selectedTaxProfile[`tax${n}_value`] || 0);
+                        if (taxValue > 0 && taxName) {
+                            const taxAmount = (subtotal * taxValue) / 100;
+                            return (
+                                <Box key={n} sx={{ display: "flex", justifyContent: "space-between" }}>
+                                    <Typography fontSize={13} color="text.secondary">
+                                        {taxName} - {taxValue}%
+                                    </Typography>
+                                    <Typography fontSize={13} fontWeight={500}>
+                                        {taxAmount.toFixed(2)}
+                                    </Typography>
+                                </Box>
+                            );
+                        }
+                        return null;
+                    })}
+                </Box>
+            )}
+
             {/* Total Amount */}
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Box sx={{ display: "flex", justifyContent: "space-between", ...(hasTaxes && { borderTop: "1px solid #e0e0e0", pt: 1.5 }) }}>
                 <Typography fontSize={14} color="text.secondary">
                     Total Amount
                 </Typography>
                 <Typography fontSize={20} fontWeight={600}>
-                {typeof totalAmount == 'number' ? totalAmount.toFixed(2) : (parseFloat(totalAmount) || 0)?.toFixed(2)}
+                    {totalWithTax.toFixed(2)}
                 </Typography>
             </Box>
 
@@ -52,7 +111,7 @@ const RoundOffBox = ({
                     Roundoff Amount
                 </Typography>
                 <Typography fontSize={16} fontWeight={500}>
-                    {roundValue ?? ''}
+                    {roundoffValue.toFixed(2)}
                 </Typography>
             </Box>
 
@@ -116,8 +175,23 @@ const RoundOffBox = ({
                     Final Amount
                 </Typography>
                 <Typography fontSize={20} fontWeight={600}>
-                    {roundUpTotalAmount ? roundUpTotalAmount : totalAmount}
+                    {finalAmount.toFixed(2)}
                 </Typography>
+            </Box>
+
+            {/* Due Days */}
+            <Box>
+                <Typography fontSize={12} sx={{ mb: 0.5 }}>
+                    Due Days
+                </Typography>
+                <TextField
+                    size="small"
+                    type="number"
+                    fullWidth
+                    value={dueDays ?? ''}
+                    onChange={onDueDaysChange}
+                    placeholder="Enter due days"
+                />
             </Box>
             {pendingNote == true && (
                 <Typography fontSize={12} color="error" sx={{ mt: 1 }}>
