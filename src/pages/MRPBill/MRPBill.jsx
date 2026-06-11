@@ -281,7 +281,6 @@ const MRPBill = () => {
             // ✅ NEW: Handle DT1 for customer
             if (args === 'customer' && resData?.DT1?.length > 0) {
               setRemarkFlag(resData?.DT1[0]?.IsRemarkRequiredInMRPandBill ?? 0);
-              setDueDays(resData?.DT1[0]?.DueDays ?? '');
             }
           } else {
             setData([]);
@@ -540,6 +539,7 @@ const MRPBill = () => {
     setSearchCust(customer?.TypoLabel);
     setSearchVal(customer?.TypoLabel);
     setCustomerDefaultTaxProfileId(customer?.taxprofileid || null);
+    setDueDays(customer?.DueDays || '');
 
     setFilteredCustomers([]);
 
@@ -602,6 +602,7 @@ const MRPBill = () => {
         setSearchVal(filteredCustomers[selectedIndex]?.TypoLabel);
         setCustID(filteredCustomers[selectedIndex]?.id);
         setCustomerDefaultTaxProfileId(filteredCustomers[selectedIndex]?.taxprofileid || null);
+        setDueDays(filteredCustomers[selectedIndex]?.DueDays || '');
         setFilteredCustomers([]);
         inputRef.current?.focus();
         setTimeout(() => {
@@ -691,7 +692,7 @@ const MRPBill = () => {
           };
         })
         const body = {
-          "Token": `${atob(tkn)}`, "ReqData": `[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"BookId\":\"${bookId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"${lid}\",\"userid\":\"${luid}\",\"date\":\"${formatedDate}\",\"remark\":\"${formatedRemark}\",\"RoundupType\":\"${roundType}\",\"RoundupValue\":\"${roundValue}\",\"BillDetail\":${JSON.stringify(bill_detail)},\"luid\":\"${luid ?? ""}\"}]`
+          "Token": `${atob(tkn)}`, "ReqData": `[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"BookId\":\"${bookId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"${lid}\",\"userid\":\"${luid}\",\"date\":\"${formatedDate}\",\"remark\":\"${formatedRemark}\",\"RoundupType\":\"${roundType}\",\"RoundupValue\":\"${roundValue}\",\"orderduedays\":\"${dueDays}\",\"taxprofileid\":\"${taxProfileId}\",\"BillDetail\":${JSON.stringify(bill_detail)},\"luid\":\"${luid ?? ""}\"}]`
         }
         try {
           setIsLoading(true);
