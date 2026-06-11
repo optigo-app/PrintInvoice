@@ -41,6 +41,7 @@ const MRPBill = () => {
   const [searchVal, setSearchVal] = useState("");
   const [selectVal, setSelectVal] = useState("");
   const [selectLocker, setSelectLocker] = useState("");
+  const [selectTaxProfile, setSelectTaxProfile] = useState("");
   const [selectBook, setSelectBook] = useState("");
   const [jobnoVal, setJobnoVal] = useState("");
   const [isJobPresent, setIsJobPresent] = useState(false);
@@ -51,6 +52,8 @@ const MRPBill = () => {
   const [dateRemarkFlag, setDateRemarkFlag] = useState(false);
   const [currencyData, setCurrencyData] = useState([]);
   const [lockerData, setLockerData] = useState([]);
+  const [taxProfileData, setTaxProfileData] = useState([]);
+  const [customerDefaultTaxProfileId, setCustomerDefaultTaxProfileId] = useState(null);
   const [customerData, setCustomerData] = useState([]);
   const [bookData, setBookData] = useState([]);
   const [filteredCustomers, setFilteredCustomers] = useState([]);
@@ -64,6 +67,7 @@ const MRPBill = () => {
   const [currencyRate, setCurrencyRate] = useState('');
   const [lockerId, setLockerId] = useState('');
   const [bookId, setBookId] = useState('');
+  const [taxProfileId, setTaxProfileId] = useState('');
   const [jobList, setJobList] = useState([]);
   const [billNo, setBillNo] = useState(0);
   const [billSavedFlag, setBillSavedFlag] = useState(false);
@@ -71,10 +75,12 @@ const MRPBill = () => {
   const [lockerErrorMsg, setLockerErrorMsg] = useState('');
   const [currErrorMsg, setCurrErrorMsg] = useState('');
   const [bookErrorMsg, setBookErrorMsg] = useState('');
+  const [taxProfileErrorMsg, setTaxProfileErrorMsg] = useState('');
   const [disableSelect, setDisableSelect] = useState(false);
   const [disableSelect2, setDisableSelect2] = useState(false);
   const [disableSelect3, setDisableSelect3] = useState(false);
   const [disableSelect4, setDisableSelect4] = useState(false);
+  const [disableSelect5, setDisableSelect5] = useState(false);
   const [editableFlag, setEditTableFlag] = useState(false);
   const [deleteFlag, setDeleteFlag] = useState(true);
   const [inpAutoFocus, setInpAutoFocus] = useState(true);
@@ -104,6 +110,7 @@ const MRPBill = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [roundType, setRoundType] = useState("less");
   const [roundValue, setRoundValue] = useState("");
+  const [dueDays, setDueDays] = useState('');
   const [pendingNote, setPendingNote] = useState(true);
   const [showRateModal, setShowRateModal] = useState(false);
   const [totalAmount, setTotalAmount] = useState('');
@@ -258,6 +265,14 @@ const MRPBill = () => {
                       setSelectBook(e?.id);
                     }, 0)
                     break;
+                  case 'taxprofile':
+                    setTaxProfileId(e?.id);
+                    setSelectTaxProfile(e?.Taxtype);
+                    setTimeout(() => {
+                      setTaxProfileId(e?.id);
+                      setSelectTaxProfile(e?.Taxtype);
+                    }, 0)
+                    break;
                   default:
                     break;
                 }
@@ -287,6 +302,9 @@ const MRPBill = () => {
 
       // Fetch customer data
       await fetchData("GetBook", setBookData, 'book');
+
+      // Fetch tax profile data
+      await fetchData("GetTaxProfile", setTaxProfileData, 'taxprofile');
 
     } catch (error) {
       console.log("An error occurred while fetching data:", error);
@@ -393,6 +411,7 @@ const MRPBill = () => {
                     setDisableSelect2(true);
                     setDisableSelect3(true);
                     setDisableSelect4(true);
+                    setDisableSelect5(true);
                     setDisableInp(false);
                   } else {
                     setJobDetail(response?.data?.Data?.DT)
@@ -404,6 +423,7 @@ const MRPBill = () => {
                     setDisableSelect2(true);
                     setDisableSelect3(true);
                     setDisableSelect4(true);
+                    setDisableSelect5(true);
                     setMsg('')
                     setJobnoVal('');
                     setIsJobPresent(false);
@@ -424,6 +444,7 @@ const MRPBill = () => {
                   setDisableSelect2(true);
                   setDisableSelect3(true);
                   setDisableSelect4(true);
+                  setDisableSelect5(true);
                   setIsLoading(false);
                   setDisableInp(false);
 
@@ -513,9 +534,12 @@ const MRPBill = () => {
   }
 
   const handleSelectCustomer = (customer) => {
+    debugger
     setCustID(customer?.id);
     setSearchCust(customer?.TypoLabel);
     setSearchVal(customer?.TypoLabel);
+    setCustomerDefaultTaxProfileId(customer?.taxprofileid || null);
+    setDueDays(customer?.DueDays || '');
 
     setFilteredCustomers([]);
 
@@ -547,28 +571,6 @@ const MRPBill = () => {
         setFilteredCustomers([]); // Hide the dropdown
       }
     }
-    // else if(searchVal){
-    //   if (searchValue) {
-    //     // Split the search value into separate words
-    //     const searchWords = searchValue?.split(" ")?.filter(word => word);
-
-    //     const filtered = customerData?.filter(customer => {
-    //       const customerName = customer?.TypoLabel?.toLowerCase();
-
-    //       // Check if all search words are present in the customer name in order
-    //       return searchWords?.every((word, index) => {
-    //         const wordIndex = customerName.indexOf(word);
-    //         if (wordIndex === -1) return false;
-
-    //         // Remove the found word and the preceding part for the next word search
-    //         customerName = customerName?.slice(wordIndex + word.length);
-    //         return true;
-    //       });
-    //     });
-
-    //     setFilteredCustomers(filtered);
-    //   }
-    // } 
     else {
       setFilteredCustomers([]);
     }
@@ -599,6 +601,8 @@ const MRPBill = () => {
         setSearchCust(filteredCustomers[selectedIndex]?.TypoLabel);
         setSearchVal(filteredCustomers[selectedIndex]?.TypoLabel);
         setCustID(filteredCustomers[selectedIndex]?.id);
+        setCustomerDefaultTaxProfileId(filteredCustomers[selectedIndex]?.taxprofileid || null);
+        setDueDays(filteredCustomers[selectedIndex]?.DueDays || '');
         setFilteredCustomers([]);
         inputRef.current?.focus();
         setTimeout(() => {
@@ -632,6 +636,16 @@ const MRPBill = () => {
     setBookErrorMsg('');
     setSelectBook(e.target.value);
     setBookId(e.target.value)
+    setJobnoVal('');
+    setDisableInp(false);
+  }
+
+  const handleTaxProfileChange = (e) => {
+    setTaxProfileErrorMsg('');
+    setSelectTaxProfile(e.target.value);
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    const taxProfileId = selectedOption.getAttribute('data-taxProfileId');
+    setTaxProfileId(taxProfileId);
     setJobnoVal('');
     setDisableInp(false);
   }
@@ -678,7 +692,7 @@ const MRPBill = () => {
           };
         })
         const body = {
-          "Token": `${atob(tkn)}`, "ReqData": `[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"BookId\":\"${bookId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"${lid}\",\"userid\":\"${luid}\",\"date\":\"${formatedDate}\",\"remark\":\"${formatedRemark}\",\"RoundupType\":\"${roundType}\",\"RoundupValue\":\"${roundValue}\",\"BillDetail\":${JSON.stringify(bill_detail)},\"luid\":\"${luid ?? ""}\"}]`
+          "Token": `${atob(tkn)}`, "ReqData": `[{\"Token\":\"${atob(tkn)}\",\"Mode\":\"BillSave\",\"CustomerId\":\"${custId}\",\"LockerId\":\"${lockerId}\",\"BookId\":\"${bookId}\",\"CurrencyId\":\"${currencyId}\",\"CurrencyRate\":\"${currencyRate}\",\"IsForEst\":\"${IsForEst}\",\"loginid\":\"${lid}\",\"userid\":\"${luid}\",\"date\":\"${formatedDate}\",\"remark\":\"${formatedRemark}\",\"RoundupType\":\"${roundType}\",\"RoundupValue\":\"${roundValue}\",\"orderduedays\":\"${dueDays}\",\"taxprofileid\":\"${taxProfileId}\",\"BillDetail\":${JSON.stringify(bill_detail)},\"luid\":\"${luid ?? ""}\"}]`
         }
         try {
           setIsLoading(true);
@@ -735,6 +749,13 @@ const MRPBill = () => {
     } else {
       setBookErrorMsg('');
     }
+
+    if (!taxProfileId) {
+      setTaxProfileErrorMsg('Tax Profile is required');
+      isValid = false;
+    } else {
+      setTaxProfileErrorMsg('');
+    }
     return isValid;
   };
 
@@ -761,10 +782,14 @@ const MRPBill = () => {
     setLockerErrorMsg('');
     setCustErrorMsg('');
     setBookErrorMsg('');
+    setTaxProfileErrorMsg('');
+    setSelectTaxProfile('');
+    setTaxProfileId('');
 
     setDisableSelect2(false);
     setDisableSelect3(false);
     setDisableSelect4(false);
+    setDisableSelect5(false);
     custRef.current?.focus();
     setTimeout(() => {
       custRef.current?.focus();
@@ -776,6 +801,8 @@ const MRPBill = () => {
     setCustomerEnterDate('');
     setCustomerEnteredRemark('');
     setDateRemarkFlag(false);
+    setDueDays('');
+    setCustomerDefaultTaxProfileId(null);
 
     setNoJobAdd(false);
 
@@ -802,6 +829,18 @@ const MRPBill = () => {
     }
   }, [cid, customerData])
 
+  // Auto-select customer default tax profile when data loads
+  useEffect(() => {
+    debugger
+    if (customerDefaultTaxProfileId && taxProfileData?.length > 0) {
+      const matched = taxProfileData.find((tp) => tp.id == customerDefaultTaxProfileId);
+      if (matched) {
+        setTaxProfileId(String(matched.id));
+        setSelectTaxProfile(matched.Taxtype);
+      }
+    }
+  }, [custId, customerDefaultTaxProfileId, taxProfileData]);
+
   //job list variable set up of disable
   useEffect(() => {
     if (jobList?.length === 0) {
@@ -809,6 +848,7 @@ const MRPBill = () => {
       setDisableSelect2(false);
       setDisableSelect3(false);
       setDisableSelect4(false);
+      setDisableSelect5(false);
       setEditTableFlag(false);
     }
   }, [jobList]);
@@ -975,6 +1015,7 @@ const MRPBill = () => {
                   setDisableSelect2(true);
                   setDisableSelect3(true);
                   setDisableSelect4(true);
+                  setDisableSelect5(true);
                 } else {
                   setJobDetail(response?.data?.Data?.DT)
                   let newobj = { ...response?.data?.Data?.DT[0] };
@@ -985,6 +1026,7 @@ const MRPBill = () => {
                   setDisableSelect2(true);
                   setDisableSelect3(true);
                   setDisableSelect4(true);
+                  setDisableSelect5(true);
                   setMsg('')
                   setJobnoVal('');
                   setIsJobPresent(false);
@@ -1003,6 +1045,7 @@ const MRPBill = () => {
                 setDisableSelect2(true);
                 setDisableSelect3(true);
                 setDisableSelect4(true);
+                setDisableSelect5(true);
                 setIsLoading(false);
 
               }
@@ -1236,6 +1279,27 @@ const MRPBill = () => {
             <div className="text-danger">{custErrorMsg}</div>
           </div>
           <div className="grid-item pd10_mrp min_h_92_mrp">
+            <label htmlFor="taxProfile" className="pe-3 cust_name_title">
+              TAX PROFILE
+            </label>
+            <select
+              name="taxProfile"
+              id="taxProfile"
+              value={selectTaxProfile}
+              className="form-select w-100 b1_9898px"
+              onChange={(e) => handleTaxProfileChange(e)}
+              disabled={disableSelect5}
+            >
+              <option value="">Select</option>
+              {
+                taxProfileData?.map((e, i) => {
+                  return <option key={i} data-taxProfileId={e?.id} value={e?.Taxtype}>{e?.Taxtype}</option>
+                })
+              }
+            </select>
+            <div className="text-danger">{taxProfileErrorMsg}</div>
+          </div>
+          <div className="grid-item pd10_mrp min_h_92_mrp">
             <label htmlFor="locker" className="pe-3 cust_name_title">
               LOCKER
             </label>
@@ -1391,10 +1455,13 @@ const MRPBill = () => {
                   roundUpTotalAmount={roundUpTotalAmount}
                   roundType={roundType}
                   roundValue={roundValue}
+                  dueDays={dueDays}
                   pendingNote={pendingNote}
+                  selectedTaxProfile={taxProfileData?.find(tp => tp.id == taxProfileId)}
                   onToggleChange={handleToggleChange}
                   onValueChange={handleValueChange}
                   onRoundup={handleRoundup}
+                  onDueDaysChange={(e) => setDueDays(e.target.value)}
                 />
               </div>
             }
