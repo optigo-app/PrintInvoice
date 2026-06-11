@@ -47,6 +47,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [headerComp, setHeaderComp] = useState(null);
   const [isImageWorking, setIsImageWorking] = useState(true);
   const [result, setResult] = useState(null);
+  const [invoiceFlag, setInvoiceFlag] = useState(true);
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -366,6 +367,8 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     return counts;
   };
 
+
+
   // const countCategorySubCategory = (data) => {
   //   let countArr = findKeyValuePair(data, "Categoryname", "SubCategoryname");
   //   Object?.keys(countArr)?.forEach((key) => {
@@ -393,6 +396,12 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   //   };
   //   setSummaryDetail(obj);
   // };
+  const handleInvoiceShow = () => {
+    if (invoiceFlag) setInvoiceFlag(false);
+    else {
+        setInvoiceFlag(true);
+    }
+};
 
   return (
     <>
@@ -404,9 +413,25 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             <>
               <div className="summary1PrintSum1 pad_60_allPrint mt-4">
                 <div className="summary1allf container_summary1">
-                  <div className="btnpcl pb-5">
+                <div className="d-none-print" style={{display:"flex",justifyContent:"flex-end",alignItems:"center"}}>
+                <div className="mb-1 me-2 justify-content-center align-items-center">
+                                        <input
+                                            type="checkbox"
+                                            className="me-1"
+                                            value={invoiceFlag}
+                                            checked={invoiceFlag}
+                                            onChange={(e) => handleInvoiceShow(e)}
+                                            id="invoiceflag"
+                                        />
+                                        <label htmlFor="invoiceflag" style={{ fontSize: "13px" }}>
+                                            {" "}
+                                            <div className="pb-2">Invoice </div>
+                                        </label>
+                                    </div>
+                  <div className="btnpcl" style={{marginBottom:"10px"}}>
                     <Button />
                   </div>
+                </div>
                   <div>
                     <table className="w-100">
                       <thead>
@@ -430,14 +455,14 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   {result?.header?.CompanyCountry})
                                 </div>
                                 <div>
-                                  {result?.header?.CompanyTellNo && (
+                                  {result?.header?.CompanyTellNo !== "" && (
                                     <>T {result.header.CompanyTellNo}</>
                                   )}
 
                                   {result?.header?.CompanyTellNo &&
                                     result?.header?.CompanyTollFreeNo && " | "}
 
-                                  {result?.header?.CompanyTollFreeNo && (
+                                  {result?.header?.CompanyTollFreeNo !=="" && (
                                     <>TOLL FREE {result.header.CompanyTollFreeNo}</>
                                   )}
                                 </div>
@@ -471,7 +496,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div className="border mt-1 d-flex justify-content-between px-1">
                               <div className="w-75 custss1fs2">
                                 <div className="d-flex ">
-                                  <div className="fw-bold">INVOICE# : </div>
+                                  <div className="fw-bold">{invoiceFlag?"INVOICE#":"MEMO#"} : </div>
                                   <div>&nbsp; {result?.header?.InvoiceNo}</div>
                                 </div>
                               </div>
@@ -487,7 +512,11 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   </div>
                                   <div className="d-flex align-items-center w-100">
                                     <div className="w-50 fw-bold d-flex justify-content-end align-items-center pe-2">
-                                      {result?.header?.HSN_No_Label} :{" "}
+
+                                      {result?.header?.HSN_No !=""&&(
+
+                                      result?.header?.HSN_No_Label + ":  "
+                                      )}
                                     </div>
                                     <div className="w-50">{result?.header?.HSN_No}</div>
                                   </div>

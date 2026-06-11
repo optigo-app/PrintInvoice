@@ -1125,12 +1125,13 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <p>{fixedValues(Number(data?.mainTotal?.grosswt), 3)} gm</p>
                       </div>
                       <div className="d-flex justify-content-between px-1">
-                        <p className="spBold">*WT</p>
-                        <p>{fixedValues((data?.mainTotal?.diamonds?.Wt / 5) + data?.mainTotal?.metal?.IsPrimaryMetal + data?.mainTotal?.finding?.Wt, 2)} gm</p>
+                        <p className="spBold">G+D WT</p>
+                        {/* <p>{fixedValues((data?.mainTotal?.diamonds?.Wt / 5) + data?.mainTotal?.metal?.IsPrimaryMetal + data?.mainTotal?.finding?.Wt, 2)} gm</p> */}
+                        <p>{fixedValues((data?.mainTotal?.diamonds?.Wt / 5) + data?.mainTotal?.metal?.IsPrimaryMetal  - data?.mainTotal?.total_mountWeight, 2)} gm</p>
                       </div>
                       <div className="d-flex justify-content-between px-1">
                         <p className="spBold">NET WT</p>
-                        <p>{fixedValues(data?.mainTotal?.metal?.IsPrimaryMetal + data?.mainTotal?.finding?.Wt + (data?.mainTotal?.lossWt || 0), 2)} gm</p>
+                        <p>{fixedValues(data?.mainTotal?.metal?.IsPrimaryMetal + (data?.mainTotal?.lossWt || 0), 2)} gm</p>
                       </div>
                       <div className="d-flex justify-content-between px-1">
                         <p className="spBold">DIAMOND WT</p>

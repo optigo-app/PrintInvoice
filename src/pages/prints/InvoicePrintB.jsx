@@ -1,5 +1,5 @@
 
-import "../../assets/css/prints/Beluxe.css";
+import "../../assets/css/prints/InvoicePrintB.css";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -18,7 +18,7 @@ import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
-function Beluxe({ token, invoiceNo, printName, urls, evn, ApiVer }) {
+function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
 
     const [result, setResult] = useState(null);
     const [msg, setMsg] = useState("");
@@ -550,7 +550,7 @@ function Beluxe({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                         Print
                                     </button>
                                 </div>
-                                <div className="logobar" >
+                                <div className="logobar" style={{backgroundColor:"#8bd2ed5c"}}>
                                     <div style={{ width: "34%" }}>
                                         <img src={result?.header?.PrintLogo} alt="logo" />
                                     </div>
@@ -558,15 +558,15 @@ function Beluxe({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                         <p> {result?.header?.CompanyFullName}</p>
                                     </div>
                                 </div>
-                                <div className="title" >
+                                <div className="title" style={{backgroundColor:"#e5cfec"}}>
 
                                     <div style={{ textAlign: "center" }}>
                                         <p > {result?.header?.PrintHeadLabel}</p>
                                     </div>
                                 </div>
 
-                                <div className="companyDetails">
-                                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                <div className="companyDetails" >
+                                    <div style={{ display: "flex", justifyContent: "space-between",backgroundColor:"#8bd2ed5c" }}>
                                         <div style={{ width: "45%", border: "1px solid #dbdbdb", borderTop: "none" ,borderBottom:"none"}}>
                                             <h3 style={{ borderBottom: "1px solid #dbdbdb", padding: "5px " }}> {result?.header?.CompanyFullName}</h3>
                                             <div className="address" style={{ padding: "5px  " }}>
@@ -606,7 +606,7 @@ function Beluxe({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div style={{ display: "flex" }}>
+                                    <div style={{ display: "flex",backgroundColor:"#8bd2ed5c" }}>
                                         <div style={{ border: "1px solid #dbdbdb", padding: "5px", width: "45%",  }}>Contact Number: {result?.header?.CompanyTellNo} </div>
                                         <div style={{ border: "1px solid #dbdbdb", padding: "5px", width: "25%", borderRight: "1px solid #dbdbdb", borderLeft: "none" }}>  </div>
                                         <div style={{ borderBottom: "1px solid #dbdbdb", width: "30%", borderRight: "1px solid #dbdbdb" }}>
@@ -615,7 +615,7 @@ function Beluxe({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                                 <div style={{ padding: "5px", width: "50%" }}> </div>
                                             </div> </div>
                                     </div>
-                                    <div style={{ display: "flex" }}>
+                                    <div style={{ display: "flex",backgroundColor:"#8bd2ed5c" }}>
                                         <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px", width: "45%", borderRight: "1px solid #dbdbdb", borderLeft: "1px solid #dbdbdb" }}>Email: {result?.header?.CompanyEmail} </div>
                                         <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px", width: "25%", borderRight: "1px solid #dbdbdb" }}>  </div>
                                         <div style={{ borderBottom: "1px solid #dbdbdb", width: "30%", borderRight: "1px solid #dbdbdb" }}>
@@ -626,8 +626,8 @@ function Beluxe({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                     </div>
                                     <div style={{ display: "flex" }}>
                                         <div style={{ borderBottom: "1px solid #dbdbdb", width: "50%", borderRight: "1px solid #dbdbdb", borderLeft: "1px solid #dbdbdb" }}>
-                                            <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px ", textAlign: "center", fontWeight: "bold" }}>CUSTOMER</div>
-                                            <div style={{ padding: "5px " }}>
+                                            <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px ", textAlign: "center", fontWeight: "bold",backgroundColor:"#e5cfec" }}>CUSTOMER</div>
+                                            <div style={{ padding: "5px " ,backgroundColor:"#8bd2ed5c" }}>
                                                 TO:
                                                 <div style={{ display: "flex", gap: "10px" }}>
                                                     <b>Name:</b>   <span> {result?.header?.customerfirmname}</span>
@@ -645,9 +645,9 @@ function Beluxe({ token, invoiceNo, printName, urls, evn, ApiVer }) {
 
                                             </div>
                                         </div>
-                                        <div style={{ borderBottom: "1px solid #dbdbdb", width: "50%", borderRight: "1px solid #dbdbdb" }}>
-                                            <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px 5px", textAlign: "center", fontWeight: "bold" }}>SHIP TO</div>
-                                            <div style={{ padding: "5px " }}>
+                                        <div style={{ borderBottom: "1px solid #dbdbdb", width: "50%", borderRight: "1px solid #dbdbdb"  }}>
+                                            <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px 5px", textAlign: "center", fontWeight: "bold",backgroundColor:"#e5cfec" }}>SHIP TO</div>
+                                            <div style={{ padding: "5px " ,backgroundColor:"#8bd2ed5c" }}>
                                                 TO:
 
 
@@ -673,7 +673,7 @@ function Beluxe({ token, invoiceNo, printName, urls, evn, ApiVer }) {
 
 
                                     {/* table  */}
-                                    <div className='tblrow'>
+                                    <div className='tblrow' style={{ backgroundColor:"#e5cfec" }}>
                                         <div className='srcol colpad border_right' style={{ fontWeight: "bold" }}> SR</div>
                                         <div className='stycol colpad border_right' style={{ fontWeight: "bold" }}> Style Number</div>
                                         <div className='imgcol colpad border_right' style={{ fontWeight: "bold" }}> Image</div>
@@ -695,7 +695,7 @@ function Beluxe({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                         ].join(" + ");
                                         return (
 
-                                            <div className='tblrow'>
+                                            <div className='tblrow' style={{ backgroundColor:"#8bd2ed5c" }}>
                                                 <div className='srcol colpad border_right' > {i + 1}</div>
                                                 <div className='stycol colpad border_right' > {e?.designno} <br />{e?.SrJobno}</div>
                                                 <div className='imgcol colpad border_right' >
@@ -721,7 +721,7 @@ function Beluxe({ token, invoiceNo, printName, urls, evn, ApiVer }) {
 
 
                                     {/* total  */}
-                                    <div className='tblrow'>
+                                    <div className='tblrow' style={{ backgroundColor:"#e5cfec" }}>
                                         <div className='total colpad border_right' > Total</div>
 
                                         <div className='qtycol colpad border_right' > {totalQty}</div>
@@ -731,7 +731,7 @@ function Beluxe({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                     </div>
 
                                     {/* grandtotal */}
-                                    <div style={{ border: "1px solid #dbdbdb", borderTop: "none", display: "flex" }}>
+                                    <div style={{ border: "1px solid #dbdbdb", borderTop: "none", display: "flex", backgroundColor:"#8bd2ed5c" }}>
                                         <div style={{ borderRight: "1px solid #dbdbdb", width: "62.5%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                                             {result?.header?.SalesRepPolicyTermsDescription !== '' && (
                                                 <div className="w-100 px-1 mt-1 mb-1 d-flex">
@@ -816,4 +816,4 @@ function Beluxe({ token, invoiceNo, printName, urls, evn, ApiVer }) {
 
 }
 
-export default Beluxe
+export default InvoicePrintB
