@@ -204,7 +204,7 @@
   border-top: 1px solid #bdbdbd;
   border-left: 1px solid #bdbdbd;
   width: 100%;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   box-sizing: border-box;
 }
 
@@ -242,7 +242,7 @@
 
 .ob-form-h-30  { height: 30px; }
 .ob-form-h-80  { height: 80px; }
-.ob-form-h-120 { height: 120px; }
+.ob-form-h-120 { height: 80px; }
 
 .ob-form-center-content {
   justify-content: center;
@@ -261,10 +261,10 @@
 }
 
 .ob-form-cell-text {
-  font-size: 13px;
+  font-size: 11px;
   font-family: sans-serif;
   color: #000;
-  min-height: 20px;
+  min-height: 93px;
 }
 
 @media print {

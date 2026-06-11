@@ -216,7 +216,7 @@ export const SaleReturn = [
   { printName: 'summary print', etpType: 'print', componentName: 'SummaryPrint' },
   { printName: 'tax invoice 1', etpType: 'print', componentName: 'TaxInvoice1' },
   { printName: 'tax invoice 5', etpType: 'print', componentName: 'TaxInvoice5' },
-  { printName: 'packing list 7 d group', etpType: 'print', componentName: 'PackingList7DGroup' },
+  { printName: 'packing list 7d group', etpType: 'print', componentName: 'PackingList7DGroup' },
   { printName: 'tax invoice 5 S', etpType: 'print', componentName: 'TaxInvoice5S' },  // amish .........
   
 ]
@@ -338,7 +338,7 @@ export const MemoReturnPrints = [
   { printName: 'tax invoice 5', etpType: 'print', componentName: 'TaxInvoice5' },
   { printName: 'export print', etpType: 'print', componentName: 'ExportPrint' },
   { printName: 'jewellery tax invoice', etpType: 'print', componentName: 'JewelleryTaxInvoice' },
-  { printName: 'packing list 7 d group', etpType: 'print', componentName: 'PackingList7DGroup' },
+  { printName: 'packing list 7d group', etpType: 'print', componentName: 'PackingList7DGroup' },
 ]
 
 export const ShipmentArray = [
@@ -503,7 +503,7 @@ export const fgPurchase = [
   { printName: 'daily statement', etpType: 'print', componentName: 'CustomerDailyStatement' },
   { printName: 'tax invoice 5', etpType: 'print', componentName: 'TaxInvoice5' },
   { printName: 'detail print', etpType: 'print', componentName: 'DetailPrintFG' },
-  { printName: 'packing list 7 d group', etpType: 'print', componentName: 'PackingList7DGroup' },
+  { printName: 'packing list 7d group', etpType: 'print', componentName: 'PackingList7DGroup' },
 ];
 
 // export const fgPurchaseReturn = [

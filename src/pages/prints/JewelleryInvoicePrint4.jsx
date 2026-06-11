@@ -12,6 +12,7 @@ import {
     handlePrint,
     isObjectEmpty,
     NumberWithCommas,
+    taxGenrator,
 } from "../../GlobalFunctions";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { ToWords } from "to-words";
@@ -26,12 +27,14 @@ export default function JewelleryInvoicePrint4({ token, invoiceNo, printName, ur
     const [loader, setLoader] = useState(true);
     const [diamondWise, setDiamondWise] = useState([]);
     const toWords = new ToWords();
+    const [vatamtFalg, setVatamtFalg] = useState(true);
 
     const evname = atob(evn);
     const [MetShpWise, setMetShpWise] = useState([]);
     const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
     const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
     const [diamondDetails, setDiamondDetails] = useState([]);
+    const [taxes, setTaxes] = useState([]);
 
 
     useEffect(() => {
@@ -83,8 +86,14 @@ export default function JewelleryInvoicePrint4({ token, invoiceNo, printName, ur
             data?.BillPrint_Json1,
             data?.BillPrint_Json2
         );
+        // let taxValue = taxGenrator(data?.BillPrint_Json[0], totals?.total);
+        //       taxValue.forEach((e, i) => {
+        //         totals.afterTax += +e?.amount;
+        //       });
 
-        console.log("TCL: sendData -> datas", datas)
+        //       setTaxes(taxValue);
+
+
 
         let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
 
@@ -534,14 +543,39 @@ export default function JewelleryInvoicePrint4({ token, invoiceNo, printName, ur
     );
 
     const TotalTaxPercentage =
-  (Number(result?.header?.CGST) || 0) +
-  (Number(result?.header?.SGST) || 0) +
-  (Number(result?.header?.IGST) || 0) +
-  (Number(result?.header?.tax1_value) || 0) +
-  (Number(result?.header?.tax2_value) || 0) +
-  (Number(result?.header?.tax3_value) || 0) +
-  (Number(result?.header?.tax4_value) || 0) +
-  (Number(result?.header?.tax5_value) || 0);
+        (Number(result?.header?.CGST) || 0) +
+        (Number(result?.header?.SGST) || 0) +
+        (Number(result?.header?.IGST) || 0) +
+        (Number(result?.header?.tax1_value) || 0) +
+        (Number(result?.header?.tax2_value) || 0) +
+        (Number(result?.header?.tax3_value) || 0) +
+        (Number(result?.header?.tax4_value) || 0) +
+        (Number(result?.header?.tax5_value) || 0);
+
+
+    const handleVatamtFalgShow = () => {
+        if (vatamtFalg) setVatamtFalg(false);
+        else {
+            setVatamtFalg(true);
+        }
+    };
+
+    const Finalamount =
+  ((Number(result?.mainTotal?.total_unitcost) || 0) *
+    (1 + (Number(TotalTaxPercentage) || 0) / 100)) +
+  (Number(result?.header?.AddLess) || 0);
+
+const integerPart = Math.floor(Finalamount);
+const filsPart = Math.round((Finalamount - integerPart) * 100);
+const amountInWords =
+  `${toWords.convert(integerPart)}${
+    filsPart > 0
+      ? ` And ${toWords.convert(filsPart)} Fils`
+      : ""
+  } Only`;
+
+
+    console.log("TCL: result", result)
     return (
         <>
             {loader ? (
@@ -551,7 +585,21 @@ export default function JewelleryInvoicePrint4({ token, invoiceNo, printName, ur
                     {msg === "" ? (
                         <>
                             <div className="invoice-page">
-                                <div className="printbtn" style={{ display: "flex", justifyContent: "flex-end", marginBottom: "10px" }}>
+                                <div className="printbtn" style={{ display: "flex", gap: "10px", alignItems: "center", justifyContent: "flex-end", marginBottom: "10px" }}>
+                                    <div>
+                                        <input
+                                            type="checkbox"
+                                            className="me-1"
+                                            value={vatamtFalg}
+                                            checked={vatamtFalg}
+                                            onChange={(e) => handleVatamtFalgShow(e)}
+                                            id="vatamtFalg"
+                                        />
+                                        <label htmlFor="vatamtFalg" style={{ fontSize: "13px" }}>
+                                            {" "}
+                                            <div className="pb-2">VAT Amount </div>
+                                        </label>
+                                    </div>
                                     <button
                                         className="btn_white blue mb-0 hidedp10_pcl7 m-0 p-2"
                                         onClick={(e) => handlePrint(e)}
@@ -564,7 +612,12 @@ export default function JewelleryInvoicePrint4({ token, invoiceNo, printName, ur
                                     {/* Header */}
                                     <div className="invoice-header">
                                         <div className="invoice-title"> {result?.header?.PrintHeadLabel}</div>
-                                        <div className="invoice-trn">TRN: 104044214500003</div>
+                                        {
+                                            result?.header?.Company_VAT_GST_No && (
+
+                                                <div className="invoice-trn">TRN: {result?.header?.Company_VAT_GST_No.substring(6)}</div>
+                                            )
+                                        }
                                     </div>
 
                                     {/* Bill To */}
@@ -572,22 +625,45 @@ export default function JewelleryInvoicePrint4({ token, invoiceNo, printName, ur
                                         <div className="section-label"> {result?.header?.lblBillTo}:</div>
 
                                         <div className="bill-text">
-                                            {result?.header?.customerfirmname}
-                                            <br />
-                                            {result?.header?.customerAddress1}
-                                            <br />
-                                            {result?.header?.customerAddress2}
-                                            <br />
-                                            {result?.header?.customerAddress3}
-                                            <br />
-                                            {result?.header?.customercity1}
+                                            <div>
+                                                {result?.header?.CustName}
+                                            </div>
+
+                                            <div>
+                                                {result?.header?.customerAddress1}
+                                            </div>
+
+                                            <div>
+                                                {result?.header?.customerAddress2}
+                                            </div>
+                                            <div>
+                                                {result?.header?.customerAddress3}
+                                            </div>
+                                            <div>
+
+                                                {result?.header?.customercity1}
+                                            </div>
+                                            <div>
+                                                {result?.header?.State},{result?.header?.customercountry}
+                                            </div>
+
+                                            <div>
+
+                                                {result?.header?.customermobileno1}
+                                            </div>
+                                            <div>
+                                                {result?.header?.Cust_VAT_GST_No && (
+
+                                                    "TRN -" + result?.header?.Cust_VAT_GST_No
+                                                )}
+
+                                            </div>
 
 
 
-                                            <br />
-                                            {result?.header?.customermobileno1}
-                                            <br />
-                                            TRN - 104154817100003
+
+
+
                                         </div>
                                     </div>
 
@@ -601,7 +677,7 @@ export default function JewelleryInvoicePrint4({ token, invoiceNo, printName, ur
 
                                         <div className="meta-col large">
                                             <div className="meta-head">INVOICE REFERENCE</div>
-                                            <div className="meta-value"></div>
+                                            <div className="meta-value">{result?.header?.BillReferenceNo}</div>
                                         </div>
 
                                         <div className="meta-col">
@@ -612,26 +688,26 @@ export default function JewelleryInvoicePrint4({ token, invoiceNo, printName, ur
                                     </div>
 
                                     {/* Second Meta */}
-                                    <div className="meta-box second">
+                                    <div className="meta-box second" >
 
                                         <div className="meta-col">
                                             <div className="meta-head">SHIPPING CARRIER</div>
-                                            <div className="meta-value"></div>
+                                            <div className="meta-value" style={{ minHeight: "21px" }}> {result?.header?.Delivery_Mode}  </div>
                                         </div>
 
                                         <div className="meta-col">
                                             <div className="meta-head">TRACKING NO</div>
-                                            <div className="meta-value"></div>
+                                            <div className="meta-value" style={{ minHeight: "21px" }}> {result?.header?.E_Way_Bill_No}</div>
                                         </div>
 
                                         <div className="meta-col">
                                             <div className="meta-head">INSURANCE BY</div>
-                                            <div className="meta-value"></div>
+                                            <div className="meta-value" style={{ minHeight: "21px" }}> {result?.header?.insuranceby}</div>
                                         </div>
 
                                         <div className="meta-col">
                                             <div className="meta-head">INSURANCE REFERENCE</div>
-                                            <div className="meta-value"></div>
+                                            <div className="meta-value" style={{ minHeight: "21px" }}> {result?.header?.Advance_Receipt_No}</div>
                                         </div>
 
                                     </div>
@@ -645,19 +721,21 @@ export default function JewelleryInvoicePrint4({ token, invoiceNo, printName, ur
                                             <div className="w-sno">S.NO</div>
                                             <div className="w-lot">LOT NO</div>
                                             <div className="w-img">IMAGE</div>
-                                            <div className="w-desc">DESCRIPTION OF GOODS</div>
+                                            <div className="w-desc" style={{ width: vatamtFalg ? "19%" : "24%" }}>DESCRIPTION OF GOODS</div>
                                             <div className="w-small">DIAMOND CARAT</div>
                                             <div className="w-small">COLOR <br /> STONE <br /> CARAT</div>
                                             <div className="w-card">CARD / SHEET</div>
                                             <div className="w-pcs">PCS</div>
                                             <div className="w-small">AVERAGE (GMS)</div>
                                             <div className="w-small">TOTAL (GMS)</div>
-                                            <div className="w-price">PRICE PER <br /> UNIT (AED)</div>
-                                            <div className="w-price">NET AMOUNT (AED)</div>
-                                            <div className="w-price no-border">VAT AMOUNT (AED)</div>
-
+                                            <div className="w-price" style={{ width: vatamtFalg ? "8%" : "10%" }}>PRICE PER <br /> UNIT ({result?.header?.CurrencyCode})</div>
+                                            <div className="w-price" style={{ width: vatamtFalg ? "8%" : "10%" }}>NET AMOUNT ({result?.header?.CurrencyCode})</div>
+                                            {
+                                                vatamtFalg && (
+                                                    <div className="w-price no-border">VAT AMOUNT ({result?.header?.CurrencyCode})</div>
+                                                )
+                                            }
                                         </div>
-
                                         {/* Row */}
 
                                         {result?.resultArray?.map((e, i) => {
@@ -681,7 +759,7 @@ export default function JewelleryInvoicePrint4({ token, invoiceNo, printName, ur
                                                         </div>
                                                     </div>
 
-                                                    <div className="table-cell w-desc desc-cell" style={{ padding: "0px" }}>
+                                                    <div className="table-cell w-desc desc-cell" style={{ width: vatamtFalg ? "19%" : "24%", padding: "0px" }}>
                                                         <div style={{ display: "flex", borderBottom: "1px solid #bdbdbd" }}>
                                                             <div style={{ borderRight: "1px solid #bdbdbd", width: "40%", padding: "3px 5px" }}>
                                                                 ITEM
@@ -720,26 +798,25 @@ export default function JewelleryInvoicePrint4({ token, invoiceNo, printName, ur
 
                                                     <div className="table-cell w-small div-center"> {e?.grosswt?.toFixed(2)}</div>
 
-                                                    <div className="table-cell w-small div-center">{e?.NetWt?.toFixed(2)}</div>
+                                                    <div className="table-cell w-small div-center">{(e?.grosswt * (e?.BulkPurchaseQTY ? e?.BulkPurchaseQTY : e?.Quantity))?.toFixed(2)}</div>
 
-                                                    <div className="table-cell w-price div-center">{NumberWithCommas(e?.UnitCost, 2)}</div>
+                                                    <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "8%" : "10%" }}>{NumberWithCommas(e?.UnitCost, 2)}</div>
 
-                                                    <div className="table-cell w-price div-center">{NumberWithCommas(e?.UnitCost, 2)}</div>
+                                                    <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "8%" : "10%", borderRight: vatamtFalg ? "1px solid #bdbdbd" : "none" }}>{NumberWithCommas(e?.UnitCost, 2)}</div>
 
-                                                    <div className="table-cell w-price no-border div-center">{NumberWithCommas(( (Number(e?.UnitCost) || 0) *
-  (1 + (Number(TotalTaxPercentage) || 0) / 100)), 2)}</div>
+                                                    {vatamtFalg && (
+                                                        <div className="table-cell w-price no-border div-center">{NumberWithCommas(((Number(e?.UnitCost) || 0) *
+                                                            (1 + (Number(TotalTaxPercentage) || 0) / 100)), 2)}</div>
+                                                    )}
 
                                                 </div>
-
                                             )
                                         })}
-
-
 
                                         {/* total  */}
                                         <div className="table-row" >
 
-                                            <div className="table-cell   div-center" style={{ width: "38%" }}>Total</div>
+                                            <div className="table-cell   div-center" style={{ width: vatamtFalg ? "38%" : "43%" }}>Total</div>
 
                                             <div className="table-cell w-small div-center">{result?.mainTotal?.diamonds?.Wt.toFixed(2)}</div>
 
@@ -751,76 +828,126 @@ export default function JewelleryInvoicePrint4({ token, invoiceNo, printName, ur
 
                                             <div className="table-cell w-pcs div-center">{totalQty}</div>
 
-                                            <div className="table-cell w-small div-center"> {result?.mainTotal?.grosswt?.toFixed(2)}</div>
+                                            <div className="table-cell w-small div-center"> </div>
 
 
-                                            <div className="table-cell w-small div-center">{result?.mainTotal?.netwt?.toFixed(2)}</div>
+                                            <div className="table-cell w-small div-center">{(result?.mainTotal?.grosswt * totalQty)?.toFixed(2)}</div>
 
-                                            <div className="table-cell w-price div-center">{NumberWithCommas(result?.mainTotal?.total_unitcost, 2)}</div>
+                                            <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "8%" : "10%" }}> </div>
+                                            {/* <div className="table-cell w-price div-center">{NumberWithCommas(result?.mainTotal?.total_unitcost, 2)}</div> */}
 
-                                            <div className="table-cell w-price div-center">{NumberWithCommas(result?.mainTotal?.total_unitcost, 2)}</div>
+                                            <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "8%" : "10%", borderRight: vatamtFalg ? "1px solid #dbdbdb" : "none" }}>{NumberWithCommas(result?.mainTotal?.total_unitcost, 2)}</div>
 
-                                            <div className="table-cell w-price no-border div-center">  {NumberWithCommas(( (Number(result?.mainTotal?.total_unitcost) || 0) *
-  (1 + (Number(TotalTaxPercentage) || 0) / 100)), 2)}</div>
+                                            {
+                                                vatamtFalg && (
+                                                    <div className="table-cell w-price no-border div-center">  {NumberWithCommas(((Number(result?.mainTotal?.total_unitcost) || 0) *
+                                                        (1 + (Number(TotalTaxPercentage) || 0) / 100)), 2)}</div>
+                                                )
+                                            }
+                                        </div>
+                                        <div className="table-row" style={{ fontWeight: "bold" }}>
+
+                                            <div className="table-cell   div-center" style={{ width: vatamtFalg ? "84%" : "90%" ,display:"flex",flexDirection:"column",alignItems:"flex-end"}}>
+                                                {result?.allTaxes?.map((e, i) => {
+                                                    return (
+                                                        <div
+                                                            className=" text-end"
+                                                            key={i}
+                                                        >
+                                                            <div className="pb-1 px-1 text-end">
+                                                                {" "}
+                                                                {e?.name} {e?.per}{" "}
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+
+                                            </div>
+
+
+
+                                            <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "8%" : "10%", borderRight: vatamtFalg ? "1px solid #dbdbdb" : "none" ,flexDirection:"column",alignItems:"flex-end"}}>
+                                                       {result?.allTaxes?.map((e, i) => {
+                                                                               return (
+                                                                                 <div
+                                                                                   className=" text-end"
+                                                                                   key={i}
+                                                                                 >
+                                                                                   <div className="pb-1 px-1 text-end">
+                                                                                     {" "}
+                                                                                     {NumberWithCommas(e?.amountInNumber, 2)}{" "}
+                                                                                   </div>
+                                                                                 </div>
+                                                                               );
+                                                                             })} {/** CGST SGST */}
+
+                                            </div>
+                                            {vatamtFalg && (
+
+                                                <div className="table-cell w-price no-border div-center">   </div>
+                                            )}
+                                        </div>
+                                        <div className="table-row" style={{ height: "28px", fontWeight: "bold" }}>
+
+                                            <div className="table-cell   div-center" style={{ width: vatamtFalg ? "84%" : "90%",justifyContent:"flex-end" }}> SPECIAL DISCOUNT </div>
+
+
+
+                                            <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "8%" : "10%", borderRight: vatamtFalg ? "1px solid #dbdbdb" : "none" ,justifyContent:"flex-end"}}>
+                                                {result?.header?.AddLess < 0 ?"-":""} {NumberWithCommas(
+                                                                              result?.header?.AddLess /
+                                                                              result?.header?.CurrencyExchRate,
+                                                                              2
+                                                                            )} </div>
+
+                                            {vatamtFalg && (
+
+                                                <div className="table-cell w-price no-border div-center"> {" "}</div>
+                                            )}
+
 
                                         </div>
-                                        <div className="table-row" style={{ height: "28px",fontWeight:"bold" }}>
-
-                                            <div className="table-cell   div-center" style={{ width: "84%" }}> SPECIAL DISCOUNT </div>
 
 
+                                        <div className="table-row" style={{ fontWeight: "bold" }}>
 
-                                            <div className="table-cell w-price div-center"> </div>
-
-                                            <div className="table-cell w-price no-border div-center"> {" "}</div>
-
-                                        </div>
-                                        <div className="table-row" style={{ fontWeight:"bold" }}>
-
-                                            <div className="table-cell   div-center" style={{ width: "84%" }}> VAT {TotalTaxPercentage.toFixed(2)}%</div>
+                                            <div className="table-cell   div-center" style={{ width: vatamtFalg ? "84%" : "90%" ,justifyContent:"flex-end"}}> TOTAL ({result?.header?.CurrencyCode})</div>
 
 
 
-                                            <div className="table-cell w-price div-center">  {NumberWithCommas((result?.mainTotal?.total_unitcost * (Number(TotalTaxPercentage) || 0) / 100), 2)}</div>
+                                            <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "8%" : "10%", borderRight: vatamtFalg ? "1px solid #dbdbdb" : "none" ,justifyContent:"flex-end"}}> 
 
-                                            <div className="table-cell w-price no-border div-center"> {NumberWithCommas(( (Number(result?.mainTotal?.total_unitcost) || 0) *
-  (1 + (Number(TotalTaxPercentage) || 0) / 100)), 2)} </div>
+                                            { NumberWithCommas((Number(result?.mainTotal?.total_unitcost) || 0) *
+                                            (1 + (Number(TotalTaxPercentage) || 0) / 100) + result?.header?.AddLess,
+                                            2
+                                            )}
+                                            </div>
 
-                                        </div>
+                                            {vatamtFalg && (
 
-                                        <div className="table-row" style={{ fontWeight:"bold" }}>
+                                                <div className="table-cell w-price no-border div-center"> </div>
+                                            )}
 
-                                            <div className="table-cell   div-center" style={{ width: "84%" }}> TOTAL (AED)</div>
-
-
-
-                                            <div className="table-cell w-price div-center">  </div>
-
-                                            <div className="table-cell w-price no-border div-center"> </div>
 
                                         </div>
 
-                                        <div className="table-row" style={{ fontWeight:"bold" }}>
+                                        <div className="table-row" style={{ fontWeight: "bold" }}>
 
                                             <div className="table-cell   div-center" style={{ width: "18%" }}> TOTAL AMOUNT IN WORD </div>
 
 
 
-                                            <div className="table-cell w-price div-center" style={{ width: "74%" }}> 
-                                                 {toWords.convert(
-                                                                +fixedValues(
-                                                                    ( (Number(result?.mainTotal?.total_unitcost) || 0) *
-  (1 + (Number(TotalTaxPercentage) || 0) / 100))
-                                                                   ,
-                                                                  2
-                                                                )
-                                                              )}{" "}
-                                                              Only.
+                                            <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "74%" : "86%" }}>
+                                                 {amountInWords}
 
 
                                             </div>
 
-                                            <div className="table-cell w-price no-border div-center"> </div>
+                                            {vatamtFalg && (
+
+                                                <div className="table-cell w-price no-border div-center"> </div>
+                                            )}
+
 
                                         </div>
 
@@ -829,6 +956,15 @@ export default function JewelleryInvoicePrint4({ token, invoiceNo, printName, ur
 
                                     </div>
                                     <p className="instruction">* the gold have been duly recived and check *</p>
+                                    <div className="ob-form-container" style={{ width: "100%", border: "1px solid #bdbdbd ",borderBottom:"none", padding: "5px", marginRight: "0px" }}>
+                                            <p className="fw-bold" style={{fontSize:"12px"}}>Terms & Condition:</p>
+                                            <div
+                                                className="tb_fs_pclsINS"
+                                                dangerouslySetInnerHTML={{
+                                                    __html: result?.header?.Declaration,
+                                                }}
+                                            ></div>
+                                        </div>
 
                                     <div className="ob-form-container">
 
@@ -837,86 +973,104 @@ export default function JewelleryInvoicePrint4({ token, invoiceNo, printName, ur
                                             {/* Left Half (Payment Term & Reference) */}
                                             <div className="ob-form-col-50">
                                                 <div className="ob-form-row">
-                                                    <div className="ob-form-cell ob-form-w-50 ob-form-h-80" style={{padding:"0px"}}>
-                                                        <div className="ob-form-cell-header" style={{padding:"5px",borderBottom:"1px solid #bdbdbd"}}>Payment Term/Method</div>
+                                                    <div className="ob-form-cell ob-form-w-50 " style={{ padding: "0px" }}>
+                                                        <div className="ob-form-cell-header" style={{ padding: "5px", borderBottom: "1px solid #bdbdbd" }}>Payment Term/Method</div>
                                                         <div className="ob-form-cell-text"></div>
                                                     </div>
-                                                    <div className="ob-form-cell ob-form-w-50 ob-form-h-80" style={{padding:"0px"}}>
-                                                        <div className="ob-form-cell-header" style={{padding:"5px",borderBottom:"1px solid #bdbdbd"}}>Payment Reference</div>
+                                                    <div className="ob-form-cell ob-form-w-50 " style={{ padding: "0px" }}>
+                                                        <div className="ob-form-cell-header" style={{ padding: "5px", borderBottom: "1px solid #bdbdbd" }}>Payment Reference</div>
                                                         <div className="ob-form-cell-text"></div>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             {/* Right Half (Bank Details) */}
-                                            <div className="ob-form-cell ob-form-col-50 ob-form-h-80" style={{padding:"0px"}}>
-                                                <div className="ob-form-cell-header" style={{padding:"5px",borderBottom:"1px solid #bdbdbd"}}>Bank Details</div>
-                                                <div className="ob-form-cell-text"></div>
+                                            <div className="ob-form-cell ob-form-col-50" style={{ padding: "0px",minHeight:"80px" }}>
+                                                <div className="ob-form-cell-header" style={{ padding: "5px", borderBottom: "1px solid #bdbdbd" }}>Bank Details</div>
+                                                <div className="ob-form-cell-text">
+                                                <div className="disColunm check_dp10 ball_dp10 pb-1 fsgdp10 tb_fs_pcls1 minH_sum_pcl3">
+                                            <div style={{ padding: "5px", lineHeight: "1.2" }}>
+                                                
+
+                                                {result?.header?.bankname &&(
+
+                                                <div className="d-flex w-100">
+                                                    <span className="fw-bold spwdth">Bank name</span>:
+                                                    <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
+                                                        {result?.header?.bankname}
+                                                    </span>
+                                                </div>
+                                                )}
+                                            
+                                                {/* <span>{headerData?.spaninCode}</span> */}
+                                                {
+                                                    result?.header?.accountname &&(
+
+                                                <div className="d-flex w-100">
+                                                    <span className="fw-bold spwdth">Account Name</span>:
+                                                    <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
+                                                        {result?.header?.accountname}
+                                                    </span>
+                                                </div>
+                                                    )
+
+                                                }
+
+                                                {result?.header?.accountnumber &&(
+
+                                                <div className="d-flex w-100">
+                                                    <span className="fw-bold spwdth">Account No </span>:
+                                                    <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
+                                                        {result?.header?.accountnumber}
+                                                    </span>
+                                                </div>
+                                                )}
+
+                                                {result?.header?.rtgs_neft_ifsc&&(
+
+                                                <div className="d-flex w-100">
+                                                    <span className="fw-bold spwdth">IBAN </span>:
+                                                    <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
+                                                        {result?.header?.rtgs_neft_ifsc}
+                                                    </span>
+                                                </div>
+                                                )}
+
+                                                {result?.header?.swiftcode &&(
+
+                                                <div className="d-flex w-100">
+                                                    <span className="fw-bold spwdth">SWIFT CODE</span>:
+                                                    <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
+                                                        {result?.header?.swiftcode}
+                                                    </span>
+                                                </div>
+                                                )}
+
+                                                {result?.header?.micrcode &&(
+
+                                                <div className="d-flex w-100">
+                                                    <span className="fw-bold spwdth">MISCR CODE </span>:
+                                                    <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
+                                                        {result?.header?.micrcode}
+                                                    </span>
+                                                </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                                </div>
                                             </div>
                                         </div>
 
-                                        {/* ROW 2: Name of Authorized Signatory */}
-                                        <div className="ob-form-row">
-                                            {/* Left Signatory */}
-                                            <div className="ob-form-col-50">
-                                                <div className="ob-form-cell ob-form-sub-header-bg">
-                                                    <div className="ob-form-cell-header">Name of Authorized Signatory</div>
-                                                </div>
-                                                <div className="ob-form-row">
-                                                    <div className="ob-form-cell ob-form-w-65 ob-form-h-30 ob-form-center-content">
-                                                        <div className="ob-form-cell-text">SATISH</div>
-                                                    </div>
-                                                    <div className="ob-form-cell ob-form-w-35 ob-form-h-30 ob-form-center-content">
-                                                        <div className="ob-form-cell-text">NAIR</div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        
 
-                                            {/* Right Signatory */}
-                                            <div className="ob-form-col-50">
-                                                <div className="ob-form-cell ob-form-sub-header-bg">
-                                                    <div className="ob-form-cell-header">Name of Authorized Signatory</div>
-                                                </div>
-                                                <div className="ob-form-row">
-                                                    <div className="ob-form-cell ob-form-w-65 ob-form-h-30 ob-form-center-content">
-                                                        <div className="ob-form-cell-text">MEHREEN</div>
-                                                    </div>
-                                                    <div className="ob-form-cell ob-form-w-35 ob-form-h-30 ob-form-center-content">
-                                                        <div className="ob-form-cell-text">SYED</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {/* ROW 3: Signatory Company */}
-                                        <div className="ob-form-row">
-                                            {/* Left Company */}
-                                            <div className="ob-form-col-50">
-                                                <div className="ob-form-cell ob-form-sub-header-bg">
-                                                    <div className="ob-form-cell-header">Signatory Company</div>
-                                                </div>
-                                                <div className="ob-form-cell ob-form-h-30">
-                                                    <div className="ob-form-cell-text"></div>
-                                                </div>
-                                            </div>
-
-                                            {/* Right Company */}
-                                            <div className="ob-form-col-50">
-                                                <div className="ob-form-cell ob-form-sub-header-bg">
-                                                    <div className="ob-form-cell-header">Signatory Company</div>
-                                                </div>
-                                                <div className="ob-form-cell ob-form-h-30 ob-form-center-content">
-                                                    <div className="ob-form-cell-text">LOREAL MODEL</div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                         
 
                                         {/* ROW 4: Signature Blocks */}
                                         <div className="ob-form-row">
                                             {/* Left Signature */}
                                             <div className="ob-form-col-50">
                                                 <div className="ob-form-cell ob-form-sub-header-bg">
-                                                    <div className="ob-form-cell-header">Signature</div>
+                                                    <div className="ob-form-cell-header">Customer Signature</div>
                                                 </div>
                                                 <div className="ob-form-cell ob-form-h-120">
                                                     <div className="ob-form-cell-text"></div>
