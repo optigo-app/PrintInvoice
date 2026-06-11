@@ -13,6 +13,8 @@ const RoundOffBox = ({
     roundValue,
     dueDays,
     selectedTaxProfile,
+    taxProfileDT1,
+    jobHSNNo,
     pendingNote = true,
     onToggleChange,
     onValueChange,
@@ -20,8 +22,18 @@ const RoundOffBox = ({
     onDueDaysChange,
 }) => {
     const subtotal = typeof totalAmount === 'number' ? totalAmount : (parseFloat(totalAmount) || 0);
+    const isGSTProfile = selectedTaxProfile?.GSTProfileid > 0;
+    const gstProfileId = selectedTaxProfile?.GSTProfileid;
+    const gstTaxEntry = isGSTProfile && taxProfileDT1?.find((entry) => entry.HSN_No === jobHSNNo);
+
     let totalTax = 0;
-    if (selectedTaxProfile) {
+    if (isGSTProfile && gstTaxEntry) {
+        if (gstProfileId === 1) {
+            totalTax = (subtotal * (parseFloat(gstTaxEntry.CGST) || 0)) / 100 + (subtotal * (parseFloat(gstTaxEntry.SGST) || 0)) / 100;
+        } else if (gstProfileId === 2) {
+            totalTax = (subtotal * (parseFloat(gstTaxEntry.IGST) || 0)) / 100;
+        }
+    } else if (!isGSTProfile && selectedTaxProfile) {
         [1, 2, 3, 4, 5].forEach((n) => {
             const taxValue = parseFloat(selectedTaxProfile[`tax${n}_value`] || 0);
             if (taxValue > 0 && selectedTaxProfile[`tax${n}_taxname`]) {
@@ -33,11 +45,13 @@ const RoundOffBox = ({
     const roundoffValue = roundValue ? parseFloat(roundValue) : 0;
     const finalAmount = roundType === 'less' ? totalWithTax - roundoffValue : totalWithTax + roundoffValue;
 
-    const hasTaxes = selectedTaxProfile && [1, 2, 3, 4, 5].some((n) => {
-        const taxValue = parseFloat(selectedTaxProfile[`tax${n}_value`] || 0);
-        const taxName = selectedTaxProfile[`tax${n}_taxname`];
-        return taxValue > 0 && taxName;
-    });
+    const hasTaxes = isGSTProfile
+        ? !!(gstTaxEntry && (gstProfileId === 1 ? ((parseFloat(gstTaxEntry.CGST) || 0) > 0 || (parseFloat(gstTaxEntry.SGST) || 0) > 0) : (parseFloat(gstTaxEntry.IGST) || 0) > 0))
+        : selectedTaxProfile && [1, 2, 3, 4, 5].some((n) => {
+            const taxValue = parseFloat(selectedTaxProfile[`tax${n}_value`] || 0);
+            const taxName = selectedTaxProfile[`tax${n}_taxname`];
+            return taxValue > 0 && taxName;
+        });
 
     return (
         <Box
@@ -74,7 +88,37 @@ const RoundOffBox = ({
                     <Typography fontSize={12} fontWeight={600} color="text.primary" sx={{ mb: 0.25 }}>
                         Tax Breakdown
                     </Typography>
-                    {[1, 2, 3, 4, 5].map((n) => {
+                    {isGSTProfile && gstTaxEntry && gstProfileId === 1 && (
+                        <>
+                            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                                <Typography fontSize={13} color="text.secondary">
+                                    CGST - {gstTaxEntry.CGST}%
+                                </Typography>
+                                <Typography fontSize={13} fontWeight={500}>
+                                    {((subtotal * (parseFloat(gstTaxEntry.CGST) || 0)) / 100).toFixed(2)}
+                                </Typography>
+                            </Box>
+                            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                                <Typography fontSize={13} color="text.secondary">
+                                    SGST - {gstTaxEntry.SGST}%
+                                </Typography>
+                                <Typography fontSize={13} fontWeight={500}>
+                                    {((subtotal * (parseFloat(gstTaxEntry.SGST) || 0)) / 100).toFixed(2)}
+                                </Typography>
+                            </Box>
+                        </>
+                    )}
+                    {isGSTProfile && gstTaxEntry && gstProfileId === 2 && (
+                        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                            <Typography fontSize={13} color="text.secondary">
+                                IGST - {gstTaxEntry.IGST}%
+                            </Typography>
+                            <Typography fontSize={13} fontWeight={500}>
+                                {((subtotal * (parseFloat(gstTaxEntry.IGST) || 0)) / 100).toFixed(2)}
+                            </Typography>
+                        </Box>
+                    )}
+                    {!isGSTProfile && [1, 2, 3, 4, 5].map((n) => {
                         const taxName = selectedTaxProfile[`tax${n}_taxname`];
                         const taxValue = parseFloat(selectedTaxProfile[`tax${n}_value`] || 0);
                         if (taxValue > 0 && taxName) {
