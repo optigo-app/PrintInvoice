@@ -1,5 +1,5 @@
 
-import "../../assets/css/prints/NewInvoicePrint.css";
+import "../../assets/css/prints/JewelleryInvoicePrint4.css";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -14,16 +14,18 @@ import {
     NumberWithCommas,
 } from "../../GlobalFunctions";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
+import { ToWords } from "to-words";
 
 import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 
-export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn, ApiVer }) {
+export default function JewelleryInvoicePrint4({ token, invoiceNo, printName, urls, evn, ApiVer }) {
     const [result, setResult] = useState(null);
     const [msg, setMsg] = useState("");
     const [loader, setLoader] = useState(true);
     const [diamondWise, setDiamondWise] = useState([]);
+    const toWords = new ToWords();
 
     const evname = atob(evn);
     const [MetShpWise, setMetShpWise] = useState([]);
@@ -530,6 +532,16 @@ export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn
         (sum, item) => sum + (Number(item?.BulkPurchaseQTY ? item?.BulkPurchaseQTY : item?.Quantity) || 0),
         0
     );
+
+    const TotalTaxPercentage =
+  (Number(result?.header?.CGST) || 0) +
+  (Number(result?.header?.SGST) || 0) +
+  (Number(result?.header?.IGST) || 0) +
+  (Number(result?.header?.tax1_value) || 0) +
+  (Number(result?.header?.tax2_value) || 0) +
+  (Number(result?.header?.tax3_value) || 0) +
+  (Number(result?.header?.tax4_value) || 0) +
+  (Number(result?.header?.tax5_value) || 0);
     return (
         <>
             {loader ? (
@@ -714,7 +726,8 @@ export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn
 
                                                     <div className="table-cell w-price div-center">{NumberWithCommas(e?.UnitCost, 2)}</div>
 
-                                                    <div className="table-cell w-price no-border div-center">{NumberWithCommas((e?.UnitCost * 1.05), 2)}</div>
+                                                    <div className="table-cell w-price no-border div-center">{NumberWithCommas(( (Number(e?.UnitCost) || 0) *
+  (1 + (Number(TotalTaxPercentage) || 0) / 100)), 2)}</div>
 
                                                 </div>
 
@@ -747,7 +760,8 @@ export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn
 
                                             <div className="table-cell w-price div-center">{NumberWithCommas(result?.mainTotal?.total_unitcost, 2)}</div>
 
-                                            <div className="table-cell w-price no-border div-center">  {NumberWithCommas((result?.mainTotal?.total_unitcost * 1.05), 2)}</div>
+                                            <div className="table-cell w-price no-border div-center">  {NumberWithCommas(( (Number(result?.mainTotal?.total_unitcost) || 0) *
+  (1 + (Number(TotalTaxPercentage) || 0) / 100)), 2)}</div>
 
                                         </div>
                                         <div className="table-row" style={{ height: "28px",fontWeight:"bold" }}>
@@ -763,13 +777,14 @@ export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn
                                         </div>
                                         <div className="table-row" style={{ fontWeight:"bold" }}>
 
-                                            <div className="table-cell   div-center" style={{ width: "84%" }}> VAT 5%</div>
+                                            <div className="table-cell   div-center" style={{ width: "84%" }}> VAT {TotalTaxPercentage.toFixed(2)}%</div>
 
 
 
-                                            <div className="table-cell w-price div-center"> {NumberWithCommas((result?.mainTotal?.total_unitcost * (5 / 100)), 2)}</div>
+                                            <div className="table-cell w-price div-center">  {NumberWithCommas((result?.mainTotal?.total_unitcost * (Number(TotalTaxPercentage) || 0) / 100), 2)}</div>
 
-                                            <div className="table-cell w-price no-border div-center"> </div>
+                                            <div className="table-cell w-price no-border div-center"> {NumberWithCommas(( (Number(result?.mainTotal?.total_unitcost) || 0) *
+  (1 + (Number(TotalTaxPercentage) || 0) / 100)), 2)} </div>
 
                                         </div>
 
@@ -791,7 +806,19 @@ export default function NewInvoicePrint({ token, invoiceNo, printName, urls, evn
 
 
 
-                                            <div className="table-cell w-price div-center" style={{ width: "74%" }}> 343434</div>
+                                            <div className="table-cell w-price div-center" style={{ width: "74%" }}> 
+                                                 {toWords.convert(
+                                                                +fixedValues(
+                                                                    ( (Number(result?.mainTotal?.total_unitcost) || 0) *
+  (1 + (Number(TotalTaxPercentage) || 0) / 100))
+                                                                   ,
+                                                                  2
+                                                                )
+                                                              )}{" "}
+                                                              Only.
+
+
+                                            </div>
 
                                             <div className="table-cell w-price no-border div-center"> </div>
 

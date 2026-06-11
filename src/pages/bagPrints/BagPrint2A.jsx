@@ -106,6 +106,8 @@ function BagPrint2A({ queries, headers }) {
             Shapename: "TOTAL",
             Sizename: "C TOTAL",
             ActualPcs: 0,
+            IssuePcs: 0,
+            IssueWeight: 0,
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 4,
           };
@@ -114,12 +116,16 @@ function BagPrint2A({ queries, headers }) {
             Sizename: "D TOTAL",
             ActualPcs: 0,
             ActualWeight: 0,
+            IssuePcs: 0,
+            IssueWeight: 0,
             MasterManagement_DiamondStoneTypeid: 3,
           };
           let misc = {
             Shapename: "TOTAL",
             Sizename: "MISC TOTAL",
             ActualPcs: 0,
+            IssuePcs: 0,
+            IssueWeight: 0,
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 7,
           };
@@ -127,6 +133,8 @@ function BagPrint2A({ queries, headers }) {
             Shapename: "TOTAL",
             Sizename: "F TOTAL",
             ActualPcs: 0,
+            IssuePcs: 0,
+            IssueWeight: 0,
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 5,
           };
@@ -143,28 +151,44 @@ function BagPrint2A({ queries, headers }) {
             if (e?.MasterManagement_DiamondStoneTypeid === 3) {
               DiamondList.push(e);
               dia.ActualPcs = dia.ActualPcs + e?.ActualPcs;
+              dia.IssuePcs = dia.IssuePcs + e?.IssuePcs;
+              dia.IssueWeight = dia.IssueWeight + e?.IssueWeight;
               dia.ActualWeight = dia.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
               ColorStoneList.push(e);
               clr.ActualPcs = clr.ActualPcs + e?.ActualPcs;
+              clr.IssuePcs = clr.IssuePcs + e?.IssuePcs;
+              clr.IssueWeight = clr.IssueWeight + e?.IssueWeight;
               clr.ActualWeight = clr.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 5) {
               FindingList.push(e);
               f.ActualPcs = f.ActualPcs + e?.ActualPcs;
+              f.IssuePcs = f.IssuePcs + e?.IssuePcs;
+              f.IssueWeight = f.IssueWeight + e?.IssueWeight;
               f.ActualWeight = f.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
               MiscList.push(e);
               misc.ActualPcs = misc.ActualPcs + e?.ActualPcs;
+              misc.IssuePcs = misc.IssuePcs + e?.IssuePcs;
+              misc.IssueWeight = misc.IssueWeight + e?.IssueWeight;
               misc.ActualWeight = misc.ActualWeight + e?.ActualWeight;
             }
           });
           dia.ActualPcs = +dia.ActualPcs?.toFixed(3);
+          dia.IssuePcs = +dia.IssuePcs?.toFixed(3);
+          dia.IssueWeight = +dia.IssueWeight?.toFixed(3);
           dia.ActualWeight = +dia.ActualWeight?.toFixed(3);
           clr.ActualPcs = +clr.ActualPcs?.toFixed(3);
+          clr.IssuePcs = +clr.IssuePcs?.toFixed(3);
+          clr.IssueWeight = +clr.IssueWeight?.toFixed(3);
           clr.ActualWeight = +clr.ActualWeight?.toFixed(3);
           misc.ActualPcs = +misc.ActualPcs?.toFixed(3);
+          misc.IssuePcs = +misc.IssuePcs?.toFixed(3);
+          misc.IssueWeight = +misc.IssueWeight?.toFixed(3);
           misc.ActualWeight = +misc.ActualWeight?.toFixed(3);
           f.ActualPcs = +f.ActualPcs?.toFixed(3);
+          f.IssuePcs = +f.IssuePcs?.toFixed(3);
+          f.IssueWeight = +f.IssueWeight?.toFixed(3);
           f.ActualWeight = +f.ActualWeight?.toFixed(3);
           DiamondList?.push(dia);
           ColorStoneList?.push(clr);
@@ -358,7 +382,7 @@ function BagPrint2A({ queries, headers }) {
                                           className="custHead2A lh1Ady"
                                           style={{ width: "60px" }}
                                         >
-                                          {e?.additional?.data?.Size}
+                                          {e?.data?.rd?.Size === "" ? "N/A" : e?.data?.rd?.Size}
                                         </div>
                                         <div className="custCode2A">
                                           {e?.additional?.data?.MetalWeight?.toFixed(3)}
@@ -553,10 +577,21 @@ function BagPrint2A({ queries, headers }) {
                                                         <div className="pcswt2A">
                                                           <div className="actualPcsWt2A">
                                                             <div className="pcs2A total2Afont">{s?.ActualPcs}</div>
-                                                            <div className="pcs2A total2Afont border-end-0" style={{ width: '40px' }}>{(+s?.ActualWeight)?.toFixed(3)}</div>
+                                                            <div className="pcs2A total2Afont border-end-0" style={{ width: '40px' }}>{ s?.Shapename ==="D TOTAL" ? ( +s?.ActualWeight)?.toFixed(3) : ( +s?.ActualWeight)?.toFixed(2)}</div>
                                                           </div>
                                                         </div>
-                                                        <div className=""><div className=""><div className="    " style={{ borderRight: "1px solid rgb(0, 0, 0)", width: "32px", height: "14px" }}></div></div></div>
+                                                        <div className=""><div style={{display:'flex'}} className="">
+                                                          <div className="    " style={{ borderRight: "1px solid rgb(0, 0, 0)", width: "32px", height: "14px" }}>
+                                                          
+                                                          
+                                                          <div   className="pcswt2A2 total2Afont" style={{lineHeight:"13px",paddingRight:"3px"}}>{ s?.IssuePcs !=0 ? s?.IssuePcs : ''}</div> </div>
+                                                        
+                                                        
+                                                        
+                                                        <div style={{width:"32px"}} className="pcswt2A2 total2Afont">{ s?.IssueWeight !=0 ? ( +s?.IssueWeight)?.toFixed(3) : ''}</div>
+                                                        </div>
+                                                        
+                                                        </div>
                                                       </div>
                                                     ) : (
                                                       <>
@@ -573,11 +608,11 @@ function BagPrint2A({ queries, headers }) {
                                                               {s?.Shapename === 'TOTAL' ?
                                                                 <div className="actualPcsWt2A fw-bold">
                                                                   <div className={`pcs2A total2Afont`}>{s?.ActualPcs}</div>
-                                                                  <div className="pcs2A border-end-0 total2Afont" style={{ borderRight: '0px', width: '40px' }}>{(+s?.ActualWeight)?.toFixed(3)}</div>
+                                                                  <div className="pcs2A border-end-0 total2Afont" style={{ borderRight: '0px', width: '40px' }}>{ s?.Shapename ==="Diamond Detail" ? ( +s?.ActualWeight)?.toFixed(3) : ( +s?.ActualWeight)?.toFixed(2)}</div> 
                                                                 </div>
                                                                 : <div className="actualPcsWt2A">
                                                                   <div className={`pcs2A total2Afont`}>{s?.ActualPcs}</div>
-                                                                  <div className="pcs2A border-end-0 total2Afont" style={{ borderRight: '0px', width: '40px' }}>{(+s?.ActualWeight)?.toFixed(3)}</div>
+                                                                  <div className="pcs2A border-end-0 total2Afont" style={{ borderRight: '0px', width: '40px' }}>{ s?.Shapename ==="Diamond Detail" ? ( +s?.ActualWeight)?.toFixed(3) : ( +s?.ActualWeight)?.toFixed(2)}</div>
                                                                 </div>}
                                                             </div>
                                                             <div className=""><div className=""><div className="    " style={{ borderRight: "1px solid rgb(0, 0, 0)", width: "32px", height: "14px" }}></div></div></div>
@@ -587,10 +622,17 @@ function BagPrint2A({ queries, headers }) {
                                                             <div className="pcswt2A">
                                                               <div className="actualPcsWt2A">
                                                                 <div className="pcs2A total2Afont">{s?.ActualPcs}</div>
-                                                                <div style={{ borderRight: '0px', width: '40px' }} className="pcs2A total2Afont">{(+s?.ActualWeight)?.toFixed(3)}</div>
+                                                                <div style={{ borderRight: '0px', width: '40px' }} className="pcs2A total2Afont">{s?.Shapename =="DIAMOND DETAIL" ? ( +s?.ActualWeight)?.toFixed(3) : ( +s?.ActualWeight)?.toFixed(2)}</div>
                                                               </div>
                                                             </div>
-                                                            <div className=""><div className=""><div className="    " style={{ borderRight: "1px solid rgb(0, 0, 0)", width: "32px", height: "14px" }}></div></div></div>
+                                                            <div className=""><div className="" style={{display:'flex'}}><div className="    " style={{ borderRight: "1px solid rgb(0, 0, 0)", width: "32px", height: "14px" ,display:'flex'
+                                                            }}>
+                                                              
+                                                            <div style={{width:"100%",paddingRight:"3px"}}  className="pcswt2A2 total2Afont">{ s?.IssuePcs !=0 ? s?.IssuePcs : ''}</div>
+                                                          
+                                                              
+                                                              
+                                                              </div>  <div  style={{width:"31px"}}  className="pcswt2A2 total2Afont">{ s?.IssueWeight !=0 ? ( +s?.IssueWeight)?.toFixed(3) : ''}</div></div></div>
                                                           </div>
                                                         }
                                                       </>
@@ -816,7 +858,7 @@ function BagPrint2A({ queries, headers }) {
                                       className="custHead2A"
                                       style={{ width: "53px" }}
                                     >
-                                      {e?.data?.rd?.Size}
+                                      {e?.data?.rd?.Size === "" ? "N/A" : e?.data?.rd?.Size}
                                     </div>
                                     <div
                                       className="custCode2A"
@@ -1073,7 +1115,7 @@ function BagPrint2A({ queries, headers }) {
                       </>
                     )}
 
-{e?.additional?.data?.multiMetalItems?.length > 1 && (
+{ e?.data?.rd2?.length > 0 && (
   /* Flex wrapper to display cards side-by-side */
   <div style={{ display: "flex", gap: "0px", flexWrap: "wrap", alignItems: "flex-start" }}>
     {/* Filter the array first, then chunk it into groups of 6 */}

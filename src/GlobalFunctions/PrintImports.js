@@ -21,7 +21,7 @@ export const printConditions = [
   { printName: 'detail print1 group(p)', etpType: 'print', componentName: 'DetailPrint1LPGroup' },
   { printName: 'detail print2', etpType: 'print', componentName: 'DetailPrint2' },
   { printName: 'detail print3', etpType: 'print', componentName: 'DetailPrint3' },
-  { printName: 'detail print3n', etpType: 'print', componentName: 'DetailPrint3N' },
+  { printName: 'jewellery invoice 5', etpType: 'print', componentName: 'JewelleryInvoicePrint5' },
   { printName: 'detail print4', etpType: 'print', componentName: 'DetailPrint4' },
   { printName: 'detail print 5', etpType: 'print', componentName: 'DetailPrint5' },
   { printName: 'detail print 6', etpType: 'print', componentName: 'DetailPrint6' },
@@ -103,6 +103,7 @@ export const printConditions = [
   { printName: 'packing list 1 s', etpType: 'print', componentName: 'PackingList1S' },
   { printName: 'packing list 2', etpType: 'print', componentName: 'PackingList2' },
   { printName: 'packing list 3', etpType: 'print', componentName: 'PackingList3' },
+  { printName: 'packing list 3 B', etpType: 'print', componentName: 'PackingList3B' },
   { printName: 'packing list 3 am', etpType: 'print', componentName: 'PackingList3AM' },
   { printName: 'packing list 3a', etpType: 'print', componentName: 'PackingList3A' },
   { printName: 'packing list e', etpType: 'print', componentName: 'PackingListE' },
@@ -171,8 +172,8 @@ export const printConditions = [
   { printName: 'estimate print k', etpType: 'print', componentName: 'EstimatePrintK' },
   { printName: 'estimate 1', etpType: 'print', componentName: 'Estimation1' },
   { printName: 'RepairJobPrint', etpType: 'print', componentName: 'RepairJobPrint' },
-  { printName: 'Beluxe', etpType: 'print', componentName: 'Beluxe' },       // amish
-  { printName: 'NewInvoivce', etpType: 'print', componentName: 'NewInvoicePrint' }, // amish
+  { printName: 'invoice print b', etpType: 'print', componentName: 'InvoicePrintB' },       // amish
+  { printName: 'jewellery invoice 4', etpType: 'print', componentName: 'JewelleryInvoicePrint4' }, // amish
 
 
 ];
@@ -424,6 +425,7 @@ export const excelConditions = [
   { printName: "memo igi 2", etpType: "excel", componentName: "MemoIgi2Excel" }, // Vivek.....
   { printName: "Sale Format ZH", etpType: "excel", componentName: "SaleFormatZHExcel" }, // Amish.....
   { printName: "SEZ Export", etpType: "excel", componentName: "ValueSheetExcel" }, // Amish.....
+  { printName: "packing list 3b", etpType: "excel", componentName: "PackingList3BExcel" }, // Amish.....
 
   //SaleTallyExcel...
   { printName: "saleexcel1", etpType: "excel", componentName: "SaleExcel1" },

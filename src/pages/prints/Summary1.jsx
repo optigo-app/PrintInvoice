@@ -430,14 +430,14 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   {result?.header?.CompanyCountry})
                                 </div>
                                 <div>
-                                  {result?.header?.CompanyTellNo && (
+                                  {result?.header?.CompanyTellNo !== "" && (
                                     <>T {result.header.CompanyTellNo}</>
                                   )}
 
                                   {result?.header?.CompanyTellNo &&
                                     result?.header?.CompanyTollFreeNo && " | "}
 
-                                  {result?.header?.CompanyTollFreeNo && (
+                                  {result?.header?.CompanyTollFreeNo !=="" && (
                                     <>TOLL FREE {result.header.CompanyTollFreeNo}</>
                                   )}
                                 </div>
