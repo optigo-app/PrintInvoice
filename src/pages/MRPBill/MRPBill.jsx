@@ -932,6 +932,8 @@ const MRPBill = () => {
 
   //continue button logic
   const handleContinue = () => {
+    setFailedJobs([]);
+    setMsg('');
     setEditTableFlag(true);
     setScanOff(true);
     setTimeout(() => {
