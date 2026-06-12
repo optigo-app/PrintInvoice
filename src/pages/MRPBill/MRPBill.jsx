@@ -809,12 +809,6 @@ const MRPBill = () => {
       setBookErrorMsg('');
     }
 
-    if (!taxProfileId) {
-      setTaxProfileErrorMsg('Tax Profile is required');
-      isValid = false;
-    } else {
-      setTaxProfileErrorMsg('');
-    }
     return isValid;
   };
 
