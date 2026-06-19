@@ -213,16 +213,11 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
             }
         });
 
-        // CQ Was Solving 09/10/2025
-        // finalArr.forEach((item, idx) => {
-        //   console.log(`Record ${idx} GroupJob: ${item.GroupJob} has metal count:`, item.metal?.length);
-        // });
-        // console.log("Final finalArr stringified:\n", JSON.stringify(finalArr, null, 2));
-        // CQ Was Solving 09/10/2025
+
 
         datas.resultArray = finalArr;
 
-        //after groupjob
+
         datas?.resultArray?.forEach((e) => {
             let dia2 = [];
             e?.diamonds?.forEach((el) => {
@@ -529,10 +524,6 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
         (sum, item) => sum + (Number(item?.BulkPurchaseQTY ? item?.BulkPurchaseQTY : item?.Quantity) || 0),
         0
     );
-
-
-
-
     return (
         <>
             {loader ? (
@@ -550,28 +541,28 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                         Print
                                     </button>
                                 </div>
-                                <div className="logobar" style={{backgroundColor:"#8bd2ed5c"}}>
-                                    <div style={{ width: "34%" }}>
+                                <div className="logobar"  >
+                                    <div >
                                         <img src={result?.header?.PrintLogo} alt="logo" />
                                     </div>
                                     <div className="brandname">
                                         <p> {result?.header?.CompanyFullName}</p>
                                     </div>
                                 </div>
-                                <div className="title" style={{backgroundColor:"#e5cfec"}}>
+                                <div className="title" style={{ backgroundColor: "#8bd2ed5c" }}  >
 
                                     <div style={{ textAlign: "center" }}>
-                                        <p > {result?.header?.PrintHeadLabel}</p>
+                                        <p className="titletext"> {result?.header?.PrintHeadLabel}</p>
                                     </div>
                                 </div>
 
                                 <div className="companyDetails" >
-                                    <div style={{ display: "flex", justifyContent: "space-between",backgroundColor:"#8bd2ed5c" }}>
-                                        <div style={{ width: "45%", border: "1px solid #dbdbdb", borderTop: "none" ,borderBottom:"none"}}>
+                                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                        <div style={{ width: "45%", border: "1px solid #dbdbdb", borderTop: "none", borderBottom: "none" }}>
                                             <h3 style={{ borderBottom: "1px solid #dbdbdb", padding: "5px " }}> {result?.header?.CompanyFullName}</h3>
                                             <div className="address" style={{ padding: "5px  " }}>
                                                 <b>Address:</b>
-                                                <div style={{  wordBreak:"word-break" }}>
+                                                <div style={{ wordBreak: "word-break" }}>
                                                     {result?.header?.CompanyAddress}
                                                     <br />
                                                     {result?.header?.CompanyState || result?.header?.Company_CST_STATE_No ? (
@@ -592,22 +583,22 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                             </div>
                                         </div>
                                         <div style={{ width: "30%", border: "1px solid #dbdbdb", borderTop: "none" }}>
-                                            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                            <div style={{ display: "flex", justifyContent: "space-between", height: "33%" }}>
                                                 <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px", width: "50%", borderRight: "1px solid #dbdbdb" }}>Invoice No.</div>
                                                 <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px", width: "50%" }}> {result?.header?.InvoiceNo}</div>
                                             </div>
-                                            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                            <div style={{ display: "flex", justifyContent: "space-between", height: "33%" }}>
                                                 <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px", width: "50%", borderRight: "1px solid #dbdbdb" }}>DATE</div>
                                                 <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px", width: "50%" }}> {result?.header?.EntryDate}</div>
                                             </div>
-                                            <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px", width: "50%", borderRight: "1px solid #dbdbdb" }}>DUE DATE</div>
-                                                <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px", width: "50%" }}> {result?.header?.DueDate}</div>
+                                            <div style={{ display: "flex", justifyContent: "space-between", height: "33%" }}>
+                                                <div style={{ padding: "5px", width: "50%", borderRight: "1px solid #dbdbdb" }}>DUE DATE</div>
+                                                <div style={{ padding: "5px", width: "50%" }}> {result?.header?.DueDate}</div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div style={{ display: "flex",backgroundColor:"#8bd2ed5c" }}>
-                                        <div style={{ border: "1px solid #dbdbdb", padding: "5px", width: "45%",  }}>Contact Number: {result?.header?.CompanyTellNo} </div>
+                                    <div style={{ display: "flex" }}>
+                                        <div style={{ border: "1px solid #dbdbdb", padding: "5px", width: "45%", }}>Contact Number: {result?.header?.CompanyTellNo} </div>
                                         <div style={{ border: "1px solid #dbdbdb", padding: "5px", width: "25%", borderRight: "1px solid #dbdbdb", borderLeft: "none" }}>  </div>
                                         <div style={{ borderBottom: "1px solid #dbdbdb", width: "30%", borderRight: "1px solid #dbdbdb" }}>
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -615,7 +606,7 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                                 <div style={{ padding: "5px", width: "50%" }}> </div>
                                             </div> </div>
                                     </div>
-                                    <div style={{ display: "flex",backgroundColor:"#8bd2ed5c" }}>
+                                    <div style={{ display: "flex" }}>
                                         <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px", width: "45%", borderRight: "1px solid #dbdbdb", borderLeft: "1px solid #dbdbdb" }}>Email: {result?.header?.CompanyEmail} </div>
                                         <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px", width: "25%", borderRight: "1px solid #dbdbdb" }}>  </div>
                                         <div style={{ borderBottom: "1px solid #dbdbdb", width: "30%", borderRight: "1px solid #dbdbdb" }}>
@@ -626,11 +617,11 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                     </div>
                                     <div style={{ display: "flex" }}>
                                         <div style={{ borderBottom: "1px solid #dbdbdb", width: "50%", borderRight: "1px solid #dbdbdb", borderLeft: "1px solid #dbdbdb" }}>
-                                            <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px ", textAlign: "center", fontWeight: "bold",backgroundColor:"#e5cfec" }}>CUSTOMER</div>
-                                            <div style={{ padding: "5px " ,backgroundColor:"#8bd2ed5c" }}>
+                                            <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px ", textAlign: "center", fontWeight: "bold", backgroundColor: "#8bd2ed5c" }}>CUSTOMER</div>
+                                            <div style={{ padding: "5px " }}>
                                                 TO:
                                                 <div style={{ display: "flex", gap: "10px" }}>
-                                                    <b>Name:</b>   <span> {result?.header?.customerfirmname}</span>
+                                                    <b>Name:</b>   <span> {result?.header?.CustName}</span>
                                                 </div>
 
                                                 <div style={{ display: "flex", gap: "10px" }}>
@@ -645,13 +636,19 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
 
                                             </div>
                                         </div>
-                                        <div style={{ borderBottom: "1px solid #dbdbdb", width: "50%", borderRight: "1px solid #dbdbdb"  }}>
-                                            <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px 5px", textAlign: "center", fontWeight: "bold",backgroundColor:"#e5cfec" }}>SHIP TO</div>
-                                            <div style={{ padding: "5px " ,backgroundColor:"#8bd2ed5c" }}>
+                                        <div style={{ borderBottom: "1px solid #dbdbdb", width: "50%", borderRight: "1px solid #dbdbdb" }}>
+                                            <div style={{ borderBottom: "1px solid #dbdbdb", padding: "5px 5px", textAlign: "center", fontWeight: "bold", backgroundColor: "#8bd2ed5c" }}>&nbsp;</div>
+                                            <div style={{ padding: "5px " }}>
                                                 TO:
 
+                                                <div>
+                                                    {result?.header?.Printlable?.split(/\r?\n/).map((line, index) => (
+                                                        <div key={index}>{line}</div>
+                                                    ))}
+                                                </div>
 
-                                                <div style={{ display: "flex", gap: "10px" }}>
+
+                                                {/* <div style={{ display: "flex", gap: "10px" }}>
                                                     <b>Name:</b>   <span> {result?.header?.CustName}</span>
                                                 </div>
 
@@ -663,7 +660,7 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                                 </div>
                                                 <div style={{ display: "flex", gap: "10px" }}>
                                                     <b>Email:</b>   <span> {result?.header?.customeremail1}</span>
-                                                </div>
+                                                </div> */}
 
                                             </div>
                                         </div>
@@ -673,7 +670,7 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
 
 
                                     {/* table  */}
-                                    <div className='tblrow' style={{ backgroundColor:"#e5cfec" }}>
+                                    <div className='tblrow' style={{ backgroundColor: "#8bd2ed5c" }}>
                                         <div className='srcol colpad border_right' style={{ fontWeight: "bold" }}> SR</div>
                                         <div className='stycol colpad border_right' style={{ fontWeight: "bold" }}> Style Number</div>
                                         <div className='imgcol colpad border_right' style={{ fontWeight: "bold" }}> Image</div>
@@ -681,7 +678,11 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                         <div className='qtycol colpad border_right' style={{ fontWeight: "bold" }}> Qty</div>
                                         <div className='tagcol colpad border_right' style={{ fontWeight: "bold" }}> Tag Price</div>
                                         <div className='discol colpad border_right' style={{ fontWeight: "bold" }}> Discount</div>
-                                        <div className='tlcol colpad border_right' style={{ fontWeight: "bold" }}> Total (in $)</div>
+                                        <div className='tlcol colpad border_right' style={{ fontWeight: "bold" }}> <span style={{ marginRight: "5px" }}>Total</span> <span
+                                            dangerouslySetInnerHTML={{
+                                                __html: `  (in ${result?.header?.Currencysymbol})`,
+                                            }}
+                                        /></div>
                                     </div>
                                     {result?.resultArray?.map((e, i) => {
 
@@ -695,9 +696,9 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                         ].join(" + ");
                                         return (
 
-                                            <div className='tblrow' style={{ backgroundColor:"#8bd2ed5c" }}>
+                                            <div className='tblrow'  >
                                                 <div className='srcol colpad border_right' > {i + 1}</div>
-                                                <div className='stycol colpad border_right' > {e?.designno} <br />{e?.SrJobno}</div>
+                                                <div className='stycol colpad border_right' > {e?.designno} <br />{e?.GroupJob ? e?.GroupJob : e?.SrJobno}</div>
                                                 <div className='imgcol colpad border_right' >
                                                     <img
                                                         src={e?.DesignImage}
@@ -721,7 +722,7 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
 
 
                                     {/* total  */}
-                                    <div className='tblrow' style={{ backgroundColor:"#e5cfec" }}>
+                                    <div className='tblrow' style={{ fontWeight: "bold" }}>
                                         <div className='total colpad border_right' > Total</div>
 
                                         <div className='qtycol colpad border_right' > {totalQty}</div>
@@ -731,37 +732,131 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                     </div>
 
                                     {/* grandtotal */}
-                                    <div style={{ border: "1px solid #dbdbdb", borderTop: "none", display: "flex", backgroundColor:"#8bd2ed5c" }}>
-                                        <div style={{ borderRight: "1px solid #dbdbdb", width: "62.5%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                                            {result?.header?.SalesRepPolicyTermsDescription !== '' && (
-                                                <div className="w-100 px-1 mt-1 mb-1 d-flex">
-                                                    <p className="fw-bold">TERMS INCLUDED:&nbsp;</p>
-                                                    <div
-                                                        dangerouslySetInnerHTML={{
-                                                            __html: result?.header?.SalesRepPolicyTermsDescription,
-                                                        }}
-                                                        className=""
-                                                    />
+                                    <div style={{ border: "1px solid #dbdbdb", borderTop: "none", display: "flex" }}>
+                                        <div style={{ borderRight: "1px solid #dbdbdb", width: "71%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                                          
+                                          {result?.header?.Remark &&(
+                                            <div className="w-100 px-1 mt-1 mb-1 d-flex">
+                                            <p className="fw-bold">Remark:&nbsp;</p>
+                                            <div
+                                                dangerouslySetInnerHTML={{
+                                                    __html: result?.header?.Remark,
+                                                }}
+                                                className=""
+                                            />
+                                        </div>
+                                          )}
+                                            
+
+                                            {result?.header?.SalesRepPolicyTermsDescription &&(
+                                                 <div className="terms" style={{ padding: "5px", borderTop: "1px solid #dbdbdb" }}>
+                                                
+                                                 <div className="w-100 px-1 mt-1 mb-1 d-flex">
+                                                     <p className="fw-bold">TERMS INCLUDED:&nbsp;</p>
+                                                     <div
+                                                     
+                                                         dangerouslySetInnerHTML={{
+                                                             __html: result?.header?.SalesRepPolicyTermsDescription,
+                                                         }}
+                                                         className=""
+                                                     />
+                                                 </div>
+                                         
+                                         </div>
+                                            )}
+
+                                            
+                                        </div>
+                                        <div style={{ width: "29%", fontWeight: "bold" }}>
+                                            {result?.allTaxes?.length > 0 && (
+                                                <div style={{ display: "flex", borderBottom: "1px solid #dbdbdb" }}>
+                                                    <div style={{ width: "50%", borderRight: "1px solid #dbdbdb", padding: "5px", fontWeight: "bold" }}>  {result?.allTaxes?.map((e, i) => {
+                                                        return (
+                                                            <div
+                                                                className="w-100 d-flex align-items-center tb_fs_pcls"
+                                                                key={i}
+                                                            >
+                                                                <div
+                                                                    style={{ width: "100%" }}
+                                                                    className="end_pcls pdr_pcls"
+                                                                >
+                                                                    {e?.name} @ {e?.per}
+                                                                </div>
+
+                                                            </div>
+                                                        );
+                                                    })}</div>
+
+
+
+                                                    <div style={{ textAlign: "right", width: "50%", padding: "5px", fontWeight: "bold" }}>
+
+                                                        {result?.allTaxes?.map((e, i) => {
+                                                            return (
+                                                                <div
+                                                                    className="w-100 d-flex align-items-center tb_fs_pcls"
+                                                                    key={i}
+                                                                >
+
+                                                                    <div
+                                                                        style={{ width: "100%" }}
+                                                                        className="end_pcls pdr_pcls"
+                                                                    >
+                                                                        <span
+                                                                            style={{ fontSize: "13px" }}
+                                                                            dangerouslySetInnerHTML={{ __html: result?.header?.Currencysymbol }}
+                                                                        ></span>  {formatAmount(e?.amount)}
+                                                                    </div>
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
                                                 </div>
                                             )}
-                                            <div style={{ padding: "5px", borderTop: "1px solid #dbdbdb" }}>Please Report within 3 days of any discrepancies</div>
-                                        </div>
-                                        <div style={{ width: "37.5%" }}>
-                                            <div style={{ display: "flex", borderBottom: "1px solid #dbdbdb" }}>
+
+                                            <div style={{ display: "flex", borderBottom: "1px solid #dbdbdb", fontWeight: "bold" }}>
                                                 <div style={{ width: "50%", borderRight: "1px solid #dbdbdb", padding: "5px" }}>Total Amount</div>
-                                                <div style={{ textAlign: "right", width: "50%", padding: "5px" }}>  {formatAmount((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate))}</div>
+                                                <div style={{ textAlign: "right", width: "50%", padding: "5px" }}> <span
+                                                    style={{ fontSize: "13px" }}
+                                                    dangerouslySetInnerHTML={{ __html: result?.header?.Currencysymbol }}
+                                                ></span> {formatAmount(((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + result?.allTaxesTotal))}</div>
                                             </div>
-                                            <div style={{ display: "flex", borderBottom: "1px solid #dbdbdb" }}>
-                                                <div style={{ width: "50%", borderRight: "1px solid #dbdbdb", padding: "5px" }}>Shipping</div>
-                                                <div style={{ textAlign: "right", width: "50%", padding: "5px" }}>$ 2,100.00</div>
-                                            </div>
-                                            <div style={{ display: "flex", borderBottom: "1px solid #dbdbdb" }}>
-                                                <div style={{ width: "50%", borderRight: "1px solid #dbdbdb", padding: "5px" }}>Round up</div>
-                                                <div style={{ textAlign: "right", width: "50%", padding: "5px" }}>$ 2,100.00</div>
-                                            </div>
-                                            <div style={{ display: "flex" }}>
+
+                                            {result?.header?.FreightCharges > 0 && (
+                                                <div style={{ display: "flex", borderBottom: "1px solid #dbdbdb", fontWeight: "bold" }}>
+                                                    <div style={{ width: "50%", borderRight: "1px solid #dbdbdb", padding: "5px" }}>Shipping</div>
+                                                    <div style={{ textAlign: "right", width: "50%", padding: "5px" }}><span
+                                                        style={{ fontSize: "13px" }}
+                                                        dangerouslySetInnerHTML={{ __html: result?.header?.Currencysymbol }}
+                                                    ></span>  {formatAmount((result?.header?.FreightCharges / result?.header?.CurrencyExchRate))}</div>
+                                                </div>
+                                            )}
+
+                                            {result?.header?.AddLess !== 0 && (
+                                                <div style={{ display: "flex", borderBottom: "1px solid #dbdbdb", fontWeight: "bold" }}>
+                                                    <div style={{ width: "50%", borderRight: "1px solid #dbdbdb", padding: "5px" }}>Round up</div>
+                                                    <div style={{ textAlign: "right", width: "50%", padding: "5px" }}><span
+                                                        style={{ fontSize: "13px" }}
+                                                        dangerouslySetInnerHTML={{ __html: result?.header?.Currencysymbol }}
+                                                    ></span> {formatAmount((result?.header?.AddLess / result?.header?.CurrencyExchRate))}</div>
+                                                </div>
+                                            )}
+
+
+
+                                            <div style={{ display: "flex", fontWeight: "bold" }}>
                                                 <div style={{ width: "50%", borderRight: "1px solid #dbdbdb", padding: "5px" }}>Total</div>
-                                                <div style={{ textAlign: "right", width: "50%", padding: "5px" }}>$ 2,100.00</div>
+                                                <div style={{ textAlign: "right", width: "50%", padding: "5px" }}>  <span
+                                                    style={{ fontSize: "13px" }}
+                                                    dangerouslySetInnerHTML={{ __html: result?.header?.Currencysymbol }}
+                                                ></span> {formatAmount(
+                                                    result?.mainTotal?.total_amount /
+                                                    result?.header?.CurrencyExchRate +
+                                                    result?.allTaxesTotal +
+                                                    result?.header?.AddLess / result?.header?.CurrencyExchRate +
+                                                    result?.header?.FreightCharges /
+                                                    result?.header?.CurrencyExchRate
+                                                )}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -772,7 +867,7 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                             <div style={{ padding: "5px", borderBottom: "1px solid #dbdbdb", textAlign: "center" }}> <b>Account Name:</b> <span> {result?.header?.bankname}</span></div>
                                             <div style={{ padding: "5px", borderBottom: "1px solid #dbdbdb", textAlign: "center" }}> <b>Account Number:</b> <span> {result?.header?.accountnumber}</span></div>
                                             <div style={{ padding: "5px", borderBottom: "1px solid #dbdbdb", textAlign: "center" }}> <b>Routing Number:</b> <span> {result?.header?.rtgs_neft_ifsc}</span></div>
-                                            <div style={{ padding: "5px", textAlign: "center" }}> <b>Zelle ID.:</b> <span> asasd@gmil.com</span></div>
+                                            <div style={{ padding: "5px", textAlign: "center" }}> <b>Zelle ID.:</b> <span> {result?.header?.bankaddress}</span></div>
 
                                         </div>
                                         <div style={{ width: "50%" }}> </div>

@@ -561,18 +561,43 @@ export default function JewelleryInvoicePrint4({ token, invoiceNo, printName, ur
     };
 
     const Finalamount =
-  ((Number(result?.mainTotal?.total_unitcost) || 0) *
-    (1 + (Number(TotalTaxPercentage) || 0) / 100)) +
-  (Number(result?.header?.AddLess) || 0);
+        ((Number((result?.mainTotal?.total_unitcost+result?.header?.AddLess )/result?.header?.CurrencyExchRate) || 0) *
+            (1 + (Number(TotalTaxPercentage) || 0) / 100))  
 
-const integerPart = Math.floor(Finalamount);
-const filsPart = Math.round((Finalamount - integerPart) * 100);
-const amountInWords =
-  `${toWords.convert(integerPart)}${
-    filsPart > 0
-      ? ` And ${toWords.convert(filsPart)} Fils`
-      : ""
-  } Only`;
+    const integerPart = Math.floor(Finalamount);
+    const filsPart = Math.round((Finalamount - integerPart) * 100);
+    const amountInWords =
+        `${toWords.convert(integerPart)}${filsPart > 0
+            ? ` And ${toWords.convert(filsPart)} Fils`
+            : ""
+        } Only`;
+
+
+    const bankPayments = (result?.header?.BankPayDet || "")
+        .split("@-@")
+        .filter(Boolean)
+        .map(item => {
+            const [bank, method, amount, reference, voucher] =
+                item.split("#-#");
+
+            return {
+                bank,
+                method,
+                amount,
+                reference,
+                voucher,
+            };
+        });
+
+    const cashPayments = result?.header?.CashPayDet
+        ? [{
+            method: "Cash",
+            amount: result.header.CashPayDet.split("-")[1] || 0,
+            reference: "-",
+        }]
+        : [];
+
+    const payments = [...bankPayments, ...cashPayments];
 
 
     console.log("TCL: result", result)
@@ -724,7 +749,6 @@ const amountInWords =
                                             <div className="w-desc" style={{ width: vatamtFalg ? "19%" : "24%" }}>DESCRIPTION OF GOODS</div>
                                             <div className="w-small">DIAMOND CARAT</div>
                                             <div className="w-small">COLOR <br /> STONE <br /> CARAT</div>
-                                            <div className="w-card">CARD / SHEET</div>
                                             <div className="w-pcs">PCS</div>
                                             <div className="w-small">AVERAGE (GMS)</div>
                                             <div className="w-small">TOTAL (GMS)</div>
@@ -732,9 +756,11 @@ const amountInWords =
                                             <div className="w-price" style={{ width: vatamtFalg ? "8%" : "10%" }}>NET AMOUNT ({result?.header?.CurrencyCode})</div>
                                             {
                                                 vatamtFalg && (
-                                                    <div className="w-price no-border">VAT AMOUNT ({result?.header?.CurrencyCode})</div>
+                                                    <div className="w-card">VAT AMOUNT</div>
                                                 )
                                             }
+                                            <div className="w-price no-border">TOTAL AMOUNT ({result?.header?.CurrencyCode})</div>
+
                                         </div>
                                         {/* Row */}
 
@@ -761,7 +787,7 @@ const amountInWords =
 
                                                     <div className="table-cell w-desc desc-cell" style={{ width: vatamtFalg ? "19%" : "24%", padding: "0px" }}>
                                                         <div style={{ display: "flex", borderBottom: "1px solid #bdbdbd" }}>
-                                                            <div style={{ borderRight: "1px solid #bdbdbd", width: "40%", padding: "3px 5px" }}>
+                                                            <div style={{ borderRight: "1px solid #bdbdbd", width: "40%", padding: "3px 5px", fontWeight: 600 }}>
                                                                 ITEM
                                                             </div>
                                                             <div style={{ width: "60%", padding: "3px 5px" }}>
@@ -769,7 +795,7 @@ const amountInWords =
                                                             </div>
                                                         </div>
                                                         <div style={{ display: "flex", borderBottom: "1px solid #bdbdbd" }}>
-                                                            <div style={{ borderRight: "1px solid #bdbdbd", width: "40%", padding: "3px 5px" }}>
+                                                            <div style={{ borderRight: "1px solid #bdbdbd", width: "40%", padding: "3px 5px", fontWeight: 600 }}>
                                                                 CATEGORY
                                                             </div>
                                                             <div style={{ width: "60%", padding: "3px 5px" }}>
@@ -777,11 +803,11 @@ const amountInWords =
                                                             </div>
                                                         </div>
                                                         <div style={{ display: "flex" }}>
-                                                            <div style={{ borderRight: "1px solid #bdbdbd", width: "40%", padding: "3px 5px" }}>
+                                                            <div style={{ borderRight: "1px solid #bdbdbd", width: "40%", padding: "3px 5px", fontWeight: 600 }}>
                                                                 METAL
                                                             </div>
                                                             <div style={{ width: "60%", padding: "3px 5px" }}>
-                                                                {e?.MetalPurity}
+                                                                {e?.MetalTypePurity}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -790,24 +816,26 @@ const amountInWords =
 
                                                     <div className="table-cell w-small div-center">{e?.totals?.colorstone?.Wt.toFixed(2)}</div>
 
-                                                    <div className="table-cell w-card div-center">
-                                                        <div className="checkbox"></div>
-                                                    </div>
-
                                                     <div className="table-cell w-pcs div-center"> {e?.BulkPurchaseQTY ? e?.BulkPurchaseQTY : e?.Quantity}</div>
 
                                                     <div className="table-cell w-small div-center"> {e?.grosswt?.toFixed(2)}</div>
 
                                                     <div className="table-cell w-small div-center">{(e?.grosswt * (e?.BulkPurchaseQTY ? e?.BulkPurchaseQTY : e?.Quantity))?.toFixed(2)}</div>
 
-                                                    <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "8%" : "10%" }}>{NumberWithCommas(e?.UnitCost, 2)}</div>
+                                                    <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "8%" : "10%" }}>{NumberWithCommas(e?.UnitCost/result?.header?.CurrencyExchRate, 2)}</div>
 
-                                                    <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "8%" : "10%", borderRight: vatamtFalg ? "1px solid #bdbdbd" : "none" }}>{NumberWithCommas(e?.UnitCost, 2)}</div>
+                                                    <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "8%" : "10%", borderRight: "1px solid #bdbdbd" }}>{NumberWithCommas((e?.UnitCost/result?.header?.CurrencyExchRate)  * (e?.BulkPurchaseQTY ? e?.BulkPurchaseQTY : e?.Quantity), 2)}</div>
 
-                                                    {vatamtFalg && (
-                                                        <div className="table-cell w-price no-border div-center">{NumberWithCommas(((Number(e?.UnitCost) || 0) *
-                                                            (1 + (Number(TotalTaxPercentage) || 0) / 100)), 2)}</div>
+                                                    {vatamtFalg && (<div className="table-cell w-card div-center">
+                                                        {NumberWithCommas(
+                                                            ((Number(e?.UnitCost/result?.header?.CurrencyExchRate)  || 0) *
+                                                                ((Number(TotalTaxPercentage) || 0) / 100)), 2
+                                                        )}
+                                                    </div>
                                                     )}
+
+                                                    <div className="table-cell w-price no-border div-center">{NumberWithCommas(((Number(e?.UnitCost/result?.header?.CurrencyExchRate)  || 0) *
+                                                        (1 + (Number(TotalTaxPercentage) || 0) / 100)), 2)}</div>
 
                                                 </div>
                                             )
@@ -822,9 +850,7 @@ const amountInWords =
 
                                             <div className="table-cell w-small div-center">{result?.mainTotal?.colorstone?.Wt.toFixed(2)}</div>
 
-                                            <div className="table-cell w-card div-center">
-                                                {/* <div className="checkbox"></div> */}
-                                            </div>
+
 
                                             <div className="table-cell w-pcs div-center">{totalQty}</div>
 
@@ -836,18 +862,20 @@ const amountInWords =
                                             <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "8%" : "10%" }}> </div>
                                             {/* <div className="table-cell w-price div-center">{NumberWithCommas(result?.mainTotal?.total_unitcost, 2)}</div> */}
 
-                                            <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "8%" : "10%", borderRight: vatamtFalg ? "1px solid #dbdbdb" : "none" }}>{NumberWithCommas(result?.mainTotal?.total_unitcost, 2)}</div>
-
+                                            <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "8%" : "10%", borderRight: "1px solid #dbdbdb" }}>{NumberWithCommas(result?.mainTotal?.total_unitcost /result?.header?.CurrencyExchRate, 2)}</div>
                                             {
-                                                vatamtFalg && (
-                                                    <div className="table-cell w-price no-border div-center">  {NumberWithCommas(((Number(result?.mainTotal?.total_unitcost) || 0) *
-                                                        (1 + (Number(TotalTaxPercentage) || 0) / 100)), 2)}</div>
+                                                vatamtFalg && (<div className="table-cell w-card div-center">
+                                                    {/* <div className="checkbox"></div> */}
+                                                </div>
                                                 )
                                             }
-                                        </div>
-                                        <div className="table-row" style={{ fontWeight: "bold" }}>
+                                            <div className="table-cell w-price no-border div-center">
+                                                {NumberWithCommas(((Number(result?.mainTotal?.total_unitcost /result?.header?.CurrencyExchRate) || 0) *
+                                                    (1 + (Number(TotalTaxPercentage) || 0) / 100)), 2)}</div>
 
-                                            <div className="table-cell   div-center" style={{ width: vatamtFalg ? "84%" : "90%" ,display:"flex",flexDirection:"column",alignItems:"flex-end"}}>
+                                        </div>
+                                        {result?.allTaxes?.length != 0 && <div className="table-row" style={{ fontWeight: "bold" }}>
+                                            <div className="table-cell   div-center" style={{ width: vatamtFalg ? "78%" : "85%", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
                                                 {result?.allTaxes?.map((e, i) => {
                                                     return (
                                                         <div
@@ -861,110 +889,81 @@ const amountInWords =
                                                         </div>
                                                     );
                                                 })}
-
                                             </div>
-
-
-
-                                            <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "8%" : "10%", borderRight: vatamtFalg ? "1px solid #dbdbdb" : "none" ,flexDirection:"column",alignItems:"flex-end"}}>
-                                                       {result?.allTaxes?.map((e, i) => {
-                                                                               return (
-                                                                                 <div
-                                                                                   className=" text-end"
-                                                                                   key={i}
-                                                                                 >
-                                                                                   <div className="pb-1 px-1 text-end">
-                                                                                     {" "}
-                                                                                     {NumberWithCommas(e?.amountInNumber, 2)}{" "}
-                                                                                   </div>
-                                                                                 </div>
-                                                                               );
-                                                                             })} {/** CGST SGST */}
-
+                                            <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "8.1%" : "10%", borderRight: vatamtFalg ? "1px solid #dbdbdb" : "none", flexDirection: "column", alignItems: "flex-end" }}>
+                                                {result?.allTaxes?.map((e, i) => {
+                                                    return (
+                                                        <div
+                                                            className=" text-end"
+                                                            key={i}
+                                                        >
+                                                            <div className="pb-1 px-1 text-end">
+                                                                {" "}
+                                                                {NumberWithCommas(e?.amountInNumber, 2)}{" "}
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
                                             </div>
                                             {vatamtFalg && (
-
-                                                <div className="table-cell w-price no-border div-center">   </div>
+                                                <div className="table-cell w-card div-center">
+                                                </div>
                                             )}
+
+                                            <div className="table-cell w-price no-border div-center">   </div>
                                         </div>
-                                        <div className="table-row" style={{ height: "28px", fontWeight: "bold" }}>
-
-                                            <div className="table-cell   div-center" style={{ width: vatamtFalg ? "84%" : "90%",justifyContent:"flex-end" }}> SPECIAL DISCOUNT </div>
-
-
-
-                                            <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "8%" : "10%", borderRight: vatamtFalg ? "1px solid #dbdbdb" : "none" ,justifyContent:"flex-end"}}>
-                                                {result?.header?.AddLess < 0 ?"-":""} {NumberWithCommas(
-                                                                              result?.header?.AddLess /
-                                                                              result?.header?.CurrencyExchRate,
-                                                                              2
-                                                                            )} </div>
+                                        }
+                                        {result?.header?.AddLess != 0 && <div className="table-row" style={{ height: "28px", fontWeight: "bold" }}>
+                                            <div className="table-cell   div-center" style={{ width: vatamtFalg ? "78%" : "85%", justifyContent: "flex-end" }}> SPECIAL DISCOUNT </div>
+                                            <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "8.1%" : "10%", borderRight: "1px solid #dbdbdb", justifyContent: "flex-end" }}>
+                                                 
+                                                {NumberWithCommas(
+                                                    result?.header?.AddLess /
+                                                    result?.header?.CurrencyExchRate,
+                                                    2
+                                                )} </div>
 
                                             {vatamtFalg && (
-
-                                                <div className="table-cell w-price no-border div-center"> {" "}</div>
+                                                <div className="table-cell w-card div-center">
+                                                    {" "}</div>
                                             )}
 
-
-                                        </div>
-
-
+                                            <div className="table-cell w-price no-border div-center"> {" "}</div>
+                                        </div>}
                                         <div className="table-row" style={{ fontWeight: "bold" }}>
-
-                                            <div className="table-cell   div-center" style={{ width: vatamtFalg ? "84%" : "90%" ,justifyContent:"flex-end"}}> TOTAL ({result?.header?.CurrencyCode})</div>
-
-
-
-                                            <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "8%" : "10%", borderRight: vatamtFalg ? "1px solid #dbdbdb" : "none" ,justifyContent:"flex-end"}}> 
-
-                                            { NumberWithCommas((Number(result?.mainTotal?.total_unitcost) || 0) *
-                                            (1 + (Number(TotalTaxPercentage) || 0) / 100) + result?.header?.AddLess,
-                                            2
-                                            )}
+                                            <div className="table-cell   div-center" style={{ width: vatamtFalg ? "78%" : "85%", justifyContent: "flex-end" }}> TOTAL ({result?.header?.CurrencyCode})</div>
+                                            <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "8.1%" : "10%", borderRight: "1px solid #dbdbdb", justifyContent: "flex-end" }}>
+                                                {NumberWithCommas((Number((result?.mainTotal?.total_unitcost+ result?.header?.AddLess)/result?.header?.CurrencyExchRate) || 0) *
+                                                    (1 + (Number(TotalTaxPercentage) || 0) / 100) ,
+                                                    2
+                                                )}
                                             </div>
-
                                             {vatamtFalg && (
-
-                                                <div className="table-cell w-price no-border div-center"> </div>
+                                                <div className="table-cell w-card div-center">
+                                                    {" "}</div>
                                             )}
-
-
+                                            <div className="table-cell w-price no-border div-center"> {" "}</div>
                                         </div>
-
                                         <div className="table-row" style={{ fontWeight: "bold" }}>
-
                                             <div className="table-cell   div-center" style={{ width: "18%" }}> TOTAL AMOUNT IN WORD </div>
-
-
-
-                                            <div className="table-cell w-price div-center" style={{ width: vatamtFalg ? "74%" : "86%" }}>
-                                                 {amountInWords}
-
-
+                                            <div className="table-cell w-price" style={{ width: vatamtFalg ? "74%" : "86%", display: 'flex', padding: '5px 30px' }}>
+                                                {amountInWords}
                                             </div>
-
                                             {vatamtFalg && (
-
                                                 <div className="table-cell w-price no-border div-center"> </div>
                                             )}
-
-
                                         </div>
-
-
-
-
                                     </div>
-                                    <p className="instruction">* the gold have been duly recived and check *</p>
-                                    <div className="ob-form-container" style={{ width: "100%", border: "1px solid #bdbdbd ",borderBottom:"none", padding: "5px", marginRight: "0px" }}>
-                                            <p className="fw-bold" style={{fontSize:"12px"}}>Terms & Condition:</p>
-                                            <div
-                                                className="tb_fs_pclsINS"
-                                                dangerouslySetInnerHTML={{
-                                                    __html: result?.header?.Declaration,
-                                                }}
-                                            ></div>
-                                        </div>
+
+                                    {result?.header?.Declaration && <div className="ob-form-container" style={{ width: "100%", border: "1px solid #bdbdbd ", borderBottom: "none", padding: "5px", marginRight: "0px" }}>
+                                        <p className="fw-bold" style={{ fontSize: "12px" }}>Terms & Condition:</p>
+                                        <div
+                                            className="tb_fs_pclsINS"
+                                            dangerouslySetInnerHTML={{
+                                                __html: result?.header?.Declaration,
+                                            }}
+                                        ></div>
+                                    </div>}
 
                                     <div className="ob-form-container">
 
@@ -973,97 +972,128 @@ const amountInWords =
                                             {/* Left Half (Payment Term & Reference) */}
                                             <div className="ob-form-col-50">
                                                 <div className="ob-form-row">
-                                                    <div className="ob-form-cell ob-form-w-50 " style={{ padding: "0px" }}>
-                                                        <div className="ob-form-cell-header" style={{ padding: "5px", borderBottom: "1px solid #bdbdbd" }}>Payment Term/Method</div>
-                                                        <div className="ob-form-cell-text"></div>
+                                                    <div
+                                                        className="ob-form-cell ob-form-w-50"
+                                                        style={{ padding: "0px" }}
+                                                    >
+                                                        <div
+                                                            className="ob-form-cell-header"
+                                                            style={{ padding: "5px", borderBottom: "1px solid #bdbdbd" }}
+                                                        >
+                                                            Payment Term/Method
+                                                        </div>
+
+                                                        <div className="ob-form-cell-text" style={{padding: '0px 5px'}}>
+                                                            {payments.map((item, index) => (
+                                                                <div key={index}>
+                                                                    {item.method} - {item.amount}
+                                                                </div>
+                                                            ))}
+                                                        </div>
                                                     </div>
-                                                    <div className="ob-form-cell ob-form-w-50 " style={{ padding: "0px" }}>
-                                                        <div className="ob-form-cell-header" style={{ padding: "5px", borderBottom: "1px solid #bdbdbd" }}>Payment Reference</div>
-                                                        <div className="ob-form-cell-text"></div>
+
+                                                    <div
+                                                        className="ob-form-cell ob-form-w-50"
+                                                        style={{ padding: "0px" }}
+                                                    >
+                                                        <div
+                                                            className="ob-form-cell-header"
+                                                            style={{ padding: "5px", borderBottom: "1px solid #bdbdbd" }}
+                                                        >
+                                                            Payment Reference
+                                                        </div>
+
+                                                        <div className="ob-form-cell-text" style={{padding: '0px 5px'}}>
+                                                            {payments.map((item, index) => (
+                                                                <div key={index}>
+                                                                    {item.reference}
+                                                                </div>
+                                                            ))}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             {/* Right Half (Bank Details) */}
-                                            <div className="ob-form-cell ob-form-col-50" style={{ padding: "0px",minHeight:"80px" }}>
+                                            <div className="ob-form-cell ob-form-col-50" style={{ padding: "0px", minHeight: "80px" }}>
                                                 <div className="ob-form-cell-header" style={{ padding: "5px", borderBottom: "1px solid #bdbdbd" }}>Bank Details</div>
                                                 <div className="ob-form-cell-text">
-                                                <div className="disColunm check_dp10 ball_dp10 pb-1 fsgdp10 tb_fs_pcls1 minH_sum_pcl3">
-                                            <div style={{ padding: "5px", lineHeight: "1.2" }}>
-                                                
+                                                    <div className="disColunm check_dp10 ball_dp10 pb-1 fsgdp10 tb_fs_pcls1 minH_sum_pcl3">
+                                                        <div style={{ padding: "5px", lineHeight: "1.2" }}>
 
-                                                {result?.header?.bankname &&(
 
-                                                <div className="d-flex w-100">
-                                                    <span className="fw-bold spwdth">Bank name</span>:
-                                                    <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
-                                                        {result?.header?.bankname}
-                                                    </span>
+                                                            {result?.header?.bankname && (
+
+                                                                <div className="d-flex w-100">
+                                                                    <span className="fw-bold spwdth">Bank name</span>:
+                                                                    <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
+                                                                        {result?.header?.bankname}
+                                                                    </span>
+                                                                </div>
+                                                            )}
+
+                                                            {/* <span>{headerData?.spaninCode}</span> */}
+                                                            {
+                                                                result?.header?.accountname && (
+
+                                                                    <div className="d-flex w-100">
+                                                                        <span className="fw-bold spwdth">Account Name</span>:
+                                                                        <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
+                                                                            {result?.header?.accountname}
+                                                                        </span>
+                                                                    </div>
+                                                                )
+
+                                                            }
+
+                                                            {result?.header?.accountnumber && (
+
+                                                                <div className="d-flex w-100">
+                                                                    <span className="fw-bold spwdth">Account No </span>:
+                                                                    <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
+                                                                        {result?.header?.accountnumber}
+                                                                    </span>
+                                                                </div>
+                                                            )}
+
+                                                            {result?.header?.rtgs_neft_ifsc && (
+
+                                                                <div className="d-flex w-100">
+                                                                    <span className="fw-bold spwdth">IBAN </span>:
+                                                                    <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
+                                                                        {result?.header?.rtgs_neft_ifsc}
+                                                                    </span>
+                                                                </div>
+                                                            )}
+
+                                                            {result?.header?.swiftcode && (
+
+                                                                <div className="d-flex w-100">
+                                                                    <span className="fw-bold spwdth">SWIFT CODE</span>:
+                                                                    <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
+                                                                        {result?.header?.swiftcode}
+                                                                    </span>
+                                                                </div>
+                                                            )}
+
+                                                            {result?.header?.micrcode && (
+
+                                                                <div className="d-flex w-100">
+                                                                    <span className="fw-bold spwdth">MICR CODE </span>:
+                                                                    <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
+                                                                        {result?.header?.micrcode}
+                                                                    </span>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                )}
-                                            
-                                                {/* <span>{headerData?.spaninCode}</span> */}
-                                                {
-                                                    result?.header?.accountname &&(
-
-                                                <div className="d-flex w-100">
-                                                    <span className="fw-bold spwdth">Account Name</span>:
-                                                    <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
-                                                        {result?.header?.accountname}
-                                                    </span>
-                                                </div>
-                                                    )
-
-                                                }
-
-                                                {result?.header?.accountnumber &&(
-
-                                                <div className="d-flex w-100">
-                                                    <span className="fw-bold spwdth">Account No </span>:
-                                                    <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
-                                                        {result?.header?.accountnumber}
-                                                    </span>
-                                                </div>
-                                                )}
-
-                                                {result?.header?.rtgs_neft_ifsc&&(
-
-                                                <div className="d-flex w-100">
-                                                    <span className="fw-bold spwdth">IBAN </span>:
-                                                    <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
-                                                        {result?.header?.rtgs_neft_ifsc}
-                                                    </span>
-                                                </div>
-                                                )}
-
-                                                {result?.header?.swiftcode &&(
-
-                                                <div className="d-flex w-100">
-                                                    <span className="fw-bold spwdth">SWIFT CODE</span>:
-                                                    <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
-                                                        {result?.header?.swiftcode}
-                                                    </span>
-                                                </div>
-                                                )}
-
-                                                {result?.header?.micrcode &&(
-
-                                                <div className="d-flex w-100">
-                                                    <span className="fw-bold spwdth">MISCR CODE </span>:
-                                                    <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
-                                                        {result?.header?.micrcode}
-                                                    </span>
-                                                </div>
-                                                )}
                                             </div>
                                         </div>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        
 
-                                         
+
+
 
                                         {/* ROW 4: Signature Blocks */}
                                         <div className="ob-form-row">

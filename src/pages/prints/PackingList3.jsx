@@ -9,6 +9,8 @@ import {
   handleImageError,
   isObjectEmpty,
   NumberWithCommas,
+  mergeMetals,
+  mergeFindings
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import "../../assets/css/prints/packinglist3.css";
@@ -799,7 +801,10 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
               {/* table rows */}
               {result?.resultArray?.map((e, i) => {
-                console.log("TCL: metal e", e.metal)
+                const mergedMetals = mergeMetals(e?.metal);
+                const mergedFindings = mergeFindings(e?.finding);
+                                
+                 
                 // Calculate extra charges safely
                 const labourTotal = e?.GroupJob !== ""
                   ? (result?.labour?.filter((el) => el?.GroupjobNo === e?.GroupJob)
@@ -1027,7 +1032,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {/* Metal */}
                     <div className="col4_pcls d-flex flex-column justify-content-between bright_pcls">
                       <div>
-                        {e?.metal?.map((el, ind) => {
+                        {mergedMetals?.map((el, ind) => {
                           { }
 
                           // ************************ Counting & Conditions ************************
@@ -1161,7 +1166,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   {rate}
                                 </div>
                                 <div className="mcol5_pcls end_pcls pdr_pcls fw-bold">
-                                  {(el?.Wt * el?.Rate)?.toFixed(2)}
+                                  {/* {(el?.Wt * el?.Rate)?.toFixed(2)} */}
+                                   {el?.Amount?.toFixed(2)}
                                 </div>
                               </div>
                             );
@@ -1184,7 +1190,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   {parseFloat(rate) !== 0 ? rate : ""}
                                 </div>
                                 <div className="mcol5_pcls end_pcls pdr_pcls fw-bold">
-                                  {parseFloat(rate) !== 0 ? Number(amount).toFixed(2) : ""}
+                                  {/* {parseFloat(rate) !== 0 ? Number(amount).toFixed(2) : ""} */}
+                                  {el?.Amount?.toFixed(2)}
                                 </div>
                               </div>
                             );
@@ -1194,10 +1201,12 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         })}
 
                         {/* Finding */}
+                        
+                       { console.log("TCL: mergedFindings", mergedFindings)}
                         <div style={{ margin: "0px 2px" }}>
-                          {e?.finding?.map((data, index) => (
+                          {mergedFindings?.map((data, index) => (
                             <React.Fragment key={index}>
-                              {(e?.GroupJob !== '' ? e?.GroupJob !== data?.StockBarcode : data?.Supplier === "Customer") && (
+                        
                                 <div style={{ display: "flex" }}>
                                   <div style={{ width: "40%" }}>
                                     <p className="spbrWord">
@@ -1247,7 +1256,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     </p>
                                   </div>
                                 </div>
-                              )}
+                           
                             </React.Fragment>
                           ))}
                         </div>

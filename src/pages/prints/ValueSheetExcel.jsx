@@ -527,12 +527,12 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
   if (result) {
     setTimeout(() => {
       const button = document.getElementById('test-table-xls-button');
-      // button.click();
+      button.click();
     }, 500);
   }
 
 
-  console.log("TCL: ValueSheetExcel ->result ", result)
+ 
 
   // const mergeByPurityAndMaterial = (data) => {
   //   const map = new Map();

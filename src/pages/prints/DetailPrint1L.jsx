@@ -12,6 +12,8 @@ import {
   isObjectEmpty,
   otherAmountDetail,
   taxGenrator,
+  mergeMetals,
+  mergeFindings
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
@@ -106,7 +108,7 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       tot_met += e?.Amount;
       tot_met_wt += e?.metalfinewt;
     })
-    
+
     setNotGoldMetalWtTotal(tot_met_wt)
     setNotGoldMetalTotal(tot_met);
 
@@ -121,12 +123,12 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         primaryMetalWt = findMetal?.Wt;
         totalMetalWt += findMetal?.Wt;
       }
-    
+
       if (e?.diamonds && Array.isArray(e.diamonds)) {
-    
+
         let groupedDiamonds = e?.diamonds.reduce((acc, diamond) => {
           const key = `${diamond?.MaterialTypeName}-${diamond?.ShapeName}-${diamond?.QualityName}-${diamond?.Colorname}-${diamond?.SizeName}`;
-          
+
           if (acc[key]) {
             acc[key].Pcs += diamond?.Pcs || 0;
             acc[key].Wt += diamond?.Wt || 0;
@@ -134,42 +136,42 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           } else {
             acc[key] = { ...diamond };
           }
-    
+
           return acc;
         }, {});
         let diamondsAfterGrouping = Object.values(groupedDiamonds);
-    
+
         diamondsAfterGrouping.sort((a, b) => {
           const sizeA = a.SizeName;
           const sizeB = b.SizeName;
-    
+
           const isStringA = isNaN(parseFloat(sizeA));
           const isStringB = isNaN(parseFloat(sizeB));
-    
+
           if (isStringA && isStringB) {
             return sizeA.localeCompare(sizeB);
           }
-    
+
           if (isStringA) {
             return -1;
           }
           if (isStringB) {
             return 1;
           }
-    
+
           const numA = parseFloat(sizeA);
           const numB = parseFloat(sizeB);
           return numA - numB;
         });
-    
+
         e.diamonds = diamondsAfterGrouping;
       }
 
       // if (e?.colorstone && Array.isArray(e.colorstone)) {
-    
+
       //   let groupedColorstones = e?.colorstone.reduce((acc, colorstone) => {
       //     const key = `${colorstone?.MaterialTypeName}-${colorstone?.ShapeName}-${colorstone?.QualityName}-${colorstone?.Colorname}-${colorstone?.SizeName}`;
-          
+
       //     if (acc[key]) {
       //       acc[key].Pcs += colorstone?.Pcs || 0;
       //       acc[key].Wt += colorstone?.Wt || 0;
@@ -177,34 +179,34 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       //     } else {
       //       acc[key] = { ...colorstone };
       //     }
-    
+
       //     return acc;
       //   }, {});
       //   let colorstonesAfterGrouping = Object.values(groupedColorstones);
-    
+
       //   colorstonesAfterGrouping.sort((a, b) => {
       //     const sizeA = a.SizeName;
       //     const sizeB = b.SizeName;
-    
+
       //     const isStringA = isNaN(parseFloat(sizeA));
       //     const isStringB = isNaN(parseFloat(sizeB));
-    
+
       //     if (isStringA && isStringB) {
       //       return sizeA.localeCompare(sizeB);
       //     }
-    
+
       //     if (isStringA) {
       //       return -1;
       //     }
       //     if (isStringB) {
       //       return 1;
       //     }
-    
+
       //     const numA = parseFloat(sizeA);
       //     const numB = parseFloat(sizeB);
       //     return numA - numB;
       //   });
-    
+
       //   e.colorstone = colorstonesAfterGrouping;
       // }
 
@@ -243,10 +245,10 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     let diamondDetail = [];
     data?.BillPrint_Json2?.forEach((e) => {
       if (e?.MasterManagement_DiamondStoneTypeid === 1) {
-        let findDiamond = 
+        let findDiamond =
           diamondDetail?.findIndex(
-            (ele) => 
-              ele?.ShapeName === e?.ShapeName 
+            (ele) =>
+              ele?.ShapeName === e?.ShapeName
               && ele?.QualityName === e?.QualityName
               && ele?.Colorname === e?.Colorname
           );
@@ -278,7 +280,7 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
       }
     });
-    
+
     remaingDia.sort((a, b) => {
       if (a.ShapeName !== b.ShapeName) {
         return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
@@ -621,6 +623,7 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   // console.log('total', total);
   // console.log('diamondDetails', diamondDetails);
 
+
   return (
     <>
       {loader ? (
@@ -712,17 +715,17 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <p className="lhDetailPrint1 fw-bold detailPrint1L_font_14 pb-1">
                   {json0Data?.customerfirmname}
                 </p>
-                  <p className="lhDetailPrint1 pb-1">{json0Data?.CustName}</p>
-                    <p className="lhDetailPrint1 pb-1">{json0Data?.customerstreet}</p>
-                    <p className="lhDetailPrint1 pb-1">
-                      {json0Data?.customercity} {json0Data?.State}
-                    </p>
-                    <p className="lhDetailPrint1 pb-1">
-                      {json0Data?.CompanyCountry}-{json0Data?.PinCode}
-                    </p>
-                    <p className="lhDetailPrint1 pb-1">
-                      Mobile No : {json0Data?.customermobileno}
-                    </p>
+                <p className="lhDetailPrint1 pb-1">{json0Data?.CustName}</p>
+                <p className="lhDetailPrint1 pb-1">{json0Data?.customerstreet}</p>
+                <p className="lhDetailPrint1 pb-1">
+                  {json0Data?.customercity} {json0Data?.State}
+                </p>
+                <p className="lhDetailPrint1 pb-1">
+                  {json0Data?.CompanyCountry}-{json0Data?.PinCode}
+                </p>
+                <p className="lhDetailPrint1 pb-1">
+                  Mobile No : {json0Data?.customermobileno}
+                </p>
 
               </div>
               <div className="col-4 p-1 ps-2">
@@ -856,6 +859,9 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             {/* data */}
             {
               finalD?.resultArray?.map((e, i) => {
+
+                const mergedMetals = mergeMetals(e?.metal);
+                const mergedFindings = mergeFindings(e?.finding);
                 return (
                   <div key={i} className="recordDetailPrint1 detailPrint1L_font_11">
                     <div className="d-flex w-100">
@@ -897,21 +903,21 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {/* Lineid - */}
                               {e?.lineid}</p>
                           )}
-                            <p className="text-center">
-                              Tunch :{" "}
+                          <p className="text-center">
+                            Tunch :{" "}
+                            <span className="fw-bold">
+                              {NumberWithCommas(e?.Tunch, 3)}
+                            </span>
+                          </p>
+
+                          {
+                            e?.CertificateNo !== '' && <p className="text-center">
+                              Cert#{" "}
                               <span className="fw-bold">
-                                {NumberWithCommas(e?.Tunch, 3)}
+                                {e?.CertificateNo}
                               </span>
                             </p>
-
-                              {
-                                e?.CertificateNo !== '' && <p className="text-center">
-                                  Cert#{" "}
-                                  <span className="fw-bold">
-                                    {e?.CertificateNo}
-                                  </span>
-                                </p>
-                              }
+                          }
 
                           <p className="text-center">
                             Gross Wt:{" "}
@@ -980,24 +986,68 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
                       <div className={`metalGoldDetailPrint1l border-end position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
                         <div className="h-100 paddingBottomTotalDetailPrint1">
-                          {e?.metal.length > 0 &&
-                            e?.metal.map((ele, ind) => {
+                          {mergedMetals.length > 0 &&
+                            mergedMetals.map((ele, ind) => {
                               return (
                                 <div className={`d-flex`} key={ind}>
                                   <p className="col-3  paddingRightDetailPrint1 text-break">
                                     {ele?.ShapeName + " " + ele?.QualityName}
                                   </p>
                                   <p className="col-2  text-end paddingRightDetailPrint1 text-break">
-                                    {ind === 0 ? NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3) : NumberWithCommas(ele?.Wt, 3)}
+                                    {
+                                      ele?.IsPrimaryMetal == 1
+                                        ? (
+                                          ind === 0
+                                            ? NumberWithCommas(
+                                              e?.NetWt + (e?.totals?.diamonds?.Wt / 5),
+                                              3
+                                            )
+                                            : NumberWithCommas(ele?.Wt, 3)
+                                        )
+                                        : ""
+                                    }
                                   </p>
                                   <p className="col-2  text-end paddingRightDetailPrint1">
-                                    {NumberWithCommas(ele?.Wt, 3)}
+                                    {NumberWithCommas(ele?.Wt - e?.totals?.finding?.Wt, 3)}
                                   </p>
                                   <p className="col-2  text-end paddingRightDetailPrint1">
                                     {ele?.Rate?.toFixed(2)}
                                   </p>
                                   <p className={`col-3 text-end ${ind > 0 && "fw-bold"}`}>
                                     {ele?.Amount?.toFixed(2)}
+                                  </p>
+                                </div>
+                              );
+                            })}
+
+                          {mergedFindings.length > 0 &&
+                            mergedFindings.map((data, ind) => {
+                              return (
+                                <div className={`d-flex`} key={ind}>
+                                  <p className="col-3  paddingRightDetailPrint1 text-break">
+                                    {e?.GroupJob !== '' ? "FINDING ACCESSORIES" : data?.FindingTypename + " " + data?.QualityName}
+                                  </p>
+                                  <p className="col-2  text-end paddingRightDetailPrint1 text-break">
+
+                                  </p>
+                                  <p className="col-2  text-end paddingRightDetailPrint1">
+                                    {data?.Wt?.toFixed(3)}
+                                  </p>
+                                  <p className="col-2  text-end paddingRightDetailPrint1">
+                                    {e?.GroupJob !== ''
+                                      ? e?.metal
+                                        ?.filter((m) => m?.IsPrimaryMetal === 1)[0]
+                                        ?.Rate?.toFixed(2)
+                                      : data?.Rate?.toFixed(2)
+                                    }
+                                  </p>
+                                  <p className={`col-3 text-end ${ind > 0 && "fw-bold"}`}>
+                                    {e?.GroupJob !== ''
+                                      ? (e?.metal
+                                        ?.filter((m) => m?.IsPrimaryMetal === 1)[0]
+                                        ?.Rate * (parseFloat(data?.Wt) || 0))?.toFixed(2)
+                                      : data?.Amount?.toFixed(2)
+                                    }
                                   </p>
                                 </div>
                               );
@@ -1020,7 +1070,11 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </p>
                             <p className="col-2 text-end paddingRightDetailPrint1"></p>
                             <p className="col-3 text-end fw-bold d-flex justify-content-end align-items-center  paddingRightDetailPrint1 ">
-                              {e?.metal[0].Amount?.toFixed(2)}
+                              {e?.totals?.metal?.Amount !== 0 &&
+                                NumberWithCommas(
+                                  (e?.totals?.metal?.Amount + e?.totals?.finding?.Amount) /
+                                  json0Data?.CurrencyExchRate
+                               ,2 )}
                             </p>
                           </div>
                         </div>
@@ -1082,18 +1136,18 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className={`otherAmountDetailPrint1l border-end position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
                         <div className="paddingBottomTotalDetailPrint1">
                           <div>
-                              <p className="text-end">
-                                {e?.OtherCharges !== 0 &&
-                                  NumberWithCommas(e?.otherMisc, 2)}
-                              </p>
+                            <p className="text-end">
+                              {e?.OtherCharges !== 0 &&
+                                NumberWithCommas(e?.otherMisc, 2)}
+                            </p>
 
-                                      {(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling) !== 0 && <div
-                                        className="d-flex justify-content-between"
-                                        style={{ fontSize: "10.5px" }}
-                                      >
-                                        <p className="paddingRightDetailPrint1"></p>
-                                        <p className="">{NumberWithCommas(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling, 2)}</p>
-                                      </div>}
+                            {(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling) !== 0 && <div
+                              className="d-flex justify-content-between"
+                              style={{ fontSize: "10.5px" }}
+                            >
+                              <p className="paddingRightDetailPrint1"></p>
+                              <p className="">{NumberWithCommas(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling, 2)}</p>
+                            </div>}
                           </div>
                         </div>
                         <div className="position-absolute bottom-0 w-100 border-top border-bottom  totalMinHeightDetailPrint1 lightGrey d-flex align-items-center justify-content-end paddingRightDetailPrint1 start-0">
@@ -1170,7 +1224,7 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                     </div>
 
-                    {e?.Discount !== 0 && 
+                    {e?.Discount !== 0 &&
                       <div className="d-flex w-100">
                         <div className="srNoDetailprint11 border-end border-start  border-bottom">
                           <p className=" p-1"></p>
@@ -1230,7 +1284,7 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             {/* cgst */}
             <div className="d-flex w-100 border-bottom border-start recordDetailPrint1 detailPrint1L_font_11">
               <div className="cgstDetailPrint1 text-end border-end paddingLeftDetailPrint1 paddingRightDetailPrint1 py-1">
-                {total?.discountTotalAmount !== 0 && ( <p className="">Total Discount</p> )}
+                {total?.discountTotalAmount !== 0 && (<p className="">Total Discount</p>)}
                 {json0Data?.Privilege_discount !== 0 && (
                   <p className="">Privilege Card Discount</p>
                 )}
@@ -1242,10 +1296,10 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </p>
                     );
                   })}
-                  <p className="">{json0Data?.AddLess < 0 ? "Less" : "Add"}</p>
+                <p className="">{json0Data?.AddLess < 0 ? "Less" : "Add"}</p>
               </div>
               <div className="cgstTotalDetailPrint1 text-end border-end paddingLeftDetailPrint1 paddingRightDetailPrint1 py-1">
-                {total?.discountTotalAmount !== 0 && ( <p>{(total?.discountTotalAmount).toFixed(2)}</p> )}
+                {total?.discountTotalAmount !== 0 && (<p>{(total?.discountTotalAmount).toFixed(2)}</p>)}
                 {json0Data?.Privilege_discount !== 0 && (
                   <p>- {json0Data?.Privilege_discount}</p>
                 )}
@@ -1563,8 +1617,8 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       __html: json0Data?.SalesRepPolicyTermsDescription,
                     }}
                     className=""
-                    />
-              </div>
+                  />
+                </div>
               )}
             </div>
             <div className="fs_dp4 text-secondary pt-3 detailPrint1L_font_12">

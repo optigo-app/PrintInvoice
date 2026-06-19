@@ -13,6 +13,8 @@ import {
   isObjectEmpty,
   otherAmountDetail,
   taxGenrator,
+  mergeMetals,
+  mergeFindings
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
@@ -107,9 +109,9 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
     setCheckBox({ ...checkBox, [name]: checked });
   };
   const handleChange2 = () => {
-    if(showQlty){
+    if (showQlty) {
       setShowQlty(false);
-    }else{
+    } else {
       setShowQlty(true);
 
     }
@@ -135,7 +137,7 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
   //   let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
 
   //   let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
-      
+
   //   setMetShpWise(met_shp_arr);
   //   let tot_met = 0;
   //   let tot_met_wt = 0;
@@ -175,7 +177,7 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
   //       }
   //     });
 
-      
+
   //     miscChargesTotals += miscChargesTotal;
   //     obj.primaryMetalWt = primaryMetalWt;
   //     obj.otherMisc = otherMisc;
@@ -279,8 +281,8 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
               data?.Data?.BillPrint_Json[0],
               data?.Data?.BillPrint_Json1,
               data?.Data?.BillPrint_Json2
-              );
-              setJson0Data(datas?.header);
+            );
+            setJson0Data(datas?.header);
 
             datas?.resultArray?.forEach((e) => {
               let dia = [];
@@ -288,9 +290,9 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
               e?.diamonds?.forEach((e, i) => {
                 let obj = cloneDeep(e);
                 let findrec = dia?.findIndex((a) => a?.ShapeName === obj?.ShapeName && a?.QualityName === obj?.QualityName && a?.Colorname === obj?.Colorname && a?.IsSolGem === obj?.IsSolGem);
-                if(findrec === -1){
+                if (findrec === -1) {
                   dia.push(obj);
-                }else{
+                } else {
                   dia[findrec].Wt += obj?.Wt;
                   dia[findrec].Pcs += obj?.Pcs;
                 }
@@ -302,9 +304,9 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
               e?.colorstone?.forEach((e) => {
                 let obj = cloneDeep(e);
                 let findrec = clr?.findIndex((a) => a?.ShapeName === obj?.ShapeName && a?.QualityName === obj?.QualityName && a?.Colorname === obj?.Colorname && a?.IsSolGem === obj?.IsSolGem);
-                if(findrec === -1){
+                if (findrec === -1) {
                   clr.push(obj);
-                }else{
+                } else {
                   clr[findrec].Wt += obj?.Wt;
                   clr[findrec].Pcs += obj?.Pcs;
                 }
@@ -324,8 +326,8 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
           setLoader(false);
           // setMsg(data?.Message);
           const err = checkMsg(data?.Message);
-                    console.log(data?.Message);
-                    setMsg(err);
+          console.log(data?.Message);
+          setMsg(err);
         }
       } catch (error) {
         console.error(error);
@@ -667,9 +669,9 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                 </p>
                 <p className="lhDetailPrint1 pb-1">
                   {json0Data?.Company_VAT_GST_No} |{" "}
-                  { json0Data?.Company_CST_STATE_No !== '' && <>{json0Data?.Company_CST_STATE}-
-                  {json0Data?.Company_CST_STATE_No}</>}
-                   | PAN-{json0Data?.Pannumber}
+                  {json0Data?.Company_CST_STATE_No !== '' && <>{json0Data?.Company_CST_STATE}-
+                    {json0Data?.Company_CST_STATE_No}</>}
+                  | PAN-{json0Data?.Pannumber}
                 </p>
               </div>
               <div className="col-6">
@@ -696,7 +698,7 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                 </p>
                 <p className="lhDetailPrint1 pb-1">{json0Data?.customeremail1}</p>
                 <p className="lhDetailPrint1 pb-1">{json0Data?.vat_cst_pan}</p>
-                { json0Data?.Cust_CST_STATE_No !== '' && <p className="lhDetailPrint1 pb-1">
+                {json0Data?.Cust_CST_STATE_No !== '' && <p className="lhDetailPrint1 pb-1">
                   {json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No}
                 </p>}
               </div>
@@ -705,12 +707,12 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                 <p className="lhDetailPrint1 fw-bold detailPrint1L_font_14 pb-1">
                   {json0Data?.customerfirmname}
                 </p>
-                
-                    
-                    {json0Data?.address?.map((e, i) => {
-                      return <p className="lhDetailPrint1 pb-1" key={i}>{e}</p>
-                    })}
-                 {/* <><p className="lhDetailPrint1 pb-1">{json0Data?.CustName}</p>
+
+
+                {json0Data?.address?.map((e, i) => {
+                  return <p className="lhDetailPrint1 pb-1" key={i}>{e}</p>
+                })}
+                {/* <><p className="lhDetailPrint1 pb-1">{json0Data?.CustName}</p>
                     <p className="lhDetailPrint1 pb-1">{json0Data?.customerstreet}</p>
                     <p className="lhDetailPrint1 pb-1">
                       {json0Data?.customercity} {json0Data?.State}
@@ -721,7 +723,7 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                     <p className="lhDetailPrint1 pb-1">
                       Mobile No : {json0Data?.customermobileno}
                     </p></> */}
-                
+
 
               </div>
               <div className="col-4 p-1 ps-2">
@@ -830,6 +832,9 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
             {/* data */}
             {
               finalD?.resultArray?.map((e, i) => {
+
+                const mergedMetals = mergeMetals(e?.metal);
+                const mergedFindings = mergeFindings(e?.finding);
                 return (
                   <div key={i} className="recordDetailPrint1 detailPrint1L_font_11">
                     <div className="d-flex w-100">
@@ -852,7 +857,7 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                               alt=""
                               className="w-100 d-block"
                               onError={handleImageError}
-                              style={{maxWidth:'75px'}}
+                              style={{ maxWidth: '75px' }}
                             />
                           )}
                         </div>
@@ -876,7 +881,7 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                               </span>
                             </p>
                           )} */}
-{/*                           
+                          {/*                           
                           {!detailPrintK && (
                             <>
                             {
@@ -920,8 +925,8 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                                 >
                                   <p className="col-4 paddingRightDetailPrint1 text-break">
                                     {ele?.IsSolGem === 1 ? "S:" : ""}
-                                  {ele?.ShapeName} { showQlty && <> {ele?.QualityName}{" "}
-                                    {ele?.Colorname}</>}
+                                    {ele?.ShapeName} {showQlty && <> {ele?.QualityName}{" "}
+                                      {ele?.Colorname}</>}
                                   </p>
                                   <p className="col-4 text-center  paddingRightDetailPrint1 text-break">
                                     {ele?.SizeName}
@@ -965,8 +970,8 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                       </div>
                       <div className={`metaldplmemo border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
                         <div className="h-100 paddingBottomTotalDetailPrint1">
-                          {e?.metal.length > 0 &&
-                            e?.metal.map((ele, ind) => {
+                          {mergedMetals?.length > 0 &&
+                            mergedMetals?.map((ele, ind) => {
                               return (
                                 <div className={`d-flex`} key={ind}>
                                   <p className="col-6  paddingRightDetailPrint1 text-break">
@@ -974,11 +979,24 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                                   </p>
                                   <p className="col-3  text-end paddingRightDetailPrint1 text-break">
                                     {/* {ind === 0 ? NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3) : NumberWithCommas(ele?.Wt, 3)} */}
-                                    {e?.grosswt?.toFixed(3)}
+                                    {/* {e?.grosswt?.toFixed(3)} */}
+                                    {
+                                      ele?.IsPrimaryMetal == 1
+                                        ? (
+                                          ind === 0
+                                            ? NumberWithCommas(
+                                              e?.NetWt + (e?.totals?.diamonds?.Wt / 5),
+                                              3
+                                            )
+                                            : NumberWithCommas(ele?.Wt, 3)
+                                        )
+                                        : ""
+                                    }
                                   </p>
                                   <p className="col-3  text-end paddingRightDetailPrint1">
                                     {/* {dp1lp ? NumberWithCommas(ele?.Wt, 3) : fixedValues(e?.NetWt + e?.LossWt, 3)} */}
-                                    {(e?.NetWt + e?.LossWt)?.toFixed(3)}
+                                    {/* {(e?.NetWt + e?.LossWt)?.toFixed(3)} */}
+                                    {NumberWithCommas(ele?.Wt - e?.totals?.finding?.Wt, 3)}
                                   </p>
                                   {/* <p className="col-2  text-end paddingRightDetailPrint1">
                                     {NumberWithCommas(ele?.Rate, 2)}
@@ -989,6 +1007,37 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                                 </div>
                               );
                             })}
+
+
+
+                          {mergedFindings?.length > 0 &&
+                            mergedFindings?.map((ele, ind) => {
+                              return (
+                                <div className={`d-flex`} key={ind}>
+                                  <p className="col-6  paddingRightDetailPrint1 text-break">
+                                  {e?.GroupJob !== '' ? "FINDING ACCESSORIES" : ele?.FindingTypename + " " + ele?.QualityName}
+                                  </p>
+                                  <p className="col-3  text-end paddingRightDetailPrint1 text-break">
+                                   
+                                  </p>
+                                  <p className="col-3  text-end paddingRightDetailPrint1">
+                                    {/* {dp1lp ? NumberWithCommas(ele?.Wt, 3) : fixedValues(e?.NetWt + e?.LossWt, 3)} */}
+                                    {/* {(e?.NetWt + e?.LossWt)?.toFixed(3)} */}
+                                    {/* {NumberWithCommas(ele?.Wt - e?.totals?.finding?.Wt, 3)} */}
+                                    {ele?.Wt?.toFixed(3)}
+                                  </p>
+                                  {/* <p className="col-2  text-end paddingRightDetailPrint1">
+                                    {NumberWithCommas(ele?.Rate, 2)}
+                                  </p>
+                                  <p className={`col-3 text-end ${ind > 0 && "fw-bold"}`}>
+                                    {(NumberWithCommas(ele?.Amount, 2))}
+                                  </p> */}
+                                </div>
+                              );
+                            })}
+
+
+
                           {e?.JobRemark !== "" && <div className={``}>
                             <p className="fw-bold">
                               REMARK:
@@ -1024,9 +1073,9 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                               return (
                                 <div className={`d-flex`} key={ind}>
                                   <p className="col-4 paddingRightDetailPrint1 text-break">
-                                  {ele?.IsSolGem === 1 ? "G:" : ""}
-                                  {ele?.ShapeName} { showQlty && <> {ele?.QualityName}{" "}
-                                    {ele?.Colorname}</>}
+                                    {ele?.IsSolGem === 1 ? "G:" : ""}
+                                    {ele?.ShapeName} {showQlty && <> {ele?.QualityName}{" "}
+                                      {ele?.Colorname}</>}
                                   </p>
                                   <p className="col-4 text-center  paddingRightDetailPrint1 text-break">
                                     {ele?.SizeName}
@@ -1130,7 +1179,7 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                 );
               })
             }
-            
+
             {/* total */}
             <div className="d-flex w-100 recordDetailPrint1 lightGrey detailPrint1L_font_11 border-start border-bottom">
               <div className="srnodplmemo p-1 invisible ">h</div>
@@ -1209,13 +1258,13 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                       {(finalD?.mainTotal?.colorstone?.Wt)?.toFixed(3)}
                     </p>
                   </div>
-                  
+
                 </div>
               </div>
             </div>
-                  
+
             <div className="d-flex justify-content-end w-100">
-            <div className="checkedBy_dplmemo">Checked By</div>
+              <div className="checkedBy_dplmemo">Checked By</div>
             </div>
 
           </div>{" "}
@@ -1232,4 +1281,4 @@ const DetailPrintLMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
 
 export default DetailPrintLMemo;
 
-          
+

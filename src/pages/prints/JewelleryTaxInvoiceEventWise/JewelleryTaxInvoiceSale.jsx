@@ -104,11 +104,13 @@ const JewelleryTaxInvoiceSale = ({
       let obj = { ...e };
       let miscWt = 0;
       let materials = [];
+      let metal = [];
       totalAmountBefore +=
         e?.TotalAmount / data?.BillPrint_Json[0].CurrencyExchRate;
       let metalColorCode = "";
       data?.BillPrint_Json2.forEach((ele) => {
         if (obj?.SrJobno === ele?.StockBarcode) {
+          metal.push(ele);
 
           if (ele?.IsCenterStone === 1) {
             materials.push(ele);
@@ -206,6 +208,7 @@ const JewelleryTaxInvoiceSale = ({
       obj.colorStoneWts = colorStoneWts;
       obj.miscWts = miscWts;
       obj.materials = materials;
+      obj.metal = metal;
       obj.metalColorCode = metalColorCode;
 
       obj.miscWt = miscWt * obj?.Quantity;

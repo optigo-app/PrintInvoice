@@ -280,30 +280,46 @@ const InvoicePrint1MaterialPurchase = ({
       // }
       
 
-      if (json0Data?.GSTProfileid == 0) {
-        const data = json2Data || {};
+      // if (json0Data?.GSTProfileid == 0) {
+      //   const data = json2Data || {};
       
-        MergedTaxAmount = Array.from({ length: 5 }, (_, i) => {
-          const index = i + 1;
+      //   MergedTaxAmount = Array.from({ length: 5 }, (_, i) => {
+      //     const index = i + 1;
       
-          const taxName = data[`tax${index}_taxname`];
-          const taxValue = data[`tax${index}_value`];
-          const taxAmount = data[`tax${index}Amount`];
+      //     const taxName = data[`tax${index}_taxname`];
+      //     const taxValue = data[`tax${index}_value`];
+      //     const taxAmount = data[`tax${index}Amount`];
       
-          // skip empty tax names
-          if (!taxName) return null;
+      //     // skip empty tax names
+      //     if (!taxName) return null;
       
-          return {
-            TaxName: `${taxName}@${taxValue}`,
-            TaxAmount: taxAmount || 0
+      //     return {
+      //       TaxName: `${taxName}@${taxValue}`,
+      //       TaxAmount: taxAmount || 0
+      //     };
+      //   }).filter(Boolean); // remove nulls
+      // }else{
+      //   MergedTaxAmount = (json3Data || []).map((item) => ({
+      //     TaxName: item?.TaxName  || "",
+      //     TaxAmount: item?.TaxAmount || 0
+      //   }));
+      // }
+      const mergedTaxes = (json3Data || []).reduce((acc, item) => {
+        const taxName = item.TaxName.split("@")[0]; // CGST or SGST
+      
+        if (!acc[taxName]) {
+          acc[taxName] = {
+            TaxName: taxName,
+            TaxAmount: 0
           };
-        }).filter(Boolean); // remove nulls
-      }else{
-        MergedTaxAmount = (json3Data || []).map((item) => ({
-          TaxName: item?.TaxName  || "",
-          TaxAmount: item?.TaxAmount || 0
-        }));
-      }
+        }
+      
+        acc[taxName].TaxAmount += Number(item.TaxAmount || 0);
+      
+        return acc;
+      }, {});
+      
+      MergedTaxAmount = Object.values(mergedTaxes);
       useEffect(() => {
         let total = 0;
       
@@ -328,6 +344,7 @@ const InvoicePrint1MaterialPurchase = ({
       }, [json0Data?.GSTProfileid, json2Data]);
 
     
+    console.log("TCL: MergedTaxAmount", MergedTaxAmount)
 
 return (
   <>

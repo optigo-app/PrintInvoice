@@ -12,6 +12,8 @@ import {
   handlePrint,
   isObjectEmpty,
   taxGenrator,
+   mergeMetals,
+    mergeFindings
 } from "../../GlobalFunctions";
 import { ToWords } from "to-words";
 import BarcodePrintGenerator from "../../components/barcodes/BarcodePrintGenerator";
@@ -647,62 +649,65 @@ const InvoicePrint8 = ({
             </p>
           </div>
           <div className={`col-9 ${style?.font_13}`}>
+            
+           { console.log("TCL:mainData?.resultArr ", mainData?.resultArr)}
             {mainData?.resultArr?.map((e, i) => {
-              return (
-                <div className="d-flex" key={i}>
-                  <div
-                    style={{ minWidth: "17%", width: "17%" }}
-                    className=" px-1 text-uppercase"
-                  >
-                    <p>
-                      {e?.primaryMetal?.ShapeName}{" "}
-                      {e?.primaryMetal?.QualityName}
-                    </p>
-                  </div>
-                  <div
-                    style={{ minWidth: "14.5%", width: "14.5%" }}
-                    className=" px-1 text-end"
-                  >
-                    <p>{NumberWithCommas(e?.grosswt, 3)} Gms</p>
-                  </div>
-                  <div
-                    style={{ minWidth: "14.5%", width: "14.5%" }}
-                    className=" px-1 text-end"
-                  >
-                    <p>{NumberWithCommas(e?.netWtFinal, 3)} Gms</p>
-                  </div>
-                  <div
-                    style={{ minWidth: "9%", width: "9%" }}
-                    className=" px-1"
-                  >
-                    <p></p>
-                  </div>
-                  <div
-                    style={{ minWidth: "15%", width: "15%" }}
-                    className=" px-1"
-                  >
-                    <p></p>
-                  </div>
-                  <div
-                    style={{ minWidth: "15%", width: "15%" }}
-                    className=" px-1 text-end"
-                  >
 
-                    <p>{NumberWithCommas(e?.finalRate, 2)}</p>
+               const mergedMetals = mergeMetals(e?.metal);
+            
+
+              
+        
+              return  mergedMetals?.map((m, i) => (
+                  <div className="d-flex" key={i}>
+                    <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-uppercase">
+                      <p>
+                        {m?.ShapeName} {m?.QualityName}
+                      </p>
+                    </div>
+                
+                    <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end">
+                      <p>  {
+                                                            m?.IsPrimaryMetal == 1
+                                                              ? (
+                                                                i === 0
+                                                                  ? NumberWithCommas(
+                                                                    e?.NetWt + (e?.totals?.diamonds?.Wt / 5),
+                                                                    3
+                                                                  )+" Gms"
+                                                                  : NumberWithCommas(m?.Wt, 3)
+                                                              )
+                                                              : ""
+                                                          } </p>
+                    </div>
+                
+                    <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end">
+                      {/* <p>{NumberWithCommas(m?.netWtFinal, 3)} Gms</p> */}
+                      <p>  {NumberWithCommas(m?.Wt - e?.totals?.finding?.Wt, 3)} Gms</p>
+                      
+                    </div>
+                
+                    <div style={{ minWidth: "9%", width: "9%" }} className="px-1">
+                      <p></p>
+                    </div>
+                
+                    <div style={{ minWidth: "15%", width: "15%" }} className="px-1">
+                      <p></p>
+                    </div>
+                
+                    <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end">
+                      {/* <p>{NumberWithCommas(m?.finalRate, 2)}</p> */}
+                      <p>   {m?.Rate?.toFixed(2)}</p>
+                    </div>
+                
+                    <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end">
+                      {/* <p>{NumberWithCommas(m?.latestAmount, 2)}</p> */}
+                      <p>{m?.Amount?.toFixed(2)}</p>
+                    </div>
                   </div>
-                  <div
-                    style={{ minWidth: "15%", width: "15%" }}
-                    className=" px-1 text-end"
-                  >
-                    <p>
-                      {NumberWithCommas(
-                        e?.latestAmount,
-                        2
-                      )}
-                    </p>
-                  </div>
-                </div>
-              );
+                ))
+                
+              
             })}
             {mainData?.findings?.map((e, i) => {
               return (

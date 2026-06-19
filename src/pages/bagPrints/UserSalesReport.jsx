@@ -79,7 +79,6 @@ function UserSalesReport() {
                   "f": "Ajax_ReportManagement_UserSaleReport.aspx (Salescrm)"
                   }
                   
-                  
                   const allDatas = await GetFgSaleData(queries,body);
   
   

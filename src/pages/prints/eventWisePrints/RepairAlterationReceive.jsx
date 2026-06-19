@@ -36,10 +36,14 @@ const RepairAlterationReceive = ({ data }) => {
       let diamonds = [];
 
       let diamondWt = 0;
+      let solWt = 0;
+      let gemsWt = 0;
       let colorWt = 0;
       let miscWt = 0;
 
       let diamondRepairedWt = 0;
+      let solRepairedWt = 0;
+      let gemsRepairedWt = 0;
       let colorRepairedWt = 0;
       let miscRepairedWt = 0;
 
@@ -55,6 +59,8 @@ const RepairAlterationReceive = ({ data }) => {
 
       let metalAdded = 0;
       let diamondAdded = 0;
+      let solAdded = 0;
+      let gemsAdded = 0;
       let colorStoneAdded = 0;
       let miscAdded = 0;
       let findingAdded = 0;
@@ -65,6 +71,8 @@ const RepairAlterationReceive = ({ data }) => {
 
       let netDetach = 0;
       let diamondDetach = 0;
+      let solDetach = 0;
+      let gemsDetach = 0;
       let colorStoneDetach = 0;
       let metalDetach = 0;
       let FindingDetach = 0;
@@ -89,28 +97,64 @@ const RepairAlterationReceive = ({ data }) => {
             metalAdded += ele?.WtAdd;
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
             diamondWt += ele?.Wt;
+            if (ele?.IsSolGem === 1) {
+              solWt += ele?.Wt;
+            }
             diamonds.push(ele);
             if (ele?.IsRepireEdit === 1) {
-              diamondAdded += ele?.Wt;
+              if(ele?.IsSolGem === 1){
+                solAdded += ele?.Wt;
+              }else{
+                diamondAdded += ele?.Wt;
+              }
               materialAdded.push(ele);
             }
             if (ele?.DetachWeight !== null) {
-              diamondDetach += ele?.DetachWeight;
-              diamondRepairedWt += ele?.Wt - ele?.DetachWeight;
+              if(ele?.IsSolGem === 1){
+                solRepairedWt += ele?.Wt - ele?.DetachWeight;
+                solDetach += ele?.DetachWeight;
+              }else{
+                diamondRepairedWt += ele?.Wt - ele?.DetachWeight;
+                diamondDetach += ele?.DetachWeight;
+
+              }
             } else {
-              diamondRepairedWt += ele?.Wt;
+              
+              if(ele?.IsSolGem === 1){
+                solRepairedWt += ele?.Wt;
+              }else{
+                diamondRepairedWt += ele?.Wt;
+              }
             }
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
             colorWt += ele?.Wt;
+            if (ele?.IsSolGem === 1) {
+              gemsWt += ele?.Wt;
+            }
             if (ele?.IsRepireEdit === 1) {
-              colorStoneAdded += ele?.Wt;
+              if(ele?.IsSolGem === 1){
+                gemsAdded += ele?.Wt;
+              }else{
+                colorStoneAdded += ele?.Wt;
+              }
               materialAdded.push(ele);
             }
             if (ele?.DetachWeight !== null) {
-              colorStoneDetach += ele?.DetachWeight;
-              colorRepairedWt += ele?.Wt - ele?.DetachWeight;
+              if(ele?.IsSolGem === 1){
+                gemsRepairedWt += ele?.Wt - ele?.DetachWeight;
+                gemsDetach += ele?.DetachWeight;
+              }else{
+                
+                colorStoneDetach += ele?.DetachWeight;
+                colorRepairedWt += ele?.Wt - ele?.DetachWeight;
+              }
             } else {
-              colorRepairedWt += ele?.Wt;
+              if(ele?.IsSolGem === 1){
+                gemsRepairedWt += ele?.Wt;
+              }else{
+                colorRepairedWt += ele?.Wt;
+
+              }
             }
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
             if (ele?.IsHSCOE === 0) {
@@ -143,11 +187,13 @@ const RepairAlterationReceive = ({ data }) => {
       repairedJewelleryGrossWt =
         diamondRepairedWt / 5 +
         colorRepairedWt / 5 +
+        gemsRepairedWt / 5 +
+        solRepairedWt / 5 +
         miscRepairedWt +
         repairedJewelleryNetWt;
       grossWtAdded =
         metalAdded +
-        (diamondAdded + colorStoneAdded) / 5 +
+        (diamondAdded + colorStoneAdded + solAdded + gemsAdded) / 5 +
         miscAdded +
         findingAdded;
       netWtdded = metalAdded + findingAdded;
@@ -156,6 +202,8 @@ const RepairAlterationReceive = ({ data }) => {
       obj.metalColorCode = metalColorCode;
       obj.diamonds = diamonds;
       obj.diamondWt = diamondWt;
+      obj.solWt = solWt;
+      obj.gemsWt = gemsWt;
       obj.colorWt = colorWt;
       obj.miscWt = miscWt;
       obj.diamondColorWt = diamondColorWt;
@@ -163,14 +211,20 @@ const RepairAlterationReceive = ({ data }) => {
       obj.grossWtAdded = grossWtAdded;
       obj.netWtdded = netWtdded;
       obj.diamondAdded = diamondAdded;
+      obj.solAdded = solAdded;
+      obj.gemsAdded = gemsAdded;
       obj.colorStoneAdded = colorStoneAdded;
       obj.miscAdded = miscAdded;
       obj.materialAdded = materialAdded;
       obj.netDetach = netDetach;
       obj.diamondDetach = diamondDetach;
+      obj.solDetach = solDetach;
+      obj.gemsDetach = gemsDetach;
       obj.colorStoneDetach = colorStoneDetach;
 
       obj.diamondRepairedWt = diamondRepairedWt;
+      obj.solRepairedWt = solRepairedWt;
+      obj.gemsRepairedWt = gemsRepairedWt;
       obj.colorRepairedWt = colorRepairedWt;
       obj.miscRepairedWt = miscRepairedWt;
 
@@ -279,6 +333,8 @@ const RepairAlterationReceive = ({ data }) => {
         </div>
         {/* Table Data */}
         {datas.map((e, i) => {
+          
+          console.log("TCL:eeee ",e )
           return (
             <div
               className="d-flex border-start border-bottom border-end"
@@ -314,10 +370,14 @@ const RepairAlterationReceive = ({ data }) => {
                     )} gms GW`}
                   {e?.NetWt !== 0 &&
                     ` | ${NumberWithCommas(e?.NetWt, 3)} gms NW`}
-                  {e?.diamondWt !== 0 &&
-                    ` |  DIA: ${NumberWithCommas(e?.diamondWt, 3)} Cts`}
-                  {e?.colorWt !== 0 &&
-                    ` |  CS: ${NumberWithCommas(e?.colorWt, 3)} Cts`}
+                  {e?.diamondWt - e?.solWt !== 0 &&
+                    ` |  DIA: ${NumberWithCommas(e?.diamondWt - e?.solWt, 3)} Cts`}
+                    {e?.solWt !== 0 &&
+                    ` |  DIA S: ${NumberWithCommas(e?.solWt, 3)} Cts`}
+                  {e?.colorWt - e?.gemsWt !== 0 &&
+                    ` |  CS: ${NumberWithCommas(e?.colorWt - e?.gemsWt, 3)} Cts`}
+                     {e?.gemsWt !== 0 &&
+                    ` |  CS G: ${NumberWithCommas(e?.gemsWt, 3)} Cts`}
                   {e?.miscRepairWt !== 0 &&
                     ` |  MISC: ${NumberWithCommas(e?.miscRepairWt, 3)} gms `}
                 </p>
@@ -340,15 +400,19 @@ const RepairAlterationReceive = ({ data }) => {
                     )} gms NW`}
                   {e?.diamondRepairedWt !== 0 &&
                     ` |  DIA: ${NumberWithCommas(e?.diamondRepairedWt, 3)} Cts`}
+                    {e?.solRepairedWt !== 0 &&
+                    ` |  DIA S: ${NumberWithCommas(e?.solRepairedWt, 3)} Cts`}
                   {e?.colorRepairedWt !== 0 &&
                     ` |  CS: ${NumberWithCommas(e?.colorRepairedWt, 3)} Cts`}
+                     {e?.gemsRepairedWt !== 0 &&
+                    ` |  CS G: ${NumberWithCommas(e?.gemsRepairedWt, 3)} Cts`}
                   {e?.miscRepairedWt !== 0 &&
                     ` | MISC: ${NumberWithCommas(e?.miscRepairedWt, 3)} gms `}
                 </p>
                 <p className="fw-bold p-1 text_secondary no_break">
                   ADDED MATERIAL DETAIL
                 </p>
-                {(e?.grossWtAdded !== 0 || e?.netWtdded !== 0 || e?.diamondAdded !== 0 || e?.colorStoneAdded !== 0 || e?.miscAdded !== 0) ? ( <p className="px-1 py-2 no_break">
+                {(e?.grossWtAdded !== 0 || e?.netWtdded !== 0 || e?.diamondAdded !== 0 || e?.solAdded !== 0 || e?.gemsAdded !== 0 || e?.colorStoneAdded !== 0 || e?.miscAdded !== 0) ? ( <p className="px-1 py-2 no_break">
                     {e?.MetalTypePurity} {e?.metalColorCode}
                     {e?.grossWtAdded !== 0 &&
                       ` |${NumberWithCommas(e?.grossWtAdded, 3)} gms GW`}
@@ -356,8 +420,13 @@ const RepairAlterationReceive = ({ data }) => {
                       ` | ${NumberWithCommas(e?.netWtdded, 3)} gms NW`}
                     {e?.diamondAdded !== 0 &&
                       ` | DIA: ${NumberWithCommas(e?.diamondAdded, 3)} Cts`}
+                    {e?.solAdded !== 0 &&
+                      ` | DIA S: ${NumberWithCommas(e?.solAdded, 3)} Cts`}
+                    
                     {e?.colorStoneAdded !== 0 &&
                       ` | CS: ${NumberWithCommas(e?.colorStoneAdded, 3)} Cts`}
+                      {e?.gemsAdded !== 0 &&
+                      ` | CS G: ${NumberWithCommas(e?.gemsAdded, 3)} Cts`}
                     {e?.miscAdded !== 0 &&
                       ` | MISC: ${NumberWithCommas(e?.miscAdded, 3)} gms `}
                   </p> 
@@ -385,8 +454,13 @@ const RepairAlterationReceive = ({ data }) => {
                     `Net: ${NumberWithCommas(e?.netDetach, 3)} gms NW`}
                   {e?.diamondDetach !== 0 &&
                     ` | DIA: ${NumberWithCommas(e?.diamondDetach, 3)} Cts`}
+                  {e?.solDetach !== 0 &&
+                    ` | DIA S: ${NumberWithCommas(e?.solDetach, 3)} Cts`}
+               
                   {e?.colorStoneDetach !== 0 &&
                     ` | CS: ${NumberWithCommas(e?.colorStoneDetach, 3)} Cts`}
+                       {e?.gemsDetach !== 0 &&
+                    ` | CS G: ${NumberWithCommas(e?.gemsDetach, 3)} Cts`}
                 </p>
               </div>
               <div className="col-2">

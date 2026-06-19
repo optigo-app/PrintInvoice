@@ -233,8 +233,8 @@ const InvoicePrintOldMaterial = ({
                                           :  ""
                           } */}
                           {
-  e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND" :
-  e?.ItemName === "COLOR STONE" ? "STONE" :
+  e?.ItemName === "DIAMOND" ?  `CUT AND POLISHED DIAMOND ${e?.IsSolGem ? ': S' : ''}` :
+  e?.ItemName === "COLOR STONE" ? `STONE ${e?.IsSolGem ? ': G' : ''}` :
   e?.ItemName === "METAL" ? (
       e?.shape === "Gold" 
         ? (e?.quality ? `GOLD ${e?.quality}` : "GOLD") 

@@ -304,8 +304,8 @@ const InvoicePrint2Material = ({
                   <div key={i} className="disflx spbrlFt brBtom spfntbH">
                     <div className="col1_inv2 spbrRht spfntCen">{i + 1}</div>
                     <div className="Sucol2_inv2 spbrRht">
-                      {e?.ItemName === "DIAMOND" ? "CUT AND POLISHED DIAMOND" :
-                        e?.ItemName === "COLOR STONE" ? "STONE" :
+                      {e?.ItemName === "DIAMOND" ? `CUT AND POLISHED DIAMOND ${e?.IsSolGem ? ': S' : ''}`:
+                        e?.ItemName === "COLOR STONE" ? `STONE ${e?.IsSolGem ? ': G' : ''}`:
                           e?.ItemName === "METAL" && e?.shape === "GOLD" ? "GOLD" :
                             e?.ItemName === "METAL" && e?.shape === "gold" ? "GOLD" :
                               e?.ItemName === "METAL" && e?.shape === "Gold" ? "GOLD" :

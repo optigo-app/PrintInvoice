@@ -9,6 +9,8 @@ import {
   handleImageError,
   isObjectEmpty,
   NumberWithCommas,
+    mergeMetals,
+    mergeFindings
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import "../../assets/css/prints/packinglist3B.css";
@@ -556,12 +558,6 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     return totalAcc + itemTotal;
   }, 0);
 
-  // console.log("totalMetalSummaryAmount", totalMetalSummaryAmount);
-  // console.log("totalMakingAmount", totalMakingAmount);
-  // console.log("processedMetalsWt", processedMetalsWt);
-  // console.log("processedMetalsAmount", processedMetalsAmount);
-  // console.log("result", result);
-  // console.log("diamondArr", diamondArr); 
 
   console.log("TCL: result", result)
 
@@ -569,9 +565,10 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     ?.filter((e) => e?.ShapeName?.toUpperCase() === "GOLD")
     ?.reduce((sum, e) => sum + (e?.Amount || 0), 0);
 
-    const TotalDuty = result?.resultArray?.reduce((acc, e) => {
-      return acc + (e?.CustomDuty_Amount || 0);
-    }, 0);
+  const TotalDuty = result?.resultArray?.reduce((acc, e) => {
+    return acc + (e?.CustomDuty_Amount || 0);
+  }, 0);
+
 
   return (
     <>
@@ -615,7 +612,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   id="reference"
                 />
                 <label htmlFor="reference" className="user-select-none mx-1">
-                 Reference
+                  Reference
                 </label>
               </div>
               <div>
@@ -624,12 +621,12 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
 
             {/* print head text */}
-            <div className="headText_pcls">
+            {/* <div className="headText_pcls">
               {result?.header?.PrintHeadLabel ?? "PACKING LIST"}
-            </div>
+            </div> */}
 
             {/* comapny header */}
-            <div className="d-flex justify-content-between align-items-center px-1 com_fs_pcl3">
+            {/* <div className="d-flex justify-content-between align-items-center px-1 com_fs_pcl3">
               <div>
                 <div className="fs_16_pcls fw-bold py-1">
                   {result?.header?.CompanyFullName}
@@ -663,10 +660,10 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   />
                 )}
               </div>
-            </div>
+            </div> */}
 
             {/* customer header */}
-            <div className="d-flex  mt-1 brall_pcls brall_pcls ">
+            {/* <div className="d-flex  mt-1 brall_pcls brall_pcls ">
               <div
                 className="bright_pcls p-1 com_fs_pcl3"
                 style={{ width: "35%" }}
@@ -701,11 +698,11 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 {/* {result?.header?.address?.map((e, i) => {
                   return <div key={i}>{e}</div>;
                 })} */}
-                {/* <div>{result?.header?.CustName}</div>
+            {/* <div>{result?.header?.CustName}</div>
                     <div>{result?.header?.customercity}</div>
                     <div>{result?.header?.customercountry}{result?.header?.customerpincode}</div>
                     <div>Mobile No : {result?.header?.customermobileno}</div> */}
-              </div>
+            {/* </div>
               <div className="p-1 com_fs_pcl3" style={{ width: "30%" }}>
                 <div className="d-flex align-items-center">
                   <div className="fw-bold billbox_pcls">BILL NO </div>
@@ -722,20 +719,33 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div>{result?.header?.HSN_No}</div>
                 </div>
               </div>
-            </div>
-            {referenceFlag &&(
-                <div style={{display:"flex",border:"1px solid #BDBDBD",marginTop:"5px"}}>
-                <div style={{width:"60%",borderRight:"1px solid #BDBDBD",
-                    padding:"7px"
-                }}>
+            </div>  */}
+
+            <div style={{ display: "flex", border: "1px solid #BDBDBD", marginTop: "5px" }}>
+              {
+                referenceFlag ?
+                  <div style={{
+                    width: "60%", borderRight: "1px solid #BDBDBD",
+                    padding: "7px"
+                  }}>
+
                     <b>Reference :</b> <span>{result?.header?.BillReferenceNo}</span>
-                </div>
-                <div style={{width:"40%",padding:"7px"}}>
-                    <b>Date :</b> <span>{result?.header?.EntryDate}</span>
-                </div>
+
+                  </div>
+                  :
+                  <div style={{
+                    width: "60%", borderRight: "1px solid #BDBDBD",
+                    padding: "7px"
+                  }}>
+                    <b>Invoice :</b> <span>{result?.header?.InvoiceNo}</span>
+                  </div>
+              }
+
+              <div style={{ width: "40%", padding: "7px" }}>
+                <b>Date :</b> <span>{result?.header?.EntryDate}</span>
+              </div>
             </div>
-            )}
-           
+
 
             {/* table */}
             <div className="mt-1 ">
@@ -749,10 +759,10 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 }}
               >
                 <div className="col1_pcls centerall_pcls bright_pcls">Sr</div>
-                <div className= {duty ? "col2_pcls_duty centerall_pcls bright_pcls" : "col2_pcls centerall_pcls bright_pcls"}>
+                <div className={duty ? "col2_pcls_duty centerall_pcls bright_pcls" : "col2_pcls centerall_pcls bright_pcls"}>
                   Design
                 </div>
-                <div className= {duty ? "col3_pcls_duty bright_pcls" : "col3_pcls bright_pcls"}>
+                <div className={duty ? "col3_pcls_duty bright_pcls" : "col3_pcls bright_pcls"}>
                   <div className="w-100 centerall_pcls bbottom_pcls">
                     Diamond
                   </div>
@@ -760,7 +770,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="dcol1_pcls centerall_pcls bright_pcls">
                       Shape
                     </div>
-                  
+
                     <div className="dcol3_pcls centerall_pcls bright_pcls">
                       Pcs
                     </div>
@@ -773,7 +783,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="dcol6_pcls centerall_pcls">Amount</div>
                   </div>
                 </div>
-                <div className= {duty ? "col4_pcls_duty bright_pcls" : "col4_pcls bright_pcls"}>
+                <div className={duty ? "col4_pcls_duty bright_pcls" : "col4_pcls bright_pcls"}>
                   <div className="w-100 centerall_pcls bbottom_pcls">Metal</div>
                   <div className="d-flex w-100">
                     <div className="mcol1_pcls centerall_pcls bright_pcls">
@@ -794,7 +804,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="mcol1_pcls centerall_pcls ">Amount</div>
                   </div>
                 </div>
-                <div className= {duty ? "col5_pcls_duty bright_pcls" : "col5_pcls bright_pcls"}>
+                <div className={duty ? "col5_pcls_duty bright_pcls" : "col5_pcls bright_pcls"}>
                   <div className="w-100 centerall_pcls bbottom_pcls">
                     Stone & Misc
                   </div>
@@ -802,7 +812,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="dcol1_pcls centerall_pcls bright_pcls">
                       Shape
                     </div>
-                   
+
                     <div className="dcol3_pcls centerall_pcls bright_pcls">
                       Pcs
                     </div>
@@ -815,7 +825,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="dcol6_pcls centerall_pcls">Amount</div>
                   </div>
                 </div>
-                <div className= {duty ? "col6_pcls_duty bright_pcls" : "col6_pcls bright_pcls"}>
+                <div className={duty ? "col6_pcls_duty bright_pcls" : "col6_pcls bright_pcls"}>
                   <div className="centerall_pcls w-100 bbottom_pcls">
                     Labour & Other Charges
                   </div>
@@ -829,16 +839,16 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="lcol1_pcls centerall_pcls">Amount</div>
                   </div>
                 </div>
-                {duty &&(
-                    <div className="col65_pcls centerall_pcls bright_pcls">Duty Amount</div>
+                {duty && (
+                  <div className="col65_pcls centerall_pcls bright_pcls">Duty Amount</div>
 
                 )}
-                <div className= {duty ? "col7_pcls_duty centerall_pcls" : "col7_pcls centerall_pcls"}>Total Amount</div>
+                <div className={duty ? "col7_pcls_duty centerall_pcls" : "col7_pcls centerall_pcls"}>Total Amount</div>
               </div>
 
               {/* table rows */}
               {result?.resultArray?.map((e, i) => {
-                console.log("TCL: metal e", e.metal)
+              
                 // Calculate extra charges safely
                 const labourTotal = e?.GroupJob !== ""
                   ? (result?.labour?.filter((el) => el?.GroupjobNo === e?.GroupJob)
@@ -871,6 +881,10 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
                 const finalAmount =
                   extraCharge / (result?.header?.CurrencyExchRate || 1);
+
+
+                  const mergedFindings = mergeFindings(e?.finding);
+                  const mergedMetals = mergeMetals(e?.metal);
                 return (
                   <div
                     className="d-flex tbody_pcls bbottom_pcls tb_fs_pcls pbia_pcl3 border-top"
@@ -885,7 +899,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
 
                     {/* Design */}
-                    <div className= {duty ? "col2_pcls_duty start_top_pcls flex-column bright_pcls pt-1" : "col2_pcls start_top_pcls flex-column bright_pcls pt-1"}>
+                    <div className={duty ? "col2_pcls_duty start_top_pcls flex-column bright_pcls pt-1" : "col2_pcls start_top_pcls flex-column bright_pcls pt-1"}>
                       <div className="d-flex flex-wrap justify-content-between align-items-center w-100 text-break pdl_pcls pdr_pcls">
                         <div>{e?.designno}</div>
                         <div>{e?.GroupJob !== "" ? e?.GroupJob : e?.SrJobno}</div>
@@ -907,7 +921,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       )}
                       {e?.Categoryname !== "" && (
                         <div className="centerall_pcls text-break w-100">
-                          
+
                           <span className="fw-bold">{e?.Categoryname}</span>
                         </div>
                       )}
@@ -954,7 +968,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
 
                     {/* Diamond */}
-                    <div className= {duty ? "col3_pcls_duty d-flex flex-column justify-content-between bright_pcls" : "col3_pcls d-flex flex-column justify-content-between bright_pcls"}>
+                    <div className={duty ? "col3_pcls_duty d-flex flex-column justify-content-between bright_pcls" : "col3_pcls d-flex flex-column justify-content-between bright_pcls"}>
                       <div>
                         {/* {e?.diamonds?.map((el, ind) => {
                           return (
@@ -1015,11 +1029,11 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           ?.map((el, ind) => (
                             <div className="d-flex w-100" key={ind}>
                               <div className="dcol1_pcls spbrWord start_center_pcls pdl_pcls">
-                              {el?.IsSolGem === 1 ? "S:" : ""}
+                                {el?.IsSolGem === 1 ? "S:" : ""}
                                 {el?.ShapeName}
                               </div>
 
-                              
+
 
                               <div className="dcol3_pcls end_pcls pdr_pcls">
                                 {el?.Pcs}
@@ -1041,7 +1055,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className="d-flex w-100 btop_pcls bg_pcls fw-bold">
                         <div className="dcol1_pcls">&nbsp;</div>
-                    
+
                         <div className="dcol3_pcls end_pcls pdr_pcls" style={{ width: "13%" }}>
                           {e?.totals?.diamonds?.Pcs !== 0 &&
                             e?.totals?.diamonds?.Pcs}
@@ -1064,243 +1078,160 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
 
                     {/* Metal */}
-                    <div className= {duty ? "col4_pcls_duty d-flex flex-column justify-content-between bright_pcls" : "col4_pcls d-flex flex-column justify-content-between bright_pcls"}>
+
+                    <div className={duty ? "col4_pcls_duty d-flex flex-column justify-content-between bright_pcls" : "col4_pcls d-flex flex-column justify-content-between bright_pcls"}>
                       <div>
-                        {e?.metal?.map((el, ind) => {
-                          { }
 
-                          // ************************ Counting & Conditions ************************
-                          const isChainOrHook = e?.specialFinding?.FindingTypename?.toLowerCase()?.includes("chain") ||
-                            e?.specialFinding?.FindingTypename?.toLowerCase()?.includes("hook");
 
-                          const matchingFinding = e?.finding?.find(finding =>
-                            finding?.ShapeName?.toLowerCase() === el?.ShapeName?.toLowerCase()
-                          );
 
-                          const totalMetalWeight = e?.metal?.reduce((acc, metal) => {
-                            if (matchingFinding && metal?.ShapeName?.toLowerCase() === matchingFinding?.ShapeName?.toLowerCase()) {
-                              return acc + (metal?.Wt || 0);
+
+                        {mergedMetals
+                          ?.slice()
+                          ?.sort((a, b) => {
+                            // 1. GroupJob match comes first
+                            const aGroupJob = a?.StockBarcode === e?.GroupJob ? 1 : 0;
+                            const bGroupJob = b?.StockBarcode === e?.GroupJob ? 1 : 0;
+
+                            if (aGroupJob !== bGroupJob) {
+                              return bGroupJob - aGroupJob;
                             }
-                            return acc;
-                          }, 0);
 
-                          let weight = isChainOrHook
-                            ? (e?.NetWt - e?.finding_customer_wt)?.toFixed(3)
-                            : (el?.Wt - e?.finding_customer_wt - e?.LossWt)?.toFixed(3);
+                            // 2. Primary metal comes next
+                            const aPrimary = a?.IsPrimaryMetal === 1 ? 1 : 0;
+                            const bPrimary = b?.IsPrimaryMetal === 1 ? 1 : 0;
 
-                          if (e?.GroupJob !== '') {
-                            const findingToExclude = e?.finding?.find(finding => finding?.StockBarcode !== e?.GroupJob);
-                            // console.log("findingToExclude",findingToExclude);
-
-                            if (findingToExclude) {
-                              weight = (totalMetalWeight - findingToExclude?.Wt)?.toFixed(3);
-                            } else {
-                              weight = e?.metal?.reduce((acc, metal) => acc + (metal?.Wt || 0), 0).toFixed(3);
+                            if (aPrimary !== bPrimary) {
+                              return bPrimary - aPrimary;
                             }
-                          }
 
-                          const amount = isChainOrHook
-                            ? ((e?.NetWt * e?.metal_rate) / result?.header?.CurrencyExchRate)?.toFixed(2)
-                            : ((el?.Wt * el?.Rate) - e?.LossAmt)?.toFixed(2);
-
-                          const rate = el?.Rate?.toFixed(2);
-
-                          const grossWeight = e?.grosswt?.toFixed(3);
-
-                          const shapeAndQuality = `${el?.ShapeName || 'Unknown Shape'} ${el?.QualityName || 'Unknown Quality'}`;
-                          // ************************ Counting & Conditions ************************
-
-                          if (e?.GroupJob !== '' && e?.GroupJob === el?.StockBarcode) { // When Group Job Then Only Show Primary Job's Metal Name
-                            // ************************ 02/12/2025 Completed An Bug ************************
-                            const WtMRate = (weight * rate)?.toFixed(2);
-                            // console.log("WtMRate", WtMRate);
-
-                            const isAmtNotLess = WtMRate > e?.totals?.metal?.Amount;
-                            // console.log("isAmtNotLess", isAmtNotLess);
-
-                            const firstElementWt = e?.metal?.[0]?.Wt;
-                            // console.log("firstElementWt", firstElementWt);
-
-                            const isAmtLess = WtMRate < e?.totals?.metal?.Amount;
-                            // console.log("isAmtNotLess", isAmtNotLess);
-
-                            const FindingAmt = e?.finding?.map((data) => {
-                              if (e?.GroupJob !== '' && e?.GroupJob !== data?.StockBarcode) {
-                                const primaryMetal = e?.metal?.filter((m) => m?.IsPrimaryMetal === 1)[0];
-                                // Check if primaryMetal exists to avoid errors
-                                const metalRate = primaryMetal?.Rate;
-                                // console.log("metalRate", metalRate);
-
-                                const FWT = data?.Wt;
-                                // console.log("FWT", FWT);
-
-                                const FAmount = FWT * metalRate
-                                // console.log("FAmount", FAmount);
-
-                                return FAmount?.toFixed(2)
-                              } else {
-                                return data?.Amount ? data?.Amount.toFixed(2) : "0.00";
-                              }
-                            });
-                            // console.log("FindingAmt", FindingAmt);
-
-                            const totalFindingAmt = FindingAmt?.reduce((acc, curr) => acc + (parseFloat(curr) || 0), 0);
-                            // console.log("totalFindingAmt", totalFindingAmt);
-
-                            const SecondaryMetalAmounts = e?.metal?.map((el) =>
-                              el?.StockBarcode !== el?.GroupJob && el?.IsPrimaryMetal === 0
-                                ? el?.Wt * el?.Rate
-                                : 0
-                            );
-                            // console.log("SecondaryMetalAmounts", SecondaryMetalAmounts);
-
-                            const totalSecondaryMetalAmt = SecondaryMetalAmounts?.reduce((acc, amt) => acc + amt, 0);
-                            // console.log("totalSecondaryMetalAmt", totalSecondaryMetalAmt);
-                            // ************************ 02/12/2025 Completed An Bug ************************
+                            return 0;
+                          })
+                          ?.map((el, imet) => {
 
                             return (
-                              <div className="d-flex w-100" key={ind}>
+                              <div className="d-flex w-100" key={imet}>
                                 <div className="mcol1_pcls spbrWord start_center_pcls pdl_pcls">
-                                  {shapeAndQuality}
+                                  {el?.ShapeName} {el?.QualityName}
                                 </div>
                                 <div className="mcol2_pcls end_pcls pdr_pcls">
-                                  {grossWeight}
+                                  {e?.GroupJob == "" ? el?.IsPrimaryMetal == 1 ? e?.grosswt?.toFixed(3) : "" : e?.GroupJob == el?.StockBarcode ? e?.grosswt?.toFixed(3) : ""}
+
+                                  {/* {el?.IsPrimaryMetal == 1 ? e?.grosswt?.toFixed(3) : ""} */}
                                 </div>
                                 <div className="mcol3_pcls end_pcls pdr_pcls">
-                                  {weight}
+                                  {el?.IsPrimaryMetal == 1
+                                    ? (
+                                      el?.Wt - e?.totals?.finding?.Wt - e?.LossWt
+                                    )?.toFixed(3)
+                                    : (el?.Wt)?.toFixed(3)}
                                 </div>
                                 <div className="mcol3_pcls end_pcls pdr_pcls">
-                                  {fixedValues(e?.LossWt, 3)}
+                                  {/* {el?.IsPrimaryMetal == 1 ? fixedValues(e?.LossWt, 3) : ""} */}
+                                  {e?.LossWt > 0 && (
+                                    <>
+                                      {el?.IsPrimaryMetal == 1 ? e?.LossPer + "%" : ""} <br />
+                                      {el?.IsPrimaryMetal == 1 ? e?.LossWt?.toFixed(3) : ""}
+                                    </>
+                                  )}
+
+
                                 </div>
                                 <div className="mcol4_pcls end_pcls pdr_pcls">
-                                  {rate}
-                                  {/* {console.log("rate", rate)} */}
+                                  {el?.Rate?.toFixed(2)}
+
                                 </div>
                                 <div className="mcol5_pcls end_pcls pdr_pcls fw-bold">
-                                  {e?.GroupJob !== '' && e?.finding?.length === 0
-                                    ? e?.totals?.metal?.Amount?.toFixed(2)
-                                    : isAmtNotLess
-                                      ? (firstElementWt * rate)?.toFixed(2)
-                                      : isAmtLess
-                                        ? (e?.totals?.metal?.Amount - (totalFindingAmt + totalSecondaryMetalAmt))?.toFixed(2)
-                                        : WtMRate
-                                  }
+                                  {el?.Amount?.toFixed(2)}
+
                                 </div>
                               </div>
                             );
-                          } else if (e?.GroupJob !== '' && el?.IsPrimaryMetal === 0) { // When Group Job and MultiMetal Then That Time Secondary Metal From Here 
-                            return (
-                              <div className="d-flex w-100" key={ind}>
-                                <div className="start_center_pcls mcol1_pcls spbrWord pdl_pcls">
-                                  {shapeAndQuality}
-                                </div>
-                                <div className="mcol2_pcls end_pcls pdr_pcls"></div>
-                                <div className="mcol3_pcls end_pcls pdr_pcls">
-                                  {fixedValues(el?.Wt - e?.LossWt, 3)}
-                                </div>
-                                <div className="mcol3_pcls end_pcls pdr_pcls">
-                                  {fixedValues( e?.LossWt, 3)}
-                                </div>
-                                <div className="mcol4_pcls end_pcls pdr_pcls">
-                                  {rate}
-                                </div>
-                                <div className="mcol5_pcls end_pcls pdr_pcls fw-bold">
-                                  {(el?.Wt * el?.Rate)?.toFixed(2)}
-                                </div>
-                              </div>
-                            );
-                          }
-                          // else if (e?.GroupJob === '' && el?.IsPrimaryMetal === 1) 
-                          else if (e?.GroupJob === '') {
-                            // No Group Job, That Time Only Primary Metal To Show
-                            return (
-                              <div className="d-flex w-100" key={ind}>
-                                <div className="pdl_pcls spbrWord mcol1_pcls start_center_pcls">
-                                  {shapeAndQuality}
-                                </div>
-                                <div className="mcol2_pcls end_pcls pdr_pcls">
-                                  {el?.IsPrimaryMetal == 1 ? grossWeight : ""}
-                                </div>
-                                <div className="mcol3_pcls end_pcls pdr_pcls">
-                                  {weight}
-                                </div>
-                                <div className="mcol3_pcls end_pcls pdr_pcls">
-                                  {fixedValues(e?.LossWt, 3)}
-                                </div>
-                                <div className="mcol4_pcls end_pcls pdr_pcls">
-                                  {parseFloat(rate) !== 0 ? rate : ""}
-                                </div>
-                                <div className="mcol5_pcls end_pcls pdr_pcls fw-bold">
-                                  {parseFloat(rate) !== 0 ? Number(amount).toFixed(2) : ""}
-                                </div>
-                              </div>
-                            );
-                          } else {
-                            return (<></>);
-                          }
-                        })}
+
+                          })}
 
                         {/* Finding */}
+                        
+                       { console.log("TCL: mergedFindings", mergedFindings)}
+
                         <div style={{ margin: "0px 2px" }}>
-                          {e?.finding?.map((data, index) => (
+                          {mergedFindings?.map((data, index) => (
+
                             <React.Fragment key={index}>
-                              {(e?.GroupJob !== '' ? e?.GroupJob !== data?.StockBarcode : data?.Supplier === "Customer") && (
-                                <div style={{ display: "flex" }}>
-                                  <div style={{ width: "40%" }}>
-                                    <p className="spbrWord">
-                                      {e?.GroupJob !== '' ? "FINDING ACCESSORIES" : data?.FindingTypename + " " + data?.QualityName}
-                                    </p>
-                                  </div>
-                                  <div
-                                    style={{
-                                      width: "14.50%",
-                                      display: "flex",
-                                      justifyContent: "flex-end",
-                                    }}
-                                  >
-                                    <p>{data?.Wt?.toFixed(3)}</p>
-                                  </div>
-                                  <div
-                                    style={{
-                                      width: "22%",
-                                      display: "flex",
-                                      justifyContent: "flex-end",
-                                    }}
-                                  >
-                                    <p>
-                                      {e?.GroupJob !== ''
-                                        ? e?.metal
-                                          ?.filter((m) => m?.IsPrimaryMetal === 1)[0]
-                                          ?.Rate?.toFixed(2)
-                                        : data?.Rate?.toFixed(2)
-                                      }
-                                    </p>
-                                  </div>
-                                  <div
-                                    style={{
-                                      width: "23.50%",
-                                      display: "flex",
-                                      justifyContent: "flex-end",
-                                      fontWeight: "bold",
-                                    }}
-                                  >
-                                    <p>
-                                      {e?.GroupJob !== ''
-                                        ? (e?.metal
-                                          ?.filter((m) => m?.IsPrimaryMetal === 1)[0]
-                                          ?.Rate * (parseFloat(data?.Wt) || 0))?.toFixed(2)
-                                        : data?.Amount?.toFixed(2)
-                                      }
-                                    </p>
-                                  </div>
+
+                              <div style={{ display: "flex" }}>
+                                <div style={{ width: "15%" }}>
+                                  <p className="spbrWord">
+                                    {e?.GroupJob !== '' ? "FINDING ACCESSORIES" : data?.FindingTypename + " " + data?.QualityName}
+                                  </p>
                                 </div>
-                              )}
+                                <div
+                                  style={{
+                                    width: "14.50%",
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                  }}
+                                >
+                                  {/* <p>{data?.Wt?.toFixed(3)}</p> */}
+                                </div>
+                                <div
+                                  style={{
+                                    width: "18.50%",
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                  }}
+                                >
+                                  <p>{data?.Wt?.toFixed(3)}</p>
+                                </div>
+                                <div
+                                  style={{
+                                    width: "14.50%",
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                  }}
+                                >
+
+                                </div>
+                                <div
+                                  style={{
+                                    width: "22%",
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                  }}
+                                >
+                                  <p>
+                                    {e?.GroupJob !== ''
+                                      ? e?.metal
+                                        ?.filter((m) => m?.IsPrimaryMetal === 1)[0]
+                                        ?.Rate?.toFixed(2)
+                                      : data?.Rate?.toFixed(2)
+                                    }
+                                  </p>
+                                </div>
+                                <div
+                                  style={{
+                                    width: "19.50%",
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    fontWeight: "bold",
+                                  }}
+                                >
+                                  <p>
+                                    {e?.GroupJob !== ''
+                                      ? (e?.metal
+                                        ?.filter((m) => m?.IsPrimaryMetal === 1)[0]
+                                        ?.Rate * (parseFloat(data?.Wt) || 0))?.toFixed(2)
+                                      : data?.Amount?.toFixed(2)
+                                    }
+                                  </p>
+                                </div>
+                              </div>
+
                             </React.Fragment>
                           ))}
                         </div>
 
                         {/* Loss */}
-                        {e?.LossWt !== 0 && (
+                        {/* {e?.LossWt !== 0 && (
                           <div className="d-flex w-100 pt-1">
                             <div className="mcol1_pcls start_center_pcls pdl_pcls" style={{ width: "15%" }}>
                               Loss
@@ -1320,7 +1251,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               }
                             </div>
                           </div>
-                        )}
+                        )} */}
 
                         {/* Remark */}
                         {e?.JobRemark !== "" && (
@@ -1346,15 +1277,17 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             (e?.NetWt + e?.LossWt)?.toFixed(3)}
                         </div>
                         <div className="mcol3_pcls end_pcls pdr_pcls">
-                          
+
                         </div>
+
+
                         <div
                           className="end_pcls pdr_pcls"
                           style={{ width: "36%" }}
                         >
                           {e?.totals?.metal?.Amount !== 0 &&
                             formatAmount(
-                              e?.totals?.metal?.Amount /
+                              (e?.totals?.metal?.Amount + e?.totals?.finding?.Amount) /
                               result?.header?.CurrencyExchRate
                             )}
                         </div>
@@ -1362,16 +1295,16 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
 
                     {/* Stone & Misc */}
-                    <div className= {duty ? "col5_pcls_duty d-flex flex-column justify-content-between bright_pcls" : "col5_pcls d-flex flex-column justify-content-between bright_pcls"}>
+                    <div className={duty ? "col5_pcls_duty d-flex flex-column justify-content-between bright_pcls" : "col5_pcls d-flex flex-column justify-content-between bright_pcls"}>
                       <div>
                         {e?.colorstone?.map((el, ind) => {
                           return (
                             <div className="d-flex w-100" key={ind}>
                               <div className="dcol1_pcls spbrWord start_center_pcls pdl_pcls">
-                              {el?.IsSolGem === 1 ? "G:" : ""}
+                                {el?.IsSolGem === 1 ? "G:" : ""}
                                 {el?.ShapeName}
                               </div>
-                              
+
                               <div className="dcol3_pcls end_pcls pdr_pcls">
                                 {el?.Pcs}
                               </div>
@@ -1394,9 +1327,9 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className="d-flex w-100" key={ind}>
                               <div className="dcol1_pcls spbrWord start_center_pcls pdl_pcls">
                                 {el?.ShapeName?.length !== 0 && "M : "}
-                                {el?.ShapeName }
+                                {el?.ShapeName}
                               </div>
-                              
+
                               <div className="dcol3_pcls end_pcls pdr_pcls">
                                 {el?.Pcs}
                               </div>
@@ -1417,7 +1350,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className="d-flex w-100 btop_pcls bg_pcls fw-bold">
                         <div className="dcol1_pcls">&nbsp;</div>
-                       
+
                         <div className="dcol3_pcls end_pcls pdr_pcls">
                           {e?.totals?.misc?.IsHSCODE_0_pcs +
                             e?.totals?.colorstone?.Pcs !==
@@ -1436,7 +1369,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                         <div
                           className="end_pcls pdr_pcls"
-                          style={{ width: "50%" }}
+                          style={{ width: "52%" }}
                         >
                           {formatAmount(e?.totals?.misc?.IsHSCODE_0_amount + e?.totals?.colorstone?.Amount !== 0 &&
                             ((e?.totals?.misc?.IsHSCODE_0_amount + e?.totals?.colorstone?.Amount) / result?.header?.CurrencyExchRate)
@@ -1446,7 +1379,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
 
                     {/* Labour & Other Charges */}
-                    <div className= {duty ? "col6_pcls_duty d-flex flex-column justify-content-between bright_pcls" : "col6_pcls d-flex flex-column justify-content-between bright_pcls"}>
+                    <div className={duty ? "col6_pcls_duty d-flex flex-column justify-content-between bright_pcls" : "col6_pcls d-flex flex-column justify-content-between bright_pcls"}>
                       <div>
                         {e?.GroupJob !== "" ? (
                           result?.labour?.filter((el) => el?.GroupjobNo === e?.GroupJob)?.map((el) => (
@@ -1604,28 +1537,28 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                     </div>
 
-                    {duty &&(
-                         <div className="col65_pcls   d-flex flex-column justify-content-between bright_pcls">
-                         <div className="start_pcls pdr_pcls fw-bold">
-                           {formatAmount(
-                             // e?.TotalAmount / result?.header?.CurrencyExchRate
-                             e?.CustomDuty_Amount
-                           )}
-                         </div>
-                         <div className="start_pcls btop_pcls bg_pcls pdr_pcls fw-bold">
-                           &nbsp;
-                           {formatAmount(
-                             // e?.TotalAmount / result?.header?.CurrencyExchRate
-                             e?.CustomDuty_Amount
-                           )}
-                         </div>
-                       </div>
+                    {duty && (
+                      <div className="col65_pcls   d-flex flex-column justify-content-between bright_pcls">
+                        <div className="start_pcls pdr_pcls fw-bold">
+                          {formatAmount(
+                            // e?.TotalAmount / result?.header?.CurrencyExchRate
+                            e?.CustomDuty_Amount
+                          )}
+                        </div>
+                        <div className="start_pcls btop_pcls bg_pcls pdr_pcls fw-bold">
+                          &nbsp;
+                          {formatAmount(
+                            // e?.TotalAmount / result?.header?.CurrencyExchRate
+                            e?.CustomDuty_Amount
+                          )}
+                        </div>
+                      </div>
                     )}
 
-                   
+
 
                     {/* Total Amount */}
-                    <div className= {duty ? "col7_pcls_duty   d-flex flex-column justify-content-between" : "col7_pcls   d-flex flex-column justify-content-between"}>
+                    <div className={duty ? "col7_pcls_duty   d-flex flex-column justify-content-between" : "col7_pcls   d-flex flex-column justify-content-between"}>
                       <div className="start_pcls pdr_pcls fw-bold">
                         {formatAmount(
                           // e?.TotalAmount / result?.header?.CurrencyExchRate
@@ -1654,13 +1587,13 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 }}
               >
                 <div className="col1_pcls bright_pcls"></div>
-                <div className= {duty ? "col2_pcls_duty centerall_pcls  bright_pcls" : "col2_pcls centerall_pcls  bright_pcls"}>
+                <div className={duty ? "col2_pcls_duty centerall_pcls  bright_pcls" : "col2_pcls centerall_pcls  bright_pcls"}>
                   Total
                 </div>
-                <div className=  {duty ? "col3_pcls_duty" : "col3_pcls bright_pcls"}>
+                <div className={duty ? "col3_pcls_duty" : "col3_pcls bright_pcls"}>
                   <div className="d-flex w-100">
                     <div className="dcol1_pcls centerall_pcls "></div>
-                 
+
                     <div className="dcol3_pcls end_pcls pdr_pcls " style={{ width: "15%" }}>
                       {result?.mainTotal?.diamonds?.Pcs}
                     </div>
@@ -1669,7 +1602,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                     <div
                       className="dcol6_pcls end_pcls pdr_pcls"
-                      style={{ width: "48%" }}
+                      style={{ width: "53%" }}
                     >
                       {formatAmount(
                         result?.mainTotal?.diamonds?.Amount /
@@ -1678,7 +1611,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                   </div>
                 </div>
-                <div className=  {duty ? "col4_pcls_duty" : "col4_pcls bright_pcls"}>
+                <div className={duty ? "col4_pcls_duty" : "col4_pcls bright_pcls"}>
                   <div className="d-flex w-100">
                     <div className="mcol1_pcls  "></div>
                     <div className="mcol2_pcls end_pcls pdr_pcls ">
@@ -1689,18 +1622,18 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         result?.mainTotal?.NetWt + result?.mainTotal?.LossWt
                       )?.toFixed(3)}
                     </div>
-                    <div className="end_pcls pdr_pcls" style={{ width: "50%" }}>
+                    <div className="end_pcls pdr_pcls" style={{ width: "52%" }}>
                       {formatAmount(
-                        result?.mainTotal?.metal?.Amount /
+                        (result?.mainTotal?.metal?.Amount + result?.mainTotal?.finding?.Amount) /
                         result?.header?.CurrencyExchRate
                       )}
                     </div>
                   </div>
                 </div>
-                <div className=  {duty ? "col5_pcls_duty" : "col5_pcls  bright_pcls"}>
+                <div className={duty ? "col5_pcls_duty" : "col5_pcls  bright_pcls"}>
                   <div className="d-flex w-100">
                     <div className="dcol1_pcls centerall_pcls "></div>
-                 
+
                     <div className="dcol3_pcls end_pcls pdr_pcls " style={{ width: "13%" }}>
                       {result?.mainTotal?.colorstone?.Pcs +
                         result?.mainTotal?.misc?.IsHSCODE_0_pcs}
@@ -1713,7 +1646,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                     <div
                       className=" end_pcls pdr_pcls"
-                      style={{ width: "46%" }}
+                      style={{ width: "55%" }}
                     >
                       {formatAmount(
                         (result?.mainTotal?.misc?.IsHSCODE_0_amount +
@@ -1723,7 +1656,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                   </div>
                 </div>
-                <div className=  {duty ? "col6_pcls_duty" : "col6_pcls bright_pcls"}>
+                <div className={duty ? "col6_pcls_duty" : "col6_pcls bright_pcls"}>
                   <div className="d-flex w-100">
                     <div className="w-100 end_pcls pdr_pcls">
                       {formatAmount(
@@ -1742,14 +1675,14 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                   </div>
                 </div>
-                {duty &&(
-                    <div className="col65_pcls end_pcls pdr_pcls bright_pcls">
+                {duty && (
+                  <div className="col65_pcls end_pcls pdr_pcls bright_pcls">
                     {formatAmount(
-                      TotalDuty,2
+                      TotalDuty, 2
                     )}
                   </div>
                 )}
-                <div className=  {duty ? "col7_pcls_duty" : "col7_pcls end_pcls pdr_pcls"}>
+                <div className={duty ? "col7_pcls_duty  end_pcls" : "col7_pcls end_pcls pdr_pcls"}>
                   {formatAmount(
                     (result?.mainTotal?.TotalAmount +
                       result?.mainTotal?.DiscountAmt) /
@@ -1768,13 +1701,12 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 }}
               >
                 <div style={{ width: "85.5%" }}>
-                    <b>Remarks: </b>
-                <span
-                      className=" "
-                      dangerouslySetInnerHTML={{
-                        __html: result?.header?.PrintRemark,
-                      }}
-                    ></span>
+                  {result?.header?.PrintRemark && (
+                    <>
+                      <b>Remarks: </b>
+                      <span dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark }} />
+                    </>
+                  )}
                 </div>
                 <div style={{ width: "14%" }}>
                   {result?.mainTotal?.DiscountAmt !== 0 && (
@@ -1874,7 +1806,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
             </div>
 
-           
+
           </div>
         </div>
       ) : (
