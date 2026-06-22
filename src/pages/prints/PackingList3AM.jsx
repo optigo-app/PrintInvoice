@@ -8,6 +8,8 @@ import {
   formatAmount,
   handleImageError,
   isObjectEmpty,
+  mergeMetals,
+  mergeFindings
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import "../../assets/css/prints/packinglist3AM.scss";
@@ -842,6 +844,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
               {/* table data */}
               {result?.resultArray?.map((e, i) => {
+                    const mergedMetals = mergeMetals(e?.metal);
+                    const mergedFindings = mergeFindings(e?.finding);
                 {}
                  
                 return (
@@ -1044,7 +1048,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
                     <div className="col4_pcls  d-flex flex-column justify-content-between bright_pcls">
                       <div>
-                        {e?.metal?.map((el, ind) => {
+                        {mergedMetals?.map((el, ind) => {
 
                           const findingWtForThisJob =
                             e?.finding
@@ -1118,16 +1122,16 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           );
                         })}
 
-                        {e?.finding?.length > 0 && e?.finding?.map((el, ind) => {
+                        {mergedFindings?.length > 0 && mergedFindings?.map((el, ind) => {
                           // if (el?.IsPrimaryMetal === 1) {
-                          const nonPrimaryTotalWt = e?.metal
+                          const nonPrimaryTotalWt = mergedMetals
                             ?.filter((m) => m?.IsPrimaryMetal === 0)
                             ?.reduce((sum, m) => sum + (m?.Wt || 0), 0);
 
                           const finalFindingWt =
                             (e?.totals?.finding?.Wt || 0) -
                             nonPrimaryTotalWt;
-                          console.log('e?.finding?.Wt: ', e?.finding);
+                           
 
 
                           const metalRate =
@@ -1142,7 +1146,8 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   className="spbrWord"
                                   style={{ width: "37%" }}
                                 >
-                                  FINDING ACCESSORIES
+                                  {/* FINDING ACCESSORIES */}
+                                  {e?.GroupJob !== '' ? "FINDING ACCESSORIES" : el?.FindingTypename + " " + el?.QualityName}
                                 </div>
 
                                 <div
@@ -1237,11 +1242,18 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           className="end_pcls pdr_pcls"
                           style={{ width: "45%" }}
                         >
-                          {rateAmount
+                          {/* {rateAmount
                             ? e?.totals?.metal?.Amount !== 0 &&
                             formatAmount(
                               e?.totals?.metal?.Amount /
                               result?.header?.CurrencyExchRate
+                            )
+                            : ""} */}
+                              {rateAmount
+                            ? e?.totals?.metal?.Amount !== 0 &&
+                            formatAmount(
+                              (e?.totals?.metal?.Amount + e?.totals?.finding?.Amount) /
+                              result?.header?.CurrencyExchRate,2
                             )
                             : ""}
                         </div>

@@ -1066,7 +1066,7 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.totals?.metal?.Wt !== 0 && fixedValues(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3)}
                             </p>
                             <p className="col-2 text-end fw-bold d-flex justify-content-end align-items-center paddingRightDetailPrint1">
-                              {fixedValues(e?.primaryMetalWt, 3)}
+                              {fixedValues((e?.totals?.metal?.Wt + e?.totals?.finding?.Wt), 3)}
                             </p>
                             <p className="col-2 text-end paddingRightDetailPrint1"></p>
                             <p className="col-3 text-end fw-bold d-flex justify-content-end align-items-center  paddingRightDetailPrint1 ">

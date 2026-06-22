@@ -209,6 +209,10 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
         }
     );
 
+    
+    console.log("TCL: result",result )
+
+    
 
     return (
         <>
@@ -396,7 +400,7 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
 
                                             )}
                                             <div className="th col-sku">SKU</div>
-                                 
+
                                             <div className="th col-metal">Metal</div>
                                             <div className="th col-wt">Gross Wt</div>
 
@@ -424,99 +428,231 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
 
                                         {/* TABLE BODY ROWS */}
                                         <div className="table-body">
-                                            {result?.resultArray?.map((row, index) => (
-                                                <div key={index} className="table-row">
-                                                    <div className="td col-sr ">{index + 1}</div>
-                                                    {imgFlag && (
-                                                        <div className="td col-img">
-                                                            <div className="center_dp3">
-                                                                <img
-                                                                    src={row?.DesignImage}
-                                                                    alt="#designimg"
-                                                                    onError={(e) => handleImageError(e)}
-                                                                    className="designimg_dp3"
-                                                                />
+                                            {result?.resultArray?.map((row, index) => {
+
+                                                const totalDiamonds = row?.diamonds.reduce(
+                                                    (acc, item) => {
+                                                        acc.materialName = "DIAMOND";
+                                                        acc.totalPcs += Number(item.Pcs || 0);
+                                                        acc.totalWt += Number(item.Wt || 0);
+                                                        acc.totalAmt += Number(item.Amount || 0);
+                                                        return acc;
+                                                    },
+                                                    {
+                                                        materialName: "",
+                                                        totalPcs: 0,
+                                                        totalWt: 0,
+                                                        totalAmt: 0
+                                                    }
+                                                );
+
+                                                const ColorstoneData = Object.values(
+                                                    row?.colorstone?.reduce((acc, item) => {
+                                                      const key = item.QualityName;
+                                                  
+                                                      if (!acc[key]) {
+                                                        acc[key] = {
+                                                          qualityName: key,
+                                                          totalPcs: 0,
+                                                          totalWt: 0,
+                                                          totalAmt: 0,
+                                                        };
+                                                      }
+                                                  
+                                                      acc[key].totalPcs += Number(item.Pcs || 0);
+                                                      acc[key].totalWt += Number(item.Wt || 0);
+                                                      acc[key].totalAmt += Number(item.Amount || 0);
+                                                  
+                                                      return acc;
+                                                    }, {})
+                                                  ); 
+
+                                                  const miscSummary = row?.misc?.reduce(
+                                                    (acc, item) => {
+                                                      acc.materialName = item.MasterManagement_DiamondStoneTypeName; // MISC
+                                                      acc.totalPcs += Number(item.Pcs || 0);
+                                                      acc.totalWt += Number(item.Wt || 0);
+                                                      acc.totalAmt += Number(item.Amount || 0);
+                                                      return acc;
+                                                    },
+                                                    {
+                                                      materialName: "MISC",
+                                                      totalPcs: 0,
+                                                      totalWt: 0,
+                                                      totalAmt: 0,
+                                                    }
+                                                  );
+
+
+                                                return (
+                                                    <div key={index} className="table-row">
+                                                        <div className="td col-sr ">{index + 1}</div>
+                                                        {imgFlag && (
+                                                            <div className="td col-img">
+                                                                <div className="center_dp3">
+                                                                    <img
+                                                                        src={row?.DesignImage}
+                                                                        alt="#designimg"
+                                                                        onError={(e) => handleImageError(e)}
+                                                                        className="designimg_dp3"
+                                                                    />
+                                                                </div>
                                                             </div>
+                                                        )}
+
+                                                        <div className="td col-sku sku-text">
+                                                            {row?.SrJobno || ""} {row?.designno || "-"}
                                                         </div>
-                                                    )}
 
-                                                    <div className="td col-sku sku-text">
-                                                        {row?.SrJobno || ""} {row?.designno || "-"}
+                                                        <div className="td col-metal">
+                                                            {row?.MetalType || ""} {row?.MetalPurity || ""} {row?.MetalColor || "-"}
+                                                        </div>
+                                                        <div className="td col-wt">{row?.grosswt?.toFixed(2) || "-"}</div>
+
+                                                        {(activeType === "B2B" || activeType === "B2C") && (
+                                                            <div className="td col-wt">{row?.NetWt?.toFixed(2) || "-"}</div>
+                                                        )}
+                                                        {activeType === "B2B" && (
+                                                            <div className="td col-amt">{row?.MetalAmount?.toFixed(2) || "-"}</div>
+                                                        )}
+
+                                                        {(activeType === "B2B" || activeType === "B2C") && (
+                                                            <>
+                                                                <div className="td col-stone" style={{flexDirection:"column"}} >
+                                                                    {totalDiamonds?.totalWt >0&&(
+                                                                        <div>{totalDiamonds?.materialName}  </div>
+                                                                
+                                                                    )}
+
+                                                                    {
+                                                                        ColorstoneData?.length > 0 &&
+                                                                        ColorstoneData?.map((item) => (
+                                                                            <div key={item.qualityName}> {item.qualityName} </div>
+                                                                        ))
+                                                                    }
+                                                                    {miscSummary?.totalWt > 0 &&(
+                                                                        <div>{miscSummary?.materialName}  </div>
+                                                                    )}
+                                                                </div>
+                                                                <div className="td col-pcs" style={{flexDirection:"column"}} >
+                                                                {totalDiamonds?.totalWt >0&&(
+                                                                        <div>{totalDiamonds?.totalPcs}  </div>
+                                                                
+                                                                    )}
+                                                                      {
+                                                                        ColorstoneData?.length> 0 &&
+                                                                        ColorstoneData?.map((item) => (
+                                                                            <div key={item.totalPcs}> {item.totalPcs} </div>
+                                                                        ))
+                                                                    }
+                                                                    {miscSummary?.totalWt > 0 &&(
+                                                                        <div>{miscSummary?.totalPcs}  </div>
+                                                                    )}
+                                                                </div>
+                                                                <div className="td col-wt" style={{flexDirection:"column"}}>
+                                                                    {totalDiamonds?.totalWt >0&&(
+                                                                        <div>{totalDiamonds?.totalWt?.toFixed(2)}  </div>
+                                                                
+                                                                    )}
+                                                                      {
+                                                                        ColorstoneData?.length>0 &&
+                                                                        ColorstoneData?.map((item) => (
+                                                                            <div key={item.totalWt}> {item.totalWt?.toFixed(2)} </div>
+                                                                        ))
+                                                                    }
+                                                                    {miscSummary?.totalWt > 0 &&(
+                                                                        <div>{miscSummary?.totalWt?.toFixed(2)}  </div>
+                                                                    )}
+                                                                </div>
+                                                            </>
+                                                        )}
+                                                        {activeType === "B2B" && (
+                                                            <>
+                                                                <div className="td col-amt" style={{flexDirection:"column"}}>
+                                                                {totalDiamonds?.totalWt >0&&(
+                                                                        <div>{totalDiamonds?.totalAmt?.toFixed(2)}  </div>
+                                                                
+                                                                    )}
+                                                                     {
+                                                                        ColorstoneData?.length>0 &&
+                                                                        ColorstoneData?.map((item) => (
+                                                                            <div key={item.totalAmt}> {item.totalAmt?.toFixed(2)} </div>
+                                                                        ))
+                                                                    }
+                                                                    {miscSummary?.totalWt > 0 &&(
+                                                                        <div>{miscSummary?.totalAmt?.toFixed(2)}  </div>
+                                                                    )}
+                                                                </div>
+                                                                <div className="td col-amt">
+                                                                    {formatAmount(
+                                                                                                            row?.MakingAmount /
+                                                                                                              result?.header?.CurrencyExchRate,
+                                                                                                            0
+                                                                                                          )}
+                                                                </div>
+                                                            </>
+                                                        )}
+                                                        <div className="td col-amt">{NumberWithCommas(row?.UnitCost, 2)}</div>
                                                     </div>
-                                                   
-                                                    <div className="td col-metal">
-                                                        {row?.MetalType || ""} {row?.MetalPurity || ""} {row?.MetalColor || "-"}
-                                                    </div>
-                                                    <div className="td col-wt">{row?.grosswt?.toFixed(2) || "-"}</div>
+                                                )
 
-                                                    {(activeType === "B2B" || activeType === "B2C") && (
-                                                        <div className="td col-wt">{row?.NetWt?.toFixed(2) || "-"}</div>
-                                                    )}
-                                                    {activeType === "B2B" && (
-                                                        <div className="td col-amt">{row?.MetalAmount?.toFixed(2) || "-"}</div>
-                                                    )}
 
-                                                    {(activeType === "B2B" || activeType === "B2C") && (
-                                                        <>
-                                                            <div className="td col-stone">{row?.StoneType || "-"}</div>
-                                                            <div className="td col-pcs">{row?.StonePcs || "-"}</div>
-                                                            <div className="td col-wt">{row?.StoneWt || "-"}</div>
-                                                        </>
-                                                    )}
-                                                    {activeType === "B2B" && (
-                                                        <>
-                                                            <div className="td col-amt">{row?.StoneAmount || "-"}</div>
-                                                            <div className="td col-amt">{row?.LabAmount || "-"}</div>
-                                                        </>
-                                                    )}
-                                                    <div className="td col-amt">{NumberWithCommas(row?.UnitCost, 2)}</div>
-                                                </div>
-                                            ))}
+                                            })}
 
                                             {/* Dynamic Total Row Calculation Section */}
 
-                                            <div  className="table-row">
-                                                    <div className="td col-sr " style={{borderRight:"none"}}> </div>
-                                                    {imgFlag && (
-                                                        <div className="td col-img" style={{borderRight:"none"}}>
-                                                            <div className="center_dp3">
-                                                              
-                                                            </div>
+                                            <div className="table-row" style={{fontWeight:"bold"}}>
+                                                <div className="td col-sr " style={{ borderRight: "none" }}> </div>
+                                                {imgFlag && (
+                                                    <div className="td col-img" style={{ borderRight: "none" }}>
+                                                        <div className="center_dp3">
+
                                                         </div>
-                                                    )}
-
-                                                    <div className="td col-sku sku-text" style={{borderRight:"none"}}>
-                                                       
                                                     </div>
-                                                   
-                                                    <div className="td col-metal"  >
-                                                       Total
-                                                    </div>
-                                                    <div className="td col-wt"></div>
+                                                )}
 
-                                                    {(activeType === "B2B" || activeType === "B2C") && (
-                                                        <div className="td col-wt"></div>
-                                                    )}
-                                                    {activeType === "B2B" && (
-                                                        <div className="td col-amt"></div>
-                                                    )}
+                                                <div className="td col-sku sku-text" style={{ borderRight: "none" }}>
 
-                                                    {(activeType === "B2B" || activeType === "B2C") && (
-                                                        <>
-                                                            <div className="td col-stone"></div>
-                                                            <div className="td col-pcs"></div>
-                                                            <div className="td col-wt"></div>
-                                                        </>
-                                                    )}
-                                                    {activeType === "B2B" && (
-                                                        <>
-                                                            <div className="td col-amt"></div>
-                                                            <div className="td col-amt"></div>
-                                                        </>
-                                                    )}
-                                                    <div className="td col-amt"></div>
                                                 </div>
- 
+
+                                                <div className="td col-metal"  >
+                                                    Total
+                                                </div>
+                                                <div className="td col-wt">{result?.mainTotal?.grosswt?.toFixed(2)}</div>
+
+                                                {(activeType === "B2B" || activeType === "B2C") && (
+                                                    <div className="td col-wt">{result?.mainTotal?.metal?.Wt?.toFixed(2)} </div>
+                                                )}
+                                                {activeType === "B2B" && (
+                                                    <div className="td col-amt"> {formatAmount(
+                                                                                                            result?.mainTotal?.metal?.Amount /
+                                                                                                              result?.header?.CurrencyExchRate,
+                                                                                                            2
+                                                                                                          )}</div>
+                                                )}
+
+                                                {(activeType === "B2B" || activeType === "B2C") && (
+                                                    <>
+                                                        <div className="td col-stone"></div>
+                                                        <div className="td col-pcs">{(result?.mainTotal?.diamonds?.Pcs+result?.mainTotal?.stone_misc?.Pcs)}</div>
+                                                        <div className="td col-wt">{(result?.mainTotal?.diamonds?.Wt+result?.mainTotal?.stone_misc?.Wt)?.toFixed(2)}</div>
+                                                    </>
+                                                )}
+                                                {activeType === "B2B" && (
+                                                    <>
+                                                        <div className="td col-amt"> {(result?.mainTotal?.diamonds?.Amount+result?.mainTotal?.stone_misc?.Amount)?.toFixed(2)}</div>
+                                                        <div className="td col-amt"> {result?.mainTotal?.total_Making_Amount?.toFixed(2)}</div>
+                                                    </>
+                                                )}
+                                                <div className="td col-amt">
+                                                    {formatAmount(
+                                                                                                            result?.mainTotal?.total_unitcost/
+                                                                                                              result?.header?.CurrencyExchRate,
+                                                                                                            2
+                                                                                                          )}
+                                                </div>
+                                            </div>
+
 
                                         </div>
                                     </div>
@@ -530,7 +666,7 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                 >
                                     <div className="d-flex justify-content-between " style={{ width: "100%" }} >
 
-                                        <div style={{ width: "86%", display: "flex" }}>
+                                        <div style={{ width: "80%", display: "flex" }}>
                                             {summary && (
                                                 <div
                                                     className=" border-secondary"
@@ -539,7 +675,7 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                                     <div className="summary_dp3_head border-secondary border border-top fw-bold ">
                                                         SUMMARY
                                                     </div>
-                                                    <div className="d-flex w-100 ">
+                                                    <div className="d-flex w-100 " >
                                                         <div className="w-50">
                                                             <div className="d-flex justify-content-between">
                                                                 <div className="border-secondary border-start pad_s_dp3 fw-bold ps-2">
@@ -712,56 +848,56 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
 
                                             <div
                                                 className="border-secondary"
-                                                style={{ width: "24%", borderTop: "1px solid" }}
+                                                style={{ width: "60%", borderTop: "1px solid" }}
                                             >
-                                                {result?.header?.PrintRemark !== "" && (
+                                                 
                                                     <div style={{ borderLeft: summary ? "none" : "1px solid", }} className="summary_dp3_head border-secondary border  border-top-0 fw-bold">
                                                         Remark
                                                     </div>
-                                                )}
+                                                
                                                 {
-                                                    result?.header?.PrintRemark !== "" && (
+                                                     
                                                         <div
-                                                            style={{ borderLeft: "1px solid", }}
+                                                            style={{ borderLeft: "1px solid",minHeight:"126px" }}
                                                             className="border-secondary border-bottom border-end pad_s_dp3 ps-2 text-break"
                                                             dangerouslySetInnerHTML={{
                                                                 __html: result?.header?.PrintRemark,
                                                             }}
                                                         ></div>
-                                                    )
+                                                    
                                                 }
 
                                             </div>
                                         </div>
-                                        <div style={{ width: "14%" }}>
+                                        <div style={{fontWeight:"bold", width: activeType === "B2B" ?"17%": activeType === "B2C" ?"21.5%":"39%",border:"1px solid #000" ,padding:"5px"}}>
                                             {result?.mainTotal?.DiscountAmt !== 0 && (
                                                 <div className="w-100 d-flex align-items-center tb_fs_pcls">
                                                     <div
-                                                        style={{ width: "50%" }}
+                                                        style={{ width: "50%",textAlign:"center" }}
                                                         className="end_pcls pdr_pcls"
                                                     >
                                                         Total Discount
                                                     </div>
                                                     <div
-                                                        style={{ width: "50%" }}
+                                                        style={{ width: "50%" ,textAlign:"center" }}
                                                         className="end_pcls pdr_pcls"
                                                     >
                                                         {formatAmount(
-                                                            result?.mainTotal?.DiscountAmt /
-                                                            result?.header?.CurrencyExchRate
-                                                        )}
+                                                                                          result?.mainTotal?.total_discount_amount /
+                                                                                            result?.header?.CurrencyExchRate
+                                                                                        )}
                                                     </div>
                                                 </div>
                                             )}
                                             <div className="w-100 d-flex align-items-center tb_fs_pcls">
-                                                <div style={{ width: "50%" }} className="end_pcls pdr_pcls">
+                                                <div style={{ width: "50%" ,textAlign:"center" }} className="end_pcls pdr_pcls">
                                                     Total Amount
                                                 </div>
-                                                <div style={{ width: "50%" }} className="end_pcls pdr_pcls">
-                                                    {formatAmount(
-                                                        result?.mainTotal?.TotalAmount /
-                                                        result?.header?.CurrencyExchRate
-                                                    )}
+                                                <div style={{ width: "50%",textAlign:"center"  }} className="end_pcls pdr_pcls">
+                                                     {formatAmount(
+                                                                                    result?.mainTotal?.total_amount /
+                                                                                      result?.header?.CurrencyExchRate
+                                                                                  )}
                                                 </div>
                                             </div>
                                             {result?.allTaxes?.map((e, i) => {
@@ -771,13 +907,13 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                                         key={i}
                                                     >
                                                         <div
-                                                            style={{ width: "50%" }}
+                                                            style={{ width: "50%",textAlign:"center"  }}
                                                             className="end_pcls pdr_pcls"
                                                         >
                                                             {e?.name} @ {e?.per}
                                                         </div>
                                                         <div
-                                                            style={{ width: "50%" }}
+                                                            style={{ width: "50%",textAlign:"center"  }}
                                                             className="end_pcls pdr_pcls"
                                                         >
                                                             {formatAmount(e?.amount)}
@@ -786,10 +922,10 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                                 );
                                             })}
                                             <div className="w-100 d-flex align-items-center tb_fs_pcls">
-                                                <div style={{ width: "50%" }} className="end_pcls pdr_pcls">
+                                                <div style={{ width: "50%",textAlign:"center"  }} className="end_pcls pdr_pcls">
                                                     {result?.header?.AddLess > 0 ? "Add" : result?.header?.AddLess < 0 ? "Less" : ""}
                                                 </div>
-                                                <div style={{ width: "50%" }} className="end_pcls pdr_pcls">
+                                                <div style={{ width: "50%" ,textAlign:"center" }} className="end_pcls pdr_pcls">
                                                     {result?.header?.AddLess !== 0 &&
                                                         formatAmount(result?.header?.AddLess / result?.header?.CurrencyExchRate
                                                         )}
@@ -798,13 +934,13 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                             {result?.header?.FreightCharges !== 0 && (
                                                 <div className="w-100 d-flex align-items-center tb_fs_pcls">
                                                     <div
-                                                        style={{ width: "50%" }}
+                                                        style={{ width: "50%",textAlign:"center" }}
                                                         className="end_pcls pdr_pcls"
                                                     >
                                                         {result?.header?.ModeOfDel}
                                                     </div>
                                                     <div
-                                                        style={{ width: "50%" }}
+                                                        style={{ width: "50%",textAlign:"center"  }}
                                                         className="end_pcls pdr_pcls"
                                                     >
                                                         {result?.header?.FreightCharges !== 0 &&
@@ -814,17 +950,19 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                                 </div>
                                             )}
                                             <div className="w-100 d-flex align-items-center tb_fs_pcls fw-bold">
-                                                <div style={{ width: "50%" }} className="end_pcls pdr_pcls">
+                                                <div style={{ width: "50%",textAlign:"center"  }} className="end_pcls pdr_pcls">
                                                     Final Amount
                                                 </div>
-                                                <div style={{ width: "50%" }} className="end_pcls pdr_pcls">
-                                                    {formatAmount(
-                                                        (result?.mainTotal?.TotalAmount +
-                                                            result?.header?.AddLess +
-                                                            result?.header?.FreightCharges) /
-                                                        result?.header?.CurrencyExchRate +
-                                                        result?.allTaxesTotal
-                                                    )}
+                                                <div style={{ width: "50%" ,textAlign:"center" }} className="end_pcls pdr_pcls">
+                                                     {formatAmount(
+                                                                                 result?.mainTotal?.total_amount /
+                                                                                   result?.header?.CurrencyExchRate +
+                                                                                   result?.allTaxesTotal +
+                                                                                   result?.header?.FreightCharges /
+                                                                                     result?.header?.CurrencyExchRate +
+                                                                                   result?.header?.AddLess /
+                                                                                     result?.header?.CurrencyExchRate
+                                                                               ,2)}
                                                 </div>
                                             </div>
                                         </div>

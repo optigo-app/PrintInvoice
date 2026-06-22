@@ -621,6 +621,9 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                             <div style={{ padding: "5px " }}>
                                                 TO:
                                                 <div style={{ display: "flex", gap: "10px" }}>
+                                                    <b>Company:</b>   <span> {result?.header?.customerfirmname}</span>
+                                                </div>
+                                                <div style={{ display: "flex", gap: "10px" }}>
                                                     <b>Name:</b>   <span> {result?.header?.CustName}</span>
                                                 </div>
 

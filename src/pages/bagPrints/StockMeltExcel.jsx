@@ -108,7 +108,7 @@ function StockMeltExcel() {
                         <th rowSpan="1" style={{ width: '6%', padding: '8px' }}>Design#</th>
                         <th rowSpan="1" style={{ width: '7%', padding: '8px' }}>Category</th>
                         <th rowSpan="1" style={{ width: '6%', padding: '8px' }}>Customer</th>
-                        <th rowSpan="1" style={{ width: '7%', padding: '8px' }}>Metal </th>
+                        <th rowSpan="1" style={{ width: '7%', padding: '8px' }}>Material </th>
                         <th rowSpan="1" style={{ width: '5%', padding: '8px' }}>Type</th>
                         <th rowSpan="1" style={{ width: '5%', padding: '8px' }}>Shape</th>
                         <th rowSpan="1" style={{ width: '7%', padding: '8px' }}>Quality</th>

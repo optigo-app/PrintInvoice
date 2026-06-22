@@ -493,8 +493,8 @@ return (
                       <div className="Sucol2_inv2lab spbrRht spbrWord">
                         {/* e?.ItemName?.toLowerCase() === "diamond" ? "CUT AND POLISHED DIAMOND" 01/11/2025_3:10 */}
                         {
-                          e?.ItemName?.toLowerCase() === "diamond" ? "DIAMOND"
-                            : e?.ItemName?.toLowerCase() === "color stone" ? "STONE"
+                          e?.ItemName?.toLowerCase() === "diamond" ? "DIAMOND" + (e?.IsSolGem ? ':S ' : '' )
+                            : e?.ItemName?.toLowerCase() === "color stone" ? "STONE" + (e?.IsSolGem ? ':G ' : '' )
                               : e?.ItemName?.toLowerCase() === "metal" && e?.shape?.toLowerCase() === "gold"
                                 ? e?.Tunch
                                   ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}`
@@ -560,8 +560,8 @@ return (
                       <div className="Sucol2_inv2 spbrRht spbrWord">
                         {/* e?.ItemName?.toLowerCase() === "diamond" ? "CUT AND POLISHED DIAMOND" 01/11/2025_3:10 */}
                         {
-                          e?.ItemName?.toLowerCase() === "diamond" ? "DIAMOND"
-                            : e?.ItemName?.toLowerCase() === "color stone" ? "STONE"
+                          e?.ItemName?.toLowerCase() === "diamond" ? "DIAMOND" + (e?.IsSolGem ? ':S ' : '' )
+                            : e?.ItemName?.toLowerCase() === "color stone" ? "STONE" + (e?.IsSolGem ? ':G ' : '' )
                               : e?.ItemName?.toLowerCase() === "metal" && e?.shape?.toLowerCase() === "gold"
                                 ? e?.Tunch
                                   ? `GOLD / Tunch: ${fixedValues(e?.Tunch, 3)}`

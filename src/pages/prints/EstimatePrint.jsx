@@ -20,6 +20,7 @@ import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseA
 
 const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [image, setImage] = useState(true);
+  const [gold995, setGold995] = useState(false);
   const [json1Data, setJson1Data] = useState({});
   const [json2Data, setJson2Data] = useState([]);
   const [imageLoading, setImageLoading] = useState(true);
@@ -139,8 +140,11 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       image ? setImage(false) : setImage(true);
     } else if (name === "brokrage") {
       brokrage ? setBrokrage(false) : setBrokrage(true);
+    } else if (name === "gold995") {
+      gold995 ? setGold995(false) : setGold995(true);
     }
   };
+ 
 
   const caiculateMaterial = (data) => {
     let diamondDetailsss = [];
@@ -1108,6 +1112,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   };
   
   console.log('ressssss', json1Data);
+  console.log('json2Data', json2Data);
   
   return (
     <>
@@ -1141,6 +1146,19 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               />
               <label className="form-check-label h6 mb-0 pt-1 user-select-none" htmlFor="withbrokrage">
                 With Brokrage
+              </label>
+            </div>
+            <div className="form-check pe-3 mb-0">
+              <input
+                className="form-check-input border-dark"
+                type="checkbox"
+                checked={gold995}
+                onChange={(e) => handleChange(e)}
+                name="gold995"
+                id="withgold995"
+              />
+              <label className="form-check-label h6 mb-0 pt-1 user-select-none" htmlFor="withgold995">
+                Gold 995
               </label>
             </div>
             <div className="form-check ps-3">
@@ -1287,6 +1305,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             <div>
               {json2Data.length > 0 &&
                 json2Data?.map((e, i) => {
+ 
                   return (
                     <div
                       className={`d-flex border-bottom recordEstimatePrint overflow-hidden word_break_estimatePrint`}
@@ -1346,7 +1365,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           </p>}
                           <p className="text-center">
                             <span className="fw-bold">
-                              {fixedValues(e?.grosswt, 3)} gm
+                              {fixedValues( e?.GroupJob !== "" ?e?.WtSpecial:e?.grosswt, 3)} gm
                             </span>{" "}
                             Gross{" "}
                           </p>
@@ -1449,9 +1468,13 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   </div>
                                   <div className="width_40_estimatePrint p_1Estimate">
                                     <p className="text-end ">
-                                      {ind === 0
+                                      {  ind === 0
                                         ? fixedValues(e?.WtSpecial, 3)
-                                        : fixedValues(ele?.Weight, 3)}
+                                        : ""}
+
+                                      {/* {  ind === 0
+                                        ? fixedValues(e?.WtSpecial, 3)
+                                        : fixedValues(ele?.Weight, 3)}  */}
                                     </p>
                                   </div>
                                   <div className="width_40_estimatePrint p_1Estimate">
@@ -1966,7 +1989,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> 
             <div className="d-flex recordEstimatePrint overflow-hidden  border-start border-end border_color_estimates">
               {/* summary */}
               <div className="min_height_100EstimatePrint border-end border-bottom position-relative col-4 border_color_estimates">
@@ -1980,6 +2003,14 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <p className="fw-bold">GOLD IN 24KT</p>
                         <p>{fixedValues((total?.gold24Kt - notGoldMetalWtTotal), 3)} gm</p>
                       </div>
+
+                      {gold995 &&(
+                        <div className="d-flex justify-content-between px-1">
+                        <p className="fw-bold">GOLD IN 995</p>
+                        <p>{fixedValues((total?.gold24Kt - notGoldMetalWtTotal)/0.995, 3)} gm</p>
+                      </div>
+                      )}
+                      
                       {
                         MetShpWise?.map((e, i) => {
                           return <div className="d-flex justify-content-between px-1" key={i}>

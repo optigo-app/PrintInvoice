@@ -326,8 +326,31 @@ function MemoMaterialIssue({
 
                         <div style={{ width: "70%" }} className="">
                             <div style={{ margin: "5px", marginTop: "0px" }}>
-                                <div className="companyTitle" style={{ paddingTop: "0px" }}>
-                                    <div style={{ fontSize: "14px", fontWeight: "bold" }}>  <b>To ,</b> {json0Data?.IsPrint_ShortCustomerDetails === 0 ? json0Data?.customerfirmname : json0Data?.Customercode}</div>
+                                <div className="companyTitle" style={{ paddingTop: "0px", display: "flex" }}>
+                                    <div style={{ fontSize: "14px", fontWeight: "bold", width: "30px" }}>  <b>To ,</b> </div>
+                                    <div style={{ fontSize: "13px", lineHeight: "1.1" }}>
+                                        <div> {json0Data?.IsPrint_ShortCustomerDetails === 0 ? json0Data?.customerfirmname : json0Data?.Customercode}</div>
+                                        <div>{json0Data?.customerregion}</div>
+                                        <div>{json0Data?.customeremail}</div>
+                                        <div>{json0Data?.customermobileno}</div>
+                                        <div>
+                                            {json0Data?.Cust_VAT_GST_No && (
+                                                <>GSTIN-{json0Data.Cust_VAT_GST_No}</>
+                                            )}
+
+                                            {json0Data?.Cust_VAT_GST_No &&
+                                                (json0Data?.Cust_CST_STATE || json0Data?.Cust_CST_STATE_No) &&
+                                                " | "}
+
+                                            {(json0Data?.Cust_CST_STATE || json0Data?.Cust_CST_STATE_No) && (
+                                                <>
+                                                    {json0Data?.Cust_CST_STATE}
+                                                    {json0Data?.Cust_CST_STATE && json0Data?.Cust_CST_STATE_No && "-"}
+                                                    {json0Data?.Cust_CST_STATE_No}
+                                                </>
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -372,7 +395,7 @@ function MemoMaterialIssue({
 
                             {(e.ItemId === 1 || e.ItemId === 5) ? (
 
-                                <div style={{display: "flex",backgroundColor: "#DFDFDF",fontWeight: "bold",borderBottom: "1px solid #C2C2C2",fontSize: "13px"     }} >
+                                <div style={{ display: "flex", backgroundColor: "#DFDFDF", fontWeight: "bold", borderBottom: "1px solid #C2C2C2", fontSize: "13px" }} >
 
                                     <div style={{ width: "15%", padding: "5px", borderRight: "1px solid #C2C2C2" }}>  {e.ItemId === 5 ? "Shape" : "Item"}</div>
                                     <div style={{ width: "15%", padding: "5px", borderRight: "1px solid #C2C2C2" }}>{e.ItemId === 5 ? "Quality" : "Type"}</div>
@@ -385,7 +408,8 @@ function MemoMaterialIssue({
                                 </div>
                             ) : (
                                 <div
-                                    style={{ display: "flex", backgroundColor: "#DFDFDF", fontWeight: "bold", borderBottom: "1px solid #C2C2C2", fontSize: "13px"
+                                    style={{
+                                        display: "flex", backgroundColor: "#DFDFDF", fontWeight: "bold", borderBottom: "1px solid #C2C2C2", fontSize: "13px"
                                     }}
                                 >
 

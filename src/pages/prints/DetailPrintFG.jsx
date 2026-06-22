@@ -12,6 +12,8 @@ import {
   handleImageError,
   handlePrint,
   isObjectEmpty,
+  mergeMetals,
+  mergeFindings
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
@@ -162,7 +164,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             a?.QualityName === bll?.QualityName &&
             a?.Colorname === bll?.Colorname &&
             a?.GroupName === bll?.GroupName &&
-            a?.isSolGem === bll?.isSolGem 
+            a?.isSolGem === bll?.isSolGem
         );
         if (findrec === -1) {
           dia2_g.push(bll);
@@ -177,8 +179,8 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         e.SizeName = e?.GroupName;
         dia2_g_.push(e);
       });
-      
-      console.log("TCL: loadData -> ",dia1_g )
+
+      console.log("TCL: loadData -> ", dia1_g)
       dia2 = [...dia1_g, ...dia2_g_];
 
       e.diamonds = dia2;
@@ -281,7 +283,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       const shape = el?.ShapeName || "";
       const color = el?.Colorname || "";
-    
+
       const size = el?.SizeName?.startsWith("C:") ? "Custom" : el?.SizeName || "";
       const key = `${shape} ${color} ${size} `.trim();
 
@@ -307,7 +309,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const totalmount = data?.resultArray?.reduce((acc, curr) => acc + curr?.TotalMountAmount, 0);
 
 
- 
+
 
   return (
     <>
@@ -494,262 +496,320 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             {/* data */}
             <div>
               {Array.isArray(data?.resultArray) && data.resultArray.length > 0 &&
-                data.resultArray.map((item, index) => (
-                  <div key={index} className="d-flex spBrdrBtom recordEstimatePrint overflow-hidden word_break_estimatePrint" style={{ borderLeft: "1px solid black", borderRight: "1px solid black" }}>
+                data.resultArray.map((item, index) => {
+                  const mergedMetals = mergeMetals(item?.metal);
+                  const mergedFindings = mergeFindings(item?.finding);
 
-                    <div className="srNoEstimatePrint spBrdrRigt p_1Estimate ">
-                      <p className="text-center">{index + 1}</p>
-                    </div>
 
-                    {/* Design Info */}
-                    <div className="designEstimatePrint spBrdrRigt   d-flex justify-content-between flex-column">
-                      <div className="d-flex justify-content-between p_1Estimate">
-                        <div>{item?.designno}</div>
-                        <div className="text-end">{item?.SrJobno}</div>
+                  return (
+                    <div key={index} className="d-flex spBrdrBtom recordEstimatePrint overflow-hidden word_break_estimatePrint" style={{ borderLeft: "1px solid black", borderRight: "1px solid black" }}>
+
+                      <div className="srNoEstimatePrint spBrdrRigt p_1Estimate ">
+                        <p className="text-center">{index + 1}</p>
                       </div>
-                      {/* <div
+
+                      {/* Design Info */}
+                      <div className="designEstimatePrint spBrdrRigt   d-flex justify-content-between flex-column">
+                        <div className="d-flex justify-content-between p_1Estimate">
+                          <div>{item?.designno}</div>
+                          <div className="text-end">{item?.SrJobno}</div>
+                        </div>
+                        {/* <div
                           style={{ textAlign: "center", fontWeight: "bold" }}
                         >
                           {item?.Categoryname}
                         </div> */}
-                      <div className="pb-2 p_1Estimate">
-                        {
-                          imgFlag && (
-                            <>
+                        <div className="pb-2 p_1Estimate">
+                          {
+                            imgFlag && (
+                              <>
 
-                              {
-                                <img
-                                  src={item?.DesignImage}
-                                  alt=""
-                                  className="estimate_img mx-auto d-block text-center"
-                                  onError={handleImageError}
-                                />
-                              }
-                            </>
-                          )}
-                      </div>
-                      {item?.Tunch !== 0 &&
-                        <div
-                          style={{ textAlign: "center" }}
-                        >
-                          Tunch: {fixedValues(item?.Tunch, 3)}
+                                {
+                                  <img
+                                    src={item?.DesignImage}
+                                    alt=""
+                                    className="estimate_img mx-auto d-block text-center"
+                                    onError={handleImageError}
+                                  />
+                                }
+                              </>
+                            )}
                         </div>
-                      }
-                      <div className="spBrdrTop ">
-                        <p
-                          className="w-100 spBold"
-                          style={{ padding: "1px 0px 1px 5px", textAlign: "center" }}
-                        >
-                          {fixedValues(item?.grosswt, 3)} gm Gross
-                        </p>
+                        {item?.Tunch !== 0 &&
+                          <div
+                            style={{ textAlign: "center" }}
+                          >
+                            Tunch: {fixedValues(item?.Tunch, 3)}
+                          </div>
+                        }
+                        <div className="spBrdrTop ">
+                          <p
+                            className="w-100 spBold"
+                            style={{ padding: "1px 0px 1px 5px", textAlign: "center" }}
+                          >
+                            {fixedValues(item?.grosswt, 3)} gm Gross
+                          </p>
 
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Diamond */}
-                    <div className="diamondEstimatePrint spBrdrRigt position-relative ">
-                      <div className="pad_bot_29_estimatePrint">
-                        {item?.diamonds.length > 0 &&
-                          item?.diamonds.map((ele, ind) => {
-                            
-                            console.log("TCL: getMergedDiamonds -> ",ele )
-                            return (
-                              <div className="d-flex " key={ind}>
-                                <div className="width20EstimatePrint p_1Estimate">
-                                  <p className="spbrWord">
-                                    {ele?.IsSolGem ==1?"S:":""}
-                                    {ele?.ShapeName} {ele?.QualityName}{" "}
-                                    {ele?.Colorname}
-                                  </p>
+                      {/* Diamond */}
+                      <div className="diamondEstimatePrint spBrdrRigt position-relative ">
+                        <div className="pad_bot_29_estimatePrint">
+                          {item?.diamonds.length > 0 &&
+                            item?.diamonds.map((ele, ind) => {
+
+                              console.log("TCL: getMergedDiamonds -> ", ele)
+                              return (
+                                <div className="d-flex " key={ind}>
+                                  <div className="width20EstimatePrint p_1Estimate">
+                                    <p className="spbrWord">
+                                      {ele?.IsSolGem == 1 ? "S:" : ""}
+                                      {ele?.ShapeName} {ele?.QualityName}{" "}
+                                      {ele?.Colorname}
+                                    </p>
+                                  </div>
+                                  <div className="width20EstimatePrint p_1Estimate">
+                                    <p className="">{ele?.SizeName}</p>
+                                  </div>
+                                  <div className="width20EstimatePrint p_1Estimate" style={{ width: "10%", minWidth: "10%" }}>
+                                    <p className="text-end">
+                                      {NumberWithCommas(ele?.Pcs, 0)}
+                                    </p>
+                                  </div>
+                                  <div className="width20EstimatePrint p_1Estimate">
+                                    <p className="text-end">
+                                      {fixedValues(ele?.Wt, 3)}
+                                    </p>
+                                  </div>
+                                  <div className="width20EstimatePrint p_1Estimate">
+                                    <p className="text-end">
+                                      {ele?.Supplier.slice(0, 4)}
+                                    </p>
+                                  </div>
+                                  <div className="width20EstimatePrint p_1Estimate">
+                                    <p className="text-end">
+                                      {NumberWithCommas(ele?.Rate, 2)}
+                                    </p>
+                                  </div>
+                                  <div className="width20EstimatePrint p_1Estimate" style={{ width: "16.67%", minWidth: "16.67%" }}>
+                                    <p className="spBold text-end">
+                                      {NumberWithCommas(ele?.Amount, 2)}
+                                    </p>
+                                  </div>
                                 </div>
-                                <div className="width20EstimatePrint p_1Estimate">
-                                  <p className="">{ele?.SizeName}</p>
+                              );
+                            })}
+                        </div>
+                        <div
+                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 spBrdrTop  
+                            spBrdrTop height_28_5_estimatePrint `}
+                        >
+                          <div className="width20EstimatePrint p_1Estimate">
+                            <p className="spBold"></p>
+                          </div>
+                          <div className="width20EstimatePrint p_1Estimate">
+                            <p className="spBold"></p>
+                          </div>
+                          <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "10%", minWidth: "10%" }}>
+                            <p className="text-end spBold">
+                              {item?.totals?.diamonds?.Pcs !== 0 && (
+                                <>{NumberWithCommas(item?.totals?.diamonds?.Pcs, 0)}</>
+                              )}
+                            </p>
+                          </div>
+                          <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
+                            <p className="text-end spBold">
+                              {
+                                <>{fixedValues(item?.totals?.diamonds?.Wt, 3)}</>
+                              }
+                            </p>
+                          </div>
+                          <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
+                            <p className="text-end spBold"></p>
+                          </div>
+                          <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
+                            <p className="text-end spBold"></p>
+                          </div>
+                          <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "16.67%", minWidth: "16.67%" }}>
+                            <p className="text-end spBold">
+                              {NumberWithCommas(1, 2)}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Metal */}
+                      <div className="metalEstimatePrint spBrdrRigt position-relative ">
+                        <div className="pad_bot_29_estimatePrint">
+
+                          {mergedMetals?.length > 0 &&
+                            mergedMetals?.map((ele, ind) => (
+                              <div className="d-flex" key={ind}>
+
+                                <div className="width_40_estimatePrint spbrWord p_1Estimate">
+
+                                  {<p>{ele?.ShapeName} {ele?.QualityName} ({ele?.MetalColorCode.slice(0, 2)})</p>
+                                  }
                                 </div>
-                                <div className="width20EstimatePrint p_1Estimate" style={{ width: "10%", minWidth: "10%" }}>
+                                <div className="width_40_estimatePrint p_1Estimate">
                                   <p className="text-end">
-                                    {NumberWithCommas(ele?.Pcs, 0)}
+                                    <p className="text-end">
+                                      {/* {fixedValues( (item?.DiamondCTWwithLoss/5)+Number(item?.NetWt) ,2)} */}
+                                      {/* {formatAmount(((item?.DiamondCTWwithLoss / 5) + Number(ele?.RMwt)).toFixed(3) + (item?.totals?.finding?.Wt || 0),2)} */}
+                                      {/* {formatAmount(Math.round(fixedValues(Number((item?.DiamondCTWwithLoss / 5) + Number(ele?.Wt)), 3) * 100) / 100, 2)}
+                                     */}
+                                      {/* {formatAmount(Math.round(fixedValues((item?.DiamondCTWwithLoss / 5) + Number(ele?.Wt) + (item?.LossWt || 0) - (item?.MountWeight), 3) * 100) / 100, 2)} */}
+
+                                      {
+                                        ele?.IsPrimaryMetal == 1
+                                          ? (
+                                            ind === 0
+                                              ? NumberWithCommas(
+                                                item?.NetWt + (item?.totals?.diamonds?.Wt / 5),
+                                                3
+                                              )
+                                              : NumberWithCommas(ele?.Wt, 3)
+                                          )
+                                          : ""
+                                      }
+                                    </p>
                                   </p>
                                 </div>
-                                <div className="width20EstimatePrint p_1Estimate">
+                                <div className="width_40_estimatePrint p_1Estimate">
                                   <p className="text-end">
-                                    {fixedValues(ele?.Wt, 3)}
+                                    {/* {fixedValues(item?.totals?.metal?.Wt, 2)} */}
+                                    {/* {fixedValues(Number(item?.NetWt), 2)} */}
+                                    {/* { Math.round( fixedValues(Number(ele?.Wt) + (item?.totals?.finding?.Wt || 0), 3)*100)/100} */}
+                                    {formatAmount(Math.round(fixedValues(Number(ele?.Wt) + (item?.LossWt || 0) - (item?.MountWeight), 3) * 100) / 100, 2)}
+                                     {/* {NumberWithCommas(ele?.Wt - item?.totals?.finding?.Wt, 3)} */}
                                   </p>
                                 </div>
-                                <div className="width20EstimatePrint p_1Estimate">
+                                <div className="width_40_estimatePrint p_1Estimate" style={{ width: "14%", minWidth: "14%" }}>
                                   <p className="text-end">
                                     {ele?.Supplier.slice(0, 4)}
                                   </p>
                                 </div>
-                                <div className="width20EstimatePrint p_1Estimate">
-                                  <p className="text-end">
-                                    {NumberWithCommas(ele?.Rate, 2)}
-                                  </p>
+                                <div className="width_40_estimatePrint p_1Estimate">
+                                  <p className="text-end">{NumberWithCommas(ele?.Rate, 2)}</p>
                                 </div>
-                                <div className="width20EstimatePrint p_1Estimate" style={{ width: "16.67%", minWidth: "16.67%" }}>
-                                  <p className="spBold text-end">
-                                    {NumberWithCommas(ele?.Amount, 2)}
-                                  </p>
+                                <div className="width_40_estimatePrint p_1Estimate" style={{ width: "19.32%", minWidth: "19.32%" }}>
+                                  <p className="text-end spBold">{NumberWithCommas(ele?.Amount, 2)}</p>
                                 </div>
                               </div>
-                            );
-                          })}
-                      </div>
-                      <div
-                        className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 spBrdrTop  
-                            spBrdrTop height_28_5_estimatePrint `}
-                      >
-                        <div className="width20EstimatePrint p_1Estimate">
-                          <p className="spBold"></p>
-                        </div>
-                        <div className="width20EstimatePrint p_1Estimate">
-                          <p className="spBold"></p>
-                        </div>
-                        <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "10%", minWidth: "10%" }}>
-                          <p className="text-end spBold">
-                            {item?.totals?.diamonds?.Pcs !== 0 && (
-                              <>{NumberWithCommas(item?.totals?.diamonds?.Pcs, 0)}</>
-                            )}
-                          </p>
-                        </div>
-                        <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
-                          <p className="text-end spBold">
-                            {
-                              <>{fixedValues(item?.totals?.diamonds?.Wt, 3)}</>
-                            }
-                          </p>
-                        </div>
-                        <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
-                          <p className="text-end spBold"></p>
-                        </div>
-                        <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
-                          <p className="text-end spBold"></p>
-                        </div>
-                        <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "16.67%", minWidth: "16.67%" }}>
-                          <p className="text-end spBold">
-                            {NumberWithCommas(1, 2)}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+                            ))}
 
-                    {/* Metal */}
-                    <div className="metalEstimatePrint spBrdrRigt position-relative ">
-                      <div className="pad_bot_29_estimatePrint">
+                            
+                          {mergedFindings?.length > 0 &&
+                            mergedFindings?.map((ele, ind) => (
+                              <div className="d-flex" key={ind}>
 
-                        {item?.metal?.length > 0 &&
-                          item.metal.filter((ele) => ele?.IsPrimaryMetal === 1).map((ele, ind) => (
-                            <div className="d-flex" key={ind}>
+                                <div className="width_40_estimatePrint spbrWord p_1Estimate">
+
+                                  {<p>{item?.GroupJob !== '' ? "FINDING ACCESSORIES" : ele?.FindingTypename + " " + ele?.QualityName}</p>
+                                  }
+                                </div>
+                                <div className="width_40_estimatePrint p_1Estimate">
+                                  <p className="text-end">
+                                    <p className="text-end">
+                                     
+                                    
+                                    </p>
+                                  </p>
+                                </div>
+                                <div className="width_40_estimatePrint p_1Estimate">
+                                  <p className="text-end">
+                               
+                                  {ele?.Wt?.toFixed(3)}
+                                    
+                                  </p>
+                                </div>
+                                <div className="width_40_estimatePrint p_1Estimate" style={{ width: "14%", minWidth: "14%" }}>
+                                  <p className="text-end">
+                                    {ele?.Supplier.slice(0, 4)}
+                                  </p>
+                                </div>
+                                <div className="width_40_estimatePrint p_1Estimate">
+                                  <p className="text-end">{NumberWithCommas(ele?.Rate, 2)}</p>
+                                </div>
+                                <div className="width_40_estimatePrint p_1Estimate" style={{ width: "19.32%", minWidth: "19.32%" }}>
+                                  <p className="text-end spBold">{NumberWithCommas(ele?.Amount, 2)}</p>
+                                </div>
+                              </div>
+                            ))}
+
+                          {item?.MountWeight > 0 && (
+                            <div className="d-flex">
 
                               <div className="width_40_estimatePrint spbrWord p_1Estimate">
-                                {ele?.IsPrimaryMetal === 1 && (
-                                  <p>{ele?.ShapeName} {ele?.QualityName} ({ele?.MetalColorCode.slice(0, 2)})</p>
-                                )}
+
+                                <p>{item?.MetalType} {item?.MetalPurity} ({item?.MetalColor.slice(0, 2)})</p>
+
                               </div>
                               <div className="width_40_estimatePrint p_1Estimate">
                                 <p className="text-end">
                                   <p className="text-end">
-                                    {/* {fixedValues( (item?.DiamondCTWwithLoss/5)+Number(item?.NetWt) ,2)} */}
-                                    {/* {formatAmount(((item?.DiamondCTWwithLoss / 5) + Number(ele?.RMwt)).toFixed(3) + (item?.totals?.finding?.Wt || 0),2)} */}
-                                    {/* {formatAmount(Math.round(fixedValues(Number((item?.DiamondCTWwithLoss / 5) + Number(ele?.Wt)), 3) * 100) / 100, 2)}
-                                     */}
-                                      {formatAmount(Math.round(fixedValues((item?.DiamondCTWwithLoss / 5)+Number(ele?.Wt) + (item?.LossWt || 0)-(item?.MountWeight), 3) * 100) / 100, 2)}
+
                                   </p>
                                 </p>
                               </div>
                               <div className="width_40_estimatePrint p_1Estimate">
                                 <p className="text-end">
-                                  {/* {fixedValues(item?.totals?.metal?.Wt, 2)} */}
-                                  {/* {fixedValues(Number(item?.NetWt), 2)} */}
-                                  {/* { Math.round( fixedValues(Number(ele?.Wt) + (item?.totals?.finding?.Wt || 0), 3)*100)/100} */}
-                                  {formatAmount(Math.round(fixedValues(Number(ele?.Wt) + (item?.LossWt || 0)-(item?.MountWeight), 3) * 100) / 100, 2)}
+
+                                  {formatAmount(item?.MountWeight, 2)}
                                 </p>
                               </div>
                               <div className="width_40_estimatePrint p_1Estimate" style={{ width: "14%", minWidth: "14%" }}>
                                 <p className="text-end">
-                                  {ele?.Supplier.slice(0, 4)}
+                                  {/* {item?.MountSupplier.slice(0, 4)} */}
+                                  {
+                                    Number(item?.MountWeight?.toString()?.trim()) !== 0
+                                      ? (
+                                        item?.MountSupplier?.toString()?.toLowerCase()?.trim() === "from stock"
+                                          ? "Stock"
+                                          : item?.MountSupplier?.toString()?.trim()?.length > 4
+                                            ? item?.MountSupplier?.toString()?.trim()?.substring(0, 4)
+                                            : item?.MountSupplier?.toString()?.trim()
+                                      )
+                                      : ""
+                                  }
                                 </p>
                               </div>
                               <div className="width_40_estimatePrint p_1Estimate">
-                                <p className="text-end">{NumberWithCommas(ele?.Rate, 2)}</p>
+                                <p className="text-end">{NumberWithCommas(item?.MountRate, 2)}</p>
                               </div>
                               <div className="width_40_estimatePrint p_1Estimate" style={{ width: "19.32%", minWidth: "19.32%" }}>
-                                <p className="text-end spBold">{NumberWithCommas(ele?.Amount, 2)}</p>
+                                <p className="text-end spBold">{NumberWithCommas(item?.TotalMountAmount, 2)}</p>
                               </div>
                             </div>
-                          ))}
+                          )}
 
-                        {item?.MountWeight > 0 && (
-                          <div className="d-flex">
 
-                            <div className="width_40_estimatePrint spbrWord p_1Estimate">
 
-                              <p>{item?.MetalType} {item?.MetalPurity} ({item?.MetalColor.slice(0, 2)})</p>
-
+                          {item?.JobRemark && (
+                            <div className="pt-2 px-1">
+                              <p>Remark:</p>
+                              <p className="spBold">{item.JobRemark}</p>
                             </div>
-                            <div className="width_40_estimatePrint p_1Estimate">
-                              <p className="text-end">
-                                <p className="text-end">
+                          )}
+                        </div>
 
-                                </p>
-                              </p>
-                            </div>
-                            <div className="width_40_estimatePrint p_1Estimate">
-                              <p className="text-end">
-
-                                {formatAmount(item?.MountWeight, 2)}
-                              </p>
-                            </div>
-                            <div className="width_40_estimatePrint p_1Estimate" style={{ width: "14%", minWidth: "14%" }}>
-                              <p className="text-end">
-                                {/* {item?.MountSupplier.slice(0, 4)} */}
-                                {
-                                  Number(item?.MountWeight?.toString()?.trim()) !== 0
-                                    ? (
-                                      item?.MountSupplier?.toString()?.toLowerCase()?.trim() === "from stock"
-                                        ? "Stock"
-                                        : item?.MountSupplier?.toString()?.trim()?.length > 4
-                                          ? item?.MountSupplier?.toString()?.trim()?.substring(0, 4)
-                                          : item?.MountSupplier?.toString()?.trim()
-                                    )
-                                    : ""
-                                }
-                              </p>
-                            </div>
-                            <div className="width_40_estimatePrint p_1Estimate">
-                              <p className="text-end">{NumberWithCommas(item?.MountRate, 2)}</p>
-                            </div>
-                            <div className="width_40_estimatePrint p_1Estimate" style={{ width: "19.32%", minWidth: "19.32%" }}>
-                              <p className="text-end spBold">{NumberWithCommas(item?.TotalMountAmount, 2)}</p>
-                            </div>
-                          </div>
-                        )}
-
-                      
-
-                        {item?.JobRemark && (
-                          <div className="pt-2 px-1">
-                            <p>Remark:</p>
-                            <p className="spBold">{item.JobRemark}</p>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 spBrdrTop ">
-                        <div className="width200EstimatePrint p_1Estimate" style={{ width: "18%", minWidth: "18%" }} />
-                        <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "15.66%", minWidth: "15.66%" }}>
-                          {/* <p className="text-end spBold">{fixedValues((item?.DiamondCTWwithLoss / 5) + Number(item?.NetWt), 2)}</p> */}
-                          {/* <p className="text-end spBold">{fixedValues(((item?.DiamondCTWwithLoss / 5) + Number(item?.totals?.primaryMetalWt)).toFixed(3) + Number(item?.totals?.finding?.Wt || 0),2)}</p> */}
-                          <p className="text-end spBold"> {
-                            fixedValues(
-                              (
-                                (item?.DiamondCTWwithLoss / 5) +
-                                Number(item?.totals?.primaryMetalWt || 0)
-                             -(item?.MountWeight)
-                              ).toFixed(3),
-                              2
-                            )
-                          }</p>
-                          {/* <p className="text-end spBold"> {
+                        <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 spBrdrTop ">
+                          <div className="width200EstimatePrint p_1Estimate" style={{ width: "18%", minWidth: "18%" }} />
+                          <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "15.66%", minWidth: "15.66%" }}>
+                            {/* <p className="text-end spBold">{fixedValues((item?.DiamondCTWwithLoss / 5) + Number(item?.NetWt), 2)}</p> */}
+                            {/* <p className="text-end spBold">{fixedValues(((item?.DiamondCTWwithLoss / 5) + Number(item?.totals?.primaryMetalWt)).toFixed(3) + Number(item?.totals?.finding?.Wt || 0),2)}</p> */}
+                            <p className="text-end spBold"> {
+                              fixedValues(
+                                (
+                                  (item?.DiamondCTWwithLoss / 5) +
+                                  Number(item?.totals?.primaryMetalWt || 0)
+                                  - (item?.MountWeight)
+                                ).toFixed(3),
+                                2
+                              )
+                            }</p>
+                            {/* <p className="text-end spBold"> {
                             fixedValues(
                               (
                                 (item?.DiamondCTWwithLoss / 5) +
@@ -758,52 +818,52 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               2
                             )
                           }</p> */}
-                        </div>
-                        <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "15.66%", minWidth: "15.66%" }}>
-                          {/* <p className="text-end spBold">{fixedValues(item?.NetWt + item?.LossWt, 2)}</p> */}
-                          {/* <p className="text-end spBold">{Math.round(fixedValues(item?.totals?.primaryMetalWt + item?.totals?.finding?.Wt || 0, 2) * 100) / 100}</p> */}
-                          <p className="text-end spBold">{formatAmount(Math.round(fixedValues((Number(item?.totals?.primaryMetalWt || 0) + (item?.LossWt || 0) ), 2) * 100) / 100, 2)}</p>
-                        </div>
-                        <div
-                          className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end"
-                          style={{ minWidth: "50.5%", width: "50.5%" }}
-                        >
-                          <p className="text-end spBold">{NumberWithCommas(item?.totals?.metal?.Amount + item?.totals?.finding?.Amount + item?.TotalMountAmount, 2)}</p>
+                          </div>
+                          <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "15.66%", minWidth: "15.66%" }}>
+                            {/* <p className="text-end spBold">{fixedValues(item?.NetWt + item?.LossWt, 2)}</p> */}
+                            {/* <p className="text-end spBold">{Math.round(fixedValues(item?.totals?.primaryMetalWt + item?.totals?.finding?.Wt || 0, 2) * 100) / 100}</p> */}
+                            <p className="text-end spBold">{formatAmount(Math.round(fixedValues((Number(item?.totals?.primaryMetalWt || 0) + (item?.LossWt || 0)), 2) * 100) / 100, 2)}</p>
+                          </div>
+                          <div
+                            className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end"
+                            style={{ minWidth: "50.5%", width: "50.5%" }}
+                          >
+                            <p className="text-end spBold">{NumberWithCommas(item?.totals?.metal?.Amount + item?.totals?.finding?.Amount + item?.TotalMountAmount, 2)}</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* ColorStone */}
-                    <div className="stoneEstimatePrint spBrdrRigt position-relative ">
-                      <div className="pad_bot_29_estimatePrint">
-                        {item?.colorstone?.length > 0 &&
-                          item.colorstone.map((ele, ind) => (
-                            <div className="d-flex" key={ind}>
-                              <div className="width20EstimatePrint spbrWord p_1Estimate">
-                                <p>{ele?.IsSolGem == 1?"G:":""}{ele?.MaterialTypeName} {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}</p>
+                      {/* ColorStone */}
+                      <div className="stoneEstimatePrint spBrdrRigt position-relative ">
+                        <div className="pad_bot_29_estimatePrint">
+                          {item?.colorstone?.length > 0 &&
+                            item.colorstone.map((ele, ind) => (
+                              <div className="d-flex" key={ind}>
+                                <div className="width20EstimatePrint spbrWord p_1Estimate">
+                                  <p>{ele?.IsSolGem == 1 ? "G:" : ""}{ele?.MaterialTypeName} {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}</p>
+                                </div>
+                                <div className="width20EstimatePrint p_1Estimate">
+                                  <p>{ele?.SizeName}</p>
+                                </div>
+                                <div className="width20EstimatePrint p_1Estimate" style={{ width: "10%", minWidth: "10%" }}>
+                                  <p className="text-end">{ele?.Pcs > 0 && NumberWithCommas(ele?.Pcs, 0)}</p>
+                                </div>
+                                <div className="width20EstimatePrint p_1Estimate">
+                                  <p className="text-end">{ele?.Wt > 0 && fixedValues(ele?.Wt, 2)}</p>
+                                </div>
+                                <div className="width20EstimatePrint p_1Estimate">
+                                  <p className="text-end">{ele?.Supplier.slice(0, 4)}</p>
+                                </div>
+                                <div className="width20EstimatePrint p_1Estimate">
+                                  <p className="text-end">{NumberWithCommas(ele?.Rate, 2)}</p>
+                                </div>
+                                <div className="width20EstimatePrint p_1Estimate" style={{ width: "16.67%", minWidth: "16.67%" }}>
+                                  <p className="spBold text-end">{NumberWithCommas(ele?.Amount, 2)}</p>
+                                </div>
                               </div>
-                              <div className="width20EstimatePrint p_1Estimate">
-                                <p>{ele?.SizeName}</p>
-                              </div>
-                              <div className="width20EstimatePrint p_1Estimate" style={{ width: "10%", minWidth: "10%" }}>
-                                <p className="text-end">{ele?.Pcs > 0 && NumberWithCommas(ele?.Pcs, 0)}</p>
-                              </div>
-                              <div className="width20EstimatePrint p_1Estimate">
-                                <p className="text-end">{ele?.Wt > 0 && fixedValues(ele?.Wt, 2)}</p>
-                              </div>
-                              <div className="width20EstimatePrint p_1Estimate">
-                                <p className="text-end">{ele?.Supplier.slice(0, 4)}</p>
-                              </div>
-                              <div className="width20EstimatePrint p_1Estimate">
-                                <p className="text-end">{NumberWithCommas(ele?.Rate, 2)}</p>
-                              </div>
-                              <div className="width20EstimatePrint p_1Estimate" style={{ width: "16.67%", minWidth: "16.67%" }}>
-                                <p className="spBold text-end">{NumberWithCommas(ele?.Amount, 2)}</p>
-                              </div>
-                            </div>
-                          ))}
+                            ))}
 
-                        {/* {item?.misc?.length > 0 &&
+                          {/* {item?.misc?.length > 0 &&
                           item.misc.map((ele, ind) => (
                             <div className="d-flex" key={ind}>
                               <div className="width20EstimatePrint p_1Estimate">
@@ -829,122 +889,123 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               </div>
                             </div>
                           ))} */}
-                      </div>
+                        </div>
 
-                      <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 spBrdrTop ">
-                        <div className="width20EstimatePrint p_1Estimate" />
-                        <div className="width20EstimatePrint p_1Estimate" />
-                        <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "10%", minWidth: "10%" }}>
-                          <p className="text-end spBold">
-                            {(item?.totals?.colorstone?.length > 0
-                              // || item?.totals?.misc?.length > 0
-                            ) &&
-                              NumberWithCommas(item?.totals?.colorstone?.Pcs
-                                //  + item?.totals?.misc?.Pcs
-                                , 0)}
-                          </p>
-                        </div>
-                        <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
-                          <p className="text-end spBold">
-                            {(item?.totals?.colorstone?.length > 0
-                              // || item?.totals?.misc?.length > 0 
-                            ) &&
-                              fixedValues(item?.totals?.colorstone?.Wt
-                                //  + item?.totals?.misc?.Wt
-                                , 3)}
-                          </p>
-                        </div>
-                        <div className="width20EstimatePrint p_1Estimate" />
-                        <div className="width20EstimatePrint p_1Estimate" />
-                        <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "16.67%", minWidth: "16.67%" }}>
-                          <p className="text-end spBold">
-                            {NumberWithCommas(item?.totals?.colorstone?.Amount
-                              //  + item?.totals?.misc?.Amount
-                              , 2)}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Other Charges */}
-                    <div className="OtherAmountEstimatePrint spBrdrRigt position-relative ">
-                      <div className="h-100 d-grid pad_bot_29_estimatePrint">
-                        <div className="p_1Estimate ">
-                          <div className="w-100 d-flex align-items-center justify-content-end spBold">
-                            {NumberWithCommas(item?.OtherCharges + item?.TotalDiamondHandling, 2)}
+                        <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 spBrdrTop ">
+                          <div className="width20EstimatePrint p_1Estimate" />
+                          <div className="width20EstimatePrint p_1Estimate" />
+                          <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "10%", minWidth: "10%" }}>
+                            <p className="text-end spBold">
+                              {(item?.totals?.colorstone?.length > 0
+                                // || item?.totals?.misc?.length > 0
+                              ) &&
+                                NumberWithCommas(item?.totals?.colorstone?.Pcs
+                                  //  + item?.totals?.misc?.Pcs
+                                  , 0)}
+                            </p>
+                          </div>
+                          <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
+                            <p className="text-end spBold">
+                              {(item?.totals?.colorstone?.length > 0
+                                // || item?.totals?.misc?.length > 0 
+                              ) &&
+                                fixedValues(item?.totals?.colorstone?.Wt
+                                  //  + item?.totals?.misc?.Wt
+                                  , 3)}
+                            </p>
+                          </div>
+                          <div className="width20EstimatePrint p_1Estimate" />
+                          <div className="width20EstimatePrint p_1Estimate" />
+                          <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{ width: "16.67%", minWidth: "16.67%" }}>
+                            <p className="text-end spBold">
+                              {NumberWithCommas(item?.totals?.colorstone?.Amount
+                                //  + item?.totals?.misc?.Amount
+                                , 2)}
+                            </p>
                           </div>
                         </div>
                       </div>
-                      <div
-                        className="totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end spBrdrTop "
-                        style={{ height: "14.5px" }}
-                      >
-                        <div className="text-end p_1Estimate">
-                          <div className="spBold">{NumberWithCommas(item?.OtherCharges + item?.TotalDiamondHandling, 2)}</div>
-                        </div>
-                      </div>
-                    </div>
 
-                    {/* Labour */}
-                    <div className="labourEstimatePrint spBrdrRigt position-relative ">
-                      <div className="h-100 d-grid pad_bot_29_estimatePrint">
-                        <div className="d-flex ">
-
-                          <>
-                            <div className="w-50 p_1Estimate">
-                              <p>{NumberWithCommas(item?.MaKingCharge_Unit, 2) || 0}</p>
-                              {/* <p>Labour</p> */}
-                              {/* {item?.settingAmount !== 0 && <p>Labour</p>} */}
+                      {/* Other Charges */}
+                      <div className="OtherAmountEstimatePrint spBrdrRigt position-relative ">
+                        <div className="h-100 d-grid pad_bot_29_estimatePrint">
+                          <div className="p_1Estimate ">
+                            <div className="w-100 d-flex align-items-center justify-content-end spBold">
+                              {NumberWithCommas(item?.OtherCharges + item?.TotalDiamondHandling, 2)}
                             </div>
-                            <div className="w-50 text-end p_1Estimate ">
-                              <p>{NumberWithCommas(item?.MakingAmount, 2) || 0}</p>
-                              {/* {item?.settingAmount !== 0 && <p>{NumberWithCommas(item?.settingAmount, 2)}</p>} */}
-                            </div>
-                          </>
-
+                          </div>
                         </div>
-                      </div>
-                      <div
-                        className="totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end spBrdrTop "
-                        style={{ height: "14.5px" }}
-                      >
-                        <div className="text-end p_1Estimate spBold">
-                          {NumberWithCommas(item?.totals?.makingAmount_settingAmount, 2)}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Final Total */}
-                    <div className="totalAmountEstimatePrint position-relative">
-                      <div className="h-100 d-grid pad_bot_29_estimatePrint spBold">
-                        <div className=" spBold">
-                          <div className="text-end p_1Estimate pe-1 spBold">
-                            {NumberWithCommas(item?.TotalAmount, 2)}
+                        <div
+                          className="totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end spBrdrTop "
+                          style={{ height: "14.5px" }}
+                        >
+                          <div className="text-end p_1Estimate">
+                            <div className="spBold">{NumberWithCommas(item?.OtherCharges + item?.TotalDiamondHandling, 2)}</div>
                           </div>
                         </div>
                       </div>
-                      <div className="totalBgEstimatePrint spBold position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end pe-1 spBrdrTop ">
-                        <div className="text-end p_1Estimate spBold">
-                          <div className="spBold">
-                            {/* <span
+
+                      {/* Labour */}
+                      <div className="labourEstimatePrint spBrdrRigt position-relative ">
+                        <div className="h-100 d-grid pad_bot_29_estimatePrint">
+                          <div className="d-flex ">
+
+                            <>
+                              <div className="w-50 p_1Estimate">
+                                <p>{NumberWithCommas(item?.MaKingCharge_Unit, 2) || 0}</p>
+                                {/* <p>Labour</p> */}
+                                {/* {item?.settingAmount !== 0 && <p>Labour</p>} */}
+                              </div>
+                              <div className="w-50 text-end p_1Estimate ">
+                                <p>{NumberWithCommas(item?.MakingAmount, 2) || 0}</p>
+                                {/* {item?.settingAmount !== 0 && <p>{NumberWithCommas(item?.settingAmount, 2)}</p>} */}
+                              </div>
+                            </>
+
+                          </div>
+                        </div>
+                        <div
+                          className="totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end spBrdrTop "
+                          style={{ height: "14.5px" }}
+                        >
+                          <div className="text-end p_1Estimate spBold">
+                            {NumberWithCommas(item?.totals?.makingAmount_settingAmount, 2)}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Final Total */}
+                      <div className="totalAmountEstimatePrint position-relative">
+                        <div className="h-100 d-grid pad_bot_29_estimatePrint spBold">
+                          <div className=" spBold">
+                            <div className="text-end p_1Estimate pe-1 spBold">
+                              {NumberWithCommas(item?.TotalAmount, 2)}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="totalBgEstimatePrint spBold position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end pe-1 spBrdrTop ">
+                          <div className="text-end p_1Estimate spBold">
+                            <div className="spBold">
+                              {/* <span
                               dangerouslySetInnerHTML={{
                                 __html: json1Data?.Currencysymbol,
                               }}
                             ></span> */}
-                            {NumberWithCommas(item?.TotalAmount, 2)}
+                              {NumberWithCommas(item?.TotalAmount, 2)}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
 
 
-                    <div className="totalAmountEstimatePrint position-relative">
-                      <div className="text-end p_1Estimate pe-1 spBold">
-                        {NumberWithCommas(item?.TotalAmount, 2)}
+                      <div className="totalAmountEstimatePrint position-relative">
+                        <div className="text-end p_1Estimate pe-1 spBold">
+                          {NumberWithCommas(item?.TotalAmount, 2)}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))
+                  )
+                })
               }
             </div>
 
@@ -1022,7 +1083,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       {/* {data?.weightWithDiamondLoss !== 0 && fixedValues(data.weightWithDiamondLoss, 3)} */}
                       {/* {NumberWithCommas(data?.mainTotal?.grosswt, 2)} */}
                       {/* {fixedValues((data?.mainTotal?.diamonds?.Wt/5)+data?.mainTotal?.netwt,2)} */}
-                      {fixedValues((data?.mainTotal?.diamonds?.Wt / 5) + data?.mainTotal?.metal?.IsPrimaryMetal  - data?.mainTotal?.total_mountWeight, 2)}
+                      {fixedValues((data?.mainTotal?.diamonds?.Wt / 5) + data?.mainTotal?.metal?.IsPrimaryMetal - data?.mainTotal?.total_mountWeight, 2)}
                     </p>
                   </div>
                   <div className="width200EstimatePrint p_1Estimate h-100" style={{ width: "17%", minWidth: "17%" }}>
@@ -1127,7 +1188,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="d-flex justify-content-between px-1">
                         <p className="spBold">G+D WT</p>
                         {/* <p>{fixedValues((data?.mainTotal?.diamonds?.Wt / 5) + data?.mainTotal?.metal?.IsPrimaryMetal + data?.mainTotal?.finding?.Wt, 2)} gm</p> */}
-                        <p>{fixedValues((data?.mainTotal?.diamonds?.Wt / 5) + data?.mainTotal?.metal?.IsPrimaryMetal  - data?.mainTotal?.total_mountWeight, 2)} gm</p>
+                        <p>{fixedValues((data?.mainTotal?.diamonds?.Wt / 5) + data?.mainTotal?.metal?.IsPrimaryMetal - data?.mainTotal?.total_mountWeight, 2)} gm</p>
                       </div>
                       <div className="d-flex justify-content-between px-1">
                         <p className="spBold">NET WT</p>
@@ -1136,8 +1197,8 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="d-flex justify-content-between px-1">
                         <p className="spBold">DIAMOND WT</p>
                         <p>
-                          {NumberWithCommas(data?.mainTotal?.diamonds?.Pcs -data?.mainTotal?.solitaire?.Pcs, 0)} /{" "}
-                          {NumberWithCommas(data?.mainTotal?.diamonds?.Wt -data?.mainTotal?.solitaire?.Wt, 3)} cts
+                          {NumberWithCommas(data?.mainTotal?.diamonds?.Pcs - data?.mainTotal?.solitaire?.Pcs, 0)} /{" "}
+                          {NumberWithCommas(data?.mainTotal?.diamonds?.Wt - data?.mainTotal?.solitaire?.Wt, 3)} cts
                         </p>
                       </div>
                       <div className="d-flex justify-content-between px-1">

@@ -132,16 +132,16 @@ function CustomerReceive({
         <Loader />
       ) : msg === "" ? (
         <div style={{ width: "800px", margin: "0 auto" }}>
-         <div className="prnt_btn">
-         <div style={{marginBottom: "10px",display:"flex",justifyContent:"flex-end"}}  >
-                      <input
-                        type="button"
-                        className="btn_white blue mt-0"
-                        value="Print"
-                        onClick={(e) => handlePrint(e)}
-                      />
-                    </div>
-         </div>
+          <div className="prnt_btn">
+            <div style={{ marginBottom: "10px", display: "flex", justifyContent: "flex-end" }}  >
+              <input
+                type="button"
+                className="btn_white blue mt-0"
+                value="Print"
+                onClick={(e) => handlePrint(e)}
+              />
+            </div>
+          </div>
           <div
             id="settlementdiv"
             style={{
@@ -194,7 +194,7 @@ function CustomerReceive({
                     paddingTop: "5px",
                   }}
                 >
-                  Classmate Corporation Pvt Ltd
+                  {json0Data?.CompanyFullName}
                 </div>
 
                 {/* Address */}
@@ -296,12 +296,12 @@ function CustomerReceive({
                   paddingRight: "10px",
                 }}
               >
-                 <img
-                      src={json0Data.PrintLogo}
-                      alt="#companylogo"
-                      className="cmpnyLogo"
-                      onError={handleImageErrors}
-                    />
+                <img
+                  src={json0Data.PrintLogo}
+                  alt="#companylogo"
+                  className="cmpnyLogo"
+                  onError={handleImageErrors}
+                />
               </div>
             </div>
           </div>
@@ -538,7 +538,9 @@ function CustomerReceive({
             {/* Rows */}
             {finalD.map((item, index) => (
 
+
               <div
+
                 key={index}
                 style={{
                   display: "flex",
@@ -548,7 +550,6 @@ function CustomerReceive({
                 }}
               >
 
-                {console.log("TCL: fdfgg", item)}
                 <div
                   style={{
                     width: "40px",
@@ -570,7 +571,42 @@ function CustomerReceive({
                     wordBreak: "break-word",
                   }}
                 >
-                  {item.ItemName}:s:{item.MaterialTypeName}/{item.LotNo} {item.shape}/{item.purity}/{item.color}/{item.size}
+                  {item.IsSolGem == 0 ?
+                    <span style={{ wordBreak: "break-word" }}>{item.ItemName}:
+                      {[
+                        item.MaterialTypeName,
+                        item.LotNo,
+                        item.shape,
+                        item.purity,
+                        item.color,
+                        item.size
+                      ]
+                        .filter(Boolean)
+                        .join('/')}</span>
+
+                    :
+                    <span style={{ wordBreak: "break-word" }}>{item.ItemName === "DIAMOND" ? "DIAMOND:S " : item.ItemName === "COLOR STONE" ? "COLOR STONE:G " : item.ItemName}:
+                      {[
+                        item.MaterialTypeName,
+                        item.LotNo,
+                        item.shape,
+                        item.purity,
+                        item.color,
+                        item.size,
+                        item.certno,
+                        item.cutname,
+                        item.polishname,
+                        item.symmetryname,
+                        item.fluorescencename,
+                        item.length + " X " + item.width + " X " + item.depth,
+                        item.gridlename,
+                        item.culetname,
+                        item.inscription,
+                        item.labname,
+                      ]
+                        .filter(Boolean)
+                        .join('/')}</span>}
+
                 </div>
 
                 <div

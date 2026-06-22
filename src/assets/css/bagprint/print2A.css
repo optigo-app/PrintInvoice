@@ -16,8 +16,10 @@
     height: 367px;
     border: 1px solid black;
     border-radius: 8px;
-    margin-top: 1.7rem;
-    margin-left: 1.3rem;
+    /* margin-top: 1.7rem;
+    margin-left: 1.3rem; */
+    margin-top: 1rem;
+    margin-left: 1.25rem;
     font-size: 12px;
 }
 
@@ -443,7 +445,7 @@
   .metalbarcode svg{
      height: 26px !important;
   }
-@media print {
+/* @media print {
 
  .mainbag2A{
     margin-top: 0;
@@ -462,4 +464,14 @@
         top: 34px;
       }
 
+} */
+
+@media print {
+    @page:first {
+      padding-top: 0;
+    }
+  
+    @page {
+      padding-top: 25px;
+    }
 }

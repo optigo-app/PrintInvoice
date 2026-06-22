@@ -169,7 +169,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                 index > 0 && (
                   <div
                     key={index}
-                    className="container_17_old mb_2 mt_2 pt_2 container_margin_left"
+                    className="container_17_old mb_2 mt_2 container_margin_left"
                   ></div>
                 )
             )}
@@ -180,7 +180,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                     e?.additional?.chdata?.map((chunk, index) => {
                       return (
                         <div
-                          className="container_17_old mb_2 mt_2 pt_2 container_margin_left"
+                          className="container_17_old mb_2 mt_2  container_margin_left"
                           key={index}
                         >
                           <div className=" border-black border-2">
@@ -462,7 +462,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                       );
                     })
                   ) : (
-                    <div className="container_17_old mb_2 mt_2 pt_2 container_margin_left">
+                    <div className="container_17_old mb_2 mt_2  container_margin_left">
                       <div className=" border-black border-2">
                         <div className="print_sec d_flex">
                           <div className="print_text border_right">
@@ -722,7 +722,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                       </div>
                     </div>
                   )}
-                  <div className="container_17_old mb_2 mt_2 pt_2 container_margin_left">
+                  <div className="container_17_old mb_2 mt_2 container_margin_left">
                     <div className=" border-black border-2     enime_17_old">
                       <div className="d_flex">
                         <div className="side_1_17">

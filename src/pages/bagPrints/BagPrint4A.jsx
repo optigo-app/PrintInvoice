@@ -829,10 +829,22 @@ const BagPrint4A = ({ queries, headers }) => {
                                   {
 
                                     [
+                                      // (e?.data?.stamping || e?.data?.Ustamping) &&
+                                      // ` ${e?.data?.stamping
+                                      //   ? e.data.stamping.slice(0, 12)
+                                      //   : e?.data?.Ustamping?.slice(0, 12)
+                                      // }`,
+
                                       (e?.data?.stamping || e?.data?.Ustamping) &&
                                       ` ${e?.data?.stamping
-                                        ? e.data.stamping.slice(0, 12)
-                                        : e?.data?.Ustamping?.slice(0, 12)
+                                        ? e.data.stamping.slice(
+                                          0,
+                                          e?.data?.IsDiamondWt && e?.data?.IsDiamondPcs ? 12 : 20
+                                        )
+                                        : e?.data?.Ustamping?.slice(
+                                          0,
+                                          e?.data?.IsDiamondWt && e?.data?.IsDiamondPcs ? 12 : 20
+                                        )
                                       }`,
                                       e?.data?.IsDiamondPcs && ` ${"DPcs"}`,
                                       e?.data?.IsDiamondWt && ` ${"DWt"}`,
