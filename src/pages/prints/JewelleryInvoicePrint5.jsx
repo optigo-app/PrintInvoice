@@ -394,7 +394,7 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                     <div className="table-wrapper">
                                         {/* TABLE HEADERS */}
                                         <div className="table-header-row">
-                                            <div className="th col-sr">SR. No</div>
+                                            <div className="th col-sr">Sr. No</div>
                                             {imgFlag && (
                                                 <div className="th col-img">Image</div>
 
@@ -402,25 +402,25 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                             <div className="th col-sku">SKU</div>
 
                                             <div className="th col-metal">Metal</div>
-                                            <div className="th col-wt">Gross Wt</div>
+                                            <div className="th col-wt">Gross Wt.</div>
 
                                             {(activeType === "B2B" || activeType === "B2C") && (
-                                                <div className="th col-wt">Metal Wt</div>
+                                                <div className="th col-wt">Metal Wt.</div>
                                             )}
                                             {activeType === "B2B" && (
-                                                <div className="th col-amt">Metal Amt</div>
+                                                <div className="th col-amt">Metal Amt.</div>
                                             )}
                                             {(activeType === "B2B" || activeType === "B2C") && (
                                                 <>
                                                     <div className="th col-stone">Stone</div>
                                                     <div className="th col-pcs">Pcs</div>
-                                                    <div className="th col-wt">Wt</div>
+                                                    <div className="th col-wt">Wt.</div>
                                                 </>
                                             )}
                                             {activeType === "B2B" && (
                                                 <>
-                                                    <div className="th col-amt">Amt</div>
-                                                    <div className="th col-amt">Lab Amt</div>
+                                                    <div className="th col-amt">Amount</div>
+                                                    <div className="th col-amt">Labour Amt.</div>
                                                 </>
                                             )}
                                             <div className="th col-amt">Cost</div>
@@ -500,8 +500,10 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                                             </div>
                                                         )}
 
-                                                        <div className="td col-sku sku-text">
-                                                            {row?.SrJobno || ""} {row?.designno || "-"}
+                                                        <div className="td col-sku sku-text" style={{flexDirection:"column"}}>
+                                                           <div> {row?.SrJobno || ""}</div> 
+                                                           <div> {row?.designno || "-"} </div>
+                                                           <div> {row?.Categoryname || "-"} </div>
                                                         </div>
 
                                                         <div className="td col-metal">
@@ -513,7 +515,7 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                                             <div className="td col-wt">{row?.NetWt?.toFixed(2) || "-"}</div>
                                                         )}
                                                         {activeType === "B2B" && (
-                                                            <div className="td col-amt">{row?.MetalAmount?.toFixed(2) || "-"}</div>
+                                                            <div className="td col-amt" style={{justifyContent:"flex-end"}}>{row?.MetalAmount?.toFixed(2) || "-"}</div>
                                                         )}
 
                                                         {(activeType === "B2B" || activeType === "B2C") && (
@@ -568,7 +570,7 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                                         )}
                                                         {activeType === "B2B" && (
                                                             <>
-                                                                <div className="td col-amt" style={{flexDirection:"column"}}>
+                                                                <div className="td col-amt" style={{flexDirection:"column",alignItems:"flex-end"}}>
                                                                 {totalDiamonds?.totalWt >0&&(
                                                                         <div>{totalDiamonds?.totalAmt?.toFixed(2)}  </div>
                                                                 
@@ -592,7 +594,7 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                                                 </div>
                                                             </>
                                                         )}
-                                                        <div className="td col-amt">{NumberWithCommas(row?.UnitCost, 2)}</div>
+                                                        <div className="td col-amt" style={{justifyContent:"flex-end"}}>{NumberWithCommas(row?.UnitCost, 2)}</div>
                                                     </div>
                                                 )
 
@@ -624,7 +626,7 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                                     <div className="td col-wt">{result?.mainTotal?.metal?.Wt?.toFixed(2)} </div>
                                                 )}
                                                 {activeType === "B2B" && (
-                                                    <div className="td col-amt"> {formatAmount(
+                                                    <div className="td col-amt" style={{justifyContent:"flex-end"}}> {formatAmount(
                                                                                                             result?.mainTotal?.metal?.Amount /
                                                                                                               result?.header?.CurrencyExchRate,
                                                                                                             2
@@ -640,11 +642,11 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                                 )}
                                                 {activeType === "B2B" && (
                                                     <>
-                                                        <div className="td col-amt"> {(result?.mainTotal?.diamonds?.Amount+result?.mainTotal?.stone_misc?.Amount)?.toFixed(2)}</div>
-                                                        <div className="td col-amt"> {result?.mainTotal?.total_Making_Amount?.toFixed(2)}</div>
+                                                        <div className="td col-amt" style={{justifyContent:"flex-end"}}>  {NumberWithCommas(result?.mainTotal?.diamonds?.Amount+result?.mainTotal?.stone_misc?.Amount, 2)}</div>
+                                                        <div className="td col-amt" style={{justifyContent:"flex-end"}}>  {NumberWithCommas(result?.mainTotal?.total_Making_Amount, 2)}</div>
                                                     </>
                                                 )}
-                                                <div className="td col-amt">
+                                                <div className="td col-amt" style={{justifyContent:"flex-end"}}>
                                                     {formatAmount(
                                                                                                             result?.mainTotal?.total_unitcost/
                                                                                                               result?.header?.CurrencyExchRate,
@@ -858,8 +860,8 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                                 {
                                                      
                                                         <div
-                                                            style={{ borderLeft: "1px solid",minHeight:"126px" }}
-                                                            className="border-secondary border-bottom border-end pad_s_dp3 ps-2 text-break"
+                                                            style={{ borderLeft: "1px solid" }}
+                                                            className="border-secondary border-bottom border-end pad_s_dp3 ps-2 text-break remarksHeight"
                                                             dangerouslySetInnerHTML={{
                                                                 __html: result?.header?.PrintRemark,
                                                             }}
@@ -869,7 +871,7 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
 
                                             </div>
                                         </div>
-                                        <div style={{fontWeight:"bold", width: activeType === "B2B" ?"17%": activeType === "B2C" ?"21.5%":"39%",border:"1px solid #000" ,padding:"5px"}}>
+                                        <div className="totalamtfont" style={{fontWeight:"bold", width: activeType === "B2B" ?"17%": activeType === "B2C" ?"21.5%":"39%",border:"1px solid #000" ,padding:"5px"}}>
                                             {result?.mainTotal?.DiscountAmt !== 0 && (
                                                 <div className="w-100 d-flex align-items-center tb_fs_pcls">
                                                     <div
@@ -879,7 +881,7 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                                         Total Discount
                                                     </div>
                                                     <div
-                                                        style={{ width: "50%" ,textAlign:"center" }}
+                                                        style={{ width: "50%" ,textAlign:"right" }}
                                                         className="end_pcls pdr_pcls"
                                                     >
                                                         {formatAmount(
@@ -893,7 +895,7 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                                 <div style={{ width: "50%" ,textAlign:"center" }} className="end_pcls pdr_pcls">
                                                     Total Amount
                                                 </div>
-                                                <div style={{ width: "50%",textAlign:"center"  }} className="end_pcls pdr_pcls">
+                                                <div style={{ width: "50%",textAlign:"right"  }} className="end_pcls pdr_pcls">
                                                      {formatAmount(
                                                                                     result?.mainTotal?.total_amount /
                                                                                       result?.header?.CurrencyExchRate
@@ -913,7 +915,7 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                                             {e?.name} @ {e?.per}
                                                         </div>
                                                         <div
-                                                            style={{ width: "50%",textAlign:"center"  }}
+                                                            style={{ width: "50%",textAlign:"right"  }}
                                                             className="end_pcls pdr_pcls"
                                                         >
                                                             {formatAmount(e?.amount)}
@@ -925,7 +927,7 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                                 <div style={{ width: "50%",textAlign:"center"  }} className="end_pcls pdr_pcls">
                                                     {result?.header?.AddLess > 0 ? "Add" : result?.header?.AddLess < 0 ? "Less" : ""}
                                                 </div>
-                                                <div style={{ width: "50%" ,textAlign:"center" }} className="end_pcls pdr_pcls">
+                                                <div style={{ width: "50%" ,textAlign:"right" }} className="end_pcls pdr_pcls">
                                                     {result?.header?.AddLess !== 0 &&
                                                         formatAmount(result?.header?.AddLess / result?.header?.CurrencyExchRate
                                                         )}
@@ -940,7 +942,7 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                                         {result?.header?.ModeOfDel}
                                                     </div>
                                                     <div
-                                                        style={{ width: "50%",textAlign:"center"  }}
+                                                        style={{ width: "50%",textAlign:"right"  }}
                                                         className="end_pcls pdr_pcls"
                                                     >
                                                         {result?.header?.FreightCharges !== 0 &&
@@ -953,7 +955,7 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                                 <div style={{ width: "50%",textAlign:"center"  }} className="end_pcls pdr_pcls">
                                                     Final Amount
                                                 </div>
-                                                <div style={{ width: "50%" ,textAlign:"center" }} className="end_pcls pdr_pcls">
+                                                <div style={{ width: "50%" ,textAlign:"right" }} className="end_pcls pdr_pcls">
                                                      {formatAmount(
                                                                                  result?.mainTotal?.total_amount /
                                                                                    result?.header?.CurrencyExchRate +
@@ -980,6 +982,7 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                             <p className="fw-bold">Terms & Condition:</p>
                                             <div
                                                 className="tb_fs_pclsINS"
+                                                style={{ fontSize:"12px" }}
                                                 dangerouslySetInnerHTML={{
                                                     __html: result?.header?.Declaration,
                                                 }}
@@ -990,7 +993,7 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
 
                                     {bankflag && (
                                         <div className="disColunm check_dp10 ball_dp10 pb-1 fsgdp10 tb_fs_pcls1 minH_sum_pcl3" style={{ width: termsflag ? "34%" : "100%", border: "1px solid #dee2e6 " }}>
-                                            <div style={{ padding: "5px", lineHeight: "0.95" }}>
+                                            <div style={{ padding: "5px", lineHeight: "1" }}>
                                                 <div className="w-100 fw-bold text-center">
                                                     Bank Details
                                                 </div>
@@ -1026,7 +1029,7 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                                     </span>
                                                 </div>
                                                 <div className="d-flex w-100">
-                                                    <span className="fw-bold spwdth">RTGS NEFT IFSC </span>:
+                                                    <span className="fw-bold spwdth">RTGS/NEFT/IFSC </span>:
                                                     <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
                                                         {result?.header?.rtgs_neft_ifsc}
                                                     </span>
@@ -1038,7 +1041,7 @@ const JewelleryInvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer
                                                     </span>
                                                 </div>
                                                 <div className="d-flex w-100">
-                                                    <span className="fw-bold spwdth">MISCR CODE </span>:
+                                                    <span className="fw-bold spwdth">MICR CODE </span>:
                                                     <span className="spwdth1 spbrWord" style={{ marginLeft: "5px" }}>
                                                         {result?.header?.micrcode}
                                                     </span>

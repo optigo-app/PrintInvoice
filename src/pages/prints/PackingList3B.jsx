@@ -569,6 +569,74 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     return acc + (e?.CustomDuty_Amount || 0);
   }, 0);
 
+  const mergeMiscData = (dataArray) => {
+    return Object.values(
+      dataArray.reduce((accumulator, currentItem) => {
+        const key = currentItem.ShapeName;
+  
+        // If this ShapeName hasn't been seen yet, initialize it
+        if (!accumulator[key]) {
+          accumulator[key] = { ...currentItem };
+        } else {
+          // If it already exists, add up the relevant numeric fields
+          accumulator[key].Pcs += currentItem.Pcs || 0;
+          accumulator[key].Wt += currentItem.Wt || 0;
+          accumulator[key].Amount += currentItem.Amount || 0;
+          accumulator[key].RMwt += currentItem.RMwt || 0;
+          accumulator[key].FineWt += currentItem.FineWt || 0;
+          
+          // Recalculate pointer if needed (assuming pointer = Wt / Pcs)
+          if (accumulator[key].Pcs > 0) {
+            accumulator[key].pointer = accumulator[key].Wt / accumulator[key].Pcs;
+          }
+        }
+  
+        return accumulator;
+      }, {})
+    );
+  };
+
+  const mergeDiadetails = (dataArray) => {
+    if (!dataArray || !Array.isArray(dataArray)) return [];
+  
+    const mergedMap = dataArray.reduce((acc, current) => {
+      // Normalizing to lowercase handles cases like 'Heart' vs 'heart' safely
+      const key = current.ShapeName?.toLowerCase() || "unknown";
+  
+      if (!acc[key]) {
+        // Create a fresh copy of the first encountered object
+        acc[key] = { ...current };
+      } else {
+        // Accumulate numeric fields
+        acc[key].Pcs += current.Pcs || 0;
+        acc[key].Wt = Number((acc[key].Wt + (current.Wt || 0)).toFixed(4)); // Keeps decimals clean
+        acc[key].Amount += current.Amount || 0;
+        // acc[key].Rate = Number((acc[key].Rate + (current.Rate || 0)).toFixed(4));
+        acc[key].Rate = Number((Number(acc[key].Rate || 0) + Number(current.Rate || 0)).toFixed(4));
+        acc[key].FineWt += current.FineWt || 0;
+  
+        // Recalculate average pointer if applicable
+        if (acc[key].Pcs > 0) {
+          acc[key].pointer = Number((acc[key].Wt / acc[key].Pcs).toFixed(4));
+        }
+      }
+      return acc;
+    }, {});
+  
+    // Convert the grouped object map back into an array
+    return Object.values(mergedMap);
+  };
+
+  const discountCriteria = [
+    { key: 'DiamondDiscount', isAmountKey: 'IsDiamondDiscInAmount', label: 'Diamond', disAmount: "DiamondDiscountAmount" },
+    { key: 'MetalDiscount', isAmountKey: 'IsMetalDiscInAmount', label: 'Metal', disAmount: "MetalDiscountAmount" },
+    { key: 'StoneDiscount', isAmountKey: 'IsStoneDiscInAmount', label: 'Colorstone', disAmount: "StoneDiscountAmount" },
+    { key: 'LabourDiscount', isAmountKey: 'IsLabourDiscInAmount', label: 'Labour', disAmount: "LabourDiscountAmount" },
+    { key: 'SolitaireDiscount', isAmountKey: 'IsSolitaireDiscInAmount', label: 'Solitaire', disAmount: "SolitaireDiscountAmount1" },
+    { key: 'MiscDiscount', isAmountKey: 'IsMiscDiscInAmount', label: 'Misc', disAmount: "MiscDiscountAmount" },
+  ];
+
+ 
 
   return (
     <>
@@ -620,106 +688,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
             </div>
 
-            {/* print head text */}
-            {/* <div className="headText_pcls">
-              {result?.header?.PrintHeadLabel ?? "PACKING LIST"}
-            </div> */}
-
-            {/* comapny header */}
-            {/* <div className="d-flex justify-content-between align-items-center px-1 com_fs_pcl3">
-              <div>
-                <div className="fs_16_pcls fw-bold py-1">
-                  {result?.header?.CompanyFullName}
-                </div>
-                <div>{result?.header?.CompanyAddress}</div>
-                <div>{result?.header?.CompanyAddress2}</div>
-                <div>
-                  {result?.header?.CompanyCity}-{result?.header?.CompanyPinCode}
-                  ,{result?.header?.CompanyState}(
-                  {result?.header?.CompanyCountry})
-                </div>
-                <div>T {result?.header?.CompanyTellNo}</div>
-                <div>
-                  {result?.header?.CompanyEmail} |&nbsp;
-                  {result?.header?.CompanyWebsite}
-                </div>
-                <div>
-                  {result?.header?.Company_VAT_GST_No} |{" "}
-                  {result?.header?.Company_CST_STATE} -{" "}
-                  {result?.header?.Company_CST_STATE_No} | PAN -{" "}
-                  {result?.header?.Com_pannumber}
-                </div>
-              </div>
-              <div>
-                {isImageWorking && (
-                  <img
-                    src={result?.header?.PrintLogo}
-                    alt="#companylogo"
-                    className="companylogo_pcls"
-                    onError={handleImageErrors}
-                  />
-                )}
-              </div>
-            </div> */}
-
-            {/* customer header */}
-            {/* <div className="d-flex  mt-1 brall_pcls brall_pcls ">
-              <div
-                className="bright_pcls p-1 com_fs_pcl3"
-                style={{ width: "35%" }}
-              >
-                <div>{result?.header?.lblBillTo}</div>
-                <div className="fs_14_pcls fw-bold">
-                  {result?.header?.customerfirmname}
-                </div>
-                <div>{result?.header?.customerAddress2}</div>
-                <div>{result?.header?.customerAddress1}</div>
-                {result?.header?.customerAddress3 !== "" && (<div>{result?.header?.customerAddress3}</div>)}
-                <div>
-                  {result?.header?.customercity1}
-                  {result?.header?.customerpincode}
-                </div>
-                <div>{result?.header?.customeremail1}</div>
-                <div>{result?.header?.vat_cst_pan}</div>
-                <div>
-                  {result?.header?.Cust_CST_STATE}-
-                  {result?.header?.Cust_CST_STATE_No}
-                </div>
-              </div>
-              <div
-                className="bright_pcls p-1 com_fs_pcl3"
-                style={{ width: "35%" }}
-              >
-                <div>Ship To,</div>
-                <div className="fs_14_pcls fw-bold">
-                  {result?.header?.customerfirmname}
-                </div>
-                {result?.header?.Printlable !== "" && (<div><PrintableText result={result} /></div>)}
-                {/* {result?.header?.address?.map((e, i) => {
-                  return <div key={i}>{e}</div>;
-                })} */}
-            {/* <div>{result?.header?.CustName}</div>
-                    <div>{result?.header?.customercity}</div>
-                    <div>{result?.header?.customercountry}{result?.header?.customerpincode}</div>
-                    <div>Mobile No : {result?.header?.customermobileno}</div> */}
-            {/* </div>
-              <div className="p-1 com_fs_pcl3" style={{ width: "30%" }}>
-                <div className="d-flex align-items-center">
-                  <div className="fw-bold billbox_pcls">BILL NO </div>
-                  <div>{result?.header?.InvoiceNo}</div>
-                </div>
-                <div className="d-flex align-items-center">
-                  <div className="fw-bold billbox_pcls">DATE </div>
-                  <div>{result?.header?.EntryDate}</div>
-                </div>
-                <div className="d-flex align-items-center">
-                  <div className="fw-bold billbox_pcls">
-                    {result?.header?.HSN_No_Label}{" "}
-                  </div>
-                  <div>{result?.header?.HSN_No}</div>
-                </div>
-              </div>
-            </div>  */}
+        
 
             <div style={{ display: "flex", border: "1px solid #BDBDBD", marginTop: "5px" }}>
               {
@@ -883,9 +852,26 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   extraCharge / (result?.header?.CurrencyExchRate || 1);
 
 
+                  const discountDisplay = discountCriteria
+                  .filter(({ key }) => e?.[key] > 0)
+                  .map(({ key, isAmountKey, label, disAmount }) => {
+                    const num = Number(e[key]);
+                    const am = Number(e[disAmount])
+                    const decimals = e[isAmountKey] === 1 ? 3 : 2;
+                    const val = num.toFixed(decimals);
+                    return e[isAmountKey] === 0 ? `${val}% @${label} Amount ` : `${val} @${label} Amount`;
+                  })
+                  .join(', ');
+
+
                   const mergedFindings = mergeFindings(e?.finding);
                   const mergedMetals = mergeMetals(e?.metal);
+                  const miscdata = mergeMiscData(e?.misc_0List);
+                  const diamonddata = mergeDiadetails(e?.diamonds);
+                  const colorstonedata = mergeDiadetails(e?.colorstone);
                 return (
+
+                  <>
                   <div
                     className="d-flex tbody_pcls bbottom_pcls tb_fs_pcls pbia_pcl3 border-top"
                     style={{
@@ -970,45 +956,15 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {/* Diamond */}
                     <div className={duty ? "col3_pcls_duty d-flex flex-column justify-content-between bright_pcls" : "col3_pcls d-flex flex-column justify-content-between bright_pcls"}>
                       <div>
-                        {/* {e?.diamonds?.map((el, ind) => {
-                          return (
-                            <div className="d-flex w-100" key={ind}>
-                              <div className="dcol1_pcls spbrWord start_center_pcls pdl_pcls">
-                                {el?.ShapeName +
-                                  " " +
-                                  el?.QualityName +
-                                  " " +
-                                  el?.Colorname}
-                              </div>
-                              <div className="dcol2_pcls start_center_pcls pdl_pcls">
-                                {secondarySize
-                                  ? el?.SecondarySize
-                                  : el?.SizeName.toLowerCase() === "custom" ? `C: ${el?.CustomSize}` : el?.SizeName}
-                              </div>
-                              <div className="dcol3_pcls end_pcls pdr_pcls">
-                                {el?.Pcs}
-                              </div>
-                              <div className="dcol4_pcls end_pcls pdr_pcls">
-                                {el?.Wt?.toFixed(3)}
-                              </div>
-                              <div className="dcol5_pcls end_pcls pdr_pcls">
-                                {formatAmount(el?.Rate)}
-                              </div>
-                              <div className="dcol6_pcls end_pcls pdr_pcls fw-bold">
-                                {formatAmount(
-                                  el?.Amount / result?.header?.CurrencyExchRate
-                                )}
-                              </div>
-                            </div>
-                          );
-                        })} */}
-                        {e?.diamonds
+                       
+                        {diamonddata
                           ?.slice()
                           ?.sort((a, b) => {
                             const aCustom = a?.SizeName?.toLowerCase() === "custom";
                             const bCustom = b?.SizeName?.toLowerCase() === "custom";
 
                             // Normal first
+                            console.log("TCL: e?.diamonds",e?.diamonds )
                             if (aCustom && !bCustom) return 1;
                             if (!aCustom && bCustom) return -1;
 
@@ -1044,7 +1000,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               </div>
 
                               <div className="dcol5_pcls end_pcls pdr_pcls" style={{ textAlign: "right" }}>
-                                {formatAmount(el?.Rate)}
+                                {formatAmount((el?.Amount/el?.Wt)?.toFixed(2))}
                               </div>
 
                               <div className="dcol6_pcls end_pcls pdr_pcls fw-bold">
@@ -1080,11 +1036,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {/* Metal */}
 
                     <div className={duty ? "col4_pcls_duty d-flex flex-column justify-content-between bright_pcls" : "col4_pcls d-flex flex-column justify-content-between bright_pcls"}>
-                      <div>
-
-
-
-
+                      <div> 
                         {mergedMetals
                           ?.slice()
                           ?.sort((a, b) => {
@@ -1108,8 +1060,11 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           })
                           ?.map((el, imet) => {
 
+                            
+                            console.log("TCL: mergeDiadetails -> el", el)
+
                             return (
-                              <div className="d-flex w-100" key={imet}>
+                              <div className="d-flex w-100" style={{alignItems: "flex-start"}} key={imet}>
                                 <div className="mcol1_pcls spbrWord start_center_pcls pdl_pcls">
                                   {el?.ShapeName} {el?.QualityName}
                                 </div>
@@ -1292,12 +1247,16 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             )}
                         </div>
                       </div>
-                    </div>
+                    
 
-                    {/* Stone & Misc */}
+
+
+
+                    </div>
+ 
                     <div className={duty ? "col5_pcls_duty d-flex flex-column justify-content-between bright_pcls" : "col5_pcls d-flex flex-column justify-content-between bright_pcls"}>
                       <div>
-                        {e?.colorstone?.map((el, ind) => {
+                        {colorstonedata?.map((el, ind) => {
                           return (
                             <div className="d-flex w-100" key={ind}>
                               <div className="dcol1_pcls spbrWord start_center_pcls pdl_pcls">
@@ -1312,7 +1271,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 {el?.Wt?.toFixed(3)}
                               </div>
                               <div className="dcol5_pcls end_pcls pdr_pcls">
-                                {formatAmount(el?.Rate)}
+                                {formatAmount((el?.Amount/el?.Wt)?.toFixed(2))}
                               </div>
                               <div className="dcol6_pcls end_pcls pdr_pcls fw-bold">
                                 {formatAmount(
@@ -1322,7 +1281,9 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                           );
                         })}
-                        {e?.misc_0List?.map((el, ind) => {
+                        {miscdata?.map((el, ind) => {
+                          
+                          console.log("TCL: misc_0List", el)
                           return (
                             <div className="d-flex w-100" key={ind}>
                               <div className="dcol1_pcls spbrWord start_center_pcls pdl_pcls">
@@ -1337,7 +1298,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 {el?.Wt?.toFixed(3)}
                               </div>
                               <div className="dcol5_pcls end_pcls pdr_pcls">
-                                {formatAmount(el?.Rate)}
+                                {formatAmount((el?.Amount/el?.Wt)?.toFixed(2))}
                               </div>
                               <div className="dcol6_pcls end_pcls pdr_pcls fw-bold">
                                 {formatAmount(
@@ -1573,7 +1534,56 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         )}
                       </div>
                     </div>
+
+                    
                   </div>
+                  
+                  {e?.DiscountAmt > 0 &&(
+                       <div
+                       className="d-flex thead_pcls bbottom_pcls tb_fs_pcls"
+                       style={{
+                         borderBottom: "1px solid black",
+                         borderLeft: "1px solid black",
+                         borderRight: "1px solid black",
+                       }}
+                     >
+                       <div   className="col1_pcls bright_pcls"></div>
+                       <div  className={duty ? "col2_pcls_duty centerall_pcls  bright_pcls" : "col2_pcls centerall_pcls  bright_pcls"}>
+                        
+                       </div>
+                       <div className={duty ? "col3_pcls_duty" : "col3_pcls bright_pcls"}>
+                          
+                       </div>
+                       <div className={duty ? "col4_pcls_duty" : "col4_pcls bright_pcls"}>
+                         <div className="d-flex w-100">
+                            
+                         </div>
+                       </div>
+                       <div className={duty ? "col5_pcls_duty" : "col5_pcls  bright_pcls"} style={{wordBreak:"break-word"}}>
+                          
+                             Discount {discountDisplay || `${NumberWithCommas(e?.Discount, 2)} @ Total Amount`}
+                       </div>
+                       <div style={{textAlign:"right"}} className={duty ? "col6_pcls_duty" : "col6_pcls bright_pcls"}>
+                          {(NumberWithCommas(e?.DiscountAmt, 2))}
+                       </div>
+                       {duty && (
+                         <div className="col65_pcls end_pcls pdr_pcls bright_pcls">
+                           {formatAmount(
+                             TotalDuty, 2
+                           )}
+                         </div>
+                       )}
+                       <div className={duty ? "col7_pcls_duty  end_pcls" : "col7_pcls end_pcls pdr_pcls"}>
+                         {formatAmount(
+                           (result?.mainTotal?.TotalAmount +
+                             result?.mainTotal?.DiscountAmt) /
+                           result?.header?.CurrencyExchRate
+                         )}
+                       </div>
+                     </div>
+                    )}
+                  
+                  </>
                 );
               })}
 

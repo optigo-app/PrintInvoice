@@ -12,14 +12,14 @@
 }
 
 .mainbag2A {
-    width: 347px;
+    width: 345px;
     height: 367px;
     border: 1px solid black;
     border-radius: 8px;
     /* margin-top: 1.7rem;
     margin-left: 1.3rem; */
     margin-top: 1rem;
-    margin-left: 1.25rem;
+    margin-left: 1.13rem;
     font-size: 12px;
 }
 
@@ -202,7 +202,7 @@
 
 #print2AImg {
     height: 75px !important;
-    width: 70px !important;
+    width: 68px !important;
     margin-left: 2px;
     margin-top: 2px;
     /* margin: 0.5rem; */

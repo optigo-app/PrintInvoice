@@ -10,9 +10,10 @@ import {
     handlePrint,
     isObjectEmpty,
     NumberWithCommas,
+    mergeMetals
 } from "../../GlobalFunctions";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
-import "../../assets/css/prints/packinglist7.css";
+import "../../assets/css/prints/recineRepir.css";
 import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
@@ -31,7 +32,8 @@ function RepairJobPrint({ token, invoiceNo, printName, urls, evn, ApiVer }) {
     const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
     const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
     const [diamondDetails, setDiamondDetails] = useState([]);
-        const toWords = new ToWords();
+    const [image, setImage] = useState(true);
+    const toWords = new ToWords();
 
 
     useEffect(() => {
@@ -551,6 +553,10 @@ function RepairJobPrint({ token, invoiceNo, printName, urls, evn, ApiVer }) {
         window.print();
     };
 
+    const handleChangeImage = () => {
+        image ? setImage(false) : setImage(true);
+    };
+
 
     return (
         <>
@@ -562,7 +568,22 @@ function RepairJobPrint({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                         <>
                             <div style={{ height: "auto", width: "750px", padding: "15px", fontFamily: "Calibri !important", fontSize: "12px", margin: "0 auto" }}>
 
-                                <div style={{ display: "flex", justifyContent: "center" }}>
+                                <div className="d-none-print" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                    <div className="form-check pe-3">
+                                        <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            checked={image}
+                                            onChange={handleChangeImage}
+                                            id="flexCheckDefault"
+                                        />
+                                        <label
+                                            className="form-check-label pt-1"
+                                            htmlFor="flexCheckDefault"
+                                        >
+                                            With Image
+                                        </label>
+                                    </div>
                                     <input
                                         type="button"
                                         className="btn_white blue py-1 mt-2 mb-3"
@@ -591,7 +612,19 @@ function RepairJobPrint({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                         <div> {result?.header?.CompanyAddress}</div>
                                         <div> {result?.header?.CompanyAddress2}</div>
                                         <div>{result?.header?.CompanyCity}-{result?.header?.CompanyPinCode}, {result?.header?.CompanyState}({result?.header?.CompanyCountry})</div>
-                                        <div>T {result?.header?.CompanyTellNo} | TOLL FREE {result?.header?.CompanyTollFreeNo}</div>
+                                        {(result?.header?.CompanyTellNo || result?.header?.CompanyTollFreeNo) && (
+                                            <div>
+                                                {result?.header?.CompanyTellNo && (
+                                                    <span>T {result.header.CompanyTellNo}</span>
+                                                )}
+                                                {result?.header?.CompanyTellNo && result?.header?.CompanyTollFreeNo && (
+                                                    <span> | </span>
+                                                )}
+                                                {result?.header?.CompanyTollFreeNo && (
+                                                    <span>TOLL FREE {result.header.CompanyTollFreeNo}</span>
+                                                )}
+                                            </div>
+                                        )}
                                         <div style={{ fontSize: "12px" }}> {result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</div>
                                         <div style={{ fontSize: "12px" }}>
                                             {/* GSTIN-{result?.header?.Company_VAT_GST_No} | {result?.header?.Company_CST_STATE}-{result?.header?.Company_CST_STATE_No} | PAN-{result?.header?.Com_pannumber} */}
@@ -615,8 +648,9 @@ function RepairJobPrint({ token, invoiceNo, printName, urls, evn, ApiVer }) {
 
                                     <div>
                                         <img
-                                            src="http://nzen/R50B3/UFS/orail25TNBVD0LO2UFPRZ4YH/companylogo/projectlogo.png"
+                                            src={result?.header?.PrintLogo || ""}
                                             alt="logo"
+
                                             style={{ height: "90px" }}
                                         />
                                     </div>
@@ -633,10 +667,60 @@ function RepairJobPrint({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                     }}
                                 >
                                     {/* From */}
-                                    <div style={{ width: "10%" }}>
-                                        <span style={{ fontWeight: "bold", fontSize: "13px" }}>From</span>
+                                    <div style={{ width: "45%" }}>
+                                        <span style={{ fontWeight: "bold", fontSize: "13px" }}>From,</span>
+                                        <div className=" ">
+                                            <div className="fslhJL">
+                                                <b className="JL13" style={{ fontSize: "14px" }}>
+                                                    {result?.header?.customerfirmname}
+                                                </b>
+                                            </div>
+
+                                            {result?.header?.customerAddress2?.length > 0 ? (
+                                                <div className="fslhJL">
+                                                    {result?.header?.customerstreet}
+                                                </div>
+                                            ) : (
+                                                ""
+                                            )}
+
+                                            {result?.header?.customerregion?.length > 0 ? (
+                                                <div className="fslhJL">
+                                                    {result?.header?.customerregion}
+                                                </div>
+                                            ) : (
+                                                ""
+                                            )}
+                                            {result?.header?.customerAddress3?.length > 0 ? (
+                                                <div className="fslhJL">
+                                                    {result?.header?.customercity}-{result?.header?.PinCode},{result?.header?.CompanyCountry}
+                                                </div>
+                                            ) : (
+                                                ""
+                                            )}
+
+                                            <div className="fslhJL">{result?.header?.customeremail1}</div>
+                                            <div className="fslhJL">
+                                                {result?.header?.customermobileno && (
+                                                    <div>Phno: {result.header.customermobileno}</div>
+                                                )}
+                                            </div>
+                                            {result?.header?.CustGstNo !== "" && (
+                                                <div className="fslhJL">
+                                                    GSTIN - {result?.header?.CustGstNo}
+                                                    {result?.header?.Cust_CST_STATE_No !== "" && (
+                                              <>
+                                                  {" | "}  {result?.header?.Cust_CST_STATE !== '' ? `${result?.header?.Cust_CST_STATE} -` : ""}
+                                                    {result?.header?.Cust_CST_STATE_No}
+                                                    </>
+                                            )}
+                                                </div>
+                                            )}
+                                            
+                                        </div>
+
                                     </div>
-                                    <div style={{ width: "60%" }}>
+                                    {/* <div style={{ width: "60%" }}>
                                         <div>
                                             {result?.header?.customerfirmname && (
                                                 <div>
@@ -686,40 +770,113 @@ function RepairJobPrint({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                         </div>
 
 
-                                    </div>
+                                    </div> */}
 
                                     {/* Inward Info */}
                                     <div style={{ width: "26%" }}>
-                                        <div style={{ display: "flex" }}>
-                                            <div style={{ fontWeight: "bold", fontSize: "13px", width: "40%" }}>INWARD</div> <span>{result?.header?.InvoiceNo}</span>
-                                        </div>
-                                        <div style={{ display: "flex" }}>
-                                            <div style={{ fontWeight: "bold", fontSize: "13px", width: "40%" }}>DATE</div> <span>{result?.header?.EntryDate}</span>
-                                        </div>
-                                        <div style={{ display: "flex" }}>
-                                            <div style={{ fontWeight: "bold", fontSize: "13px", width: "40%" }}>HSN</div> <span>{result?.header?.HSN_No}</span>
-                                        </div>
+                                        {result?.header?.InvoiceNo && (
+                                            <div style={{ display: "flex" }}>
+                                                <div style={{ fontWeight: "bold", fontSize: "13px", width: "40%" }}>INWARD</div>
+                                                <span>{result.header.InvoiceNo}</span>
+                                            </div>
+                                        )}
+
+                                        {result?.header?.EntryDate && (
+                                            <div style={{ display: "flex" }}>
+                                                <div style={{ fontWeight: "bold", fontSize: "13px", width: "40%" }}>DATE</div>
+                                                <span>{result.header.EntryDate}</span>
+                                            </div>
+                                        )}
+
+                                        {result?.header?.HSN_No && (
+                                            <div style={{ display: "flex" }}>
+                                                <div style={{ fontWeight: "bold", fontSize: "13px", width: "40%" }}>HSN</div>
+                                                <span>{result.header.HSN_No}</span>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
 
                                 <div className="actual_details">
-                                    <div style={{ padding: "10px 0px", fontWeight: "bold" }}>Actual Details</div>
+                                    <div style={{ padding: "10px 0px", fontWeight: "bold" }}> </div>
                                     {result?.resultArray?.map((e, i) => {
-                                        console.log("TCL: RepairJobPrint -> e", e)
+
+                                        const multimetal = mergeMetals(e?.metal )
 
                                         return (
-                                            <div style={{ border: "1px solid #DCDCDC", padding: "15px" }} key={i}>
+                                            <div style={{ border: "1px solid #DCDCDC", padding: "15px", borderTop: i == 0 ? "1px solid #DCDCDC" : "none" }} key={i}>
 
-                                                <div className="jobDetails" style={{ fontSize: "14px" }}>
-                                                    <div>
-                                                        <b>{e?.SrJobno}</b> with <b>{e?.MetalTypePurity} ({e?.MetalColor})</b>
-                                                    </div>
+                                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                                    <div className="jobDetails" style={{ fontSize: "14px" }}>
+                                                        <div>
+                                                            <b>{i + 1}.</b>    {e?.Categoryname} <b>|</b> {e?.designno} <b>|</b> <b>{e?.SrJobno}</b>
+                                                        </div>
 
-                                                    <div>
-                                                        Metal Weight <b>{e?.MetalWeight.toFixed(3)}</b> [ Tunch : <b>{e?.Tunch.toFixed(3)}</b> ] <b>|</b> Gross Weight <b>{e?.grosswt.toFixed(3)}</b>
+                                                        <div>
+                                                        Gross Weight <b>{e?.grosswt.toFixed(3)}</b>  <b>|</b>  Net Weight <b>{e?.NetWt.toFixed(3)}</b>  
+                                                        </div>
+                                                        <div>
+                                                            {e?.JobRemark}
+                                                        </div>
                                                     </div>
+                                                    {image && (
+
+                                                        <div>
+                                                            <img
+                                                                src={e?.DesignImage}
+                                                                onError={(e) => handleImageError(e)}
+                                                                alt="design"
+                                                                className="imgdp10_pcl7"
+                                                            />
+                                                        </div>
+                                                    )}
                                                 </div>
+
+
+                                                {multimetal.length > 0 && (
+
+                                                    <>
+                                                        <div style={{ padding: "10px 0" }}><b>Metal</b></div>
+
+
+
+                                                        <div style={{ border: "1px solid #EEEEEE", width: "100%" }}>
+
+                                                            <div style={{ display: "flex", background: "#EEEEEE", color: "#6B696B", fontWeight: "bold", textAlign: "center" }}>
+                                                                <div style={{ width: "55px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>SR#</div>
+                                                                <div style={{ width: "130px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>TYPE</div>
+                                                                
+                                                                <div style={{ width: "130px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>QUALITY</div>
+                                                                <div style={{ width: "130px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>COLOR</div>
+                                                             
+                                                                <div style={{ width: "130px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>SUPPLIER</div>
+                                                                <div style={{ width: "130px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>Wt</div>
+                                                              
+                                                            </div>
+
+                                                            {/* ROW */}
+                                                            {multimetal?.map((el, i) => {
+
+                                                                return (
+                                                                    <div style={{ display: "flex", borderTop: "1px solid #EEEEEE" }} key={i}>
+                                                                        <div style={{ width: "55px", padding: "5px", textAlign: "center", borderRight: "1px solid #EEEEEE" }}>{i + 1}</div>
+                                                                        <div style={{ width: "130px", padding: "5px", borderRight: "1px solid #EEEEEE",textAlign: "center" }}> {el?.ShapeName} </div>
+                                                       
+                                                                        <div style={{ width: "130px", padding: "5px", borderRight: "1px solid #EEEEEE" ,textAlign: "center" }}>{el?.QualityName}</div>
+                                                                        <div style={{ width: "130px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.Colorname}</div>
+                                                                    
+                                                                        <div style={{ width: "130px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.Supplier}</div>
+                                                                        <div style={{ width: "130px", padding: "5px", textAlign: "right", borderRight: "1px solid #EEEEEE" }}>{el?.Wt.toFixed(3)}</div>
+                                                                       
+                                                                    </div>
+                                                                )
+                                                            })}
+
+
+                                                        </div>
+                                                    </>
+                                                )}
 
 
                                                 {e?.diamonds.length > 0 && (
@@ -732,16 +889,16 @@ function RepairJobPrint({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                                         <div style={{ border: "1px solid #EEEEEE", width: "100%" }}>
 
                                                             <div style={{ display: "flex", background: "#EEEEEE", color: "#6B696B", fontWeight: "bold", textAlign: "center" }}>
-                                                                <div style={{ width: "65px", padding: "5px" }}>SR#</div>
-                                                                <div style={{ width: "90px", padding: "5px" }}>TYPE</div>
-                                                                <div style={{ width: "90px", padding: "5px" }}>SHAPE</div>
-                                                                <div style={{ width: "84px", padding: "5px" }}>QUALITY</div>
-                                                                <div style={{ width: "90px", padding: "5px" }}>COLOR</div>
-                                                                <div style={{ width: "95px", padding: "5px" }}>SIZE</div>
-                                                                <div style={{ width: "95px", padding: "5px" }}>SUPPLIER</div>
-                                                                <div style={{ width: "85px", padding: "5px" }}>PCS.</div>
-                                                                <div style={{ width: "95px", padding: "5px" }}>POINTER</div>
-                                                                <div style={{ width: "95px", padding: "5px" }}>CTW</div>
+                                                                <div style={{ width: "55px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>SR#</div>
+                                                                <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>TYPE</div>
+                                                                <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>SHAPE</div>
+                                                                <div style={{ width: "84px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>CLARITY</div>
+                                                                <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>COLOR</div>
+                                                                <div style={{ width: "105px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>SIZE</div>
+                                                                <div style={{ width: "110px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>SUPPLIER</div>
+                                                                <div style={{ width: "70px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>PCS.</div>
+                                                                <div style={{ width: "95px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>POINTER</div>
+                                                                <div style={{ width: "95px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>CTW</div>
                                                             </div>
 
                                                             {/* ROW */}
@@ -749,14 +906,14 @@ function RepairJobPrint({ token, invoiceNo, printName, urls, evn, ApiVer }) {
 
                                                                 return (
                                                                     <div style={{ display: "flex", borderTop: "1px solid #EEEEEE" }} key={i}>
-                                                                        <div style={{ width: "65px", padding: "5px", textAlign: "center", borderRight: "1px solid #EEEEEE" }}>{i + 1}</div>
-                                                                        <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}></div>
+                                                                        <div style={{ width: "55px", padding: "5px", textAlign: "center", borderRight: "1px solid #EEEEEE" }}>{i + 1}</div>
+                                                                        <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.IsSolGem == 1 ? "S:" : ""}{el?.MaterialTypeName}</div>
                                                                         <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.ShapeName}</div>
-                                                                        <div style={{ width: "84px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.QualityName}</div>
+                                                                        <div style={{ width: "84px", padding: "5px", borderRight: "1px solid #EEEEEE" ,textAlign: "center" }}>{el?.QualityName}</div>
                                                                         <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.Colorname}</div>
-                                                                        <div style={{ width: "95px", padding: "4px", borderRight: "1px solid #EEEEEE" }}>{el?.SizeName}</div>
-                                                                        <div style={{ width: "95px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.Supplier}</div>
-                                                                        <div style={{ width: "85px", padding: "5px", textAlign: "right", borderRight: "1px solid #EEEEEE" }}>{el?.Pcs}</div>
+                                                                        <div style={{ width: "105px", padding: "4px", borderRight: "1px solid #EEEEEE" }}>{el?.SizeName}</div>
+                                                                        <div style={{ width: "110px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.Supplier}</div>
+                                                                        <div style={{ width: "70px", padding: "5px", textAlign: "right", borderRight: "1px solid #EEEEEE" }}>{el?.Pcs}</div>
                                                                         <div style={{ width: "95px", padding: "5px", textAlign: "right", borderRight: "1px solid #EEEEEE" }}>{el.pointer?.toFixed(3)}</div>
                                                                         <div style={{ width: "95px", padding: "5px", textAlign: "right" }}>{el?.Wt.toFixed(3)}</div>
                                                                     </div>
@@ -771,34 +928,34 @@ function RepairJobPrint({ token, invoiceNo, printName, urls, evn, ApiVer }) {
 
                                                 {e?.colorstone.length > 0 && (
                                                     <>
-                                                        <div style={{ padding: "10px 0" }}><b>Color Stone</b></div>
+                                                        <div style={{ padding: "10px 0" }}><b>Color Stone </b></div>
 
 
                                                         <div style={{ border: "1px solid #EEEEEE", width: "100%" }}>
 
                                                             <div style={{ display: "flex", background: "#EEEEEE", color: "#6B696B", fontWeight: "bold", textAlign: "center" }}>
-                                                                <div style={{ width: "65px", padding: "5px" }}>SR#</div>
-                                                                <div style={{ width: "90px", padding: "5px" }}>TYPE</div>
-                                                                <div style={{ width: "90px", padding: "5px" }}>SHAPE</div>
-                                                                <div style={{ width: "75px", padding: "5px" }}>QUALITY</div>
-                                                                <div style={{ width: "90px", padding: "5px" }}>COLOR</div>
-                                                                <div style={{ width: "95px", padding: "5px" }}>SIZE</div>
-                                                                <div style={{ width: "95px", padding: "5px" }}>SUPPLIER</div>
-                                                                <div style={{ width: "95px", padding: "5px" }}>PCS.</div>
-                                                                <div style={{ width: "95px", padding: "5px" }}>CTW</div>
+                                                                <div style={{ width: "50px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>SR#</div>
+                                                                <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>TYPE</div>
+                                                                <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>SHAPE</div>
+                                                                <div style={{ width: "75px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>QUALITY</div>
+                                                                <div style={{ width: "120px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>COLOR</div>
+                                                                <div style={{ width: "105px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>SIZE</div>
+                                                                <div style={{ width: "95px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>SUPPLIER</div>
+                                                                <div style={{ width: "70px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>PCS.</div>
+                                                                <div style={{ width: "95px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>CTW</div>
                                                             </div>
 
                                                             {e?.colorstone?.map((el, i) => {
                                                                 return (
                                                                     <div style={{ display: "flex", borderTop: "1px solid #EEEEEE" }} key={i}>
-                                                                        <div style={{ width: "65px", padding: "5px", textAlign: "center", borderRight: "1px solid #EEEEEE" }}>{i + 1}</div>
-                                                                        <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}></div>
+                                                                        <div style={{ width: "50px", padding: "5px", textAlign: "center", borderRight: "1px solid #EEEEEE" }}>{i + 1}</div>
+                                                                        <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.IsSolGem == 1 ? "G:" : ""} {el?.MaterialTypeName}</div>
                                                                         <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.ShapeName}</div>
-                                                                        <div style={{ width: "75px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.QualityName}</div>
-                                                                        <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.Colorname}</div>
-                                                                        <div style={{ width: "95px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.SizeName}</div>
+                                                                        <div style={{ width: "75px", padding: "5px", borderRight: "1px solid #EEEEEE",textAlign: "center"  }}>{el?.QualityName}</div>
+                                                                        <div style={{ width: "120px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.Colorname}</div>
+                                                                        <div style={{ width: "105px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.SizeName}</div>
                                                                         <div style={{ width: "95px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.Supplier}</div>
-                                                                        <div style={{ width: "95px", padding: "5px", textAlign: "right", borderRight: "1px solid #EEEEEE" }}>{el?.Pcs} </div>
+                                                                        <div style={{ width: "70px", padding: "5px", textAlign: "right", borderRight: "1px solid #EEEEEE" }}>{el?.Pcs} </div>
                                                                         <div style={{ width: "95px", padding: "5px", textAlign: "right", borderRight: "1px solid #EEEEEE" }}>{el?.Wt.toFixed(3)}</div>
                                                                     </div>
                                                                 )
@@ -818,35 +975,74 @@ function RepairJobPrint({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                                     <>
                                                         <div style={{ padding: "10px 0" }}><b>Misc</b></div>
 
-
-
                                                         <div style={{ border: "1px solid #EEEEEE", width: "100%" }}>
 
                                                             <div style={{ display: "flex", background: "#EEEEEE", color: "#6B696B", fontWeight: "bold", textAlign: "center" }}>
-                                                                <div style={{ width: "65px", padding: "5px" }}>SR#</div>
-                                                                <div style={{ width: "90px", padding: "5px" }}>TYPE</div>
-                                                                <div style={{ width: "90px", padding: "5px" }}>SHAPE</div>
-                                                                <div style={{ width: "75px", padding: "5px" }}>QUALITY</div>
-                                                                <div style={{ width: "90px", padding: "5px" }}>COLOR</div>
-                                                                <div style={{ width: "95px", padding: "5px" }}>SIZE</div>
-                                                                <div style={{ width: "95px", padding: "5px" }}>SUPPLIER</div>
-                                                                <div style={{ width: "95px", padding: "5px" }}>PCS.</div>
-                                                                <div style={{ width: "95px", padding: "5px" }}>Gm</div>
-                                                                <div style={{ width: "95px", padding: "5px" }}>Add in Gr Wt</div>
+                                                                <div style={{ width: "65px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>SR#</div>
+                                                                <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>TYPE</div>
+                                                                <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>SHAPE</div>
+                                                                <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>QUALITY</div>
+                                                                <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>COLOR</div>
+                                                                <div style={{ width: "95px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>SIZE</div>
+                                                                <div style={{ width: "95px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>SUPPLIER</div>
+                                                                <div style={{ width: "70px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>PCS.</div>
+                                                                <div style={{ width: "95px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>Gm</div>
+                                                                <div style={{ width: "95px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>Add in Gr Wt</div>
                                                             </div>
                                                             {e?.misc?.map((el, i) => {
                                                                 return (
                                                                     <div style={{ display: "flex", borderTop: "1px solid #EEEEEE" }} key={i}>
                                                                         <div style={{ width: "65px", padding: "5px", textAlign: "center", borderRight: "1px solid #EEEEEE" }}>{i + 1}</div>
-                                                                        <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}></div>
+                                                                        <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.MaterialTypeName}</div>
                                                                         <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.ShapeName}</div>
-                                                                        <div style={{ width: "75px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.QualityName}</div>
+                                                                        <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE",textAlign: "center"  }}>{el?.QualityName}</div>
                                                                         <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.Colorname}</div>
                                                                         <div style={{ width: "95px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.SizeName}</div>
                                                                         <div style={{ width: "95px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.Supplier}</div>
-                                                                        <div style={{ width: "95px", padding: "5px", textAlign: "right", borderRight: "1px solid #EEEEEE" }}>{el?.Pcs}</div>
+                                                                        <div style={{ width: "70px", padding: "5px", textAlign: "right", borderRight: "1px solid #EEEEEE" }}>{el?.Pcs}</div>
                                                                         <div style={{ width: "95px", padding: "5px", textAlign: "right", borderRight: "1px solid #EEEEEE" }}>{el?.Wt.toFixed(3)}</div>
-                                                                        <div style={{ width: "95px", padding: "5px", textAlign: "center" }}>Yes</div>
+                                                                        <div style={{ width: "95px", padding: "5px", textAlign: "center" }}>{el?.ismiscwtaddingrossweight ? "Yes" : "No"}</div>
+                                                                    </div>
+                                                                )
+                                                            })}
+
+
+                                                        </div></>
+                                                )}
+
+
+                                                {e?.finding.length > 0 && (
+
+                                                    <>
+                                                        <div style={{ padding: "10px 0" }}><b> Finding</b></div>
+
+                                                        <div style={{ border: "1px solid #EEEEEE", width: "100%" }}>
+
+                                                            <div style={{ display: "flex", background: "#EEEEEE", color: "#6B696B", fontWeight: "bold", textAlign: "center" }}>
+                                                                <div style={{ width: "65px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>SR#</div>
+                                                                <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>TYPE</div>
+                                                                <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>METAL</div>
+                                                                <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>PURITY</div>
+                                                                <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>COLOR</div>
+                                                               
+                                                                <div style={{ width: "95px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>SUPPLIER</div>
+                                                                <div style={{ width: "60px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>PCS.</div>
+                                                                <div style={{ width: "95px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>Gm</div>
+                                                                <div style={{ width: "105px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>Add in Gr Wt</div>
+                                                            </div>
+                                                            {e?.finding?.map((el, i) => {
+                                                                return (
+                                                                    <div style={{ display: "flex", borderTop: "1px solid #EEEEEE" }} key={i}>
+                                                                        <div style={{ width: "65px", padding: "5px", textAlign: "center", borderRight: "1px solid #EEEEEE" }}>{i + 1}</div>
+                                                                        <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.FindingTypename}</div>
+                                                                        <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.ShapeName}</div>
+                                                                        <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE",textAlign: "center"  }}>{el?.QualityName}</div>
+                                                                        <div style={{ width: "90px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.Colorname}</div>
+                                                                    
+                                                                        <div style={{ width: "95px", padding: "5px", borderRight: "1px solid #EEEEEE" }}>{el?.Supplier}</div>
+                                                                        <div style={{ width: "60px", padding: "5px", textAlign: "right", borderRight: "1px solid #EEEEEE" }}>{el?.Pcs}</div>
+                                                                        <div style={{ width: "95px", padding: "5px", textAlign: "right", borderRight: "1px solid #EEEEEE" }}>{el?.Wt.toFixed(3)}</div>
+                                                                        <div style={{ width: "105px", padding: "5px", textAlign: "center" }}>{el?.ismiscwtaddingrossweight ? "Yes" : "No"}</div>
                                                                     </div>
                                                                 )
                                                             })}
@@ -863,226 +1059,12 @@ function RepairJobPrint({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                 </div>
 
 
-                                <div className="new_added_mat">
-                                    <div style={{ padding: "10px 0px", fontWeight: "bold" }}>New Added Material
+                                {result?.header?.Remark && (
+
+                                    <div style={{ width: "100%", padding: "8px", display: "flex", border: "1px solid #DCDCDC", borderTop: "0px" }}>
+                                        <b style={{ marginRight: "5px" }}>Remarks: </b>{result?.header?.Remark}
                                     </div>
-
-                                    <div style={{ border: "1px solid #DCDCDC", padding: "15px" }}>
-
-                                        <div style={{ paddingBottom: "10px" }}>
-                                            <b>1/2121</b> with <b>GOLD 18K (YELLOW)</b>
-                                        </div>
-
-                                        <div style={{ border: "1px solid #D2D2D2", width: "100%" }}>
-
-                                            {/* Header Row */}
-                                            <div style={{ display: "flex", textAlign: "center", borderBottom: "1px solid #D2D2D2" }}>
-
-                                                <div style={{ flex: 1, padding: "5px" }}>
-                                                    New Gross Wt
-                                                </div>
-
-                                                <div style={{ flex: 1, padding: "5px" }}>
-                                                    Net Wt
-                                                </div>
-
-                                                <div style={{ flex: 1, padding: "5px", borderRight: "1px solid #D2D2D2" }}>
-                                                    Gross Wt
-                                                </div>
-
-                                                <div style={{ flex: 1, padding: "5px" }}>
-                                                    Making Charge Unit
-                                                </div>
-
-                                                <div style={{ flex: 1, padding: "5px" }}>
-                                                    Making Charge On
-                                                </div>
-
-                                            </div>
-
-                                            {/* Data Row */}
-                                            <div style={{ display: "flex", textAlign: "center" }}>
-
-                                                <div style={{ flex: 1, padding: "5px", fontWeight: "bold" }}>
-                                                    0.000
-                                                </div>
-
-                                                <div style={{ flex: 1, padding: "5px", fontWeight: "bold" }}>
-                                                    2.700
-                                                </div>
-
-                                                <div style={{ flex: 1, padding: "5px", fontWeight: "bold", borderRight: "1px solid #D2D2D2" }}>
-                                                    4.800
-                                                </div>
-
-                                                <div style={{ flex: 1, padding: "5px", fontWeight: "bold" }}>
-                                                    0.00
-                                                </div>
-
-                                                <div style={{ flex: 1, padding: "5px", fontWeight: "bold" }}>
-                                                    Metal Wt
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-
-                                </div>
-                                <div id="divtaxes" style={{ textAlign: "left", fontSize: "16px", width: "100%" }}>
-
-                                    <div style={{ display: "flex", width: "100%" }}>
-
-                                        {/* Left Section - In Words */}
-                                        <div
-                                            style={{
-                                                width: "70%",
-                                                border: "1px solid #DCDCDC",
-                                                paddingLeft: "10px",
-                                                display:"flex",
-                                                justifyContent:"flex-end",
-                                                flexDirection:"column",
-                                                fontSize:"14px",
-                                                lineHeight: 1.3,
-                                                borderTop:"0px",
-                                                borderRight:"0px"
-                                            }}
-                                        >
-                                            <p>In Words  {result?.header?.Currencyname}</p>
-                                            <p className="fw-bold">{toWords.convert(+( result?.mainTotal?.total_amount /
-                                                                                   result?.header?.CurrencyExchRate +
-                                                                                   result?.allTaxesTotal +
-                                                                                   result?.header?.FreightCharges /
-                                                                                     result?.header?.CurrencyExchRate +
-                                                                                   result?.header?.AddLess /
-                                                                                     result?.header?.CurrencyExchRate)?.toFixed(2))} Only</p>
-                                          
-                                        </div>
-
-                                        {/* Right Section */}
-                                        <div style={{ width: "30%", display: "flex", flexDirection: "column" }}>
-
-                                            {/* Total Amount */}
-                                            <div style={{ display: "flex" }}>
-                                                <div
-                                                    style={{
-                                                        width: "66%",
-                                                        fontSize: "13px",
-                                                        textAlign: "left",
-                                                        paddingLeft: "10px",
-                                                        border: "1px solid #DCDCDC",
-                                                        fontWeight: "bold",
-                                                        borderRight:"0px",
-                                                        borderTop:"0px"
-                                                    }}
-                                                >
-                                                    Total Amount
-                                                </div>
-                                                <div
-                                                    style={{
-                                                        width: "34%",
-                                                        fontSize: "13px",
-                                                        textAlign: "right",
-                                                        paddingRight: "7px",
-                                                        border: "1px solid #DCDCDC",
-                                                        fontWeight: "bold"
-                                                    }}
-                                                >
-                                                    {formatAmount(
-                                                                                 result?.mainTotal?.total_amount /
-                                                                                   result?.header?.CurrencyExchRate
-                                                    )}
-                                                </div>
-                                            </div>
-
-                                          
-
-                                            
-                                             {result?.allTaxes?.map((e, i) => {
-                                                                        return (
-                                                                          <div
-                                                                          style={{ display: "flex" }}
-                                                                            key={i}
-                                                                          >
-                                                                            <div className=" "
-                                                                               style={{
-                                                                                width: "66%",
-                                                                                fontSize: "13px",
-                                                                                textAlign: "left",
-                                                                                paddingLeft: "10px",
-                                                                                borderLeft: "1px solid #DCDCDC",
-                                                                                
-                                                                            }}
-                                                                            >
-                                                                              {" "}
-                                                                              {e?.name} {e?.per}{" "}
-                                                                            </div>
-                                                                            <div className=""
-                                                                             style={{
-                                                                                width: "34%",
-                                                                                fontSize: "13px",
-                                                                                textAlign: "right",
-                                                                                paddingRight: "7px",
-                                                                                borderLeft: "1px solid #DCDCDC",
-                                                                                borderRight: "1px solid #DCDCDC"
-                                                                            }}>
-                                                                              {" "}
-                                                                              {formatAmount(e?.amountInNumber)}{" "}
-                                                                            </div>
-                                                                          </div>
-                                                                        );
-                                            })}
-                                             {/* SGST */}
-                                             <div style={{ display: "flex",borderBottom:"1px solid #DCDCDC" }}>
-                                                <div
-                                                    style={{
-                                                        width: "66%",
-                                                        fontSize: "13px",
-                                                        textAlign: "left",
-                                                        paddingLeft: "10px",
-                                                        borderLeft: "1px solid #DCDCDC",
-                                                         
-                                                    }}
-                                                >
-                                                    <b>Grand Total</b>
-                                                </div>
-                                                <div
-                                                    style={{
-                                                        width: "34%",
-                                                        fontSize: "13px",
-                                                        textAlign: "right",
-                                                        paddingRight: "7px",
-                                                        borderLeft: "1px solid #DCDCDC",
-                                                        borderRight: "1px solid #DCDCDC"
-                                                    }}
-                                                >
-                                                   {formatAmount(
-                                                                                 result?.mainTotal?.total_amount /
-                                                                                   result?.header?.CurrencyExchRate +
-                                                                                   result?.allTaxesTotal +
-                                                                                   result?.header?.FreightCharges /
-                                                                                     result?.header?.CurrencyExchRate +
-                                                                                   result?.header?.AddLess /
-                                                                                     result?.header?.CurrencyExchRate
-                                                                               )}
-                                                </div>
-                                            </div>
-
-                                            {/* Hidden Row */}
-                                            <div style={{ display: "none" }}>
-                                                <div></div>
-                                                <div></div>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                   
-
-                                </div>
+                                )}
 
                                 <div style={{ width: "100%", paddingTop: "10px", display: "flex" }}>
 
@@ -1115,7 +1097,7 @@ function RepairJobPrint({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                             justifyContent: "center"
                                         }}
                                     >
-                                        For, <span id="CompanyFullName_sign">Classmate Corporation Pvt Ltd</span>
+                                        For, <span id="CompanyFullName_sign">{result?.header?.CompanyFullName}</span>
                                     </div>
 
                                 </div>

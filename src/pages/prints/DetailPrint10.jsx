@@ -13,7 +13,8 @@ import {
   isObjectEmpty,
   NumberWithCommas,
   mergeMetals,
-  mergeFindings
+  mergeFindings,
+  mergedBySeetingRate
 } from "../../GlobalFunctions";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import "../../assets/css/prints/detailprint10.css";
@@ -26,6 +27,8 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
   const [diamondWise, setDiamondWise] = useState([]);
   const [imgFlag, setImgFlag] = useState(true);
+  const [findingRateFlag, setFindingRateFlag] = useState(false);
+
   const [findingFlag, setFindingFlag] = useState(false);
   const [isImageWorking, setIsImageWorking] = useState(true);
 
@@ -220,6 +223,15 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setImgFlag(true);
     }
   };
+
+  const handleCheckboxFindingRate = () => {
+    if (findingRateFlag) {
+      setFindingRateFlag(false);
+    } else {
+      setFindingRateFlag(true);
+    }
+  };
+
   const handleCheckboxFinding = () => {
     if (findingFlag) {
       setFindingFlag(false);
@@ -273,7 +285,8 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
 
 
-  
+ 
+
 
   return (
     <>
@@ -285,6 +298,20 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <>
               <div className="containerdp10 pab60_dp10">
                 <div className="d-flex justify-content-end align-items-center hidebtndp10 mb-4">
+                  <input
+                    type="checkbox"
+                    id="imghideshow"
+                    className="mx-1"
+                    checked={findingRateFlag}
+                    onChange={handleCheckboxFindingRate}
+                  />
+                  <label
+                    htmlFor="imghideshow"
+                    className="me-3 user-select-none"
+                  >
+                    Find. Rate
+                  </label>
+
                   <input
                     type="checkbox"
                     id="imghideshow"
@@ -573,6 +600,12 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
                       const mergedMetals = mergeMetals(e?.metal);
                       const mergedFindings = mergeFindings(e?.finding);
+                      
+                      
+                      const mergedBySettingRate = mergedBySeetingRate(mergedFindings);
+                      const totalSetAmt = mergedFindings.reduce((sum, item) => {
+                        return sum + (Number(item?.SettingAmount) || 0);
+                      }, 0);
                       return (
                         <>
                           <div
@@ -724,11 +757,11 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                             e?.DiamondCTWwithLoss / 5 +
                                             e?.NetWt
                                           )?.toFixed(3)} */}
-                                          {el?.IsPrimaryMetal == 1 ?(
-                                            e?.DiamondCTWwithLoss / 5 +
-                                            e?.NetWt -
-                                            e?.totals?.finding?.Wt
-                                          )?.toFixed(3):""}
+                                        {el?.IsPrimaryMetal == 1 ? (
+                                          e?.DiamondCTWwithLoss / 5 +
+                                          e?.NetWt -
+                                          e?.totals?.finding?.Wt
+                                        )?.toFixed(3) : ""}
                                       </div>
                                     )}
                                     <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10">
@@ -872,23 +905,62 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 e?.MiscAmount +
                                 e?.TotalDiamondHandling
                               )}
+
+
+
+
+
                             </div>
                             <div className="tbcol7dp10 ">
                               <div className="d-flex">
-                                <div className="w-50 end_dp10 pr_dp10">
-                                  {formatAmount(e?.MaKingCharge_Unit)}
-                                </div>
-                                <div className="w-50 end_dp10  pr_dp10">
-                                  {formatAmount(
-                                    e?.MakingAmount +
-                                    e?.TotalDiaSetcost +
-                                    e?.TotalCsSetcost
+                                <div className="w-50 end_dp10 pr_dp10" style={{ flexDirection: "column", alignItems: "flex-end" }}>
+                                  <div>{formatAmount(e?.MaKingCharge_Unit)}</div>
+
+                                  {findingRateFlag && (
+                                    <>
+                                      {mergedMetals?.map((val, ind) => (
+                                        <div key={ind}> </div>
+                                      ))}
+
+                                      {mergedBySettingRate?.map((val, ind) => (
+                                        <div key={ind}>
+                                          <div>{val?.SettingRate?.toFixed(2)}</div>
+                                        </div>
+                                      ))}
+                                    </>
                                   )}
+
+                                </div>
+                                <div className="w-50 end_dp10  pr_dp10" style={{ flexDirection: "column", alignItems: "flex-end" }}>
+                                  <div>
+                                    {formatAmount(
+                                      e?.MakingAmount +
+                                      e?.TotalDiaSetcost +
+                                      e?.TotalCsSetcost
+                                    )}
+                                  </div>
+
+                                  {findingRateFlag && (
+                                    <>
+                                      {mergedMetals?.map((val, ind) => (
+                                        <div key={ind}> </div>
+                                      ))}
+
+                                      {mergedBySettingRate?.map((val, ind) => (
+                                        <div key={ind}>
+                                          <div>{val?.SettingAmount?.toFixed(2)}</div>
+                                        </div>
+                                      ))}
+                                    </>
+                                  )}
+
+
+
                                 </div>
                               </div>
                             </div>
                             <div className="tbcol8dp10 end_dp10 fw-bold p-1 pad_top_dp10 pr_dp10">
-                              {formatAmount(e?.TotalAmount + e?.DiscountAmt)}
+                              {formatAmount(e?.TotalAmount + e?.DiscountAmt )}
                             </div>
                           </div>
                           {findingFlag && (
@@ -988,7 +1060,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 {e?.other_details_arr_total_amount?.toFixed(2)}
                               </div>
                               <div className="tocol7 colored SpLeft brTop">
-                                {e?.Making_Amount_Other_Charges?.toFixed(2)}
+                                {(e?.Making_Amount_Other_Charges  + (findingRateFlag ? totalSetAmt : 0))?.toFixed(2)}
                               </div>
                               <div className="tocol8 colored SpLeft brTop">
                                 {e?.TotalAmount?.toFixed(2)}
@@ -1139,6 +1211,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="tocol7 end_dp10  d-flex align-items-center brR_dp10 pr_dp10">
                       {formatAmount(
                         result?.mainTotal?.total_labour?.labour_amount +
+                        findingRateFlag ? result?.mainTotal?.finding?.SettingAmount : 0 +
                         result?.mainTotal?.total_TotalDiaSetcost +
                         result?.mainTotal?.total_TotalCsSetcost
                       )}

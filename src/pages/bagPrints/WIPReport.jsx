@@ -36,7 +36,7 @@ export default function WIPReport({ queries, headers }) {
     const [searchText, setSearchText] = useState("");
     const [query, setQuery] = useState("");
     const [headerData, setHeaderData] = useState({});
-
+    const [diaflag, setDiaFlag] = useState(true);
 
     useEffect(() => {
 
@@ -67,6 +67,15 @@ export default function WIPReport({ queries, headers }) {
     }, [data, query]);
 
 
+    const handleCheckbox = () => {
+        if (diaflag) {
+            setDiaFlag(false);
+        } else {
+            setDiaFlag(true);
+        }
+    };
+
+
     return (
         <>
             <div style={{ marginBottom: "2rem" }}>
@@ -84,22 +93,44 @@ export default function WIPReport({ queries, headers }) {
                                         onChange={e => setQuery(e.target.value)} style={{ border: "1px solid #DFDFDF", padding: "4px 3px", borderRadius: "4px" }} placeholder="Search..." />
 
                                 </div>
-                                <div className="pbtn" style={{ border: "1px solid #CBCBCB", borderRadius: "4px" }}>
-                                    <input
-                                        type="button"
-                                        id="btnprint"
-                                        value="Print"
-                                        onClick={(e) => handlePrint(e)}
-                                        accessKey="p"
-                                        autoFocus
-                                        style={{
-                                            display: "inline-block",
-                                            borderLeft: "4px solid #5994BB",
-                                            cursor: "pointer",
-                                            padding: "5px 7px",
+                                <div style={{ display: "flex", alignItems: "center" }}>
+                                    <div>
+                                        <input
+                                            type="checkbox"
+                                            id="imghideshow"
+                                            className="mx-1"
+                                            checked={diaflag}
+                                            onChange={handleCheckbox}
+                                        />
+                                        <label
+                                            htmlFor="imghideshow"
+                                            className="me-3 user-select-none"
+                                        >
+                                            Dia Qty and color
+                                        </label>
+                                    </div>
+                                    <div className="pbtn" style={{ border: "1px solid #CBCBCB", borderRadius: "4px" }}>
 
-                                        }}
-                                    />
+
+
+
+
+                                        <input
+                                            type="button"
+                                            id="btnprint"
+                                            value="Print"
+                                            onClick={(e) => handlePrint(e)}
+                                            accessKey="p"
+                                            autoFocus
+                                            style={{
+                                                display: "inline-block",
+                                                borderLeft: "4px solid #5994BB",
+                                                cursor: "pointer",
+                                                padding: "5px 7px",
+
+                                            }}
+                                        />
+                                    </div>
                                 </div>
                             </div>
 
@@ -335,30 +366,37 @@ export default function WIPReport({ queries, headers }) {
                                             >
                                                 <div style={{ width: "90px" }}>Metal:</div>
 
-                                                <div style={{ fontWeight: "bold" }}>{item?.MetalType+" "+item?.MetalColor || ""}</div>
+                                                <div style={{ fontWeight: "bold" }}>{item?.MetalType + " " + item?.MetalColor || ""}</div>
                                             </div>
 
-                                            <div
-                                                style={{
-                                                    display: "flex",
-                                                }}
-                                                className="line-height1"
-                                            >
-                                                <div style={{ width: "90px" }}>Dia. Qty:</div>
+                                            {diaflag && (
+                                                <>
+                                                    <div
+                                                        style={{
+                                                            display: "flex",
+                                                        }}
+                                                        className="line-height1"
+                                                    >
+                                                        <div style={{ width: "90px" }}>Dia. Qty:</div>
 
-                                                <div style={{ fontWeight: "bold" }}>{item?.DiaQlty || ""}</div>
-                                            </div>
+                                                        <div style={{ fontWeight: "bold" }}>{item?.DiaQlty || ""}</div>
+                                                    </div>
 
-                                            <div
-                                                style={{
-                                                    display: "flex",
-                                                }}
-                                                className="line-height1"
-                                            >
-                                                <div style={{ width: "90px" }}>Dia. Color:</div>
+                                                    <div
+                                                        style={{
+                                                            display: "flex",
+                                                        }}
+                                                        className="line-height1"
+                                                    >
+                                                        <div style={{ width: "90px" }}>Dia. Color:</div>
 
-                                                <div style={{ fontWeight: "bold", width: "112px" }}>{item?.DiaColor}</div>
-                                            </div>
+                                                        <div style={{ fontWeight: "bold", width: "112px" }}>{item?.DiaColor}</div>
+                                                    </div>
+                                                </>
+
+                                            )}
+
+
 
                                             <div
                                                 style={{
@@ -369,7 +407,7 @@ export default function WIPReport({ queries, headers }) {
                                                 <div style={{ width: "90px" }}>Dia. weight:</div>
 
                                                 <div style={{ fontWeight: "bold" }}>
-                                                    {item?.Diamond_actualused?.toFixed(3) + " cwt"}
+                                                  {item?.Diamond_actualusedpcs}/{item?.Diamond_actualused?.toFixed(3) + " cwt"}
                                                 </div>
                                             </div>
 
@@ -382,7 +420,7 @@ export default function WIPReport({ queries, headers }) {
                                                 <div style={{ width: "90px" }}>C. weight:</div>
 
                                                 <div style={{ fontWeight: "bold" }}>
-                                                    {item?.ColorStone_actualused?.toFixed(3) + " cwt"}
+                                                  {item?.ColorStone_actualusedpcs}/{item?.ColorStone_actualused?.toFixed(3) + " cwt"}
                                                 </div>
                                             </div>
 

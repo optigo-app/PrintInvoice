@@ -167,9 +167,9 @@ const InvoicePrintSMaterial = ({
       {loader ? (
         <Loader />
       ) : msg === "" ? (
-        <> 
+        <>
 
-    
+
 
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
             <tbody style={{ marginBottom: "50px" }}>
@@ -200,9 +200,9 @@ const InvoicePrintSMaterial = ({
                   <div className="w-full flex items-center justify-center">
                     <div className="" >
 
-                      
 
-                     
+
+
                       <div className="headlineJL w-100 p-2">
                         <b style={{ fontSize: "20px" }}>
                           {json0Data?.PrintHeadLbl}
@@ -618,11 +618,22 @@ const InvoicePrintSMaterial = ({
                       </div>
 
                       {/** Instuction */}
-                      {json0Data?.Declaration && (
+                      {/* {json0Data?.Declaration && (
                         <div className="brbxAll" style={{ borderTop: "none" }}>
                           <div className="spinst" dangerouslySetInnerHTML={{ __html: json0Data?.Declaration, }}></div>
                         </div>
+                      )} */}
+                      {(json0Data?.Notes || json0Data?.Declaration) && (
+                        <div className="brbxAll" style={{ borderTop: "none", padding: "5px" }}>
+                          <div
+                            className="spinst"
+                            dangerouslySetInnerHTML={{
+                              __html: json0Data?.Notes ? json0Data.Notes : json0Data?.Declaration,
+                            }}
+                          ></div>
+                        </div>
                       )}
+
 
                       <div className="disflx brbxAll spfntbH" style={{ borderTop: "none" }}>
                         <div className="spbnkdtl spbrRht">
@@ -644,7 +655,7 @@ const InvoicePrintSMaterial = ({
                       </div>
 
 
-         
+
 
 
 
@@ -655,55 +666,55 @@ const InvoicePrintSMaterial = ({
               </tr>
             </tbody>
 
-           
-           <tfoot style={{ display: "table-footer-group" }}>
-                    <tr>
-                      <td>
-                        {/* This spacer creates the gap so body content doesn't hit the footer */}
-                        <div style={{ height: "100px" }}></div>
-                        <div className="footerForThe_print" >
-                          <div style={{ width: "100%", marginBottom: "5px" }}>
-                            <div style={{ borderTop: "1px solid #000" }}></div>   {/* thin */}
-                            <div style={{ borderTop: "2px solid #000", margin: "2px 0" }}></div>  {/* thick */}
-                            <div style={{ borderTop: "1px solid #000" }}></div>   {/* thin */}
-                          </div>
-                          <div style={{ width: "100%", margin: "auto", textAlign: "center" }}>
-          
-                            <p style={{ margin: 0,fontSize: "10px" }} className="foot-font">
-                            • {[
-                                json0Data?.CompanyAddress,
-                                json0Data?.CompanyAddress2,
-                                json0Data?.CompanyCity +
-                                (json0Data?.CompanyPinCode ? " - " + json0Data?.CompanyPinCode : ""),
-                              ]
-                                .filter(Boolean)
-                                .join(", ")} •
-                            </p>
-                            {(json0Data?.CompanyTellNo ||
-                              json0Data?.CompanyEmail ||
-                              json0Data?.CompanyWebsite) && (
-                                <p style={{ margin: 0 ,fontSize: "10px"}} className="foot-font">
-                                  {json0Data?.CompanyTellNo && `• Tel : +${json0Data.CompanyTellNo} `}
-                                  {json0Data?.CompanyEmail && `• ${json0Data.CompanyEmail} `}
-                                  {json0Data?.CompanyWebsite && `• ${json0Data.CompanyWebsite} `}
-                                </p>
-                              )}
-          
-                            {json0Data?.Com_vatNo && (
-                              <p style={{ margin: 0,fontSize: "10px" }} className="foot-font">
-                               • LLPIN : {json0Data.Com_vatNo} •
-                              </p>
-                            )}
-          
-                          </div>
-          
-                        </div>
-                      </td>
-                    </tr>
+
+            <tfoot style={{ display: "table-footer-group" }}>
+              <tr>
+                <td>
+                  {/* This spacer creates the gap so body content doesn't hit the footer */}
+                  <div style={{ height: "100px" }}></div>
+                  <div className="footerForThe_print" >
+                    <div style={{ width: "100%", marginBottom: "5px" }}>
+                      <div style={{ borderTop: "1px solid #000" }}></div>   {/* thin */}
+                      <div style={{ borderTop: "2px solid #000", margin: "2px 0" }}></div>  {/* thick */}
+                      <div style={{ borderTop: "1px solid #000" }}></div>   {/* thin */}
+                    </div>
+                    <div style={{ width: "100%", margin: "auto", textAlign: "center" }}>
+
+                      <p style={{ margin: 0, fontSize: "10px" }} className="foot-font">
+                        • {[
+                          json0Data?.CompanyAddress,
+                          json0Data?.CompanyAddress2,
+                          json0Data?.CompanyCity +
+                          (json0Data?.CompanyPinCode ? " - " + json0Data?.CompanyPinCode : ""),
+                        ]
+                          .filter(Boolean)
+                          .join(", ")} •
+                      </p>
+                      {(json0Data?.CompanyTellNo ||
+                        json0Data?.CompanyEmail ||
+                        json0Data?.CompanyWebsite) && (
+                          <p style={{ margin: 0, fontSize: "10px" }} className="foot-font">
+                            {json0Data?.CompanyTellNo && `• Tel : +${json0Data.CompanyTellNo} `}
+                            {json0Data?.CompanyEmail && `• ${json0Data.CompanyEmail} `}
+                            {json0Data?.CompanyWebsite && `• ${json0Data.CompanyWebsite} `}
+                          </p>
+                        )}
+
+                      {json0Data?.Com_vatNo && (
+                        <p style={{ margin: 0, fontSize: "10px" }} className="foot-font">
+                          • LLPIN : {json0Data.Com_vatNo} •
+                        </p>
+                      )}
+
+                    </div>
+
+                  </div>
+                </td>
+              </tr>
             </tfoot>
           </table>
 
-          
+
         </>
       ) : (
         <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">

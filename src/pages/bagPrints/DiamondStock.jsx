@@ -120,13 +120,14 @@ function DiamondStock({ queries, headers }) {
   };
 
   const barcodeWrapper = {
-    width: "35px", // You might want to increase this to "60px" or "80px" for a QR code
+    width: qrflag ? "25px" : "35px", // You might want to increase this to "60px" or "80px" for a QR code
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     ...(qrflag && {
       position: "absolute",
       right: "6px",
+      top:"30px"
     }),
   };
 
@@ -188,9 +189,9 @@ function DiamondStock({ queries, headers }) {
                <div style={row}><span style={{...label,width:"32px"}}>Wt(ctw)</span><span style={colon}>:</span><span style={value}>{item?.TotalRemainingWeight}</span></div>
                <div style={row}><span style={label}>Pcs</span><span style={colon}>:</span><span style={value}>{item?.TotalRemainingPcs}</span></div>
                <div style={row}><span style={label}>Lot#</span><span style={colon}>:</span><span style={value}>{item?.job}</span></div>
-               <div style={row}><span style={label}>Shape</span><span style={colon}>:</span><span style={value}>{item?.shape}</span></div>
-               <div style={row}><span style={label}>Clarity</span><span style={colon}>:</span><span style={value}>{item?.clarity}</span></div>
-               <div style={row}><span style={label}>Color</span><span style={colon}>:</span><span style={value}>{item?.color}</span></div>
+               <div style={row}><span style={label}>Shape</span><span style={colon}>:</span><span style={{...value,wordBreak:"break-word"}}>{item?.shape}</span></div>
+               <div style={row}><span style={label}>Clarity</span><span style={colon}>:</span><span style={{...value,wordBreak:"break-word"}}>{item?.clarity}</span></div>
+               <div style={row}><span style={label}>Color</span><span style={colon}>:</span><span style={{...value,wordBreak:"break-word"}}>{item?.color}</span></div>
                <div style={row}><span style={label}>Size</span><span style={colon}>:</span><span style={value}>{item?.size}</span></div>
             
                <div style={row}><span style={label}>Cust</span><span style={colon}>:</span><span style={value}>{item?.istoreCust_Customercode}</span></div>

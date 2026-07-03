@@ -186,6 +186,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           obj.cg_tunch = e?.Tunch;
           // obj.cg_finewt = (e?.NetWt * e?.Tunch) / 100;
           obj.cg_finewt = e?.fineWtss;
+          console.log("TCL: loadData ->e?.fineWtss ",e?.fineWtss )
           obj.cat_count = 1;
           cgwise.push(obj);
         } else {
@@ -198,6 +199,8 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           cgwise[findIndex].cg_wastage += e?.Wastage;
           cgwise[findIndex].cat_count += 1;
           // cgwise[findIndex].cg_finewt += (e?.NetWt * e?.Tunch) / 100;
+          
+          console.log("TCL: loadData ->e?.fineWtss ",e?.fineWtss )
           cgwise[findIndex].cg_finewt += e?.fineWtss;
         }
       });

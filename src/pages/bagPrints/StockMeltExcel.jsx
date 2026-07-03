@@ -136,8 +136,8 @@ function StockMeltExcel() {
                                 <td style={{ padding: '8px' }}>{e?.Category}</td>
                                 <td className="no-wrap" style={{ padding: '8px' }}>{e?.Customer}</td>
                                 <td className="bold-text" style={{ padding: '8px' }}>{e?.Material}</td>
-                                <td className="bold-text" style={{ padding: '8px' }}>{e?.Type}</td>
-                                <td style={{ padding: '8px' }}>{e?.Shape}</td>
+                                <td className="bold-text" style={{ padding: '8px' }}>{e?.Material=="FINDING"? e?.Shape :e?.Type}</td>
+                                <td style={{ padding: '8px' }}>{e?.Material=="FINDING"? e?.FindingAccessories : e?.Shape }</td>
                                 <td style={{ padding: '8px' }}>{e?.Quality}</td>
                                 <td style={{ padding: '8px' }}>{e?.Color}</td>
                                 <td style={{ padding: '8px' }}>{e?.Size}</td>

@@ -139,6 +139,27 @@ export function mergeMetals(data) {
   );
 }
 
+export const mergedBySeetingRate = (data) => Object.values(
+  data.reduce((acc, item) => {
+    const rateKey = item.SettingRate;
+
+    if (!acc[rateKey]) {
+      // If this SettingRate doesn't exist yet, create a shallow copy
+      acc[rateKey] = { ...item };
+    } else {
+      // If it exists, add the SettingAmount (and other aggregate fields if needed)
+      acc[rateKey].SettingAmount += item.SettingAmount;
+      
+      // OPTIONAL: If you want to sum up other values for matching rates:
+      acc[rateKey].Pcs += item.Pcs;
+      acc[rateKey].Wt += item.Wt;
+      acc[rateKey].Amount += item.Amount;
+    }
+
+    return acc;
+  }, {})
+);
+
  
 
 //global function of saleTallyApiCall calling

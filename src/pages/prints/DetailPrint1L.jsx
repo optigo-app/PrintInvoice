@@ -13,7 +13,8 @@ import {
   otherAmountDetail,
   taxGenrator,
   mergeMetals,
-  mergeFindings
+  mergeFindings,
+  mergedBySeetingRate
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
@@ -862,6 +863,11 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
                 const mergedMetals = mergeMetals(e?.metal);
                 const mergedFindings = mergeFindings(e?.finding);
+                const mergedBySettingRate = mergedBySeetingRate(mergedFindings);
+                const totalSetAmt = mergedFindings.reduce((sum, item) => {
+                  return sum + (Number(item?.SettingAmount) || 0);
+                }, 0);
+
                 return (
                   <div key={i} className="recordDetailPrint1 detailPrint1L_font_11">
                     <div className="d-flex w-100">
@@ -1041,7 +1047,7 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                       : data?.Rate?.toFixed(2)
                                     }
                                   </p>
-                                  <p className={`col-3 text-end ${ind > 0 && "fw-bold"}`}>
+                                  <p className={`col-3 text-end  `}>
                                     {e?.GroupJob !== ''
                                       ? (e?.metal
                                         ?.filter((m) => m?.IsPrimaryMetal === 1)[0]
@@ -1164,6 +1170,17 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               <p className="text-center">
                                 {e?.MaKingCharge_Unit !== 0 &&
                                   NumberWithCommas(e?.MaKingCharge_Unit, 2)}
+                                  <p className="text-center">
+                                      {mergedMetals?.map((val, ind) => (
+                                        <div key={ind}> </div>
+                                      ))}
+
+                                      {mergedBySettingRate?.map((val, ind) => (
+                                        <div key={ind}>
+                                          <div>{ val?.SettingRate ? val?.SettingRate?.toFixed(2) : ""}</div>
+                                        </div>
+                                      ))}
+                                    </p>
                               </p>
                             </div>
                             <div className="col-7">
@@ -1179,6 +1196,17 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     2
                                   )}
                               </p>
+                              <p className="text-end text-end">
+                                      {mergedMetals?.map((val, ind) => (
+                                        <div key={ind}> </div>
+                                      ))}
+
+                                      {mergedBySettingRate?.map((val, ind) => (
+                                        <div key={ind}>
+                                          <div>{val?.SettingAmount ? val?.SettingAmount?.toFixed(2) : ""}</div>
+                                        </div>
+                                      ))}
+                               </p>
                             </div>
                           </div>
                         </div>
@@ -1191,12 +1219,12 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                           <div className="col-7">
                             <p className="text-end fw-bold  ">
-                              {e?.MakingAmount +
+                              {e?.MakingAmount + totalSetAmt +
                                 e?.TotalCsSetcost +
                                 e?.TotalDiaSetcost !==
                                 0 &&
                                 NumberWithCommas(
-                                  e?.MakingAmount +
+                                  e?.MakingAmount + totalSetAmt +
                                   e?.TotalCsSetcost +
                                   e?.TotalDiaSetcost,
                                   2
@@ -1405,7 +1433,7 @@ const DetailPrint1L = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="d-flex justify-content-end">
                     <div className="d-table">
                       <p className="d-table-cell align-middle text-end h-100 text-end fw-bold">
-                        {NumberWithCommas(total?.labourAmount, 2)}
+                        {NumberWithCommas(total?.labourAmount + finalD?.mainTotal?.finding?.SettingAmount, 2)}
                       </p>
                     </div>
                   </div>

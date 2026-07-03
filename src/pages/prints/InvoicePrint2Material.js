@@ -485,11 +485,22 @@ const InvoicePrint2Material = ({
               {/** Instuction */}
               {termsFlag && (
 
-                json0Data?.Declaration && (
-                  <div className="brbxAll" style={{ borderTop: json0Data?.Remark === "" ? "1px solid #DDDDDD" : "none" }}>
-                    <div className="spinst" dangerouslySetInnerHTML={{ __html: json0Data?.Declaration, }}></div>
+                // json0Data?.Declaration && (
+                //   <div className="brbxAll" style={{ borderTop: json0Data?.Remark === "" ? "1px solid #DDDDDD" : "none" }}>
+                //     <div className="spinst" dangerouslySetInnerHTML={{ __html: json0Data?.Declaration, }}></div>
+                //   </div>
+                // )
+                (json0Data?.Notes || json0Data?.Declaration) && (
+                  <div className="brbxAll" style={{ borderTop: "none",padding:"5px" }}>
+                    <div
+                      className="spinst"
+                      dangerouslySetInnerHTML={{
+                        __html: json0Data?.Notes ? json0Data.Notes : json0Data?.Declaration,
+                      }}
+                    ></div>
                   </div>
                 )
+
               )}
               <div className="disflx brbxAll spfntbH" style={{ borderTop: termsFlag ? "none" : "1px solid #DDDDDD" }}>
                 <div className="spbnkdtl spbrRht">

@@ -10,7 +10,8 @@ import {
   isObjectEmpty,
   NumberWithCommas,
   mergeMetals,
-  mergeFindings
+  mergeFindings,
+  mergedBySeetingRate
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import "../../assets/css/prints/packinglist3.css";
@@ -803,6 +804,10 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               {result?.resultArray?.map((e, i) => {
                 const mergedMetals = mergeMetals(e?.metal);
                 const mergedFindings = mergeFindings(e?.finding);
+                const mergedBySettingRate = mergedBySeetingRate(mergedFindings);
+                const totalSetAmt = mergedFindings.reduce((sum, item) => {
+                  return sum + (Number(item?.SettingAmount) || 0);
+                }, 0);
                                 
                  
                 // Calculate extra charges safely
@@ -1451,6 +1456,27 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           )
                         )}
 
+                        {mergedBySettingRate?.length !== 0 && (
+                          mergedBySettingRate?.map((val, ind) => (
+                            <div className="d-flex w-100">
+                            <div className="lcol1_pcls start_center_pcls pdl_pcls">
+                              Finding
+                            </div>
+                            <div className="lcol1_pcls end_pcls pdr_pcls">
+                               {val?.SettingRate ? val?.SettingRate?.toFixed(2) : ""}
+                            </div>
+                            <div className="lcol1_pcls end_pcls pdr_pcls">
+                            {val?.SettingAmount ? val?.SettingAmount?.toFixed(2) : ""}
+                               
+                            </div>
+                          </div>
+                          )
+                          
+                       ))}
+
+
+
+
                         {e?.other_details_array?.map((ele, inds) => {
                           return (
                             <div className="d-flex w-100" key={inds}>
@@ -1536,22 +1562,7 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               </div>
                             </div>
                           )}
-                        {e?.totals?.finding?.SettingAmount !== 0 && (
-                          <div className="d-flex w-100">
-                            <div className="lcol1_pcls start_center_pcls pdl_pcls text-break">
-                              Labour
-                            </div>
-                            <div className="lcol1_pcls end_pcls pdr_pcls text-break">
-                              {formatAmount(e?.totals?.finding?.SettingRate)}
-                            </div>
-                            <div className="lcol1_pcls end_pcls pdr_pcls">
-                              {formatAmount(
-                                e?.totals?.finding?.SettingAmount /
-                                result?.header?.CurrencyExchRate
-                              )}
-                            </div>
-                          </div>
-                        )}
+                        
 
                         {e?.TotalDiamondHandling !== 0 && (
                           <div className="d-flex w-100">

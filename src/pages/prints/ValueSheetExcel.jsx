@@ -9,6 +9,8 @@ import {
   formatAmount,
   handleImageError,
   isObjectEmpty,
+  mergeMetals,
+  mergeFindings,
 } from "../../GlobalFunctions";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import Loader from "../../components/Loader";
@@ -35,7 +37,7 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
   const [notGoldMetalTotal, setNotGoldMetalTotal] = useState(0);
   const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
   const [diamondDetails, setDiamondDetails] = useState([]);
-    const [diamondWise, setDiamondWise] = useState([]);
+  const [diamondWise, setDiamondWise] = useState([]);
   useEffect(() => {
     const sendData = async () => {
       try {
@@ -72,458 +74,459 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
   }, [diaGroupFlag]);
 
   function loadData(data) {
-      // console.log("data", data);
-      
-      let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
-      data.BillPrint_Json[0].address = address;
-  
-      const datas = OrganizeDataPrint(
-        data?.BillPrint_Json[0],
-        data?.BillPrint_Json1,
-        data?.BillPrint_Json2
-      );
-  
-      let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
-  
-      setMetShpWise(met_shp_arr);
-      let tot_met = 0;
-      let tot_met_wt = 0;
-      met_shp_arr?.forEach((e) => {
-        tot_met += e?.Amount;
-        tot_met_wt += e?.metalfinewt;
-      });
-      setNotGoldMetalTotal(tot_met);
-      setNotGoldMetalWtTotal(tot_met_wt);
-  
-      //grouping of jobs and isGroupJob is 1
-  
-      let finalArr = [];
-      datas?.resultArray?.forEach((a) => {
-        if (a?.GroupJob === "") {
-          finalArr.push(a);
-        } else {
-          let b = cloneDeep(a);
-          let find_record = finalArr.findIndex(
-            (el) => el?.GroupJob === b?.GroupJob
-          );
-          if (find_record === -1) {
-            finalArr.push(b);
-          } else {
-            if (
-              finalArr[find_record]?.GroupJob !== finalArr[find_record]?.SrJobno
-            ) {
-              finalArr[find_record].designno = b?.designno;
-              finalArr[find_record].HUID = b?.HUID;
-              finalArr[find_record].DesignImage = b?.DesignImage; // CQ Solving PSJewels 16/01/26
-            }
-  
-            // if (!finalArr[find_record].DesignImage && b?.DesignImage) {
-            //   finalArr[find_record].DesignImage = b?.DesignImage;
-            // }
-  
-            finalArr[find_record].grosswt += b?.grosswt;
-            finalArr[find_record].NetWt += b?.NetWt;
-            finalArr[find_record].LossWt += b?.LossWt;
-            finalArr[find_record].TotalAmount += b?.TotalAmount;
-            finalArr[find_record].DiscountAmt += b?.DiscountAmt;
-            finalArr[find_record].UnitCost += b?.UnitCost;
-            finalArr[find_record].MakingAmount += b?.MakingAmount;
-            finalArr[find_record].OtherCharges += b?.OtherCharges;
-            finalArr[find_record].TotalDiamondHandling += b?.TotalDiamondHandling;
-            finalArr[find_record].Quantity += b?.Quantity;
-            finalArr[find_record].Wastage += b?.Wastage;
-            finalArr[find_record].totals.metal.IsPrimaryMetal += b?.totals?.metal?.IsPrimaryMetal;
-            finalArr[find_record].totals.metal.Wt += b?.totals?.metal?.Wt;
-            finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
-            // finalArr[find_record].diamonds_d = [...finalArr[find_record]?.diamonds ,...b?.diamonds]?.flat();
-            finalArr[find_record].diamonds = [
-              ...finalArr[find_record]?.diamonds,
-              ...b?.diamonds,
-            ]?.flat();
-            // finalArr[find_record].colorstone_d = [...finalArr[find_record]?.colorstone ,...b?.colorstone]?.flat();
-            finalArr[find_record].colorstone = [
-              ...finalArr[find_record]?.colorstone,
-              ...b?.colorstone,
-            ]?.flat();
-            // finalArr[find_record].metal_d = [...finalArr[find_record]?.metal ,...b?.metal]?.flat();
-  
-            // CQ Was Solved 09/10/2025
-            // finalArr[find_record].metal = [
-            //   ...(finalArr[find_record]?.metal || []),
-            //   ...(b?.metal || [])
-            // ].flat();
-            if (!finalArr[find_record].metal) {
-              finalArr[find_record].metal = [];
-            }
-            if (Array.isArray(b?.metal)) {
-              finalArr[find_record].metal.push(...cloneDeep(b.metal));
-            }
-            // console.log("finalArr[find_record]?.metal", finalArr[find_record]?.metal);
-            // CQ Was Solved 09/10/2025
-  
-            finalArr[find_record].misc = [
-              ...finalArr[find_record]?.misc,
-              ...b?.misc,
-            ]?.flat();
-            finalArr[find_record].finding = [
-              ...finalArr[find_record]?.finding,
-              ...b?.finding,
-            ]?.flat();
-  
-            finalArr[find_record].totals.finding.Wt += b?.totals?.finding?.Wt;
-            finalArr[find_record].totals.finding.Pcs += b?.totals?.finding?.Pcs;
-            finalArr[find_record].totals.finding.Amount +=
-              b?.totals?.finding?.Amount;
-            finalArr[find_record].totals.diamonds.Pcs += b?.totals?.diamonds?.Pcs;
-            finalArr[find_record].totals.diamonds.Amount +=
-              b?.totals?.diamonds?.Amount;
-  
-            finalArr[find_record].totals.colorstone.Wt +=
-              b?.totals?.colorstone?.Wt;
-            finalArr[find_record].totals.colorstone.Pcs +=
-              b?.totals?.colorstone?.Pcs;
-            finalArr[find_record].totals.colorstone.Amount +=
-              b?.totals?.colorstone?.Amount;
-  
-            finalArr[find_record].totals.misc.Wt += b?.totals?.misc?.Wt;
-            finalArr[find_record].totals.misc.allservwt +=
-              b?.totals?.misc?.allservwt;
-            finalArr[find_record].totals.misc.Pcs += b?.totals?.misc?.Pcs;
-            finalArr[find_record].totals.misc.Amount += b?.totals?.misc?.Amount;
-  
-            finalArr[find_record].totals.metal.Amount += b?.totals?.metal?.Amount;
-            finalArr[find_record].totals.metal.IsPrimaryMetal +=
-              b?.totals?.metal?.IsPrimaryMetal;
-            finalArr[find_record].totals.metal.IsPrimaryMetal_Amount +=
-              b?.totals?.metal?.IsPrimaryMetal_Amount;
-  
-            finalArr[find_record].totals.misc.withouthscode1_2_pcs +=
-              b?.totals?.misc?.withouthscode1_2_pcs;
-            finalArr[find_record].totals.misc.withouthscode1_2_wt +=
-              b?.totals?.misc?.withouthscode1_2_wt;
-            finalArr[find_record].totals.misc.onlyHSCODE3_amt +=
-              b?.totals?.misc?.onlyHSCODE3_amt;
-            finalArr[find_record].totals.misc.onlyIsHSCODE0_Wt +=
-              b?.totals?.misc?.onlyIsHSCODE0_Wt;
-            finalArr[find_record].totals.misc.onlyIsHSCODE0_Pcs +=
-              b?.totals?.misc?.onlyIsHSCODE0_Pcs;
-            finalArr[find_record].totals.misc.onlyIsHSCODE0_Amount +=
-              b?.totals?.misc?.onlyIsHSCODE0_Amount;
-          }
-        }
-      });
-      
-      // CQ Was Solving 09/10/2025
-      // finalArr.forEach((item, idx) => {
-      //   console.log(`Record ${idx} GroupJob: ${item.GroupJob} has metal count:`, item.metal?.length);
-      // });
-      // console.log("Final finalArr stringified:\n", JSON.stringify(finalArr, null, 2));
-      // CQ Was Solving 09/10/2025
-  
-      datas.resultArray = finalArr;
-  
-      //after groupjob
-      datas?.resultArray?.forEach((e) => {
-        let dia2 = [];
-        e?.diamonds?.forEach((el) => {
-          // let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.GroupName === el?.GroupName)
-          let findrec = dia2?.findIndex(
-            (a) =>
-              a?.ShapeName === el?.ShapeName &&
-              a?.QualityName === el?.QualityName &&
-              a?.Colorname === el?.Colorname &&
-              a?.SizeName === el?.SizeName &&
-              a?.Rate === el?.Rate
-          );
-          let ell = cloneDeep(el);
-          if (findrec === -1) {
-            dia2.push(ell);
-          } else {
-            dia2[findrec].Wt += ell?.Wt;
-            dia2[findrec].Pcs += ell?.Pcs;
-            dia2[findrec].Amount += ell?.Amount;
-            // dia2[findrec].Rate += ell?.Rate; // CQ Fixed 22/11/2025
-            // if(dia2[findrec]?.SizeName !== ell?.SizeName){
-            //   // dia2[findrec].SizeName = 'Mix'
-            //   dia2[findrec].SizeName = ell?.GroupName;
-            // }
-          }
-        });
-        e.diamonds = dia2;
-  
-        //diamond
-        let clr2 = [];
-  
-        e?.colorstone?.forEach((el) => {
-          // let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.GroupName === el?.GroupName)
-          let findrec = clr2?.findIndex(
-            (a) =>
-              a?.ShapeName === el?.ShapeName &&
-              a?.QualityName === el?.QualityName &&
-              a?.Colorname === el?.Colorname &&
-              a?.SizeName === el?.SizeName &&
-              a?.Rate === el?.Rate &&
-              a?.isRateOnPcs === el?.isRateOnPcs
-          );
-          let ell = cloneDeep(el);
-          if (findrec === -1) {
-            clr2.push(ell);
-          } else {
-            clr2[findrec].Wt += ell?.Wt;
-            clr2[findrec].Pcs += ell?.Pcs;
-            clr2[findrec].Amount += ell?.Amount;
-            clr2[findrec].Rate += ell?.Rate;
-            // if(dia2[findrec]?.SizeName !== ell?.SizeName){
-            //   // dia2[findrec].SizeName = 'Mix'
-            //   dia2[findrec].SizeName = ell?.GroupName;
-            // }
-          }
-        });
-        e.colorstone = clr2;
-  
-        //misc
-        let misc0 = [];
-        e?.misc?.forEach((el) => {
-          if (el?.IsHSCOE === 0) {
-            misc0?.push(el);
-          }
-        });
-  
-        e.misc = misc0;
-  
-        if (e?.GroupJob !== "") {
-          e.metal = e.metal?.map((a) => ({
-            ...a,
-            GroupJob: e.GroupJob,
-          }));
-        }
-        // CQ Was Solved 09/10/2025
-  
-      });
-  
-      let diaObj = {
-        ShapeName: "OTHERS",
-        wtWt: 0,
-        wtWts: 0,
-        pcPcs: 0,
-        pcPcss: 0,
-        rRate: 0,
-        rRates: 0,
-        amtAmount: 0,
-        amtAmounts: 0,
-      };
-  
-      let diaonlyrndarr1 = [];
-      let diaonlyrndarr2 = [];
-      let diaonlyrndarr3 = [];
-      let diaonlyrndarr4 = [];
-      let diarndotherarr5 = [];
-      let diaonlyrndarr6 = [];
-      datas?.json2?.forEach((e) => {
-        if (e?.MasterManagement_DiamondStoneTypeid === 1) {
-          if (e.ShapeName?.toLowerCase() === "rnd") {
-            diaonlyrndarr1.push(e);
-          } else {
-            diaonlyrndarr2.push(e);
-          }
-        }
-      });
-  
-      diaonlyrndarr1?.forEach((e) => {
-        let findRecord = diaonlyrndarr3.findIndex(
-          (a) =>
-            e?.StockBarcode === a?.StockBarcode &&
-            e?.ShapeName === a?.ShapeName &&
-            e?.QualityName === a?.QualityName &&
-            e?.Colorname === a?.Colorname
-        );
-  
-        if (findRecord === -1) {
-          let obj = { ...e };
-          obj.wtWt = e?.Wt;
-          obj.pcPcs = e?.Pcs;
-          obj.rRate = e?.Rate;
-          obj.amtAmount = e?.Amount;
-          diaonlyrndarr3.push(obj);
-        } else {
-          diaonlyrndarr3[findRecord].wtWt += e?.Wt;
-          diaonlyrndarr3[findRecord].pcPcs += e?.Pcs;
-          diaonlyrndarr3[findRecord].rRate += e?.Rate;
-          diaonlyrndarr3[findRecord].amtAmount += e?.Amount;
-        }
-      });
-  
-      diaonlyrndarr2?.forEach((e) => {
-        let findRecord = diaonlyrndarr4.findIndex(
-          (a) =>
-            e?.StockBarcode === a?.StockBarcode &&
-            e?.ShapeName === a?.ShapeName &&
-            e?.QualityName === a?.QualityName &&
-            e?.Colorname === a?.Colorname
-        );
-  
-        if (findRecord === -1) {
-          let obj = { ...e };
-          obj.wtWt = e?.Wt;
-          obj.wtWts = e?.Wt;
-          obj.pcPcs = e?.Pcs;
-          obj.pcPcss = e?.Pcs;
-          obj.rRate = e?.Rate;
-          obj.rRates = e?.Rate;
-          obj.amtAmount = e?.Amount;
-          obj.amtAmounts = e?.Amount;
-          diaonlyrndarr4.push(obj);
-        } else {
-          diaonlyrndarr4[findRecord].wtWt += e?.Wt;
-          diaonlyrndarr4[findRecord].wtWts += e?.Wt;
-          diaonlyrndarr4[findRecord].pcPcs += e?.Pcs;
-          diaonlyrndarr4[findRecord].pcPcss += e?.Pcs;
-          diaonlyrndarr4[findRecord].rRate += e?.Rate;
-          diaonlyrndarr4[findRecord].rRates += e?.Rate;
-          diaonlyrndarr4[findRecord].amtAmount += e?.Amount;
-          diaonlyrndarr4[findRecord].amtAmounts += e?.Amount;
-        }
-      });
-  
-      diaonlyrndarr4?.forEach((e) => {
-        diaObj.wtWt += e?.wtWt;
-        diaObj.wtWts += e?.wtWts;
-        diaObj.pcPcs += e?.pcPcs;
-        diaObj.pcPcss += e?.pcPcss;
-        diaObj.rRate += e?.rRate;
-        diaObj.rRates += e?.rRates;
-        diaObj.amtAmount += e?.amtAmount;
-        diaObj.amtAmounts += e?.amtAmounts;
-      });
-  
-      diaonlyrndarr3?.forEach((e) => {
-        let find_record = diaonlyrndarr6?.findIndex(
-          (a) =>
-            e?.ShapeName === a?.ShapeName &&
-            e?.QualityName === a?.QualityName &&
-            e?.Colorname === a?.Colorname
+    // console.log("data", data);
+
+    let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
+    data.BillPrint_Json[0].address = address;
+
+    const datas = OrganizeDataPrint(
+      data?.BillPrint_Json[0],
+      data?.BillPrint_Json1,
+      data?.BillPrint_Json2
+    );
+
+    let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
+
+    setMetShpWise(met_shp_arr);
+    let tot_met = 0;
+    let tot_met_wt = 0;
+    met_shp_arr?.forEach((e) => {
+      tot_met += e?.Amount;
+      tot_met_wt += e?.metalfinewt;
+    });
+    setNotGoldMetalTotal(tot_met);
+    setNotGoldMetalWtTotal(tot_met_wt);
+
+    //grouping of jobs and isGroupJob is 1
+
+    let finalArr = [];
+    datas?.resultArray?.forEach((a) => {
+      if (a?.GroupJob === "") {
+        finalArr.push(a);
+      } else {
+        let b = cloneDeep(a);
+        let find_record = finalArr.findIndex(
+          (el) => el?.GroupJob === b?.GroupJob
         );
         if (find_record === -1) {
-          let obj = { ...e };
-          obj.wtWts = e?.wtWt;
-          obj.pcPcss = e?.pcPcs;
-          obj.rRates = e?.rRate;
-          obj.amtAmounts = e?.amtAmount;
-          diaonlyrndarr6.push(obj);
+          finalArr.push(b);
         } else {
-          diaonlyrndarr6[find_record].wtWts += e?.wtWt;
-          diaonlyrndarr6[find_record].pcPcss += e?.pcPcs;
-          diaonlyrndarr6[find_record].rRates += e?.rRate;
-          diaonlyrndarr6[find_record].amtAmounts += e?.amtAmount;
-        }
-      });
-  
-      let diamondDetail = [];
-      data?.BillPrint_Json2?.forEach((e) => {
-        if (e?.MasterManagement_DiamondStoneTypeid === 1) {
-          let findDiamond = diamondDetail?.findIndex(
-            (ele) =>
-              ele?.ShapeName === e?.ShapeName &&
-              ele?.QualityName === e?.QualityName &&
-              ele?.Colorname === e?.Colorname
-          );
-          if (findDiamond === -1) {
-            diamondDetail.push(e);
-          } else {
-            diamondDetail[findDiamond].Pcs += e?.Pcs;
-            diamondDetail[findDiamond].Wt += e?.Wt;
-            diamondDetail[findDiamond].Amount += e?.Amount;
+          if (
+            finalArr[find_record]?.GroupJob !== finalArr[find_record]?.SrJobno
+          ) {
+            finalArr[find_record].designno = b?.designno;
+            finalArr[find_record].HUID = b?.HUID;
+            finalArr[find_record].DesignImage = b?.DesignImage; // CQ Solving PSJewels 16/01/26
           }
+
+          // if (!finalArr[find_record].DesignImage && b?.DesignImage) {
+          //   finalArr[find_record].DesignImage = b?.DesignImage;
+          // }
+
+          finalArr[find_record].grosswt += b?.grosswt;
+          finalArr[find_record].NetWt += b?.NetWt;
+          finalArr[find_record].LossWt += b?.LossWt;
+          finalArr[find_record].TotalAmount += b?.TotalAmount;
+          finalArr[find_record].DiscountAmt += b?.DiscountAmt;
+          finalArr[find_record].UnitCost += b?.UnitCost;
+          finalArr[find_record].MakingAmount += b?.MakingAmount;
+          finalArr[find_record].OtherCharges += b?.OtherCharges;
+          finalArr[find_record].TotalDiamondHandling += b?.TotalDiamondHandling;
+          finalArr[find_record].Quantity += b?.Quantity;
+          finalArr[find_record].Wastage += b?.Wastage;
+          finalArr[find_record].totals.metal.IsPrimaryMetal += b?.totals?.metal?.IsPrimaryMetal;
+          finalArr[find_record].totals.metal.Wt += b?.totals?.metal?.Wt;
+          finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
+          // finalArr[find_record].diamonds_d = [...finalArr[find_record]?.diamonds ,...b?.diamonds]?.flat();
+          finalArr[find_record].diamonds = [
+            ...finalArr[find_record]?.diamonds,
+            ...b?.diamonds,
+          ]?.flat();
+          // finalArr[find_record].colorstone_d = [...finalArr[find_record]?.colorstone ,...b?.colorstone]?.flat();
+          finalArr[find_record].colorstone = [
+            ...finalArr[find_record]?.colorstone,
+            ...b?.colorstone,
+          ]?.flat();
+          // finalArr[find_record].metal_d = [...finalArr[find_record]?.metal ,...b?.metal]?.flat();
+
+          // CQ Was Solved 09/10/2025
+          // finalArr[find_record].metal = [
+          //   ...(finalArr[find_record]?.metal || []),
+          //   ...(b?.metal || [])
+          // ].flat();
+          if (!finalArr[find_record].metal) {
+            finalArr[find_record].metal = [];
+          }
+          if (Array.isArray(b?.metal)) {
+            finalArr[find_record].metal.push(...cloneDeep(b.metal));
+          }
+          // console.log("finalArr[find_record]?.metal", finalArr[find_record]?.metal);
+          // CQ Was Solved 09/10/2025
+
+          finalArr[find_record].misc = [
+            ...finalArr[find_record]?.misc,
+            ...b?.misc,
+          ]?.flat();
+          finalArr[find_record].finding = [
+            ...finalArr[find_record]?.finding,
+            ...b?.finding,
+          ]?.flat();
+
+          finalArr[find_record].totals.finding.Wt += b?.totals?.finding?.Wt;
+          finalArr[find_record].totals.finding.Pcs += b?.totals?.finding?.Pcs;
+          finalArr[find_record].totals.finding.Amount +=
+            b?.totals?.finding?.Amount;
+          finalArr[find_record].totals.diamonds.Pcs += b?.totals?.diamonds?.Pcs;
+          finalArr[find_record].totals.diamonds.Amount +=
+            b?.totals?.diamonds?.Amount;
+
+          finalArr[find_record].totals.colorstone.Wt +=
+            b?.totals?.colorstone?.Wt;
+          finalArr[find_record].totals.colorstone.Pcs +=
+            b?.totals?.colorstone?.Pcs;
+          finalArr[find_record].totals.colorstone.Amount +=
+            b?.totals?.colorstone?.Amount;
+
+          finalArr[find_record].totals.misc.Wt += b?.totals?.misc?.Wt;
+          finalArr[find_record].totals.misc.allservwt +=
+            b?.totals?.misc?.allservwt;
+          finalArr[find_record].totals.misc.Pcs += b?.totals?.misc?.Pcs;
+          finalArr[find_record].totals.misc.Amount += b?.totals?.misc?.Amount;
+
+          finalArr[find_record].totals.metal.Amount += b?.totals?.metal?.Amount;
+          finalArr[find_record].totals.metal.IsPrimaryMetal +=
+            b?.totals?.metal?.IsPrimaryMetal;
+          finalArr[find_record].totals.metal.IsPrimaryMetal_Amount +=
+            b?.totals?.metal?.IsPrimaryMetal_Amount;
+
+          finalArr[find_record].totals.misc.withouthscode1_2_pcs +=
+            b?.totals?.misc?.withouthscode1_2_pcs;
+          finalArr[find_record].totals.misc.withouthscode1_2_wt +=
+            b?.totals?.misc?.withouthscode1_2_wt;
+          finalArr[find_record].totals.misc.onlyHSCODE3_amt +=
+            b?.totals?.misc?.onlyHSCODE3_amt;
+          finalArr[find_record].totals.misc.onlyIsHSCODE0_Wt +=
+            b?.totals?.misc?.onlyIsHSCODE0_Wt;
+          finalArr[find_record].totals.misc.onlyIsHSCODE0_Pcs +=
+            b?.totals?.misc?.onlyIsHSCODE0_Pcs;
+          finalArr[find_record].totals.misc.onlyIsHSCODE0_Amount +=
+            b?.totals?.misc?.onlyIsHSCODE0_Amount;
         }
-      });
-      let findRND = [];
-      let remaingDia = [];
-      diamondDetail?.forEach((ele) => {
-        if (ele?.ShapeName === "RND") {
-          findRND.push(ele);
-        } else {
-          remaingDia.push(ele);
-        }
-      });
-  
-      let resultArr = [];
-      findRND.sort((a, b) => {
-        if (a.ShapeName !== b.ShapeName) {
-          return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
-        } else if (a.QualityName !== b.QualityName) {
-          return a.QualityName.localeCompare(b.QualityName); // If ShapeName is same, sort by QualityName
-        } else {
-          return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
-        }
-      });
-  
-      remaingDia.sort((a, b) => {
-        if (a.ShapeName !== b.ShapeName) {
-          return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
-        } else if (a.QualityName !== b.QualityName) {
-          return a.QualityName.localeCompare(b.QualityName); // If ShapeName is same, sort by QualityName
-        } else {
-          return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
-        }
-      });
-      if (findRND?.length > 6) {
-        let arr = findRND.slice(0, 6);
-        let anotherArr = [...findRND.slice(6), remaingDia].flat();
-        let obj = { ...anotherArr[0] };
-        anotherArr?.reduce((acc, cobj) => {
-          obj.Pcs += cobj?.Pcs;
-          obj.Wt += cobj?.Wt;
-          obj.Amount += cobj?.Amount;
-        }, obj);
-        obj.ShapeName = "OTHER";
-        resultArr = [...arr, obj].flat();
-      } else {
-        let arr = [...findRND].flat();
-        let smallArr = [...remaingDia.slice(0, 6 - findRND?.length)].flat();
-        let largeArr = [...remaingDia.slice(6 - findRND?.length)].flat();
-        let finalArr = [...arr, ...smallArr].flat();
-  
-        let obj = { ...largeArr[0] };
-        obj.Pcs = 0;
-        obj.Wt = 0;
-        obj.Amount = 0;
-        largeArr?.reduce((acc, cobj) => {
-          obj.Pcs += cobj?.Pcs;
-          obj.Wt += cobj?.Wt;
-          obj.Amount += cobj?.Amount;
-        }, obj);
-        obj.ShapeName = "OTHER";
-        resultArr = [...finalArr, obj].flat();
       }
-  
-      setDiamondDetails(resultArr);
-  
-      diarndotherarr5 = [...diaonlyrndarr6, diaObj];
-      const sortedData = diarndotherarr5?.sort(customSort);
-      // setDiamonds(sortedData);
-      setDiamondWise(sortedData);
-  
-      setResult(datas);
-    }
-  
-    const customSort = (a, b) => {
-      if (a?.ShapeName === "OTHER" && b?.ShapeName !== "OTHER") {
-        return 1; // "OTHER" comes after any other ShapeName
-      } else if (a?.ShapeName !== "OTHER" && b?.ShapeName === "OTHER") {
-        return -1; // Any other ShapeName comes before "OTHER"
-      } else {
-        // If ShapeNames are equal, compare by QualityName
-        if (a?.QualityName < b?.QualityName) {
-          return -1;
-        } else if (a?.QualityName > b?.QualityName) {
-          return 1;
+    });
+
+    // CQ Was Solving 09/10/2025
+    // finalArr.forEach((item, idx) => {
+    //   console.log(`Record ${idx} GroupJob: ${item.GroupJob} has metal count:`, item.metal?.length);
+    // });
+    // console.log("Final finalArr stringified:\n", JSON.stringify(finalArr, null, 2));
+    // CQ Was Solving 09/10/2025
+
+    datas.resultArray = finalArr;
+
+    //after groupjob
+    datas?.resultArray?.forEach((e) => {
+      let dia2 = [];
+      e?.diamonds?.forEach((el) => {
+        // let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.GroupName === el?.GroupName)
+        let findrec = dia2?.findIndex(
+          (a) =>
+            a?.ShapeName === el?.ShapeName &&
+            a?.QualityName === el?.QualityName &&
+            a?.Colorname === el?.Colorname &&
+            a?.SizeName === el?.SizeName &&
+            a?.MaterialTypeName === el?.MaterialTypeName &&
+            a?.Rate === el?.Rate
+        );
+        let ell = cloneDeep(el);
+        if (findrec === -1) {
+          dia2.push(ell);
         } else {
-          // If QualityNames are equal, compare by Colorname
-          return a?.Colorname?.localeCompare(b?.Colorname);
+          dia2[findrec].Wt += ell?.Wt;
+          dia2[findrec].Pcs += ell?.Pcs;
+          dia2[findrec].Amount += ell?.Amount;
+          // dia2[findrec].Rate += ell?.Rate; // CQ Fixed 22/11/2025
+          // if(dia2[findrec]?.SizeName !== ell?.SizeName){
+          //   // dia2[findrec].SizeName = 'Mix'
+          //   dia2[findrec].SizeName = ell?.GroupName;
+          // }
         }
+      });
+      e.diamonds = dia2;
+
+      //diamond
+      let clr2 = [];
+
+      e?.colorstone?.forEach((el) => {
+        // let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.GroupName === el?.GroupName)
+        let findrec = clr2?.findIndex(
+          (a) =>
+            a?.ShapeName === el?.ShapeName &&
+            a?.QualityName === el?.QualityName &&
+            a?.Colorname === el?.Colorname &&
+            a?.SizeName === el?.SizeName &&
+            a?.Rate === el?.Rate &&
+            a?.isRateOnPcs === el?.isRateOnPcs
+        );
+        let ell = cloneDeep(el);
+        if (findrec === -1) {
+          clr2.push(ell);
+        } else {
+          clr2[findrec].Wt += ell?.Wt;
+          clr2[findrec].Pcs += ell?.Pcs;
+          clr2[findrec].Amount += ell?.Amount;
+          clr2[findrec].Rate += ell?.Rate;
+          // if(dia2[findrec]?.SizeName !== ell?.SizeName){
+          //   // dia2[findrec].SizeName = 'Mix'
+          //   dia2[findrec].SizeName = ell?.GroupName;
+          // }
+        }
+      });
+      e.colorstone = clr2;
+
+      //misc
+      let misc0 = [];
+      e?.misc?.forEach((el) => {
+        if (el?.IsHSCOE === 0) {
+          misc0?.push(el);
+        }
+      });
+
+      e.misc = misc0;
+
+      if (e?.GroupJob !== "") {
+        e.metal = e.metal?.map((a) => ({
+          ...a,
+          GroupJob: e.GroupJob,
+        }));
       }
+      // CQ Was Solved 09/10/2025
+
+    });
+
+    let diaObj = {
+      ShapeName: "OTHERS",
+      wtWt: 0,
+      wtWts: 0,
+      pcPcs: 0,
+      pcPcss: 0,
+      rRate: 0,
+      rRates: 0,
+      amtAmount: 0,
+      amtAmounts: 0,
     };
-   
+
+    let diaonlyrndarr1 = [];
+    let diaonlyrndarr2 = [];
+    let diaonlyrndarr3 = [];
+    let diaonlyrndarr4 = [];
+    let diarndotherarr5 = [];
+    let diaonlyrndarr6 = [];
+    datas?.json2?.forEach((e) => {
+      if (e?.MasterManagement_DiamondStoneTypeid === 1) {
+        if (e.ShapeName?.toLowerCase() === "rnd") {
+          diaonlyrndarr1.push(e);
+        } else {
+          diaonlyrndarr2.push(e);
+        }
+      }
+    });
+
+    diaonlyrndarr1?.forEach((e) => {
+      let findRecord = diaonlyrndarr3.findIndex(
+        (a) =>
+          e?.StockBarcode === a?.StockBarcode &&
+          e?.ShapeName === a?.ShapeName &&
+          e?.QualityName === a?.QualityName &&
+          e?.Colorname === a?.Colorname
+      );
+
+      if (findRecord === -1) {
+        let obj = { ...e };
+        obj.wtWt = e?.Wt;
+        obj.pcPcs = e?.Pcs;
+        obj.rRate = e?.Rate;
+        obj.amtAmount = e?.Amount;
+        diaonlyrndarr3.push(obj);
+      } else {
+        diaonlyrndarr3[findRecord].wtWt += e?.Wt;
+        diaonlyrndarr3[findRecord].pcPcs += e?.Pcs;
+        diaonlyrndarr3[findRecord].rRate += e?.Rate;
+        diaonlyrndarr3[findRecord].amtAmount += e?.Amount;
+      }
+    });
+
+    diaonlyrndarr2?.forEach((e) => {
+      let findRecord = diaonlyrndarr4.findIndex(
+        (a) =>
+          e?.StockBarcode === a?.StockBarcode &&
+          e?.ShapeName === a?.ShapeName &&
+          e?.QualityName === a?.QualityName &&
+          e?.Colorname === a?.Colorname
+      );
+
+      if (findRecord === -1) {
+        let obj = { ...e };
+        obj.wtWt = e?.Wt;
+        obj.wtWts = e?.Wt;
+        obj.pcPcs = e?.Pcs;
+        obj.pcPcss = e?.Pcs;
+        obj.rRate = e?.Rate;
+        obj.rRates = e?.Rate;
+        obj.amtAmount = e?.Amount;
+        obj.amtAmounts = e?.Amount;
+        diaonlyrndarr4.push(obj);
+      } else {
+        diaonlyrndarr4[findRecord].wtWt += e?.Wt;
+        diaonlyrndarr4[findRecord].wtWts += e?.Wt;
+        diaonlyrndarr4[findRecord].pcPcs += e?.Pcs;
+        diaonlyrndarr4[findRecord].pcPcss += e?.Pcs;
+        diaonlyrndarr4[findRecord].rRate += e?.Rate;
+        diaonlyrndarr4[findRecord].rRates += e?.Rate;
+        diaonlyrndarr4[findRecord].amtAmount += e?.Amount;
+        diaonlyrndarr4[findRecord].amtAmounts += e?.Amount;
+      }
+    });
+
+    diaonlyrndarr4?.forEach((e) => {
+      diaObj.wtWt += e?.wtWt;
+      diaObj.wtWts += e?.wtWts;
+      diaObj.pcPcs += e?.pcPcs;
+      diaObj.pcPcss += e?.pcPcss;
+      diaObj.rRate += e?.rRate;
+      diaObj.rRates += e?.rRates;
+      diaObj.amtAmount += e?.amtAmount;
+      diaObj.amtAmounts += e?.amtAmounts;
+    });
+
+    diaonlyrndarr3?.forEach((e) => {
+      let find_record = diaonlyrndarr6?.findIndex(
+        (a) =>
+          e?.ShapeName === a?.ShapeName &&
+          e?.QualityName === a?.QualityName &&
+          e?.Colorname === a?.Colorname
+      );
+      if (find_record === -1) {
+        let obj = { ...e };
+        obj.wtWts = e?.wtWt;
+        obj.pcPcss = e?.pcPcs;
+        obj.rRates = e?.rRate;
+        obj.amtAmounts = e?.amtAmount;
+        diaonlyrndarr6.push(obj);
+      } else {
+        diaonlyrndarr6[find_record].wtWts += e?.wtWt;
+        diaonlyrndarr6[find_record].pcPcss += e?.pcPcs;
+        diaonlyrndarr6[find_record].rRates += e?.rRate;
+        diaonlyrndarr6[find_record].amtAmounts += e?.amtAmount;
+      }
+    });
+
+    let diamondDetail = [];
+    data?.BillPrint_Json2?.forEach((e) => {
+      if (e?.MasterManagement_DiamondStoneTypeid === 1) {
+        let findDiamond = diamondDetail?.findIndex(
+          (ele) =>
+            ele?.ShapeName === e?.ShapeName &&
+            ele?.QualityName === e?.QualityName &&
+            ele?.Colorname === e?.Colorname
+        );
+        if (findDiamond === -1) {
+          diamondDetail.push(e);
+        } else {
+          diamondDetail[findDiamond].Pcs += e?.Pcs;
+          diamondDetail[findDiamond].Wt += e?.Wt;
+          diamondDetail[findDiamond].Amount += e?.Amount;
+        }
+      }
+    });
+    let findRND = [];
+    let remaingDia = [];
+    diamondDetail?.forEach((ele) => {
+      if (ele?.ShapeName === "RND") {
+        findRND.push(ele);
+      } else {
+        remaingDia.push(ele);
+      }
+    });
+
+    let resultArr = [];
+    findRND.sort((a, b) => {
+      if (a.ShapeName !== b.ShapeName) {
+        return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
+      } else if (a.QualityName !== b.QualityName) {
+        return a.QualityName.localeCompare(b.QualityName); // If ShapeName is same, sort by QualityName
+      } else {
+        return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
+      }
+    });
+
+    remaingDia.sort((a, b) => {
+      if (a.ShapeName !== b.ShapeName) {
+        return a.ShapeName.localeCompare(b.ShapeName); // Sort by ShapeName
+      } else if (a.QualityName !== b.QualityName) {
+        return a.QualityName.localeCompare(b.QualityName); // If ShapeName is same, sort by QualityName
+      } else {
+        return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
+      }
+    });
+    if (findRND?.length > 6) {
+      let arr = findRND.slice(0, 6);
+      let anotherArr = [...findRND.slice(6), remaingDia].flat();
+      let obj = { ...anotherArr[0] };
+      anotherArr?.reduce((acc, cobj) => {
+        obj.Pcs += cobj?.Pcs;
+        obj.Wt += cobj?.Wt;
+        obj.Amount += cobj?.Amount;
+      }, obj);
+      obj.ShapeName = "OTHER";
+      resultArr = [...arr, obj].flat();
+    } else {
+      let arr = [...findRND].flat();
+      let smallArr = [...remaingDia.slice(0, 6 - findRND?.length)].flat();
+      let largeArr = [...remaingDia.slice(6 - findRND?.length)].flat();
+      let finalArr = [...arr, ...smallArr].flat();
+
+      let obj = { ...largeArr[0] };
+      obj.Pcs = 0;
+      obj.Wt = 0;
+      obj.Amount = 0;
+      largeArr?.reduce((acc, cobj) => {
+        obj.Pcs += cobj?.Pcs;
+        obj.Wt += cobj?.Wt;
+        obj.Amount += cobj?.Amount;
+      }, obj);
+      obj.ShapeName = "OTHER";
+      resultArr = [...finalArr, obj].flat();
+    }
+
+    setDiamondDetails(resultArr);
+
+    diarndotherarr5 = [...diaonlyrndarr6, diaObj];
+    const sortedData = diarndotherarr5?.sort(customSort);
+    // setDiamonds(sortedData);
+    setDiamondWise(sortedData);
+
+    setResult(datas);
+  }
+
+  const customSort = (a, b) => {
+    if (a?.ShapeName === "OTHER" && b?.ShapeName !== "OTHER") {
+      return 1; // "OTHER" comes after any other ShapeName
+    } else if (a?.ShapeName !== "OTHER" && b?.ShapeName === "OTHER") {
+      return -1; // Any other ShapeName comes before "OTHER"
+    } else {
+      // If ShapeNames are equal, compare by QualityName
+      if (a?.QualityName < b?.QualityName) {
+        return -1;
+      } else if (a?.QualityName > b?.QualityName) {
+        return 1;
+      } else {
+        // If QualityNames are equal, compare by Colorname
+        return a?.Colorname?.localeCompare(b?.Colorname);
+      }
+    }
+  };
+
   if (result) {
     setTimeout(() => {
       const button = document.getElementById('test-table-xls-button');
@@ -532,7 +535,7 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
   }
 
 
- 
+
 
   // const mergeByPurityAndMaterial = (data) => {
   //   const map = new Map();
@@ -826,15 +829,15 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
 
   // const mergeByPurityAndMaterial = (data) => {
   //   const map = new Map();
-  
+
   //   data?.forEach((item) => {
   //     const purity = item.MetalPurity;
   //     const MetalType = item.MetalType;
-  
+
   //     // ======================================================
   //     //   SECONDARY METAL QUALITY NAMES
   //     // ======================================================
-  
+
   //     const secondaryMetalQualities = [
   //       ...new Set(
   //         (item?.metal || [])
@@ -843,26 +846,26 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
   //           ?.filter((x) => x && x.trim() !== "")
   //       ),
   //     ].sort();
-  
+
   //     // ======================================================
   //     //   STEP 1: merge all non-metal materials
   //     // ======================================================
-  
+
   //     const allMaterials = [
   //       ...(item.diamonds || []),
   //       ...(item.colorstone || []),
   //       ...(item.misc || []),
   //     ];
-  
+
   //     // ======================================================
   //     //   STEP 2: group by ShapeName
   //     // ======================================================
-  
+
   //     const shapeMap = new Map();
-  
+
   //     allMaterials.forEach((mat) => {
   //       const shape = mat?.ShapeName || "UNKNOWN";
-  
+
   //       if (!shapeMap.has(shape)) {
   //         shapeMap.set(shape, {
   //           MasterManagement_DiamondStoneTypeName:
@@ -874,43 +877,43 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
   //           Rate: 0,
   //         });
   //       }
-  
+
   //       const group = shapeMap.get(shape);
-  
+
   //       group.Pcs += mat?.Pcs || 0;
   //       group.Wt += mat?.Wt || 0;
   //       group.Amount += mat?.Amount || 0;
-  
+
   //       if (mat?.Wt) {
   //         group.Rate += (mat?.Rate || 0) * mat.Wt;
   //       }
   //     });
-  
+
   //     // ======================================================
   //     //   FINALIZE OTHER MATERIALS
   //     // ======================================================
-  
+
   //     const otherMaterials = Array.from(shapeMap.values()).map((x) => ({
   //       ...x,
   //       Rate: x.Wt ? x.Rate / x.Wt : 0,
   //     }));
-  
+
   //     item.otherMaterials = otherMaterials;
-  
+
   //     // ======================================================
   //     //   MATERIAL TYPES
   //     // ======================================================
-  
+
   //     const materials = allMaterials
   //       .map((x) => x.MaterialTypeName)
   //       .filter((x) => x && x.trim() !== "");
-  
+
   //     const uniqueMaterials = [...new Set(materials)].sort();
-  
+
   //     // ======================================================
   //     //   NEW: SHAPE + MATERIAL TAGS FOR DISPLAY
   //     // ======================================================
-  
+
   //     const shapeTags = [
   //       ...new Set(
   //         [
@@ -924,44 +927,44 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
   //           .map((x) => x.trim())
   //       ),
   //     ].sort();
-  
+
   //     // ======================================================
   //     //   KEY
   //     // ======================================================
-  
+
   //     const key = [
   //       purity,
   //       uniqueMaterials.join(","),
   //       secondaryMetalQualities.join(","),
   //     ].join("_");
-  
+
   //     if (!map.has(key)) {
   //       map.set(key, {
   //         MetalPurity: purity,
   //         PrimaryMetalPurity: purity,
   //         SecondaryMetalQualities: secondaryMetalQualities,
   //         MaterialTypes: uniqueMaterials,
-  
+
   //         // ======================================================
   //         //   UPDATED DISPLAY NAME (MAIN FIX)
   //         // ======================================================
-  
+
   //         DisplayName: (() => {
   //           const metalPart =
   //             secondaryMetalQualities?.length > 0
   //               ? `${purity},${secondaryMetalQualities.join(",")}`
   //               : purity;
-  
+
   //           const shapePart =
   //             shapeTags?.length > 0 ? shapeTags.join(", ") : "";
-  
+
   //           return shapePart
   //             ? `${metalPart} ${MetalType} JEWELLERY STUDDED WITH ${shapePart}`
   //             : `${metalPart} ${MetalType} JEWELLERY`;
   //         })(),
-  
+
   //         items: [],
-  
+
   //         total: {
   //           grosswt: 0,
   //           NetWt: 0,
@@ -981,79 +984,79 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
   //         },
   //       });
   //     }
-  
+
   //     const group = map.get(key);
-  
+
   //     group.items.push(item);
-  
+
   //     // ======================================================
   //     //   TOTALS
   //     // ======================================================
-  
+
   //     group.total.grosswt += item?.grosswt || 0;
   //     group.total.NetWt += item?.NetWt || 0;
   //     group.total.LossWt += item?.LossWt || 0;
   //     group.total.Quantity += item?.Quantity || 0;
-  
+
   //     group.total.totalWt += (item?.NetWt || 0) + (item?.LossWt || 0);
-  
+
   //     const metalAmount = item?.totals?.metal?.Amount || 0;
-  
+
   //     group.total.metalAmount += metalAmount;
-  
+
   //     const diaPcs =
   //       item?.totals?.diamonds?.Pcs ??
   //       item?.diamonds?.reduce((s, d) => s + (d.Pcs || 0), 0) ??
   //       0;
-  
+
   //     const csPcs =
   //       item?.totals?.colorstone?.Pcs ??
   //       item?.colorstone?.reduce((s, c) => s + (c.Pcs || 0), 0) ??
   //       0;
-  
+
   //     const miscPcs =
   //       item?.totals?.misc?.Pcs ??
   //       item?.misc?.reduce((s, c) => s + (c.Pcs || 0), 0) ??
   //       0;
-  
+
   //     const diaWt =
   //       item?.totals?.diamonds?.Wt ??
   //       item?.diamonds?.reduce((s, d) => s + (d.Wt || 0), 0) ??
   //       0;
-  
+
   //     const csWt =
   //       item?.totals?.colorstone?.Wt ??
   //       item?.colorstone?.reduce((s, c) => s + (c.Wt || 0), 0) ??
   //       0;
-  
+
   //     const miscWt =
   //       item?.totals?.misc?.Wt ??
   //       item?.misc?.reduce((s, c) => s + (c.Wt || 0), 0) ??
   //       0;
-  
+
   //     const diaAmt = item?.totals?.diamonds?.Amount || 0;
   //     const csAmt = item?.totals?.colorstone?.Amount || 0;
   //     const miscAmt = item?.totals?.misc?.Amount || 0;
-  
+
   //     group.total.diaCsPcs += diaPcs + csPcs + miscPcs;
   //     group.total.diaCsWt += diaWt + csWt + miscWt;
   //     group.total.diaCsAmount += diaAmt + csAmt + miscAmt;
-  
+
   //     group.total.findingWt += item?.totals?.finding?.Wt || 0;
   //     group.total.findingAmount += item?.totals?.finding?.Amount || 0;
-  
+
   //     group.total.TotalAmount += item?.TotalAmount || 0;
-  
+
   //     group.total.totalRMValue += diaAmt + csAmt + miscAmt + metalAmount;
-  
+
   //     const valueAdd =
   //       (item?.OtherCharges || 0) +
   //       (item?.MakingAmount || 0) +
   //       (item?.TotalDiamondHandling || 0);
-  
+
   //     group.total.totalValueAddition += valueAdd;
   //   });
-  
+
   //   map.forEach((group) => {
   //     group.total.perOfVA =
   //       group.total.metalAmount > 0
@@ -1061,21 +1064,21 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
   //           group.total.metalAmount
   //         : 0;
   //   });
-  
+
   //   return Array.from(map.values());
   // };
-  
+
   // const MergedData = mergeByPurityAndMaterial(result?.resultArray);
 
 
   const mergeByPurityAndMaterial = (data) => {
     const map = new Map();
-  
+
     data?.forEach((item) => {
       const purity = item.MetalPurity;
       const MetalType = item.MetalType;
-  
-      
+
+
       const secondaryMetalQualities = [
         ...new Set(
           (item?.metal || [])
@@ -1084,7 +1087,7 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
             ?.filter((x) => x && x.trim() !== "")
         ),
       ].sort();
- 
+
       const secondaryMetalShapes = [
         ...new Set(
           (item?.metal || [])
@@ -1093,66 +1096,68 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
             ?.filter((x) => x && x.trim() !== "")
         ),
       ].sort();
-  
- 
+
+
       const allMaterials = [
         ...(item.diamonds || []),
         ...(item.colorstone || []),
         ...(item.misc || []),
       ];
-  
- 
+
+
       const shapeMap = new Map();
-  
+
       allMaterials.forEach((mat) => {
         const shape = mat?.ShapeName || "UNKNOWN";
-  
+
+
         if (!shapeMap.has(shape)) {
           shapeMap.set(shape, {
             MasterManagement_DiamondStoneTypeName:
               mat?.MasterManagement_DiamondStoneTypeName || "UNKNOWN",
             ShapeName: shape,
+            MaterialTypeName: mat?.MaterialTypeName,
             Pcs: 0,
             Wt: 0,
             Amount: 0,
             Rate: 0,
           });
         }
-  
+
         const group = shapeMap.get(shape);
-  
+
         group.Pcs += mat?.Pcs || 0;
         group.Wt += mat?.Wt || 0;
         group.Amount += mat?.Amount || 0;
-  
+
         if (mat?.Wt) {
           group.Rate += (mat?.Rate || 0) * mat.Wt;
         }
       });
-  
-     
+
+
       const otherMaterials = Array.from(shapeMap.values()).map((x) => ({
         ...x,
         Rate: x.Wt ? x.Rate / x.Wt : 0,
       }));
-  
+
       item.otherMaterials = otherMaterials;
-       
+
       const materials = allMaterials
         .map((x) => x.MaterialTypeName)
         .filter((x) => x && x.trim() !== "");
-  
+
       const uniqueMaterials = [...new Set(materials)].sort();
 
-       
-  
-   
+
+
+
       const key = [
         purity,
         uniqueMaterials.join(","),
         secondaryMetalQualities.join(","),
       ].join("_");
-  
+
       if (!map.has(key)) {
         map.set(key, {
           MetalPurity: purity,
@@ -1160,20 +1165,18 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
           SecondaryMetalQualities: secondaryMetalQualities,
           SecondaryMetalShapes: secondaryMetalShapes, // optional for debug/future use
           MaterialTypes: uniqueMaterials,
-  
-        
-          DisplayName: `${
-            secondaryMetalQualities?.length > 0
-              ? `${purity} ${MetalType} , ${secondaryMetalQualities.join(" ")}${
-                  secondaryMetalShapes?.length
-                    ? ` ${secondaryMetalShapes.join(", ")}`
-                    : ""
-                }`
+
+
+          DisplayName: `${secondaryMetalQualities?.length > 0
+              ? `${purity} ${MetalType} , ${secondaryMetalQualities.join(" ")}${secondaryMetalShapes?.length
+                ? ` ${secondaryMetalShapes.join(", ")}`
+                : ""
+              }`
               : `${purity} ${MetalType}`
-          } ${uniqueMaterials.length > 0 ? " JEWELLERY STUDDED WITH " + uniqueMaterials.join(", ") : "PLAIN JEWELLERY"}`,
-  
+            } ${uniqueMaterials.length > 0 ? " JEWELLERY STUDDED WITH " + uniqueMaterials.join(", ") : "PLAIN JEWELLERY"}`,
+
           items: [],
-  
+
           total: {
             grosswt: 0,
             NetWt: 0,
@@ -1193,10 +1196,10 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
           },
         });
       }
-  
+
       const group = map.get(key);
       group.items.push(item);
-  
+
       // ======================================================
       //   TOTALS (UNCHANGED)
       // ======================================================
@@ -1204,65 +1207,65 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
       group.total.NetWt += item?.NetWt || 0;
       group.total.LossWt += item?.LossWt || 0;
       group.total.Quantity += item?.Quantity || 0;
-  
+
       group.total.totalWt += (item?.NetWt || 0) + (item?.LossWt || 0);
-  
+
       const metalAmount = item?.totals?.metal?.Amount || 0;
       group.total.metalAmount += metalAmount;
-  
+
       const diaPcs =
         item?.totals?.diamonds?.Pcs ??
         item?.diamonds?.reduce((s, d) => s + (d.Pcs || 0), 0) ??
         0;
-  
+
       const csPcs =
         item?.totals?.colorstone?.Pcs ??
         item?.colorstone?.reduce((s, c) => s + (c.Pcs || 0), 0) ??
         0;
-  
+
       const miscPcs =
         item?.totals?.misc?.Pcs ??
         item?.misc?.reduce((s, c) => s + (c.Pcs || 0), 0) ??
         0;
-  
+
       const diaWt =
         item?.totals?.diamonds?.Wt ??
         item?.diamonds?.reduce((s, d) => s + (d.Wt || 0), 0) ??
         0;
-  
+
       const csWt =
         item?.totals?.colorstone?.Wt ??
         item?.colorstone?.reduce((s, c) => s + (c.Wt || 0), 0) ??
         0;
-  
+
       const miscWt =
         item?.totals?.misc?.Wt ??
         item?.misc?.reduce((s, c) => s + (c.Wt || 0), 0) ??
         0;
-  
+
       const diaAmt = item?.totals?.diamonds?.Amount || 0;
       const csAmt = item?.totals?.colorstone?.Amount || 0;
       const miscAmt = item?.totals?.misc?.Amount || 0;
-  
+
       group.total.diaCsPcs += diaPcs + csPcs + miscPcs;
       group.total.diaCsWt += diaWt + csWt + miscWt;
       group.total.diaCsAmount += diaAmt + csAmt + miscAmt;
-  
+
       group.total.findingWt += item?.totals?.finding?.Wt || 0;
       group.total.findingAmount += item?.totals?.finding?.Amount || 0;
-  
+
       group.total.TotalAmount += item?.TotalAmount || 0;
-  
+
       group.total.totalRMValue += diaAmt + csAmt + miscAmt + metalAmount;
-  
+
       const valueAdd =
         (item?.OtherCharges || 0) +
         (item?.MakingAmount || 0) +
         (item?.TotalDiamondHandling || 0);
-  
+
       group.total.totalValueAddition += valueAdd;
     });
-  
+
     // ======================================================
     //   % OF VA
     // ======================================================
@@ -1270,10 +1273,10 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
       group.total.perOfVA =
         group.total.metalAmount > 0
           ? (group.total.totalValueAddition * 100) /
-            group.total.metalAmount
+          group.total.metalAmount
           : 0;
     });
-  
+
     return Array.from(map.values());
   };
 
@@ -1497,9 +1500,9 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
 
                   {/* Exporter Section */}
                   <td
-                  colSpan={12}
+                    colSpan={12}
                     style={{
-                
+
                       border: "1px solid #000",
                       verticalAlign: "top",
                       padding: 8,
@@ -1521,9 +1524,9 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
 
                   {/* Consignee Section */}
                   <td
-                  colSpan={11}
+                    colSpan={11}
                     style={{
-           
+
                       border: "1px solid #000",
                       verticalAlign: "top",
                       padding: 8,
@@ -1607,11 +1610,12 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
 
                   <>
                     {/* part start */}
+                    {console.log("TCL: ValueSheetExcel -> item", item)}
                     <tr>
                       <td colSpan="23" style={{ border: '1px solid #000', padding: '2px', }}> {
-                       
-                        
-                       item?.DisplayName  
+
+
+                        item?.DisplayName
                       }</td>
 
                     </tr>
@@ -1620,12 +1624,11 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
 
                     {item?.items.map((e, i) => {
 
-                      const metals =
-                        e?.metal?.length > 0
-                          ? e?.metal?.sort((a, b) => {
-                            return (b.IsPrimaryMetal ?? 0) - (a.IsPrimaryMetal ?? 0);
-                          })
-                          : [{}];
+                      const metals = (e?.metal?.length > 0 || e?.finding?.length > 0)
+                        ? [...(mergeMetals( e?.metal) || []), ...( mergeFindings(e?.finding) || [])].sort((a, b) => {
+                          return (b.IsPrimaryMetal ?? 0) - (a.IsPrimaryMetal ?? 0);
+                        })
+                        : [{}];
 
                       const materials =
                         e?.otherMaterials?.length > 0
@@ -1644,6 +1647,14 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
 
                           const mt = metals[idx] || {};
                           const m = materials[idx] || {};
+
+
+
+
+
+
+
+
 
                           return (
                             <tr key={`${i}-${idx}`}>
@@ -1676,7 +1687,7 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                                     rowSpan={totalRows}
                                     style={tdStyleRight}
                                   >
-                                    { e?.GroupJob ? e?.GroupJob :  e?.SrJobno}
+                                    {e?.GroupJob ? `'${e?.GroupJob}` : `'${e.SrJobno}`}
                                   </td>
 
                                   <td
@@ -1686,34 +1697,34 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                                     {formatAmount(e?.grosswt, 3)}
                                   </td>
 
-                                 
+
                                 </>
                               )}
 
                               {/*   METAL COLUMNS */}
-                              
-                             
+
+
                               <td style={tdStyleRight}  >
-                                {mt?.QualityName
-                                  ?  mt?.QualityName
+                              {mt?.FindingTypename} {mt?.QualityName
+                                  ? mt?.QualityName
                                   : ""}
                               </td>
                               <td style={tdStyleRight}>
-                                {mt?.Wt
+                                {mt?.IsPrimaryMetal == 1 ? formatAmount(mt?.Wt - e?.totals?.finding?.Wt, 3) : mt?.Wt
                                   ? formatAmount(mt?.Wt, 3)
                                   : ""}
                               </td>
 
                               <td style={tdStyleRight}>
                                 {
-                                  mt?.QualityName ? mt?.IsPrimaryMetal==1?  formatAmount(e?.LossWt, 3) : "" : ""
+                                  mt?.QualityName ? mt?.IsPrimaryMetal == 1 ? formatAmount(e?.MetalLossIn ==1? e?.LossWt:"", 3) : "" : ""
                                 }
-                                
-                                 
+
+
                               </td>
 
                               <td style={tdStyleRight}>
-                                { mt?.QualityName ? mt?.IsPrimaryMetal==1? e?.LossPer : "" : ""}
+                                {mt?.QualityName ? mt?.IsPrimaryMetal == 1 ? e?.MetalLossIn ==1? "": e?.LossPer : "" : ""}
                               </td>
 
                               <td style={tdStyleRight}>
@@ -1750,7 +1761,7 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                               </td>
 
                               <td style={tdStyleRight}>
-                                {m?.ShapeName || ""}
+                                {m?.MaterialTypeName || ""}{m?.MaterialTypeName ? "/" : ""}{m?.ShapeName || ""}
                               </td>
 
                               <td style={tdStyleRight}>
@@ -1817,12 +1828,13 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                                     style={tdStyleRight}
                                   >
                                     {formatAmount(
+                                      //  ((e?.UnitCost || 0) / (result?.header?.CurrencyExchRate || 1)) * 0.08,
                                       (
-                                        ((e?.UnitCost || 0) /
-                                          (result?.header
-                                            ?.CurrencyExchRate || 1)) *
-                                        8
-                                      ) / 100,
+                                        (e?.totals?.metal?.Amount || 0) +
+                                        (e?.totals?.diamonds?.Amount || 0) +
+                                        (e?.totals?.colorstone?.Amount || 0) +
+                                        (e?.totals?.misc?.Amount || 0)
+                                      ) * 0.08,
                                       2
                                     )}
                                   </td>
@@ -1832,11 +1844,23 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                                     style={tdStyleRight}
                                   >
                                     {formatAmount(
-                                      (e?.UnitCost || 0) /
+                                      // (e?.UnitCost || 0) /
+                                      (
+                                        (e?.totals?.metal?.Amount || 0) +
+                                        (e?.totals?.diamonds?.Amount || 0) +
+                                        (e?.totals?.colorstone?.Amount || 0) +
+                                        (e?.totals?.misc?.Amount || 0)
+                                      ) /
                                       (result?.header
                                         ?.CurrencyExchRate || 1) +
                                       (
-                                        ((e?.UnitCost || 0) /
+                                        // ((e?.UnitCost || 0) /
+                                        ((
+                                          (e?.totals?.metal?.Amount || 0) +
+                                          (e?.totals?.diamonds?.Amount || 0) +
+                                          (e?.totals?.colorstone?.Amount || 0) +
+                                          (e?.totals?.misc?.Amount || 0)
+                                        ) /
                                           (result?.header
                                             ?.CurrencyExchRate || 1) *
                                           8) / 100
@@ -2022,10 +2046,6 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                     <td style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }} >45.00</td>
                     <td style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }} >{item?.MetalRate.toFixed(2) || ""}</td>
                     <td style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }} >{item?.Amount.toFixed(2) || ""}</td>
-
-
-
-
                   </tr>
                 ))}
 

@@ -334,6 +334,13 @@
     font-size: 15px;
 }
 
+.totalamtfont{
+  font-size: 15px !important;
+}
+
+.remarksHeight{
+  min-height: 127px;
+}
 
 
 @media print {
@@ -387,5 +394,11 @@
     }
     .dp3_pgia{
         page-break-inside: avoid !important;
+    }
+    .totalamtfont{
+      font-size: 10px !important;
+    }
+    .remarksHeight{
+      min-height: 78px;
     }
 }

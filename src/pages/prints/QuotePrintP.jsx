@@ -706,7 +706,7 @@ const QuotePrintP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       {/* <div className="theadsubcol2_dp10" ></div> */}
                        <div className="theadsubcol2_dp10 pr_dp10 fsg2dp10" style={{width:'19%'}}>
                         {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
-                        {mainTotal?.metal_wt?.toFixed(3)}
+                        {result?.mainTotal?.grosswt?.toFixed(3)}
                       </div>
                        <div className="theadsubcol2_dp10 pr_dp10 fsg2dp10 end_dp10" style={{width:'18%'}}>
                         {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}

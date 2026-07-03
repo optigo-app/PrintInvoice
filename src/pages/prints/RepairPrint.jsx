@@ -17,6 +17,8 @@ const RepairPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     try {
       const module = await import(`../prints/eventWisePrints/${printData?.evname}`);
       const AnotherComponent = module.default;
+      
+ 
       return <AnotherComponent data={data} />;
     } catch (error) {
       console.log(error);
@@ -29,7 +31,7 @@ const RepairPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     let conditions = module.alterationArray;
     let findPrint = conditions.find((e) => evns === e?.label);
     
-    console.log("TCL: evnComponent -> ", findPrint)
+    // console.log("TCL: evnComponent -> ", findPrint)
     if (findPrint) {
       const component = await importComponent(findPrint, data);
       setImportedComponent(component);

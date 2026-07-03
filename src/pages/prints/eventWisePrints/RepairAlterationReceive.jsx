@@ -34,14 +34,18 @@ const RepairAlterationReceive = ({ data }) => {
       let obj = { ...e };
       let metalColorCode = "";
       let diamonds = [];
+      let metal = [];
+      let metalDetachData = [];
 
       let diamondWt = 0;
+      let findingWt = 0;
       let solWt = 0;
       let gemsWt = 0;
       let colorWt = 0;
       let miscWt = 0;
 
       let diamondRepairedWt = 0;
+      let findingRepairedWt = 0;
       let solRepairedWt = 0;
       let gemsRepairedWt = 0;
       let colorRepairedWt = 0;
@@ -71,6 +75,7 @@ const RepairAlterationReceive = ({ data }) => {
 
       let netDetach = 0;
       let diamondDetach = 0;
+      let findingDetachDetach = 0;
       let solDetach = 0;
       let gemsDetach = 0;
       let colorStoneDetach = 0;
@@ -126,7 +131,33 @@ const RepairAlterationReceive = ({ data }) => {
                 diamondRepairedWt += ele?.Wt;
               }
             }
-          } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
+          }
+
+          else if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
+            findingWt += ele?.Wt;
+            metal.push(ele);
+              if (ele?.IsRepireEdit === 0) {
+                miscRepairWt += ele?.Wt;
+              }
+              if (ele?.IsRepireEdit === 1) {
+                // materialAdded.push(ele);
+                findingAdded += ele?.Wt;
+              }
+              if (ele?.IsReapirDelete !== 1) {
+                findingRepairedWt += ele?.Wt;
+              }
+              if (ele?.DetachWeight !== null) {
+                findingDetachDetach += ele?.DetachWeight;
+                metalDetachData.push(ele);
+              }else{
+
+              }
+            
+          }
+          
+          
+          
+          else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
             colorWt += ele?.Wt;
             if (ele?.IsSolGem === 1) {
               gemsWt += ele?.Wt;
@@ -190,18 +221,24 @@ const RepairAlterationReceive = ({ data }) => {
         gemsRepairedWt / 5 +
         solRepairedWt / 5 +
         miscRepairedWt +
+        findingRepairedWt +
         repairedJewelleryNetWt;
       grossWtAdded =
         metalAdded +
         (diamondAdded + colorStoneAdded + solAdded + gemsAdded) / 5 +
         miscAdded +
         findingAdded;
-      netWtdded = metalAdded + findingAdded;
+      // netWtdded = metalAdded + findingAdded;
+      netWtdded = metalAdded ;
+
       let diamondColorWt = (diamondWt + colorWt) / 5;
       netDetach = metalDetach + FindingDetach;
       obj.metalColorCode = metalColorCode;
       obj.diamonds = diamonds;
+      obj.metal = metal;
       obj.diamondWt = diamondWt;
+      obj.findingWt = findingWt;
+      obj.metalDetachData = metalDetachData;
       obj.solWt = solWt;
       obj.gemsWt = gemsWt;
       obj.colorWt = colorWt;
@@ -215,14 +252,17 @@ const RepairAlterationReceive = ({ data }) => {
       obj.gemsAdded = gemsAdded;
       obj.colorStoneAdded = colorStoneAdded;
       obj.miscAdded = miscAdded;
+      obj.findingAdded = findingAdded;
       obj.materialAdded = materialAdded;
       obj.netDetach = netDetach;
       obj.diamondDetach = diamondDetach;
+      obj.findingDetachDetach = findingDetachDetach;
       obj.solDetach = solDetach;
       obj.gemsDetach = gemsDetach;
       obj.colorStoneDetach = colorStoneDetach;
 
       obj.diamondRepairedWt = diamondRepairedWt;
+      obj.findingRepairedWt = findingRepairedWt;
       obj.solRepairedWt = solRepairedWt;
       obj.gemsRepairedWt = gemsRepairedWt;
       obj.colorRepairedWt = colorRepairedWt;
@@ -380,8 +420,20 @@ const RepairAlterationReceive = ({ data }) => {
                     ` |  CS G: ${NumberWithCommas(e?.gemsWt, 3)} Cts`}
                   {e?.miscRepairWt !== 0 &&
                     ` |  MISC: ${NumberWithCommas(e?.miscRepairWt, 3)} gms `}
+                    {e?.findingWt !== 0 &&
+                    ` |  F: ${NumberWithCommas(e?.findingWt, 3)} gms `}
                 </p>
 
+                <div>
+                  {e?.metal.map((ele, i) => {
+                    return (
+                      <div key={i}>
+                         {e?.MetalTypePurity} {e?.metalColorCode} {ele?.Wt} gms
+                      </div>
+                    )
+                  })}
+                </div>
+              
                 <p className="fw-bold p-1 text_secondary no_break">
                   REPAIRED JEWELLERY
                 </p>
@@ -408,11 +460,13 @@ const RepairAlterationReceive = ({ data }) => {
                     ` |  CS G: ${NumberWithCommas(e?.gemsRepairedWt, 3)} Cts`}
                   {e?.miscRepairedWt !== 0 &&
                     ` | MISC: ${NumberWithCommas(e?.miscRepairedWt, 3)} gms `}
+                    {e?.findingRepairedWt !== 0 &&
+                    ` | F : ${NumberWithCommas(e?.findingRepairedWt, 3)} gms `}
                 </p>
                 <p className="fw-bold p-1 text_secondary no_break">
                   ADDED MATERIAL DETAIL
                 </p>
-                {(e?.grossWtAdded !== 0 || e?.netWtdded !== 0 || e?.diamondAdded !== 0 || e?.solAdded !== 0 || e?.gemsAdded !== 0 || e?.colorStoneAdded !== 0 || e?.miscAdded !== 0) ? ( <p className="px-1 py-2 no_break">
+                {(e?.grossWtAdded !== 0 || e?.netWtdded !== 0 || e?.diamondAdded !== 0 || e?.solAdded !== 0 || e?.gemsAdded !== 0 || e?.colorStoneAdded !== 0 || e?.miscAdded !== 0 || e?.findingAdded !== 0) ? ( <p className="px-1 py-2 no_break">
                     {e?.MetalTypePurity} {e?.metalColorCode}
                     {e?.grossWtAdded !== 0 &&
                       ` |${NumberWithCommas(e?.grossWtAdded, 3)} gms GW`}
@@ -429,6 +483,8 @@ const RepairAlterationReceive = ({ data }) => {
                       ` | CS G: ${NumberWithCommas(e?.gemsAdded, 3)} Cts`}
                     {e?.miscAdded !== 0 &&
                       ` | MISC: ${NumberWithCommas(e?.miscAdded, 3)} gms `}
+                    {e?.findingAdded !== 0 &&
+                      ` | F: ${NumberWithCommas(e?.findingAdded, 3)} gms `}
                   </p> 
                 ): <p className="py-2"></p>}
                 {e?.materialAdded.map((ele, ind) => {
@@ -461,7 +517,19 @@ const RepairAlterationReceive = ({ data }) => {
                     ` | CS: ${NumberWithCommas(e?.colorStoneDetach, 3)} Cts`}
                        {e?.gemsDetach !== 0 &&
                     ` | CS G: ${NumberWithCommas(e?.gemsDetach, 3)} Cts`}
+
+                    {e?.findingDetachDetach !== 0 &&
+                    ` | FIND: ${NumberWithCommas(e?.findingDetachDetach, 3)} gms `}
                 </p>
+                <div>
+                  {e?.metalDetachData.map((ele, i) => {
+                    return (
+                      <div key={i}>
+                         {e?.MetalTypePurity} {e?.metalColorCode} {ele?.Wt} gms
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
               <div className="col-2">
                 <p className="p-1 text-end">

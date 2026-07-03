@@ -666,7 +666,7 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                           ? (
                                             ind === 0
                                               ? NumberWithCommas(
-                                                item?.NetWt + (item?.totals?.diamonds?.Wt / 5),
+                                                ele?.Wt + (item?.totals?.diamonds?.Wt / 5),
                                                 3
                                               )
                                               : NumberWithCommas(ele?.Wt, 3)
@@ -681,8 +681,9 @@ const DetailPrintFG = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     {/* {fixedValues(item?.totals?.metal?.Wt, 2)} */}
                                     {/* {fixedValues(Number(item?.NetWt), 2)} */}
                                     {/* { Math.round( fixedValues(Number(ele?.Wt) + (item?.totals?.finding?.Wt || 0), 3)*100)/100} */}
-                                    {formatAmount(Math.round(fixedValues(Number(ele?.Wt) + (item?.LossWt || 0) - (item?.MountWeight), 3) * 100) / 100, 2)}
+                                    {/* {formatAmount(Math.round(fixedValues(Number(ele?.Wt) + (item?.LossWt || 0) - (item?.MountWeight) -( item?.totals?.finding?.Wt), 3) * 100) / 100, 2)} */}
                                      {/* {NumberWithCommas(ele?.Wt - item?.totals?.finding?.Wt, 3)} */}
+                                       {NumberWithCommas(ele?.Wt - item?.totals?.finding?.Wt - item?.MountWeight, 3)}
                                   </p>
                                 </div>
                                 <div className="width_40_estimatePrint p_1Estimate" style={{ width: "14%", minWidth: "14%" }}>
