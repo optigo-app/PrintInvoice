@@ -147,6 +147,9 @@ const PrintDesign17 = ({ queries, headers }) => {
     window.print();
   };
 
+  
+  console.log("TCL: data", data)
+
   return (
     <div className="pad_60_allPrint">
       {data.length === 0 ? (
@@ -174,6 +177,8 @@ const PrintDesign17 = ({ queries, headers }) => {
                 )
             )}
             {data?.map((e, i) => {
+              
+              console.log("TCL:i ", e)
               return (
                 <React.Fragment key={i}>
                   {e?.additional?.chdata?.length > 0 ? (
@@ -904,7 +909,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                FIL.
                               </div>
                               <div className="width_66 border_right bold"></div>
-                              <div className="width_6 border_right pl_3 bold"></div>
+                              <div className="width_6 border_right pl_3 bold" style={{fontSize:"11px"}}> {e?.data?.rd?.NetWeight?.toFixed(3)}</div>
                               <div className="width_6 border_right pl_3 bold"></div>
                               <div className="width_6 border_right pl_3 bold"></div>
                               <div className="width_6 border_right pl_3 bold"></div>

@@ -37,6 +37,7 @@ export default function WIPReport({ queries, headers }) {
     const [query, setQuery] = useState("");
     const [headerData, setHeaderData] = useState({});
     const [diaflag, setDiaFlag] = useState(true);
+    const [lineflag, setLineFlag] = useState(true);
 
     useEffect(() => {
 
@@ -75,6 +76,14 @@ export default function WIPReport({ queries, headers }) {
         }
     };
 
+    const handleLineCheckbox = () => {
+        if (lineflag) {
+            setLineFlag(false);
+        } else {
+            setLineFlag(true);
+        }
+    };
+
 
     return (
         <>
@@ -94,6 +103,23 @@ export default function WIPReport({ queries, headers }) {
 
                                 </div>
                                 <div style={{ display: "flex", alignItems: "center" }}>
+
+                                <div>
+                                        <input
+                                            type="checkbox"
+                                            id="lineid"
+                                            className="mx-1"
+                                            checked={lineflag}
+                                            onChange={handleLineCheckbox}
+                                        />
+                                        <label
+                                            htmlFor="lineid"
+                                            className="me-3 user-select-none"
+                                        >
+                                           Line Id
+                                        </label>
+                                    </div>
+                                    
                                     <div>
                                         <input
                                             type="checkbox"
@@ -110,10 +136,6 @@ export default function WIPReport({ queries, headers }) {
                                         </label>
                                     </div>
                                     <div className="pbtn" style={{ border: "1px solid #CBCBCB", borderRadius: "4px" }}>
-
-
-
-
 
                                         <input
                                             type="button"
@@ -318,6 +340,22 @@ export default function WIPReport({ queries, headers }) {
 
                                         {/* Details */}
                                         <div style={{ padding: "6px 8px" }}>
+                                        {lineflag &&(
+                                                    <div
+                                                    style={{
+                                                        display: "flex",
+                                                    }}
+                                                    className="line-height1"
+                                                >
+                                                    <div style={{ width: "90px" }}>LINE ID:</div>
+    
+                                                    <div style={{ fontWeight: "bold" }}>
+                                                      {item?.lineid} 
+                                                    </div>
+                                                </div>
+
+                                            )}
+
                                             <div
                                                 style={{
                                                     display: "flex",
@@ -424,13 +462,16 @@ export default function WIPReport({ queries, headers }) {
                                                 </div>
                                             </div>
 
+                                          
+                                        
+
                                             <div
                                                 style={{
                                                     fontWeight: "bold",
                                                 }}
                                                 className="line-height1"
                                             >
-                                                status static
+                                              { item?.department || ""}
                                             </div>
 
                                             <div
@@ -455,6 +496,31 @@ export default function WIPReport({ queries, headers }) {
 
                                                     <span style={{ fontWeight: "bold" }}>
                                                         {item?.jobentrydate1 || ""}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div
+                                                style={{
+                                                    display: "flex",
+                                                    gap: "15px",
+
+                                                    fontSize: "11px",
+                                                }}
+                                                className="line-height1"
+                                            >
+                                                <div style={{ width: "35%" }}>
+                                                    <span>PRD. Age </span>
+
+                                                    <span style={{ fontWeight: "bold" }}>
+                                                        {item?.issue_age || ""}
+                                                    </span>
+                                                </div>
+
+                                                <div>
+                                                    <span>PRC. Age </span>
+
+                                                    <span style={{ fontWeight: "bold" }}>
+                                                        {item?.issue_agenew || ""}
                                                     </span>
                                                 </div>
                                             </div>

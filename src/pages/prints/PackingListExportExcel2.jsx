@@ -10,13 +10,12 @@ import {
 } from "../../GlobalFunctions";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import Loader from "../../components/Loader";
-import "../../assets/css/prints/packingliste.css";
+import "../../assets/css/prints/packinglistexportexcel2.css";
 import Button from "../../GlobalFunctions/Button";
 import { OrganizeInvoicePrintData } from "../../GlobalFunctions/OrganizeInvoicePrintData";
 import { cloneDeep } from "lodash";
 import { MetalShapeNameWiseArr } from "../../GlobalFunctions/MetalShapeNameWiseArr";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { ToWords } from "to-words";
 
 const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     const [priceFlag, setPriceFlag] = useState(true);
@@ -32,7 +31,6 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
     const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
     const [diamondDetails, setDiamondDetails] = useState([]);
     const [diamondWise, setDiamondWise] = useState([]);
-    const toWords = new ToWords();
 
     useEffect(() => {
         const sendData = async () => {
@@ -60,9 +58,6 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
         sendData();
     }, [diaGroupFlag]);
 
-    // ─────────────────────────────────────────────────────────────────────────
-    //  DATA PART — DO NOT TOUCH
-    // ─────────────────────────────────────────────────────────────────────────
     function loadData(data) {
         let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
         data.BillPrint_Json[0].address = address;
@@ -203,6 +198,7 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
             }
         });
 
+        // --- diamond summary arrays (unchanged) ---
         let diaObj = { ShapeName: "OTHERS", wtWt: 0, wtWts: 0, pcPcs: 0, pcPcss: 0, rRate: 0, rRates: 0, amtAmount: 0, amtAmounts: 0 };
         let diaonlyrndarr1 = [], diaonlyrndarr2 = [], diaonlyrndarr3 = [], diaonlyrndarr4 = [], diarndotherarr5 = [], diaonlyrndarr6 = [];
 
@@ -319,6 +315,7 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
         return a?.Colorname?.localeCompare(b?.Colorname);
     };
 
+    // ── mergeByPurityAndMaterial (unchanged) ──────────────────────────────────
     const mergeByPurityAndMaterial = (data) => {
         const map = new Map();
         data?.forEach((item) => {
@@ -398,153 +395,153 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
         return Array.from(map.values());
     };
 
-    // ─────────────────────────────────────────────────────────────────────────
-    //  END DATA PART
-    // ─────────────────────────────────────────────────────────────────────────
+    // ── NEW HELPER: get diamond rows grouped by MaterialTypeName ─────────────
+    /**
+     * Returns an array of { label, shapeName, pcs, wt } rows — one per distinct
+     * MaterialTypeName found across diamonds + colorstone + misc.
+     * Rows with no MaterialTypeName are grouped under their ShapeName (for misc/cs).
+     * The label shown in the "DIAMOND TYPE" column is: ShapeName / MaterialTypeName abbreviation.
+     */
+    // const getDiamondRowsByMaterial = (e) => {
+    //     const allStones = [
+    //         ...(e?.diamonds || []),
+    //         ...(e?.colorstone || []),
+    //         ...(e?.misc || []),
+    //     ];
 
+    //     if (allStones.length === 0) return [];
+
+    //     // Group by MaterialTypeName (fall back to ShapeName if blank)
+    //     const matMap = new Map();
+    //     allStones.forEach((stone) => {
+    //         const matName = stone?.MaterialTypeName?.trim()  || "";
+    //         const shapeName = stone?.ShapeName || "";
+    //         const key = matName;
+    //         if (!matMap.has(key)) {
+    //             matMap.set(key, { materialTypeName: matName, shapeName, pcs: 0, wt: 0 });
+    //         }
+    //         const row = matMap.get(key);
+    //         row.QualityName = stone?.QualityName || "";
+    //         row.Colorname = stone?.Colorname || "";
+    //         row.pcs += stone?.Pcs || 0;
+    //         row.wt += stone?.Wt || 0;
+    //         // keep first shapeName encountered (they should be same per type)
+    //         if (!row.shapeName && shapeName) row.shapeName = shapeName;
+    //     });
+
+    //     return Array.from(matMap.values());
+    // };
+
+
+
+    const getDiamondRowsByMaterial = (e) => {
+        const allStones = [
+            ...(e?.diamonds || []),
+            ...(e?.colorstone || []),
+            ...(e?.misc || []),
+        ];
+
+        if (allStones.length === 0) return [];
+
+        const matMap = new Map();
+        allStones.forEach((stone) => {
+            const matName = stone?.MaterialTypeName?.trim() || "";
+            const shapeName = stone?.ShapeName || "";
+            const key = matName; // group key stays the same — by materialTypeName
+
+            if (!matMap.has(key)) {
+                matMap.set(key, {
+                    materialTypeName: matName,
+                    shapes: [],          // collect all unique shapes here
+                    QualityName: stone?.QualityName || "",
+                    Colorname: stone?.Colorname || "",
+                    pcs: 0,
+                    wt: 0,
+                    Rate: 0,
+                    Amount: 0,
+                });
+            }
+
+            const row = matMap.get(key);
+            row.pcs += stone?.Pcs || 0;
+            row.wt += stone?.Wt || 0;
+            row.Rate += stone?.Rate || 0;
+            row.Amount += stone?.Amount || 0;
+
+            // accumulate unique shapes per materialTypeName group
+            if (shapeName && !row.shapes.includes(shapeName)) {
+                row.shapes.push(shapeName);
+            }
+        });
+
+        return Array.from(matMap.values());
+    };
+
+    const getMetalRowsByPurity = (e) => {
+        const metals = e?.metal || [];
+        if (metals.length === 0) return [];
+
+        const map = new Map();
+        metals.forEach((m) => {
+            const purity = m?.QualityName || m?.MetalPurity || "";
+            const key = purity;
+            if (!map.has(key)) {
+                map.set(key, { purity, wt: 0 });
+            }
+            map.get(key).wt += m?.Wt || 0;
+        });
+
+        return Array.from(map.values());
+    };
     const MergedData = mergeByPurityAndMaterial(result?.resultArray);
-    console.log("TCL: MergedData", MergedData);
+
+
+    console.log("TCL: MergedData", MergedData)
 
     const calculateGrandTotal = (groups, exchRate = 1) => {
         return groups.reduce((acc, group) => {
             const t = group.total;
-            acc.Quantity += t.Quantity;
-            acc.grosswt += t.grosswt;
-            acc.NetWt += t.NetWt;
-            acc.TotalAmount += t.TotalAmount / exchRate;
-            acc.totalRMValue += t.totalRMValue / exchRate;
+            acc.Quantity += t.Quantity; acc.grosswt += t.grosswt; acc.NetWt += t.NetWt;
+            acc.LossWt += t.LossWt; acc.totalWt += t.totalWt;
+            acc.metalAmount += t.metalAmount / exchRate;
+            acc.diaPcs += t.diaCsPcs; acc.diaWt += t.diaCsWt;
+            acc.diaAmount += t.diaCsAmount / exchRate;
+            acc.totalAmount += t.totalRMValue / exchRate;
             return acc;
-        }, { Quantity: 0, grosswt: 0, NetWt: 0, TotalAmount: 0, totalRMValue: 0 });
+        }, { Quantity: 0, grosswt: 0, NetWt: 0, LossWt: 0, totalWt: 0, metalAmount: 0, diaPcs: 0, diaWt: 0, diaAmount: 0, totalAmount: 0 });
     };
 
-    const grandTotal = calculateGrandTotal(MergedData, result?.header?.CurrencyExchRate || 1);
+    const grandTotal = calculateGrandTotal(MergedData, result?.header?.CurrencyExchRate);
 
-    // ─────────────────────────────────────────────────────────────────────────
-    //  STYLES
-    // ─────────────────────────────────────────────────────────────────────────
-    const S = {
-        // outer wrapper cell — no border, just padding
-        cell: (extra = {}) => ({
-            border: "1px solid #000",
-            padding: "4px 6px",
-            fontSize: "11px",
-            verticalAlign: "middle",
-            ...extra,
-        }),
-        // header cell
-        th: (extra = {}) => ({
-            border: "1px solid #000",
-            padding: "4px 6px",
-            fontSize: "11px",
-            fontWeight: "bold",
-            textAlign: "center",
-            backgroundColor: "#f0f0f0",
-            ...extra,
-        }),
-        // blue description text (matches image)
-        blueDesc: {
-            // color: "#0000cc",
-            fontWeight: "bold",
-            fontSize: "11px",
-        },
-        // HSN cell
-        hsn: (extra = {}) => ({
-            border: "1px solid #000",
-            padding: "4px 6px",
-            fontSize: "11px",
-            fontWeight: "bold",
-            textAlign: "left",
-            verticalAlign: "middle",
-            ...extra,
-        }),
-        // right-aligned number cell
-        num: (extra = {}) => ({
-            border: "1px solid #000",
-            padding: "4px 6px",
-            fontSize: "11px",
-            textAlign: "right",
-            verticalAlign: "middle",
-            ...extra,
-        }),
-        // bold total row
-        totalNum: (extra = {}) => ({
-            border: "1px solid #000",
-            padding: "4px 6px",
-            fontSize: "11px",
-            fontWeight: "bold",
-            textAlign: "right",
-            verticalAlign: "middle",
-            borderTop: "2px solid #000",
-            ...extra,
-        }),
-        // footer label cell (right-aligned text, no left border)
-        footerLabel: (extra = {}) => ({
-            border: "1px solid #000",
-            padding: "4px 6px",
-            fontSize: "11px",
-            fontWeight: "bold",
-            textAlign: "right",
-            verticalAlign: "middle",
-            ...extra,
-        }),
-        // footer value cell
-        footerVal: (extra = {}) => ({
-            border: "1px solid #000",
-            padding: "4px 6px",
-            fontSize: "11px",
-            fontWeight: "bold",
-            textAlign: "right",
-            verticalAlign: "middle",
-            ...extra,
-        }),
-    };
+    // ─── styles ──────────────────────────────────────────────────────────────
+    const th = { border: "1px solid #000", padding: "4px 6px", textAlign: "center", fontWeight: "bold", fontSize: "11px" };
+    const td = { border: "1px solid #000", padding: "3px 5px", textAlign: "right", fontSize: "11px" };
+    const tdCenter = { border: "1px solid #000", padding: "3px 5px", textAlign: "center", fontSize: "11px" };
+    const tdLeft = { border: "1px solid #000", padding: "3px 5px", textAlign: "left", fontSize: "11px" };
+    const sectionHeaderTd = { border: "1px solid #000", padding: "4px 6px", textAlign: "left", fontWeight: "bold", fontSize: "11px" };
+    const totalRowTd = { border: "1px solid #000", padding: "4px 6px", textAlign: "right", fontWeight: "bold", fontSize: "11px" };
+    const totalRowTdCenter = { border: "1px solid #000", padding: "4px 6px", textAlign: "center", fontWeight: "bold", fontSize: "11px" };
+    const grandTotalTd = { border: "1px solid #000", padding: "4px 6px", textAlign: "right", fontWeight: "bold", backgroundColor: "#e6e6e6", fontSize: "11px" };
 
-    // exchange rate shorthand
-    const exchRate = result?.header?.CurrencyExchRate || 1;
+    // vertical-align middle for merged cells
+    const tdMerged = (extra = {}) => ({ border: "1px solid #000", padding: "3px 5px", fontSize: "11px", verticalAlign: "middle", ...extra });
 
-
-
-    const mergeByMetalPurity = (data = []) => {
-        const grouped = {};
-
-        data.forEach((item) => {
-            const purity = item?.MetalPurity || "UNKNOWN";
-
-            if (!grouped[purity]) {
-                grouped[purity] = {
-                    Purity: purity,
-                    NetWt: 0,
-                    Loss: 0,
-                    PureNetWt: 0,
-                    MetalRate: 0,
-                    Amount: 0
-
-                };
-            }
-
-            const metal = item?.totals?.metal || {};
-
-            grouped[purity].NetWt += item?.NetWt || 0;
-            grouped[purity].Loss += item?.LossWt || 0;
-            grouped[purity].MetalRate += metal?.Rate || 0;
-            grouped[purity].PureNetWt += item?.PureNetWt || 0;
-            grouped[purity].Amount += metal?.Amount || 0;
-        });
-
-        return Object.values(grouped);
-    };
-
-
-    const puritydata = mergeByMetalPurity(result?.resultArray)
-
-
+    let srCounter = 0;
 
     if (result) {
         setTimeout(() => {
             const button = document.getElementById('test-table-xls-button');
-            button.click();
+            //   button.click();
         }, 500);
     }
+    // ===== Helper: item-level "Code No" column (10 KT WG / GOLD 22K etc) =====
+    const getCodeNo = (e) => e?.MetalTypePurity || e?.MetalPurity || "";
+
+    // ===== Helper: WSTG GMS — adjust to whatever field actually stores gram wastage =====
+    const getWastageGms = (e) => e?.Wastage || 0;
+
+    const Border = "1px solid #000"
+
 
     return (
         <>
@@ -556,18 +553,25 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                         id="test-table-xls-button"
                         className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5"
                         table="table-to-xls"
-                        filename={`ExportInvoiceExcerl`}
-                        sheet={`ExportInvoiceExcerl_${result?.header?.InvoiceNo}`}
+                        filename={`PackingList_Export`}
+                        sheet={`PackingList_Export_${result?.header?.InvoiceNo}`}
                         buttonText="Download as XLS"
                     />
 
-                    <table id="table-to-xls" style={{ width: "100%", borderCollapse: "collapse", border: '1px solid #000', }}>
 
+
+
+
+                    <table id="table-to-xls" className="invoice-table">
                         <tbody>
+                             
+                            <tr>
+                                <td  style={{textAlign: "center",border: Border}} colSpan={8} className="inv-title">INVOICE</td>
+                            </tr>
 
                             <tr>
-                                <td colSpan={4} rowSpan={3} style={{ border: "1px solid #000000", padding: "6px", verticalAlign: "top" }}>
-                                    <span style={{ fontSize: "14px", fontWeight: "bold", textDecoration: "underline", display: "block", marginBottom: "4px" }}>EXPORTER</span>
+                                <td style={{border: Border}} rowSpan={6} colSpan={4} className="inv-exporter">
+                                    <strong>EXPORTER</strong>
                                     <div> <strong style={{ fontSize: "14px", display: "block", marginBottom: "2px" }}>{result?.header?.CompanyFullName}</strong></div>
                                     <div>{result?.header?.CompanyAddress}</div>
                                     <div>{result?.header?.CompanyAddress2}</div>
@@ -575,313 +579,217 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                                     <div style={{ marginTop: "6px" }}><strong>Telephone No :</strong> {result?.header?.CompanyTellNo}</div>
                                     <div><strong>Email Id :</strong> {result?.header?.CompanyEmail}</div>
                                 </td>
-                                <td colSpan={4} style={{ border: "1px solid #000000", padding: "6px", verticalAlign: "top" }}>
-                                    <span style={{ fontSize: "11px", display: "block", marginBottom: "4px" }}>Invoice No. & Date : <strong>{result?.header?.EntryDate}</strong></span>
-                                    <strong>{result?.header?.InvoiceNo}</strong>
-                                </td>
-                                <td colSpan={4} style={{ border: "1px solid #000000", padding: "6px", verticalAlign: "top" }}>
-                                    <span style={{ fontWeight: "bold", fontSize: "11px" }}>EXPORTER'S REF.</span>
-                                </td>
+                                <td style={{border: Border}} colSpan={4} className="inv-label">INVOICE NO &amp; DATE</td>
                             </tr>
-
-                            {/* ROW 2: Buyer's Order */}
-                            <tr style={{ height: "40px" }}>
-                                <td colSpan={6} style={{ border: "1px solid #000000", padding: "6px", verticalAlign: "top" }}>
-                                    <span style={{ fontSize: "11px" }}>Buyer's Order No. & Date</span>
-                                </td>
-                            </tr>
-
-                            {/* ROW 3: Other Reference */}
-                            <tr style={{ height: "50px" }}>
-                                <td colSpan={6} style={{ border: "1px solid #000000", padding: "6px", verticalAlign: "top" }}>
-                                    <span style={{ fontWeight: "bold", fontSize: "11px", display: "block", marginBottom: "2px" }}>Other Reference(s)</span>
-                                    <div>EDF No.</div>
-                                </td>
-                            </tr>
-
-                            {/* ROW 4: Consignee vs Buyer / Ship To */}
                             <tr>
-                                <td colSpan={6} style={{ border: "1px solid #000000", padding: "6px", verticalAlign: "top", height: "160px" }}>
-                                    <span style={{ fontSize: "14px", fontWeight: "bold", textDecoration: "underline", display: "block", marginBottom: "4px" }}>Consignee</span>
-                                    <div> <strong style={{ fontSize: "13px", display: "block", marginBottom: "2px" }}>{result?.header?.customerfirmname}</strong></div>
-                                    <div>{result?.header?.customerAddress1}</div>
-                                    <div>{result?.header?.customerAddress2}</div>
-                                    <div>{result?.header?.customerAddress3} {result?.header?.customercity}, {result?.header?.customercountry}</div>
-                                    <div style={{ marginTop: "6px" }}><strong>Telephone No :</strong> {result?.header?.customermobileno}</div>
-                                    <div><strong>Email Id :</strong> {result?.header?.customeremail1}</div>
-                                </td>
-                                <td colSpan={6} style={{ border: "1px solid #000000", padding: "6px", verticalAlign: "top", height: "160px" }}>
-                                    <span style={{ fontWeight: "bold", fontSize: "11px", display: "block", marginBottom: "4px" }}>Buyer (if other than consignee)</span>
-                                    <div style={{ fontWeight: "bold", textDecoration: "underline", margin: "4px 0" }}>Ship To,</div>
-                                    {result?.header?.address?.map((e, i) => (
-                                        <div key={i} style={{ margin: "2px 0" }}>{e}</div>
-                                    ))}
+                                <td style={{border: Border}} colSpan={4} className="inv-value">
+                                    {result?.header?.InvoiceNo}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATE:-&nbsp;&nbsp; {result?.header?.EntryDate}
                                 </td>
                             </tr>
-
-                            {/* ROW 5: Pre-Carriage & Place of Receipt vs Country of Origin Blocks */}
-                            <tr style={{ height: "45px" }}>
-                                <td colSpan={3} style={{ border: "1px solid #000000", padding: "6px", verticalAlign: "top" }}>
-                                    <span style={{ fontSize: "11px" }}>Pre-Carriage By</span>
-                                </td>
-                                <td colSpan={3} style={{ border: "1px solid #000000", padding: "6px", verticalAlign: "top" }}>
-                                    <span style={{ fontSize: "11px" }}>Place of Receipt by Pre-carrier N.A.</span>
-                                </td>
-                                <td colSpan={3} style={{ border: "1px solid #000000", padding: "6px", verticalAlign: "middle", textAlign: "center" }}>
-                                    <span>Country of Origin of Goods : <strong>India</strong></span>
-                                </td>
-                                <td colSpan={3} style={{ border: "1px solid #000000", padding: "6px", verticalAlign: "middle", textAlign: "center" }}>
-                                    <span>Country of Final Destination : <strong>India</strong></span>
-                                </td>
-                            </tr>
-
-                            {/* ROW 6: Vessel & Port vs Terms of Delivery Block */}
-                            <tr style={{ height: "45px" }}>
-                                <td colSpan={3} style={{ border: "1px solid #000000", padding: "6px", verticalAlign: "top" }}>
-                                    <span style={{ fontSize: "11px" }}>Vessel/Flight No.</span>
-                                </td>
-                                <td colSpan={3} style={{ border: "1px solid #000000", padding: "6px", verticalAlign: "top" }}>
-                                    <span style={{ fontSize: "11px" }}>Port of Loading</span>
-                                </td>
-                                <td colSpan={6} rowSpan={2} style={{ border: "1px solid #000000", padding: "6px", verticalAlign: "top" }}>
-                                    <span style={{ fontSize: "11px", display: "block", marginBottom: "6px" }}>Terms of Delivery and payment : <strong>0 Days</strong></span>
-                                    <div>
-                                        <strong>Bank :</strong>
-                                        <div style={{ paddingLeft: "10px", marginTop: "2px" }}>
-                                            <strong>{result?.header?.bankname}</strong><br />
-                                            {result?.header?.bankaddress}<br />
-                                            <strong>IFSC :</strong> {result?.header?.rtgs_neft_ifsc}<br />
-                                            <strong>A/C No. :</strong> {result?.header?.accountnumber} &nbsp;&nbsp; <strong>SWIFT CODE :</strong> {result?.header?.swiftcode}<br />
-                                            <strong>AD Code :</strong>  {result?.header?.micrcode}
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            {/* ROW 7: Discharge & Destination Bottom Left Ends */}
-                            <tr style={{ height: "45px" }}>
-                                <td colSpan={3} style={{ border: "1px solid #000000", padding: "6px", verticalAlign: "top" }}>
-                                    <span style={{ fontSize: "11px" }}>Port of Discharge</span>
-                                </td>
-                                <td colSpan={3} style={{ border: "1px solid #000000", padding: "6px", verticalAlign: "top" }}>
-                                    <span style={{ fontSize: "11px" }}>Final Destination</span>
-                                    <div>India</div>
-                                </td>
-                            </tr>
-                        </tbody>
-
-
-                        {/* ══════════════════════════════════════════════════════
-                            MAIN TABLE — NEW STRUCTURE (image reference)
-                            Columns (12 colspan base, split as 2|4|2|1|1|2):
-                              HSN CODE | Description | TOTAL WT in Gms | QTY | RATE | AMOUNT US $
-                        ══════════════════════════════════════════════════════ */}
-
-                        {/* "One package :" summary row — mirrors image top block */}
-                        <tbody>
                             <tr>
-                                {/* Left: "One package :" label */}
-                                <td
-                                    colSpan={2}
-                                    style={S.cell({ fontWeight: "bold", textAlign: "center", verticalAlign: "top" })}
-                                >
-
-                                    HSN CODE
+                                <td style={{border: Border}} colSpan={4} className="inv-value">
+                                    THE EXPORT IS MADE AS PER THE PROVISIONS
+                                    <br />
+                                    OF HBP UNDER SUPPLY BY NOMINATED
+                                    <br />
+                                    HBP 2015-20
                                 </td>
-
-                                {/* Centre: combined DisplayName of all groups in blue */}
-                                <td
-                                    colSpan={4}
-                                    style={S.cell({ textAlign: "left" })}
-                                >
-                                    <span style={S.blueDesc}>
-                                        {/* {MergedData.map((g) => g.DisplayName).join(", ")} */}
-                                        One package :
-                                    </span>
-                                </td>
-
-                                {/* Right header labels */}
-                                <td colSpan={2} style={S.th({ borderBottom: "none" })}>
-                                    TOTAL WT.<br />in Gms
-                                </td>
-                                <td colSpan={2} style={S.th({ borderBottom: "none" })}>QTY</td>
-                                <td colSpan={1} style={S.th({ borderBottom: "none" })}>RATE</td>
-                                <td colSpan={1} style={S.th({ borderBottom: "none" })}>AMOUNT US $</td>
                             </tr>
+                            <tr>
+                                <td style={{border: Border}} colSpan={4} className="inv-value">I.E.CODE NO.: BODPD9004H</td>
+                            </tr>
+                            <tr>
+                                <td style={{border: Border}} colSpan={4} className="inv-value">GSTN NO. {result?.header?.Company_VAT_GST_No}</td>
+                            </tr>
+                            <tr>
+                                <td style={{border: Border}} colSpan={4} className="inv-value">PAN NO:- {result?.header?.Pannumber}</td>
+                            </tr>
+
+                            <tr>
+                                <td style={{border: Border}} rowSpan={3} colSpan={4} className="inv-blank">&nbsp;</td>
+                                <td style={{border: Border}} colSpan={4} className="inv-center">
+                                    DIRECT PARCEL
+                                    <br />
+                                    INSURANCE COVERED BY SEQUEL
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style={{border: Border}} colSpan={2} className="inv-value">
+                                    <strong>COUNTRY OF ORIGIN OF GOODS</strong>
+                                    <br />
+                                    {result?.header?.CompanyCountry}
+                                </td>
+                                <td style={{border: Border}} colSpan={2} className="inv-value">
+                                    <strong>COUNTRY OF FINAL DESTINATION</strong>
+                                    <br />
+                                    USA
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style={{border: Border}} colSpan={4} className="inv-value">
+                                    <strong>TERMS OF DELIVERY AND PAYMENT</strong>
+                                    <br />
+                                    PAYMENT TERMS :- {result?.header?.DueDays} DAYS
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td  style={{border: Border}} className="inv-value">
+                                    <strong>PRE-CARRAIGE BY</strong>
+                                    <br />
+                                    SEQUEL
+                                </td>
+                                <td style={{border: Border}} colSpan={3} className="inv-value">
+                                    <strong>PLACE OF RECEIPT BY PRE-CARRIER</strong>
+                                    <br />
+                                    N.A.
+                                </td>
+                                <td style={{border: Border}} rowSpan={3} colSpan={4} className="inv-bank">
+                                    BANK:-&nbsp;&nbsp;HDFC BANK LTD
+                                    <br />
+                                    F13,14,15,16,17,18,SARTHI COMPLEX
+                                    <br />
+                                    HIRA BAUG CIRCLE,VARACHHA ROAD
+                                    <br />
+                                    SURAT 395006
+                                    <br />
+                                    <br />
+                                    AD CODE:-&nbsp;&nbsp;0511593-5600009
+                                    <br />
+                                    ACCOUNT NO. 50200038609193
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style={{border: Border}} className="inv-value">
+                                    <strong>VESSEL/FLIGHT NO</strong>
+                                    <br />
+                                    AIR FREIGHT
+                                </td>
+                                <td style={{border: Border}} colSpan={3} className="inv-value">
+                                    <strong>PORT OF LOADING</strong>
+                                    <br />
+                                    MUMBAI
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style={{border: Border}} className="inv-value">
+                                    <strong>PORT OF DESTINATION</strong>
+                                    <br />
+                                    NEW YORK
+                                </td>
+                                <td style={{border: Border}} colSpan={3} className="inv-value">
+                                    <strong>FINAL DESTINATION</strong>
+                                    <br />
+                                    USA
+                                </td>
+                            </tr>
+
                         </tbody>
+                        <colgroup>
+                            <col style={{ width: "13%" }} />
+                            <col style={{ width: "6%" }} />
+                            <col style={{ width: "5%" }} />
+                            <col style={{ width: "9%" }} />
+                            <col style={{ width: "34%" }} />
+                            <col style={{ width: "13%" }} />
+                            <col style={{ width: "10%" }} />
+                            <col style={{ width: "10%" }} />
+                        </colgroup>
 
+                        <thead>
+                            <tr>
+                                <th style={{ border: Border }} colSpan={3}>MARKS &amp; NOS./ AS ADDRESS</th>
+                                <th style={{ border: Border }} colSpan={2}>1 Package (One Only)</th>
+                                <th style={{ border: Border }}>NO &amp; KIND OF PKGS</th>
+                                <th style={{ border: Border }}>DESCRIPTION OF GOODS</th>
+                                <th style={{ border: Border }}>QUANTITY</th>
 
+                            </tr>
+                            <tr>
+                                <th style={{ border: Border }}>DESCRIPTION</th>
+                                <th style={{ border: Border }}>KTS.</th>
+                                <th style={{ border: Border }}>Qty.</th>
+                                <th style={{ border: Border }} colSpan={2}></th>
+                                <th style={{ border: Border }}> WT. IN GMS</th>
+                                <th style={{ border: Border }}>Rate</th>
+                                <th style={{ border: Border }}>Amount</th>
 
-                        {/* ── MERGED GROUP ROWS ── one row per MergedData group */}
+                            </tr>
+                        </thead>
+
                         <tbody>
-                            {MergedData.map((group, gIdx) => {
-                                const exchR = result?.header?.CurrencyExchRate || 1;
-                                const totalWt = group.total.NetWt;
-                                const qty = group.total.Quantity;
-                                const amount = group.total.TotalAmount / exchR;
+                            {MergedData.map((group, gi) => {
+                                const { items, total, DisplayName: displayName } = group;
 
-
-                                const hsnNo = group.items?.[0]?.HSNNo || "";
-
-                                return (
-                                    <tr key={`group-${gIdx}`}>
-
-                                        <td colSpan={2} style={S.hsn()}>
-                                            {hsnNo}
+                                return items.map((item, ii) => (
+                                    <tr key={`${group.id ?? gi}-${item.id ?? ii}`}>
+                                        <td style={{ border: Border }}>
+                                            {item.SubCategoryname?.replace(/^Zero_/, "").replace(/_/g, " ") ||
+                                                item.Categoryname}
                                         </td>
+                                        <td style={{ border: Border }}>{item.MetalPurity}</td>
+                                        <td style={{ border: Border }}>{item.Quantity}</td>
 
+                                        {ii === 0 && (
+                                            <>
+                                                <td style={{ border: Border }} rowSpan={items.length} colSpan={2} className="desc-cell">
+                                                    {displayName}
 
-                                        <td colSpan={4} style={S.cell({ textAlign: "left" })}>
-                                            <span style={S.blueDesc}>
-                                                {group.DisplayName?.toUpperCase()}
-                                            </span>
-                                        </td>
+                                                </td>
 
+                                                <td style={{ border: Border }} rowSpan={items.length} className="qty-cell">
+                                                    <div>GROSS WT.</div>
+                                                    <div>{item.MetalPurity}&nbsp;&nbsp;{total.grosswt}</div>
+                                                    <div>NET WT.</div>
+                                                    <div>{item.MetalPurity}&nbsp;&nbsp;{total.NetWt}</div>
+                                                    <div>
+                                                        WASTAGE{" "}
+                                                        {(((total.grosswt - total.NetWt) / total.NetWt) * 100).toFixed(3)}%
+                                                    </div>
+                                                    <div>GMS&nbsp;&nbsp;&nbsp;{(total.grosswt - total.NetWt).toFixed(3)}</div>
+                                                </td>
 
-                                        <td colSpan={2} style={S.num()}>
-                                            {formatAmount(totalWt, 3)}
-                                        </td>
+                                                <td style={{ border: Border }} rowSpan={items.length} className="rate-cell">
+                                                    {item.metal_rate?.toFixed(2)}
+                                                </td>
 
-
-                                        <td colSpan={2} style={S.num()}>
-                                            {qty}
-                                        </td>
-
-                                        <td colSpan={1} style={S.num()}></td>
-
-                                        <td colSpan={1} style={S.num()}>
-                                            {amount ? formatAmount(amount, 2) : ""}
-                                        </td>
+                                                <td style={{ border: Border }} rowSpan={items.length} className="amount-cell">
+                                                    {total.TotalAmount?.toFixed(2)}
+                                                </td>
+                                            </>
+                                        )}
                                     </tr>
-                                );
+                                ));
                             })}
-                        </tbody>
 
+                            {/* Total */}
+                            <tr className="total-row">
+                                <td>TOTAL</td>
+                                <td></td>
+                                <td></td>
+                                <td colSpan={5}></td>
+                            </tr>
+                        </tbody>
 
                         <tbody>
-
+                            
                             <tr>
-                                <td colSpan={2} style={S.cell()} > <span style={{ fontWeight: "bold" }}>GROSS WEIGHT WITH TIN BOX</span></td>
-                                <td colSpan={4} style={S.cell()}> <span style={{ fontWeight: "bold" }}> {formatAmount(grandTotal.grosswt, 3)} GM</span> </td>
-                                <td colSpan={2} style={S.cell()}></td>
-                                <td colSpan={2} style={S.cell()}></td>
-                                <td colSpan={1} style={S.footerLabel({})}>C I F VALUE</td>
-                                <td colSpan={1} style={S.footerVal({})}>
-                                    {formatAmount(grandTotal.TotalAmount, 2)}
+                                <td colSpan={10} style={{ padding: "6px", textAlign: "right", fontWeight: "bold", fontSize: "20px" }}>
+                                    FOR {result?.header?.CompanyFullName || ""}
                                 </td>
                             </tr>
-
-
-                            <tr>
-
-                                <td colSpan={2} style={S.cell({ fontWeight: "bold" })}>
-
-                                </td>
-                                <td colSpan={2} style={S.cell({ fontWeight: "bold" })}>
-
-                                </td>
-
-                                <td colSpan={4} style={S.footerLabel({ textAlign: "right" })}>
-
-                                </td>
-                                <td colSpan={2} style={S.cell()}></td>
-                                <td colSpan={1} style={S.footerLabel()}> </td>
-                                <td colSpan={1} style={S.footerVal()}> </td>
-                            </tr>
-
-
-                            <tr>
-                                <td colSpan={8} style={S.cell()}></td>
-                                <td colSpan={2} style={S.cell()}></td>
-                                <td colSpan={1} style={S.footerLabel()}> </td>
-                                <td colSpan={1} style={S.footerVal()}> </td>
-                            </tr>
-
-                            <tr>
-                                <td colSpan={8} style={S.cell()}></td>
-                                <td colSpan={2} style={S.cell()}></td>
-                                <td colSpan={1} style={S.footerLabel({})}> </td>
-                                <td colSpan={1} style={S.footerVal({})}>
-
-                                </td>
+                            <tr style={{ height: "80px" }}>
+                                <td colSpan={10}></td>
                             </tr>
                             <tr>
-                                <td colSpan={12} style={S.cell()}>
-                                    <span>Amount Chargeable (in Word):</span> <span style={{ fontWeight: "bold", marginLeft: "50px" }}>{toWords.convert(+((+grandTotal.TotalAmount)?.toFixed(2)))}</span>
-                                </td>
-
-                            </tr>
-                        </tbody>
-
-
-                        
-
-                        <tbody>
-                            <tr>
-                                <td colSpan={12} style={{ padding: "6px", fontSize: "11px", border: "1px solid #000" }}>
-                                    <strong>Note:</strong> {result?.header?.Remark || ""}
-                                </td>
-                            </tr>
-
-
-                            <tr>
-
-                                <td colSpan={9} style={{ padding: "11px", fontSize: "10px", verticalAlign: "top", border: "1px solid #000", fontFamily: "Calibri, Arial, sans-serif" }}>
-                                    <p style={{ textDecoration: "underline", fontWeight: "bold", margin: "0 0 4px 0", fontSize: "10px", color: "#000000" }}>
-                                        Declaration:
-                                    </p>
-                                    <div
-                                        style={{
-                                            fontSize: "11px",
-                                            fontWeight: "normal",
-                                            color: "#000000",
-                                            lineHeight: "1.2",
-                                            width: "50%"
-                                        }}
-                                        dangerouslySetInnerHTML={{
-                                            __html: (() => {
-                                                if (!result?.header?.Declaration) return "";
-                                                let cleanHtml = result.header.Declaration;
-                                                cleanHtml = cleanHtml.replace(/<h[1-6]\b[^>]*>/gi, "").replace(/<\/h[1-6]>/gi, "<br/>");
-                                                cleanHtml = cleanHtml.replace(/<div\b[^>]*>/gi, "").replace(/<\/div>/gi, "<br/>");
-                                                cleanHtml = cleanHtml.replace(/<p\b[^>]*>/gi, "").replace(/<\/p>/gi, "<br/>");
-                                                cleanHtml = cleanHtml.replace(/font-size\s*:\s*[^;"]+;?/gi, "");
-                                                cleanHtml = cleanHtml.replace(/font-weight\s*:\s*[^;"]+;?/gi, "");
-                                                cleanHtml = cleanHtml.replace(/<strong\b[^>]*>/gi, "").replace(/<\/strong>/gi, "");
-                                                cleanHtml = cleanHtml.replace(/<b\b[^>]*>/gi, "").replace(/<\/b>/gi, "");
-                                                return cleanHtml;
-                                            })()
-                                        }}
-                                    />
-                                </td>
-
-                                <td
-                                    colSpan={3}
-                                    style={{
-                                        border: "1px solid #000",
-                                        height: "150px",
-                                        verticalAlign: "top",
-                                    }}
-                                >
-                                    <div style={{ textAlign: "right", fontWeight: "bold" }}>
-                                        FOR {result?.header?.CompanyFullName || ""}
-                                    </div>
-
-                                    <div style={{ height: "100px" }}>&nbsp;</div>
-                                    <div style={{ height: "100px" }}>&nbsp;</div>
-                                    <div style={{ height: "100px" }}>&nbsp;</div>
-                                    <div style={{ height: "100px" }}>&nbsp;</div>
-                                    <div style={{ height: "100px" }}>&nbsp;</div>
-
-
-                                    <div style={{ textAlign: "right", fontWeight: "bold" }}>
-                                        AUTHORISED/PROPRIETOR
-                                    </div>
+                                <td colSpan={10} style={{ padding: "6px", textAlign: "right", fontWeight: "bold", fontSize: "20px" }}>
+                                    AUTHORISED/PROPRIETOR
                                 </td>
                             </tr>
                         </tbody>
-
                     </table>
+
+
                 </div>
             ) : (
                 <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">{msg}</p>

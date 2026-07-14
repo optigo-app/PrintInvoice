@@ -436,6 +436,8 @@ export const excelConditions = [
   { printName: "export invoice excel", etpType: "excel", componentName: "ExportInvoiceExcel" }, // Amish.....
   { printName: 'invoice print b', etpType: 'excel', componentName: 'InvoicePrintBExcel' },       // amish
   { printName: 'memo excel 1', etpType: 'excel', componentName: 'MemoExcel1' },       // amish
+  { printName: 'packing list export 1', etpType: 'excel', componentName: 'PackingListExportExcel1' },       // amish
+  { printName: 'packing list export 2', etpType: 'excel', componentName: 'PackingListExportExcel2' },       // amish
 
   //SaleTallyExcel...
   { printName: "saleexcel1", etpType: "excel", componentName: "SaleExcel1" },

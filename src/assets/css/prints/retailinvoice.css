@@ -8,6 +8,9 @@
     color: black;
     font-family: Calibri;
 }
+.text-center{
+    text-align: center;
+}
 .fs_ri{
     font-size: 13px;
     line-height: 15px;
@@ -48,7 +51,7 @@
 }
 
 .col1_ri_disflag{
-    width: 13%;
+    width: 10%;
 }
 .col2_ri_disflag{
     width: 7%;
@@ -89,10 +92,10 @@
 
 
 .col1_ri{
-    width: 13%;
+    width: 10%;
 }
 .col2_ri{
-    width: 4%;
+    width: 7%;
 }
 .col3_ri{
     width: 5%;

@@ -38,6 +38,7 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
   const [notGoldMetalWtTotal, setNotGoldMetalWtTotal] = useState(0);
   const [diamondDetails, setDiamondDetails] = useState([]);
   const [diamondWise, setDiamondWise] = useState([]);
+  const [metaldata, setMetaldata] = useState([]);
   useEffect(() => {
     const sendData = async () => {
       try {
@@ -86,7 +87,10 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
     );
 
     let met_shp_arr = MetalShapeNameWiseArr(datas?.json2);
-
+    let metaldata = datas?.json2?.filter(
+      (item) => item.MasterManagement_DiamondStoneTypeid === 4 || item.MasterManagement_DiamondStoneTypeid === 5
+    );
+    setMetaldata(metaldata);
     setMetShpWise(met_shp_arr);
     let tot_met = 0;
     let tot_met_wt = 0;
@@ -1075,6 +1079,9 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
     const map = new Map();
 
     data?.forEach((item) => {
+
+      
+      console.log("TCL: mergeByPurityAndMaterial -> item",item )
       const purity = item.MetalPurity;
       const MetalType = item.MetalType;
 
@@ -1211,7 +1218,9 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
       group.total.totalWt += (item?.NetWt || 0) + (item?.LossWt || 0);
 
       const metalAmount = item?.totals?.metal?.Amount || 0;
-      group.total.metalAmount += metalAmount;
+      const findingAmount = item?.totals?.finding?.Amount || 0;
+      group.total.metalAmount += metalAmount + findingAmount;
+      
 
       const diaPcs =
         item?.totals?.diamonds?.Pcs ??
@@ -1256,7 +1265,7 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
 
       group.total.TotalAmount += item?.TotalAmount || 0;
 
-      group.total.totalRMValue += diaAmt + csAmt + miscAmt + metalAmount;
+      group.total.totalRMValue += diaAmt + csAmt + miscAmt + metalAmount + findingAmount;
 
       const valueAdd =
         (item?.OtherCharges || 0) +
@@ -1307,6 +1316,7 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
       acc.totalWt += t.totalWt;
 
       acc.metalAmount += t.metalAmount / exchRate;
+      acc.findingAmount += t.findingAmount / exchRate;
 
       acc.diaPcs += t.diaCsPcs;
       acc.diaWt += t.diaCsWt;
@@ -1325,7 +1335,8 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
       diaPcs: 0,
       diaWt: 0,
       diaAmount: 0,
-      totalAmount: 0
+      totalAmount: 0,
+      findingAmount: 0,
     });
   };
 
@@ -1379,37 +1390,64 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
 
   const mergeByMetalPurity = (data = []) => {
     const grouped = {};
-
+  
     data.forEach((item) => {
-      const purity = item?.MetalPurity || "UNKNOWN";
+      const purity = item?.QualityName || "UNKNOWN";
 
+      let loss=0;
+       if(item?.IsPrimaryMetal ==1){
+
+        const job = result?.resultArray.find(
+          j => j?.MetalPurity === item?.QualityName
+        );
+
+         loss = job?.MetalLossIn ===1? job?.LossWt   : job?.LossPer;
+         
+       }
+  
       if (!grouped[purity]) {
         grouped[purity] = {
           Purity: purity,
           NetWt: 0,
-          Loss: 0,
+          PureNetWt: 0,
+          LossWt: 0,
           MetalRate: 0,
-          Amount: 0
+          Amount: 0,
         };
       }
-
-      const metal = item?.totals?.metal || {};
-
-      grouped[purity].NetWt += item?.NetWt || 0;
-      grouped[purity].Loss += item?.LossWt || 0;
-      grouped[purity].MetalRate += metal?.Rate || 0;
-      grouped[purity].Amount += metal?.Amount || 0;
+  
+      const wt = Number(item?.Weight) || 0;
+      const rate = Number(item?.Rate) || 0;
+      const amount = Number(item?.Amount) || 0;
+      const purityValue = Number(item?.SizeName) || 0;
+      const wastage = Number(item?.metalWastage1) || 0;
+      
+      grouped[purity].LossWt += loss;
+      grouped[purity].NetWt += wt;
+      grouped[purity].MetalRate += rate;
+      grouped[purity].Amount += amount;
+  
+      
+      console.log("TCL: mergeByMetalPurity -> purityValue",purityValue )
+      console.log("TCL: mergeByMetalPurity -> wastage",wastage )
+      console.log("TCL: mergeByMetalPurity -> wastage",wastage )
+      console.log("TCL: mergeByMetalPurity -> loss",loss )
+      console.log("TCL: mergeByMetalPurity -> wt",wt )
+      
+      
+      grouped[purity].PureNetWt +=
+      ((purityValue ) * (wt+loss)) / 100;
+      console.log("TCL: mergeByMetalPurity -> PureNetWt",  ((purityValue ) * (wt+loss)) / 100)
     });
-
+  
     return Object.values(grouped);
   };
+  
+  const puritydata = mergeByMetalPurity(metaldata);
 
-
-  const puritydata = mergeByMetalPurity(result?.resultArray)
-
-
-  console.log("TCL: ValueSheetExcel -> MergedData", MergedData)
-  console.log("TCL: ValueSheetExcel -> MergedData", result?.resultArray)
+ 
+ 
+ console.log("TCL: ValueSheetExcel -> puritydata", puritydata)
   return (
     <>
       {loader ? (
@@ -1648,12 +1686,7 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                           const mt = metals[idx] || {};
                           const m = materials[idx] || {};
 
-
-
-
-
-
-
+ 
 
 
                           return (
@@ -1728,7 +1761,11 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                               </td>
 
                               <td style={tdStyleRight}>
-                                {(Number(e?.LossWt || 0) +
+
+                              {mt?.IsPrimaryMetal == 1 ? formatAmount((mt?.Wt - e?.totals?.finding?.Wt)+e?.LossWt, 3) 
+                                  : 
+                                  
+                                  (Number(e?.LossWt || 0) +
                                   Number(mt?.Wt || 0)) !== 0
                                   ? formatAmount(
                                     Number(e?.LossWt || 0) +
@@ -1736,6 +1773,7 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                                     3
                                   )
                                   : ""}
+                               
                               </td>
 
                               <td style={tdStyleRight}>
@@ -1808,7 +1846,8 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                                         (e?.totals?.metal?.Amount || 0) +
                                         (e?.totals?.diamonds?.Amount || 0) +
                                         (e?.totals?.colorstone?.Amount || 0) +
-                                        (e?.totals?.misc?.Amount || 0)
+                                        (e?.totals?.misc?.Amount || 0)+
+                                        (e?.totals?.finding?.Amount || 0)
                                       ) /
                                       (result?.header
                                         ?.CurrencyExchRate || 1),
@@ -1833,7 +1872,8 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                                         (e?.totals?.metal?.Amount || 0) +
                                         (e?.totals?.diamonds?.Amount || 0) +
                                         (e?.totals?.colorstone?.Amount || 0) +
-                                        (e?.totals?.misc?.Amount || 0)
+                                        (e?.totals?.misc?.Amount || 0)+
+                                        (e?.totals?.finding?.Amount || 0)
                                       ) * 0.08,
                                       2
                                     )}
@@ -1849,7 +1889,8 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                                         (e?.totals?.metal?.Amount || 0) +
                                         (e?.totals?.diamonds?.Amount || 0) +
                                         (e?.totals?.colorstone?.Amount || 0) +
-                                        (e?.totals?.misc?.Amount || 0)
+                                        (e?.totals?.misc?.Amount || 0)+
+                                        (e?.totals?.finding?.Amount || 0)
                                       ) /
                                       (result?.header
                                         ?.CurrencyExchRate || 1) +
@@ -1859,7 +1900,8 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                                           (e?.totals?.metal?.Amount || 0) +
                                           (e?.totals?.diamonds?.Amount || 0) +
                                           (e?.totals?.colorstone?.Amount || 0) +
-                                          (e?.totals?.misc?.Amount || 0)
+                                          (e?.totals?.misc?.Amount || 0)+
+                                          (e?.totals?.finding?.Amount || 0)
                                         ) /
                                           (result?.header
                                             ?.CurrencyExchRate || 1) *
@@ -1909,7 +1951,7 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                       </td>
                       <td style={{ border: '1px solid #000', padding: '2px', textAlign: 'right', fontWeight: 'bold' }}></td>
                       <td style={{ border: '1px solid #000', padding: '2px', textAlign: 'right', fontWeight: 'bold' }}>
-                        {formatAmount(item?.total?.metalAmount, 2)}
+                        {formatAmount((item?.total?.metalAmount ) , 2)}
 
                       </td>
                       <td style={{ border: '1px solid #000', padding: '2px', textAlign: 'right', fontWeight: 'bold' }}></td>
@@ -1976,7 +2018,7 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                   <td style={{ border: '1px solid #000' }}></td>
 
                   <td style={{ border: '1px solid #000', textAlign: 'right' }}>
-                    {formatAmount(grandTotal.metalAmount, 2)}
+                    {formatAmount((grandTotal.metalAmount ) , 2)}
                   </td>
 
                   <td style={{ border: '1px solid #000' }}></td>
@@ -2030,8 +2072,8 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                   <th style={{ border: '1px solid #000', padding: '2px', textAlign: 'center', backgroundColor: '#f0f0f0' }} >Purity</th>
                   <th style={{ border: '1px solid #000', padding: '2px', textAlign: 'center', backgroundColor: '#f0f0f0' }} >Net Wt.</th>
                   <th style={{ border: '1px solid #000', padding: '2px', textAlign: 'center', backgroundColor: '#f0f0f0' }} >Loss</th>
-                  <th style={{ border: '1px solid #000', padding: '2px', textAlign: 'center', backgroundColor: '#f0f0f0' }} >0.999</th>
-                  <th style={{ border: '1px solid #000', padding: '2px', textAlign: 'center', backgroundColor: '#f0f0f0' }} >Loss(0.999)</th>
+                  <th style={{ border: '1px solid #000', padding: '2px', textAlign: 'center', backgroundColor: '#f0f0f0' }} >Pure Wt.</th>
+                  {/* <th style={{ border: '1px solid #000', padding: '2px', textAlign: 'center', backgroundColor: '#f0f0f0' }} >Loss(0.999)</th> */}
                   <th style={{ border: '1px solid #000', padding: '2px', textAlign: 'center', backgroundColor: '#f0f0f0' }} >Rate of Gold /Silver Gms in US $</th>
                   <th style={{ border: '1px solid #000', padding: '2px', textAlign: 'center', backgroundColor: '#f0f0f0' }} >Value of Gold/silver in US $</th>
                 </tr>
@@ -2041,9 +2083,9 @@ const ValueSheetExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                   <tr>
                     <td style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }} >{item?.Purity || ""}</td>
                     <td style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }} >{item?.NetWt.toFixed(3) || ""}</td>
-                    <td style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }} >{item?.Loss.toFixed(3) || "0.00"}</td>
-                    <td style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }} >64.232</td>
-                    <td style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }} >45.00</td>
+                    <td style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }} >{item?.LossWt.toFixed(3) || "0.00"}</td>
+                    <td style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }} >{item?.PureNetWt.toFixed(3) || "0.00"}</td>
+                    {/* <td style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }} >45.00</td> */}
                     <td style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }} >{item?.MetalRate.toFixed(2) || ""}</td>
                     <td style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }} >{item?.Amount.toFixed(2) || ""}</td>
                   </tr>

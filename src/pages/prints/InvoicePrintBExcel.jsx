@@ -532,6 +532,8 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
         }, 500);
     }
 
+    const isMultipleCOmpany = result?.header?.MltC_CompanyName?.length > 0 ? 1 : 0;
+
     return (
         <>
             {loader ? (
@@ -579,7 +581,7 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                                 />
                                             </td>
                                             <td colSpan="6" style={{ border: "1px solid #dbdbdb", padding: "10px", verticalAlign: "middle", textAlign: "center", fontSize: "22px", fontWeight: "bold" }}>
-                                                {result?.header?.CompanyFullName}
+                                                {isMultipleCOmpany === 1 ? result?.header?.MltC_CompanyName : result?.header?.CompanyFullName}
                                             </td>
                                         </tr>
                                         {/* 2. TITLE HEAD LABEL */}
@@ -593,19 +595,90 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                         <tr>
                                             {/* Left Side Company & Address */}
                                             <td colSpan="6" style={{ border: "1px solid #dbdbdb", verticalAlign: "top", padding: "8px" }}>
-                                                <h3 style={{ borderBottom: "1px solid #dbdbdb", paddingBottom: "5px", marginTop: 0, marginBottom: "5px" }}>{result?.header?.CompanyFullName}</h3>
+                                                <h3 style={{ borderBottom: "1px solid #dbdbdb", paddingBottom: "5px", marginTop: 0, marginBottom: "5px" }}>{isMultipleCOmpany === 1 ? result?.header?.MltC_CompanyName : result?.header?.CompanyFullName}</h3>
+                                                <div> {isMultipleCOmpany === 1 ? result?.header?.MltC_firstname : result?.header?.DefCustFirstname}{" "}{isMultipleCOmpany === 1 ? result?.header?.MltC_lastname : result?.header?.DefCustLastname}</div>
                                                 <div style={{ fontSize: "13px", lineHeight: "1.4" }}>
                                                     <b>Address:</b>
                                                     <div style={{ wordBreak: "break-word" }}>
-                                                        {result?.header?.CompanyAddress}
-                                                        <br />
-                                                        {result?.header?.CompanyState || result?.header?.Company_CST_STATE_No ? (
+                                                        {/* {result?.header?.CompanyAddress} */}
+                                                        {
+                                                            isMultipleCOmpany === 1 ?
+
+
+                                                                [
+                                                                    result?.header?.MltC_addressline1,
+                                                                    result?.header?.MltC_addressline2,
+                                                                    result?.header?.MltC_addressline3
+                                                                ].filter(Boolean).join(", ")
+
+                                                                :
+
+
+                                                                [
+                                                                    result?.header?.CompanyAddress,
+                                                                    result?.header?.CompanyAddress2,
+                                                                    result?.header?.CompanyAddress3
+                                                                ].filter(Boolean).join(", ")
+
+
+                                                        }
+
+                                                        <div>
+                                                            {
+
+                                                                isMultipleCOmpany === 1 ?
+                                                                    [
+                                                                        result?.header?.MltC_city,
+                                                                        result?.header?.MltC_pincode
+                                                                    ].filter(Boolean).join("-")
+
+                                                                    :
+                                                                    [
+                                                                        result?.header?.CompanyCity,
+                                                                        result?.header?.CompanyPinCode
+                                                                    ].filter(Boolean).join("-")
+
+
+
+
+                                                            }
+                                                        </div>
+                                                        
+                                                      
+
+                                                        <div> {result?.header?.CompanyState || result?.header?.Company_CST_STATE_No ? (
                                                             <>
-                                                                {result?.header?.CompanyState && <>State Name: {result.header.CompanyState}</>}
-                                                                {result?.header?.CompanyState && result?.header?.Company_CST_STATE_No && " | "}
-                                                                {result?.header?.Company_CST_STATE_No && <>State Code: {result.header.Company_CST_STATE_No}</>}
+                                                                {isMultipleCOmpany === 0 && (
+                                                                    <>
+                                                                        {result?.header?.CompanyState && (
+                                                                            <span>State Name: {result.header.CompanyState}</span>
+                                                                        )}
+
+                                                                        {result?.header?.CompanyState && result?.header?.CompanyCountry && " | "}
+
+                                                                        {result?.header?.CompanyCountry && (
+                                                                            <span>Country: {result.header.CompanyCountry}</span>
+                                                                        )}
+                                                                    </>
+                                                                )}
+
+                                                                {isMultipleCOmpany === 1 && (
+                                                                    <>
+                                                                        {result?.header?.CompanyState && (
+                                                                            <span>State Name: {result.header.MltC_state}</span>
+                                                                        )}
+
+                                                                        {result?.header?.MltC_state && result?.header?.MltC_Country && " | "}
+
+                                                                        {result?.header?.MltC_Country && (
+                                                                            <span>Country: {result.header.MltC_Country}</span>
+                                                                        )}
+                                                                    </>
+                                                                )}
+
+
                                                             </>
-                                                        ) : null}
+                                                        ) : null}</div>
                                                     </div>
                                                 </div>
                                             </td>
@@ -682,7 +755,7 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                             <th style={{ fontWeight: "bold", border: "1px solid #dbdbdb", padding: "5px", verticalAlign: "middle" }}>Qty</th>
                                             <th style={{ fontWeight: "bold", border: "1px solid #dbdbdb", padding: "5px", verticalAlign: "middle" }}>Tag Price</th>
                                             <th style={{ fontWeight: "bold", border: "1px solid #dbdbdb", padding: "5px", verticalAlign: "middle" }}>Discount</th>
-                                            <th style={{ fontWeight: "bold", border: "1px solid #dbdbdb", padding: "5px", verticalAlign: "middle" }}> <span style={{marginRight:"5px"}}>Total</span> <span
+                                            <th style={{ fontWeight: "bold", border: "1px solid #dbdbdb", padding: "5px", verticalAlign: "middle" }}> <span style={{ marginRight: "5px" }}>Total</span> <span
                                                 dangerouslySetInnerHTML={{
                                                     __html: `(in  ${result?.header?.Currencysymbol})`,
                                                 }}
@@ -703,7 +776,7 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                                 <tr key={i} height="120" style={{ height: "120px" }}>
                                                     <td style={{ border: "1px solid #dbdbdb", padding: "5px", textAlign: "center", verticalAlign: "middle" }}>{i + 1}</td>
                                                     <td style={{ border: "1px solid #dbdbdb", padding: "5px", textAlign: "center", verticalAlign: "middle", fontSize: "13px" }}>
-                                                        {e?.designno} <br />{ e?.GroupJob ?  `\u200B${e?.Groupjob}`:  `\u200B${e?.SrJobno}`}
+                                                        {e?.designno} <br />{e?.GroupJob ? `\u200B${e?.Groupjob}` : `\u200B${e?.SrJobno}`}
                                                     </td>
                                                     <td style={{ border: "1px solid #dbdbdb", padding: "5px", textAlign: "center", verticalAlign: "middle" }}>
                                                         {/* Explicit inline height/width metrics prevent Excel layout clipping */}
@@ -858,78 +931,78 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
 
                                                         {/* Shipping */}
 
-                                                        {result?.header?.FreightCharges > 0 &&(
-                                                              <tr>
-                                                              <td
-                                                                  style={{
-                                                                      width: "50%",
-                                                                      borderRight: "1px solid #dbdbdb",
-                                                                      borderBottom: "1px solid #dbdbdb",
-                                                                      padding: "5px",
-                                                                  }}
-                                                              >
-                                                                  Shipping
-                                                              </td>
-                                                              <td
-                                                                  style={{
-                                                                      width: "50%",
-                                                                      textAlign: "right",
-                                                                      borderBottom: "1px solid #dbdbdb",
-                                                                      padding: "5px",
-                                                                  }}
-                                                              >
-                                                                  <span
-                                                                      style={{ fontSize: "13px" }}
-                                                                      dangerouslySetInnerHTML={{
-                                                                          __html: result?.header?.Currencysymbol,
-                                                                      }}
-                                                                  />
-                                                                  {" "}
-                                                                  {formatAmount(
-                                                                      result?.header?.FreightCharges /
-                                                                      result?.header?.CurrencyExchRate
-                                                                  )}
-                                                              </td>
-                                                          </tr>
+                                                        {result?.header?.FreightCharges > 0 && (
+                                                            <tr>
+                                                                <td
+                                                                    style={{
+                                                                        width: "50%",
+                                                                        borderRight: "1px solid #dbdbdb",
+                                                                        borderBottom: "1px solid #dbdbdb",
+                                                                        padding: "5px",
+                                                                    }}
+                                                                >
+                                                                    Shipping
+                                                                </td>
+                                                                <td
+                                                                    style={{
+                                                                        width: "50%",
+                                                                        textAlign: "right",
+                                                                        borderBottom: "1px solid #dbdbdb",
+                                                                        padding: "5px",
+                                                                    }}
+                                                                >
+                                                                    <span
+                                                                        style={{ fontSize: "13px" }}
+                                                                        dangerouslySetInnerHTML={{
+                                                                            __html: result?.header?.Currencysymbol,
+                                                                        }}
+                                                                    />
+                                                                    {" "}
+                                                                    {formatAmount(
+                                                                        result?.header?.FreightCharges /
+                                                                        result?.header?.CurrencyExchRate
+                                                                    )}
+                                                                </td>
+                                                            </tr>
                                                         )}
-                                                      
+
 
                                                         {/* Round Up */}
-                                                        { result?.header?.AddLess !== 0 &&(
-                                                             <tr>
-                                                             <td
-                                                                 style={{
-                                                                     width: "50%",
-                                                                     borderRight: "1px solid #dbdbdb",
-                                                                     borderBottom: "1px solid #dbdbdb",
-                                                                     padding: "5px",
-                                                                 }}
-                                                             >
-                                                                 Round up
-                                                             </td>
-                                                             <td
-                                                                 style={{
-                                                                     width: "50%",
-                                                                     textAlign: "right",
-                                                                     borderBottom: "1px solid #dbdbdb",
-                                                                     padding: "5px",
-                                                                 }}
-                                                             >
-                                                                 <span
-                                                                     style={{ fontSize: "13px" }}
-                                                                     dangerouslySetInnerHTML={{
-                                                                         __html: result?.header?.Currencysymbol,
-                                                                     }}
-                                                                 />
-                                                                 {" "}
-                                                                 {formatAmount(
-                                                                     result?.header?.AddLess /
-                                                                     result?.header?.CurrencyExchRate
-                                                                 )}
-                                                             </td>
-                                                         </tr>
+                                                        {result?.header?.AddLess !== 0 && (
+                                                            <tr>
+                                                                <td
+                                                                    style={{
+                                                                        width: "50%",
+                                                                        borderRight: "1px solid #dbdbdb",
+                                                                        borderBottom: "1px solid #dbdbdb",
+                                                                        padding: "5px",
+                                                                    }}
+                                                                >
+                                                                    Round up
+                                                                </td>
+                                                                <td
+                                                                    style={{
+                                                                        width: "50%",
+                                                                        textAlign: "right",
+                                                                        borderBottom: "1px solid #dbdbdb",
+                                                                        padding: "5px",
+                                                                    }}
+                                                                >
+                                                                    <span
+                                                                        style={{ fontSize: "13px" }}
+                                                                        dangerouslySetInnerHTML={{
+                                                                            __html: result?.header?.Currencysymbol,
+                                                                        }}
+                                                                    />
+                                                                    {" "}
+                                                                    {formatAmount(
+                                                                        result?.header?.AddLess /
+                                                                        result?.header?.CurrencyExchRate
+                                                                    )}
+                                                                </td>
+                                                            </tr>
                                                         )}
-                                                       
+
 
                                                         {/* Grand Total */}
                                                         <tr style={{ fontWeight: "bold" }}>
@@ -993,7 +1066,7 @@ function InvoicePrintB({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                                                 <div>__________________</div>
                                             </td>
                                             <td colSpan="4" style={{ border: "1px solid #dbdbdb", padding: "10px", textAlign: "center", verticalAlign: "bottom" }}>
-                                                <div style={{ fontWeight: "bold", marginBottom: "40px" }}>{result?.header?.CompanyFullName}</div>
+                                                <div style={{ fontWeight: "bold", marginBottom: "40px" }}>{isMultipleCOmpany === 1 ? result?.header?.MltC_CompanyName : result?.header?.CompanyFullName}</div>
                                                 <div style={{ fontSize: "13px" }}>Authorised Signatory</div>
                                             </td>
                                         </tr>

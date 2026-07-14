@@ -403,6 +403,45 @@ const RetailInvoiceprint4 = ({
 
   const difference = Math.round((totalConverted - totalPayments) * 100) / 100;
 
+
+
+
+
+
+
+
+  const matches = headerData?.oldgoldDetails?.match(/\[(.*?)\]/g) || [];
+
+const grouped = {};
+
+matches.forEach((item) => {
+  const metalType = item.match(/MetalType\s*:\s*([^,]+)/)?.[1]?.trim();
+  const purity = item.match(/purity\s*:\s*([^,]+)/)?.[1]?.trim();
+  const netWt = parseFloat(item.match(/NetWt\s*:\s*([\d.]+)/)?.[1] || 0);
+  const totalAmount = parseFloat(item.match(/TotalAmount\s*:\s*([\d.]+)/)?.[1] || 0);
+
+  const key = `${metalType}_${purity}`;
+
+  if (!grouped[key]) {
+    grouped[key] = {
+      MetalType: metalType,
+      Purity: purity,
+      NetWt: 0,
+      TotalAmount: 0,
+    };
+  }
+
+  grouped[key].NetWt += netWt;
+  grouped[key].TotalAmount += totalAmount;
+});
+
+const OldGolddetails = Object.values(grouped);
+
+
+console.log("TCL: OldGolddetails", OldGolddetails)
+
+ 
+
   return (
     <>
       {loader ? (
@@ -1181,7 +1220,7 @@ const RetailInvoiceprint4 = ({
                         className={`${style?.RemarkJewelleryInvoicePrintC} p-2`}
                       >
                         <div className="d-flex ">
-                          Old Gold Purchase Description :{" "}
+                          Old Metal Purchase Description :{" "}
                           <div
                             dangerouslySetInnerHTML={{
                               __html: headerData?.Remark,
@@ -1217,7 +1256,17 @@ const RetailInvoiceprint4 = ({
                         <p className="pb-1 px-1 text-end">
                           Total Amt after Tax
                         </p>
-                        <p className="pb-1 px-1 text-end">Old Gold</p>
+                        {/* <p className="pb-1 px-1 text-end">Old Gold</p> */}
+
+                        {
+                           OldGolddetails?.map((e, i) => {
+                            return (
+                              <p className="pb-1 px-1 text-end" key={i}>
+                                {e?.MetalType} - {NumberWithCommas(e?.NetWt, 3) +" gm" } 
+                              </p>
+                            )
+                          })
+                        }
                         <p className="pb-1 px-1 text-end">Recv. in Cash</p>
                         {bank.length > 0 &&
                           bank.map((e, i) => {
@@ -1272,9 +1321,19 @@ const RetailInvoiceprint4 = ({
                             2
                           )} {/** After Tax */}
                         </p>
-                        <p className="pb-1 px-1 text-end">
-                          {NumberWithCommas(headerData?.OldGoldAmount, 2)} {/** Old Gold */}
-                        </p>
+                        {/* <p className="pb-1 px-1 text-end">
+                          {NumberWithCommas(headerData?.OldGoldAmount, 2)}  
+                        </p> */}
+
+                        {
+                           OldGolddetails?.map((e, i) => {
+                            return (
+                              <p className="pb-1 px-1 text-end" key={i}>
+                                 {NumberWithCommas(e?.TotalAmount, 2)}
+                              </p>
+                            )
+                          })
+                        }
                         <p className="pb-1 px-1 text-end">
                           {NumberWithCommas(headerData?.CashReceived, 2)} {/** Amount That Receive In Cash */}
                         </p>

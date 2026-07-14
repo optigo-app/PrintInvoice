@@ -445,13 +445,17 @@ function Qutation({ token, invoiceNo, printName, urls, evn, ApiVer }) {
                     <b style={{ width: "100px", display: "flex" }}>DATE </b>
                     {result?.header?.EntryDate}
                   </p>
-                  <p className="qut1_address_box_p">
-                    <b style={{ width: "100px", display: "flex" }}>
-                      {" "}
-                      {result?.header?.HSN_No_Label}{" "}
-                    </b>
-                    {result?.header?.HSN_No}
-                  </p>
+                 {
+                  result?.header?.HSN_No && (
+                    <p className="qut1_address_box_p">
+                      <b style={{ width: "100px", display: "flex" }}>
+                        {" "}
+                        HSN
+                      </b>
+                      {result?.header?.HSN_No}
+                    </p>
+                  )
+                 }
                 </div>
               </div>
 

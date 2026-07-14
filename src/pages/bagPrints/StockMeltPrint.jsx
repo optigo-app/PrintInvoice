@@ -135,8 +135,8 @@ function StockMeltPrint() {
                                 <td style={{ padding: '8px' }}>{e?.DesignNo}</td>
                                 <td style={{ padding: '8px' }}>{e?.Customer}</td>
                                 <td className="no-wrap" style={{ padding: '8px' }}>{e?.MetalType}</td>
-                                <td className="bold-text" style={{ padding: '8px' }}>{e?.NetWt}</td>
-                                <td className="bold-text" style={{ padding: '8px' }}>{e?.GrossWt}</td>
+                                <td className="bold-text" style={{ padding: '8px' }}>{e?.NetWt?.toFixed(3)}</td>
+                                <td className="bold-text" style={{ padding: '8px' }}>{e?.GrossWt?.toFixed(3)}</td>
                                 <td style={{ padding: '8px' }}>{e?.DiaWtPcs}</td>
                                 <td style={{ padding: '8px' }}>{e?.CSWtPcs}</td>
                                 <td style={{ padding: '8px' }}>{e?.MiscWtPcs}</td>

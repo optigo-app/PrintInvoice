@@ -11,7 +11,9 @@
     align-items: center;
   }
   
- 
+ .wordBreak{
+  word-break: break-word !important;
+ }
   .checkbox-radio-label {
     display: flex;
     align-items: center;
@@ -401,4 +403,21 @@
     .remarksHeight{
       min-height: 78px;
     }
+
+    
+      .col-sr,
+      .col-img,
+      .col-sku,
+      .col-metal,
+      .col-wt,
+      .col-amt,
+      .col-stone,
+      .col-pcs {
+        min-width: 0 !important;
+      }
+
+      .th{
+        font-size: 13px;
+      }
+   
 }

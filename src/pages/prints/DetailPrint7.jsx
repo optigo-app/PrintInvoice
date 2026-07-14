@@ -185,7 +185,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           obj.cg_wastage = e?.Wastage;
           obj.cg_tunch = e?.Tunch;
           // obj.cg_finewt = (e?.NetWt * e?.Tunch) / 100;
-          obj.cg_finewt = e?.fineWtss;
+          obj.cg_finewt = e?.PureNetWt;
           console.log("TCL: loadData ->e?.fineWtss ",e?.fineWtss )
           obj.cat_count = 1;
           cgwise.push(obj);
@@ -200,8 +200,8 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           cgwise[findIndex].cat_count += 1;
           // cgwise[findIndex].cg_finewt += (e?.NetWt * e?.Tunch) / 100;
           
-          console.log("TCL: loadData ->e?.fineWtss ",e?.fineWtss )
-          cgwise[findIndex].cg_finewt += e?.fineWtss;
+          console.log("TCL: loadData ->e?.fineWtss ",e?.PureNetWt )
+          cgwise[findIndex].cg_finewt += e?.PureNetWt;
         }
       });
       cgwise.forEach((e) => {
@@ -364,7 +364,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setResult(datas);
       let finewt_ = 0;
       datas?.resultArray?.forEach((e) => {
-        finewt_ += e?.fineWtss;
+        finewt_ += e?.PureNetWt;
       });
 
       datas?.resultArray?.forEach((e) => {
@@ -747,7 +747,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {result?.header?.HSN_No && (
                       <div className="fsgdp7 lhdp7 d-flex justify-content-between">
                         <span className="w-50 fw-bold">
-                          {result?.header?.HSN_No_Label}
+                         HSN
                         </span>
                         <span className="w-50 d-flex justify-content-start">
                           {result?.header?.HSN_No}

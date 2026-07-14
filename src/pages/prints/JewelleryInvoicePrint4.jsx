@@ -684,7 +684,7 @@ export default function JewelleryInvoicePrint4({ token, invoiceNo, printName, ur
 
     const payments = [...bankPayments, ...cashPayments];
 
- 
+
     return (
         <>
             {loader ? (
@@ -879,24 +879,38 @@ export default function JewelleryInvoicePrint4({ token, invoiceNo, printName, ur
                                     <div className="bill-section">
                                         <div className="section-label"> {result?.header?.lblBillTo}:</div>
 
+
                                         <div className="bill-text" style={{ width: "30%" }}>
+                                            <div>{result?.header?.customerfirmname}</div>
+                                            <div>{result?.header?.CustName}</div>
                                             <div>
                                                 {[
-                                                    result?.header?.CustName,
+
+
                                                     result?.header?.customerAddress1,
                                                     result?.header?.customerAddress2,
                                                     result?.header?.customerAddress3
                                                 ]
-                                                    .filter(Boolean)  
-                                                    .join(', ')}     
+                                                    .filter(Boolean)
+                                                    .join(', ')}
                                             </div>
 
                                             <div>
 
-                                                {result?.header?.customercity1}
+
                                             </div>
                                             <div>
-                                                {result?.header?.State},{result?.header?.customercountry}
+                                                {[
+                                                    result?.header?.customercity1,
+                                                    result?.header?.State,
+                                                    result?.header?.customercountry
+                                                ]
+                                                    .filter(Boolean)
+                                                    .join(", ")}
+                                            </div>
+                                            <div>
+
+                                                {result?.header?.customeremail1}
                                             </div>
 
                                             <div>
@@ -1186,7 +1200,7 @@ export default function JewelleryInvoicePrint4({ token, invoiceNo, printName, ur
                                         <p className="fw-bold" style={{ fontSize: "10px" }}>Terms & Condition:</p>
                                         <div
                                             className="tb_fs_pclsINS"
-                                            style={{fontSize:"12px"}}
+                                            style={{ fontSize: "12px" }}
                                             dangerouslySetInnerHTML={{
                                                 __html: result?.header?.Declaration,
                                             }}

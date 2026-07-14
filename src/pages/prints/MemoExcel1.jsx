@@ -258,8 +258,8 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                     <tbody>
                                         {result?.resultArray?.map((item, idx) => {
                                             const details = [
-                                                { DETAIL: `'${item?.lineid}`, QNTY: item?.BulkPurchaseQTY, WT: item?.grosswt },
-                                                { DETAIL: item?.MetalTypePurity, QNTY: 0, WT: item?.NetWt },
+                                                { DETAIL: `'${item?.lineid}`, QNTY: item?.BulkPurchaseQTY, WT: item?.grosswt?.toFixed(2)  },
+                                                { DETAIL: `${item?.MetalPurity} ${item?.MetalColor ?"-":""} ${item?.MetalColor}`, QNTY: 0, WT: item?.NetWt?.toFixed(2)  },
                                                 ...(item?.diacls || []).map(dia => ({
                                                     DETAIL: (dia?.MasterManagement_DiamondStoneTypeid === 1 ? "D " : "C ") +
                                                         (dia?.ShapeName || "") + "-" +
@@ -267,7 +267,7 @@ const PackingListExcelK1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
                                                         (dia?.Colorname || "") + "-" +
                                                         (dia?.SizeName === "Custom" ? "C:" + (dia?.CustomSize || "") : (dia?.SizeName || "")),
                                                     QNTY: dia?.Pcs,
-                                                    WT: dia?.Wt
+                                                    WT: dia?.Wt?.toFixed(3) 
                                                 }))
                                             ];
 

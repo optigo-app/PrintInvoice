@@ -1228,11 +1228,12 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           {e?.grosswt !== 0 && e?.grosswt?.toFixed(3)}
                         </div>
                         <div className="mcol3_pcls end_pcls pdr_pcls">
-                          {e?.NetWt + e?.LossWt !== 0 &&
-                            (e?.NetWt + e?.LossWt)?.toFixed(3)}
+                          {e?.NetWt  !== 0 &&
+                            (e?.NetWt )?.toFixed(3)}
                         </div>
                         <div className="mcol3_pcls end_pcls pdr_pcls">
-
+                        {e?.LossWt  !== 0 &&
+                            (e?.LossWt )?.toFixed(3)}
                         </div>
 
 
@@ -1629,10 +1630,15 @@ const PackingList3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                     <div className="mcol3_pcls end_pcls pdr_pcls ">
                       {(
-                        result?.mainTotal?.NetWt + result?.mainTotal?.LossWt
+                        result?.mainTotal?.NetWt 
                       )?.toFixed(3)}
                     </div>
-                    <div className="end_pcls pdr_pcls" style={{ width: "52%" }}>
+                    <div className="mcol3_pcls end_pcls pdr_pcls ">
+                      {(
+                          result?.mainTotal?.LossWt
+                      )?.toFixed(3)}
+                    </div>
+                    <div className="end_pcls pdr_pcls" style={{ width: "36%" }}>
                       {formatAmount(
                         (result?.mainTotal?.metal?.Amount + result?.mainTotal?.finding?.Amount) /
                         result?.header?.CurrencyExchRate
